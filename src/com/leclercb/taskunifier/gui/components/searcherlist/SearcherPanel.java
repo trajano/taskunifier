@@ -1,0 +1,186 @@
+/*
+ * TaskUnifier: Manage your tasks and synchronize them
+ * Copyright (C) 2010  Benjamin Leclerc
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.leclercb.taskunifier.gui.components.searcherlist;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.ContextTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.FolderTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.GeneralTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.GoalTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.PersonalTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.TaskSearcherListModel;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.swing.JCollapsiblePanel;
+import com.leclercb.taskunifier.gui.translations.Translations;
+
+public class SearcherPanel extends JPanel implements ListSelectionListener {
+
+	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
+
+	private List<ActionListener> listeners;
+
+	private ArrayList<JList> lists;
+
+	public SearcherPanel() {
+		this.initialize();
+	}
+
+	public void selectDefaultTaskSearcher() {
+		lists.get(0).setSelectedIndex(0);
+	}
+
+	public TaskSearcher getSelectedTaskSearcher() {
+		for (JList list : this.lists) {
+			if (list.getSelectedIndex() != -1) {
+				return ((TaskSearcherListModel) list.getModel()).getTaskSearcher(list.getSelectedIndex());
+			}
+		}
+
+		return null;
+	}
+
+	public void addActionListener(ActionListener listener) {
+		CheckUtils.isNotNull(listener, "Listener cannot be null");
+
+		if (!listeners.contains(listener))
+			listeners.add(listener);
+	}
+
+	public void removeActionListener(ActionListener listener) {
+		listeners.remove(listener);
+	}
+
+	protected void fireActionPerformed(String command) {
+		for (ActionListener listener : listeners)
+			listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command));
+	}
+
+	private void initialize() {
+		this.listeners = new ArrayList<ActionListener>();
+		this.lists = new ArrayList<JList>();
+
+		this.setLayout(new BorderLayout());
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		JList list;
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new GeneralTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("searcherlist.general"), list, panel);
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new FolderTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("general.folders"), list, panel);
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new ContextTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("general.contexts"), list, panel);
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new GoalTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("general.goals"), list, panel);
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new PersonalTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("searcherlist.personal"), list, panel);
+
+		this.add(panel, BorderLayout.NORTH);
+	}
+
+	private void initializeList(String title, JList list, JPanel panel) {
+		HeaderPanel headerPanel = new HeaderPanel(title);
+
+		JPanel contentPanel = new JPanel();
+		contentPanel.setBorder(new LineBorder(Color.GRAY));
+		contentPanel.setLayout(new BorderLayout());
+
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setCellRenderer(new SearcherListRenderer());
+		list.getSelectionModel().addListSelectionListener(this);
+
+		contentPanel.add(list, BorderLayout.CENTER);
+
+		final JCollapsiblePanel collapsiblePanel = new JCollapsiblePanel(headerPanel, contentPanel);
+		collapsiblePanel.toggleSelection();
+
+		headerPanel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				collapsiblePanel.toggleSelection();
+			}
+		});
+
+		panel.add(collapsiblePanel);
+		panel.add(Box.createVerticalStrut(10));
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if (e.getValueIsAdjusting())
+			return;
+
+		for (JList list : this.lists) {
+			if (e.getSource().equals(list.getSelectionModel())) {
+				if (list.getSelectedIndex() == -1)
+					return;
+
+				this.removeSelection(list);
+				this.fireActionPerformed(ACT_SEARCHER_SELECTED);
+			}
+		}
+	}
+
+	private void removeSelection(JList exception) {
+		for (JList list : this.lists)
+			if (exception != list)
+				list.removeSelectionInterval(0, list.getModel().getSize());
+	}
+
+}

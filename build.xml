@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="TaskUnifierGui">
+	
+    <property environment="env"/>
+	<property name="TaskUnifierApi" value="../TaskUnifierApi"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	
+    <path id="TaskUnifierGui.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/taskunifierapi.jar"/>
+        <pathelement location="lib/microba-0.4.4.3.jar"/>
+        <pathelement location="lib/trident.jar"/>
+        <pathelement location="lib/substance.jar"/>
+    </path>
+	
+	<target name="copy-api-jar">
+		<copy file="${TaskUnifierApi}/dist/TaskUnifierApi.jar" tofile="lib/taskunifierapi.jar"/>
+	</target>
+	
+    <target depends="copy-api-jar" name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+	
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+	
+    <target depends="init" name="build">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="TaskUnifierGui.classpath"/>
+        </javac>
+    </target>
+	
+	<target name="create-jar">
+		<mkdir dir="dist"/>
+		<jar jarfile="dist/TaskUnifierGui.jar" basedir="bin" manifest="MANIFEST.MF"/>
+	</target>
+	
+</project>
