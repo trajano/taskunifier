@@ -16,7 +16,7 @@
     </path>
 	
 	<target name="copy-api-jar">
-		<copy file="${TaskUnifierApi}/dist/taskunifierapi.jar" tofile="lib/taskunifierapi.jar"/>
+		<copy file="${TaskUnifierApi}/dist/TaskUnifierApi.jar" tofile="lib/taskunifierapi.jar"/>
 	</target>
 	
     <target depends="copy-api-jar" name="init">
@@ -43,7 +43,7 @@
 	
 	<target name="create-jar">
 		<mkdir dir="dist"/>
-		<jar jarfile="dist/taskunifiergui.jar" basedir="bin" manifest="MANIFEST.MF"/>
+		<jar jarfile="dist/TaskUnifierGui.jar" basedir="bin" manifest="MANIFEST.MF"/>
 	</target>
 	
 </project>
