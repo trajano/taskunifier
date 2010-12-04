@@ -103,6 +103,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent event) {
+						saveAndApplyConfig();
+						
 						Settings.setCalendarProperty("synchronizer.last_context_edit", null);
 						Settings.setCalendarProperty("synchronizer.last_folder_edit", null);
 						Settings.setCalendarProperty("synchronizer.last_goal_edit", null);
@@ -127,6 +129,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						try {
+							saveAndApplyConfig();
+							
 							TaskFactory.getInstance().deleteAll();
 							ContextFactory.getInstance().deleteAll();
 							FolderFactory.getInstance().deleteAll();

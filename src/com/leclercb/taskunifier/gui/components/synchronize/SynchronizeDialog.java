@@ -182,15 +182,18 @@ public class SynchronizeDialog extends JDialog {
 					initializeProxy();
 
 					progressStatus.append(Translations.getString("synchronize.connecting_toodledo") + "\n");
-					ToodledoConnection connection = ToodledoConnectionFactory.getInstance().getConnection(
-							Settings.getStringProperty("toodledo.email"),
-							Settings.getStringProperty("toodledo.password"),
-							Settings.getStringProperty("toodledo.userid"),
-							Settings.getStringProperty("toodledo.token"));
+
+					ToodledoConnection connection = null;
 
 					try {
+						connection = ToodledoConnectionFactory.getInstance().getConnection(
+								Settings.getStringProperty("toodledo.email"),
+								Settings.getStringProperty("toodledo.password"),
+								Settings.getStringProperty("toodledo.userid"),
+								Settings.getStringProperty("toodledo.token"));
+
 						connection.connect();
-					} catch (final ToodledoException e) {
+					} catch (final Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
