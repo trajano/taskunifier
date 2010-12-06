@@ -24,7 +24,7 @@ import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.Settings;
-import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizerChoice;
+import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerChoice;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;

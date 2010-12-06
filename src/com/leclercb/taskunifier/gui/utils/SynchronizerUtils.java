@@ -4,8 +4,8 @@ import java.net.Proxy;
 import java.util.GregorianCalendar;
 
 import com.leclercb.taskunifier.api.settings.Settings;
-import com.leclercb.taskunifier.api.toodledo.ToodledoProxy;
-import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizer;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerProxy;
+import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
 
 public final class SynchronizerUtils {
 
@@ -22,7 +22,7 @@ public final class SynchronizerUtils {
 			String login = Settings.getStringProperty("proxy.login");
 			String password = Settings.getStringProperty("proxy.password");
 
-			ToodledoProxy.setProxy(type, host, port, login, password);
+			SynchronizerProxy.setProxy(type, host, port, login, password);
 		}
 	}
 
@@ -46,7 +46,7 @@ public final class SynchronizerUtils {
 	}
 
 	public static void removeProxy() {
-		ToodledoProxy.removeProxy();
+		SynchronizerProxy.removeProxy();
 	}
 
 	public static void resetSynchronizerSettings() {
