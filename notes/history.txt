@@ -1,5 +1,6 @@
 Version 0.5.2
 	- Add create account button
+	- Fix bug with Toodledo password
 
 Version 0.5.1
 	- Add error message when Toodledo account info are empty
