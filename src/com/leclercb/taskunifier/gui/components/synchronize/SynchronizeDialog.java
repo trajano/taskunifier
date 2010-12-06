@@ -39,16 +39,16 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnection;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerFactory;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.exc.ToodledoException;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.progress.messages.ProgressMessageType;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.progress.messages.RetrieveModelsProgressMessage;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.progress.messages.SynchronizationProgressMessage;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.progress.messages.SynchronizeModelsProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -227,7 +227,7 @@ public class SynchronizeDialog extends JDialog {
 
 					try {
 						synchronizer.synchronize(choice, monitor);
-					} catch (ToodledoException e) {
+					} catch (SynchronizerException e) {
 						JOptionPane.showMessageDialog(
 								null, 
 								e.getMessage(), 
