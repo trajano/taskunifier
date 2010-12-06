@@ -89,7 +89,6 @@ public final class Images {
 		if (images.containsKey(info))
 			return images.get(info);
 
-		System.out.println("Load " + file);
 		ImageIcon instance = new ImageIcon(IMAGES_FOLDER + File.separator + file);
 		images.put(info, instance);
 
@@ -102,7 +101,6 @@ public final class Images {
 		if (images.containsKey(info))
 			return images.get(info);
 
-		System.out.println("Load " + file + " (" + width + ", " + height + ")");
 		ImageIcon instance = new ImageIcon(getImage(file).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
 		images.put(info, instance);
 

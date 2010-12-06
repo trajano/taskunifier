@@ -22,8 +22,6 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.net.Proxy;
-import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -43,7 +41,6 @@ import com.leclercb.taskunifier.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.toodledo.ToodledoConnection;
 import com.leclercb.taskunifier.api.toodledo.ToodledoConnectionFactory;
-import com.leclercb.taskunifier.api.toodledo.ToodledoProxy;
 import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizer;
 import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizerChoice;
 import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizerFactory;
@@ -53,6 +50,7 @@ import com.leclercb.taskunifier.api.toodledo.progress.messages.RetrieveModelsPro
 import com.leclercb.taskunifier.api.toodledo.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.api.toodledo.progress.messages.SynchronizeModelsProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizeDialog extends JDialog {
 
@@ -179,13 +177,19 @@ public class SynchronizeDialog extends JDialog {
 					});
 
 					progressStatus.append(Translations.getString("synchronize.set_proxy") + "\n");
-					initializeProxy();
+					SynchronizerUtils.initializeProxy();
 
 					progressStatus.append(Translations.getString("synchronize.connecting_toodledo") + "\n");
 
 					ToodledoConnection connection = null;
 
 					try {
+						if (Settings.getStringProperty("toodledo.email") == null)
+							throw new Exception("Please fill in your email");
+
+						if (Settings.getStringProperty("toodledo.password") == null)
+							throw new Exception("Please fill in your password");
+
 						connection = ToodledoConnectionFactory.getInstance().getConnection(
 								Settings.getStringProperty("toodledo.email"),
 								Settings.getStringProperty("toodledo.password"),
@@ -215,7 +219,7 @@ public class SynchronizeDialog extends JDialog {
 
 					synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(connection);
 
-					initializeSynchronizer(synchronizer);
+					SynchronizerUtils.initializeSynchronizer(synchronizer);
 
 					final ToodledoSynchronizerChoice choice = (ToodledoSynchronizerChoice) Settings.getEnumProperty(
 							"synchronizer.choice", 
@@ -239,9 +243,9 @@ public class SynchronizeDialog extends JDialog {
 				@Override
 				protected void done() {
 					if (synchronizer != null)
-						saveSynchronizerState(synchronizer);
+						SynchronizerUtils.saveSynchronizerState(synchronizer);
 
-					removeProxy();
+					SynchronizerUtils.removeProxy();
 
 					setCursor(null);
 					dispose();
@@ -253,42 +257,6 @@ public class SynchronizeDialog extends JDialog {
 			worker.execute();
 		}
 
-	}
-
-	private void initializeProxy() {
-		Boolean proxyEnabled = Settings.getBooleanProperty("proxy.enabled");
-		if (proxyEnabled != null && proxyEnabled) {
-			Proxy.Type type = (Proxy.Type) Settings.getEnumProperty("proxy.type", Proxy.Type.class);
-			String host = Settings.getStringProperty("proxy.host");
-			Integer port = Settings.getIntegerProperty("proxy.port");
-			String login = Settings.getStringProperty("proxy.login");
-			String password = Settings.getStringProperty("proxy.password");
-
-			ToodledoProxy.setProxy(type, host, port, login, password);
-		}
-	}
-
-	private void initializeSynchronizer(ToodledoSynchronizer synchronizer) {
-		synchronizer.setKeepTasksCompletedForXDays(Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days"));
-		synchronizer.setLastContextEdit(Settings.getCalendarProperty("synchronizer.last_context_edit"));
-		synchronizer.setLastFolderEdit(Settings.getCalendarProperty("synchronizer.last_folder_edit"));
-		synchronizer.setLastGoalEdit(Settings.getCalendarProperty("synchronizer.last_goal_edit"));
-		synchronizer.setLastTaskAddEdit(Settings.getCalendarProperty("synchronizer.last_task_add_edit"));
-		synchronizer.setLastTaskDelete(Settings.getCalendarProperty("synchronizer.last_task_delete"));
-	}
-
-	private void saveSynchronizerState(ToodledoSynchronizer synchronizer) {
-		Settings.setCalendarProperty("synchronizer.last_synchronization_date", GregorianCalendar.getInstance());
-		Settings.setIntegerProperty("synchronizer.keep_tasks_completed_for_x_days", synchronizer.getKeepTasksCompletedForXDays());
-		Settings.setCalendarProperty("synchronizer.last_context_edit", synchronizer.getLastContextEdit());
-		Settings.setCalendarProperty("synchronizer.last_folder_edit", synchronizer.getLastFolderEdit());
-		Settings.setCalendarProperty("synchronizer.last_goal_edit", synchronizer.getLastGoalEdit());
-		Settings.setCalendarProperty("synchronizer.last_task_add_edit", synchronizer.getLastTaskAddEdit());
-		Settings.setCalendarProperty("synchronizer.last_task_delete", synchronizer.getLastTaskDelete());
-	}
-
-	private void removeProxy() {
-		ToodledoProxy.removeProxy();
 	}
 
 }

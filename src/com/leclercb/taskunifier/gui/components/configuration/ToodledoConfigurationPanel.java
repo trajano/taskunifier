@@ -25,12 +25,14 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.toodledo.ToodledoSynchronizerChoice;
+import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.RegexFormatter;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ToodledoConfigurationPanel extends ConfigurationPanel {
 
@@ -43,6 +45,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 	public void saveAndApplyConfig() {
 		Settings.setStringProperty("toodledo.email", (String) this.getValue("EMAIL"));
 		Settings.setStringProperty("toodledo.password", (String) this.getValue("PASSWORD"));
+		Settings.setStringProperty("toodledo.userid", null);
+		Settings.setStringProperty("toodledo.token", null);
 		Settings.setEnumProperty("synchronizer.choice", (ToodledoSynchronizerChoice) this.getValue("CHOICE"));
 		Settings.setStringProperty("synchronizer.keep_tasks_completed_for_x_days", (String) this.getValue("KEEP"));
 	}
@@ -87,7 +91,31 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.FormattedTextField(new RegexFormatter("^[0-9]{1,3}$"), toodledoKeepValue)));
 
 		this.addField(new ConfigurationField(
-				"SEPARATOR",
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+
+		this.addField(new ConfigurationField(
+				"CREATE_ACCOUNT_LABEL", 
+				null, 
+				new ConfigurationFieldType.Label(Translations.getString("configuration.toodledo.create_account"))));
+
+		this.addField(new ConfigurationField(
+				"CREATE_ACCOUNT", 
+				null, 
+				new ConfigurationFieldType.Button(new ActionCreateAccount() {
+
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						saveAndApplyConfig();
+
+						super.actionPerformed(event);
+					}
+
+				})));
+
+		this.addField(new ConfigurationField(
+				"SEPARATOR_2",
 				null,
 				new ConfigurationFieldType.Separator()));
 
@@ -104,13 +132,9 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						saveAndApplyConfig();
-						
-						Settings.setCalendarProperty("synchronizer.last_context_edit", null);
-						Settings.setCalendarProperty("synchronizer.last_folder_edit", null);
-						Settings.setCalendarProperty("synchronizer.last_goal_edit", null);
-						Settings.setCalendarProperty("synchronizer.last_task_add_edit", null);
-						Settings.setCalendarProperty("synchronizer.last_task_delete", null);
-						Settings.setCalendarProperty("synchronizer.last_synchronization_date", null);
+
+						SynchronizerUtils.resetSynchronizerSettings();
+
 						super.actionPerformed(event);
 					}
 
@@ -130,18 +154,13 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 					public void actionPerformed(ActionEvent event) {
 						try {
 							saveAndApplyConfig();
-							
+
 							TaskFactory.getInstance().deleteAll();
 							ContextFactory.getInstance().deleteAll();
 							FolderFactory.getInstance().deleteAll();
 							GoalFactory.getInstance().deleteAll();
 
-							Settings.setCalendarProperty("synchronizer.last_context_edit", null);
-							Settings.setCalendarProperty("synchronizer.last_folder_edit", null);
-							Settings.setCalendarProperty("synchronizer.last_goal_edit", null);
-							Settings.setCalendarProperty("synchronizer.last_task_add_edit", null);
-							Settings.setCalendarProperty("synchronizer.last_task_delete", null);
-							Settings.setCalendarProperty("synchronizer.last_synchronization_date", null);
+							SynchronizerUtils.resetSynchronizerSettings();
 
 							super.actionPerformed(event);
 						} catch (Exception e) {

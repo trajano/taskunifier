@@ -1,0 +1,8 @@
+Version 0.5.2
+	- Add create account button
+
+Version 0.5.1
+	- Add error message when Toodledo account info are empty
+
+Version 0.5
+	- Initial release
