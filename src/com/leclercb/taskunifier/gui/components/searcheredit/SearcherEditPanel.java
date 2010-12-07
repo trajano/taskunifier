@@ -3,7 +3,7 @@ package com.leclercb.taskunifier.gui.components.searcheredit;
 import javax.swing.JSplitPane;
 
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterTable;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class SearcherEditPanel extends JSplitPane {
 

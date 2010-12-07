@@ -27,14 +27,14 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.TaskFilterElement;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralTaskSearcherListModel extends AbstractListModel implements TaskSearcherListModel {

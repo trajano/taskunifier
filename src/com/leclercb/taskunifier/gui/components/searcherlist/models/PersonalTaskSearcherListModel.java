@@ -24,8 +24,8 @@ import javax.swing.AbstractListModel;
 
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 
 public class PersonalTaskSearcherListModel extends AbstractListModel implements TaskSearcherListModel, ListChangeListener, PropertyChangeListener {
 

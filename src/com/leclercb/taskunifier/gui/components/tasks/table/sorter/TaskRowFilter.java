@@ -26,7 +26,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 
 public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 

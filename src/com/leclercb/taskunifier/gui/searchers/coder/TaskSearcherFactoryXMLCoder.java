@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.searcher.coder;
+package com.leclercb.taskunifier.gui.searchers.coder;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,17 +48,17 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.XMLUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.CalendarCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.ModelCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.TaskFilterElement;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.CalendarCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 
 public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 

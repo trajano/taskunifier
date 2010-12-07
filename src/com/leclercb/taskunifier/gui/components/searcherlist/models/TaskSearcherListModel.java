@@ -19,7 +19,7 @@ package com.leclercb.taskunifier.gui.components.searcherlist.models;
 
 import javax.swing.ListModel;
 
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public interface TaskSearcherListModel extends ListModel  {
 

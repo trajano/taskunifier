@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.lookandfeel.types.SubstanceLookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.searcher.coder.TaskSearcherFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {

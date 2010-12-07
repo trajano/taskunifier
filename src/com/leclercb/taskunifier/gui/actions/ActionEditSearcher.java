@@ -26,7 +26,7 @@ import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionEditSearcher extends AbstractAction {

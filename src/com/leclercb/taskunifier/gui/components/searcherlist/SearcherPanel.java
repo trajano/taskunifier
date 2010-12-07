@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.models.GeneralTaskSe
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GoalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.PersonalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.TaskSearcherListModel;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.swing.JCollapsiblePanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 

@@ -4,7 +4,7 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 
 public class TaskSorterTableModel extends DefaultTableModel {
 

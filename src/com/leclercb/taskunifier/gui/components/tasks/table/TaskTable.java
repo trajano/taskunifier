@@ -74,9 +74,9 @@ import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 
 public class TaskTable extends JTable {
 

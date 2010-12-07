@@ -30,7 +30,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
 import com.leclercb.taskunifier.api.settings.Settings;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 class SearcherListRenderer extends JPanel implements ListCellRenderer {

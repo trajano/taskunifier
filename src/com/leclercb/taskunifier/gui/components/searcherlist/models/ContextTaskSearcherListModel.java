@@ -22,12 +22,12 @@ import javax.swing.SortOrder;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.models.ContextListModel;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.ModelCondition;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter.TaskFilterElement;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ContextTaskSearcherListModel extends ContextListModel implements TaskSearcherListModel {

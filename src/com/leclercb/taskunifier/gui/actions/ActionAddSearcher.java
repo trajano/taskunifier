@@ -23,9 +23,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.searcher.TaskFilter;
-import com.leclercb.taskunifier.gui.searcher.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.searcher.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddSearcher extends AbstractAction {
