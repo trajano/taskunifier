@@ -16,9 +16,9 @@ public class SearcherEditPanel extends JSplitPane {
 	private void initialize(TaskSearcher searcher) {
 		this.sorterTable = new TaskSorterTable(searcher.getSorter());
 		this.setLeftComponent(this.sorterTable);
-		
-		
-		
+
+
+
 		this.setDividerLocation(200);
 	}
 

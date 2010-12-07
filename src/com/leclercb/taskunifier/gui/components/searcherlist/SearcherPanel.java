@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -44,7 +46,11 @@ import com.leclercb.taskunifier.gui.components.searcherlist.models.GeneralTaskSe
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GoalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.PersonalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.TaskSearcherListModel;
+import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.swing.JCollapsiblePanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -55,6 +61,9 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 	private List<ActionListener> listeners;
 
 	private ArrayList<JList> lists;
+
+	private JButton addButton;
+	private JButton removeButton;
 
 	public SearcherPanel() {
 		this.initialize();
@@ -149,6 +158,41 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		});
 
 		this.add(panel, BorderLayout.NORTH);
+
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		this.add(buttonsPanel, BorderLayout.SOUTH);
+
+		this.initializeButtons(buttonsPanel);
+	}
+
+	private void initializeButtons(JPanel buttonsPanel) {
+		ActionListener listener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if (event.getActionCommand().equals("ADD")) {
+					TaskSearcherFactory.getInstance().create(
+							Translations.getString("searcher.default.title"),
+							new TaskFilter(),
+							new TaskSorter());
+				} else {
+					// TODO remove searcher
+				}
+			}
+
+		};
+
+		addButton = new JButton(Images.getImage("add.png", 16, 16));
+		addButton.setActionCommand("ADD");
+		addButton.addActionListener(listener);
+		buttonsPanel.add(addButton);
+
+		removeButton = new JButton(Images.getImage("remove.png", 16, 16));
+		removeButton.setActionCommand("REMOVE");
+		removeButton.addActionListener(listener);
+		removeButton.setEnabled(false);
+		buttonsPanel.add(removeButton);
 	}
 
 	private void initializeList(String title, JList list, JPanel panel) {
