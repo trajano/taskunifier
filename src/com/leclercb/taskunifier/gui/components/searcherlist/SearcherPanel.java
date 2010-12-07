@@ -37,13 +37,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.ContextTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.FolderTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GeneralTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GoalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.PersonalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.TaskSearcherListModel;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
 import com.leclercb.taskunifier.gui.swing.JCollapsiblePanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -130,6 +131,22 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		list.setModel(new PersonalTaskSearcherListModel());
 		this.lists.add(list);
 		this.initializeList(Translations.getString("searcherlist.personal"), list, panel);
+
+		final JList personalList = list;
+		personalList.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					int index = personalList.locationToIndex(e.getPoint());
+					personalList.ensureIndexIsVisible(index);
+
+					Object item = personalList.getModel().getElementAt(index);
+					new ActionEditSearcher().actionPerformed((TaskSearcher) item);
+				}
+			}
+
+		});
 
 		this.add(panel, BorderLayout.NORTH);
 	}

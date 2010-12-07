@@ -23,7 +23,7 @@ import java.awt.print.PrinterException;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searcher.TaskSearcher;
 
 public interface ServiceFrame {
 

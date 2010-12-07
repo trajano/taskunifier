@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.searchers;
+package com.leclercb.taskunifier.gui.searcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,6 +72,14 @@ public class TaskSorter {
 
 	public TaskSorter() {
 		this.elements = new ArrayList<TaskSorterElement>();
+	}
+
+	public int getElementCount() {
+		return this.elements.size();
+	}
+
+	public TaskSorterElement getElement(int index) {
+		return this.elements.get(index);
 	}
 
 	public List<TaskSorterElement> getElements() {
