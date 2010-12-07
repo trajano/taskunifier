@@ -24,12 +24,13 @@ import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.Settings;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerChoice;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -47,14 +48,14 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty("toodledo.password", (String) this.getValue("PASSWORD"));
 		Settings.setStringProperty("toodledo.userid", null);
 		Settings.setStringProperty("toodledo.token", null);
-		Settings.setEnumProperty("synchronizer.choice", (ToodledoSynchronizerChoice) this.getValue("CHOICE"));
+		Settings.setEnumProperty("synchronizer.choice", (SynchronizerChoice) this.getValue("CHOICE"));
 		Settings.setStringProperty("synchronizer.keep_tasks_completed_for_x_days", (String) this.getValue("KEEP"));
 	}
 
 	private void initialize() {
 		String toodledoEmailValue = "";
 		String toodledoPasswordValue = "";
-		ToodledoSynchronizerChoice toodledoChoiceValue = ToodledoSynchronizerChoice.KEEP_LAST_UPDATED;
+		SynchronizerChoice toodledoChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
 		String toodledoKeepValue = "15";
 
 		if (Settings.getStringProperty("toodledo.email") != null)
@@ -63,8 +64,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 		if (Settings.getStringProperty("toodledo.password") != null)
 			toodledoPasswordValue = Settings.getStringProperty("toodledo.password");
 
-		if (Settings.getEnumProperty("synchronizer.choice", ToodledoSynchronizerChoice.class) != null)
-			toodledoChoiceValue = (ToodledoSynchronizerChoice) Settings.getEnumProperty("synchronizer.choice", ToodledoSynchronizerChoice.class);
+		if (Settings.getEnumProperty("synchronizer.choice", SynchronizerChoice.class) != null)
+			toodledoChoiceValue = (SynchronizerChoice) Settings.getEnumProperty("synchronizer.choice", SynchronizerChoice.class);
 
 		if (Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
 			toodledoKeepValue = Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
@@ -80,10 +81,16 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 				Translations.getString("configuration.toodledo.password"), 
 				new ConfigurationFieldType.PasswordField(toodledoPasswordValue)));
 
+		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
+				SynchronizerChoice.values(), 
+				toodledoChoiceValue);
+
+		comboBox.setRenderer(new SynchronizerChoiceListCellRenderer());
+
 		this.addField(new ConfigurationField(
 				"CHOICE", 
 				Translations.getString("configuration.toodledo.choice"), 
-				new ConfigurationFieldType.ComboBox(ToodledoSynchronizerChoice.values(), toodledoChoiceValue)));
+				comboBox));
 
 		this.addField(new ConfigurationField(
 				"KEEP", 

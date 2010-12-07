@@ -21,11 +21,22 @@ import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeat;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 
 public final class TranslationsUtils {
 
 	private TranslationsUtils() {
 
+	}
+
+	public static String translateSynchronizerChoice(SynchronizerChoice choice) {
+		switch (choice) {
+		case KEEP_APPLICATION: return Translations.getString("general.synchronizer.choice.keep_application");
+		case KEEP_LAST_UPDATED: return Translations.getString("general.synchronizer.choice.keep_last_updated");
+		case KEEP_TOODLEDO: return Translations.getString("general.synchronizer.choice.keep_toodledo");
+		}
+
+		return "Missing translation";
 	}
 
 	public static String translateGoalLevel(GoalLevel level) {
