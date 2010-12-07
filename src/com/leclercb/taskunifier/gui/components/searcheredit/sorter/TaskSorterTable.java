@@ -46,8 +46,6 @@ public class TaskSorterTable extends JTable {
 
 		this.setModel(tableModel);
 		this.getTableHeader().setReorderingAllowed(false);
-		this.setRowHeight(30);
-		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
 	@Override

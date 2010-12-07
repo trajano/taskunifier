@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -40,7 +41,7 @@ public class SearcherEditDialog extends JDialog {
 
 	private void initialize(TaskSearcher searcher) {
 		this.setTitle(Translations.getString("searcheredit.title"));
-		this.setSize(600, 400);
+		this.setSize(800, 400);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 
@@ -64,6 +65,7 @@ public class SearcherEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
+					MainFrame.getInstance().refreshTasks();
 					SearcherEditDialog.this.dispose();
 				}
 			}

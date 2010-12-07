@@ -240,7 +240,7 @@ public class TaskTable extends JTable {
 
 		});
 
-		for (TaskSorterElement element : searcher.getSorter().getElements()) {
+		for (TaskSorterElement element : sortElements) {
 			// Don't sort if column is not visible (does not exist)
 			try {
 				this.getColumn(element.getColumn());

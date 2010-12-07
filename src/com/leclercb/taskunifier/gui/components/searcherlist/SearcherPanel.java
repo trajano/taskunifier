@@ -61,6 +61,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 	private List<ActionListener> listeners;
 
 	private ArrayList<JList> lists;
+	private JList personalList;
 
 	private JButton addButton;
 	private JButton removeButton;
@@ -141,7 +142,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		this.lists.add(list);
 		this.initializeList(Translations.getString("searcherlist.personal"), list, panel);
 
-		final JList personalList = list;
+		personalList = list;
 		personalList.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -177,7 +178,8 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 							new TaskFilter(),
 							new TaskSorter());
 				} else {
-					// TODO remove searcher
+					TaskSearcher searcher = (TaskSearcher) personalList.getSelectedValue();
+					TaskSearcherFactory.getInstance().unregister(searcher);
 				}
 			}
 
@@ -226,6 +228,9 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting())
 			return;
+
+		if (e.getSource().equals(personalList.getSelectionModel()))
+			removeButton.setEnabled(personalList.getSelectedIndex() != -1);
 
 		for (JList list : this.lists) {
 			if (e.getSource().equals(list.getSelectionModel())) {
