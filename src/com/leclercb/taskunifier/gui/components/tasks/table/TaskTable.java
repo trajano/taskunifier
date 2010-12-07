@@ -164,6 +164,27 @@ public class TaskTable extends JTable {
 		this.initialize();
 	}
 
+	public void showColumn(TaskColumn taskColumn, boolean show) {
+		if (show) {
+			try {
+				getColumn(taskColumn);
+			} catch (IllegalArgumentException e) {
+				// This column does not exist
+				taskColumn.setVisible(true);
+				((TaskTableColumnModel) getColumnModel()).addColumn(taskColumn);
+			}
+		} else {
+			try {
+				TableColumn column = getColumn(taskColumn);
+
+				taskColumn.setVisible(false);
+				((TaskTableColumnModel) getColumnModel()).removeColumn(column);
+			} catch (IllegalArgumentException e) {
+				// This column does not exist
+			}
+		}
+	}
+
 	public Task getTask(int row) {
 		int index = this.getRowSorter().convertRowIndexToModel(row);
 		return ((TaskTableModel) this.getModel()).getTask(index);
@@ -312,13 +333,7 @@ public class TaskTable extends JTable {
 
 							@Override
 							public void actionPerformed(ActionEvent event) {
-								if (item.isSelected()) {
-									taskColumn.setVisible(true);
-									((TaskTableColumnModel) getColumnModel()).addColumn(taskColumn);
-								} else {
-									taskColumn.setVisible(false);
-									((TaskTableColumnModel) getColumnModel()).removeColumn(getColumn(taskColumn));
-								}
+								showColumn(taskColumn, item.isSelected());
 							}
 
 						});

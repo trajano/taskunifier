@@ -40,6 +40,7 @@ public class ConfigurationDialog extends JDialog {
 	private ToodledoConfigurationPanel toodledoConfigurationPanel;
 	private ProxyConfigurationPanel proxyConfigurationPanel;
 	private TaskConfigurationPanel taskConfigurationPanel;
+	private ColumnsConfigurationPanel columnsConfigurationPanel;
 	private ThemeConfigurationPanel themeConfigurationPanel;
 
 	public ConfigurationDialog(Frame frame, boolean modal) {
@@ -70,6 +71,7 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeToodledoPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
 		this.initializeTaskPanel(tabbedPane);
+		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
 	}
 
@@ -138,6 +140,13 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.taskConfigurationPanel));
 	}
 
+	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
+		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.columns"), 
+				new JScrollPane(this.columnsConfigurationPanel));
+	}
+
 	private void initializeThemePanel(JTabbedPane tabbedPane) {
 		this.themeConfigurationPanel = new ThemeConfigurationPanel(
 				new Window[] { this, this.getOwner() });
@@ -151,6 +160,7 @@ public class ConfigurationDialog extends JDialog {
 		toodledoConfigurationPanel.saveAndApplyConfig();
 		proxyConfigurationPanel.saveAndApplyConfig();
 		taskConfigurationPanel.saveAndApplyConfig();
+		columnsConfigurationPanel.saveAndApplyConfig();
 		themeConfigurationPanel.saveAndApplyConfig();
 
 		try {

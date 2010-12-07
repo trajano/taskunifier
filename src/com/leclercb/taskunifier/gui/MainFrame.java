@@ -174,6 +174,11 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	}
 
 	@Override
+	public void showColumn(TaskColumn taskColumn, boolean show) {
+		this.taskTable.showColumn(taskColumn, show);
+	}
+
+	@Override
 	public Task getSelectedTask() {
 		return this.taskTable.getSelectedTask();
 	}
