@@ -17,18 +17,26 @@
  */
 package com.leclercb.taskunifier.gui.searchers;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
+import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
+import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskFilter {
+public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
 
 	public static enum Link {
 
@@ -240,8 +248,13 @@ public class TaskFilter {
 
 	}
 
-	public static class TaskFilterElement {
+	public static class TaskFilterElement extends AbstractPropertyChangeModel {
 
+		public static final String PROP_COLUMN = "FILTER_ELEMENT_COLUMN";
+		public static final String PROP_CONDITION = "FILTER_ELEMENT_CONDITION";
+		public static final String PROP_VALUE = "FILTER_ELEMENT_VALUE";
+
+		private TaskFilter parent;
 		private TaskColumn column;
 		private Condition<?, ?> condition;
 		private Object value;
@@ -267,41 +280,66 @@ public class TaskFilter {
 		}
 
 		private void initialize(TaskColumn column, Condition<?, ?> condition, Object value) {
-			this.setColumn(column);
-			this.setCondition(condition);
-			this.setValue(value);
+			CheckUtils.isNotNull(column, "Column cannot be null");
+			CheckUtils.isNotNull(condition, "Condition cannot be null");
 
-			if (value != null && !condition.getValueType().isInstance(value))
-				throw new IllegalArgumentException("Value is not an instance of " + condition.getValueType());
+			this.setParent(null);
+			this.column = column;
+			this.condition = condition;
+			this.value = value;
 
-			if (!condition.getTaskValueType().isAssignableFrom(column.getType()))
-				throw new IllegalArgumentException("The task column is incompatible with this condition");
+			this.check();
+		}
+
+		public TaskFilter getParent() {
+			return parent;
+		}
+
+		private void setParent(TaskFilter parent) {
+			this.parent = parent;
 		}
 
 		public TaskColumn getColumn() {
 			return column;
 		}
 
-		private void setColumn(TaskColumn column) {
+		public void setColumn(TaskColumn column) {
 			CheckUtils.isNotNull(column, "Column cannot be null");
+			this.check();
+			TaskColumn oldColumn = this.column;
 			this.column = column;
+			this.firePropertyChange(PROP_COLUMN, oldColumn, column);
 		}
 
 		public Condition<?, ?> getCondition() {
 			return condition;
 		}
 
-		private void setCondition(Condition<?, ?> condition) {
+		public void setCondition(Condition<?, ?> condition) {
 			CheckUtils.isNotNull(condition, "Condition cannot be null");
+			this.check();
+			Condition<?, ?> oldCondition = this.condition;
 			this.condition = condition;
+			this.firePropertyChange(PROP_CONDITION, oldCondition, condition);
 		}
 
 		public Object getValue() {
 			return value;
 		}
 
-		private void setValue(Object value) {
+		public void setValue(Object value) {
+			this.check();
+			Object oldValue = this.value;
 			this.value = value;
+			this.firePropertyChange(PROP_VALUE, oldValue, value);
+		}
+
+		private void check() {
+			if (value != null && !condition.getValueType().isInstance(value))
+				throw new IllegalArgumentException("Value is not an instance of " + condition.getValueType());
+
+			if (!condition.getTaskValueType().isAssignableFrom(column.getType()))
+				throw new IllegalArgumentException("The task column is incompatible with this condition");
 		}
 
 		public boolean include(Task task) {
@@ -335,15 +373,33 @@ public class TaskFilter {
 
 	}
 
+	public static final String PROP_LINK = "FILTER_LINK";
+
+	private List<ListChangeListener> listChangelisteners;
+	private List<PropertyChangeListener> propertyChangelisteners;
+
+	private TaskFilter parent;
 	private Link link;
 	private List<TaskFilter> filters;
 	private List<TaskFilterElement> elements;
 
 	public TaskFilter() {
+		listChangelisteners = new ArrayList<ListChangeListener>();
+		propertyChangelisteners = new ArrayList<PropertyChangeListener>();
+
+		this.setParent(null);
 		this.setLink(Link.AND);
 
 		this.filters = new ArrayList<TaskFilter>();
 		this.elements = new ArrayList<TaskFilterElement>();
+	}
+
+	public TaskFilter getParent() {
+		return parent;
+	}
+
+	private void setParent(TaskFilter parent) {
+		this.parent = parent;
 	}
 
 	public Link getLink() {
@@ -352,7 +408,21 @@ public class TaskFilter {
 
 	public void setLink(Link link) {
 		CheckUtils.isNotNull(link, "Link cannot be null");
+		Link oldLink = this.link;
 		this.link = link;
+		this.firePropertyChange(PROP_LINK, oldLink, link);
+	}
+
+	public int getIndexOf(TaskFilterElement element) {
+		return this.elements.indexOf(element);
+	}
+
+	public int getElementCount() {
+		return this.elements.size();
+	}
+
+	public TaskFilterElement getElement(int index) {
+		return this.elements.get(index);
 	}
 
 	public List<TaskFilterElement> getElements() {
@@ -360,11 +430,35 @@ public class TaskFilter {
 	}
 
 	public void addElement(TaskFilterElement element) {
+		CheckUtils.isNotNull(element, "Element cannot be null");
 		this.elements.add(element);
+		element.setParent(this);
+		element.addPropertyChangeListener(this);
+		int index = elements.indexOf(element);
+		fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
 	}
 
 	public void removeElement(TaskFilterElement element) {
-		this.elements.remove(element);
+		CheckUtils.isNotNull(element, "Element cannot be null");
+
+		int index = elements.indexOf(element);
+		if (elements.remove(element)) {
+			element.setParent(null);
+			element.removePropertyChangeListener(this);
+			fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
+		}
+	}
+
+	public int getIndexOf(TaskFilter filter) {
+		return this.filters.indexOf(filter);
+	}
+
+	public int getFilterCount() {
+		return this.filters.size();
+	}
+
+	public TaskFilter getFilter(int index) {
+		return this.filters.get(index);
 	}
 
 	public List<TaskFilter> getFilters() {
@@ -372,11 +466,23 @@ public class TaskFilter {
 	}
 
 	public void addFilter(TaskFilter filter) {
+		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filters.add(filter);
+		filter.setParent(this);
+		filter.addPropertyChangeListener(this);
+		int index = filters.indexOf(filter);
+		fireListChange(ListChangeEvent.VALUE_ADDED, index, filter);
 	}
 
 	public void removeFilter(TaskFilter filter) {
-		this.filters.remove(filter);
+		CheckUtils.isNotNull(filter, "Filter cannot be null");
+
+		int index = filters.indexOf(filter);
+		if (filters.remove(filter)) {
+			filter.setParent(null);
+			filter.removePropertyChangeListener(this);
+			fireListChange(ListChangeEvent.VALUE_REMOVED, index, filter);
+		}
 	}
 
 	public boolean include(Task task) {
@@ -405,6 +511,55 @@ public class TaskFilter {
 
 			return false;
 		}
+	}
+
+	@Override
+	public synchronized void addListChangeListener(ListChangeListener listener) {
+		CheckUtils.isNotNull(listener, "Listener cannot be null");
+
+		if (!listChangelisteners.contains(listener))
+			listChangelisteners.add(listener);
+	}
+
+	@Override
+	public synchronized void removeListChangeListener(ListChangeListener listener) {
+		listChangelisteners.remove(listener);
+	}
+
+	@Override
+	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+		CheckUtils.isNotNull(listener, "Listener cannot be null");
+
+		if (!propertyChangelisteners.contains(listener))
+			propertyChangelisteners.add(listener);
+	}
+
+	@Override
+	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangelisteners.remove(listener);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		firePropertyChange(event);
+	}
+
+	protected synchronized void fireListChange(ListChangeEvent event) {
+		for (ListChangeListener listener : listChangelisteners)
+			listener.listChange(event);
+	}
+
+	protected void fireListChange(int changeType, int index, Object value) {
+		fireListChange(new ListChangeEvent(this, changeType, index, value));
+	}
+
+	protected synchronized void firePropertyChange(PropertyChangeEvent evt) {
+		for (PropertyChangeListener listener : propertyChangelisteners)
+			listener.propertyChange(evt);
+	}
+
+	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+		firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
 	}
 
 	public String toDetailedString(String before) {

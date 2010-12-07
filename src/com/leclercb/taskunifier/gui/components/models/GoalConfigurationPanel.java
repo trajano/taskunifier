@@ -156,7 +156,6 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				System.out.println(event.getSource());
 				// TODO : if life-time disable...
 				Goal goal = (Goal) modelList.getSelectedModel();
 				goal.setLevel((GoalLevel) goalLevel.getSelectedItem());

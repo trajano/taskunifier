@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -32,6 +33,9 @@ public class SearcherEditPanel extends JPanel {
 
 		TaskSorterPanel sorterPanel = new TaskSorterPanel(searcher.getSorter());
 		splitPane.setLeftComponent(sorterPanel);
+
+		TaskFilterPanel filterPanel = new TaskFilterPanel(searcher.getFilter());
+		splitPane.setRightComponent(filterPanel);
 
 		splitPane.setDividerLocation(300);
 	}
