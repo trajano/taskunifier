@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,18 +15,22 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 
 public class TaskSorterTable extends JTable {
 
+	private static final DefaultTableCellRenderer ORDER_RENDERER;
 	private static final DefaultTableCellRenderer COLUMN_RENDERER;
 	private static final DefaultTableCellRenderer SORT_ORDER_RENDERER;
 
+	private static final DefaultCellEditor ORDER_EDITOR;
 	private static final DefaultCellEditor COLUMN_EDITOR;
 	private static final DefaultCellEditor SORT_ORDER_EDITOR;
 
 	static {
 		// RENDERERS
+		ORDER_RENDERER = new DefaultTableCellRenderer();
 		COLUMN_RENDERER = new DefaultTableCellRenderer();
 		SORT_ORDER_RENDERER = new DefaultTableCellRenderer();
 
 		// EDITORS
+		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
 		COLUMN_EDITOR = new DefaultCellEditor(new JComboBox(TaskColumn.values()));
 		SORT_ORDER_EDITOR = new DefaultCellEditor(new JComboBox(SortOrder.values()));
 	}
@@ -49,8 +54,10 @@ public class TaskSorterTable extends JTable {
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
 		case 0:
-			return COLUMN_EDITOR;
+			return ORDER_EDITOR;
 		case 1:
+			return COLUMN_EDITOR;
+		case 2:
 			return SORT_ORDER_EDITOR;
 		default: 
 			return super.getCellEditor(row, col);
@@ -61,8 +68,10 @@ public class TaskSorterTable extends JTable {
 	public TableCellRenderer getCellRenderer(int row, int col) {
 		switch (col) {
 		case 0:
+			return ORDER_RENDERER;
+		case 1:
 			return COLUMN_RENDERER;
-		case 1: 
+		case 2: 
 			return SORT_ORDER_RENDERER;
 		default:
 			return super.getCellRenderer(row, col);

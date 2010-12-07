@@ -166,7 +166,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 							column = TaskColumn.valueOf(nElement.item(j).getTextContent());
 						}
 
-						if (nElement.item(j).getNodeName().equals("direction")) {
+						if (nElement.item(j).getNodeName().equals("sortorder")) {
 							sortOrder = SortOrder.valueOf(nElement.item(j).getTextContent());
 						}
 					}
