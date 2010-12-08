@@ -1,3 +1,7 @@
+Version 0.5.3
+	- Toodledo API 2.0
+	- GUI for personal searcher edition
+
 Version 0.5.2
 	- Add create account button
 	- Fix bug with Toodledo password
