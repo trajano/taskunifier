@@ -19,7 +19,6 @@ package com.leclercb.taskunifier.gui.translations;
 
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeat;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 
@@ -56,24 +55,6 @@ public final class TranslationsUtils {
 		case MEDIUM: return Translations.getString("general.task.priority.medium");
 		case HIGH: return Translations.getString("general.task.priority.high");
 		case TOP: return Translations.getString("general.task.priority.top");
-		}
-
-		return "Missing translation";
-	}
-
-	public static String translateTaskRepeat(TaskRepeat repeat) {
-		switch (repeat) {
-		case NO_REPEAT: return Translations.getString("general.task.repeat.no_repeat");
-		case WEEKLY: return Translations.getString("general.task.repeat.weekly");
-		case MONTHLY: return Translations.getString("general.task.repeat.monthly");
-		case YEARLY: return Translations.getString("general.task.repeat.yearly");
-		case DAILY: return Translations.getString("general.task.repeat.daily");
-		case BIWEEKLY: return Translations.getString("general.task.repeat.biweekly");
-		case BIMONTHLY: return Translations.getString("general.task.repeat.bimonthly");
-		case SEMIANNUALLY: return Translations.getString("general.task.repeat.semiannualy");
-		case QUARTERLY: return Translations.getString("general.task.repeat.quarterly");
-		case WITH_PARENT: return Translations.getString("general.task.repeat.with_parent");
-		case ADVANCED: return Translations.getString("general.task.repeat.advanced");
 		}
 
 		return "Missing translation";

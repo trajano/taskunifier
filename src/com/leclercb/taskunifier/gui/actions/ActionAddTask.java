@@ -31,7 +31,6 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeat;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.images.Images;
@@ -99,8 +98,8 @@ public class ActionAddTask extends AbstractAction {
 		if (Settings.getIntegerProperty("task.default.reminder") != null)
 			task.setReminder(Settings.getIntegerProperty("task.default.reminder"));
 
-		if (Settings.getEnumProperty("task.default.repeat", TaskRepeat.class) != null)
-			task.setRepeat((TaskRepeat) Settings.getEnumProperty("task.default.repeat", TaskRepeat.class));
+		if (Settings.getStringProperty("task.default.repeat") != null)
+			task.setRepeat(Settings.getStringProperty("task.default.repeat"));
 
 		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
 			task.setStatus((TaskStatus) Settings.getEnumProperty("task.default.status", TaskStatus.class));

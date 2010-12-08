@@ -1,8 +1,4 @@
-Sorter/Filter GUI
+Finish sorter/filter GUI
 Improve error handling
 Translations
-
-Review toodledo (abstract synchronizer)
-Review components.models
-Review components.synchronize
-Review MainFrame
+Finish Toodledo API 2.0

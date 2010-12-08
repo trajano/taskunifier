@@ -26,7 +26,6 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeat;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -44,7 +43,7 @@ public enum TaskColumn {
 	DUE_DATE(Calendar.class, 10, Translations.getString("general.task.due_date"), 150, true, true),
 	START_DATE(Calendar.class, 11, Translations.getString("general.task.start_date"), 150, true, true),
 	REMINDER(Integer.class, 12, Translations.getString("general.task.reminder"), 100, true, true),
-	REPEAT(TaskRepeat.class, 13, Translations.getString("general.task.repeat"), 100, true, true),
+	REPEAT(String.class, 13, Translations.getString("general.task.repeat"), 100, true, true),
 	STATUS(TaskStatus.class, 14, Translations.getString("general.task.status"), 100, true, true),
 	LENGTH(Integer.class, 15, Translations.getString("general.task.length"), 50, true, true),
 	PRIORITY(TaskPriority.class, 16, Translations.getString("general.task.priority"), 100, true, true),
@@ -222,7 +221,7 @@ public enum TaskColumn {
 			task.setReminder((Integer) value); 
 			break;
 		case REPEAT: 
-			task.setRepeat((TaskRepeat) value); 
+			task.setRepeat((String) value); 
 			break;
 		case STATUS: 
 			task.setStatus((TaskStatus) value); 

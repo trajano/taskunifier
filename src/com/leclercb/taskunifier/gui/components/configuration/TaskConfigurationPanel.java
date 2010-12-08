@@ -25,7 +25,6 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeat;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -67,7 +66,7 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty("task.default.due_date", (String) this.getValue("DUE_DATE"));
 		Settings.setStringProperty("task.default.start_date", (String) this.getValue("START_DATE"));
 		Settings.setStringProperty("task.default.reminder", (String) this.getValue("REMINDER"));
-		Settings.setEnumProperty("task.default.repeat", (TaskRepeat) this.getValue("REPEAT"));
+		Settings.setStringProperty("task.default.repeat", (String) this.getValue("REPEAT"));
 		Settings.setEnumProperty("task.default.status", (TaskStatus) this.getValue("STATUS"));
 		Settings.setEnumProperty("task.default.priority", (TaskPriority) this.getValue("PRIORITY"));
 		Settings.setBooleanProperty("task.default.star", (Boolean) this.getValue("STAR"));
@@ -84,7 +83,7 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		String taskDueDateValue = "";
 		String taskStartDateValue = "";
 		String taskReminderValue = "";
-		TaskRepeat taskRepeatValue = TaskRepeat.NO_REPEAT;
+		String taskRepeatValue = "";
 		TaskStatus taskStatusValue = TaskStatus.NONE;
 		TaskPriority taskPriorityValue = TaskPriority.LOW;
 		Boolean taskStarValue = false;
@@ -123,8 +122,8 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		if (Settings.getIntegerProperty("task.default.reminder") != null)
 			taskReminderValue = Settings.getStringProperty("task.default.reminder");
 
-		if (Settings.getEnumProperty("task.default.repeat", TaskRepeat.class) != null)
-			taskRepeatValue = (TaskRepeat) Settings.getEnumProperty("task.default.repeat", TaskRepeat.class);
+		if (Settings.getStringProperty("task.default.repeat") != null)
+			taskRepeatValue = Settings.getStringProperty("task.default.repeat");
 
 		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
 			taskStatusValue = (TaskStatus) Settings.getEnumProperty("task.default.status", TaskStatus.class);
@@ -191,7 +190,7 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"REPEAT", 
 				Translations.getString("general.task.repeat"), 
-				new ConfigurationFieldType.ComboBox(TaskRepeat.values(), taskRepeatValue)));
+				new ConfigurationFieldType.TextField(taskRepeatValue)));
 
 		this.addField(new ConfigurationField(
 				"STATUS", 

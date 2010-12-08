@@ -56,6 +56,12 @@ public class ActionCreateAccount extends AbstractAction {
 
 			SynchronizerUtils.initializeProxy();
 			ToodledoConnectionFactory.getInstance().createAccount(email, password);
+
+			JOptionPane.showMessageDialog(
+					null, 
+					"Your account has been successfully created", 
+					"Account created", 
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null, 
