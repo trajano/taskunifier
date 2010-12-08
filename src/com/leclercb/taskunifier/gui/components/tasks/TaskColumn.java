@@ -26,6 +26,7 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -44,11 +45,12 @@ public enum TaskColumn {
 	START_DATE(Calendar.class, 11, Translations.getString("general.task.start_date"), 150, true, true),
 	REMINDER(Integer.class, 12, Translations.getString("general.task.reminder"), 100, true, true),
 	REPEAT(String.class, 13, Translations.getString("general.task.repeat"), 100, true, true),
-	STATUS(TaskStatus.class, 14, Translations.getString("general.task.status"), 100, true, true),
-	LENGTH(Integer.class, 15, Translations.getString("general.task.length"), 50, true, true),
-	PRIORITY(TaskPriority.class, 16, Translations.getString("general.task.priority"), 100, true, true),
-	STAR(Boolean.class, 17, Translations.getString("general.task.star"), 40, true, true),
-	NOTE(String.class, 18, Translations.getString("general.task.note"), 100, false, false);
+	REPEAT_FROM(TaskRepeatFrom.class, 14, Translations.getString("general.task.repeat_from"), 100, true, true),
+	STATUS(TaskStatus.class, 15, Translations.getString("general.task.status"), 100, true, true),
+	LENGTH(Integer.class, 16, Translations.getString("general.task.length"), 50, true, true),
+	PRIORITY(TaskPriority.class, 17, Translations.getString("general.task.priority"), 100, true, true),
+	STAR(Boolean.class, 18, Translations.getString("general.task.star"), 40, true, true),
+	NOTE(String.class, 19, Translations.getString("general.task.note"), 100, false, false);
 
 	private Class<?> type;
 	private int order;
@@ -166,6 +168,8 @@ public enum TaskColumn {
 			return task.getReminder();
 		case REPEAT: 
 			return task.getRepeat();
+		case REPEAT_FROM:
+			return task.getRepeatFrom();
 		case STATUS: 
 			return task.getStatus();
 		case LENGTH:
@@ -222,6 +226,9 @@ public enum TaskColumn {
 			break;
 		case REPEAT: 
 			task.setRepeat((String) value); 
+			break;
+		case REPEAT_FROM:
+			task.setRepeatFrom((TaskRepeatFrom) value);
 			break;
 		case STATUS: 
 			task.setStatus((TaskStatus) value); 

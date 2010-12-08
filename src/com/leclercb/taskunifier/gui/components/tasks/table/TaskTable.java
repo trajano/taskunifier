@@ -50,6 +50,7 @@ import javax.swing.table.TableColumn;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
@@ -63,6 +64,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRend
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorityRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskRepeatFromRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskStatusRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
@@ -71,6 +73,7 @@ import com.leclercb.taskunifier.gui.models.ContextComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -86,6 +89,7 @@ public class TaskTable extends JTable {
 	private static final StarRenderer STAR_RENDERER;
 
 	private static final TaskPriorityRenderer TASK_PRIORITY_RENDERER;
+	private static final TaskRepeatFromRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TaskStatusRenderer TASK_STATUS_RENDERER;
 
 	private static final DefaultCellEditor CHECK_BOX_EDITOR;
@@ -96,10 +100,11 @@ public class TaskTable extends JTable {
 	private static final DefaultCellEditor CONTEXT_EDITOR;
 	private static final DefaultCellEditor FOLDER_EDITOR;
 	private static final DefaultCellEditor GOAL_EDITOR;
+	private static final DefaultCellEditor REPEAT_FROM_EDITOR;
 
-	private static final DefaultCellEditor REPEAT_EDITOR;
-	private static final DefaultCellEditor STATUS_EDITOR;
-	private static final DefaultCellEditor PRIORITY_EDITOR;
+	private static final DefaultCellEditor TASK_PRIORITY_EDITOR;
+	private static final DefaultCellEditor TASK_REPEAT_EDITOR;
+	private static final DefaultCellEditor TASK_STATUS_EDITOR;
 
 	static {
 		// RENDERERS
@@ -111,6 +116,7 @@ public class TaskTable extends JTable {
 		STAR_RENDERER = new StarRenderer();
 
 		TASK_PRIORITY_RENDERER = new TaskPriorityRenderer();
+		TASK_REPEAT_FROM_RENDERER = new TaskRepeatFromRenderer();
 		TASK_STATUS_RENDERER = new TaskStatusRenderer();
 
 		// EDITORS
@@ -134,22 +140,28 @@ public class TaskTable extends JTable {
 		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderComboxBoxModel()));
 		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalComboxBoxModel()));
 
-		JComboBox comboBox = null;
 		JTextField textField = null;
 
 		textField = new JTextField();
 
-		REPEAT_EDITOR = new DefaultCellEditor(textField);
+		TASK_REPEAT_EDITOR = new DefaultCellEditor(textField);
 
-		comboBox = new JComboBox(TaskStatus.values());
-		comboBox.setRenderer(new TaskStatusListCellRenderer());
-
-		STATUS_EDITOR = new DefaultCellEditor(comboBox);
+		JComboBox comboBox = null;
 
 		comboBox = new JComboBox(TaskPriority.values());
 		comboBox.setRenderer(new TaskPriorityListCellRenderer());
 
-		PRIORITY_EDITOR = new DefaultCellEditor(comboBox);
+		TASK_PRIORITY_EDITOR = new DefaultCellEditor(comboBox);
+
+		comboBox = new JComboBox(TaskRepeatFrom.values());
+		comboBox.setRenderer(new TaskRepeatFromListCellRenderer());
+
+		REPEAT_FROM_EDITOR = new DefaultCellEditor(comboBox);
+
+		comboBox = new JComboBox(TaskStatus.values());
+		comboBox.setRenderer(new TaskStatusListCellRenderer());
+
+		TASK_STATUS_EDITOR = new DefaultCellEditor(comboBox);
 	}
 
 	private TaskSearcher searcher;
@@ -362,13 +374,15 @@ public class TaskTable extends JTable {
 		case START_DATE:
 			return DATE_EDITOR;
 		case REPEAT:
-			return REPEAT_EDITOR;
+			return TASK_REPEAT_EDITOR;
+		case REPEAT_FROM:
+			return REPEAT_FROM_EDITOR;
 		case STATUS:
-			return STATUS_EDITOR;
+			return TASK_STATUS_EDITOR;
 		case LENGTH:
 			return LENGTH_EDITOR;
 		case PRIORITY:
-			return PRIORITY_EDITOR;
+			return TASK_PRIORITY_EDITOR;
 		case STAR: 
 			return STAR_EDITOR;
 		default: 
@@ -397,6 +411,8 @@ public class TaskTable extends JTable {
 			return STAR_RENDERER;
 		case PRIORITY:
 			return TASK_PRIORITY_RENDERER;
+		case REPEAT_FROM:
+			return TASK_REPEAT_FROM_RENDERER;
 		case STATUS:
 			return TASK_STATUS_RENDERER;
 		default: 

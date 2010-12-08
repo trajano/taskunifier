@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.translations;
 
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 
@@ -55,6 +56,15 @@ public final class TranslationsUtils {
 		case MEDIUM: return Translations.getString("general.task.priority.medium");
 		case HIGH: return Translations.getString("general.task.priority.high");
 		case TOP: return Translations.getString("general.task.priority.top");
+		}
+
+		return "Missing translation";
+	}
+
+	public static String translateTaskRepeatFrom(TaskRepeatFrom repeatFrom) {
+		switch (repeatFrom) {
+		case DUE_DATE: return Translations.getString("general.task.repeat_from.due_date");
+		case COMPLETION_DATE: return Translations.getString("general.task.repeat_from.completion_date");
 		}
 
 		return "Missing translation";
