@@ -35,9 +35,9 @@ public class CheckBoxRenderer extends DefaultRenderer {
 		}
 
 		if ((Boolean) value)
-			setIcon(Images.getImage("checkbox_selected.png"));
+			setIcon(Images.getResourceImage("checkbox_selected.png"));
 		else
-			setIcon(Images.getImage("checkbox.png"));
+			setIcon(Images.getResourceImage("checkbox.png"));
 
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setText("");

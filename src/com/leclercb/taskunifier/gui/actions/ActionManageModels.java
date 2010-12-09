@@ -36,7 +36,7 @@ public class ActionManageModels extends AbstractAction {
 	public ActionManageModels(int width, int height) {
 		super(
 				Translations.getString("action.name.manage_models"), 
-				Images.getImage("folder.png", 32, 32));
+				Images.getResourceImage("folder.png", 32, 32));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.manage_models"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);

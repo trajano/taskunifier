@@ -38,7 +38,7 @@ public class ActionEditSearcher extends AbstractAction {
 	public ActionEditSearcher(int width, int height) {
 		super(
 				Translations.getString("action.name.edit_searcher"),
-				Images.getImage("search.png", width, height));
+				Images.getResourceImage("search.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.edit_searcher"));
 	}

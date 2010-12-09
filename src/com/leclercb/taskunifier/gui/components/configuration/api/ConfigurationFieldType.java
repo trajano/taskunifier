@@ -122,8 +122,8 @@ public interface ConfigurationFieldType<Type> {
 	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<Boolean> {
 
 		public StarCheckBox(Boolean selected) {
-			this.setIcon(Images.getImage("checkbox_star.gif"));
-			this.setSelectedIcon(Images.getImage("checkbox_star_selected.gif"));
+			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
+			this.setSelectedIcon(Images.getResourceImage("checkbox_star_selected.gif"));
 
 			this.setSelected(selected);
 		}

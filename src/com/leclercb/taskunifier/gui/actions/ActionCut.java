@@ -38,7 +38,7 @@ public class ActionCut extends AbstractAction {
 	public ActionCut(int width, int height) {
 		super(
 				Translations.getString("action.name.cut"),
-				Images.getImage("cut.png", width, height));
+				Images.getResourceImage("cut.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.cut"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);

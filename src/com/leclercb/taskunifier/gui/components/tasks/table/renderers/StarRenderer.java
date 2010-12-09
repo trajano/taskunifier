@@ -35,9 +35,9 @@ public class StarRenderer extends DefaultRenderer {
 		}
 
 		if ((Boolean) value)
-			setIcon(Images.getImage("checkbox_star_selected.gif"));
+			setIcon(Images.getResourceImage("checkbox_star_selected.gif"));
 		else
-			setIcon(Images.getImage("checkbox_star.gif"));
+			setIcon(Images.getResourceImage("checkbox_star.gif"));
 
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setText("");

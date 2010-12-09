@@ -46,7 +46,7 @@ public class ActionAddTask extends AbstractAction {
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.name.add_task"), 
-				Images.getImage("document.png", width, height));
+				Images.getResourceImage("document.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.add_task"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);

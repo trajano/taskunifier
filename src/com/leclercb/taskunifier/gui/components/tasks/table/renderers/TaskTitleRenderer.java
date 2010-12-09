@@ -58,7 +58,7 @@ public class TaskTitleRenderer extends DefaultRenderer {
 
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue())
-			setIcon(Images.getImage("warning.gif"));
+			setIcon(Images.getResourceImage("warning.gif"));
 		else
 			setIcon(null);
 

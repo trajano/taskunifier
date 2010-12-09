@@ -102,7 +102,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
 
-		this.setIconImage(Images.getImage("logo.png", 16, 16).getImage());
+		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSizeSettings();
 

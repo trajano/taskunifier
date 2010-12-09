@@ -83,13 +83,25 @@ public final class Images {
 
 	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "images";
 
+	public static String getResourceFile(String file) {
+		return IMAGES_FOLDER + File.separator + file;
+	}
+
+	public static ImageIcon getResourceImage(String file) {
+		return getImage(IMAGES_FOLDER + File.separator + file);
+	}
+
+	public static ImageIcon getResourceImage(String file, int width, int height) {
+		return getImage(IMAGES_FOLDER + File.separator + file, width, height);
+	}
+
 	public static ImageIcon getImage(String file) {
 		ImageInfo info = new ImageInfo(file, -1, -1);
 
 		if (images.containsKey(info))
 			return images.get(info);
 
-		ImageIcon instance = new ImageIcon(IMAGES_FOLDER + File.separator + file);
+		ImageIcon instance = new ImageIcon(file);
 		images.put(info, instance);
 
 		return instance;

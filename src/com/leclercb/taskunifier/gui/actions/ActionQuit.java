@@ -35,7 +35,7 @@ public class ActionQuit extends AbstractAction {
 	public ActionQuit(int width, int height) {
 		super(
 				Translations.getString("action.name.quit"),
-				Images.getImage("exit.png", width, height));
+				Images.getResourceImage("exit.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.quit"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_Q);

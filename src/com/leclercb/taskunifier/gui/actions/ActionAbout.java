@@ -35,7 +35,7 @@ public class ActionAbout extends AbstractAction {
 	public ActionAbout(int width, int height) {
 		super(
 				Translations.getString("action.name.about"),
-				Images.getImage("information.png", width, height));
+				Images.getResourceImage("information.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.about"));
 	}

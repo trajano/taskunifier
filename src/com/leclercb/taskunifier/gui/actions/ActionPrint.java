@@ -36,7 +36,7 @@ public class ActionPrint extends AbstractAction {
 	public ActionPrint(int width, int height) {
 		super(
 				Translations.getString("action.name.print"), 
-				Images.getImage("print.png", width, height));
+				Images.getResourceImage("print.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.print"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_P);

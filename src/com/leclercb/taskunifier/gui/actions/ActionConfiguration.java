@@ -35,7 +35,7 @@ public class ActionConfiguration extends AbstractAction {
 	public ActionConfiguration(int width, int height) {
 		super(
 				Translations.getString("action.name.configuration"), 
-				Images.getImage("settings.png", width, height));
+				Images.getResourceImage("settings.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.configuration"));
 	}

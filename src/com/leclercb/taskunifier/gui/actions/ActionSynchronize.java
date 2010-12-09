@@ -36,7 +36,7 @@ public class ActionSynchronize extends AbstractAction {
 	public ActionSynchronize(int width, int height) {
 		super(
 				Translations.getString("action.name.synchronize"), 
-				Images.getImage("synchronize.png", 32, 32));
+				Images.getResourceImage("synchronize.png", 32, 32));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.synchronize"));
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);

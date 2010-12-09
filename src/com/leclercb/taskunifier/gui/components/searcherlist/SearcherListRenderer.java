@@ -30,6 +30,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -71,7 +72,7 @@ class SearcherListRenderer extends JPanel implements ListCellRenderer {
 			icon.setIcon(null);
 			text.setText(Translations.getString("searcherlist.none"));
 		} else if (value instanceof TaskSearcher) {
-			icon.setIcon(((TaskSearcher) value).getIcon());
+			icon.setIcon(Images.getImage(((TaskSearcher) value).getIcon(), 24, 24));
 			text.setText(value.toString());
 		} else {
 			text.setText(value.toString());

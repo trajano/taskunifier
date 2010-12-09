@@ -86,12 +86,12 @@ public class TaskSorterPanel extends JPanel {
 
 		};
 
-		addButton = new JButton(Images.getImage("add.png", 16, 16));
+		addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		addButton.setActionCommand("ADD");
 		addButton.addActionListener(listener);
 		buttonsPanel.add(addButton);
 
-		removeButton = new JButton(Images.getImage("remove.png", 16, 16));
+		removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
 		removeButton.setActionCommand("REMOVE");
 		removeButton.addActionListener(listener);
 		removeButton.setEnabled(false);

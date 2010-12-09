@@ -123,6 +123,7 @@ public class SynchronizeDialog extends JDialog {
 						case CONTEXT: return Translations.getString("general.contexts");
 						case FOLDER: return Translations.getString("general.folders");
 						case GOAL: return Translations.getString("general.goals");
+						case LOCATION: return Translations.getString("general.locations");
 						case TASK: return Translations.getString("general.tasks");
 						}
 					}
@@ -131,6 +132,7 @@ public class SynchronizeDialog extends JDialog {
 					case CONTEXT: return Translations.getString("general.context");
 					case FOLDER: return Translations.getString("general.folder");
 					case GOAL: return Translations.getString("general.goal");
+					case LOCATION: return Translations.getString("general.location");
 					case TASK: return Translations.getString("general.task");
 					}
 

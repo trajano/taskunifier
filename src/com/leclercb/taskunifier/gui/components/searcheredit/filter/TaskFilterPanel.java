@@ -119,19 +119,19 @@ public class TaskFilterPanel extends JPanel {
 
 		};
 
-		addElementButton = new JButton(Images.getImage("add.png", 16, 16));
+		addElementButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		addElementButton.setActionCommand("ADD_ELEMENT");
 		addElementButton.addActionListener(listener);
 		addElementButton.setEnabled(false);
 		buttonsPanel.add(addElementButton);
 
-		addFilterButton = new JButton(Images.getImage("add.png", 16, 16));
+		addFilterButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		addFilterButton.setActionCommand("ADD_FILTER");
 		addFilterButton.addActionListener(listener);
 		addFilterButton.setEnabled(false);
 		buttonsPanel.add(addFilterButton);
 
-		removeButton = new JButton(Images.getImage("remove.png", 16, 16));
+		removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
 		removeButton.setActionCommand("REMOVE");
 		removeButton.addActionListener(listener);
 		removeButton.setEnabled(false);

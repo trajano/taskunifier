@@ -37,7 +37,7 @@ public class ActionCreateAccount extends AbstractAction {
 	public ActionCreateAccount(int width, int height) {
 		super(
 				Translations.getString("action.name.create_account"),
-				Images.getImage("user.png", width, height));
+				Images.getResourceImage("user.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.create_account"));
 	}

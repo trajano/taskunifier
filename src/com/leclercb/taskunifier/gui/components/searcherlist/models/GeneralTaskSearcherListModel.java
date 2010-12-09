@@ -28,12 +28,12 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -56,7 +56,7 @@ public class GeneralTaskSearcherListModel extends AbstractListModel implements T
 
 		TASK_SEARCHERS[0] = new TaskSearcher(
 				Translations.getString("searcherlist.general.all_tasks"), 
-				Images.getImage("document.png", 24, 24),
+				Images.getResourceFile("document.png"),
 				filter, 
 				sorter
 		);
@@ -73,7 +73,7 @@ public class GeneralTaskSearcherListModel extends AbstractListModel implements T
 
 		TASK_SEARCHERS[1] = new TaskSearcher(
 				Translations.getString("searcherlist.general.hot_list"), 
-				Images.getImage("hot_pepper.png", 24, 24),
+				Images.getResourceFile("hot_pepper.png"),
 				filter, 
 				sorter
 		);
@@ -89,7 +89,7 @@ public class GeneralTaskSearcherListModel extends AbstractListModel implements T
 
 		TASK_SEARCHERS[2] = new TaskSearcher(
 				Translations.getString("searcherlist.general.starred"),
-				Images.getImage("star.png", 24, 24),
+				Images.getResourceFile("star.png"),
 				filter, 
 				sorter
 		);
@@ -105,7 +105,7 @@ public class GeneralTaskSearcherListModel extends AbstractListModel implements T
 
 		TASK_SEARCHERS[3] = new TaskSearcher(
 				Translations.getString("searcherlist.general.next_action"), 
-				Images.getImage("next.png", 24, 24),
+				Images.getResourceFile("next.png"),
 				filter, 
 				sorter
 		);
@@ -120,7 +120,7 @@ public class GeneralTaskSearcherListModel extends AbstractListModel implements T
 
 		TASK_SEARCHERS[4] = new TaskSearcher(
 				Translations.getString("searcherlist.general.completed"), 
-				Images.getImage("check.png", 24, 24),
+				Images.getResourceFile("check.png"),
 				filter, 
 				sorter
 		);
