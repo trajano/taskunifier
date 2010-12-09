@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -39,7 +38,6 @@ public class ActionConfiguration extends AbstractAction {
 				Images.getImage("settings.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.configuration"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
 
 	@Override

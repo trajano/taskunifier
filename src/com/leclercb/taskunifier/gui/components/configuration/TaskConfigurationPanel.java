@@ -67,8 +67,8 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty("task.default.start_date", (String) this.getValue("START_DATE"));
 		Settings.setStringProperty("task.default.reminder", (String) this.getValue("REMINDER"));
 		Settings.setStringProperty("task.default.repeat", (String) this.getValue("REPEAT"));
-		Settings.setEnumProperty("task.default.status", (TaskStatus) this.getValue("STATUS"));
-		Settings.setEnumProperty("task.default.priority", (TaskPriority) this.getValue("PRIORITY"));
+		Settings.setEnumProperty("task.default.status", TaskStatus.class, (TaskStatus) this.getValue("STATUS"));
+		Settings.setEnumProperty("task.default.priority", TaskPriority.class, (TaskPriority) this.getValue("PRIORITY"));
 		Settings.setBooleanProperty("task.default.star", (Boolean) this.getValue("STAR"));
 		Settings.setStringProperty("task.default.note", (String) this.getValue("NOTE"));
 	}

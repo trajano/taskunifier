@@ -49,24 +49,24 @@ public class ActionCreateAccount extends AbstractAction {
 
 		try {
 			if (email == null)
-				throw new Exception("Please fill in your email");
+				throw new Exception(Translations.getString("error.empty_email"));
 
 			if (password == null)
-				throw new Exception("Please fill in your password");
+				throw new Exception(Translations.getString("error.empty_password"));
 
 			SynchronizerUtils.initializeProxy();
 			ToodledoConnectionFactory.getInstance().createAccount(email, password);
 
 			JOptionPane.showMessageDialog(
 					null, 
-					"Your account has been successfully created", 
-					"Account created", 
+					Translations.getString("action.create_account.account_created"), 
+					Translations.getString("general.information"), 
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null, 
 					e.getMessage(), 
-					"Error during Toodledo account creation", 
+					Translations.getString("error.account_not_created"), 
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}

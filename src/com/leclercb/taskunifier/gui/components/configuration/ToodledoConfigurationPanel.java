@@ -48,7 +48,7 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty("toodledo.password", (String) this.getValue("PASSWORD"));
 		Settings.setStringProperty("toodledo.userid", null);
 		Settings.setStringProperty("toodledo.token", null);
-		Settings.setEnumProperty("synchronizer.choice", (SynchronizerChoice) this.getValue("CHOICE"));
+		Settings.setEnumProperty("synchronizer.choice", SynchronizerChoice.class, (SynchronizerChoice) this.getValue("CHOICE"));
 		Settings.setStringProperty("synchronizer.keep_tasks_completed_for_x_days", (String) this.getValue("KEEP"));
 	}
 

@@ -1,4 +1,4 @@
-Version 0.5.3
+Version 0.6
 	- Toodledo API 2.0
 	- GUI for personal searcher edition
 

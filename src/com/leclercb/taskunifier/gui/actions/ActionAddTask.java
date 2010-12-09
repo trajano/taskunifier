@@ -27,6 +27,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -80,6 +81,11 @@ public class ActionAddTask extends AbstractAction {
 			task.setGoal(GoalFactory.getInstance().get(modelId));
 		}
 
+		if (Settings.getModelIdProperty("task.default.location") != null) {
+			ModelId modelId = Settings.getModelIdProperty("task.default.location");
+			task.setLocation(LocationFactory.getInstance().get(modelId));
+		}
+
 		if (Settings.getBooleanProperty("task.default.completed") != null)
 			task.setCompleted(Settings.getBooleanProperty("task.default.completed"));
 
@@ -101,8 +107,14 @@ public class ActionAddTask extends AbstractAction {
 		if (Settings.getStringProperty("task.default.repeat") != null)
 			task.setRepeat(Settings.getStringProperty("task.default.repeat"));
 
+		if (Settings.getStringProperty("task.default.repeat_from") != null)
+			task.setRepeat(Settings.getStringProperty("task.default.repeat_from"));
+
 		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
 			task.setStatus((TaskStatus) Settings.getEnumProperty("task.default.status", TaskStatus.class));
+
+		if (Settings.getIntegerProperty("task.default.length") != null)
+			task.setLength(Settings.getIntegerProperty("task.default.length"));
 
 		if (Settings.getEnumProperty("task.default.priority", TaskPriority.class) != null)
 			task.setPriority((TaskPriority) Settings.getEnumProperty("task.default.priority", TaskPriority.class));

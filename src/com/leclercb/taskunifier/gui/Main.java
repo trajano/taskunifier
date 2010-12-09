@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.lookandfeel.types.SubstanceLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
@@ -138,6 +139,7 @@ public class Main {
 	private static void loadSettings(boolean dataFolderCreated) throws Exception {
 		try {
 			Settings.load(new FileInputStream(DATA_FOLDER + File.separator + "settings.properties"));
+			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
 			Settings.load(Main.class.getResourceAsStream("default_settings.properties"));
 

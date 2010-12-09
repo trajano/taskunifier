@@ -37,7 +37,7 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 	@Override
 	public void saveAndApplyConfig() {
 		Settings.setBooleanProperty("proxy.enabled", (Boolean) this.getValue("ENABLED"));
-		Settings.setEnumProperty("proxy.type", (Proxy.Type) this.getValue("TYPE"));
+		Settings.setEnumProperty("proxy.type", Proxy.Type.class, (Proxy.Type) this.getValue("TYPE"));
 		Settings.setStringProperty("proxy.host", (String) this.getValue("HOST"));
 		Settings.setStringProperty("proxy.port", (String) this.getValue("PORT"));
 		Settings.setStringProperty("proxy.login", (String) this.getValue("LOGIN"));

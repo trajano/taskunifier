@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -39,7 +38,6 @@ public class ActionAbout extends AbstractAction {
 				Images.getImage("information.png", width, height));
 
 		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.about"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	}
 
 	@Override

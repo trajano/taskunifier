@@ -110,8 +110,10 @@ public class TaskTable extends JTable {
 		// RENDERERS
 		DEFAULT_RENDERER = new DefaultRenderer();
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
-		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(Settings.getStringProperty("date.date_time_format")));
-		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(Settings.getStringProperty("date.simple_time_format")));
+		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
+				Settings.getStringProperty("date.date_format") + " " +
+				Settings.getStringProperty("date.time_format")));
+		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(Settings.getStringProperty("date.time_format")));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
 
@@ -126,7 +128,9 @@ public class TaskTable extends JTable {
 		checkBox.setHorizontalAlignment(JCheckBox.CENTER);
 
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
-		DATE_EDITOR = new DateEditor(new SimpleDateFormat(Settings.getStringProperty("date.date_time_format")));
+		DATE_EDITOR = new DateEditor(new SimpleDateFormat(
+				Settings.getStringProperty("date.date_format") + " " +
+				Settings.getStringProperty("date.time_format")));
 		LENGTH_EDITOR = new LengthEditor();
 
 		checkBox = new JCheckBox();

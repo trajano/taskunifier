@@ -24,6 +24,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.api.utils.CheckUtils;
+
 public class JCollapsiblePanel extends JPanel {
 
 	private boolean selected;
@@ -32,6 +34,9 @@ public class JCollapsiblePanel extends JPanel {
 
 	public JCollapsiblePanel(JPanel headerPanel, JPanel contentPanel) {
 		super(new GridBagLayout());
+
+		CheckUtils.isNotNull(headerPanel, "Header panel cannot be null");
+		CheckUtils.isNotNull(contentPanel, "Content panel cannot be null");
 
 		this.selected = false;
 		this.headerPanel = headerPanel;

@@ -56,7 +56,9 @@ public class StatusBar extends JPanel {
 	}
 
 	private void initializeLastSynchronizationDate() {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(Settings.getStringProperty("date.date_time_format"));
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(
+				Settings.getStringProperty("date.date_format") + " " +
+				Settings.getStringProperty("date.time_format"));
 
 		String date = Translations.getString("statusbar.never");
 
