@@ -30,15 +30,26 @@ public final class Translations {
 
 	private static ResourceBundle messages;
 
-	public static void initialize(Locale locale) {
+	static {
+		changeLocale(getDefaultLocale());
+	}
+
+	public static void changeLocale(Locale locale) {
 		messages = ResourceBundle.getBundle(Translations.class.getName(), locale);
 	}
 
-	public static Locale getDefaultTranslatedLocale() {
-		return new Locale("en");
+	public static Locale getDefaultLocale() {
+		String language = Locale.getDefault().getLanguage();
+
+		for (Locale locale : getLocales()) {
+			if (locale.getLanguage().equals(language))
+				return locale;
+		}
+
+		return new Locale("en", "US");
 	}
 
-	public static List<Locale> getTranslatedLocales() {
+	public static List<Locale> getLocales() {
 		List<Locale> locales = new ArrayList<Locale>();
 
 		locales.add(new Locale("en", "US"));
@@ -48,13 +59,15 @@ public final class Translations {
 	}
 
 	public static String getString(String key) {
-		if (messages == null)
-			throw new RuntimeException("Translations must be initialized");
-
 		if (!messages.containsKey(key))
 			return "#" + key + "#";
 
 		return messages.getString(key);
+	}
+
+	public static String getString(String key, Object... args) {
+		String value = getString(key);
+		return String.format(value, args);
 	}
 
 }

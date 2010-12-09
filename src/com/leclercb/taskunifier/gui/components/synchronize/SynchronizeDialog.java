@@ -161,7 +161,7 @@ public class SynchronizeDialog extends JDialog {
 										return;
 
 									String type = modelTypeToString(m.getModelType(), true);
-									progressStatus.append(String.format(Translations.getString("synchronize.retrieving_models") + "\n", type));
+									progressStatus.append(Translations.getString("synchronize.retrieving_models", type) + "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
 									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
 
@@ -169,7 +169,7 @@ public class SynchronizeDialog extends JDialog {
 										return;
 
 									String type = modelTypeToString(m.getModelType(), m.getActionCount() > 1);
-									progressStatus.append(String.format(Translations.getString("synchronize.synchronizing") + "\n", m.getActionCount(), type));
+									progressStatus.append(Translations.getString("synchronize.synchronizing", m.getActionCount(), type) + "\n");
 								}
 							}
 						}

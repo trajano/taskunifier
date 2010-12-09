@@ -81,7 +81,7 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 
 									int n = JOptionPane.showOptionDialog(
 											MainFrame.getInstance().getFrame(),
-											String.format(Translations.getString("reminder.message"), task.getTitle(), (int) diffMinutes),
+											Translations.getString("reminder.message", task.getTitle(), (int) diffMinutes),
 											"Reminder",
 											JOptionPane.YES_NO_OPTION,
 											JOptionPane.INFORMATION_MESSAGE,

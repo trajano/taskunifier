@@ -81,7 +81,7 @@ public final class Images {
 
 	private static Map<ImageInfo, ImageIcon> images = new HashMap<Images.ImageInfo, ImageIcon>();
 
-	private static final String IMAGES_FOLDER = Main.RESOURCE_FOLDER + File.separator + "images";
+	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "images";
 
 	public static ImageIcon getImage(String file) {
 		ImageInfo info = new ImageInfo(file, -1, -1);

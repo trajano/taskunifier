@@ -42,7 +42,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 	}
 
 	private void initialize() {
-		Locale generalLanguageValue = Translations.getDefaultTranslatedLocale();
+		Locale generalLanguageValue = Translations.getDefaultLocale();
 
 		if (Settings.getStringProperty("general.locale") != null)
 			generalLanguageValue = Settings.getLocaleProperty("general.locale");
@@ -53,7 +53,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.Label(Translations.getString("configuration.general.language_changed_after_restart"))));
 
 		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
-				Translations.getTranslatedLocales().toArray(), 
+				Translations.getLocales().toArray(), 
 				generalLanguageValue);
 
 		comboBox.setRenderer(new DefaultListCellRenderer() {

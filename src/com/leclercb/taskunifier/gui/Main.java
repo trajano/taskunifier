@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
 
-	public static String RESOURCE_FOLDER;
+	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
 
 	public static void main(String [] args) {
@@ -84,7 +84,7 @@ public class Main {
 					JOptionPane.showMessageDialog(
 							null, 
 							e.getMessage(), 
-							"Error", 
+							Translations.getString("general.error"), 
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -96,14 +96,14 @@ public class Main {
 
 	private static void loadResourceFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.resource_folder") == null) {
-			RESOURCE_FOLDER = "resources";
+			RESOURCES_FOLDER = "resources";
 		} else {
-			RESOURCE_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
+			RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
 		}
 
-		File file = new File(RESOURCE_FOLDER);
+		File file = new File(RESOURCES_FOLDER);
 		if (!file.exists() || !file.isDirectory())
-			throw new Exception("Resource folder \"" + RESOURCE_FOLDER + "\" does not exist");
+			throw new Exception(Translations.getString("error.resources_folder_does_not_exist", RESOURCES_FOLDER));
 	}
 
 	private static boolean loadDataFolder() throws Exception {
@@ -117,20 +117,20 @@ public class Main {
 		if (!file.exists()) {
 			int response = JOptionPane.showConfirmDialog(
 					null, 
-					"Create data folder \"" + DATA_FOLDER + "\" ?", 
-					"Create data folder", 
+					Translations.getString("general.create_data_folder_question", DATA_FOLDER), 
+					Translations.getString("general.create_data_folder"), 
 					JOptionPane.YES_NO_OPTION, 
 					JOptionPane.QUESTION_MESSAGE);
 
 			if (response == JOptionPane.NO_OPTION)
-				throw new Exception("You need a data folder in order to start " + Constants.TITLE);
+				throw new Exception(Translations.getString("error.data_folder_needed", Constants.TITLE));
 
 			if (!file.mkdir())
-				throw new Exception("Error while creating folder \"" + DATA_FOLDER + "\"");
+				throw new Exception(Translations.getString("error.create_data_folder", DATA_FOLDER));
 
 			return true;
 		} else if (!file.isDirectory()) {
-			throw new Exception("\"" + DATA_FOLDER + "\" is not a folder");
+			throw new Exception(Translations.getString("error.data_folder_not_a_folder", DATA_FOLDER));
 		}
 
 		return false;
@@ -146,7 +146,7 @@ public class Main {
 			if (!dataFolderCreated)
 				JOptionPane.showMessageDialog(
 						null, 
-						"Settings file not found. A default settings file is loaded.",
+						Translations.getString("error.settings_file"),
 						"Error", 
 						JOptionPane.ERROR_MESSAGE);
 		}
@@ -154,7 +154,7 @@ public class Main {
 
 	private static void loadLocale() throws Exception {
 		Locale.setDefault(Settings.getLocaleProperty("general.locale"));
-		Translations.initialize(Settings.getLocaleProperty("general.locale"));
+		Translations.changeLocale(Settings.getLocaleProperty("general.locale"));
 	}
 
 	private static void loadModels() throws Exception {
@@ -203,7 +203,7 @@ public class Main {
 			JOptionPane.showMessageDialog(
 					null, 
 					e.getMessage(), 
-					"Error", 
+					Translations.getString("general.error"), 
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}

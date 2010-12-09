@@ -54,6 +54,10 @@ public class AboutDialog extends JDialog {
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
+		this.initializeButtons(buttonPanel);
+	}
+
+	private void initializeButtons(JPanel buttonPanel) {
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.addActionListener(new ActionListener() {
 

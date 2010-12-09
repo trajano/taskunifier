@@ -110,6 +110,12 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		return searcher;
 	}
 
+	public TaskSearcher create(String title, String icon, TaskFilter filter, TaskSorter sorter) {
+		TaskSearcher searcher = new TaskSearcher(title, icon, filter, sorter);
+		this.register(searcher);
+		return searcher;
+	}
+
 	/**
 	 * The listener will be notified when a new searcher is added
 	 * to the factory or when a searcher is removed from the factory.

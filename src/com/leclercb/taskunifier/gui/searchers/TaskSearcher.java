@@ -19,8 +19,6 @@ package com.leclercb.taskunifier.gui.searchers;
 
 import java.io.Serializable;
 
-import javax.swing.Icon;
-
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
@@ -32,7 +30,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	public static final String PROP_SORTER = "SEARCHER_SORTER";
 
 	private String title;
-	private Icon icon;
+	private String icon;
 	private TaskFilter filter;
 	private TaskSorter sorter;
 
@@ -40,7 +38,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		this(title, null, filter, sorter);
 	}
 
-	public TaskSearcher(String title, Icon icon, TaskFilter filter, TaskSorter sorter) {
+	public TaskSearcher(String title, String icon, TaskFilter filter, TaskSorter sorter) {
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
@@ -58,12 +56,12 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		this.firePropertyChange(PROP_TITLE, oldTitle, title);
 	}
 
-	public Icon getIcon() {
+	public String getIcon() {
 		return icon;
 	}
 
-	public void setIcon(Icon icon) {
-		Icon oldIcon = this.icon;
+	public void setIcon(String icon) {
+		String oldIcon = this.icon;
 		this.icon = icon;
 		this.firePropertyChange(PROP_ICON, oldIcon, icon);
 	}

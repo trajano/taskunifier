@@ -121,12 +121,17 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 			NodeList nSearcher = node.getChildNodes();
 
 			String title = null;
+			String icon = null;
 			TaskFilter filter = null;
 			TaskSorter sorter = null;
 
 			for (int i=0; i<nSearcher.getLength(); i++) {
 				if (nSearcher.item(i).getNodeName().equals("title")) {
 					title = nSearcher.item(i).getTextContent();
+				}
+
+				if (nSearcher.item(i).getNodeName().equals("icon")) {
+					icon = nSearcher.item(i).getTextContent();
 				}
 
 				if (nSearcher.item(i).getNodeName().equals("sorter")) {
@@ -138,7 +143,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 				}
 			}
 
-			TaskSearcherFactory.getInstance().create(title, filter, sorter);
+			TaskSearcherFactory.getInstance().create(title, icon, filter, sorter);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}
@@ -346,6 +351,10 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 			Element title = document.createElement("title");
 			title.setTextContent(taskSearcher.getTitle());
 			searcher.appendChild(title);
+
+			Element icon = document.createElement("icon");
+			icon.setTextContent(taskSearcher.getIcon());
+			searcher.appendChild(icon);
 
 			Element sorter = document.createElement("sorter");
 			searcher.appendChild(sorter);
