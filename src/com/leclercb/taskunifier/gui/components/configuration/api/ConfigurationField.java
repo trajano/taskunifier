@@ -23,9 +23,9 @@ public class ConfigurationField {
 
 	private String id;
 	private String label;
-	private ConfigurationFieldType<?> type;
+	private ConfigurationFieldType<?, ?> type;
 
-	public ConfigurationField(String id, String label, ConfigurationFieldType<?> type) {
+	public ConfigurationField(String id, String label, ConfigurationFieldType<?, ?> type) {
 		this.setId(id);
 		this.setLabel(label);
 		this.setType(type);
@@ -48,11 +48,11 @@ public class ConfigurationField {
 		this.label = label;
 	}
 
-	public ConfigurationFieldType<?> getType() {
+	public ConfigurationFieldType<?, ?> getType() {
 		return type;
 	}
 
-	private void setType(ConfigurationFieldType<?> type) {
+	private void setType(ConfigurationFieldType<?, ?> type) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		this.type = type;
 	}

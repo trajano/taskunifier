@@ -32,11 +32,15 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType.ComboBox;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.models.ContextComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.LocationComboxBoxModel;
+import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 
@@ -221,16 +225,22 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 				"REPEAT_FROM", 
 				Translations.getString("general.task.repeat_from"), 
 				new ConfigurationFieldType.ComboBox(TaskRepeatFrom.values(), taskRepeatFromValue)));
+		((ComboBox) this.getField("REPEAT_FROM").getType()).getFieldComponent().setRenderer(
+				new TaskRepeatFromListCellRenderer());
 
 		this.addField(new ConfigurationField(
 				"STATUS", 
 				Translations.getString("general.task.status"), 
 				new ConfigurationFieldType.ComboBox(TaskStatus.values(), taskStatusValue)));
+		((ComboBox) this.getField("STATUS").getType()).getFieldComponent().setRenderer(
+				new TaskStatusListCellRenderer());
 
 		this.addField(new ConfigurationField(
 				"PRIORITY", 
 				Translations.getString("general.task.priority"), 
 				new ConfigurationFieldType.ComboBox(TaskPriority.values(), taskPriorityValue)));
+		((ComboBox) this.getField("PRIORITY").getType()).getFieldComponent().setRenderer(
+				new TaskPriorityListCellRenderer());
 
 		this.addField(new ConfigurationField(
 				"STAR", 

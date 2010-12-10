@@ -39,16 +39,16 @@ import javax.swing.JTextField;
 
 import com.leclercb.taskunifier.gui.images.Images;
 
-public interface ConfigurationFieldType<Type> {
+public interface ConfigurationFieldType<ComponentType extends Component, ValueType> {
 
-	public static class Separator extends JSeparator implements ConfigurationFieldType<Void> {
+	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 
 		public Separator() {
 
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JSeparator getFieldComponent() {
 			return this;
 		}
 
@@ -59,7 +59,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class Label extends JLabel implements ConfigurationFieldType<Void> {
+	public static class Label extends JLabel implements ConfigurationFieldType<JLabel, Void> {
 
 		public Label(String label) {
 			super(label);
@@ -67,7 +67,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JLabel getFieldComponent() {
 			return this;
 		}
 
@@ -78,7 +78,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class Button extends JButton implements ConfigurationFieldType<Void> {
+	public static class Button extends JButton implements ConfigurationFieldType<JButton, Void> {
 
 		public Button(Action action) {
 			super(action);
@@ -90,7 +90,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JButton getFieldComponent() {
 			return this;
 		}
 
@@ -101,14 +101,14 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<Boolean> {
+	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 
 		public CheckBox(Boolean selected) {
 			this.setSelected(selected);
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JCheckBox getFieldComponent() {
 			return this;
 		}
 
@@ -119,7 +119,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<Boolean> {
+	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 
 		public StarCheckBox(Boolean selected) {
 			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
@@ -129,7 +129,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JCheckBox getFieldComponent() {
 			return this;
 		}
 
@@ -140,7 +140,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class ComboBox extends JComboBox implements ConfigurationFieldType<Object> {
+	public static class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
 
 		public ComboBox(ComboBoxModel model, Object selectedItem) {
 			super(model);
@@ -153,7 +153,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JComboBox getFieldComponent() {
 			return this;
 		}
 
@@ -164,7 +164,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class TextArea extends JTextArea implements ConfigurationFieldType<String> {
+	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
 
 		public TextArea(String text) {
 			super(text, 5, 20);
@@ -172,7 +172,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JTextArea getFieldComponent() {
 			return this;
 		}
 
@@ -183,14 +183,14 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class TextField extends JTextField implements ConfigurationFieldType<String> {
+	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
 
 		public TextField(String text) {
 			super(text);
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JTextField getFieldComponent() {
 			return this;
 		}
 
@@ -201,7 +201,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<String> {
+	public static class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
 
 		public FormattedTextField(AbstractFormatter formatter, String text) {
 			super(formatter);
@@ -209,7 +209,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JFormattedTextField getFieldComponent() {
 			return this;
 		}
 
@@ -220,14 +220,14 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<String> {
+	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
 
 		public PasswordField(String password) {
 			super(password);
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JPasswordField getFieldComponent() {
 			return this;
 		}
 
@@ -238,7 +238,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public static class ColorChooser extends JButton implements ConfigurationFieldType<Color> {
+	public static class ColorChooser extends JButton implements ConfigurationFieldType<JButton, Color> {
 
 		JColorChooser colorChooser;
 
@@ -275,7 +275,7 @@ public interface ConfigurationFieldType<Type> {
 		}
 
 		@Override
-		public Component getFieldComponent() {
+		public JButton getFieldComponent() {
 			return this;
 		}
 
@@ -286,7 +286,7 @@ public interface ConfigurationFieldType<Type> {
 
 	}
 
-	public abstract Component getFieldComponent();
-	public abstract Type getFieldValue();
+	public abstract ComponentType getFieldComponent();
+	public abstract ValueType getFieldValue();
 
 }
