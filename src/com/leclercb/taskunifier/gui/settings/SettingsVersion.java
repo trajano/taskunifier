@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.settings;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.logger.GuiLogger;
 
 public final class SettingsVersion {
 
@@ -38,6 +39,8 @@ public final class SettingsVersion {
 	}
 
 	private static String updateSettings_0_5_2() {
+		GuiLogger.getLogger().info("update settings from version 0.5.2 to 0.6");
+
 		Settings.setStringProperty("date.date_format", "dd/MM/yyyy");
 		Settings.setStringProperty("date.time_format", "HH:mm");
 
