@@ -24,13 +24,14 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JFormattedTextField;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -38,7 +39,7 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.gui.models.GoalListModel;
+import com.leclercb.taskunifier.gui.models.LocationListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
@@ -48,8 +49,8 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 
 	private JTextField locationTitle;
 	private JTextArea locationDescription;
-	private JFormattedTextField locationLatitude;
-	private JFormattedTextField locationLongitude;
+	private JTextField locationLatitude;
+	private JTextField locationLongitude;
 
 	public LocationConfigurationPanel() {
 		this.initialize();
@@ -58,12 +59,12 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 	private void initialize() {
 		// Initialize Fields
 		this.locationTitle = new JTextField(30);
-		this.locationDescription = new JTextArea();
-		this.locationLatitude = new JFormattedTextField(0.0);
-		this.locationLongitude = new JFormattedTextField(0.0);
+		this.locationDescription = new JTextArea(5, 20);
+		this.locationLatitude = new JTextField();
+		this.locationLongitude = new JTextField();
 
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new GoalListModel()) {
+		final ModelList modelList = new ModelList(new LocationListModel()) {
 
 			@Override
 			public void addModel() {
@@ -96,10 +97,10 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 					locationDescription.setText("");
 
 					locationLatitude.setEnabled(false);
-					locationLatitude.setValue(0.0);
+					locationLatitude.setText("");
 
 					locationLongitude.setEnabled(false);
-					locationLongitude.setValue(0.0);
+					locationLongitude.setText("");
 					return;
 				}
 
@@ -112,10 +113,10 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 				locationDescription.setText(location.getDescription());
 
 				locationLatitude.setEnabled(true);
-				locationLatitude.setValue(location.getLatitude());
+				locationLatitude.setText(location.getLatitude() + "");
 
 				locationLongitude.setEnabled(true);
-				locationLongitude.setValue(location.getLongitude());
+				locationLongitude.setText(location.getLongitude() + "");
 			}
 
 		};
@@ -154,6 +155,7 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 		label = new JLabel(Translations.getString("general.location.description") + ":", JLabel.TRAILING);
 		info.add(label);
 
+		locationDescription.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		locationDescription.setEnabled(false);
 		locationDescription.addKeyListener(new KeyAdapter() {
 
@@ -175,8 +177,17 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 
 			@Override
 			public void keyReleased(KeyEvent event) {
-				Location location = (Location) modelList.getSelectedModel();
-				location.setLatitude((Double) locationLatitude.getValue());
+				try {
+					System.out.println(locationLatitude.getText());
+					double latitude = Double.parseDouble(locationLatitude.getText());
+					System.out.println("not error " + latitude);
+					locationLatitude.setBackground(UIManager.getColor("TextField.background"));
+					Location location = (Location) modelList.getSelectedModel();
+					location.setLatitude(latitude);
+				} catch (NumberFormatException e) {
+					System.out.println("error");
+					locationLatitude.setBackground(Color.RED);
+				}
 			}
 
 		});
@@ -191,8 +202,14 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 
 			@Override
 			public void keyReleased(KeyEvent event) {
-				Location location = (Location) modelList.getSelectedModel();
-				location.setLongitude((Double) locationLongitude.getValue());
+				try {
+					double longitude = Double.parseDouble(locationLongitude.getText());
+					locationLongitude.setBackground(UIManager.getColor("TextField.background"));
+					Location location = (Location) modelList.getSelectedModel();
+					location.setLongitude(longitude);
+				} catch (NumberFormatException e) {
+					locationLongitude.setBackground(Color.RED);
+				}
 			}
 
 		});
@@ -222,17 +239,20 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 			if (!EqualsUtils.equals(this.locationTitle.getText(), evt.getNewValue()))
 				this.locationTitle.setText((String) evt.getNewValue());
 		}
+
 		if (evt.getPropertyName().equals(Location.PROP_DESCRIPTION)) {
 			if (!EqualsUtils.equals(this.locationDescription.getText(), evt.getNewValue()))
 				this.locationDescription.setText((String) evt.getNewValue());
 		}
+
 		if (evt.getPropertyName().equals(Location.PROP_LATITUDE)) {
-			if (!EqualsUtils.equals(this.locationLatitude.getText(), evt.getNewValue()))
-				this.locationLatitude.setValue(evt.getNewValue());
+			if (!EqualsUtils.equals(Double.parseDouble(this.locationLatitude.getText()), evt.getNewValue()))
+				this.locationLatitude.setText(evt.getNewValue() + "");
 		}
+
 		if (evt.getPropertyName().equals(Location.PROP_LONGITUDE)) {
-			if (!EqualsUtils.equals(this.locationLongitude.getText(), evt.getNewValue()))
-				this.locationLongitude.setValue(evt.getNewValue());
+			if (!EqualsUtils.equals(Double.parseDouble(this.locationLongitude.getText()), evt.getNewValue()))
+				this.locationLongitude.setText(evt.getNewValue() + "");
 		}
 	}
 

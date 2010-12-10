@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
+import com.leclercb.taskunifier.gui.models.GoalContributeComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalListModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -62,7 +62,7 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 		// Initialize Fields
 		this.goalTitle = new JTextField(30);
 		this.goalLevel = new JComboBox(GoalLevel.values());
-		this.goalContributes = new JComboBox(new GoalComboxBoxModel());
+		this.goalContributes = new JComboBox(new GoalContributeComboxBoxModel());
 
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new GoalListModel()) {
@@ -104,15 +104,13 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 
 				Goal goal = (Goal) model;
 
-				System.out.println(goal.toDetailedString());
-
 				goalTitle.setEnabled(true);
 				goalTitle.setText(goal.getTitle());
 
 				goalLevel.setEnabled(true);
 				goalLevel.setSelectedItem(goal.getLevel());
 
-				goalContributes.setEnabled(true);
+				goalContributes.setEnabled(!goal.getLevel().equals(GoalLevel.LIFE_TIME));
 				goalContributes.setSelectedItem(goal.getContributes());
 			}
 
@@ -158,9 +156,10 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				// TODO : if life-time disable...
 				Goal goal = (Goal) modelList.getSelectedModel();
 				goal.setLevel((GoalLevel) goalLevel.getSelectedItem());
+
+				goalContributes.setEnabled(!goal.getLevel().equals(GoalLevel.LIFE_TIME));
 			}
 
 		});
@@ -176,7 +175,8 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) modelList.getSelectedModel();
-				goal.setContributes((Goal) goalContributes.getSelectedItem());
+				if (!EqualsUtils.equals(goal.getContributes(), goalContributes.getSelectedItem()))
+					goal.setContributes((Goal) goalContributes.getSelectedItem());
 			}
 
 		});
@@ -213,8 +213,10 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 		}
 
 		if (evt.getPropertyName().equals(Goal.PROP_CONTRIBUTES)) {
-			if (!EqualsUtils.equals(this.goalContributes.getSelectedItem(), evt.getNewValue()))
+			if (!EqualsUtils.equals(this.goalContributes.getSelectedItem(), evt.getNewValue())) {
+				System.out.println("here " + this.goalContributes.getSelectedItem() + " " + evt.getNewValue());
 				this.goalContributes.setSelectedItem((Goal) evt.getNewValue());
+			}
 		}
 	}
 

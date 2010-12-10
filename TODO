@@ -1,6 +1,5 @@
 Finish sorter/filter GUI
 Improve error handling
-Improve models dialog
 Implements Repeat field
 
-Review components (about, configuration, searcherlist, statusbar), MainFrame
+Review components (searcheredit, synchronize, tasks), MainFrame

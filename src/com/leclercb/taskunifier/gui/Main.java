@@ -34,6 +34,7 @@ import org.pushingpixels.substance.api.skin.SkinInfo;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
+import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -171,6 +172,10 @@ public class Main {
 		} catch (FileNotFoundException e) {}
 
 		try {
+			new LocationFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "locations.xml"));
+		} catch (FileNotFoundException e) {}
+
+		try {
 			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "tasks.xml"));
 		} catch (FileNotFoundException e) {}
 
@@ -194,6 +199,7 @@ public class Main {
 			new ContextFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "contexts.xml"));
 			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "folders.xml"));
 			new GoalFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "goals.xml"));
+			new LocationFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "locations.xml"));
 			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "tasks.xml"));
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "searchers.xml"));
 

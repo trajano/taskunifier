@@ -68,6 +68,10 @@ public class ModelConfigurationDialog extends JDialog {
 		tabbedPane.addTab(
 				Translations.getString("general.goals"), 
 				new GoalConfigurationPanel());
+
+		tabbedPane.addTab(
+				Translations.getString("general.locations"), 
+				new LocationConfigurationPanel());
 	}
 
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
