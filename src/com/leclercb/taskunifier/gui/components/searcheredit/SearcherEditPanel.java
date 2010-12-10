@@ -20,16 +20,16 @@ public class SearcherEditPanel extends JPanel {
 	private void initialize(TaskSearcher searcher) {
 		this.setLayout(new BorderLayout());
 
-		JPanel panel = null;
-
-		panel = new JPanel(new BorderLayout());
+		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.add(panel, BorderLayout.CENTER);
+
 		TaskSearcherPanel searcherPanel = new TaskSearcherPanel(searcher);
-		panel.add(searcherPanel, BorderLayout.CENTER);
-		this.add(panel, BorderLayout.NORTH);
+		panel.add(searcherPanel, BorderLayout.NORTH);
 
 		JSplitPane splitPane = new JSplitPane();
-		this.add(splitPane, BorderLayout.CENTER);
+		splitPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		panel.add(splitPane, BorderLayout.CENTER);
 
 		TaskSorterPanel sorterPanel = new TaskSorterPanel(searcher.getSorter());
 		splitPane.setLeftComponent(sorterPanel);

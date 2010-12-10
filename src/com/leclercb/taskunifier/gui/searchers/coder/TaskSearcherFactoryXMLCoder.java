@@ -131,7 +131,8 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 				}
 
 				if (nSearcher.item(i).getNodeName().equals("icon")) {
-					icon = nSearcher.item(i).getTextContent();
+					if (nSearcher.item(i).getTextContent().length() != 0)
+						icon = nSearcher.item(i).getTextContent();
 				}
 
 				if (nSearcher.item(i).getNodeName().equals("sorter")) {

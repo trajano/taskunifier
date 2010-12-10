@@ -19,6 +19,7 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskFilterPanel extends JPanel {
 
@@ -120,13 +121,13 @@ public class TaskFilterPanel extends JPanel {
 
 		};
 
-		addElementButton = new JButton(Images.getResourceImage("add.png", 16, 16));
+		addElementButton = new JButton(Translations.getString("searcheredit.add_element"), Images.getResourceImage("add.png", 16, 16));
 		addElementButton.setActionCommand("ADD_ELEMENT");
 		addElementButton.addActionListener(listener);
 		addElementButton.setEnabled(false);
 		buttonsPanel.add(addElementButton);
 
-		addFilterButton = new JButton(Images.getResourceImage("add.png", 16, 16));
+		addFilterButton = new JButton(Translations.getString("searcheredit.add_filter"), Images.getResourceImage("add.png", 16, 16));
 		addFilterButton.setActionCommand("ADD_FILTER");
 		addFilterButton.addActionListener(listener);
 		addFilterButton.setEnabled(false);
