@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.leclercb.taskunifier.api.event.ListenerList;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
@@ -40,14 +41,14 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		return FACTORY;
 	}
 
-	private List<ListChangeListener> listChangelisteners;
-	private List<PropertyChangeListener> propertyChangelisteners;
+	private ListenerList<ListChangeListener> listChangeListenerList;
+	private ListenerList<PropertyChangeListener> propertyChangeListenerList;
 
 	private List<TaskSearcher> searchers;
 
 	private TaskSearcherFactory() {
-		listChangelisteners = new ArrayList<ListChangeListener>();
-		propertyChangelisteners = new ArrayList<PropertyChangeListener>();
+		listChangeListenerList = new ListenerList<ListChangeListener>();
+		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 
 		searchers = new ArrayList<TaskSearcher>();
 	}
@@ -123,11 +124,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 * @param listener the listener to notify
 	 */
 	@Override
-	public synchronized void addListChangeListener(ListChangeListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!listChangelisteners.contains(listener))
-			listChangelisteners.add(listener);
+	public void addListChangeListener(ListChangeListener listener) {
+		listChangeListenerList.addListener(listener);
 	}
 
 	/**
@@ -136,8 +134,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 * @param listener listener to remove
 	 */
 	@Override
-	public synchronized void removeListChangeListener(ListChangeListener listener) {
-		listChangelisteners.remove(listener);
+	public void removeListChangeListener(ListChangeListener listener) {
+		listChangeListenerList.addListener(listener);
 	}
 
 	/**
@@ -146,11 +144,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 * @param listener the listener to notify
 	 */
 	@Override
-	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!propertyChangelisteners.contains(listener))
-			propertyChangelisteners.add(listener);
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeListenerList.addListener(listener);
 	}
 
 	/**
@@ -159,8 +154,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 * @param listener listener to remove
 	 */
 	@Override
-	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangelisteners.remove(listener);
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeListenerList.removeListener(listener);
 	}
 
 	/**
@@ -174,8 +169,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		firePropertyChange(event);
 	}
 
-	protected synchronized void fireListChange(ListChangeEvent event) {
-		for (ListChangeListener listener : listChangelisteners)
+	protected void fireListChange(ListChangeEvent event) {
+		for (ListChangeListener listener : listChangeListenerList)
 			listener.listChange(event);
 	}
 
@@ -183,8 +178,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		fireListChange(new ListChangeEvent(this, changeType, index, value));
 	}
 
-	protected synchronized void firePropertyChange(PropertyChangeEvent evt) {
-		for (PropertyChangeListener listener : propertyChangelisteners)
+	protected void firePropertyChange(PropertyChangeEvent evt) {
+		for (PropertyChangeListener listener : propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}
 

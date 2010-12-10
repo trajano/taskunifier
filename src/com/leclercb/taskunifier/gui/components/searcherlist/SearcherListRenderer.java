@@ -72,7 +72,8 @@ class SearcherListRenderer extends JPanel implements ListCellRenderer {
 			icon.setIcon(null);
 			text.setText(Translations.getString("searcherlist.none"));
 		} else if (value instanceof TaskSearcher) {
-			icon.setIcon(Images.getImage(((TaskSearcher) value).getIcon(), 24, 24));
+			if (((TaskSearcher) value).getIcon() != null)
+				icon.setIcon(Images.getImage(((TaskSearcher) value).getIcon(), 24, 24));
 			text.setText(value.toString());
 		} else {
 			text.setText(value.toString());

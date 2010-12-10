@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.SortOrder;
 
+import com.leclercb.taskunifier.api.event.ListenerList;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
@@ -86,14 +87,14 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 
 	}
 
-	private List<ListChangeListener> listChangelisteners;
-	private List<PropertyChangeListener> propertyChangelisteners;
+	private ListenerList<ListChangeListener> listChangeListenerList;
+	private ListenerList<PropertyChangeListener> propertyChangeListenerList;
 
 	private List<TaskSorterElement> elements;
 
 	public TaskSorter() {
-		listChangelisteners = new ArrayList<ListChangeListener>();
-		propertyChangelisteners = new ArrayList<PropertyChangeListener>();
+		listChangeListenerList = new ListenerList<ListChangeListener>();
+		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 
 		this.elements = new ArrayList<TaskSorterElement>();
 	}
@@ -133,29 +134,23 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	@Override
-	public synchronized void addListChangeListener(ListChangeListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!listChangelisteners.contains(listener))
-			listChangelisteners.add(listener);
+	public void addListChangeListener(ListChangeListener listener) {
+		listChangeListenerList.addListener(listener);
 	}
 
 	@Override
-	public synchronized void removeListChangeListener(ListChangeListener listener) {
-		listChangelisteners.remove(listener);
+	public void removeListChangeListener(ListChangeListener listener) {
+		listChangeListenerList.removeListener(listener);
 	}
 
 	@Override
-	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!propertyChangelisteners.contains(listener))
-			propertyChangelisteners.add(listener);
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeListenerList.addListener(listener);
 	}
 
 	@Override
-	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangelisteners.remove(listener);
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeListenerList.removeListener(listener);
 	}
 
 	@Override
@@ -163,8 +158,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		firePropertyChange(event);
 	}
 
-	protected synchronized void fireListChange(ListChangeEvent event) {
-		for (ListChangeListener listener : listChangelisteners)
+	protected void fireListChange(ListChangeEvent event) {
+		for (ListChangeListener listener : listChangeListenerList)
 			listener.listChange(event);
 	}
 
@@ -172,8 +167,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		fireListChange(new ListChangeEvent(this, changeType, index, value));
 	}
 
-	protected synchronized void firePropertyChange(PropertyChangeEvent evt) {
-		for (PropertyChangeListener listener : propertyChangelisteners)
+	protected void firePropertyChange(PropertyChangeEvent evt) {
+		for (PropertyChangeListener listener : propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}
 

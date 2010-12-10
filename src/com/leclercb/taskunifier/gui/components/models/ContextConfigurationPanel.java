@@ -58,7 +58,7 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 
 			@Override
 			public void addModel() {
-				Model model = ContextFactory.getInstance().create("Context");
+				Model model = ContextFactory.getInstance().create(Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
 				focusAndSelectTextInTextField(contextTitle);
 			}
@@ -66,7 +66,7 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 			@Override
 			public void removeModel(Model model) {
 				modelSelected(null);
-				ContextFactory.getInstance().markDeleted((Context) this.getSelectedModel());
+				ContextFactory.getInstance().markToDelete((Context) this.getSelectedModel());
 			}
 
 			@Override

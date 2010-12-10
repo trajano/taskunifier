@@ -45,7 +45,11 @@ abstract class AbstractModelListModel extends DefaultListModel implements ModelL
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.indexOf(event.getSource());
-			this.fireContentsChanged(this, index, index);
+
+			if (index == -1)
+				this.addElement(event.getSource());
+			else
+				this.fireContentsChanged(this, index, index);
 		}
 	}
 

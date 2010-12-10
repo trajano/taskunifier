@@ -19,8 +19,8 @@ package com.leclercb.taskunifier.gui.components.models;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -69,7 +69,7 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 
 			@Override
 			public void addModel() {
-				Model model = GoalFactory.getInstance().create("Goal");
+				Model model = GoalFactory.getInstance().create(Translations.getString("goal.default.title"));
 				this.setSelectedModel(model);
 				focusAndSelectTextInTextField(goalTitle);
 			}
@@ -77,7 +77,7 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 			@Override
 			public void removeModel(Model model) {
 				modelSelected(null);
-				GoalFactory.getInstance().markDeleted((Goal) this.getSelectedModel());
+				GoalFactory.getInstance().markToDelete((Goal) this.getSelectedModel());
 			}
 
 			@Override
@@ -103,6 +103,8 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 				}
 
 				Goal goal = (Goal) model;
+
+				System.out.println(goal.toDetailedString());
 
 				goalTitle.setEnabled(true);
 				goalTitle.setText(goal.getTitle());
@@ -152,10 +154,10 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 
 		goalLevel.setEnabled(false);
 		goalLevel.setRenderer(new GoalLevelListCellRenderer());
-		goalLevel.addActionListener(new ActionListener() {
+		goalLevel.addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent event) {
+			public void itemStateChanged(ItemEvent e) {
 				// TODO : if life-time disable...
 				Goal goal = (Goal) modelList.getSelectedModel();
 				goal.setLevel((GoalLevel) goalLevel.getSelectedItem());
@@ -169,10 +171,10 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 		info.add(label);
 
 		goalContributes.setEnabled(false);
-		goalContributes.addActionListener(new ActionListener() {
+		goalContributes.addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent event) {
+			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) modelList.getSelectedModel();
 				goal.setContributes((Goal) goalContributes.getSelectedItem());
 			}

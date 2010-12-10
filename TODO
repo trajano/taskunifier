@@ -1,7 +1,6 @@
 Finish sorter/filter GUI
 Improve error handling
 Improve models dialog
-Translations
-Implements locations
+Implements Repeat field
 
-Review components (about, searcherlist, statusbar), MainFrame
+Review components (about, configuration, searcherlist, statusbar), MainFrame

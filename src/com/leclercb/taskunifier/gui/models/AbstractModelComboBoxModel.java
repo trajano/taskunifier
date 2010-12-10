@@ -45,7 +45,11 @@ abstract class AbstractModelComboBoxModel extends DefaultComboBoxModel implement
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());
-			this.fireContentsChanged(this, index, index);
+
+			if (index == -1)
+				this.addElement(event.getSource());
+			else
+				this.fireContentsChanged(this, index, index);
 		}
 	}
 

@@ -59,7 +59,7 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 
 			@Override
 			public void addModel() {
-				Model model = FolderFactory.getInstance().create("Folder");
+				Model model = FolderFactory.getInstance().create(Translations.getString("folder.default.title"));
 				this.setSelectedModel(model);
 				focusAndSelectTextInTextField(folderTitle);
 			}
@@ -67,7 +67,7 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 			@Override
 			public void removeModel(Model model) {
 				modelSelected(null);
-				FolderFactory.getInstance().markDeleted((Folder) this.getSelectedModel());
+				FolderFactory.getInstance().markToDelete((Folder) this.getSelectedModel());
 			}
 
 			@Override

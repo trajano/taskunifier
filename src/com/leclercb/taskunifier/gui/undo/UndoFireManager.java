@@ -18,65 +18,57 @@
 package com.leclercb.taskunifier.gui.undo;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.event.ListenerList;
 
 public class UndoFireManager extends UndoManager {
 
-	private List<IUndoListener> undoListeners;
-	private List<IRedoListener> redoListeners;
+	private ListenerList<IUndoListener> undoListenerList;
+	private ListenerList<IRedoListener> redoListenerList;
 
 	public UndoFireManager() {
-		undoListeners = new ArrayList<IUndoListener>();
-		redoListeners = new ArrayList<IRedoListener>();
+		undoListenerList = new ListenerList<IUndoListener>();
+		redoListenerList = new ListenerList<IRedoListener>();
 	}
 
 	public void addUndoListener(IUndoListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!undoListeners.contains(listener))
-			undoListeners.add(listener);
+		undoListenerList.addListener(listener);
 	}
 
 	public void removeUndoListener(IUndoListener listener) {
-		undoListeners.remove(listener);
+		undoListenerList.removeListener(listener);
 	}
 
 	protected void fireUndoPerformed() {
-		for (IUndoListener listener : undoListeners)
+		for (IUndoListener listener : undoListenerList)
 			listener.undoPerformed(new ActionEvent(this, 0, null));
 	}
 
 	public void addRedoListener(IRedoListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
-		if (!redoListeners.contains(listener))
-			redoListeners.add(listener);
+		redoListenerList.addListener(listener);
 	}
 
 	public void removeRedoListener(IRedoListener listener) {
-		redoListeners.remove(listener);
+		redoListenerList.removeListener(listener);
 	}
 
 	protected void fireRedoPerformed() {
-		for (IRedoListener listener : redoListeners)
+		for (IRedoListener listener : redoListenerList)
 			listener.redoPerformed(new ActionEvent(this, 0, null));
 	}
 
 	@Override
-	public synchronized void undo() throws CannotUndoException {
+	public void undo() throws CannotUndoException {
 		super.undo();
 		fireUndoPerformed();
 	}
 
 	@Override
-	public synchronized void redo() throws CannotRedoException {
+	public void redo() throws CannotRedoException {
 		super.redo();
 		fireRedoPerformed();
 	}
