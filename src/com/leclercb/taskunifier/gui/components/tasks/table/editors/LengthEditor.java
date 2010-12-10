@@ -28,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableCellEditor;
 
+import com.leclercb.taskunifier.api.settings.Settings;
+
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 
 	private JSpinner timeSpinner;
@@ -35,7 +37,9 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 	public LengthEditor() {
 		timeSpinner = new JSpinner();
 		timeSpinner.setModel(new SpinnerDateModel());
-		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+		timeSpinner.setEditor(new JSpinner.DateEditor(
+				timeSpinner, 
+				Settings.getStringProperty("date.time_format")));
 	}
 
 	@Override

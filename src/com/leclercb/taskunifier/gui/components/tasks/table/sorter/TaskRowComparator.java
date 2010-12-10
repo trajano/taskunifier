@@ -24,9 +24,11 @@ import javax.swing.SortOrder;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
@@ -112,6 +114,9 @@ public class TaskRowComparator implements RowComparator<Object> {
 		case GOAL: 
 			result = compareModels(((Goal) o1), ((Goal) o2));
 			break;
+		case LOCATION: 
+			result = compareModels(((Location) o1), ((Location) o2));
+			break;
 		case PARENT:
 			result = compareModels(((Task) o1), ((Task) o2));
 			break;
@@ -132,6 +137,9 @@ public class TaskRowComparator implements RowComparator<Object> {
 			break;
 		case REPEAT: 
 			result = ((String) o1).compareTo((String) o2);
+			break;
+		case REPEAT_FROM: 
+			result = ((TaskRepeatFrom) o1).compareTo((TaskRepeatFrom) o2);
 			break;
 		case STATUS: 
 			result = ((TaskStatus) o1).compareTo((TaskStatus) o2);
