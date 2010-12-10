@@ -43,12 +43,14 @@ public abstract class ConfigurationPanel extends JPanel {
 		ConfigurationField field = getField(id);
 
 		if (field == null)
-			return null;
+			throw new IllegalArgumentException("Id not found");
 
 		return field.getType().getFieldValue();
 	}
 
 	public ConfigurationField getField(String id) {
+		CheckUtils.isNotNull(id, "Id cannot be null");
+
 		for (ConfigurationField field : fields)
 			if (EqualsUtils.equals(id, field.getId()))
 				return field;

@@ -23,8 +23,11 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -33,6 +36,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPa
 import com.leclercb.taskunifier.gui.models.ContextComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboxBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
+import com.leclercb.taskunifier.gui.models.LocationComboxBoxModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 
@@ -57,16 +61,22 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		if (this.getValue("GOAL") != null)
 			goal = ((Goal) this.getValue("GOAL")).getModelId();
 
+		ModelId location = null;
+		if (this.getValue("LOCATION") != null)
+			location = ((Location) this.getValue("LOCATION")).getModelId();
+
 		Settings.setStringProperty("task.default.title", (String) this.getValue("TITLE"));
 		Settings.setStringProperty("task.default.tags", (String) this.getValue("TAGS"));
 		Settings.setModelIdProperty("task.default.folder", folder);
 		Settings.setModelIdProperty("task.default.context", context);
 		Settings.setModelIdProperty("task.default.goal", goal);
+		Settings.setModelIdProperty("task.default.location", location);
 		Settings.setBooleanProperty("task.default.completed", (Boolean) this.getValue("COMPLETED"));
 		Settings.setStringProperty("task.default.due_date", (String) this.getValue("DUE_DATE"));
 		Settings.setStringProperty("task.default.start_date", (String) this.getValue("START_DATE"));
 		Settings.setStringProperty("task.default.reminder", (String) this.getValue("REMINDER"));
 		Settings.setStringProperty("task.default.repeat", (String) this.getValue("REPEAT"));
+		Settings.setEnumProperty("task.default.repeat_from", TaskRepeatFrom.class, (TaskRepeatFrom) this.getValue("REPEAT_FROM"));
 		Settings.setEnumProperty("task.default.status", TaskStatus.class, (TaskStatus) this.getValue("STATUS"));
 		Settings.setEnumProperty("task.default.priority", TaskPriority.class, (TaskPriority) this.getValue("PRIORITY"));
 		Settings.setBooleanProperty("task.default.star", (Boolean) this.getValue("STAR"));
@@ -79,11 +89,13 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Folder taskFolderValue = null;
 		Context taskContextValue = null;
 		Goal taskGoalValue = null;
+		Location taskLocationValue = null;
 		Boolean taskCompletedValue = false;
 		String taskDueDateValue = "";
 		String taskStartDateValue = "";
 		String taskReminderValue = "";
 		String taskRepeatValue = "";
+		TaskRepeatFrom taskRepeatFromValue = TaskRepeatFrom.DUE_DATE;
 		TaskStatus taskStatusValue = TaskStatus.NONE;
 		TaskPriority taskPriorityValue = TaskPriority.LOW;
 		Boolean taskStarValue = false;
@@ -110,6 +122,11 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 			taskGoalValue = GoalFactory.getInstance().get(modelId);
 		}
 
+		if (Settings.getModelIdProperty("task.default.location") != null) {
+			ModelId modelId = Settings.getModelIdProperty("task.default.location");
+			taskLocationValue = LocationFactory.getInstance().get(modelId);
+		}
+
 		if (Settings.getBooleanProperty("task.default.completed") != null)
 			taskCompletedValue = Settings.getBooleanProperty("task.default.completed");
 
@@ -124,6 +141,9 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 
 		if (Settings.getStringProperty("task.default.repeat") != null)
 			taskRepeatValue = Settings.getStringProperty("task.default.repeat");
+
+		if (Settings.getEnumProperty("task.default.repeat_from", TaskRepeatFrom.class) != null)
+			taskRepeatFromValue = (TaskRepeatFrom) Settings.getEnumProperty("task.default.repeat_from", TaskRepeatFrom.class);
 
 		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
 			taskStatusValue = (TaskStatus) Settings.getEnumProperty("task.default.status", TaskStatus.class);
@@ -168,6 +188,11 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.ComboBox(new GoalComboxBoxModel(), taskGoalValue)));
 
 		this.addField(new ConfigurationField(
+				"LOCATION", 
+				Translations.getString("general.task.location"), 
+				new ConfigurationFieldType.ComboBox(new LocationComboxBoxModel(), taskLocationValue)));
+
+		this.addField(new ConfigurationField(
 				"COMPLETED", 
 				Translations.getString("general.task.completed"), 
 				new ConfigurationFieldType.CheckBox(taskCompletedValue)));
@@ -191,6 +216,11 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 				"REPEAT", 
 				Translations.getString("general.task.repeat"), 
 				new ConfigurationFieldType.TextField(taskRepeatValue)));
+
+		this.addField(new ConfigurationField(
+				"REPEAT_FROM", 
+				Translations.getString("general.task.repeat_from"), 
+				new ConfigurationFieldType.ComboBox(TaskRepeatFrom.values(), taskRepeatFromValue)));
 
 		this.addField(new ConfigurationField(
 				"STATUS", 

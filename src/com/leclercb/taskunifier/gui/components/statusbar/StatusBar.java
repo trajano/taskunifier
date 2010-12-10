@@ -72,7 +72,7 @@ public class StatusBar extends JPanel {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if (event.getPropertyName().equals("synchronizer.last_synchronization_date")) {
-					String date = "Never";
+					String date = Translations.getString("statusbar.never");
 
 					if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
 						dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date").getTime());

@@ -1,6 +1,7 @@
 Finish sorter/filter GUI
 Improve error handling
+Improve models dialog
 Translations
 Implements locations
 
-Review components (about ok), MainFrame
+Review components (about, searcherlist, statusbar), MainFrame

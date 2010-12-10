@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.models.ContextTaskSe
 import com.leclercb.taskunifier.gui.components.searcherlist.models.FolderTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GeneralTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.GoalTaskSearcherListModel;
+import com.leclercb.taskunifier.gui.components.searcherlist.models.LocationTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.PersonalTaskSearcherListModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.models.TaskSearcherListModel;
 import com.leclercb.taskunifier.gui.images.Images;
@@ -135,6 +136,12 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		list.setModel(new GoalTaskSearcherListModel());
 		this.lists.add(list);
 		this.initializeList(Translations.getString("general.goals"), list, panel);
+
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setModel(new LocationTaskSearcherListModel());
+		this.lists.add(list);
+		this.initializeList(Translations.getString("general.locations"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

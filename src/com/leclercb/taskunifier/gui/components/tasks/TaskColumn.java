@@ -24,6 +24,7 @@ import java.util.Comparator;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -38,9 +39,10 @@ public enum TaskColumn {
 	FOLDER(Folder.class, 3, Translations.getString("general.task.folder"), 100, true, true),
 	CONTEXT(Context.class, 4, Translations.getString("general.task.context"), 100, true, true),
 	GOAL(Goal.class, 5, Translations.getString("general.task.goal"), 100, true, true),
-	PARENT(Task.class, 6, Translations.getString("general.task.parent"), 100, false, false),
-	COMPLETED(Boolean.class, 7, Translations.getString("general.task.completed"), 100, true, true),
-	COMPLETED_ON(Calendar.class, 8, Translations.getString("general.task.completed_on"), 100, false, true),
+	LOCATION(Location.class, 6, Translations.getString("general.task.location"), 100, true, true),
+	PARENT(Task.class, 7, Translations.getString("general.task.parent"), 100, false, false),
+	COMPLETED(Boolean.class, 8, Translations.getString("general.task.completed"), 100, true, true),
+	COMPLETED_ON(Calendar.class, 9, Translations.getString("general.task.completed_on"), 100, false, true),
 	DUE_DATE(Calendar.class, 10, Translations.getString("general.task.due_date"), 150, true, true),
 	START_DATE(Calendar.class, 11, Translations.getString("general.task.start_date"), 150, true, true),
 	REMINDER(Integer.class, 12, Translations.getString("general.task.reminder"), 100, true, true),
@@ -154,6 +156,8 @@ public enum TaskColumn {
 			return task.getContext();
 		case GOAL: 
 			return task.getGoal();
+		case LOCATION:
+			return task.getLocation();
 		case PARENT:
 			return task.getParent();
 		case COMPLETED: 
@@ -205,6 +209,9 @@ public enum TaskColumn {
 			break;
 		case GOAL:
 			task.setGoal((Goal) value);
+			break;
+		case LOCATION:
+			task.setLocation((Location) value);
 			break;
 		case PARENT:
 			task.setParent((Task) value);

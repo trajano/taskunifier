@@ -36,6 +36,7 @@ public class ConfigurationField {
 	}
 
 	public void setId(String id) {
+		CheckUtils.isNotNull(id, "Id cannot be null");
 		this.id = id;
 	}
 

@@ -23,10 +23,10 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.models.GoalListModel;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
