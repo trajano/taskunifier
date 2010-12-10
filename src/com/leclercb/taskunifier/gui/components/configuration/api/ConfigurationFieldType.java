@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,7 +36,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 import com.leclercb.taskunifier.gui.images.Images;
 
@@ -168,7 +168,7 @@ public interface ConfigurationFieldType<Type> {
 
 		public TextArea(String text) {
 			super(text, 5, 20);
-			this.setBorder(new LineBorder(Color.GRAY));
+			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		}
 
 		@Override

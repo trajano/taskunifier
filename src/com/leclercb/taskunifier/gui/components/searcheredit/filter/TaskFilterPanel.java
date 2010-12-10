@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
@@ -69,7 +70,7 @@ public class TaskFilterPanel extends JPanel {
 
 		});
 
-		treePanel.add(this.tree, BorderLayout.CENTER);
+		treePanel.add(new JScrollPane(this.tree), BorderLayout.CENTER);
 
 		this.add(treePanel, BorderLayout.CENTER);
 

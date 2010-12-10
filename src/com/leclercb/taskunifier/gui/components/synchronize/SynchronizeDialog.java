@@ -229,12 +229,21 @@ public class SynchronizeDialog extends JDialog {
 
 					try {
 						synchronizer.synchronize(choice, monitor);
-					} catch (SynchronizerException e) {
-						JOptionPane.showMessageDialog(
-								null, 
-								e.getMessage(), 
-								"Error during synchronization", 
-								JOptionPane.ERROR_MESSAGE);
+					} catch (final SynchronizerException e) {
+						SwingUtilities.invokeLater(new Runnable() {
+
+							@Override
+							public void run() {
+								JOptionPane.showMessageDialog(
+										null, 
+										e.getMessage(), 
+										"Error during synchronization", 
+										JOptionPane.ERROR_MESSAGE);
+							}
+
+						});
+
+						return null;
 					}
 
 					Thread.sleep(1000);
