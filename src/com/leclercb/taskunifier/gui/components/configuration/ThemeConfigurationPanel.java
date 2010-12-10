@@ -90,6 +90,11 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 			themeColorOddValue = Settings.getColorProperty("theme.color.odd");
 
 		this.addField(new ConfigurationField(
+				"LOOK_AND_FEEL_PREVIEW",
+				null,
+				new ConfigurationFieldType.Label(Translations.getString("configuration.theme.look_and_feel_preview"))));
+
+		this.addField(new ConfigurationField(
 				"LOOK_AND_FEEL", 
 				Translations.getString("configuration.theme.look_and_feel"), 
 				new ConfigurationFieldType.ComboBox(LookAndFeelUtils.getLookAndFeels().toArray(), themeLookAndFeelValue)));
