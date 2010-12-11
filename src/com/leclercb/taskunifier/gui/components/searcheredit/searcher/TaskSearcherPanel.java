@@ -112,7 +112,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 
 		});
 
-		panel.add(new JLabel(Translations.getString("searcheredit.searcher.icon")));
+		panel.add(new JLabel(Translations.getString("searcheredit.searcher.icon") + ":"));
 		panel.add(iconPanel);
 
 		// Title
@@ -126,7 +126,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 
 		});
 
-		panel.add(new JLabel(Translations.getString("searcheredit.searcher.title")));
+		panel.add(new JLabel(Translations.getString("searcheredit.searcher.title") + ":"));
 		panel.add(searcherTitle);
 
 		// Lay out the panel
