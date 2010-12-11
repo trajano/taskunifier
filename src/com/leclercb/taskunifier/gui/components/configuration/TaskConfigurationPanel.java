@@ -34,10 +34,10 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType.ComboBox;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.models.ContextComboxBoxModel;
-import com.leclercb.taskunifier.gui.models.FolderComboxBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalComboxBoxModel;
-import com.leclercb.taskunifier.gui.models.LocationComboxBoxModel;
+import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
+import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
+import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
+import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -179,22 +179,22 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"FOLDER", 
 				Translations.getString("general.task.folder"), 
-				new ConfigurationFieldType.ComboBox(new FolderComboxBoxModel(), taskFolderValue)));
+				new ConfigurationFieldType.ComboBox(new FolderComboBoxModel(), taskFolderValue)));
 
 		this.addField(new ConfigurationField(
 				"CONTEXT", 
 				Translations.getString("general.task.context"), 
-				new ConfigurationFieldType.ComboBox(new ContextComboxBoxModel(), taskContextValue)));
+				new ConfigurationFieldType.ComboBox(new ContextComboBoxModel(), taskContextValue)));
 
 		this.addField(new ConfigurationField(
 				"GOAL", 
 				Translations.getString("general.task.goal"), 
-				new ConfigurationFieldType.ComboBox(new GoalComboxBoxModel(), taskGoalValue)));
+				new ConfigurationFieldType.ComboBox(new GoalComboBoxModel(), taskGoalValue)));
 
 		this.addField(new ConfigurationField(
 				"LOCATION", 
 				Translations.getString("general.task.location"), 
-				new ConfigurationFieldType.ComboBox(new LocationComboxBoxModel(), taskLocationValue)));
+				new ConfigurationFieldType.ComboBox(new LocationComboBoxModel(), taskLocationValue)));
 
 		this.addField(new ConfigurationField(
 				"COMPLETED", 

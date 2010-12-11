@@ -19,23 +19,23 @@ package com.leclercb.taskunifier.gui.models;
 
 import java.util.List;
 
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 
-public class GoalComboxBoxModel extends AbstractModelComboBoxModel {
+public class TaskListModel extends AbstractModelListModel {
 
-	public GoalComboxBoxModel() {
+	public TaskListModel() {
 		this.addElement(null);
 
-		List<Goal> goals = GoalFactory.getInstance().getList();
-		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED) ||
-					goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(goal);
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		for (Task task : tasks)
+			if (task.getModelStatus().equals(ModelStatus.LOADED) ||
+					task.getModelStatus().equals(ModelStatus.TO_UPDATE))
+				this.addElement(task);
 
-		GoalFactory.getInstance().addListChangeListener(this);
-		GoalFactory.getInstance().addPropertyChangeListener(this);
+		TaskFactory.getInstance().addListChangeListener(this);
+		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
 
 }

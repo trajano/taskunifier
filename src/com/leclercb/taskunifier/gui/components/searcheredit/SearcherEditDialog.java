@@ -41,7 +41,7 @@ public class SearcherEditDialog extends JDialog {
 
 	private void initialize(TaskSearcher searcher) {
 		this.setTitle(Translations.getString("searcheredit.title"));
-		this.setSize(800, 400);
+		this.setSize(800, 500);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 

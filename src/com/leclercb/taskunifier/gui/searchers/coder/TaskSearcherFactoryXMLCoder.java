@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter.CalendarCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.NumberCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -259,6 +260,18 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 								column, 
 								condition, 
 								value);
+					} else if (conditionClass.equals("NumberCondition")) {
+						NumberCondition condition = NumberCondition.valueOf(enumName);
+						Number value = null;
+
+						if (valueStr != null) {
+							value = Double.parseDouble(valueStr);
+						}
+
+						element = new TaskFilterElement(
+								column, 
+								condition, 
+								value);
 					} else if (conditionClass.equals("EnumCondition")) {
 						EnumCondition condition = EnumCondition.valueOf(enumName);
 						Enum<?> value = null;
@@ -419,6 +432,11 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 
 				if (e.getValue() != null)
 					value.setTextContent((String) e.getValue());
+			} else if (e.getCondition() instanceof TaskFilter.NumberCondition) {
+				condition.setTextContent("NumberCondition." + e.getCondition().name());
+
+				if (e.getValue() != null)
+					value.setTextContent(((Number) e.getValue()) + "");
 			} else if (e.getCondition() instanceof TaskFilter.EnumCondition) {
 				condition.setTextContent("EnumCondition." + e.getCondition().name());
 

@@ -5,6 +5,7 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
@@ -14,6 +15,7 @@ public class TaskFilterElementTreeNode implements TreeNode {
 	private TaskFilterElement element;
 
 	public TaskFilterElementTreeNode(TaskFilterElement element) {
+		CheckUtils.isNotNull(element, "Element cannot be null");
 		this.element = element;
 	}
 
@@ -24,8 +26,8 @@ public class TaskFilterElementTreeNode implements TreeNode {
 	@Override
 	public String toString() {
 		return this.element.getColumn() + " " + 
-		this.element.getCondition() + " " +
-		this.element.getValue();
+		this.element.getCondition() + " \"" +
+		this.element.getValue() + "\"";
 	}
 
 	@Override

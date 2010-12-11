@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.gui.models.GoalContributeComboxBoxModel;
+import com.leclercb.taskunifier.gui.models.GoalContributeComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalListModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -62,7 +62,7 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 		// Initialize Fields
 		this.goalTitle = new JTextField(30);
 		this.goalLevel = new JComboBox(GoalLevel.values());
-		this.goalContributes = new JComboBox(new GoalContributeComboxBoxModel());
+		this.goalContributes = new JComboBox(new GoalContributeComboBoxModel());
 
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new GoalListModel()) {

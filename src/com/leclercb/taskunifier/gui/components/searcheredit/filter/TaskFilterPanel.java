@@ -43,6 +43,10 @@ public class TaskFilterPanel extends JPanel {
 		this.initialize();
 	}
 
+	public TaskFilterTree getTree() {
+		return tree;
+	}
+
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 

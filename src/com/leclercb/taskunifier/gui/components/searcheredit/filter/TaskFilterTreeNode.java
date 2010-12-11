@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
@@ -17,6 +18,7 @@ public class TaskFilterTreeNode implements TreeNode {
 	private TaskFilter filter;
 
 	public TaskFilterTreeNode(TaskFilter filter) {
+		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filter = filter;
 	}
 

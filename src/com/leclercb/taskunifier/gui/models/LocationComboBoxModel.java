@@ -23,9 +23,9 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-public class LocationComboxBoxModel extends AbstractModelComboBoxModel {
+public class LocationComboBoxModel extends AbstractModelComboBoxModel {
 
-	public LocationComboxBoxModel() {
+	public LocationComboBoxModel() {
 		this.addElement(null);
 
 		List<Location> locations = LocationFactory.getInstance().getList();
