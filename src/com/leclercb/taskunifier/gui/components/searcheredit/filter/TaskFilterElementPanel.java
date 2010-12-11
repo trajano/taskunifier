@@ -2,14 +2,18 @@ package com.leclercb.taskunifier.gui.components.searcheredit.filter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.SpringLayout;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -61,8 +65,13 @@ public class TaskFilterElementPanel extends JPanel {
 			case LENGTH:
 				value = Integer.parseInt(elementValue.getSelectedItem().toString());
 				break;
+			case COMPLETED:
+			case STAR:
+				value = elementValue.getSelectedItem().toString();
+				break;
 			default:
 				value = elementValue.getSelectedItem();
+				break;
 			}
 
 			this.element.checkAndSet(
@@ -99,6 +108,29 @@ public class TaskFilterElementPanel extends JPanel {
 
 		elementColumn.setModel(new DefaultComboBoxModel(TaskColumn.values()));
 		elementColumn.setSelectedItem(column);
+
+		ListCellRenderer renderer = new DefaultListCellRenderer() {
+
+			@Override
+			public Component getListCellRendererComponent(JList list, Object value,
+					int index, boolean isSelected, boolean cellHasFocus) {
+				Component component = super.getListCellRendererComponent(
+						list, value, index, isSelected, cellHasFocus);
+
+				if (value == null || !(value instanceof Boolean)) {
+					setText("");
+					return component;
+				}
+
+				if (((Boolean) value))
+					setText(Translations.getString("general.yes"));
+				else
+					setText(Translations.getString("general.no"));
+
+				return component;
+			}
+
+		};
 
 		switch (column) {
 		case TITLE: 
@@ -145,8 +177,9 @@ public class TaskFilterElementPanel extends JPanel {
 			break;
 		case COMPLETED: 
 			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
-			elementValue.setModel(new DefaultComboBoxModel(new Object[] {"true", "false"}));
-			elementValue.setSelectedItem(value == null? "false" : value + "");
+			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
+			elementValue.setRenderer(renderer);
+			elementValue.setSelectedItem(value == null? false : value);
 			elementValue.setEditable(false);
 			break;
 		case COMPLETED_ON: 
@@ -205,8 +238,9 @@ public class TaskFilterElementPanel extends JPanel {
 			break;
 		case STAR: 
 			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
-			elementValue.setModel(new DefaultComboBoxModel(new Object[] {"true", "false"}));
-			elementValue.setSelectedItem(value == null? "false" : value + "");
+			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
+			elementValue.setRenderer(renderer);
+			elementValue.setSelectedItem(value == null? false : value);
 			elementValue.setEditable(false);
 			break;
 		case NOTE:
