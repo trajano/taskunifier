@@ -62,7 +62,11 @@ public class TaskFilterElementPanel extends JPanel {
 			case LENGTH:
 				value = Integer.parseInt(elementValue.getSelectedItem().toString());
 				break;
+			default:
+				value = elementValue.getSelectedItem();
 			}
+
+			System.out.println("Value=" + value);
 
 			this.element.checkAndSet(
 					(TaskColumn) elementColumn.getSelectedItem(), 
@@ -203,6 +207,8 @@ public class TaskFilterElementPanel extends JPanel {
 			elementValue.setEditable(true);
 			break;
 		}
+
+		elementCondition.setSelectedItem(element.getCondition());
 
 		this.element = element;
 	}
