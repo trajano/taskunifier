@@ -5,18 +5,25 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.Link;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -61,12 +68,69 @@ public class TaskFilterPanel extends JPanel {
 						addElementButton.setEnabled(true);
 						addFilterButton.setEnabled(true);
 						return;
+					} else if (node instanceof TaskFilterElementTreeNode) {
+						addElementButton.setEnabled(false);
+						addFilterButton.setEnabled(false);
+						removeButton.setEnabled(true);
+						return;
 					}
 				}
 
 				addElementButton.setEnabled(false);
 				addFilterButton.setEnabled(false);
 				removeButton.setEnabled(false);
+			}
+
+		});
+		this.tree.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseReleased(MouseEvent event) {
+				// Or BUTTON3 due to a bug with OSX
+				if (event.isPopupTrigger() || event.getButton() == MouseEvent.BUTTON3) {
+					TreePath path = tree.getPathForLocation(event.getX(), event.getY());
+					final TreeNode node = (TreeNode) path.getLastPathComponent();
+
+					if (node instanceof TaskFilterTreeNode) {
+						JPopupMenu popup = new JPopupMenu();
+
+						ButtonGroup group = new ButtonGroup();
+
+						JRadioButtonMenuItem itemAnd = new JRadioButtonMenuItem(Link.AND.toString());
+						JRadioButtonMenuItem itemOr = new JRadioButtonMenuItem(Link.OR.toString());
+
+						group.add(itemAnd);
+						group.add(itemOr);
+
+						popup.add(itemAnd);
+						popup.add(itemOr);
+
+						if (((TaskFilterTreeNode) node).getFilter().getLink().equals(Link.AND))
+							itemAnd.setSelected(true);
+						else
+							itemOr.setSelected(true);
+
+						itemAnd.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent evt) {
+								((TaskFilterTreeNode) node).getFilter().setLink(Link.AND);
+							}
+
+						});
+
+						itemOr.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent evt) {
+								((TaskFilterTreeNode) node).getFilter().setLink(Link.OR);
+							}
+
+						});
+
+						popup.show(event.getComponent(), event.getX(), event.getY());
+					}
+				}
 			}
 
 		});
@@ -97,12 +161,16 @@ public class TaskFilterPanel extends JPanel {
 						TaskFilterElement element = new TaskFilterElement(
 								TaskColumn.TITLE, 
 								StringCondition.EQUALS, 
-						"");
+								""
+						);
 
 						((TaskFilterTreeNode) node).getFilter().addElement(element);
 					} else if (event.getActionCommand().equals("ADD_FILTER")) {
 						((TaskFilterTreeNode) node).getFilter().addFilter(new TaskFilter());
 					}
+
+					for (int i=0; i<tree.getRowCount(); i++)
+						tree.expandRow(i);
 				} else {
 					TreeNode node = (TreeNode) tree.getLastSelectedPathComponent();
 

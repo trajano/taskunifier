@@ -540,6 +540,9 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	protected void fireListChange(ListChangeEvent event) {
+		if (getParent() != null)
+			getParent().fireListChange(event);
+
 		for (ListChangeListener listener : listChangeListenerList)
 			listener.listChange(event);
 	}
@@ -549,6 +552,9 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	protected void firePropertyChange(PropertyChangeEvent evt) {
+		if (getParent() != null)
+			getParent().firePropertyChange(evt);
+
 		for (PropertyChangeListener listener : propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}

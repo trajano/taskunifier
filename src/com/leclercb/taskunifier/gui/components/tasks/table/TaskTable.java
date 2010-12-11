@@ -78,6 +78,7 @@ import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskTable extends JTable {
 
@@ -317,7 +318,7 @@ public class TaskTable extends JTable {
 			public void mouseReleased(MouseEvent event) {
 				// Or BUTTON3 due to a bug with OSX
 				if (event.isPopupTrigger() || event.getButton() == MouseEvent.BUTTON3) {
-					JPopupMenu popup = new JPopupMenu("Columns");
+					JPopupMenu popup = new JPopupMenu(Translations.getString("general.columns"));
 
 					int x = 0;
 					TaskColumn[] currentTaskColumns = new TaskColumn[getColumnCount()];
