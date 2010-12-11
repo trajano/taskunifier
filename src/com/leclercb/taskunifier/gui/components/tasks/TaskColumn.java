@@ -117,6 +117,11 @@ public enum TaskColumn {
 		this.visible = visible;
 	}
 
+	@Override
+	public String toString() {
+		return label;
+	}
+
 	public static TaskColumn[] getValues(boolean onlyVisible) {
 		TaskColumn[] columns = TaskColumn.values();
 		Arrays.sort(columns, new Comparator<TaskColumn>() {
