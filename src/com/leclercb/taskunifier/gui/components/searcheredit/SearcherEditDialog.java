@@ -33,6 +33,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherEditDialog extends JDialog {
 
+	private SearcherEditPanel searcherEditPanel;
+
 	public SearcherEditDialog(Frame frame, boolean modal, TaskSearcher searcher) {
 		super(frame, modal);
 
@@ -48,7 +50,7 @@ public class SearcherEditDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 
-		SearcherEditPanel searcherEditPanel = new SearcherEditPanel(searcher);
+		searcherEditPanel = new SearcherEditPanel(searcher);
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -65,6 +67,7 @@ public class SearcherEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
+					searcherEditPanel.close();
 					MainFrame.getInstance().refreshTasks();
 					SearcherEditDialog.this.dispose();
 				}

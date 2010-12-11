@@ -54,8 +54,14 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		splitPane.setDividerLocation(300);
 	}
 
+	public void close() {
+		elementPanel.saveElement();
+	}
+
 	@Override
 	public void valueChanged(TreeSelectionEvent evt) {
+		elementPanel.saveElement();
+
 		if (filterPanel.getTree().getSelectionCount() != 0) {
 			TreeNode node = (TreeNode) filterPanel.getTree().getLastSelectedPathComponent();
 

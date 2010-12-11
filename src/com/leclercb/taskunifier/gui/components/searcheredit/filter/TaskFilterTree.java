@@ -21,6 +21,9 @@ public class TaskFilterTree extends JTree {
 		renderer.setOpenIcon(Images.getResourceImage("tree_open.png"));
 		renderer.setClosedIcon(Images.getResourceImage("tree_closed.png"));
 		this.setCellRenderer(renderer);
+
+		for (int i=0; i<this.getRowCount(); i++)
+			this.expandRow(i);
 	}
 
 }
