@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
@@ -162,10 +163,11 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 						try {
 							saveAndApplyConfig();
 
-							TaskFactory.getInstance().deleteAll();
 							ContextFactory.getInstance().deleteAll();
 							FolderFactory.getInstance().deleteAll();
 							GoalFactory.getInstance().deleteAll();
+							LocationFactory.getInstance().deleteAll();
+							TaskFactory.getInstance().deleteAll();
 
 							SynchronizerUtils.resetSynchronizerSettings();
 
