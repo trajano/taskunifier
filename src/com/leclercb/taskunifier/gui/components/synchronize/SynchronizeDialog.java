@@ -182,7 +182,6 @@ public class SynchronizeDialog extends JDialog {
 					SynchronizerUtils.initializeProxy();
 
 					progressStatus.append(Translations.getString("synchronize.connecting_toodledo") + "\n");
-
 					ToodledoConnection connection = null;
 
 					try {
@@ -207,7 +206,7 @@ public class SynchronizeDialog extends JDialog {
 								JOptionPane.showMessageDialog(
 										null, 
 										e.getMessage(), 
-										"Error during connection with Toodledo", 
+										Translations.getString("general.error"), 
 										JOptionPane.ERROR_MESSAGE);
 							}
 
@@ -223,7 +222,7 @@ public class SynchronizeDialog extends JDialog {
 
 					SynchronizerUtils.initializeSynchronizer(synchronizer);
 
-					final SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
+					SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
 							"synchronizer.choice", 
 							SynchronizerChoice.class);
 
@@ -237,7 +236,7 @@ public class SynchronizeDialog extends JDialog {
 								JOptionPane.showMessageDialog(
 										null, 
 										e.getMessage(), 
-										"Error during synchronization", 
+										Translations.getString("general.error"), 
 										JOptionPane.ERROR_MESSAGE);
 							}
 
