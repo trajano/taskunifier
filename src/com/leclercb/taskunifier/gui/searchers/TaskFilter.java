@@ -90,7 +90,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 
 	public static enum DaysCondition implements Condition<Integer, Calendar> {
 
-		MORE_THAN, MORE_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS, EQUALS;
+		GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS, EQUALS;
 
 		@Override
 		public Class<?> getValueType() {
@@ -109,11 +109,11 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			long diff = milliSeconds1 - milliSeconds2;
 			double diffDays = diff / (24 * 60 * 60 * 1000.0);
 
-			if (this == MORE_THAN) {
+			if (this == GREATER_THAN) {
 				return diffDays > value;
 			}
 
-			if (this == MORE_THAN_OR_EQUALS) {
+			if (this == GREATER_THAN_OR_EQUALS) {
 				return diffDays >= value;
 			}
 
@@ -177,7 +177,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 
 	public static enum NumberCondition implements Condition<Number, Number> {
 
-		MORE_THAN, MORE_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS, EQUALS;
+		GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS, EQUALS, NOT_EQUALS;
 
 		@Override
 		public Class<?> getValueType() {
@@ -191,11 +191,11 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 
 		@Override
 		public boolean include(Number value, Number taskValue) {
-			if (this == MORE_THAN) {
+			if (this == GREATER_THAN) {
 				return taskValue.doubleValue() > value.doubleValue();
 			}
 
-			if (this == MORE_THAN_OR_EQUALS) {
+			if (this == GREATER_THAN_OR_EQUALS) {
 				return taskValue.doubleValue() >= value.doubleValue();
 			}
 
@@ -209,6 +209,10 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 
 			if (this == EQUALS) {
 				return taskValue.doubleValue() == value.doubleValue();
+			}
+
+			if (this == NOT_EQUALS) {
+				return taskValue.doubleValue() != value.doubleValue();
 			}
 
 			return false;

@@ -9,6 +9,7 @@ import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilterElementTreeNode implements TreeNode {
 
@@ -25,9 +26,15 @@ public class TaskFilterElementTreeNode implements TreeNode {
 
 	@Override
 	public String toString() {
-		return this.element.getColumn() + " " + 
-		this.element.getCondition() + " \"" +
-		this.element.getValue() + "\"";
+		String str = this.element.getColumn() + " " + 
+		TranslationsUtils.translateTaskFilterCondition(this.element.getCondition()) + " \"";
+
+		if (this.element.getColumn().getType().equals(Boolean.class))
+			str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.element.getValue().toString()));
+		else
+			str += this.element.getValue();
+
+		return str + "\"";
 	}
 
 	@Override

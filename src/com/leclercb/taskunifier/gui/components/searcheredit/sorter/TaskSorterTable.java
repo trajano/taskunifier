@@ -10,7 +10,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.renderers.SortOrderListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 
 public class TaskSorterTable extends JTable {
@@ -27,12 +29,18 @@ public class TaskSorterTable extends JTable {
 		// RENDERERS
 		ORDER_RENDERER = new DefaultTableCellRenderer();
 		COLUMN_RENDERER = new DefaultTableCellRenderer();
-		SORT_ORDER_RENDERER = new DefaultTableCellRenderer();
+		SORT_ORDER_RENDERER = new TaskSorterSortOrderRenderer();
 
 		// EDITORS
 		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
 		COLUMN_EDITOR = new DefaultCellEditor(new JComboBox(TaskColumn.values()));
-		SORT_ORDER_EDITOR = new DefaultCellEditor(new JComboBox(SortOrder.values()));
+
+		JComboBox comboBox = null;
+
+		comboBox = new JComboBox(SortOrder.values());
+		comboBox.setRenderer(new SortOrderListCellRenderer());
+
+		SORT_ORDER_EDITOR = new DefaultCellEditor(comboBox);
 	}
 
 	public TaskSorterTable(TaskSorter sorter) {

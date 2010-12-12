@@ -12,6 +12,7 @@ import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilterTreeNode implements TreeNode {
 
@@ -28,7 +29,7 @@ public class TaskFilterTreeNode implements TreeNode {
 
 	@Override
 	public String toString() {
-		return this.filter.getLink() + "";
+		return TranslationsUtils.translateTaskFilterLink(this.filter.getLink());
 	}
 
 	@Override

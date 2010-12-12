@@ -2,18 +2,14 @@ package com.leclercb.taskunifier.gui.components.searcheredit.filter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.SpringLayout;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -25,6 +21,8 @@ import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
 import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
 import com.leclercb.taskunifier.gui.models.TaskComboBoxModel;
+import com.leclercb.taskunifier.gui.renderers.BooleanListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskFilterConditionListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -109,29 +107,6 @@ public class TaskFilterElementPanel extends JPanel {
 		elementColumn.setModel(new DefaultComboBoxModel(TaskColumn.values()));
 		elementColumn.setSelectedItem(column);
 
-		ListCellRenderer renderer = new DefaultListCellRenderer() {
-
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value,
-					int index, boolean isSelected, boolean cellHasFocus) {
-				Component component = super.getListCellRendererComponent(
-						list, value, index, isSelected, cellHasFocus);
-
-				if (value == null || !(value instanceof Boolean)) {
-					setText("");
-					return component;
-				}
-
-				if (((Boolean) value))
-					setText(Translations.getString("general.yes"));
-				else
-					setText(Translations.getString("general.no"));
-
-				return component;
-			}
-
-		};
-
 		switch (column) {
 		case TITLE: 
 			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
@@ -178,7 +153,7 @@ public class TaskFilterElementPanel extends JPanel {
 		case COMPLETED: 
 			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
 			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
-			elementValue.setRenderer(renderer);
+			elementValue.setRenderer(new BooleanListCellRenderer());
 			elementValue.setSelectedItem(value == null? false : value);
 			elementValue.setEditable(false);
 			break;
@@ -239,7 +214,7 @@ public class TaskFilterElementPanel extends JPanel {
 		case STAR: 
 			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
 			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
-			elementValue.setRenderer(renderer);
+			elementValue.setRenderer(new BooleanListCellRenderer());
 			elementValue.setSelectedItem(value == null? false : value);
 			elementValue.setEditable(false);
 			break;
@@ -264,9 +239,9 @@ public class TaskFilterElementPanel extends JPanel {
 		panel.setLayout(new SpringLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		panel.add(new JLabel(Translations.getString("searcheredit.element.column")));
-		panel.add(new JLabel(Translations.getString("searcheredit.element.condition")));
-		panel.add(new JLabel(Translations.getString("searcheredit.element.value")));
+		panel.add(new JLabel(Translations.getString("searcheredit.element.column") + ":"));
+		panel.add(new JLabel(Translations.getString("searcheredit.element.condition") + ":"));
+		panel.add(new JLabel(Translations.getString("searcheredit.element.value") + ":"));
 
 		// Column
 		elementColumn = new JComboBox();
@@ -287,6 +262,7 @@ public class TaskFilterElementPanel extends JPanel {
 
 		// Condition
 		elementCondition = new JComboBox();
+		elementCondition.setRenderer(new TaskFilterConditionListCellRenderer());
 		elementCondition.setEnabled(false);
 
 		panel.add(elementCondition);

@@ -11,6 +11,7 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskSorterTableModel extends DefaultTableModel implements ListChangeListener, PropertyChangeListener {
 
@@ -42,9 +43,9 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	@Override
 	public String getColumnName(int col) {
 		switch(col) {
-		case 0: return "Order";
-		case 1: return "Column";
-		case 2: return "Sort order";
+		case 0: return Translations.getString("task_sorter.order");
+		case 1: return Translations.getString("task_sorter.column");
+		case 2: return Translations.getString("task_sorter.sort_order");
 		default: return null;
 		}
 	}
