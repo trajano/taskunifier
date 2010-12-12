@@ -81,14 +81,14 @@ public class TaskFilterElementPanel extends JPanel {
 
 	public void setElement(TaskFilterElement element) {
 		if (element == null)
-			resetFields(null, null);
+			resetFields(null, null, null);
 		else
-			resetFields(element.getColumn(), element.getValue());
+			resetFields(element.getColumn(), element.getCondition(), element.getValue());
 
 		this.element = element;
 	}
 
-	private void resetFields(TaskColumn column, Object value) {
+	private void resetFields(TaskColumn column, TaskFilter.Condition<?, ?> condition, Object value) {
 		TaskFilterElement currentElement = this.element;
 		this.element = null;
 
@@ -226,7 +226,10 @@ public class TaskFilterElementPanel extends JPanel {
 			break;
 		}
 
-		elementCondition.setSelectedIndex(0);
+		if (condition == null)
+			elementCondition.setSelectedIndex(0);
+		else
+			elementCondition.setSelectedItem(condition);
 
 		this.element = currentElement;
 	}
@@ -253,7 +256,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (element == null)
 					return;
 
-				resetFields((TaskColumn) elementColumn.getSelectedItem(), null);
+				resetFields((TaskColumn) elementColumn.getSelectedItem(), null, null);
 			}
 
 		});
