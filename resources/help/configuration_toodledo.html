@@ -1,18 +1,50 @@
 <html>
 	<head>
 		<title>TaskUnifier: Configuration - Toodledo</title>
+		
+		<style type="text/css">
+		dt {
+    		font-weight:bold;
+    		margin-top:15px;
+		}
+		</style>
 	</head>
 	<body>
-		<ul>
-			<li>Email:<br />
+		<dl>
+			<dt>Email:</dt>
+			<dd>
 				The email of your Toodledo account
-			</li>
-			<li>Password:<br />
+			</dd>
+			<dt>Password:</dt>
+			<dd>
 				The password of your Toodledo account
-			</li>
-			<li>Keep completed tasks for X days</li>
+			</dd>
+			<dt>Conflict choice:</dt>
+			<dd>
+				When a task has been edited in Toodledo and in TaskUnifier since the last time you synchronized TaskUnifier,
+				TaskUnifier has to make a choice, keep the Toodledo version of the task, keep the TaskUnifier version of the task
+				or keep the last updated one (recommended).
+			</dd>
+			<dt>Keep completed tasks for X days</dt>
+			<dd>
 				Only the tasks that are completed for less than X days will be kept in TaskUnifier.
 				The other tasks will of course still be present on Toodledo's website.
-			</li>
+			</dd>
+			<dt>Create account:</dt>
+			<dd>
+				Creates a Toodledo account. Once created, you can log in on Toodledo.com and synchronize your tasks
+				with TaskUnifier.
+			</dd>
+			<dt>Synchronize all data with Toodledo:</dt>
+			<dd>
+				The contexts, folders, goals, locations and tasks you updated will be sent to Toodledo.
+				Then all the contexts, folders, goals, locations and tasks will be reloaded from Toodledo.
+			</dd>
+			<dt>Remove all the data from the application and replace them with Toodledo's:</dt>
+			<dd>
+				Remove all the contexts, folders, goals, locations and tasks from TaskUnifier.
+				Then all the contexts, folders, goals, locations and tasks will be reloaded from Toodledo.
+			</dd>
+		</dl>
 	</body>
 </html>

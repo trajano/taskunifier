@@ -35,6 +35,7 @@ import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.lookandfeel.types.JTattooLookAndFeelDescriptor;
@@ -56,6 +57,7 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
+			loadShutdownHook();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -205,7 +207,20 @@ public class Main {
 			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor("jTattoo - " + jtattoo.getProperty(key.toString()), key.toString()));
 	}
 
-	public static void stop() {
+	private static void loadShutdownHook() {
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+
+			@Override
+			public void run() {
+				Main.stop();
+			}
+
+		});
+	}
+
+	private static void stop() {
+		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
+
 		try {
 			new ContextFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "contexts.xml"));
 			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "folders.xml"));
@@ -224,8 +239,6 @@ public class Main {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		System.exit(0);
 	}
 
 	public static void saveSettings() throws FileNotFoundException, IOException {

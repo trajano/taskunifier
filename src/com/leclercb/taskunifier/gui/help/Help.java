@@ -120,6 +120,7 @@ public final class Help {
 			pane.setContentType("text/html");
 			pane.setText(content);
 			pane.setEditable(false);
+			pane.setCaretPosition(0);
 
 			this.add(new JScrollPane(pane), BorderLayout.CENTER);
 		}

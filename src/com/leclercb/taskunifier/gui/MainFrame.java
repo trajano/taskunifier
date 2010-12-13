@@ -102,6 +102,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
 
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSizeSettings();
@@ -110,7 +111,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 			@Override
 			public void windowClosing(WindowEvent event) {
-				Main.stop();
+				System.exit(0);
 			}
 
 			@Override
