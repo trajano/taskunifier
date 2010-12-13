@@ -72,6 +72,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSo
 import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
+import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -101,6 +102,7 @@ public class TaskTable extends JTable {
 	private static final DefaultCellEditor CONTEXT_EDITOR;
 	private static final DefaultCellEditor FOLDER_EDITOR;
 	private static final DefaultCellEditor GOAL_EDITOR;
+	private static final DefaultCellEditor LOCATION_EDITOR;
 	private static final DefaultCellEditor REPEAT_FROM_EDITOR;
 
 	private static final DefaultCellEditor TASK_PRIORITY_EDITOR;
@@ -144,6 +146,7 @@ public class TaskTable extends JTable {
 		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(new ContextComboBoxModel()));
 		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderComboBoxModel()));
 		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalComboBoxModel()));
+		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(new LocationComboBoxModel()));
 
 		JTextField textField = null;
 
@@ -372,6 +375,8 @@ public class TaskTable extends JTable {
 			return CONTEXT_EDITOR;
 		case GOAL:
 			return GOAL_EDITOR;
+		case LOCATION:
+			return LOCATION_EDITOR;
 		case COMPLETED: 
 			return CHECK_BOX_EDITOR;
 		case DUE_DATE:

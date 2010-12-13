@@ -19,6 +19,9 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -59,10 +62,9 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 
 		Task task = ((TaskTable) table).getTask(row);
 
-		if (task.isCompleted())
-			component.setForeground(UIManager.getColor("Label.disabledForeground"));
-		else
-			component.setForeground(UIManager.getColor("Label.foreground"));
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(component.getFont().getAttributes());
+		attributes.put(TextAttribute.STRIKETHROUGH, task.isCompleted());
+		component.setFont(component.getFont().deriveFont(attributes));
 
 		component.setBackground(getBackgroundColor(isSelected, row));
 
