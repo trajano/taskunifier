@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public class ToodledoConfigurationPanel extends ConfigurationPanel {
 
 	public ToodledoConfigurationPanel() {
+		super("configuration_toodledo.html");
 		this.initialize();
 		this.pack();
 	}

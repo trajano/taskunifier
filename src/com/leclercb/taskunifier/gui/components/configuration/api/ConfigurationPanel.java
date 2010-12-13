@@ -29,13 +29,20 @@ import javax.swing.SpringLayout;
 
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.help.Help;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public abstract class ConfigurationPanel extends JPanel {
 
+	private String helpFile;
 	private List<ConfigurationField> fields;
 
 	public ConfigurationPanel() {
+		this(null);
+	}
+
+	public ConfigurationPanel(String helpFile) {
+		this.helpFile = helpFile;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
 
@@ -85,6 +92,11 @@ public abstract class ConfigurationPanel extends JPanel {
 		JLabel label = null;
 		Component component = null;
 
+		if (this.helpFile != null) {
+			panel.add(new JLabel());
+			panel.add(Help.getHelp(this.helpFile));
+		}
+
 		for (ConfigurationField field : fields) {
 			if (field.getLabel() == null)
 				label = new JLabel();
@@ -99,7 +111,7 @@ public abstract class ConfigurationPanel extends JPanel {
 
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(panel,
-				fields.size(), 2, //rows, cols
+				fields.size() + (this.helpFile != null? 1 : 0), 2, //rows, cols
 				6, 6, //initX, initY
 				6, 6); //xPad, yPad
 
