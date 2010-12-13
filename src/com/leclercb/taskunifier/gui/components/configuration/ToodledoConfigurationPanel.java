@@ -26,6 +26,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -50,6 +51,12 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty("toodledo.userid", null);
 		Settings.setStringProperty("toodledo.token", null);
 		Settings.setEnumProperty("synchronizer.choice", SynchronizerChoice.class, (SynchronizerChoice) this.getValue("CHOICE"));
+
+		if (!EqualsUtils.equals(
+				Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days"), 
+				(String) this.getValue("KEEP")))
+			SynchronizerUtils.keepTasksCompletedForXDaysHasChanged();
+
 		Settings.setStringProperty("synchronizer.keep_tasks_completed_for_x_days", (String) this.getValue("KEEP"));
 	}
 

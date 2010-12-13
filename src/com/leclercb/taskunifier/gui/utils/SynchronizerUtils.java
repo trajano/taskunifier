@@ -26,13 +26,17 @@ public final class SynchronizerUtils {
 		}
 	}
 
+	public static void keepTasksCompletedForXDaysHasChanged() {
+		Settings.setCalendarProperty("synchronizer.last_task_edit", null);
+	}
+
 	public static void initializeSynchronizer(ToodledoSynchronizer synchronizer) {
 		synchronizer.setKeepTasksCompletedForXDays(Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days"));
 		synchronizer.setLastContextEdit(Settings.getCalendarProperty("synchronizer.last_context_edit"));
 		synchronizer.setLastFolderEdit(Settings.getCalendarProperty("synchronizer.last_folder_edit"));
 		synchronizer.setLastGoalEdit(Settings.getCalendarProperty("synchronizer.last_goal_edit"));
 		synchronizer.setLastLocationEdit(Settings.getCalendarProperty("synchronizer.last_location_edit"));
-		synchronizer.setLastTaskAddEdit(Settings.getCalendarProperty("synchronizer.last_task_add_edit"));
+		synchronizer.setLastTaskEdit(Settings.getCalendarProperty("synchronizer.last_task_edit"));
 		synchronizer.setLastTaskDelete(Settings.getCalendarProperty("synchronizer.last_task_delete"));
 	}
 
@@ -43,7 +47,7 @@ public final class SynchronizerUtils {
 		Settings.setCalendarProperty("synchronizer.last_folder_edit", synchronizer.getLastFolderEdit());
 		Settings.setCalendarProperty("synchronizer.last_goal_edit", synchronizer.getLastGoalEdit());
 		Settings.setCalendarProperty("synchronizer.last_location_edit", synchronizer.getLastLocationEdit());
-		Settings.setCalendarProperty("synchronizer.last_task_add_edit", synchronizer.getLastTaskAddEdit());
+		Settings.setCalendarProperty("synchronizer.last_task_edit", synchronizer.getLastTaskEdit());
 		Settings.setCalendarProperty("synchronizer.last_task_delete", synchronizer.getLastTaskDelete());
 	}
 
@@ -56,7 +60,7 @@ public final class SynchronizerUtils {
 		Settings.setCalendarProperty("synchronizer.last_folder_edit", null);
 		Settings.setCalendarProperty("synchronizer.last_goal_edit", null);
 		Settings.setCalendarProperty("synchronizer.last_location_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_task_add_edit", null);
+		Settings.setCalendarProperty("synchronizer.last_task_edit", null);
 		Settings.setCalendarProperty("synchronizer.last_task_delete", null);
 		Settings.setCalendarProperty("synchronizer.last_synchronization_date", null);
 	}
