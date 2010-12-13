@@ -1,6 +1,8 @@
 Version 0.6
 	- Toodledo API 2.0
 	- GUI for personal searcher edition
+	- Added JTattoo themes
+	- Remove Substance themes (due to some issues)
 
 Version 0.5.2
 	- Add create account button
