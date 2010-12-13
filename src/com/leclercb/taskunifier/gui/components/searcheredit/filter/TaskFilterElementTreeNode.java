@@ -5,6 +5,9 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
@@ -29,10 +32,24 @@ public class TaskFilterElementTreeNode implements TreeNode {
 		String str = this.element.getColumn() + " " + 
 		TranslationsUtils.translateTaskFilterCondition(this.element.getCondition()) + " \"";
 
-		if (this.element.getColumn().getType().equals(Boolean.class))
+		switch(this.element.getColumn()) {
+		case COMPLETED:
+		case STAR:
 			str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.element.getValue().toString()));
-		else
+			break;
+		case PRIORITY:
+			str += TranslationsUtils.translateTaskPriority((TaskPriority) this.element.getValue());
+			break;
+		case REPEAT_FROM:
+			str += TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) this.element.getValue());
+			break;
+		case STATUS:
+			str += TranslationsUtils.translateTaskStatus((TaskStatus) this.element.getValue());
+			break;
+		default:
 			str += this.element.getValue();
+			break;
+		}
 
 		return str + "\"";
 	}

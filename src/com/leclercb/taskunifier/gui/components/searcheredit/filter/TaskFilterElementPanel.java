@@ -7,6 +7,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +24,9 @@ import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
 import com.leclercb.taskunifier.gui.models.TaskComboBoxModel;
 import com.leclercb.taskunifier.gui.renderers.BooleanListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskFilterConditionListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -107,6 +111,8 @@ public class TaskFilterElementPanel extends JPanel {
 		elementColumn.setModel(new DefaultComboBoxModel(TaskColumn.values()));
 		elementColumn.setSelectedItem(column);
 
+		elementValue.setRenderer(new DefaultListCellRenderer());
+
 		switch (column) {
 		case TITLE: 
 			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
@@ -190,12 +196,14 @@ public class TaskFilterElementPanel extends JPanel {
 		case REPEAT_FROM:
 			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
 			elementValue.setModel(new DefaultComboBoxModel(TaskRepeatFrom.values()));
+			elementValue.setRenderer(new TaskRepeatFromListCellRenderer());
 			elementValue.setSelectedItem(value == null? TaskRepeatFrom.DUE_DATE : value);
 			elementValue.setEditable(false);
 			break;
 		case STATUS: 
 			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
 			elementValue.setModel(new DefaultComboBoxModel(TaskStatus.values()));
+			elementValue.setRenderer(new TaskStatusListCellRenderer());
 			elementValue.setSelectedItem(value == null? TaskStatus.NONE : value);
 			elementValue.setEditable(false);
 			break;
@@ -208,6 +216,7 @@ public class TaskFilterElementPanel extends JPanel {
 		case PRIORITY: 
 			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
 			elementValue.setModel(new DefaultComboBoxModel(TaskPriority.values()));
+			elementValue.setRenderer(new TaskPriorityListCellRenderer());
 			elementValue.setSelectedItem(value == null? TaskPriority.LOW : value);
 			elementValue.setEditable(false);
 			break;
