@@ -19,10 +19,15 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.Color;
 import java.awt.Window;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -54,7 +59,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 
 		Settings.setStringProperty("theme.lookandfeel", laf.getIdentifier());
 
-		if (previousLaf.equals(laf))
+		if (EqualsUtils.equals(previousLaf, laf))
 			return;
 
 		try {
@@ -94,10 +99,21 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 				null,
 				new ConfigurationFieldType.Label(Translations.getString("configuration.theme.look_and_feel_preview"))));
 
+		// Sort look and feels by name
+		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(LookAndFeelUtils.getLookAndFeels());
+		Collections.sort(lookAndFeels, new Comparator<LookAndFeelDescriptor>() {
+
+			@Override
+			public int compare(LookAndFeelDescriptor laf1, LookAndFeelDescriptor laf2) {
+				return laf1.getName().compareTo(laf2.getName());
+			}
+
+		});
+
 		this.addField(new ConfigurationField(
 				"LOOK_AND_FEEL", 
 				Translations.getString("configuration.theme.look_and_feel"), 
-				new ConfigurationFieldType.ComboBox(LookAndFeelUtils.getLookAndFeels().toArray(), themeLookAndFeelValue)));
+				new ConfigurationFieldType.ComboBox(lookAndFeels.toArray(), themeLookAndFeelValue)));
 
 		this.addField(new ConfigurationField(
 				"COLOR_CHANGED_NEXT_STARTUP", 

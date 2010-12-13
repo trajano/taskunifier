@@ -277,12 +277,14 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 						Enum<?> value = null;
 
 						if (valueStr != null) {
-							String[] values = valueStr.split("#");
-							Object[] enums = Class.forName(values[0]).getEnumConstants();
+							String valueClass = valueStr.substring(0, valueStr.lastIndexOf("#"));
+							String valueEnum = valueStr.substring(valueStr.lastIndexOf("#") + 1, valueStr.length());
+
+							Object[] enums = Class.forName(valueClass).getEnumConstants();
 
 							for (int j=0; j<enums.length; j++) {
 								Enum<?> e = (Enum<?>) enums[j];
-								if (e.name().equals(values[1]))
+								if (e.name().equals(valueEnum))
 									value = e;
 							}
 						}

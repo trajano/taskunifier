@@ -23,13 +23,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.SkinInfo;
 
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
@@ -40,7 +37,8 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.gui.lookandfeel.types.SubstanceLookAndFeelDescriptor;
+import com.leclercb.taskunifier.gui.lookandfeel.types.JTattooLookAndFeelDescriptor;
+import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -142,7 +140,7 @@ public class Main {
 			Settings.load(new FileInputStream(DATA_FOLDER + File.separator + "settings.properties"));
 			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
-			Settings.load(Main.class.getResourceAsStream("default_settings.properties"));
+			Settings.load(Resources.class.getResourceAsStream("default_settings.properties"));
 
 			if (!dataFolderCreated)
 				JOptionPane.showMessageDialog(
@@ -185,13 +183,26 @@ public class Main {
 	}
 
 	private static void loadLookAndFeel() throws Exception {
+		// Substance
+		// Substance issues :
+		// State tracking must be done on Event Dispatch Thread
+
+		/*
 		try {
 			Class.forName("org.pushingpixels.substance.api.SubstanceLookAndFeel");
 
 			Map<String, SkinInfo> lafs = SubstanceLookAndFeel.getAllSkins();
 			for (SkinInfo laf : lafs.values())
-				LookAndFeelUtils.addLookAndFeel(new SubstanceLookAndFeelDescriptor(laf.getDisplayName(), laf.getClassName()));
+				LookAndFeelUtils.addLookAndFeel(new SubstanceLookAndFeelDescriptor("Substance - " + laf.getDisplayName(), laf.getClassName()));
 		} catch (ClassNotFoundException exc) {}
+		 */
+
+		// JTattoo
+		Properties jtattoo = new Properties();
+		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
+
+		for (Object key : jtattoo.keySet())
+			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor("jTattoo - " + jtattoo.getProperty(key.toString()), key.toString()));
 	}
 
 	public static void stop() {
