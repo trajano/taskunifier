@@ -111,7 +111,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 			@Override
 			public void windowClosing(WindowEvent event) {
-				System.exit(0);
+				Main.stop();
 			}
 
 			@Override

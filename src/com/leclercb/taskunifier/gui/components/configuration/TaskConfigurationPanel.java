@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 public class TaskConfigurationPanel extends ConfigurationPanel {
 
 	public TaskConfigurationPanel() {
+		super("configuration_task.html");
 		this.initialize();
 		this.pack();
 	}

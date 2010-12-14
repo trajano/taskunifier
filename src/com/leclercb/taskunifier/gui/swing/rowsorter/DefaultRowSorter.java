@@ -518,7 +518,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 			return index;
 		}
-		// TODO : System.out.println(viewToModel);
+		System.out.println(viewToModel);
 		return viewToModel[index].modelIndex;
 	}
 

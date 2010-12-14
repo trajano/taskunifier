@@ -23,6 +23,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -44,7 +45,7 @@ public class ActionQuit extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.exit(0);
+		Main.stop();
 	}
 
 }

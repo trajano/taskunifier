@@ -57,7 +57,6 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
-			loadShutdownHook();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -207,18 +206,7 @@ public class Main {
 			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor("jTattoo - " + jtattoo.getProperty(key.toString()), key.toString()));
 	}
 
-	private static void loadShutdownHook() {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-
-			@Override
-			public void run() {
-				Main.stop();
-			}
-
-		});
-	}
-
-	private static void stop() {
+	public static void stop() {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 
 		try {
@@ -239,6 +227,8 @@ public class Main {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
+		System.exit(0);
 	}
 
 	public static void saveSettings() throws FileNotFoundException, IOException {

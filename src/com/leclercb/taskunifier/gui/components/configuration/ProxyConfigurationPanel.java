@@ -30,6 +30,7 @@ import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 public class ProxyConfigurationPanel extends ConfigurationPanel {
 
 	public ProxyConfigurationPanel() {
+		super("configuration_proxy.html");
 		this.initialize();
 		this.pack();
 	}

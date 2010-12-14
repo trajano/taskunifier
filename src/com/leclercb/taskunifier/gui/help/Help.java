@@ -75,6 +75,7 @@ public final class Help {
 
 		JButton component = new JButton(Images.getResourceImage("help.png", 16, 16));
 		component.setBorderPainted(false);
+		component.setContentAreaFilled(false);
 		component.addActionListener(new HelpActionListener(helpFile));
 
 		panel.add(component);

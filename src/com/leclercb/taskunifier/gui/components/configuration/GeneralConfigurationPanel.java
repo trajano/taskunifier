@@ -32,6 +32,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class GeneralConfigurationPanel extends ConfigurationPanel {
 
 	public GeneralConfigurationPanel() {
+		super("configuration_general.html");
 		this.initialize();
 		this.pack();
 	}
