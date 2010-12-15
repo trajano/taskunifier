@@ -24,12 +24,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class ModelTransferable implements Transferable {
 
-	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(Task.class, "MODEL_FLAVOR");
+	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(ModelTransferData.class, "MODEL_FLAVOR");
 	public static final DataFlavor[] FLAVORS = { MODEL_FLAVOR };
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 
