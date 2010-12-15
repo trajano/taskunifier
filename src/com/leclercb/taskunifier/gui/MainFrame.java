@@ -113,7 +113,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 			@Override
 			public void windowClosing(WindowEvent event) {
-				Main.stop();
+				System.exit(0);
 			}
 
 			@Override
@@ -195,7 +195,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	public void printTasks() throws HeadlessException, PrinterException {
 		this.taskTable.print(PrintMode.FIT_WIDTH, new MessageFormat(Constants.TITLE + " - "
 				+ this.taskTable.getTaskSearcher().getTitle()), new MessageFormat(this.taskTable.getRowCount()
-				+ " tasks | Page - {0}"), true, null, true);
+						+ " tasks | Page - {0}"), true, null, true);
 	}
 
 	private void loadWindowSizeSettings() {

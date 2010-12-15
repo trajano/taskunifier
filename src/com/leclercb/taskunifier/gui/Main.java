@@ -57,6 +57,7 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
+			loadShutdownHook();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -178,7 +179,7 @@ public class Main {
 
 		try {
 			new TaskSearcherFactoryXMLCoder()
-					.decode(new FileInputStream(DATA_FOLDER + File.separator + "searchers.xml"));
+			.decode(new FileInputStream(DATA_FOLDER + File.separator + "searchers.xml"));
 		} catch (FileNotFoundException e) {
 		}
 	}
@@ -208,7 +209,19 @@ public class Main {
 					+ jtattoo.getProperty(key.toString()), key.toString()));
 	}
 
-	public static void stop() {
+	private static void loadShutdownHook() {
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+
+			@Override
+			public void run() {
+				Main.stop();
+			}
+
+		});
+	}
+
+	private static void stop() {
+		System.out.println("Exiting " + Constants.TITLE);
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 
 		try {
@@ -221,6 +234,8 @@ public class Main {
 					+ "searchers.xml"));
 
 			saveSettings();
+
+			MainFrame.getInstance().getFrame().setVisible(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,
@@ -229,8 +244,6 @@ public class Main {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		System.exit(0);
 	}
 
 	public static void saveSettings() throws FileNotFoundException, IOException {

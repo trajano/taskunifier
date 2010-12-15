@@ -21,6 +21,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -36,6 +38,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import com.leclercb.taskunifier.gui.images.Images;
 
@@ -238,13 +241,14 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class ColorChooser extends JButton implements ConfigurationFieldType<JButton, Color> {
+	public static class ColorChooser extends JLabel implements ConfigurationFieldType<JLabel, Color> {
 
 		JColorChooser colorChooser;
 
 		public ColorChooser(Color color) {
+			this.setOpaque(true);
 			this.setBackground(color);
-			this.setBorderPainted(true);
+			this.setBorder(new LineBorder(Color.BLACK));
 
 			colorChooser = new JColorChooser();
 			colorChooser.setColor(color);
@@ -255,18 +259,18 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 					colorChooser,
 					new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							ColorChooser.this.setBackground(colorChooser.getColor());
-						}
-
-					},
-					null);
-
-			this.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent event) {
+					ColorChooser.this.setBackground(colorChooser.getColor());
+				}
+
+			},
+			null);
+
+			this.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
 					colorDialog.setVisible(true);
 				}
 
@@ -274,7 +278,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 		}
 
 		@Override
-		public JButton getFieldComponent() {
+		public JLabel getFieldComponent() {
 			return this;
 		}
 

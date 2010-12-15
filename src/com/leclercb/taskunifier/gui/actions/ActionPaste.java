@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -41,7 +42,7 @@ public class ActionPaste extends AbstractAction {
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.paste"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getPasteAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
 	@Override

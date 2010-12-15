@@ -104,7 +104,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 
 		this.addField(new ConfigurationField("LOOK_AND_FEEL", Translations
 				.getString("configuration.theme.look_and_feel"), new ConfigurationFieldType.ComboBox(lookAndFeels
-				.toArray(), themeLookAndFeelValue)));
+						.toArray(), themeLookAndFeelValue)));
 
 		this.addField(new ConfigurationField("APPLY_THEME", null, new ConfigurationFieldType.Button(Translations
 				.getString("general.apply"), new ActionListener() {
@@ -124,7 +124,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 
 		this.addField(new ConfigurationField("COLORS_ENABLED", Translations
 				.getString("configuration.theme.colors_enabled"), new ConfigurationFieldType.CheckBox(
-				themeColorEnabledValue)));
+						themeColorEnabledValue)));
 
 		this.addField(new ConfigurationField("COLOR_EVEN", Translations.getString("configuration.theme.color_even"),
 				new ConfigurationFieldType.ColorChooser(themeColorEvenValue)));

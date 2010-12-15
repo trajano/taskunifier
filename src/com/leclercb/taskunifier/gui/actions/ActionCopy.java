@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -41,7 +42,7 @@ public class ActionCopy extends AbstractAction {
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.copy"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCopyAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
 	@Override
