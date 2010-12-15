@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.event.ListenerList;
@@ -37,25 +36,29 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
+public class TaskFilter implements PropertyChangeListener, ListChangeModel,
+		PropertyChangeModel, Serializable {
 
 	public static enum Link {
 
-		AND, 
-		OR;
+		AND, OR;
 
 	}
 
 	public static interface Condition<ValueType, TaskValueType> {
 
 		public abstract Class<?> getValueType();
+
 		public abstract Class<?> getTaskValueType();
+
 		public abstract String name();
+
 		public abstract boolean include(ValueType value, TaskValueType taskValue);
 
 	}
 
-	public static enum CalendarCondition implements Condition<Calendar, Calendar> {
+	public static enum CalendarCondition implements
+			Condition<Calendar, Calendar> {
 
 		AFTER, BEFORE, EQUALS;
 
@@ -105,7 +108,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		@Override
 		public boolean include(Integer value, Calendar taskValue) {
 			long milliSeconds1 = taskValue.getTimeInMillis();
-			long milliSeconds2 = GregorianCalendar.getInstance().getTimeInMillis();
+			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
 			long diff = milliSeconds1 - milliSeconds2;
 			double diffDays = diff / (24 * 60 * 60 * 1000.0);
 
@@ -155,15 +158,18 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			}
 
 			if (this == CONTAINS) {
-				return taskValue.toString().toLowerCase().contains(value.toLowerCase());
+				return taskValue.toString().toLowerCase()
+						.contains(value.toLowerCase());
 			}
 
 			if (this == STARTS_WITH) {
-				return taskValue.toString().toLowerCase().startsWith(value.toLowerCase());
+				return taskValue.toString().toLowerCase()
+						.startsWith(value.toLowerCase());
 			}
 
 			if (this == ENDS_WITH) {
-				return taskValue.toString().toLowerCase().endsWith(value.toLowerCase());
+				return taskValue.toString().toLowerCase()
+						.endsWith(value.toLowerCase());
 			}
 
 			if (this == NOT_EQUALS) {
@@ -305,51 +311,63 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		private Condition<?, ?> condition;
 		private Object value;
 
-		public TaskFilterElement(TaskColumn column, Condition<?, ?> condition, Object value) {
+		public TaskFilterElement(TaskColumn column, Condition<?, ?> condition,
+				Object value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, CalendarCondition condition, Calendar value) {
+		public TaskFilterElement(TaskColumn column,
+				CalendarCondition condition, Calendar value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, DaysCondition condition, Integer value) {
+		public TaskFilterElement(TaskColumn column, DaysCondition condition,
+				Integer value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, StringCondition condition, String value) {
+		public TaskFilterElement(TaskColumn column, StringCondition condition,
+				String value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, NumberCondition condition, Number value) {
+		public TaskFilterElement(TaskColumn column, NumberCondition condition,
+				Number value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, EnumCondition condition, Enum<?> value) {
+		public TaskFilterElement(TaskColumn column, EnumCondition condition,
+				Enum<?> value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, ModelCondition condition, Model value) {
+		public TaskFilterElement(TaskColumn column, ModelCondition condition,
+				Model value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, CalendarCondition condition, Calendar value) {
+		public void set(TaskColumn column, CalendarCondition condition,
+				Calendar value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, DaysCondition condition, Integer value) {
+		public void set(TaskColumn column, DaysCondition condition,
+				Integer value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, StringCondition condition, String value) {
+		public void set(TaskColumn column, StringCondition condition,
+				String value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, NumberCondition condition, Number value) {
+		public void set(TaskColumn column, NumberCondition condition,
+				Number value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, EnumCondition condition, Enum<?> value) {
+		public void set(TaskColumn column, EnumCondition condition,
+				Enum<?> value) {
 			this.checkAndSet(column, condition, value);
 		}
 
@@ -357,7 +375,8 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void checkAndSet(TaskColumn column, Condition<?, ?> condition, Object value) {
+		public void checkAndSet(TaskColumn column, Condition<?, ?> condition,
+				Object value) {
 			CheckUtils.isNotNull(column, "Column cannot be null");
 			CheckUtils.isNotNull(condition, "Condition cannot be null");
 
@@ -369,7 +388,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public TaskFilter getParent() {
-			return parent;
+			return this.parent;
 		}
 
 		private void setParent(TaskFilter parent) {
@@ -377,7 +396,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public TaskColumn getColumn() {
-			return column;
+			return this.column;
 		}
 
 		private void setColumn(TaskColumn column) {
@@ -388,7 +407,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public Condition<?, ?> getCondition() {
-			return condition;
+			return this.condition;
 		}
 
 		private void setCondition(Condition<?, ?> condition) {
@@ -399,7 +418,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public Object getValue() {
-			return value;
+			return this.value;
 		}
 
 		private void setValue(Object value) {
@@ -408,38 +427,43 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			this.firePropertyChange(PROP_VALUE, oldValue, value);
 		}
 
-		private void check(TaskColumn column, Condition<?, ?> condition, Object value) {
+		private void check(TaskColumn column, Condition<?, ?> condition,
+				Object value) {
 			if (value != null && !condition.getValueType().isInstance(value))
-				throw new IllegalArgumentException("Value is not an instance of " + condition.getValueType());
+				throw new IllegalArgumentException(
+						"Value is not an instance of "
+								+ condition.getValueType());
 
-			if (!condition.getTaskValueType().isAssignableFrom(column.getType()))
-				throw new IllegalArgumentException("The task column is incompatible with this condition");
+			if (!condition.getTaskValueType()
+					.isAssignableFrom(column.getType()))
+				throw new IllegalArgumentException(
+						"The task column is incompatible with this condition");
 		}
 
 		public boolean include(Task task) {
 			Object taskValue = this.column.getValue(task);
 
-			if (value == null && taskValue == null)
+			if (this.value == null && taskValue == null)
 				return true;
 
-			if (value == null || taskValue == null)
+			if (this.value == null || taskValue == null)
 				return false;
 
-			if (condition instanceof CalendarCondition) {
-				CalendarCondition c = (CalendarCondition) condition;
-				return c.include((Calendar) value, (Calendar) taskValue);
-			} else if (condition instanceof DaysCondition) {
-				DaysCondition c = (DaysCondition) condition;
-				return c.include((Integer) value, (Calendar) taskValue);
-			} else if (condition instanceof StringCondition) {
-				StringCondition c = (StringCondition) condition;
-				return c.include((String) value, (Object) taskValue);
-			} else if (condition instanceof EnumCondition) {
-				EnumCondition c = (EnumCondition) condition;
-				return c.include((Enum<?>) value, (Enum<?>) taskValue);
-			} else if (condition instanceof ModelCondition) {
-				ModelCondition c = (ModelCondition) condition;
-				return c.include((Model) value, (Model) taskValue);
+			if (this.condition instanceof CalendarCondition) {
+				CalendarCondition c = (CalendarCondition) this.condition;
+				return c.include((Calendar) this.value, (Calendar) taskValue);
+			} else if (this.condition instanceof DaysCondition) {
+				DaysCondition c = (DaysCondition) this.condition;
+				return c.include((Integer) this.value, (Calendar) taskValue);
+			} else if (this.condition instanceof StringCondition) {
+				StringCondition c = (StringCondition) this.condition;
+				return c.include((String) this.value, taskValue);
+			} else if (this.condition instanceof EnumCondition) {
+				EnumCondition c = (EnumCondition) this.condition;
+				return c.include((Enum<?>) this.value, (Enum<?>) taskValue);
+			} else if (this.condition instanceof ModelCondition) {
+				ModelCondition c = (ModelCondition) this.condition;
+				return c.include((Model) this.value, (Model) taskValue);
 			}
 
 			return false;
@@ -458,8 +482,8 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	private List<TaskFilterElement> elements;
 
 	public TaskFilter() {
-		listChangeListenerList = new ListenerList<ListChangeListener>();
-		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.listChangeListenerList = new ListenerList<ListChangeListener>();
+		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 
 		this.setParent(null);
 		this.setLink(Link.AND);
@@ -469,7 +493,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	public TaskFilter getParent() {
-		return parent;
+		return this.parent;
 	}
 
 	private void setParent(TaskFilter parent) {
@@ -477,7 +501,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	public Link getLink() {
-		return link;
+		return this.link;
 	}
 
 	public void setLink(Link link) {
@@ -500,7 +524,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	public List<TaskFilterElement> getElements() {
-		return Collections.unmodifiableList(elements);
+		return Collections.unmodifiableList(this.elements);
 	}
 
 	public void addElement(TaskFilterElement element) {
@@ -508,18 +532,18 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		this.elements.add(element);
 		element.setParent(this);
 		element.addPropertyChangeListener(this);
-		int index = elements.indexOf(element);
-		fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
+		int index = this.elements.indexOf(element);
+		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
 	}
 
 	public void removeElement(TaskFilterElement element) {
 		CheckUtils.isNotNull(element, "Element cannot be null");
 
-		int index = elements.indexOf(element);
-		if (elements.remove(element)) {
+		int index = this.elements.indexOf(element);
+		if (this.elements.remove(element)) {
 			element.setParent(null);
 			element.removePropertyChangeListener(this);
-			fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
+			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
 		}
 	}
 
@@ -536,7 +560,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	public List<TaskFilter> getFilters() {
-		return Collections.unmodifiableList(filters);
+		return Collections.unmodifiableList(this.filters);
 	}
 
 	public void addFilter(TaskFilter filter) {
@@ -544,41 +568,41 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		this.filters.add(filter);
 		filter.setParent(this);
 		filter.addPropertyChangeListener(this);
-		int index = filters.indexOf(filter);
-		fireListChange(ListChangeEvent.VALUE_ADDED, index, filter);
+		int index = this.filters.indexOf(filter);
+		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, filter);
 	}
 
 	public void removeFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 
-		int index = filters.indexOf(filter);
-		if (filters.remove(filter)) {
+		int index = this.filters.indexOf(filter);
+		if (this.filters.remove(filter)) {
 			filter.setParent(null);
 			filter.removePropertyChangeListener(this);
-			fireListChange(ListChangeEvent.VALUE_REMOVED, index, filter);
+			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, filter);
 		}
 	}
 
 	public boolean include(Task task) {
-		if (link == Link.AND) {
-			for (TaskFilterElement element : elements) {
+		if (this.link == Link.AND) {
+			for (TaskFilterElement element : this.elements) {
 				if (!element.include(task))
 					return false;
 			}
 
-			for (TaskFilter filter : filters) {
+			for (TaskFilter filter : this.filters) {
 				if (!filter.include(task))
 					return false;
 			}
 
 			return true;
 		} else {
-			for (TaskFilterElement element : elements) {
+			for (TaskFilterElement element : this.elements) {
 				if (element.include(task))
 					return true;
 			}
 
-			for (TaskFilter filter : filters) {
+			for (TaskFilter filter : this.filters) {
 				if (filter.include(task))
 					return true;
 			}
@@ -589,68 +613,71 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.addListener(listener);
+		this.listChangeListenerList.addListener(listener);
 	}
 
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.removeListener(listener);
+		this.listChangeListenerList.removeListener(listener);
 	}
 
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.addListener(listener);
+		this.propertyChangeListenerList.addListener(listener);
 	}
 
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.removeListener(listener);
+		this.propertyChangeListenerList.removeListener(listener);
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		firePropertyChange(event);
+		this.firePropertyChange(event);
 	}
 
 	protected void fireListChange(ListChangeEvent event) {
-		if (getParent() != null)
-			getParent().fireListChange(event);
+		if (this.getParent() != null)
+			this.getParent().fireListChange(event);
 
-		for (ListChangeListener listener : listChangeListenerList)
+		for (ListChangeListener listener : this.listChangeListenerList)
 			listener.listChange(event);
 	}
 
 	protected void fireListChange(int changeType, int index, Object value) {
-		fireListChange(new ListChangeEvent(this, changeType, index, value));
+		this.fireListChange(new ListChangeEvent(this, changeType, index, value));
 	}
 
 	protected void firePropertyChange(PropertyChangeEvent evt) {
-		if (getParent() != null)
-			getParent().firePropertyChange(evt);
+		if (this.getParent() != null)
+			this.getParent().firePropertyChange(evt);
 
-		for (PropertyChangeListener listener : propertyChangeListenerList)
+		for (PropertyChangeListener listener : this.propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
-		firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue,
+			Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property,
+				oldValue, newValue));
 	}
 
 	public String toDetailedString(String before) {
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append(before + "Link: " + link + "\n");
+		buffer.append(before + "Link: " + this.link + "\n");
 
 		int i = 0;
-		for (TaskFilterElement element : elements) {
+		for (TaskFilterElement element : this.elements) {
 			buffer.append(before + "Element: " + (i++) + "\n");
 			buffer.append(before + "\tColumn: " + element.getColumn() + "\n");
-			buffer.append(before + "\tCondition: " + element.getCondition() + "\n");
+			buffer.append(before + "\tCondition: " + element.getCondition()
+					+ "\n");
 			buffer.append(before + "\tValue: " + element.getValue() + "\n");
 		}
 
 		i = 0;
-		for (TaskFilter filter : filters) {
+		for (TaskFilter filter : this.filters) {
 			buffer.append(before + "Filter: " + (i++) + "\n");
 			buffer.append(filter.toDetailedString(before + "\t"));
 		}

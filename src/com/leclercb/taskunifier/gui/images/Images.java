@@ -57,11 +57,9 @@ public final class Images {
 			if (o instanceof ImageInfo) {
 				ImageInfo info = (ImageInfo) o;
 
-				return new EqualsBuilder()
-				.append(info.file, info.file)
-				.append(info.width, info.width)
-				.append(info.height, info.height)
-				.isEqual();
+				return new EqualsBuilder().append(info.file, info.file)
+						.append(info.width, info.width)
+						.append(info.height, info.height).isEqual();
 			}
 
 			return false;
@@ -81,7 +79,8 @@ public final class Images {
 
 	private static Map<ImageInfo, ImageIcon> images = new HashMap<Images.ImageInfo, ImageIcon>();
 
-	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "images";
+	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER
+			+ File.separator + "images";
 
 	public static String getResourceFile(String file) {
 		return IMAGES_FOLDER + File.separator + file;
@@ -113,7 +112,8 @@ public final class Images {
 		if (images.containsKey(info))
 			return images.get(info);
 
-		ImageIcon instance = new ImageIcon(getImage(file).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+		ImageIcon instance = new ImageIcon(getImage(file).getImage()
+				.getScaledInstance(width, height, Image.SCALE_SMOOTH));
 		images.put(info, instance);
 
 		return instance;

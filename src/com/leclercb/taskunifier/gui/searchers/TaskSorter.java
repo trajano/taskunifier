@@ -35,7 +35,8 @@ import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskSorter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
+public class TaskSorter implements PropertyChangeListener, ListChangeModel,
+		PropertyChangeModel, Serializable {
 
 	public static class TaskSorterElement extends AbstractPropertyChangeModel {
 
@@ -47,14 +48,15 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		private TaskColumn column;
 		private SortOrder sortOrder;
 
-		public TaskSorterElement(int order, TaskColumn column, SortOrder sortOrder) {
+		public TaskSorterElement(int order, TaskColumn column,
+				SortOrder sortOrder) {
 			this.setOrder(order);
 			this.setColumn(column);
 			this.setSortOrder(sortOrder);
 		}
 
 		public int getOrder() {
-			return order;
+			return this.order;
 		}
 
 		public void setOrder(int order) {
@@ -64,7 +66,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public TaskColumn getColumn() {
-			return column;
+			return this.column;
 		}
 
 		public void setColumn(TaskColumn column) {
@@ -75,7 +77,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		}
 
 		public SortOrder getSortOrder() {
-			return sortOrder;
+			return this.sortOrder;
 		}
 
 		public void setSortOrder(SortOrder sortOrder) {
@@ -93,8 +95,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 	private List<TaskSorterElement> elements;
 
 	public TaskSorter() {
-		listChangeListenerList = new ListenerList<ListChangeListener>();
-		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.listChangeListenerList = new ListenerList<ListChangeListener>();
+		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 
 		this.elements = new ArrayList<TaskSorterElement>();
 	}
@@ -112,80 +114,83 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 
 	public List<TaskSorterElement> getElements() {
-		return Collections.unmodifiableList(elements);
+		return Collections.unmodifiableList(this.elements);
 	}
 
 	public void addElement(TaskSorterElement element) {
 		CheckUtils.isNotNull(element, "Element cannot be null");
-		elements.add(element);
+		this.elements.add(element);
 		element.addPropertyChangeListener(this);
-		int index = elements.indexOf(element);
-		fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
+		int index = this.elements.indexOf(element);
+		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
 	}
 
 	public void removeElement(TaskSorterElement element) {
 		CheckUtils.isNotNull(element, "Searcher cannot be null");
 
-		int index = elements.indexOf(element);
-		if (elements.remove(element)) {
+		int index = this.elements.indexOf(element);
+		if (this.elements.remove(element)) {
 			element.removePropertyChangeListener(this);
-			fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
+			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
 		}
 	}
 
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.addListener(listener);
+		this.listChangeListenerList.addListener(listener);
 	}
 
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.removeListener(listener);
+		this.listChangeListenerList.removeListener(listener);
 	}
 
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.addListener(listener);
+		this.propertyChangeListenerList.addListener(listener);
 	}
 
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.removeListener(listener);
+		this.propertyChangeListenerList.removeListener(listener);
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		firePropertyChange(event);
+		this.firePropertyChange(event);
 	}
 
 	protected void fireListChange(ListChangeEvent event) {
-		for (ListChangeListener listener : listChangeListenerList)
+		for (ListChangeListener listener : this.listChangeListenerList)
 			listener.listChange(event);
 	}
 
 	protected void fireListChange(int changeType, int index, Object value) {
-		fireListChange(new ListChangeEvent(this, changeType, index, value));
+		this.fireListChange(new ListChangeEvent(this, changeType, index, value));
 	}
 
 	protected void firePropertyChange(PropertyChangeEvent evt) {
-		for (PropertyChangeListener listener : propertyChangeListenerList)
+		for (PropertyChangeListener listener : this.propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
-		firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue,
+			Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property,
+				oldValue, newValue));
 	}
 
 	public String toDetailedString(String before) {
 		StringBuffer buffer = new StringBuffer();
 
-		for (TaskSorterElement element : elements) {
+		for (TaskSorterElement element : this.elements) {
 			buffer.append(before + "Order: " + element.getOrder() + "\n");
 			buffer.append(before + "Column: " + element.getColumn() + "\n");
-			buffer.append(before + "Sort Order: " + element.getSortOrder() + "\n");
+			buffer.append(before + "Sort Order: " + element.getSortOrder()
+					+ "\n");
 		}
 
-		return buffer.toString(); 
+		return buffer.toString();
 	}
 
 }

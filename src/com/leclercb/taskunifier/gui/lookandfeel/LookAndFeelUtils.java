@@ -43,16 +43,17 @@ public final class LookAndFeelUtils {
 		// Installed Look And Feels
 		{
 			LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-			for (int i=0; i<lafs.length; i++)
-				LOOK_AND_FEELS.add(new DefaultLookAndFeelDescriptor(
-						lafs[i].getName(), 
-						lafs[i].getClassName()));
+			for (int i = 0; i < lafs.length; i++)
+				LOOK_AND_FEELS.add(new DefaultLookAndFeelDescriptor(lafs[i]
+						.getName(), lafs[i].getClassName()));
 		}
 
 		// Metal Themes
 		{
-			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor("Metal - Default", DefaultMetalTheme.class.getName()));
-			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor("Metal - Ocean", OceanTheme.class.getName()));
+			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor(
+					"Metal - Default", DefaultMetalTheme.class.getName()));
+			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor("Metal - Ocean",
+					OceanTheme.class.getName()));
 		}
 	}
 

@@ -26,36 +26,38 @@ import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.JComponent;
 
-public class TransferActionListener implements ActionListener, PropertyChangeListener {
+public class TransferActionListener implements ActionListener,
+		PropertyChangeListener {
 
 	private JComponent focusOwner = null;
 
 	public TransferActionListener() {
-		KeyboardFocusManager manager = KeyboardFocusManager.
-		getCurrentKeyboardFocusManager();
+		KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
 		manager.addPropertyChangeListener("permanentFocusOwner", this);
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		Object o = e.getNewValue();
 		if (o instanceof JComponent) {
-			focusOwner = (JComponent)o;
+			this.focusOwner = (JComponent) o;
 		} else {
-			focusOwner = null;
+			this.focusOwner = null;
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (focusOwner == null)
+		if (this.focusOwner == null)
 			return;
 
-		Action action = focusOwner.getActionMap().get((String) e.getActionCommand());
+		Action action = this.focusOwner.getActionMap()
+				.get(e.getActionCommand());
 
 		if (action != null) {
-			action.actionPerformed(new ActionEvent(
-					focusOwner, 
-					ActionEvent.ACTION_PERFORMED, 
-					null));
+			action.actionPerformed(new ActionEvent(this.focusOwner,
+					ActionEvent.ACTION_PERFORMED, null));
 		}
 	}
 

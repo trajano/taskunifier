@@ -42,7 +42,7 @@ class HeaderPanel extends JPanel {
 		this.setBorder(new LineBorder(Color.GRAY));
 		this.setBackground(UIManager.getColor("TableHeader.background"));
 
-		JLabel label = new JLabel(title);
+		JLabel label = new JLabel(this.title);
 		label.setFont(label.getFont().deriveFont(Font.BOLD));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 

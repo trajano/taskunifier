@@ -34,12 +34,12 @@ public class ActionPrint extends AbstractAction {
 	}
 
 	public ActionPrint(int width, int height) {
-		super(
-				Translations.getString("action.name.print"), 
-				Images.getResourceImage("print.png", width, height));
+		super(Translations.getString("action.name.print"), Images
+				.getResourceImage("print.png", width, height));
 
-		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.print"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
+		this.putValue(SHORT_DESCRIPTION,
+				Translations.getString("action.description.print"));
+		this.putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
 
 	@Override
@@ -47,10 +47,8 @@ public class ActionPrint extends AbstractAction {
 		try {
 			MainFrame.getInstance().printTasks();
 		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(
-					null, 
-					exc.getMessage(), 
-					Translations.getString("error.print"), 
+			JOptionPane.showMessageDialog(null, exc.getMessage(),
+					Translations.getString("error.print"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}

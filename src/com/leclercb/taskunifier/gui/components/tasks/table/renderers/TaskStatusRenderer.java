@@ -29,11 +29,11 @@ public class TaskStatusRenderer extends DefaultRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskStatus)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
-		setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
+		this.setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
 	}
 
 }

@@ -30,8 +30,8 @@ public class ContextListModel extends AbstractModelListModel {
 
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts)
-			if (context.getModelStatus().equals(ModelStatus.LOADED) ||
-					context.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (context.getModelStatus().equals(ModelStatus.LOADED)
+					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(context);
 
 		ContextFactory.getInstance().addListChangeListener(this);

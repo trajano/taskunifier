@@ -30,8 +30,8 @@ public class GoalComboBoxModel extends AbstractModelComboBoxModel {
 
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED) ||
-					goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (goal.getModelStatus().equals(ModelStatus.LOADED)
+					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(goal);
 
 		GoalFactory.getInstance().addListChangeListener(this);

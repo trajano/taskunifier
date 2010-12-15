@@ -33,7 +33,8 @@ import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.swing.JDatePicker;
 
-public class DateEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+public class DateEditor extends AbstractCellEditor implements TableCellEditor,
+		ActionListener {
 
 	private DateFormat formatter;
 
@@ -47,30 +48,30 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 	public DateEditor(DateFormat formatter) {
 		this.formatter = formatter;
 
-		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+		this.panel = new JPanel();
+		this.panel.setLayout(new BorderLayout());
 
-		label = new JLabel();
+		this.label = new JLabel();
 
-		button = new JButton("...");
-		button.setActionCommand("BUTTON_CLICK");
-		button.addActionListener(this);
+		this.button = new JButton("...");
+		this.button.setActionCommand("BUTTON_CLICK");
+		this.button.addActionListener(this);
 
-		panel.add(label, BorderLayout.CENTER);
-		panel.add(button, BorderLayout.EAST);
+		this.panel.add(this.label, BorderLayout.CENTER);
+		this.panel.add(this.button, BorderLayout.EAST);
 
-		dialog = new JDatePicker(null);
+		this.dialog = new JDatePicker(null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("BUTTON_CLICK")) {
-			dialog.setValue(this.value);
-			dialog.setLocationRelativeTo(button);
-			dialog.setVisible(true);
+			this.dialog.setValue(this.value);
+			this.dialog.setLocationRelativeTo(this.button);
+			this.dialog.setVisible(true);
 
-			if (dialog.getAction() == JDatePicker.Action.OK) {
-				value = dialog.getValue();
+			if (this.dialog.getAction() == JDatePicker.Action.OK) {
+				this.value = this.dialog.getValue();
 				this.fireEditingStopped();
 			} else {
 				this.fireEditingCanceled();
@@ -82,19 +83,20 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int col) {
 		if (value == null) {
-			label.setText("");
+			this.label.setText("");
 		} else {
-			label.setText(formatter.format(((Calendar) value).getTime()));
+			this.label.setText(this.formatter.format(((Calendar) value)
+					.getTime()));
 		}
 
 		this.value = (Calendar) value;
 
-		return panel;
+		return this.panel;
 	}
 
 	@Override
 	public Object getCellEditorValue() {
-		return value;
+		return this.value;
 	}
 
 }

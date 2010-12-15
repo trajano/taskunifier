@@ -59,7 +59,7 @@ import javax.swing.table.TableCellRenderer;
 
 public class UIManagerDefaults implements ActionListener, ItemListener {
 
-	private final static String[] COLUMN_NAMES = {"Key", "Value", "Sample"};
+	private final static String[] COLUMN_NAMES = { "Key", "Value", "Sample" };
 	private static String selectedItem;
 
 	private JComponent contentPane;
@@ -71,204 +71,187 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 	private HashMap<String, DefaultTableModel> models;
 
 	/*
-	 *  Constructor
+	 * Constructor
 	 */
-	public UIManagerDefaults()
-	{
-		items = new TreeMap<String, TreeMap<String, Object>>();
-		models = new HashMap<String, DefaultTableModel>();
+	public UIManagerDefaults() {
+		this.items = new TreeMap<String, TreeMap<String, Object>>();
+		this.models = new HashMap<String, DefaultTableModel>();
 
-		contentPane = new JPanel( new BorderLayout() );
-		contentPane.add(buildNorthComponent(), BorderLayout.NORTH);
-		contentPane.add(buildCenterComponent(), BorderLayout.CENTER);
+		this.contentPane = new JPanel(new BorderLayout());
+		this.contentPane.add(this.buildNorthComponent(), BorderLayout.NORTH);
+		this.contentPane.add(this.buildCenterComponent(), BorderLayout.CENTER);
 
-		resetComponents();
+		this.resetComponents();
 	}
 
 	/*
-	 *  The content pane should be added to a high level container
+	 * The content pane should be added to a high level container
 	 */
-	public JComponent getContentPane()
-	{
-		return contentPane;
+	public JComponent getContentPane() {
+		return this.contentPane;
 	}
 
 	/*
-	 *  A menu can also be added which provides the ability to switch
-	 *  between different LAF's.
+	 * A menu can also be added which provides the ability to switch between
+	 * different LAF's.
 	 */
-	public JMenuBar getMenuBar()
-	{
-		if (menuBar == null)
-			menuBar = createMenuBar();
+	public JMenuBar getMenuBar() {
+		if (this.menuBar == null)
+			this.menuBar = this.createMenuBar();
 
-		return menuBar;
+		return this.menuBar;
 	}
 
 	/*
-	 *  This panel is added to the North of the content pane
+	 * This panel is added to the North of the content pane
 	 */
-	private JComponent buildNorthComponent()
-	{
-		comboBox = new JComboBox();
+	private JComponent buildNorthComponent() {
+		this.comboBox = new JComboBox();
 
 		JLabel label = new JLabel("Select Item:");
 		label.setDisplayedMnemonic('S');
-		label.setLabelFor( comboBox );
+		label.setLabelFor(this.comboBox);
 
-		byComponent = new JRadioButton("By Component", true);
-		byComponent.setMnemonic('C');
-		byComponent.addActionListener( this );
+		this.byComponent = new JRadioButton("By Component", true);
+		this.byComponent.setMnemonic('C');
+		this.byComponent.addActionListener(this);
 
 		JRadioButton byValueType = new JRadioButton("By Value Type");
 		byValueType.setMnemonic('V');
-		byValueType.addActionListener( this );
+		byValueType.addActionListener(this);
 
 		ButtonGroup group = new ButtonGroup();
-		group.add(byComponent);
+		group.add(this.byComponent);
 		group.add(byValueType);
 
 		JPanel panel = new JPanel();
-		panel.setBorder( new EmptyBorder(15, 0, 15, 0) );
-		panel.add( label );
-		panel.add( comboBox );
-		panel.add( byComponent );
-		panel.add( byValueType );
+		panel.setBorder(new EmptyBorder(15, 0, 15, 0));
+		panel.add(label);
+		panel.add(this.comboBox);
+		panel.add(this.byComponent);
+		panel.add(byValueType);
 		return panel;
 	}
 
 	/*
-	 *  This panel is added to the Center of the content pane
+	 * This panel is added to the Center of the content pane
 	 */
-	private JComponent buildCenterComponent()
-	{
+	private JComponent buildCenterComponent() {
 		DefaultTableModel model = new DefaultTableModel(COLUMN_NAMES, 0);
-		table = new JTable(model);
-		table.setAutoCreateColumnsFromModel( false );
-		table.getColumnModel().getColumn(0).setPreferredWidth(250);
-		table.getColumnModel().getColumn(1).setPreferredWidth(500);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setCellRenderer( new SampleRenderer() );
-		Dimension d = table.getPreferredSize();
+		this.table = new JTable(model);
+		this.table.setAutoCreateColumnsFromModel(false);
+		this.table.getColumnModel().getColumn(0).setPreferredWidth(250);
+		this.table.getColumnModel().getColumn(1).setPreferredWidth(500);
+		this.table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		this.table.getColumnModel().getColumn(2)
+				.setCellRenderer(new SampleRenderer());
+		Dimension d = this.table.getPreferredSize();
 		d.height = 350;
-		table.setPreferredScrollableViewportSize( d );
+		this.table.setPreferredScrollableViewportSize(d);
 
-		return new JScrollPane( table );
+		return new JScrollPane(this.table);
 	}
 
 	/*
-	 *  When the LAF is changed we need to reset the content pane
+	 * When the LAF is changed we need to reset the content pane
 	 */
-	public void resetComponents()
-	{
-		items.clear();
-		models.clear();
-		((DefaultTableModel)table.getModel()).setRowCount(0);
+	public void resetComponents() {
+		this.items.clear();
+		this.models.clear();
+		((DefaultTableModel) this.table.getModel()).setRowCount(0);
 
-		buildItemsMap();
+		this.buildItemsMap();
 
 		Vector<String> comboBoxItems = new Vector<String>(50);
-		Iterator keys = items.keySet().iterator();
+		Iterator keys = this.items.keySet().iterator();
 
-		while (keys.hasNext())
-		{
+		while (keys.hasNext()) {
 			Object key = keys.next();
-			comboBoxItems.add( (String)key );
+			comboBoxItems.add((String) key);
 		}
 
-		comboBox.removeItemListener( this );
-		comboBox.setModel( new DefaultComboBoxModel( comboBoxItems ) );
-		comboBox.setSelectedIndex(-1);
-		comboBox.addItemListener( this );
-		comboBox.requestFocusInWindow();
+		this.comboBox.removeItemListener(this);
+		this.comboBox.setModel(new DefaultComboBoxModel(comboBoxItems));
+		this.comboBox.setSelectedIndex(-1);
+		this.comboBox.addItemListener(this);
+		this.comboBox.requestFocusInWindow();
 
 		if (selectedItem != null)
-			comboBox.setSelectedItem(selectedItem);
+			this.comboBox.setSelectedItem(selectedItem);
 	}
 
 	/*
-	 *	The item map will contain items for each component or
-	 *  items for each attribute type.
+	 * The item map will contain items for each component or items for each
+	 * attribute type.
 	 */
-	private TreeMap buildItemsMap()
-	{
+	private TreeMap buildItemsMap() {
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 
-		//  Build of Map of items and a Map of attributes for each item
+		// Build of Map of items and a Map of attributes for each item
 
-		for ( Enumeration enumm = defaults.keys(); enumm.hasMoreElements(); )
-		{
+		for (Enumeration enumm = defaults.keys(); enumm.hasMoreElements();) {
 			Object key = enumm.nextElement();
-			Object value = defaults.get( key );
+			Object value = defaults.get(key);
 
-			String itemName = getItemName(key.toString(), value);
+			String itemName = this.getItemName(key.toString(), value);
 
-			if (itemName == null) continue;
+			if (itemName == null)
+				continue;
 
-			//  Get the attribute map for this componenent, or
-			//  create a map when one is not found
+			// Get the attribute map for this componenent, or
+			// create a map when one is not found
 
-			TreeMap<String, Object> attributeMap = items.get( itemName );
+			TreeMap<String, Object> attributeMap = this.items.get(itemName);
 
-			if (attributeMap == null)
-			{
+			if (attributeMap == null) {
 				attributeMap = new TreeMap<String, Object>();
-				items.put(itemName, attributeMap);
+				this.items.put(itemName, attributeMap);
 			}
 
-			//  Add the attribute to the map for this componenent
+			// Add the attribute to the map for this componenent
 
-			attributeMap.put(key.toString(), value );
+			attributeMap.put(key.toString(), value);
 		}
 
-		return items;
+		return this.items;
 	}
 
 	/*
-	 *  Parse the key to determine the item name to use
+	 * Parse the key to determine the item name to use
 	 */
-	private String getItemName(String key, Object value)
-	{
-		//  Seems like this is an old check required for JDK1.4.2
+	private String getItemName(String key, Object value) {
+		// Seems like this is an old check required for JDK1.4.2
 
 		if (key.startsWith("class") || key.startsWith("javax"))
 			return null;
 
-		if (byComponent.isSelected())
-			return getComponentName(key, value);
+		if (this.byComponent.isSelected())
+			return this.getComponentName(key, value);
 		else
-			return getValueName(key, value);
+			return this.getValueName(key, value);
 	}
 
-	private String getComponentName(String key, Object value)
-	{
-		//  The key is of the form:
-		//  "componentName.componentProperty", or
-		//  "componentNameUI", or
-		//  "someOtherString"
+	private String getComponentName(String key, Object value) {
+		// The key is of the form:
+		// "componentName.componentProperty", or
+		// "componentNameUI", or
+		// "someOtherString"
 
 		String componentName;
 
-		int pos = key.indexOf( "." );
+		int pos = key.indexOf(".");
 
-		if (pos != -1)
-		{
-			componentName = key.substring( 0, pos );
-		}
-		else if (key.endsWith( "UI" ) )
-		{
-			componentName = key.substring( 0, key.length() - 2 );
-		}
-		else if (value instanceof ColorUIResource)
-		{
+		if (pos != -1) {
+			componentName = key.substring(0, pos);
+		} else if (key.endsWith("UI")) {
+			componentName = key.substring(0, key.length() - 2);
+		} else if (value instanceof ColorUIResource) {
 			componentName = "System Colors";
-		}
-		else
-		{
+		} else {
 			componentName = "Miscellaneous";
 		}
 
-		//  Fix inconsistency
+		// Fix inconsistency
 
 		if (componentName.equals("Checkbox"))
 			componentName = "CheckBox";
@@ -276,8 +259,7 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		return componentName;
 	}
 
-	private String getValueName(String key, Object value)
-	{
+	private String getValueName(String key, Object value) {
 		if (value instanceof Icon)
 			return "Icon";
 		else if (value instanceof Font)
@@ -302,64 +284,59 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 			return "InputMap";
 		else if (key.endsWith("radient"))
 			return "Gradient";
-		else
-		{
+		else {
 			return "The Rest";
 		}
 	}
 
 	/**
-	 *  Create menu bar
+	 * Create menu bar
 	 */
-	private JMenuBar createMenuBar()
-	{
+	private JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
-		menuBar.add( createFileMenu() );
-		menuBar.add( createLAFMenu() );
+		menuBar.add(this.createFileMenu());
+		menuBar.add(this.createLAFMenu());
 
 		return menuBar;
 	}
 
 	/**
-	 *  Create menu items for the Application menu
+	 * Create menu items for the Application menu
 	 */
-	private JMenu createFileMenu()
-	{
+	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("Application");
 		menu.setMnemonic('A');
 
 		menu.addSeparator();
-		menu.add( new ExitAction() );
+		menu.add(new ExitAction());
 
 		return menu;
 	}
 
 	/**
-	 *  Create menu items for the Look & Feel menu
+	 * Create menu items for the Look & Feel menu
 	 */
-	private JMenu createLAFMenu()
-	{
+	private JMenu createLAFMenu() {
 		ButtonGroup bg = new ButtonGroup();
 
 		JMenu menu = new JMenu("Look & Feel");
 		menu.setMnemonic('L');
 
 		String lafId = UIManager.getLookAndFeel().getID();
-		UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
+		UIManager.LookAndFeelInfo[] lafInfo = UIManager
+				.getInstalledLookAndFeels();
 
-		for (int i = 0; i < lafInfo.length; i++)
-		{
+		for (int i = 0; i < lafInfo.length; i++) {
 			String laf = lafInfo[i].getClassName();
-			String name= lafInfo[i].getName();
+			String name = lafInfo[i].getName();
 
 			Action action = new ChangeLookAndFeelAction(this, laf, name);
-			JRadioButtonMenuItem mi = new JRadioButtonMenuItem( action );
-			menu.add( mi );
-			bg.add( mi );
+			JRadioButtonMenuItem mi = new JRadioButtonMenuItem(action);
+			menu.add(mi);
+			bg.add(mi);
 
-			if (name.equals(lafId))
-			{
+			if (name.equals(lafId)) {
 				mi.setSelected(true);
 			}
 		}
@@ -368,163 +345,147 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 	}
 
 	/*
-	 *  Implement the ActionListener interface
+	 * Implement the ActionListener interface
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		selectedItem = null;
-		resetComponents();
-		comboBox.requestFocusInWindow();
+		this.resetComponents();
+		this.comboBox.requestFocusInWindow();
 	}
 
 	/*
-	 *  Implement the ItemListener interface
+	 * Implement the ItemListener interface
 	 */
-	public void itemStateChanged(ItemEvent e)
-	{
-		String itemName = (String)e.getItem();
-		changeTableModel( itemName );
-		updateRowHeights();
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		String itemName = (String) e.getItem();
+		this.changeTableModel(itemName);
+		this.updateRowHeights();
 		selectedItem = itemName;
 	}
 
 	/*
-	 *  Change the TabelModel in the table for the selected item
+	 * Change the TabelModel in the table for the selected item
 	 */
-	private void changeTableModel(String itemName)
-	{
-		//  The model has been created previously so just use it
+	private void changeTableModel(String itemName) {
+		// The model has been created previously so just use it
 
-		DefaultTableModel model = models.get( itemName );
+		DefaultTableModel model = this.models.get(itemName);
 
-		if (model != null)
-		{
-			table.setModel( model );
+		if (model != null) {
+			this.table.setModel(model);
 			return;
 		}
 
-		//  Create a new model for the requested item
-		//  and add the attributes of the item to the model
+		// Create a new model for the requested item
+		// and add the attributes of the item to the model
 
 		model = new DefaultTableModel(COLUMN_NAMES, 0);
-		Map attributes = (Map)items.get( itemName );
+		Map attributes = this.items.get(itemName);
 
 		Iterator ai = attributes.keySet().iterator();
 
-		while (ai.hasNext())
-		{
-			String attribute = (String)ai.next();
+		while (ai.hasNext()) {
+			String attribute = (String) ai.next();
 			Object value = attributes.get(attribute);
 
 			Vector<Object> row = new Vector<Object>(3);
 			row.add(attribute);
 
-			if (value != null)
-			{
-				row.add( value.toString() );
+			if (value != null) {
+				row.add(value.toString());
 
 				if (value instanceof Icon)
-					value = new SafeIcon( (Icon)value );
+					value = new SafeIcon((Icon) value);
 
-				row.add( value );
-			}
-			else
-			{
-				row.add( "null" );
-				row.add( "" );
+				row.add(value);
+			} else {
+				row.add("null");
+				row.add("");
 			}
 
-			model.addRow( row );
+			model.addRow(row);
 		}
 
-		table.setModel( model );
-		models.put(itemName, model);
+		this.table.setModel(model);
+		this.models.put(itemName, model);
 	}
 
 	/*
-	 *  Some rows containing icons, may need to be sized taller to fully
-	 *  display the icon.
+	 * Some rows containing icons, may need to be sized taller to fully display
+	 * the icon.
 	 */
-	private void updateRowHeights()
-	{
-		try
-		{
-			for (int row = 0; row < table.getRowCount(); row++)
-			{
-				int rowHeight = table.getRowHeight();
+	private void updateRowHeights() {
+		try {
+			for (int row = 0; row < this.table.getRowCount(); row++) {
+				int rowHeight = this.table.getRowHeight();
 
-				for (int column = 0; column < table.getColumnCount(); column++)
-				{
-					Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
-					rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+				for (int column = 0; column < this.table.getColumnCount(); column++) {
+					Component comp = this.table.prepareRenderer(
+							this.table.getCellRenderer(row, column), row,
+							column);
+					rowHeight = Math.max(rowHeight,
+							comp.getPreferredSize().height);
 				}
 
-				table.setRowHeight(row, rowHeight);
+				this.table.setRowHeight(row, rowHeight);
 			}
+		} catch (ClassCastException e) {
 		}
-		catch(ClassCastException e) {}
 	}
 
 	/**
 	 * Thanks to Jeanette for the use of this code found at:
-	 *
-	 * https://jdnc-incubator.dev.java.net/source/browse/jdnc-incubator/src/kleopatra/java/org/jdesktop/swingx/renderer/UIPropertiesViewer.java?rev=1.2&view=markup
-	 *
+	 * 
+	 * https://jdnc-incubator.dev.java.net/source/browse/jdnc-incubator/src/
+	 * kleopatra
+	 * /java/org/jdesktop/swingx/renderer/UIPropertiesViewer.java?rev=1.2
+	 * &view=markup
+	 * 
 	 * Some ui-icons misbehave in that they unconditionally class-cast to the
 	 * component type they are mostly painted on. Consequently they blow up if
 	 * we are trying to paint them anywhere else (f.i. in a renderer).
-	 *
+	 * 
 	 * This Icon is an adaption of a cool trick by Darryl Burke found at
 	 * http://tips4java.wordpress.com/2008/12/18/icon-table-cell-renderer
-	 *
-	 * The base idea is to instantiate a component of the type expected by the icon,
-	 * let it paint into the graphics of a bufferedImage and create an ImageIcon from it.
-	 * In subsequent calls the ImageIcon is used.
-	 *
+	 * 
+	 * The base idea is to instantiate a component of the type expected by the
+	 * icon, let it paint into the graphics of a bufferedImage and create an
+	 * ImageIcon from it. In subsequent calls the ImageIcon is used.
+	 * 
 	 */
-	public static class SafeIcon implements Icon
-	{
+	public static class SafeIcon implements Icon {
+
 		private Icon wrappee;
 		private Icon standIn;
 
-		public SafeIcon(Icon wrappee)
-		{
+		public SafeIcon(Icon wrappee) {
 			this.wrappee = wrappee;
 		}
 
 		@Override
-		public int getIconHeight()
-		{
-			return wrappee.getIconHeight();
+		public int getIconHeight() {
+			return this.wrappee.getIconHeight();
 		}
 
 		@Override
-		public int getIconWidth()
-		{
-			return wrappee.getIconWidth();
+		public int getIconWidth() {
+			return this.wrappee.getIconWidth();
 		}
 
 		@Override
-		public void paintIcon(Component c, Graphics g, int x, int y)
-		{
-			if (standIn == this)
-			{
-				paintFallback(c, g, x, y);
-			}
-			else if (standIn != null)
-			{
-				standIn.paintIcon(c, g, x, y);
-			}
-			else
-			{
-				try
-				{
-					wrappee.paintIcon(c, g, x, y);
-				}
-				catch (ClassCastException e)
-				{
-					createStandIn(e, x, y);
-					standIn.paintIcon(c, g, x, y);
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			if (this.standIn == this) {
+				this.paintFallback(c, g, x, y);
+			} else if (this.standIn != null) {
+				this.standIn.paintIcon(c, g, x, y);
+			} else {
+				try {
+					this.wrappee.paintIcon(c, g, x, y);
+				} catch (ClassCastException e) {
+					this.createStandIn(e, x, y);
+					this.standIn.paintIcon(c, g, x, y);
 				}
 			}
 		}
@@ -532,32 +493,25 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		/**
 		 * @param e
 		 */
-		private void createStandIn(ClassCastException e, int x, int y)
-		{
-			try
-			{
-				Class<?> clazz = getClass(e);
-				JComponent standInComponent = getSubstitute(clazz);
-				standIn = createImageIcon(standInComponent, x, y);
-			}
-			catch (Exception e1)
-			{
+		private void createStandIn(ClassCastException e, int x, int y) {
+			try {
+				Class<?> clazz = this.getClass(e);
+				JComponent standInComponent = this.getSubstitute(clazz);
+				this.standIn = this.createImageIcon(standInComponent, x, y);
+			} catch (Exception e1) {
 				// something went wrong - fallback to this painting
-				standIn = this;
+				this.standIn = this;
 			}
 		}
 
-		private Icon createImageIcon(JComponent standInComponent, int x, int y)
-		{
-			BufferedImage image = new BufferedImage(getIconWidth(), getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		private Icon createImageIcon(JComponent standInComponent, int x, int y) {
+			BufferedImage image = new BufferedImage(this.getIconWidth(),
+					this.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 			Graphics g = image.createGraphics();
-			try
-			{
-				wrappee.paintIcon(standInComponent, g, 0, 0);
+			try {
+				this.wrappee.paintIcon(standInComponent, g, 0, 0);
 				return new ImageIcon(image);
-			}
-			finally
-			{
+			} finally {
 				g.dispose();
 			}
 		}
@@ -566,198 +520,179 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		 * @param clazz
 		 * @throws IllegalAccessException
 		 */
-		private JComponent getSubstitute(Class<?> clazz) throws IllegalAccessException
-		{
+		private JComponent getSubstitute(Class<?> clazz)
+				throws IllegalAccessException {
 			JComponent standInComponent;
 
-			try
-			{
+			try {
 				standInComponent = (JComponent) clazz.newInstance();
-			}
-			catch (InstantiationException e)
-			{
-				standInComponent = new AbstractButton() {};
-				((AbstractButton) standInComponent).setModel(new DefaultButtonModel());
+			} catch (InstantiationException e) {
+				standInComponent = new AbstractButton() {
+				};
+				((AbstractButton) standInComponent)
+						.setModel(new DefaultButtonModel());
 			}
 			return standInComponent;
 		}
 
-		private Class<?> getClass(ClassCastException e) throws ClassNotFoundException
-		{
+		private Class<?> getClass(ClassCastException e)
+				throws ClassNotFoundException {
 			String className = e.getMessage();
 			className = className.substring(className.lastIndexOf(" ") + 1);
 			return Class.forName(className);
 
 		}
 
-		private void paintFallback(Component c, Graphics g, int x, int y)
-		{
-			g.drawRect(x, y, getIconWidth(), getIconHeight());
-			g.drawLine(x, y, x + getIconWidth(), y + getIconHeight());
-			g.drawLine(x + getIconWidth(), y, x, y + getIconHeight());
+		private void paintFallback(Component c, Graphics g, int x, int y) {
+			g.drawRect(x, y, this.getIconWidth(), this.getIconHeight());
+			g.drawLine(x, y, x + this.getIconWidth(), y + this.getIconHeight());
+			g.drawLine(x + this.getIconWidth(), y, x, y + this.getIconHeight());
 		}
 
 	}
 
-
 	/*
-	 *  Render the value based on its class.
+	 * Render the value based on its class.
 	 */
-	class SampleRenderer extends JLabel implements TableCellRenderer
-	{
-		public SampleRenderer()
-		{
+	class SampleRenderer extends JLabel implements TableCellRenderer {
+
+		public SampleRenderer() {
 			super();
-			setHorizontalAlignment( SwingConstants.CENTER );
-			setOpaque(true);
+			this.setHorizontalAlignment(SwingConstants.CENTER);
+			this.setOpaque(true);
 		}
 
-		public Component getTableCellRendererComponent(
-				JTable table, Object sample, boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			setBackground( null );
-			setBorder( null );
-			setIcon( null );
-			setText( "" );
+		@Override
+		public Component getTableCellRendererComponent(JTable table,
+				Object sample, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+			this.setBackground(null);
+			this.setBorder(null);
+			this.setIcon(null);
+			this.setText("");
 
-			if ( sample instanceof Color )
-			{
-				setBackground( (Color)sample );
-			}
-			else if ( sample instanceof Border )
-			{
-				setBorder( (Border)sample );
-			}
-			else if ( sample instanceof Font )
-			{
-				setText( "Sample" );
-				setFont( (Font)sample );
-			}
-			else if ( sample instanceof Icon )
-			{
-				setIcon( (Icon)sample );
+			if (sample instanceof Color) {
+				this.setBackground((Color) sample);
+			} else if (sample instanceof Border) {
+				this.setBorder((Border) sample);
+			} else if (sample instanceof Font) {
+				this.setText("Sample");
+				this.setFont((Font) sample);
+			} else if (sample instanceof Icon) {
+				this.setIcon((Icon) sample);
 			}
 
 			return this;
 		}
 
 		/*
-		 *  Some icons are painted using inner classes and are not meant to be
-		 *  shared by other items. This code will catch the
-		 *  ClassCastException that is thrown.
+		 * Some icons are painted using inner classes and are not meant to be
+		 * shared by other items. This code will catch the ClassCastException
+		 * that is thrown.
 		 */
-		public void paint(Graphics g)
-		{
-			try
-			{
+		@Override
+		public void paint(Graphics g) {
+			try {
 				super.paint(g);
-			}
-			catch(Exception e)
-			{
-				//				System.out.println(e);
-				//				System.out.println(e.getStackTrace()[0]);
+			} catch (Exception e) {
+				// System.out.println(e);
+				// System.out.println(e.getStackTrace()[0]);
 			}
 		}
 	}
 
 	/*
-	 *  Change the LAF and recreate the UIManagerDefaults so that the properties
-	 *  of the new LAF are correctly displayed.
+	 * Change the LAF and recreate the UIManagerDefaults so that the properties
+	 * of the new LAF are correctly displayed.
 	 */
-	class ChangeLookAndFeelAction extends AbstractAction
-	{
+	class ChangeLookAndFeelAction extends AbstractAction {
+
 		private UIManagerDefaults defaults;
 		private String laf;
 
-		protected ChangeLookAndFeelAction(UIManagerDefaults defaults, String laf, String name)
-		{
+		protected ChangeLookAndFeelAction(UIManagerDefaults defaults,
+				String laf, String name) {
 			this.defaults = defaults;
 			this.laf = laf;
-			putValue(Action.NAME, name);
-			putValue(Action.SHORT_DESCRIPTION, getValue(Action.NAME));
+			this.putValue(Action.NAME, name);
+			this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
 		}
 
-		public void actionPerformed(ActionEvent e)
-		{
-			try
-			{
-				UIManager.setLookAndFeel( laf );
-				defaults.resetComponents();
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				UIManager.setLookAndFeel(this.laf);
+				this.defaults.resetComponents();
 
 				JMenuItem mi = (JMenuItem) e.getSource();
 				JPopupMenu popup = (JPopupMenu) mi.getParent();
-				JRootPane rootPane = SwingUtilities.getRootPane( popup.getInvoker() );
-				SwingUtilities.updateComponentTreeUI( rootPane );
+				JRootPane rootPane = SwingUtilities.getRootPane(popup
+						.getInvoker());
+				SwingUtilities.updateComponentTreeUI(rootPane);
 
-				//  Use custom decorations when supported by the LAF
+				// Use custom decorations when supported by the LAF
 
-				JFrame frame = (JFrame)SwingUtilities.windowForComponent(rootPane);
+				JFrame frame = (JFrame) SwingUtilities
+						.windowForComponent(rootPane);
 				frame.dispose();
 
-				if (UIManager.getLookAndFeel().getSupportsWindowDecorations())
-				{
+				if (UIManager.getLookAndFeel().getSupportsWindowDecorations()) {
 					frame.setUndecorated(true);
-					frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-				}
-				else
-				{
+					frame.getRootPane().setWindowDecorationStyle(
+							JRootPane.FRAME);
+				} else {
 					frame.setUndecorated(false);
 				}
 
 				frame.setVisible(true);
-			}
-			catch (Exception ex)
-			{
-				System.out.println("Failed loading L&F: " + laf);
+			} catch (Exception ex) {
+				System.out.println("Failed loading L&F: " + this.laf);
 				System.out.println(ex);
 			}
 		}
 	}
 
 	/*
-	 *	Close the frame
+	 * Close the frame
 	 */
-	class ExitAction extends AbstractAction
-	{
-		public ExitAction()
-		{
-			putValue(Action.NAME, "Exit");
-			putValue(Action.SHORT_DESCRIPTION, getValue(Action.NAME));
-			putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_X));
+	class ExitAction extends AbstractAction {
+
+		public ExitAction() {
+			this.putValue(Action.NAME, "Exit");
+			this.putValue(Action.SHORT_DESCRIPTION, this.getValue(Action.NAME));
+			this.putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_X));
 		}
 
-		public void actionPerformed(ActionEvent e)
-		{
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
 
 	/*
-	 *  Build a GUI using the content pane and menu bar of UIManagerDefaults
+	 * Build a GUI using the content pane and menu bar of UIManagerDefaults
 	 */
-	private static void createAndShowGUI()
-	{
+	private static void createAndShowGUI() {
 		UIManagerDefaults application = new UIManagerDefaults();
 
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame frame = new JFrame("UIManager Defaults");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setJMenuBar( application.getMenuBar() );
+		frame.setJMenuBar(application.getMenuBar());
 		frame.getContentPane().add(application.getContentPane());
 		frame.pack();
-		frame.setLocationRelativeTo( null );
-		frame.setVisible( true );
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	/*
-	 *  UIManagerDefaults Main. Called only if we're an application.
+	 * UIManagerDefaults Main. Called only if we're an application.
 	 */
-	public static void main(String[] args)
-	{
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run()
-			{
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
 				createAndShowGUI();
 			}
 		});

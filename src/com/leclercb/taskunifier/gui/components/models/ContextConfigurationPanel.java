@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -39,7 +40,8 @@ import com.leclercb.taskunifier.gui.models.ContextListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class ContextConfigurationPanel extends JSplitPane implements PropertyChangeListener {
+public class ContextConfigurationPanel extends JSplitPane implements
+		PropertyChangeListener {
 
 	private Context selectedContext;
 
@@ -58,37 +60,44 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 
 			@Override
 			public void addModel() {
-				Model model = ContextFactory.getInstance().create(Translations.getString("context.default.title"));
+				Model model = ContextFactory.getInstance().create(
+						Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
-				focusAndSelectTextInTextField(contextTitle);
+				ContextConfigurationPanel.this
+						.focusAndSelectTextInTextField(ContextConfigurationPanel.this.contextTitle);
 			}
 
 			@Override
 			public void removeModel(Model model) {
-				modelSelected(null);
-				ContextFactory.getInstance().markToDelete((Context) this.getSelectedModel());
+				this.modelSelected(null);
+				ContextFactory.getInstance().markToDelete(
+						this.getSelectedModel());
 			}
 
 			@Override
 			public void modelSelected(Model model) {
-				if (selectedContext != null)
-					selectedContext.removePropertyChangeListener(ContextConfigurationPanel.this);
+				if (ContextConfigurationPanel.this.selectedContext != null)
+					ContextConfigurationPanel.this.selectedContext
+							.removePropertyChangeListener(ContextConfigurationPanel.this);
 
-				selectedContext = (Context) model;
+				ContextConfigurationPanel.this.selectedContext = (Context) model;
 
-				if (selectedContext != null)
-					selectedContext.addPropertyChangeListener(ContextConfigurationPanel.this);
+				if (ContextConfigurationPanel.this.selectedContext != null)
+					ContextConfigurationPanel.this.selectedContext
+							.addPropertyChangeListener(ContextConfigurationPanel.this);
 
 				if (model == null) {
-					contextTitle.setEnabled(false);
-					contextTitle.setText("");
+					ContextConfigurationPanel.this.contextTitle
+							.setEnabled(false);
+					ContextConfigurationPanel.this.contextTitle.setText("");
 					return;
 				}
 
 				Context context = (Context) model;
 
-				contextTitle.setEnabled(true);
-				contextTitle.setText(context.getTitle());
+				ContextConfigurationPanel.this.contextTitle.setEnabled(true);
+				ContextConfigurationPanel.this.contextTitle.setText(context
+						.getTitle());
 			}
 
 		};
@@ -108,26 +117,27 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 		JLabel label = null;
 
 		// Context Title
-		label = new JLabel(Translations.getString("general.context.title") + ":", JLabel.TRAILING);
+		label = new JLabel(Translations.getString("general.context.title")
+				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 
-		contextTitle.setEnabled(false);
-		contextTitle.addKeyListener(new KeyAdapter() {
+		this.contextTitle.setEnabled(false);
+		this.contextTitle.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Context context = (Context) modelList.getSelectedModel();
-				context.setTitle(contextTitle.getText());
+				context.setTitle(ContextConfigurationPanel.this.contextTitle
+						.getText());
 			}
 
 		});
-		info.add(contextTitle);
+		info.add(this.contextTitle);
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info,
-				1, 2, //rows, cols
-				6, 6, //initX, initY
-				6, 6); //xPad, yPad
+		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
+				6, 6, // initX, initY
+				6, 6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}

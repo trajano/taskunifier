@@ -53,11 +53,16 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		// Icon
 		JPanel iconPanel = new JPanel(new BorderLayout());
 
-		searcherIcon = new JButton();
-		iconPanel.add(searcherIcon, BorderLayout.CENTER);
-		searcherIcon.setIcon(this.searcher.getIcon() == null? Images.getResourceImage("remove.png", 24, 24) : Images.getImage(this.searcher.getIcon(), 24, 24));
-		searcherIcon.setText(this.searcher.getIcon() == null? Translations.getString("searcheredit.searcher.no_icon") : this.searcher.getIcon());
-		searcherIcon.addActionListener(new ActionListener() {
+		this.searcherIcon = new JButton();
+		iconPanel.add(this.searcherIcon, BorderLayout.CENTER);
+		this.searcherIcon.setIcon(this.searcher.getIcon() == null ? Images
+				.getResourceImage("remove.png", 24, 24) : Images.getImage(
+				this.searcher.getIcon(), 24, 24));
+		this.searcherIcon
+				.setText(this.searcher.getIcon() == null ? Translations
+						.getString("searcheredit.searcher.no_icon")
+						: this.searcher.getIcon());
+		this.searcherIcon.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -77,14 +82,10 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 
 						String extention = FileUtils.getExtention(f.getName());
 
-						String[] imageExtentions = new String[] {
-								"jpeg", "jpg",
-								"gif",
-								"tiff", "tif",
-								"png"
-						};
+						String[] imageExtentions = new String[] { "jpeg",
+								"jpg", "gif", "tiff", "tif", "png" };
 
-						for (int i=0; i<imageExtentions.length; i++)
+						for (int i = 0; i < imageExtentions.length; i++)
 							if (imageExtentions[i].equals(extention))
 								return true;
 
@@ -93,47 +94,53 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 
 				});
 
-				int result = fileChooser.showOpenDialog(MainFrame.getInstance().getFrame());
+				int result = fileChooser.showOpenDialog(MainFrame.getInstance()
+						.getFrame());
 
 				if (result == JFileChooser.APPROVE_OPTION)
-					searcher.setIcon(fileChooser.getSelectedFile().getAbsolutePath());
+					TaskSearcherPanel.this.searcher.setIcon(fileChooser
+							.getSelectedFile().getAbsolutePath());
 			}
 
 		});
 
-		final JButton searcherRemoveIcon = new JButton(Images.getResourceImage("remove.png", 16, 16));
+		final JButton searcherRemoveIcon = new JButton(Images.getResourceImage(
+				"remove.png", 16, 16));
 		iconPanel.add(searcherRemoveIcon, BorderLayout.EAST);
 		searcherRemoveIcon.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				searcher.setIcon(null);
+				TaskSearcherPanel.this.searcher.setIcon(null);
 			}
 
 		});
 
-		panel.add(new JLabel(Translations.getString("searcheredit.searcher.icon") + ":"));
+		panel.add(new JLabel(Translations
+				.getString("searcheredit.searcher.icon") + ":"));
 		panel.add(iconPanel);
 
 		// Title
-		searcherTitle = new JTextField(this.searcher.getTitle());
-		searcherTitle.addKeyListener(new KeyAdapter() {
+		this.searcherTitle = new JTextField(this.searcher.getTitle());
+		this.searcherTitle.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				searcher.setTitle(searcherTitle.getText());
+				TaskSearcherPanel.this.searcher
+						.setTitle(TaskSearcherPanel.this.searcherTitle
+								.getText());
 			}
 
 		});
 
-		panel.add(new JLabel(Translations.getString("searcheredit.searcher.title") + ":"));
-		panel.add(searcherTitle);
+		panel.add(new JLabel(Translations
+				.getString("searcheredit.searcher.title") + ":"));
+		panel.add(this.searcherTitle);
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel,
-				2, 2, //rows, cols
-				6, 6, //initX, initY
-				6, 6); //xPad, yPad
+		SpringUtils.makeCompactGrid(panel, 2, 2, // rows, cols
+				6, 6, // initX, initY
+				6, 6); // xPad, yPad
 
 		this.add(panel, BorderLayout.NORTH);
 	}
@@ -141,14 +148,23 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(TaskSearcher.PROP_TITLE)) {
-			if (!EqualsUtils.equals(this.searcherTitle.getText(), evt.getNewValue()))
+			if (!EqualsUtils.equals(this.searcherTitle.getText(),
+					evt.getNewValue()))
 				this.searcherTitle.setText((String) evt.getNewValue());
 		}
 
 		if (evt.getPropertyName().equals(TaskSearcher.PROP_ICON)) {
-			if (!EqualsUtils.equals(this.searcherTitle.getText(), evt.getNewValue())) {
-				this.searcherIcon.setIcon((String) evt.getNewValue() == null? Images.getResourceImage("remove.png", 24, 24) : Images.getImage((String) evt.getNewValue(), 24, 24));
-				this.searcherIcon.setText((String) evt.getNewValue() == null? Translations.getString("searcheredit.searcher.no_icon") : (String) evt.getNewValue());
+			if (!EqualsUtils.equals(this.searcherTitle.getText(),
+					evt.getNewValue())) {
+				this.searcherIcon
+						.setIcon((String) evt.getNewValue() == null ? Images
+								.getResourceImage("remove.png", 24, 24)
+								: Images.getImage((String) evt.getNewValue(),
+										24, 24));
+				this.searcherIcon
+						.setText((String) evt.getNewValue() == null ? Translations
+								.getString("searcheredit.searcher.no_icon")
+								: (String) evt.getNewValue());
 			}
 		}
 	}

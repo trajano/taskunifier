@@ -42,21 +42,23 @@ public class TaskTransferHandler extends TransferHandler {
 		Task dragTask = null;
 
 		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+			ModelTransferData data = (ModelTransferData) t
+					.getTransferData(ModelTransferable.MODEL_FLAVOR);
 
 			if (!data.getType().equals(ModelType.TASK))
 				return false;
 
 			dragTask = TaskFactory.getInstance().get(data.getId());
-		} catch (Exception e) { 
+		} catch (Exception e) {
 			e.printStackTrace();
-			return false; 
+			return false;
 		}
 
 		if (support.isDrop()) {
 			// Get Objects
 			TaskTable table = (TaskTable) support.getComponent();
-			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+			JTable.DropLocation dl = (JTable.DropLocation) support
+					.getDropLocation();
 
 			// False : If drag task has at least one child
 			if (TaskFactory.getInstance().getChildren(dragTask).size() != 0)
@@ -88,7 +90,8 @@ public class TaskTransferHandler extends TransferHandler {
 	protected Transferable createTransferable(JComponent c) {
 		TaskTable table = (TaskTable) c;
 		Task task = table.getSelectedTask();
-		return new ModelTransferable(new ModelTransferData(ModelType.TASK, task.getModelId()));
+		return new ModelTransferable(new ModelTransferData(ModelType.TASK,
+				task.getModelId()));
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class TaskTransferHandler extends TransferHandler {
 
 	@Override
 	public boolean importData(TransferSupport support) {
-		if (!canImport(support)) {
+		if (!this.canImport(support)) {
 			return false;
 		}
 
@@ -107,20 +110,22 @@ public class TaskTransferHandler extends TransferHandler {
 		Task dragTask = null;
 
 		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+			ModelTransferData data = (ModelTransferData) t
+					.getTransferData(ModelTransferable.MODEL_FLAVOR);
 
 			if (!data.getType().equals(ModelType.TASK))
 				return false;
 
 			dragTask = TaskFactory.getInstance().get(data.getId());
-		} catch (Exception e) { 
-			return false; 
+		} catch (Exception e) {
+			return false;
 		}
 
 		if (support.isDrop()) {
 			// Get Objects
 			TaskTable table = (TaskTable) support.getComponent();
-			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+			JTable.DropLocation dl = (JTable.DropLocation) support
+					.getDropLocation();
 
 			// Import : If insert row
 			if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
@@ -149,7 +154,7 @@ public class TaskTransferHandler extends TransferHandler {
 			// Get Objects
 			TaskTable table = (TaskTable) support.getComponent();
 
-			Task newTask = TaskFactory.getInstance().create(dragTask);			
+			Task newTask = TaskFactory.getInstance().create(dragTask);
 
 			table.getRowSorter().allRowsChanged();
 			table.setSelectedTask(newTask);

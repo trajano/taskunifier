@@ -30,8 +30,8 @@ public class TaskListModel extends AbstractModelListModel {
 
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks)
-			if (task.getModelStatus().equals(ModelStatus.LOADED) ||
-					task.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (task.getModelStatus().equals(ModelStatus.LOADED)
+					|| task.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(task);
 
 		TaskFactory.getInstance().addListChangeListener(this);

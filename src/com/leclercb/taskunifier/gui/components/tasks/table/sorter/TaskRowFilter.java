@@ -37,7 +37,7 @@ public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 	}
 
 	public TaskFilter getFilter() {
-		return filter;
+		return this.filter;
 	}
 
 	public void setFilter(TaskFilter filter) {
@@ -46,16 +46,18 @@ public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 	}
 
 	@Override
-	public boolean include(Entry<? extends TaskTableModel, ? extends Integer> entry) {
+	public boolean include(
+			Entry<? extends TaskTableModel, ? extends Integer> entry) {
 		TaskTableModel taskTableModel = entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
 
-		if (!task.getModelStatus().equals(ModelStatus.LOADED) &&
-				!task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		if (!task.getModelStatus().equals(ModelStatus.LOADED)
+				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
 		}
 
-		// If a filtered parent task has non filtered children, it must be displayed
+		// If a filtered parent task has non filtered children, it must be
+		// displayed
 		if (task.getParent() == null) {
 			List<Task> tasks = TaskFactory.getInstance().getList();
 			for (Task t : tasks) {

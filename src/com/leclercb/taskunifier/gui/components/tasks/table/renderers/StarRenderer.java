@@ -30,17 +30,17 @@ public class StarRenderer extends DefaultRenderer {
 	@Override
 	protected void setValue(Object value) {
 		if (value == null || !(value instanceof Boolean)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
 		if ((Boolean) value)
-			setIcon(Images.getResourceImage("checkbox_star_selected.gif"));
+			this.setIcon(Images.getResourceImage("checkbox_star_selected.gif"));
 		else
-			setIcon(Images.getResourceImage("checkbox_star.gif"));
+			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
 
-		setHorizontalAlignment(SwingConstants.CENTER);
-		setText("");
+		this.setHorizontalAlignment(SwingConstants.CENTER);
+		this.setText("");
 	}
 
 }

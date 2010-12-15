@@ -32,7 +32,8 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	private Object newValue;
 	private Object oldValue;
 
-	public TaskUndoableEdit(Task task, TaskColumn column, Object newValue, Object oldValue) {
+	public TaskUndoableEdit(Task task, TaskColumn column, Object newValue,
+			Object oldValue) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		CheckUtils.isNotNull(column, "Column cannot be null");
 
@@ -51,16 +52,16 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	public void undo() throws CannotUndoException {
 		super.undo();
 
-		if (column.equals(TaskColumn.TITLE))
-			task.setTitle((String) oldValue);
+		if (this.column.equals(TaskColumn.TITLE))
+			this.task.setTitle((String) this.oldValue);
 	}
 
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
 
-		if (column.equals(TaskColumn.TITLE))
-			task.setTitle((String) newValue);
+		if (this.column.equals(TaskColumn.TITLE))
+			this.task.setTitle((String) this.newValue);
 	}
 
 }

@@ -33,18 +33,17 @@ public class ActionConfiguration extends AbstractAction {
 	}
 
 	public ActionConfiguration(int width, int height) {
-		super(
-				Translations.getString("action.name.configuration"), 
-				Images.getResourceImage("settings.png", width, height));
+		super(Translations.getString("action.name.configuration"), Images
+				.getResourceImage("settings.png", width, height));
 
-		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.configuration"));
+		this.putValue(SHORT_DESCRIPTION,
+				Translations.getString("action.description.configuration"));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ConfigurationDialog config = new ConfigurationDialog(
-				MainFrame.getInstance().getFrame(), 
-				true);
+		ConfigurationDialog config = new ConfigurationDialog(MainFrame
+				.getInstance().getFrame(), true);
 
 		config.setVisible(true);
 	}

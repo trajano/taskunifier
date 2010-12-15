@@ -27,7 +27,8 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-abstract class AbstractModelComboBoxModel extends DefaultComboBoxModel implements ListChangeListener, PropertyChangeListener {
+abstract class AbstractModelComboBoxModel extends DefaultComboBoxModel
+		implements ListChangeListener, PropertyChangeListener {
 
 	@Override
 	public void listChange(ListChangeEvent event) {
@@ -40,8 +41,10 @@ abstract class AbstractModelComboBoxModel extends DefaultComboBoxModel implement
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().equals(ModelStatus.LOADED) &&
-				!((Model) event.getSource()).getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		if (!((Model) event.getSource()).getModelStatus().equals(
+				ModelStatus.LOADED)
+				&& !((Model) event.getSource()).getModelStatus().equals(
+						ModelStatus.TO_UPDATE)) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());

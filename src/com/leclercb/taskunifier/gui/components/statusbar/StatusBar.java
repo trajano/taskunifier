@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -57,27 +58,38 @@ public class StatusBar extends JPanel {
 
 	private void initializeLastSynchronizationDate() {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " " +
-				Settings.getStringProperty("date.time_format"));
+				Settings.getStringProperty("date.date_format") + " "
+						+ Settings.getStringProperty("date.time_format"));
 
 		String date = Translations.getString("statusbar.never");
 
-		if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date").getTime());
+		if (Settings
+				.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+			date = dateFormat.format(Settings.getCalendarProperty(
+					"synchronizer.last_synchronization_date").getTime());
 
-		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date") + ": " + date);
+		this.lastSynchronizationDate
+				.setText(Translations
+						.getString("statusbar.last_synchronization_date")
+						+ ": " + date);
 
 		Settings.addPropertyChangeListener(new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getPropertyName().equals("synchronizer.last_synchronization_date")) {
+				if (event.getPropertyName().equals(
+						"synchronizer.last_synchronization_date")) {
 					String date = Translations.getString("statusbar.never");
 
-					if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date").getTime());
+					if (Settings
+							.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+						dateFormat.format(Settings.getCalendarProperty(
+								"synchronizer.last_synchronization_date")
+								.getTime());
 
-					lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date") + ": " + date);
+					StatusBar.this.lastSynchronizationDate.setText(Translations
+							.getString("statusbar.last_synchronization_date")
+							+ ": " + date);
 				}
 			}
 
@@ -101,7 +113,7 @@ public class StatusBar extends JPanel {
 			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 			this.label = new JLabel();
-			this.label.setHorizontalAlignment(JLabel.TRAILING);
+			this.label.setHorizontalAlignment(SwingConstants.TRAILING);
 			this.label.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			this.add(this.label, BorderLayout.CENTER);
 		}

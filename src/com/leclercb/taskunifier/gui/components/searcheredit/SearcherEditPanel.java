@@ -34,44 +34,46 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.CENTER);
 
-		searcherPanel = new TaskSearcherPanel(searcher);
-		panel.add(searcherPanel, BorderLayout.NORTH);
+		this.searcherPanel = new TaskSearcherPanel(searcher);
+		panel.add(this.searcherPanel, BorderLayout.NORTH);
 
-		elementPanel = new TaskFilterElementPanel();
-		panel.add(elementPanel, BorderLayout.SOUTH);
+		this.elementPanel = new TaskFilterElementPanel();
+		panel.add(this.elementPanel, BorderLayout.SOUTH);
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		panel.add(splitPane, BorderLayout.CENTER);
 
-		sorterPanel = new TaskSorterPanel(searcher.getSorter());
-		splitPane.setLeftComponent(sorterPanel);
+		this.sorterPanel = new TaskSorterPanel(searcher.getSorter());
+		splitPane.setLeftComponent(this.sorterPanel);
 
-		filterPanel = new TaskFilterPanel(searcher.getFilter());
-		filterPanel.getTree().addTreeSelectionListener(this);
-		splitPane.setRightComponent(filterPanel);
+		this.filterPanel = new TaskFilterPanel(searcher.getFilter());
+		this.filterPanel.getTree().addTreeSelectionListener(this);
+		splitPane.setRightComponent(this.filterPanel);
 
 		splitPane.setDividerLocation(300);
 	}
 
 	public void close() {
-		elementPanel.saveElement();
+		this.elementPanel.saveElement();
 	}
 
 	@Override
 	public void valueChanged(TreeSelectionEvent evt) {
-		elementPanel.saveElement();
+		this.elementPanel.saveElement();
 
-		if (filterPanel.getTree().getSelectionCount() != 0) {
-			TreeNode node = (TreeNode) filterPanel.getTree().getLastSelectedPathComponent();
+		if (this.filterPanel.getTree().getSelectionCount() != 0) {
+			TreeNode node = (TreeNode) this.filterPanel.getTree()
+					.getLastSelectedPathComponent();
 
 			if (node instanceof TaskFilterElementTreeNode) {
-				elementPanel.setElement(((TaskFilterElementTreeNode) node).getElement());
+				this.elementPanel.setElement(((TaskFilterElementTreeNode) node)
+						.getElement());
 				return;
 			}
 		}
 
-		elementPanel.setElement(null);
+		this.elementPanel.setElement(null);
 	}
 
 }

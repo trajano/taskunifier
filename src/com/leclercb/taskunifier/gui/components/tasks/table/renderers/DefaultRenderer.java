@@ -39,46 +39,47 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 
 	public DefaultRenderer() {
 		if (Settings.getBooleanProperty("theme.color.enabled")) {
-			even = Settings.getColorProperty("theme.color.even");
-			odd = Settings.getColorProperty("theme.color.odd");
+			this.even = Settings.getColorProperty("theme.color.even");
+			this.odd = Settings.getColorProperty("theme.color.odd");
 		} else {
-			even = UIManager.getColor("Table.background");
-			odd = UIManager.getColor("Table.background");
+			this.even = UIManager.getColor("Table.background");
+			this.odd = UIManager.getColor("Table.background");
 		}
 
-		selected = UIManager.getColor("Table.selectionBackground");
+		this.selected = UIManager.getColor("Table.selectionBackground");
 	}
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		Component component = super.getTableCellRendererComponent(
-				table, value, isSelected, hasFocus, row, column);
+		Component component = super.getTableCellRendererComponent(table, value,
+				isSelected, hasFocus, row, column);
 
 		if (value == null) {
-			component.setBackground(getBackgroundColor(isSelected, row));
+			component.setBackground(this.getBackgroundColor(isSelected, row));
 			return component;
 		}
 
 		Task task = ((TaskTable) table).getTask(row);
 
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(component.getFont().getAttributes());
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(
+				component.getFont().getAttributes());
 		attributes.put(TextAttribute.STRIKETHROUGH, task.isCompleted());
 		component.setFont(component.getFont().deriveFont(attributes));
 
-		component.setBackground(getBackgroundColor(isSelected, row));
+		component.setBackground(this.getBackgroundColor(isSelected, row));
 
 		return component;
 	}
 
 	private Color getBackgroundColor(boolean isSelected, int row) {
 		if (isSelected)
-			return selected;
+			return this.selected;
 
 		if (row % 2 == 0)
-			return even;
+			return this.even;
 
-		return odd;
+		return this.odd;
 	}
 
 }

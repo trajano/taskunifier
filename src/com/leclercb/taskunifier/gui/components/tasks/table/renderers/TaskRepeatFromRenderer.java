@@ -29,11 +29,12 @@ public class TaskRepeatFromRenderer extends DefaultRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskRepeatFrom)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
-		setText(TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value));
+		this.setText(TranslationsUtils
+				.translateTaskRepeatFrom((TaskRepeatFrom) value));
 	}
 
 }

@@ -29,26 +29,35 @@ public class TaskFilterElementTreeNode implements TreeNode {
 
 	@Override
 	public String toString() {
-		String str = this.element.getColumn() + " " + 
-		TranslationsUtils.translateTaskFilterCondition(this.element.getCondition()) + " \"";
+		String str = this.element.getColumn()
+				+ " "
+				+ TranslationsUtils.translateTaskFilterCondition(this.element
+						.getCondition()) + " \"";
 
-		switch(this.element.getColumn()) {
-		case COMPLETED:
-		case STAR:
-			str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.element.getValue().toString()));
-			break;
-		case PRIORITY:
-			str += TranslationsUtils.translateTaskPriority((TaskPriority) this.element.getValue());
-			break;
-		case REPEAT_FROM:
-			str += TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) this.element.getValue());
-			break;
-		case STATUS:
-			str += TranslationsUtils.translateTaskStatus((TaskStatus) this.element.getValue());
-			break;
-		default:
-			str += this.element.getValue();
-			break;
+		switch (this.element.getColumn()) {
+			case COMPLETED:
+			case STAR:
+				str += TranslationsUtils.translateBoolean(Boolean
+						.parseBoolean(this.element.getValue().toString()));
+				break;
+			case PRIORITY:
+				str += TranslationsUtils
+						.translateTaskPriority((TaskPriority) this.element
+								.getValue());
+				break;
+			case REPEAT_FROM:
+				str += TranslationsUtils
+						.translateTaskRepeatFrom((TaskRepeatFrom) this.element
+								.getValue());
+				break;
+			case STATUS:
+				str += TranslationsUtils
+						.translateTaskStatus((TaskStatus) this.element
+								.getValue());
+				break;
+			default:
+				str += this.element.getValue();
+				break;
 		}
 
 		return str + "\"";
@@ -98,9 +107,8 @@ public class TaskFilterElementTreeNode implements TreeNode {
 		if (o instanceof TaskFilterElementTreeNode) {
 			TaskFilterElementTreeNode node = (TaskFilterElementTreeNode) o;
 
-			return new EqualsBuilder()
-			.append(this.element, node.element)
-			.isEqual();
+			return new EqualsBuilder().append(this.element, node.element)
+					.isEqual();
 		}
 
 		return false;

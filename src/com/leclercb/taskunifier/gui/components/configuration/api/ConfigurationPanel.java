@@ -26,6 +26,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
@@ -47,7 +48,7 @@ public abstract class ConfigurationPanel extends JPanel {
 	}
 
 	public Object getValue(String id) {
-		ConfigurationField field = getField(id);
+		ConfigurationField field = this.getField(id);
 
 		if (field == null)
 			throw new IllegalArgumentException("Id not found");
@@ -58,7 +59,7 @@ public abstract class ConfigurationPanel extends JPanel {
 	public ConfigurationField getField(String id) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 
-		for (ConfigurationField field : fields)
+		for (ConfigurationField field : this.fields)
 			if (EqualsUtils.equals(id, field.getId()))
 				return field;
 
@@ -66,20 +67,21 @@ public abstract class ConfigurationPanel extends JPanel {
 	}
 
 	public List<ConfigurationField> getFields() {
-		return Collections.unmodifiableList(fields);
+		return Collections.unmodifiableList(this.fields);
 	}
 
 	public void addField(ConfigurationField field) {
 		CheckUtils.isNotNull(field, "Field cannot be null");
 
-		if (getField(field.getId()) != null)
-			throw new IllegalArgumentException("A field with the same id already exists");
+		if (this.getField(field.getId()) != null)
+			throw new IllegalArgumentException(
+					"A field with the same id already exists");
 
-		fields.add(field);
+		this.fields.add(field);
 	}
 
 	public void removeField(ConfigurationField field) {
-		fields.remove(field);
+		this.fields.remove(field);
 	}
 
 	public void pack() {
@@ -97,11 +99,12 @@ public abstract class ConfigurationPanel extends JPanel {
 			panel.add(Help.getHelp(this.helpFile));
 		}
 
-		for (ConfigurationField field : fields) {
+		for (ConfigurationField field : this.fields) {
 			if (field.getLabel() == null)
 				label = new JLabel();
 			else
-				label = new JLabel(field.getLabel() + ":", JLabel.TRAILING);
+				label = new JLabel(field.getLabel() + ":",
+						SwingConstants.TRAILING);
 
 			component = field.getType().getFieldComponent();
 
@@ -110,10 +113,10 @@ public abstract class ConfigurationPanel extends JPanel {
 		}
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel,
-				fields.size() + (this.helpFile != null? 1 : 0), 2, //rows, cols
-				6, 6, //initX, initY
-				6, 6); //xPad, yPad
+		SpringUtils.makeCompactGrid(panel, this.fields.size()
+				+ (this.helpFile != null ? 1 : 0), 2, // rows, cols
+				6, 6, // initX, initY
+				6, 6); // xPad, yPad
 
 		this.add(panel, BorderLayout.NORTH);
 	}

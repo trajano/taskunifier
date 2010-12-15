@@ -63,7 +63,7 @@ public class AboutDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				AboutDialog.this.setVisible(false);
 			}
 
 		});

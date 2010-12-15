@@ -50,12 +50,12 @@ public class SearcherEditDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 
-		searcherEditPanel = new SearcherEditPanel(searcher);
+		this.searcherEditPanel = new SearcherEditPanel(searcher);
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
-		this.add(searcherEditPanel, BorderLayout.CENTER);
+		this.add(this.searcherEditPanel, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 
 		this.initializeButtonsPanel(buttonsPanel);
@@ -67,7 +67,7 @@ public class SearcherEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					searcherEditPanel.close();
+					SearcherEditDialog.this.searcherEditPanel.close();
 					MainFrame.getInstance().refreshTasks();
 					SearcherEditDialog.this.dispose();
 				}

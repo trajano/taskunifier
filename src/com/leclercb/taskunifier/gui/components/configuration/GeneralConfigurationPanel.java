@@ -39,7 +39,8 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setLocaleProperty("general.locale", (Locale) this.getValue("LANGUAGE"));
+		Settings.setLocaleProperty("general.locale",
+				(Locale) this.getValue("LANGUAGE"));
 	}
 
 	private void initialize() {
@@ -49,13 +50,14 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 			generalLanguageValue = Settings.getLocaleProperty("general.locale");
 
 		this.addField(new ConfigurationField(
-				"LANGUAGE_AFTER_RESTART", 
-				null, 
-				new ConfigurationFieldType.Label(Translations.getString("configuration.general.language_changed_after_restart"))));
+				"LANGUAGE_AFTER_RESTART",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations
+								.getString("configuration.general.language_changed_after_restart"))));
 
 		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
-				Translations.getLocales().toArray(), 
-				generalLanguageValue);
+				Translations.getLocales().toArray(), generalLanguageValue);
 
 		comboBox.setRenderer(new DefaultListCellRenderer() {
 
@@ -63,8 +65,8 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 			public Component getListCellRendererComponent(JList list,
 					Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
-				Component component = super.getListCellRendererComponent(
-						list, value, index, isSelected, cellHasFocus);
+				Component component = super.getListCellRendererComponent(list,
+						value, index, isSelected, cellHasFocus);
 
 				this.setText(((Locale) value).getDisplayName());
 
@@ -73,10 +75,8 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 
 		});
 
-		this.addField(new ConfigurationField(
-				"LANGUAGE", 
-				Translations.getString("configuration.general.language"), 
-				comboBox));
+		this.addField(new ConfigurationField("LANGUAGE", Translations
+				.getString("configuration.general.language"), comboBox));
 	}
 
 }

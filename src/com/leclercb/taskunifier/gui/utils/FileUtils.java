@@ -42,7 +42,7 @@ public final class FileUtils {
 
 		String extention = getExtention(fileName);
 
-		for (int i=0; i<extentions.length; i++)
+		for (int i = 0; i < extentions.length; i++)
 			if (extention.equals(extentions[i]))
 				return true;
 

@@ -43,6 +43,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -114,9 +115,10 @@ public class TaskTable extends JTable {
 		DEFAULT_RENDERER = new DefaultRenderer();
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " " +
+				Settings.getStringProperty("date.date_format") + " "
+						+ Settings.getStringProperty("date.time_format")));
+		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(
 				Settings.getStringProperty("date.time_format")));
-		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(Settings.getStringProperty("date.time_format")));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
 
@@ -128,25 +130,29 @@ public class TaskTable extends JTable {
 		JCheckBox checkBox = null;
 
 		checkBox = new JCheckBox();
-		checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
 
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
 		DATE_EDITOR = new DateEditor(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " " +
-				Settings.getStringProperty("date.time_format")));
+				Settings.getStringProperty("date.date_format") + " "
+						+ Settings.getStringProperty("date.time_format")));
 		LENGTH_EDITOR = new LengthEditor();
 
 		checkBox = new JCheckBox();
-		checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
 		checkBox.setIcon(new ImageIcon("images/blank_star.gif"));
 		checkBox.setSelectedIcon(new ImageIcon("images/star.gif"));
 
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 
-		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(new ContextComboBoxModel()));
-		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderComboBoxModel()));
-		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalComboBoxModel()));
-		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(new LocationComboBoxModel()));
+		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(
+				new ContextComboBoxModel()));
+		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(
+				new FolderComboBoxModel()));
+		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(
+				new GoalComboBoxModel()));
+		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
+				new LocationComboBoxModel()));
 
 		JTextField textField = null;
 
@@ -183,18 +189,20 @@ public class TaskTable extends JTable {
 	public void showColumn(TaskColumn taskColumn, boolean show) {
 		if (show) {
 			try {
-				getColumn(taskColumn);
+				this.getColumn(taskColumn);
 			} catch (IllegalArgumentException e) {
 				// This column does not exist
 				taskColumn.setVisible(true);
-				((TaskTableColumnModel) getColumnModel()).addColumn(taskColumn);
+				((TaskTableColumnModel) this.getColumnModel())
+						.addColumn(taskColumn);
 			}
 		} else {
 			try {
-				TableColumn column = getColumn(taskColumn);
+				TableColumn column = this.getColumn(taskColumn);
 
 				taskColumn.setVisible(false);
-				((TaskTableColumnModel) getColumnModel()).removeColumn(column);
+				((TaskTableColumnModel) this.getColumnModel())
+						.removeColumn(column);
 			} catch (IllegalArgumentException e) {
 				// This column does not exist
 			}
@@ -212,14 +220,14 @@ public class TaskTable extends JTable {
 		if (index == -1)
 			return null;
 
-		return getTask(index);
+		return this.getTask(index);
 	}
 
 	public void setSelectedTask(Task task) {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 
 		int index = -1;
-		for (int i=0; i<model.getRowCount(); i++)
+		for (int i = 0; i < model.getRowCount(); i++)
 			if (task.equals(model.getTask(i)))
 				index = this.getRowSorter().convertRowIndexToView(i);
 
@@ -234,7 +242,7 @@ public class TaskTable extends JTable {
 	}
 
 	public TaskSearcher getTaskSearcher() {
-		return searcher;
+		return this.searcher;
 	}
 
 	public void setTaskSearcher(TaskSearcher searcher) {
@@ -242,11 +250,13 @@ public class TaskTable extends JTable {
 
 		this.searcher = searcher;
 
-		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this.getRowSorter()).getRowFilter();
+		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this
+				.getRowSorter()).getRowFilter();
 		taskRowFilter.setFilter(searcher.getFilter());
 
 		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(searcher.getSorter().getElements());
+		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
+				searcher.getSorter().getElements());
 		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
 
 			@Override
@@ -264,9 +274,9 @@ public class TaskTable extends JTable {
 				continue;
 			}
 
-			sortKeys.add(new RowSorter.SortKey(
-					this.getColumn(element.getColumn()).getModelIndex(), 
-					element.getSortOrder()));
+			sortKeys.add(new RowSorter.SortKey(this.getColumn(
+					element.getColumn()).getModelIndex(), element
+					.getSortOrder()));
 		}
 
 		this.getRowSorter().setSortKeys(sortKeys);
@@ -298,18 +308,25 @@ public class TaskTable extends JTable {
 
 	private void initializeCopyAndPaste() {
 		ActionMap amap = this.getActionMap();
-		amap.put(TransferHandler.getCutAction().getValue(Action.NAME), TransferHandler.getCutAction());
-		amap.put(TransferHandler.getCopyAction().getValue(Action.NAME), TransferHandler.getCopyAction());
-		amap.put(TransferHandler.getPasteAction().getValue(Action.NAME), TransferHandler.getPasteAction());
+		amap.put(TransferHandler.getCutAction().getValue(Action.NAME),
+				TransferHandler.getCutAction());
+		amap.put(TransferHandler.getCopyAction().getValue(Action.NAME),
+				TransferHandler.getCopyAction());
+		amap.put(TransferHandler.getPasteAction().getValue(Action.NAME),
+				TransferHandler.getPasteAction());
 
 		InputMap imap = this.getInputMap();
-		imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler.getCutAction().getValue(Action.NAME));
-		imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler.getCopyAction().getValue(Action.NAME));
-		imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler.getPasteAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler
+				.getCutAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler
+				.getCopyAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler
+				.getPasteAction().getValue(Action.NAME));
 	}
 
 	private void initiliazeTableSorter() {
-		TaskTableRowSorter sorter = new TaskTableRowSorter((TaskTableModel) this.getModel());
+		TaskTableRowSorter sorter = new TaskTableRowSorter(
+				(TaskTableModel) this.getModel());
 		sorter.setRowFilter(new TaskRowFilter(new TaskFilter()));
 		this.setRowSorter(sorter);
 	}
@@ -320,36 +337,43 @@ public class TaskTable extends JTable {
 			@Override
 			public void mouseReleased(MouseEvent event) {
 				// Or BUTTON3 due to a bug with OSX
-				if (event.isPopupTrigger() || event.getButton() == MouseEvent.BUTTON3) {
-					JPopupMenu popup = new JPopupMenu(Translations.getString("general.columns"));
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					JPopupMenu popup = new JPopupMenu(Translations
+							.getString("general.columns"));
 
 					int x = 0;
-					TaskColumn[] currentTaskColumns = new TaskColumn[getColumnCount()];
-					Enumeration<TableColumn> columns = getColumnModel().getColumns();
+					TaskColumn[] currentTaskColumns = new TaskColumn[TaskTable.this
+							.getColumnCount()];
+					Enumeration<TableColumn> columns = TaskTable.this
+							.getColumnModel().getColumns();
 					while (columns.hasMoreElements()) {
-						currentTaskColumns[x++] = (TaskColumn) columns.nextElement().getIdentifier();
+						currentTaskColumns[x++] = (TaskColumn) columns
+								.nextElement().getIdentifier();
 					}
 
 					TaskColumn[] taskColumns = TaskColumn.getValues(false);
-					for (int i=0; i<taskColumns.length; i++) {
+					for (int i = 0; i < taskColumns.length; i++) {
 						final TaskColumn taskColumn = taskColumns[i];
 
 						boolean found = false;
 
-						for (int j=0; j<currentTaskColumns.length; j++) {
+						for (int j = 0; j < currentTaskColumns.length; j++) {
 							if (taskColumn == currentTaskColumns[j]) {
 								found = true;
 								break;
 							}
 						}
 
-						final JCheckBoxMenuItem item = new JCheckBoxMenuItem(taskColumns[i].getLabel());
+						final JCheckBoxMenuItem item = new JCheckBoxMenuItem(
+								taskColumns[i].getLabel());
 						item.setSelected(found);
 						item.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent event) {
-								showColumn(taskColumn, item.isSelected());
+								TaskTable.this.showColumn(taskColumn,
+										item.isSelected());
 							}
 
 						});
@@ -366,67 +390,69 @@ public class TaskTable extends JTable {
 
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
-		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
+		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel())
+				.getTaskColumn(col);
 
 		switch (column) {
-		case FOLDER:
-			return FOLDER_EDITOR;
-		case CONTEXT:
-			return CONTEXT_EDITOR;
-		case GOAL:
-			return GOAL_EDITOR;
-		case LOCATION:
-			return LOCATION_EDITOR;
-		case COMPLETED: 
-			return CHECK_BOX_EDITOR;
-		case DUE_DATE:
-			return DATE_EDITOR;
-		case START_DATE:
-			return DATE_EDITOR;
-		case REPEAT:
-			return TASK_REPEAT_EDITOR;
-		case REPEAT_FROM:
-			return REPEAT_FROM_EDITOR;
-		case STATUS:
-			return TASK_STATUS_EDITOR;
-		case LENGTH:
-			return LENGTH_EDITOR;
-		case PRIORITY:
-			return TASK_PRIORITY_EDITOR;
-		case STAR: 
-			return STAR_EDITOR;
-		default: 
-			return super.getCellEditor(row, col);
+			case FOLDER:
+				return FOLDER_EDITOR;
+			case CONTEXT:
+				return CONTEXT_EDITOR;
+			case GOAL:
+				return GOAL_EDITOR;
+			case LOCATION:
+				return LOCATION_EDITOR;
+			case COMPLETED:
+				return CHECK_BOX_EDITOR;
+			case DUE_DATE:
+				return DATE_EDITOR;
+			case START_DATE:
+				return DATE_EDITOR;
+			case REPEAT:
+				return TASK_REPEAT_EDITOR;
+			case REPEAT_FROM:
+				return REPEAT_FROM_EDITOR;
+			case STATUS:
+				return TASK_STATUS_EDITOR;
+			case LENGTH:
+				return LENGTH_EDITOR;
+			case PRIORITY:
+				return TASK_PRIORITY_EDITOR;
+			case STAR:
+				return STAR_EDITOR;
+			default:
+				return super.getCellEditor(row, col);
 		}
 	}
 
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int col) {
-		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
+		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel())
+				.getTaskColumn(col);
 
 		switch (column) {
-		case TITLE:
-			return TASK_TITLE_RENDERER;
-		case COMPLETED: 
-			return CHECK_BOX_RENDERER;
-		case COMPLETED_ON: 
-			return DATE_RENDERER;
-		case DUE_DATE: 
-			return DATE_RENDERER;
-		case START_DATE: 
-			return DATE_RENDERER;
-		case LENGTH:
-			return LENGTH_RENDERER;
-		case STAR: 
-			return STAR_RENDERER;
-		case PRIORITY:
-			return TASK_PRIORITY_RENDERER;
-		case REPEAT_FROM:
-			return TASK_REPEAT_FROM_RENDERER;
-		case STATUS:
-			return TASK_STATUS_RENDERER;
-		default: 
-			return DEFAULT_RENDERER;
+			case TITLE:
+				return TASK_TITLE_RENDERER;
+			case COMPLETED:
+				return CHECK_BOX_RENDERER;
+			case COMPLETED_ON:
+				return DATE_RENDERER;
+			case DUE_DATE:
+				return DATE_RENDERER;
+			case START_DATE:
+				return DATE_RENDERER;
+			case LENGTH:
+				return LENGTH_RENDERER;
+			case STAR:
+				return STAR_RENDERER;
+			case PRIORITY:
+				return TASK_PRIORITY_RENDERER;
+			case REPEAT_FROM:
+				return TASK_REPEAT_FROM_RENDERER;
+			case STATUS:
+				return TASK_STATUS_RENDERER;
+			default:
+				return DEFAULT_RENDERER;
 		}
 	}
 

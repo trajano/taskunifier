@@ -22,7 +22,8 @@ import java.io.Serializable;
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable {
+public class TaskSearcher extends AbstractPropertyChangeModel implements
+		Serializable {
 
 	public static final String PROP_TITLE = "SEARCHER_TITLE";
 	public static final String PROP_ICON = "SEARCHER_ICON";
@@ -38,7 +39,8 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		this(title, null, filter, sorter);
 	}
 
-	public TaskSearcher(String title, String icon, TaskFilter filter, TaskSorter sorter) {
+	public TaskSearcher(String title, String icon, TaskFilter filter,
+			TaskSorter sorter) {
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
@@ -46,7 +48,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -57,7 +59,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	}
 
 	public String getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	public void setIcon(String icon) {
@@ -67,7 +69,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	}
 
 	public TaskFilter getFilter() {
-		return filter;
+		return this.filter;
 	}
 
 	public void setFilter(TaskFilter filter) {
@@ -78,7 +80,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	}
 
 	public TaskSorter getSorter() {
-		return sorter;
+		return this.sorter;
 	}
 
 	public void setSorter(TaskSorter sorter) {
@@ -96,9 +98,11 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	public String toDetailedString(String before) {
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append(before + "Title: " + title + "\n");
-		buffer.append(before + "Filter: " + "\n" + filter.toDetailedString(before + "\t") + "\n");
-		buffer.append(before + "Sorter: " + "\n" + sorter.toDetailedString(before + "\t") + "\n");
+		buffer.append(before + "Title: " + this.title + "\n");
+		buffer.append(before + "Filter: " + "\n"
+				+ this.filter.toDetailedString(before + "\t") + "\n");
+		buffer.append(before + "Sorter: " + "\n"
+				+ this.sorter.toDetailedString(before + "\t") + "\n");
 
 		return buffer.toString();
 	}

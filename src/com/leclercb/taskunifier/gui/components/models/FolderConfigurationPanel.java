@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -40,7 +41,8 @@ import com.leclercb.taskunifier.gui.models.FolderListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class FolderConfigurationPanel extends JSplitPane implements PropertyChangeListener {
+public class FolderConfigurationPanel extends JSplitPane implements
+		PropertyChangeListener {
 
 	private Folder selectedFolder;
 
@@ -59,38 +61,44 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 
 			@Override
 			public void addModel() {
-				Model model = FolderFactory.getInstance().create(Translations.getString("folder.default.title"));
+				Model model = FolderFactory.getInstance().create(
+						Translations.getString("folder.default.title"));
 				this.setSelectedModel(model);
-				focusAndSelectTextInTextField(folderTitle);
+				FolderConfigurationPanel.this
+						.focusAndSelectTextInTextField(FolderConfigurationPanel.this.folderTitle);
 			}
 
 			@Override
 			public void removeModel(Model model) {
-				modelSelected(null);
-				FolderFactory.getInstance().markToDelete((Folder) this.getSelectedModel());
+				this.modelSelected(null);
+				FolderFactory.getInstance().markToDelete(
+						this.getSelectedModel());
 			}
 
 			@Override
 			public void modelSelected(Model model) {
-				if (selectedFolder != null)
-					selectedFolder.removePropertyChangeListener(FolderConfigurationPanel.this);
+				if (FolderConfigurationPanel.this.selectedFolder != null)
+					FolderConfigurationPanel.this.selectedFolder
+							.removePropertyChangeListener(FolderConfigurationPanel.this);
 
-				selectedFolder = (Folder) model;
+				FolderConfigurationPanel.this.selectedFolder = (Folder) model;
 
-				if (selectedFolder != null)
-					selectedFolder.addPropertyChangeListener(FolderConfigurationPanel.this);
+				if (FolderConfigurationPanel.this.selectedFolder != null)
+					FolderConfigurationPanel.this.selectedFolder
+							.addPropertyChangeListener(FolderConfigurationPanel.this);
 
 				if (model == null) {
-					folderTitle.setEnabled(false);
-					folderTitle.setText("");
+					FolderConfigurationPanel.this.folderTitle.setEnabled(false);
+					FolderConfigurationPanel.this.folderTitle.setText("");
 
 					return;
 				}
 
 				Folder folder = (Folder) model;
 
-				folderTitle.setEnabled(true);
-				folderTitle.setText(folder.getTitle());
+				FolderConfigurationPanel.this.folderTitle.setEnabled(true);
+				FolderConfigurationPanel.this.folderTitle.setText(folder
+						.getTitle());
 			}
 
 		};
@@ -110,26 +118,28 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 		JLabel label = null;
 
 		// Folder Title
-		label = new JLabel(Translations.getString("general.folder.title") + ":", JLabel.TRAILING);
+		label = new JLabel(
+				Translations.getString("general.folder.title") + ":",
+				SwingConstants.TRAILING);
 		info.add(label);
 
-		folderTitle.setEnabled(false);
-		folderTitle.addKeyListener(new KeyAdapter() {
+		this.folderTitle.setEnabled(false);
+		this.folderTitle.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Folder folder = (Folder) modelList.getSelectedModel();
-				folder.setTitle(folderTitle.getText());
+				folder.setTitle(FolderConfigurationPanel.this.folderTitle
+						.getText());
 			}
 
 		});
-		info.add(folderTitle);
+		info.add(this.folderTitle);
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info,
-				1, 2, //rows, cols
-				6, 6, //initX, initY
-				6, 6); //xPad, yPad
+		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
+				6, 6, // initX, initY
+				6, 6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}
@@ -146,7 +156,8 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Folder.PROP_MODEL_TITLE)) {
-			if (!EqualsUtils.equals(this.folderTitle.getText(), evt.getNewValue()))
+			if (!EqualsUtils.equals(this.folderTitle.getText(),
+					evt.getNewValue()))
 				this.folderTitle.setText((String) evt.getNewValue());
 		}
 	}

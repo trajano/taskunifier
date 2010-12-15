@@ -21,7 +21,7 @@ import javax.swing.ListModel;
 
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public interface TaskSearcherListModel extends ListModel  {
+public interface TaskSearcherListModel extends ListModel {
 
 	public abstract TaskSearcher getTaskSearcher(int index);
 

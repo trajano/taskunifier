@@ -43,10 +43,10 @@ class SearcherListRenderer extends JPanel implements ListCellRenderer {
 	private JLabel text;
 
 	public SearcherListRenderer() {
-		colorEven = Settings.getColorProperty("theme.color.even");
-		colorOdd = Settings.getColorProperty("theme.color.odd");
+		this.colorEven = Settings.getColorProperty("theme.color.even");
+		this.colorOdd = Settings.getColorProperty("theme.color.odd");
 
-		updateUI();
+		this.updateUI();
 	}
 
 	@Override
@@ -58,35 +58,36 @@ class SearcherListRenderer extends JPanel implements ListCellRenderer {
 
 		this.text = new JLabel();
 
-		text.setPreferredSize(new Dimension(100, 30));
+		this.text.setPreferredSize(new Dimension(100, 30));
 
-		setLayout(new BorderLayout());
-		add(icon, BorderLayout.WEST);
-		add(text, BorderLayout.CENTER);
+		this.setLayout(new BorderLayout());
+		this.add(this.icon, BorderLayout.WEST);
+		this.add(this.text, BorderLayout.CENTER);
 	}
 
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		if (value == null) {
-			icon.setIcon(null);
-			text.setText(Translations.getString("searcherlist.none"));
+			this.icon.setIcon(null);
+			this.text.setText(Translations.getString("searcherlist.none"));
 		} else if (value instanceof TaskSearcher) {
 			if (((TaskSearcher) value).getIcon() != null)
-				icon.setIcon(Images.getImage(((TaskSearcher) value).getIcon(), 24, 24));
+				this.icon.setIcon(Images.getImage(
+						((TaskSearcher) value).getIcon(), 24, 24));
 			else
-				icon.setIcon(null);
+				this.icon.setIcon(null);
 
-			text.setText(value.toString());
+			this.text.setText(value.toString());
 		} else {
-			icon.setIcon(null);
-			text.setText(value.toString());
+			this.icon.setIcon(null);
+			this.text.setText(value.toString());
 		}
 
 		if (isSelected) {
 			this.setBackground(list.getSelectionBackground());
 		} else if (Settings.getBooleanProperty("theme.color.enabled")) {
-			Color bg = (index % 2 == 0? colorEven : colorOdd);
+			Color bg = (index % 2 == 0 ? this.colorEven : this.colorOdd);
 			this.setBackground(bg);
 		} else {
 			this.setBackground(UIManager.getColor("List.background"));

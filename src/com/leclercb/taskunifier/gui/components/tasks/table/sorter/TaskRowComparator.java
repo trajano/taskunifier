@@ -62,17 +62,19 @@ public class TaskRowComparator implements RowComparator<Object> {
 
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both task are parents, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING)? 1 : -1) * compare(taskColumn, o1, o2);
-		} else if (task1.getParent() != null && task2.getParent() != null && 
-				task1.getParent().equals(task2.getParent())) {
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, o1, o2);
+		} else if (task1.getParent() != null && task2.getParent() != null
+				&& task1.getParent().equals(task2.getParent())) {
 			// If both task have the same parent, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING)? 1 : -1) * compare(taskColumn, o1, o2);
-		} else if (task1.getParent() == null && task2.getParent() != null &&
-				task1.equals(task2.getParent())) {
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, o1, o2);
+		} else if (task1.getParent() == null && task2.getParent() != null
+				&& task1.equals(task2.getParent())) {
 			// If a task is the child of the other task
 			result = -1;
-		} else if (task1.getParent() != null && task2.getParent() == null &&
-				task1.getParent().equals(task2)) {
+		} else if (task1.getParent() != null && task2.getParent() == null
+				&& task1.getParent().equals(task2)) {
 			// If a task is the child of the other task
 			result = 1;
 		} else {
@@ -85,11 +87,14 @@ public class TaskRowComparator implements RowComparator<Object> {
 
 			Object newO1 = taskColumn.getValue(task1);
 			Object newO2 = taskColumn.getValue(task2);
-			result = (sortOrder.equals(SortOrder.ASCENDING)? 1 : -1) * compare(taskColumn, newO1, newO2);
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, newO1, newO2);
 		}
 
 		if (result == 0) {
-			result = (sortOrder.equals(SortOrder.ASCENDING)? 1 : -1) * task1.getModelId().getId().compareTo(task2.getModelId().getId());
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* task1.getModelId().getId()
+							.compareTo(task2.getModelId().getId());
 		}
 
 		return result;
@@ -98,67 +103,67 @@ public class TaskRowComparator implements RowComparator<Object> {
 	private int compare(TaskColumn column, Object o1, Object o2) {
 		int result = 0;
 
-		switch(column) {
-		case TITLE: 
-			result = ((String) o1).compareTo((String) o2);
-			break;
-		case TAGS: 
-			result = ((String) o1).compareTo((String) o2);
-			break;
-		case FOLDER: 
-			result = compareModels(((Folder) o1), ((Folder) o2));
-			break;
-		case CONTEXT: 
-			result = compareModels(((Context) o1), ((Context) o2));
-			break;
-		case GOAL: 
-			result = compareModels(((Goal) o1), ((Goal) o2));
-			break;
-		case LOCATION: 
-			result = compareModels(((Location) o1), ((Location) o2));
-			break;
-		case PARENT:
-			result = compareModels(((Task) o1), ((Task) o2));
-			break;
-		case COMPLETED: 
-			result = ((Boolean) o1).compareTo((Boolean) o2);
-			break;
-		case COMPLETED_ON: 
-			result =  compareCalendars((Calendar) o1, (Calendar) o2);
-			break;
-		case DUE_DATE: 
-			result = compareCalendars((Calendar) o1, (Calendar) o2);
-			break;
-		case START_DATE: 
-			result = compareCalendars((Calendar) o1, (Calendar) o2);
-			break;
-		case REMINDER: 
-			result = ((Integer) o1).compareTo((Integer) o2);
-			break;
-		case REPEAT: 
-			result = ((String) o1).compareTo((String) o2);
-			break;
-		case REPEAT_FROM: 
-			result = ((TaskRepeatFrom) o1).compareTo((TaskRepeatFrom) o2);
-			break;
-		case STATUS: 
-			result = ((TaskStatus) o1).compareTo((TaskStatus) o2);
-			break;
-		case LENGTH:
-			result = ((Integer) o1).compareTo((Integer) o2);
-			break;
-		case PRIORITY: 
-			result = ((TaskPriority) o1).compareTo((TaskPriority) o2);
-			break;
-		case STAR: 
-			result = ((Boolean) o1).compareTo((Boolean) o2);
-			break;
-		case NOTE:
-			result = ((String) o1).compareTo((String) o2);
-			break;
-		default: 
-			result = 0;
-			break;
+		switch (column) {
+			case TITLE:
+				result = ((String) o1).compareTo((String) o2);
+				break;
+			case TAGS:
+				result = ((String) o1).compareTo((String) o2);
+				break;
+			case FOLDER:
+				result = this.compareModels(((Folder) o1), ((Folder) o2));
+				break;
+			case CONTEXT:
+				result = this.compareModels(((Context) o1), ((Context) o2));
+				break;
+			case GOAL:
+				result = this.compareModels(((Goal) o1), ((Goal) o2));
+				break;
+			case LOCATION:
+				result = this.compareModels(((Location) o1), ((Location) o2));
+				break;
+			case PARENT:
+				result = this.compareModels(((Task) o1), ((Task) o2));
+				break;
+			case COMPLETED:
+				result = ((Boolean) o1).compareTo((Boolean) o2);
+				break;
+			case COMPLETED_ON:
+				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				break;
+			case DUE_DATE:
+				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				break;
+			case START_DATE:
+				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				break;
+			case REMINDER:
+				result = ((Integer) o1).compareTo((Integer) o2);
+				break;
+			case REPEAT:
+				result = ((String) o1).compareTo((String) o2);
+				break;
+			case REPEAT_FROM:
+				result = ((TaskRepeatFrom) o1).compareTo((TaskRepeatFrom) o2);
+				break;
+			case STATUS:
+				result = ((TaskStatus) o1).compareTo((TaskStatus) o2);
+				break;
+			case LENGTH:
+				result = ((Integer) o1).compareTo((Integer) o2);
+				break;
+			case PRIORITY:
+				result = ((TaskPriority) o1).compareTo((TaskPriority) o2);
+				break;
+			case STAR:
+				result = ((Boolean) o1).compareTo((Boolean) o2);
+				break;
+			case NOTE:
+				result = ((String) o1).compareTo((String) o2);
+				break;
+			default:
+				result = 0;
+				break;
 		}
 
 		return result;

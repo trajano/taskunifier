@@ -37,11 +37,11 @@ public class ModelTransferData implements Serializable {
 	}
 
 	public ModelType getType() {
-		return type;
+		return this.type;
 	}
 
 	public ModelId getId() {
-		return id;
+		return this.id;
 	}
 
 }

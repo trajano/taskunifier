@@ -30,15 +30,15 @@ public class TaskStatusListCellRenderer extends DefaultListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(
-				list, value, index, isSelected, cellHasFocus);
+		Component component = super.getListCellRendererComponent(list, value,
+				index, isSelected, cellHasFocus);
 
 		if (value == null || !(value instanceof TaskStatus)) {
-			setText("");
+			this.setText("");
 			return component;
 		}
 
-		setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
+		this.setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
 		return component;
 	}
 

@@ -39,7 +39,8 @@ public class SubstanceLookAndFeelDescriptor extends LookAndFeelDescriptor {
 			SubstanceLookAndFeel.setSkin(this.getIdentifier());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException("Error while setting look and feel", e);
+			throw new LookAndFeelException("Error while setting look and feel",
+					e);
 		}
 	}
 

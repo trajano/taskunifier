@@ -35,13 +35,13 @@ public class TaskTitleRenderer extends DefaultRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		Component component = super.getTableCellRendererComponent(
-				table, value, isSelected, hasFocus, row, column);
+		Component component = super.getTableCellRendererComponent(table, value,
+				isSelected, hasFocus, row, column);
 
 		if (value == null) {
-			setIcon(null);
-			component.setFont(getFont().deriveFont(Font.PLAIN));
-			setText("");
+			this.setIcon(null);
+			component.setFont(this.getFont().deriveFont(Font.PLAIN));
+			this.setText("");
 			return component;
 		}
 
@@ -49,18 +49,18 @@ public class TaskTitleRenderer extends DefaultRenderer {
 
 		// Set Text & Font
 		if (task.getParent() == null) {
-			component.setFont(getFont().deriveFont(Font.BOLD));
-			setText(task.getTitle());
+			component.setFont(this.getFont().deriveFont(Font.BOLD));
+			this.setText(task.getTitle());
 		} else {
-			component.setFont(getFont().deriveFont(Font.PLAIN));
-			setText("          " + task.getTitle());
+			component.setFont(this.getFont().deriveFont(Font.PLAIN));
+			this.setText("          " + task.getTitle());
 		}
 
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue())
-			setIcon(Images.getResourceImage("warning.gif"));
+			this.setIcon(Images.getResourceImage("warning.gif"));
 		else
-			setIcon(null);
+			this.setIcon(null);
 
 		return component;
 	}

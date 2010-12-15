@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -78,7 +79,7 @@ public class SynchronizeDialog extends JDialog {
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		this.progressBar = new JProgressBar(JProgressBar.HORIZONTAL);
+		this.progressBar = new JProgressBar(SwingConstants.HORIZONTAL);
 		this.progressBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0));
 		this.progressBar.setIndeterminate(true);
 		this.progressBar.setString("");
@@ -88,13 +89,16 @@ public class SynchronizeDialog extends JDialog {
 
 		JScrollPane scrollStatus = new JScrollPane(this.progressStatus);
 		scrollStatus.setAutoscrolls(true);
-		scrollStatus.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+		scrollStatus.getVerticalScrollBar().addAdjustmentListener(
+				new AdjustmentListener() {
 
-			public void adjustmentValueChanged(AdjustmentEvent e) {  
-				e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-			}
+					@Override
+					public void adjustmentValueChanged(AdjustmentEvent e) {
+						e.getAdjustable().setValue(
+								e.getAdjustable().getMaximum());
+					}
 
-		});  
+				});
 
 		panel.add(this.progressBar, BorderLayout.NORTH);
 		panel.add(scrollStatus, BorderLayout.CENTER);
@@ -120,20 +124,33 @@ public class SynchronizeDialog extends JDialog {
 				private String modelTypeToString(ModelType type, boolean plurial) {
 					if (plurial) {
 						switch (type) {
-						case CONTEXT: return Translations.getString("general.contexts");
-						case FOLDER: return Translations.getString("general.folders");
-						case GOAL: return Translations.getString("general.goals");
-						case LOCATION: return Translations.getString("general.locations");
-						case TASK: return Translations.getString("general.tasks");
+							case CONTEXT:
+								return Translations
+										.getString("general.contexts");
+							case FOLDER:
+								return Translations
+										.getString("general.folders");
+							case GOAL:
+								return Translations.getString("general.goals");
+							case LOCATION:
+								return Translations
+										.getString("general.locations");
+							case TASK:
+								return Translations.getString("general.tasks");
 						}
 					}
 
 					switch (type) {
-					case CONTEXT: return Translations.getString("general.context");
-					case FOLDER: return Translations.getString("general.folder");
-					case GOAL: return Translations.getString("general.goal");
-					case LOCATION: return Translations.getString("general.location");
-					case TASK: return Translations.getString("general.task");
+						case CONTEXT:
+							return Translations.getString("general.context");
+						case FOLDER:
+							return Translations.getString("general.folder");
+						case GOAL:
+							return Translations.getString("general.goal");
+						case LOCATION:
+							return Translations.getString("general.location");
+						case TASK:
+							return Translations.getString("general.task");
 					}
 
 					return null;
@@ -147,41 +164,64 @@ public class SynchronizeDialog extends JDialog {
 						@Override
 						public void listChange(ListChangeEvent event) {
 							if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-								ProgressMessage message = (ProgressMessage) event.getValue();
+								ProgressMessage message = (ProgressMessage) event
+										.getValue();
 
 								if (message instanceof SynchronizationProgressMessage) {
 									SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
 
-									if (m.getType().equals(ProgressMessageType.START))
-										progressStatus.append(Translations.getString("synchronize.start_synchronization") + "\n");
+									if (m.getType().equals(
+											ProgressMessageType.START))
+										SynchronizeDialog.this.progressStatus.append(Translations
+												.getString("synchronize.start_synchronization")
+												+ "\n");
 									else
-										progressStatus.append(Translations.getString("synchronize.synchronization_completed") + "\n");
+										SynchronizeDialog.this.progressStatus.append(Translations
+												.getString("synchronize.synchronization_completed")
+												+ "\n");
 								} else if (message instanceof RetrieveModelsProgressMessage) {
 									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
 
-									if (m.getType().equals(ProgressMessageType.END))
+									if (m.getType().equals(
+											ProgressMessageType.END))
 										return;
 
-									String type = modelTypeToString(m.getModelType(), true);
-									progressStatus.append(Translations.getString("synchronize.retrieving_models", type) + "\n");
+									String type = modelTypeToString(
+											m.getModelType(), true);
+									SynchronizeDialog.this.progressStatus.append(Translations
+											.getString(
+													"synchronize.retrieving_models",
+													type)
+											+ "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
 									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
 
-									if (m.getType().equals(ProgressMessageType.END) || m.getActionCount() == 0)
+									if (m.getType().equals(
+											ProgressMessageType.END)
+											|| m.getActionCount() == 0)
 										return;
 
-									String type = modelTypeToString(m.getModelType(), m.getActionCount() > 1);
-									progressStatus.append(Translations.getString("synchronize.synchronizing", m.getActionCount(), type) + "\n");
+									String type = modelTypeToString(
+											m.getModelType(),
+											m.getActionCount() > 1);
+									SynchronizeDialog.this.progressStatus.append(Translations
+											.getString(
+													"synchronize.synchronizing",
+													m.getActionCount(), type)
+											+ "\n");
 								}
 							}
 						}
 
 					});
 
-					progressStatus.append(Translations.getString("synchronize.set_proxy") + "\n");
+					SynchronizeDialog.this.progressStatus.append(Translations
+							.getString("synchronize.set_proxy") + "\n");
 					SynchronizerUtils.initializeProxy();
 
-					progressStatus.append(Translations.getString("synchronize.connecting_toodledo") + "\n");
+					SynchronizeDialog.this.progressStatus.append(Translations
+							.getString("synchronize.connecting_toodledo")
+							+ "\n");
 					ToodledoConnection connection = null;
 
 					try {
@@ -191,11 +231,13 @@ public class SynchronizeDialog extends JDialog {
 						if (Settings.getStringProperty("toodledo.password") == null)
 							throw new Exception("Please fill in your password");
 
-						connection = ToodledoConnectionFactory.getInstance().getConnection(
-								Settings.getStringProperty("toodledo.email"),
-								Settings.getStringProperty("toodledo.password"),
-								Settings.getStringProperty("toodledo.userid"),
-								Settings.getStringProperty("toodledo.token"));
+						connection = ToodledoConnectionFactory
+								.getInstance()
+								.getConnection(
+										Settings.getStringProperty("toodledo.email"),
+										Settings.getStringProperty("toodledo.password"),
+										Settings.getStringProperty("toodledo.userid"),
+										Settings.getStringProperty("toodledo.token"));
 
 						connection.connect();
 					} catch (final Exception e) {
@@ -204,9 +246,9 @@ public class SynchronizeDialog extends JDialog {
 							@Override
 							public void run() {
 								JOptionPane.showMessageDialog(
-										null, 
-										e.getMessage(), 
-										Translations.getString("general.error"), 
+										null,
+										e.getMessage(),
+										Translations.getString("general.error"),
 										JOptionPane.ERROR_MESSAGE);
 							}
 
@@ -215,28 +257,31 @@ public class SynchronizeDialog extends JDialog {
 						return null;
 					}
 
-					Settings.setStringProperty("toodledo.userid", connection.getUserId());
-					Settings.setStringProperty("toodledo.token", connection.getToken());
+					Settings.setStringProperty("toodledo.userid",
+							connection.getUserId());
+					Settings.setStringProperty("toodledo.token",
+							connection.getToken());
 
-					synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(connection);
+					this.synchronizer = ToodledoSynchronizerFactory
+							.getInstance().getSynchronizer(connection);
 
-					SynchronizerUtils.initializeSynchronizer(synchronizer);
+					SynchronizerUtils.initializeSynchronizer(this.synchronizer);
 
-					SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
-							"synchronizer.choice", 
-							SynchronizerChoice.class);
+					SynchronizerChoice choice = (SynchronizerChoice) Settings
+							.getEnumProperty("synchronizer.choice",
+									SynchronizerChoice.class);
 
 					try {
-						synchronizer.synchronize(choice, monitor);
+						this.synchronizer.synchronize(choice, monitor);
 					} catch (final SynchronizerException e) {
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
 							public void run() {
 								JOptionPane.showMessageDialog(
-										null, 
-										e.getMessage(), 
-										Translations.getString("general.error"), 
+										null,
+										e.getMessage(),
+										Translations.getString("general.error"),
 										JOptionPane.ERROR_MESSAGE);
 							}
 
@@ -252,18 +297,20 @@ public class SynchronizeDialog extends JDialog {
 
 				@Override
 				protected void done() {
-					if (synchronizer != null)
-						SynchronizerUtils.saveSynchronizerState(synchronizer);
+					if (this.synchronizer != null)
+						SynchronizerUtils
+								.saveSynchronizerState(this.synchronizer);
 
 					SynchronizerUtils.removeProxy();
 
-					setCursor(null);
-					dispose();
+					SynchronizeDialog.this.setCursor(null);
+					SynchronizeDialog.this.dispose();
 				}
 
 			};
 
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			SynchronizeDialog.this.setCursor(Cursor
+					.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 

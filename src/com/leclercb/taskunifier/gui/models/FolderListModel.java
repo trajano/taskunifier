@@ -30,8 +30,8 @@ public class FolderListModel extends AbstractModelListModel {
 
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
-			if (folder.getModelStatus().equals(ModelStatus.LOADED) ||
-					folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (folder.getModelStatus().equals(ModelStatus.LOADED)
+					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(folder);
 
 		FolderFactory.getInstance().addListChangeListener(this);

@@ -29,11 +29,12 @@ public class TaskPriorityRenderer extends DefaultRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskPriority)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
-		setText(TranslationsUtils.translateTaskPriority((TaskPriority) value));
+		this.setText(TranslationsUtils
+				.translateTaskPriority((TaskPriority) value));
 	}
 
 }

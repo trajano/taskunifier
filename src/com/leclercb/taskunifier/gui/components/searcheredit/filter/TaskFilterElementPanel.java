@@ -46,199 +46,237 @@ public class TaskFilterElementPanel extends JPanel {
 	}
 
 	public TaskFilterElement getElement() {
-		return element;
+		return this.element;
 	}
 
 	public void saveElement() {
 		if (this.element != null) {
 			Object value = null;
 
-			switch ((TaskColumn) elementColumn.getSelectedItem()) {
-			case TITLE: 
-			case TAGS:
-			case NOTE:
-			case REPEAT:
-				value = elementValue.getSelectedItem().toString();
-				break;
-			case COMPLETED_ON:
-			case DUE_DATE:
-			case START_DATE:
-			case REMINDER:
-			case LENGTH:
-				value = Integer.parseInt(elementValue.getSelectedItem().toString());
-				break;
-			case COMPLETED:
-			case STAR:
-				value = elementValue.getSelectedItem().toString();
-				break;
-			default:
-				value = elementValue.getSelectedItem();
-				break;
+			switch ((TaskColumn) this.elementColumn.getSelectedItem()) {
+				case TITLE:
+				case TAGS:
+				case NOTE:
+				case REPEAT:
+					value = this.elementValue.getSelectedItem().toString();
+					break;
+				case COMPLETED_ON:
+				case DUE_DATE:
+				case START_DATE:
+				case REMINDER:
+				case LENGTH:
+					value = Integer.parseInt(this.elementValue
+							.getSelectedItem().toString());
+					break;
+				case COMPLETED:
+				case STAR:
+					value = this.elementValue.getSelectedItem().toString();
+					break;
+				default:
+					value = this.elementValue.getSelectedItem();
+					break;
 			}
 
-			this.element.checkAndSet(
-					(TaskColumn) elementColumn.getSelectedItem(), 
-					(TaskFilter.Condition<?, ?>) elementCondition.getSelectedItem(), 
-					value);
+			this.element.checkAndSet((TaskColumn) this.elementColumn
+					.getSelectedItem(),
+					(TaskFilter.Condition<?, ?>) this.elementCondition
+							.getSelectedItem(), value);
 		}
 	}
 
 	public void setElement(TaskFilterElement element) {
 		if (element == null)
-			resetFields(null, null, null);
+			this.resetFields(null, null, null);
 		else
-			resetFields(element.getColumn(), element.getCondition(), element.getValue());
+			this.resetFields(element.getColumn(), element.getCondition(),
+					element.getValue());
 
 		this.element = element;
 	}
 
-	private void resetFields(TaskColumn column, TaskFilter.Condition<?, ?> condition, Object value) {
+	private void resetFields(TaskColumn column,
+			TaskFilter.Condition<?, ?> condition, Object value) {
 		TaskFilterElement currentElement = this.element;
 		this.element = null;
 
-		elementColumn.setEnabled(column != null);
-		elementCondition.setEnabled(column != null);
-		elementValue.setEnabled(column != null);
+		this.elementColumn.setEnabled(column != null);
+		this.elementCondition.setEnabled(column != null);
+		this.elementValue.setEnabled(column != null);
 
-		elementColumn.removeAllItems();
-		elementCondition.removeAllItems();
-		elementValue.removeAllItems();
+		this.elementColumn.removeAllItems();
+		this.elementCondition.removeAllItems();
+		this.elementValue.removeAllItems();
 
 		if (column == null) {
 			return;
 		}
 
-		elementColumn.setModel(new DefaultComboBoxModel(TaskColumn.values()));
-		elementColumn.setSelectedItem(column);
+		this.elementColumn.setModel(new DefaultComboBoxModel(TaskColumn
+				.values()));
+		this.elementColumn.setSelectedItem(column);
 
-		elementValue.setRenderer(new DefaultListCellRenderer());
+		this.elementValue.setRenderer(new DefaultListCellRenderer());
 
 		switch (column) {
-		case TITLE: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
-			elementValue.addItem(value == null? "" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case TAGS: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
-			elementValue.addItem(value == null? "" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case FOLDER: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.ModelCondition.values()));
-			elementValue.setModel(new FolderComboBoxModel());
-			elementValue.setSelectedItem(value);
-			elementValue.setEditable(false);
-			break;
-		case CONTEXT: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.ModelCondition.values()));
-			elementValue.setModel(new ContextComboBoxModel());
-			elementValue.setSelectedItem(value);
-			elementValue.setEditable(false);
-			break;
-		case GOAL: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.ModelCondition.values()));
-			elementValue.setModel(new GoalComboBoxModel());
-			elementValue.setSelectedItem(value);
-			elementValue.setEditable(false);
-			break;
-		case LOCATION:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.ModelCondition.values()));
-			elementValue.setModel(new LocationComboBoxModel());
-			elementValue.setSelectedItem(value);
-			elementValue.setEditable(false);
-			break;
-		case PARENT:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.ModelCondition.values()));
-			elementValue.setModel(new TaskComboBoxModel());
-			elementValue.setSelectedItem(value);
-			elementValue.setEditable(false);
-			break;
-		case COMPLETED: 
-			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
-			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
-			elementValue.setRenderer(new BooleanListCellRenderer());
-			elementValue.setSelectedItem(value == null? false : value);
-			elementValue.setEditable(false);
-			break;
-		case COMPLETED_ON: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.DaysCondition.values()));
-			elementValue.addItem(value == null? "0" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case DUE_DATE: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.DaysCondition.values()));
-			elementValue.addItem(value == null? "0" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case START_DATE: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.DaysCondition.values()));
-			elementValue.addItem(value == null? "0" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case REMINDER:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.NumberCondition.values()));
-			elementValue.addItem(value == null? "0" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case REPEAT: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
-			elementValue.addItem(value == null? "" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case REPEAT_FROM:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
-			elementValue.setModel(new DefaultComboBoxModel(TaskRepeatFrom.values()));
-			elementValue.setRenderer(new TaskRepeatFromListCellRenderer());
-			elementValue.setSelectedItem(value == null? TaskRepeatFrom.DUE_DATE : value);
-			elementValue.setEditable(false);
-			break;
-		case STATUS: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
-			elementValue.setModel(new DefaultComboBoxModel(TaskStatus.values()));
-			elementValue.setRenderer(new TaskStatusListCellRenderer());
-			elementValue.setSelectedItem(value == null? TaskStatus.NONE : value);
-			elementValue.setEditable(false);
-			break;
-		case LENGTH:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.NumberCondition.values()));
-			elementValue.addItem(value == null? "0" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
-		case PRIORITY: 
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.EnumCondition.values()));
-			elementValue.setModel(new DefaultComboBoxModel(TaskPriority.values()));
-			elementValue.setRenderer(new TaskPriorityListCellRenderer());
-			elementValue.setSelectedItem(value == null? TaskPriority.LOW : value);
-			elementValue.setEditable(false);
-			break;
-		case STAR: 
-			elementCondition.setModel(new DefaultComboBoxModel(new Object[] { TaskFilter.StringCondition.EQUALS }));
-			elementValue.setModel(new DefaultComboBoxModel(new Object[] {true, false}));
-			elementValue.setRenderer(new BooleanListCellRenderer());
-			elementValue.setSelectedItem(value == null? false : value);
-			elementValue.setEditable(false);
-			break;
-		case NOTE:
-			elementCondition.setModel(new DefaultComboBoxModel(TaskFilter.StringCondition.values()));
-			elementValue.addItem(value == null? "" : value);
-			elementValue.setSelectedIndex(0);
-			elementValue.setEditable(true);
-			break;
+			case TITLE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.StringCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case TAGS:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.StringCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case FOLDER:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
+				this.elementValue.setModel(new FolderComboBoxModel());
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
+			case CONTEXT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
+				this.elementValue.setModel(new ContextComboBoxModel());
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
+			case GOAL:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
+				this.elementValue.setModel(new GoalComboBoxModel());
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
+			case LOCATION:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
+				this.elementValue.setModel(new LocationComboBoxModel());
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
+			case PARENT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
+				this.elementValue.setModel(new TaskComboBoxModel());
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
+			case COMPLETED:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						new Object[] { TaskFilter.StringCondition.EQUALS }));
+				this.elementValue.setModel(new DefaultComboBoxModel(
+						new Object[] { true, false }));
+				this.elementValue.setRenderer(new BooleanListCellRenderer());
+				this.elementValue
+						.setSelectedItem(value == null ? false : value);
+				this.elementValue.setEditable(false);
+				break;
+			case COMPLETED_ON:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.DaysCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case DUE_DATE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.DaysCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case START_DATE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.DaysCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case REMINDER:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.NumberCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case REPEAT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.StringCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case REPEAT_FROM:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.EnumCondition.values()));
+				this.elementValue.setModel(new DefaultComboBoxModel(
+						TaskRepeatFrom.values()));
+				this.elementValue
+						.setRenderer(new TaskRepeatFromListCellRenderer());
+				this.elementValue
+						.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE
+								: value);
+				this.elementValue.setEditable(false);
+				break;
+			case STATUS:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.EnumCondition.values()));
+				this.elementValue.setModel(new DefaultComboBoxModel(TaskStatus
+						.values()));
+				this.elementValue.setRenderer(new TaskStatusListCellRenderer());
+				this.elementValue
+						.setSelectedItem(value == null ? TaskStatus.NONE
+								: value);
+				this.elementValue.setEditable(false);
+				break;
+			case LENGTH:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.NumberCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case PRIORITY:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.EnumCondition.values()));
+				this.elementValue.setModel(new DefaultComboBoxModel(
+						TaskPriority.values()));
+				this.elementValue
+						.setRenderer(new TaskPriorityListCellRenderer());
+				this.elementValue
+						.setSelectedItem(value == null ? TaskPriority.LOW
+								: value);
+				this.elementValue.setEditable(false);
+				break;
+			case STAR:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						new Object[] { TaskFilter.StringCondition.EQUALS }));
+				this.elementValue.setModel(new DefaultComboBoxModel(
+						new Object[] { true, false }));
+				this.elementValue.setRenderer(new BooleanListCellRenderer());
+				this.elementValue
+						.setSelectedItem(value == null ? false : value);
+				this.elementValue.setEditable(false);
+				break;
+			case NOTE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.StringCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
 		}
 
 		if (condition == null)
-			elementCondition.setSelectedIndex(0);
+			this.elementCondition.setSelectedIndex(0);
 		else
-			elementCondition.setSelectedItem(condition);
+			this.elementCondition.setSelectedItem(condition);
 
 		this.element = currentElement;
 	}
@@ -251,45 +289,50 @@ public class TaskFilterElementPanel extends JPanel {
 		panel.setLayout(new SpringLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		panel.add(new JLabel(Translations.getString("searcheredit.element.column") + ":"));
-		panel.add(new JLabel(Translations.getString("searcheredit.element.condition") + ":"));
-		panel.add(new JLabel(Translations.getString("searcheredit.element.value") + ":"));
+		panel.add(new JLabel(Translations
+				.getString("searcheredit.element.column") + ":"));
+		panel.add(new JLabel(Translations
+				.getString("searcheredit.element.condition") + ":"));
+		panel.add(new JLabel(Translations
+				.getString("searcheredit.element.value") + ":"));
 
 		// Column
-		elementColumn = new JComboBox();
-		elementColumn.setEnabled(false);
-		elementColumn.addItemListener(new ItemListener() {
+		this.elementColumn = new JComboBox();
+		this.elementColumn.setEnabled(false);
+		this.elementColumn.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
-				if (element == null)
+				if (TaskFilterElementPanel.this.element == null)
 					return;
 
-				resetFields((TaskColumn) elementColumn.getSelectedItem(), null, null);
+				TaskFilterElementPanel.this.resetFields(
+						(TaskColumn) TaskFilterElementPanel.this.elementColumn
+								.getSelectedItem(), null, null);
 			}
 
 		});
 
-		panel.add(elementColumn);
+		panel.add(this.elementColumn);
 
 		// Condition
-		elementCondition = new JComboBox();
-		elementCondition.setRenderer(new TaskFilterConditionListCellRenderer());
-		elementCondition.setEnabled(false);
+		this.elementCondition = new JComboBox();
+		this.elementCondition
+				.setRenderer(new TaskFilterConditionListCellRenderer());
+		this.elementCondition.setEnabled(false);
 
-		panel.add(elementCondition);
+		panel.add(this.elementCondition);
 
 		// Value
-		elementValue = new JComboBox(TaskColumn.values());
-		elementValue.setEnabled(false);
+		this.elementValue = new JComboBox(TaskColumn.values());
+		this.elementValue.setEnabled(false);
 
-		panel.add(elementValue);
+		panel.add(this.elementValue);
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel,
-				2, 3, //rows, cols
-				6, 6, //initX, initY
-				6, 6); //xPad, yPad
+		SpringUtils.makeCompactGrid(panel, 2, 3, // rows, cols
+				6, 6, // initX, initY
+				6, 6); // xPad, yPad
 
 		this.add(panel, BorderLayout.NORTH);
 	}

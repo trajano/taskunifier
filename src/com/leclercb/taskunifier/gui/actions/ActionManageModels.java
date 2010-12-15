@@ -34,19 +34,18 @@ public class ActionManageModels extends AbstractAction {
 	}
 
 	public ActionManageModels(int width, int height) {
-		super(
-				Translations.getString("action.name.manage_models"), 
-				Images.getResourceImage("folder.png", 32, 32));
+		super(Translations.getString("action.name.manage_models"), Images
+				.getResourceImage("folder.png", 32, 32));
 
-		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.manage_models"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
+		this.putValue(SHORT_DESCRIPTION,
+				Translations.getString("action.description.manage_models"));
+		this.putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ModelConfigurationDialog config = new ModelConfigurationDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
+				MainFrame.getInstance().getFrame(), true);
 
 		config.setVisible(true);
 	}

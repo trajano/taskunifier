@@ -30,17 +30,17 @@ public class CheckBoxRenderer extends DefaultRenderer {
 	@Override
 	protected void setValue(Object value) {
 		if (value == null || !(value instanceof Boolean)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
 		if ((Boolean) value)
-			setIcon(Images.getResourceImage("checkbox_selected.png"));
+			this.setIcon(Images.getResourceImage("checkbox_selected.png"));
 		else
-			setIcon(Images.getResourceImage("checkbox.png"));
+			this.setIcon(Images.getResourceImage("checkbox.png"));
 
-		setHorizontalAlignment(SwingConstants.CENTER);
-		setText("");
+		this.setHorizontalAlignment(SwingConstants.CENTER);
+		this.setText("");
 	}
 
 }

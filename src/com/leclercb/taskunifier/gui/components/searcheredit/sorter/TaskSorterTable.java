@@ -33,7 +33,8 @@ public class TaskSorterTable extends JTable {
 
 		// EDITORS
 		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
-		COLUMN_EDITOR = new DefaultCellEditor(new JComboBox(TaskColumn.values()));
+		COLUMN_EDITOR = new DefaultCellEditor(
+				new JComboBox(TaskColumn.values()));
 
 		JComboBox comboBox = null;
 
@@ -59,28 +60,28 @@ public class TaskSorterTable extends JTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
-		case 0:
-			return ORDER_EDITOR;
-		case 1:
-			return COLUMN_EDITOR;
-		case 2:
-			return SORT_ORDER_EDITOR;
-		default: 
-			return super.getCellEditor(row, col);
+			case 0:
+				return ORDER_EDITOR;
+			case 1:
+				return COLUMN_EDITOR;
+			case 2:
+				return SORT_ORDER_EDITOR;
+			default:
+				return super.getCellEditor(row, col);
 		}
 	}
 
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int col) {
 		switch (col) {
-		case 0:
-			return ORDER_RENDERER;
-		case 1:
-			return COLUMN_RENDERER;
-		case 2: 
-			return SORT_ORDER_RENDERER;
-		default:
-			return super.getCellRenderer(row, col);
+			case 0:
+				return ORDER_RENDERER;
+			case 1:
+				return COLUMN_RENDERER;
+			case 2:
+				return SORT_ORDER_RENDERER;
+			default:
+				return super.getCellRenderer(row, col);
 		}
 	}
 

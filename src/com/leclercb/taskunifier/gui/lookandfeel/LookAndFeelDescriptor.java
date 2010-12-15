@@ -38,22 +38,23 @@ public abstract class LookAndFeelDescriptor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getIdentifier() {
-		return identifier;
+		return this.identifier;
 	}
 
 	public void setLookAndFeel() throws LookAndFeelException {
-		setLookAndFeel(null);
+		this.setLookAndFeel(null);
 	}
 
-	public abstract void setLookAndFeel(Window window) throws LookAndFeelException;
+	public abstract void setLookAndFeel(Window window)
+			throws LookAndFeelException;
 
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 
 	@Override
@@ -66,8 +67,7 @@ public abstract class LookAndFeelDescriptor {
 			LookAndFeelDescriptor model = (LookAndFeelDescriptor) o;
 
 			return new EqualsBuilder()
-			.append(this.identifier, model.identifier)
-			.isEqual();
+					.append(this.identifier, model.identifier).isEqual();
 		}
 
 		return false;

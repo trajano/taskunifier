@@ -37,7 +37,7 @@ public class TaskFilterPanel extends JPanel {
 	}
 
 	public TaskFilterTree getTree() {
-		return tree;
+		return this.tree;
 	}
 
 	private void initialize() {
@@ -47,38 +47,48 @@ public class TaskFilterPanel extends JPanel {
 		treePanel.setLayout(new BorderLayout());
 		treePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-		this.tree = new TaskFilterTree(filter);
-		this.tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+		this.tree = new TaskFilterTree(this.filter);
+		this.tree.getSelectionModel().addTreeSelectionListener(
+				new TreeSelectionListener() {
 
-			@Override
-			public void valueChanged(TreeSelectionEvent event) {
-				if (tree.getSelectionCount() != 0) {
-					TreeNode node = (TreeNode) tree.getLastSelectedPathComponent();
+					@Override
+					public void valueChanged(TreeSelectionEvent event) {
+						if (TaskFilterPanel.this.tree.getSelectionCount() != 0) {
+							TreeNode node = (TreeNode) TaskFilterPanel.this.tree
+									.getLastSelectedPathComponent();
 
-					if (node instanceof TaskFilterTreeNode) {
-						if (((TaskFilterTreeNode) node).getFilter().getParent() != null) {
-							removeButton.setEnabled(true);
-						} else {
-							removeButton.setEnabled(false);
+							if (node instanceof TaskFilterTreeNode) {
+								if (((TaskFilterTreeNode) node).getFilter()
+										.getParent() != null) {
+									TaskFilterPanel.this.removeButton
+											.setEnabled(true);
+								} else {
+									TaskFilterPanel.this.removeButton
+											.setEnabled(false);
+								}
+
+								TaskFilterPanel.this.addElementButton
+										.setEnabled(true);
+								TaskFilterPanel.this.addFilterButton
+										.setEnabled(true);
+								return;
+							} else if (node instanceof TaskFilterElementTreeNode) {
+								TaskFilterPanel.this.addElementButton
+										.setEnabled(false);
+								TaskFilterPanel.this.addFilterButton
+										.setEnabled(false);
+								TaskFilterPanel.this.removeButton
+										.setEnabled(true);
+								return;
+							}
 						}
 
-						addElementButton.setEnabled(true);
-						addFilterButton.setEnabled(true);
-						return;
-					} else if (node instanceof TaskFilterElementTreeNode) {
-						addElementButton.setEnabled(false);
-						addFilterButton.setEnabled(false);
-						removeButton.setEnabled(true);
-						return;
+						TaskFilterPanel.this.addElementButton.setEnabled(false);
+						TaskFilterPanel.this.addFilterButton.setEnabled(false);
+						TaskFilterPanel.this.removeButton.setEnabled(false);
 					}
-				}
 
-				addElementButton.setEnabled(false);
-				addFilterButton.setEnabled(false);
-				removeButton.setEnabled(false);
-			}
-
-		});
+				});
 
 		treePanel.add(new JScrollPane(this.tree), BorderLayout.CENTER);
 
@@ -97,60 +107,73 @@ public class TaskFilterPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().startsWith("ADD")) {
-					TreeNode node = (TreeNode) tree.getLastSelectedPathComponent();
+					TreeNode node = (TreeNode) TaskFilterPanel.this.tree
+							.getLastSelectedPathComponent();
 
 					if (node == null || !(node instanceof TaskFilterTreeNode))
 						return;
 
 					if (event.getActionCommand().equals("ADD_ELEMENT")) {
 						TaskFilterElement element = new TaskFilterElement(
-								TaskColumn.TITLE, 
-								StringCondition.EQUALS, 
-								""
-						);
+								TaskColumn.TITLE, StringCondition.EQUALS, "");
 
-						((TaskFilterTreeNode) node).getFilter().addElement(element);
+						((TaskFilterTreeNode) node).getFilter().addElement(
+								element);
 					} else if (event.getActionCommand().equals("ADD_FILTER")) {
-						((TaskFilterTreeNode) node).getFilter().addFilter(new TaskFilter());
+						((TaskFilterTreeNode) node).getFilter().addFilter(
+								new TaskFilter());
 					}
 
-					for (int i=0; i<tree.getRowCount(); i++)
-						tree.expandRow(i);
+					for (int i = 0; i < TaskFilterPanel.this.tree.getRowCount(); i++)
+						TaskFilterPanel.this.tree.expandRow(i);
 				} else {
-					TreeNode node = (TreeNode) tree.getLastSelectedPathComponent();
+					TreeNode node = (TreeNode) TaskFilterPanel.this.tree
+							.getLastSelectedPathComponent();
 
 					if (node == null)
 						return;
 
 					if (node instanceof TaskFilterTreeNode) {
-						((TaskFilterTreeNode) node).getFilter().getParent().removeFilter(
-								((TaskFilterTreeNode) node).getFilter());
+						((TaskFilterTreeNode) node)
+								.getFilter()
+								.getParent()
+								.removeFilter(
+										((TaskFilterTreeNode) node).getFilter());
 					} else if (node instanceof TaskFilterElementTreeNode) {
-						((TaskFilterElementTreeNode) node).getElement().getParent().removeElement(
-								((TaskFilterElementTreeNode) node).getElement());
+						((TaskFilterElementTreeNode) node)
+								.getElement()
+								.getParent()
+								.removeElement(
+										((TaskFilterElementTreeNode) node)
+												.getElement());
 					}
 				}
 			}
 
 		};
 
-		addElementButton = new JButton(Translations.getString("searcheredit.add_element"), Images.getResourceImage("add.png", 16, 16));
-		addElementButton.setActionCommand("ADD_ELEMENT");
-		addElementButton.addActionListener(listener);
-		addElementButton.setEnabled(false);
-		buttonsPanel.add(addElementButton);
+		this.addElementButton = new JButton(
+				Translations.getString("searcheredit.add_element"),
+				Images.getResourceImage("add.png", 16, 16));
+		this.addElementButton.setActionCommand("ADD_ELEMENT");
+		this.addElementButton.addActionListener(listener);
+		this.addElementButton.setEnabled(false);
+		buttonsPanel.add(this.addElementButton);
 
-		addFilterButton = new JButton(Translations.getString("searcheredit.add_filter"), Images.getResourceImage("add.png", 16, 16));
-		addFilterButton.setActionCommand("ADD_FILTER");
-		addFilterButton.addActionListener(listener);
-		addFilterButton.setEnabled(false);
-		buttonsPanel.add(addFilterButton);
+		this.addFilterButton = new JButton(
+				Translations.getString("searcheredit.add_filter"),
+				Images.getResourceImage("add.png", 16, 16));
+		this.addFilterButton.setActionCommand("ADD_FILTER");
+		this.addFilterButton.addActionListener(listener);
+		this.addFilterButton.setEnabled(false);
+		buttonsPanel.add(this.addFilterButton);
 
-		removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
-		removeButton.setActionCommand("REMOVE");
-		removeButton.addActionListener(listener);
-		removeButton.setEnabled(false);
-		buttonsPanel.add(removeButton);
+		this.removeButton = new JButton(Images.getResourceImage("remove.png",
+				16, 16));
+		this.removeButton.setActionCommand("REMOVE");
+		this.removeButton.addActionListener(listener);
+		this.removeButton.setEnabled(false);
+		buttonsPanel.add(this.removeButton);
 	}
 
 }

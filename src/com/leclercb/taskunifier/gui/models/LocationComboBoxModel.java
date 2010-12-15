@@ -30,8 +30,8 @@ public class LocationComboBoxModel extends AbstractModelComboBoxModel {
 
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations)
-			if (location.getModelStatus().equals(ModelStatus.LOADED) ||
-					location.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (location.getModelStatus().equals(ModelStatus.LOADED)
+					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(location);
 
 		LocationFactory.getInstance().addListChangeListener(this);

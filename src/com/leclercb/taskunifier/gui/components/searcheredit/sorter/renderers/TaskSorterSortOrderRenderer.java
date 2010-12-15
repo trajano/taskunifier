@@ -31,11 +31,11 @@ public class TaskSorterSortOrderRenderer extends DefaultTableCellRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof SortOrder)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
-		setText(TranslationsUtils.translateSortOrder((SortOrder) value));
+		this.setText(TranslationsUtils.translateSortOrder((SortOrder) value));
 	}
 
 }

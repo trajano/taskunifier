@@ -34,19 +34,18 @@ public class ActionSynchronize extends AbstractAction {
 	}
 
 	public ActionSynchronize(int width, int height) {
-		super(
-				Translations.getString("action.name.synchronize"), 
-				Images.getResourceImage("synchronize.png", 32, 32));
+		super(Translations.getString("action.name.synchronize"), Images
+				.getResourceImage("synchronize.png", 32, 32));
 
-		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.synchronize"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		this.putValue(SHORT_DESCRIPTION,
+				Translations.getString("action.description.synchronize"));
+		this.putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		SynchronizeDialog dialog = new SynchronizeDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
+		SynchronizeDialog dialog = new SynchronizeDialog(MainFrame
+				.getInstance().getFrame(), true);
 
 		dialog.setVisible(true);
 

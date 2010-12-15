@@ -29,7 +29,8 @@ import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class ModelTransferable implements Transferable {
 
-	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(Task.class, "MODEL_FLAVOR");
+	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(Task.class,
+			"MODEL_FLAVOR");
 	public static final DataFlavor[] FLAVORS = { MODEL_FLAVOR };
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 
@@ -52,7 +53,8 @@ public class ModelTransferable implements Transferable {
 	}
 
 	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+	public Object getTransferData(DataFlavor flavor)
+			throws UnsupportedFlavorException, IOException {
 		return this.data;
 	}
 

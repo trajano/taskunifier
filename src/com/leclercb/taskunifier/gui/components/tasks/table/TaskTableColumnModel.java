@@ -30,7 +30,7 @@ public class TaskTableColumnModel extends DefaultTableColumnModel {
 
 	private void initialize() {
 		TaskColumn[] columns = TaskColumn.getValues(true);
-		for (int i=0; i<columns.length; i++)
+		for (int i = 0; i < columns.length; i++)
 			this.addColumn(columns[i]);
 	}
 
@@ -43,7 +43,7 @@ public class TaskTableColumnModel extends DefaultTableColumnModel {
 	}
 
 	public TaskColumn getTaskColumn(int col) {
-		return (TaskColumn) getColumn(col).getIdentifier();
+		return (TaskColumn) this.getColumn(col).getIdentifier();
 	}
 
 }

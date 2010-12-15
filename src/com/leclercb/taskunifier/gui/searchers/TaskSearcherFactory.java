@@ -30,7 +30,8 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
 import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcherFactory implements PropertyChangeListener, ListChangeModel, PropertyChangeModel {
+public class TaskSearcherFactory implements PropertyChangeListener,
+		ListChangeModel, PropertyChangeModel {
 
 	private static TaskSearcherFactory FACTORY;
 
@@ -47,34 +48,35 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	private List<TaskSearcher> searchers;
 
 	private TaskSearcherFactory() {
-		listChangeListenerList = new ListenerList<ListChangeListener>();
-		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.listChangeListenerList = new ListenerList<ListChangeListener>();
+		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 
-		searchers = new ArrayList<TaskSearcher>();
+		this.searchers = new ArrayList<TaskSearcher>();
 	}
 
 	public int size() {
-		return searchers.size();
+		return this.searchers.size();
 	}
 
 	public List<TaskSearcher> getList() {
-		return Collections.unmodifiableList(searchers);
+		return Collections.unmodifiableList(this.searchers);
 	}
 
 	public TaskSearcher get(int index) {
-		return searchers.get(index);
+		return this.searchers.get(index);
 	}
 
 	/**
-	 * Returns the index of the given searcher.
-	 * Returns -1 if the searcher does not exist.
+	 * Returns the index of the given searcher. Returns -1 if the searcher does
+	 * not exist.
 	 * 
-	 * @param searcher searcher to find
-	 * @return the index of the given searcher or -1 if
-	 * no searcher has been found
+	 * @param searcher
+	 *            searcher to find
+	 * @return the index of the given searcher or -1 if no searcher has been
+	 *         found
 	 */
 	public int getIndexOf(TaskSearcher searcher) {
-		return searchers.indexOf(searcher);
+		return this.searchers.indexOf(searcher);
 	};
 
 	public void delete(TaskSearcher searcher) {
@@ -82,109 +84,118 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	}
 
 	public void deleteAll() {
-		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(this.searchers);
+		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
+				this.searchers);
 		for (TaskSearcher searcher : searchers)
 			this.unregister(searcher);
 	}
 
 	public void register(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
-		searchers.add(searcher);
+		this.searchers.add(searcher);
 		searcher.addPropertyChangeListener(this);
-		int index = searchers.indexOf(searcher);
-		fireListChange(ListChangeEvent.VALUE_ADDED, index, searcher);
+		int index = this.searchers.indexOf(searcher);
+		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, searcher);
 	}
 
 	public void unregister(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 
-		int index = searchers.indexOf(searcher);
-		if (searchers.remove(searcher)) {
+		int index = this.searchers.indexOf(searcher);
+		if (this.searchers.remove(searcher)) {
 			searcher.removePropertyChangeListener(this);
-			fireListChange(ListChangeEvent.VALUE_REMOVED, index, searcher);
+			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, searcher);
 		}
 	}
 
-	public TaskSearcher create(String title, TaskFilter filter, TaskSorter sorter) {
+	public TaskSearcher create(String title, TaskFilter filter,
+			TaskSorter sorter) {
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 		this.register(searcher);
 		return searcher;
 	}
 
-	public TaskSearcher create(String title, String icon, TaskFilter filter, TaskSorter sorter) {
+	public TaskSearcher create(String title, String icon, TaskFilter filter,
+			TaskSorter sorter) {
 		TaskSearcher searcher = new TaskSearcher(title, icon, filter, sorter);
 		this.register(searcher);
 		return searcher;
 	}
 
 	/**
-	 * The listener will be notified when a new searcher is added
-	 * to the factory or when a searcher is removed from the factory.
+	 * The listener will be notified when a new searcher is added to the factory
+	 * or when a searcher is removed from the factory.
 	 * 
-	 * @param listener the listener to notify
+	 * @param listener
+	 *            the listener to notify
 	 */
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.addListener(listener);
+		this.listChangeListenerList.addListener(listener);
 	}
 
 	/**
 	 * Removes the listener from the list change listener list.
 	 * 
-	 * @param listener listener to remove
+	 * @param listener
+	 *            listener to remove
 	 */
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		listChangeListenerList.addListener(listener);
+		this.listChangeListenerList.addListener(listener);
 	}
 
 	/**
 	 * The listener will be notified when a searcher is updated.
 	 * 
-	 * @param listener the listener to notify
+	 * @param listener
+	 *            the listener to notify
 	 */
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.addListener(listener);
+		this.propertyChangeListenerList.addListener(listener);
 	}
 
 	/**
 	 * Removes the listener from the property change listener list.
 	 * 
-	 * @param listener listener to remove
+	 * @param listener
+	 *            listener to remove
 	 */
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeListenerList.removeListener(listener);
+		this.propertyChangeListenerList.removeListener(listener);
 	}
 
 	/**
-	 * Called when a searcher is updated.
-	 * Shouldn't be called manually.
+	 * Called when a searcher is updated. Shouldn't be called manually.
 	 * 
-	 * @param evt event of the model
+	 * @param evt
+	 *            event of the model
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		firePropertyChange(event);
+		this.firePropertyChange(event);
 	}
 
 	protected void fireListChange(ListChangeEvent event) {
-		for (ListChangeListener listener : listChangeListenerList)
+		for (ListChangeListener listener : this.listChangeListenerList)
 			listener.listChange(event);
 	}
 
 	protected void fireListChange(int changeType, int index, Object value) {
-		fireListChange(new ListChangeEvent(this, changeType, index, value));
+		this.fireListChange(new ListChangeEvent(this, changeType, index, value));
 	}
 
 	protected void firePropertyChange(PropertyChangeEvent evt) {
-		for (PropertyChangeListener listener : propertyChangeListenerList)
+		for (PropertyChangeListener listener : this.propertyChangeListenerList)
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
-		firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue,
+			Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property,
+				oldValue, newValue));
 	}
 
 }

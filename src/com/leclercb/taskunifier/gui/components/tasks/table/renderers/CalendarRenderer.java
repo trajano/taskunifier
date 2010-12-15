@@ -31,11 +31,12 @@ public class CalendarRenderer extends DefaultRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof Calendar)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
-		setText((value == null? "" : formatter.format(((Calendar) value).getTime())));
+		this.setText((value == null ? "" : this.formatter
+				.format(((Calendar) value).getTime())));
 	}
 
 }

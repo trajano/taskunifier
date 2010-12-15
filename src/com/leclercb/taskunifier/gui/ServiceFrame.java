@@ -30,12 +30,18 @@ public interface ServiceFrame {
 	public abstract Frame getFrame();
 
 	public abstract void selectDefaultTaskSearcher();
+
 	public abstract TaskSearcher getSelectedTaskSearcher();
 
 	public abstract void showColumn(TaskColumn taskColumn, boolean show);
+
 	public abstract Task getSelectedTask();
+
 	public abstract void setSelectedTask(Task task);
+
 	public abstract void refreshTasks();
-	public abstract void printTasks() throws HeadlessException, PrinterException;
+
+	public abstract void printTasks() throws HeadlessException,
+			PrinterException;
 
 }

@@ -35,7 +35,8 @@ public final class Translations {
 	}
 
 	public static void changeLocale(Locale locale) {
-		messages = ResourceBundle.getBundle(Translations.class.getName(), locale);
+		messages = ResourceBundle.getBundle(Translations.class.getName(),
+				locale);
 	}
 
 	public static Locale getDefaultLocale() {

@@ -19,6 +19,6 @@ package com.leclercb.taskunifier.gui.models;
 
 import javax.swing.ListModel;
 
-public interface ModelListModel extends ListModel  {
+public interface ModelListModel extends ListModel {
 
 }

@@ -13,7 +13,8 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskSorterTableModel extends DefaultTableModel implements ListChangeListener, PropertyChangeListener {
+public class TaskSorterTableModel extends DefaultTableModel implements
+		ListChangeListener, PropertyChangeListener {
 
 	private TaskSorter sorter;
 
@@ -24,7 +25,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	}
 
 	public TaskSorterElement getTaskSorterElement(int row) {
-		return sorter.getElement(row);
+		return this.sorter.getElement(row);
 	}
 
 	@Override
@@ -34,39 +35,51 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 
 	@Override
 	public int getRowCount() {
-		if (sorter == null)
+		if (this.sorter == null)
 			return 0;
 
-		return sorter.getElementCount();
+		return this.sorter.getElementCount();
 	}
 
 	@Override
 	public String getColumnName(int col) {
-		switch(col) {
-		case 0: return Translations.getString("task_sorter.order");
-		case 1: return Translations.getString("task_sorter.column");
-		case 2: return Translations.getString("task_sorter.sort_order");
-		default: return null;
+		switch (col) {
+			case 0:
+				return Translations.getString("task_sorter.order");
+			case 1:
+				return Translations.getString("task_sorter.column");
+			case 2:
+				return Translations.getString("task_sorter.sort_order");
+			default:
+				return null;
 		}
 	}
 
 	@Override
 	public Class<?> getColumnClass(int col) {
-		switch(col) {
-		case 0: return String.class;
-		case 1: return TaskColumn.class;
-		case 2: return SortOrder.class;
-		default: return null;
+		switch (col) {
+			case 0:
+				return String.class;
+			case 1:
+				return TaskColumn.class;
+			case 2:
+				return SortOrder.class;
+			default:
+				return null;
 		}
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		switch(col) {
-		case 0: return sorter.getElement(row).getOrder() + "";
-		case 1: return sorter.getElement(row).getColumn();
-		case 2: return sorter.getElement(row).getSortOrder();
-		default: return null;
+		switch (col) {
+			case 0:
+				return this.sorter.getElement(row).getOrder() + "";
+			case 1:
+				return this.sorter.getElement(row).getColumn();
+			case 2:
+				return this.sorter.getElement(row).getSortOrder();
+			default:
+				return null;
 		}
 	}
 
@@ -77,10 +90,17 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		switch(col) {
-		case 0: sorter.getElement(row).setOrder(Integer.parseInt((String) value)); break;
-		case 1: sorter.getElement(row).setColumn((TaskColumn) value); break;
-		case 2: sorter.getElement(row).setSortOrder((SortOrder) value); break;
+		switch (col) {
+			case 0:
+				this.sorter.getElement(row).setOrder(
+						Integer.parseInt((String) value));
+				break;
+			case 1:
+				this.sorter.getElement(row).setColumn((TaskColumn) value);
+				break;
+			case 2:
+				this.sorter.getElement(row).setSortOrder((SortOrder) value);
+				break;
 		}
 	}
 
@@ -95,7 +115,8 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		int index = this.sorter.getIndexOf((TaskSorterElement) event.getSource());
+		int index = this.sorter.getIndexOf((TaskSorterElement) event
+				.getSource());
 		this.fireTableRowsUpdated(index, index);
 	}
 

@@ -31,46 +31,46 @@ public class UndoFireManager extends UndoManager {
 	private ListenerList<IRedoListener> redoListenerList;
 
 	public UndoFireManager() {
-		undoListenerList = new ListenerList<IUndoListener>();
-		redoListenerList = new ListenerList<IRedoListener>();
+		this.undoListenerList = new ListenerList<IUndoListener>();
+		this.redoListenerList = new ListenerList<IRedoListener>();
 	}
 
 	public void addUndoListener(IUndoListener listener) {
-		undoListenerList.addListener(listener);
+		this.undoListenerList.addListener(listener);
 	}
 
 	public void removeUndoListener(IUndoListener listener) {
-		undoListenerList.removeListener(listener);
+		this.undoListenerList.removeListener(listener);
 	}
 
 	protected void fireUndoPerformed() {
-		for (IUndoListener listener : undoListenerList)
+		for (IUndoListener listener : this.undoListenerList)
 			listener.undoPerformed(new ActionEvent(this, 0, null));
 	}
 
 	public void addRedoListener(IRedoListener listener) {
-		redoListenerList.addListener(listener);
+		this.redoListenerList.addListener(listener);
 	}
 
 	public void removeRedoListener(IRedoListener listener) {
-		redoListenerList.removeListener(listener);
+		this.redoListenerList.removeListener(listener);
 	}
 
 	protected void fireRedoPerformed() {
-		for (IRedoListener listener : redoListenerList)
+		for (IRedoListener listener : this.redoListenerList)
 			listener.redoPerformed(new ActionEvent(this, 0, null));
 	}
 
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-		fireUndoPerformed();
+		this.fireUndoPerformed();
 	}
 
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		fireRedoPerformed();
+		this.fireRedoPerformed();
 	}
 
 }

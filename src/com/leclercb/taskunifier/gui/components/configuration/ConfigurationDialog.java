@@ -81,7 +81,7 @@ public class ConfigurationDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					saveAndApplyConfig();
+					ConfigurationDialog.this.saveAndApplyConfig();
 					ConfigurationDialog.this.dispose();
 				}
 
@@ -90,7 +90,7 @@ public class ConfigurationDialog extends JDialog {
 				}
 
 				if (event.getActionCommand() == "APPLY") {
-					saveAndApplyConfig();
+					ConfigurationDialog.this.saveAndApplyConfig();
 				}
 			}
 
@@ -101,12 +101,14 @@ public class ConfigurationDialog extends JDialog {
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 
-		JButton cancelButton = new JButton(Translations.getString("general.cancel"));
+		JButton cancelButton = new JButton(
+				Translations.getString("general.cancel"));
 		cancelButton.setActionCommand("CANCEL");
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
 
-		JButton applyButton = new JButton(Translations.getString("general.apply"));
+		JButton applyButton = new JButton(
+				Translations.getString("general.apply"));
 		applyButton.setActionCommand("APPLY");
 		applyButton.addActionListener(listener);
 		buttonsPanel.add(applyButton);
@@ -114,62 +116,54 @@ public class ConfigurationDialog extends JDialog {
 
 	private void initializeGeneralPanel(JTabbedPane tabbedPane) {
 		this.generalConfigurationPanel = new GeneralConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.general"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.general"),
 				new JScrollPane(this.generalConfigurationPanel));
 	}
 
 	private void initializeToodledoPanel(JTabbedPane tabbedPane) {
 		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.toodledo"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.toodledo"),
 				new JScrollPane(this.toodledoConfigurationPanel));
 	}
 
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
 		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.proxy"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.proxy"),
 				new JScrollPane(this.proxyConfigurationPanel));
 	}
 
 	private void initializeTaskPanel(JTabbedPane tabbedPane) {
 		this.taskConfigurationPanel = new TaskConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.task"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.task"),
 				new JScrollPane(this.taskConfigurationPanel));
 	}
 
 	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
 		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.columns"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.columns"),
 				new JScrollPane(this.columnsConfigurationPanel));
 	}
 
 	private void initializeThemePanel(JTabbedPane tabbedPane) {
 		this.themeConfigurationPanel = new ThemeConfigurationPanel(
 				new Window[] { this, this.getOwner() });
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.theme"), 
+		tabbedPane.addTab(Translations.getString("configuration.tab.theme"),
 				new JScrollPane(this.themeConfigurationPanel));
 	}
 
 	private void saveAndApplyConfig() {
-		generalConfigurationPanel.saveAndApplyConfig();
-		toodledoConfigurationPanel.saveAndApplyConfig();
-		proxyConfigurationPanel.saveAndApplyConfig();
-		taskConfigurationPanel.saveAndApplyConfig();
-		columnsConfigurationPanel.saveAndApplyConfig();
-		themeConfigurationPanel.saveAndApplyConfig();
+		this.generalConfigurationPanel.saveAndApplyConfig();
+		this.toodledoConfigurationPanel.saveAndApplyConfig();
+		this.proxyConfigurationPanel.saveAndApplyConfig();
+		this.taskConfigurationPanel.saveAndApplyConfig();
+		this.columnsConfigurationPanel.saveAndApplyConfig();
+		this.themeConfigurationPanel.saveAndApplyConfig();
 
 		try {
 			Main.saveSettings();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null, 
-					e.getMessage(), 
-					Translations.getString("error.save_settings"), 
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					Translations.getString("error.save_settings"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}

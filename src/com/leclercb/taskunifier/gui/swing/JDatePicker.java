@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -40,8 +39,7 @@ public class JDatePicker extends JDialog {
 
 	public static enum Action {
 
-		OK, 
-		CANCEL;
+		OK, CANCEL;
 
 	}
 
@@ -57,22 +55,23 @@ public class JDatePicker extends JDialog {
 	}
 
 	public Action getAction() {
-		return action;
+		return this.action;
 	}
 
 	public Calendar getValue() {
-		return calendar;
+		return this.calendar;
 	}
 
 	public void setValue(Calendar calendar) {
 		this.calendar = calendar;
 
 		if (calendar != null) {
-			timeSpinner.setValue(calendar.getTime());
+			this.timeSpinner.setValue(calendar.getTime());
 
 			try {
-				calendarPane.setDate(calendar.getTime());
-			} catch (PropertyVetoException e) {}
+				this.calendarPane.setDate(calendar.getTime());
+			} catch (PropertyVetoException e) {
+			}
 		}
 	}
 
@@ -103,29 +102,33 @@ public class JDatePicker extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					action = Action.OK;
+					JDatePicker.this.action = Action.OK;
 
-					if (calendarPane.getDate() == null) {
-						calendar = null;
+					if (JDatePicker.this.calendarPane.getDate() == null) {
+						JDatePicker.this.calendar = null;
 					} else {
-						Calendar time = GregorianCalendar.getInstance();
-						time.setTime((Date) timeSpinner.getValue());
+						Calendar time = Calendar.getInstance();
+						time.setTime((Date) JDatePicker.this.timeSpinner
+								.getValue());
 
-						Calendar date = GregorianCalendar.getInstance();
-						date.setTime(calendarPane.getDate());
+						Calendar date = Calendar.getInstance();
+						date.setTime(JDatePicker.this.calendarPane.getDate());
 
-						calendar = date;
-						calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-						calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
-						calendar.set(Calendar.SECOND, time.get(Calendar.SECOND));
+						JDatePicker.this.calendar = date;
+						JDatePicker.this.calendar.set(Calendar.HOUR_OF_DAY,
+								time.get(Calendar.HOUR_OF_DAY));
+						JDatePicker.this.calendar.set(Calendar.MINUTE,
+								time.get(Calendar.MINUTE));
+						JDatePicker.this.calendar.set(Calendar.SECOND,
+								time.get(Calendar.SECOND));
 					}
 
 					JDatePicker.this.dispose();
 				}
 
 				if (event.getActionCommand() == "CANCEL") {
-					action = Action.CANCEL;
-					calendar = null;
+					JDatePicker.this.action = Action.CANCEL;
+					JDatePicker.this.calendar = null;
 					JDatePicker.this.dispose();
 				}
 			}
@@ -137,7 +140,8 @@ public class JDatePicker extends JDialog {
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 
-		JButton cancelButton = new JButton(Translations.getString("general.cancel"));
+		JButton cancelButton = new JButton(
+				Translations.getString("general.cancel"));
 		cancelButton.setActionCommand("CANCEL");
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
@@ -147,18 +151,19 @@ public class JDatePicker extends JDialog {
 		JPanel timePanel = new JPanel();
 		timePanel.setLayout(new FlowLayout());
 
-		timeSpinner = new JSpinner();
-		timeSpinner.setModel(new SpinnerDateModel());
-		timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "HH:mm"));
+		this.timeSpinner = new JSpinner();
+		this.timeSpinner.setModel(new SpinnerDateModel());
+		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner,
+				"HH:mm"));
 
-		timePanel.add(timeSpinner);
+		timePanel.add(this.timeSpinner);
 
 		datePanel.add(timePanel, BorderLayout.EAST);
 	}
 
 	private void initializeDatePanel(JPanel datePanel) {
-		calendarPane = new CalendarPane();
-		datePanel.add(calendarPane, BorderLayout.CENTER);
+		this.calendarPane = new CalendarPane();
+		datePanel.add(this.calendarPane, BorderLayout.CENTER);
 	}
 
 }

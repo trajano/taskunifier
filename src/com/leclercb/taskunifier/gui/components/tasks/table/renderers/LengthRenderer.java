@@ -19,7 +19,6 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class LengthRenderer extends DefaultRenderer {
 
@@ -32,7 +31,7 @@ public class LengthRenderer extends DefaultRenderer {
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof Integer)) {
-			setText("");
+			this.setText("");
 			return;
 		}
 
@@ -44,10 +43,10 @@ public class LengthRenderer extends DefaultRenderer {
 			minute = ((Integer) value) % 60;
 		}
 
-		Calendar calendar = GregorianCalendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.set(0, 0, 0, hour, minute, 0);
 
-		setText(formatter.format(calendar.getTime()));
+		this.setText(this.formatter.format(calendar.getTime()));
 	}
 
 }

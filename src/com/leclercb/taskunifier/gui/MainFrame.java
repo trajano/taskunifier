@@ -38,6 +38,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable.PrintMode;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -70,7 +71,8 @@ import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class MainFrame extends JFrame implements ListSelectionListener, SaveSettingsListener, ActionListener, ServiceFrame {
+public class MainFrame extends JFrame implements ListSelectionListener,
+		SaveSettingsListener, ActionListener, ServiceFrame {
 
 	private static ServiceFrame INSTANCE;
 
@@ -103,7 +105,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		Settings.addSaveSettingsListener(this);
 
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
+		this.setIconImage(Images.getResourceImage("logo.png", 16, 16)
+				.getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSizeSettings();
 
@@ -135,15 +138,15 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 		this.loadSplitPaneSettings();
 
-		this.initializeSearcherList(horizontalSplitPane);
-		this.initializeTaskTable(verticalSplitPane);
-		this.initializeTaskNote(verticalSplitPane);
+		this.initializeSearcherList(this.horizontalSplitPane);
+		this.initializeTaskTable(this.verticalSplitPane);
+		this.initializeTaskNote(this.verticalSplitPane);
 		this.initializeDefaultTaskSearcher();
 
-		horizontalSplitPane.setRightComponent(verticalSplitPane);
+		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		panel.add(horizontalSplitPane, BorderLayout.CENTER);
+		panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
 
 		this.add(panel, BorderLayout.CENTER);
 
@@ -191,24 +194,24 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 	@Override
 	public void printTasks() throws HeadlessException, PrinterException {
-		this.taskTable.print(
-				PrintMode.FIT_WIDTH, 
-				new MessageFormat(Constants.TITLE + " - " + this.taskTable.getTaskSearcher().getTitle()), 
-				new MessageFormat(this.taskTable.getRowCount() + " tasks | Page - {0}"), 
-				true, 
-				null, 
-				true);
+		this.taskTable.print(PrintMode.FIT_WIDTH, new MessageFormat(
+				Constants.TITLE + " - "
+						+ this.taskTable.getTaskSearcher().getTitle()),
+				new MessageFormat(this.taskTable.getRowCount()
+						+ " tasks | Page - {0}"), true, null, true);
 	}
 
 	private void loadWindowSizeSettings() {
-		Integer extendedState = Settings.getIntegerProperty("window.extended_state");
+		Integer extendedState = Settings
+				.getIntegerProperty("window.extended_state");
 		Integer width = Settings.getIntegerProperty("window.width");
 		Integer height = Settings.getIntegerProperty("window.height");
 		Integer locationX = Settings.getIntegerProperty("window.location_x");
 		Integer locationY = Settings.getIntegerProperty("window.location_y");
 
 		if (width == null || height == null || extendedState == null) {
-			this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+			this.setExtendedState(this.getExtendedState()
+					| Frame.MAXIMIZED_BOTH);
 		} else {
 			this.setSize(width, height);
 			this.setExtendedState(extendedState);
@@ -224,18 +227,21 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		Integer vSplit = Settings.getIntegerProperty("window.vertical_split");
 
 		if (hSplit != null)
-			horizontalSplitPane.setDividerLocation(hSplit);
+			this.horizontalSplitPane.setDividerLocation(hSplit);
 
 		if (vSplit != null)
-			verticalSplitPane.setDividerLocation(vSplit);
+			this.verticalSplitPane.setDividerLocation(vSplit);
 	}
 
 	private void loadTaskColumnSettings() {
 		TaskColumn[] columns = TaskColumn.values();
-		for (int i=0; i<columns.length; i++) {
-			Integer order = Settings.getIntegerProperty("taskcolumn." + columns[i].name().toLowerCase() + ".order");
-			Integer width = Settings.getIntegerProperty("taskcolumn." + columns[i].name().toLowerCase() + ".width");
-			Boolean visible = Settings.getBooleanProperty("taskcolumn." + columns[i].name().toLowerCase() + ".visible");
+		for (int i = 0; i < columns.length; i++) {
+			Integer order = Settings.getIntegerProperty("taskcolumn."
+					+ columns[i].name().toLowerCase() + ".order");
+			Integer width = Settings.getIntegerProperty("taskcolumn."
+					+ columns[i].name().toLowerCase() + ".width");
+			Boolean visible = Settings.getBooleanProperty("taskcolumn."
+					+ columns[i].name().toLowerCase() + ".visible");
 
 			if (order == null)
 				order = 0;
@@ -254,29 +260,41 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 	@Override
 	public void saveSettings() {
-		Settings.setIntegerProperty("window.extended_state", this.getExtendedState());
+		Settings.setIntegerProperty("window.extended_state",
+				this.getExtendedState());
 		Settings.setIntegerProperty("window.width", this.getWidth());
 		Settings.setIntegerProperty("window.height", this.getHeight());
-		Settings.setIntegerProperty("window.location_x", (int) this.getLocationOnScreen().getX());
-		Settings.setIntegerProperty("window.location_y", (int) this.getLocationOnScreen().getY());
+		Settings.setIntegerProperty("window.location_x", (int) this
+				.getLocationOnScreen().getX());
+		Settings.setIntegerProperty("window.location_y", (int) this
+				.getLocationOnScreen().getY());
 
-		Settings.setIntegerProperty("window.horizontal_split", this.horizontalSplitPane.getDividerLocation());
-		Settings.setIntegerProperty("window.vertical_split", this.verticalSplitPane.getDividerLocation());
+		Settings.setIntegerProperty("window.horizontal_split",
+				this.horizontalSplitPane.getDividerLocation());
+		Settings.setIntegerProperty("window.vertical_split",
+				this.verticalSplitPane.getDividerLocation());
 
 		TaskColumn[] taskColumns = TaskColumn.getValues(false);
-		for (int i=0; i<taskColumns.length; i++) {
-			Settings.setBooleanProperty("taskcolumn." + taskColumns[i].name().toLowerCase() + ".visible", false);
+		for (int i = 0; i < taskColumns.length; i++) {
+			Settings.setBooleanProperty("taskcolumn."
+					+ taskColumns[i].name().toLowerCase() + ".visible", false);
 		}
 
 		int i = 0;
-		Enumeration<TableColumn> columns = this.taskTable.getColumnModel().getColumns();
+		Enumeration<TableColumn> columns = this.taskTable.getColumnModel()
+				.getColumns();
 		while (columns.hasMoreElements()) {
 			TableColumn column = columns.nextElement();
 			TaskColumn taskColumn = (TaskColumn) column.getIdentifier();
 
-			Settings.setIntegerProperty("taskcolumn." + taskColumn.name().toLowerCase() + ".order", i);
-			Settings.setIntegerProperty("taskcolumn." + taskColumn.name().toLowerCase() + ".width", column.getWidth());
-			Settings.setBooleanProperty("taskcolumn." + taskColumn.name().toLowerCase() + ".visible", taskColumn.isVisible());
+			Settings.setIntegerProperty("taskcolumn."
+					+ taskColumn.name().toLowerCase() + ".order", i);
+			Settings.setIntegerProperty("taskcolumn."
+					+ taskColumn.name().toLowerCase() + ".width",
+					column.getWidth());
+			Settings.setBooleanProperty("taskcolumn."
+					+ taskColumn.name().toLowerCase() + ".visible",
+					taskColumn.isVisible());
 
 			i++;
 		}
@@ -308,7 +326,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	}
 
 	private void initializeToolBar() {
-		this.toolBar = new JToolBar(JToolBar.HORIZONTAL);
+		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		this.toolBar.setFloatable(false);
 
 		this.toolBar.add(new ActionAddTask());
@@ -335,7 +353,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		this.searcherPanel = new SearcherPanel();
 		this.searcherPanel.addActionListener(this);
 
-		horizontalSplitPane.setLeftComponent(new JScrollPane(this.searcherPanel));
+		horizontalSplitPane
+				.setLeftComponent(new JScrollPane(this.searcherPanel));
 	}
 
 	private void initializeTaskTable(JSplitPane verticalSplitPane) {
@@ -365,7 +384,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	public void valueChanged(ListSelectionEvent event) {
 		if (event.getSource().equals(this.taskTable.getSelectionModel())) {
 			if (this.previousSelectedTask != null) {
-				if (!EqualsUtils.equals(this.previousSelectedTask.getNote(), this.taskNote.getText()))
+				if (!EqualsUtils.equals(this.previousSelectedTask.getNote(),
+						this.taskNote.getText()))
 					this.previousSelectedTask.setNote(this.taskNote.getText());
 			}
 
@@ -377,7 +397,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 				this.taskNote.setText("");
 				this.taskNote.setEnabled(false);
 			} else {
-				this.taskNote.setText(task.getNote() == null? "" : task.getNote());
+				this.taskNote.setText(task.getNote() == null ? "" : task
+						.getNote());
 				this.taskNote.setEnabled(true);
 			}
 		}
@@ -386,10 +407,11 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand().equals(SearcherPanel.ACT_SEARCHER_SELECTED)) {
-			if (searcherPanel.getSelectedTaskSearcher() == null)
+			if (this.searcherPanel.getSelectedTaskSearcher() == null)
 				return;
 
-			this.taskTable.setTaskSearcher(searcherPanel.getSelectedTaskSearcher());
+			this.taskTable.setTaskSearcher(this.searcherPanel
+					.getSelectedTaskSearcher());
 		}
 	}
 

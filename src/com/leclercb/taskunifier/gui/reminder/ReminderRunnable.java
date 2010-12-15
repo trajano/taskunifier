@@ -21,7 +21,7 @@ import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -46,7 +46,7 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
 			try {
 				Thread.sleep(SLEEP_TIME);
 			} catch (InterruptedException e) {
@@ -58,15 +58,18 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 				if (this.notifiedTasks.contains(task))
 					continue;
 
-				if (task.getModelStatus().equals(ModelStatus.LOADED) ||
-						task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+				if (task.getModelStatus().equals(ModelStatus.LOADED)
+						|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 					if (task.getDueDate() != null) {
-						long milliSeconds1 = task.getDueDate().getTimeInMillis();
-						long milliSeconds2 = GregorianCalendar.getInstance().getTimeInMillis();
+						long milliSeconds1 = task.getDueDate()
+								.getTimeInMillis();
+						long milliSeconds2 = Calendar.getInstance()
+								.getTimeInMillis();
 						long diff = milliSeconds1 - milliSeconds2;
 						final double diffMinutes = diff / (60 * 1000.0);
 
-						if (diffMinutes >= 0 && diffMinutes <= task.getReminder()) {
+						if (diffMinutes >= 0
+								&& diffMinutes <= task.getReminder()) {
 							this.notifiedTasks.remove(task);
 							this.notifiedTasks.add(task);
 
@@ -75,23 +78,27 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 								@Override
 								public void run() {
 									Object[] options = {
-											Translations.getString("general.show"),
-											Translations.getString("general.cancel")
-									};
+											Translations
+													.getString("general.show"),
+											Translations
+													.getString("general.cancel") };
 
 									int n = JOptionPane.showOptionDialog(
 											MainFrame.getInstance().getFrame(),
-											Translations.getString("reminder.message", task.getTitle(), (int) diffMinutes),
+											Translations.getString(
+													"reminder.message",
+													task.getTitle(),
+													(int) diffMinutes),
 											"Reminder",
 											JOptionPane.YES_NO_OPTION,
 											JOptionPane.INFORMATION_MESSAGE,
-											null,
-											options,
-											options[0]);
+											null, options, options[0]);
 
 									if (n == JOptionPane.YES_OPTION) {
-										MainFrame.getInstance().selectDefaultTaskSearcher();
-										MainFrame.getInstance().setSelectedTask(task);
+										MainFrame.getInstance()
+												.selectDefaultTaskSearcher();
+										MainFrame.getInstance()
+												.setSelectedTask(task);
 									}
 								}
 
@@ -105,8 +112,8 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE) ||
-				evt.getPropertyName().equals(Task.PROP_REMINDER))
+		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
+				|| evt.getPropertyName().equals(Task.PROP_REMINDER))
 			this.notifiedTasks.remove(evt.getSource());
 	}
 

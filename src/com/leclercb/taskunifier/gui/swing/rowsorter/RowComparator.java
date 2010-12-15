@@ -23,6 +23,7 @@ import javax.swing.SortOrder;
 
 public interface RowComparator<T> extends Comparator<T> {
 
-	public abstract int compare(int row1, int row2, int column, SortOrder sortOrder);
+	public abstract int compare(int row1, int row2, int column,
+			SortOrder sortOrder);
 
 }

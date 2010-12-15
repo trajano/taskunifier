@@ -30,19 +30,23 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class LocationTaskSearcherListModel extends LocationListModel implements TaskSearcherListModel {
+public class LocationTaskSearcherListModel extends LocationListModel implements
+		TaskSearcherListModel {
 
 	@Override
 	public TaskSearcher getTaskSearcher(int index) {
-		Location location = (Location) getElementAt(index);
+		Location location = (Location) this.getElementAt(index);
 
 		TaskSorter sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE, SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE,
+				SortOrder.ASCENDING));
 
 		TaskFilter filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(TaskColumn.LOCATION, ModelCondition.EQUALS, location));
+		filter.addElement(new TaskFilterElement(TaskColumn.LOCATION,
+				ModelCondition.EQUALS, location));
 
-		String title = (location == null? Translations.getString("searcherlist.none") : location.getTitle());
+		String title = (location == null ? Translations
+				.getString("searcherlist.none") : location.getTitle());
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 
 		return searcher;

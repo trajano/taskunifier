@@ -44,7 +44,8 @@ public final class SettingsVersion {
 		Settings.setStringProperty("date.date_format", "dd/MM/yyyy");
 		Settings.setStringProperty("date.time_format", "HH:mm");
 
-		Settings.setStringProperty("theme.lookandfeel", "javax.swing.plaf.metal.OceanTheme");
+		Settings.setStringProperty("theme.lookandfeel",
+				"javax.swing.plaf.metal.OceanTheme");
 
 		Settings.removeProperty("date.simple_time_format");
 		Settings.removeProperty("date.date_time_format");

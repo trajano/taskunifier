@@ -29,15 +29,15 @@ public class BooleanListCellRenderer extends DefaultListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(
-				list, value, index, isSelected, cellHasFocus);
+		Component component = super.getListCellRendererComponent(list, value,
+				index, isSelected, cellHasFocus);
 
 		if (value == null || !(value instanceof Boolean)) {
-			setText("");
+			this.setText("");
 			return component;
 		}
 
-		setText(TranslationsUtils.translateBoolean((Boolean) value));
+		this.setText(TranslationsUtils.translateBoolean((Boolean) value));
 		return component;
 	}
 

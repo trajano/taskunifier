@@ -30,21 +30,22 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.undo.IRedoListener;
 import com.leclercb.taskunifier.gui.undo.IUndoListener;
 
-public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
+public class ActionRedo extends AbstractAction implements UndoableEditListener,
+		IUndoListener, IRedoListener {
 
 	public ActionRedo() {
 		this(32, 32);
 	}
 
 	public ActionRedo(int width, int height) {
-		super(
-				Translations.getString("action.name.redo"),
-				Images.getResourceImage("redo.png", width, height));
+		super(Translations.getString("action.name.redo"), Images
+				.getResourceImage("redo.png", width, height));
 
-		putValue(SHORT_DESCRIPTION, Translations.getString("action.description.redo"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
+		this.putValue(SHORT_DESCRIPTION,
+				Translations.getString("action.description.redo"));
+		this.putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 
-		updateAction();
+		this.updateAction();
 
 		Constants.UNDO_MANAGER.addUndoListener(this);
 		Constants.UNDO_MANAGER.addRedoListener(this);
@@ -58,22 +59,22 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 
 	@Override
 	public void undoableEditHappened(UndoableEditEvent e) {
-		updateAction();
+		this.updateAction();
 	}
 
 	@Override
 	public void undoPerformed(ActionEvent event) {
-		updateAction();
+		this.updateAction();
 	}
 
 	@Override
 	public void redoPerformed(ActionEvent event) {
-		updateAction();
+		this.updateAction();
 	}
 
 	private void updateAction() {
-		setEnabled(Constants.UNDO_MANAGER.canRedo());
-		putValue(NAME, Constants.UNDO_MANAGER.getRedoPresentationName());
+		this.setEnabled(Constants.UNDO_MANAGER.canRedo());
+		this.putValue(NAME, Constants.UNDO_MANAGER.getRedoPresentationName());
 	}
 
 }

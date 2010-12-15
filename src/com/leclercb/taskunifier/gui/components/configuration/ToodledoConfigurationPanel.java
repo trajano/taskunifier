@@ -47,18 +47,25 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setStringProperty("toodledo.email", (String) this.getValue("EMAIL"));
-		Settings.setStringProperty("toodledo.password", (String) this.getValue("PASSWORD"));
+		Settings.setStringProperty("toodledo.email",
+				(String) this.getValue("EMAIL"));
+		Settings.setStringProperty("toodledo.password",
+				(String) this.getValue("PASSWORD"));
 		Settings.setStringProperty("toodledo.userid", null);
 		Settings.setStringProperty("toodledo.token", null);
-		Settings.setEnumProperty("synchronizer.choice", SynchronizerChoice.class, (SynchronizerChoice) this.getValue("CHOICE"));
+		Settings.setEnumProperty("synchronizer.choice",
+				SynchronizerChoice.class,
+				(SynchronizerChoice) this.getValue("CHOICE"));
 
-		if (!EqualsUtils.equals(
-				Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days"), 
-				(String) this.getValue("KEEP")))
+		if (!EqualsUtils
+				.equals(Settings
+						.getStringProperty("synchronizer.keep_tasks_completed_for_x_days"),
+						this.getValue("KEEP")))
 			SynchronizerUtils.keepTasksCompletedForXDaysHasChanged();
 
-		Settings.setStringProperty("synchronizer.keep_tasks_completed_for_x_days", (String) this.getValue("KEEP"));
+		Settings.setStringProperty(
+				"synchronizer.keep_tasks_completed_for_x_days",
+				(String) this.getValue("KEEP"));
 	}
 
 	private void initialize() {
@@ -71,83 +78,73 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 			toodledoEmailValue = Settings.getStringProperty("toodledo.email");
 
 		if (Settings.getStringProperty("toodledo.password") != null)
-			toodledoPasswordValue = Settings.getStringProperty("toodledo.password");
+			toodledoPasswordValue = Settings
+					.getStringProperty("toodledo.password");
 
-		if (Settings.getEnumProperty("synchronizer.choice", SynchronizerChoice.class) != null)
-			toodledoChoiceValue = (SynchronizerChoice) Settings.getEnumProperty("synchronizer.choice", SynchronizerChoice.class);
+		if (Settings.getEnumProperty("synchronizer.choice",
+				SynchronizerChoice.class) != null)
+			toodledoChoiceValue = (SynchronizerChoice) Settings
+					.getEnumProperty("synchronizer.choice",
+							SynchronizerChoice.class);
 
-		if (Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
-			toodledoKeepValue = Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
+		if (Settings
+				.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
+			toodledoKeepValue = Settings
+					.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
 
-
-		this.addField(new ConfigurationField(
-				"EMAIL", 
-				Translations.getString("configuration.toodledo.email"), 
+		this.addField(new ConfigurationField("EMAIL", Translations
+				.getString("configuration.toodledo.email"),
 				new ConfigurationFieldType.TextField(toodledoEmailValue)));
 
-		this.addField(new ConfigurationField(
-				"PASSWORD", 
-				Translations.getString("configuration.toodledo.password"), 
+		this.addField(new ConfigurationField("PASSWORD", Translations
+				.getString("configuration.toodledo.password"),
 				new ConfigurationFieldType.PasswordField(toodledoPasswordValue)));
 
 		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
-				SynchronizerChoice.values(), 
-				toodledoChoiceValue);
+				SynchronizerChoice.values(), toodledoChoiceValue);
 
 		comboBox.setRenderer(new SynchronizerChoiceListCellRenderer());
 
-		this.addField(new ConfigurationField(
-				"CHOICE", 
-				Translations.getString("configuration.toodledo.choice"), 
-				comboBox));
+		this.addField(new ConfigurationField("CHOICE", Translations
+				.getString("configuration.toodledo.choice"), comboBox));
 
-		this.addField(new ConfigurationField(
-				"KEEP", 
-				Translations.getString("configuration.toodledo.keep_tasks_for"), 
-				new ConfigurationFieldType.FormattedTextField(new RegexFormatter("^[0-9]{1,3}$"), toodledoKeepValue)));
+		this.addField(new ConfigurationField("KEEP", Translations
+				.getString("configuration.toodledo.keep_tasks_for"),
+				new ConfigurationFieldType.FormattedTextField(
+						new RegexFormatter("^[0-9]{1,3}$"), toodledoKeepValue)));
 
-		this.addField(new ConfigurationField(
-				"SEPARATOR_1",
-				null,
+		this.addField(new ConfigurationField("SEPARATOR_1", null,
 				new ConfigurationFieldType.Separator()));
 
-		this.addField(new ConfigurationField(
-				"CREATE_ACCOUNT_LABEL", 
-				null, 
-				new ConfigurationFieldType.Label(Translations.getString("configuration.toodledo.create_account"))));
+		this.addField(new ConfigurationField("CREATE_ACCOUNT_LABEL", null,
+				new ConfigurationFieldType.Label(Translations
+						.getString("configuration.toodledo.create_account"))));
 
-		this.addField(new ConfigurationField(
-				"CREATE_ACCOUNT", 
-				null, 
+		this.addField(new ConfigurationField("CREATE_ACCOUNT", null,
 				new ConfigurationFieldType.Button(new ActionCreateAccount() {
 
 					@Override
 					public void actionPerformed(ActionEvent event) {
-						saveAndApplyConfig();
+						ToodledoConfigurationPanel.this.saveAndApplyConfig();
 
 						super.actionPerformed(event);
 					}
 
 				})));
 
-		this.addField(new ConfigurationField(
-				"SEPARATOR_2",
-				null,
+		this.addField(new ConfigurationField("SEPARATOR_2", null,
 				new ConfigurationFieldType.Separator()));
 
-		this.addField(new ConfigurationField(
-				"SYNCHRONIZE_ALL_LABEL", 
-				null, 
-				new ConfigurationFieldType.Label(Translations.getString("configuration.toodledo.synchronize_all"))));
+		this.addField(new ConfigurationField("SYNCHRONIZE_ALL_LABEL", null,
+				new ConfigurationFieldType.Label(Translations
+						.getString("configuration.toodledo.synchronize_all"))));
 
-		this.addField(new ConfigurationField(
-				"SYNCHRONIZE_ALL", 
-				null, 
+		this.addField(new ConfigurationField("SYNCHRONIZE_ALL", null,
 				new ConfigurationFieldType.Button(new ActionSynchronize() {
 
 					@Override
 					public void actionPerformed(ActionEvent event) {
-						saveAndApplyConfig();
+						ToodledoConfigurationPanel.this.saveAndApplyConfig();
 
 						SynchronizerUtils.resetSynchronizerSettings();
 
@@ -156,20 +153,18 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 
 				})));
 
-		this.addField(new ConfigurationField(
-				"RESET_ALL_LABEL", 
-				null, 
-				new ConfigurationFieldType.Label(Translations.getString("configuration.toodledo.reset_all"))));
+		this.addField(new ConfigurationField("RESET_ALL_LABEL", null,
+				new ConfigurationFieldType.Label(Translations
+						.getString("configuration.toodledo.reset_all"))));
 
-		this.addField(new ConfigurationField(
-				"RESET_ALL", 
-				null, 
+		this.addField(new ConfigurationField("RESET_ALL", null,
 				new ConfigurationFieldType.Button(new ActionSynchronize() {
 
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						try {
-							saveAndApplyConfig();
+							ToodledoConfigurationPanel.this
+									.saveAndApplyConfig();
 
 							ContextFactory.getInstance().deleteAll();
 							FolderFactory.getInstance().deleteAll();

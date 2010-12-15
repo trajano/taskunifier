@@ -49,24 +49,24 @@ public class JCollapsiblePanel extends JPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 
-		add(headerPanel, gbc);
-		add(contentPanel, gbc);
+		this.add(headerPanel, gbc);
+		this.add(contentPanel, gbc);
 
 		JLabel padding = new JLabel();
 		gbc.weighty = 1.0;
-		add(padding, gbc);
+		this.add(padding, gbc);
 	}
 
 	public void toggleSelection() {
-		selected = !selected;
+		this.selected = !this.selected;
 
-		if (contentPanel.isShowing())
-			contentPanel.setVisible(false);
+		if (this.contentPanel.isShowing())
+			this.contentPanel.setVisible(false);
 		else
-			contentPanel.setVisible(true);
+			this.contentPanel.setVisible(true);
 
-		validate();
-		headerPanel.repaint();
+		this.validate();
+		this.headerPanel.repaint();
 	}
 
 }
