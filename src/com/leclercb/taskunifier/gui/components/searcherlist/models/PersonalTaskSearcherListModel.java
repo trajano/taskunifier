@@ -27,8 +27,7 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 
-public class PersonalTaskSearcherListModel extends AbstractListModel implements
-		TaskSearcherListModel, ListChangeListener, PropertyChangeListener {
+public class PersonalTaskSearcherListModel extends AbstractListModel implements TaskSearcherListModel, ListChangeListener, PropertyChangeListener {
 
 	public PersonalTaskSearcherListModel() {
 		TaskSearcherFactory.getInstance().addListChangeListener(this);
@@ -63,8 +62,7 @@ public class PersonalTaskSearcherListModel extends AbstractListModel implements
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getPropertyName().equals(TaskSearcher.PROP_TITLE)
 				|| event.getPropertyName().equals(TaskSearcher.PROP_ICON)) {
-			int index = TaskSearcherFactory.getInstance().getIndexOf(
-					(TaskSearcher) event.getSource());
+			int index = TaskSearcherFactory.getInstance().getIndexOf((TaskSearcher) event.getSource());
 			this.fireContentsChanged(this, index, index);
 		}
 	}

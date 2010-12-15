@@ -36,16 +36,12 @@ public class ActionCopy extends AbstractAction {
 	}
 
 	public ActionCopy(int width, int height) {
-		super(Translations.getString("action.name.copy"), Images
-				.getResourceImage("copy.png", width, height));
+		super(Translations.getString("action.name.copy"), Images.getResourceImage("copy.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.copy"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.copy"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_C);
-		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCopyAction()
-				.getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCopyAction().getValue(Action.NAME));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 	}
 
 	@Override

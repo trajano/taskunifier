@@ -47,8 +47,7 @@ import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class GoalConfigurationPanel extends JSplitPane implements
-		PropertyChangeListener {
+public class GoalConfigurationPanel extends JSplitPane implements PropertyChangeListener {
 
 	private Goal selectedGoal;
 
@@ -71,11 +70,9 @@ public class GoalConfigurationPanel extends JSplitPane implements
 
 			@Override
 			public void addModel() {
-				Model model = GoalFactory.getInstance().create(
-						Translations.getString("goal.default.title"));
+				Model model = GoalFactory.getInstance().create(Translations.getString("goal.default.title"));
 				this.setSelectedModel(model);
-				GoalConfigurationPanel.this
-						.focusAndSelectTextInTextField(GoalConfigurationPanel.this.goalTitle);
+				GoalConfigurationPanel.this.focusAndSelectTextInTextField(GoalConfigurationPanel.this.goalTitle);
 			}
 
 			@Override
@@ -87,27 +84,22 @@ public class GoalConfigurationPanel extends JSplitPane implements
 			@Override
 			public void modelSelected(Model model) {
 				if (GoalConfigurationPanel.this.selectedGoal != null)
-					GoalConfigurationPanel.this.selectedGoal
-							.removePropertyChangeListener(GoalConfigurationPanel.this);
+					GoalConfigurationPanel.this.selectedGoal.removePropertyChangeListener(GoalConfigurationPanel.this);
 
 				GoalConfigurationPanel.this.selectedGoal = (Goal) model;
 
 				if (GoalConfigurationPanel.this.selectedGoal != null)
-					GoalConfigurationPanel.this.selectedGoal
-							.addPropertyChangeListener(GoalConfigurationPanel.this);
+					GoalConfigurationPanel.this.selectedGoal.addPropertyChangeListener(GoalConfigurationPanel.this);
 
 				if (model == null) {
 					GoalConfigurationPanel.this.goalTitle.setEnabled(false);
 					GoalConfigurationPanel.this.goalTitle.setText("");
 
 					GoalConfigurationPanel.this.goalLevel.setEnabled(false);
-					GoalConfigurationPanel.this.goalLevel
-							.setSelectedItem(GoalLevel.LIFE_TIME);
+					GoalConfigurationPanel.this.goalLevel.setSelectedItem(GoalLevel.LIFE_TIME);
 
-					GoalConfigurationPanel.this.goalContributes
-							.setEnabled(false);
-					GoalConfigurationPanel.this.goalContributes
-							.setSelectedItem(null);
+					GoalConfigurationPanel.this.goalContributes.setEnabled(false);
+					GoalConfigurationPanel.this.goalContributes.setSelectedItem(null);
 					return;
 				}
 
@@ -117,13 +109,10 @@ public class GoalConfigurationPanel extends JSplitPane implements
 				GoalConfigurationPanel.this.goalTitle.setText(goal.getTitle());
 
 				GoalConfigurationPanel.this.goalLevel.setEnabled(true);
-				GoalConfigurationPanel.this.goalLevel.setSelectedItem(goal
-						.getLevel());
+				GoalConfigurationPanel.this.goalLevel.setSelectedItem(goal.getLevel());
 
-				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal
-						.getLevel().equals(GoalLevel.LIFE_TIME));
-				GoalConfigurationPanel.this.goalContributes
-						.setSelectedItem(goal.getContributes());
+				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal.getLevel().equals(GoalLevel.LIFE_TIME));
+				GoalConfigurationPanel.this.goalContributes.setSelectedItem(goal.getContributes());
 			}
 
 		};
@@ -143,8 +132,7 @@ public class GoalConfigurationPanel extends JSplitPane implements
 		JLabel label = null;
 
 		// Goal Title
-		label = new JLabel(Translations.getString("general.goal.title") + ":",
-				SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.goal.title") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.goalTitle.setEnabled(false);
@@ -160,8 +148,7 @@ public class GoalConfigurationPanel extends JSplitPane implements
 		info.add(this.goalTitle);
 
 		// Goal Level
-		label = new JLabel(Translations.getString("general.goal.level") + ":",
-				SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.goal.level") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.goalLevel.setEnabled(false);
@@ -171,19 +158,16 @@ public class GoalConfigurationPanel extends JSplitPane implements
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) modelList.getSelectedModel();
-				goal.setLevel((GoalLevel) GoalConfigurationPanel.this.goalLevel
-						.getSelectedItem());
+				goal.setLevel((GoalLevel) GoalConfigurationPanel.this.goalLevel.getSelectedItem());
 
-				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal
-						.getLevel().equals(GoalLevel.LIFE_TIME));
+				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal.getLevel().equals(GoalLevel.LIFE_TIME));
 			}
 
 		});
 		info.add(this.goalLevel);
 
 		// Goal Contributes
-		label = new JLabel(Translations.getString("general.goal.contributes")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.goal.contributes") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.goalContributes.setEnabled(false);
@@ -193,10 +177,8 @@ public class GoalConfigurationPanel extends JSplitPane implements
 			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) modelList.getSelectedModel();
 				if (!EqualsUtils.equals(goal.getContributes(),
-						GoalConfigurationPanel.this.goalContributes
-								.getSelectedItem()))
-					goal.setContributes((Goal) GoalConfigurationPanel.this.goalContributes
-							.getSelectedItem());
+						GoalConfigurationPanel.this.goalContributes.getSelectedItem()))
+					goal.setContributes((Goal) GoalConfigurationPanel.this.goalContributes.getSelectedItem());
 			}
 
 		});
@@ -204,8 +186,10 @@ public class GoalConfigurationPanel extends JSplitPane implements
 
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 3, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}
@@ -222,23 +206,18 @@ public class GoalConfigurationPanel extends JSplitPane implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Goal.PROP_MODEL_TITLE)) {
-			if (!EqualsUtils
-					.equals(this.goalTitle.getText(), evt.getNewValue()))
+			if (!EqualsUtils.equals(this.goalTitle.getText(), evt.getNewValue()))
 				this.goalTitle.setText((String) evt.getNewValue());
 		}
 
 		if (evt.getPropertyName().equals(Goal.PROP_LEVEL)) {
-			if (!EqualsUtils.equals(this.goalLevel.getSelectedItem(),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(this.goalLevel.getSelectedItem(), evt.getNewValue()))
 				this.goalLevel.setSelectedItem(evt.getNewValue());
 		}
 
 		if (evt.getPropertyName().equals(Goal.PROP_CONTRIBUTES)) {
-			if (!EqualsUtils.equals(this.goalContributes.getSelectedItem(),
-					evt.getNewValue())) {
-				System.out.println("here "
-						+ this.goalContributes.getSelectedItem() + " "
-						+ evt.getNewValue());
+			if (!EqualsUtils.equals(this.goalContributes.getSelectedItem(), evt.getNewValue())) {
+				System.out.println("here " + this.goalContributes.getSelectedItem() + " " + evt.getNewValue());
 				this.goalContributes.setSelectedItem(evt.getNewValue());
 			}
 		}

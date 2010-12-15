@@ -60,8 +60,7 @@ import javax.swing.table.TableStringConverter;
  * the underlying model do the inverse:
  * 
  * <pre>
- * table.setRowSelectionInterval(table.convertRowIndexToView(row),
- * 		table.convertRowIndexToView(row));
+ * table.setRowSelectionInterval(table.convertRowIndexToView(row), table.convertRowIndexToView(row));
  * </pre>
  * <p>
  * The previous example assumes you have not enabled filtering. If you have
@@ -128,8 +127,7 @@ import javax.swing.table.TableStringConverter;
  * @see java.util.Comparator
  * @since 1.6
  */
-public class TableRowSorter<M extends TableModel> extends
-		DefaultRowSorter<M, Integer> {
+public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, Integer> {
 
 	/**
 	 * Comparator that uses compareTo on the contents.
@@ -268,14 +266,12 @@ public class TableRowSorter<M extends TableModel> extends
 
 		@Override
 		public int getColumnCount() {
-			return (TableRowSorter.this.tableModel == null) ? 0
-					: TableRowSorter.this.tableModel.getColumnCount();
+			return (TableRowSorter.this.tableModel == null) ? 0 : TableRowSorter.this.tableModel.getColumnCount();
 		}
 
 		@Override
 		public int getRowCount() {
-			return (TableRowSorter.this.tableModel == null) ? 0
-					: TableRowSorter.this.tableModel.getRowCount();
+			return (TableRowSorter.this.tableModel == null) ? 0 : TableRowSorter.this.tableModel.getRowCount();
 		}
 
 		@Override
@@ -285,12 +281,10 @@ public class TableRowSorter<M extends TableModel> extends
 
 		@Override
 		public String getStringValueAt(int row, int column) {
-			TableStringConverter converter = TableRowSorter.this
-					.getStringConverter();
+			TableStringConverter converter = TableRowSorter.this.getStringConverter();
 			if (converter != null) {
 				// Use the converter
-				String value = converter.toString(
-						TableRowSorter.this.tableModel, row, column);
+				String value = converter.toString(TableRowSorter.this.tableModel, row, column);
 				if (value != null) {
 					return value;
 				}

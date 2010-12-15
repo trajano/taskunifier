@@ -89,16 +89,14 @@ public class SynchronizeDialog extends JDialog {
 
 		JScrollPane scrollStatus = new JScrollPane(this.progressStatus);
 		scrollStatus.setAutoscrolls(true);
-		scrollStatus.getVerticalScrollBar().addAdjustmentListener(
-				new AdjustmentListener() {
+		scrollStatus.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
-					@Override
-					public void adjustmentValueChanged(AdjustmentEvent e) {
-						e.getAdjustable().setValue(
-								e.getAdjustable().getMaximum());
-					}
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+			}
 
-				});
+		});
 
 		panel.add(this.progressBar, BorderLayout.NORTH);
 		panel.add(scrollStatus, BorderLayout.CENTER);
@@ -125,16 +123,13 @@ public class SynchronizeDialog extends JDialog {
 					if (plurial) {
 						switch (type) {
 							case CONTEXT:
-								return Translations
-										.getString("general.contexts");
+								return Translations.getString("general.contexts");
 							case FOLDER:
-								return Translations
-										.getString("general.folders");
+								return Translations.getString("general.folders");
 							case GOAL:
 								return Translations.getString("general.goals");
 							case LOCATION:
-								return Translations
-										.getString("general.locations");
+								return Translations.getString("general.locations");
 							case TASK:
 								return Translations.getString("general.tasks");
 						}
@@ -164,50 +159,36 @@ public class SynchronizeDialog extends JDialog {
 						@Override
 						public void listChange(ListChangeEvent event) {
 							if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-								ProgressMessage message = (ProgressMessage) event
-										.getValue();
+								ProgressMessage message = (ProgressMessage) event.getValue();
 
 								if (message instanceof SynchronizationProgressMessage) {
 									SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
 
-									if (m.getType().equals(
-											ProgressMessageType.START))
+									if (m.getType().equals(ProgressMessageType.START))
 										SynchronizeDialog.this.progressStatus.append(Translations
-												.getString("synchronize.start_synchronization")
-												+ "\n");
+												.getString("synchronize.start_synchronization") + "\n");
 									else
 										SynchronizeDialog.this.progressStatus.append(Translations
-												.getString("synchronize.synchronization_completed")
-												+ "\n");
+												.getString("synchronize.synchronization_completed") + "\n");
 								} else if (message instanceof RetrieveModelsProgressMessage) {
 									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
 
-									if (m.getType().equals(
-											ProgressMessageType.END))
+									if (m.getType().equals(ProgressMessageType.END))
 										return;
 
-									String type = modelTypeToString(
-											m.getModelType(), true);
+									String type = modelTypeToString(m.getModelType(), true);
 									SynchronizeDialog.this.progressStatus.append(Translations
-											.getString(
-													"synchronize.retrieving_models",
-													type)
+											.getString("synchronize.retrieving_models", type)
 											+ "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
 									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
 
-									if (m.getType().equals(
-											ProgressMessageType.END)
-											|| m.getActionCount() == 0)
+									if (m.getType().equals(ProgressMessageType.END) || m.getActionCount() == 0)
 										return;
 
-									String type = modelTypeToString(
-											m.getModelType(),
-											m.getActionCount() > 1);
+									String type = modelTypeToString(m.getModelType(), m.getActionCount() > 1);
 									SynchronizeDialog.this.progressStatus.append(Translations
-											.getString(
-													"synchronize.synchronizing",
-													m.getActionCount(), type)
+											.getString("synchronize.synchronizing", m.getActionCount(), type)
 											+ "\n");
 								}
 							}
@@ -215,13 +196,12 @@ public class SynchronizeDialog extends JDialog {
 
 					});
 
-					SynchronizeDialog.this.progressStatus.append(Translations
-							.getString("synchronize.set_proxy") + "\n");
+					SynchronizeDialog.this.progressStatus
+							.append(Translations.getString("synchronize.set_proxy") + "\n");
 					SynchronizerUtils.initializeProxy();
 
 					SynchronizeDialog.this.progressStatus.append(Translations
-							.getString("synchronize.connecting_toodledo")
-							+ "\n");
+							.getString("synchronize.connecting_toodledo") + "\n");
 					ToodledoConnection connection = null;
 
 					try {
@@ -231,10 +211,8 @@ public class SynchronizeDialog extends JDialog {
 						if (Settings.getStringProperty("toodledo.password") == null)
 							throw new Exception("Please fill in your password");
 
-						connection = ToodledoConnectionFactory
-								.getInstance()
-								.getConnection(
-										Settings.getStringProperty("toodledo.email"),
+						connection = ToodledoConnectionFactory.getInstance()
+								.getConnection(Settings.getStringProperty("toodledo.email"),
 										Settings.getStringProperty("toodledo.password"),
 										Settings.getStringProperty("toodledo.userid"),
 										Settings.getStringProperty("toodledo.token"));
@@ -245,8 +223,7 @@ public class SynchronizeDialog extends JDialog {
 
 							@Override
 							public void run() {
-								JOptionPane.showMessageDialog(
-										null,
+								JOptionPane.showMessageDialog(null,
 										e.getMessage(),
 										Translations.getString("general.error"),
 										JOptionPane.ERROR_MESSAGE);
@@ -257,19 +234,15 @@ public class SynchronizeDialog extends JDialog {
 						return null;
 					}
 
-					Settings.setStringProperty("toodledo.userid",
-							connection.getUserId());
-					Settings.setStringProperty("toodledo.token",
-							connection.getToken());
+					Settings.setStringProperty("toodledo.userid", connection.getUserId());
+					Settings.setStringProperty("toodledo.token", connection.getToken());
 
-					this.synchronizer = ToodledoSynchronizerFactory
-							.getInstance().getSynchronizer(connection);
+					this.synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(connection);
 
 					SynchronizerUtils.initializeSynchronizer(this.synchronizer);
 
-					SynchronizerChoice choice = (SynchronizerChoice) Settings
-							.getEnumProperty("synchronizer.choice",
-									SynchronizerChoice.class);
+					SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty("synchronizer.choice",
+							SynchronizerChoice.class);
 
 					try {
 						this.synchronizer.synchronize(choice, monitor);
@@ -278,8 +251,7 @@ public class SynchronizeDialog extends JDialog {
 
 							@Override
 							public void run() {
-								JOptionPane.showMessageDialog(
-										null,
+								JOptionPane.showMessageDialog(null,
 										e.getMessage(),
 										Translations.getString("general.error"),
 										JOptionPane.ERROR_MESSAGE);
@@ -298,8 +270,7 @@ public class SynchronizeDialog extends JDialog {
 				@Override
 				protected void done() {
 					if (this.synchronizer != null)
-						SynchronizerUtils
-								.saveSynchronizerState(this.synchronizer);
+						SynchronizerUtils.saveSynchronizerState(this.synchronizer);
 
 					SynchronizerUtils.removeProxy();
 
@@ -309,8 +280,7 @@ public class SynchronizeDialog extends JDialog {
 
 			};
 
-			SynchronizeDialog.this.setCursor(Cursor
-					.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			SynchronizeDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 

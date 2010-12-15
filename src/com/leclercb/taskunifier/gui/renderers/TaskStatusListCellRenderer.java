@@ -28,10 +28,9 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 public class TaskStatusListCellRenderer extends DefaultListCellRenderer {
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(list, value,
-				index, isSelected, cellHasFocus);
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
 		if (value == null || !(value instanceof TaskStatus)) {
 			this.setText("");

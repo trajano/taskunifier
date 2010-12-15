@@ -74,8 +74,7 @@ public abstract class ConfigurationPanel extends JPanel {
 		CheckUtils.isNotNull(field, "Field cannot be null");
 
 		if (this.getField(field.getId()) != null)
-			throw new IllegalArgumentException(
-					"A field with the same id already exists");
+			throw new IllegalArgumentException("A field with the same id already exists");
 
 		this.fields.add(field);
 	}
@@ -103,8 +102,7 @@ public abstract class ConfigurationPanel extends JPanel {
 			if (field.getLabel() == null)
 				label = new JLabel();
 			else
-				label = new JLabel(field.getLabel() + ":",
-						SwingConstants.TRAILING);
+				label = new JLabel(field.getLabel() + ":", SwingConstants.TRAILING);
 
 			component = field.getType().getFieldComponent();
 
@@ -113,10 +111,12 @@ public abstract class ConfigurationPanel extends JPanel {
 		}
 
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, this.fields.size()
-				+ (this.helpFile != null ? 1 : 0), 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+		SpringUtils.makeCompactGrid(panel, this.fields.size() + (this.helpFile != null ? 1 : 0), 2, // rows,
+																									// cols
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		this.add(panel, BorderLayout.NORTH);
 	}

@@ -49,8 +49,7 @@ public abstract class LookAndFeelDescriptor {
 		this.setLookAndFeel(null);
 	}
 
-	public abstract void setLookAndFeel(Window window)
-			throws LookAndFeelException;
+	public abstract void setLookAndFeel(Window window) throws LookAndFeelException;
 
 	@Override
 	public String toString() {
@@ -66,8 +65,7 @@ public abstract class LookAndFeelDescriptor {
 		if (o instanceof LookAndFeelDescriptor) {
 			LookAndFeelDescriptor model = (LookAndFeelDescriptor) o;
 
-			return new EqualsBuilder()
-					.append(this.identifier, model.identifier).isEqual();
+			return new EqualsBuilder().append(this.identifier, model.identifier).isEqual();
 		}
 
 		return false;

@@ -30,23 +30,19 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class GoalTaskSearcherListModel extends GoalListModel implements
-		TaskSearcherListModel {
+public class GoalTaskSearcherListModel extends GoalListModel implements TaskSearcherListModel {
 
 	@Override
 	public TaskSearcher getTaskSearcher(int index) {
 		Goal goal = (Goal) this.getElementAt(index);
 
 		TaskSorter sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE, SortOrder.ASCENDING));
 
 		TaskFilter filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(TaskColumn.GOAL,
-				ModelCondition.EQUALS, goal));
+		filter.addElement(new TaskFilterElement(TaskColumn.GOAL, ModelCondition.EQUALS, goal));
 
-		String title = (goal == null ? Translations
-				.getString("searcherlist.none") : goal.getTitle());
+		String title = (goal == null ? Translations.getString("searcherlist.none") : goal.getTitle());
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 
 		return searcher;

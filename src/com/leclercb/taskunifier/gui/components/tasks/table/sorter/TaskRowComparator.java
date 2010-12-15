@@ -62,19 +62,15 @@ public class TaskRowComparator implements RowComparator<Object> {
 
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both task are parents, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, o1, o2);
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, o1, o2);
 		} else if (task1.getParent() != null && task2.getParent() != null
 				&& task1.getParent().equals(task2.getParent())) {
 			// If both task have the same parent, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, o1, o2);
-		} else if (task1.getParent() == null && task2.getParent() != null
-				&& task1.equals(task2.getParent())) {
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, o1, o2);
+		} else if (task1.getParent() == null && task2.getParent() != null && task1.equals(task2.getParent())) {
 			// If a task is the child of the other task
 			result = -1;
-		} else if (task1.getParent() != null && task2.getParent() == null
-				&& task1.getParent().equals(task2)) {
+		} else if (task1.getParent() != null && task2.getParent() == null && task1.getParent().equals(task2)) {
 			// If a task is the child of the other task
 			result = 1;
 		} else {
@@ -87,14 +83,12 @@ public class TaskRowComparator implements RowComparator<Object> {
 
 			Object newO1 = taskColumn.getValue(task1);
 			Object newO2 = taskColumn.getValue(task2);
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, newO1, newO2);
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, newO1, newO2);
 		}
 
 		if (result == 0) {
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* task1.getModelId().getId()
-							.compareTo(task2.getModelId().getId());
+					* task1.getModelId().getId().compareTo(task2.getModelId().getId());
 		}
 
 		return result;

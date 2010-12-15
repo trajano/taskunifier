@@ -46,13 +46,11 @@ public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 	}
 
 	@Override
-	public boolean include(
-			Entry<? extends TaskTableModel, ? extends Integer> entry) {
+	public boolean include(Entry<? extends TaskTableModel, ? extends Integer> entry) {
 		TaskTableModel taskTableModel = entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
 
-		if (!task.getModelStatus().equals(ModelStatus.LOADED)
-				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		if (!task.getModelStatus().equals(ModelStatus.LOADED) && !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
 		}
 

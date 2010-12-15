@@ -114,11 +114,9 @@ public class TaskTable extends JTable {
 		// RENDERERS
 		DEFAULT_RENDERER = new DefaultRenderer();
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
-		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " "
-						+ Settings.getStringProperty("date.time_format")));
-		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(
-				Settings.getStringProperty("date.time_format")));
+		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(Settings.getStringProperty("date.date_format") + " "
+				+ Settings.getStringProperty("date.time_format")));
+		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(Settings.getStringProperty("date.time_format")));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
 
@@ -133,9 +131,8 @@ public class TaskTable extends JTable {
 		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
 
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
-		DATE_EDITOR = new DateEditor(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " "
-						+ Settings.getStringProperty("date.time_format")));
+		DATE_EDITOR = new DateEditor(new SimpleDateFormat(Settings.getStringProperty("date.date_format") + " "
+				+ Settings.getStringProperty("date.time_format")));
 		LENGTH_EDITOR = new LengthEditor();
 
 		checkBox = new JCheckBox();
@@ -145,14 +142,10 @@ public class TaskTable extends JTable {
 
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 
-		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(
-				new ContextComboBoxModel()));
-		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(
-				new FolderComboBoxModel()));
-		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(
-				new GoalComboBoxModel()));
-		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
-				new LocationComboBoxModel()));
+		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(new ContextComboBoxModel()));
+		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderComboBoxModel()));
+		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalComboBoxModel()));
+		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(new LocationComboBoxModel()));
 
 		JTextField textField = null;
 
@@ -193,16 +186,14 @@ public class TaskTable extends JTable {
 			} catch (IllegalArgumentException e) {
 				// This column does not exist
 				taskColumn.setVisible(true);
-				((TaskTableColumnModel) this.getColumnModel())
-						.addColumn(taskColumn);
+				((TaskTableColumnModel) this.getColumnModel()).addColumn(taskColumn);
 			}
 		} else {
 			try {
 				TableColumn column = this.getColumn(taskColumn);
 
 				taskColumn.setVisible(false);
-				((TaskTableColumnModel) this.getColumnModel())
-						.removeColumn(column);
+				((TaskTableColumnModel) this.getColumnModel()).removeColumn(column);
 			} catch (IllegalArgumentException e) {
 				// This column does not exist
 			}
@@ -250,13 +241,11 @@ public class TaskTable extends JTable {
 
 		this.searcher = searcher;
 
-		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this
-				.getRowSorter()).getRowFilter();
+		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this.getRowSorter()).getRowFilter();
 		taskRowFilter.setFilter(searcher.getFilter());
 
 		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
-				searcher.getSorter().getElements());
+		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(searcher.getSorter().getElements());
 		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
 
 			@Override
@@ -274,8 +263,7 @@ public class TaskTable extends JTable {
 				continue;
 			}
 
-			sortKeys.add(new RowSorter.SortKey(this.getColumn(
-					element.getColumn()).getModelIndex(), element
+			sortKeys.add(new RowSorter.SortKey(this.getColumn(element.getColumn()).getModelIndex(), element
 					.getSortOrder()));
 		}
 
@@ -308,25 +296,18 @@ public class TaskTable extends JTable {
 
 	private void initializeCopyAndPaste() {
 		ActionMap amap = this.getActionMap();
-		amap.put(TransferHandler.getCutAction().getValue(Action.NAME),
-				TransferHandler.getCutAction());
-		amap.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-				TransferHandler.getCopyAction());
-		amap.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-				TransferHandler.getPasteAction());
+		amap.put(TransferHandler.getCutAction().getValue(Action.NAME), TransferHandler.getCutAction());
+		amap.put(TransferHandler.getCopyAction().getValue(Action.NAME), TransferHandler.getCopyAction());
+		amap.put(TransferHandler.getPasteAction().getValue(Action.NAME), TransferHandler.getPasteAction());
 
 		InputMap imap = this.getInputMap();
-		imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler
-				.getCutAction().getValue(Action.NAME));
-		imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler
-				.getCopyAction().getValue(Action.NAME));
-		imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler
-				.getPasteAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler.getCutAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler.getCopyAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 
 	private void initiliazeTableSorter() {
-		TaskTableRowSorter sorter = new TaskTableRowSorter(
-				(TaskTableModel) this.getModel());
+		TaskTableRowSorter sorter = new TaskTableRowSorter((TaskTableModel) this.getModel());
 		sorter.setRowFilter(new TaskRowFilter(new TaskFilter()));
 		this.setRowSorter(sorter);
 	}
@@ -337,19 +318,14 @@ public class TaskTable extends JTable {
 			@Override
 			public void mouseReleased(MouseEvent event) {
 				// Or BUTTON3 due to a bug with OSX
-				if (event.isPopupTrigger()
-						|| event.getButton() == MouseEvent.BUTTON3) {
-					JPopupMenu popup = new JPopupMenu(Translations
-							.getString("general.columns"));
+				if (event.isPopupTrigger() || event.getButton() == MouseEvent.BUTTON3) {
+					JPopupMenu popup = new JPopupMenu(Translations.getString("general.columns"));
 
 					int x = 0;
-					TaskColumn[] currentTaskColumns = new TaskColumn[TaskTable.this
-							.getColumnCount()];
-					Enumeration<TableColumn> columns = TaskTable.this
-							.getColumnModel().getColumns();
+					TaskColumn[] currentTaskColumns = new TaskColumn[TaskTable.this.getColumnCount()];
+					Enumeration<TableColumn> columns = TaskTable.this.getColumnModel().getColumns();
 					while (columns.hasMoreElements()) {
-						currentTaskColumns[x++] = (TaskColumn) columns
-								.nextElement().getIdentifier();
+						currentTaskColumns[x++] = (TaskColumn) columns.nextElement().getIdentifier();
 					}
 
 					TaskColumn[] taskColumns = TaskColumn.getValues(false);
@@ -365,15 +341,13 @@ public class TaskTable extends JTable {
 							}
 						}
 
-						final JCheckBoxMenuItem item = new JCheckBoxMenuItem(
-								taskColumns[i].getLabel());
+						final JCheckBoxMenuItem item = new JCheckBoxMenuItem(taskColumns[i].getLabel());
 						item.setSelected(found);
 						item.addActionListener(new ActionListener() {
 
 							@Override
 							public void actionPerformed(ActionEvent event) {
-								TaskTable.this.showColumn(taskColumn,
-										item.isSelected());
+								TaskTable.this.showColumn(taskColumn, item.isSelected());
 							}
 
 						});
@@ -390,8 +364,7 @@ public class TaskTable extends JTable {
 
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
-		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel())
-				.getTaskColumn(col);
+		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
 
 		switch (column) {
 			case FOLDER:
@@ -427,8 +400,7 @@ public class TaskTable extends JTable {
 
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int col) {
-		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel())
-				.getTaskColumn(col);
+		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
 
 		switch (column) {
 			case TITLE:

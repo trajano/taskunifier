@@ -261,8 +261,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public void setSortable(int column, boolean sortable) {
 		this.checkColumn(column);
 		if (this.isSortable == null) {
-			this.isSortable = new boolean[this.getModelWrapper()
-					.getColumnCount()];
+			this.isSortable = new boolean[this.getModelWrapper().getColumnCount()];
 			for (int i = this.isSortable.length - 1; i >= 0; i--) {
 				this.isSortable[i] = true;
 			}
@@ -305,13 +304,11 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		if (sortKeys != null && sortKeys.size() > 0) {
 			int max = this.getModelWrapper().getColumnCount();
 			for (SortKey key : sortKeys) {
-				if (key == null || key.getColumn() < 0
-						|| key.getColumn() >= max) {
+				if (key == null || key.getColumn() < 0 || key.getColumn() >= max) {
 					throw new IllegalArgumentException("Invalid SortKey");
 				}
 			}
-			this.sortKeys = Collections
-					.unmodifiableList(new ArrayList<SortKey>(sortKeys));
+			this.sortKeys = Collections.unmodifiableList(new ArrayList<SortKey>(sortKeys));
 		} else {
 			this.sortKeys = Collections.emptyList();
 		}
@@ -676,8 +673,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			if (this.viewToModel.length != rowCount) {
 				Row[] oldViewToModel = this.viewToModel;
 				this.viewToModel = new Row[rowCount];
-				System.arraycopy(oldViewToModel, 0, this.viewToModel, 0,
-						recreateFrom);
+				System.arraycopy(oldViewToModel, 0, this.viewToModel, 0, recreateFrom);
 			}
 		} else {
 			this.viewToModel = new Row[rowCount];
@@ -698,8 +694,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		int keySize = keys.size();
 		this.sortComparators = new Comparator[keySize];
 		for (int i = 0; i < keySize; i++) {
-			this.sortComparators[i] = this.getComparator0(keys.get(i)
-					.getColumn());
+			this.sortComparators[i] = this.getComparator0(keys.get(i).getColumn());
 		}
 		this.cachedSortKeys = keys.toArray(new SortKey[keySize]);
 	}
@@ -767,8 +762,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public void setComparator(int column, Comparator<?> comparator) {
 		this.checkColumn(column);
 		if (this.comparators == null) {
-			this.comparators = new Comparator[this.getModelWrapper()
-					.getColumnCount()];
+			this.comparators = new Comparator[this.getModelWrapper().getColumnCount()];
 		}
 		this.comparators[column] = comparator;
 	}
@@ -937,8 +931,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	}
 
 	private void checkAgainstModel(int firstRow, int endRow) {
-		if (firstRow > endRow || firstRow < 0 || endRow < 0
-				|| firstRow > this.modelRowCount) {
+		if (firstRow > endRow || firstRow < 0 || endRow < 0 || firstRow > this.modelRowCount) {
 			throw new IndexOutOfBoundsException("Invalid range");
 		}
 	}
@@ -969,15 +962,15 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				result = model1 - model2;
 			} else {
 				if (this.sortComparators[counter] instanceof RowComparator<?>) {
-					result = ((RowComparator<?>) this.sortComparators[counter])
-							.compare(model1, model2, column, sortOrder);
+					result = ((RowComparator<?>) this.sortComparators[counter]).compare(model1,
+							model2,
+							column,
+							sortOrder);
 				} else {
 					// v1 != null && v2 != null
 					if (this.useToString[column]) {
-						v1 = this.getModelWrapper().getStringValueAt(model1,
-								column);
-						v2 = this.getModelWrapper().getStringValueAt(model2,
-								column);
+						v1 = this.getModelWrapper().getStringValueAt(model1, column);
+						v2 = this.getModelWrapper().getStringValueAt(model2, column);
 					} else {
 						v1 = this.getModelWrapper().getValueAt(model1, column);
 						v2 = this.getModelWrapper().getValueAt(model2, column);
@@ -1032,13 +1025,11 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			if (index < 0) {
 				index = -1 - index;
 			}
-			System.arraycopy(current, last, this.viewToModel, last + i, index
-					- last);
+			System.arraycopy(current, last, this.viewToModel, last + i, index - last);
 			this.viewToModel[index + i] = toAdd.get(i);
 			last = index;
 		}
-		System.arraycopy(current, last, this.viewToModel, last + max,
-				current.length - last);
+		System.arraycopy(current, last, this.viewToModel, last + max, current.length - last);
 	}
 
 	/**
@@ -1123,20 +1114,17 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 
 		// Then patch up the viewToModel array
 		if (removedFromView > 0) {
-			Row[] newViewToModel = new Row[this.viewToModel.length
-					- removedFromView];
+			Row[] newViewToModel = new Row[this.viewToModel.length - removedFromView];
 			int newIndex = 0;
 			int last = 0;
 			for (i = 0; i < this.viewToModel.length; i++) {
 				if (this.viewToModel[i] == null) {
-					System.arraycopy(this.viewToModel, last, newViewToModel,
-							newIndex, i - last);
+					System.arraycopy(this.viewToModel, last, newViewToModel, newIndex, i - last);
 					newIndex += (i - last);
 					last = i + 1;
 				}
 			}
-			System.arraycopy(this.viewToModel, last, newViewToModel, newIndex,
-					this.viewToModel.length - last);
+			System.arraycopy(this.viewToModel, last, newViewToModel, newIndex, this.viewToModel.length - last);
 			this.viewToModel = newViewToModel;
 		}
 
@@ -1228,8 +1216,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 
 			// Recreate viewToModel, if necessary
 			if (newlyVisible != newlyHidden) {
-				this.viewToModel = new Row[this.viewToModel.length
-						+ newlyVisible - newlyHidden];
+				this.viewToModel = new Row[this.viewToModel.length + newlyVisible - newlyHidden];
 			}
 
 			// Rebuild the new viewToModel array
@@ -1244,8 +1231,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 
 	private void checkColumn(int column) {
 		if (column < 0 || column >= this.getModelWrapper().getColumnCount()) {
-			throw new IndexOutOfBoundsException(
-					"column beyond range of TableModel");
+			throw new IndexOutOfBoundsException("column beyond range of TableModel");
 		}
 	}
 
@@ -1379,20 +1365,17 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 
 		@Override
 		public Object getValue(int index) {
-			return DefaultRowSorter.this.getModelWrapper().getValueAt(
-					this.modelIndex, index);
+			return DefaultRowSorter.this.getModelWrapper().getValueAt(this.modelIndex, index);
 		}
 
 		@Override
 		public String getStringValue(int index) {
-			return DefaultRowSorter.this.getModelWrapper().getStringValueAt(
-					this.modelIndex, index);
+			return DefaultRowSorter.this.getModelWrapper().getStringValueAt(this.modelIndex, index);
 		}
 
 		@Override
 		public I getIdentifier() {
-			return DefaultRowSorter.this.getModelWrapper().getIdentifier(
-					this.modelIndex);
+			return DefaultRowSorter.this.getModelWrapper().getIdentifier(this.modelIndex);
 		}
 	}
 

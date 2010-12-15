@@ -63,12 +63,10 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		this.elementPanel.saveElement();
 
 		if (this.filterPanel.getTree().getSelectionCount() != 0) {
-			TreeNode node = (TreeNode) this.filterPanel.getTree()
-					.getLastSelectedPathComponent();
+			TreeNode node = (TreeNode) this.filterPanel.getTree().getLastSelectedPathComponent();
 
 			if (node instanceof TaskFilterElementTreeNode) {
-				this.elementPanel.setElement(((TaskFilterElementTreeNode) node)
-						.getElement());
+				this.elementPanel.setElement(((TaskFilterElementTreeNode) node).getElement());
 				return;
 			}
 		}

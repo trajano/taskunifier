@@ -36,11 +36,9 @@ public class ActionEditSearcher extends AbstractAction {
 	}
 
 	public ActionEditSearcher(int width, int height) {
-		super(Translations.getString("action.name.edit_searcher"), Images
-				.getResourceImage("search.png", width, height));
+		super(Translations.getString("action.name.edit_searcher"), Images.getResourceImage("search.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.edit_searcher"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.edit_searcher"));
 	}
 
 	@Override
@@ -59,8 +57,7 @@ public class ActionEditSearcher extends AbstractAction {
 	public void actionPerformed(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 
-		SearcherEditDialog dialog = new SearcherEditDialog(MainFrame
-				.getInstance().getFrame(), true, searcher);
+		SearcherEditDialog dialog = new SearcherEditDialog(MainFrame.getInstance().getFrame(), true, searcher);
 
 		dialog.setVisible(true);
 	}

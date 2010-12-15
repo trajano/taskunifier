@@ -30,19 +30,16 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.undo.IRedoListener;
 import com.leclercb.taskunifier.gui.undo.IUndoListener;
 
-public class ActionUndo extends AbstractAction implements UndoableEditListener,
-		IUndoListener, IRedoListener {
+public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 
 	public ActionUndo() {
 		this(32, 32);
 	}
 
 	public ActionUndo(int width, int height) {
-		super(Translations.getString("action.name.undo"), Images
-				.getResourceImage("undo.png", width, height));
+		super(Translations.getString("action.name.undo"), Images.getResourceImage("undo.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.undo"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.undo"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 
 		this.updateAction();

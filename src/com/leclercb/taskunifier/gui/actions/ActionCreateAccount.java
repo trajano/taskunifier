@@ -35,11 +35,9 @@ public class ActionCreateAccount extends AbstractAction {
 	}
 
 	public ActionCreateAccount(int width, int height) {
-		super(Translations.getString("action.name.create_account"), Images
-				.getResourceImage("user.png", width, height));
+		super(Translations.getString("action.name.create_account"), Images.getResourceImage("user.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.create_account"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.create_account"));
 	}
 
 	@Override
@@ -52,19 +50,18 @@ public class ActionCreateAccount extends AbstractAction {
 				throw new Exception(Translations.getString("error.empty_email"));
 
 			if (password == null)
-				throw new Exception(
-						Translations.getString("error.empty_password"));
+				throw new Exception(Translations.getString("error.empty_password"));
 
 			SynchronizerUtils.initializeProxy();
-			ToodledoConnectionFactory.getInstance().createAccount(email,
-					password);
+			ToodledoConnectionFactory.getInstance().createAccount(email, password);
 
-			JOptionPane.showMessageDialog(null, Translations
-					.getString("action.create_account.account_created"),
+			JOptionPane.showMessageDialog(null,
+					Translations.getString("action.create_account.account_created"),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(),
+			JOptionPane.showMessageDialog(null,
+					e.getMessage(),
 					Translations.getString("error.account_not_created"),
 					JOptionPane.ERROR_MESSAGE);
 			return;

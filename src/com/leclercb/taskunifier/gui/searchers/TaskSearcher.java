@@ -22,8 +22,7 @@ import java.io.Serializable;
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcher extends AbstractPropertyChangeModel implements
-		Serializable {
+public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable {
 
 	public static final String PROP_TITLE = "SEARCHER_TITLE";
 	public static final String PROP_ICON = "SEARCHER_ICON";
@@ -39,8 +38,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements
 		this(title, null, filter, sorter);
 	}
 
-	public TaskSearcher(String title, String icon, TaskFilter filter,
-			TaskSorter sorter) {
+	public TaskSearcher(String title, String icon, TaskFilter filter, TaskSorter sorter) {
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
@@ -99,10 +97,8 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append(before + "Title: " + this.title + "\n");
-		buffer.append(before + "Filter: " + "\n"
-				+ this.filter.toDetailedString(before + "\t") + "\n");
-		buffer.append(before + "Sorter: " + "\n"
-				+ this.sorter.toDetailedString(before + "\t") + "\n");
+		buffer.append(before + "Filter: " + "\n" + this.filter.toDetailedString(before + "\t") + "\n");
+		buffer.append(before + "Sorter: " + "\n" + this.sorter.toDetailedString(before + "\t") + "\n");
 
 		return buffer.toString();
 	}

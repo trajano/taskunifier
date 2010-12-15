@@ -40,8 +40,7 @@ import com.leclercb.taskunifier.gui.models.ContextListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class ContextConfigurationPanel extends JSplitPane implements
-		PropertyChangeListener {
+public class ContextConfigurationPanel extends JSplitPane implements PropertyChangeListener {
 
 	private Context selectedContext;
 
@@ -60,8 +59,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 
 			@Override
 			public void addModel() {
-				Model model = ContextFactory.getInstance().create(
-						Translations.getString("context.default.title"));
+				Model model = ContextFactory.getInstance().create(Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
 				ContextConfigurationPanel.this
 						.focusAndSelectTextInTextField(ContextConfigurationPanel.this.contextTitle);
@@ -70,8 +68,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				ContextFactory.getInstance().markToDelete(
-						this.getSelectedModel());
+				ContextFactory.getInstance().markToDelete(this.getSelectedModel());
 			}
 
 			@Override
@@ -87,8 +84,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 							.addPropertyChangeListener(ContextConfigurationPanel.this);
 
 				if (model == null) {
-					ContextConfigurationPanel.this.contextTitle
-							.setEnabled(false);
+					ContextConfigurationPanel.this.contextTitle.setEnabled(false);
 					ContextConfigurationPanel.this.contextTitle.setText("");
 					return;
 				}
@@ -96,8 +92,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 				Context context = (Context) model;
 
 				ContextConfigurationPanel.this.contextTitle.setEnabled(true);
-				ContextConfigurationPanel.this.contextTitle.setText(context
-						.getTitle());
+				ContextConfigurationPanel.this.contextTitle.setText(context.getTitle());
 			}
 
 		};
@@ -117,8 +112,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 		JLabel label = null;
 
 		// Context Title
-		label = new JLabel(Translations.getString("general.context.title")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.context.title") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.contextTitle.setEnabled(false);
@@ -127,8 +121,7 @@ public class ContextConfigurationPanel extends JSplitPane implements
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Context context = (Context) modelList.getSelectedModel();
-				context.setTitle(ContextConfigurationPanel.this.contextTitle
-						.getText());
+				context.setTitle(ContextConfigurationPanel.this.contextTitle.getText());
 			}
 
 		});
@@ -136,8 +129,10 @@ public class ContextConfigurationPanel extends JSplitPane implements
 
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}

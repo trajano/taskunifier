@@ -44,8 +44,7 @@ import com.leclercb.taskunifier.gui.models.LocationListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class LocationConfigurationPanel extends JSplitPane implements
-		PropertyChangeListener {
+public class LocationConfigurationPanel extends JSplitPane implements PropertyChangeListener {
 
 	private Location selectedLocation;
 
@@ -70,8 +69,7 @@ public class LocationConfigurationPanel extends JSplitPane implements
 
 			@Override
 			public void addModel() {
-				Model model = LocationFactory.getInstance().create(
-						Translations.getString("location.default.title"));
+				Model model = LocationFactory.getInstance().create(Translations.getString("location.default.title"));
 				this.setSelectedModel(model);
 				LocationConfigurationPanel.this
 						.focusAndSelectTextInTextField(LocationConfigurationPanel.this.locationTitle);
@@ -80,8 +78,7 @@ public class LocationConfigurationPanel extends JSplitPane implements
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				LocationFactory.getInstance().markToDelete(
-						this.getSelectedModel());
+				LocationFactory.getInstance().markToDelete(this.getSelectedModel());
 			}
 
 			@Override
@@ -97,47 +94,33 @@ public class LocationConfigurationPanel extends JSplitPane implements
 							.addPropertyChangeListener(LocationConfigurationPanel.this);
 
 				if (model == null) {
-					LocationConfigurationPanel.this.locationTitle
-							.setEnabled(false);
+					LocationConfigurationPanel.this.locationTitle.setEnabled(false);
 					LocationConfigurationPanel.this.locationTitle.setText("");
 
-					LocationConfigurationPanel.this.locationDescription
-							.setEnabled(false);
-					LocationConfigurationPanel.this.locationDescription
-							.setText("");
+					LocationConfigurationPanel.this.locationDescription.setEnabled(false);
+					LocationConfigurationPanel.this.locationDescription.setText("");
 
-					LocationConfigurationPanel.this.locationLatitude
-							.setEnabled(false);
-					LocationConfigurationPanel.this.locationLatitude
-							.setText("");
+					LocationConfigurationPanel.this.locationLatitude.setEnabled(false);
+					LocationConfigurationPanel.this.locationLatitude.setText("");
 
-					LocationConfigurationPanel.this.locationLongitude
-							.setEnabled(false);
-					LocationConfigurationPanel.this.locationLongitude
-							.setText("");
+					LocationConfigurationPanel.this.locationLongitude.setEnabled(false);
+					LocationConfigurationPanel.this.locationLongitude.setText("");
 					return;
 				}
 
 				Location location = (Location) model;
 
 				LocationConfigurationPanel.this.locationTitle.setEnabled(true);
-				LocationConfigurationPanel.this.locationTitle.setText(location
-						.getTitle());
+				LocationConfigurationPanel.this.locationTitle.setText(location.getTitle());
 
-				LocationConfigurationPanel.this.locationDescription
-						.setEnabled(true);
-				LocationConfigurationPanel.this.locationDescription
-						.setText(location.getDescription());
+				LocationConfigurationPanel.this.locationDescription.setEnabled(true);
+				LocationConfigurationPanel.this.locationDescription.setText(location.getDescription());
 
-				LocationConfigurationPanel.this.locationLatitude
-						.setEnabled(true);
-				LocationConfigurationPanel.this.locationLatitude
-						.setText(location.getLatitude() + "");
+				LocationConfigurationPanel.this.locationLatitude.setEnabled(true);
+				LocationConfigurationPanel.this.locationLatitude.setText(location.getLatitude() + "");
 
-				LocationConfigurationPanel.this.locationLongitude
-						.setEnabled(true);
-				LocationConfigurationPanel.this.locationLongitude
-						.setText(location.getLongitude() + "");
+				LocationConfigurationPanel.this.locationLongitude.setEnabled(true);
+				LocationConfigurationPanel.this.locationLongitude.setText(location.getLongitude() + "");
 			}
 
 		};
@@ -157,8 +140,7 @@ public class LocationConfigurationPanel extends JSplitPane implements
 		JLabel label = null;
 
 		// Location Title
-		label = new JLabel(Translations.getString("general.location.title")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.location.title") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.locationTitle.setEnabled(false);
@@ -167,37 +149,31 @@ public class LocationConfigurationPanel extends JSplitPane implements
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Location location = (Location) modelList.getSelectedModel();
-				location.setTitle(LocationConfigurationPanel.this.locationTitle
-						.getText());
+				location.setTitle(LocationConfigurationPanel.this.locationTitle.getText());
 			}
 
 		});
 		info.add(this.locationTitle);
 
 		// Location Description
-		label = new JLabel(
-				Translations.getString("general.location.description") + ":",
-				SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.location.description") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
-		this.locationDescription.setBorder(BorderFactory
-				.createLineBorder(Color.GRAY));
+		this.locationDescription.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		this.locationDescription.setEnabled(false);
 		this.locationDescription.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Location location = (Location) modelList.getSelectedModel();
-				location.setDescription(LocationConfigurationPanel.this.locationDescription
-						.getText());
+				location.setDescription(LocationConfigurationPanel.this.locationDescription.getText());
 			}
 
 		});
 		info.add(this.locationDescription);
 
 		// Location Latitude
-		label = new JLabel(Translations.getString("general.location.latitude")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.location.latitude") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.locationLatitude.setEnabled(false);
@@ -206,22 +182,16 @@ public class LocationConfigurationPanel extends JSplitPane implements
 			@Override
 			public void keyReleased(KeyEvent event) {
 				try {
-					System.out
-							.println(LocationConfigurationPanel.this.locationLatitude
-									.getText());
-					double latitude = Double
-							.parseDouble(LocationConfigurationPanel.this.locationLatitude
-									.getText());
+					System.out.println(LocationConfigurationPanel.this.locationLatitude.getText());
+					double latitude = Double.parseDouble(LocationConfigurationPanel.this.locationLatitude.getText());
 					System.out.println("not error " + latitude);
-					LocationConfigurationPanel.this.locationLatitude
-							.setBackground(UIManager
-									.getColor("TextField.background"));
+					LocationConfigurationPanel.this.locationLatitude.setBackground(UIManager
+							.getColor("TextField.background"));
 					Location location = (Location) modelList.getSelectedModel();
 					location.setLatitude(latitude);
 				} catch (NumberFormatException e) {
 					System.out.println("error");
-					LocationConfigurationPanel.this.locationLatitude
-							.setBackground(Color.RED);
+					LocationConfigurationPanel.this.locationLatitude.setBackground(Color.RED);
 				}
 			}
 
@@ -229,8 +199,7 @@ public class LocationConfigurationPanel extends JSplitPane implements
 		info.add(this.locationLatitude);
 
 		// Location Longitude
-		label = new JLabel(Translations.getString("general.location.longitude")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.location.longitude") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.locationLongitude.setEnabled(false);
@@ -239,17 +208,13 @@ public class LocationConfigurationPanel extends JSplitPane implements
 			@Override
 			public void keyReleased(KeyEvent event) {
 				try {
-					double longitude = Double
-							.parseDouble(LocationConfigurationPanel.this.locationLongitude
-									.getText());
-					LocationConfigurationPanel.this.locationLongitude
-							.setBackground(UIManager
-									.getColor("TextField.background"));
+					double longitude = Double.parseDouble(LocationConfigurationPanel.this.locationLongitude.getText());
+					LocationConfigurationPanel.this.locationLongitude.setBackground(UIManager
+							.getColor("TextField.background"));
 					Location location = (Location) modelList.getSelectedModel();
 					location.setLongitude(longitude);
 				} catch (NumberFormatException e) {
-					LocationConfigurationPanel.this.locationLongitude
-							.setBackground(Color.RED);
+					LocationConfigurationPanel.this.locationLongitude.setBackground(Color.RED);
 				}
 			}
 
@@ -258,8 +223,10 @@ public class LocationConfigurationPanel extends JSplitPane implements
 
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 4, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}
@@ -276,28 +243,22 @@ public class LocationConfigurationPanel extends JSplitPane implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Location.PROP_MODEL_TITLE)) {
-			if (!EqualsUtils.equals(this.locationTitle.getText(),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(this.locationTitle.getText(), evt.getNewValue()))
 				this.locationTitle.setText((String) evt.getNewValue());
 		}
 
 		if (evt.getPropertyName().equals(Location.PROP_DESCRIPTION)) {
-			if (!EqualsUtils.equals(this.locationDescription.getText(),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(this.locationDescription.getText(), evt.getNewValue()))
 				this.locationDescription.setText((String) evt.getNewValue());
 		}
 
 		if (evt.getPropertyName().equals(Location.PROP_LATITUDE)) {
-			if (!EqualsUtils.equals(
-					Double.parseDouble(this.locationLatitude.getText()),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(Double.parseDouble(this.locationLatitude.getText()), evt.getNewValue()))
 				this.locationLatitude.setText(evt.getNewValue() + "");
 		}
 
 		if (evt.getPropertyName().equals(Location.PROP_LONGITUDE)) {
-			if (!EqualsUtils.equals(
-					Double.parseDouble(this.locationLongitude.getText()),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(Double.parseDouble(this.locationLongitude.getText()), evt.getNewValue()))
 				this.locationLongitude.setText(evt.getNewValue() + "");
 		}
 	}

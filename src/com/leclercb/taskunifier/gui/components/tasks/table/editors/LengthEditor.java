@@ -36,13 +36,12 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 	public LengthEditor() {
 		this.timeSpinner = new JSpinner();
 		this.timeSpinner.setModel(new SpinnerDateModel());
-		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner,
-				Settings.getStringProperty("date.time_format")));
+		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner, Settings
+				.getStringProperty("date.time_format")));
 	}
 
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int col) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
 		int hour = 0;
 		int minute = 0;
 
@@ -65,8 +64,7 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 
-		return (calendar.get(Calendar.HOUR_OF_DAY) * 60)
-				+ calendar.get(Calendar.MINUTE);
+		return (calendar.get(Calendar.HOUR_OF_DAY) * 60) + calendar.get(Calendar.MINUTE);
 	}
 
 }

@@ -34,14 +34,11 @@ public class ActionQuit extends AbstractAction {
 	}
 
 	public ActionQuit(int width, int height) {
-		super(Translations.getString("action.name.quit"), Images
-				.getResourceImage("exit.png", width, height));
+		super(Translations.getString("action.name.quit"), Images.getResourceImage("exit.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.quit"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.quit"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
-		this.putValue(ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
 	}
 
 	@Override

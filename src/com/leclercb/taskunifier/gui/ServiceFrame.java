@@ -41,7 +41,6 @@ public interface ServiceFrame {
 
 	public abstract void refreshTasks();
 
-	public abstract void printTasks() throws HeadlessException,
-			PrinterException;
+	public abstract void printTasks() throws HeadlessException, PrinterException;
 
 }

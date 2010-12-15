@@ -36,16 +36,12 @@ public class ActionCut extends AbstractAction {
 	}
 
 	public ActionCut(int width, int height) {
-		super(Translations.getString("action.name.cut"), Images
-				.getResourceImage("cut.png", width, height));
+		super(Translations.getString("action.name.cut"), Images.getResourceImage("cut.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.cut"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.cut"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCutAction()
-				.getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCutAction().getValue(Action.NAME));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 	}
 
 	@Override

@@ -35,8 +35,7 @@ import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskSorter implements PropertyChangeListener, ListChangeModel,
-		PropertyChangeModel, Serializable {
+public class TaskSorter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
 
 	public static class TaskSorterElement extends AbstractPropertyChangeModel {
 
@@ -48,8 +47,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel,
 		private TaskColumn column;
 		private SortOrder sortOrder;
 
-		public TaskSorterElement(int order, TaskColumn column,
-				SortOrder sortOrder) {
+		public TaskSorterElement(int order, TaskColumn column, SortOrder sortOrder) {
 			this.setOrder(order);
 			this.setColumn(column);
 			this.setSortOrder(sortOrder);
@@ -174,10 +172,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel,
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(this, property,
-				oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
 	}
 
 	public String toDetailedString(String before) {
@@ -186,8 +182,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel,
 		for (TaskSorterElement element : this.elements) {
 			buffer.append(before + "Order: " + element.getOrder() + "\n");
 			buffer.append(before + "Column: " + element.getColumn() + "\n");
-			buffer.append(before + "Sort Order: " + element.getSortOrder()
-					+ "\n");
+			buffer.append(before + "Sort Order: " + element.getSortOrder() + "\n");
 		}
 
 		return buffer.toString();

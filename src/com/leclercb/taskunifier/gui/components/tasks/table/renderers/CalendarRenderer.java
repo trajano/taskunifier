@@ -35,8 +35,7 @@ public class CalendarRenderer extends DefaultRenderer {
 			return;
 		}
 
-		this.setText((value == null ? "" : this.formatter
-				.format(((Calendar) value).getTime())));
+		this.setText((value == null ? "" : this.formatter.format(((Calendar) value).getTime())));
 	}
 
 }

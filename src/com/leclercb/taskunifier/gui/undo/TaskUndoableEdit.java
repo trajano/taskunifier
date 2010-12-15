@@ -32,8 +32,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	private Object newValue;
 	private Object oldValue;
 
-	public TaskUndoableEdit(Task task, TaskColumn column, Object newValue,
-			Object oldValue) {
+	public TaskUndoableEdit(Task task, TaskColumn column, Object newValue, Object oldValue) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		CheckUtils.isNotNull(column, "Column cannot be null");
 

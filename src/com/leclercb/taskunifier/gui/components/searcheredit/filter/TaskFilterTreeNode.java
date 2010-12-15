@@ -35,11 +35,9 @@ public class TaskFilterTreeNode implements TreeNode {
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		if (childIndex < this.filter.getElementCount())
-			return new TaskFilterElementTreeNode(
-					this.filter.getElement(childIndex));
+			return new TaskFilterElementTreeNode(this.filter.getElement(childIndex));
 
-		return new TaskFilterTreeNode(this.filter.getFilter(childIndex
-				- this.filter.getElementCount()));
+		return new TaskFilterTreeNode(this.filter.getFilter(childIndex - this.filter.getElementCount()));
 	}
 
 	@Override
@@ -58,8 +56,7 @@ public class TaskFilterTreeNode implements TreeNode {
 	@Override
 	public int getIndex(TreeNode node) {
 		if (node instanceof TaskFilterElementTreeNode)
-			return this.filter.getIndexOf(((TaskFilterElementTreeNode) node)
-					.getElement());
+			return this.filter.getIndexOf(((TaskFilterElementTreeNode) node).getElement());
 
 		return this.filter.getIndexOf(((TaskFilterTreeNode) node).getFilter());
 	}
@@ -96,8 +93,7 @@ public class TaskFilterTreeNode implements TreeNode {
 		if (o instanceof TaskFilterTreeNode) {
 			TaskFilterTreeNode node = (TaskFilterTreeNode) o;
 
-			return new EqualsBuilder().append(this.filter, node.filter)
-					.isEqual();
+			return new EqualsBuilder().append(this.filter, node.filter).isEqual();
 		}
 
 		return false;

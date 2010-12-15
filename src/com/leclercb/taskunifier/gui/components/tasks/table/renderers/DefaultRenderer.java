@@ -50,10 +50,9 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		Component component = super.getTableCellRendererComponent(table, value,
-				isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 		if (value == null) {
 			component.setBackground(this.getBackgroundColor(isSelected, row));
@@ -62,8 +61,7 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 
 		Task task = ((TaskTable) table).getTask(row);
 
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(
-				component.getFont().getAttributes());
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(component.getFont().getAttributes());
 		attributes.put(TextAttribute.STRIKETHROUGH, task.isCompleted());
 		component.setFont(component.getFont().deriveFont(attributes));
 

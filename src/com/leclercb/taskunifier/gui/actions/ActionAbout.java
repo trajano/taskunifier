@@ -33,17 +33,14 @@ public class ActionAbout extends AbstractAction {
 	}
 
 	public ActionAbout(int width, int height) {
-		super(Translations.getString("action.name.about"), Images
-				.getResourceImage("information.png", width, height));
+		super(Translations.getString("action.name.about"), Images.getResourceImage("information.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.about"));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		AboutDialog about = new AboutDialog(MainFrame.getInstance().getFrame(),
-				true);
+		AboutDialog about = new AboutDialog(MainFrame.getInstance().getFrame(), true);
 
 		about.setVisible(true);
 	}

@@ -36,8 +36,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskFilter implements PropertyChangeListener, ListChangeModel,
-		PropertyChangeModel, Serializable {
+public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
 
 	public static enum Link {
 
@@ -57,8 +56,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 
 	}
 
-	public static enum CalendarCondition implements
-			Condition<Calendar, Calendar> {
+	public static enum CalendarCondition implements Condition<Calendar, Calendar> {
 
 		AFTER, BEFORE, EQUALS;
 
@@ -158,18 +156,15 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 			}
 
 			if (this == CONTAINS) {
-				return taskValue.toString().toLowerCase()
-						.contains(value.toLowerCase());
+				return taskValue.toString().toLowerCase().contains(value.toLowerCase());
 			}
 
 			if (this == STARTS_WITH) {
-				return taskValue.toString().toLowerCase()
-						.startsWith(value.toLowerCase());
+				return taskValue.toString().toLowerCase().startsWith(value.toLowerCase());
 			}
 
 			if (this == ENDS_WITH) {
-				return taskValue.toString().toLowerCase()
-						.endsWith(value.toLowerCase());
+				return taskValue.toString().toLowerCase().endsWith(value.toLowerCase());
 			}
 
 			if (this == NOT_EQUALS) {
@@ -311,63 +306,51 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 		private Condition<?, ?> condition;
 		private Object value;
 
-		public TaskFilterElement(TaskColumn column, Condition<?, ?> condition,
-				Object value) {
+		public TaskFilterElement(TaskColumn column, Condition<?, ?> condition, Object value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column,
-				CalendarCondition condition, Calendar value) {
+		public TaskFilterElement(TaskColumn column, CalendarCondition condition, Calendar value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, DaysCondition condition,
-				Integer value) {
+		public TaskFilterElement(TaskColumn column, DaysCondition condition, Integer value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, StringCondition condition,
-				String value) {
+		public TaskFilterElement(TaskColumn column, StringCondition condition, String value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, NumberCondition condition,
-				Number value) {
+		public TaskFilterElement(TaskColumn column, NumberCondition condition, Number value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, EnumCondition condition,
-				Enum<?> value) {
+		public TaskFilterElement(TaskColumn column, EnumCondition condition, Enum<?> value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public TaskFilterElement(TaskColumn column, ModelCondition condition,
-				Model value) {
+		public TaskFilterElement(TaskColumn column, ModelCondition condition, Model value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, CalendarCondition condition,
-				Calendar value) {
+		public void set(TaskColumn column, CalendarCondition condition, Calendar value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, DaysCondition condition,
-				Integer value) {
+		public void set(TaskColumn column, DaysCondition condition, Integer value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, StringCondition condition,
-				String value) {
+		public void set(TaskColumn column, StringCondition condition, String value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, NumberCondition condition,
-				Number value) {
+		public void set(TaskColumn column, NumberCondition condition, Number value) {
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void set(TaskColumn column, EnumCondition condition,
-				Enum<?> value) {
+		public void set(TaskColumn column, EnumCondition condition, Enum<?> value) {
 			this.checkAndSet(column, condition, value);
 		}
 
@@ -375,8 +358,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 			this.checkAndSet(column, condition, value);
 		}
 
-		public void checkAndSet(TaskColumn column, Condition<?, ?> condition,
-				Object value) {
+		public void checkAndSet(TaskColumn column, Condition<?, ?> condition, Object value) {
 			CheckUtils.isNotNull(column, "Column cannot be null");
 			CheckUtils.isNotNull(condition, "Condition cannot be null");
 
@@ -427,17 +409,12 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 			this.firePropertyChange(PROP_VALUE, oldValue, value);
 		}
 
-		private void check(TaskColumn column, Condition<?, ?> condition,
-				Object value) {
+		private void check(TaskColumn column, Condition<?, ?> condition, Object value) {
 			if (value != null && !condition.getValueType().isInstance(value))
-				throw new IllegalArgumentException(
-						"Value is not an instance of "
-								+ condition.getValueType());
+				throw new IllegalArgumentException("Value is not an instance of " + condition.getValueType());
 
-			if (!condition.getTaskValueType()
-					.isAssignableFrom(column.getType()))
-				throw new IllegalArgumentException(
-						"The task column is incompatible with this condition");
+			if (!condition.getTaskValueType().isAssignableFrom(column.getType()))
+				throw new IllegalArgumentException("The task column is incompatible with this condition");
 		}
 
 		public boolean include(Task task) {
@@ -656,10 +633,8 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(this, property,
-				oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
 	}
 
 	public String toDetailedString(String before) {
@@ -671,8 +646,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel,
 		for (TaskFilterElement element : this.elements) {
 			buffer.append(before + "Element: " + (i++) + "\n");
 			buffer.append(before + "\tColumn: " + element.getColumn() + "\n");
-			buffer.append(before + "\tCondition: " + element.getCondition()
-					+ "\n");
+			buffer.append(before + "\tCondition: " + element.getCondition() + "\n");
 			buffer.append(before + "\tValue: " + element.getValue() + "\n");
 		}
 

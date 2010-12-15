@@ -143,8 +143,7 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(250);
 		this.table.getColumnModel().getColumn(1).setPreferredWidth(500);
 		this.table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		this.table.getColumnModel().getColumn(2)
-				.setCellRenderer(new SampleRenderer());
+		this.table.getColumnModel().getColumn(2).setCellRenderer(new SampleRenderer());
 		Dimension d = this.table.getPreferredSize();
 		d.height = 350;
 		this.table.setPreferredScrollableViewportSize(d);
@@ -324,8 +323,7 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		menu.setMnemonic('L');
 
 		String lafId = UIManager.getLookAndFeel().getID();
-		UIManager.LookAndFeelInfo[] lafInfo = UIManager
-				.getInstalledLookAndFeels();
+		UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
 
 		for (int i = 0; i < lafInfo.length; i++) {
 			String laf = lafInfo[i].getClassName();
@@ -422,11 +420,8 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 				int rowHeight = this.table.getRowHeight();
 
 				for (int column = 0; column < this.table.getColumnCount(); column++) {
-					Component comp = this.table.prepareRenderer(
-							this.table.getCellRenderer(row, column), row,
-							column);
-					rowHeight = Math.max(rowHeight,
-							comp.getPreferredSize().height);
+					Component comp = this.table.prepareRenderer(this.table.getCellRenderer(row, column), row, column);
+					rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
 				}
 
 				this.table.setRowHeight(row, rowHeight);
@@ -505,8 +500,8 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		}
 
 		private Icon createImageIcon(JComponent standInComponent, int x, int y) {
-			BufferedImage image = new BufferedImage(this.getIconWidth(),
-					this.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			BufferedImage image = new BufferedImage(this.getIconWidth(), this.getIconHeight(),
+					BufferedImage.TYPE_INT_ARGB);
 			Graphics g = image.createGraphics();
 			try {
 				this.wrappee.paintIcon(standInComponent, g, 0, 0);
@@ -520,8 +515,7 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		 * @param clazz
 		 * @throws IllegalAccessException
 		 */
-		private JComponent getSubstitute(Class<?> clazz)
-				throws IllegalAccessException {
+		private JComponent getSubstitute(Class<?> clazz) throws IllegalAccessException {
 			JComponent standInComponent;
 
 			try {
@@ -529,14 +523,12 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 			} catch (InstantiationException e) {
 				standInComponent = new AbstractButton() {
 				};
-				((AbstractButton) standInComponent)
-						.setModel(new DefaultButtonModel());
+				((AbstractButton) standInComponent).setModel(new DefaultButtonModel());
 			}
 			return standInComponent;
 		}
 
-		private Class<?> getClass(ClassCastException e)
-				throws ClassNotFoundException {
+		private Class<?> getClass(ClassCastException e) throws ClassNotFoundException {
 			String className = e.getMessage();
 			className = className.substring(className.lastIndexOf(" ") + 1);
 			return Class.forName(className);
@@ -563,9 +555,8 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object sample, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable table, Object sample, boolean isSelected,
+				boolean hasFocus, int row, int column) {
 			this.setBackground(null);
 			this.setBorder(null);
 			this.setIcon(null);
@@ -610,8 +601,7 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 		private UIManagerDefaults defaults;
 		private String laf;
 
-		protected ChangeLookAndFeelAction(UIManagerDefaults defaults,
-				String laf, String name) {
+		protected ChangeLookAndFeelAction(UIManagerDefaults defaults, String laf, String name) {
 			this.defaults = defaults;
 			this.laf = laf;
 			this.putValue(Action.NAME, name);
@@ -626,20 +616,17 @@ public class UIManagerDefaults implements ActionListener, ItemListener {
 
 				JMenuItem mi = (JMenuItem) e.getSource();
 				JPopupMenu popup = (JPopupMenu) mi.getParent();
-				JRootPane rootPane = SwingUtilities.getRootPane(popup
-						.getInvoker());
+				JRootPane rootPane = SwingUtilities.getRootPane(popup.getInvoker());
 				SwingUtilities.updateComponentTreeUI(rootPane);
 
 				// Use custom decorations when supported by the LAF
 
-				JFrame frame = (JFrame) SwingUtilities
-						.windowForComponent(rootPane);
+				JFrame frame = (JFrame) SwingUtilities.windowForComponent(rootPane);
 				frame.dispose();
 
 				if (UIManager.getLookAndFeel().getSupportsWindowDecorations()) {
 					frame.setUndecorated(true);
-					frame.getRootPane().setWindowDecorationStyle(
-							JRootPane.FRAME);
+					frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 				} else {
 					frame.setUndecorated(false);
 				}

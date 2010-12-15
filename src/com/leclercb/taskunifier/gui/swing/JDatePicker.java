@@ -108,19 +108,15 @@ public class JDatePicker extends JDialog {
 						JDatePicker.this.calendar = null;
 					} else {
 						Calendar time = Calendar.getInstance();
-						time.setTime((Date) JDatePicker.this.timeSpinner
-								.getValue());
+						time.setTime((Date) JDatePicker.this.timeSpinner.getValue());
 
 						Calendar date = Calendar.getInstance();
 						date.setTime(JDatePicker.this.calendarPane.getDate());
 
 						JDatePicker.this.calendar = date;
-						JDatePicker.this.calendar.set(Calendar.HOUR_OF_DAY,
-								time.get(Calendar.HOUR_OF_DAY));
-						JDatePicker.this.calendar.set(Calendar.MINUTE,
-								time.get(Calendar.MINUTE));
-						JDatePicker.this.calendar.set(Calendar.SECOND,
-								time.get(Calendar.SECOND));
+						JDatePicker.this.calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+						JDatePicker.this.calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+						JDatePicker.this.calendar.set(Calendar.SECOND, time.get(Calendar.SECOND));
 					}
 
 					JDatePicker.this.dispose();
@@ -140,8 +136,7 @@ public class JDatePicker extends JDialog {
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 
-		JButton cancelButton = new JButton(
-				Translations.getString("general.cancel"));
+		JButton cancelButton = new JButton(Translations.getString("general.cancel"));
 		cancelButton.setActionCommand("CANCEL");
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
@@ -153,8 +148,7 @@ public class JDatePicker extends JDialog {
 
 		this.timeSpinner = new JSpinner();
 		this.timeSpinner.setModel(new SpinnerDateModel());
-		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner,
-				"HH:mm"));
+		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner, "HH:mm"));
 
 		timePanel.add(this.timeSpinner);
 

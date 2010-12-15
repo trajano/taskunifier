@@ -62,9 +62,7 @@ abstract class ModelList extends JPanel {
 				if (ModelList.this.modelList.getSelectedValue() == null) {
 					ModelList.this.removeButton.setEnabled(false);
 				} else {
-					ModelList.this
-							.modelSelected((Model) ModelList.this.modelList
-									.getSelectedValue());
+					ModelList.this.modelSelected((Model) ModelList.this.modelList.getSelectedValue());
 					ModelList.this.removeButton.setEnabled(true);
 				}
 			}
@@ -88,8 +86,7 @@ abstract class ModelList extends JPanel {
 				if (event.getActionCommand().equals("ADD"))
 					ModelList.this.addModel();
 				else
-					ModelList.this.removeModel((Model) ModelList.this.modelList
-							.getSelectedValue());
+					ModelList.this.removeModel((Model) ModelList.this.modelList.getSelectedValue());
 			}
 
 		};
@@ -99,8 +96,7 @@ abstract class ModelList extends JPanel {
 		this.addButton.addActionListener(listener);
 		buttonsPanel.add(this.addButton);
 
-		this.removeButton = new JButton(Images.getResourceImage("remove.png",
-				16, 16));
+		this.removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
 		this.removeButton.setActionCommand("REMOVE");
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);

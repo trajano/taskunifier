@@ -45,8 +45,7 @@ public final class Help {
 
 	}
 
-	private static final String HELP_FILES_FOLDER = Main.RESOURCES_FOLDER
-			+ File.separator + "help";
+	private static final String HELP_FILES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "help";
 
 	public static String getContent(String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
@@ -55,8 +54,7 @@ public final class Help {
 		StringBuffer content = new StringBuffer();
 
 		try {
-			InputStreamReader inputStream = new InputStreamReader(
-					new FileInputStream(helpFile));
+			InputStreamReader inputStream = new InputStreamReader(new FileInputStream(helpFile));
 			BufferedReader buffer = new BufferedReader(inputStream);
 
 			String line = null;
@@ -75,8 +73,7 @@ public final class Help {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
-		JButton component = new JButton(Images.getResourceImage("help.png", 16,
-				16));
+		JButton component = new JButton(Images.getResourceImage("help.png", 16, 16));
 		component.setBorderPainted(false);
 		component.setContentAreaFilled(false);
 		component.addActionListener(new HelpActionListener(helpFile));

@@ -30,23 +30,19 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class FolderTaskSearcherListModel extends FolderListModel implements
-		TaskSearcherListModel {
+public class FolderTaskSearcherListModel extends FolderListModel implements TaskSearcherListModel {
 
 	@Override
 	public TaskSearcher getTaskSearcher(int index) {
 		Folder folder = (Folder) this.getElementAt(index);
 
 		TaskSorter sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE, SortOrder.ASCENDING));
 
 		TaskFilter filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(TaskColumn.FOLDER,
-				ModelCondition.EQUALS, folder));
+		filter.addElement(new TaskFilterElement(TaskColumn.FOLDER, ModelCondition.EQUALS, folder));
 
-		String title = (folder == null ? Translations
-				.getString("searcherlist.none") : folder.getTitle());
+		String title = (folder == null ? Translations.getString("searcherlist.none") : folder.getTitle());
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 
 		return searcher;

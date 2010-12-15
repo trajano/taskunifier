@@ -66,15 +66,14 @@ class SearcherListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		if (value == null) {
 			this.icon.setIcon(null);
 			this.text.setText(Translations.getString("searcherlist.none"));
 		} else if (value instanceof TaskSearcher) {
 			if (((TaskSearcher) value).getIcon() != null)
-				this.icon.setIcon(Images.getImage(
-						((TaskSearcher) value).getIcon(), 24, 24));
+				this.icon.setIcon(Images.getImage(((TaskSearcher) value).getIcon(), 24, 24));
 			else
 				this.icon.setIcon(null);
 

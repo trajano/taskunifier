@@ -34,37 +34,25 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum TaskColumn {
 
-	TITLE(String.class, 1, Translations.getString("general.task.title"), 200,
-			true, true), TAGS(String.class, 2, Translations
-			.getString("general.task.tags"), 100, true, true), FOLDER(
-			Folder.class, 3, Translations.getString("general.task.folder"),
-			100, true, true), CONTEXT(Context.class, 4, Translations
-			.getString("general.task.context"), 100, true, true), GOAL(
-			Goal.class, 5, Translations.getString("general.task.goal"), 100,
-			true, true), LOCATION(Location.class, 6, Translations
-			.getString("general.task.location"), 100, true, true), PARENT(
-			Task.class, 7, Translations.getString("general.task.parent"), 100,
-			false, false), COMPLETED(Boolean.class, 8, Translations
-			.getString("general.task.completed"), 100, true, true), COMPLETED_ON(
-			Calendar.class, 9, Translations
-					.getString("general.task.completed_on"), 100, false, true), DUE_DATE(
-			Calendar.class, 10,
-			Translations.getString("general.task.due_date"), 150, true, true), START_DATE(
-			Calendar.class, 11, Translations
-					.getString("general.task.start_date"), 150, true, true), REMINDER(
-			Integer.class, 12, Translations.getString("general.task.reminder"),
-			100, true, true), REPEAT(String.class, 13, Translations
-			.getString("general.task.repeat"), 100, false, true), REPEAT_FROM(
-			TaskRepeatFrom.class, 14, Translations
-					.getString("general.task.repeat_from"), 100, true, true), STATUS(
-			TaskStatus.class, 15,
-			Translations.getString("general.task.status"), 100, true, true), LENGTH(
-			Integer.class, 16, Translations.getString("general.task.length"),
-			50, true, true), PRIORITY(TaskPriority.class, 17, Translations
-			.getString("general.task.priority"), 100, true, true), STAR(
-			Boolean.class, 18, Translations.getString("general.task.star"), 40,
-			true, true), NOTE(String.class, 19, Translations
-			.getString("general.task.note"), 100, false, false);
+	TITLE(String.class, 1, Translations.getString("general.task.title"), 200, true, true),
+	TAGS(String.class, 2, Translations.getString("general.task.tags"), 100, true, true),
+	FOLDER(Folder.class, 3, Translations.getString("general.task.folder"), 100, true, true),
+	CONTEXT(Context.class, 4, Translations.getString("general.task.context"), 100, true, true),
+	GOAL(Goal.class, 5, Translations.getString("general.task.goal"), 100, true, true),
+	LOCATION(Location.class, 6, Translations.getString("general.task.location"), 100, true, true),
+	PARENT(Task.class, 7, Translations.getString("general.task.parent"), 100, false, false),
+	COMPLETED(Boolean.class, 8, Translations.getString("general.task.completed"), 100, true, true),
+	COMPLETED_ON(Calendar.class, 9, Translations.getString("general.task.completed_on"), 100, false, true),
+	DUE_DATE(Calendar.class, 10, Translations.getString("general.task.due_date"), 150, true, true),
+	START_DATE(Calendar.class, 11, Translations.getString("general.task.start_date"), 150, true, true),
+	REMINDER(Integer.class, 12, Translations.getString("general.task.reminder"), 100, true, true),
+	REPEAT(String.class, 13, Translations.getString("general.task.repeat"), 100, false, true),
+	REPEAT_FROM(TaskRepeatFrom.class, 14, Translations.getString("general.task.repeat_from"), 100, true, true),
+	STATUS(TaskStatus.class, 15, Translations.getString("general.task.status"), 100, true, true),
+	LENGTH(Integer.class, 16, Translations.getString("general.task.length"), 50, true, true),
+	PRIORITY(TaskPriority.class, 17, Translations.getString("general.task.priority"), 100, true, true),
+	STAR(Boolean.class, 18, Translations.getString("general.task.star"), 40, true, true),
+	NOTE(String.class, 19, Translations.getString("general.task.note"), 100, false, false);
 
 	private Class<?> type;
 	private int order;
@@ -73,8 +61,7 @@ public enum TaskColumn {
 	private boolean editable;
 	private boolean visible;
 
-	private TaskColumn(Class<?> type, int order, String label, int width,
-			boolean editable, boolean visible) {
+	private TaskColumn(Class<?> type, int order, String label, int width, boolean editable, boolean visible) {
 		this.setType(type);
 		this.setLabel(label);
 		this.setWidth(width);

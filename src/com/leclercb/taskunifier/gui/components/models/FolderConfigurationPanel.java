@@ -41,8 +41,7 @@ import com.leclercb.taskunifier.gui.models.FolderListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class FolderConfigurationPanel extends JSplitPane implements
-		PropertyChangeListener {
+public class FolderConfigurationPanel extends JSplitPane implements PropertyChangeListener {
 
 	private Folder selectedFolder;
 
@@ -61,18 +60,15 @@ public class FolderConfigurationPanel extends JSplitPane implements
 
 			@Override
 			public void addModel() {
-				Model model = FolderFactory.getInstance().create(
-						Translations.getString("folder.default.title"));
+				Model model = FolderFactory.getInstance().create(Translations.getString("folder.default.title"));
 				this.setSelectedModel(model);
-				FolderConfigurationPanel.this
-						.focusAndSelectTextInTextField(FolderConfigurationPanel.this.folderTitle);
+				FolderConfigurationPanel.this.focusAndSelectTextInTextField(FolderConfigurationPanel.this.folderTitle);
 			}
 
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				FolderFactory.getInstance().markToDelete(
-						this.getSelectedModel());
+				FolderFactory.getInstance().markToDelete(this.getSelectedModel());
 			}
 
 			@Override
@@ -97,8 +93,7 @@ public class FolderConfigurationPanel extends JSplitPane implements
 				Folder folder = (Folder) model;
 
 				FolderConfigurationPanel.this.folderTitle.setEnabled(true);
-				FolderConfigurationPanel.this.folderTitle.setText(folder
-						.getTitle());
+				FolderConfigurationPanel.this.folderTitle.setText(folder.getTitle());
 			}
 
 		};
@@ -118,9 +113,7 @@ public class FolderConfigurationPanel extends JSplitPane implements
 		JLabel label = null;
 
 		// Folder Title
-		label = new JLabel(
-				Translations.getString("general.folder.title") + ":",
-				SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.folder.title") + ":", SwingConstants.TRAILING);
 		info.add(label);
 
 		this.folderTitle.setEnabled(false);
@@ -129,8 +122,7 @@ public class FolderConfigurationPanel extends JSplitPane implements
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Folder folder = (Folder) modelList.getSelectedModel();
-				folder.setTitle(FolderConfigurationPanel.this.folderTitle
-						.getText());
+				folder.setTitle(FolderConfigurationPanel.this.folderTitle.getText());
 			}
 
 		});
@@ -138,8 +130,10 @@ public class FolderConfigurationPanel extends JSplitPane implements
 
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		this.setDividerLocation(200);
 	}
@@ -156,8 +150,7 @@ public class FolderConfigurationPanel extends JSplitPane implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Folder.PROP_MODEL_TITLE)) {
-			if (!EqualsUtils.equals(this.folderTitle.getText(),
-					evt.getNewValue()))
+			if (!EqualsUtils.equals(this.folderTitle.getText(), evt.getNewValue()))
 				this.folderTitle.setText((String) evt.getNewValue());
 		}
 	}

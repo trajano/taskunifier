@@ -46,24 +46,19 @@ public class TaskFilterTree extends JTree {
 			@Override
 			public void mouseReleased(MouseEvent event) {
 				// Or BUTTON3 due to a bug with OSX
-				if (event.isPopupTrigger()
-						|| event.getButton() == MouseEvent.BUTTON3) {
-					TreePath path = TaskFilterTree.this.getPathForLocation(
-							event.getX(), event.getY());
-					final TreeNode node = (TreeNode) path
-							.getLastPathComponent();
+				if (event.isPopupTrigger() || event.getButton() == MouseEvent.BUTTON3) {
+					TreePath path = TaskFilterTree.this.getPathForLocation(event.getX(), event.getY());
+					final TreeNode node = (TreeNode) path.getLastPathComponent();
 
 					if (node instanceof TaskFilterTreeNode) {
 						JPopupMenu popup = new JPopupMenu();
 
 						ButtonGroup group = new ButtonGroup();
 
-						JRadioButtonMenuItem itemAnd = new JRadioButtonMenuItem(
-								TranslationsUtils
-										.translateTaskFilterLink(Link.AND));
-						JRadioButtonMenuItem itemOr = new JRadioButtonMenuItem(
-								TranslationsUtils
-										.translateTaskFilterLink(Link.OR));
+						JRadioButtonMenuItem itemAnd = new JRadioButtonMenuItem(TranslationsUtils
+								.translateTaskFilterLink(Link.AND));
+						JRadioButtonMenuItem itemOr = new JRadioButtonMenuItem(TranslationsUtils
+								.translateTaskFilterLink(Link.OR));
 
 						group.add(itemAnd);
 						group.add(itemOr);
@@ -71,8 +66,7 @@ public class TaskFilterTree extends JTree {
 						popup.add(itemAnd);
 						popup.add(itemOr);
 
-						if (((TaskFilterTreeNode) node).getFilter().getLink()
-								.equals(Link.AND))
+						if (((TaskFilterTreeNode) node).getFilter().getLink().equals(Link.AND))
 							itemAnd.setSelected(true);
 						else
 							itemOr.setSelected(true);
@@ -81,8 +75,7 @@ public class TaskFilterTree extends JTree {
 
 							@Override
 							public void actionPerformed(ActionEvent evt) {
-								((TaskFilterTreeNode) node).getFilter()
-										.setLink(Link.AND);
+								((TaskFilterTreeNode) node).getFilter().setLink(Link.AND);
 							}
 
 						});
@@ -91,14 +84,12 @@ public class TaskFilterTree extends JTree {
 
 							@Override
 							public void actionPerformed(ActionEvent evt) {
-								((TaskFilterTreeNode) node).getFilter()
-										.setLink(Link.OR);
+								((TaskFilterTreeNode) node).getFilter().setLink(Link.OR);
 							}
 
 						});
 
-						popup.show(event.getComponent(), event.getX(),
-								event.getY());
+						popup.show(event.getComponent(), event.getX(), event.getY());
 					}
 				}
 			}

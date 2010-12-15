@@ -25,8 +25,7 @@ public class ConfigurationField {
 	private String label;
 	private ConfigurationFieldType<?, ?> type;
 
-	public ConfigurationField(String id, String label,
-			ConfigurationFieldType<?, ?> type) {
+	public ConfigurationField(String id, String label, ConfigurationFieldType<?, ?> type) {
 		this.setId(id);
 		this.setLabel(label);
 		this.setType(type);

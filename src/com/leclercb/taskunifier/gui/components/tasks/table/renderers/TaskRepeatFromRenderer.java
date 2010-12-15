@@ -33,8 +33,7 @@ public class TaskRepeatFromRenderer extends DefaultRenderer {
 			return;
 		}
 
-		this.setText(TranslationsUtils
-				.translateTaskRepeatFrom((TaskRepeatFrom) value));
+		this.setText(TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value));
 	}
 
 }

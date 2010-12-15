@@ -33,8 +33,7 @@ import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.swing.JDatePicker;
 
-public class DateEditor extends AbstractCellEditor implements TableCellEditor,
-		ActionListener {
+public class DateEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
 	private DateFormat formatter;
 
@@ -80,13 +79,11 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor,
 	}
 
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int col) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
 		if (value == null) {
 			this.label.setText("");
 		} else {
-			this.label.setText(this.formatter.format(((Calendar) value)
-					.getTime()));
+			this.label.setText(this.formatter.format(((Calendar) value).getTime()));
 		}
 
 		this.value = (Calendar) value;

@@ -78,8 +78,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 	public TaskSearcher getSelectedTaskSearcher() {
 		for (JList list : this.lists) {
 			if (list.getSelectedIndex() != -1) {
-				return ((TaskSearcherListModel) list.getModel())
-						.getTaskSearcher(list.getSelectedIndex());
+				return ((TaskSearcherListModel) list.getModel()).getTaskSearcher(list.getSelectedIndex());
 			}
 		}
 
@@ -99,8 +98,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 
 	protected void fireActionPerformed(String command) {
 		for (ActionListener listener : this.listeners)
-			listener.actionPerformed(new ActionEvent(this,
-					ActionEvent.ACTION_PERFORMED, command));
+			listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command));
 	}
 
 	private void initialize() {
@@ -119,43 +117,37 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new GeneralTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("searcherlist.general"),
-				list, panel);
+		this.initializeList(Translations.getString("searcherlist.general"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new FolderTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("general.folders"), list,
-				panel);
+		this.initializeList(Translations.getString("general.folders"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new ContextTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("general.contexts"), list,
-				panel);
+		this.initializeList(Translations.getString("general.contexts"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new GoalTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("general.goals"), list,
-				panel);
+		this.initializeList(Translations.getString("general.goals"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new LocationTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("general.locations"), list,
-				panel);
+		this.initializeList(Translations.getString("general.locations"), list, panel);
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new PersonalTaskSearcherListModel());
 		this.lists.add(list);
-		this.initializeList(Translations.getString("searcherlist.personal"),
-				list, panel);
+		this.initializeList(Translations.getString("searcherlist.personal"), list, panel);
 
 		this.personalList = list;
 		this.personalList.addMouseListener(new MouseAdapter() {
@@ -163,14 +155,11 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					int index = SearcherPanel.this.personalList
-							.locationToIndex(e.getPoint());
+					int index = SearcherPanel.this.personalList.locationToIndex(e.getPoint());
 					SearcherPanel.this.personalList.ensureIndexIsVisible(index);
 
-					Object item = SearcherPanel.this.personalList.getModel()
-							.getElementAt(index);
-					new ActionEditSearcher()
-							.actionPerformed((TaskSearcher) item);
+					Object item = SearcherPanel.this.personalList.getModel().getElementAt(index);
+					new ActionEditSearcher().actionPerformed((TaskSearcher) item);
 				}
 			}
 
@@ -191,12 +180,11 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					TaskSearcherFactory.getInstance().create(
-							Translations.getString("searcher.default.title"),
-							new TaskFilter(), new TaskSorter());
+					TaskSearcherFactory.getInstance().create(Translations.getString("searcher.default.title"),
+							new TaskFilter(),
+							new TaskSorter());
 				} else {
-					TaskSearcher searcher = (TaskSearcher) SearcherPanel.this.personalList
-							.getSelectedValue();
+					TaskSearcher searcher = (TaskSearcher) SearcherPanel.this.personalList.getSelectedValue();
 					TaskSearcherFactory.getInstance().unregister(searcher);
 				}
 			}
@@ -208,8 +196,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		this.addButton.addActionListener(listener);
 		buttonsPanel.add(this.addButton);
 
-		this.removeButton = new JButton(Images.getResourceImage("remove.png",
-				16, 16));
+		this.removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
 		this.removeButton.setActionCommand("REMOVE");
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
@@ -230,8 +217,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 
 		contentPanel.add(list, BorderLayout.CENTER);
 
-		final JCollapsiblePanel collapsiblePanel = new JCollapsiblePanel(
-				headerPanel, contentPanel);
+		final JCollapsiblePanel collapsiblePanel = new JCollapsiblePanel(headerPanel, contentPanel);
 		collapsiblePanel.toggleSelection();
 
 		headerPanel.addMouseListener(new MouseAdapter() {
@@ -252,8 +238,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 			return;
 
 		if (e.getSource().equals(this.personalList.getSelectionModel()))
-			this.removeButton
-					.setEnabled(this.personalList.getSelectedIndex() != -1);
+			this.removeButton.setEnabled(this.personalList.getSelectedIndex() != -1);
 
 		for (JList list : this.lists) {
 			if (e.getSource().equals(list.getSelectionModel())) {

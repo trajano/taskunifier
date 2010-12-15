@@ -57,17 +57,13 @@ public class ModelConfigurationDialog extends JDialog {
 
 		this.initializeButtonsPanel(buttonsPanel);
 
-		tabbedPane.addTab(Translations.getString("general.contexts"),
-				new ContextConfigurationPanel());
+		tabbedPane.addTab(Translations.getString("general.contexts"), new ContextConfigurationPanel());
 
-		tabbedPane.addTab(Translations.getString("general.folders"),
-				new FolderConfigurationPanel());
+		tabbedPane.addTab(Translations.getString("general.folders"), new FolderConfigurationPanel());
 
-		tabbedPane.addTab(Translations.getString("general.goals"),
-				new GoalConfigurationPanel());
+		tabbedPane.addTab(Translations.getString("general.goals"), new GoalConfigurationPanel());
 
-		tabbedPane.addTab(Translations.getString("general.locations"),
-				new LocationConfigurationPanel());
+		tabbedPane.addTab(Translations.getString("general.locations"), new LocationConfigurationPanel());
 	}
 
 	private void initializeButtonsPanel(JPanel buttonsPanel) {

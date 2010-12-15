@@ -41,8 +41,7 @@ import com.leclercb.taskunifier.gui.images.Images;
 
 public interface ConfigurationFieldType<ComponentType extends Component, ValueType> {
 
-	public static class Separator extends JSeparator implements
-			ConfigurationFieldType<JSeparator, Void> {
+	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 
 		public Separator() {
 
@@ -60,8 +59,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class Label extends JLabel implements
-			ConfigurationFieldType<JLabel, Void> {
+	public static class Label extends JLabel implements ConfigurationFieldType<JLabel, Void> {
 
 		public Label(String label) {
 			super(label);
@@ -80,8 +78,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class Button extends JButton implements
-			ConfigurationFieldType<JButton, Void> {
+	public static class Button extends JButton implements ConfigurationFieldType<JButton, Void> {
 
 		public Button(Action action) {
 			super(action);
@@ -104,8 +101,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class CheckBox extends JCheckBox implements
-			ConfigurationFieldType<JCheckBox, Boolean> {
+	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 
 		public CheckBox(Boolean selected) {
 			this.setSelected(selected);
@@ -123,13 +119,11 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class StarCheckBox extends JCheckBox implements
-			ConfigurationFieldType<JCheckBox, Boolean> {
+	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 
 		public StarCheckBox(Boolean selected) {
 			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
-			this.setSelectedIcon(Images
-					.getResourceImage("checkbox_star_selected.gif"));
+			this.setSelectedIcon(Images.getResourceImage("checkbox_star_selected.gif"));
 
 			this.setSelected(selected);
 		}
@@ -146,8 +140,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class ComboBox extends JComboBox implements
-			ConfigurationFieldType<JComboBox, Object> {
+	public static class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
 
 		public ComboBox(ComboBoxModel model, Object selectedItem) {
 			super(model);
@@ -171,8 +164,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class TextArea extends JTextArea implements
-			ConfigurationFieldType<JTextArea, String> {
+	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
 
 		public TextArea(String text) {
 			super(text, 5, 20);
@@ -191,8 +183,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class TextField extends JTextField implements
-			ConfigurationFieldType<JTextField, String> {
+	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
 
 		public TextField(String text) {
 			super(text);
@@ -210,8 +201,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class FormattedTextField extends JFormattedTextField
-			implements ConfigurationFieldType<JFormattedTextField, String> {
+	public static class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
 
 		public FormattedTextField(AbstractFormatter formatter, String text) {
 			super(formatter);
@@ -230,8 +220,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class PasswordField extends JPasswordField implements
-			ConfigurationFieldType<JPasswordField, String> {
+	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
 
 		public PasswordField(String password) {
 			super(password);
@@ -249,8 +238,7 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 
 	}
 
-	public static class ColorChooser extends JButton implements
-			ConfigurationFieldType<JButton, Color> {
+	public static class ColorChooser extends JButton implements ConfigurationFieldType<JButton, Color> {
 
 		JColorChooser colorChooser;
 
@@ -262,15 +250,18 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 			colorChooser.setColor(color);
 
 			final JDialog colorDialog = JColorChooser.createDialog(this,
-					"Color", true, colorChooser, new ActionListener() {
+					"Color",
+					true,
+					colorChooser,
+					new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent event) {
-							ColorChooser.this.setBackground(colorChooser
-									.getColor());
+							ColorChooser.this.setBackground(colorChooser.getColor());
 						}
 
-					}, null);
+					},
+					null);
 
 			this.addActionListener(new ActionListener() {
 

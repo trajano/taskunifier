@@ -28,18 +28,16 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 public class TaskPriorityListCellRenderer extends DefaultListCellRenderer {
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(list, value,
-				index, isSelected, cellHasFocus);
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
 		if (value == null || !(value instanceof TaskPriority)) {
 			this.setText("");
 			return component;
 		}
 
-		this.setText(TranslationsUtils
-				.translateTaskPriority((TaskPriority) value));
+		this.setText(TranslationsUtils.translateTaskPriority((TaskPriority) value));
 		return component;
 	}
 

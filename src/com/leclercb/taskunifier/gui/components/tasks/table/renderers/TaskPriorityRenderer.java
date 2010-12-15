@@ -33,8 +33,7 @@ public class TaskPriorityRenderer extends DefaultRenderer {
 			return;
 		}
 
-		this.setText(TranslationsUtils
-				.translateTaskPriority((TaskPriority) value));
+		this.setText(TranslationsUtils.translateTaskPriority((TaskPriority) value));
 	}
 
 }

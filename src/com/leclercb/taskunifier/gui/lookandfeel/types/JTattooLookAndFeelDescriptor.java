@@ -36,20 +36,16 @@ public class JTattooLookAndFeelDescriptor extends LookAndFeelDescriptor {
 	@Override
 	public void setLookAndFeel(Window window) throws LookAndFeelException {
 		try {
-			String valueClass = this.getIdentifier().substring(0,
-					this.getIdentifier().lastIndexOf("$"));
-			String valueTheme = this.getIdentifier().substring(
-					this.getIdentifier().lastIndexOf("$") + 1,
+			String valueClass = this.getIdentifier().substring(0, this.getIdentifier().lastIndexOf("$"));
+			String valueTheme = this.getIdentifier().substring(this.getIdentifier().lastIndexOf("$") + 1,
 					this.getIdentifier().length());
 
 			Class<?> lafClass = Class.forName(valueClass);
-			Method lafMethod = lafClass
-					.getDeclaredMethod("setTheme", new Class<?>[] {
-							String.class, String.class, String.class });
+			Method lafMethod = lafClass.getDeclaredMethod("setTheme", new Class<?>[] { String.class, String.class,
+					String.class });
 			Object lafInstance = lafClass.newInstance();
 
-			lafMethod.invoke(lafInstance, new Object[] { valueTheme, "",
-					Constants.TITLE });
+			lafMethod.invoke(lafInstance, new Object[] { valueTheme, "", Constants.TITLE });
 
 			UIManager.setLookAndFeel(valueClass);
 
@@ -59,9 +55,7 @@ public class JTattooLookAndFeelDescriptor extends LookAndFeelDescriptor {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException(
-					"Error while setting look and feel \"" + this.getName()
-							+ "\"", e);
+			throw new LookAndFeelException("Error while setting look and feel \"" + this.getName() + "\"", e);
 		}
 	}
 

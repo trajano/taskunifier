@@ -36,8 +36,7 @@ public class MetalLookAndFeelDescriptor extends LookAndFeelDescriptor {
 	@Override
 	public void setLookAndFeel(Window window) throws LookAndFeelException {
 		try {
-			MetalLookAndFeel.setCurrentTheme((MetalTheme) Class.forName(
-					this.getIdentifier()).newInstance());
+			MetalLookAndFeel.setCurrentTheme((MetalTheme) Class.forName(this.getIdentifier()).newInstance());
 
 			UIManager.setLookAndFeel(MetalLookAndFeel.class.getName());
 
@@ -47,8 +46,7 @@ public class MetalLookAndFeelDescriptor extends LookAndFeelDescriptor {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException("Error while setting look and feel",
-					e);
+			throw new LookAndFeelException("Error while setting look and feel", e);
 		}
 	}
 

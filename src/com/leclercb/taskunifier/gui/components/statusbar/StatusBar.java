@@ -57,39 +57,30 @@ public class StatusBar extends JPanel {
 	}
 
 	private void initializeLastSynchronizationDate() {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format") + " "
-						+ Settings.getStringProperty("date.time_format"));
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(Settings.getStringProperty("date.date_format") + " "
+				+ Settings.getStringProperty("date.time_format"));
 
 		String date = Translations.getString("statusbar.never");
 
-		if (Settings
-				.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Settings.getCalendarProperty(
-					"synchronizer.last_synchronization_date").getTime());
+		if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+			date = dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date").getTime());
 
-		this.lastSynchronizationDate
-				.setText(Translations
-						.getString("statusbar.last_synchronization_date")
-						+ ": " + date);
+		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date") + ": "
+				+ date);
 
 		Settings.addPropertyChangeListener(new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getPropertyName().equals(
-						"synchronizer.last_synchronization_date")) {
+				if (event.getPropertyName().equals("synchronizer.last_synchronization_date")) {
 					String date = Translations.getString("statusbar.never");
 
-					if (Settings
-							.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						dateFormat.format(Settings.getCalendarProperty(
-								"synchronizer.last_synchronization_date")
+					if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+						dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date")
 								.getTime());
 
 					StatusBar.this.lastSynchronizationDate.setText(Translations
-							.getString("statusbar.last_synchronization_date")
-							+ ": " + date);
+							.getString("statusbar.last_synchronization_date") + ": " + date);
 				}
 			}
 

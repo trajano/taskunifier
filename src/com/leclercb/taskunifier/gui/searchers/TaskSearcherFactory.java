@@ -30,8 +30,7 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
 import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcherFactory implements PropertyChangeListener,
-		ListChangeModel, PropertyChangeModel {
+public class TaskSearcherFactory implements PropertyChangeListener, ListChangeModel, PropertyChangeModel {
 
 	private static TaskSearcherFactory FACTORY;
 
@@ -84,8 +83,7 @@ public class TaskSearcherFactory implements PropertyChangeListener,
 	}
 
 	public void deleteAll() {
-		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
-				this.searchers);
+		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(this.searchers);
 		for (TaskSearcher searcher : searchers)
 			this.unregister(searcher);
 	}
@@ -108,15 +106,13 @@ public class TaskSearcherFactory implements PropertyChangeListener,
 		}
 	}
 
-	public TaskSearcher create(String title, TaskFilter filter,
-			TaskSorter sorter) {
+	public TaskSearcher create(String title, TaskFilter filter, TaskSorter sorter) {
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 		this.register(searcher);
 		return searcher;
 	}
 
-	public TaskSearcher create(String title, String icon, TaskFilter filter,
-			TaskSorter sorter) {
+	public TaskSearcher create(String title, String icon, TaskFilter filter, TaskSorter sorter) {
 		TaskSearcher searcher = new TaskSearcher(title, icon, filter, sorter);
 		this.register(searcher);
 		return searcher;
@@ -192,10 +188,8 @@ public class TaskSearcherFactory implements PropertyChangeListener,
 			listener.propertyChange(evt);
 	}
 
-	protected void firePropertyChange(String property, Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(this, property,
-				oldValue, newValue));
+	protected void firePropertyChange(String property, Object oldValue, Object newValue) {
+		this.firePropertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
 	}
 
 }

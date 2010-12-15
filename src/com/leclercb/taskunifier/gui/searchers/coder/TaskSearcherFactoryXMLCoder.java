@@ -75,8 +75,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 		CheckUtils.isNotNull(input, "Input stream cannot be null");
 
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 			factory.setIgnoringComments(true);
 
@@ -85,10 +84,8 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 
 			document.getDocumentElement().normalize();
 
-			if (!document.getChildNodes().item(0).getNodeName()
-					.equals(this.rootName))
-				throw new Exception("Root name must be \"" + this.rootName
-						+ "\"");
+			if (!document.getChildNodes().item(0).getNodeName().equals(this.rootName))
+				throw new Exception("Root name must be \"" + this.rootName + "\"");
 
 			Node root = document.getChildNodes().item(0);
 
@@ -147,8 +144,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 				}
 			}
 
-			TaskSearcherFactory.getInstance().create(title, icon, filter,
-					sorter);
+			TaskSearcherFactory.getInstance().create(title, icon, filter, sorter);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}
@@ -169,23 +165,19 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 
 					for (int j = 0; j < nElement.getLength(); j++) {
 						if (nElement.item(j).getNodeName().equals("order")) {
-							order = Integer.parseInt(nElement.item(j)
-									.getTextContent());
+							order = Integer.parseInt(nElement.item(j).getTextContent());
 						}
 
 						if (nElement.item(j).getNodeName().equals("column")) {
-							column = TaskColumn.valueOf(nElement.item(j)
-									.getTextContent());
+							column = TaskColumn.valueOf(nElement.item(j).getTextContent());
 						}
 
 						if (nElement.item(j).getNodeName().equals("sortorder")) {
-							sortOrder = SortOrder.valueOf(nElement.item(j)
-									.getTextContent());
+							sortOrder = SortOrder.valueOf(nElement.item(j).getTextContent());
 						}
 					}
 
-					sorter.addElement(new TaskSorterElement(order, column,
-							sortOrder));
+					sorter.addElement(new TaskSorterElement(order, column, sortOrder));
 				}
 			}
 
@@ -199,8 +191,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 		try {
 			NodeList nFilter = node.getChildNodes();
 			TaskFilter filter = new TaskFilter();
-			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(
-					node, "link")));
+			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(node, "link")));
 
 			for (int i = 0; i < nFilter.getLength(); i++) {
 				if (nFilter.item(i).getNodeName().equals("element")) {
@@ -214,13 +205,11 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 
 					for (int j = 0; j < nElement.getLength(); j++) {
 						if (nElement.item(j).getNodeName().equals("column")) {
-							column = TaskColumn.valueOf(nElement.item(j)
-									.getTextContent());
+							column = TaskColumn.valueOf(nElement.item(j).getTextContent());
 						}
 
 						if (nElement.item(j).getNodeName().equals("condition")) {
-							String[] values = nElement.item(j).getTextContent()
-									.split("\\.");
+							String[] values = nElement.item(j).getTextContent().split("\\.");
 							conditionClass = values[0];
 							enumName = values[1];
 						}
@@ -234,8 +223,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 					}
 
 					if (conditionClass.equals("CalendarCondition")) {
-						CalendarCondition condition = CalendarCondition
-								.valueOf(enumName);
+						CalendarCondition condition = CalendarCondition.valueOf(enumName);
 						Calendar value = null;
 
 						if (valueStr != null) {
@@ -243,55 +231,43 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 							value.setTimeInMillis(Long.parseLong(valueStr));
 						}
 
-						element = new TaskFilterElement(column, condition,
-								value);
+						element = new TaskFilterElement(column, condition, value);
 					} else if (conditionClass.equals("DaysCondition")) {
-						DaysCondition condition = DaysCondition
-								.valueOf(enumName);
+						DaysCondition condition = DaysCondition.valueOf(enumName);
 						Integer value = null;
 
 						if (valueStr != null) {
 							value = Integer.parseInt(valueStr);
 						}
 
-						element = new TaskFilterElement(column, condition,
-								value);
+						element = new TaskFilterElement(column, condition, value);
 					} else if (conditionClass.equals("StringCondition")) {
-						StringCondition condition = StringCondition
-								.valueOf(enumName);
+						StringCondition condition = StringCondition.valueOf(enumName);
 						String value = null;
 
 						if (valueStr != null) {
 							value = valueStr;
 						}
 
-						element = new TaskFilterElement(column, condition,
-								value);
+						element = new TaskFilterElement(column, condition, value);
 					} else if (conditionClass.equals("NumberCondition")) {
-						NumberCondition condition = NumberCondition
-								.valueOf(enumName);
+						NumberCondition condition = NumberCondition.valueOf(enumName);
 						Number value = null;
 
 						if (valueStr != null) {
 							value = Double.parseDouble(valueStr);
 						}
 
-						element = new TaskFilterElement(column, condition,
-								value);
+						element = new TaskFilterElement(column, condition, value);
 					} else if (conditionClass.equals("EnumCondition")) {
-						EnumCondition condition = EnumCondition
-								.valueOf(enumName);
+						EnumCondition condition = EnumCondition.valueOf(enumName);
 						Enum<?> value = null;
 
 						if (valueStr != null) {
-							String valueClass = valueStr.substring(0,
-									valueStr.lastIndexOf("#"));
-							String valueEnum = valueStr.substring(
-									valueStr.lastIndexOf("#") + 1,
-									valueStr.length());
+							String valueClass = valueStr.substring(0, valueStr.lastIndexOf("#"));
+							String valueEnum = valueStr.substring(valueStr.lastIndexOf("#") + 1, valueStr.length());
 
-							Object[] enums = Class.forName(valueClass)
-									.getEnumConstants();
+							Object[] enums = Class.forName(valueClass).getEnumConstants();
 
 							for (int j = 0; j < enums.length; j++) {
 								Enum<?> e = (Enum<?>) enums[j];
@@ -300,28 +276,22 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 							}
 						}
 
-						element = new TaskFilterElement(column, condition,
-								value);
+						element = new TaskFilterElement(column, condition, value);
 					} else if (conditionClass.equals("ModelCondition")) {
-						ModelCondition condition = ModelCondition
-								.valueOf(enumName);
+						ModelCondition condition = ModelCondition.valueOf(enumName);
 						Model value = null;
 
 						if (valueStr != null) {
 							if (column.equals(TaskColumn.CONTEXT))
-								value = ContextFactory.getInstance().get(
-										new ModelId(valueStr));
+								value = ContextFactory.getInstance().get(new ModelId(valueStr));
 							else if (column.equals(TaskColumn.FOLDER))
-								value = FolderFactory.getInstance().get(
-										new ModelId(valueStr));
+								value = FolderFactory.getInstance().get(new ModelId(valueStr));
 							else if (column.equals(TaskColumn.GOAL))
-								value = GoalFactory.getInstance().get(
-										new ModelId(valueStr));
+								value = GoalFactory.getInstance().get(new ModelId(valueStr));
 						}
 
 						if (valueStr == null || value != null)
-							element = new TaskFilterElement(column, condition,
-									value);
+							element = new TaskFilterElement(column, condition, value);
 					}
 
 					if (element != null)
@@ -342,8 +312,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 	@Override
 	public void encode(OutputStream output) throws FactoryCoderException {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			DOMImplementation implementation = builder.getDOMImplementation();
 
@@ -359,8 +328,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-			transformer.setOutputProperty(
-					"{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
 			StreamResult sr = new StreamResult(output);
@@ -371,8 +339,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 	}
 
 	private void encode(Document document, Element root) {
-		List<TaskSearcher> searchers = TaskSearcherFactory.getInstance()
-				.getList();
+		List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
 
 		for (TaskSearcher taskSearcher : searchers) {
 			Element searcher = document.createElement("searcher");
@@ -397,8 +364,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 		}
 	}
 
-	private void encodeTaskSorter(Document document, Element root,
-			TaskSorter sorter) {
+	private void encodeTaskSorter(Document document, Element root, TaskSorter sorter) {
 		for (TaskSorterElement e : sorter.getElements()) {
 			Element element = document.createElement("element");
 			root.appendChild(element);
@@ -417,8 +383,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 		}
 	}
 
-	private void encodeTaskFilter(Document document, Element root,
-			TaskFilter filter) {
+	private void encodeTaskFilter(Document document, Element root, TaskFilter filter) {
 		root.setAttribute("link", filter.getLink().name());
 
 		for (TaskFilterElement e : filter.getElements()) {
@@ -436,44 +401,35 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 			element.appendChild(value);
 
 			if (e.getCondition() instanceof TaskFilter.CalendarCondition) {
-				condition.setTextContent("CalendarCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("CalendarCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
-					value.setTextContent(((Calendar) e.getValue())
-							.getTimeInMillis() + "");
+					value.setTextContent(((Calendar) e.getValue()).getTimeInMillis() + "");
 			} else if (e.getCondition() instanceof TaskFilter.DaysCondition) {
-				condition.setTextContent("DaysCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("DaysCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
 					value.setTextContent((e.getValue()) + "");
 			} else if (e.getCondition() instanceof TaskFilter.StringCondition) {
-				condition.setTextContent("StringCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("StringCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
 					value.setTextContent((String) e.getValue());
 			} else if (e.getCondition() instanceof TaskFilter.NumberCondition) {
-				condition.setTextContent("NumberCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("NumberCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
 					value.setTextContent((e.getValue()) + "");
 			} else if (e.getCondition() instanceof TaskFilter.EnumCondition) {
-				condition.setTextContent("EnumCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("EnumCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
-					value.setTextContent(e.getValue().getClass().getName()
-							+ "#" + ((Enum<?>) e.getValue()).name());
+					value.setTextContent(e.getValue().getClass().getName() + "#" + ((Enum<?>) e.getValue()).name());
 			} else if (e.getCondition() instanceof TaskFilter.ModelCondition) {
-				condition.setTextContent("ModelCondition."
-						+ e.getCondition().name());
+				condition.setTextContent("ModelCondition." + e.getCondition().name());
 
 				if (e.getValue() != null)
-					value.setTextContent(((Model) e.getValue()).getModelId()
-							.getId());
+					value.setTextContent(((Model) e.getValue()).getModelId().getId());
 			}
 
 			if (e.getValue() == null)

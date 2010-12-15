@@ -13,8 +13,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskSorterTableModel extends DefaultTableModel implements
-		ListChangeListener, PropertyChangeListener {
+public class TaskSorterTableModel extends DefaultTableModel implements ListChangeListener, PropertyChangeListener {
 
 	private TaskSorter sorter;
 
@@ -92,8 +91,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements
 	public void setValueAt(Object value, int row, int col) {
 		switch (col) {
 			case 0:
-				this.sorter.getElement(row).setOrder(
-						Integer.parseInt((String) value));
+				this.sorter.getElement(row).setOrder(Integer.parseInt((String) value));
 				break;
 			case 1:
 				this.sorter.getElement(row).setColumn((TaskColumn) value);
@@ -115,8 +113,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		int index = this.sorter.getIndexOf((TaskSorterElement) event
-				.getSource());
+		int index = this.sorter.getIndexOf((TaskSorterElement) event.getSource());
 		this.fireTableRowsUpdated(index, index);
 	}
 

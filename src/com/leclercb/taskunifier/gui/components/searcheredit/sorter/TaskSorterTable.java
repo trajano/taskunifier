@@ -33,8 +33,7 @@ public class TaskSorterTable extends JTable {
 
 		// EDITORS
 		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
-		COLUMN_EDITOR = new DefaultCellEditor(
-				new JComboBox(TaskColumn.values()));
+		COLUMN_EDITOR = new DefaultCellEditor(new JComboBox(TaskColumn.values()));
 
 		JComboBox comboBox = null;
 

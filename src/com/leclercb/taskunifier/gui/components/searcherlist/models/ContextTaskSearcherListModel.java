@@ -30,23 +30,19 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ContextTaskSearcherListModel extends ContextListModel implements
-		TaskSearcherListModel {
+public class ContextTaskSearcherListModel extends ContextListModel implements TaskSearcherListModel {
 
 	@Override
 	public TaskSearcher getTaskSearcher(int index) {
 		Context context = (Context) this.getElementAt(index);
 
 		TaskSorter sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(0, TaskColumn.DUE_DATE, SortOrder.ASCENDING));
 
 		TaskFilter filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(TaskColumn.CONTEXT,
-				ModelCondition.EQUALS, context));
+		filter.addElement(new TaskFilterElement(TaskColumn.CONTEXT, ModelCondition.EQUALS, context));
 
-		String title = (context == null ? Translations
-				.getString("searcherlist.none") : context.getTitle());
+		String title = (context == null ? Translations.getString("searcherlist.none") : context.getTitle());
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
 
 		return searcher;
