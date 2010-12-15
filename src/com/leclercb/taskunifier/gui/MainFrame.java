@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
@@ -287,7 +288,6 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		fileMenu.setMnemonic('F');
 		this.menuBar.add(fileMenu);
 
-		fileMenu.add(new ActionAbout(16, 16));
 		fileMenu.add(new ActionPrint(16, 16));
 		fileMenu.add(new ActionQuit(16, 16));
 
@@ -301,6 +301,13 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		editMenu.add(new ActionCut(16, 16));
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
+
+		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
+		helpMenu.setMnemonic('H');
+		this.menuBar.add(helpMenu);
+
+		helpMenu.add(new ActionHelp(16, 16));
+		helpMenu.add(new ActionAbout(16, 16));
 
 		this.setJMenuBar(this.menuBar);
 	}
@@ -319,6 +326,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		this.toolBar.add(new ActionConfiguration());
 		this.toolBar.addSeparator();
 		this.toolBar.add(new ActionPrint());
+		this.toolBar.addSeparator();
+		this.toolBar.add(new ActionHelp());
 
 		this.add(this.toolBar, BorderLayout.NORTH);
 	}

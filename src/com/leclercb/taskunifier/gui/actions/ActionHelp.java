@@ -20,28 +20,28 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 
-import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
+import com.leclercb.taskunifier.gui.help.Help;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionAbout extends AbstractAction {
+public class ActionHelp extends AbstractAction {
 
-	public ActionAbout() {
+	public ActionHelp() {
 		this(32, 32);
 	}
 
-	public ActionAbout(int width, int height) {
-		super(Translations.getString("action.name.about"), Images.getResourceImage("information.png", width, height));
+	public ActionHelp(int width, int height) {
+		super(Translations.getString("action.name.help"), Images.getResourceImage("help.png", width, height));
 
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.about"));
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.help"));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		AboutDialog about = new AboutDialog(MainFrame.getInstance().getFrame(), true);
-		about.setVisible(true);
+		JDialog dialog = Help.getHelpDialog("index.html");
+		dialog.setVisible(true);
 	}
 
 }

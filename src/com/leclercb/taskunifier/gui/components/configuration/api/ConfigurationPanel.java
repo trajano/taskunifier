@@ -95,7 +95,7 @@ public abstract class ConfigurationPanel extends JPanel {
 
 		if (this.helpFile != null) {
 			panel.add(new JLabel());
-			panel.add(Help.getHelp(this.helpFile));
+			panel.add(Help.getHelpButton(this.helpFile));
 		}
 
 		for (ConfigurationField field : this.fields) {
