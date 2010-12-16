@@ -65,7 +65,11 @@ public class TaskFilterElementPanel extends JPanel {
 				case START_DATE:
 				case REMINDER:
 				case LENGTH:
-					value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
+					try {
+						value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
+					} catch (NumberFormatException e) {
+						value = 0;
+					}
 					break;
 				case COMPLETED:
 				case STAR:

@@ -4,6 +4,7 @@ Version 0.6
 	- Added JTattoo themes
 	- Remove Substance themes (due to some issues)
 	- Added updates check
+	- Added help files
 
 Version 0.5.2
 	- Add create account button
