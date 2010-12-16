@@ -56,37 +56,46 @@ public class ActionCheckVersion extends AbstractAction {
 	}
 
 	public void checkVersion() {
-		SynchronizerUtils.initializeProxy();
-		VersionCall call = new VersionCall();
+		Thread thread = new Thread(new Runnable() {
 
-		try {
-			String version = call.getVersion();
+			@Override
+			public void run() {
+				SynchronizerUtils.initializeProxy();
+				VersionCall call = new VersionCall();
 
-			if (Constants.VERSION.compareTo(version) < 0) {
-				GuiLogger.getLogger().info("New version available : " + version);
-				JOptionPane.showMessageDialog(null,
-						Translations.getString("action.check_version.new_version_available", version),
-						Translations.getString("general.information"),
-						JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				GuiLogger.getLogger().info("No new version available");
-				if (!this.silent) {
-					JOptionPane.showMessageDialog(null,
-							Translations.getString("action.check_version.no_new_version_available", version),
-							Translations.getString("general.information"),
-							JOptionPane.INFORMATION_MESSAGE);
+				try {
+					String version = call.getVersion();
+
+					if (Constants.VERSION.compareTo(version) < 0) {
+						GuiLogger.getLogger().info("New version available : " + version);
+						JOptionPane.showMessageDialog(null,
+								Translations.getString("action.check_version.new_version_available", version),
+								Translations.getString("general.information"),
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						GuiLogger.getLogger().info("No new version available");
+						if (!ActionCheckVersion.this.silent) {
+							JOptionPane.showMessageDialog(null,
+									Translations.getString("action.check_version.no_new_version_available", version),
+									Translations.getString("general.information"),
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				} catch (Exception e) {
+					if (ActionCheckVersion.this.silent) {
+						GuiLogger.getLogger().warning("An error occured while checking for updates");
+					} else {
+						JOptionPane.showMessageDialog(null,
+								e.getMessage(),
+								Translations.getString("error.check_version_error"),
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
-		} catch (Exception e) {
-			if (this.silent) {
-				GuiLogger.getLogger().warning("An error occured while checking for updates");
-			} else {
-				JOptionPane.showMessageDialog(null,
-						e.getMessage(),
-						Translations.getString("error.check_version_error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-		}
+
+		});
+
+		thread.start();
 	}
 
 	private static class VersionCall extends AbstractCall {
