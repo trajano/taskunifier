@@ -3,6 +3,7 @@ Version 0.6
 	- GUI for personal searcher edition
 	- Added JTattoo themes
 	- Remove Substance themes (due to some issues)
+	- Added updates check
 
 Version 0.5.2
 	- Add create account button

@@ -42,7 +42,8 @@ public class ActionCut extends AbstractAction {
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.cut"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCutAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
 	@Override

@@ -34,6 +34,7 @@ import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
@@ -57,7 +58,6 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
-			loadShutdownHook();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -86,6 +86,7 @@ public class Main {
 				}
 
 				MainFrame.getInstance().getFrame().setVisible(true);
+				new ActionCheckVersion(true).checkVersion();
 			}
 		});
 	}
@@ -179,7 +180,7 @@ public class Main {
 
 		try {
 			new TaskSearcherFactoryXMLCoder()
-			.decode(new FileInputStream(DATA_FOLDER + File.separator + "searchers.xml"));
+					.decode(new FileInputStream(DATA_FOLDER + File.separator + "searchers.xml"));
 		} catch (FileNotFoundException e) {
 		}
 	}
@@ -209,19 +210,7 @@ public class Main {
 					+ jtattoo.getProperty(key.toString()), key.toString()));
 	}
 
-	private static void loadShutdownHook() {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-
-			@Override
-			public void run() {
-				Main.stop();
-			}
-
-		});
-	}
-
-	private static void stop() {
-		System.out.println("Exiting " + Constants.TITLE);
+	public static void stop() {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 
 		try {
@@ -236,6 +225,7 @@ public class Main {
 			saveSettings();
 
 			MainFrame.getInstance().getFrame().setVisible(false);
+			MainFrame.getInstance().getFrame().dispose();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,
@@ -244,6 +234,8 @@ public class Main {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
+		System.exit(0);
 	}
 
 	public static void saveSettings() throws FileNotFoundException, IOException {

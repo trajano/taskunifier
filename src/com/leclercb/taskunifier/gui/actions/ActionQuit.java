@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -38,12 +39,13 @@ public class ActionQuit extends AbstractAction {
 
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.quit"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.exit(0);
+		Main.stop();
 	}
 
 }

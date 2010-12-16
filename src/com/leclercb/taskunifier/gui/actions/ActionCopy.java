@@ -42,7 +42,8 @@ public class ActionCopy extends AbstractAction {
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.copy"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCopyAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
 	@Override

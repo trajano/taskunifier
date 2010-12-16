@@ -2,5 +2,11 @@ Improve error handling + error translations
 Repeat field editable
 Javadoc
 Help files
-Fix task dates bug
 But : Copy/paste mac os (command key starts cell edit)
+
+
+New TaskUnifier version :
+- Constants.VERSION
+- SettingsVersion.updateSettings()
+- default_settings.properties
+- history.txt

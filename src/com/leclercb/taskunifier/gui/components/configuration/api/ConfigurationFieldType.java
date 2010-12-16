@@ -259,13 +259,13 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 					colorChooser,
 					new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent event) {
-					ColorChooser.this.setBackground(colorChooser.getColor());
-				}
+						@Override
+						public void actionPerformed(ActionEvent event) {
+							ColorChooser.this.setBackground(colorChooser.getColor());
+						}
 
-			},
-			null);
+					},
+					null);
 
 			this.addMouseListener(new MouseAdapter() {
 

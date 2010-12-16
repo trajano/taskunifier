@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
@@ -113,7 +114,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 			@Override
 			public void windowClosing(WindowEvent event) {
-				System.exit(0);
+				Main.stop();
 			}
 
 			@Override
@@ -195,7 +196,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	public void printTasks() throws HeadlessException, PrinterException {
 		this.taskTable.print(PrintMode.FIT_WIDTH, new MessageFormat(Constants.TITLE + " - "
 				+ this.taskTable.getTaskSearcher().getTitle()), new MessageFormat(this.taskTable.getRowCount()
-						+ " tasks | Page - {0}"), true, null, true);
+				+ " tasks | Page - {0}"), true, null, true);
 	}
 
 	private void loadWindowSizeSettings() {
@@ -306,6 +307,8 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		helpMenu.setMnemonic('H');
 		this.menuBar.add(helpMenu);
 
+		helpMenu.add(new ActionCheckVersion(false, 16, 16));
+		editMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));
 
@@ -398,6 +401,12 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 
 			this.taskTable.setTaskSearcher(this.searcherPanel.getSelectedTaskSearcher());
 		}
+	}
+
+	@Override
+	public void dispose() {
+		this.reminderThread.interrupt();
+		super.dispose();
 	}
 
 }
