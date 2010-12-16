@@ -30,6 +30,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {
@@ -68,10 +69,22 @@ public class ActionCheckVersion extends AbstractAction {
 
 					if (Constants.VERSION.compareTo(version) < 0) {
 						GuiLogger.getLogger().info("New version available : " + version);
-						JOptionPane.showMessageDialog(null,
+
+						String[] options = new String[] { Translations.getString("general.download"),
+								Translations.getString("general.cancel") };
+
+						int result = JOptionPane.showOptionDialog(null,
 								Translations.getString("action.check_version.new_version_available", version),
 								Translations.getString("general.information"),
-								JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.INFORMATION_MESSAGE,
+								null,
+								options,
+								options[0]);
+
+						if (result == 0) {
+							BrowserUtils.openDefaultBrowser(Constants.DOWNLOAD_URL);
+						}
 					} else {
 						GuiLogger.getLogger().info("No new version available");
 						if (!ActionCheckVersion.this.silent) {
@@ -101,7 +114,7 @@ public class ActionCheckVersion extends AbstractAction {
 	private static class VersionCall extends AbstractCall {
 
 		public String getVersion() throws Exception {
-			InputStream stream = this.call("http://taskunifier.sourceforge.net/version.txt");
+			InputStream stream = this.call(Constants.VERSION_FILE);
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 			StringBuilder sb = new StringBuilder();
