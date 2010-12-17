@@ -44,6 +44,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
+import com.apple.eawt.Application;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
 import com.leclercb.taskunifier.api.settings.Settings;
@@ -63,6 +64,7 @@ import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
+import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -72,6 +74,7 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.OsUtils;
 
 public class MainFrame extends JFrame implements ListSelectionListener, SaveSettingsListener, ActionListener, ServiceFrame {
 
@@ -282,7 +285,15 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initializeMenuBar() {
+		if (OsUtils.isMacOSX()) {
+			Application application = Application.getApplication();
+			MacApplicationAdapter adapter = new MacApplicationAdapter();
+			application.setEnabledPreferencesMenu(true);
+			application.addApplicationListener(adapter);
+		}
+
 		this.menuBar = new JMenuBar();
 
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
@@ -290,7 +301,11 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		this.menuBar.add(fileMenu);
 
 		fileMenu.add(new ActionPrint(16, 16));
-		fileMenu.add(new ActionQuit(16, 16));
+
+		if (!OsUtils.isMacOSX()) {
+			fileMenu.add(new ActionConfiguration(16, 16));
+			fileMenu.add(new ActionQuit(16, 16));
+		}
 
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		editMenu.setMnemonic('E');
@@ -310,7 +325,9 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
 		editMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
-		helpMenu.add(new ActionAbout(16, 16));
+
+		if (OsUtils.isMacOSX())
+			helpMenu.add(new ActionAbout(16, 16));
 
 		this.setJMenuBar(this.menuBar);
 	}

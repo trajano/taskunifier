@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/TaskUnifierApi"/>
 	<classpathentry kind="lib" path="lib/jtattoo.jar"/>
 	<classpathentry kind="lib" path="lib/json.jar"/>
+	<classpathentry kind="lib" path="lib/applejavaextensions.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

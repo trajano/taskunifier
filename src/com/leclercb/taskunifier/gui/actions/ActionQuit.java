@@ -45,6 +45,10 @@ public class ActionQuit extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		this.quit();
+	}
+
+	public void quit() {
 		Main.stop();
 	}
 

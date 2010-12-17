@@ -42,8 +42,11 @@ public class ActionConfiguration extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ConfigurationDialog config = new ConfigurationDialog(MainFrame.getInstance().getFrame(), true);
+		this.configuration();
+	}
 
+	public void configuration() {
+		ConfigurationDialog config = new ConfigurationDialog(MainFrame.getInstance().getFrame(), true);
 		config.setVisible(true);
 	}
 

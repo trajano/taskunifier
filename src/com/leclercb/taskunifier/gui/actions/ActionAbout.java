@@ -40,6 +40,10 @@ public class ActionAbout extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		this.about();
+	}
+
+	public void about() {
 		AboutDialog about = new AboutDialog(MainFrame.getInstance().getFrame(), true);
 		about.setVisible(true);
 	}
