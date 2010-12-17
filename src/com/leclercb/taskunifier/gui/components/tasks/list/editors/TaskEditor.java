@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.api.models.Task;
@@ -25,6 +26,10 @@ public class TaskEditor extends AbstractCellEditor implements TableCellEditor {
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		this.taskCell.setTask((Task) value);
+
+		if (isSelected)
+			this.taskCell.setBackground(UIManager.getColor("Table.selectionBackground"));
+
 		return this.taskCell;
 	}
 
