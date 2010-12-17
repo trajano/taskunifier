@@ -24,6 +24,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.CalendarCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
@@ -36,6 +37,17 @@ public final class TranslationsUtils {
 
 	private TranslationsUtils() {
 
+	}
+
+	public static String translateTaskPanelView(TaskPanel.View view) {
+		switch (view) {
+			case LIST:
+				return Translations.getString("task_panel.view.list");
+			case TABLE:
+				return Translations.getString("task_panel.view.table");
+		}
+
+		return "Missing translation";
 	}
 
 	public static String translateSynchronizerChoice(SynchronizerChoice choice) {
