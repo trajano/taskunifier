@@ -282,6 +282,9 @@ public class TaskTable extends JTable {
 		this.setRowHeight(30);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
+		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initiliazeTableSorter();
