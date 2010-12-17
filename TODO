@@ -2,8 +2,10 @@ Improve error handling + error translations
 Repeat field editable
 Javadoc
 Help files
-But : Copy/paste mac os (command key starts cell edit)
+Bug : Copy/paste mac os (command key starts cell edit)
+Bug : Cmd + Q doesn't end properly (mac)
 Test Mac Dock icon
+Finish List View
 
 
 New TaskUnifier version :
