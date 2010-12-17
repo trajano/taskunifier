@@ -51,10 +51,10 @@ public class ActionEditSearcher extends AbstractAction {
 			return;
 		}
 
-		this.actionPerformed(MainFrame.getInstance().getSelectedTaskSearcher());
+		this.editSearcher(MainFrame.getInstance().getSelectedTaskSearcher());
 	}
 
-	public void actionPerformed(TaskSearcher searcher) {
+	public void editSearcher(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 
 		SearcherEditDialog dialog = new SearcherEditDialog(MainFrame.getInstance().getFrame(), true, searcher);

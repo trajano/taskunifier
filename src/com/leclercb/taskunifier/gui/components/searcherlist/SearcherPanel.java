@@ -66,6 +66,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 
 	private JButton addButton;
 	private JButton removeButton;
+	private JButton editButton;
 
 	public SearcherPanel() {
 		this.initialize();
@@ -159,7 +160,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 					SearcherPanel.this.personalList.ensureIndexIsVisible(index);
 
 					Object item = SearcherPanel.this.personalList.getModel().getElementAt(index);
-					new ActionEditSearcher().actionPerformed((TaskSearcher) item);
+					new ActionEditSearcher().editSearcher((TaskSearcher) item);
 				}
 			}
 
@@ -183,9 +184,12 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 					TaskSearcherFactory.getInstance().create(Translations.getString("searcher.default.title"),
 							new TaskFilter(),
 							new TaskSorter());
-				} else {
-					TaskSearcher searcher = (TaskSearcher) SearcherPanel.this.personalList.getSelectedValue();
+				} else if (event.getActionCommand().equals("REMOVE")) {
+					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
 					TaskSearcherFactory.getInstance().unregister(searcher);
+				} else if (event.getActionCommand().equals("EDIT")) {
+					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
+					new ActionEditSearcher().editSearcher(searcher);
 				}
 			}
 
@@ -201,6 +205,12 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
 		buttonsPanel.add(this.removeButton);
+
+		this.editButton = new JButton(Images.getResourceImage("edit.png", 16, 16));
+		this.editButton.setActionCommand("EDIT");
+		this.editButton.addActionListener(listener);
+		this.editButton.setEnabled(false);
+		buttonsPanel.add(this.editButton);
 	}
 
 	private void initializeList(String title, JList list, JPanel panel) {
@@ -226,6 +236,7 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 			public void mouseClicked(MouseEvent e) {
 				collapsiblePanel.toggleSelection();
 			}
+
 		});
 
 		panel.add(collapsiblePanel);
@@ -237,8 +248,10 @@ public class SearcherPanel extends JPanel implements ListSelectionListener {
 		if (e.getValueIsAdjusting())
 			return;
 
-		if (e.getSource().equals(this.personalList.getSelectionModel()))
+		if (e.getSource().equals(this.personalList.getSelectionModel())) {
 			this.removeButton.setEnabled(this.personalList.getSelectedIndex() != -1);
+			this.editButton.setEnabled(this.personalList.getSelectedIndex() != -1);
+		}
 
 		for (JList list : this.lists) {
 			if (e.getSource().equals(list.getSelectionModel())) {

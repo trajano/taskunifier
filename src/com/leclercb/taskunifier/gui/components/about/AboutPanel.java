@@ -21,10 +21,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class AboutPanel extends JPanel {
@@ -36,7 +38,19 @@ public class AboutPanel extends JPanel {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 
-		JPanel panel = new JPanel();
+		JPanel panel = null;
+
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+		JLabel icon = new JLabel(Images.getResourceImage("logo.png", 48, 48));
+
+		panel.add(icon, BorderLayout.CENTER);
+
+		this.add(panel, BorderLayout.NORTH);
+
+		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 

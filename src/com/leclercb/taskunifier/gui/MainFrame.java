@@ -326,7 +326,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		editMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
 
-		if (OsUtils.isMacOSX())
+		if (!OsUtils.isMacOSX())
 			helpMenu.add(new ActionAbout(16, 16));
 
 		this.setJMenuBar(this.menuBar);
