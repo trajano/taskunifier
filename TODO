@@ -2,8 +2,7 @@ Improve error handling + error translations
 Repeat field editable
 Javadoc
 Help files
-Bug : Copy/paste mac os (command key starts cell edit)
-Bug : Cmd + Q doesn't end properly (mac)
+Bug : Mac copy paste + d&d does not work...
 Test Mac Dock icon
 Finish List View
 
