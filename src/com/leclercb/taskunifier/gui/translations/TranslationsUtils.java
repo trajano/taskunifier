@@ -41,8 +41,8 @@ public final class TranslationsUtils {
 
 	public static String translateTaskPanelView(TaskPanel.View view) {
 		switch (view) {
-			case LIST:
-				return Translations.getString("task_panel.view.list");
+			// case LIST:
+			// return Translations.getString("task_panel.view.list");
 			case TABLE:
 				return Translations.getString("task_panel.view.table");
 		}

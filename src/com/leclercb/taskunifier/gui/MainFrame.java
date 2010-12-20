@@ -27,10 +27,12 @@ import java.awt.event.WindowEvent;
 import java.awt.print.PrinterException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -70,6 +72,7 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.OsUtils;
 
 public class MainFrame extends JFrame implements ListSelectionListener, SaveSettingsListener, ActionListener, ServiceFrame {
@@ -269,29 +272,31 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
 
-		/*
-		 * JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		 * viewMenu.setMnemonic('V'); this.menuBar.add(viewMenu);
-		 * 
-		 * ButtonGroup group = new ButtonGroup();
-		 * 
-		 * ActionListener listener = new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * MainFrame.this.
-		 * taskPanel.setView(TaskPanel.View.valueOf(e.getActionCommand())); }
-		 * 
-		 * };
-		 * 
-		 * for (TaskPanel.View view : TaskPanel.View.values()) {
-		 * JRadioButtonMenuItem menuItem = new
-		 * JRadioButtonMenuItem(TranslationsUtils.translateTaskPanelView(view));
-		 * menuItem.setActionCommand(view.name());
-		 * menuItem.addActionListener(listener); viewMenu.add(menuItem);
-		 * group.add(menuItem);
-		 * 
-		 * if (this.taskPanel.getView() == view) menuItem.setSelected(true); }
-		 */
+		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
+		viewMenu.setMnemonic('V');
+		this.menuBar.add(viewMenu);
+
+		ButtonGroup group = new ButtonGroup();
+
+		ActionListener listener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.this.taskPanel.setView(TaskPanel.View.valueOf(e.getActionCommand()));
+			}
+
+		};
+
+		for (TaskPanel.View view : TaskPanel.View.values()) {
+			JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem(TranslationsUtils.translateTaskPanelView(view));
+			menuItem.setActionCommand(view.name());
+			menuItem.addActionListener(listener);
+			viewMenu.add(menuItem);
+			group.add(menuItem);
+
+			if (this.taskPanel.getView() == view)
+				menuItem.setSelected(true);
+		}
 
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		helpMenu.setMnemonic('H');

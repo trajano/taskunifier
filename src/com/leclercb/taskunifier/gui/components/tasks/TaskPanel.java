@@ -25,7 +25,8 @@ public class TaskPanel extends JPanel implements SaveSettingsListener {
 
 	public static enum View {
 
-		TABLE, LIST;
+		TABLE;
+		// LIST;
 
 	}
 
@@ -48,7 +49,7 @@ public class TaskPanel extends JPanel implements SaveSettingsListener {
 		this.taskList = new TaskList();
 
 		this.add(new JScrollPane(this.taskTable), View.TABLE.name());
-		this.add(new JScrollPane(this.taskList), View.LIST.name());
+		// this.add(new JScrollPane(this.taskList), View.LIST.name());
 
 		this.setView(View.TABLE);
 	}
