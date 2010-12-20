@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.6.2
+	- Bug: proxy not removed after version check
+	
 Version 0.6.1
 	- Improved Mac OS version
 	- Date/Time format settings

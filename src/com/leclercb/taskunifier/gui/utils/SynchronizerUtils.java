@@ -25,6 +25,8 @@ public final class SynchronizerUtils {
 			String password = Settings.getStringProperty("proxy.password");
 			
 			ProxyUtils.setProxy(type, host, port, login, password);
+		} else {
+			removeProxy();
 		}
 	}
 	

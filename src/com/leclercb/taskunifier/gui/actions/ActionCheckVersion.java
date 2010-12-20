@@ -63,10 +63,10 @@ public class ActionCheckVersion extends AbstractAction {
 			
 			@Override
 			public void run() {
-				SynchronizerUtils.initializeProxy();
-				VersionCall call = new VersionCall();
-				
 				try {
+					SynchronizerUtils.initializeProxy();
+					VersionCall call = new VersionCall();
+					
 					String version = call.getVersion();
 					
 					if (Constants.VERSION.compareTo(version) < 0) {
@@ -115,6 +115,8 @@ public class ActionCheckVersion extends AbstractAction {
 								Translations.getString("error.check_version_error"),
 								JOptionPane.ERROR_MESSAGE);
 					}
+				} finally {
+					SynchronizerUtils.removeProxy();
 				}
 			}
 			
