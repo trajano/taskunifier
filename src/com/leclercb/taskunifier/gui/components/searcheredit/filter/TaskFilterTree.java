@@ -26,6 +26,9 @@ public class TaskFilterTree extends JTree {
 	}
 	
 	private void initialize() {
+		// Warning: might not work with all UIs
+		this.setLargeModel(true);
+		
 		this.setRootVisible(true);
 		
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();

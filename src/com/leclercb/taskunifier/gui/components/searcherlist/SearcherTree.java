@@ -12,6 +12,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 public class SearcherTree extends JTree implements SaveSettingsListener {
 	
 	public SearcherTree() {
+		super(new SearcherTreeModel());
 		this.initialize();
 	}
 	
@@ -23,7 +24,6 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 		
 		this.setRootVisible(false);
 		this.setRowHeight(25);
-		this.setModel(new SearcherTreeModel());
 		this.setCellRenderer(new SearcherTreeRenderer());
 		
 		for (int i = 0; i < this.getRowCount(); i++) {
