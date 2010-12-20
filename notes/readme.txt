@@ -4,6 +4,7 @@ HISTORY
 Version 0.6.1
 	- Improved Mac OS version
 	- Date/Time format settings
+	- Searchers displayed as a tree
 
 Version 0.6
 	- Toodledo API 2.0

@@ -107,6 +107,11 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 				comboBox));
 		
 		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
 				"FORMATS_AFTER_RESTART",
 				null,
 				new ConfigurationFieldType.Label(
