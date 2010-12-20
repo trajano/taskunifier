@@ -1,8 +1,5 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
 import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 
@@ -21,7 +18,6 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		this.setRootVisible(false);
 		this.setRowHeight(25);
 		this.setModel(new SearcherTreeModel());

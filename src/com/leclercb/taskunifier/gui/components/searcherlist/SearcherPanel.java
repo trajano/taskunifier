@@ -26,7 +26,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
@@ -89,13 +89,7 @@ public class SearcherPanel extends JPanel implements TreeSelectionListener {
 		
 		this.setLayout(new BorderLayout());
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		panel.add(this.searcherTree, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.CENTER);
+		this.add(new JScrollPane(this.searcherTree), BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));

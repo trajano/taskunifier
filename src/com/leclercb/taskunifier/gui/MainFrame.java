@@ -349,7 +349,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 		this.searcherPanel = new SearcherPanel();
 		this.searcherPanel.addActionListener(this);
 		
-		horizontalSplitPane.setLeftComponent(new JScrollPane(this.searcherPanel));
+		horizontalSplitPane.setLeftComponent(this.searcherPanel);
 	}
 	
 	private void initializeTaskPanel(JSplitPane verticalSplitPane) {
