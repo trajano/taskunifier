@@ -42,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.apple.eawt.Application;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
 import com.leclercb.taskunifier.api.settings.Settings;
@@ -247,7 +248,7 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	@SuppressWarnings("deprecation")
 	private void initializeMenuBar() {
 		if (OsUtils.isMacOSX()) {
-			com.apple.eawt.Application application = com.apple.eawt.Application.getApplication();
+			Application application = Application.getApplication();
 			MacApplicationAdapter adapter = new MacApplicationAdapter();
 			application.setEnabledPreferencesMenu(true);
 			application.addApplicationListener(adapter);
