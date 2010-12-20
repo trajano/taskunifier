@@ -18,6 +18,9 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
 		
+		// Warning: might not work with all UIs
+		this.setLargeModel(true);
+		
 		this.setRootVisible(false);
 		this.setRowHeight(25);
 		this.setModel(new SearcherTreeModel());
