@@ -60,7 +60,9 @@ import javax.swing.table.TableStringConverter;
  * the underlying model do the inverse:
  * 
  * <pre>
- * table.setRowSelectionInterval(table.convertRowIndexToView(row), table.convertRowIndexToView(row));
+ * table.setRowSelectionInterval(
+ * 		table.convertRowIndexToView(row),
+ * 		table.convertRowIndexToView(row));
  * </pre>
  * <p>
  * The previous example assumes you have not enabled filtering. If you have
@@ -128,29 +130,29 @@ import javax.swing.table.TableStringConverter;
  * @since 1.6
  */
 public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, Integer> {
-
+	
 	/**
 	 * Comparator that uses compareTo on the contents.
 	 */
 	private static final Comparator COMPARABLE_COMPARATOR = new ComparableComparator();
-
+	
 	/**
 	 * Underlying model.
 	 */
 	private M tableModel;
-
+	
 	/**
 	 * For toString conversions.
 	 */
 	private TableStringConverter stringConverter;
-
+	
 	/**
 	 * Creates a <code>TableRowSorter</code> with an empty model.
 	 */
 	public TableRowSorter() {
 		this(null);
 	}
-
+	
 	/**
 	 * Creates a <code>TableRowSorter</code> using <code>model</code> as the
 	 * underlying <code>TableModel</code>.
@@ -162,7 +164,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 	public TableRowSorter(M model) {
 		this.setModel(model);
 	}
-
+	
 	/**
 	 * Sets the <code>TableModel</code> to use as the underlying model for this
 	 * <code>TableRowSorter</code>. A value of <code>null</code> can be used to
@@ -175,7 +177,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 		this.tableModel = model;
 		this.setModelWrapper(new TableRowSorterModelWrapper());
 	}
-
+	
 	/**
 	 * Sets the object responsible for converting values from the model to
 	 * strings. If non-<code>null</code> this is used to convert any object
@@ -189,7 +191,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 	public void setStringConverter(TableStringConverter stringConverter) {
 		this.stringConverter = stringConverter;
 	}
-
+	
 	/**
 	 * Returns the object responsible for converting values from the model to
 	 * strings.
@@ -199,7 +201,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 	public TableStringConverter getStringConverter() {
 		return this.stringConverter;
 	}
-
+	
 	/**
 	 * Returns the <code>Comparator</code> for the specified column. If a
 	 * <code>Comparator</code> has not been specified using the
@@ -230,7 +232,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 		}
 		return Collator.getInstance();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -252,45 +254,48 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Implementation of DefaultRowSorter.ModelWrapper that delegates to a
 	 * TableModel.
 	 */
 	private class TableRowSorterModelWrapper extends ModelWrapper<M, Integer> {
-
+		
 		@Override
 		public M getModel() {
 			return TableRowSorter.this.tableModel;
 		}
-
+		
 		@Override
 		public int getColumnCount() {
 			return (TableRowSorter.this.tableModel == null) ? 0 : TableRowSorter.this.tableModel.getColumnCount();
 		}
-
+		
 		@Override
 		public int getRowCount() {
 			return (TableRowSorter.this.tableModel == null) ? 0 : TableRowSorter.this.tableModel.getRowCount();
 		}
-
+		
 		@Override
 		public Object getValueAt(int row, int column) {
 			return TableRowSorter.this.tableModel.getValueAt(row, column);
 		}
-
+		
 		@Override
 		public String getStringValueAt(int row, int column) {
 			TableStringConverter converter = TableRowSorter.this.getStringConverter();
 			if (converter != null) {
 				// Use the converter
-				String value = converter.toString(TableRowSorter.this.tableModel, row, column);
+				String value = converter.toString(
+						TableRowSorter.this.tableModel,
+						row,
+						column);
 				if (value != null) {
 					return value;
 				}
 				return "";
 			}
-
+			
 			// No converter, use getValueAt followed by toString
 			Object o = this.getValueAt(row, column);
 			if (o == null) {
@@ -302,15 +307,15 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 			}
 			return string;
 		}
-
+		
 		@Override
 		public Integer getIdentifier(int index) {
 			return index;
 		}
 	}
-
+	
 	private static class ComparableComparator implements Comparator {
-
+		
 		@Override
 		@SuppressWarnings("unchecked")
 		public int compare(Object o1, Object o2) {

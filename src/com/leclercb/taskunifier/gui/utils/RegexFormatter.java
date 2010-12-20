@@ -27,26 +27,26 @@ import javax.swing.text.DefaultFormatter;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class RegexFormatter extends DefaultFormatter {
-
+	
 	private Pattern pattern;
-
+	
 	public RegexFormatter(String regex) throws PatternSyntaxException {
 		this(Pattern.compile(regex));
 	}
-
+	
 	public RegexFormatter(Pattern pattern) {
 		CheckUtils.isNotNull(pattern, "Pattern cannot be null");
 		this.pattern = pattern;
 	}
-
+	
 	@Override
 	public Object stringToValue(String text) throws ParseException {
 		Matcher matcher = this.pattern.matcher(text);
-
+		
 		if (matcher.matches())
 			return text;
-
+		
 		throw new ParseException("Pattern did not match", 0);
 	}
-
+	
 }

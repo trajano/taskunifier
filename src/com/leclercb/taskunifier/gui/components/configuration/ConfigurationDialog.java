@@ -35,37 +35,37 @@ import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ConfigurationDialog extends JDialog {
-
+	
 	private GeneralConfigurationPanel generalConfigurationPanel;
 	private ToodledoConfigurationPanel toodledoConfigurationPanel;
 	private ProxyConfigurationPanel proxyConfigurationPanel;
 	private TaskConfigurationPanel taskConfigurationPanel;
 	private ColumnsConfigurationPanel columnsConfigurationPanel;
 	private ThemeConfigurationPanel themeConfigurationPanel;
-
+	
 	public ConfigurationDialog(Frame frame, boolean modal) {
 		super(frame, modal);
-
+		
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.configuration"));
 		this.setSize(500, 500);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-
+		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-
+		
 		JTabbedPane tabbedPane = new JTabbedPane();
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-
+		
 		this.add(tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
 		this.initializeToodledoPanel(tabbedPane);
@@ -74,80 +74,89 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
 	}
-
+	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					ConfigurationDialog.this.saveAndApplyConfig();
 					ConfigurationDialog.this.dispose();
 				}
-
+				
 				if (event.getActionCommand() == "CANCEL") {
 					ConfigurationDialog.this.dispose();
 				}
-
+				
 				if (event.getActionCommand() == "APPLY") {
 					ConfigurationDialog.this.saveAndApplyConfig();
 				}
 			}
-
+			
 		};
-
+		
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
-
-		JButton cancelButton = new JButton(Translations.getString("general.cancel"));
+		
+		JButton cancelButton = new JButton(
+				Translations.getString("general.cancel"));
 		cancelButton.setActionCommand("CANCEL");
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
-
-		JButton applyButton = new JButton(Translations.getString("general.apply"));
+		
+		JButton applyButton = new JButton(
+				Translations.getString("general.apply"));
 		applyButton.setActionCommand("APPLY");
 		applyButton.addActionListener(listener);
 		buttonsPanel.add(applyButton);
 	}
-
+	
 	private void initializeGeneralPanel(JTabbedPane tabbedPane) {
 		this.generalConfigurationPanel = new GeneralConfigurationPanel();
-		tabbedPane.addTab(Translations.getString("configuration.tab.general"), new JScrollPane(
-				this.generalConfigurationPanel));
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.general"),
+				new JScrollPane(this.generalConfigurationPanel));
 	}
-
+	
 	private void initializeToodledoPanel(JTabbedPane tabbedPane) {
 		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel();
-		tabbedPane.addTab(Translations.getString("configuration.tab.toodledo"), new JScrollPane(
-				this.toodledoConfigurationPanel));
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.toodledo"),
+				new JScrollPane(this.toodledoConfigurationPanel));
 	}
-
+	
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
 		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
-		tabbedPane.addTab(Translations.getString("configuration.tab.proxy"), new JScrollPane(
-				this.proxyConfigurationPanel));
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.proxy"),
+				new JScrollPane(this.proxyConfigurationPanel));
 	}
-
+	
 	private void initializeTaskPanel(JTabbedPane tabbedPane) {
 		this.taskConfigurationPanel = new TaskConfigurationPanel();
-		tabbedPane.addTab(Translations.getString("configuration.tab.task"),
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.task"),
 				new JScrollPane(this.taskConfigurationPanel));
 	}
-
+	
 	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
 		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
-		tabbedPane.addTab(Translations.getString("configuration.tab.columns"), new JScrollPane(
-				this.columnsConfigurationPanel));
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.columns"),
+				new JScrollPane(this.columnsConfigurationPanel));
 	}
-
+	
 	private void initializeThemePanel(JTabbedPane tabbedPane) {
-		this.themeConfigurationPanel = new ThemeConfigurationPanel(new Window[] { this, this.getOwner() });
-		tabbedPane.addTab(Translations.getString("configuration.tab.theme"), new JScrollPane(
-				this.themeConfigurationPanel));
+		this.themeConfigurationPanel = new ThemeConfigurationPanel(
+				new Window[] { this, this.getOwner() });
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.theme"),
+				new JScrollPane(this.themeConfigurationPanel));
 	}
-
+	
 	private void saveAndApplyConfig() {
 		this.generalConfigurationPanel.saveAndApplyConfig();
 		this.toodledoConfigurationPanel.saveAndApplyConfig();
@@ -155,16 +164,17 @@ public class ConfigurationDialog extends JDialog {
 		this.taskConfigurationPanel.saveAndApplyConfig();
 		this.columnsConfigurationPanel.saveAndApplyConfig();
 		this.themeConfigurationPanel.saveAndApplyConfig();
-
+		
 		try {
 			Main.saveSettings();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(
+					null,
 					e.getMessage(),
 					Translations.getString("error.save_settings"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
-
+	
 }

@@ -29,31 +29,33 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 
 public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
-
+	
 	private TaskFilter filter;
-
+	
 	public TaskRowFilter(TaskFilter filter) {
 		this.setFilter(filter);
 	}
-
+	
 	public TaskFilter getFilter() {
 		return this.filter;
 	}
-
+	
 	public void setFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filter = filter;
 	}
-
+	
 	@Override
-	public boolean include(Entry<? extends TaskTableModel, ? extends Integer> entry) {
+	public boolean include(
+			Entry<? extends TaskTableModel, ? extends Integer> entry) {
 		TaskTableModel taskTableModel = entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
-
-		if (!task.getModelStatus().equals(ModelStatus.LOADED) && !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		
+		if (!task.getModelStatus().equals(ModelStatus.LOADED)
+				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
 		}
-
+		
 		// If a filtered parent task has non filtered children, it must be
 		// displayed
 		if (task.getParent() == null) {
@@ -64,8 +66,8 @@ public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 						return true;
 			}
 		}
-
+		
 		return this.filter.include(task);
 	}
-
+	
 }

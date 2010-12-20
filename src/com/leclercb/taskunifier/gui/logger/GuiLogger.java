@@ -21,13 +21,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class GuiLogger {
-
+	
 	private GuiLogger() {
 
 	}
-
+	
 	private static final Logger LOGGER;
-
+	
 	static {
 		try {
 			LOGGER = Logger.getLogger(GuiLogger.class.getPackage().getName());
@@ -36,9 +36,9 @@ public final class GuiLogger {
 			throw new RuntimeException("Cannot create API logger", e);
 		}
 	}
-
+	
 	public static Logger getLogger() {
 		return LOGGER;
 	}
-
+	
 }

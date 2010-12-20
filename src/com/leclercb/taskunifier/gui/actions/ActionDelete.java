@@ -29,24 +29,28 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionDelete extends AbstractAction {
-
+	
 	public ActionDelete() {
 		this(32, 32);
 	}
-
+	
 	public ActionDelete(int width, int height) {
-		super(Translations.getString("action.name.delete"), Images.getResourceImage("remove.png", 32, 32));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.delete"));
+		super(
+				Translations.getString("action.name.delete"),
+				Images.getResourceImage("remove.png", 32, 32));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.delete"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_D);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Task task = MainFrame.getInstance().getSelectedTask();
-
+		
 		if (task != null)
 			TaskFactory.getInstance().markToDelete(task);
 	}
-
+	
 }

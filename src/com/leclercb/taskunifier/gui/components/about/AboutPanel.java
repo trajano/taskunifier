@@ -30,39 +30,39 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class AboutPanel extends JPanel {
-
+	
 	public AboutPanel() {
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-
+		
 		JPanel panel = null;
-
+		
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
+		
 		JLabel icon = new JLabel(Images.getResourceImage("logo.png", 48, 48));
-
+		
 		panel.add(icon, BorderLayout.CENTER);
-
+		
 		this.add(panel, BorderLayout.NORTH);
-
+		
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
+		
 		JTextArea textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		textArea.setText(Translations.getString("about.message"));
 		textArea.setCaretPosition(0);
-
+		
 		panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
-
+		
 		this.add(panel, BorderLayout.CENTER);
 	}
-
+	
 }

@@ -32,79 +32,114 @@ import com.leclercb.taskunifier.gui.renderers.SimpleDateFormatListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralConfigurationPanel extends ConfigurationPanel {
-
+	
 	public GeneralConfigurationPanel() {
 		super("configuration_general.html");
 		this.initialize();
 		this.pack();
 	}
-
+	
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setLocaleProperty("general.locale", (Locale) this.getValue("LANGUAGE"));
-		Settings.setSimpleDateFormatProperty("date.date_format", (SimpleDateFormat) this.getValue("DATE_FORMAT"));
-		Settings.setSimpleDateFormatProperty("date.time_format", (SimpleDateFormat) this.getValue("TIME_FORMAT"));
+		Settings.setLocaleProperty(
+				"general.locale",
+				(Locale) this.getValue("LANGUAGE"));
+		Settings.setSimpleDateFormatProperty(
+				"date.date_format",
+				(SimpleDateFormat) this.getValue("DATE_FORMAT"));
+		Settings.setSimpleDateFormatProperty(
+				"date.time_format",
+				(SimpleDateFormat) this.getValue("TIME_FORMAT"));
 	}
-
+	
 	private void initialize() {
 		Locale generalLanguageValue = Translations.getDefaultLocale();
-		SimpleDateFormat generalDateFormatValue = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat("dd/MM/yyyy");
-
+		SimpleDateFormat generalDateFormatValue = new SimpleDateFormat(
+				"dd/MM/yyyy");
+		SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
+				"dd/MM/yyyy");
+		
 		if (Settings.getLocaleProperty("general.locale") != null)
 			generalLanguageValue = Settings.getLocaleProperty("general.locale");
-
+		
 		if (Settings.getSimpleDateFormatProperty("date.date_format") != null)
 			generalDateFormatValue = Settings.getSimpleDateFormatProperty("date.date_format");
-
+		
 		if (Settings.getSimpleDateFormatProperty("date.time_format") != null)
 			generalTimeFormatValue = Settings.getSimpleDateFormatProperty("date.time_format");
-
-		this.addField(new ConfigurationField("LANGUAGE_AFTER_RESTART", null, new ConfigurationFieldType.Label(
-				Translations.getString("configuration.general.language_changed_after_restart"))));
-
-		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(Translations.getLocales()
-				.toArray(), generalLanguageValue);
-
+		
+		this.addField(new ConfigurationField(
+				"LANGUAGE_AFTER_RESTART",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.general.language_changed_after_restart"))));
+		
+		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
+				Translations.getLocales().toArray(),
+				generalLanguageValue);
+		
 		comboBox.setRenderer(new DefaultListCellRenderer() {
-
+			
 			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			public Component getListCellRendererComponent(
+					JList list,
+					Object value,
+					int index,
+					boolean isSelected,
 					boolean cellHasFocus) {
-				Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
+				Component component = super.getListCellRendererComponent(
+						list,
+						value,
+						index,
+						isSelected,
+						cellHasFocus);
+				
 				this.setText(((Locale) value).getDisplayName());
-
+				
 				return component;
 			}
-
+			
 		});
-
-		this.addField(new ConfigurationField("LANGUAGE", Translations.getString("configuration.general.language"),
+		
+		this.addField(new ConfigurationField(
+				"LANGUAGE",
+				Translations.getString("configuration.general.language"),
 				comboBox));
-
-		this.addField(new ConfigurationField("FORMATS_AFTER_RESTART", null, new ConfigurationFieldType.Label(
-				Translations.getString("configuration.general.formats_changed_after_restart"))));
-
-		SimpleDateFormat[] dateFormats = new SimpleDateFormat[] { new SimpleDateFormat("MMM dd, yyyy"),
-				new SimpleDateFormat("MM/dd/yyyy"), new SimpleDateFormat("dd/MM/yyyy"),
+		
+		this.addField(new ConfigurationField(
+				"FORMATS_AFTER_RESTART",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.general.formats_changed_after_restart"))));
+		
+		SimpleDateFormat[] dateFormats = new SimpleDateFormat[] {
+				new SimpleDateFormat("MMM dd, yyyy"),
+				new SimpleDateFormat("MM/dd/yyyy"),
+				new SimpleDateFormat("dd/MM/yyyy"),
 				new SimpleDateFormat("yyyy-MM-dd") };
-
-		this.addField(new ConfigurationField("DATE_FORMAT",
-				Translations.getString("configuration.general.date_format"), new ConfigurationFieldType.ComboBox(
-						dateFormats, generalDateFormatValue)));
-
-		((ConfigurationFieldType.ComboBox) this.getField("DATE_FORMAT").getType()).getFieldComponent()
-				.setRenderer(new SimpleDateFormatListCellRenderer());
-
-		SimpleDateFormat[] timeFormats = new SimpleDateFormat[] { new SimpleDateFormat("h:mm aa"),
+		
+		this.addField(new ConfigurationField(
+				"DATE_FORMAT",
+				Translations.getString("configuration.general.date_format"),
+				new ConfigurationFieldType.ComboBox(
+						dateFormats,
+						generalDateFormatValue)));
+		
+		((ConfigurationFieldType.ComboBox) this.getField("DATE_FORMAT").getType()).getFieldComponent().setRenderer(
+				new SimpleDateFormatListCellRenderer());
+		
+		SimpleDateFormat[] timeFormats = new SimpleDateFormat[] {
+				new SimpleDateFormat("h:mm aa"),
 				new SimpleDateFormat("HH:mm") };
-
-		this.addField(new ConfigurationField("TIME_FORMAT",
-				Translations.getString("configuration.general.time_format"), new ConfigurationFieldType.ComboBox(
-						timeFormats, generalTimeFormatValue)));
-
-		((ConfigurationFieldType.ComboBox) this.getField("TIME_FORMAT").getType()).getFieldComponent()
-				.setRenderer(new SimpleDateFormatListCellRenderer());
+		
+		this.addField(new ConfigurationField(
+				"TIME_FORMAT",
+				Translations.getString("configuration.general.time_format"),
+				new ConfigurationFieldType.ComboBox(
+						timeFormats,
+						generalTimeFormatValue)));
+		
+		((ConfigurationFieldType.ComboBox) this.getField("TIME_FORMAT").getType()).getFieldComponent().setRenderer(
+				new SimpleDateFormatListCellRenderer());
 	}
 }

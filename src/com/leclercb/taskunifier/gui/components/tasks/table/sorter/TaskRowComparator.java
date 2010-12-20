@@ -35,68 +35,77 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.swing.rowsorter.RowComparator;
 
 public class TaskRowComparator implements RowComparator<Object> {
-
+	
 	private TaskTableModel model;
-
+	
 	public TaskRowComparator(TaskTableModel model) {
 		this.model = model;
 	}
-
+	
 	@Override
 	public int compare(Object o1, Object o2) {
 		return 0;
 	}
-
+	
 	@Override
 	public int compare(int row1, int row2, int column, SortOrder sortOrder) {
 		TaskTableModel tableModel = this.model;
 		TaskColumn taskColumn = tableModel.getTaskColumn(column);
-
+		
 		Task task1 = tableModel.getTask(row1);
 		Task task2 = tableModel.getTask(row2);
-
+		
 		Object o1 = tableModel.getValueAt(row1, column);
 		Object o2 = tableModel.getValueAt(row2, column);
-
+		
 		int result = 0;
-
+		
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both task are parents, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, o1, o2);
-		} else if (task1.getParent() != null && task2.getParent() != null
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, o1, o2);
+		} else if (task1.getParent() != null
+				&& task2.getParent() != null
 				&& task1.getParent().equals(task2.getParent())) {
 			// If both task have the same parent, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, o1, o2);
-		} else if (task1.getParent() == null && task2.getParent() != null && task1.equals(task2.getParent())) {
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, o1, o2);
+		} else if (task1.getParent() == null
+				&& task2.getParent() != null
+				&& task1.equals(task2.getParent())) {
 			// If a task is the child of the other task
 			result = -1;
-		} else if (task1.getParent() != null && task2.getParent() == null && task1.getParent().equals(task2)) {
+		} else if (task1.getParent() != null
+				&& task2.getParent() == null
+				&& task1.getParent().equals(task2)) {
 			// If a task is the child of the other task
 			result = 1;
 		} else {
 			// Else, compare tasks with parent
 			if (task1.getParent() != null)
 				task1 = task1.getParent();
-
+			
 			if (task2.getParent() != null)
 				task2 = task2.getParent();
-
+			
 			Object newO1 = taskColumn.getValue(task1);
 			Object newO2 = taskColumn.getValue(task2);
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * this.compare(taskColumn, newO1, newO2);
+			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+					* this.compare(taskColumn, newO1, newO2);
 		}
-
+		
 		if (result == 0) {
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* task1.getModelId().getId().compareTo(task2.getModelId().getId());
+					* task1.getModelId().getId().compareTo(
+							task2.getModelId().getId());
 		}
-
+		
 		return result;
 	}
-
+	
 	private int compare(TaskColumn column, Object o1, Object o2) {
 		int result = 0;
-
+		
 		switch (column) {
 			case TITLE:
 				result = ((String) o1).compareTo((String) o2);
@@ -159,34 +168,34 @@ public class TaskRowComparator implements RowComparator<Object> {
 				result = 0;
 				break;
 		}
-
+		
 		return result;
 	}
-
+	
 	private int compareModels(Model model1, Model model2) {
 		if (model1 == null && model2 == null)
 			return 0;
-
+		
 		if (model1 == null)
 			return 1;
-
+		
 		if (model2 == null)
 			return -1;
-
+		
 		return model1.getTitle().compareTo(model2.getTitle());
 	}
-
+	
 	private int compareCalendars(Calendar calendar1, Calendar calendar2) {
 		if (calendar1 == null && calendar2 == null)
 			return 0;
-
+		
 		if (calendar1 == null)
 			return 1;
-
+		
 		if (calendar2 == null)
 			return -1;
-
+		
 		return calendar1.compareTo(calendar2);
 	}
-
+	
 }

@@ -24,17 +24,18 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class GoalListModel extends AbstractModelListModel {
-
+	
 	public GoalListModel() {
 		this.addElement(null);
-
+		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED) || goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (goal.getModelStatus().equals(ModelStatus.LOADED)
+					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(goal);
-
+		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 }

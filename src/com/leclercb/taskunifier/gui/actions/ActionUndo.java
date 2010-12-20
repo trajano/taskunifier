@@ -31,47 +31,51 @@ import com.leclercb.taskunifier.gui.undo.IRedoListener;
 import com.leclercb.taskunifier.gui.undo.IUndoListener;
 
 public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
-
+	
 	public ActionUndo() {
 		this(32, 32);
 	}
-
+	
 	public ActionUndo(int width, int height) {
-		super(Translations.getString("action.name.undo"), Images.getResourceImage("undo.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.undo"));
+		super(
+				Translations.getString("action.name.undo"),
+				Images.getResourceImage("undo.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.undo"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_U);
-
+		
 		this.updateAction();
-
+		
 		Constants.UNDO_MANAGER.addUndoListener(this);
 		Constants.UNDO_MANAGER.addRedoListener(this);
 		Constants.UNDO_EDIT_SUPPORT.addUndoableEditListener(this);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Constants.UNDO_MANAGER.undo();
 	}
-
+	
 	@Override
 	public void undoableEditHappened(UndoableEditEvent e) {
 		this.updateAction();
 	}
-
+	
 	@Override
 	public void undoPerformed(ActionEvent event) {
 		this.updateAction();
 	}
-
+	
 	@Override
 	public void redoPerformed(ActionEvent event) {
 		this.updateAction();
 	}
-
+	
 	private void updateAction() {
 		this.setEnabled(Constants.UNDO_MANAGER.canUndo());
 		this.putValue(NAME, Constants.UNDO_MANAGER.getUndoPresentationName());
 	}
-
+	
 }

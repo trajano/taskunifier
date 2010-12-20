@@ -12,51 +12,51 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskListModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
-
+	
 	public TaskListModel() {
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 	public Task getTask(int row) {
 		return TaskFactory.getInstance().get(row);
 	}
-
+	
 	@Override
 	public int getColumnCount() {
 		return 1;
 	}
-
+	
 	@Override
 	public int getRowCount() {
 		return TaskFactory.getInstance().size();
 	}
-
+	
 	@Override
 	public String getColumnName(int col) {
 		return Translations.getString("general.tasks");
 	}
-
+	
 	@Override
 	public Class<?> getColumnClass(int col) {
 		return Task.class;
 	}
-
+	
 	@Override
 	public Object getValueAt(int row, int col) {
 		return this.getTask(row);
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return true;
 	}
-
+	
 	@Override
 	public void setValueAt(Object value, int row, int col) {
 
 	}
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -65,15 +65,17 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 			this.fireTableRowsDeleted(event.getIndex(), event.getIndex());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(Task.PROP_MODEL_STATUS) || event.getPropertyName().equals(Task.PROP_PARENT)) {
+		if (event.getPropertyName().equals(Task.PROP_MODEL_STATUS)
+				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
 		} else {
-			int index = TaskFactory.getInstance().getIndexOf((Task) event.getSource());
+			int index = TaskFactory.getInstance().getIndexOf(
+					(Task) event.getSource());
 			this.fireTableRowsUpdated(index, index);
 		}
 	}
-
+	
 }

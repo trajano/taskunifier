@@ -26,24 +26,26 @@ import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 
 public class DefaultLookAndFeelDescriptor extends LookAndFeelDescriptor {
-
+	
 	public DefaultLookAndFeelDescriptor(String name, String identifier) {
 		super(name, identifier);
 	}
-
+	
 	@Override
 	public void setLookAndFeel(Window window) throws LookAndFeelException {
 		try {
 			UIManager.setLookAndFeel(this.getIdentifier());
-
+			
 			if (window != null) {
 				SwingUtilities.updateComponentTreeUI(window);
 				window.pack();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException("Error while setting look and feel", e);
+			throw new LookAndFeelException(
+					"Error while setting look and feel",
+					e);
 		}
 	}
-
+	
 }

@@ -21,19 +21,19 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskStatusRenderer extends DefaultRenderer {
-
+	
 	public TaskStatusRenderer() {
 
 	}
-
+	
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskStatus)) {
 			this.setText("");
 			return;
 		}
-
+		
 		this.setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
 	}
-
+	
 }

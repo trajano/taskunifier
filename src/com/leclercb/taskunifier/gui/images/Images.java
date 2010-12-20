@@ -30,92 +30,97 @@ import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.Main;
 
 public final class Images {
-
+	
 	private Images() {
 
 	}
-
+	
 	private static class ImageInfo {
-
+		
 		private String file;
 		private int width;
 		private int height;
-
+		
 		public ImageInfo(String file, int width, int height) {
 			CheckUtils.isNotNull(file, "File cannot be null");
 			this.file = file;
 			this.width = width;
 			this.height = height;
 		}
-
+		
 		@Override
 		public boolean equals(Object o) {
 			if (o == this) {
 				return true;
 			}
-
+			
 			if (o instanceof ImageInfo) {
 				ImageInfo info = (ImageInfo) o;
-
-				return new EqualsBuilder().append(info.file, info.file).append(info.width, info.width)
-						.append(info.height, info.height).isEqual();
+				
+				return new EqualsBuilder().append(info.file, info.file).append(
+						info.width,
+						info.width).append(info.height, info.height).isEqual();
 			}
-
+			
 			return false;
 		}
-
+		
 		@Override
 		public int hashCode() {
 			HashCodeBuilder hashCode = new HashCodeBuilder();
 			hashCode.append(this.file);
 			hashCode.append(this.width);
 			hashCode.append(this.height);
-
+			
 			return hashCode.toHashCode();
 		}
-
+		
 	}
-
+	
 	private static Map<ImageInfo, ImageIcon> images = new HashMap<Images.ImageInfo, ImageIcon>();
-
-	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "images";
-
+	
+	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER
+			+ File.separator
+			+ "images";
+	
 	public static String getResourceFile(String file) {
 		return IMAGES_FOLDER + File.separator + file;
 	}
-
+	
 	public static ImageIcon getResourceImage(String file) {
 		return getImage(IMAGES_FOLDER + File.separator + file);
 	}
-
+	
 	public static ImageIcon getResourceImage(String file, int width, int height) {
 		return getImage(IMAGES_FOLDER + File.separator + file, width, height);
 	}
-
+	
 	public static ImageIcon getImage(String file) {
 		ImageInfo info = new ImageInfo(file, -1, -1);
-
+		
 		if (images.containsKey(info))
 			return images.get(info);
-
+		
 		ImageIcon instance = new ImageIcon(file);
 		images.put(info, instance);
-
+		
 		return instance;
 	}
-
+	
 	public static ImageIcon getImage(String file, int width, int height) {
 		ImageInfo info = new ImageInfo(file, width, height);
-
+		
 		if (images.containsKey(info))
 			return images.get(info);
-
-		ImageIcon instance = new ImageIcon(getImage(file).getImage().getScaledInstance(width,
-				height,
-				Image.SCALE_SMOOTH));
+		
+		ImageIcon instance = new ImageIcon(
+				getImage(file).getImage().getScaledInstance(
+						width,
+						height,
+						Image.SCALE_SMOOTH));
 		images.put(info, instance);
-
+		
 		return instance;
 	}
-
+	
 }

@@ -29,43 +29,52 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCreateAccount extends AbstractAction {
-
+	
 	public ActionCreateAccount() {
 		this(32, 32);
 	}
-
+	
 	public ActionCreateAccount(int width, int height) {
-		super(Translations.getString("action.name.create_account"), Images.getResourceImage("user.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.create_account"));
+		super(
+				Translations.getString("action.name.create_account"),
+				Images.getResourceImage("user.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.create_account"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		String email = Settings.getStringProperty("toodledo.email");
 		String password = Settings.getStringProperty("toodledo.password");
-
+		
 		try {
 			if (email == null)
 				throw new Exception(Translations.getString("error.empty_email"));
-
+			
 			if (password == null)
-				throw new Exception(Translations.getString("error.empty_password"));
-
+				throw new Exception(
+						Translations.getString("error.empty_password"));
+			
 			SynchronizerUtils.initializeProxy();
-			ToodledoConnectionFactory.getInstance().createAccount(email, password);
-
-			JOptionPane.showMessageDialog(null,
+			ToodledoConnectionFactory.getInstance().createAccount(
+					email,
+					password);
+			
+			JOptionPane.showMessageDialog(
+					null,
 					Translations.getString("action.create_account.account_created"),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(
+					null,
 					e.getMessage(),
 					Translations.getString("error.account_not_created"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
-
+	
 }

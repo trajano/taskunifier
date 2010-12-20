@@ -30,44 +30,50 @@ import com.leclercb.taskunifier.gui.lookandfeel.types.DefaultLookAndFeelDescript
 import com.leclercb.taskunifier.gui.lookandfeel.types.MetalLookAndFeelDescriptor;
 
 public final class LookAndFeelUtils {
-
+	
 	private LookAndFeelUtils() {
 
 	}
-
+	
 	private static List<LookAndFeelDescriptor> LOOK_AND_FEELS;
-
+	
 	static {
 		LOOK_AND_FEELS = new ArrayList<LookAndFeelDescriptor>();
-
+		
 		// Installed Look And Feels
 		{
 			LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
 			for (int i = 0; i < lafs.length; i++)
-				LOOK_AND_FEELS.add(new DefaultLookAndFeelDescriptor(lafs[i].getName(), lafs[i].getClassName()));
+				LOOK_AND_FEELS.add(new DefaultLookAndFeelDescriptor(
+						lafs[i].getName(),
+						lafs[i].getClassName()));
 		}
-
+		
 		// Metal Themes
 		{
-			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor("Metal - Default", DefaultMetalTheme.class.getName()));
-			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor("Metal - Ocean", OceanTheme.class.getName()));
+			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor(
+					"Metal - Default",
+					DefaultMetalTheme.class.getName()));
+			LOOK_AND_FEELS.add(new MetalLookAndFeelDescriptor(
+					"Metal - Ocean",
+					OceanTheme.class.getName()));
 		}
 	}
-
+	
 	public static void addLookAndFeel(LookAndFeelDescriptor lookAndFeel) {
 		LOOK_AND_FEELS.add(lookAndFeel);
 	}
-
+	
 	public static LookAndFeelDescriptor getLookAndFeel(String className) {
 		for (LookAndFeelDescriptor lookAndFeel : LOOK_AND_FEELS)
 			if (lookAndFeel.getIdentifier().equals(className))
 				return lookAndFeel;
-
+		
 		return null;
 	}
-
+	
 	public static List<LookAndFeelDescriptor> getLookAndFeels() {
 		return Collections.unmodifiableList(LOOK_AND_FEELS);
 	}
-
+	
 }

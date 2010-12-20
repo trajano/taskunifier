@@ -16,46 +16,47 @@ import com.leclercb.taskunifier.gui.renderers.SortOrderListCellRenderer;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 
 public class TaskSorterTable extends JTable {
-
+	
 	private static final DefaultTableCellRenderer ORDER_RENDERER;
 	private static final DefaultTableCellRenderer COLUMN_RENDERER;
 	private static final DefaultTableCellRenderer SORT_ORDER_RENDERER;
-
+	
 	private static final DefaultCellEditor ORDER_EDITOR;
 	private static final DefaultCellEditor COLUMN_EDITOR;
 	private static final DefaultCellEditor SORT_ORDER_EDITOR;
-
+	
 	static {
 		// RENDERERS
 		ORDER_RENDERER = new DefaultTableCellRenderer();
 		COLUMN_RENDERER = new DefaultTableCellRenderer();
 		SORT_ORDER_RENDERER = new TaskSorterSortOrderRenderer();
-
+		
 		// EDITORS
 		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
-		COLUMN_EDITOR = new DefaultCellEditor(new JComboBox(TaskColumn.values()));
-
+		COLUMN_EDITOR = new DefaultCellEditor(
+				new JComboBox(TaskColumn.values()));
+		
 		JComboBox comboBox = null;
-
+		
 		comboBox = new JComboBox(SortOrder.values());
 		comboBox.setRenderer(new SortOrderListCellRenderer());
-
+		
 		SORT_ORDER_EDITOR = new DefaultCellEditor(comboBox);
 	}
-
+	
 	public TaskSorterTable(TaskSorter sorter) {
 		this.initialize(sorter);
 	}
-
+	
 	private void initialize(TaskSorter sorter) {
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		
 		TaskSorterTableModel tableModel = new TaskSorterTableModel(sorter);
-
+		
 		this.setModel(tableModel);
 		this.getTableHeader().setReorderingAllowed(false);
 	}
-
+	
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
@@ -69,7 +70,7 @@ public class TaskSorterTable extends JTable {
 				return super.getCellEditor(row, col);
 		}
 	}
-
+	
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int col) {
 		switch (col) {
@@ -83,5 +84,5 @@ public class TaskSorterTable extends JTable {
 				return super.getCellRenderer(row, col);
 		}
 	}
-
+	
 }

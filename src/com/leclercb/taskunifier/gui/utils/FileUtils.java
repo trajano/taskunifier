@@ -20,44 +20,44 @@ package com.leclercb.taskunifier.gui.utils;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public final class FileUtils {
-
+	
 	private FileUtils() {
 
 	}
-
+	
 	public static String getExtention(String fileName) {
 		CheckUtils.isNotNull(fileName, "File name cannot be null");
-
+		
 		int lastIndexOfDot = fileName.lastIndexOf('.');
-
+		
 		if (lastIndexOfDot < 0)
 			return "";
-
+		
 		return fileName.substring(lastIndexOfDot + 1, fileName.length());
 	}
-
+	
 	public static boolean hasExtention(String fileName, String... extentions) {
 		CheckUtils.isNotNull(fileName, "File name cannot be null");
 		CheckUtils.isNotNull(extentions, "Extentions cannot be null");
-
+		
 		String extention = getExtention(fileName);
-
+		
 		for (int i = 0; i < extentions.length; i++)
 			if (extention.equals(extentions[i]))
 				return true;
-
+		
 		return false;
 	}
-
+	
 	public static String removeExtention(String fileName) {
 		CheckUtils.isNotNull(fileName, "File name cannot be null");
-
+		
 		int lastIndexOfDot = fileName.lastIndexOf('.');
-
+		
 		if (lastIndexOfDot < 0)
 			return fileName;
-
+		
 		return fileName.substring(0, lastIndexOfDot);
 	}
-
+	
 }

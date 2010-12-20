@@ -28,25 +28,31 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionSynchronize extends AbstractAction {
-
+	
 	public ActionSynchronize() {
 		this(32, 32);
 	}
-
+	
 	public ActionSynchronize(int width, int height) {
-		super(Translations.getString("action.name.synchronize"), Images.getResourceImage("synchronize.png", 32, 32));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.synchronize"));
+		super(
+				Translations.getString("action.name.synchronize"),
+				Images.getResourceImage("synchronize.png", 32, 32));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.synchronize"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		SynchronizeDialog dialog = new SynchronizeDialog(MainFrame.getInstance().getFrame(), true);
-
+		SynchronizeDialog dialog = new SynchronizeDialog(
+				MainFrame.getInstance().getFrame(),
+				true);
+		
 		dialog.setVisible(true);
-
+		
 		MainFrame.getInstance().refreshTasks();
 	}
-
+	
 }

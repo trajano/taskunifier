@@ -28,7 +28,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
 abstract class AbstractModelListModel extends DefaultListModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -37,20 +37,22 @@ abstract class AbstractModelListModel extends DefaultListModel implements ModelL
 			this.removeElement(event.getValue());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().equals(ModelStatus.LOADED)
-				&& !((Model) event.getSource()).getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		if (!((Model) event.getSource()).getModelStatus().equals(
+				ModelStatus.LOADED)
+				&& !((Model) event.getSource()).getModelStatus().equals(
+						ModelStatus.TO_UPDATE)) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.indexOf(event.getSource());
-
+			
 			if (index == -1)
 				this.addElement(event.getSource());
 			else
 				this.fireContentsChanged(this, index, index);
 		}
 	}
-
+	
 }

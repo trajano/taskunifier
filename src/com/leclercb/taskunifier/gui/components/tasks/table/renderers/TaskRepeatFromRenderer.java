@@ -21,19 +21,19 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskRepeatFromRenderer extends DefaultRenderer {
-
+	
 	public TaskRepeatFromRenderer() {
 
 	}
-
+	
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskRepeatFrom)) {
 			this.setText("");
 			return;
 		}
-
+		
 		this.setText(TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value));
 	}
-
+	
 }

@@ -27,27 +27,31 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionConfiguration extends AbstractAction {
-
+	
 	public ActionConfiguration() {
 		this(32, 32);
 	}
-
+	
 	public ActionConfiguration(int width, int height) {
-		super(Translations.getString("action.name.configuration"), Images.getResourceImage("settings.png",
-				width,
-				height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.configuration"));
+		super(
+				Translations.getString("action.name.configuration"),
+				Images.getResourceImage("settings.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.configuration"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.configuration();
 	}
-
+	
 	public void configuration() {
-		ConfigurationDialog config = new ConfigurationDialog(MainFrame.getInstance().getFrame(), true);
+		ConfigurationDialog config = new ConfigurationDialog(
+				MainFrame.getInstance().getFrame(),
+				true);
 		config.setVisible(true);
 	}
-
+	
 }

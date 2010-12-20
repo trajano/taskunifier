@@ -21,19 +21,19 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskPriorityRenderer extends DefaultRenderer {
-
+	
 	public TaskPriorityRenderer() {
 
 	}
-
+	
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof TaskPriority)) {
 			this.setText("");
 			return;
 		}
-
+		
 		this.setText(TranslationsUtils.translateTaskPriority((TaskPriority) value));
 	}
-
+	
 }

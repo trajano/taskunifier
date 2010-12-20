@@ -27,32 +27,35 @@ import java.util.List;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class ModelTransferable implements Transferable {
-
-	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(ModelTransferData.class, "MODEL_FLAVOR");
+	
+	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(
+			ModelTransferData.class,
+			"MODEL_FLAVOR");
 	public static final DataFlavor[] FLAVORS = { MODEL_FLAVOR };
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
-
+	
 	private ModelTransferData data;
-
+	
 	public ModelTransferable(ModelTransferData data) {
 		CheckUtils.isNotNull(data, "Data cannot be null");
-
+		
 		this.data = data;
 	}
-
+	
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return FLAVORS;
 	}
-
+	
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		return FLAVOR_LIST.contains(flavor);
 	}
-
+	
 	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+	public Object getTransferData(DataFlavor flavor)
+			throws UnsupportedFlavorException, IOException {
 		return this.data;
 	}
-
+	
 }

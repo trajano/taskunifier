@@ -18,9 +18,9 @@
 package com.leclercb.taskunifier.gui.reminder;
 
 public class ReminderThread extends Thread {
-
+	
 	public ReminderThread() {
 		super(new ReminderRunnable());
 	}
-
+	
 }

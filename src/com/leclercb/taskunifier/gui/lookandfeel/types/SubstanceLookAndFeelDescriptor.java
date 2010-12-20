@@ -27,11 +27,11 @@ import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 
 public class SubstanceLookAndFeelDescriptor extends LookAndFeelDescriptor {
-
+	
 	public SubstanceLookAndFeelDescriptor(String name, String identifier) {
 		super(name, identifier);
 	}
-
+	
 	@Override
 	public void setLookAndFeel(Window window) throws LookAndFeelException {
 		try {
@@ -39,8 +39,10 @@ public class SubstanceLookAndFeelDescriptor extends LookAndFeelDescriptor {
 			SubstanceLookAndFeel.setSkin(this.getIdentifier());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException("Error while setting look and feel", e);
+			throw new LookAndFeelException(
+					"Error while setting look and feel",
+					e);
 		}
 	}
-
+	
 }

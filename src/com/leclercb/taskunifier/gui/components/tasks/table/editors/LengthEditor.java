@@ -30,41 +30,48 @@ import javax.swing.table.TableCellEditor;
 import com.leclercb.taskunifier.api.settings.Settings;
 
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
-
+	
 	private JSpinner timeSpinner;
-
+	
 	public LengthEditor() {
 		this.timeSpinner = new JSpinner();
 		this.timeSpinner.setModel(new SpinnerDateModel());
-		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner, Settings
-				.getStringProperty("date.time_format")));
+		this.timeSpinner.setEditor(new JSpinner.DateEditor(
+				this.timeSpinner,
+				Settings.getStringProperty("date.time_format")));
 	}
-
+	
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
+	public Component getTableCellEditorComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			int row,
+			int col) {
 		int hour = 0;
 		int minute = 0;
-
+		
 		if (value != null) {
 			hour = ((Integer) value) / 60;
 			minute = ((Integer) value) % 60;
 		}
-
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(0, 0, 0, hour, minute, 0);
-
+		
 		this.timeSpinner.setValue(calendar.getTime());
-
+		
 		return this.timeSpinner;
 	}
-
+	
 	@Override
 	public Object getCellEditorValue() {
 		Date date = (Date) this.timeSpinner.getValue();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-
-		return (calendar.get(Calendar.HOUR_OF_DAY) * 60) + calendar.get(Calendar.MINUTE);
+		
+		return (calendar.get(Calendar.HOUR_OF_DAY) * 60)
+				+ calendar.get(Calendar.MINUTE);
 	}
-
+	
 }

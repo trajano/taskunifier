@@ -31,45 +31,45 @@ import javax.swing.JPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class AboutDialog extends JDialog {
-
+	
 	public AboutDialog(Frame parent, boolean modal) {
 		super(parent, modal);
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.about"));
 		this.setSize(400, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-
+		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-
+		
 		AboutPanel aboutPanel = new AboutPanel();
 		aboutPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(aboutPanel, BorderLayout.CENTER);
-
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
+		
 		this.initializeButtons(buttonPanel);
 	}
-
+	
 	private void initializeButtons(JPanel buttonPanel) {
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AboutDialog.this.setVisible(false);
 			}
-
+			
 		});
-
+		
 		buttonPanel.add(okButton, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
-
+	
 }

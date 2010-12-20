@@ -26,21 +26,33 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
 public class SimpleDateFormatListCellRenderer extends DefaultListCellRenderer {
-
+	
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+	public Component getListCellRendererComponent(
+			JList list,
+			Object value,
+			int index,
+			boolean isSelected,
 			boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
+		Component component = super.getListCellRendererComponent(
+				list,
+				value,
+				index,
+				isSelected,
+				cellHasFocus);
+		
 		if (value == null || !(value instanceof DateFormat)) {
 			this.setText("");
 			return component;
 		}
-
+		
 		SimpleDateFormat df = ((SimpleDateFormat) value);
-
-		this.setText(df.format(Calendar.getInstance().getTime()) + " (" + df.toPattern() + ")");
+		
+		this.setText(df.format(Calendar.getInstance().getTime())
+				+ " ("
+				+ df.toPattern()
+				+ ")");
 		return component;
 	}
-
+	
 }

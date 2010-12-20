@@ -43,92 +43,98 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class Help {
-
+	
 	private Help() {
 
 	}
-
-	private static final String HELP_FILES_FOLDER = Main.RESOURCES_FOLDER + File.separator + "help";
-
+	
+	private static final String HELP_FILES_FOLDER = Main.RESOURCES_FOLDER
+			+ File.separator
+			+ "help";
+	
 	public static String getContent(String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-
+		
 		helpFile = HELP_FILES_FOLDER + File.separator + helpFile;
 		StringBuffer content = new StringBuffer();
-
+		
 		try {
-			InputStreamReader inputStream = new InputStreamReader(new FileInputStream(helpFile));
+			InputStreamReader inputStream = new InputStreamReader(
+					new FileInputStream(helpFile));
 			BufferedReader buffer = new BufferedReader(inputStream);
-
+			
 			String line = null;
 			while ((line = buffer.readLine()) != null)
 				content.append(line);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		return content.toString();
 	}
-
+	
 	public static JDialog getHelpDialog(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-
+		
 		return new HelpDialog(helpFile);
 	}
-
+	
 	public static Component getHelpButton(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-
-		JButton component = new JButton(Images.getResourceImage("help.png", 16, 16));
+		
+		JButton component = new JButton(Images.getResourceImage(
+				"help.png",
+				16,
+				16));
 		component.setBorderPainted(false);
 		component.setContentAreaFilled(false);
 		component.addActionListener(new HelpActionListener(helpFile));
-
+		
 		panel.add(component);
-
+		
 		return panel;
 	}
-
+	
 	private static class HelpActionListener implements ActionListener {
-
+		
 		private String helpFile;
-
+		
 		public HelpActionListener(String helpFile) {
 			this.helpFile = helpFile;
 		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			HelpDialog dialog = new HelpDialog(this.helpFile);
 			dialog.setVisible(true);
 		}
-
+		
 	}
-
+	
 	private static class HelpDialog extends JDialog {
-
+		
 		public HelpDialog(String helpFile) {
 			super(MainFrame.getInstance().getFrame(), true);
-
+			
 			this.setTitle(Translations.getString("general.help"));
 			this.setSize(400, 400);
 			this.setResizable(true);
 			this.setLayout(new BorderLayout());
-
+			
 			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			this.setLocationRelativeTo(MainFrame.getInstance().getFrame());
-
+			
 			final JEditorPane pane = new JEditorPane();
 			pane.setContentType("text/html");
 			pane.setText(getContent(helpFile));
 			pane.setEditable(false);
 			pane.setCaretPosition(0);
-
+			
 			pane.addHyperlinkListener(new HyperlinkListener() {
-
+				
 				@Override
 				public void hyperlinkUpdate(HyperlinkEvent evt) {
 					if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -136,18 +142,19 @@ public final class Help {
 							pane.setText(getContent(evt.getURL().getFile()));
 							pane.setCaretPosition(0);
 						} catch (Exception exc) {
-							JOptionPane.showMessageDialog(null,
+							JOptionPane.showMessageDialog(
+									null,
 									exc.getMessage(),
 									Translations.getString("error.help_file_not_found"),
 									JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
-
+				
 			});
-
+			
 			this.add(new JScrollPane(pane), BorderLayout.CENTER);
 		}
 	}
-
+	
 }

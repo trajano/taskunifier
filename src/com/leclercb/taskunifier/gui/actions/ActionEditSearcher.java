@@ -30,36 +30,44 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionEditSearcher extends AbstractAction {
-
+	
 	public ActionEditSearcher() {
 		this(32, 32);
 	}
-
+	
 	public ActionEditSearcher(int width, int height) {
-		super(Translations.getString("action.name.edit_searcher"), Images.getResourceImage("search.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.edit_searcher"));
+		super(
+				Translations.getString("action.name.edit_searcher"),
+				Images.getResourceImage("search.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.edit_searcher"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (MainFrame.getInstance().getSelectedTaskSearcher() == null) {
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(
+					null,
 					Translations.getString("error.select_searcher"),
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
+		
 		this.editSearcher(MainFrame.getInstance().getSelectedTaskSearcher());
 	}
-
+	
 	public void editSearcher(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
-
-		SearcherEditDialog dialog = new SearcherEditDialog(MainFrame.getInstance().getFrame(), true, searcher);
-
+		
+		SearcherEditDialog dialog = new SearcherEditDialog(
+				MainFrame.getInstance().getFrame(),
+				true,
+				searcher);
+		
 		dialog.setVisible(true);
 	}
-
+	
 }

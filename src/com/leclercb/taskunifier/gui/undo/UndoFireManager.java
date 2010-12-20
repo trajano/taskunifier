@@ -26,51 +26,51 @@ import javax.swing.undo.UndoManager;
 import com.leclercb.taskunifier.api.event.ListenerList;
 
 public class UndoFireManager extends UndoManager {
-
+	
 	private ListenerList<IUndoListener> undoListenerList;
 	private ListenerList<IRedoListener> redoListenerList;
-
+	
 	public UndoFireManager() {
 		this.undoListenerList = new ListenerList<IUndoListener>();
 		this.redoListenerList = new ListenerList<IRedoListener>();
 	}
-
+	
 	public void addUndoListener(IUndoListener listener) {
 		this.undoListenerList.addListener(listener);
 	}
-
+	
 	public void removeUndoListener(IUndoListener listener) {
 		this.undoListenerList.removeListener(listener);
 	}
-
+	
 	protected void fireUndoPerformed() {
 		for (IUndoListener listener : this.undoListenerList)
 			listener.undoPerformed(new ActionEvent(this, 0, null));
 	}
-
+	
 	public void addRedoListener(IRedoListener listener) {
 		this.redoListenerList.addListener(listener);
 	}
-
+	
 	public void removeRedoListener(IRedoListener listener) {
 		this.redoListenerList.removeListener(listener);
 	}
-
+	
 	protected void fireRedoPerformed() {
 		for (IRedoListener listener : this.redoListenerList)
 			listener.redoPerformed(new ActionEvent(this, 0, null));
 	}
-
+	
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
 		this.fireUndoPerformed();
 	}
-
+	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
 		this.fireRedoPerformed();
 	}
-
+	
 }

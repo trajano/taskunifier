@@ -23,20 +23,20 @@ import com.leclercb.taskunifier.gui.undo.TransferActionListener;
 import com.leclercb.taskunifier.gui.undo.UndoFireManager;
 
 public final class Constants {
-
+	
 	private Constants() {
 
 	}
-
+	
 	public static final String TITLE = "TaskUnifier";
 	public static final String VERSION = "0.6.1";
-
+	
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
 	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/";
-
+	
 	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
 	public static final UndoableEditSupport UNDO_EDIT_SUPPORT = new UndoableEditSupport();
-
+	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
-
+	
 }

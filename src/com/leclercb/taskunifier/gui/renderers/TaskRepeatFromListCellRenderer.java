@@ -26,19 +26,28 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskRepeatFromListCellRenderer extends DefaultListCellRenderer {
-
+	
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+	public Component getListCellRendererComponent(
+			JList list,
+			Object value,
+			int index,
+			boolean isSelected,
 			boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
+		Component component = super.getListCellRendererComponent(
+				list,
+				value,
+				index,
+				isSelected,
+				cellHasFocus);
+		
 		if (value == null || !(value instanceof TaskRepeatFrom)) {
 			this.setText("");
 			return component;
 		}
-
+		
 		this.setText(TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value));
 		return component;
 	}
-
+	
 }

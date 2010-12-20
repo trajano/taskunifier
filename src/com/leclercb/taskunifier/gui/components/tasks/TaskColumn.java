@@ -33,7 +33,7 @@ import com.leclercb.taskunifier.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum TaskColumn {
-
+	
 	TITLE(String.class, 1, Translations.getString("general.task.title"), 200, true, true),
 	TAGS(String.class, 2, Translations.getString("general.task.tags"), 100, true, true),
 	FOLDER(Folder.class, 3, Translations.getString("general.task.folder"), 100, true, true),
@@ -53,102 +53,108 @@ public enum TaskColumn {
 	PRIORITY(TaskPriority.class, 17, Translations.getString("general.task.priority"), 100, true, true),
 	STAR(Boolean.class, 18, Translations.getString("general.task.star"), 40, true, true),
 	NOTE(String.class, 19, Translations.getString("general.task.note"), 100, false, false);
-
+	
 	private Class<?> type;
 	private int order;
 	private String label;
 	private int width;
 	private boolean editable;
 	private boolean visible;
-
-	private TaskColumn(Class<?> type, int order, String label, int width, boolean editable, boolean visible) {
+	
+	private TaskColumn(
+			Class<?> type,
+			int order,
+			String label,
+			int width,
+			boolean editable,
+			boolean visible) {
 		this.setType(type);
 		this.setLabel(label);
 		this.setWidth(width);
 		this.setEditable(editable);
 		this.setVisible(visible);
 	}
-
+	
 	public Class<?> getType() {
 		return this.type;
 	}
-
+	
 	private void setType(Class<?> type) {
 		this.type = type;
 	}
-
+	
 	public int getOrder() {
 		return this.order;
 	}
-
+	
 	public void setOrder(int order) {
 		this.order = order;
 	}
-
+	
 	public String getLabel() {
 		return this.label;
 	}
-
+	
 	private void setLabel(String label) {
 		this.label = label;
 	}
-
+	
 	public int getWidth() {
 		return this.width;
 	}
-
+	
 	public void setWidth(int width) {
 		this.width = width;
 	}
-
+	
 	public boolean isEditable() {
 		return this.editable;
 	}
-
+	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
 	}
-
+	
 	public boolean isVisible() {
 		return this.visible;
 	}
-
+	
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.label;
 	}
-
+	
 	public static TaskColumn[] getValues(boolean onlyVisible) {
 		TaskColumn[] columns = TaskColumn.values();
 		Arrays.sort(columns, new Comparator<TaskColumn>() {
-
+			
 			@Override
 			public int compare(TaskColumn o1, TaskColumn o2) {
 				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
 			}
-
+			
 		});
-
+		
 		if (!onlyVisible)
 			return columns;
-
+		
 		int count = 0;
 		for (int i = 0; i < columns.length; i++)
 			if (columns[i].isVisible())
 				count++;
-
+		
 		TaskColumn[] visibleColumns = new TaskColumn[count];
 		for (int i = 0, j = 0; i < columns.length; i++)
 			if (columns[i].isVisible())
 				visibleColumns[j++] = columns[i];
-
+		
 		return visibleColumns;
 	}
-
+	
 	public Object getValue(Task task) {
 		switch (this) {
 			case TITLE:
@@ -193,7 +199,7 @@ public enum TaskColumn {
 				return null;
 		}
 	}
-
+	
 	public void setValue(Task task, Object value) {
 		switch (this) {
 			case TITLE:
@@ -259,5 +265,5 @@ public enum TaskColumn {
 				break;
 		}
 	}
-
+	
 }

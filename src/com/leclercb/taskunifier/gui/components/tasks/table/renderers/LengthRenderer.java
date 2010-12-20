@@ -21,32 +21,32 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 public class LengthRenderer extends DefaultRenderer {
-
+	
 	private DateFormat formatter;
-
+	
 	public LengthRenderer(DateFormat formatter) {
 		this.formatter = formatter;
 	}
-
+	
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof Integer)) {
 			this.setText("");
 			return;
 		}
-
+		
 		int hour = 0;
 		int minute = 0;
-
+		
 		if (value != null) {
 			hour = ((Integer) value) / 60;
 			minute = ((Integer) value) % 60;
 		}
-
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(0, 0, 0, hour, minute, 0);
-
+		
 		this.setText(this.formatter.format(calendar.getTime()));
 	}
-
+	
 }

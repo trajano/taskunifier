@@ -32,11 +32,11 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 
 public class DefaultRenderer extends DefaultTableCellRenderer {
-
+	
 	private Color even;
 	private Color odd;
 	private Color selected;
-
+	
 	public DefaultRenderer() {
 		if (Settings.getBooleanProperty("theme.color.enabled")) {
 			this.even = Settings.getColorProperty("theme.color.even");
@@ -45,39 +45,51 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 			this.even = UIManager.getColor("Table.background");
 			this.odd = UIManager.getColor("Table.background");
 		}
-
+		
 		this.selected = UIManager.getColor("Table.selectionBackground");
 	}
-
+	
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
+	public Component getTableCellRendererComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			boolean hasFocus,
+			int row,
+			int column) {
+		Component component = super.getTableCellRendererComponent(
+				table,
+				value,
+				isSelected,
+				hasFocus,
+				row,
+				column);
+		
 		if (value == null) {
 			component.setBackground(this.getBackgroundColor(isSelected, row));
 			return component;
 		}
-
+		
 		Task task = ((TaskTable) table).getTask(row);
-
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(component.getFont().getAttributes());
+		
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(
+				component.getFont().getAttributes());
 		attributes.put(TextAttribute.STRIKETHROUGH, task.isCompleted());
 		component.setFont(component.getFont().deriveFont(attributes));
-
+		
 		component.setBackground(this.getBackgroundColor(isSelected, row));
-
+		
 		return component;
 	}
-
+	
 	private Color getBackgroundColor(boolean isSelected, int row) {
 		if (isSelected)
 			return this.selected;
-
+		
 		if (row % 2 == 0)
 			return this.even;
-
+		
 		return this.odd;
 	}
-
+	
 }

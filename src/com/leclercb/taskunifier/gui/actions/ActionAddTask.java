@@ -38,91 +38,107 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddTask extends AbstractAction {
-
+	
 	public ActionAddTask() {
 		this(32, 32);
 	}
-
+	
 	public ActionAddTask(int width, int height) {
-		super(Translations.getString("action.name.add_task"), Images.getResourceImage("document.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.add_task"));
+		super(
+				Translations.getString("action.name.add_task"),
+				Images.getResourceImage("document.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.add_task"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Task task = TaskFactory.getInstance().create(Translations.getString("task.default.title"));
-
+		Task task = TaskFactory.getInstance().create(
+				Translations.getString("task.default.title"));
+		
 		if (Settings.getStringProperty("task.default.title") != null)
 			task.setTitle(Settings.getStringProperty("task.default.title"));
-
+		
 		if (Settings.getStringProperty("task.default.tags") != null) {
 			String[] tags = (Settings.getStringProperty("task.default.tags")).split(",");
 			for (int i = 0; i < tags.length; i++)
 				if (tags[i].trim().length() != 0)
 					task.addTag(tags[i].trim());
 		}
-
+		
 		if (Settings.getModelIdProperty("task.default.folder") != null) {
 			ModelId modelId = Settings.getModelIdProperty("task.default.folder");
 			task.setFolder(FolderFactory.getInstance().get(modelId));
 		}
-
+		
 		if (Settings.getModelIdProperty("task.default.context") != null) {
 			ModelId modelId = Settings.getModelIdProperty("task.default.context");
 			task.setContext(ContextFactory.getInstance().get(modelId));
 		}
-
+		
 		if (Settings.getModelIdProperty("task.default.goal") != null) {
 			ModelId modelId = Settings.getModelIdProperty("task.default.goal");
 			task.setGoal(GoalFactory.getInstance().get(modelId));
 		}
-
+		
 		if (Settings.getModelIdProperty("task.default.location") != null) {
 			ModelId modelId = Settings.getModelIdProperty("task.default.location");
 			task.setLocation(LocationFactory.getInstance().get(modelId));
 		}
-
+		
 		if (Settings.getBooleanProperty("task.default.completed") != null)
 			task.setCompleted(Settings.getBooleanProperty("task.default.completed"));
-
+		
 		if (Settings.getIntegerProperty("task.default.due_date") != null) {
 			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DAY_OF_MONTH, Settings.getIntegerProperty("task.default.due_date"));
+			calendar.add(
+					Calendar.DAY_OF_MONTH,
+					Settings.getIntegerProperty("task.default.due_date"));
 			task.setDueDate(calendar);
 		}
-
+		
 		if (Settings.getIntegerProperty("task.default.start_date") != null) {
 			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DAY_OF_MONTH, Settings.getIntegerProperty("task.default.start_date"));
+			calendar.add(
+					Calendar.DAY_OF_MONTH,
+					Settings.getIntegerProperty("task.default.start_date"));
 			task.setStartDate(calendar);
 		}
-
+		
 		if (Settings.getIntegerProperty("task.default.reminder") != null)
 			task.setReminder(Settings.getIntegerProperty("task.default.reminder"));
-
+		
 		if (Settings.getStringProperty("task.default.repeat") != null)
 			task.setRepeat(Settings.getStringProperty("task.default.repeat"));
-
+		
 		if (Settings.getStringProperty("task.default.repeat_from") != null)
-			task.setRepeatFrom((TaskRepeatFrom) Settings.getEnumProperty("task.default.repeat_from",
+			task.setRepeatFrom((TaskRepeatFrom) Settings.getEnumProperty(
+					"task.default.repeat_from",
 					TaskRepeatFrom.class));
-
+		
 		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
-			task.setStatus((TaskStatus) Settings.getEnumProperty("task.default.status", TaskStatus.class));
-
+			task.setStatus((TaskStatus) Settings.getEnumProperty(
+					"task.default.status",
+					TaskStatus.class));
+		
 		if (Settings.getIntegerProperty("task.default.length") != null)
 			task.setLength(Settings.getIntegerProperty("task.default.length"));
-
-		if (Settings.getEnumProperty("task.default.priority", TaskPriority.class) != null)
-			task.setPriority((TaskPriority) Settings.getEnumProperty("task.default.priority", TaskPriority.class));
-
+		
+		if (Settings.getEnumProperty(
+				"task.default.priority",
+				TaskPriority.class) != null)
+			task.setPriority((TaskPriority) Settings.getEnumProperty(
+					"task.default.priority",
+					TaskPriority.class));
+		
 		if (Settings.getBooleanProperty("task.default.star") != null)
 			task.setStar(Settings.getBooleanProperty("task.default.star"));
-
+		
 		if (Settings.getStringProperty("task.default.note") != null)
 			task.setNote(Settings.getStringProperty("task.default.note"));
 	}
-
+	
 }

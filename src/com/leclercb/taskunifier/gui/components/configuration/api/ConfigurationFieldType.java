@@ -43,254 +43,255 @@ import javax.swing.border.LineBorder;
 import com.leclercb.taskunifier.gui.images.Images;
 
 public interface ConfigurationFieldType<ComponentType extends Component, ValueType> {
-
+	
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
-
+		
 		public Separator() {
 
 		}
-
+		
 		@Override
 		public JSeparator getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Void getFieldValue() {
 			return null;
 		}
-
+		
 	}
-
+	
 	public static class Label extends JLabel implements ConfigurationFieldType<JLabel, Void> {
-
+		
 		public Label(String label) {
 			super(label);
 			this.setEnabled(false);
 		}
-
+		
 		@Override
 		public JLabel getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Void getFieldValue() {
 			return null;
 		}
-
+		
 	}
-
+	
 	public static class Button extends JButton implements ConfigurationFieldType<JButton, Void> {
-
+		
 		public Button(Action action) {
 			super(action);
 		}
-
+		
 		public Button(String label, ActionListener listener) {
 			super(label);
 			this.addActionListener(listener);
 		}
-
+		
 		@Override
 		public JButton getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Void getFieldValue() {
 			return null;
 		}
-
+		
 	}
-
+	
 	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
-
+		
 		public CheckBox(Boolean selected) {
 			this.setSelected(selected);
 		}
-
+		
 		@Override
 		public JCheckBox getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Boolean getFieldValue() {
 			return this.isSelected();
 		}
-
+		
 	}
-
+	
 	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
-
+		
 		public StarCheckBox(Boolean selected) {
 			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
 			this.setSelectedIcon(Images.getResourceImage("checkbox_star_selected.gif"));
-
+			
 			this.setSelected(selected);
 		}
-
+		
 		@Override
 		public JCheckBox getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Boolean getFieldValue() {
 			return this.isSelected();
 		}
-
+		
 	}
-
+	
 	public static class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
-
+		
 		public ComboBox(ComboBoxModel model, Object selectedItem) {
 			super(model);
 			this.setSelectedItem(selectedItem);
 		}
-
+		
 		public ComboBox(Object[] items, Object selectedItem) {
 			super(items);
 			this.setSelectedItem(selectedItem);
 		}
-
+		
 		@Override
 		public JComboBox getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Object getFieldValue() {
 			return this.getSelectedItem();
 		}
-
+		
 	}
-
+	
 	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
-
+		
 		public TextArea(String text) {
 			super(text, 5, 20);
 			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		}
-
+		
 		@Override
 		public JTextArea getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public String getFieldValue() {
 			return this.getText();
 		}
-
+		
 	}
-
+	
 	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
-
+		
 		public TextField(String text) {
 			super(text);
 		}
-
+		
 		@Override
 		public JTextField getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public String getFieldValue() {
 			return this.getText();
 		}
-
+		
 	}
-
+	
 	public static class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
-
+		
 		public FormattedTextField(AbstractFormatter formatter, String text) {
 			super(formatter);
 			this.setValue(text);
 		}
-
+		
 		@Override
 		public JFormattedTextField getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public String getFieldValue() {
 			return this.getText();
 		}
-
+		
 	}
-
+	
 	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
-
+		
 		public PasswordField(String password) {
 			super(password);
 		}
-
+		
 		@Override
 		public JPasswordField getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public String getFieldValue() {
 			return new String(this.getPassword());
 		}
-
+		
 	}
-
+	
 	public static class ColorChooser extends JLabel implements ConfigurationFieldType<JLabel, Color> {
-
+		
 		JColorChooser colorChooser;
-
+		
 		public ColorChooser(Color color) {
 			this.setOpaque(true);
 			this.setBackground(color);
 			this.setBorder(new LineBorder(Color.BLACK));
-
+			
 			colorChooser = new JColorChooser();
 			colorChooser.setColor(color);
-
-			final JDialog colorDialog = JColorChooser.createDialog(this,
+			
+			final JDialog colorDialog = JColorChooser.createDialog(
+					this,
 					"Color",
 					true,
 					colorChooser,
 					new ActionListener() {
-
+						
 						@Override
 						public void actionPerformed(ActionEvent event) {
 							ColorChooser.this.setBackground(colorChooser.getColor());
 						}
-
+						
 					},
 					null);
-
+			
 			this.addMouseListener(new MouseAdapter() {
-
+				
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					colorDialog.setVisible(true);
 				}
-
+				
 			});
 		}
-
+		
 		@Override
 		public JLabel getFieldComponent() {
 			return this;
 		}
-
+		
 		@Override
 		public Color getFieldValue() {
 			return this.colorChooser.getColor();
 		}
-
+		
 	}
-
+	
 	public abstract ComponentType getFieldComponent();
-
+	
 	public abstract ValueType getFieldValue();
-
+	
 }

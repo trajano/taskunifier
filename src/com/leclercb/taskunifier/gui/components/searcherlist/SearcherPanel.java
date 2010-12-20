@@ -40,74 +40,78 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherPanel extends JPanel implements TreeSelectionListener {
-
+	
 	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
-
+	
 	private List<ActionListener> listeners;
-
+	
 	private SearcherTree searcherTree;
-
+	
 	private JButton addButton;
 	private JButton removeButton;
 	private JButton editButton;
-
+	
 	public SearcherPanel() {
 		this.initialize();
 	}
-
+	
 	public void selectDefaultTaskSearcher() {
 		this.searcherTree.selectDefaultTaskSearcher();
 	}
-
+	
 	public TaskSearcher getSelectedTaskSearcher() {
 		return this.searcherTree.getSelectedTaskSearcher();
 	}
-
+	
 	public void addActionListener(ActionListener listener) {
 		CheckUtils.isNotNull(listener, "Listener cannot be null");
-
+		
 		if (!this.listeners.contains(listener))
 			this.listeners.add(listener);
 	}
-
+	
 	public void removeActionListener(ActionListener listener) {
 		this.listeners.remove(listener);
 	}
-
+	
 	protected void fireActionPerformed(String command) {
 		for (ActionListener listener : this.listeners)
-			listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command));
+			listener.actionPerformed(new ActionEvent(
+					this,
+					ActionEvent.ACTION_PERFORMED,
+					command));
 	}
-
+	
 	private void initialize() {
 		this.listeners = new ArrayList<ActionListener>();
 		this.searcherTree = new SearcherTree();
 		this.searcherTree.addTreeSelectionListener(this);
-
+		
 		this.setLayout(new BorderLayout());
-
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		panel.add(this.searcherTree, BorderLayout.CENTER);
-
+		
 		this.add(panel, BorderLayout.CENTER);
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtons(buttonsPanel);
 	}
-
+	
 	private void initializeButtons(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					TaskSearcherFactory.getInstance().create(Translations.getString("searcher.default.title"),
+					TaskSearcherFactory.getInstance().create(
+							Translations.getString("searcher.default.title"),
 							new TaskFilter(),
 							new TaskSorter());
 				} else if (event.getActionCommand().equals("REMOVE")) {
@@ -118,35 +122,41 @@ public class SearcherPanel extends JPanel implements TreeSelectionListener {
 					new ActionEditSearcher().editSearcher(searcher);
 				}
 			}
-
+			
 		};
-
+		
 		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		this.addButton.setActionCommand("ADD");
 		this.addButton.addActionListener(listener);
 		buttonsPanel.add(this.addButton);
-
-		this.removeButton = new JButton(Images.getResourceImage("remove.png", 16, 16));
+		
+		this.removeButton = new JButton(Images.getResourceImage(
+				"remove.png",
+				16,
+				16));
 		this.removeButton.setActionCommand("REMOVE");
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
 		buttonsPanel.add(this.removeButton);
-
-		this.editButton = new JButton(Images.getResourceImage("edit.png", 16, 16));
+		
+		this.editButton = new JButton(Images.getResourceImage(
+				"edit.png",
+				16,
+				16));
 		this.editButton.setActionCommand("EDIT");
 		this.editButton.addActionListener(listener);
 		this.editButton.setEnabled(false);
 		buttonsPanel.add(this.editButton);
 	}
-
+	
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		boolean personalSearcher = TaskSearcherFactory.getInstance()
-				.contains(this.searcherTree.getSelectedTaskSearcher());
-
+		boolean personalSearcher = TaskSearcherFactory.getInstance().contains(
+				this.searcherTree.getSelectedTaskSearcher());
+		
 		this.removeButton.setEnabled(personalSearcher);
 		this.editButton.setEnabled(personalSearcher);
-
+		
 		this.fireActionPerformed(ACT_SEARCHER_SELECTED);
 	}
 }

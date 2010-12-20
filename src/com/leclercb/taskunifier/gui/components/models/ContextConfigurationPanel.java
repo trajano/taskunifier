@@ -41,111 +41,111 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public class ContextConfigurationPanel extends JSplitPane implements PropertyChangeListener {
-
+	
 	private Context selectedContext;
-
+	
 	private JTextField contextTitle;
-
+	
 	public ContextConfigurationPanel() {
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		// Initialize Fields
 		this.contextTitle = new JTextField(30);
-
+		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new ContextListModel()) {
-
+			
 			@Override
 			public void addModel() {
-				Model model = ContextFactory.getInstance().create(Translations.getString("context.default.title"));
+				Model model = ContextFactory.getInstance().create(
+						Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
-				ContextConfigurationPanel.this
-						.focusAndSelectTextInTextField(ContextConfigurationPanel.this.contextTitle);
+				ContextConfigurationPanel.this.focusAndSelectTextInTextField(ContextConfigurationPanel.this.contextTitle);
 			}
-
+			
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				ContextFactory.getInstance().markToDelete(this.getSelectedModel());
+				ContextFactory.getInstance().markToDelete(
+						this.getSelectedModel());
 			}
-
+			
 			@Override
 			public void modelSelected(Model model) {
 				if (ContextConfigurationPanel.this.selectedContext != null)
-					ContextConfigurationPanel.this.selectedContext
-							.removePropertyChangeListener(ContextConfigurationPanel.this);
-
+					ContextConfigurationPanel.this.selectedContext.removePropertyChangeListener(ContextConfigurationPanel.this);
+				
 				ContextConfigurationPanel.this.selectedContext = (Context) model;
-
+				
 				if (ContextConfigurationPanel.this.selectedContext != null)
-					ContextConfigurationPanel.this.selectedContext
-							.addPropertyChangeListener(ContextConfigurationPanel.this);
-
+					ContextConfigurationPanel.this.selectedContext.addPropertyChangeListener(ContextConfigurationPanel.this);
+				
 				if (model == null) {
 					ContextConfigurationPanel.this.contextTitle.setEnabled(false);
 					ContextConfigurationPanel.this.contextTitle.setText("");
 					return;
 				}
-
+				
 				Context context = (Context) model;
-
+				
 				ContextConfigurationPanel.this.contextTitle.setEnabled(true);
 				ContextConfigurationPanel.this.contextTitle.setText(context.getTitle());
 			}
-
+			
 		};
-
+		
 		this.setLeftComponent(modelList);
-
+		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
 		this.setRightComponent(rightPanel);
-
+		
 		JPanel info = new JPanel();
 		info.setBorder(new LineBorder(Color.BLACK));
 		info.setLayout(new SpringLayout());
 		rightPanel.add(info, BorderLayout.NORTH);
-
+		
 		JLabel label = null;
-
+		
 		// Context Title
-		label = new JLabel(Translations.getString("general.context.title") + ":", SwingConstants.TRAILING);
+		label = new JLabel(Translations.getString("general.context.title")
+				+ ":", SwingConstants.TRAILING);
 		info.add(label);
-
+		
 		this.contextTitle.setEnabled(false);
 		this.contextTitle.addKeyListener(new KeyAdapter() {
-
+			
 			@Override
 			public void keyReleased(KeyEvent event) {
 				Context context = (Context) modelList.getSelectedModel();
 				context.setTitle(ContextConfigurationPanel.this.contextTitle.getText());
 			}
-
+			
 		});
 		info.add(this.contextTitle);
-
+		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,
 				6); // xPad, yPad
-
+		
 		this.setDividerLocation(200);
 	}
-
+	
 	private void focusAndSelectTextInTextField(JTextField field) {
 		int length = field.getText().length();
-
+		
 		field.setSelectionStart(0);
 		field.setSelectionEnd(length);
-
+		
 		field.requestFocus();
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Context.PROP_MODEL_TITLE)) {
@@ -153,5 +153,5 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 				this.contextTitle.setText((String) evt.getNewValue());
 		}
 	}
-
+	
 }

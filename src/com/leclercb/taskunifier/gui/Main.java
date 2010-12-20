@@ -46,10 +46,10 @@ import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
-
+	
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
-
+	
 	public static void main(String[] args) {
 		try {
 			loadResourceFolder();
@@ -60,16 +60,20 @@ public class Main {
 			loadLookAndFeel();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
+		
 		SwingUtilities.invokeLater(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				String lookAndFeel = Settings.getStringProperty("theme.lookandfeel");
-
+				
 				try {
 					if (lookAndFeel != null) {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
@@ -78,118 +82,137 @@ public class Main {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null,
+					JOptionPane.showMessageDialog(
+							null,
 							e.getMessage(),
 							Translations.getString("general.error"),
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-
+				
 				MainFrame.getInstance().getFrame().setVisible(true);
 				new ActionCheckVersion(true).checkVersion();
 			}
 		});
 	}
-
+	
 	private static void loadResourceFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.resource_folder") == null) {
 			RESOURCES_FOLDER = "resources";
 		} else {
 			RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
 		}
-
+		
 		File file = new File(RESOURCES_FOLDER);
 		if (!file.exists() || !file.isDirectory())
-			throw new Exception(Translations.getString("error.resources_folder_does_not_exist", RESOURCES_FOLDER));
+			throw new Exception(Translations.getString(
+					"error.resources_folder_does_not_exist",
+					RESOURCES_FOLDER));
 	}
-
+	
 	private static boolean loadDataFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.data_folder") == null) {
 			DATA_FOLDER = "data";
 		} else {
 			DATA_FOLDER = System.getProperty("com.leclercb.taskunifier.data_folder");
 		}
-
+		
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
-			int response = JOptionPane.showConfirmDialog(null,
-					Translations.getString("general.create_data_folder_question", DATA_FOLDER),
+			int response = JOptionPane.showConfirmDialog(
+					null,
+					Translations.getString(
+							"general.create_data_folder_question",
+							DATA_FOLDER),
 					Translations.getString("general.create_data_folder"),
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
-
+			
 			if (response == JOptionPane.NO_OPTION)
-				throw new Exception(Translations.getString("error.data_folder_needed", Constants.TITLE));
-
+				throw new Exception(Translations.getString(
+						"error.data_folder_needed",
+						Constants.TITLE));
+			
 			if (!file.mkdir())
-				throw new Exception(Translations.getString("error.create_data_folder", DATA_FOLDER));
-
+				throw new Exception(Translations.getString(
+						"error.create_data_folder",
+						DATA_FOLDER));
+			
 			return true;
 		} else if (!file.isDirectory()) {
-			throw new Exception(Translations.getString("error.data_folder_not_a_folder", DATA_FOLDER));
+			throw new Exception(Translations.getString(
+					"error.data_folder_not_a_folder",
+					DATA_FOLDER));
 		}
-
+		
 		return false;
 	}
-
-	private static void loadSettings(boolean dataFolderCreated) throws Exception {
+	
+	private static void loadSettings(boolean dataFolderCreated)
+			throws Exception {
 		try {
-			Settings.load(new FileInputStream(DATA_FOLDER + File.separator + "settings.properties"));
+			Settings.load(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "settings.properties"));
 			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
 			Settings.load(Resources.class.getResourceAsStream("default_settings.properties"));
-
+			
 			if (!dataFolderCreated)
-				JOptionPane.showMessageDialog(null,
+				JOptionPane.showMessageDialog(
+						null,
 						Translations.getString("error.settings_file"),
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
 	private static void loadLocale() throws Exception {
 		Locale.setDefault(Settings.getLocaleProperty("general.locale"));
 		Translations.changeLocale(Settings.getLocaleProperty("general.locale"));
 	}
-
+	
 	private static void loadModels() throws Exception {
 		try {
-			new ContextFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "contexts.xml"));
-		} catch (FileNotFoundException e) {
-		}
-
+			new ContextFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "contexts.xml"));
+		} catch (FileNotFoundException e) {}
+		
 		try {
-			new FolderFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "folders.xml"));
-		} catch (FileNotFoundException e) {
-		}
-
+			new FolderFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "folders.xml"));
+		} catch (FileNotFoundException e) {}
+		
 		try {
-			new GoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "goals.xml"));
-		} catch (FileNotFoundException e) {
-		}
-
+			new GoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "goals.xml"));
+		} catch (FileNotFoundException e) {}
+		
 		try {
-			new LocationFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "locations.xml"));
-		} catch (FileNotFoundException e) {
-		}
-
+			new LocationFactoryXMLCoder().decode(new FileInputStream(
+					DATA_FOLDER + File.separator + "locations.xml"));
+		} catch (FileNotFoundException e) {}
+		
 		try {
-			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER + File.separator + "tasks.xml"));
-		} catch (FileNotFoundException e) {
-		}
-
+			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "tasks.xml"));
+		} catch (FileNotFoundException e) {}
+		
 		try {
-			new TaskSearcherFactoryXMLCoder()
-					.decode(new FileInputStream(DATA_FOLDER + File.separator + "searchers.xml"));
-		} catch (FileNotFoundException e) {
-		}
+			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
+					DATA_FOLDER + File.separator + "searchers.xml"));
+		} catch (FileNotFoundException e) {}
 	}
-
+	
 	private static void loadLookAndFeel() throws Exception {
 		// Substance
 		// Substance issues :
 		// State tracking must be done on Event Dispatch Thread
-
+		
 		/*
 		 * try {
 		 * Class.forName("org.pushingpixels.substance.api.SubstanceLookAndFeel"
@@ -204,42 +227,54 @@ public class Main {
 		// JTattoo
 		Properties jtattoo = new Properties();
 		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
-
+		
 		for (Object key : jtattoo.keySet())
-			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor("jTattoo - "
-					+ jtattoo.getProperty(key.toString()), key.toString()));
+			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
+					"jTattoo - " + jtattoo.getProperty(key.toString()),
+					key.toString()));
 	}
-
+	
 	public static void stop() {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
-
+		
 		try {
-			new ContextFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "contexts.xml"));
-			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "folders.xml"));
-			new GoalFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "goals.xml"));
-			new LocationFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "locations.xml"));
-			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator + "tasks.xml"));
-			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER + File.separator
-					+ "searchers.xml"));
-
+			new ContextFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "contexts.xml"));
+			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
+					+ File.separator
+					+ "folders.xml"));
+			new GoalFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
+					+ File.separator
+					+ "goals.xml"));
+			new LocationFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "locations.xml"));
+			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
+					+ File.separator
+					+ "tasks.xml"));
+			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "searchers.xml"));
+			
 			saveSettings();
-
+			
 			MainFrame.getInstance().getFrame().setVisible(false);
 			MainFrame.getInstance().getFrame().dispose();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(
+					null,
 					e.getMessage(),
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
+		
 		System.exit(0);
 	}
-
+	
 	public static void saveSettings() throws FileNotFoundException, IOException {
-		Settings.save(new FileOutputStream(DATA_FOLDER + File.separator + "settings.properties"));
+		Settings.save(new FileOutputStream(DATA_FOLDER
+				+ File.separator
+				+ "settings.properties"));
 	}
-
+	
 }

@@ -34,41 +34,41 @@ import javax.swing.table.TableCellEditor;
 import com.leclercb.taskunifier.gui.swing.JDatePicker;
 
 public class DateEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
-
+	
 	private DateFormat formatter;
-
+	
 	private Calendar value;
-
+	
 	private JPanel panel;
 	private JLabel label;
 	private JButton button;
 	private JDatePicker dialog;
-
+	
 	public DateEditor(DateFormat formatter) {
 		this.formatter = formatter;
-
+		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
-
+		
 		this.label = new JLabel();
-
+		
 		this.button = new JButton("...");
 		this.button.setActionCommand("BUTTON_CLICK");
 		this.button.addActionListener(this);
-
+		
 		this.panel.add(this.label, BorderLayout.CENTER);
 		this.panel.add(this.button, BorderLayout.EAST);
-
+		
 		this.dialog = new JDatePicker(null);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("BUTTON_CLICK")) {
 			this.dialog.setValue(this.value);
 			this.dialog.setLocationRelativeTo(this.button);
 			this.dialog.setVisible(true);
-
+			
 			if (this.dialog.getAction() == JDatePicker.Action.OK) {
 				this.value = this.dialog.getValue();
 				this.fireEditingStopped();
@@ -77,23 +77,28 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 			}
 		}
 	}
-
+	
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
+	public Component getTableCellEditorComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			int row,
+			int col) {
 		if (value == null) {
 			this.label.setText("");
 		} else {
 			this.label.setText(this.formatter.format(((Calendar) value).getTime()));
 		}
-
+		
 		this.value = (Calendar) value;
-
+		
 		return this.panel;
 	}
-
+	
 	@Override
 	public Object getCellEditorValue() {
 		return this.value;
 	}
-
+	
 }

@@ -27,46 +27,46 @@ import javax.swing.JPanel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class JCollapsiblePanel extends JPanel {
-
+	
 	private boolean selected;
 	private JPanel headerPanel;
 	private JPanel contentPanel;
-
+	
 	public JCollapsiblePanel(JPanel headerPanel, JPanel contentPanel) {
 		super(new GridBagLayout());
-
+		
 		CheckUtils.isNotNull(headerPanel, "Header panel cannot be null");
 		CheckUtils.isNotNull(contentPanel, "Content panel cannot be null");
-
+		
 		this.selected = false;
 		this.headerPanel = headerPanel;
 		this.contentPanel = contentPanel;
 		this.contentPanel.setVisible(false);
-
+		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(1, 3, 0, 3);
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-
+		
 		this.add(headerPanel, gbc);
 		this.add(contentPanel, gbc);
-
+		
 		JLabel padding = new JLabel();
 		gbc.weighty = 1.0;
 		this.add(padding, gbc);
 	}
-
+	
 	public void toggleSelection() {
 		this.selected = !this.selected;
-
+		
 		if (this.contentPanel.isShowing())
 			this.contentPanel.setVisible(false);
 		else
 			this.contentPanel.setVisible(true);
-
+		
 		this.validate();
 		this.headerPanel.repaint();
 	}
-
+	
 }

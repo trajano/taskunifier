@@ -23,18 +23,18 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.swing.rowsorter.TableRowSorter;
 
 public class TaskTableRowSorter extends TableRowSorter<TaskTableModel> {
-
+	
 	private TaskRowComparator comparator;
-
+	
 	public TaskTableRowSorter(TaskTableModel model) {
 		super(model);
-
+		
 		this.comparator = new TaskRowComparator(model);
 	}
-
+	
 	@Override
 	public Comparator<?> getComparator(int column) {
 		return this.comparator;
 	}
-
+	
 }

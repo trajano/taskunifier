@@ -20,7 +20,7 @@ package com.leclercb.taskunifier.gui.undo;
 import java.awt.event.ActionEvent;
 
 public interface IUndoListener {
-
+	
 	public abstract void undoPerformed(ActionEvent event);
-
+	
 }

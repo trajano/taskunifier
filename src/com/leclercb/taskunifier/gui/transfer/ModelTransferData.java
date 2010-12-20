@@ -24,24 +24,24 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class ModelTransferData implements Serializable {
-
+	
 	private ModelType type;
 	private ModelId id;
-
+	
 	public ModelTransferData(ModelType type, ModelId id) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		CheckUtils.isNotNull(id, "ID cannot be null");
-
+		
 		this.type = type;
 		this.id = id;
 	}
-
+	
 	public ModelType getType() {
 		return this.type;
 	}
-
+	
 	public ModelId getId() {
 		return this.id;
 	}
-
+	
 }

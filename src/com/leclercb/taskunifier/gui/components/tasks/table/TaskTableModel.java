@@ -32,64 +32,68 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.undo.TaskUndoableEdit;
 
 public class TaskTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
-
+	
 	public TaskTableModel() {
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 	public Task getTask(int row) {
 		return TaskFactory.getInstance().get(row);
 	}
-
+	
 	public TaskColumn getTaskColumn(int col) {
 		return TaskColumn.values()[col];
 	}
-
+	
 	@Override
 	public int getColumnCount() {
 		return TaskColumn.values().length;
 	}
-
+	
 	@Override
 	public int getRowCount() {
 		return TaskFactory.getInstance().size();
 	}
-
+	
 	@Override
 	public String getColumnName(int col) {
 		return TaskColumn.values()[col].getLabel();
 	}
-
+	
 	@Override
 	public Class<?> getColumnClass(int col) {
 		return TaskColumn.values()[col].getType();
 	}
-
+	
 	@Override
 	public Object getValueAt(int row, int col) {
 		Task task = TaskFactory.getInstance().get(row);
 		return TaskColumn.values()[col].getValue(task);
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return TaskColumn.values()[col].isEditable();
 	}
-
+	
 	@Override
 	public void setValueAt(Object value, int row, int col) {
 		Task task = TaskFactory.getInstance().get(row);
 		TaskColumn column = TaskColumn.values()[col];
-
+		
 		Object oldValue = column.getValue(task);
-
+		
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setValue(task, value);
-			Constants.UNDO_EDIT_SUPPORT.postEdit(new TaskUndoableEdit(task, column, value, oldValue));
+			Constants.UNDO_EDIT_SUPPORT.postEdit(new TaskUndoableEdit(
+					task,
+					column,
+					value,
+					oldValue));
 		}
 	}
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -98,15 +102,17 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 			this.fireTableRowsDeleted(event.getIndex(), event.getIndex());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(Task.PROP_MODEL_STATUS) || event.getPropertyName().equals(Task.PROP_PARENT)) {
+		if (event.getPropertyName().equals(Task.PROP_MODEL_STATUS)
+				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
 		} else {
-			int index = TaskFactory.getInstance().getIndexOf((Task) event.getSource());
+			int index = TaskFactory.getInstance().getIndexOf(
+					(Task) event.getSource());
 			this.fireTableRowsUpdated(index, index);
 		}
 	}
-
+	
 }

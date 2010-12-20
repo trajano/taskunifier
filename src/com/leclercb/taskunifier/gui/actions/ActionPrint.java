@@ -28,28 +28,33 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionPrint extends AbstractAction {
-
+	
 	public ActionPrint() {
 		this(32, 32);
 	}
-
+	
 	public ActionPrint(int width, int height) {
-		super(Translations.getString("action.name.print"), Images.getResourceImage("print.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.print"));
+		super(
+				Translations.getString("action.name.print"),
+				Images.getResourceImage("print.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.print"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MainFrame.getInstance().printTasks();
 		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(
+					null,
 					exc.getMessage(),
 					Translations.getString("error.print"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
 }

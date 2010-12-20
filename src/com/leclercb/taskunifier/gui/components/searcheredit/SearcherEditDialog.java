@@ -32,38 +32,38 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherEditDialog extends JDialog {
-
+	
 	private SearcherEditPanel searcherEditPanel;
-
+	
 	public SearcherEditDialog(Frame frame, boolean modal, TaskSearcher searcher) {
 		super(frame, modal);
-
+		
 		this.initialize(searcher);
 	}
-
+	
 	private void initialize(TaskSearcher searcher) {
 		this.setTitle(Translations.getString("searcheredit.title"));
 		this.setSize(800, 500);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-
+		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-
+		
 		this.searcherEditPanel = new SearcherEditPanel(searcher);
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-
+		
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtonsPanel(buttonsPanel);
 	}
-
+	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
@@ -72,13 +72,13 @@ public class SearcherEditDialog extends JDialog {
 					SearcherEditDialog.this.dispose();
 				}
 			}
-
+			
 		};
-
+		
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 	}
-
+	
 }

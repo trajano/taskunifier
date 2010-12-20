@@ -26,41 +26,45 @@ import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskUndoableEdit extends AbstractUndoableEdit {
-
+	
 	private Task task;
 	private TaskColumn column;
 	private Object newValue;
 	private Object oldValue;
-
-	public TaskUndoableEdit(Task task, TaskColumn column, Object newValue, Object oldValue) {
+	
+	public TaskUndoableEdit(
+			Task task,
+			TaskColumn column,
+			Object newValue,
+			Object oldValue) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		CheckUtils.isNotNull(column, "Column cannot be null");
-
+		
 		this.task = task;
 		this.column = column;
 		this.newValue = newValue;
 		this.oldValue = oldValue;
 	}
-
+	
 	@Override
 	public String getPresentationName() {
 		return "Cell Edit";
 	}
-
+	
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-
+		
 		if (this.column.equals(TaskColumn.TITLE))
 			this.task.setTitle((String) this.oldValue);
 	}
-
+	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-
+		
 		if (this.column.equals(TaskColumn.TITLE))
 			this.task.setTitle((String) this.newValue);
 	}
-
+	
 }

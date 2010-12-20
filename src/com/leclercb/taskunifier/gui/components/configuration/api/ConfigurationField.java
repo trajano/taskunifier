@@ -20,41 +20,44 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class ConfigurationField {
-
+	
 	private String id;
 	private String label;
 	private ConfigurationFieldType<?, ?> type;
-
-	public ConfigurationField(String id, String label, ConfigurationFieldType<?, ?> type) {
+	
+	public ConfigurationField(
+			String id,
+			String label,
+			ConfigurationFieldType<?, ?> type) {
 		this.setId(id);
 		this.setLabel(label);
 		this.setType(type);
 	}
-
+	
 	public String getId() {
 		return this.id;
 	}
-
+	
 	public void setId(String id) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		this.id = id;
 	}
-
+	
 	public String getLabel() {
 		return this.label;
 	}
-
+	
 	private void setLabel(String label) {
 		this.label = label;
 	}
-
+	
 	public ConfigurationFieldType<?, ?> getType() {
 		return this.type;
 	}
-
+	
 	private void setType(ConfigurationFieldType<?, ?> type) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		this.type = type;
 	}
-
+	
 }

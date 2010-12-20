@@ -31,24 +31,31 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionCopy extends AbstractAction {
-
+	
 	public ActionCopy() {
 		this(32, 32);
 	}
-
+	
 	public ActionCopy(int width, int height) {
-		super(Translations.getString("action.name.copy"), Images.getResourceImage("copy.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.copy"));
+		super(
+				Translations.getString("action.name.copy"),
+				Images.getResourceImage("copy.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.copy"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_C);
-		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCopyAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(
+				ACTION_COMMAND_KEY,
+				TransferHandler.getCopyAction().getValue(Action.NAME));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_C,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Constants.TRANSFER_ACTION_LISTENER.actionPerformed(event);
 	}
-
+	
 }

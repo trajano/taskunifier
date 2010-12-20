@@ -24,18 +24,18 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class LocationListModel extends AbstractModelListModel {
-
+	
 	public LocationListModel() {
 		this.addElement(null);
-
+		
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations)
 			if (location.getModelStatus().equals(ModelStatus.LOADED)
 					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(location);
-
+		
 		LocationFactory.getInstance().addListChangeListener(this);
 		LocationFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 }

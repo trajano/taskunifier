@@ -34,93 +34,97 @@ import com.leclercb.taskunifier.gui.help.Help;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public abstract class ConfigurationPanel extends JPanel {
-
+	
 	private String helpFile;
 	private List<ConfigurationField> fields;
-
+	
 	public ConfigurationPanel() {
 		this(null);
 	}
-
+	
 	public ConfigurationPanel(String helpFile) {
 		this.helpFile = helpFile;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
-
+	
 	public Object getValue(String id) {
 		ConfigurationField field = this.getField(id);
-
+		
 		if (field == null)
 			throw new IllegalArgumentException("Id not found");
-
+		
 		return field.getType().getFieldValue();
 	}
-
+	
 	public ConfigurationField getField(String id) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
-
+		
 		for (ConfigurationField field : this.fields)
 			if (EqualsUtils.equals(id, field.getId()))
 				return field;
-
+		
 		return null;
 	}
-
+	
 	public List<ConfigurationField> getFields() {
 		return Collections.unmodifiableList(this.fields);
 	}
-
+	
 	public void addField(ConfigurationField field) {
 		CheckUtils.isNotNull(field, "Field cannot be null");
-
+		
 		if (this.getField(field.getId()) != null)
-			throw new IllegalArgumentException("A field with the same id already exists");
-
+			throw new IllegalArgumentException(
+					"A field with the same id already exists");
+		
 		this.fields.add(field);
 	}
-
+	
 	public void removeField(ConfigurationField field) {
 		this.fields.remove(field);
 	}
-
+	
 	public void pack() {
 		this.removeAll();
 		this.setLayout(new BorderLayout());
-
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new SpringLayout());
-
+		
 		JLabel label = null;
 		Component component = null;
-
+		
 		if (this.helpFile != null) {
 			panel.add(new JLabel());
 			panel.add(Help.getHelpButton(this.helpFile));
 		}
-
+		
 		for (ConfigurationField field : this.fields) {
 			if (field.getLabel() == null)
 				label = new JLabel();
 			else
-				label = new JLabel(field.getLabel() + ":", SwingConstants.TRAILING);
-
+				label = new JLabel(
+						field.getLabel() + ":",
+						SwingConstants.TRAILING);
+			
 			component = field.getType().getFieldComponent();
-
+			
 			panel.add(label);
 			panel.add(component);
 		}
-
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, this.fields.size() + (this.helpFile != null ? 1 : 0), 2, // rows,
-																									// cols
+		SpringUtils.makeCompactGrid(panel, this.fields.size()
+				+ (this.helpFile != null ? 1 : 0), 2, // rows,
+														// cols
 				6,
 				6, // initX, initY
 				6,
 				6); // xPad, yPad
-
+		
 		this.add(panel, BorderLayout.NORTH);
 	}
-
+	
 	public abstract void saveAndApplyConfig();
-
+	
 }

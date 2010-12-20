@@ -31,57 +31,65 @@ import javax.swing.JTabbedPane;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelConfigurationDialog extends JDialog {
-
+	
 	public ModelConfigurationDialog(Frame frame, boolean modal) {
 		super(frame, modal);
-
+		
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.manage_models"));
 		this.setSize(600, 400);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-
+		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-
+		
 		JTabbedPane tabbedPane = new JTabbedPane();
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-
+		
 		this.add(tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtonsPanel(buttonsPanel);
-
-		tabbedPane.addTab(Translations.getString("general.contexts"), new ContextConfigurationPanel());
-
-		tabbedPane.addTab(Translations.getString("general.folders"), new FolderConfigurationPanel());
-
-		tabbedPane.addTab(Translations.getString("general.goals"), new GoalConfigurationPanel());
-
-		tabbedPane.addTab(Translations.getString("general.locations"), new LocationConfigurationPanel());
+		
+		tabbedPane.addTab(
+				Translations.getString("general.contexts"),
+				new ContextConfigurationPanel());
+		
+		tabbedPane.addTab(
+				Translations.getString("general.folders"),
+				new FolderConfigurationPanel());
+		
+		tabbedPane.addTab(
+				Translations.getString("general.goals"),
+				new GoalConfigurationPanel());
+		
+		tabbedPane.addTab(
+				Translations.getString("general.locations"),
+				new LocationConfigurationPanel());
 	}
-
+	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					ModelConfigurationDialog.this.dispose();
 				}
 			}
-
+			
 		};
-
+		
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 	}
-
+	
 }

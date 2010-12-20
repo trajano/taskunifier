@@ -28,26 +28,29 @@ import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 
 public class MetalLookAndFeelDescriptor extends LookAndFeelDescriptor {
-
+	
 	public MetalLookAndFeelDescriptor(String name, String identifier) {
 		super(name, identifier);
 	}
-
+	
 	@Override
 	public void setLookAndFeel(Window window) throws LookAndFeelException {
 		try {
-			MetalLookAndFeel.setCurrentTheme((MetalTheme) Class.forName(this.getIdentifier()).newInstance());
-
+			MetalLookAndFeel.setCurrentTheme((MetalTheme) Class.forName(
+					this.getIdentifier()).newInstance());
+			
 			UIManager.setLookAndFeel(MetalLookAndFeel.class.getName());
-
+			
 			if (window != null) {
 				SwingUtilities.updateComponentTreeUI(window);
 				window.pack();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new LookAndFeelException("Error while setting look and feel", e);
+			throw new LookAndFeelException(
+					"Error while setting look and feel",
+					e);
 		}
 	}
-
+	
 }

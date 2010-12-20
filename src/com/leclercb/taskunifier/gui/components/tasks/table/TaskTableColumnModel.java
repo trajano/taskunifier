@@ -23,17 +23,17 @@ import javax.swing.table.TableColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskTableColumnModel extends DefaultTableColumnModel {
-
+	
 	public TaskTableColumnModel() {
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		TaskColumn[] columns = TaskColumn.getValues(true);
 		for (int i = 0; i < columns.length; i++)
 			this.addColumn(columns[i]);
 	}
-
+	
 	public void addColumn(TaskColumn taskColumn) {
 		TableColumn column = new TableColumn(taskColumn.ordinal());
 		column.setIdentifier(taskColumn);
@@ -41,9 +41,9 @@ public class TaskTableColumnModel extends DefaultTableColumnModel {
 		column.setPreferredWidth(taskColumn.getWidth());
 		this.addColumn(column);
 	}
-
+	
 	public TaskColumn getTaskColumn(int col) {
 		return (TaskColumn) this.getColumn(col).getIdentifier();
 	}
-
+	
 }

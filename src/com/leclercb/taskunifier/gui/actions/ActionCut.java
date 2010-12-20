@@ -31,24 +31,31 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionCut extends AbstractAction {
-
+	
 	public ActionCut() {
 		this(32, 32);
 	}
-
+	
 	public ActionCut(int width, int height) {
-		super(Translations.getString("action.name.cut"), Images.getResourceImage("cut.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.cut"));
+		super(
+				Translations.getString("action.name.cut"),
+				Images.getResourceImage("cut.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.cut"));
 		this.putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-		this.putValue(ACTION_COMMAND_KEY, TransferHandler.getCutAction().getValue(Action.NAME));
-		this.putValue(ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(
+				ACTION_COMMAND_KEY,
+				TransferHandler.getCutAction().getValue(Action.NAME));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_X,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Constants.TRANSFER_ACTION_LISTENER.actionPerformed(event);
 	}
-
+	
 }

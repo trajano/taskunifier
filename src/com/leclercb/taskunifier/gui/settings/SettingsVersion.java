@@ -21,35 +21,37 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 
 public final class SettingsVersion {
-
+	
 	private SettingsVersion() {
 
 	}
-
+	
 	public static void updateSettings() {
 		String version = Settings.getStringProperty("general.version");
-
+		
 		if (version == null)
 			version = "0.5.2";
-
+		
 		if (version.equals("0.5.2"))
 			version = updateSettings_0_5_2_to_0_6();
-
+		
 		Settings.setStringProperty("general.version", "0.6.1");
 	}
-
+	
 	private static String updateSettings_0_5_2_to_0_6() {
 		GuiLogger.getLogger().info("Update settings from version 0.5.2 to 0.6");
-
+		
 		Settings.setStringProperty("date.date_format", "dd/MM/yyyy");
 		Settings.setStringProperty("date.time_format", "HH:mm");
-
-		Settings.setStringProperty("theme.lookandfeel", "com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
-
+		
+		Settings.setStringProperty(
+				"theme.lookandfeel",
+				"com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
+		
 		Settings.removeProperty("date.simple_time_format");
 		Settings.removeProperty("date.date_time_format");
-
+		
 		return "0.6";
 	}
-
+	
 }

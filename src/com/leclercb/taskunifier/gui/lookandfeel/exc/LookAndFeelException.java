@@ -18,13 +18,13 @@
 package com.leclercb.taskunifier.gui.lookandfeel.exc;
 
 public class LookAndFeelException extends Exception {
-
+	
 	public LookAndFeelException(String message) {
 		super(message);
 	}
-
+	
 	public LookAndFeelException(String message, Throwable throwable) {
 		super(message, throwable);
 	}
-
+	
 }

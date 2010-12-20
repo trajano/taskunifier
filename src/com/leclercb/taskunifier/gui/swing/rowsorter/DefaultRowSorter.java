@@ -109,85 +109,85 @@ import javax.swing.SortOrder;
  * @since 1.6
  */
 public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
-
+	
 	/**
 	 * Whether or not we resort on TableModelEvent.UPDATEs.
 	 */
 	private boolean sortsOnUpdates;
-
+	
 	/**
 	 * View (JTable) -> model.
 	 */
 	private Row[] viewToModel;
-
+	
 	/**
 	 * model -> view (JTable)
 	 */
 	private int[] modelToView;
-
+	
 	/**
 	 * Comparators specified by column.
 	 */
 	private Comparator[] comparators;
-
+	
 	/**
 	 * Whether or not the specified column is sortable, by column.
 	 */
 	private boolean[] isSortable;
-
+	
 	/**
 	 * Cached SortKeys for the current sort.
 	 */
 	private SortKey[] cachedSortKeys;
-
+	
 	/**
 	 * Cached comparators for the current sort
 	 */
 	private Comparator[] sortComparators;
-
+	
 	/**
 	 * Developer supplied Filter.
 	 */
 	private RowFilter<? super M, ? super I> filter;
-
+	
 	/**
 	 * Value passed to the filter. The same instance is passed to the filter for
 	 * different rows.
 	 */
 	private FilterEntry filterEntry;
-
+	
 	/**
 	 * The sort keys.
 	 */
 	private List<SortKey> sortKeys;
-
+	
 	/**
 	 * Whether or not to use getStringValueAt. This is indexed by column.
 	 */
 	private boolean[] useToString;
-
+	
 	/**
 	 * Indicates the contents are sorted. This is used if getSortsOnUpdates is
 	 * false and an update event is received.
 	 */
 	private boolean sorted;
-
+	
 	/**
 	 * Maximum number of sort keys.
 	 */
 	private int maxSortKeys;
-
+	
 	/**
 	 * Provides access to the data we're sorting/filtering.
 	 */
 	private ModelWrapper<M, I> modelWrapper;
-
+	
 	/**
 	 * Size of the model. This is used to enforce error checking within the
 	 * table changed notification methods (such as rowsInserted).
 	 */
 	private int modelRowCount;
-
+	
 	/**
 	 * Creates an empty <code>DefaultRowSorter</code>.
 	 */
@@ -195,7 +195,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.sortKeys = Collections.emptyList();
 		this.maxSortKeys = 3;
 	}
-
+	
 	/**
 	 * Sets the model wrapper providing the data that is being sorted and
 	 * filtered.
@@ -220,7 +220,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.modelRowCount = this.getModelWrapper().getRowCount();
 		}
 	}
-
+	
 	/**
 	 * Returns the model wrapper providing the data that is being sorted and
 	 * filtered.
@@ -231,7 +231,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	protected final ModelWrapper<M, I> getModelWrapper() {
 		return this.modelWrapper;
 	}
-
+	
 	/**
 	 * Returns the underlying model.
 	 * 
@@ -241,7 +241,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public final M getModel() {
 		return this.getModelWrapper().getModel();
 	}
-
+	
 	/**
 	 * Sets whether or not the specified column is sortable. The specified value
 	 * is only checked when <code>toggleSortOrder</code> is invoked. It is still
@@ -268,7 +268,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		this.isSortable[column] = sortable;
 	}
-
+	
 	/**
 	 * Returns true if the specified column is sortable; otherwise, false.
 	 * 
@@ -283,7 +283,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.checkColumn(column);
 		return (this.isSortable == null) ? true : this.isSortable[column];
 	}
-
+	
 	/**
 	 * Sets the sort keys. This creates a copy of the supplied {@code List};
 	 * subsequent changes to the supplied {@code List} do not effect this
@@ -304,11 +304,14 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		if (sortKeys != null && sortKeys.size() > 0) {
 			int max = this.getModelWrapper().getColumnCount();
 			for (SortKey key : sortKeys) {
-				if (key == null || key.getColumn() < 0 || key.getColumn() >= max) {
+				if (key == null
+						|| key.getColumn() < 0
+						|| key.getColumn() >= max) {
 					throw new IllegalArgumentException("Invalid SortKey");
 				}
 			}
-			this.sortKeys = Collections.unmodifiableList(new ArrayList<SortKey>(sortKeys));
+			this.sortKeys = Collections.unmodifiableList(new ArrayList<SortKey>(
+					sortKeys));
 		} else {
 			this.sortKeys = Collections.emptyList();
 		}
@@ -323,7 +326,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 		}
 	}
-
+	
 	/**
 	 * Returns the current sort keys. This returns an unmodifiable
 	 * {@code non-null List}. If you need to change the sort keys, make a copy
@@ -336,7 +339,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public List<? extends SortKey> getSortKeys() {
 		return this.sortKeys;
 	}
-
+	
 	/**
 	 * Sets the maximum number of sort keys. The number of sort keys determines
 	 * how equal values are resolved when sorting. For example, assume a table
@@ -370,7 +373,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		this.maxSortKeys = max;
 	}
-
+	
 	/**
 	 * Returns the maximum number of sort keys.
 	 * 
@@ -379,7 +382,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public int getMaxSortKeys() {
 		return this.maxSortKeys;
 	}
-
+	
 	/**
 	 * If true, specifies that a sort should happen when the underlying model is
 	 * updated (<code>rowsUpdated</code> is invoked). For example, if this is
@@ -392,7 +395,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public void setSortsOnUpdates(boolean sortsOnUpdates) {
 		this.sortsOnUpdates = sortsOnUpdates;
 	}
-
+	
 	/**
 	 * Returns true if a sort should happen when the underlying model is
 	 * updated; otherwise, returns false.
@@ -402,7 +405,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public boolean getSortsOnUpdates() {
 		return this.sortsOnUpdates;
 	}
-
+	
 	/**
 	 * Sets the filter that determines which rows, if any, should be hidden from
 	 * the view. The filter is applied before sorting. A value of
@@ -423,7 +426,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.filter = filter;
 		this.sort();
 	}
-
+	
 	/**
 	 * Returns the filter that determines which rows, if any, should be hidden
 	 * from view.
@@ -433,7 +436,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public RowFilter<? super M, ? super I> getRowFilter() {
 		return this.filter;
 	}
-
+	
 	/**
 	 * Reverses the sort order from ascending to descending (or descending to
 	 * ascending) if the specified column is already the primary sorted column;
@@ -480,14 +483,14 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.setSortKeys(keys);
 		}
 	}
-
+	
 	private SortKey toggle(SortKey key) {
 		if (key.getSortOrder() == SortOrder.ASCENDING) {
 			return new SortKey(key.getColumn(), SortOrder.DESCENDING);
 		}
 		return new SortKey(key.getColumn(), SortOrder.ASCENDING);
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -504,7 +507,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		return this.modelToView[index];
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -519,26 +522,26 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 			return index;
 		}
-
+		
 		return this.viewToModel[index].modelIndex;
 	}
-
+	
 	private boolean isUnsorted() {
 		List<? extends SortKey> keys = this.getSortKeys();
 		int keySize = keys.size();
 		return (keySize == 0 || keys.get(0).getSortOrder() == SortOrder.UNSORTED);
 	}
-
+	
 	/**
 	 * Sorts the existing filtered data. This should only be used if the filter
 	 * hasn't changed.
 	 */
 	private void sortExistingData() {
 		int[] lastViewToModel = this.getViewToModelAsInts(this.viewToModel);
-
+		
 		this.updateUseToString();
 		this.cacheSortKeys(this.getSortKeys());
-
+		
 		if (this.isUnsorted()) {
 			if (this.getRowFilter() == null) {
 				this.viewToModel = null;
@@ -555,13 +558,13 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		} else {
 			// sort the data
 			Arrays.sort(this.viewToModel);
-
+			
 			// Update the modelToView array
 			this.setModelToViewFromViewToModel(false);
 		}
 		this.fireRowSorterChanged(lastViewToModel);
 	}
-
+	
 	/**
 	 * Sorts and filters the rows in the view based on the sort keys of the
 	 * columns currently being sorted and the filter, if any, associated with
@@ -595,23 +598,23 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 		} else {
 			this.cacheSortKeys(this.getSortKeys());
-
+			
 			if (this.getRowFilter() != null) {
 				this.initializeFilteredMapping();
 			} else {
 				this.createModelToView(this.getModelWrapper().getRowCount());
 				this.createViewToModel(this.getModelWrapper().getRowCount());
 			}
-
+			
 			// sort them
 			Arrays.sort(this.viewToModel);
-
+			
 			// Update the modelToView array
 			this.setModelToViewFromViewToModel(false);
 		}
 		this.fireRowSorterChanged(lastViewToModel);
 	}
-
+	
 	/**
 	 * Updates the useToString mapping before a sort.
 	 */
@@ -624,7 +627,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.useToString[i] = this.useToString(i);
 		}
 	}
-
+	
 	/**
 	 * Resets the viewToModel and modelToView mappings based on the current
 	 * Filter.
@@ -633,7 +636,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		int rowCount = this.getModelWrapper().getRowCount();
 		int i, j;
 		int excludedCount = 0;
-
+		
 		// Update model -> view
 		this.createModelToView(rowCount);
 		for (i = 0; i < rowCount; i++) {
@@ -644,7 +647,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				excludedCount++;
 			}
 		}
-
+		
 		// Update view -> model
 		this.createViewToModel(rowCount - excludedCount);
 		for (i = 0, j = 0; i < rowCount; i++) {
@@ -653,7 +656,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 		}
 	}
-
+	
 	/**
 	 * Makes sure the modelToView array is of size rowCount.
 	 */
@@ -662,7 +665,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.modelToView = new int[rowCount];
 		}
 	}
-
+	
 	/**
 	 * Resets the viewToModel array to be of size rowCount.
 	 */
@@ -673,7 +676,12 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			if (this.viewToModel.length != rowCount) {
 				Row[] oldViewToModel = this.viewToModel;
 				this.viewToModel = new Row[rowCount];
-				System.arraycopy(oldViewToModel, 0, this.viewToModel, 0, recreateFrom);
+				System.arraycopy(
+						oldViewToModel,
+						0,
+						this.viewToModel,
+						0,
+						recreateFrom);
 			}
 		} else {
 			this.viewToModel = new Row[rowCount];
@@ -686,7 +694,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.viewToModel[i] = new Row(this, i);
 		}
 	}
-
+	
 	/**
 	 * Caches the sort keys before a sort.
 	 */
@@ -698,7 +706,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		this.cachedSortKeys = keys.toArray(new SortKey[keySize]);
 	}
-
+	
 	/**
 	 * Returns whether or not to convert the value to a string before doing
 	 * comparisons when sorting. If true
@@ -716,7 +724,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	protected boolean useToString(int column) {
 		return (this.getComparator(column) == null);
 	}
-
+	
 	/**
 	 * Refreshes the modelToView mapping from that of viewToModel. If
 	 * <code>unsetFirst</code> is true, all indices in modelToView are first set
@@ -733,7 +741,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.modelToView[this.viewToModel[i].modelIndex] = i;
 		}
 	}
-
+	
 	private int[] getViewToModelAsInts(Row[] viewToModel) {
 		if (viewToModel != null) {
 			int[] viewToModelI = new int[viewToModel.length];
@@ -744,7 +752,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		return new int[0];
 	}
-
+	
 	/**
 	 * Sets the <code>Comparator</code> to use when sorting the specified
 	 * column. This does not trigger a sort. If you want to sort after setting
@@ -766,7 +774,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		this.comparators[column] = comparator;
 	}
-
+	
 	/**
 	 * Returns the <code>Comparator</code> for the specified column. This will
 	 * return <code>null</code> if a <code>Comparator</code> has not been
@@ -786,7 +794,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		return null;
 	}
-
+	
 	// Returns the Comparator to use during sorting. Where as
 	// getComparator() may return null, this will never return null.
 	private Comparator getComparator0(int column) {
@@ -798,7 +806,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		// true in this case.
 		return Collator.getInstance();
 	}
-
+	
 	private RowFilter.Entry<M, I> getFilterEntry(int modelIndex) {
 		if (this.filterEntry == null) {
 			this.filterEntry = new FilterEntry();
@@ -806,7 +814,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.filterEntry.modelIndex = modelIndex;
 		return this.filterEntry;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -819,7 +827,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		return this.getModelWrapper().getRowCount();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -827,7 +835,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	public int getModelRowCount() {
 		return this.getModelWrapper().getRowCount();
 	}
-
+	
 	private void allChanged() {
 		this.modelToView = null;
 		this.viewToModel = null;
@@ -841,7 +849,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.setSortKeys(null);
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -850,7 +858,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.allChanged();
 		this.modelRowCount = this.getModelWrapper().getRowCount();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -859,7 +867,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.modelRowCount = this.getModelWrapper().getRowCount();
 		this.sort();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -878,7 +886,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.rowsInserted0(firstRow, endRow);
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -896,7 +904,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.rowsDeleted0(firstRow, endRow);
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -917,7 +925,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.sorted = false;
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -929,13 +937,16 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		this.checkColumn(column);
 		this.rowsUpdated(firstRow, endRow);
 	}
-
+	
 	private void checkAgainstModel(int firstRow, int endRow) {
-		if (firstRow > endRow || firstRow < 0 || endRow < 0 || firstRow > this.modelRowCount) {
+		if (firstRow > endRow
+				|| firstRow < 0
+				|| endRow < 0
+				|| firstRow > this.modelRowCount) {
 			throw new IndexOutOfBoundsException("Invalid range");
 		}
 	}
-
+	
 	/**
 	 * Returns true if the specified row should be included.
 	 */
@@ -947,14 +958,14 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		// null filter, always include the row.
 		return true;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private int compare(int model1, int model2) {
 		int column;
 		SortOrder sortOrder;
 		Object v1, v2;
 		int result;
-
+		
 		for (int counter = 0; counter < this.cachedSortKeys.length; counter++) {
 			column = this.cachedSortKeys[counter].getColumn();
 			sortOrder = this.cachedSortKeys[counter].getSortOrder();
@@ -962,20 +973,25 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				result = model1 - model2;
 			} else {
 				if (this.sortComparators[counter] instanceof RowComparator<?>) {
-					result = ((RowComparator<?>) this.sortComparators[counter]).compare(model1,
+					result = ((RowComparator<?>) this.sortComparators[counter]).compare(
+							model1,
 							model2,
 							column,
 							sortOrder);
 				} else {
 					// v1 != null && v2 != null
 					if (this.useToString[column]) {
-						v1 = this.getModelWrapper().getStringValueAt(model1, column);
-						v2 = this.getModelWrapper().getStringValueAt(model2, column);
+						v1 = this.getModelWrapper().getStringValueAt(
+								model1,
+								column);
+						v2 = this.getModelWrapper().getStringValueAt(
+								model2,
+								column);
 					} else {
 						v1 = this.getModelWrapper().getValueAt(model1, column);
 						v2 = this.getModelWrapper().getValueAt(model2, column);
 					}
-
+					
 					// Treat nulls as < then non-null
 					if (v1 == null) {
 						if (v2 == null) {
@@ -1000,14 +1016,14 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		// If we get here, they're equal. Fallback to model order.
 		return model1 - model2;
 	}
-
+	
 	/**
 	 * Whether not we are filtering/sorting.
 	 */
 	private boolean isTransformed() {
 		return (this.viewToModel != null);
 	}
-
+	
 	/**
 	 * Insets new set of entries.
 	 * 
@@ -1025,13 +1041,19 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			if (index < 0) {
 				index = -1 - index;
 			}
-			System.arraycopy(current, last, this.viewToModel, last + i, index - last);
+			System.arraycopy(current, last, this.viewToModel, last + i, index
+					- last);
 			this.viewToModel[index + i] = toAdd.get(i);
 			last = index;
 		}
-		System.arraycopy(current, last, this.viewToModel, last + max, current.length - last);
+		System.arraycopy(
+				current,
+				last,
+				this.viewToModel,
+				last + max,
+				current.length - last);
 	}
-
+	
 	/**
 	 * Returns true if we should try and optimize the processing of the
 	 * <code>TableModelEvent</code>. If this returns false, assume the event was
@@ -1049,20 +1071,20 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		}
 		return true;
 	}
-
+	
 	private void rowsInserted0(int firstRow, int lastRow) {
 		int[] oldViewToModel = this.getViewToModelAsInts(this.viewToModel);
 		int i;
 		int delta = (lastRow - firstRow) + 1;
 		List<Row> added = new ArrayList<Row>(delta);
-
+		
 		// Build the list of Rows to add into added
 		for (i = firstRow; i <= lastRow; i++) {
 			if (this.include(i)) {
 				added.add(new Row(this, i));
 			}
 		}
-
+		
 		// Adjust the model index of rows after the effected region
 		int viewIndex;
 		for (i = this.modelToView.length - 1; i >= firstRow; i--) {
@@ -1071,7 +1093,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				this.viewToModel[viewIndex].modelIndex += delta;
 			}
 		}
-
+		
 		// Insert newly added rows into viewToModel
 		if (added.size() > 0) {
 			Collections.sort(added);
@@ -1079,21 +1101,21 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			this.viewToModel = new Row[this.viewToModel.length + added.size()];
 			this.insertInOrder(added, lastViewToModel);
 		}
-
+		
 		// Update modelToView
 		this.createModelToView(this.getModelWrapper().getRowCount());
 		this.setModelToViewFromViewToModel(true);
-
+		
 		// Notify of change
 		this.fireRowSorterChanged(oldViewToModel);
 	}
-
+	
 	private void rowsDeleted0(int firstRow, int lastRow) {
 		int[] oldViewToModel = this.getViewToModelAsInts(this.viewToModel);
 		int removedFromView = 0;
 		int i;
 		int viewIndex;
-
+		
 		// Figure out how many visible rows are going to be effected.
 		for (i = firstRow; i <= lastRow; i++) {
 			viewIndex = this.modelToView[i];
@@ -1102,7 +1124,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				this.viewToModel[viewIndex] = null;
 			}
 		}
-
+		
 		// Update the model index of rows after the effected region
 		int delta = lastRow - firstRow + 1;
 		for (i = this.modelToView.length - 1; i > lastRow; i--) {
@@ -1111,31 +1133,42 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				this.viewToModel[viewIndex].modelIndex -= delta;
 			}
 		}
-
+		
 		// Then patch up the viewToModel array
 		if (removedFromView > 0) {
-			Row[] newViewToModel = new Row[this.viewToModel.length - removedFromView];
+			Row[] newViewToModel = new Row[this.viewToModel.length
+					- removedFromView];
 			int newIndex = 0;
 			int last = 0;
 			for (i = 0; i < this.viewToModel.length; i++) {
 				if (this.viewToModel[i] == null) {
-					System.arraycopy(this.viewToModel, last, newViewToModel, newIndex, i - last);
+					System.arraycopy(
+							this.viewToModel,
+							last,
+							newViewToModel,
+							newIndex,
+							i - last);
 					newIndex += (i - last);
 					last = i + 1;
 				}
 			}
-			System.arraycopy(this.viewToModel, last, newViewToModel, newIndex, this.viewToModel.length - last);
+			System.arraycopy(
+					this.viewToModel,
+					last,
+					newViewToModel,
+					newIndex,
+					this.viewToModel.length - last);
 			this.viewToModel = newViewToModel;
 		}
-
+		
 		// Update the modelToView mapping
 		this.createModelToView(this.getModelWrapper().getRowCount());
 		this.setModelToViewFromViewToModel(true);
-
+		
 		// And notify of change
 		this.fireRowSorterChanged(oldViewToModel);
 	}
-
+	
 	private void rowsUpdated0(int firstRow, int lastRow) {
 		int[] oldViewToModel = this.getViewToModelAsInts(this.viewToModel);
 		int i, j;
@@ -1143,19 +1176,19 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		int modelIndex;
 		int last;
 		int index;
-
+		
 		if (this.getRowFilter() == null) {
 			// Sorting only:
-
+			
 			// Remove the effected rows
 			Row[] updated = new Row[delta];
 			for (j = 0, i = firstRow; i <= lastRow; i++, j++) {
 				updated[j] = this.viewToModel[this.modelToView[i]];
 			}
-
+			
 			// Sort the update rows
 			Arrays.sort(updated);
-
+			
 			// Build the intermediary array: the array of
 			// viewToModel without the effected rows.
 			Row[] intermediary = new Row[this.viewToModel.length - delta];
@@ -1165,15 +1198,15 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 					intermediary[j++] = this.viewToModel[i];
 				}
 			}
-
+			
 			// Build the new viewToModel
 			this.insertInOrder(Arrays.asList(updated), intermediary);
-
+			
 			// Update modelToView
 			this.setModelToViewFromViewToModel(false);
 		} else {
 			// Sorting & filtering.
-
+			
 			// Remove the effected rows, adding them to updated and setting
 			// modelToView to -2 for any rows that were not filtered out
 			List<Row> updated = new ArrayList<Row>(delta);
@@ -1200,10 +1233,10 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 					effected++;
 				}
 			}
-
+			
 			// Sort the updated rows
 			Collections.sort(updated);
-
+			
 			// Build the intermediary array: the array of
 			// viewToModel without the updated rows.
 			Row[] intermediary = new Row[this.viewToModel.length - effected];
@@ -1213,28 +1246,31 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 					intermediary[j++] = this.viewToModel[i];
 				}
 			}
-
+			
 			// Recreate viewToModel, if necessary
 			if (newlyVisible != newlyHidden) {
-				this.viewToModel = new Row[this.viewToModel.length + newlyVisible - newlyHidden];
+				this.viewToModel = new Row[this.viewToModel.length
+						+ newlyVisible
+						- newlyHidden];
 			}
-
+			
 			// Rebuild the new viewToModel array
 			this.insertInOrder(updated, intermediary);
-
+			
 			// Update modelToView
 			this.setModelToViewFromViewToModel(true);
 		}
 		// And finally fire a sort event.
 		this.fireRowSorterChanged(oldViewToModel);
 	}
-
+	
 	private void checkColumn(int column) {
 		if (column < 0 || column >= this.getModelWrapper().getColumnCount()) {
-			throw new IndexOutOfBoundsException("column beyond range of TableModel");
+			throw new IndexOutOfBoundsException(
+					"column beyond range of TableModel");
 		}
 	}
-
+	
 	/**
 	 * <code>DefaultRowSorter.ModelWrapper</code> is responsible for providing
 	 * the data that gets sorted by <code>DefaultRowSorter</code>. You normally
@@ -1258,13 +1294,12 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	 * @see RowFilter.Entry
 	 */
 	protected abstract static class ModelWrapper<M, I> {
-
+		
 		/**
 		 * Creates a new <code>ModelWrapper</code>.
 		 */
-		protected ModelWrapper() {
-		}
-
+		protected ModelWrapper() {}
+		
 		/**
 		 * Returns the underlying model that this <code>Model</code> is
 		 * wrapping.
@@ -1272,21 +1307,21 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		 * @return the underlying model
 		 */
 		public abstract M getModel();
-
+		
 		/**
 		 * Returns the number of columns in the model.
 		 * 
 		 * @return the number of columns in the model
 		 */
 		public abstract int getColumnCount();
-
+		
 		/**
 		 * Returns the number of rows in the model.
 		 * 
 		 * @return the number of rows in the model
 		 */
 		public abstract int getRowCount();
-
+		
 		/**
 		 * Returns the value at the specified index.
 		 * 
@@ -1299,7 +1334,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		 *             if the indices are outside the range of the model
 		 */
 		public abstract Object getValueAt(int row, int column);
-
+		
 		/**
 		 * Returns the value as a <code>String</code> at the specified index.
 		 * This implementation uses <code>toString</code> on the result from
@@ -1326,7 +1361,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 			}
 			return string;
 		}
-
+		
 		/**
 		 * Returns the identifier for the specified row. The return value of
 		 * this is used as the identifier for the <code>RowFilter.Entry</code>
@@ -1340,60 +1375,65 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 		 */
 		public abstract I getIdentifier(int row);
 	}
-
+	
 	/**
 	 * RowFilter.Entry implementation that delegates to the ModelWrapper.
 	 * getFilterEntry(int) creates the single instance of this that is passed to
 	 * the Filter. Only call getFilterEntry(int) to get the instance.
 	 */
 	private class FilterEntry extends RowFilter.Entry<M, I> {
-
+		
 		/**
 		 * The index into the model, set in getFilterEntry
 		 */
 		int modelIndex;
-
+		
 		@Override
 		public M getModel() {
 			return DefaultRowSorter.this.getModelWrapper().getModel();
 		}
-
+		
 		@Override
 		public int getValueCount() {
 			return DefaultRowSorter.this.getModelWrapper().getColumnCount();
 		}
-
+		
 		@Override
 		public Object getValue(int index) {
-			return DefaultRowSorter.this.getModelWrapper().getValueAt(this.modelIndex, index);
+			return DefaultRowSorter.this.getModelWrapper().getValueAt(
+					this.modelIndex,
+					index);
 		}
-
+		
 		@Override
 		public String getStringValue(int index) {
-			return DefaultRowSorter.this.getModelWrapper().getStringValueAt(this.modelIndex, index);
+			return DefaultRowSorter.this.getModelWrapper().getStringValueAt(
+					this.modelIndex,
+					index);
 		}
-
+		
 		@Override
 		public I getIdentifier() {
-			return DefaultRowSorter.this.getModelWrapper().getIdentifier(this.modelIndex);
+			return DefaultRowSorter.this.getModelWrapper().getIdentifier(
+					this.modelIndex);
 		}
 	}
-
+	
 	/**
 	 * Row is used to handle the actual sorting by way of Comparable. It will
 	 * use the sortKeys to do the actual comparison.
 	 */
 	// NOTE: this class is static so that it can be placed in an array
 	private static class Row implements Comparable<Row> {
-
+		
 		private DefaultRowSorter sorter;
 		int modelIndex;
-
+		
 		public Row(DefaultRowSorter sorter, int index) {
 			this.sorter = sorter;
 			this.modelIndex = index;
 		}
-
+		
 		@Override
 		public int compareTo(Row o) {
 			return this.sorter.compare(this.modelIndex, o.modelIndex);

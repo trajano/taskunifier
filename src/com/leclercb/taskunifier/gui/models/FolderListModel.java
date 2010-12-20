@@ -24,18 +24,18 @@ import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class FolderListModel extends AbstractModelListModel {
-
+	
 	public FolderListModel() {
 		this.addElement(null);
-
+		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
 			if (folder.getModelStatus().equals(ModelStatus.LOADED)
 					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(folder);
-
+		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 }

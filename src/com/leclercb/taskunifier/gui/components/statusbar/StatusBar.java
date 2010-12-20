@@ -34,81 +34,87 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StatusBar extends JPanel {
-
+	
 	private StatusElement lastSynchronizationDate;
-
+	
 	public StatusBar() {
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(new EmptyBorder(1, 1, 1, 1));
 		this.add(panel, BorderLayout.CENTER);
-
+		
 		this.lastSynchronizationDate = new StatusElement();
 		panel.add(this.lastSynchronizationDate, BorderLayout.EAST);
-
+		
 		this.initializeLastSynchronizationDate();
 	}
-
+	
 	private void initializeLastSynchronizationDate() {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(Settings.getStringProperty("date.date_format") + " "
-				+ Settings.getStringProperty("date.time_format"));
-
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(
+				Settings.getStringProperty("date.date_format")
+						+ " "
+						+ Settings.getStringProperty("date.time_format"));
+		
 		String date = Translations.getString("statusbar.never");
-
+		
 		if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date").getTime());
-
-		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date") + ": "
+			date = dateFormat.format(Settings.getCalendarProperty(
+					"synchronizer.last_synchronization_date").getTime());
+		
+		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
+				+ ": "
 				+ date);
-
+		
 		Settings.addPropertyChangeListener(new PropertyChangeListener() {
-
+			
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getPropertyName().equals("synchronizer.last_synchronization_date")) {
+				if (event.getPropertyName().equals(
+						"synchronizer.last_synchronization_date")) {
 					String date = Translations.getString("statusbar.never");
-
+					
 					if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						dateFormat.format(Settings.getCalendarProperty("synchronizer.last_synchronization_date")
-								.getTime());
-
-					StatusBar.this.lastSynchronizationDate.setText(Translations
-							.getString("statusbar.last_synchronization_date") + ": " + date);
+						dateFormat.format(Settings.getCalendarProperty(
+								"synchronizer.last_synchronization_date").getTime());
+					
+					StatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
+							+ ": "
+							+ date);
 				}
 			}
-
+			
 		});
 	}
-
+	
 	private class StatusElement extends JPanel {
-
+		
 		private JLabel label;
-
+		
 		public StatusElement() {
 			this.initialize();
 		}
-
+		
 		public void setText(String text) {
 			this.label.setText(text);
 		}
-
+		
 		private void initialize() {
 			this.setLayout(new BorderLayout());
 			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
+			
 			this.label = new JLabel();
 			this.label.setHorizontalAlignment(SwingConstants.TRAILING);
 			this.label.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			this.add(this.label, BorderLayout.CENTER);
 		}
-
+		
 	}
-
+	
 }

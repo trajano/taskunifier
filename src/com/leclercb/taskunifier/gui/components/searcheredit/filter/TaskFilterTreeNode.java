@@ -15,96 +15,98 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilterTreeNode implements TreeNode {
-
+	
 	private TaskFilter filter;
-
+	
 	public TaskFilterTreeNode(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filter = filter;
 	}
-
+	
 	public TaskFilter getFilter() {
 		return this.filter;
 	}
-
+	
 	@Override
 	public String toString() {
 		return TranslationsUtils.translateTaskFilterLink(this.filter.getLink());
 	}
-
+	
 	@Override
 	public TreeNode getChildAt(int childIndex) {
 		if (childIndex < this.filter.getElementCount())
-			return new TaskFilterElementTreeNode(this.filter.getElement(childIndex));
-
-		return new TaskFilterTreeNode(this.filter.getFilter(childIndex - this.filter.getElementCount()));
+			return new TaskFilterElementTreeNode(
+					this.filter.getElement(childIndex));
+		
+		return new TaskFilterTreeNode(this.filter.getFilter(childIndex
+				- this.filter.getElementCount()));
 	}
-
+	
 	@Override
 	public int getChildCount() {
 		return this.filter.getElementCount() + this.filter.getFilterCount();
 	}
-
+	
 	@Override
 	public TreeNode getParent() {
 		if (this.filter.getParent() == null)
 			return null;
-
+		
 		return new TaskFilterTreeNode(this.filter.getParent());
 	}
-
+	
 	@Override
 	public int getIndex(TreeNode node) {
 		if (node instanceof TaskFilterElementTreeNode)
 			return this.filter.getIndexOf(((TaskFilterElementTreeNode) node).getElement());
-
+		
 		return this.filter.getIndexOf(((TaskFilterTreeNode) node).getFilter());
 	}
-
+	
 	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isLeaf() {
 		return false;
 	}
-
+	
 	@Override
 	public Enumeration<?> children() {
 		List<Object> list = new ArrayList<Object>();
-
+		
 		for (TaskFilterElement e : this.filter.getElements())
 			list.add(new TaskFilterElementTreeNode(e));
-
+		
 		for (TaskFilter f : this.filter.getFilters())
 			list.add(new TaskFilterTreeNode(f));
-
+		
 		return Collections.enumeration(list);
 	}
-
+	
 	@Override
 	public final boolean equals(Object o) {
 		if (o == this) {
 			return true;
 		}
-
+		
 		if (o instanceof TaskFilterTreeNode) {
 			TaskFilterTreeNode node = (TaskFilterTreeNode) o;
-
+			
 			return new EqualsBuilder().append(this.filter, node.filter).isEqual();
 		}
-
+		
 		return false;
 	}
-
+	
 	@Override
 	public final int hashCode() {
 		HashCodeBuilder hashCode = new HashCodeBuilder();
 		hashCode.append(this.filter);
-
+		
 		return hashCode.toHashCode();
 	}
-
+	
 }

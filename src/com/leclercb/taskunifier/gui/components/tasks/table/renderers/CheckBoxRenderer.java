@@ -22,25 +22,25 @@ import javax.swing.SwingConstants;
 import com.leclercb.taskunifier.gui.images.Images;
 
 public class CheckBoxRenderer extends DefaultRenderer {
-
+	
 	public CheckBoxRenderer() {
 
 	}
-
+	
 	@Override
 	protected void setValue(Object value) {
 		if (value == null || !(value instanceof Boolean)) {
 			this.setText("");
 			return;
 		}
-
+		
 		if ((Boolean) value)
 			this.setIcon(Images.getResourceImage("checkbox_selected.png"));
 		else
 			this.setIcon(Images.getResourceImage("checkbox.png"));
-
+		
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setText("");
 	}
-
+	
 }

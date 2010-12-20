@@ -22,25 +22,25 @@ import javax.swing.SwingConstants;
 import com.leclercb.taskunifier.gui.images.Images;
 
 public class StarRenderer extends DefaultRenderer {
-
+	
 	public StarRenderer() {
 
 	}
-
+	
 	@Override
 	protected void setValue(Object value) {
 		if (value == null || !(value instanceof Boolean)) {
 			this.setText("");
 			return;
 		}
-
+		
 		if ((Boolean) value)
 			this.setIcon(Images.getResourceImage("checkbox_star_selected.gif"));
 		else
 			this.setIcon(Images.getResourceImage("checkbox_star.gif"));
-
+		
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setText("");
 	}
-
+	
 }

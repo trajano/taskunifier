@@ -25,58 +25,59 @@ import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 
 public abstract class LookAndFeelDescriptor {
-
+	
 	private String name;
 	private String identifier;
-
+	
 	public LookAndFeelDescriptor(String name, String identifier) {
 		CheckUtils.isNotNull(name, "Name cannot be null");
 		CheckUtils.isNotNull(identifier, "Identifier cannot be null");
-
+		
 		this.name = name;
 		this.identifier = identifier;
 	}
-
+	
 	public String getName() {
 		return this.name;
 	}
-
+	
 	public String getIdentifier() {
 		return this.identifier;
 	}
-
+	
 	public void setLookAndFeel() throws LookAndFeelException {
 		this.setLookAndFeel(null);
 	}
-
-	public abstract void setLookAndFeel(Window window) throws LookAndFeelException;
-
+	
+	public abstract void setLookAndFeel(Window window)
+			throws LookAndFeelException;
+	
 	@Override
 	public String toString() {
 		return this.name;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
 			return true;
 		}
-
+		
 		if (o instanceof LookAndFeelDescriptor) {
 			LookAndFeelDescriptor model = (LookAndFeelDescriptor) o;
-
+			
 			return new EqualsBuilder().append(this.identifier, model.identifier).isEqual();
 		}
-
+		
 		return false;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		HashCodeBuilder hashCode = new HashCodeBuilder();
 		hashCode.append(this.identifier);
-
+		
 		return hashCode.toHashCode();
 	}
-
+	
 }

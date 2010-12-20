@@ -23,19 +23,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskSorterSortOrderRenderer extends DefaultTableCellRenderer {
-
+	
 	public TaskSorterSortOrderRenderer() {
 
 	}
-
+	
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof SortOrder)) {
 			this.setText("");
 			return;
 		}
-
+		
 		this.setText(TranslationsUtils.translateSortOrder((SortOrder) value));
 	}
-
+	
 }

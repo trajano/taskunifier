@@ -27,21 +27,25 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionHelp extends AbstractAction {
-
+	
 	public ActionHelp() {
 		this(32, 32);
 	}
-
+	
 	public ActionHelp(int width, int height) {
-		super(Translations.getString("action.name.help"), Images.getResourceImage("help.png", width, height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.description.help"));
+		super(
+				Translations.getString("action.name.help"),
+				Images.getResourceImage("help.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.help"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JDialog dialog = Help.getHelpDialog("index.html");
 		dialog.setVisible(true);
 	}
-
+	
 }

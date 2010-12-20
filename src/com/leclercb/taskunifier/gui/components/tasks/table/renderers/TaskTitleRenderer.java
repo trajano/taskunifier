@@ -27,25 +27,36 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.images.Images;
 
 public class TaskTitleRenderer extends DefaultRenderer {
-
+	
 	public TaskTitleRenderer() {
 
 	}
-
+	
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
+	public Component getTableCellRendererComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			boolean hasFocus,
+			int row,
+			int column) {
+		Component component = super.getTableCellRendererComponent(
+				table,
+				value,
+				isSelected,
+				hasFocus,
+				row,
+				column);
+		
 		if (value == null) {
 			this.setIcon(null);
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
 			this.setText("");
 			return component;
 		}
-
+		
 		Task task = ((TaskTable) table).getTask(row);
-
+		
 		// Set Text & Font
 		if (task.getParent() == null) {
 			component.setFont(this.getFont().deriveFont(Font.BOLD));
@@ -54,14 +65,14 @@ public class TaskTitleRenderer extends DefaultRenderer {
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
 			this.setText("          " + task.getTitle());
 		}
-
+		
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue())
 			this.setIcon(Images.getResourceImage("warning.gif"));
 		else
 			this.setIcon(null);
-
+		
 		return component;
 	}
-
+	
 }

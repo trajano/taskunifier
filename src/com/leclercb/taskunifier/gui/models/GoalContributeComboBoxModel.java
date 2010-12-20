@@ -32,20 +32,21 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
 public class GoalContributeComboBoxModel extends DefaultComboBoxModel implements ListChangeListener, PropertyChangeListener {
-
+	
 	public GoalContributeComboBoxModel() {
 		this.addElement(null);
-
+		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED) || goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (goal.getModelStatus().equals(ModelStatus.LOADED)
+					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				if (goal.getLevel().equals(GoalLevel.LIFE_TIME))
 					this.addElement(goal);
-
+		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -54,21 +55,23 @@ public class GoalContributeComboBoxModel extends DefaultComboBoxModel implements
 			this.removeElement(event.getValue());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if ((!((Model) event.getSource()).getModelStatus().equals(ModelStatus.LOADED) && !((Model) event.getSource())
-				.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				|| !((Goal) event.getSource()).getLevel().equals(GoalLevel.LIFE_TIME)) {
+		if ((!((Model) event.getSource()).getModelStatus().equals(
+				ModelStatus.LOADED) && !((Model) event.getSource()).getModelStatus().equals(
+				ModelStatus.TO_UPDATE))
+				|| !((Goal) event.getSource()).getLevel().equals(
+						GoalLevel.LIFE_TIME)) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());
-
+			
 			if (index == -1)
 				this.addElement(event.getSource());
 			else
 				this.fireContentsChanged(this, index, index);
 		}
 	}
-
+	
 }

@@ -27,14 +27,14 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 
 public class TransferActionListener implements ActionListener, PropertyChangeListener {
-
+	
 	private JComponent focusOwner = null;
-
+	
 	public TransferActionListener() {
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addPropertyChangeListener("permanentFocusOwner", this);
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		Object o = e.getNewValue();
@@ -44,17 +44,20 @@ public class TransferActionListener implements ActionListener, PropertyChangeLis
 			this.focusOwner = null;
 		}
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (this.focusOwner == null)
 			return;
-
+		
 		Action action = this.focusOwner.getActionMap().get(e.getActionCommand());
-
+		
 		if (action != null) {
-			action.actionPerformed(new ActionEvent(this.focusOwner, ActionEvent.ACTION_PERFORMED, null));
+			action.actionPerformed(new ActionEvent(
+					this.focusOwner,
+					ActionEvent.ACTION_PERFORMED,
+					null));
 		}
 	}
-
+	
 }

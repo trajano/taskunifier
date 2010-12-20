@@ -25,31 +25,37 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ColumnsConfigurationPanel extends ConfigurationPanel {
-
+	
 	public ColumnsConfigurationPanel() {
 		this.initialize();
 		this.pack();
 	}
-
+	
 	@Override
 	public void saveAndApplyConfig() {
 		for (ConfigurationField field : this.getFields()) {
 			if (!(field.getType() instanceof ConfigurationFieldType.CheckBox))
 				continue;
-
-			MainFrame.getInstance().showColumn(TaskColumn.valueOf(field.getId()),
+			
+			MainFrame.getInstance().showColumn(
+					TaskColumn.valueOf(field.getId()),
 					((ConfigurationFieldType.CheckBox) field.getType()).getFieldValue());
 		}
 	}
-
+	
 	private void initialize() {
-		this.addField(new ConfigurationField("LABEL", null, new ConfigurationFieldType.Label(Translations
-				.getString("configuration.columns.right_click_column_title"))));
-
+		this.addField(new ConfigurationField(
+				"LABEL",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.columns.right_click_column_title"))));
+		
 		for (TaskColumn taskColumn : TaskColumn.values()) {
-			this.addField(new ConfigurationField(taskColumn.name(), taskColumn.getLabel(),
+			this.addField(new ConfigurationField(
+					taskColumn.name(),
+					taskColumn.getLabel(),
 					new ConfigurationFieldType.CheckBox(taskColumn.isVisible())));
 		}
 	}
-
+	
 }

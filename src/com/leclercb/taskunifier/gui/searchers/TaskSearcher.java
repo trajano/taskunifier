@@ -23,84 +23,96 @@ import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeM
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
 public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable {
-
+	
 	public static final String PROP_TITLE = "SEARCHER_TITLE";
 	public static final String PROP_ICON = "SEARCHER_ICON";
 	public static final String PROP_FILTER = "SEARCHER_FILTER";
 	public static final String PROP_SORTER = "SEARCHER_SORTER";
-
+	
 	private String title;
 	private String icon;
 	private TaskFilter filter;
 	private TaskSorter sorter;
-
+	
 	public TaskSearcher(String title, TaskFilter filter, TaskSorter sorter) {
 		this(title, null, filter, sorter);
 	}
-
-	public TaskSearcher(String title, String icon, TaskFilter filter, TaskSorter sorter) {
+	
+	public TaskSearcher(
+			String title,
+			String icon,
+			TaskFilter filter,
+			TaskSorter sorter) {
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
 		this.setSorter(sorter);
 	}
-
+	
 	public String getTitle() {
 		return this.title;
 	}
-
+	
 	public void setTitle(String title) {
 		CheckUtils.isNotNull(title, "Title cannot be null");
 		String oldTitle = this.title;
 		this.title = title;
 		this.firePropertyChange(PROP_TITLE, oldTitle, title);
 	}
-
+	
 	public String getIcon() {
 		return this.icon;
 	}
-
+	
 	public void setIcon(String icon) {
 		String oldIcon = this.icon;
 		this.icon = icon;
 		this.firePropertyChange(PROP_ICON, oldIcon, icon);
 	}
-
+	
 	public TaskFilter getFilter() {
 		return this.filter;
 	}
-
+	
 	public void setFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		TaskFilter oldFilter = this.filter;
 		this.filter = filter;
 		this.firePropertyChange(PROP_FILTER, oldFilter, filter);
 	}
-
+	
 	public TaskSorter getSorter() {
 		return this.sorter;
 	}
-
+	
 	public void setSorter(TaskSorter sorter) {
 		CheckUtils.isNotNull(sorter, "Sorter cannot be null");
 		TaskSorter oldSorter = this.sorter;
 		this.sorter = sorter;
 		this.firePropertyChange(PROP_SORTER, oldSorter, sorter);
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.title;
 	}
-
+	
 	public String toDetailedString(String before) {
 		StringBuffer buffer = new StringBuffer();
-
+		
 		buffer.append(before + "Title: " + this.title + "\n");
-		buffer.append(before + "Filter: " + "\n" + this.filter.toDetailedString(before + "\t") + "\n");
-		buffer.append(before + "Sorter: " + "\n" + this.sorter.toDetailedString(before + "\t") + "\n");
-
+		buffer.append(before
+				+ "Filter: "
+				+ "\n"
+				+ this.filter.toDetailedString(before + "\t")
+				+ "\n");
+		buffer.append(before
+				+ "Sorter: "
+				+ "\n"
+				+ this.sorter.toDetailedString(before + "\t")
+				+ "\n");
+		
 		return buffer.toString();
 	}
-
+	
 }

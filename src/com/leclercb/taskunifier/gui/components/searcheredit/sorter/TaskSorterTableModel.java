@@ -14,32 +14,32 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskSorterTableModel extends DefaultTableModel implements ListChangeListener, PropertyChangeListener {
-
+	
 	private TaskSorter sorter;
-
+	
 	public TaskSorterTableModel(TaskSorter sorter) {
 		this.sorter = sorter;
 		this.sorter.addListChangeListener(this);
 		this.sorter.addPropertyChangeListener(this);
 	}
-
+	
 	public TaskSorterElement getTaskSorterElement(int row) {
 		return this.sorter.getElement(row);
 	}
-
+	
 	@Override
 	public int getColumnCount() {
 		return 3;
 	}
-
+	
 	@Override
 	public int getRowCount() {
 		if (this.sorter == null)
 			return 0;
-
+		
 		return this.sorter.getElementCount();
 	}
-
+	
 	@Override
 	public String getColumnName(int col) {
 		switch (col) {
@@ -53,7 +53,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 				return null;
 		}
 	}
-
+	
 	@Override
 	public Class<?> getColumnClass(int col) {
 		switch (col) {
@@ -67,7 +67,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 				return null;
 		}
 	}
-
+	
 	@Override
 	public Object getValueAt(int row, int col) {
 		switch (col) {
@@ -81,17 +81,18 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 				return null;
 		}
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return true;
 	}
-
+	
 	@Override
 	public void setValueAt(Object value, int row, int col) {
 		switch (col) {
 			case 0:
-				this.sorter.getElement(row).setOrder(Integer.parseInt((String) value));
+				this.sorter.getElement(row).setOrder(
+						Integer.parseInt((String) value));
 				break;
 			case 1:
 				this.sorter.getElement(row).setColumn((TaskColumn) value);
@@ -101,7 +102,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 				break;
 		}
 	}
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -110,11 +111,11 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 			this.fireTableRowsDeleted(event.getIndex(), event.getIndex());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		int index = this.sorter.getIndexOf((TaskSorterElement) event.getSource());
 		this.fireTableRowsUpdated(index, index);
 	}
-
+	
 }

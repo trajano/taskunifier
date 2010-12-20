@@ -26,19 +26,28 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilterConditionListCellRenderer extends DefaultListCellRenderer {
-
+	
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+	public Component getListCellRendererComponent(
+			JList list,
+			Object value,
+			int index,
+			boolean isSelected,
 			boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
+		Component component = super.getListCellRendererComponent(
+				list,
+				value,
+				index,
+				isSelected,
+				cellHasFocus);
+		
 		if (value == null || !(value instanceof TaskFilter.Condition<?, ?>)) {
 			this.setText("");
 			return component;
 		}
-
+		
 		this.setText(TranslationsUtils.translateTaskFilterCondition((TaskFilter.Condition<?, ?>) value));
 		return component;
 	}
-
+	
 }

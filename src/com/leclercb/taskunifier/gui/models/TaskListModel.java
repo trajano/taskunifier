@@ -24,17 +24,18 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
 public class TaskListModel extends AbstractModelListModel {
-
+	
 	public TaskListModel() {
 		this.addElement(null);
-
+		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks)
-			if (task.getModelStatus().equals(ModelStatus.LOADED) || task.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (task.getModelStatus().equals(ModelStatus.LOADED)
+					|| task.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				this.addElement(task);
-
+		
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 }
