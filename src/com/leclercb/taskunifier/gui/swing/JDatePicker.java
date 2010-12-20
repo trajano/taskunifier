@@ -32,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
+import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.michaelbaranov.microba.calendar.CalendarPane;
 
@@ -79,7 +80,7 @@ public class JDatePicker extends JDialog {
 		this.setModal(true);
 		this.setResizable(false);
 		this.setTitle(Translations.getString("general.date_picker"));
-		this.setSize(300, 300);
+		this.setSize(400, 300);
 		this.setLayout(new BorderLayout());
 
 		JPanel datePanel = new JPanel();
@@ -144,15 +145,16 @@ public class JDatePicker extends JDialog {
 
 	private void initializeTimeSpinner(JPanel datePanel) {
 		JPanel timePanel = new JPanel();
-		timePanel.setLayout(new FlowLayout());
+		timePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 
 		this.timeSpinner = new JSpinner();
 		this.timeSpinner.setModel(new SpinnerDateModel());
-		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner, "HH:mm"));
+		this.timeSpinner.setEditor(new JSpinner.DateEditor(this.timeSpinner, Settings
+				.getStringProperty("date.time_format")));
 
 		timePanel.add(this.timeSpinner);
 
-		datePanel.add(timePanel, BorderLayout.EAST);
+		datePanel.add(timePanel, BorderLayout.NORTH);
 	}
 
 	private void initializeDatePanel(JPanel datePanel) {

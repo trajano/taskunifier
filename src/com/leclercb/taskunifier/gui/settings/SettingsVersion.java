@@ -33,12 +33,12 @@ public final class SettingsVersion {
 			version = "0.5.2";
 
 		if (version.equals("0.5.2"))
-			version = updateSettings_0_5_2();
+			version = updateSettings_0_5_2_to_0_6();
 
-		Settings.setStringProperty("general.version", "0.6");
+		Settings.setStringProperty("general.version", "0.6.1");
 	}
 
-	private static String updateSettings_0_5_2() {
+	private static String updateSettings_0_5_2_to_0_6() {
 		GuiLogger.getLogger().info("Update settings from version 0.5.2 to 0.6");
 
 		Settings.setStringProperty("date.date_format", "dd/MM/yyyy");

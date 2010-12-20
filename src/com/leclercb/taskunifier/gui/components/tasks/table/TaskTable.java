@@ -116,7 +116,7 @@ public class TaskTable extends JTable {
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(Settings.getStringProperty("date.date_format") + " "
 				+ Settings.getStringProperty("date.time_format")));
-		LENGTH_RENDERER = new LengthRenderer(new SimpleDateFormat(Settings.getStringProperty("date.time_format")));
+		LENGTH_RENDERER = new LengthRenderer(Settings.getSimpleDateFormatProperty("date.time_format"));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
 

@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.6.1
+	- Improved Mac OS version
+	- Date/Time format settings
+
 Version 0.6
 	- Toodledo API 2.0
 	- GUI for personal searcher edition
