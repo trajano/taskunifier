@@ -33,7 +33,7 @@ public final class GuiLogger {
 			LOGGER = Logger.getLogger(GuiLogger.class.getPackage().getName());
 			LOGGER.setLevel(Level.ALL);
 		} catch (SecurityException e) {
-			throw new RuntimeException("Cannot create API logger", e);
+			throw new RuntimeException("Cannot create GUI logger", e);
 		}
 	}
 	

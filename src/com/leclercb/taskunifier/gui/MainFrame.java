@@ -119,11 +119,6 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 				Main.stop();
 			}
 			
-			@Override
-			public void windowClosed(WindowEvent event) {
-
-			}
-			
 		});
 		
 		this.setLayout(new BorderLayout());

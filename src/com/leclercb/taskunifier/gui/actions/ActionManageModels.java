@@ -49,7 +49,6 @@ public class ActionManageModels extends AbstractAction {
 		ModelConfigurationDialog config = new ModelConfigurationDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
-		
 		config.setVisible(true);
 	}
 	
