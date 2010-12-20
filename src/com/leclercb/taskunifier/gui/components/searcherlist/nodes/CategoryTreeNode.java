@@ -4,7 +4,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.StringUtils;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class CategoryTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {
@@ -44,7 +43,7 @@ public class CategoryTreeNode extends DefaultMutableTreeNode implements TaskSear
 	
 	@Override
 	public String toString() {
-		return StringUtils.fillWith(this.getUserObject().toString(), 40);
+		return this.getUserObject().toString();
 	}
 	
 }

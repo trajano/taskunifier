@@ -8,7 +8,6 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
-import com.leclercb.taskunifier.api.utils.StringUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
@@ -75,11 +74,9 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 	@Override
 	public String toString() {
 		if (this.getUserObject() == null)
-			return StringUtils.fillWith(
-					Translations.getString("searcherlist.none"),
-					40);
+			return Translations.getString("searcherlist.none");
 		
-		return StringUtils.fillWith(this.getUserObject().toString(), 40);
+		return this.getUserObject().toString();
 	}
 	
 	@Override
