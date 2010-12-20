@@ -53,6 +53,10 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		this.searchers = new ArrayList<TaskSearcher>();
 	}
 
+	public boolean contains(TaskSearcher searcher) {
+		return this.searchers.contains(searcher);
+	}
+
 	public int size() {
 		return this.searchers.size();
 	}
