@@ -20,4 +20,9 @@ public class SearcherTreeNode extends DefaultMutableTreeNode implements TaskSear
 		return (TaskSearcher) this.getUserObject();
 	}
 	
+	@Override
+	public String toString() {
+		return this.getUserObject().toString() + "          ";
+	}
+	
 }

@@ -22,6 +22,7 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
@@ -204,6 +205,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializeGeneralCategory() {
 		this.categoryGeneral = new CategoryTreeNode(
+				null,
 				"searcher.category.general.expanded",
 				Translations.getString("searcherlist.general"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryGeneral);
@@ -214,17 +216,20 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializeContextCategory() {
 		this.categoryContext = new CategoryTreeNode(
+				ModelType.CONTEXT,
 				"searcher.category.context.expanded",
 				Translations.getString("general.contexts"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryContext);
 		
-		this.categoryContext.add(new ModelTreeNode(null));
+		this.categoryContext.add(new ModelTreeNode(ModelType.CONTEXT, null));
 		
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts)
 			if (context.getModelStatus().equals(ModelStatus.LOADED)
 					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.categoryContext.add(new ModelTreeNode(context));
+				this.categoryContext.add(new ModelTreeNode(
+						ModelType.CONTEXT,
+						context));
 		
 		ContextFactory.getInstance().addListChangeListener(this);
 		ContextFactory.getInstance().addPropertyChangeListener(this);
@@ -232,17 +237,20 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializeFolderCategory() {
 		this.categoryFolder = new CategoryTreeNode(
+				ModelType.FOLDER,
 				"searcher.category.folder.expanded",
 				Translations.getString("general.folders"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryFolder);
 		
-		this.categoryFolder.add(new ModelTreeNode(null));
+		this.categoryFolder.add(new ModelTreeNode(ModelType.FOLDER, null));
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
 			if (folder.getModelStatus().equals(ModelStatus.LOADED)
 					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.categoryFolder.add(new ModelTreeNode(folder));
+				this.categoryFolder.add(new ModelTreeNode(
+						ModelType.FOLDER,
+						folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
@@ -250,17 +258,18 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializeGoalCategory() {
 		this.categoryGoal = new CategoryTreeNode(
+				ModelType.GOAL,
 				"searcher.category.goal.expanded",
 				Translations.getString("general.goals"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryGoal);
 		
-		this.categoryGoal.add(new ModelTreeNode(null));
+		this.categoryGoal.add(new ModelTreeNode(ModelType.GOAL, null));
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
 			if (goal.getModelStatus().equals(ModelStatus.LOADED)
 					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.categoryGoal.add(new ModelTreeNode(goal));
+				this.categoryGoal.add(new ModelTreeNode(ModelType.GOAL, goal));
 		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);
@@ -268,17 +277,20 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializeLocationCategory() {
 		this.categoryLocation = new CategoryTreeNode(
+				ModelType.LOCATION,
 				"searcher.category.location.expanded",
 				Translations.getString("general.locations"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryLocation);
 		
-		this.categoryLocation.add(new ModelTreeNode(null));
+		this.categoryLocation.add(new ModelTreeNode(ModelType.LOCATION, null));
 		
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations)
 			if (location.getModelStatus().equals(ModelStatus.LOADED)
 					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.categoryLocation.add(new ModelTreeNode(location));
+				this.categoryLocation.add(new ModelTreeNode(
+						ModelType.LOCATION,
+						location));
 		
 		LocationFactory.getInstance().addListChangeListener(this);
 		LocationFactory.getInstance().addPropertyChangeListener(this);
@@ -286,6 +298,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	private void initializePersonalCategory() {
 		this.categoryPersonal = new CategoryTreeNode(
+				null,
 				"searcher.category.personal.expanded",
 				Translations.getString("searcherlist.personal"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryPersonal);
@@ -344,10 +357,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 			CategoryTreeNode node = this.getCategoryFromModel((Model) event.getValue());
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-				this.insertNodeInto(
-						new ModelTreeNode((Model) event.getValue()),
-						node,
-						node.getChildCount());
+				this.insertNodeInto(new ModelTreeNode(
+						node.getModelType(),
+						(Model) event.getValue()), node, node.getChildCount());
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
 				
@@ -389,11 +401,14 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				
 				if (child == null)
 					this.insertNodeInto(
-							new ModelTreeNode((Model) event.getSource()),
+							new ModelTreeNode(
+									node.getModelType(),
+									(Model) event.getSource()),
 							node,
 							node.getChildCount());
 				else
 					this.nodeChanged(new ModelTreeNode(
+							node.getModelType(),
 							(Model) event.getSource()));
 			}
 		}

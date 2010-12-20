@@ -3,11 +3,9 @@ package com.leclercb.taskunifier.gui.components.searcherlist.nodes;
 import javax.swing.SortOrder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -21,8 +19,13 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {
 	
-	public ModelTreeNode(Model model) {
+	private ModelType modelType;
+	
+	public ModelTreeNode(ModelType modelType, Model model) {
 		super(model);
+		
+		CheckUtils.isNotNull(modelType, "Model type cannot be null");
+		this.modelType = modelType;
 	}
 	
 	@Override
@@ -35,14 +38,20 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 		Model model = (Model) this.getUserObject();
 		TaskColumn column = null;
 		
-		if (model instanceof Context)
-			column = TaskColumn.CONTEXT;
-		else if (model instanceof Folder)
-			column = TaskColumn.FOLDER;
-		else if (model instanceof Goal)
-			column = TaskColumn.GOAL;
-		else if (model instanceof Location)
-			column = TaskColumn.LOCATION;
+		switch (this.modelType) {
+			case CONTEXT:
+				column = TaskColumn.CONTEXT;
+				break;
+			case FOLDER:
+				column = TaskColumn.FOLDER;
+				break;
+			case GOAL:
+				column = TaskColumn.GOAL;
+				break;
+			case LOCATION:
+				column = TaskColumn.LOCATION;
+				break;
+		}
 		
 		TaskSorter sorter = new TaskSorter();
 		sorter.addElement(new TaskSorterElement(
@@ -65,9 +74,9 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 	@Override
 	public String toString() {
 		if (this.getUserObject() == null)
-			return Translations.getString("searcherlist.none");
+			return Translations.getString("searcherlist.none") + "          ";
 		
-		return this.getUserObject().toString();
+		return this.getUserObject().toString() + "          ";
 	}
 	
 	@Override
