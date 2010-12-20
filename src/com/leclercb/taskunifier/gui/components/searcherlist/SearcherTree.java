@@ -23,7 +23,7 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		this.setRootVisible(false);
-		this.setRowHeight(30);
+		this.setRowHeight(25);
 		this.setModel(new SearcherTreeModel());
 		this.setCellRenderer(new SearcherTreeRenderer());
 		
