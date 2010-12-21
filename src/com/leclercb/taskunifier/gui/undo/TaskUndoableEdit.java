@@ -55,16 +55,14 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	public void undo() throws CannotUndoException {
 		super.undo();
 		
-		if (this.column.equals(TaskColumn.TITLE))
-			this.task.setTitle((String) this.oldValue);
+		this.column.setValue(this.task, this.oldValue);
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
 		
-		if (this.column.equals(TaskColumn.TITLE))
-			this.task.setTitle((String) this.newValue);
+		this.column.setValue(this.task, this.newValue);
 	}
 	
 }

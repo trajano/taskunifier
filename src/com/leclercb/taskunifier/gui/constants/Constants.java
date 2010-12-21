@@ -39,4 +39,8 @@ public final class Constants {
 	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
 	
+	static {
+		UNDO_EDIT_SUPPORT.addUndoableEditListener(UNDO_MANAGER);
+	}
+	
 }

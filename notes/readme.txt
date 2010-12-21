@@ -2,7 +2,8 @@ HISTORY
 -------
 
 Version 0.6.2
-	- Bug: proxy not removed after version check
+	- Bug fixed: proxy not removed after version check
+	- Bug fixed: undo/redo wasn't working anymore
 	
 Version 0.6.1
 	- Improved Mac OS version
