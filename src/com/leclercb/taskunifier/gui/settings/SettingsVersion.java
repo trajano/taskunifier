@@ -35,7 +35,7 @@ public final class SettingsVersion {
 		if (version.equals("0.5.2"))
 			version = updateSettings_0_5_2_to_0_6();
 		
-		Settings.setStringProperty("general.version", "0.6.1");
+		Settings.setStringProperty("general.version", "0.6.2");
 	}
 	
 	private static String updateSettings_0_5_2_to_0_6() {
