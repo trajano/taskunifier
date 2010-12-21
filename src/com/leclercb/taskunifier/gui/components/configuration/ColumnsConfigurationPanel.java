@@ -37,7 +37,7 @@ public class ColumnsConfigurationPanel extends ConfigurationPanel {
 			if (!(field.getType() instanceof ConfigurationFieldType.CheckBox))
 				continue;
 			
-			MainFrame.getInstance().showColumn(
+			MainFrame.getInstance().getTaskView().showColumn(
 					TaskColumn.valueOf(field.getId()),
 					((ConfigurationFieldType.CheckBox) field.getType()).getFieldValue());
 		}

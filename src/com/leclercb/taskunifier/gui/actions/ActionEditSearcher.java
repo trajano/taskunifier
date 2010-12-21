@@ -47,7 +47,7 @@ public class ActionEditSearcher extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (MainFrame.getInstance().getSelectedTaskSearcher() == null) {
+		if (MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher() == null) {
 			JOptionPane.showMessageDialog(
 					null,
 					Translations.getString("error.select_searcher"),
@@ -56,7 +56,7 @@ public class ActionEditSearcher extends AbstractAction {
 			return;
 		}
 		
-		this.editSearcher(MainFrame.getInstance().getSelectedTaskSearcher());
+		this.editSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
 	}
 	
 	public void editSearcher(TaskSearcher searcher) {

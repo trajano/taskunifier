@@ -5,6 +5,7 @@ import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,7 +13,9 @@ import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
@@ -21,7 +24,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class TaskPanel extends JPanel implements SaveSettingsListener {
+public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener {
 	
 	public static enum View {
 		
@@ -133,22 +136,27 @@ public class TaskPanel extends JPanel implements SaveSettingsListener {
 		this.taskTable.setTaskSearcher(searcher);
 	}
 	
+	@Override
 	public void setSelectedTask(Task task) {
 		this.taskTable.setSelectedTask(task);
 	}
 	
+	@Override
 	public void showColumn(TaskColumn taskColumn, boolean show) {
 		this.taskTable.showColumn(taskColumn, show);
 	}
 	
+	@Override
 	public Task getSelectedTask() {
 		return this.taskTable.getSelectedTask();
 	}
 	
+	@Override
 	public void refreshTasks() {
 		this.taskTable.refreshTasks();
 	}
 	
+	@Override
 	public void printTasks() throws HeadlessException, PrinterException {
 		this.taskTable.print(
 				PrintMode.FIT_WIDTH,
@@ -160,6 +168,25 @@ public class TaskPanel extends JPanel implements SaveSettingsListener {
 				true,
 				null,
 				true);
+	}
+	
+	@Override
+	public int getTaskCount() {
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		int count = tasks.size();
+		
+		for (Task task : tasks) {
+			if (!task.getModelStatus().equals(ModelStatus.LOADED)
+					&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE))
+				count--;
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public int getDisplayedTaskCount() {
+		return this.taskTable.getRowCount();
 	}
 	
 }

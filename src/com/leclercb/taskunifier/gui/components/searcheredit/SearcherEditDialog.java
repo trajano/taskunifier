@@ -68,7 +68,7 @@ public class SearcherEditDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					SearcherEditDialog.this.searcherEditPanel.close();
-					MainFrame.getInstance().refreshTasks();
+					MainFrame.getInstance().getTaskView().refreshTasks();
 					SearcherEditDialog.this.dispose();
 				}
 			}

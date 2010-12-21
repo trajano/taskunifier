@@ -39,7 +39,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SearcherPanel extends JPanel implements TreeSelectionListener {
+public class SearcherPanel extends JPanel implements SearcherView, TreeSelectionListener {
 	
 	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
 	
@@ -55,10 +55,12 @@ public class SearcherPanel extends JPanel implements TreeSelectionListener {
 		this.initialize();
 	}
 	
+	@Override
 	public void selectDefaultTaskSearcher() {
 		this.searcherTree.selectDefaultTaskSearcher();
 	}
 	
+	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
 		return this.searcherTree.getSelectedTaskSearcher();
 	}

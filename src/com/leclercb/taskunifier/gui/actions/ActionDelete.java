@@ -47,7 +47,7 @@ public class ActionDelete extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Task task = MainFrame.getInstance().getSelectedTask();
+		Task task = MainFrame.getInstance().getTaskView().getSelectedTask();
 		
 		if (task != null)
 			TaskFactory.getInstance().markToDelete(task);

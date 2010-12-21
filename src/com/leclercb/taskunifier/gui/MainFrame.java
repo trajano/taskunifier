@@ -19,12 +19,10 @@ package com.leclercb.taskunifier.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.print.PrinterException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -64,22 +62,22 @@ import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
+import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.OsUtils;
 
-public class MainFrame extends JFrame implements ListSelectionListener, SaveSettingsListener, ActionListener, ServiceFrame {
+public class MainFrame extends JFrame implements MainView, ListSelectionListener, SaveSettingsListener, ActionListener {
 	
-	private static ServiceFrame INSTANCE;
+	private static MainView INSTANCE;
 	
-	public static ServiceFrame getInstance() {
+	public static MainView getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new MainFrame();
 		
@@ -158,38 +156,13 @@ public class MainFrame extends JFrame implements ListSelectionListener, SaveSett
 	}
 	
 	@Override
-	public void setSelectedTask(Task task) {
-		this.taskPanel.setSelectedTask(task);
+	public SearcherView getSearcherView() {
+		return this.searcherPanel;
 	}
 	
 	@Override
-	public void selectDefaultTaskSearcher() {
-		this.searcherPanel.selectDefaultTaskSearcher();
-	}
-	
-	@Override
-	public TaskSearcher getSelectedTaskSearcher() {
-		return this.searcherPanel.getSelectedTaskSearcher();
-	}
-	
-	@Override
-	public void showColumn(TaskColumn taskColumn, boolean show) {
-		this.taskPanel.showColumn(taskColumn, show);
-	}
-	
-	@Override
-	public Task getSelectedTask() {
-		return this.taskPanel.getSelectedTask();
-	}
-	
-	@Override
-	public void refreshTasks() {
-		this.taskPanel.refreshTasks();
-	}
-	
-	@Override
-	public void printTasks() throws HeadlessException, PrinterException {
-		this.taskPanel.printTasks();
+	public TaskView getTaskView() {
+		return this.taskPanel;
 	}
 	
 	private void loadWindowSizeSettings() {

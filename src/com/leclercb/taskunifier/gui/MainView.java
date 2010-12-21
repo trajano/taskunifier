@@ -18,30 +18,16 @@
 package com.leclercb.taskunifier.gui;
 
 import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.awt.print.PrinterException;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 
-public interface ServiceFrame {
+public interface MainView {
 	
 	public abstract Frame getFrame();
 	
-	public abstract void selectDefaultTaskSearcher();
+	public abstract SearcherView getSearcherView();
 	
-	public abstract TaskSearcher getSelectedTaskSearcher();
-	
-	public abstract void showColumn(TaskColumn taskColumn, boolean show);
-	
-	public abstract Task getSelectedTask();
-	
-	public abstract void setSelectedTask(Task task);
-	
-	public abstract void refreshTasks();
-	
-	public abstract void printTasks() throws HeadlessException,
-			PrinterException;
+	public abstract TaskView getTaskView();
 	
 }

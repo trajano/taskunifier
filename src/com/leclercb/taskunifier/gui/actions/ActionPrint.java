@@ -47,7 +47,7 @@ public class ActionPrint extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MainFrame.getInstance().printTasks();
+			MainFrame.getInstance().getTaskView().printTasks();
 		} catch (Exception exc) {
 			JOptionPane.showMessageDialog(
 					null,

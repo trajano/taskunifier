@@ -52,7 +52,7 @@ public class ActionSynchronize extends AbstractAction {
 		
 		dialog.setVisible(true);
 		
-		MainFrame.getInstance().refreshTasks();
+		MainFrame.getInstance().getTaskView().refreshTasks();
 	}
 	
 }

@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.components.statusbar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StatusBar extends JPanel {
 	
+	private StatusElement taskCount;
+	private StatusElement displayedTaskCount;
 	private StatusElement lastSynchronizationDate;
 	
 	public StatusBar() {
@@ -46,14 +49,28 @@ public class StatusBar extends JPanel {
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		panel.setBorder(new EmptyBorder(1, 1, 1, 1));
 		this.add(panel, BorderLayout.CENTER);
 		
+		this.taskCount = new StatusElement();
+		panel.add(this.taskCount);
+		
+		this.displayedTaskCount = new StatusElement();
+		panel.add(this.displayedTaskCount);
+		
 		this.lastSynchronizationDate = new StatusElement();
-		panel.add(this.lastSynchronizationDate, BorderLayout.EAST);
+		panel.add(this.lastSynchronizationDate);
 		
 		this.initializeLastSynchronizationDate();
+	}
+	
+	private void initializeTaskCount() {
+
+	}
+	
+	private void initializeDisplayedTaskCount() {
+
 	}
 	
 	private void initializeLastSynchronizationDate() {

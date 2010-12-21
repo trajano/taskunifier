@@ -93,8 +93,8 @@ public class ReminderRunnable implements Runnable, PropertyChangeListener {
 											options[0]);
 									
 									if (n == JOptionPane.YES_OPTION) {
-										MainFrame.getInstance().selectDefaultTaskSearcher();
-										MainFrame.getInstance().setSelectedTask(
+										MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+										MainFrame.getInstance().getTaskView().setSelectedTask(
 												task);
 									}
 								}
