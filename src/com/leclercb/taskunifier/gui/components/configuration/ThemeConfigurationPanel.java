@@ -26,12 +26,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
@@ -73,11 +73,11 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 				for (int i = 0; i < this.windows.length; i++)
 					laf.setLookAndFeel(this.windows[i]);
 		} catch (LookAndFeelException e) {
-			JOptionPane.showMessageDialog(
-					this,
-					e.getMessage(),
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
+			ErrorDialog errorDialog = new ErrorDialog(
+					MainFrame.getInstance().getFrame(),
+					e);
+			errorDialog.setVisible(true);
+			
 			return;
 		}
 	}

@@ -25,7 +25,6 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -50,6 +49,8 @@ import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnection;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerFactory;
+import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -236,11 +237,10 @@ public class SynchronizeDialog extends JDialog {
 							
 							@Override
 							public void run() {
-								JOptionPane.showMessageDialog(
-										null,
-										e.getMessage(),
-										Translations.getString("general.error"),
-										JOptionPane.ERROR_MESSAGE);
+								ErrorDialog errorDialog = new ErrorDialog(
+										MainFrame.getInstance().getFrame(),
+										e);
+								errorDialog.setVisible(true);
 							}
 							
 						});
@@ -271,11 +271,10 @@ public class SynchronizeDialog extends JDialog {
 							
 							@Override
 							public void run() {
-								JOptionPane.showMessageDialog(
-										null,
-										e.getMessage(),
-										Translations.getString("general.error"),
-										JOptionPane.ERROR_MESSAGE);
+								ErrorDialog errorDialog = new ErrorDialog(
+										MainFrame.getInstance().getFrame(),
+										e);
+								errorDialog.setVisible(true);
 							}
 							
 						});

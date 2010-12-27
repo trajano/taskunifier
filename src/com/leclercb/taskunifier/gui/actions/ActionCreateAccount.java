@@ -24,6 +24,8 @@ import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
+import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -68,11 +70,12 @@ public class ActionCreateAccount extends AbstractAction {
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
+			ErrorDialog errorDialog = new ErrorDialog(
+					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.account_not_created"),
-					JOptionPane.ERROR_MESSAGE);
+					e);
+			errorDialog.setVisible(true);
+			
 			return;
 		}
 	}

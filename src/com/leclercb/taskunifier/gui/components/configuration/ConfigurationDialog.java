@@ -26,12 +26,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ConfigurationDialog extends JDialog {
@@ -168,11 +169,12 @@ public class ConfigurationDialog extends JDialog {
 		try {
 			Main.saveSettings();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
+			ErrorDialog errorDialog = new ErrorDialog(
+					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.save_settings"),
-					JOptionPane.ERROR_MESSAGE);
+					e);
+			errorDialog.setVisible(true);
+			
 			return;
 		}
 	}

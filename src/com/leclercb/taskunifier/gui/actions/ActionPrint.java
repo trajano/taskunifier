@@ -21,9 +21,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -49,11 +49,11 @@ public class ActionPrint extends AbstractAction {
 		try {
 			MainFrame.getInstance().getTaskView().printTasks();
 		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(
-					null,
-					exc.getMessage(),
+			ErrorDialog errorDialog = new ErrorDialog(
+					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.print"),
-					JOptionPane.ERROR_MESSAGE);
+					exc);
+			errorDialog.setVisible(true);
 		}
 	}
 	

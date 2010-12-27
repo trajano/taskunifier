@@ -53,5 +53,4 @@ public class ActionAbout extends AbstractAction {
 				true);
 		about.setVisible(true);
 	}
-	
 }

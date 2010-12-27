@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
@@ -39,6 +38,7 @@ import javax.swing.event.HyperlinkListener;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -142,11 +142,11 @@ public final class Help {
 							pane.setText(getContent(evt.getURL().getFile()));
 							pane.setCaretPosition(0);
 						} catch (Exception exc) {
-							JOptionPane.showMessageDialog(
-									null,
-									exc.getMessage(),
+							ErrorDialog errorDialog = new ErrorDialog(
+									MainFrame.getInstance().getFrame(),
 									Translations.getString("error.help_file_not_found"),
-									JOptionPane.ERROR_MESSAGE);
+									exc);
+							errorDialog.setVisible(true);
 						}
 					}
 				}

@@ -26,6 +26,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.api.synchronizer.AbstractCall;
+import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
@@ -109,11 +111,11 @@ public class ActionCheckVersion extends AbstractAction {
 						GuiLogger.getLogger().warning(
 								"An error occured while checking for updates");
 					} else {
-						JOptionPane.showMessageDialog(
-								null,
-								e.getMessage(),
+						ErrorDialog errorDialog = new ErrorDialog(
+								MainFrame.getInstance().getFrame(),
 								Translations.getString("error.check_version_error"),
-								JOptionPane.ERROR_MESSAGE);
+								e);
+						errorDialog.setVisible(true);
 					}
 				} finally {
 					SynchronizerUtils.removeProxy();

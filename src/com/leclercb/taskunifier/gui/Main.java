@@ -35,6 +35,7 @@ import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
@@ -82,11 +83,12 @@ public class Main {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(
-							null,
-							e.getMessage(),
-							Translations.getString("general.error"),
-							JOptionPane.ERROR_MESSAGE);
+					
+					ErrorDialog errorDialog = new ErrorDialog(
+							MainFrame.getInstance().getFrame(),
+							e);
+					errorDialog.setVisible(true);
+					
 					return;
 				}
 				
