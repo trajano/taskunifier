@@ -119,6 +119,7 @@ public class SynchronizeDialog extends JDialog {
 		public void run() {
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 				
+				private ToodledoConnection connection;
 				private ToodledoSynchronizer synchronizer;
 				
 				private String modelTypeToString(ModelType type, boolean plurial) {
@@ -209,11 +210,11 @@ public class SynchronizeDialog extends JDialog {
 					
 					SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.set_proxy")
 							+ "\n");
+					
 					SynchronizerUtils.initializeProxy();
 					
 					SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")
 							+ "\n");
-					ToodledoConnection connection = null;
 					
 					try {
 						if (Settings.getStringProperty("toodledo.email") == null)
@@ -222,14 +223,14 @@ public class SynchronizeDialog extends JDialog {
 						if (Settings.getStringProperty("toodledo.password") == null)
 							throw new Exception("Please fill in your password");
 						
-						connection = ToodledoConnectionFactory.getInstance().getConnection(
+						this.connection = ToodledoConnectionFactory.getInstance().getConnection(
 								Settings.getStringProperty("toodledo.email"),
 								Settings.getStringProperty("toodledo.password"),
 								Settings.getStringProperty("toodledo.userid"),
 								Settings.getStringProperty("toodledo.token"),
 								Settings.getCalendarProperty("toodledo.token_creation_date="));
 						
-						connection.connect();
+						this.connection.connect();
 					} catch (final Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
@@ -249,13 +250,13 @@ public class SynchronizeDialog extends JDialog {
 					
 					Settings.setStringProperty(
 							"toodledo.userid",
-							connection.getUserId());
+							this.connection.getUserId());
 					Settings.setStringProperty(
 							"toodledo.token",
-							connection.getToken());
+							this.connection.getToken());
 					
 					this.synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(
-							connection);
+							this.connection);
 					
 					SynchronizerUtils.initializeSynchronizer(this.synchronizer);
 					
@@ -289,9 +290,10 @@ public class SynchronizeDialog extends JDialog {
 				
 				@Override
 				protected void done() {
-					Settings.setCalendarProperty(
-							"toodledo.token_creation_date",
-							this.synchronizer.getConnection().getTokenCreationDate());
+					if (this.connection != null)
+						Settings.setCalendarProperty(
+								"toodledo.token_creation_date",
+								this.synchronizer.getConnection().getTokenCreationDate());
 					
 					if (this.synchronizer != null)
 						SynchronizerUtils.saveSynchronizerState(this.synchronizer);

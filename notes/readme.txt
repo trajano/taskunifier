@@ -4,6 +4,8 @@ HISTORY
 Version 0.6.2
 	- Bug fixed: proxy not removed after version check
 	- Bug fixed: undo/redo wasn't working anymore
+	- Bug fixed: synchronize window freeze when email/pwd missing
+	- Bug fixed: personal search creation bug
 	
 Version 0.6.1
 	- Improved Mac OS version

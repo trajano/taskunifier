@@ -428,9 +428,14 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			
 			this.check(column, condition, value);
 			
-			this.setColumn(column);
-			this.setCondition(condition);
-			this.setValue(value);
+			List<PropertyChangeEvent> events = new ArrayList<PropertyChangeEvent>();
+			
+			events.add(this.setColumn(column));
+			events.add(this.setCondition(condition));
+			events.add(this.setValue(value));
+			
+			for (PropertyChangeEvent event : events)
+				this.firePropertyChange(event);
 		}
 		
 		public TaskFilter getParent() {
@@ -445,32 +450,36 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			return this.column;
 		}
 		
-		private void setColumn(TaskColumn column) {
+		private PropertyChangeEvent setColumn(TaskColumn column) {
 			CheckUtils.isNotNull(column, "Column cannot be null");
 			TaskColumn oldColumn = this.column;
 			this.column = column;
-			this.firePropertyChange(PROP_COLUMN, oldColumn, column);
+			return new PropertyChangeEvent(this, PROP_COLUMN, oldColumn, column);
 		}
 		
 		public Condition<?, ?> getCondition() {
 			return this.condition;
 		}
 		
-		private void setCondition(Condition<?, ?> condition) {
+		private PropertyChangeEvent setCondition(Condition<?, ?> condition) {
 			CheckUtils.isNotNull(condition, "Condition cannot be null");
 			Condition<?, ?> oldCondition = this.condition;
 			this.condition = condition;
-			this.firePropertyChange(PROP_CONDITION, oldCondition, condition);
+			return new PropertyChangeEvent(
+					this,
+					PROP_CONDITION,
+					oldCondition,
+					condition);
 		}
 		
 		public Object getValue() {
 			return this.value;
 		}
 		
-		private void setValue(Object value) {
+		private PropertyChangeEvent setValue(Object value) {
 			Object oldValue = this.value;
 			this.value = value;
-			this.firePropertyChange(PROP_VALUE, oldValue, value);
+			return new PropertyChangeEvent(this, PROP_VALUE, oldValue, value);
 		}
 		
 		private void check(
