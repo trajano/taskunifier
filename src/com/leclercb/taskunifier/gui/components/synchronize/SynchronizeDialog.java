@@ -292,7 +292,7 @@ public class SynchronizeDialog extends JDialog {
 					if (this.connection != null)
 						Settings.setCalendarProperty(
 								"toodledo.token_creation_date",
-								this.synchronizer.getConnection().getTokenCreationDate());
+								this.connection.getTokenCreationDate());
 					
 					if (this.synchronizer != null)
 						SynchronizerUtils.saveSynchronizerState(this.synchronizer);

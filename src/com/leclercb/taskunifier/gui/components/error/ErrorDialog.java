@@ -1,7 +1,6 @@
 package com.leclercb.taskunifier.gui.components.error;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -19,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
@@ -40,7 +40,7 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setSize(500, 500);
+		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -72,12 +72,10 @@ public class ErrorDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		JTextArea stackTrace = new JTextArea(stringWriter.toString());
 		stackTrace.setEditable(false);
-		stackTrace.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		panel.add(stackTrace, BorderLayout.CENTER);
+		panel.add(new JScrollPane(stackTrace), BorderLayout.CENTER);
 		this.add(panel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel(buttonsPanel);
