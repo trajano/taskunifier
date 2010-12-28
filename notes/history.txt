@@ -4,6 +4,8 @@ Version 0.6.2
 	- Bug fixed: synchronize window freeze when email/pwd missing
 	- Bug fixed: personal search creation bug
 	- Error window: create report button
+	- Added Russian translations thanks to ...
+	- Default button defined in each dialog
 
 Version 0.6.1
 	- Improved Mac OS version

@@ -113,6 +113,8 @@ public class ConfigurationDialog extends JDialog {
 		applyButton.setActionCommand("APPLY");
 		applyButton.addActionListener(listener);
 		buttonsPanel.add(applyButton);
+		
+		this.getRootPane().setDefaultButton(okButton);
 	}
 	
 	private void initializeGeneralPanel(JTabbedPane tabbedPane) {

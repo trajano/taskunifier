@@ -90,6 +90,8 @@ public class ModelConfigurationDialog extends JDialog {
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
+		
+		this.getRootPane().setDefaultButton(okButton);
 	}
 	
 }

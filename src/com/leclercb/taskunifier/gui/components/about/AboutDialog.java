@@ -53,23 +53,26 @@ public class AboutDialog extends JDialog {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.add(buttonPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtons(buttonPanel);
 	}
 	
 	private void initializeButtons(JPanel buttonPanel) {
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.addActionListener(new ActionListener() {
+		ActionListener actionListener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AboutDialog.this.setVisible(false);
 			}
 			
-		});
+		};
 		
-		buttonPanel.add(okButton, BorderLayout.CENTER);
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		JButton okButton = new JButton(Translations.getString("general.ok"));
+		okButton.addActionListener(actionListener);
+		buttonPanel.add(okButton);
+		
+		this.getRootPane().setDefaultButton(okButton);
 	}
 	
 }
