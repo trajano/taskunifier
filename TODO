@@ -1,10 +1,10 @@
-Improve error handling (creation error report) + error translations
-Repeat field editable
-Javadoc
-Help files
-Bug : Mac copy paste + d&d does not work...
-Finish List View
-Scheduled synchronization
+- Improve error handling
+- Make repeat field editable
+- Javadoc
+- Help files
+- Bug : Mac copy paste + d&d does not work...
+- Finish List View
+- Scheduled synchronization
 
 
 New TaskUnifier version :
