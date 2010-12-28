@@ -63,6 +63,9 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 		Settings.setColorProperty(
 				"theme.color.odd",
 				(Color) this.getValue("COLOR_ODD"));
+		Settings.setColorProperty(
+				"theme.color.searcher_list",
+				(Color) this.getValue("COLOR_SEARCHER_LIST"));
 	}
 	
 	private void applyTheme() {
@@ -87,6 +90,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 		Boolean themeColorEnabledValue = false;
 		Color themeColorEvenValue = Color.WHITE;
 		Color themeColorOddValue = Color.WHITE;
+		Color themeColorSearcherListValue = Color.WHITE;
 		
 		if (Settings.getStringProperty("theme.lookandfeel") != null)
 			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Settings.getStringProperty("theme.lookandfeel"));
@@ -99,6 +103,9 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 		
 		if (Settings.getColorProperty("theme.color.odd") != null)
 			themeColorOddValue = Settings.getColorProperty("theme.color.odd");
+		
+		if (Settings.getColorProperty("theme.color.searcher_list") != null)
+			themeColorSearcherListValue = Settings.getColorProperty("theme.color.searcher_list");
 		
 		// Sort look and feels by name
 		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(
@@ -161,6 +168,12 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
 				new ConfigurationFieldType.ColorChooser(themeColorOddValue)));
+		
+		this.addField(new ConfigurationField(
+				"COLOR_SEARCHER_LIST",
+				Translations.getString("configuration.theme.color_searcher_list"),
+				new ConfigurationFieldType.ColorChooser(
+						themeColorSearcherListValue)));
 	}
 	
 }

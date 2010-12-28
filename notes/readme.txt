@@ -9,6 +9,7 @@ Version 0.6.2
 	- Error window: create report button
 	- Added Russian translations thanks to ...
 	- Default button defined in each dialog
+	- Added searcher list background color in settings
 	
 Version 0.6.1
 	- Improved Mac OS version

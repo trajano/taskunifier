@@ -234,11 +234,8 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.menuBar.add(fileMenu);
 		
 		fileMenu.add(new ActionPrint(16, 16));
-		
-		if (!OsUtils.isMacOSX()) {
-			fileMenu.add(new ActionConfiguration(16, 16));
-			fileMenu.add(new ActionQuit(16, 16));
-		}
+		fileMenu.add(new ActionConfiguration(16, 16));
+		fileMenu.add(new ActionQuit(16, 16));
 		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		editMenu.setMnemonic('E');
@@ -283,11 +280,9 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.menuBar.add(helpMenu);
 		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
-		editMenu.addSeparator();
+		helpMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
-		
-		if (!OsUtils.isMacOSX())
-			helpMenu.add(new ActionAbout(16, 16));
+		helpMenu.add(new ActionAbout(16, 16));
 		
 		this.setJMenuBar(this.menuBar);
 	}

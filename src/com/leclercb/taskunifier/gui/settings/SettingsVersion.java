@@ -35,6 +35,12 @@ public final class SettingsVersion {
 		if (version.equals("0.5.2"))
 			version = updateSettings_0_5_2_to_0_6();
 		
+		if (version.equals("0.6"))
+			version = "0.6.1";
+		
+		if (version.equals("0.6.1"))
+			version = updateSettings_0_6_1_to_0_6_2();
+		
 		Settings.setStringProperty("general.version", "0.6.2");
 	}
 	
@@ -52,6 +58,15 @@ public final class SettingsVersion {
 		Settings.removeProperty("date.date_time_format");
 		
 		return "0.6";
+	}
+	
+	private static String updateSettings_0_6_1_to_0_6_2() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.6.1 to 0.6.2");
+		
+		Settings.setStringProperty("theme.color.searcher_list", "-3090718");
+		
+		return "0.6.2";
 	}
 	
 }

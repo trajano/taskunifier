@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.Icon;
@@ -16,6 +17,16 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 		this.setLeafIcon(Images.getResourceImage("tree_leaf.png"));
 		this.setOpenIcon(Images.getResourceImage("tree_open.png"));
 		this.setClosedIcon(Images.getResourceImage("tree_closed.png"));
+	}
+	
+	@Override
+	public Color getBackgroundNonSelectionColor() {
+		return null;
+	}
+	
+	@Override
+	public Color getBackground() {
+		return null;
 	}
 	
 	@Override

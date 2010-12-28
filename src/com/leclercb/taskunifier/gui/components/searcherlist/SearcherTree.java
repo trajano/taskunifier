@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
@@ -36,6 +37,12 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 				else
 					this.collapseRow(i);
 			}
+		}
+		
+		if (Settings.getBooleanProperty("theme.color.enabled")) {
+			this.setBackground(Settings.getColorProperty("theme.color.searcher_list"));
+		} else {
+			this.setBackground(UIManager.getColor("Tree.background"));
 		}
 	}
 	

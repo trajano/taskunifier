@@ -36,8 +36,6 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StatusBar extends JPanel {
 	
-	private StatusElement taskCount;
-	private StatusElement displayedTaskCount;
 	private StatusElement lastSynchronizationDate;
 	
 	public StatusBar() {
@@ -53,24 +51,10 @@ public class StatusBar extends JPanel {
 		panel.setBorder(new EmptyBorder(1, 1, 1, 1));
 		this.add(panel, BorderLayout.CENTER);
 		
-		this.taskCount = new StatusElement();
-		panel.add(this.taskCount);
-		
-		this.displayedTaskCount = new StatusElement();
-		panel.add(this.displayedTaskCount);
-		
 		this.lastSynchronizationDate = new StatusElement();
 		panel.add(this.lastSynchronizationDate);
 		
 		this.initializeLastSynchronizationDate();
-	}
-	
-	private void initializeTaskCount() {
-
-	}
-	
-	private void initializeDisplayedTaskCount() {
-
 	}
 	
 	private void initializeLastSynchronizationDate() {
