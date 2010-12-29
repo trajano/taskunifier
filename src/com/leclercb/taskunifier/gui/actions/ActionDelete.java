@@ -17,10 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -37,12 +39,14 @@ public class ActionDelete extends AbstractAction {
 	public ActionDelete(int width, int height) {
 		super(
 				Translations.getString("action.name.delete"),
-				Images.getResourceImage("remove.png", 32, 32));
+				Images.getResourceImage("remove.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.delete"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_D);
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_D,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override

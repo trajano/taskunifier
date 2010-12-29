@@ -44,7 +44,6 @@ public class ActionCopy extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.copy"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getCopyAction().getValue(Action.NAME));

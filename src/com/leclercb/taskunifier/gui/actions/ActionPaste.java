@@ -44,12 +44,11 @@ public class ActionPaste extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.paste"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getPasteAction().getValue(Action.NAME));
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_P,
+				KeyEvent.VK_V,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	

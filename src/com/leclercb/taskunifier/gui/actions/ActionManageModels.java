@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -36,12 +35,11 @@ public class ActionManageModels extends AbstractAction {
 	public ActionManageModels(int width, int height) {
 		super(
 				Translations.getString("action.name.manage_models"),
-				Images.getResourceImage("folder.png", 32, 32));
+				Images.getResourceImage("folder.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.manage_models"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 	}
 	
 	@Override

@@ -17,10 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -44,7 +46,9 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.undo"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_U);
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_Z,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
 		this.updateAction();
 		

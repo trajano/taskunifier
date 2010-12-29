@@ -17,11 +17,13 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
@@ -51,7 +53,9 @@ public class ActionAddTask extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.add_task"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_T);
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_N,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override

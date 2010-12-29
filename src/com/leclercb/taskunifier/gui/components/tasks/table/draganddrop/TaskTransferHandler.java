@@ -95,7 +95,7 @@ public class TaskTransferHandler extends TransferHandler {
 	
 	@Override
 	public int getSourceActions(JComponent c) {
-		return TransferHandler.COPY | TransferHandler.LINK;
+		return TransferHandler.COPY_OR_MOVE;
 	}
 	
 	@Override

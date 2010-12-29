@@ -101,7 +101,7 @@ public class ActionCheckVersion extends AbstractAction {
 									null,
 									Translations.getString(
 											"action.check_version.no_new_version_available",
-											version),
+											Constants.VERSION),
 									Translations.getString("general.information"),
 									JOptionPane.INFORMATION_MESSAGE);
 						}

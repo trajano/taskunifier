@@ -42,7 +42,6 @@ public class ActionQuit extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.quit"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Q,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

@@ -2,9 +2,9 @@
 - Make repeat field editable
 - Javadoc
 - Help files
-- Bug : Mac copy paste + d&d does not work...
 - Finish List View
 - Scheduled synchronization
+- Only first column sort works
 
 
 New TaskUnifier version :

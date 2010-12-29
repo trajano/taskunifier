@@ -17,10 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizeDialog;
@@ -36,12 +38,14 @@ public class ActionSynchronize extends AbstractAction {
 	public ActionSynchronize(int width, int height) {
 		super(
 				Translations.getString("action.name.synchronize"),
-				Images.getResourceImage("synchronize.png", 32, 32));
+				Images.getResourceImage("synchronize.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.synchronize"));
-		this.putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_S,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override

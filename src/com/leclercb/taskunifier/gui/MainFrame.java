@@ -230,7 +230,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.menuBar = new JMenuBar();
 		
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
-		fileMenu.setMnemonic('F');
 		this.menuBar.add(fileMenu);
 		
 		fileMenu.add(new ActionPrint(16, 16));
@@ -238,7 +237,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		fileMenu.add(new ActionQuit(16, 16));
 		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
-		editMenu.setMnemonic('E');
 		this.menuBar.add(editMenu);
 		
 		editMenu.add(new ActionUndo(16, 16));
@@ -248,8 +246,15 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
 		
+		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
+		this.menuBar.add(tasksMenu);
+		
+		tasksMenu.add(new ActionSynchronize(16, 16));
+		tasksMenu.addSeparator();
+		tasksMenu.add(new ActionAddTask(16, 16));
+		tasksMenu.add(new ActionDelete(16, 16));
+		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		viewMenu.setMnemonic('V');
 		this.menuBar.add(viewMenu);
 		
 		ButtonGroup group = new ButtonGroup();
@@ -276,7 +281,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		}
 		
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
-		helpMenu.setMnemonic('H');
 		this.menuBar.add(helpMenu);
 		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
