@@ -6,6 +6,8 @@ Version 0.6.2
 	- Bug fixed: undo/redo wasn't working anymore
 	- Bug fixed: synchronize window freeze when email/pwd missing
 	- Bug fixed: personal search creation bug
+	- Bug fixed: keyboard shortcuts on Mac OS
+	- Bug fixed: subtask drag and drop bug on Mac OS
 	- Error window: create report button
 	- Added Russian translations thanks to ...
 	- Default button defined in each dialog
