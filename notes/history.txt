@@ -6,7 +6,6 @@ Version 0.6.2
 	- Bug fixed: keyboard shortcuts on Mac OS
 	- Bug fixed: subtask drag and drop bug on Mac OS
 	- Error window: create report button
-	- Added Russian translations thanks to ...
 	- Default button defined in each dialog
 	- Added searcher list background color in settings
 
