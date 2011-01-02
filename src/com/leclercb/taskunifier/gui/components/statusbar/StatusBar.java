@@ -32,11 +32,13 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StatusBar extends JPanel {
 	
 	private StatusElement lastSynchronizationDate;
+	private StatusElement scheduledSyncStatus;
 	
 	public StatusBar() {
 		this.initialize();
@@ -50,6 +52,9 @@ public class StatusBar extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		panel.setBorder(new EmptyBorder(1, 1, 1, 1));
 		this.add(panel, BorderLayout.CENTER);
+		
+		this.scheduledSyncStatus = new StatusElement();
+		panel.add(this.scheduledSyncStatus);
 		
 		this.lastSynchronizationDate = new StatusElement();
 		panel.add(this.lastSynchronizationDate);
@@ -94,6 +99,56 @@ public class StatusBar extends JPanel {
 		});
 	}
 	
+	public void initializeScheduledSyncStatus(final ScheduledSyncThread thread) {
+		this.updateScheduledSyncStatusText(thread);
+		
+		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(
+						"synchronizer.scheduler_enabled")) {
+					StatusBar.this.updateScheduledSyncStatusText(thread);
+				}
+			}
+			
+		});
+		
+		thread.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(
+						ScheduledSyncThread.PROP_REMAINING_SLEEP_TIME)) {
+					StatusBar.this.updateScheduledSyncStatusText(thread);
+				}
+			}
+			
+		});
+	}
+	
+	private void updateScheduledSyncStatusText(ScheduledSyncThread thread) {
+		String text = null;
+		
+		if (Settings.getBooleanProperty("synchronizer.scheduler_enabled")) {
+			long sleep = thread.getRemainingSleepTime();
+			sleep = sleep / 1000;
+			
+			String time = "";
+			time += (sleep / 3600) + "h ";
+			time += ((sleep % 3600) / 60) + "m ";
+			time += (sleep % 60) + "s";
+			
+			text = Translations.getString("statusbar.next_scheduled_sync", time);
+		} else {
+			text = Translations.getString(
+					"statusbar.next_scheduled_sync",
+					Translations.getString("statusbar.never"));
+		}
+		
+		StatusBar.this.scheduledSyncStatus.setText(text);
+	}
+	
 	private class StatusElement extends JPanel {
 		
 		private JLabel label;
@@ -110,7 +165,7 @@ public class StatusBar extends JPanel {
 			this.setLayout(new BorderLayout());
 			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 			
-			this.label = new JLabel();
+			this.label = new JLabel("");
 			this.label.setHorizontalAlignment(SwingConstants.TRAILING);
 			this.label.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			this.add(this.label, BorderLayout.CENTER);

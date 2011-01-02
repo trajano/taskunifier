@@ -1,36 +1,65 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionScheduledSync extends AbstractAction {
 	
-	private ScheduledSyncThread thread;
+	private int width;
+	private int height;
 	
-	public ActionScheduledSync(ScheduledSyncThread thread) {
-		this(thread, 32, 32);
+	public ActionScheduledSync() {
+		this(32, 32);
 	}
 	
-	public ActionScheduledSync(ScheduledSyncThread thread, int width, int height) {
-		super(
-				Translations.getString("action.name.scheduledsync"),
-				Images.getResourceImage("synchronize.png", width, height));
+	public ActionScheduledSync(int width, int height) {
+		super(Translations.getString("action.name.scheduled_sync"));
 		
-		this.thread = thread;
+		this.width = width;
+		this.height = height;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.scheduledsync"));
+				Translations.getString("action.description.scheduled_sync"));
+		
+		this.updateIcon();
+		
+		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(
+						"synchronizer.scheduler_enabled"))
+					ActionScheduledSync.this.updateIcon();
+			}
+			
+		});
+	}
+	
+	private void updateIcon() {
+		if (Settings.getBooleanProperty("synchronizer.scheduler_enabled"))
+			this.putValue(
+					SMALL_ICON,
+					Images.getResourceImage("play.png", this.width, this.height));
+		else
+			this.putValue(SMALL_ICON, Images.getResourceImage(
+					"pause.png",
+					this.width,
+					this.height));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.thread.setPause(!this.thread.isPause());
+		Settings.setBooleanProperty(
+				"synchronizer.scheduler_enabled",
+				!Settings.getBooleanProperty("synchronizer.scheduler_enabled"));
 	}
 	
 }

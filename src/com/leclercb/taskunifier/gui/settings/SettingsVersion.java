@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.settings;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 
 public final class SettingsVersion {
@@ -41,7 +42,10 @@ public final class SettingsVersion {
 		if (version.equals("0.6.1"))
 			version = updateSettings_0_6_1_to_0_6_2();
 		
-		Settings.setStringProperty("general.version", "0.6.2");
+		if (version.equals("0.6.2"))
+			version = updateSettings_0_6_2_to_0_6_3();
+		
+		Settings.setStringProperty("general.version", Constants.VERSION);
 	}
 	
 	private static String updateSettings_0_5_2_to_0_6() {
@@ -67,6 +71,16 @@ public final class SettingsVersion {
 		Settings.setStringProperty("theme.color.searcher_list", "-3090718");
 		
 		return "0.6.2";
+	}
+	
+	private static String updateSettings_0_6_2_to_0_6_3() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.6.2 to 0.6.3");
+		
+		Settings.setStringProperty("synchronizer.scheduler_enabled", "false");
+		Settings.setStringProperty("synchronizer.scheduler_sleep_time", "30000");
+		
+		return "0.6.3";
 	}
 	
 }

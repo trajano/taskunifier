@@ -1,3 +1,6 @@
+Version 0.6.3
+	- Added scheduled synchronization
+
 Version 0.6.2
 	- Bug fixed: proxy not removed after version check
 	- Bug fixed: undo/redo wasn't working anymore

@@ -58,6 +58,7 @@ import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionRedo;
+import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
@@ -69,6 +70,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
+import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.OsUtils;
@@ -85,6 +87,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private ReminderThread reminderThread;
+	private ScheduledSyncThread scheduledSyncThread;
 	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
@@ -143,11 +146,12 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		this.add(panel, BorderLayout.CENTER);
 		
+		this.initializeReminderThread();
+		this.initializeScheduledSyncThread();
+		
 		this.initializeMenuBar();
 		this.initializeToolBar();
 		this.initializeStatusBar();
-		
-		this.initializeReminderThread();
 	}
 	
 	@Override
@@ -250,6 +254,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.menuBar.add(tasksMenu);
 		
 		tasksMenu.add(new ActionSynchronize(16, 16));
+		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
@@ -301,6 +306,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.toolBar.add(new ActionManageModels());
 		this.toolBar.addSeparator();
 		this.toolBar.add(new ActionSynchronize());
+		this.toolBar.add(new ActionScheduledSync());
 		this.toolBar.addSeparator();
 		this.toolBar.add(new ActionConfiguration());
 		this.toolBar.addSeparator();
@@ -313,6 +319,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private void initializeStatusBar() {
 		this.statusBar = new StatusBar();
+		this.statusBar.initializeScheduledSyncStatus(this.scheduledSyncThread);
 		
 		this.add(this.statusBar, BorderLayout.SOUTH);
 	}
@@ -345,6 +352,11 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	private void initializeReminderThread() {
 		this.reminderThread = new ReminderThread();
 		this.reminderThread.start();
+	}
+	
+	private void initializeScheduledSyncThread() {
+		this.scheduledSyncThread = new ScheduledSyncThread();
+		this.scheduledSyncThread.start();
 	}
 	
 	@Override
@@ -382,6 +394,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	@Override
 	public void dispose() {
 		this.reminderThread.interrupt();
+		this.scheduledSyncThread.interrupt();
 		super.dispose();
 	}
 	
