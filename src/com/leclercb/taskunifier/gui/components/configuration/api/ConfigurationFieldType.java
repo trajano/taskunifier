@@ -36,6 +36,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -118,6 +119,24 @@ public interface ConfigurationFieldType<ComponentType extends Component, ValueTy
 		@Override
 		public Boolean getFieldValue() {
 			return this.isSelected();
+		}
+		
+	}
+	
+	public static class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
+		
+		public Spinner() {
+
+		}
+		
+		@Override
+		public JSpinner getFieldComponent() {
+			return this;
+		}
+		
+		@Override
+		public Object getFieldValue() {
+			return this.getValue();
 		}
 		
 	}

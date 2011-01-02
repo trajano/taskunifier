@@ -78,7 +78,9 @@ public final class SettingsVersion {
 				"Update settings from version 0.6.2 to 0.6.3");
 		
 		Settings.setStringProperty("synchronizer.scheduler_enabled", "false");
-		Settings.setStringProperty("synchronizer.scheduler_sleep_time", "30000");
+		Settings.setStringProperty(
+				"synchronizer.scheduler_sleep_time",
+				"600000");
 		
 		return "0.6.3";
 	}

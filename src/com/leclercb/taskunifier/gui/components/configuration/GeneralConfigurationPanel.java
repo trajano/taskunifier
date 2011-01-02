@@ -23,6 +23,8 @@ import java.util.Locale;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -50,6 +52,10 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 		Settings.setSimpleDateFormatProperty(
 				"date.time_format",
 				(SimpleDateFormat) this.getValue("TIME_FORMAT"));
+		
+		Settings.setLongProperty(
+				"synchronizer.scheduler_sleep_time",
+				((Long) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 	}
 	
 	private void initialize() {
@@ -58,6 +64,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 				"dd/MM/yyyy");
 		SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
 				"dd/MM/yyyy");
+		Long schedulerSleepTime = 600l;
 		
 		if (Settings.getLocaleProperty("general.locale") != null)
 			generalLanguageValue = Settings.getLocaleProperty("general.locale");
@@ -67,6 +74,9 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 		
 		if (Settings.getSimpleDateFormatProperty("date.time_format") != null)
 			generalTimeFormatValue = Settings.getSimpleDateFormatProperty("date.time_format");
+		
+		if (Settings.getLongProperty("synchronizer.scheduler_sleep_time") != null)
+			schedulerSleepTime = Settings.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
 		
 		this.addField(new ConfigurationField(
 				"LANGUAGE_AFTER_RESTART",
@@ -146,5 +156,23 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 		
 		((ConfigurationFieldType.ComboBox) this.getField("TIME_FORMAT").getType()).getFieldComponent().setRenderer(
 				new SimpleDateFormatListCellRenderer());
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_2",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"SCHEDULER_SLEEP_TIME",
+				Translations.getString("configuration.general.scheduler_sleep_time"),
+				new ConfigurationFieldType.Spinner()));
+		
+		JSpinner spinner = (JSpinner) this.getField("SCHEDULER_SLEEP_TIME").getType().getFieldComponent();
+		spinner.setModel(new SpinnerNumberModel(
+				schedulerSleepTime,
+				null,
+				null,
+				1l));
+		spinner.setEditor(new JSpinner.NumberEditor(spinner));
 	}
 }
