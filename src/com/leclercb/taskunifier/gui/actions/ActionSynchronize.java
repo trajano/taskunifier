@@ -50,6 +50,10 @@ public class ActionSynchronize extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		this.synchronize();
+	}
+	
+	public void synchronize() {
 		SynchronizeDialog dialog = new SynchronizeDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
