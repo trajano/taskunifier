@@ -169,10 +169,11 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 		
 		JSpinner spinner = (JSpinner) this.getField("SCHEDULER_SLEEP_TIME").getType().getFieldComponent();
 		spinner.setModel(new SpinnerNumberModel(
-				schedulerSleepTime,
-				null,
-				null,
-				1l));
+				schedulerSleepTime.intValue(),
+				10,
+				5 * 3600,
+				1));
 		spinner.setEditor(new JSpinner.NumberEditor(spinner));
 	}
+	
 }
