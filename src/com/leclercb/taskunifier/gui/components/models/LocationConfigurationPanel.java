@@ -187,14 +187,11 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 			@Override
 			public void keyReleased(KeyEvent event) {
 				try {
-					System.out.println(LocationConfigurationPanel.this.locationLatitude.getText());
 					double latitude = Double.parseDouble(LocationConfigurationPanel.this.locationLatitude.getText());
-					System.out.println("not error " + latitude);
 					LocationConfigurationPanel.this.locationLatitude.setBackground(UIManager.getColor("TextField.background"));
 					Location location = (Location) modelList.getSelectedModel();
 					location.setLatitude(latitude);
 				} catch (NumberFormatException e) {
-					System.out.println("error");
 					LocationConfigurationPanel.this.locationLatitude.setBackground(Color.RED);
 				}
 			}

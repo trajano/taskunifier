@@ -61,13 +61,13 @@ public class TaskRowComparator implements RowComparator<Object> {
 		int result = 0;
 		
 		if (task1.getParent() == null && task2.getParent() == null) {
-			// If both task are parents, compare them
+			// If both tasks are parents, compare them
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
 					* this.compare(taskColumn, o1, o2);
 		} else if (task1.getParent() != null
 				&& task2.getParent() != null
 				&& task1.getParent().equals(task2.getParent())) {
-			// If both task have the same parent, compare them
+			// If both tasks have the same parent, compare them
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
 					* this.compare(taskColumn, o1, o2);
 		} else if (task1.getParent() == null
@@ -92,12 +92,6 @@ public class TaskRowComparator implements RowComparator<Object> {
 			Object newO2 = taskColumn.getValue(task2);
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
 					* this.compare(taskColumn, newO1, newO2);
-		}
-		
-		if (result == 0) {
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* task1.getModelId().getId().compareTo(
-							task2.getModelId().getId());
 		}
 		
 		return result;

@@ -36,6 +36,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -60,6 +61,8 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
@@ -143,6 +146,8 @@ public class ActionAddTask extends AbstractAction {
 		
 		if (Settings.getStringProperty("task.default.note") != null)
 			task.setNote(Settings.getStringProperty("task.default.note"));
+		
+		MainFrame.getInstance().getTaskView().setSelectedTask(task);
 	}
 	
 }

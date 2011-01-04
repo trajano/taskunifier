@@ -230,10 +230,6 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 			if (!EqualsUtils.equals(
 					this.goalContributes.getSelectedItem(),
 					evt.getNewValue())) {
-				System.out.println("here "
-						+ this.goalContributes.getSelectedItem()
-						+ " "
-						+ evt.getNewValue());
 				this.goalContributes.setSelectedItem(evt.getNewValue());
 			}
 		}
