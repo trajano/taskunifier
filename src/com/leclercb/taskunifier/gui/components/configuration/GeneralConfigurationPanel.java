@@ -172,7 +172,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 				schedulerSleepTime.intValue(),
 				10,
 				5 * 3600,
-				1));
+				60));
 		spinner.setEditor(new JSpinner.NumberEditor(spinner));
 	}
 	
