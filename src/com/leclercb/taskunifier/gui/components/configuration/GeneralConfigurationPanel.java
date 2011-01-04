@@ -55,7 +55,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 		
 		Settings.setLongProperty(
 				"synchronizer.scheduler_sleep_time",
-				((Long) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
+				((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 	}
 	
 	private void initialize() {
