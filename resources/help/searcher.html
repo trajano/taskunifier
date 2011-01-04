@@ -53,7 +53,27 @@
 			<dt>Value:</dt>
 			<dd>
 				When you click on a condition in the filter tree, you can edit this field.
-				This field defines the value that will be checked.
+				This field defines the value that will be checked.<br />
+				Depending on the selected column, you will be able to choose one of the values in the list or to enter a value manually.
+				<br /><br />
+				These are the columns that require a "manual" value:
+				<dl>
+					<dt>Title, tags, repeat, note</dt>
+					<dd>
+						Anything you want...
+					</dd>
+					<dt>Completed on, due date, start date</dt>
+					<dd>
+						You have to enter a number (of days).<br />
+						The date used in the condition will be : now + number of days.
+					</dd>
+					<dt>Reminder, length</dt>
+					<dd>
+						You have to enter a number (of minutes).
+					</dd>
+				</dl>
+				<u>Attention point:</u><br />
+				When you have filled in the value, press enter the confirm.
 			</dd>
 		</dl>
 		<div class="back_button"><a href="file:///index.html">Back to index</a></div>
