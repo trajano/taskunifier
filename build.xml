@@ -9,6 +9,7 @@
 	
     <path id="TaskUnifierGui.classpath">
         <pathelement location="bin"/>
+        <pathelement location="lib/applejavaextensions.jar"/>
         <pathelement location="lib/json.jar"/>
         <pathelement location="lib/jtattoo.jar"/>
         <pathelement location="lib/taskunifierapi.jar"/>
