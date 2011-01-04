@@ -3,6 +3,7 @@ HISTORY
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
+	- Bug fixed: save scheduler delay error
 	- When a task is added, "All Tasks" searcher is selected
 	- When a task is added, it is selected
 	- Added tooltips on searchers
