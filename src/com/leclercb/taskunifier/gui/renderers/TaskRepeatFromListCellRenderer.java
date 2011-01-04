@@ -42,7 +42,7 @@ public class TaskRepeatFromListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof TaskRepeatFrom)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

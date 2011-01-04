@@ -7,6 +7,7 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.leclercb.taskunifier.gui.components.searcherlist.nodes.ModelTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.SearcherTreeNode;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -41,16 +42,30 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 		Icon leafIcon = this.getLeafIcon();
 		
 		if (value instanceof SearcherTreeNode) {
-			TaskSearcher searcher = (TaskSearcher) ((SearcherTreeNode) value).getUserObject();
+			TaskSearcher searcher = ((SearcherTreeNode) value).getTaskSearcher();
 			
 			if (searcher.getIcon() != null)
 				this.setLeafIcon(Images.getImage(searcher.getIcon(), 16, 16));
 			
 			this.setToolTipText("<html>"
+					+ searcher.getTitle()
+					+ "<br />"
 					+ searcher.getSorter()
 					+ "<br />"
 					+ searcher.getFilter()
 					+ "</html>");
+		} else if (value instanceof ModelTreeNode) {
+			TaskSearcher searcher = ((ModelTreeNode) value).getTaskSearcher();
+			
+			this.setToolTipText("<html>"
+					+ searcher.getTitle()
+					+ "<br />"
+					+ searcher.getSorter()
+					+ "<br />"
+					+ searcher.getFilter()
+					+ "</html>");
+		} else {
+			this.setToolTipText(null);
 		}
 		
 		Component component = super.getTreeCellRendererComponent(

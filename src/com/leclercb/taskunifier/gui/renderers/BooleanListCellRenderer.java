@@ -41,7 +41,7 @@ public class BooleanListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof Boolean)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

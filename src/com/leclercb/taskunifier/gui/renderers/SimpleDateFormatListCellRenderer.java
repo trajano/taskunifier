@@ -42,7 +42,7 @@ public class SimpleDateFormatListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof DateFormat)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

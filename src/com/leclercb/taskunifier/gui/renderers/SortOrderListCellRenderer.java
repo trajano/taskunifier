@@ -42,7 +42,7 @@ public class SortOrderListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof SortOrder)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

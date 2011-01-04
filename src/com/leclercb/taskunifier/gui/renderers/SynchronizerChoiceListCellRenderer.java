@@ -42,7 +42,7 @@ public class SynchronizerChoiceListCellRenderer extends DefaultListCellRenderer 
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof SynchronizerChoice)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

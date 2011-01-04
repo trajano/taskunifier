@@ -42,7 +42,7 @@ public class TaskPriorityListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof TaskPriority)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

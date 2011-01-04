@@ -42,7 +42,7 @@ public class GoalLevelListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof GoalLevel)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

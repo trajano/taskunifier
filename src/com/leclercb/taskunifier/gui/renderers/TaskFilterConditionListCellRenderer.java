@@ -42,7 +42,7 @@ public class TaskFilterConditionListCellRenderer extends DefaultListCellRenderer
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof TaskFilter.Condition<?, ?>)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

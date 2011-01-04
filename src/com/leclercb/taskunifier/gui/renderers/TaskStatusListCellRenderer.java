@@ -42,7 +42,7 @@ public class TaskStatusListCellRenderer extends DefaultListCellRenderer {
 				cellHasFocus);
 		
 		if (value == null || !(value instanceof TaskStatus)) {
-			this.setText("");
+			this.setText(" ");
 			return component;
 		}
 		

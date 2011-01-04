@@ -553,7 +553,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 					str += TranslationsUtils.translateTaskStatus((TaskStatus) this.getValue());
 					break;
 				default:
-					str += this.getValue();
+					str += (this.getValue() == null ? "" : this.getValue());
 					break;
 			}
 			
