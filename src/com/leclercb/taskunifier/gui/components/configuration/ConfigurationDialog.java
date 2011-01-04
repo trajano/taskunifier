@@ -161,14 +161,14 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void saveAndApplyConfig() {
-		this.generalConfigurationPanel.saveAndApplyConfig();
-		this.toodledoConfigurationPanel.saveAndApplyConfig();
-		this.proxyConfigurationPanel.saveAndApplyConfig();
-		this.taskConfigurationPanel.saveAndApplyConfig();
-		this.columnsConfigurationPanel.saveAndApplyConfig();
-		this.themeConfigurationPanel.saveAndApplyConfig();
-		
 		try {
+			this.generalConfigurationPanel.saveAndApplyConfig();
+			this.toodledoConfigurationPanel.saveAndApplyConfig();
+			this.proxyConfigurationPanel.saveAndApplyConfig();
+			this.taskConfigurationPanel.saveAndApplyConfig();
+			this.columnsConfigurationPanel.saveAndApplyConfig();
+			this.themeConfigurationPanel.saveAndApplyConfig();
+			
 			Main.saveSettings();
 		} catch (Exception e) {
 			ErrorDialog errorDialog = new ErrorDialog(
