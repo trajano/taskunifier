@@ -32,7 +32,7 @@ public final class Constants {
 	public static final String VERSION = "0.6.4";
 	
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
-	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/";
+	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
 	
 	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
 	public static final UndoableEditSupport UNDO_EDIT_SUPPORT = new UndoableEditSupport();
