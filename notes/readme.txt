@@ -1,6 +1,11 @@
 HISTORY
 -------
 
+Version 0.6.4
+	- Bug fixed: only first sorted column worked
+	- When a task is added, "All Tasks" searcher is selected
+	- When a task is added, it is selected
+
 Version 0.6.3
 	- Added scheduled synchronization
 

@@ -45,6 +45,9 @@ public final class SettingsVersion {
 		if (version.equals("0.6.2"))
 			version = updateSettings_0_6_2_to_0_6_3();
 		
+		if (version.equals("0.6.3"))
+			version = "0.6.4";
+		
 		Settings.setStringProperty("general.version", Constants.VERSION);
 	}
 	
