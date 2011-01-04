@@ -25,7 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -44,7 +46,10 @@ public class AboutPanel extends JPanel {
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JLabel icon = new JLabel(Images.getResourceImage("logo.png", 48, 48));
+		JLabel icon = new JLabel(
+				Constants.TITLE + " - " + Constants.VERSION,
+				Images.getResourceImage("logo.png", 48, 48),
+				SwingConstants.CENTER);
 		
 		panel.add(icon, BorderLayout.CENTER);
 		
