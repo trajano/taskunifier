@@ -147,6 +147,8 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 	
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
+		System.out.println(this.searcherTree.getSelectedTaskSearcher());
+		
 		boolean personalSearcher = TaskSearcherFactory.getInstance().contains(
 				this.searcherTree.getSelectedTaskSearcher());
 		

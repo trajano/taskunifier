@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 
@@ -19,6 +20,9 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 	
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
+		
+		// Enable tooltips
+		ToolTipManager.sharedInstance().registerComponent(this);
 		
 		// Warning: might not work with all UIs
 		this.setLargeModel(true);

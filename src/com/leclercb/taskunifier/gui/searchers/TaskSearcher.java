@@ -97,22 +97,4 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		return this.title;
 	}
 	
-	public String toDetailedString(String before) {
-		StringBuffer buffer = new StringBuffer();
-		
-		buffer.append(before + "Title: " + this.title + "\n");
-		buffer.append(before
-				+ "Filter: "
-				+ "\n"
-				+ this.filter.toDetailedString(before + "\t")
-				+ "\n");
-		buffer.append(before
-				+ "Sorter: "
-				+ "\n"
-				+ this.sorter.toDetailedString(before + "\t")
-				+ "\n");
-		
-		return buffer.toString();
-	}
-	
 }

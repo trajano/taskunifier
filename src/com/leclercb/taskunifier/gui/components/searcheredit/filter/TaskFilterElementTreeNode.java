@@ -5,14 +5,10 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilterElementTreeNode implements TreeNode {
 	
@@ -29,31 +25,7 @@ public class TaskFilterElementTreeNode implements TreeNode {
 	
 	@Override
 	public String toString() {
-		String str = this.element.getColumn()
-				+ " "
-				+ TranslationsUtils.translateTaskFilterCondition(this.element.getCondition())
-				+ " \"";
-		
-		switch (this.element.getColumn()) {
-			case COMPLETED:
-			case STAR:
-				str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.element.getValue().toString()));
-				break;
-			case PRIORITY:
-				str += TranslationsUtils.translateTaskPriority((TaskPriority) this.element.getValue());
-				break;
-			case REPEAT_FROM:
-				str += TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) this.element.getValue());
-				break;
-			case STATUS:
-				str += TranslationsUtils.translateTaskStatus((TaskStatus) this.element.getValue());
-				break;
-			default:
-				str += this.element.getValue();
-				break;
-		}
-		
-		return str + "\"";
+		return this.element.toString();
 	}
 	
 	@Override

@@ -22,6 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.SortOrder;
@@ -33,7 +34,10 @@ import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskSorter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
 	
@@ -88,6 +92,14 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 			this.firePropertyChange(PROP_SORT_ORDER, oldSortOrder, sortOrder);
 		}
 		
+		@Override
+		public String toString() {
+			return this.column
+					+ " ("
+					+ TranslationsUtils.translateSortOrder(this.sortOrder)
+					+ ")";
+		}
+		
 	}
 	
 	private ListenerList<ListChangeListener> listChangeListenerList;
@@ -115,7 +127,19 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 	}
 	
 	public List<TaskSorterElement> getElements() {
-		return Collections.unmodifiableList(this.elements);
+		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
+				this.elements);
+		
+		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
+			
+			@Override
+			public int compare(TaskSorterElement o1, TaskSorterElement o2) {
+				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
+			}
+			
+		});
+		
+		return Collections.unmodifiableList(sortElements);
 	}
 	
 	public void addElement(TaskSorterElement element) {
@@ -186,19 +210,11 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 				newValue));
 	}
 	
-	public String toDetailedString(String before) {
-		StringBuffer buffer = new StringBuffer();
-		
-		for (TaskSorterElement element : this.elements) {
-			buffer.append(before + "Order: " + element.getOrder() + "\n");
-			buffer.append(before + "Column: " + element.getColumn() + "\n");
-			buffer.append(before
-					+ "Sort Order: "
-					+ element.getSortOrder()
-					+ "\n");
-		}
-		
-		return buffer.toString();
+	@Override
+	public String toString() {
+		return Translations.getString("general.sort")
+				+ ": "
+				+ ListUtils.listToString(this.elements, ", ");
 	}
 	
 }

@@ -33,8 +33,14 @@ import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeM
 import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
 	
@@ -525,6 +531,35 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			return false;
 		}
 		
+		@Override
+		public String toString() {
+			String str = this.getColumn()
+					+ " "
+					+ TranslationsUtils.translateTaskFilterCondition(this.getCondition())
+					+ " \"";
+			
+			switch (this.getColumn()) {
+				case COMPLETED:
+				case STAR:
+					str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.getValue().toString()));
+					break;
+				case PRIORITY:
+					str += TranslationsUtils.translateTaskPriority((TaskPriority) this.getValue());
+					break;
+				case REPEAT_FROM:
+					str += TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) this.getValue());
+					break;
+				case STATUS:
+					str += TranslationsUtils.translateTaskStatus((TaskStatus) this.getValue());
+					break;
+				default:
+					str += this.getValue();
+					break;
+			}
+			
+			return str + "\"";
+		}
+		
 	}
 	
 	public static final String PROP_LINK = "FILTER_LINK";
@@ -723,27 +758,25 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 				newValue));
 	}
 	
-	public String toDetailedString(String before) {
-		StringBuffer buffer = new StringBuffer();
+	@Override
+	public String toString() {
+		if (this.elements.size() == 0 && this.filters.size() == 0)
+			return "";
 		
-		buffer.append(before + "Link: " + this.link + "\n");
+		StringBuffer buffer = new StringBuffer(
+				Translations.getString("general.filter") + ": ((");
 		
-		int i = 0;
-		for (TaskFilterElement element : this.elements) {
-			buffer.append(before + "Element: " + (i++) + "\n");
-			buffer.append(before + "\tColumn: " + element.getColumn() + "\n");
-			buffer.append(before
-					+ "\tCondition: "
-					+ element.getCondition()
-					+ "\n");
-			buffer.append(before + "\tValue: " + element.getValue() + "\n");
-		}
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(this.elements);
+		list.addAll(this.filters);
 		
-		i = 0;
-		for (TaskFilter filter : this.filters) {
-			buffer.append(before + "Filter: " + (i++) + "\n");
-			buffer.append(filter.toDetailedString(before + "\t"));
-		}
+		buffer.append(ListUtils.listToString(
+				list,
+				") "
+						+ TranslationsUtils.translateTaskFilterLink(this.link)
+						+ " ("));
+		
+		buffer.append("))");
 		
 		return buffer.toString();
 	}

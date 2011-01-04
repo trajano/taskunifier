@@ -45,6 +45,12 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 			
 			if (searcher.getIcon() != null)
 				this.setLeafIcon(Images.getImage(searcher.getIcon(), 16, 16));
+			
+			this.setToolTipText("<html>"
+					+ searcher.getSorter()
+					+ "<br />"
+					+ searcher.getFilter()
+					+ "</html>");
 		}
 		
 		Component component = super.getTreeCellRendererComponent(

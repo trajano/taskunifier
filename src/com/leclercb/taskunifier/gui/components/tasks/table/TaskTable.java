@@ -23,8 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -254,16 +252,7 @@ public class TaskTable extends JTable {
 		taskRowFilter.setFilter(searcher.getFilter());
 		
 		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
-				searcher.getSorter().getElements());
-		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
-			
-			@Override
-			public int compare(TaskSorterElement o1, TaskSorterElement o2) {
-				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
-			}
-			
-		});
+		List<TaskSorterElement> sortElements = searcher.getSorter().getElements();
 		
 		for (TaskSorterElement element : sortElements) {
 			// Don't sort if column is not visible (does not exist)
