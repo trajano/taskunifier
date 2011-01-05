@@ -4,6 +4,7 @@ HISTORY
 Version 0.6.5
 	- Drag and drop multiple tasks at once
 	- Delete multiple tasks at once
+	- TaskUnifier installer for Windows
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
