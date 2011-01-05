@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ErrorDialog extends JDialog {
@@ -100,7 +101,7 @@ public class ErrorDialog extends JDialog {
 							ps.close();
 						} catch (Exception exc) {
 							JOptionPane.showMessageDialog(
-									null,
+									MainFrame.getInstance().getFrame(),
 									exc.getMessage(),
 									Translations.getString("general.error"),
 									JOptionPane.ERROR_MESSAGE);
@@ -128,4 +129,5 @@ public class ErrorDialog extends JDialog {
 		
 		this.getRootPane().setDefaultButton(okButton);
 	}
+	
 }

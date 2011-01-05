@@ -80,7 +80,7 @@ public class ActionCheckVersion extends AbstractAction {
 								Translations.getString("general.cancel") };
 						
 						int result = JOptionPane.showOptionDialog(
-								null,
+								MainFrame.getInstance().getFrame(),
 								Translations.getString(
 										"action.check_version.new_version_available",
 										version),
@@ -98,7 +98,7 @@ public class ActionCheckVersion extends AbstractAction {
 						GuiLogger.getLogger().info("No new version available");
 						if (!ActionCheckVersion.this.silent) {
 							JOptionPane.showMessageDialog(
-									null,
+									MainFrame.getInstance().getFrame(),
 									Translations.getString(
 											"action.check_version.no_new_version_available",
 											Constants.VERSION),

@@ -65,7 +65,7 @@ public class ActionCreateAccount extends AbstractAction {
 					password);
 			
 			JOptionPane.showMessageDialog(
-					null,
+					MainFrame.getInstance().getFrame(),
 					Translations.getString("action.create_account.account_created"),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);

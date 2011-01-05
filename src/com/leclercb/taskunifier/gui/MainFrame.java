@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
@@ -258,6 +259,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
+		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
@@ -375,7 +377,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		if (tasks.size() != 1) {
 			this.previousSelectedTask = null;
 			
-			this.taskNote.setText(Translations.getString("error.select_one_task_to_edit_note"));
+			this.taskNote.setText(Translations.getString("error.select_one_task"));
 			this.taskNote.setEnabled(false);
 		} else {
 			this.previousSelectedTask = tasks.get(0);

@@ -49,7 +49,7 @@ public class ActionEditSearcher extends AbstractAction {
 	public void actionPerformed(ActionEvent event) {
 		if (MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher() == null) {
 			JOptionPane.showMessageDialog(
-					null,
+					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.select_searcher"),
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
