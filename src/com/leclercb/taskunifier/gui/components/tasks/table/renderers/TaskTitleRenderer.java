@@ -70,7 +70,7 @@ public class TaskTitleRenderer extends DefaultRenderer {
 		if (!task.isCompleted() && task.isOverDue())
 			this.setIcon(Images.getResourceImage("warning.gif"));
 		else
-			this.setIcon(null);
+			this.setIcon(Images.getResourceImage("transparent.png"));
 		
 		return component;
 	}
