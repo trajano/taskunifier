@@ -2,51 +2,62 @@
 <project basedir="." default="build" name="TaskUnifierGui">
 	
     <property environment="env"/>
-	<property name="TaskUnifierApi" value="../TaskUnifierApi"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
+	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
+	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
 	
-    <path id="TaskUnifierGui.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="lib/applejavaextensions.jar"/>
-        <pathelement location="lib/json.jar"/>
-        <pathelement location="lib/jtattoo.jar"/>
-        <pathelement location="lib/taskunifierapi.jar"/>
-        <pathelement location="lib/microba-0.4.4.3.jar"/>
-        <pathelement location="lib/trident.jar"/>
-        <pathelement location="lib/substance.jar"/>
+    <property name="java.debuglevel" value="source,lines,vars"/>
+    <property name="java.target" value="1.6"/>
+    <property name="java.source" value="1.6"/>
+	
+    <path id="taskunifiergui.classpath">
+        <pathelement location="${directory.gui}/bin"/>
+        <pathelement location="${directory.gui}/lib/applejavaextensions.jar"/>
+        <pathelement location="${directory.gui}/lib/json.jar"/>
+        <pathelement location="${directory.gui}/lib/jtattoo.jar"/>
+        <pathelement location="${directory.gui}/lib/taskunifierapi.jar"/>
+        <pathelement location="${directory.gui}/lib/microba-0.4.4.3.jar"/>
+        <pathelement location="${directory.gui}/lib/trident.jar"/>
+        <pathelement location="${directory.gui}/lib/substance.jar"/>
     </path>
 	
 	<target name="copy-api-jar">
-		<copy file="${TaskUnifierApi}/dist/TaskUnifierApi.jar" tofile="lib/taskunifierapi.jar"/>
+		<echo message="Copying API jar..."/>
+		<copy file="${directory.api}/dist/TaskUnifierApi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
+		<echo message="Done."/>
 	</target>
 	
     <target depends="copy-api-jar" name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
+		<echo message="Initializing compilation..."/>
+        <mkdir dir="${directory.gui}/bin"/>
+        <copy includeemptydirs="false" todir="${directory.gui}/bin">
+            <fileset dir="${directory.gui}/src">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+    	<echo message="Done."/>
     </target>
 	
     <target name="clean">
-        <delete dir="bin"/>
+		<echo message="Cleaning..."/>
+        <delete dir="${directory.gui}/bin"/>
+    	<echo message="Done."/>
     </target>
 	
     <target depends="init" name="build">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="TaskUnifierGui.classpath"/>
+		<echo message="Compiling ${ant.project.name}..."/>
+        <javac debug="true" debuglevel="${java.debuglevel}" destdir="${directory.gui}/bin" source="${java.source}" target="${java.target}">
+            <src path="${directory.gui}/src"/>
+            <classpath refid="taskunifiergui.classpath"/>
         </javac>
+    	<echo message="Done."/>
     </target>
 	
 	<target name="create-jar">
-		<mkdir dir="dist"/>
-		<jar jarfile="dist/TaskUnifierGui.jar" basedir="bin" manifest="MANIFEST.MF"/>
+		<echo message="Creating ${ant.project.name} jar file..."/>
+		<mkdir dir="${directory.gui}/dist"/>
+		<jar jarfile="${directory.gui}/dist/TaskUnifierGui.jar" basedir="${directory.gui}/bin" manifest="MANIFEST.MF"/>
+    	<echo message="Done."/>
 	</target>
 	
 </project>
