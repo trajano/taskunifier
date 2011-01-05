@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -340,6 +341,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private void initializeTaskNote(JSplitPane verticalSplitPane) {
 		this.taskNote = new JTextArea();
+		this.taskNote.setText(Translations.getString("error.select_one_task_to_edit_note"));
 		this.taskNote.setEnabled(false);
 		
 		verticalSplitPane.setBottomComponent(new JScrollPane(this.taskNote));
@@ -368,15 +370,18 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 				this.previousSelectedTask.setNote(this.taskNote.getText());
 		}
 		
-		Task task = this.taskPanel.getSelectedTask();
+		List<Task> tasks = this.taskPanel.getSelectedTasks();
 		
-		this.previousSelectedTask = task;
-		
-		if (task == null) {
-			this.taskNote.setText("");
+		if (tasks.size() != 1) {
+			this.previousSelectedTask = null;
+			
+			this.taskNote.setText(Translations.getString("error.select_one_task_to_edit_note"));
 			this.taskNote.setEnabled(false);
 		} else {
-			this.taskNote.setText(task.getNote() == null ? "" : task.getNote());
+			this.previousSelectedTask = tasks.get(0);
+			
+			this.taskNote.setText((tasks.get(0).getNote() == null ? "" : tasks.get(
+					0).getNote()));
 			this.taskNote.setEnabled(true);
 		}
 	}

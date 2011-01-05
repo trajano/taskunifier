@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.6.5
+	- Drag and drop multiple tasks at once
+	- Delete multiple tasks at once
+
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
 	- Bug fixed: save scheduler delay error

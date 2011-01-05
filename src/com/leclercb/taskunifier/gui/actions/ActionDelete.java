@@ -20,6 +20,7 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -51,9 +52,9 @@ public class ActionDelete extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Task task = MainFrame.getInstance().getTaskView().getSelectedTask();
+		List<Task> tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
-		if (task != null)
+		for (Task task : tasks)
 			TaskFactory.getInstance().markToDelete(task);
 	}
 	

@@ -18,11 +18,14 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.draganddrop;
 
 import java.awt.datatransfer.Transferable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -39,7 +42,7 @@ public class TaskTransferHandler extends TransferHandler {
 		
 		// Get Drag Task
 		Transferable t = support.getTransferable();
-		Task dragTask = null;
+		List<Task> dragTasks = new ArrayList<Task>();
 		
 		try {
 			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
@@ -47,7 +50,8 @@ public class TaskTransferHandler extends TransferHandler {
 			if (!data.getType().equals(ModelType.TASK))
 				return false;
 			
-			dragTask = TaskFactory.getInstance().get(data.getId());
+			for (ModelId id : data.getIds())
+				dragTasks.add(TaskFactory.getInstance().get(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -59,8 +63,9 @@ public class TaskTransferHandler extends TransferHandler {
 			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
 			
 			// False : If drag task has at least one child
-			if (TaskFactory.getInstance().getChildren(dragTask).size() != 0)
-				return false;
+			for (Task dragTask : dragTasks)
+				if (TaskFactory.getInstance().getChildren(dragTask).size() != 0)
+					return false;
 			
 			// True : If insert row
 			if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
@@ -71,8 +76,9 @@ public class TaskTransferHandler extends TransferHandler {
 			Task dropTask = table.getTask(dl.getRow());
 			
 			// False if drag task equals to drop task
-			if (dragTask.equals(dropTask))
-				return false;
+			for (Task dragTask : dragTasks)
+				if (dragTask.equals(dropTask))
+					return false;
 			
 			// False if drop task has a parent task
 			if (dropTask.getParent() != null)
@@ -87,10 +93,13 @@ public class TaskTransferHandler extends TransferHandler {
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		TaskTable table = (TaskTable) c;
-		Task task = table.getSelectedTask();
-		return new ModelTransferable(new ModelTransferData(
-				ModelType.TASK,
-				task.getModelId()));
+		List<Task> tasks = table.getSelectedTasks();
+		
+		List<ModelId> ids = new ArrayList<ModelId>();
+		for (Task task : tasks)
+			ids.add(task.getModelId());
+		
+		return new ModelTransferable(new ModelTransferData(ModelType.TASK, ids));
 	}
 	
 	@Override
@@ -106,7 +115,7 @@ public class TaskTransferHandler extends TransferHandler {
 		
 		// Get Drag Task
 		Transferable t = support.getTransferable();
-		Task dragTask = null;
+		List<Task> dragTasks = new ArrayList<Task>();
 		
 		try {
 			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
@@ -114,7 +123,8 @@ public class TaskTransferHandler extends TransferHandler {
 			if (!data.getType().equals(ModelType.TASK))
 				return false;
 			
-			dragTask = TaskFactory.getInstance().get(data.getId());
+			for (ModelId id : data.getIds())
+				dragTasks.add(TaskFactory.getInstance().get(id));
 		} catch (Exception e) {
 			return false;
 		}
@@ -126,7 +136,9 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			// Import : If insert row
 			if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
-				dragTask.setParent(null);
+				for (Task dragTask : dragTasks)
+					dragTask.setParent(null);
+				
 				table.getRowSorter().allRowsChanged();
 				return true;
 			}
@@ -140,7 +152,9 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			// Import
 			try {
-				dragTask.setParent(dropTask);
+				for (Task dragTask : dragTasks)
+					dragTask.setParent(dropTask);
+				
 				table.getRowSorter().allRowsChanged();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -151,10 +165,13 @@ public class TaskTransferHandler extends TransferHandler {
 			// Get Objects
 			TaskTable table = (TaskTable) support.getComponent();
 			
-			Task newTask = TaskFactory.getInstance().create(dragTask);
+			List<Task> newTasks = new ArrayList<Task>();
+			
+			for (Task dragTask : dragTasks)
+				newTasks.add(TaskFactory.getInstance().create(dragTask));
 			
 			table.getRowSorter().allRowsChanged();
-			table.setSelectedTask(newTask);
+			table.setSelectedTasks(newTasks);
 			
 			return true;
 		}

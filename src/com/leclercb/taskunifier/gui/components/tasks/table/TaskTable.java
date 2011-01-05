@@ -212,27 +212,36 @@ public class TaskTable extends JTable {
 		return ((TaskTableModel) this.getModel()).getTask(index);
 	}
 	
-	public Task getSelectedTask() {
-		int index = this.getSelectedRow();
+	public List<Task> getSelectedTasks() {
+		int[] indexes = this.getSelectedRows();
 		
-		if (index == -1)
-			return null;
+		List<Task> tasks = new ArrayList<Task>();
+		for (int i = 0; i < indexes.length; i++)
+			if (indexes[i] != -1)
+				tasks.add(this.getTask(indexes[i]));
 		
-		return this.getTask(index);
+		return tasks;
 	}
 	
-	public void setSelectedTask(Task task) {
+	public void setSelectedTasks(List<Task> tasks) {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 		
-		int index = -1;
-		for (int i = 0; i < model.getRowCount(); i++)
-			if (task.equals(model.getTask(i)))
-				index = this.getRowSorter().convertRowIndexToView(i);
+		this.getSelectionModel().setValueIsAdjusting(true);
 		
-		if (index == -1)
-			return;
+		for (Task task : tasks) {
+			for (int i = 0; i < model.getRowCount(); i++) {
+				if (task.equals(model.getTask(i))) {
+					int index = this.getRowSorter().convertRowIndexToView(i);
+					
+					if (index != -1)
+						this.getSelectionModel().setSelectionInterval(
+								index,
+								index);
+				}
+			}
+		}
 		
-		this.getSelectionModel().setSelectionInterval(index, index);
+		this.getSelectionModel().setValueIsAdjusting(false);
 	}
 	
 	public void refreshTasks() {
@@ -272,7 +281,7 @@ public class TaskTable extends JTable {
 	}
 	
 	private void initialize() {
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		TaskTableColumnModel columnModel = new TaskTableColumnModel();
 		TaskTableModel tableModel = new TaskTableModel();

@@ -48,6 +48,9 @@ public final class SettingsVersion {
 		if (version.equals("0.6.3"))
 			version = "0.6.4";
 		
+		if (version.equals("0.6.4"))
+			version = "0.6.5";
+		
 		Settings.setStringProperty("general.version", Constants.VERSION);
 	}
 	
