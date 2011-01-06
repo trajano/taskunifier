@@ -21,19 +21,28 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.Link;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
@@ -45,6 +54,7 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 	
 	private List<ActionListener> listeners;
 	
+	private JTextField filterTitle;
 	private SearcherTree searcherTree;
 	
 	private JButton addButton;
@@ -62,7 +72,29 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 	
 	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
-		return this.searcherTree.getSelectedTaskSearcher();
+		TaskSearcher searcher = this.searcherTree.getSelectedTaskSearcher();
+		
+		if (searcher == null)
+			return null;
+		
+		if (this.filterTitle.getText().length() == 0)
+			return searcher;
+		
+		searcher = searcher.clone();
+		
+		TaskFilter originalFilter = searcher.getFilter();
+		
+		TaskFilter newFilter = new TaskFilter();
+		newFilter.setLink(Link.AND);
+		newFilter.addElement(new TaskFilterElement(
+				TaskColumn.TITLE,
+				StringCondition.CONTAINS,
+				this.filterTitle.getText()));
+		newFilter.addFilter(originalFilter);
+		
+		searcher.setFilter(newFilter);
+		
+		return searcher;
 	}
 	
 	public void addActionListener(ActionListener listener) {
@@ -90,6 +122,26 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 		this.searcherTree.addTreeSelectionListener(this);
 		
 		this.setLayout(new BorderLayout());
+		
+		this.filterTitle = new JTextField();
+		
+		this.filterTitle.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SearcherPanel.this.fireActionPerformed(ACT_SEARCHER_SELECTED);
+			}
+			
+		});
+		
+		JPanel panel = new JPanel(new BorderLayout(5, 0));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+		panel.add(
+				new JLabel(Images.getResourceImage("search.png", 16, 16)),
+				BorderLayout.WEST);
+		panel.add(this.filterTitle, BorderLayout.CENTER);
+		
+		this.add(panel, BorderLayout.NORTH);
 		
 		this.add(new JScrollPane(this.searcherTree), BorderLayout.CENTER);
 		
@@ -150,9 +202,11 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 		boolean personalSearcher = TaskSearcherFactory.getInstance().contains(
 				this.searcherTree.getSelectedTaskSearcher());
 		
+		this.filterTitle.setText("");
 		this.removeButton.setEnabled(personalSearcher);
 		this.editButton.setEnabled(personalSearcher);
 		
 		this.fireActionPerformed(ACT_SEARCHER_SELECTED);
 	}
+	
 }

@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
+public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable, Cloneable {
 	
 	public static enum Link {
 		
@@ -326,7 +326,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		
 	}
 	
-	public static class TaskFilterElement extends AbstractPropertyChangeModel {
+	public static class TaskFilterElement extends AbstractPropertyChangeModel implements Cloneable {
 		
 		public static final String PROP_COLUMN = "FILTER_ELEMENT_COLUMN";
 		public static final String PROP_CONDITION = "FILTER_ELEMENT_CONDITION";
@@ -384,6 +384,14 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 				ModelCondition condition,
 				Model value) {
 			this.checkAndSet(column, condition, value);
+		}
+		
+		@Override
+		public TaskFilterElement clone() {
+			return new TaskFilterElement(
+					this.column,
+					this.condition,
+					this.value);
 		}
 		
 		public void set(
@@ -583,6 +591,20 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		this.elements = new ArrayList<TaskFilterElement>();
 	}
 	
+	@Override
+	public TaskFilter clone() {
+		TaskFilter filter = new TaskFilter();
+		filter.setLink(this.link);
+		
+		for (TaskFilterElement e : this.elements)
+			filter.addElement(e.clone());
+		
+		for (TaskFilter f : this.filters)
+			filter.addFilter(f.clone());
+		
+		return filter;
+	}
+	
 	public TaskFilter getParent() {
 		return this.parent;
 	}
@@ -621,6 +643,11 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	public void addElement(TaskFilterElement element) {
 		CheckUtils.isNotNull(element, "Element cannot be null");
 		this.elements.add(element);
+		
+		if (element.getParent() != null) {
+			element.getParent().removeElement(element);
+		}
+		
 		element.setParent(this);
 		element.addPropertyChangeListener(this);
 		int index = this.elements.indexOf(element);
@@ -657,6 +684,11 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	public void addFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filters.add(filter);
+		
+		if (filter.getParent() != null) {
+			filter.getParent().removeFilter(filter);
+		}
+		
 		filter.setParent(this);
 		filter.addPropertyChangeListener(this);
 		int index = this.filters.indexOf(filter);

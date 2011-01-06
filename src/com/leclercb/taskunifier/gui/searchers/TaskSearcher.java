@@ -22,7 +22,7 @@ import java.io.Serializable;
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable {
+public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable, Cloneable {
 	
 	public static final String PROP_TITLE = "SEARCHER_TITLE";
 	public static final String PROP_ICON = "SEARCHER_ICON";
@@ -47,6 +47,15 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		this.setIcon(icon);
 		this.setFilter(filter);
 		this.setSorter(sorter);
+	}
+	
+	@Override
+	public TaskSearcher clone() {
+		return new TaskSearcher(
+				this.title,
+				this.icon,
+				this.filter.clone(),
+				this.sorter.clone());
 	}
 	
 	public String getTitle() {

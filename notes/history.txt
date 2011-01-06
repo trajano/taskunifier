@@ -3,6 +3,8 @@ Version 0.6.5
 	- Delete multiple tasks at once
 	- TaskUnifier installer for Windows
 	- Batch add task
+	- Added quick search field
+	- Bug fixed: model references bug
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked

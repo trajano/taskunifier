@@ -39,9 +39,9 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class TaskSorter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable {
+public class TaskSorter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable, Cloneable {
 	
-	public static class TaskSorterElement extends AbstractPropertyChangeModel {
+	public static class TaskSorterElement extends AbstractPropertyChangeModel implements Cloneable {
 		
 		public static final String PROP_ORDER = "SORTER_ELEMENT_ORDER";
 		public static final String PROP_COLUMN = "SORTER_ELEMENT_COLUMN";
@@ -58,6 +58,14 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 			this.setOrder(order);
 			this.setColumn(column);
 			this.setSortOrder(sortOrder);
+		}
+		
+		@Override
+		public TaskSorterElement clone() {
+			return new TaskSorterElement(
+					this.order,
+					this.column,
+					this.sortOrder);
 		}
 		
 		public int getOrder() {
@@ -112,6 +120,16 @@ public class TaskSorter implements PropertyChangeListener, ListChangeModel, Prop
 		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
 		
 		this.elements = new ArrayList<TaskSorterElement>();
+	}
+	
+	@Override
+	public TaskSorter clone() {
+		TaskSorter sorter = new TaskSorter();
+		
+		for (TaskSorterElement e : this.elements)
+			sorter.addElement(e.clone());
+		
+		return sorter;
 	}
 	
 	public int getIndexOf(TaskSorterElement element) {
