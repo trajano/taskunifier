@@ -118,14 +118,14 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeGeneralPanel(JTabbedPane tabbedPane) {
-		this.generalConfigurationPanel = new GeneralConfigurationPanel();
+		this.generalConfigurationPanel = new GeneralConfigurationPanel(false);
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.general"),
 				new JScrollPane(this.generalConfigurationPanel));
 	}
 	
 	private void initializeToodledoPanel(JTabbedPane tabbedPane) {
-		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel();
+		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel(false);
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.toodledo"),
 				new JScrollPane(this.toodledoConfigurationPanel));

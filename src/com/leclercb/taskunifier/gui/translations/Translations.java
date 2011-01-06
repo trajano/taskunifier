@@ -35,6 +35,8 @@ public final class Translations {
 	}
 	
 	public static void changeLocale(Locale locale) {
+		Locale.setDefault(locale);
+		
 		messages = ResourceBundle.getBundle(
 				Translations.class.getName(),
 				locale);
@@ -56,7 +58,7 @@ public final class Translations {
 		
 		locales.add(new Locale("en", "US"));
 		locales.add(new Locale("fr", "FR"));
-		//locales.add(new Locale("ru", "RU"));
+		// locales.add(new Locale("ru", "RU"));
 		
 		return locales;
 	}

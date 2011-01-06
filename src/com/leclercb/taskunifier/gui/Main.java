@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -36,6 +35,8 @@ import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
+import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
@@ -48,17 +49,19 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
 	
+	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
 	
 	public static void main(String[] args) {
 		try {
 			loadResourceFolder();
-			boolean dataFolderCreated = loadDataFolder();
-			loadSettings(dataFolderCreated);
+			loadDataFolder();
+			loadSettings();
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -92,9 +95,15 @@ public class Main {
 					return;
 				}
 				
+				if (FIRST_EXECUTION) {
+					new LanguageDialog(null, true).setVisible(true);
+					new WelcomeDialog(null, true).setVisible(true);
+				}
+				
 				MainFrame.getInstance().getFrame().setVisible(true);
 				new ActionCheckVersion(true).checkVersion();
 			}
+			
 		});
 	}
 	
@@ -112,7 +121,7 @@ public class Main {
 					RESOURCES_FOLDER));
 	}
 	
-	private static boolean loadDataFolder() throws Exception {
+	private static void loadDataFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.data_folder") == null) {
 			DATA_FOLDER = "data";
 		} else {
@@ -140,18 +149,18 @@ public class Main {
 						"error.create_data_folder",
 						DATA_FOLDER));
 			
-			return true;
+			FIRST_EXECUTION = true;
+			return;
 		} else if (!file.isDirectory()) {
 			throw new Exception(Translations.getString(
 					"error.data_folder_not_a_folder",
 					DATA_FOLDER));
 		}
 		
-		return false;
+		FIRST_EXECUTION = false;
 	}
 	
-	private static void loadSettings(boolean dataFolderCreated)
-			throws Exception {
+	private static void loadSettings() throws Exception {
 		try {
 			Settings.load(new FileInputStream(DATA_FOLDER
 					+ File.separator
@@ -160,7 +169,7 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			Settings.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
-			if (!dataFolderCreated)
+			if (!FIRST_EXECUTION)
 				JOptionPane.showMessageDialog(
 						null,
 						Translations.getString("error.settings_file"),
@@ -170,7 +179,6 @@ public class Main {
 	}
 	
 	private static void loadLocale() throws Exception {
-		Locale.setDefault(Settings.getLocaleProperty("general.locale"));
 		Translations.changeLocale(Settings.getLocaleProperty("general.locale"));
 	}
 	

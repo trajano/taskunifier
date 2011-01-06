@@ -8,6 +8,7 @@ Version 0.6.5
 	- Batch add task
 	- Added quick search field
 	- Bug fixed: model references bug
+	- Welcome screen (first execution)
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
