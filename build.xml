@@ -23,7 +23,6 @@
 	<target name="copy-api-jar">
 		<echo message="Copying API jar..."/>
 		<copy file="${directory.api}/dist/TaskUnifierApi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
-		<echo message="Done."/>
 	</target>
 	
     <target depends="copy-api-jar" name="init">
@@ -35,13 +34,11 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
-    	<echo message="Done."/>
     </target>
 	
     <target name="clean">
 		<echo message="Cleaning..."/>
         <delete dir="${directory.gui}/bin"/>
-    	<echo message="Done."/>
     </target>
 	
     <target depends="init" name="build">
@@ -50,14 +47,12 @@
             <src path="${directory.gui}/src"/>
             <classpath refid="taskunifiergui.classpath"/>
         </javac>
-    	<echo message="Done."/>
     </target>
 	
 	<target name="create-jar">
 		<echo message="Creating ${ant.project.name} jar file..."/>
 		<mkdir dir="${directory.gui}/dist"/>
 		<jar jarfile="${directory.gui}/dist/TaskUnifierGui.jar" basedir="${directory.gui}/bin" manifest="MANIFEST.MF"/>
-    	<echo message="Done."/>
 	</target>
 	
 </project>
