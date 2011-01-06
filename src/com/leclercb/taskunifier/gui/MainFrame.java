@@ -343,7 +343,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private void initializeTaskNote(JSplitPane verticalSplitPane) {
 		this.taskNote = new JTextArea();
-		this.taskNote.setText(Translations.getString("error.select_one_task_to_edit_note"));
+		this.taskNote.setText(Translations.getString("error.select_one_task"));
 		this.taskNote.setEnabled(false);
 		
 		verticalSplitPane.setBottomComponent(new JScrollPane(this.taskNote));
