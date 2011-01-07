@@ -139,19 +139,19 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 			public void actionPerformed(ActionEvent e) {
 				ProxyConfigurationPanel.this.setEnabled(
 						"TYPE",
-						proxyEnabledField.isSelected());
+						!proxyUseSystemProxyField.isSelected());
 				ProxyConfigurationPanel.this.setEnabled(
 						"HOST",
-						proxyEnabledField.isSelected());
+						!proxyUseSystemProxyField.isSelected());
 				ProxyConfigurationPanel.this.setEnabled(
 						"PORT",
-						proxyEnabledField.isSelected());
+						!proxyUseSystemProxyField.isSelected());
 				ProxyConfigurationPanel.this.setEnabled(
 						"LOGIN",
-						proxyEnabledField.isSelected());
+						!proxyUseSystemProxyField.isSelected());
 				ProxyConfigurationPanel.this.setEnabled(
 						"PASSWORD",
-						proxyEnabledField.isSelected());
+						!proxyUseSystemProxyField.isSelected());
 			}
 			
 		});
@@ -184,6 +184,17 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 				"PASSWORD",
 				Translations.getString("configuration.proxy.password"),
 				new ConfigurationFieldType.PasswordField(proxyPasswordValue)));
+		
+		this.setEnabled("TYPE", proxyEnabledField.isSelected()
+				&& !proxyUseSystemProxyField.isSelected());
+		this.setEnabled("HOST", proxyEnabledField.isSelected()
+				&& !proxyUseSystemProxyField.isSelected());
+		this.setEnabled("PORT", proxyEnabledField.isSelected()
+				&& !proxyUseSystemProxyField.isSelected());
+		this.setEnabled("LOGIN", proxyEnabledField.isSelected()
+				&& !proxyUseSystemProxyField.isSelected());
+		this.setEnabled("PASSWORD", proxyEnabledField.isSelected()
+				&& !proxyUseSystemProxyField.isSelected());
 	}
 	
 }

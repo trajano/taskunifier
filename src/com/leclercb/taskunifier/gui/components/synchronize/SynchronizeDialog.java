@@ -40,7 +40,6 @@ import com.leclercb.taskunifier.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
@@ -209,15 +208,15 @@ public class SynchronizeDialog extends JDialog {
 						
 					});
 					
-					SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.set_proxy")
-							+ "\n");
-					
-					SynchronizerUtils.initializeProxy();
-					
-					SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")
-							+ "\n");
-					
 					try {
+						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.set_proxy")
+								+ "\n");
+						
+						SynchronizerUtils.initializeProxy();
+						
+						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")
+								+ "\n");
+						
 						if (Settings.getStringProperty("toodledo.email") == null)
 							throw new Exception("Please fill in your email");
 						
@@ -232,41 +231,25 @@ public class SynchronizeDialog extends JDialog {
 								Settings.getCalendarProperty("toodledo.token_creation_date="));
 						
 						this.connection.connect();
-					} catch (final Exception e) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								ErrorDialog errorDialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
-										e);
-								errorDialog.setVisible(true);
-							}
-							
-						});
 						
-						return null;
-					}
-					
-					Settings.setStringProperty(
-							"toodledo.userid",
-							this.connection.getUserId());
-					Settings.setStringProperty(
-							"toodledo.token",
-							this.connection.getToken());
-					
-					this.synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(
-							this.connection);
-					
-					SynchronizerUtils.initializeSynchronizer(this.synchronizer);
-					
-					SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
-							"synchronizer.choice",
-							SynchronizerChoice.class);
-					
-					try {
+						Settings.setStringProperty(
+								"toodledo.userid",
+								this.connection.getUserId());
+						Settings.setStringProperty(
+								"toodledo.token",
+								this.connection.getToken());
+						
+						this.synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(
+								this.connection);
+						
+						SynchronizerUtils.initializeSynchronizer(this.synchronizer);
+						
+						SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
+								"synchronizer.choice",
+								SynchronizerChoice.class);
+						
 						this.synchronizer.synchronize(choice, monitor);
-					} catch (final SynchronizerException e) {
+					} catch (final Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
 							@Override
@@ -308,7 +291,6 @@ public class SynchronizeDialog extends JDialog {
 			SynchronizeDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
-		
 	}
 	
 }
