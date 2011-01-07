@@ -130,20 +130,22 @@ public class Main {
 		
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
-			int response = JOptionPane.showConfirmDialog(
-					null,
-					Translations.getString(
-							"general.create_data_folder_question",
-							DATA_FOLDER),
-					Translations.getString("general.create_data_folder"),
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
-			
-			if (response == JOptionPane.NO_OPTION)
-				throw new Exception(Translations.getString(
-						"error.data_folder_needed",
-						Constants.TITLE));
-			
+			/*
+			 * int response = JOptionPane.showConfirmDialog(
+			 * null,
+			 * Translations.getString(
+			 * "general.create_data_folder_question",
+			 * DATA_FOLDER),
+			 * Translations.getString("general.create_data_folder"),
+			 * JOptionPane.YES_NO_OPTION,
+			 * JOptionPane.QUESTION_MESSAGE);
+			 * 
+			 * if (response == JOptionPane.NO_OPTION)
+			 * throw new Exception(Translations.getString(
+			 * "error.data_folder_needed",
+			 * Constants.TITLE));
+			 */
+
 			if (!file.mkdir())
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
