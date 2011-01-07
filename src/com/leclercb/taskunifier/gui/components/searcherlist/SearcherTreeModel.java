@@ -1,5 +1,7 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -10,6 +12,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import com.leclercb.taskunifier.api.event.ListenerList;
+import com.leclercb.taskunifier.api.event.action.ActionModel;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Context;
@@ -42,7 +46,9 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SearcherTreeModel extends DefaultTreeModel implements ListChangeListener, PropertyChangeListener {
+public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, ListChangeListener, PropertyChangeListener {
+	
+	public static final String ACT_NODE_ADDED = "SEARCHER_TREE_MODEL_NODE_ADDED";
 	
 	private static final TaskSearcher[] GENERAL_TASK_SEARCHERS;
 	
@@ -180,6 +186,8 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				sorter);
 	}
 	
+	private ListenerList<ActionListener> actionListenerList;
+	
 	private CategoryTreeNode categoryGeneral;
 	private CategoryTreeNode categoryContext;
 	private CategoryTreeNode categoryFolder;
@@ -189,6 +197,8 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	
 	public SearcherTreeModel() {
 		super(new DefaultMutableTreeNode());
+		
+		this.actionListenerList = new ListenerList<ActionListener>();
 		
 		this.initializeGeneralCategory();
 		this.initializeContextCategory();
@@ -360,6 +370,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				this.insertNodeInto(new ModelTreeNode(
 						node.getModelType(),
 						(Model) event.getValue()), node, node.getChildCount());
+				
+				this.fireActionPerformed(new ActionEvent(
+						node,
+						node.getChildCount(),
+						ACT_NODE_ADDED));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
 				
@@ -374,6 +389,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 						new SearcherTreeNode((TaskSearcher) event.getValue()),
 						this.categoryPersonal,
 						this.categoryPersonal.getChildCount());
+				
+				this.fireActionPerformed(new ActionEvent(
+						this.categoryPersonal,
+						this.categoryPersonal.getChildCount(),
+						ACT_NODE_ADDED));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
 				
@@ -399,17 +419,23 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 			} else {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getSource());
 				
-				if (child == null)
+				if (child == null) {
 					this.insertNodeInto(
 							new ModelTreeNode(
 									node.getModelType(),
 									(Model) event.getSource()),
 							node,
 							node.getChildCount());
-				else
+					
+					this.fireActionPerformed(new ActionEvent(
+							node,
+							node.getChildCount(),
+							ACT_NODE_ADDED));
+				} else {
 					this.nodeChanged(new ModelTreeNode(
 							node.getModelType(),
 							(Model) event.getSource()));
+				}
 			}
 		}
 		
@@ -420,6 +446,25 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 						(TaskSearcher) event.getSource()));
 			}
 		}
+	}
+	
+	@Override
+	public void addActionListener(ActionListener listener) {
+		this.actionListenerList.addListener(listener);
+	}
+	
+	@Override
+	public void removeActionListener(ActionListener listener) {
+		this.actionListenerList.removeListener(listener);
+	}
+	
+	protected void fireActionPerformed(ActionEvent event) {
+		for (ActionListener listener : this.actionListenerList)
+			listener.actionPerformed(event);
+	}
+	
+	protected void fireActionPerformed(int id, String command) {
+		this.fireActionPerformed(new ActionEvent(this, id, command));
 	}
 	
 }

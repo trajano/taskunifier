@@ -23,8 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,7 +33,8 @@ import javax.swing.JTextField;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.event.ListenerList;
+import com.leclercb.taskunifier.api.event.action.ActionModel;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
@@ -48,11 +47,11 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SearcherPanel extends JPanel implements SearcherView, TreeSelectionListener {
+public class SearcherPanel extends JPanel implements ActionModel, SearcherView, TreeSelectionListener {
 	
 	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
 	
-	private List<ActionListener> listeners;
+	private ListenerList<ActionListener> actionListenerList;
 	
 	private JTextField filterTitle;
 	private SearcherTree searcherTree;
@@ -62,6 +61,8 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 	private JButton editButton;
 	
 	public SearcherPanel() {
+		this.actionListenerList = new ListenerList<ActionListener>();
+		
 		this.initialize();
 	}
 	
@@ -97,27 +98,26 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 		return searcher;
 	}
 	
+	@Override
 	public void addActionListener(ActionListener listener) {
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-		
-		if (!this.listeners.contains(listener))
-			this.listeners.add(listener);
+		this.actionListenerList.addListener(listener);
 	}
 	
+	@Override
 	public void removeActionListener(ActionListener listener) {
-		this.listeners.remove(listener);
+		this.actionListenerList.removeListener(listener);
 	}
 	
-	protected void fireActionPerformed(String command) {
-		for (ActionListener listener : this.listeners)
-			listener.actionPerformed(new ActionEvent(
-					this,
-					ActionEvent.ACTION_PERFORMED,
-					command));
+	protected void fireActionPerformed(ActionEvent event) {
+		for (ActionListener listener : this.actionListenerList)
+			listener.actionPerformed(event);
+	}
+	
+	protected void fireActionPerformed(int id, String command) {
+		this.fireActionPerformed(new ActionEvent(this, id, command));
 	}
 	
 	private void initialize() {
-		this.listeners = new ArrayList<ActionListener>();
 		this.searcherTree = new SearcherTree();
 		this.searcherTree.addTreeSelectionListener(this);
 		
@@ -129,7 +129,9 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SearcherPanel.this.fireActionPerformed(ACT_SEARCHER_SELECTED);
+				SearcherPanel.this.fireActionPerformed(
+						ActionEvent.ACTION_PERFORMED,
+						ACT_SEARCHER_SELECTED);
 			}
 			
 		});
@@ -206,7 +208,9 @@ public class SearcherPanel extends JPanel implements SearcherView, TreeSelection
 		this.removeButton.setEnabled(personalSearcher);
 		this.editButton.setEnabled(personalSearcher);
 		
-		this.fireActionPerformed(ACT_SEARCHER_SELECTED);
+		this.fireActionPerformed(
+				ActionEvent.ACTION_PERFORMED,
+				ACT_SEARCHER_SELECTED);
 	}
 	
 }

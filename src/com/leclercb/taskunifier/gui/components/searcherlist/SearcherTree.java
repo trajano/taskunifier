@@ -1,17 +1,22 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.utils.TreeUtils;
 
-public class SearcherTree extends JTree implements SaveSettingsListener {
+public class SearcherTree extends JTree implements SaveSettingsListener, ActionListener {
 	
 	public SearcherTree() {
 		super(new SearcherTreeModel());
@@ -20,6 +25,8 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 	
 	private void initialize() {
 		Settings.addSaveSettingsListener(this);
+		
+		((SearcherTreeModel) this.getModel()).addActionListener(this);
 		
 		// Enable tooltips
 		ToolTipManager.sharedInstance().registerComponent(this);
@@ -74,6 +81,18 @@ public class SearcherTree extends JTree implements SaveSettingsListener {
 						((CategoryTreeNode) node).getExpandedPropetyName(),
 						expanded);
 			}
+		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals(SearcherTreeModel.ACT_NODE_ADDED)) {
+			if (e.getSource() == null)
+				return;
+			
+			TreePath path = TreeUtils.getPath((TreeNode) e.getSource());
+			if (path != null)
+				this.expandPath(path);
 		}
 	}
 	

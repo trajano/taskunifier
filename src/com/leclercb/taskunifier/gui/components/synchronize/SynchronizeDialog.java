@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerApiException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
@@ -249,6 +250,23 @@ public class SynchronizeDialog extends JDialog {
 								SynchronizerChoice.class);
 						
 						this.synchronizer.synchronize(choice, monitor);
+					} catch (final SynchronizerApiException e) {
+						SwingUtilities.invokeLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								// TODO : replace e.getMessage() by translated
+								// error message
+								ErrorDialog errorDialog = new ErrorDialog(
+										MainFrame.getInstance().getFrame(),
+										e.getMessage(),
+										e);
+								errorDialog.setVisible(true);
+							}
+							
+						});
+						
+						return null;
 					} catch (final Exception e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							

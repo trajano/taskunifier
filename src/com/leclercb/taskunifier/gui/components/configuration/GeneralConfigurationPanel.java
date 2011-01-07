@@ -63,7 +63,7 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 					(SimpleDateFormat) this.getValue("TIME_FORMAT"));
 			Settings.setLongProperty(
 					"synchronizer.scheduler_sleep_time",
-					((Long) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
+					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 		}
 	}
 	
