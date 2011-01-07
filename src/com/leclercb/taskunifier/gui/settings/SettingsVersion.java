@@ -49,7 +49,7 @@ public final class SettingsVersion {
 			version = "0.6.4";
 		
 		if (version.equals("0.6.4"))
-			version = "0.6.5";
+			version = updateSettings_0_6_4_to_0_6_5();
 		
 		Settings.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -89,6 +89,15 @@ public final class SettingsVersion {
 				"600000");
 		
 		return "0.6.3";
+	}
+	
+	private static String updateSettings_0_6_4_to_0_6_5() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.6.4 to 0.6.5");
+		
+		Settings.setStringProperty("proxy.use_system_proxy", "false");
+		
+		return "0.6.5";
 	}
 	
 }

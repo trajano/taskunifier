@@ -16,15 +16,20 @@ public final class SynchronizerUtils {
 	public static void initializeProxy() {
 		Boolean proxyEnabled = Settings.getBooleanProperty("proxy.enabled");
 		if (proxyEnabled != null && proxyEnabled) {
-			Proxy.Type type = (Proxy.Type) Settings.getEnumProperty(
-					"proxy.type",
-					Proxy.Type.class);
-			String host = Settings.getStringProperty("proxy.host");
-			Integer port = Settings.getIntegerProperty("proxy.port");
-			String login = Settings.getStringProperty("proxy.login");
-			String password = Settings.getStringProperty("proxy.password");
-			
-			ProxyUtils.setProxy(type, host, port, login, password);
+			Boolean useSystemProxy = Settings.getBooleanProperty("proxy.use_system_proxy");
+			if (useSystemProxy != null && useSystemProxy) {
+				ProxyUtils.useSystemProxy();
+			} else {
+				Proxy.Type type = (Proxy.Type) Settings.getEnumProperty(
+						"proxy.type",
+						Proxy.Type.class);
+				String host = Settings.getStringProperty("proxy.host");
+				Integer port = Settings.getIntegerProperty("proxy.port");
+				String login = Settings.getStringProperty("proxy.login");
+				String password = Settings.getStringProperty("proxy.password");
+				
+				ProxyUtils.setProxy(type, host, port, login, password);
+			}
 		} else {
 			removeProxy();
 		}

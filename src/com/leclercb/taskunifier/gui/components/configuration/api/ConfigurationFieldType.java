@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -43,7 +43,7 @@ import javax.swing.border.LineBorder;
 
 import com.leclercb.taskunifier.gui.images.Images;
 
-public interface ConfigurationFieldType<ComponentType extends Component, ValueType> {
+public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
 	
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 		

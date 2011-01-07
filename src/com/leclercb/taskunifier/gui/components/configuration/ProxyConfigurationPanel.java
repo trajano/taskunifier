@@ -17,8 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Proxy;
 import java.net.Proxy.Type;
+
+import javax.swing.JCheckBox;
 
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -40,6 +44,9 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 		Settings.setBooleanProperty(
 				"proxy.enabled",
 				(Boolean) this.getValue("ENABLED"));
+		Settings.setBooleanProperty(
+				"proxy.use_system_proxy",
+				(Boolean) this.getValue("USE_SYSTEM_PROXY"));
 		Settings.setEnumProperty(
 				"proxy.type",
 				Proxy.Type.class,
@@ -56,6 +63,7 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 	
 	private void initialize() {
 		Boolean proxyEnabledValue = false;
+		Boolean proxyUseSystemProxyValue = false;
 		Proxy.Type proxyTypeValue = Proxy.Type.HTTP;
 		String proxyHostValue = "";
 		String proxyPortValue = "0";
@@ -64,6 +72,9 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 		
 		if (Settings.getBooleanProperty("proxy.enabled") != null)
 			proxyEnabledValue = Settings.getBooleanProperty("proxy.enabled");
+		
+		if (Settings.getBooleanProperty("proxy.use_system_proxy") != null)
+			proxyUseSystemProxyValue = Settings.getBooleanProperty("proxy.use_system_proxy");
 		
 		if (Settings.getEnumProperty("proxy.type", Proxy.Type.class) != null)
 			proxyTypeValue = (Type) Settings.getEnumProperty(
@@ -86,6 +97,64 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
 				new ConfigurationFieldType.CheckBox(proxyEnabledValue)));
+		
+		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
+				"ENABLED").getType()).getFieldComponent();
+		proxyEnabledField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProxyConfigurationPanel.this.setEnabled(
+						"USE_SYSTEM_PROXY",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"TYPE",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"HOST",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PORT",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"LOGIN",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PASSWORD",
+						proxyEnabledField.isSelected());
+			}
+			
+		});
+		
+		this.addField(new ConfigurationField(
+				"USE_SYSTEM_PROXY",
+				Translations.getString("configuration.proxy.use_system_proxy"),
+				new ConfigurationFieldType.CheckBox(proxyUseSystemProxyValue)));
+		
+		final JCheckBox proxyUseSystemProxyField = ((ConfigurationFieldType.CheckBox) this.getField(
+				"USE_SYSTEM_PROXY").getType()).getFieldComponent();
+		proxyUseSystemProxyField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProxyConfigurationPanel.this.setEnabled(
+						"TYPE",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"HOST",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PORT",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"LOGIN",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PASSWORD",
+						proxyEnabledField.isSelected());
+			}
+			
+		});
 		
 		this.addField(new ConfigurationField(
 				"TYPE",
