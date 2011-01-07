@@ -67,6 +67,8 @@ public class ActionEditSearcher extends AbstractAction {
 				searcher);
 		
 		dialog.setVisible(true);
+		
+		MainFrame.getInstance().getTaskView().setTaskSearcher(searcher);
 	}
 	
 }

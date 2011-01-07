@@ -91,8 +91,9 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 				return;
 			
 			TreePath path = TreeUtils.getPath((TreeNode) e.getSource());
-			if (path != null)
-				this.expandPath(path);
+			if (path != null) {
+				this.setSelectionPath(path);
+			}
 		}
 	}
 	

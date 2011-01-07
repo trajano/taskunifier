@@ -132,6 +132,7 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 		this.taskTable.getSelectionModel().addListSelectionListener(listener);
 	}
 	
+	@Override
 	public void setTaskSearcher(TaskSearcher searcher) {
 		this.taskTable.setTaskSearcher(searcher);
 	}

@@ -58,6 +58,14 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 				0,
 				TaskColumn.DUE_DATE,
 				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(
+				1,
+				TaskColumn.PRIORITY,
+				SortOrder.DESCENDING));
+		sorter.addElement(new TaskSorterElement(
+				2,
+				TaskColumn.TITLE,
+				SortOrder.ASCENDING));
 		
 		TaskFilter filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(

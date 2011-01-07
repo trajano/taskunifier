@@ -160,10 +160,12 @@ public class SearcherPanel extends JPanel implements ActionModel, SearcherView, 
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					TaskSearcherFactory.getInstance().create(
+					TaskSearcher searcher = TaskSearcherFactory.getInstance().create(
 							Translations.getString("searcher.default.title"),
 							new TaskFilter(),
 							new TaskSorter());
+					
+					new ActionEditSearcher().editSearcher(searcher);
 				} else if (event.getActionCommand().equals("REMOVE")) {
 					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
 					TaskSearcherFactory.getInstance().unregister(searcher);

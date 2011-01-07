@@ -58,9 +58,6 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 		TaskFilter filter;
 		TaskSorter sorter;
 		
-		// All Tasks
-		filter = new TaskFilter();
-		
 		sorter = new TaskSorter();
 		sorter.addElement(new TaskSorterElement(
 				0,
@@ -68,14 +65,21 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				SortOrder.ASCENDING));
 		sorter.addElement(new TaskSorterElement(
 				1,
+				TaskColumn.PRIORITY,
+				SortOrder.DESCENDING));
+		sorter.addElement(new TaskSorterElement(
+				2,
 				TaskColumn.TITLE,
 				SortOrder.ASCENDING));
+		
+		// All Tasks
+		filter = new TaskFilter();
 		
 		GENERAL_TASK_SEARCHERS[0] = new TaskSearcher(
 				Translations.getString("searcherlist.general.all_tasks"),
 				Images.getResourceFile("document.png"),
 				filter,
-				sorter);
+				sorter.clone());
 		
 		// Hot List
 		filter = new TaskFilter();
@@ -92,21 +96,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				EnumCondition.GREATER_THAN_OR_EQUALS,
 				TaskPriority.HIGH));
 		
-		sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(
-				0,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
 				Translations.getString("searcherlist.general.hot_list"),
 				Images.getResourceFile("hot_pepper.png"),
 				filter,
-				sorter);
+				sorter.clone());
 		
 		// Starred
 		filter = new TaskFilter();
@@ -119,21 +113,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				StringCondition.EQUALS,
 				"true"));
 		
-		sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(
-				0,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
 				Translations.getString("searcherlist.general.starred"),
 				Images.getResourceFile("star.png"),
 				filter,
-				sorter);
+				sorter.clone());
 		
 		// Next Action
 		filter = new TaskFilter();
@@ -146,21 +130,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				EnumCondition.EQUALS,
 				TaskStatus.NEXT_ACTION));
 		
-		sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(
-				0,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
 				Translations.getString("searcherlist.general.next_action"),
 				Images.getResourceFile("next.png"),
 				filter,
-				sorter);
+				sorter.clone());
 		
 		// Completed
 		filter = new TaskFilter();
@@ -169,21 +143,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				StringCondition.EQUALS,
 				"true"));
 		
-		sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(
-				0,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
 				Translations.getString("searcherlist.general.completed"),
 				Images.getResourceFile("check.png"),
 				filter,
-				sorter);
+				sorter.clone());
 	}
 	
 	private ListenerList<ActionListener> actionListenerList;
@@ -367,13 +331,15 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 			CategoryTreeNode node = this.getCategoryFromModel((Model) event.getValue());
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-				this.insertNodeInto(new ModelTreeNode(
+				ModelTreeNode newNode = new ModelTreeNode(
 						node.getModelType(),
-						(Model) event.getValue()), node, node.getChildCount());
+						(Model) event.getValue());
+				
+				this.insertNodeInto(newNode, node, node.getChildCount());
 				
 				this.fireActionPerformed(new ActionEvent(
-						node,
-						node.getChildCount(),
+						newNode,
+						ActionEvent.ACTION_PERFORMED,
 						ACT_NODE_ADDED));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
@@ -385,14 +351,17 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 		
 		if (event.getValue() instanceof TaskSearcher) {
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+				SearcherTreeNode newNode = new SearcherTreeNode(
+						(TaskSearcher) event.getValue());
+				
 				this.insertNodeInto(
-						new SearcherTreeNode((TaskSearcher) event.getValue()),
+						newNode,
 						this.categoryPersonal,
 						this.categoryPersonal.getChildCount());
 				
 				this.fireActionPerformed(new ActionEvent(
-						this.categoryPersonal,
-						this.categoryPersonal.getChildCount(),
+						newNode,
+						ActionEvent.ACTION_PERFORMED,
 						ACT_NODE_ADDED));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
@@ -420,16 +389,15 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getSource());
 				
 				if (child == null) {
-					this.insertNodeInto(
-							new ModelTreeNode(
-									node.getModelType(),
-									(Model) event.getSource()),
-							node,
-							node.getChildCount());
+					ModelTreeNode newNode = new ModelTreeNode(
+							node.getModelType(),
+							(Model) event.getSource());
+					
+					this.insertNodeInto(newNode, node, node.getChildCount());
 					
 					this.fireActionPerformed(new ActionEvent(
-							node,
-							node.getChildCount(),
+							newNode,
+							ActionEvent.ACTION_PERFORMED,
 							ACT_NODE_ADDED));
 				} else {
 					this.nodeChanged(new ModelTreeNode(
