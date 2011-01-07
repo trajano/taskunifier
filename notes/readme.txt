@@ -10,6 +10,8 @@ Version 0.6.5
 	- Bug fixed: model references bug
 	- Welcome screen (first execution)
 	- Use system proxy settings option
+	- Expand searcher tree when new searcher is added
+	- Improved error handling
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked

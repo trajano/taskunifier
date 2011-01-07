@@ -4,8 +4,10 @@ import java.net.Proxy;
 import java.util.Calendar;
 
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApiConfiguration;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
 import com.leclercb.taskunifier.api.utils.ProxyUtils;
+import com.leclercb.taskunifier.gui.constants.Constants;
 
 public final class SynchronizerUtils {
 	
@@ -44,6 +46,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void initializeSynchronizer(ToodledoSynchronizer synchronizer) {
+		ToodledoApiConfiguration.setVersion(Constants.VERSION);
+		
 		synchronizer.setKeepTasksCompletedForXDays(Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days"));
 		
 		synchronizer.setLastContextEdit(Settings.getCalendarProperty("synchronizer.last_context_edit"));
