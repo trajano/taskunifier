@@ -132,7 +132,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		
-		this.horizontalSplitPane.setBorder(new EmptyBorder(3, 0, 3, 0));
+		this.horizontalSplitPane.setBorder(new EmptyBorder(3, 0, 0, 0));
 		
 		this.loadSplitPaneSettings();
 		
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 		
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);

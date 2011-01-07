@@ -28,7 +28,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import com.leclercb.taskunifier.api.settings.Settings;
@@ -45,19 +44,14 @@ public class StatusBar extends JPanel {
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		panel.setBorder(new EmptyBorder(1, 1, 1, 1));
-		this.add(panel, BorderLayout.CENTER);
+		this.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		this.setBorder(new EmptyBorder(1, 1, 1, 1));
 		
 		this.scheduledSyncStatus = new StatusElement();
-		panel.add(this.scheduledSyncStatus);
+		this.add(this.scheduledSyncStatus);
 		
 		this.lastSynchronizationDate = new StatusElement();
-		panel.add(this.lastSynchronizationDate);
+		this.add(this.lastSynchronizationDate);
 		
 		this.initializeLastSynchronizationDate();
 	}
