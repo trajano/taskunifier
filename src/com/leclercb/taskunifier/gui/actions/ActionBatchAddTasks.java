@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.swing.JTextAreaDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -52,12 +52,10 @@ public class ActionBatchAddTasks extends AbstractAction {
 		List<Task> selectedTasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
 		if (selectedTasks.size() != 1) {
-			JOptionPane.showMessageDialog(
+			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.select_one_task"),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-			
+					Translations.getString("error.select_one_task"));
+			errorDialog.setVisible(true);
 			return;
 		}
 		

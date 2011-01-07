@@ -20,10 +20,10 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -48,11 +48,10 @@ public class ActionEditSearcher extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher() == null) {
-			JOptionPane.showMessageDialog(
+			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.select_searcher"),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					Translations.getString("error.select_searcher"));
+			errorDialog.setVisible(true);
 			return;
 		}
 		

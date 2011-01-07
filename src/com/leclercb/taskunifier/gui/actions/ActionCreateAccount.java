@@ -72,8 +72,8 @@ public class ActionCreateAccount extends AbstractAction {
 		} catch (Exception e) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.account_not_created"),
-					e);
+					e,
+					true);
 			errorDialog.setVisible(true);
 			
 			return;

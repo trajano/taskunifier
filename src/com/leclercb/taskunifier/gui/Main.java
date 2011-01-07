@@ -89,7 +89,8 @@ public class Main {
 					
 					ErrorDialog errorDialog = new ErrorDialog(
 							MainFrame.getInstance().getFrame(),
-							e);
+							e,
+							true);
 					errorDialog.setVisible(true);
 					
 					return;

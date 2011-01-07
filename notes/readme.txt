@@ -9,6 +9,7 @@ Version 0.6.5
 	- Added quick search field
 	- Bug fixed: model references bug
 	- Welcome screen (first execution)
+	- Use system proxy settings option
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked

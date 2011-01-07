@@ -27,21 +27,49 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ErrorDialog extends JDialog {
 	
-	private Exception exception;
+	private boolean reportable;
+	private String message;
+	private Throwable throwable;
 	
-	public ErrorDialog(Frame frame, Exception exception) {
-		this(frame, Translations.getString("general.error"), exception);
+	public ErrorDialog(Frame frame, String message) {
+		this(frame, message, null, false);
 	}
 	
-	public ErrorDialog(Frame frame, String title, Exception exception) {
-		super(frame, title, true);
+	public ErrorDialog(Frame frame, Throwable throwable, boolean reportable) {
+		this(frame, null, throwable, reportable);
+	}
+	
+	public ErrorDialog(Frame frame, String message, Throwable throwable) {
+		this(frame, message, throwable, true);
+	}
+	
+	private ErrorDialog(
+			Frame frame,
+			String message,
+			Throwable throwable,
+			boolean reportable) {
+		super(frame, Translations.getString("general.error"), true);
 		
-		this.exception = exception;
+		if (reportable && throwable == null)
+			throw new IllegalArgumentException(
+					"Throwable cannot be null if reportable is true");
+		
+		if (message == null && throwable == null)
+			throw new IllegalArgumentException(
+					"Message and throwable cannot be both null");
+		
+		if (message == null)
+			message = throwable.getMessage();
+		
+		this.reportable = reportable;
+		this.message = message;
+		this.throwable = throwable;
+		
 		this.initialize();
 	}
 	
 	private void initialize() {
-		this.setSize(500, 300);
+		this.setSize(500, (this.reportable ? 300 : 100));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -57,23 +85,27 @@ public class ErrorDialog extends JDialog {
 		JLabel icon = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
 		panel.add(icon, BorderLayout.WEST);
 		
-		JLabel error = new JLabel(this.exception.getMessage());
+		JLabel error = new JLabel(this.message);
 		panel.add(error, BorderLayout.CENTER);
-		
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		this.exception.printStackTrace(printWriter);
-		printWriter.close();
-		
-		try {
-			stringWriter.close();
-		} catch (IOException e) {}
 		
 		panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
-		JTextArea stackTrace = new JTextArea(stringWriter.toString());
-		stackTrace.setEditable(false);
-		panel.add(new JScrollPane(stackTrace), BorderLayout.CENTER);
+		
+		if (this.reportable) {
+			StringWriter stringWriter = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(stringWriter);
+			this.throwable.printStackTrace(printWriter);
+			printWriter.close();
+			
+			try {
+				stringWriter.close();
+			} catch (IOException e) {}
+			
+			JTextArea stackTrace = new JTextArea(stringWriter.toString());
+			stackTrace.setEditable(false);
+			panel.add(new JScrollPane(stackTrace), BorderLayout.CENTER);
+		}
+		
 		this.add(panel, BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -97,7 +129,7 @@ public class ErrorDialog extends JDialog {
 							File file = fc.getSelectedFile();
 							file.createNewFile();
 							PrintStream ps = new PrintStream(file);
-							ErrorDialog.this.exception.printStackTrace(ps);
+							ErrorDialog.this.throwable.printStackTrace(ps);
 							ps.close();
 						} catch (Exception exc) {
 							JOptionPane.showMessageDialog(
@@ -120,6 +152,7 @@ public class ErrorDialog extends JDialog {
 				Translations.getString("general.create_report"));
 		reportButton.setActionCommand("CREATE_REPORT");
 		reportButton.addActionListener(listener);
+		reportButton.setVisible(this.reportable);
 		buttonsPanel.add(reportButton);
 		
 		JButton okButton = new JButton(Translations.getString("general.ok"));

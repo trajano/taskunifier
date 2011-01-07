@@ -256,7 +256,8 @@ public class SynchronizeDialog extends JDialog {
 							public void run() {
 								ErrorDialog errorDialog = new ErrorDialog(
 										MainFrame.getInstance().getFrame(),
-										e);
+										e,
+										true);
 								errorDialog.setVisible(true);
 							}
 							

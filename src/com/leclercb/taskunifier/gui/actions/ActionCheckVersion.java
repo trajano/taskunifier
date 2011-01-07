@@ -113,8 +113,7 @@ public class ActionCheckVersion extends AbstractAction {
 					} else {
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
-								Translations.getString("error.check_version_error"),
-								e);
+								Translations.getString("error.check_version_error"));
 						errorDialog.setVisible(true);
 					}
 				} finally {
