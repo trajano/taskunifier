@@ -54,7 +54,9 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.actions.ActionExportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
+import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
@@ -238,8 +240,13 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.menuBar.add(fileMenu);
 		
-		fileMenu.add(new ActionPrint(16, 16));
+		fileMenu.add(new ActionImportSearchers(16, 16));
+		fileMenu.add(new ActionExportSearchers(16, 16));
+		fileMenu.addSeparator();
 		fileMenu.add(new ActionConfiguration(16, 16));
+		fileMenu.addSeparator();
+		fileMenu.add(new ActionPrint(16, 16));
+		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
 		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
