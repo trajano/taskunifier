@@ -49,6 +49,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, ListChangeListener, PropertyChangeListener {
 	
 	public static final String ACT_NODE_ADDED = "SEARCHER_TREE_MODEL_NODE_ADDED";
+	public static final String ACT_NODE_REMOVED = "SEARCHER_TREE_MODEL_NODE_REMOVED";
 	
 	private static final TaskSearcher[] GENERAL_TASK_SEARCHERS;
 	
@@ -346,6 +347,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				
 				if (child != null)
 					this.removeNodeFromParent(child);
+				
+				this.fireActionPerformed(new ActionEvent(
+						child,
+						ActionEvent.ACTION_PERFORMED,
+						ACT_NODE_REMOVED));
 			}
 		}
 		
@@ -368,6 +374,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 				
 				if (child != null)
 					this.removeNodeFromParent(child);
+				
+				this.fireActionPerformed(new ActionEvent(
+						child,
+						ActionEvent.ACTION_PERFORMED,
+						ACT_NODE_REMOVED));
 			}
 		}
 	}
@@ -383,8 +394,14 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionModel, 
 							ModelStatus.TO_UPDATE)) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getSource());
 				
-				if (child != null)
+				if (child != null) {
 					this.removeNodeFromParent(child);
+					
+					this.fireActionPerformed(new ActionEvent(
+							child,
+							ActionEvent.ACTION_PERFORMED,
+							ACT_NODE_REMOVED));
+				}
 			} else {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getSource());
 				

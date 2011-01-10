@@ -88,8 +88,10 @@ public class ImportSearcherDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ImportSearcherDialog.this.fileChooser.showOpenDialog(ImportSearcherDialog.this);
-				ImportSearcherDialog.this.importFile.setText(ImportSearcherDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
+				int result = ImportSearcherDialog.this.fileChooser.showOpenDialog(ImportSearcherDialog.this);
+				
+				if (result == JFileChooser.APPROVE_OPTION)
+					ImportSearcherDialog.this.importFile.setText(ImportSearcherDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
 			}
 			
 		});
@@ -136,6 +138,7 @@ public class ImportSearcherDialog extends JDialog {
 						
 						ImportSearcherDialog.this.dispose();
 					} catch (Exception e) {
+						e.printStackTrace();
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
 								e,

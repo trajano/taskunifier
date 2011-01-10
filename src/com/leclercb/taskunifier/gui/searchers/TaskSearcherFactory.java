@@ -62,7 +62,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	}
 	
 	public List<TaskSearcher> getList() {
-		return Collections.unmodifiableList(this.searchers);
+		return Collections.unmodifiableList(new ArrayList<TaskSearcher>(
+				this.searchers));
 	}
 	
 	public TaskSearcher get(int index) {

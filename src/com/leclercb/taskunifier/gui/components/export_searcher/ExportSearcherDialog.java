@@ -83,8 +83,10 @@ public class ExportSearcherDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ExportSearcherDialog.this.fileChooser.showSaveDialog(ExportSearcherDialog.this);
-				ExportSearcherDialog.this.exportFile.setText(ExportSearcherDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
+				int result = ExportSearcherDialog.this.fileChooser.showSaveDialog(ExportSearcherDialog.this);
+				
+				if (result == JFileChooser.APPROVE_OPTION)
+					ExportSearcherDialog.this.exportFile.setText(ExportSearcherDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
 			}
 			
 		});

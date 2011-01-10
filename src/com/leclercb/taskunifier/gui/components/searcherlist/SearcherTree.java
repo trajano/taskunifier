@@ -95,6 +95,10 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 				this.setSelectionPath(path);
 			}
 		}
+		
+		if (e.getActionCommand().equals(SearcherTreeModel.ACT_NODE_REMOVED)) {
+			this.selectDefaultTaskSearcher();
+		}
 	}
 	
 }
