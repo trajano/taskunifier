@@ -1,16 +1,24 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
+import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
 import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -55,6 +63,9 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 		} else {
 			this.setBackground(UIManager.getColor("Tree.background"));
 		}
+		
+		this.initializeDragAndDrop();
+		this.initializeCopyAndPaste();
 	}
 	
 	public void selectDefaultTaskSearcher() {
@@ -99,6 +110,41 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 		if (e.getActionCommand().equals(SearcherTreeModel.ACT_NODE_REMOVED)) {
 			this.selectDefaultTaskSearcher();
 		}
+	}
+	
+	private void initializeDragAndDrop() {
+		this.setDragEnabled(false);
+		this.setTransferHandler(new TaskSearcherTransferHandler());
+	}
+	
+	private void initializeCopyAndPaste() {
+		ActionMap amap = this.getActionMap();
+		amap.put(
+				TransferHandler.getCutAction().getValue(Action.NAME),
+				TransferHandler.getCutAction());
+		amap.put(
+				TransferHandler.getCopyAction().getValue(Action.NAME),
+				TransferHandler.getCopyAction());
+		amap.put(
+				TransferHandler.getPasteAction().getValue(Action.NAME),
+				TransferHandler.getPasteAction());
+		
+		InputMap imap = this.getInputMap();
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_X,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+				TransferHandler.getCutAction().getValue(Action.NAME));
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_C,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+				TransferHandler.getCopyAction().getValue(Action.NAME));
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_V,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 }

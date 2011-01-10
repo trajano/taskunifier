@@ -17,8 +17,10 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -320,13 +322,19 @@ public class TaskTable extends JTable {
 		
 		InputMap imap = this.getInputMap();
 		imap.put(
-				KeyStroke.getKeyStroke("ctrl X"),
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_X,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 				TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
-				KeyStroke.getKeyStroke("ctrl C"),
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_C,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 				TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
-				KeyStroke.getKeyStroke("ctrl V"),
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_V,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	

@@ -70,6 +70,14 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		return this.searchers.get(index);
 	}
 	
+	public TaskSearcher get(String id) {
+		for (TaskSearcher searcher : this.searchers)
+			if (searcher.getId().equals(id))
+				return searcher;
+		
+		return null;
+	}
+	
 	/**
 	 * Returns the index of the given searcher. Returns -1 if the searcher does
 	 * not exist.

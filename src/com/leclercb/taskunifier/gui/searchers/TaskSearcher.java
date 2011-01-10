@@ -18,9 +18,12 @@
 package com.leclercb.taskunifier.gui.searchers;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.utils.EqualsBuilder;
+import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 
 public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable, Cloneable {
 	
@@ -29,6 +32,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	public static final String PROP_FILTER = "SEARCHER_FILTER";
 	public static final String PROP_SORTER = "SEARCHER_SORTER";
 	
+	private String id;
 	private String title;
 	private String icon;
 	private TaskFilter filter;
@@ -43,6 +47,8 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
+		this.setId(UUID.randomUUID().toString());
+		
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
@@ -56,6 +62,15 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 				this.icon,
 				this.filter.clone(),
 				this.sorter.clone());
+	}
+	
+	public String getId() {
+		return this.id;
+	}
+	
+	private void setId(String id) {
+		CheckUtils.isNotNull(id, "ID cannot be null");
+		this.id = id;
 	}
 	
 	public String getTitle() {
@@ -104,6 +119,29 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	@Override
 	public String toString() {
 		return this.title;
+	}
+	
+	@Override
+	public final boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		
+		if (o instanceof TaskSearcher) {
+			TaskSearcher searcher = (TaskSearcher) o;
+			
+			return new EqualsBuilder().append(this.id, searcher.id).isEqual();
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public final int hashCode() {
+		HashCodeBuilder hashCode = new HashCodeBuilder();
+		hashCode.append(this.id);
+		
+		return hashCode.toHashCode();
 	}
 	
 }
