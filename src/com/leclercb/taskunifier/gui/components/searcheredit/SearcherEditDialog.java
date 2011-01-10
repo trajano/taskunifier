@@ -80,7 +80,7 @@ public class SearcherEditDialog extends JDialog {
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
 		
-		this.getRootPane().setDefaultButton(okButton);
+		// this.getRootPane().setDefaultButton(okButton);
 	}
 	
 }
