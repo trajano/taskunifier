@@ -13,6 +13,7 @@ Version 0.6.5
 	- Expand searcher tree when new searcher is added
 	- Improved error handling
 	- Open searcher edit when new searcher is added
+	- Import/export searchers
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
