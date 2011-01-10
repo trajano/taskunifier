@@ -143,11 +143,6 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 	}
 	
 	@Override
-	public void showColumn(TaskColumn taskColumn, boolean show) {
-		this.taskTable.showColumn(taskColumn, show);
-	}
-	
-	@Override
 	public List<Task> getSelectedTasks() {
 		return this.taskTable.getSelectedTasks();
 	}

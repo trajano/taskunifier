@@ -17,7 +17,6 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
-import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -37,9 +36,8 @@ public class ColumnsConfigurationPanel extends ConfigurationPanel {
 			if (!(field.getType() instanceof ConfigurationFieldType.CheckBox))
 				continue;
 			
-			MainFrame.getInstance().getTaskView().showColumn(
-					TaskColumn.valueOf(field.getId()),
-					((ConfigurationFieldType.CheckBox) field.getType()).getFieldValue());
+			TaskColumn.valueOf(field.getId()).setVisible(
+					(Boolean) this.getValue(field.getId()));
 		}
 	}
 	

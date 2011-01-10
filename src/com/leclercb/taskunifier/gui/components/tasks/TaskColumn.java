@@ -17,10 +17,13 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 
+import com.leclercb.taskunifier.api.event.ListenerList;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -88,7 +91,9 @@ public enum TaskColumn {
 	}
 	
 	public void setOrder(int order) {
+		int oldOrder = this.order;
 		this.order = order;
+		TaskColumn.firePropertyChange(this, PROP_ORDER, oldOrder, order);
 	}
 	
 	public String getLabel() {
@@ -104,7 +109,9 @@ public enum TaskColumn {
 	}
 	
 	public void setWidth(int width) {
+		int oldWidth = this.width;
 		this.width = width;
+		TaskColumn.firePropertyChange(this, PROP_WIDTH, oldWidth, width);
 	}
 	
 	public boolean isEditable() {
@@ -120,7 +127,9 @@ public enum TaskColumn {
 	}
 	
 	public void setVisible(boolean visible) {
+		boolean oldVisible = this.visible;
 		this.visible = visible;
+		TaskColumn.firePropertyChange(this, PROP_VISIBLE, oldVisible, visible);
 	}
 	
 	@Override
@@ -264,6 +273,43 @@ public enum TaskColumn {
 				task.setNote((String) value);
 				break;
 		}
+	}
+	
+	public static final String PROP_ORDER = "TASK_COLUMN_ORDER";
+	public static final String PROP_WIDTH = "TASK_COLUMN_WIDTH";
+	public static final String PROP_VISIBLE = "TASK_COLUMN_VISIBLE";
+	
+	private static ListenerList<PropertyChangeListener> propertyChangeListenerList;
+	
+	static {
+		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+	}
+	
+	public static void addPropertyChangeListener(PropertyChangeListener listener) {
+		TaskColumn.propertyChangeListenerList.addListener(listener);
+	}
+	
+	public static void removePropertyChangeListener(
+			PropertyChangeListener listener) {
+		TaskColumn.propertyChangeListenerList.removeListener(listener);
+	}
+	
+	protected static void firePropertyChange(PropertyChangeEvent event) {
+		if (propertyChangeListenerList != null)
+			for (PropertyChangeListener listener : TaskColumn.propertyChangeListenerList)
+				listener.propertyChange(event);
+	}
+	
+	protected static void firePropertyChange(
+			Object source,
+			String property,
+			Object oldValue,
+			Object newValue) {
+		firePropertyChange(new PropertyChangeEvent(
+				source,
+				property,
+				oldValue,
+				newValue));
 	}
 	
 }

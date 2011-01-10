@@ -9,8 +9,6 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public interface TaskView {
 	
-	public abstract void showColumn(TaskColumn taskColumn, boolean show);
-	
 	public abstract List<Task> getSelectedTasks();
 	
 	public abstract void setSelectedTasks(List<Task> tasks);

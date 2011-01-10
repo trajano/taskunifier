@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -188,20 +190,16 @@ public class TaskTable extends JTable {
 		this.initialize();
 	}
 	
-	public void showColumn(TaskColumn taskColumn, boolean show) {
+	private void showColumn(TaskColumn taskColumn, boolean show) {
 		if (show) {
 			try {
 				this.getColumn(taskColumn);
 			} catch (IllegalArgumentException e) {
-				// This column does not exist
-				taskColumn.setVisible(true);
 				((TaskTableColumnModel) this.getColumnModel()).addColumn(taskColumn);
 			}
 		} else {
 			try {
 				TableColumn column = this.getColumn(taskColumn);
-				
-				taskColumn.setVisible(false);
 				((TaskTableColumnModel) this.getColumnModel()).removeColumn(column);
 			} catch (IllegalArgumentException e) {
 				// This column does not exist
@@ -296,10 +294,27 @@ public class TaskTable extends JTable {
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
+		this.initializeTaskColumn();
+		
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initiliazeTableSorter();
 		this.initializeTableHeaderMenu();
+	}
+	
+	private void initializeTaskColumn() {
+		TaskColumn.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
+					TaskTable.this.showColumn(
+							(TaskColumn) evt.getSource(),
+							(Boolean) evt.getNewValue());
+				}
+			}
+			
+		});
 	}
 	
 	private void initializeDragAndDrop() {
