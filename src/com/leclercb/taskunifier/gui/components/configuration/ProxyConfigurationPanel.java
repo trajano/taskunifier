@@ -100,31 +100,6 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();
-		proxyEnabledField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ProxyConfigurationPanel.this.setEnabled(
-						"USE_SYSTEM_PROXY",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"TYPE",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"HOST",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PORT",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"LOGIN",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PASSWORD",
-						proxyEnabledField.isSelected());
-			}
-			
-		});
 		
 		this.addField(new ConfigurationField(
 				"USE_SYSTEM_PROXY",
@@ -133,28 +108,6 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 		
 		final JCheckBox proxyUseSystemProxyField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM_PROXY").getType()).getFieldComponent();
-		proxyUseSystemProxyField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ProxyConfigurationPanel.this.setEnabled(
-						"TYPE",
-						!proxyUseSystemProxyField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"HOST",
-						!proxyUseSystemProxyField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PORT",
-						!proxyUseSystemProxyField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"LOGIN",
-						!proxyUseSystemProxyField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PASSWORD",
-						!proxyUseSystemProxyField.isSelected());
-			}
-			
-		});
 		
 		this.addField(new ConfigurationField(
 				"TYPE",
@@ -185,6 +138,7 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 				Translations.getString("configuration.proxy.password"),
 				new ConfigurationFieldType.PasswordField(proxyPasswordValue)));
 		
+		this.setEnabled("USE_SYSTEM_PROXY", proxyEnabledField.isSelected());
 		this.setEnabled("TYPE", proxyEnabledField.isSelected()
 				&& !proxyUseSystemProxyField.isSelected());
 		this.setEnabled("HOST", proxyEnabledField.isSelected()
@@ -195,6 +149,39 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 				&& !proxyUseSystemProxyField.isSelected());
 		this.setEnabled("PASSWORD", proxyEnabledField.isSelected()
 				&& !proxyUseSystemProxyField.isSelected());
+		
+		ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProxyConfigurationPanel.this.setEnabled(
+						"USE_SYSTEM_PROXY",
+						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"TYPE",
+						proxyEnabledField.isSelected()
+								&& !proxyUseSystemProxyField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"HOST",
+						proxyEnabledField.isSelected()
+								&& !proxyUseSystemProxyField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PORT",
+						proxyEnabledField.isSelected()
+								&& !proxyUseSystemProxyField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"LOGIN",
+						proxyEnabledField.isSelected()
+								&& !proxyUseSystemProxyField.isSelected());
+				ProxyConfigurationPanel.this.setEnabled(
+						"PASSWORD",
+						proxyEnabledField.isSelected()
+								&& !proxyUseSystemProxyField.isSelected());
+			}
+			
+		};
+		
+		proxyEnabledField.addActionListener(listener);
+		proxyUseSystemProxyField.addActionListener(listener);
 	}
-	
 }
