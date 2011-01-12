@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class GoalComboBoxModel extends AbstractModelComboBoxModel {
 	
-	public GoalComboBoxModel() {
-		this.addElement(null);
+	public GoalComboBoxModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)

@@ -345,13 +345,14 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
 				
-				if (child != null)
+				if (child != null) {
 					this.removeNodeFromParent(child);
-				
-				this.actionSupport.fireActionPerformed(new ActionEvent(
-						child,
-						ActionEvent.ACTION_PERFORMED,
-						ACT_NODE_REMOVED));
+					
+					this.actionSupport.fireActionPerformed(new ActionEvent(
+							child,
+							ActionEvent.ACTION_PERFORMED,
+							ACT_NODE_REMOVED));
+				}
 			}
 		}
 		
@@ -372,13 +373,14 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				MutableTreeNode child = this.getTreeNodeFromUserObject(event.getValue());
 				
-				if (child != null)
+				if (child != null) {
 					this.removeNodeFromParent(child);
-				
-				this.actionSupport.fireActionPerformed(new ActionEvent(
-						child,
-						ActionEvent.ACTION_PERFORMED,
-						ACT_NODE_REMOVED));
+					
+					this.actionSupport.fireActionPerformed(new ActionEvent(
+							child,
+							ActionEvent.ACTION_PERFORMED,
+							ACT_NODE_REMOVED));
+				}
 			}
 		}
 	}

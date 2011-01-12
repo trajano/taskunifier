@@ -28,7 +28,11 @@ public class ModelListCellRenderer extends DefaultListCellRenderer {
 			return component;
 		}
 		
-		this.setText(((Model) value).getTitle());
+		if (((Model) value).getTitle().length() == 0)
+			this.setText(" ");
+		else
+			this.setText(((Model) value).getTitle());
+		
 		return component;
 	}
 	

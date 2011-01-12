@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class FolderListModel extends AbstractModelListModel {
 	
-	public FolderListModel() {
-		this.addElement(null);
+	public FolderListModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)

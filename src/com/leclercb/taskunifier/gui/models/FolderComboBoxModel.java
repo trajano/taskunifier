@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class FolderComboBoxModel extends AbstractModelComboBoxModel {
 	
-	public FolderComboBoxModel() {
-		this.addElement(null);
+	public FolderComboBoxModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)

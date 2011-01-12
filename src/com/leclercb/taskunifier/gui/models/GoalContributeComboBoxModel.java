@@ -33,8 +33,9 @@ import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
 public class GoalContributeComboBoxModel extends DefaultComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
-	public GoalContributeComboBoxModel() {
-		this.addElement(null);
+	public GoalContributeComboBoxModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)

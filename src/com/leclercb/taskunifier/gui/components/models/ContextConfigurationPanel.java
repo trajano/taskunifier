@@ -19,10 +19,6 @@ package com.leclercb.taskunifier.gui.components.models;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +29,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.jgoodies.binding.adapter.Bindings;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -40,11 +39,7 @@ import com.leclercb.taskunifier.gui.models.ContextListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class ContextConfigurationPanel extends JSplitPane implements PropertyChangeListener {
-	
-	private Context selectedContext;
-	
-	private JTextField contextTitle;
+public class ContextConfigurationPanel extends JSplitPane {
 	
 	public ContextConfigurationPanel() {
 		this.initialize();
@@ -52,17 +47,26 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 	
 	private void initialize() {
 		// Initialize Fields
-		this.contextTitle = new JTextField(30);
+		final JTextField contextTitle = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new ContextListModel()) {
+		final ModelList modelList = new ModelList(new ContextListModel(false)) {
+			
+			private BeanAdapter<Context> adapter;
+			
+			{
+				this.adapter = new BeanAdapter<Context>((Context) null, true);
+				
+				ValueModel titleModel = this.adapter.getValueModel(Context.PROP_TITLE);
+				Bindings.bind(contextTitle, titleModel);
+			}
 			
 			@Override
 			public void addModel() {
 				Model model = ContextFactory.getInstance().create(
 						Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
-				ContextConfigurationPanel.this.focusAndSelectTextInTextField(ContextConfigurationPanel.this.contextTitle);
+				ContextConfigurationPanel.this.focusAndSelectTextInTextField(contextTitle);
 			}
 			
 			@Override
@@ -74,24 +78,8 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 			
 			@Override
 			public void modelSelected(Model model) {
-				if (ContextConfigurationPanel.this.selectedContext != null)
-					ContextConfigurationPanel.this.selectedContext.removePropertyChangeListener(ContextConfigurationPanel.this);
-				
-				ContextConfigurationPanel.this.selectedContext = (Context) model;
-				
-				if (ContextConfigurationPanel.this.selectedContext != null)
-					ContextConfigurationPanel.this.selectedContext.addPropertyChangeListener(ContextConfigurationPanel.this);
-				
-				if (model == null) {
-					ContextConfigurationPanel.this.contextTitle.setEnabled(false);
-					ContextConfigurationPanel.this.contextTitle.setText("");
-					return;
-				}
-				
-				Context context = (Context) model;
-				
-				ContextConfigurationPanel.this.contextTitle.setEnabled(true);
-				ContextConfigurationPanel.this.contextTitle.setText(context.getTitle());
+				this.adapter.setBean(model != null ? (Context) model : null);
+				contextTitle.setEnabled(model != null);
 			}
 			
 		};
@@ -115,17 +103,8 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.contextTitle.setEnabled(false);
-		this.contextTitle.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyReleased(KeyEvent event) {
-				Context context = (Context) modelList.getSelectedModel();
-				context.setTitle(ContextConfigurationPanel.this.contextTitle.getText());
-			}
-			
-		});
-		info.add(this.contextTitle);
+		contextTitle.setEnabled(false);
+		info.add(contextTitle);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
@@ -144,14 +123,6 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 		field.setSelectionEnd(length);
 		
 		field.requestFocus();
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Context.PROP_TITLE)) {
-			if (!this.contextTitle.getText().equals(evt.getNewValue()))
-				this.contextTitle.setText((String) evt.getNewValue());
-		}
 	}
 	
 }

@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class LocationListModel extends AbstractModelListModel {
 	
-	public LocationListModel() {
-		this.addElement(null);
+	public LocationListModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations)

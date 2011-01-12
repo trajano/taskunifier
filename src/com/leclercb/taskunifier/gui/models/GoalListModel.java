@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class GoalListModel extends AbstractModelListModel {
 	
-	public GoalListModel() {
-		this.addElement(null);
+	public GoalListModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)

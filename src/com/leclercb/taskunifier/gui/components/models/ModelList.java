@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ModelListModel;
+import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 
 abstract class ModelList extends JPanel {
 	
@@ -50,6 +51,7 @@ abstract class ModelList extends JPanel {
 		
 		this.modelList = new JList();
 		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.modelList.setCellRenderer(new ModelListCellRenderer());
 		this.modelList.setModel(model);
 		this.modelList.setBorder(new LineBorder(Color.BLACK));
 		this.modelList.addListSelectionListener(new ListSelectionListener() {

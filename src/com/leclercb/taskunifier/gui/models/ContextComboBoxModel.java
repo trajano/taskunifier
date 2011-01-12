@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class ContextComboBoxModel extends AbstractModelComboBoxModel {
 	
-	public ContextComboBoxModel() {
-		this.addElement(null);
+	public ContextComboBoxModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts)

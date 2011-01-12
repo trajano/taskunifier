@@ -19,10 +19,6 @@ package com.leclercb.taskunifier.gui.components.models;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,19 +29,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.jgoodies.binding.adapter.Bindings;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.models.FolderListModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class FolderConfigurationPanel extends JSplitPane implements PropertyChangeListener {
-	
-	private Folder selectedFolder;
-	
-	private JTextField folderTitle;
+public class FolderConfigurationPanel extends JSplitPane {
 	
 	public FolderConfigurationPanel() {
 		this.initialize();
@@ -53,17 +47,26 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 	
 	private void initialize() {
 		// Initialize Fields
-		this.folderTitle = new JTextField(30);
+		final JTextField folderTitle = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new FolderListModel()) {
+		final ModelList modelList = new ModelList(new FolderListModel(false)) {
+			
+			private BeanAdapter<Folder> adapter;
+			
+			{
+				this.adapter = new BeanAdapter<Folder>((Folder) null, true);
+				
+				ValueModel titleModel = this.adapter.getValueModel(Folder.PROP_TITLE);
+				Bindings.bind(folderTitle, titleModel);
+			}
 			
 			@Override
 			public void addModel() {
 				Model model = FolderFactory.getInstance().create(
 						Translations.getString("folder.default.title"));
 				this.setSelectedModel(model);
-				FolderConfigurationPanel.this.focusAndSelectTextInTextField(FolderConfigurationPanel.this.folderTitle);
+				FolderConfigurationPanel.this.focusAndSelectTextInTextField(folderTitle);
 			}
 			
 			@Override
@@ -75,25 +78,8 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 			
 			@Override
 			public void modelSelected(Model model) {
-				if (FolderConfigurationPanel.this.selectedFolder != null)
-					FolderConfigurationPanel.this.selectedFolder.removePropertyChangeListener(FolderConfigurationPanel.this);
-				
-				FolderConfigurationPanel.this.selectedFolder = (Folder) model;
-				
-				if (FolderConfigurationPanel.this.selectedFolder != null)
-					FolderConfigurationPanel.this.selectedFolder.addPropertyChangeListener(FolderConfigurationPanel.this);
-				
-				if (model == null) {
-					FolderConfigurationPanel.this.folderTitle.setEnabled(false);
-					FolderConfigurationPanel.this.folderTitle.setText("");
-					
-					return;
-				}
-				
-				Folder folder = (Folder) model;
-				
-				FolderConfigurationPanel.this.folderTitle.setEnabled(true);
-				FolderConfigurationPanel.this.folderTitle.setText(folder.getTitle());
+				this.adapter.setBean(model != null ? (Folder) model : null);
+				folderTitle.setEnabled(model != null);
 			}
 			
 		};
@@ -118,17 +104,8 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.folderTitle.setEnabled(false);
-		this.folderTitle.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyReleased(KeyEvent event) {
-				Folder folder = (Folder) modelList.getSelectedModel();
-				folder.setTitle(FolderConfigurationPanel.this.folderTitle.getText());
-			}
-			
-		});
-		info.add(this.folderTitle);
+		folderTitle.setEnabled(false);
+		info.add(folderTitle);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
@@ -147,16 +124,6 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 		field.setSelectionEnd(length);
 		
 		field.requestFocus();
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Folder.PROP_TITLE)) {
-			if (!EqualsUtils.equals(
-					this.folderTitle.getText(),
-					evt.getNewValue()))
-				this.folderTitle.setText((String) evt.getNewValue());
-		}
 	}
 	
 }

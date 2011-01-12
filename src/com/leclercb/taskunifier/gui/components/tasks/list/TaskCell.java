@@ -65,16 +65,16 @@ public class TaskCell extends JPanel {
 		this.title = new JTextField();
 		
 		this.context = new JComboBox();
-		this.context.setModel(new ContextComboBoxModel());
+		this.context.setModel(new ContextComboBoxModel(true));
 		
 		this.folder = new JComboBox();
-		this.folder.setModel(new FolderComboBoxModel());
+		this.folder.setModel(new FolderComboBoxModel(true));
 		
 		this.goal = new JComboBox();
-		this.goal.setModel(new GoalComboBoxModel());
+		this.goal.setModel(new GoalComboBoxModel(true));
 		
 		this.location = new JComboBox();
-		this.location.setModel(new LocationComboBoxModel());
+		this.location.setModel(new LocationComboBoxModel(true));
 		
 		this.status = new JComboBox();
 		this.status.setModel(new DefaultComboBoxModel(TaskStatus.values()));

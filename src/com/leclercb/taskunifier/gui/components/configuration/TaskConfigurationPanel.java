@@ -218,30 +218,27 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"FOLDER",
 				Translations.getString("general.task.folder"),
-				new ConfigurationFieldType.ComboBox(
-						new FolderComboBoxModel(),
-						taskFolderValue)));
+				new ConfigurationFieldType.ComboBox(new FolderComboBoxModel(
+						true), taskFolderValue)));
 		
 		this.addField(new ConfigurationField(
 				"CONTEXT",
 				Translations.getString("general.task.context"),
-				new ConfigurationFieldType.ComboBox(
-						new ContextComboBoxModel(),
-						taskContextValue)));
+				new ConfigurationFieldType.ComboBox(new ContextComboBoxModel(
+						true), taskContextValue)));
 		
 		this.addField(new ConfigurationField(
 				"GOAL",
 				Translations.getString("general.task.goal"),
 				new ConfigurationFieldType.ComboBox(
-						new GoalComboBoxModel(),
+						new GoalComboBoxModel(true),
 						taskGoalValue)));
 		
 		this.addField(new ConfigurationField(
 				"LOCATION",
 				Translations.getString("general.task.location"),
-				new ConfigurationFieldType.ComboBox(
-						new LocationComboBoxModel(),
-						taskLocationValue)));
+				new ConfigurationFieldType.ComboBox(new LocationComboBoxModel(
+						true), taskLocationValue)));
 		
 		this.addField(new ConfigurationField(
 				"COMPLETED",

@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class ContextListModel extends AbstractModelListModel {
 	
-	public ContextListModel() {
-		this.addElement(null);
+	public ContextListModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts)

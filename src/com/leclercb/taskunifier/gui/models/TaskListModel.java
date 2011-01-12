@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 
 public class TaskListModel extends AbstractModelListModel {
 	
-	public TaskListModel() {
-		this.addElement(null);
+	public TaskListModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks)

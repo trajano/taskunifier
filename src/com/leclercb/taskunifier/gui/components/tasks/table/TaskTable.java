@@ -150,13 +150,13 @@ public class TaskTable extends JTable {
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 		
 		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(
-				new ContextComboBoxModel()));
+				new ContextComboBoxModel(true)));
 		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(
-				new FolderComboBoxModel()));
+				new FolderComboBoxModel(true)));
 		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(
-				new GoalComboBoxModel()));
+				new GoalComboBoxModel(true)));
 		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
-				new LocationComboBoxModel()));
+				new LocationComboBoxModel(true)));
 		
 		JTextField textField = null;
 		

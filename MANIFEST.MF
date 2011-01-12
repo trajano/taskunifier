@@ -1,3 +1,12 @@
 Manifest-Version: 1.0
 Main-Class: com.leclercb.taskunifier.gui.Main
-Class-Path: lib/applejavaextensions.jar lib/json.jar lib/jtattoo.jar lib/microba-0.4.4.3.jar lib/substance.jar lib/taskunifierapi.jar lib/trident.jar
+Class-Path: lib/applejavaextensions.jar \
+	lib/jgoodies-binding-2.2.1.jar \
+	lib/jgoodies-common-1.1.1.jar \
+	lib/jgoodies-forms-1.4.0.jar \
+	lib/json.jar \
+	lib/jtattoo.jar \
+	lib/microba-0.4.4.3.jar \
+	lib/substance.jar \
+	lib/taskunifierapi.jar \
+	lib/trident.jar

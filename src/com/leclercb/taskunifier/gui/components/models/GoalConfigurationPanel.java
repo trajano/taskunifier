@@ -21,10 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -36,24 +32,21 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.jgoodies.binding.adapter.Bindings;
+import com.jgoodies.binding.adapter.ComboBoxAdapter;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
-import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.models.GoalContributeComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalListModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
-public class GoalConfigurationPanel extends JSplitPane implements PropertyChangeListener {
-	
-	private Goal selectedGoal;
-	
-	private JTextField goalTitle;
-	private JComboBox goalLevel;
-	private JComboBox goalContributes;
+public class GoalConfigurationPanel extends JSplitPane {
 	
 	public GoalConfigurationPanel() {
 		this.initialize();
@@ -61,19 +54,38 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 	
 	private void initialize() {
 		// Initialize Fields
-		this.goalTitle = new JTextField(30);
-		this.goalLevel = new JComboBox(GoalLevel.values());
-		this.goalContributes = new JComboBox(new GoalContributeComboBoxModel());
+		final JTextField goalTitle = new JTextField(30);
+		final JComboBox goalLevel = new JComboBox();
+		final JComboBox goalContributes = new JComboBox();
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new GoalListModel()) {
+		final ModelList modelList = new ModelList(new GoalListModel(false)) {
+			
+			private BeanAdapter<Goal> adapter;
+			
+			{
+				this.adapter = new BeanAdapter<Goal>((Goal) null, true);
+				
+				ValueModel titleModel = this.adapter.getValueModel(Goal.PROP_TITLE);
+				Bindings.bind(goalTitle, titleModel);
+				
+				ValueModel levelModel = this.adapter.getValueModel(Goal.PROP_LEVEL);
+				goalLevel.setModel(new ComboBoxAdapter<GoalLevel>(
+						GoalLevel.values(),
+						levelModel));
+				
+				ValueModel contributesModel = this.adapter.getValueModel(Goal.PROP_CONTRIBUTES);
+				goalContributes.setModel(new ComboBoxAdapter<Goal>(
+						new GoalContributeComboBoxModel(true),
+						contributesModel));
+			}
 			
 			@Override
 			public void addModel() {
 				Model model = GoalFactory.getInstance().create(
 						Translations.getString("goal.default.title"));
 				this.setSelectedModel(model);
-				GoalConfigurationPanel.this.focusAndSelectTextInTextField(GoalConfigurationPanel.this.goalTitle);
+				GoalConfigurationPanel.this.focusAndSelectTextInTextField(goalTitle);
 			}
 			
 			@Override
@@ -84,37 +96,14 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 			
 			@Override
 			public void modelSelected(Model model) {
-				if (GoalConfigurationPanel.this.selectedGoal != null)
-					GoalConfigurationPanel.this.selectedGoal.removePropertyChangeListener(GoalConfigurationPanel.this);
+				this.adapter.setBean(model != null ? (Goal) model : null);
+				goalTitle.setEnabled(model != null);
+				goalLevel.setEnabled(model != null);
+				goalContributes.setEnabled(model != null);
 				
-				GoalConfigurationPanel.this.selectedGoal = (Goal) model;
-				
-				if (GoalConfigurationPanel.this.selectedGoal != null)
-					GoalConfigurationPanel.this.selectedGoal.addPropertyChangeListener(GoalConfigurationPanel.this);
-				
-				if (model == null) {
-					GoalConfigurationPanel.this.goalTitle.setEnabled(false);
-					GoalConfigurationPanel.this.goalTitle.setText("");
-					
-					GoalConfigurationPanel.this.goalLevel.setEnabled(false);
-					GoalConfigurationPanel.this.goalLevel.setSelectedItem(GoalLevel.LIFE_TIME);
-					
-					GoalConfigurationPanel.this.goalContributes.setEnabled(false);
-					GoalConfigurationPanel.this.goalContributes.setSelectedItem(null);
-					return;
-				}
-				
-				Goal goal = (Goal) model;
-				
-				GoalConfigurationPanel.this.goalTitle.setEnabled(true);
-				GoalConfigurationPanel.this.goalTitle.setText(goal.getTitle());
-				
-				GoalConfigurationPanel.this.goalLevel.setEnabled(true);
-				GoalConfigurationPanel.this.goalLevel.setSelectedItem(goal.getLevel());
-				
-				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal.getLevel().equals(
-						GoalLevel.LIFE_TIME));
-				GoalConfigurationPanel.this.goalContributes.setSelectedItem(goal.getContributes());
+				if (model != null)
+					goalContributes.setEnabled(!((Goal) model).getLevel().equals(
+							GoalLevel.LIFE_TIME));
 			}
 			
 		};
@@ -139,17 +128,8 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.goalTitle.setEnabled(false);
-		this.goalTitle.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyReleased(KeyEvent event) {
-				Goal goal = (Goal) modelList.getSelectedModel();
-				goal.setTitle(GoalConfigurationPanel.this.goalTitle.getText());
-			}
-			
-		});
-		info.add(this.goalTitle);
+		goalTitle.setEnabled(false);
+		info.add(goalTitle);
 		
 		// Goal Level
 		label = new JLabel(
@@ -157,41 +137,27 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.goalLevel.setEnabled(false);
-		this.goalLevel.setRenderer(new GoalLevelListCellRenderer());
-		this.goalLevel.addItemListener(new ItemListener() {
+		goalLevel.setEnabled(false);
+		goalLevel.setRenderer(new GoalLevelListCellRenderer());
+		goalLevel.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) modelList.getSelectedModel();
-				goal.setLevel((GoalLevel) GoalConfigurationPanel.this.goalLevel.getSelectedItem());
-				
-				GoalConfigurationPanel.this.goalContributes.setEnabled(!goal.getLevel().equals(
+				goalContributes.setEnabled(!goal.getLevel().equals(
 						GoalLevel.LIFE_TIME));
 			}
 			
 		});
-		info.add(this.goalLevel);
+		info.add(goalLevel);
 		
 		// Goal Contributes
 		label = new JLabel(Translations.getString("general.goal.contributes")
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.goalContributes.setEnabled(false);
-		this.goalContributes.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				Goal goal = (Goal) modelList.getSelectedModel();
-				if (!EqualsUtils.equals(
-						goal.getContributes(),
-						GoalConfigurationPanel.this.goalContributes.getSelectedItem()))
-					goal.setContributes((Goal) GoalConfigurationPanel.this.goalContributes.getSelectedItem());
-			}
-			
-		});
-		info.add(this.goalContributes);
+		goalContributes.setEnabled(false);
+		info.add(goalContributes);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 3, 2, // rows, cols
@@ -210,29 +176,6 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 		field.setSelectionEnd(length);
 		
 		field.requestFocus();
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Goal.PROP_TITLE)) {
-			if (!EqualsUtils.equals(this.goalTitle.getText(), evt.getNewValue()))
-				this.goalTitle.setText((String) evt.getNewValue());
-		}
-		
-		if (evt.getPropertyName().equals(Goal.PROP_LEVEL)) {
-			if (!EqualsUtils.equals(
-					this.goalLevel.getSelectedItem(),
-					evt.getNewValue()))
-				this.goalLevel.setSelectedItem(evt.getNewValue());
-		}
-		
-		if (evt.getPropertyName().equals(Goal.PROP_CONTRIBUTES)) {
-			if (!EqualsUtils.equals(
-					this.goalContributes.getSelectedItem(),
-					evt.getNewValue())) {
-				this.goalContributes.setSelectedItem(evt.getNewValue());
-			}
-		}
 	}
 	
 }

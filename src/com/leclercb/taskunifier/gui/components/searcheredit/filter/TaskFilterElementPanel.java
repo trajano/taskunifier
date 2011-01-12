@@ -143,7 +143,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case FOLDER:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new FolderComboBoxModel());
+				this.elementValue.setModel(new FolderComboBoxModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -151,7 +151,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case CONTEXT:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new ContextComboBoxModel());
+				this.elementValue.setModel(new ContextComboBoxModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -159,7 +159,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case GOAL:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new GoalComboBoxModel());
+				this.elementValue.setModel(new GoalComboBoxModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -167,14 +167,14 @@ public class TaskFilterElementPanel extends JPanel {
 			case LOCATION:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new LocationComboBoxModel());
+				this.elementValue.setModel(new LocationComboBoxModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
 			case PARENT:
-				this.elementCondition.setModel(new TaskComboBoxModel());
-				this.elementValue.setModel(new TaskComboBoxModel());
+				this.elementCondition.setModel(new TaskComboBoxModel(true));
+				this.elementValue.setModel(new TaskComboBoxModel(true));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;

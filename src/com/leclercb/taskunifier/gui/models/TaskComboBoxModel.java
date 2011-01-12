@@ -25,8 +25,9 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 
 public class TaskComboBoxModel extends AbstractModelComboBoxModel {
 	
-	public TaskComboBoxModel() {
-		this.addElement(null);
+	public TaskComboBoxModel(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks)
