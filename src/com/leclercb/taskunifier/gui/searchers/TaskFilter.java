@@ -19,18 +19,18 @@ package com.leclercb.taskunifier.gui.searchers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import com.leclercb.taskunifier.api.event.ListenerList;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
-import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeSupport;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeSupported;
+import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class TaskFilter implements PropertyChangeListener, ListChangeModel, PropertyChangeModel, Serializable, Cloneable {
+public class TaskFilter implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
 	
 	public static enum Link {
 		
@@ -326,11 +326,14 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		
 	}
 	
-	public static class TaskFilterElement extends AbstractPropertyChangeModel implements Cloneable {
+	public static class TaskFilterElement implements Cloneable, PropertyChangeSupported {
 		
-		public static final String PROP_COLUMN = "FILTER_ELEMENT_COLUMN";
-		public static final String PROP_CONDITION = "FILTER_ELEMENT_CONDITION";
-		public static final String PROP_VALUE = "FILTER_ELEMENT_VALUE";
+		public static final String PROP_COLUMN = "column";
+		public static final String PROP_CONDITION = "condition";
+		public static final String PROP_VALUE = "value";
+		
+		private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+				this);
 		
 		private TaskFilter parent;
 		private TaskColumn column;
@@ -449,7 +452,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			events.add(this.setValue(value));
 			
 			for (PropertyChangeEvent event : events)
-				this.firePropertyChange(event);
+				this.propertyChangeSupport.firePropertyChange(event);
 		}
 		
 		public TaskFilter getParent() {
@@ -568,12 +571,22 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 			return str + "\"";
 		}
 		
+		@Override
+		public void addPropertyChangeListener(PropertyChangeListener listener) {
+			this.propertyChangeSupport.addPropertyChangeListener(listener);
+		}
+		
+		@Override
+		public void removePropertyChangeListener(PropertyChangeListener listener) {
+			this.propertyChangeSupport.removePropertyChangeListener(listener);
+		}
+		
 	}
 	
-	public static final String PROP_LINK = "FILTER_LINK";
+	public static final String PROP_LINK = "link";
 	
-	private ListenerList<ListChangeListener> listChangeListenerList;
-	private ListenerList<PropertyChangeListener> propertyChangeListenerList;
+	private ListChangeSupport listChangeSupport;
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private TaskFilter parent;
 	private Link link;
@@ -581,8 +594,8 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	private List<TaskFilterElement> elements;
 	
 	public TaskFilter() {
-		this.listChangeListenerList = new ListenerList<ListChangeListener>();
-		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setParent(null);
 		this.setLink(Link.AND);
@@ -621,7 +634,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		CheckUtils.isNotNull(link, "Link cannot be null");
 		Link oldLink = this.link;
 		this.link = link;
-		this.firePropertyChange(PROP_LINK, oldLink, link);
+		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
 	}
 	
 	public int getIndexOf(TaskFilterElement element) {
@@ -651,7 +664,10 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		element.setParent(this);
 		element.addPropertyChangeListener(this);
 		int index = this.elements.indexOf(element);
-		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, element);
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_ADDED,
+				index,
+				element);
 	}
 	
 	public void removeElement(TaskFilterElement element) {
@@ -661,7 +677,10 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		if (this.elements.remove(element)) {
 			element.setParent(null);
 			element.removePropertyChangeListener(this);
-			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, element);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_REMOVED,
+					index,
+					element);
 		}
 	}
 	
@@ -692,7 +711,10 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		filter.setParent(this);
 		filter.addPropertyChangeListener(this);
 		int index = this.filters.indexOf(filter);
-		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, filter);
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_ADDED,
+				index,
+				filter);
 	}
 	
 	public void removeFilter(TaskFilter filter) {
@@ -702,7 +724,10 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 		if (this.filters.remove(filter)) {
 			filter.setParent(null);
 			filter.removePropertyChangeListener(this);
-			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, filter);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_REMOVED,
+					index,
+					filter);
 		}
 	}
 	
@@ -736,58 +761,27 @@ public class TaskFilter implements PropertyChangeListener, ListChangeModel, Prop
 	
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeListenerList.addListener(listener);
+		this.listChangeSupport.addListChangeListener(listener);
 	}
 	
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeListenerList.removeListener(listener);
+		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.addListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.removeListener(listener);
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		this.firePropertyChange(event);
-	}
-	
-	protected void fireListChange(ListChangeEvent event) {
-		if (this.getParent() != null)
-			this.getParent().fireListChange(event);
-		
-		for (ListChangeListener listener : this.listChangeListenerList)
-			listener.listChange(event);
-	}
-	
-	protected void fireListChange(int changeType, int index, Object value) {
-		this.fireListChange(new ListChangeEvent(this, changeType, index, value));
-	}
-	
-	protected void firePropertyChange(PropertyChangeEvent evt) {
-		if (this.getParent() != null)
-			this.getParent().firePropertyChange(evt);
-		
-		for (PropertyChangeListener listener : this.propertyChangeListenerList)
-			listener.propertyChange(evt);
-	}
-	
-	protected void firePropertyChange(
-			String property,
-			Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(
-				this,
-				property,
-				oldValue,
-				newValue));
+		this.propertyChangeSupport.firePropertyChange(event);
 	}
 	
 	@Override

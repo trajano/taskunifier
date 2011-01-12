@@ -151,7 +151,7 @@ public class FolderConfigurationPanel extends JSplitPane implements PropertyChan
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Folder.PROP_MODEL_TITLE)) {
+		if (evt.getPropertyName().equals(Folder.PROP_TITLE)) {
 			if (!EqualsUtils.equals(
 					this.folderTitle.getText(),
 					evt.getNewValue()))

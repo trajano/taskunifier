@@ -71,10 +71,8 @@ public class ActionAddTask extends AbstractAction {
 			task.setTitle(Settings.getStringProperty("task.default.title"));
 		
 		if (Settings.getStringProperty("task.default.tags") != null) {
-			String[] tags = (Settings.getStringProperty("task.default.tags")).split(",");
-			for (int i = 0; i < tags.length; i++)
-				if (tags[i].trim().length() != 0)
-					task.addTag(tags[i].trim());
+			task.setTags(Settings.getStringProperty("task.default.tags").split(
+					","));
 		}
 		
 		if (Settings.getModelIdProperty("task.default.folder") != null) {
@@ -151,5 +149,4 @@ public class ActionAddTask extends AbstractAction {
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
 				Arrays.asList(task));
 	}
-	
 }

@@ -2,17 +2,17 @@ package com.leclercb.taskunifier.gui.scheduledsync;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-import com.leclercb.taskunifier.api.event.ListenerList;
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
+import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 
-public class ScheduledSyncThread extends Thread implements PropertyChangeModel {
+public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
 	
-	public static final String PROP_REMAINING_SLEEP_TIME = "SCHEDULED_SYNC_THREAD_REMAINING_SLEEP_TIME";
+	public static final String PROP_REMAINING_SLEEP_TIME = "remainingSleepTime";
 	
-	private ListenerList<PropertyChangeListener> propertyChangeListenerList;
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private ActionSynchronize synchronizeAction;
 	private long sleepTime;
@@ -20,7 +20,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeModel {
 	private boolean paused;
 	
 	public ScheduledSyncThread() {
-		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.synchronizeAction = new ActionSynchronize();
 		this.sleepTime = Settings.getLongProperty("synchronizer.scheduler_sleep_time");
@@ -53,7 +53,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeModel {
 	private synchronized void setRemainingSleepTime(long remainingSleepTime) {
 		long oldRemainingSleepTime = this.remainingSleepTime;
 		this.remainingSleepTime = remainingSleepTime;
-		this.firePropertyChange(
+		this.propertyChangeSupport.firePropertyChange(
 				PROP_REMAINING_SLEEP_TIME,
 				oldRemainingSleepTime,
 				remainingSleepTime);
@@ -77,28 +77,12 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeModel {
 	
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.addListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.removeListener(listener);
-	}
-	
-	protected void firePropertyChange(PropertyChangeEvent event) {
-		for (PropertyChangeListener listener : this.propertyChangeListenerList)
-			listener.propertyChange(event);
-	}
-	
-	protected void firePropertyChange(
-			String property,
-			Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(
-				this,
-				property,
-				oldValue,
-				newValue));
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 }

@@ -214,7 +214,7 @@ public class GoalConfigurationPanel extends JSplitPane implements PropertyChange
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Goal.PROP_MODEL_TITLE)) {
+		if (evt.getPropertyName().equals(Goal.PROP_TITLE)) {
 			if (!EqualsUtils.equals(this.goalTitle.getText(), evt.getNewValue()))
 				this.goalTitle.setText((String) evt.getNewValue());
 		}

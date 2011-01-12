@@ -148,7 +148,7 @@ public class ContextConfigurationPanel extends JSplitPane implements PropertyCha
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Context.PROP_MODEL_TITLE)) {
+		if (evt.getPropertyName().equals(Context.PROP_TITLE)) {
 			if (!this.contextTitle.getText().equals(evt.getNewValue()))
 				this.contextTitle.setText((String) evt.getNewValue());
 		}

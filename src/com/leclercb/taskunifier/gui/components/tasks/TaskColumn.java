@@ -32,7 +32,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.api.utils.ListUtils;
+import com.leclercb.taskunifier.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum TaskColumn {
@@ -169,7 +169,7 @@ public enum TaskColumn {
 			case TITLE:
 				return task.getTitle();
 			case TAGS:
-				return ListUtils.listToString(task.getTags(), ", ");
+				return ArrayUtils.arrayToString(task.getTags(), ", ");
 			case FOLDER:
 				return task.getFolder();
 			case CONTEXT:
@@ -215,11 +215,7 @@ public enum TaskColumn {
 				task.setTitle((String) value);
 				break;
 			case TAGS:
-				task.clearTags();
-				String[] tags = ((String) value).split(",");
-				for (int i = 0; i < tags.length; i++)
-					if (tags[i].trim().length() != 0)
-						task.addTag(tags[i].trim());
+				task.setTags(((String) value).split(","));
 				break;
 			case FOLDER:
 				task.setFolder((Folder) value);
@@ -275,9 +271,9 @@ public enum TaskColumn {
 		}
 	}
 	
-	public static final String PROP_ORDER = "TASK_COLUMN_ORDER";
-	public static final String PROP_WIDTH = "TASK_COLUMN_WIDTH";
-	public static final String PROP_VISIBLE = "TASK_COLUMN_VISIBLE";
+	public static final String PROP_ORDER = "order";
+	public static final String PROP_WIDTH = "width";
+	public static final String PROP_VISIBLE = "visible";
 	
 	private static ListenerList<PropertyChangeListener> propertyChangeListenerList;
 	

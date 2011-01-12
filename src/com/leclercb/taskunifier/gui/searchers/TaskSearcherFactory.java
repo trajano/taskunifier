@@ -19,18 +19,19 @@ package com.leclercb.taskunifier.gui.searchers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.leclercb.taskunifier.api.event.ListenerList;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
 import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeModel;
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeModel;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeSupport;
+import com.leclercb.taskunifier.api.event.listchange.ListChangeSupported;
+import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 
-public class TaskSearcherFactory implements PropertyChangeListener, ListChangeModel, PropertyChangeModel {
+public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	private static TaskSearcherFactory FACTORY;
 	
@@ -41,14 +42,14 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		return FACTORY;
 	}
 	
-	private ListenerList<ListChangeListener> listChangeListenerList;
-	private ListenerList<PropertyChangeListener> propertyChangeListenerList;
+	private ListChangeSupport listChangeSupport;
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private List<TaskSearcher> searchers;
 	
 	private TaskSearcherFactory() {
-		this.listChangeListenerList = new ListenerList<ListChangeListener>();
-		this.propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.searchers = new ArrayList<TaskSearcher>();
 	}
@@ -107,7 +108,10 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		this.searchers.add(searcher);
 		searcher.addPropertyChangeListener(this);
 		int index = this.searchers.indexOf(searcher);
-		this.fireListChange(ListChangeEvent.VALUE_ADDED, index, searcher);
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_ADDED,
+				index,
+				searcher);
 	}
 	
 	public void unregister(TaskSearcher searcher) {
@@ -116,7 +120,10 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 		int index = this.searchers.indexOf(searcher);
 		if (this.searchers.remove(searcher)) {
 			searcher.removePropertyChangeListener(this);
-			this.fireListChange(ListChangeEvent.VALUE_REMOVED, index, searcher);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_REMOVED,
+					index,
+					searcher);
 		}
 	}
 	
@@ -148,7 +155,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 */
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeListenerList.addListener(listener);
+		this.listChangeSupport.addListChangeListener(listener);
 	}
 	
 	/**
@@ -159,7 +166,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 */
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeListenerList.addListener(listener);
+		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 	/**
@@ -170,7 +177,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 */
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.addListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
 	/**
@@ -181,7 +188,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 */
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeListenerList.removeListener(listener);
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 	/**
@@ -192,32 +199,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeMo
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		this.firePropertyChange(event);
-	}
-	
-	protected void fireListChange(ListChangeEvent event) {
-		for (ListChangeListener listener : this.listChangeListenerList)
-			listener.listChange(event);
-	}
-	
-	protected void fireListChange(int changeType, int index, Object value) {
-		this.fireListChange(new ListChangeEvent(this, changeType, index, value));
-	}
-	
-	protected void firePropertyChange(PropertyChangeEvent evt) {
-		for (PropertyChangeListener listener : this.propertyChangeListenerList)
-			listener.propertyChange(evt);
-	}
-	
-	protected void firePropertyChange(
-			String property,
-			Object oldValue,
-			Object newValue) {
-		this.firePropertyChange(new PropertyChangeEvent(
-				this,
-				property,
-				oldValue,
-				newValue));
+		this.propertyChangeSupport.firePropertyChange(event);
 	}
 	
 }

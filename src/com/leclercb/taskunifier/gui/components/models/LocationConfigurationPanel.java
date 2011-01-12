@@ -243,7 +243,7 @@ public class LocationConfigurationPanel extends JSplitPane implements PropertyCh
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Location.PROP_MODEL_TITLE)) {
+		if (evt.getPropertyName().equals(Location.PROP_TITLE)) {
 			if (!EqualsUtils.equals(
 					this.locationTitle.getText(),
 					evt.getNewValue()))

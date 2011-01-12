@@ -17,20 +17,24 @@
  */
 package com.leclercb.taskunifier.gui.searchers;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.leclercb.taskunifier.api.event.propertychange.AbstractPropertyChangeModel;
+import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.utils.EqualsBuilder;
 import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 
-public class TaskSearcher extends AbstractPropertyChangeModel implements Serializable, Cloneable {
+public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
 	
-	public static final String PROP_TITLE = "SEARCHER_TITLE";
-	public static final String PROP_ICON = "SEARCHER_ICON";
-	public static final String PROP_FILTER = "SEARCHER_FILTER";
-	public static final String PROP_SORTER = "SEARCHER_SORTER";
+	public static final String PROP_TITLE = "title";
+	public static final String PROP_ICON = "icon";
+	public static final String PROP_FILTER = "filter";
+	public static final String PROP_SORTER = "sorter";
+	
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private String id;
 	private String title;
@@ -47,6 +51,8 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		
 		this.setId(UUID.randomUUID().toString());
 		
 		this.setTitle(title);
@@ -81,7 +87,10 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		CheckUtils.isNotNull(title, "Title cannot be null");
 		String oldTitle = this.title;
 		this.title = title;
-		this.firePropertyChange(PROP_TITLE, oldTitle, title);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TITLE,
+				oldTitle,
+				title);
 	}
 	
 	public String getIcon() {
@@ -91,7 +100,7 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 	public void setIcon(String icon) {
 		String oldIcon = this.icon;
 		this.icon = icon;
-		this.firePropertyChange(PROP_ICON, oldIcon, icon);
+		this.propertyChangeSupport.firePropertyChange(PROP_ICON, oldIcon, icon);
 	}
 	
 	public TaskFilter getFilter() {
@@ -102,7 +111,10 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		TaskFilter oldFilter = this.filter;
 		this.filter = filter;
-		this.firePropertyChange(PROP_FILTER, oldFilter, filter);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_FILTER,
+				oldFilter,
+				filter);
 	}
 	
 	public TaskSorter getSorter() {
@@ -113,7 +125,10 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		CheckUtils.isNotNull(sorter, "Sorter cannot be null");
 		TaskSorter oldSorter = this.sorter;
 		this.sorter = sorter;
-		this.firePropertyChange(PROP_SORTER, oldSorter, sorter);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_SORTER,
+				oldSorter,
+				sorter);
 	}
 	
 	@Override
@@ -142,6 +157,16 @@ public class TaskSearcher extends AbstractPropertyChangeModel implements Seriali
 		hashCode.append(this.id);
 		
 		return hashCode.toHashCode();
+	}
+	
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 }
