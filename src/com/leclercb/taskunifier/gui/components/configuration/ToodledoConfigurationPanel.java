@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 
 import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -34,7 +35,6 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ToodledoConfigurationPanel extends ConfigurationPanel {

@@ -36,6 +36,7 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -44,7 +45,6 @@ import com.leclercb.taskunifier.gui.models.GoalContributeComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalListModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public class GoalConfigurationPanel extends JSplitPane {
 	

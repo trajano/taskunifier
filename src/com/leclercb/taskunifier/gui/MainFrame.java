@@ -45,6 +45,7 @@ import com.apple.eawt.Application;
 import com.leclercb.commons.api.settings.SaveSettingsListener;
 import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -77,7 +78,6 @@ import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.OsUtils;
 
 public class MainFrame extends JFrame implements MainView, ListSelectionListener, SaveSettingsListener, ActionListener {
 	

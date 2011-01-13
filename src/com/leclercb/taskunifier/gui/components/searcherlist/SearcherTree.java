@@ -18,11 +18,11 @@ import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.api.settings.SaveSettingsListener;
 import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.utils.TreeUtils;
 
 public class SearcherTree extends JTree implements SaveSettingsListener, ActionListener {
 	

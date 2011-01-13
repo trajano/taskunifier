@@ -25,11 +25,11 @@ import java.net.Proxy.Type;
 import javax.swing.JCheckBox;
 
 import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 
 public class ProxyConfigurationPanel extends ConfigurationPanel {
 	

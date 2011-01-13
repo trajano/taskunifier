@@ -20,14 +20,14 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileFilter;
 
+import com.leclercb.commons.api.utils.FileUtils;
+import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.FileUtils;
-import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public class ImportSearcherDialog extends JDialog {
 	

@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.api.synchronizer.AbstractCall;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
@@ -32,7 +33,6 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {

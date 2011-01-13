@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.leclercb.commons.gui.swing.borders.CurvedBorder;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -24,7 +25,6 @@ import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
-import com.leclercb.taskunifier.gui.swing.CurvedBorder;
 
 public class TaskCell extends JPanel {
 	

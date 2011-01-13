@@ -31,8 +31,8 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.help.Help;
-import com.leclercb.taskunifier.gui.utils.SpringUtils;
 
 public abstract class ConfigurationPanel extends JPanel {
 	

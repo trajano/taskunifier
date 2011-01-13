@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -42,7 +43,6 @@ import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.RegexFormatter;
 
 public class TaskConfigurationPanel extends ConfigurationPanel {
 	
