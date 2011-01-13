@@ -19,8 +19,8 @@ package com.leclercb.taskunifier.gui.constants;
 
 import javax.swing.undo.UndoableEditSupport;
 
-import com.leclercb.taskunifier.gui.undo.TransferActionListener;
-import com.leclercb.taskunifier.gui.undo.UndoFireManager;
+import com.leclercb.commons.gui.swing.undo.TransferActionListener;
+import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 
 public final class Constants {
 	

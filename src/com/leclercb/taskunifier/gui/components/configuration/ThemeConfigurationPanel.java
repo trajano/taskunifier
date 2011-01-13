@@ -27,14 +27,14 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ThemeConfigurationPanel extends ConfigurationPanel {

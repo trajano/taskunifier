@@ -23,9 +23,9 @@ import java.lang.reflect.Method;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
+import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
 
 public class JTattooLookAndFeelDescriptor extends LookAndFeelDescriptor {
 	

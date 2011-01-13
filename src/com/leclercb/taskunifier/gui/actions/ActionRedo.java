@@ -26,11 +26,11 @@ import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
+import com.leclercb.commons.gui.swing.undo.IRedoListener;
+import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.undo.IRedoListener;
-import com.leclercb.taskunifier.gui.undo.IUndoListener;
 
 public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 	

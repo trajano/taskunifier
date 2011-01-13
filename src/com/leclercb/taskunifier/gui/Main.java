@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
@@ -41,8 +43,6 @@ import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.JTattooLookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;

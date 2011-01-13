@@ -23,8 +23,8 @@ import javax.swing.JFrame;
 
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 
-import com.leclercb.taskunifier.gui.lookandfeel.LookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.lookandfeel.exc.LookAndFeelException;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
+import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 
 public class SubstanceLookAndFeelDescriptor extends LookAndFeelDescriptor {
 	
