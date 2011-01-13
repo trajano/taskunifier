@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.undo;
+package com.leclercb.taskunifier.gui.components.tasks;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -23,7 +23,6 @@ import javax.swing.undo.CannotUndoException;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskUndoableEdit extends AbstractUndoableEdit {
 	
