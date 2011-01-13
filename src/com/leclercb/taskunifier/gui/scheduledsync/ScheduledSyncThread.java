@@ -4,8 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 
 public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {

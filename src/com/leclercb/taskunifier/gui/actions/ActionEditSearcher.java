@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;

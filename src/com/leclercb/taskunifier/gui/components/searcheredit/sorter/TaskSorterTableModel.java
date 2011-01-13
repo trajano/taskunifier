@@ -6,8 +6,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;

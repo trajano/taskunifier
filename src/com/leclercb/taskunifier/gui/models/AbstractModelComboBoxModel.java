@@ -22,8 +22,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 

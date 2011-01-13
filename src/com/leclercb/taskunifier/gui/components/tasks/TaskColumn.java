@@ -23,7 +23,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 
-import com.leclercb.taskunifier.api.event.ListenerList;
+import com.leclercb.commons.api.event.ListenerList;
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -32,7 +33,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum TaskColumn {

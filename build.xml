@@ -2,6 +2,7 @@
 <project basedir="." default="build" name="TaskUnifierGui">
 	
     <property environment="env"/>
+	<property name="directory.commons" value="${basedir}/../Commons"/>
 	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
 	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
 	
@@ -12,6 +13,7 @@
     <path id="taskunifiergui.classpath">
         <pathelement location="${directory.gui}/bin"/>
         <pathelement location="${directory.gui}/lib/applejavaextensions.jar"/>
+        <pathelement location="${directory.gui}/lib/commons.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-binding-2.2.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-common-1.1.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-forms-1.4.0.jar"/>
@@ -23,12 +25,13 @@
         <pathelement location="${directory.gui}/lib/substance.jar"/>
     </path>
 	
-	<target name="copy-api-jar">
-		<echo message="Copying API jar..."/>
+	<target name="copy-jars">
+		<echo message="Copying jars..."/>
+		<copy file="${directory.commons}/dist/Commons.jar" tofile="${directory.gui}/lib/commons.jar"/>
 		<copy file="${directory.api}/dist/TaskUnifierApi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
 	</target>
 	
-    <target depends="copy-api-jar" name="init">
+    <target depends="copy-jars" name="init">
 		<echo message="Initializing compilation..."/>
         <mkdir dir="${directory.gui}/bin"/>
         <copy includeemptydirs="false" todir="${directory.gui}/bin">

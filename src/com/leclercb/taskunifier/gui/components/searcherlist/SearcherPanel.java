@@ -33,8 +33,8 @@ import javax.swing.JTextField;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import com.leclercb.taskunifier.api.event.action.ActionSupport;
-import com.leclercb.taskunifier.api.event.action.ActionSupported;
+import com.leclercb.commons.api.event.action.ActionSupport;
+import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;

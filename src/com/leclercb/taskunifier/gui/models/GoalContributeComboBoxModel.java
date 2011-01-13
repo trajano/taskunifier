@@ -23,8 +23,8 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;

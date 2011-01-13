@@ -26,6 +26,7 @@ import java.util.Calendar;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -36,7 +37,6 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -75,23 +75,31 @@ public class ActionAddTask extends AbstractAction {
 					","));
 		}
 		
-		if (Settings.getModelIdProperty("task.default.folder") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.folder");
+		if (Settings.getObjectProperty("task.default.folder", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.folder",
+					ModelId.class);
 			task.setFolder(FolderFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getModelIdProperty("task.default.context") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.context");
+		if (Settings.getObjectProperty("task.default.context", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.context",
+					ModelId.class);
 			task.setContext(ContextFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getModelIdProperty("task.default.goal") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.goal");
+		if (Settings.getObjectProperty("task.default.goal", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.goal",
+					ModelId.class);
 			task.setGoal(GoalFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getModelIdProperty("task.default.location") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.location");
+		if (Settings.getObjectProperty("task.default.location", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.location",
+					ModelId.class);
 			task.setLocation(LocationFactory.getInstance().get(modelId));
 		}
 		

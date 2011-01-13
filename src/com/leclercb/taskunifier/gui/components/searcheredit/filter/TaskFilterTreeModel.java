@@ -6,8 +6,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 

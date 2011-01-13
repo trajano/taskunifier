@@ -22,11 +22,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.undo.TaskUndoableEdit;

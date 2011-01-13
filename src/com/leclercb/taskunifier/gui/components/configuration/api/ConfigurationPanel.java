@@ -29,8 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.EqualsUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.help.Help;
 import com.leclercb.taskunifier.gui.utils.SpringUtils;
 

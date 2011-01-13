@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;

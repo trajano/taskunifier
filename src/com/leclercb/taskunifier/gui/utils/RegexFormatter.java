@@ -24,7 +24,7 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.swing.text.DefaultFormatter;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 
 public class RegexFormatter extends DefaultFormatter {
 	

@@ -16,8 +16,8 @@ import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.settings.SaveSettingsListener;
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;

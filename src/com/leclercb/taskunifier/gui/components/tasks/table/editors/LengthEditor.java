@@ -27,7 +27,7 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.settings.Settings;
 
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 	

@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/jgoodies-binding-2.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-common-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-forms-1.4.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Commons"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -24,7 +24,7 @@ import java.net.Proxy.Type;
 
 import javax.swing.JCheckBox;
 
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;

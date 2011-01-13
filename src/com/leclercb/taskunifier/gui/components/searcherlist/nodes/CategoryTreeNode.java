@@ -2,8 +2,8 @@ package com.leclercb.taskunifier.gui.components.searcherlist.nodes;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class CategoryTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {

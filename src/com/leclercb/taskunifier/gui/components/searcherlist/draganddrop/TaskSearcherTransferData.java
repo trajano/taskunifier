@@ -19,7 +19,7 @@ package com.leclercb.taskunifier.gui.components.searcherlist.draganddrop;
 
 import java.io.Serializable;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 

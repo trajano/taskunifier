@@ -24,9 +24,9 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.EqualsBuilder;
-import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsBuilder;
+import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.Main;
 
 public final class Images {

@@ -27,8 +27,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 
 public class DefaultRenderer extends DefaultTableCellRenderer {

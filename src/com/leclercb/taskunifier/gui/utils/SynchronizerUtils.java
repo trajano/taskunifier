@@ -3,10 +3,10 @@ package com.leclercb.taskunifier.gui.utils;
 import java.net.Proxy;
 import java.util.Calendar;
 
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.utils.ProxyUtils;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApiConfiguration;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
-import com.leclercb.taskunifier.api.utils.ProxyUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 
 public final class SynchronizerUtils {

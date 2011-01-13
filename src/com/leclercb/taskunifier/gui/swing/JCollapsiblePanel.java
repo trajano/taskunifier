@@ -24,7 +24,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 
 public class JCollapsiblePanel extends JPanel {
 	

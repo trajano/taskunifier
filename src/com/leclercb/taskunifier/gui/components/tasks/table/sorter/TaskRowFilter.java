@@ -21,10 +21,10 @@ import java.util.List;
 
 import javax.swing.RowFilter;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 

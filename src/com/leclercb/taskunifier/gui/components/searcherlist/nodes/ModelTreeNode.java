@@ -3,11 +3,11 @@ package com.leclercb.taskunifier.gui.components.searcherlist.nodes;
 import javax.swing.SortOrder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsBuilder;
+import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.EqualsBuilder;
-import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;

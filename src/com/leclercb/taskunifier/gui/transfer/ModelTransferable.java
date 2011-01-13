@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 
 public class ModelTransferable implements Transferable {
 	

@@ -22,10 +22,10 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.EqualsBuilder;
-import com.leclercb.taskunifier.api.utils.HashCodeBuilder;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsBuilder;
+import com.leclercb.commons.api.utils.HashCodeBuilder;
 
 public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
 	

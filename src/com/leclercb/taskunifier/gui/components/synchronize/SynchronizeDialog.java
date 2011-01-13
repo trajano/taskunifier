@@ -33,12 +33,12 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.commons.api.progress.ProgressMonitor;
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.progress.ProgressMessage;
-import com.leclercb.taskunifier.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerApiException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;

@@ -13,12 +13,12 @@ import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
+import com.leclercb.commons.api.settings.SaveSettingsListener;
+import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.settings.SaveSettingsListener;
-import com.leclercb.taskunifier.api.settings.Settings;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.list.TaskList;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;

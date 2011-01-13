@@ -28,13 +28,13 @@ import java.util.List;
 
 import javax.swing.SortOrder;
 
-import com.leclercb.taskunifier.api.event.listchange.ListChangeEvent;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeSupport;
-import com.leclercb.taskunifier.api.event.listchange.ListChangeSupported;
-import com.leclercb.taskunifier.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.utils.ListUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.ListChangeSupport;
+import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;

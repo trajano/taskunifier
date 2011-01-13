@@ -23,7 +23,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import com.leclercb.taskunifier.api.event.ListenerList;
+import com.leclercb.commons.api.event.ListenerList;
 
 public class UndoFireManager extends UndoManager {
 	

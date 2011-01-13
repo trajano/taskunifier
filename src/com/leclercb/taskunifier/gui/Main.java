@@ -27,12 +27,13 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
-import com.leclercb.taskunifier.api.settings.Settings;
+import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
@@ -165,6 +166,8 @@ public class Main {
 	
 	private static void loadSettings() throws Exception {
 		try {
+			Settings.addCoder(new ModelIdSettingsCoder());
+			
 			Settings.load(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "settings.properties"));

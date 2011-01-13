@@ -17,7 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 
 public final class FileUtils {
 	

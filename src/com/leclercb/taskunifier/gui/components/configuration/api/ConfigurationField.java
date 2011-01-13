@@ -17,7 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.api;
 
-import com.leclercb.taskunifier.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 
 public class ConfigurationField {
 	

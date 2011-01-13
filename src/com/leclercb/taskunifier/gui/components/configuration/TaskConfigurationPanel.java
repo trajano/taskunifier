@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -29,7 +30,6 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.api.settings.Settings;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType.ComboBox;
@@ -76,10 +76,16 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Settings.setStringProperty(
 				"task.default.tags",
 				(String) this.getValue("TAGS"));
-		Settings.setModelIdProperty("task.default.folder", folder);
-		Settings.setModelIdProperty("task.default.context", context);
-		Settings.setModelIdProperty("task.default.goal", goal);
-		Settings.setModelIdProperty("task.default.location", location);
+		Settings.setObjectProperty("task.default.folder", ModelId.class, folder);
+		Settings.setObjectProperty(
+				"task.default.context",
+				ModelId.class,
+				context);
+		Settings.setObjectProperty("task.default.goal", ModelId.class, goal);
+		Settings.setObjectProperty(
+				"task.default.location",
+				ModelId.class,
+				location);
 		Settings.setBooleanProperty(
 				"task.default.completed",
 				(Boolean) this.getValue("COMPLETED"));
@@ -139,23 +145,31 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		if (Settings.getStringProperty("task.default.tags") != null)
 			taskTagsValue = Settings.getStringProperty("task.default.tags");
 		
-		if (Settings.getModelIdProperty("task.default.folder") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.folder");
+		if (Settings.getObjectProperty("task.default.folder", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.folder",
+					ModelId.class);
 			taskFolderValue = FolderFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getModelIdProperty("task.default.context") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.context");
+		if (Settings.getObjectProperty("task.default.context", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.context",
+					ModelId.class);
 			taskContextValue = ContextFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getModelIdProperty("task.default.goal") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.goal");
+		if (Settings.getObjectProperty("task.default.goal", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.goal",
+					ModelId.class);
 			taskGoalValue = GoalFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getModelIdProperty("task.default.location") != null) {
-			ModelId modelId = Settings.getModelIdProperty("task.default.location");
+		if (Settings.getObjectProperty("task.default.location", ModelId.class) != null) {
+			ModelId modelId = Settings.getObjectProperty(
+					"task.default.location",
+					ModelId.class);
 			taskLocationValue = LocationFactory.getInstance().get(modelId);
 		}
 		
