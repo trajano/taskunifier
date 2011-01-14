@@ -14,6 +14,7 @@ Version 0.6.5
 	- Improved error handling
 	- Open searcher edit when new searcher is added
 	- Import/export searchers
+	- Bug fixed: number condition in searchers didn't work
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked

@@ -148,104 +148,6 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 		
 	}
 	
-	public static enum StringCondition implements Condition<String, Object> {
-		
-		EQUALS,
-		CONTAINS,
-		STARTS_WITH,
-		ENDS_WITH,
-		NOT_EQUALS;
-		
-		@Override
-		public Class<?> getValueType() {
-			return String.class;
-		}
-		
-		@Override
-		public Class<?> getTaskValueType() {
-			return Object.class;
-		}
-		
-		@Override
-		public boolean include(String value, Object taskValue) {
-			if (this == EQUALS) {
-				return taskValue.toString().equalsIgnoreCase(value);
-			}
-			
-			if (this == CONTAINS) {
-				return taskValue.toString().toLowerCase().contains(
-						value.toLowerCase());
-			}
-			
-			if (this == STARTS_WITH) {
-				return taskValue.toString().toLowerCase().startsWith(
-						value.toLowerCase());
-			}
-			
-			if (this == ENDS_WITH) {
-				return taskValue.toString().toLowerCase().endsWith(
-						value.toLowerCase());
-			}
-			
-			if (this == NOT_EQUALS) {
-				return !(taskValue.toString().equalsIgnoreCase(value));
-			}
-			
-			return false;
-		}
-		
-	}
-	
-	public static enum NumberCondition implements Condition<Number, Number> {
-		
-		GREATER_THAN,
-		GREATER_THAN_OR_EQUALS,
-		LESS_THAN,
-		LESS_THAN_OR_EQUALS,
-		EQUALS,
-		NOT_EQUALS;
-		
-		@Override
-		public Class<?> getValueType() {
-			return Number.class;
-		}
-		
-		@Override
-		public Class<?> getTaskValueType() {
-			return Number.class;
-		}
-		
-		@Override
-		public boolean include(Number value, Number taskValue) {
-			if (this == GREATER_THAN) {
-				return taskValue.doubleValue() > value.doubleValue();
-			}
-			
-			if (this == GREATER_THAN_OR_EQUALS) {
-				return taskValue.doubleValue() >= value.doubleValue();
-			}
-			
-			if (this == LESS_THAN) {
-				return taskValue.doubleValue() < value.doubleValue();
-			}
-			
-			if (this == LESS_THAN_OR_EQUALS) {
-				return taskValue.doubleValue() <= value.doubleValue();
-			}
-			
-			if (this == EQUALS) {
-				return taskValue.doubleValue() == value.doubleValue();
-			}
-			
-			if (this == NOT_EQUALS) {
-				return taskValue.doubleValue() != value.doubleValue();
-			}
-			
-			return false;
-		}
-		
-	}
-	
 	public static enum EnumCondition implements Condition<Enum<?>, Enum<?>> {
 		
 		EQUALS,
@@ -319,6 +221,104 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 			
 			if (this == NOT_EQUALS) {
 				return !(taskValue.equals(value));
+			}
+			
+			return false;
+		}
+		
+	}
+	
+	public static enum NumberCondition implements Condition<Number, Number> {
+		
+		GREATER_THAN,
+		GREATER_THAN_OR_EQUALS,
+		LESS_THAN,
+		LESS_THAN_OR_EQUALS,
+		EQUALS,
+		NOT_EQUALS;
+		
+		@Override
+		public Class<?> getValueType() {
+			return Number.class;
+		}
+		
+		@Override
+		public Class<?> getTaskValueType() {
+			return Number.class;
+		}
+		
+		@Override
+		public boolean include(Number value, Number taskValue) {
+			if (this == GREATER_THAN) {
+				return taskValue.doubleValue() > value.doubleValue();
+			}
+			
+			if (this == GREATER_THAN_OR_EQUALS) {
+				return taskValue.doubleValue() >= value.doubleValue();
+			}
+			
+			if (this == LESS_THAN) {
+				return taskValue.doubleValue() < value.doubleValue();
+			}
+			
+			if (this == LESS_THAN_OR_EQUALS) {
+				return taskValue.doubleValue() <= value.doubleValue();
+			}
+			
+			if (this == EQUALS) {
+				return taskValue.doubleValue() == value.doubleValue();
+			}
+			
+			if (this == NOT_EQUALS) {
+				return taskValue.doubleValue() != value.doubleValue();
+			}
+			
+			return false;
+		}
+		
+	}
+	
+	public static enum StringCondition implements Condition<String, Object> {
+		
+		EQUALS,
+		CONTAINS,
+		STARTS_WITH,
+		ENDS_WITH,
+		NOT_EQUALS;
+		
+		@Override
+		public Class<?> getValueType() {
+			return String.class;
+		}
+		
+		@Override
+		public Class<?> getTaskValueType() {
+			return Object.class;
+		}
+		
+		@Override
+		public boolean include(String value, Object taskValue) {
+			if (this == EQUALS) {
+				return taskValue.toString().equalsIgnoreCase(value);
+			}
+			
+			if (this == CONTAINS) {
+				return taskValue.toString().toLowerCase().contains(
+						value.toLowerCase());
+			}
+			
+			if (this == STARTS_WITH) {
+				return taskValue.toString().toLowerCase().startsWith(
+						value.toLowerCase());
+			}
+			
+			if (this == ENDS_WITH) {
+				return taskValue.toString().toLowerCase().endsWith(
+						value.toLowerCase());
+			}
+			
+			if (this == NOT_EQUALS) {
+				return !(taskValue.toString().equalsIgnoreCase(value));
 			}
 			
 			return false;
@@ -528,15 +528,18 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 			} else if (this.condition instanceof DaysCondition) {
 				DaysCondition c = (DaysCondition) this.condition;
 				return c.include((Integer) this.value, (Calendar) taskValue);
-			} else if (this.condition instanceof StringCondition) {
-				StringCondition c = (StringCondition) this.condition;
-				return c.include((String) this.value, taskValue);
 			} else if (this.condition instanceof EnumCondition) {
 				EnumCondition c = (EnumCondition) this.condition;
 				return c.include((Enum<?>) this.value, (Enum<?>) taskValue);
 			} else if (this.condition instanceof ModelCondition) {
 				ModelCondition c = (ModelCondition) this.condition;
 				return c.include((Model) this.value, (Model) taskValue);
+			} else if (this.condition instanceof NumberCondition) {
+				NumberCondition c = (NumberCondition) this.condition;
+				return c.include((Number) this.value, (Number) taskValue);
+			} else if (this.condition instanceof StringCondition) {
+				StringCondition c = (StringCondition) this.condition;
+				return c.include((String) this.value, taskValue);
 			}
 			
 			return false;
