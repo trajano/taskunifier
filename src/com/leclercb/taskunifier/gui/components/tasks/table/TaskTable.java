@@ -212,7 +212,7 @@ public class TaskTable extends JTable {
 		return ((TaskTableModel) this.getModel()).getTask(index);
 	}
 	
-	public List<Task> getSelectedTasks() {
+	public Task[] getSelectedTasks() {
 		int[] indexes = this.getSelectedRows();
 		
 		List<Task> tasks = new ArrayList<Task>();
@@ -220,10 +220,10 @@ public class TaskTable extends JTable {
 			if (indexes[i] != -1)
 				tasks.add(this.getTask(indexes[i]));
 		
-		return tasks;
+		return tasks.toArray(new Task[0]);
 	}
 	
-	public void setSelectedTasks(List<Task> tasks) {
+	public void setSelectedTasks(Task[] tasks) {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 		
 		this.getSelectionModel().setValueIsAdjusting(true);

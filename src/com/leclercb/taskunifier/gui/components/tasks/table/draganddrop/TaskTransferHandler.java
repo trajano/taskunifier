@@ -93,13 +93,15 @@ public class TaskTransferHandler extends TransferHandler {
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		TaskTable table = (TaskTable) c;
-		List<Task> tasks = table.getSelectedTasks();
+		Task[] tasks = table.getSelectedTasks();
 		
 		List<ModelId> ids = new ArrayList<ModelId>();
 		for (Task task : tasks)
 			ids.add(task.getModelId());
 		
-		return new ModelTransferable(new ModelTransferData(ModelType.TASK, ids));
+		return new ModelTransferable(new ModelTransferData(
+				ModelType.TASK,
+				ids.toArray(new ModelId[0])));
 	}
 	
 	@Override
@@ -171,7 +173,7 @@ public class TaskTransferHandler extends TransferHandler {
 				newTasks.add(TaskFactory.getInstance().create(dragTask));
 			
 			table.getRowSorter().allRowsChanged();
-			table.setSelectedTasks(newTasks);
+			table.setSelectedTasks(newTasks.toArray(new Task[0]));
 			
 			return true;
 		}

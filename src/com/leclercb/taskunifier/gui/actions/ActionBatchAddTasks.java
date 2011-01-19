@@ -49,9 +49,9 @@ public class ActionBatchAddTasks extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		List<Task> selectedTasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+		Task[] selectedTasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
-		if (selectedTasks.size() != 1) {
+		if (selectedTasks.length != 1) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.select_one_task"));
@@ -80,13 +80,14 @@ public class ActionBatchAddTasks extends AbstractAction {
 			if (title.length() == 0)
 				continue;
 			
-			Task task = TaskFactory.getInstance().create(selectedTasks.get(0));
+			Task task = TaskFactory.getInstance().create(selectedTasks[0]);
 			task.setTitle(title);
 			
 			tasks.add(task);
 		}
 		
-		MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
+		MainFrame.getInstance().getTaskView().setSelectedTasks(
+				tasks.toArray(new Task[0]));
 	}
 	
 }

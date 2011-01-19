@@ -20,7 +20,6 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.swing.AbstractAction;
@@ -155,6 +154,6 @@ public class ActionAddTask extends AbstractAction {
 			task.setNote(Settings.getStringProperty("task.default.note"));
 		
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
-				Arrays.asList(task));
+				new Task[] { task });
 	}
 }

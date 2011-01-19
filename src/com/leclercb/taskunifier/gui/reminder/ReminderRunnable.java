@@ -21,7 +21,6 @@ import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -96,7 +95,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 									if (n == JOptionPane.YES_OPTION) {
 										MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 										MainFrame.getInstance().getTaskView().setSelectedTasks(
-												Arrays.asList(task));
+												new Task[] { task });
 									}
 								}
 								

@@ -138,12 +138,12 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 	}
 	
 	@Override
-	public void setSelectedTasks(List<Task> tasks) {
+	public void setSelectedTasks(Task[] tasks) {
 		this.taskTable.setSelectedTasks(tasks);
 	}
 	
 	@Override
-	public List<Task> getSelectedTasks() {
+	public Task[] getSelectedTasks() {
 		return this.taskTable.getSelectedTasks();
 	}
 	

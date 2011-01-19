@@ -23,7 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -379,18 +378,17 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 				this.previousSelectedTask.setNote(this.taskNote.getText());
 		}
 		
-		List<Task> tasks = this.taskPanel.getSelectedTasks();
+		Task[] tasks = this.taskPanel.getSelectedTasks();
 		
-		if (tasks.size() != 1) {
+		if (tasks.length != 1) {
 			this.previousSelectedTask = null;
 			
 			this.taskNote.setText(Translations.getString("error.select_one_task"));
 			this.taskNote.setEnabled(false);
 		} else {
-			this.previousSelectedTask = tasks.get(0);
+			this.previousSelectedTask = tasks[0];
 			
-			this.taskNote.setText((tasks.get(0).getNote() == null ? "" : tasks.get(
-					0).getNote()));
+			this.taskNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
 			this.taskNote.setEnabled(true);
 		}
 	}

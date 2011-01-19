@@ -18,9 +18,7 @@
 package com.leclercb.taskunifier.gui.transfer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -29,29 +27,29 @@ import com.leclercb.taskunifier.api.models.ModelType;
 public class ModelTransferData implements Serializable {
 	
 	private ModelType type;
-	private List<ModelId> ids;
+	private ModelId[] ids;
 	
 	public ModelTransferData(ModelType type, ModelId id) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		CheckUtils.isNotNull(id, "ID cannot be null");
 		
 		this.type = type;
-		this.ids = Arrays.asList(id);
+		this.ids = new ModelId[] { id };
 	}
 	
-	public ModelTransferData(ModelType type, List<ModelId> ids) {
+	public ModelTransferData(ModelType type, ModelId[] ids) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		CheckUtils.isNotNull(ids, "IDs cannot be null");
 		
 		this.type = type;
-		this.ids = new ArrayList<ModelId>(ids);
+		this.ids = Arrays.copyOf(ids, ids.length);
 	}
 	
 	public ModelType getType() {
 		return this.type;
 	}
 	
-	public List<ModelId> getIds() {
+	public ModelId[] getIds() {
 		return this.ids;
 	}
 	
