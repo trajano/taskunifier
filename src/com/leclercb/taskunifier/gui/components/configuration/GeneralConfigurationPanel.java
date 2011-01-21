@@ -64,6 +64,12 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 			Main.SETTINGS.setLongProperty(
 					"synchronizer.scheduler_sleep_time",
 					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
+			Main.SETTINGS.setBooleanProperty(
+					"searcher.show_completed_tasks",
+					(Boolean) this.getValue("SHOW_COMPLETED_TASKS"));
+			Main.SETTINGS.setBooleanProperty(
+					"searcher.show_completed_tasks_at_the_end",
+					(Boolean) this.getValue("SHOW_COMPLETED_TASKS_AT_THE_END"));
 		}
 	}
 	
@@ -119,6 +125,8 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
 					"dd/MM/yyyy");
 			Long schedulerSleepTime = 600l;
+			Boolean showCompletedTasks = true;
+			Boolean showCompletedTasksAtTheEnd = false;
 			
 			if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
 				generalDateFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
@@ -128,6 +136,12 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 			
 			if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
 				schedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
+			
+			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
+				showCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
+			
+			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null)
+				showCompletedTasksAtTheEnd = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_1",
@@ -187,6 +201,28 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 					5 * 3600,
 					60));
 			spinner.setEditor(new JSpinner.NumberEditor(spinner));
+			
+			this.addField(new ConfigurationField(
+					"SEPARATOR_3",
+					null,
+					new ConfigurationFieldType.Separator()));
+			
+			this.addField(new ConfigurationField(
+					"SETTINGS_AFTER_RESTART",
+					null,
+					new ConfigurationFieldType.Label(
+							Translations.getString("configuration.general.settings_changed_after_restart"))));
+			
+			this.addField(new ConfigurationField(
+					"SHOW_COMPLETED_TASKS",
+					Translations.getString("configuration.general.show_completed_tasks"),
+					new ConfigurationFieldType.CheckBox(showCompletedTasks)));
+			
+			this.addField(new ConfigurationField(
+					"SHOW_COMPLETED_TASKS_AT_THE_END",
+					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
+					new ConfigurationFieldType.CheckBox(
+							showCompletedTasksAtTheEnd)));
 		}
 	}
 	

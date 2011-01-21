@@ -30,6 +30,7 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.ModelTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.SearcherTreeNode;
@@ -60,21 +61,36 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		TaskSorter sorter;
 		
 		sorter = new TaskSorter();
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
+				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end"))
+			sorter.addElement(new TaskSorterElement(
+					0,
+					TaskColumn.COMPLETED,
+					SortOrder.ASCENDING));
+		
 		sorter.addElement(new TaskSorterElement(
-				0,
+				1,
 				TaskColumn.DUE_DATE,
 				SortOrder.ASCENDING));
 		sorter.addElement(new TaskSorterElement(
-				1,
+				2,
 				TaskColumn.PRIORITY,
 				SortOrder.DESCENDING));
 		sorter.addElement(new TaskSorterElement(
-				2,
+				3,
 				TaskColumn.TITLE,
 				SortOrder.ASCENDING));
 		
 		// All Tasks
 		filter = new TaskFilter();
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
+				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"))
+			filter.addElement(new TaskFilterElement(
+					TaskColumn.COMPLETED,
+					StringCondition.EQUALS,
+					"false"));
 		
 		GENERAL_TASK_SEARCHERS[0] = new TaskSearcher(
 				Translations.getString("searcherlist.general.all_tasks"),

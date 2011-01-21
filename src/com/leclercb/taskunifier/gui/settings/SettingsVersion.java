@@ -108,6 +108,11 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("toodledo.token_creation_date");
 		Main.SETTINGS.remove("toodledo.userid");
 		
+		Main.SETTINGS.setStringProperty("searcher.show_completed_tasks", "true");
+		Main.SETTINGS.setStringProperty(
+				"searcher.show_completed_tasks_at_the_end",
+				"false");
+		
 		Main.SETTINGS.setStringProperty("proxy.use_system_proxy", "false");
 		
 		return "0.6.5";
