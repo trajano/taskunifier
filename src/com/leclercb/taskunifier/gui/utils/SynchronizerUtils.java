@@ -7,6 +7,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.ProxyUtils;
+import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
@@ -94,6 +98,20 @@ public final class SynchronizerUtils {
 					TaskFactory.getInstance().markDeleted(task);
 			}
 		}
+	}
+	
+	public static void resetSynchronizer() {
+		SynchronizerUtils.getApi().resetSynchronizerParameters(Main.SETTINGS);
+	}
+	
+	public static void resetSynchronizerAndDeleteModels() {
+		ContextFactory.getInstance().deleteAll();
+		FolderFactory.getInstance().deleteAll();
+		GoalFactory.getInstance().deleteAll();
+		LocationFactory.getInstance().deleteAll();
+		TaskFactory.getInstance().deleteAll();
+		
+		SynchronizerUtils.getApi().resetSynchronizerParameters(Main.SETTINGS);
 	}
 	
 }

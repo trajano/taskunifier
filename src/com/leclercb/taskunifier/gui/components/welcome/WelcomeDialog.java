@@ -33,7 +33,7 @@ public class WelcomeDialog extends JDialog {
 					new ProxyConfigurationPanel()),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.synchronization"),
-					new SynchronizationConfigurationPanel()),
+					new SynchronizationConfigurationPanel(true)),
 			new SettingsPanel(
 					SynchronizerUtils.getApi().getApiName(),
 					SynchronizerUtils.getApiConfigurationPanel(true)) };

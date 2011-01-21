@@ -230,9 +230,9 @@ public abstract class SynchronizeDialog extends JDialog {
 						
 						this.connection = SynchronizeDialog.this.getConnection();
 						
-						this.connection.connect();
+						this.connection.loadParameters(Main.SETTINGS);
 						
-						this.connection.saveParameters(Main.SETTINGS);
+						this.connection.connect();
 						
 						this.synchronizer = SynchronizerUtils.getApi().getSynchronizer(
 								this.connection);
@@ -244,6 +244,8 @@ public abstract class SynchronizeDialog extends JDialog {
 								SynchronizerChoice.class);
 						
 						this.synchronizer.synchronize(choice, monitor);
+						
+						this.connection.disconnect();
 					} catch (final SynchronizerApiException e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							

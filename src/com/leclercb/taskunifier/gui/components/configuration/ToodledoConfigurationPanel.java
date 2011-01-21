@@ -17,19 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
-import java.awt.event.ActionEvent;
-
 import javax.swing.JOptionPane;
 
-import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.GoalFactory;
-import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
-import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -47,6 +40,11 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
+		if (!EqualsUtils.equals(
+				Main.SETTINGS.getStringProperty("toodledo.email"),
+				this.getValue("EMAIL")))
+			SynchronizerUtils.resetSynchronizerAndDeleteModels();
+		
 		Main.SETTINGS.setStringProperty(
 				"toodledo.email",
 				(String) this.getValue("EMAIL"));
@@ -128,69 +126,6 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 					}
 					
 				})));
-		
-		if (!welcome) {
-			this.addField(new ConfigurationField(
-					"SEPARATOR_2",
-					null,
-					new ConfigurationFieldType.Separator()));
-			
-			this.addField(new ConfigurationField(
-					"SYNCHRONIZE_ALL_LABEL",
-					null,
-					new ConfigurationFieldType.Label(
-							Translations.getString("configuration.toodledo.synchronize_all"))));
-			
-			this.addField(new ConfigurationField(
-					"SYNCHRONIZE_ALL",
-					null,
-					new ConfigurationFieldType.Button(new ActionSynchronize() {
-						
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							ToodledoConfigurationPanel.this.saveAndApplyConfig();
-							
-							SynchronizerUtils.getApi().resetSynchronizerParameters(
-									Main.SETTINGS);
-							
-							super.actionPerformed(event);
-						}
-						
-					})));
-			
-			this.addField(new ConfigurationField(
-					"RESET_ALL_LABEL",
-					null,
-					new ConfigurationFieldType.Label(
-							Translations.getString("configuration.toodledo.reset_all"))));
-			
-			this.addField(new ConfigurationField(
-					"RESET_ALL",
-					null,
-					new ConfigurationFieldType.Button(new ActionSynchronize() {
-						
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							try {
-								ToodledoConfigurationPanel.this.saveAndApplyConfig();
-								
-								ContextFactory.getInstance().deleteAll();
-								FolderFactory.getInstance().deleteAll();
-								GoalFactory.getInstance().deleteAll();
-								LocationFactory.getInstance().deleteAll();
-								TaskFactory.getInstance().deleteAll();
-								
-								SynchronizerUtils.getApi().resetSynchronizerParameters(
-										Main.SETTINGS);
-								
-								super.actionPerformed(event);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-						
-					})));
-		}
 	}
 	
 }
