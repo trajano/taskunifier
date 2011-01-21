@@ -26,10 +26,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
@@ -51,19 +51,21 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 	public void saveAndApplyConfig() {
 		// Look And Feel & Theme
 		LookAndFeelDescriptor laf = (LookAndFeelDescriptor) this.getValue("LOOK_AND_FEEL");
-		Settings.setStringProperty("theme.lookandfeel", laf.getIdentifier());
+		Main.SETTINGS.setStringProperty(
+				"theme.lookandfeel",
+				laf.getIdentifier());
 		
 		// Colors
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"theme.color.enabled",
 				(Boolean) this.getValue("COLORS_ENABLED"));
-		Settings.setColorProperty(
+		Main.SETTINGS.setColorProperty(
 				"theme.color.even",
 				(Color) this.getValue("COLOR_EVEN"));
-		Settings.setColorProperty(
+		Main.SETTINGS.setColorProperty(
 				"theme.color.odd",
 				(Color) this.getValue("COLOR_ODD"));
-		Settings.setColorProperty(
+		Main.SETTINGS.setColorProperty(
 				"theme.color.searcher_list",
 				(Color) this.getValue("COLOR_SEARCHER_LIST"));
 	}
@@ -93,20 +95,20 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 		Color themeColorOddValue = Color.WHITE;
 		Color themeColorSearcherListValue = Color.WHITE;
 		
-		if (Settings.getStringProperty("theme.lookandfeel") != null)
-			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Settings.getStringProperty("theme.lookandfeel"));
+		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
+			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
 		
-		if (Settings.getBooleanProperty("theme.color.enabled") != null)
-			themeColorEnabledValue = Settings.getBooleanProperty("theme.color.enabled");
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
+			themeColorEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.enabled");
 		
-		if (Settings.getColorProperty("theme.color.even") != null)
-			themeColorEvenValue = Settings.getColorProperty("theme.color.even");
+		if (Main.SETTINGS.getColorProperty("theme.color.even") != null)
+			themeColorEvenValue = Main.SETTINGS.getColorProperty("theme.color.even");
 		
-		if (Settings.getColorProperty("theme.color.odd") != null)
-			themeColorOddValue = Settings.getColorProperty("theme.color.odd");
+		if (Main.SETTINGS.getColorProperty("theme.color.odd") != null)
+			themeColorOddValue = Main.SETTINGS.getColorProperty("theme.color.odd");
 		
-		if (Settings.getColorProperty("theme.color.searcher_list") != null)
-			themeColorSearcherListValue = Settings.getColorProperty("theme.color.searcher_list");
+		if (Main.SETTINGS.getColorProperty("theme.color.searcher_list") != null)
+			themeColorSearcherListValue = Main.SETTINGS.getColorProperty("theme.color.searcher_list");
 		
 		// Sort look and feels by name
 		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(

@@ -20,17 +20,11 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
-import com.leclercb.commons.api.settings.Settings;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
-import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ActionCreateAccount extends AbstractAction {
+public abstract class ActionCreateAccount extends AbstractAction {
 	
 	public ActionCreateAccount() {
 		this(32, 32);
@@ -48,36 +42,9 @@ public class ActionCreateAccount extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		String email = Settings.getStringProperty("toodledo.email");
-		String password = Settings.getStringProperty("toodledo.password");
-		
-		try {
-			if (email == null)
-				throw new Exception(Translations.getString("error.empty_email"));
-			
-			if (password == null)
-				throw new Exception(
-						Translations.getString("error.empty_password"));
-			
-			SynchronizerUtils.initializeProxy();
-			ToodledoConnectionFactory.getInstance().createAccount(
-					email,
-					password);
-			
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("action.create_account.account_created"),
-					Translations.getString("general.information"),
-					JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
-					e,
-					true);
-			errorDialog.setVisible(true);
-			
-			return;
-		}
+		this.createAccount();
 	}
+	
+	public abstract void createAccount();
 	
 }

@@ -28,6 +28,7 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizeDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionSynchronize extends AbstractAction {
 	
@@ -54,7 +55,7 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public void synchronize() {
-		SynchronizeDialog dialog = new SynchronizeDialog(
+		SynchronizeDialog dialog = SynchronizerUtils.getSynchronizeDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		

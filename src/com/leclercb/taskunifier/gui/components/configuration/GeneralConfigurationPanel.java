@@ -26,7 +26,7 @@ import javax.swing.JList;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -46,22 +46,22 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setLocaleProperty(
+		Main.SETTINGS.setLocaleProperty(
 				"general.locale",
 				(Locale) this.getValue("LANGUAGE"));
 		
 		if (this.languageOnly) {
-			Translations.changeLocale(Settings.getLocaleProperty("general.locale"));
+			Translations.changeLocale(Main.SETTINGS.getLocaleProperty("general.locale"));
 		}
 		
 		if (!this.languageOnly) {
-			Settings.setSimpleDateFormatProperty(
+			Main.SETTINGS.setSimpleDateFormatProperty(
 					"date.date_format",
 					(SimpleDateFormat) this.getValue("DATE_FORMAT"));
-			Settings.setSimpleDateFormatProperty(
+			Main.SETTINGS.setSimpleDateFormatProperty(
 					"date.time_format",
 					(SimpleDateFormat) this.getValue("TIME_FORMAT"));
-			Settings.setLongProperty(
+			Main.SETTINGS.setLongProperty(
 					"synchronizer.scheduler_sleep_time",
 					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 		}
@@ -70,8 +70,8 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 	private void initialize() {
 		Locale generalLanguageValue = Translations.getDefaultLocale();
 		
-		if (Settings.getLocaleProperty("general.locale") != null)
-			generalLanguageValue = Settings.getLocaleProperty("general.locale");
+		if (Main.SETTINGS.getLocaleProperty("general.locale") != null)
+			generalLanguageValue = Main.SETTINGS.getLocaleProperty("general.locale");
 		
 		if (!this.languageOnly) {
 			this.addField(new ConfigurationField(
@@ -120,14 +120,14 @@ public class GeneralConfigurationPanel extends ConfigurationPanel {
 					"dd/MM/yyyy");
 			Long schedulerSleepTime = 600l;
 			
-			if (Settings.getSimpleDateFormatProperty("date.date_format") != null)
-				generalDateFormatValue = Settings.getSimpleDateFormatProperty("date.date_format");
+			if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
+				generalDateFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
 			
-			if (Settings.getSimpleDateFormatProperty("date.time_format") != null)
-				generalTimeFormatValue = Settings.getSimpleDateFormatProperty("date.time_format");
+			if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
+				generalTimeFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 			
-			if (Settings.getLongProperty("synchronizer.scheduler_sleep_time") != null)
-				schedulerSleepTime = Settings.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
+			if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
+				schedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_1",

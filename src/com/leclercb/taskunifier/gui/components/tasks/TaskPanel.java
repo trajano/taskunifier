@@ -13,18 +13,18 @@ import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.settings.SaveSettingsListener;
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.settings.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.list.TaskList;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener {
+public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener {
 	
 	public static enum View {
 		
@@ -43,7 +43,7 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 	}
 	
 	private void initialize() {
-		Settings.addSaveSettingsListener(this);
+		Main.SETTINGS.addSaveSettingsListener(this);
 		this.loadTaskColumnSettings();
 		
 		this.setLayout(new CardLayout());
@@ -60,13 +60,13 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 	private void loadTaskColumnSettings() {
 		TaskColumn[] columns = TaskColumn.values();
 		for (int i = 0; i < columns.length; i++) {
-			Integer order = Settings.getIntegerProperty("taskcolumn."
+			Integer order = Main.SETTINGS.getIntegerProperty("taskcolumn."
 					+ columns[i].name().toLowerCase()
 					+ ".order");
-			Integer width = Settings.getIntegerProperty("taskcolumn."
+			Integer width = Main.SETTINGS.getIntegerProperty("taskcolumn."
 					+ columns[i].name().toLowerCase()
 					+ ".width");
-			Boolean visible = Settings.getBooleanProperty("taskcolumn."
+			Boolean visible = Main.SETTINGS.getBooleanProperty("taskcolumn."
 					+ columns[i].name().toLowerCase()
 					+ ".visible");
 			
@@ -89,7 +89,7 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 	public void saveSettings() {
 		TaskColumn[] taskColumns = TaskColumn.getValues(false);
 		for (int i = 0; i < taskColumns.length; i++) {
-			Settings.setBooleanProperty("taskcolumn."
+			Main.SETTINGS.setBooleanProperty("taskcolumn."
 					+ taskColumns[i].name().toLowerCase()
 					+ ".visible", false);
 		}
@@ -100,13 +100,13 @@ public class TaskPanel extends JPanel implements TaskView, SaveSettingsListener 
 			TableColumn column = columns.nextElement();
 			TaskColumn taskColumn = (TaskColumn) column.getIdentifier();
 			
-			Settings.setIntegerProperty("taskcolumn."
+			Main.SETTINGS.setIntegerProperty("taskcolumn."
 					+ taskColumn.name().toLowerCase()
 					+ ".order", i);
-			Settings.setIntegerProperty("taskcolumn."
+			Main.SETTINGS.setIntegerProperty("taskcolumn."
 					+ taskColumn.name().toLowerCase()
 					+ ".width", column.getWidth());
-			Settings.setBooleanProperty("taskcolumn."
+			Main.SETTINGS.setBooleanProperty("taskcolumn."
 					+ taskColumn.name().toLowerCase()
 					+ ".visible", taskColumn.isVisible());
 			

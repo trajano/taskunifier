@@ -41,8 +41,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.apple.eawt.Application;
-import com.leclercb.commons.api.settings.SaveSettingsListener;
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.settings.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.taskunifier.api.models.Task;
@@ -78,7 +77,7 @@ import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class MainFrame extends JFrame implements MainView, ListSelectionListener, SaveSettingsListener, ActionListener {
+public class MainFrame extends JFrame implements MainView, ListSelectionListener, SavePropertiesListener, ActionListener {
 	
 	private static MainView INSTANCE;
 	
@@ -109,7 +108,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private void initialize() {
-		Settings.addSaveSettingsListener(this);
+		Main.SETTINGS.addSaveSettingsListener(this);
 		
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
@@ -173,11 +172,11 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private void loadWindowSizeSettings() {
-		Integer extendedState = Settings.getIntegerProperty("window.extended_state");
-		Integer width = Settings.getIntegerProperty("window.width");
-		Integer height = Settings.getIntegerProperty("window.height");
-		Integer locationX = Settings.getIntegerProperty("window.location_x");
-		Integer locationY = Settings.getIntegerProperty("window.location_y");
+		Integer extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
+		Integer width = Main.SETTINGS.getIntegerProperty("window.width");
+		Integer height = Main.SETTINGS.getIntegerProperty("window.height");
+		Integer locationX = Main.SETTINGS.getIntegerProperty("window.location_x");
+		Integer locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
 		
 		if (width == null || height == null || extendedState == null) {
 			this.setExtendedState(this.getExtendedState()
@@ -193,8 +192,8 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private void loadSplitPaneSettings() {
-		Integer hSplit = Settings.getIntegerProperty("window.horizontal_split");
-		Integer vSplit = Settings.getIntegerProperty("window.vertical_split");
+		Integer hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
+		Integer vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
 		
 		if (hSplit != null)
 			this.horizontalSplitPane.setDividerLocation(hSplit);
@@ -205,22 +204,22 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	@Override
 	public void saveSettings() {
-		Settings.setIntegerProperty(
+		Main.SETTINGS.setIntegerProperty(
 				"window.extended_state",
 				this.getExtendedState());
-		Settings.setIntegerProperty("window.width", this.getWidth());
-		Settings.setIntegerProperty("window.height", this.getHeight());
-		Settings.setIntegerProperty(
+		Main.SETTINGS.setIntegerProperty("window.width", this.getWidth());
+		Main.SETTINGS.setIntegerProperty("window.height", this.getHeight());
+		Main.SETTINGS.setIntegerProperty(
 				"window.location_x",
 				(int) this.getLocationOnScreen().getX());
-		Settings.setIntegerProperty(
+		Main.SETTINGS.setIntegerProperty(
 				"window.location_y",
 				(int) this.getLocationOnScreen().getY());
 		
-		Settings.setIntegerProperty(
+		Main.SETTINGS.setIntegerProperty(
 				"window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
-		Settings.setIntegerProperty(
+		Main.SETTINGS.setIntegerProperty(
 				"window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}

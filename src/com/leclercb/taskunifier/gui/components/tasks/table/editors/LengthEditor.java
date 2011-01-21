@@ -27,7 +27,7 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 	
@@ -38,7 +38,7 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 		this.timeSpinner.setModel(new SpinnerDateModel());
 		this.timeSpinner.setEditor(new JSpinner.DateEditor(
 				this.timeSpinner,
-				Settings.getStringProperty("date.time_format")));
+				Main.SETTINGS.getStringProperty("date.time_format")));
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -58,21 +58,21 @@ public class StatusBar extends JPanel {
 	
 	private void initializeLastSynchronizationDate() {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format")
+				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
-						+ Settings.getStringProperty("date.time_format"));
+						+ Main.SETTINGS.getStringProperty("date.time_format"));
 		
 		String date = Translations.getString("statusbar.never");
 		
-		if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Settings.getCalendarProperty(
+		if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+			date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
 					"synchronizer.last_synchronization_date").getTime());
 		
 		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
 				+ ": "
 				+ date);
 		
-		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -80,8 +80,8 @@ public class StatusBar extends JPanel {
 						"synchronizer.last_synchronization_date")) {
 					String date = Translations.getString("statusbar.never");
 					
-					if (Settings.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						dateFormat.format(Settings.getCalendarProperty(
+					if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+						dateFormat.format(Main.SETTINGS.getCalendarProperty(
 								"synchronizer.last_synchronization_date").getTime());
 					
 					StatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
@@ -96,7 +96,7 @@ public class StatusBar extends JPanel {
 	public void initializeScheduledSyncStatus(final ScheduledSyncThread thread) {
 		this.updateScheduledSyncStatusText(thread);
 		
-		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -124,7 +124,7 @@ public class StatusBar extends JPanel {
 	private void updateScheduledSyncStatusText(ScheduledSyncThread thread) {
 		String text = null;
 		
-		if (Settings.getBooleanProperty("synchronizer.scheduler_enabled")) {
+		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled")) {
 			long sleep = thread.getRemainingSleepTime();
 			sleep = sleep / 1000;
 			

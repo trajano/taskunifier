@@ -24,8 +24,8 @@ import java.net.Proxy.Type;
 
 import javax.swing.JCheckBox;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -41,22 +41,26 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"proxy.enabled",
 				(Boolean) this.getValue("ENABLED"));
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"proxy.use_system_proxy",
 				(Boolean) this.getValue("USE_SYSTEM_PROXY"));
-		Settings.setEnumProperty(
+		Main.SETTINGS.setEnumProperty(
 				"proxy.type",
 				Proxy.Type.class,
 				(Proxy.Type) this.getValue("TYPE"));
-		Settings.setStringProperty("proxy.host", (String) this.getValue("HOST"));
-		Settings.setStringProperty("proxy.port", (String) this.getValue("PORT"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
+				"proxy.host",
+				(String) this.getValue("HOST"));
+		Main.SETTINGS.setStringProperty(
+				"proxy.port",
+				(String) this.getValue("PORT"));
+		Main.SETTINGS.setStringProperty(
 				"proxy.login",
 				(String) this.getValue("LOGIN"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"proxy.password",
 				(String) this.getValue("PASSWORD"));
 	}
@@ -70,28 +74,28 @@ public class ProxyConfigurationPanel extends ConfigurationPanel {
 		String proxyLoginValue = "";
 		String proxyPasswordValue = "";
 		
-		if (Settings.getBooleanProperty("proxy.enabled") != null)
-			proxyEnabledValue = Settings.getBooleanProperty("proxy.enabled");
+		if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
+			proxyEnabledValue = Main.SETTINGS.getBooleanProperty("proxy.enabled");
 		
-		if (Settings.getBooleanProperty("proxy.use_system_proxy") != null)
-			proxyUseSystemProxyValue = Settings.getBooleanProperty("proxy.use_system_proxy");
+		if (Main.SETTINGS.getBooleanProperty("proxy.use_system_proxy") != null)
+			proxyUseSystemProxyValue = Main.SETTINGS.getBooleanProperty("proxy.use_system_proxy");
 		
-		if (Settings.getEnumProperty("proxy.type", Proxy.Type.class) != null)
-			proxyTypeValue = (Type) Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty("proxy.type", Proxy.Type.class) != null)
+			proxyTypeValue = (Type) Main.SETTINGS.getEnumProperty(
 					"proxy.type",
 					Proxy.Type.class);
 		
-		if (Settings.getStringProperty("proxy.host") != null)
-			proxyHostValue = Settings.getStringProperty("proxy.host");
+		if (Main.SETTINGS.getStringProperty("proxy.host") != null)
+			proxyHostValue = Main.SETTINGS.getStringProperty("proxy.host");
 		
-		if (Settings.getIntegerProperty("proxy.port") != null)
-			proxyPortValue = Settings.getStringProperty("proxy.port");
+		if (Main.SETTINGS.getIntegerProperty("proxy.port") != null)
+			proxyPortValue = Main.SETTINGS.getStringProperty("proxy.port");
 		
-		if (Settings.getStringProperty("proxy.login") != null)
-			proxyLoginValue = Settings.getStringProperty("proxy.login");
+		if (Main.SETTINGS.getStringProperty("proxy.login") != null)
+			proxyLoginValue = Main.SETTINGS.getStringProperty("proxy.login");
 		
-		if (Settings.getStringProperty("proxy.password") != null)
-			proxyPasswordValue = Settings.getStringProperty("proxy.password");
+		if (Main.SETTINGS.getStringProperty("proxy.password") != null)
+			proxyPasswordValue = Main.SETTINGS.getStringProperty("proxy.password");
 		
 		this.addField(new ConfigurationField(
 				"ENABLED",

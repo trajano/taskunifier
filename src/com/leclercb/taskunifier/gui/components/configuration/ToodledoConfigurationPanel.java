@@ -19,21 +19,21 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 
-import com.leclercb.commons.api.settings.Settings;
-import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
+import javax.swing.JOptionPane;
+
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
+import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -47,50 +47,23 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"toodledo.email",
 				(String) this.getValue("EMAIL"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"toodledo.password",
 				(String) this.getValue("PASSWORD"));
-		Settings.setStringProperty("toodledo.userid", null);
-		Settings.setStringProperty("toodledo.token", null);
-		Settings.setEnumProperty(
-				"synchronizer.choice",
-				SynchronizerChoice.class,
-				(SynchronizerChoice) this.getValue("CHOICE"));
-		
-		if (!EqualsUtils.equals(
-				Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days"),
-				this.getValue("KEEP")))
-			SynchronizerUtils.keepTasksCompletedForXDaysHasChanged();
-		
-		Settings.setStringProperty(
-				"synchronizer.keep_tasks_completed_for_x_days",
-				(String) this.getValue("KEEP"));
 	}
 	
 	private void initialize(boolean welcome) {
 		String toodledoEmailValue = "";
 		String toodledoPasswordValue = "";
-		SynchronizerChoice toodledoChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
-		String toodledoKeepValue = "15";
 		
-		if (Settings.getStringProperty("toodledo.email") != null)
-			toodledoEmailValue = Settings.getStringProperty("toodledo.email");
+		if (Main.SETTINGS.getStringProperty("toodledo.email") != null)
+			toodledoEmailValue = Main.SETTINGS.getStringProperty("toodledo.email");
 		
-		if (Settings.getStringProperty("toodledo.password") != null)
-			toodledoPasswordValue = Settings.getStringProperty("toodledo.password");
-		
-		if (Settings.getEnumProperty(
-				"synchronizer.choice",
-				SynchronizerChoice.class) != null)
-			toodledoChoiceValue = (SynchronizerChoice) Settings.getEnumProperty(
-					"synchronizer.choice",
-					SynchronizerChoice.class);
-		
-		if (Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
-			toodledoKeepValue = Settings.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
+		if (Main.SETTINGS.getStringProperty("toodledo.password") != null)
+			toodledoPasswordValue = Main.SETTINGS.getStringProperty("toodledo.password");
 		
 		this.addField(new ConfigurationField(
 				"EMAIL",
@@ -101,24 +74,6 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 				"PASSWORD",
 				Translations.getString("configuration.toodledo.password"),
 				new ConfigurationFieldType.PasswordField(toodledoPasswordValue)));
-		
-		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
-				SynchronizerChoice.values(),
-				toodledoChoiceValue);
-		
-		comboBox.setRenderer(new SynchronizerChoiceListCellRenderer());
-		
-		this.addField(new ConfigurationField(
-				"CHOICE",
-				Translations.getString("configuration.toodledo.choice"),
-				comboBox));
-		
-		this.addField(new ConfigurationField(
-				"KEEP",
-				Translations.getString("configuration.toodledo.keep_tasks_for"),
-				new ConfigurationFieldType.FormattedTextField(
-						new RegexFormatter("^[0-9]{1,3}$"),
-						toodledoKeepValue)));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
@@ -137,10 +92,39 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.Button(new ActionCreateAccount() {
 					
 					@Override
-					public void actionPerformed(ActionEvent event) {
+					public void createAccount() {
 						ToodledoConfigurationPanel.this.saveAndApplyConfig();
 						
-						super.actionPerformed(event);
+						String email = Main.SETTINGS.getStringProperty("toodledo.email");
+						String password = Main.SETTINGS.getStringProperty("toodledo.password");
+						
+						try {
+							if (email == null)
+								throw new Exception(
+										Translations.getString("error.empty_email"));
+							
+							if (password == null)
+								throw new Exception(
+										Translations.getString("error.empty_password"));
+							
+							SynchronizerUtils.initializeProxy();
+							SynchronizerUtils.getApi().createAccount(
+									new Object[] { email, password });
+							
+							JOptionPane.showMessageDialog(
+									MainFrame.getInstance().getFrame(),
+									Translations.getString("action.create_account.account_created"),
+									Translations.getString("general.information"),
+									JOptionPane.INFORMATION_MESSAGE);
+						} catch (Exception e) {
+							ErrorDialog errorDialog = new ErrorDialog(
+									MainFrame.getInstance().getFrame(),
+									e,
+									true);
+							errorDialog.setVisible(true);
+							
+							return;
+						}
 					}
 					
 				})));
@@ -166,7 +150,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 						public void actionPerformed(ActionEvent event) {
 							ToodledoConfigurationPanel.this.saveAndApplyConfig();
 							
-							SynchronizerUtils.resetSynchronizerSettings();
+							SynchronizerUtils.getApi().resetSynchronizerParameters(
+									Main.SETTINGS.getProperties());
 							
 							super.actionPerformed(event);
 						}
@@ -195,7 +180,8 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 								LocationFactory.getInstance().deleteAll();
 								TaskFactory.getInstance().deleteAll();
 								
-								SynchronizerUtils.resetSynchronizerSettings();
+								SynchronizerUtils.getApi().resetSynchronizerParameters(
+										Main.SETTINGS.getProperties());
 								
 								super.actionPerformed(event);
 							} catch (Exception e) {

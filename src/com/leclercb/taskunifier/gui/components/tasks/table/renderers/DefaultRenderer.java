@@ -27,8 +27,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 
 public class DefaultRenderer extends DefaultTableCellRenderer {
@@ -38,9 +38,9 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 	private Color selected;
 	
 	public DefaultRenderer() {
-		if (Settings.getBooleanProperty("theme.color.enabled")) {
-			this.even = Settings.getColorProperty("theme.color.even");
-			this.odd = Settings.getColorProperty("theme.color.odd");
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
+			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
+			this.odd = Main.SETTINGS.getColorProperty("theme.color.odd");
 		} else {
 			this.even = UIManager.getColor("Table.background");
 			this.odd = UIManager.getColor("Table.background");

@@ -27,7 +27,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.settings.ExtendedProperties;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
 	
+	public static ExtendedProperties SETTINGS;
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
@@ -77,7 +78,7 @@ public class Main {
 			
 			@Override
 			public void run() {
-				String lookAndFeel = Settings.getStringProperty("theme.lookandfeel");
+				String lookAndFeel = SETTINGS.getStringProperty("theme.lookandfeel");
 				
 				try {
 					if (lookAndFeel != null) {
@@ -166,14 +167,16 @@ public class Main {
 	
 	private static void loadSettings() throws Exception {
 		try {
-			Settings.addCoder(new ModelIdSettingsCoder());
+			SETTINGS = new ExtendedProperties(new Properties());
 			
-			Settings.load(new FileInputStream(DATA_FOLDER
+			SETTINGS.addCoder(new ModelIdSettingsCoder());
+			
+			SETTINGS.load(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "settings.properties"));
 			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
-			Settings.load(Resources.class.getResourceAsStream("default_settings.properties"));
+			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
 			if (!FIRST_EXECUTION)
 				JOptionPane.showMessageDialog(
@@ -185,7 +188,7 @@ public class Main {
 	}
 	
 	private static void loadLocale() throws Exception {
-		Translations.changeLocale(Settings.getLocaleProperty("general.locale"));
+		Translations.changeLocale(SETTINGS.getLocaleProperty("general.locale"));
 	}
 	
 	private static void loadModels() throws Exception {
@@ -288,9 +291,9 @@ public class Main {
 	}
 	
 	public static void saveSettings() throws FileNotFoundException, IOException {
-		Settings.save(new FileOutputStream(DATA_FOLDER
+		SETTINGS.store(new FileOutputStream(DATA_FOLDER
 				+ File.separator
-				+ "settings.properties"));
+				+ "settings.properties"), Constants.TITLE + " Settings");
 	}
 	
 }

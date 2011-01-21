@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 
 public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
@@ -23,23 +23,23 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.synchronizeAction = new ActionSynchronize();
-		this.sleepTime = Settings.getLongProperty("synchronizer.scheduler_sleep_time");
+		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;
-		this.paused = !Settings.getBooleanProperty("synchronizer.scheduler_enabled");
+		this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");
 		
-		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(
 						"synchronizer.scheduler_sleep_time")) {
-					ScheduledSyncThread.this.sleepTime = Settings.getLongProperty("synchronizer.scheduler_sleep_time");
+					ScheduledSyncThread.this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
 					ScheduledSyncThread.this.setRemainingSleepTime(ScheduledSyncThread.this.sleepTime);
 				}
 				
 				if (evt.getPropertyName().equals(
 						"synchronizer.scheduler_enabled")) {
-					ScheduledSyncThread.this.paused = !Settings.getBooleanProperty("synchronizer.scheduler_enabled");
+					ScheduledSyncThread.this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");
 				}
 			}
 			

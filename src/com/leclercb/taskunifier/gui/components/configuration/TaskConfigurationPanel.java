@@ -17,7 +17,6 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -31,6 +30,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType.ComboBox;
@@ -70,53 +70,59 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		if (this.getValue("LOCATION") != null)
 			location = ((Location) this.getValue("LOCATION")).getModelId();
 		
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.title",
 				(String) this.getValue("TITLE"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.tags",
 				(String) this.getValue("TAGS"));
-		Settings.setObjectProperty("task.default.folder", ModelId.class, folder);
-		Settings.setObjectProperty(
+		Main.SETTINGS.setObjectProperty(
+				"task.default.folder",
+				ModelId.class,
+				folder);
+		Main.SETTINGS.setObjectProperty(
 				"task.default.context",
 				ModelId.class,
 				context);
-		Settings.setObjectProperty("task.default.goal", ModelId.class, goal);
-		Settings.setObjectProperty(
+		Main.SETTINGS.setObjectProperty(
+				"task.default.goal",
+				ModelId.class,
+				goal);
+		Main.SETTINGS.setObjectProperty(
 				"task.default.location",
 				ModelId.class,
 				location);
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"task.default.completed",
 				(Boolean) this.getValue("COMPLETED"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.due_date",
 				(String) this.getValue("DUE_DATE"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.start_date",
 				(String) this.getValue("START_DATE"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.reminder",
 				(String) this.getValue("REMINDER"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.repeat",
 				(String) this.getValue("REPEAT"));
-		Settings.setEnumProperty(
+		Main.SETTINGS.setEnumProperty(
 				"task.default.repeat_from",
 				TaskRepeatFrom.class,
 				(TaskRepeatFrom) this.getValue("REPEAT_FROM"));
-		Settings.setEnumProperty(
+		Main.SETTINGS.setEnumProperty(
 				"task.default.status",
 				TaskStatus.class,
 				(TaskStatus) this.getValue("STATUS"));
-		Settings.setEnumProperty(
+		Main.SETTINGS.setEnumProperty(
 				"task.default.priority",
 				TaskPriority.class,
 				(TaskPriority) this.getValue("PRIORITY"));
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"task.default.star",
 				(Boolean) this.getValue("STAR"));
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"task.default.note",
 				(String) this.getValue("NOTE"));
 	}
@@ -139,79 +145,87 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Boolean taskStarValue = false;
 		String taskNoteValue = null;
 		
-		if (Settings.getStringProperty("task.default.title") != null)
-			taskTitleValue = Settings.getStringProperty("task.default.title");
+		if (Main.SETTINGS.getStringProperty("task.default.title") != null)
+			taskTitleValue = Main.SETTINGS.getStringProperty("task.default.title");
 		
-		if (Settings.getStringProperty("task.default.tags") != null)
-			taskTagsValue = Settings.getStringProperty("task.default.tags");
+		if (Main.SETTINGS.getStringProperty("task.default.tags") != null)
+			taskTagsValue = Main.SETTINGS.getStringProperty("task.default.tags");
 		
-		if (Settings.getObjectProperty("task.default.folder", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.folder",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.folder",
 					ModelId.class);
 			taskFolderValue = FolderFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getObjectProperty("task.default.context", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.context",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.context",
 					ModelId.class);
 			taskContextValue = ContextFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getObjectProperty("task.default.goal", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty("task.default.goal", ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.goal",
 					ModelId.class);
 			taskGoalValue = GoalFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getObjectProperty("task.default.location", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.location",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.location",
 					ModelId.class);
 			taskLocationValue = LocationFactory.getInstance().get(modelId);
 		}
 		
-		if (Settings.getBooleanProperty("task.default.completed") != null)
-			taskCompletedValue = Settings.getBooleanProperty("task.default.completed");
+		if (Main.SETTINGS.getBooleanProperty("task.default.completed") != null)
+			taskCompletedValue = Main.SETTINGS.getBooleanProperty("task.default.completed");
 		
-		if (Settings.getIntegerProperty("task.default.due_date") != null)
-			taskDueDateValue = Settings.getStringProperty("task.default.due_date");
+		if (Main.SETTINGS.getIntegerProperty("task.default.due_date") != null)
+			taskDueDateValue = Main.SETTINGS.getStringProperty("task.default.due_date");
 		
-		if (Settings.getIntegerProperty("task.default.start_date") != null)
-			taskStartDateValue = Settings.getStringProperty("task.default.start_date");
+		if (Main.SETTINGS.getIntegerProperty("task.default.start_date") != null)
+			taskStartDateValue = Main.SETTINGS.getStringProperty("task.default.start_date");
 		
-		if (Settings.getIntegerProperty("task.default.reminder") != null)
-			taskReminderValue = Settings.getStringProperty("task.default.reminder");
+		if (Main.SETTINGS.getIntegerProperty("task.default.reminder") != null)
+			taskReminderValue = Main.SETTINGS.getStringProperty("task.default.reminder");
 		
-		if (Settings.getStringProperty("task.default.repeat") != null)
-			taskRepeatValue = Settings.getStringProperty("task.default.repeat");
+		if (Main.SETTINGS.getStringProperty("task.default.repeat") != null)
+			taskRepeatValue = Main.SETTINGS.getStringProperty("task.default.repeat");
 		
-		if (Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty(
 				"task.default.repeat_from",
 				TaskRepeatFrom.class) != null)
-			taskRepeatFromValue = (TaskRepeatFrom) Settings.getEnumProperty(
+			taskRepeatFromValue = (TaskRepeatFrom) Main.SETTINGS.getEnumProperty(
 					"task.default.repeat_from",
 					TaskRepeatFrom.class);
 		
-		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
-			taskStatusValue = (TaskStatus) Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty(
+				"task.default.status",
+				TaskStatus.class) != null)
+			taskStatusValue = (TaskStatus) Main.SETTINGS.getEnumProperty(
 					"task.default.status",
 					TaskStatus.class);
 		
-		if (Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty(
 				"task.default.priority",
 				TaskPriority.class) != null)
-			taskPriorityValue = (TaskPriority) Settings.getEnumProperty(
+			taskPriorityValue = (TaskPriority) Main.SETTINGS.getEnumProperty(
 					"task.default.priority",
 					TaskPriority.class);
 		
-		if (Settings.getBooleanProperty("task.default.star") != null)
-			taskStarValue = Settings.getBooleanProperty("task.default.star");
+		if (Main.SETTINGS.getBooleanProperty("task.default.star") != null)
+			taskStarValue = Main.SETTINGS.getBooleanProperty("task.default.star");
 		
-		if (Settings.getStringProperty("task.default.note") != null)
-			taskNoteValue = Settings.getStringProperty("task.default.note");
+		if (Main.SETTINGS.getStringProperty("task.default.note") != null)
+			taskNoteValue = Main.SETTINGS.getStringProperty("task.default.note");
 		
 		this.addField(new ConfigurationField(
 				"DEFAULT_VALUE",

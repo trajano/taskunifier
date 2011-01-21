@@ -17,7 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.logger.GuiLogger;
 
@@ -28,7 +28,7 @@ public final class SettingsVersion {
 	}
 	
 	public static void updateSettings() {
-		String version = Settings.getStringProperty("general.version");
+		String version = Main.SETTINGS.getStringProperty("general.version");
 		
 		if (version == null)
 			version = "0.5.2";
@@ -51,21 +51,21 @@ public final class SettingsVersion {
 		if (version.equals("0.6.4"))
 			version = updateSettings_0_6_4_to_0_6_5();
 		
-		Settings.setStringProperty("general.version", Constants.VERSION);
+		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
 	private static String updateSettings_0_5_2_to_0_6() {
 		GuiLogger.getLogger().info("Update settings from version 0.5.2 to 0.6");
 		
-		Settings.setStringProperty("date.date_format", "dd/MM/yyyy");
-		Settings.setStringProperty("date.time_format", "HH:mm");
+		Main.SETTINGS.setStringProperty("date.date_format", "dd/MM/yyyy");
+		Main.SETTINGS.setStringProperty("date.time_format", "HH:mm");
 		
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
 				"theme.lookandfeel",
 				"com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
 		
-		Settings.removeProperty("date.simple_time_format");
-		Settings.removeProperty("date.date_time_format");
+		Main.SETTINGS.remove("date.simple_time_format");
+		Main.SETTINGS.remove("date.date_time_format");
 		
 		return "0.6";
 	}
@@ -74,7 +74,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.1 to 0.6.2");
 		
-		Settings.setStringProperty("theme.color.searcher_list", "-3090718");
+		Main.SETTINGS.setStringProperty("theme.color.searcher_list", "-3090718");
 		
 		return "0.6.2";
 	}
@@ -83,8 +83,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.2 to 0.6.3");
 		
-		Settings.setStringProperty("synchronizer.scheduler_enabled", "false");
-		Settings.setStringProperty(
+		Main.SETTINGS.setStringProperty(
+				"synchronizer.scheduler_enabled",
+				"false");
+		Main.SETTINGS.setStringProperty(
 				"synchronizer.scheduler_sleep_time",
 				"600000");
 		
@@ -95,7 +97,18 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.4 to 0.6.5");
 		
-		Settings.setStringProperty("proxy.use_system_proxy", "false");
+		Main.SETTINGS.remove("synchronizer.last_context_edit");
+		Main.SETTINGS.remove("synchronizer.last_folder_edit");
+		Main.SETTINGS.remove("synchronizer.last_goal_edit");
+		Main.SETTINGS.remove("synchronizer.last_location_edit");
+		Main.SETTINGS.remove("synchronizer.last_task_edit");
+		Main.SETTINGS.remove("synchronizer.last_task_delete");
+		
+		Main.SETTINGS.remove("toodledo.token");
+		Main.SETTINGS.remove("toodledo.token_creation_date");
+		Main.SETTINGS.remove("toodledo.userid");
+		
+		Main.SETTINGS.setStringProperty("proxy.use_system_proxy", "false");
 		
 		return "0.6.5";
 	}

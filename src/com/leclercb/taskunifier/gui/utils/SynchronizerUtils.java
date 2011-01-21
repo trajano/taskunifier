@@ -1,13 +1,19 @@
 package com.leclercb.taskunifier.gui.utils;
 
+import java.awt.Frame;
 import java.net.Proxy;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.api.utils.ProxyUtils;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApiConfiguration;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
+import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
+import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizeDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.ToodledoSynchronizeDialog;
 
 public final class SynchronizerUtils {
 	
@@ -15,20 +21,30 @@ public final class SynchronizerUtils {
 
 	}
 	
+	public static SynchronizerApi getApi() {
+		return ToodledoApi.INSTANCE;
+	}
+	
+	public static SynchronizeDialog getSynchronizeDialog(
+			Frame frame,
+			boolean modal) {
+		return new ToodledoSynchronizeDialog(frame, modal);
+	}
+	
 	public static void initializeProxy() {
-		Boolean proxyEnabled = Settings.getBooleanProperty("proxy.enabled");
+		Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
 		if (proxyEnabled != null && proxyEnabled) {
-			Boolean useSystemProxy = Settings.getBooleanProperty("proxy.use_system_proxy");
+			Boolean useSystemProxy = Main.SETTINGS.getBooleanProperty("proxy.use_system_proxy");
 			if (useSystemProxy != null && useSystemProxy) {
 				ProxyUtils.useSystemProxy();
 			} else {
-				Proxy.Type type = (Proxy.Type) Settings.getEnumProperty(
+				Proxy.Type type = (Proxy.Type) Main.SETTINGS.getEnumProperty(
 						"proxy.type",
 						Proxy.Type.class);
-				String host = Settings.getStringProperty("proxy.host");
-				Integer port = Settings.getIntegerProperty("proxy.port");
-				String login = Settings.getStringProperty("proxy.login");
-				String password = Settings.getStringProperty("proxy.password");
+				String host = Main.SETTINGS.getStringProperty("proxy.host");
+				Integer port = Main.SETTINGS.getIntegerProperty("proxy.port");
+				String login = Main.SETTINGS.getStringProperty("proxy.login");
+				String password = Main.SETTINGS.getStringProperty("proxy.password");
 				
 				ProxyUtils.setProxy(type, host, port, login, password);
 			}
@@ -41,63 +57,37 @@ public final class SynchronizerUtils {
 		ProxyUtils.removeProxy();
 	}
 	
-	public static void keepTasksCompletedForXDaysHasChanged() {
-		Settings.setCalendarProperty("synchronizer.last_task_edit", null);
-	}
-	
-	public static void initializeSynchronizer(ToodledoSynchronizer synchronizer) {
-		ToodledoApiConfiguration.setVersion(Constants.VERSION);
+	public static void removeOldCompletedTasks() {
+		Integer keep = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
 		
-		synchronizer.setKeepTasksCompletedForXDays(Settings.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days"));
+		if (keep == null)
+			return;
 		
-		synchronizer.setLastContextEdit(Settings.getCalendarProperty("synchronizer.last_context_edit"));
-		synchronizer.setLastFolderEdit(Settings.getCalendarProperty("synchronizer.last_folder_edit"));
-		synchronizer.setLastGoalEdit(Settings.getCalendarProperty("synchronizer.last_goal_edit"));
-		synchronizer.setLastLocationEdit(Settings.getCalendarProperty("synchronizer.last_location_edit"));
-		synchronizer.setLastTaskEdit(Settings.getCalendarProperty("synchronizer.last_task_edit"));
-		synchronizer.setLastTaskDelete(Settings.getCalendarProperty("synchronizer.last_task_delete"));
-	}
-	
-	public static void saveSynchronizerState(ToodledoSynchronizer synchronizer) {
-		Settings.setCalendarProperty(
-				"synchronizer.last_synchronization_date",
-				Calendar.getInstance());
+		Calendar completedAfter = Calendar.getInstance();
+		completedAfter.add(Calendar.DAY_OF_MONTH, -keep);
 		
-		Settings.setIntegerProperty(
-				"synchronizer.keep_tasks_completed_for_x_days",
-				synchronizer.getKeepTasksCompletedForXDays());
+		List<Task> tasks = new ArrayList<Task>(
+				TaskFactory.getInstance().getList());
 		
-		Settings.setCalendarProperty(
-				"synchronizer.last_context_edit",
-				synchronizer.getLastContextEdit());
-		Settings.setCalendarProperty(
-				"synchronizer.last_folder_edit",
-				synchronizer.getLastFolderEdit());
-		Settings.setCalendarProperty(
-				"synchronizer.last_goal_edit",
-				synchronizer.getLastGoalEdit());
-		Settings.setCalendarProperty(
-				"synchronizer.last_location_edit",
-				synchronizer.getLastLocationEdit());
-		Settings.setCalendarProperty(
-				"synchronizer.last_task_edit",
-				synchronizer.getLastTaskEdit());
-		Settings.setCalendarProperty(
-				"synchronizer.last_task_delete",
-				synchronizer.getLastTaskDelete());
-	}
-	
-	public static void resetSynchronizerSettings() {
-		Settings.setCalendarProperty(
-				"synchronizer.last_synchronization_date",
-				null);
-		
-		Settings.setCalendarProperty("synchronizer.last_context_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_folder_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_goal_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_location_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_task_edit", null);
-		Settings.setCalendarProperty("synchronizer.last_task_delete", null);
+		for (Task task : tasks) {
+			if (task.isCompleted()
+					&& task.getCompletedOn().compareTo(completedAfter) < 0) {
+				List<Task> children = TaskFactory.getInstance().getChildren(
+						task);
+				boolean delete = true;
+				
+				for (Task child : children) {
+					if (!(child.isCompleted() && child.getCompletedOn().compareTo(
+							completedAfter) < 0)) {
+						delete = false;
+						break;
+					}
+				}
+				
+				if (delete)
+					TaskFactory.getInstance().markDeleted(task);
+			}
+		}
 	}
 	
 }

@@ -38,6 +38,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class ConfigurationDialog extends JDialog {
 	
 	private GeneralConfigurationPanel generalConfigurationPanel;
+	private SynchronizationConfigurationPanel synchronizationConfigurationPanel;
 	private ToodledoConfigurationPanel toodledoConfigurationPanel;
 	private ProxyConfigurationPanel proxyConfigurationPanel;
 	private TaskConfigurationPanel taskConfigurationPanel;
@@ -69,6 +70,7 @@ public class ConfigurationDialog extends JDialog {
 		
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
+		this.initializeSynchronizationPanel(tabbedPane);
 		this.initializeToodledoPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
 		this.initializeTaskPanel(tabbedPane);
@@ -124,6 +126,14 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.generalConfigurationPanel));
 	}
 	
+	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
+		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
+				false);
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.synchronization"),
+				new JScrollPane(this.synchronizationConfigurationPanel));
+	}
+	
 	private void initializeToodledoPanel(JTabbedPane tabbedPane) {
 		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel(false);
 		tabbedPane.addTab(
@@ -163,6 +173,7 @@ public class ConfigurationDialog extends JDialog {
 	private void saveAndApplyConfig() {
 		try {
 			this.generalConfigurationPanel.saveAndApplyConfig();
+			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			this.toodledoConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.taskConfigurationPanel.saveAndApplyConfig();

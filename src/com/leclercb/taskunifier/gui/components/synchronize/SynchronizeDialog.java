@@ -22,6 +22,7 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -37,24 +38,23 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerConnection;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerApiException;
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnection;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoConnectionFactory;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizer;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoSynchronizerFactory;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizeDialog extends JDialog {
+public abstract class SynchronizeDialog extends JDialog {
 	
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
@@ -120,8 +120,8 @@ public class SynchronizeDialog extends JDialog {
 		public void run() {
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 				
-				private ToodledoConnection connection;
-				private ToodledoSynchronizer synchronizer;
+				private SynchronizerConnection connection;
+				private Synchronizer synchronizer;
 				
 				private String modelTypeToString(ModelType type, boolean plurial) {
 					if (plurial) {
@@ -218,34 +218,24 @@ public class SynchronizeDialog extends JDialog {
 						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")
 								+ "\n");
 						
-						if (Settings.getStringProperty("toodledo.email") == null)
+						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
 							throw new Exception("Please fill in your email");
 						
-						if (Settings.getStringProperty("toodledo.password") == null)
+						if (Main.SETTINGS.getStringProperty("toodledo.password") == null)
 							throw new Exception("Please fill in your password");
 						
-						this.connection = ToodledoConnectionFactory.getInstance().getConnection(
-								Settings.getStringProperty("toodledo.email"),
-								Settings.getStringProperty("toodledo.password"),
-								Settings.getStringProperty("toodledo.userid"),
-								Settings.getStringProperty("toodledo.token"),
-								Settings.getCalendarProperty("toodledo.token_creation_date="));
+						this.connection = SynchronizeDialog.this.getConnection();
 						
 						this.connection.connect();
 						
-						Settings.setStringProperty(
-								"toodledo.userid",
-								this.connection.getUserId());
-						Settings.setStringProperty(
-								"toodledo.token",
-								this.connection.getToken());
+						this.connection.saveParameters(Main.SETTINGS.getProperties());
 						
-						this.synchronizer = ToodledoSynchronizerFactory.getInstance().getSynchronizer(
+						this.synchronizer = SynchronizerUtils.getApi().getSynchronizer(
 								this.connection);
 						
-						SynchronizerUtils.initializeSynchronizer(this.synchronizer);
+						this.synchronizer.loadParameters(Main.SETTINGS.getProperties());
 						
-						SynchronizerChoice choice = (SynchronizerChoice) Settings.getEnumProperty(
+						SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 								"synchronizer.choice",
 								SynchronizerChoice.class);
 						
@@ -282,6 +272,8 @@ public class SynchronizeDialog extends JDialog {
 						});
 						
 						return null;
+					} finally {
+						SynchronizerUtils.removeProxy();
 					}
 					
 					Thread.sleep(1000);
@@ -292,14 +284,16 @@ public class SynchronizeDialog extends JDialog {
 				@Override
 				protected void done() {
 					if (this.connection != null)
-						Settings.setCalendarProperty(
-								"toodledo.token_creation_date",
-								this.connection.getTokenCreationDate());
+						this.connection.saveParameters(Main.SETTINGS.getProperties());
 					
 					if (this.synchronizer != null)
-						SynchronizerUtils.saveSynchronizerState(this.synchronizer);
+						this.synchronizer.saveParameters(Main.SETTINGS.getProperties());
 					
-					SynchronizerUtils.removeProxy();
+					SynchronizerUtils.removeOldCompletedTasks();
+					
+					Main.SETTINGS.setCalendarProperty(
+							"synchronizer.last_synchronization_date",
+							Calendar.getInstance());
 					
 					SynchronizeDialog.this.setCursor(null);
 					SynchronizeDialog.this.dispose();
@@ -311,5 +305,10 @@ public class SynchronizeDialog extends JDialog {
 			worker.execute();
 		}
 	}
+	
+	protected abstract void initializeApi();
+	
+	protected abstract SynchronizerConnection getConnection()
+			throws SynchronizerException;
 	
 }

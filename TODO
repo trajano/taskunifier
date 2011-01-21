@@ -1,10 +1,3 @@
-- Improve error handling
-- Make repeat field editable
-- Javadoc
-- Help files
-- Finish List View
-
-
 New TaskUnifier version :
 - Constants.VERSION
 - SettingsVersion.updateSettings()

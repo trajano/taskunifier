@@ -16,15 +16,15 @@ import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import com.leclercb.commons.api.settings.SaveSettingsListener;
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.commons.api.settings.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class SearcherTree extends JTree implements SaveSettingsListener, ActionListener {
+public class SearcherTree extends JTree implements SavePropertiesListener, ActionListener {
 	
 	public SearcherTree() {
 		super(new SearcherTreeModel());
@@ -32,7 +32,7 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 	}
 	
 	private void initialize() {
-		Settings.addSaveSettingsListener(this);
+		Main.SETTINGS.addSaveSettingsListener(this);
 		
 		((SearcherTreeModel) this.getModel()).addActionListener(this);
 		
@@ -49,7 +49,7 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 		for (int i = 0; i < this.getRowCount(); i++) {
 			TreeNode node = (TreeNode) this.getPathForRow(i).getLastPathComponent();
 			if (node instanceof CategoryTreeNode) {
-				Boolean expanded = Settings.getBooleanProperty(((CategoryTreeNode) node).getExpandedPropetyName());
+				Boolean expanded = Main.SETTINGS.getBooleanProperty(((CategoryTreeNode) node).getExpandedPropetyName());
 				
 				if (expanded != null && expanded)
 					this.expandRow(i);
@@ -58,8 +58,8 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 			}
 		}
 		
-		if (Settings.getBooleanProperty("theme.color.enabled")) {
-			this.setBackground(Settings.getColorProperty("theme.color.searcher_list"));
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
+			this.setBackground(Main.SETTINGS.getColorProperty("theme.color.searcher_list"));
 		} else {
 			this.setBackground(UIManager.getColor("Tree.background"));
 		}
@@ -88,7 +88,7 @@ public class SearcherTree extends JTree implements SaveSettingsListener, ActionL
 			if (node instanceof CategoryTreeNode) {
 				Boolean expanded = this.isExpanded(i);
 				
-				Settings.setBooleanProperty(
+				Main.SETTINGS.setBooleanProperty(
 						((CategoryTreeNode) node).getExpandedPropetyName(),
 						expanded);
 			}

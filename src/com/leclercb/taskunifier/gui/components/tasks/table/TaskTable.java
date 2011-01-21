@@ -51,12 +51,12 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
@@ -117,11 +117,11 @@ public class TaskTable extends JTable {
 		DEFAULT_RENDERER = new DefaultRenderer();
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format")
+				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
-						+ Settings.getStringProperty("date.time_format")));
+						+ Main.SETTINGS.getStringProperty("date.time_format")));
 		LENGTH_RENDERER = new LengthRenderer(
-				Settings.getSimpleDateFormatProperty("date.time_format"));
+				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
 		
@@ -137,9 +137,9 @@ public class TaskTable extends JTable {
 		
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
 		DATE_EDITOR = new DateEditor(new SimpleDateFormat(
-				Settings.getStringProperty("date.date_format")
+				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
-						+ Settings.getStringProperty("date.time_format")));
+						+ Main.SETTINGS.getStringProperty("date.time_format")));
 		LENGTH_EDITOR = new LengthEditor();
 		
 		checkBox = new JCheckBox();

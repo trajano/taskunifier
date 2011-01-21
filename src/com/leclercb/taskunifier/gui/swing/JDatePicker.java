@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.michaelbaranov.microba.calendar.CalendarPane;
 
@@ -158,7 +158,7 @@ public class JDatePicker extends JDialog {
 		this.timeSpinner.setModel(new SpinnerDateModel());
 		this.timeSpinner.setEditor(new JSpinner.DateEditor(
 				this.timeSpinner,
-				Settings.getStringProperty("date.time_format")));
+				Main.SETTINGS.getStringProperty("date.time_format")));
 		
 		timePanel.add(this.timeSpinner);
 		

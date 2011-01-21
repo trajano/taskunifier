@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.commons.api.settings.Settings;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -31,7 +31,7 @@ public class ActionScheduledSync extends AbstractAction {
 		
 		this.updateIcon();
 		
-		Settings.addPropertyChangeListener(new PropertyChangeListener() {
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -44,7 +44,7 @@ public class ActionScheduledSync extends AbstractAction {
 	}
 	
 	private void updateIcon() {
-		if (Settings.getBooleanProperty("synchronizer.scheduler_enabled"))
+		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"))
 			this.putValue(
 					SMALL_ICON,
 					Images.getResourceImage("play.png", this.width, this.height));
@@ -57,9 +57,9 @@ public class ActionScheduledSync extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		Settings.setBooleanProperty(
+		Main.SETTINGS.setBooleanProperty(
 				"synchronizer.scheduler_enabled",
-				!Settings.getBooleanProperty("synchronizer.scheduler_enabled"));
+				!Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"));
 	}
 	
 }

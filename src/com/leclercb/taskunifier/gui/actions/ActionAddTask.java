@@ -25,7 +25,6 @@ import java.util.Calendar;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import com.leclercb.commons.api.settings.Settings;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -36,6 +35,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -66,92 +66,100 @@ public class ActionAddTask extends AbstractAction {
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
-		if (Settings.getStringProperty("task.default.title") != null)
-			task.setTitle(Settings.getStringProperty("task.default.title"));
+		if (Main.SETTINGS.getStringProperty("task.default.title") != null)
+			task.setTitle(Main.SETTINGS.getStringProperty("task.default.title"));
 		
-		if (Settings.getStringProperty("task.default.tags") != null) {
-			task.setTags(Settings.getStringProperty("task.default.tags").split(
+		if (Main.SETTINGS.getStringProperty("task.default.tags") != null) {
+			task.setTags(Main.SETTINGS.getStringProperty("task.default.tags").split(
 					","));
 		}
 		
-		if (Settings.getObjectProperty("task.default.folder", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.folder",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.folder",
 					ModelId.class);
 			task.setFolder(FolderFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getObjectProperty("task.default.context", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.context",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.context",
 					ModelId.class);
 			task.setContext(ContextFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getObjectProperty("task.default.goal", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty("task.default.goal", ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.goal",
 					ModelId.class);
 			task.setGoal(GoalFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getObjectProperty("task.default.location", ModelId.class) != null) {
-			ModelId modelId = Settings.getObjectProperty(
+		if (Main.SETTINGS.getObjectProperty(
+				"task.default.location",
+				ModelId.class) != null) {
+			ModelId modelId = Main.SETTINGS.getObjectProperty(
 					"task.default.location",
 					ModelId.class);
 			task.setLocation(LocationFactory.getInstance().get(modelId));
 		}
 		
-		if (Settings.getBooleanProperty("task.default.completed") != null)
-			task.setCompleted(Settings.getBooleanProperty("task.default.completed"));
+		if (Main.SETTINGS.getBooleanProperty("task.default.completed") != null)
+			task.setCompleted(Main.SETTINGS.getBooleanProperty("task.default.completed"));
 		
-		if (Settings.getIntegerProperty("task.default.due_date") != null) {
+		if (Main.SETTINGS.getIntegerProperty("task.default.due_date") != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(
 					Calendar.DAY_OF_MONTH,
-					Settings.getIntegerProperty("task.default.due_date"));
+					Main.SETTINGS.getIntegerProperty("task.default.due_date"));
 			task.setDueDate(calendar);
 		}
 		
-		if (Settings.getIntegerProperty("task.default.start_date") != null) {
+		if (Main.SETTINGS.getIntegerProperty("task.default.start_date") != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(
 					Calendar.DAY_OF_MONTH,
-					Settings.getIntegerProperty("task.default.start_date"));
+					Main.SETTINGS.getIntegerProperty("task.default.start_date"));
 			task.setStartDate(calendar);
 		}
 		
-		if (Settings.getIntegerProperty("task.default.reminder") != null)
-			task.setReminder(Settings.getIntegerProperty("task.default.reminder"));
+		if (Main.SETTINGS.getIntegerProperty("task.default.reminder") != null)
+			task.setReminder(Main.SETTINGS.getIntegerProperty("task.default.reminder"));
 		
-		if (Settings.getStringProperty("task.default.repeat") != null)
-			task.setRepeat(Settings.getStringProperty("task.default.repeat"));
+		if (Main.SETTINGS.getStringProperty("task.default.repeat") != null)
+			task.setRepeat(Main.SETTINGS.getStringProperty("task.default.repeat"));
 		
-		if (Settings.getStringProperty("task.default.repeat_from") != null)
-			task.setRepeatFrom((TaskRepeatFrom) Settings.getEnumProperty(
+		if (Main.SETTINGS.getStringProperty("task.default.repeat_from") != null)
+			task.setRepeatFrom((TaskRepeatFrom) Main.SETTINGS.getEnumProperty(
 					"task.default.repeat_from",
 					TaskRepeatFrom.class));
 		
-		if (Settings.getEnumProperty("task.default.status", TaskStatus.class) != null)
-			task.setStatus((TaskStatus) Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty(
+				"task.default.status",
+				TaskStatus.class) != null)
+			task.setStatus((TaskStatus) Main.SETTINGS.getEnumProperty(
 					"task.default.status",
 					TaskStatus.class));
 		
-		if (Settings.getIntegerProperty("task.default.length") != null)
-			task.setLength(Settings.getIntegerProperty("task.default.length"));
+		if (Main.SETTINGS.getIntegerProperty("task.default.length") != null)
+			task.setLength(Main.SETTINGS.getIntegerProperty("task.default.length"));
 		
-		if (Settings.getEnumProperty(
+		if (Main.SETTINGS.getEnumProperty(
 				"task.default.priority",
 				TaskPriority.class) != null)
-			task.setPriority((TaskPriority) Settings.getEnumProperty(
+			task.setPriority((TaskPriority) Main.SETTINGS.getEnumProperty(
 					"task.default.priority",
 					TaskPriority.class));
 		
-		if (Settings.getBooleanProperty("task.default.star") != null)
-			task.setStar(Settings.getBooleanProperty("task.default.star"));
+		if (Main.SETTINGS.getBooleanProperty("task.default.star") != null)
+			task.setStar(Main.SETTINGS.getBooleanProperty("task.default.star"));
 		
-		if (Settings.getStringProperty("task.default.note") != null)
-			task.setNote(Settings.getStringProperty("task.default.note"));
+		if (Main.SETTINGS.getStringProperty("task.default.note") != null)
+			task.setNote(Main.SETTINGS.getStringProperty("task.default.note"));
 		
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
 				new Task[] { task });
