@@ -216,8 +216,9 @@ public abstract class SynchronizeDialog extends JDialog {
 						SynchronizeDialog.this.initializeApi();
 						SynchronizerUtils.initializeProxy();
 						
-						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")
-								+ "\n");
+						SynchronizeDialog.this.progressStatus.append(Translations.getString(
+								"synchronize.connecting",
+								SynchronizerUtils.getApi().getApiName()) + "\n");
 						
 						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
 							throw new Exception(

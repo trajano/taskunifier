@@ -32,6 +32,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.NumberCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class TranslationsUtils {
 	
@@ -56,8 +57,10 @@ public final class TranslationsUtils {
 				return Translations.getString("general.synchronizer.choice.keep_application");
 			case KEEP_LAST_UPDATED:
 				return Translations.getString("general.synchronizer.choice.keep_last_updated");
-			case KEEP_TOODLEDO:
-				return Translations.getString("general.synchronizer.choice.keep_toodledo");
+			case KEEP_API:
+				return Translations.getString(
+						"general.synchronizer.choice.keep_api",
+						SynchronizerUtils.getApi().getApiName());
 		}
 		
 		return "Missing translation";

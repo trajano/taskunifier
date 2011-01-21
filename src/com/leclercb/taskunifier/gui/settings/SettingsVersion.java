@@ -17,9 +17,9 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.logger.GuiLogger;
 
 public final class SettingsVersion {
 	

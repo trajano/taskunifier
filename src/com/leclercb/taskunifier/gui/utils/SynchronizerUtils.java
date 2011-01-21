@@ -12,6 +12,8 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.configuration.ToodledoConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizeDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.ToodledoSynchronizeDialog;
 
@@ -25,7 +27,11 @@ public final class SynchronizerUtils {
 		return ToodledoApi.INSTANCE;
 	}
 	
-	public static SynchronizeDialog getSynchronizeDialog(
+	public static ConfigurationPanel getApiConfigurationPanel(boolean welcome) {
+		return new ToodledoConfigurationPanel(welcome);
+	}
+	
+	public static SynchronizeDialog getApiSynchronizeDialog(
 			Frame frame,
 			boolean modal) {
 		return new ToodledoSynchronizeDialog(frame, modal);

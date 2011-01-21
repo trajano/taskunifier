@@ -155,6 +155,7 @@ public final class Help {
 			
 			this.add(new JScrollPane(pane), BorderLayout.CENTER);
 		}
+		
 	}
 	
 }

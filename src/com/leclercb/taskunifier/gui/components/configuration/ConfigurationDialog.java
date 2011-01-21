@@ -32,18 +32,20 @@ import javax.swing.JTabbedPane;
 
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
 	
-	private GeneralConfigurationPanel generalConfigurationPanel;
-	private SynchronizationConfigurationPanel synchronizationConfigurationPanel;
-	private ToodledoConfigurationPanel toodledoConfigurationPanel;
-	private ProxyConfigurationPanel proxyConfigurationPanel;
-	private TaskConfigurationPanel taskConfigurationPanel;
-	private ColumnsConfigurationPanel columnsConfigurationPanel;
-	private ThemeConfigurationPanel themeConfigurationPanel;
+	private ConfigurationPanel generalConfigurationPanel;
+	private ConfigurationPanel synchronizationConfigurationPanel;
+	private ConfigurationPanel apiSynchronizerConfigurationPanel;
+	private ConfigurationPanel proxyConfigurationPanel;
+	private ConfigurationPanel taskConfigurationPanel;
+	private ConfigurationPanel columnsConfigurationPanel;
+	private ConfigurationPanel themeConfigurationPanel;
 	
 	public ConfigurationDialog(Frame frame, boolean modal) {
 		super(frame, modal);
@@ -71,7 +73,7 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
 		this.initializeSynchronizationPanel(tabbedPane);
-		this.initializeToodledoPanel(tabbedPane);
+		this.initializeApiSynchronizerPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
 		this.initializeTaskPanel(tabbedPane);
 		this.initializeColumnsPanel(tabbedPane);
@@ -133,11 +135,11 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.synchronizationConfigurationPanel));
 	}
 	
-	private void initializeToodledoPanel(JTabbedPane tabbedPane) {
-		this.toodledoConfigurationPanel = new ToodledoConfigurationPanel(false);
+	private void initializeApiSynchronizerPanel(JTabbedPane tabbedPane) {
+		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApiConfigurationPanel(false);
 		tabbedPane.addTab(
-				Translations.getString("configuration.tab.toodledo"),
-				new JScrollPane(this.toodledoConfigurationPanel));
+				SynchronizerUtils.getApi().getApiName(),
+				new JScrollPane(this.apiSynchronizerConfigurationPanel));
 	}
 	
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
@@ -173,7 +175,7 @@ public class ConfigurationDialog extends JDialog {
 		try {
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
-			this.toodledoConfigurationPanel.saveAndApplyConfig();
+			this.apiSynchronizerConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.taskConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();

@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
@@ -41,7 +42,6 @@ import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
@@ -63,7 +63,6 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -134,18 +133,14 @@ public class Main {
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
 			/*
-			 * int response = JOptionPane.showConfirmDialog(
-			 * null,
-			 * Translations.getString(
-			 * "general.create_data_folder_question",
+			 * int response = JOptionPane.showConfirmDialog( null,
+			 * Translations.getString( "general.create_data_folder_question",
 			 * DATA_FOLDER),
 			 * Translations.getString("general.create_data_folder"),
-			 * JOptionPane.YES_NO_OPTION,
-			 * JOptionPane.QUESTION_MESSAGE);
+			 * JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			 * 
-			 * if (response == JOptionPane.NO_OPTION)
-			 * throw new Exception(Translations.getString(
-			 * "error.data_folder_needed",
+			 * if (response == JOptionPane.NO_OPTION) throw new
+			 * Exception(Translations.getString( "error.data_folder_needed",
 			 * Constants.TITLE));
 			 */
 

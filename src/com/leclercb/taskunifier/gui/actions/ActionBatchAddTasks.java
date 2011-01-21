@@ -71,10 +71,10 @@ public class ActionBatchAddTasks extends AbstractAction {
 		if (dialog.getAnswer() == null)
 			return;
 		
-		String titles = dialog.getAnswer();
+		String[] titles = dialog.getAnswer().split("\n");
 		
 		List<Task> tasks = new ArrayList<Task>();
-		for (String title : titles.split("\n")) {
+		for (String title : titles) {
 			title = title.trim();
 			
 			if (title.length() == 0)

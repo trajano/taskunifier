@@ -15,11 +15,11 @@ import javax.swing.WindowConstants;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.ToodledoConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class WelcomeDialog extends JDialog {
 	
@@ -35,8 +35,8 @@ public class WelcomeDialog extends JDialog {
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel()),
 			new SettingsPanel(
-					Translations.getString("configuration.tab.toodledo"),
-					new ToodledoConfigurationPanel(true)) };
+					SynchronizerUtils.getApi().getApiName(),
+					SynchronizerUtils.getApiConfigurationPanel(true)) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;

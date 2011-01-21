@@ -164,4 +164,5 @@ public class ActionAddTask extends AbstractAction {
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
 				new Task[] { task });
 	}
+	
 }

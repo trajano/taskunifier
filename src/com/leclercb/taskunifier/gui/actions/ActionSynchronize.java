@@ -55,10 +55,9 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public void synchronize() {
-		SynchronizeDialog dialog = SynchronizerUtils.getSynchronizeDialog(
+		SynchronizeDialog dialog = SynchronizerUtils.getApiSynchronizeDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
-		
 		dialog.setVisible(true);
 		
 		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
