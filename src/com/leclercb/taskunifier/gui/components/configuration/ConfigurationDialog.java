@@ -127,8 +127,7 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
-		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
-				false);
+		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel();
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
 				new JScrollPane(this.synchronizationConfigurationPanel));

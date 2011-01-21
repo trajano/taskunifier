@@ -220,10 +220,12 @@ public abstract class SynchronizeDialog extends JDialog {
 								+ "\n");
 						
 						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
-							throw new Exception("Please fill in your email");
+							throw new Exception(
+									Translations.getString("error.empty_email"));
 						
 						if (Main.SETTINGS.getStringProperty("toodledo.password") == null)
-							throw new Exception("Please fill in your password");
+							throw new Exception(
+									Translations.getString("error.empty_password"));
 						
 						this.connection = SynchronizeDialog.this.getConnection();
 						

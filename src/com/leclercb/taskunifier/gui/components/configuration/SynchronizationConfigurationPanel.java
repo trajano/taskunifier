@@ -30,9 +30,9 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 	
-	public SynchronizationConfigurationPanel(boolean welcome) {
+	public SynchronizationConfigurationPanel() {
 		super("configuration_synchronization.html");
-		this.initialize(welcome);
+		this.initialize();
 		this.pack();
 	}
 	
@@ -54,7 +54,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 				(String) this.getValue("KEEP"));
 	}
 	
-	private void initialize(boolean welcome) {
+	private void initialize() {
 		SynchronizerChoice toodledoChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
 		String toodledoKeepValue = "15";
 		

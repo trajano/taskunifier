@@ -14,6 +14,7 @@ import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ToodledoConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
@@ -30,6 +31,9 @@ public class WelcomeDialog extends JDialog {
 			new SettingsPanel(
 					Translations.getString("configuration.tab.proxy"),
 					new ProxyConfigurationPanel()),
+			new SettingsPanel(
+					Translations.getString("configuration.tab.synchronization"),
+					new SynchronizationConfigurationPanel()),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.toodledo"),
 					new ToodledoConfigurationPanel(true)) };
