@@ -34,7 +34,9 @@ public class ToodledoSynchronizeDialog extends SynchronizeDialog {
 	
 	@Override
 	protected void initializeApi() {
+		ToodledoApi.INSTANCE.setApplicationId("taskunifier");
 		ToodledoApi.INSTANCE.setVersion(Constants.VERSION);
+		ToodledoApi.INSTANCE.setApiKey("api4cff3de7e1c00");
 	}
 	
 	@Override

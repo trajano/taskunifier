@@ -151,7 +151,7 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 							ToodledoConfigurationPanel.this.saveAndApplyConfig();
 							
 							SynchronizerUtils.getApi().resetSynchronizerParameters(
-									Main.SETTINGS.getProperties());
+									Main.SETTINGS);
 							
 							super.actionPerformed(event);
 						}
@@ -181,7 +181,7 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 								TaskFactory.getInstance().deleteAll();
 								
 								SynchronizerUtils.getApi().resetSynchronizerParameters(
-										Main.SETTINGS.getProperties());
+										Main.SETTINGS);
 								
 								super.actionPerformed(event);
 							} catch (Exception e) {

@@ -47,7 +47,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 				Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days"),
 				this.getValue("KEEP")))
 			SynchronizerUtils.getApi().resetSynchronizerParameters(
-					Main.SETTINGS.getProperties());
+					Main.SETTINGS);
 		
 		Main.SETTINGS.setStringProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",

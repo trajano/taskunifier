@@ -228,12 +228,12 @@ public abstract class SynchronizeDialog extends JDialog {
 						
 						this.connection.connect();
 						
-						this.connection.saveParameters(Main.SETTINGS.getProperties());
+						this.connection.saveParameters(Main.SETTINGS);
 						
 						this.synchronizer = SynchronizerUtils.getApi().getSynchronizer(
 								this.connection);
 						
-						this.synchronizer.loadParameters(Main.SETTINGS.getProperties());
+						this.synchronizer.loadParameters(Main.SETTINGS);
 						
 						SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 								"synchronizer.choice",
@@ -284,10 +284,10 @@ public abstract class SynchronizeDialog extends JDialog {
 				@Override
 				protected void done() {
 					if (this.connection != null)
-						this.connection.saveParameters(Main.SETTINGS.getProperties());
+						this.connection.saveParameters(Main.SETTINGS);
 					
 					if (this.synchronizer != null)
-						this.synchronizer.saveParameters(Main.SETTINGS.getProperties());
+						this.synchronizer.saveParameters(Main.SETTINGS);
 					
 					SynchronizerUtils.removeOldCompletedTasks();
 					
