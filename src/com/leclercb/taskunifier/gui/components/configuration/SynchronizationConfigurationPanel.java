@@ -97,8 +97,9 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL_LABEL",
 					null,
-					new ConfigurationFieldType.Label(
-							Translations.getString("configuration.synchronization.synchronize_all"))));
+					new ConfigurationFieldType.Label(Translations.getString(
+							"configuration.synchronization.synchronize_all",
+							SynchronizerUtils.getApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
@@ -119,8 +120,9 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"RESET_ALL_LABEL",
 					null,
-					new ConfigurationFieldType.Label(
-							Translations.getString("configuration.synchronization.reset_all"))));
+					new ConfigurationFieldType.Label(Translations.getString(
+							"configuration.synchronization.reset_all",
+							SynchronizerUtils.getApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
