@@ -16,7 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import com.leclercb.commons.api.settings.SavePropertiesListener;
+import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;

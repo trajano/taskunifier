@@ -4,3 +4,8 @@ New TaskUnifier version :
 - default_settings.properties
 - history.txt
 - readme.txt
+
+New api :
+- Synchronizer package
+- Configuration panel
+- Synchronize dialog

@@ -13,7 +13,7 @@ import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.settings.SavePropertiesListener;
+import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;

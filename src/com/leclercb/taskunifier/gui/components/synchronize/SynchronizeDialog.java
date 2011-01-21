@@ -213,6 +213,7 @@ public abstract class SynchronizeDialog extends JDialog {
 						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.set_proxy")
 								+ "\n");
 						
+						SynchronizeDialog.this.initializeApi();
 						SynchronizerUtils.initializeProxy();
 						
 						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.connecting_toodledo")

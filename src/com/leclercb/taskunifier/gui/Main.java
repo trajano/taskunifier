@@ -27,7 +27,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.leclercb.commons.api.settings.ExtendedProperties;
+import com.leclercb.commons.api.properties.ExtendedProperties;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;

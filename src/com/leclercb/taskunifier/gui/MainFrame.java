@@ -41,7 +41,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.apple.eawt.Application;
-import com.leclercb.commons.api.settings.SavePropertiesListener;
+import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.taskunifier.api.models.Task;
