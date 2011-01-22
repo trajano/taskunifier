@@ -12,10 +12,10 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.synchronizer.toodledo.ToodledoGuiPlugin;
+import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyApi;
+import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 
 public final class SynchronizerUtils {
 	
@@ -27,7 +27,7 @@ public final class SynchronizerUtils {
 		String api = Main.SETTINGS.getStringProperty("api");
 		
 		if (api == null)
-			api = ToodledoApi.getInstance().getApiId();
+			api = DummyApi.getInstance().getApiId();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
@@ -35,7 +35,7 @@ public final class SynchronizerUtils {
 				return plugin;
 		}
 		
-		return new ToodledoGuiPlugin();
+		return new DummyGuiPlugin();
 	}
 	
 	public static void initializeProxy() {

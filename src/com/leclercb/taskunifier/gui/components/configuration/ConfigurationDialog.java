@@ -23,6 +23,8 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -72,12 +74,12 @@ public class ConfigurationDialog extends JDialog {
 		
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
-		this.initializeSynchronizationPanel(tabbedPane);
-		this.initializeApiSynchronizerPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
 		this.initializeTaskPanel(tabbedPane);
 		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
+		this.initializeSynchronizationPanel(tabbedPane);
+		this.initializeApiSynchronizerPanel(tabbedPane);
 	}
 	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
@@ -128,24 +130,6 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.generalConfigurationPanel));
 	}
 	
-	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
-		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
-				false);
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.synchronization"),
-				new JScrollPane(this.synchronizationConfigurationPanel));
-	}
-	
-	private void initializeApiSynchronizerPanel(JTabbedPane tabbedPane) {
-		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
-				false);
-		
-		if (this.apiSynchronizerConfigurationPanel != null)
-			tabbedPane.addTab(
-					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-					new JScrollPane(this.apiSynchronizerConfigurationPanel));
-	}
-	
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
 		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
 		tabbedPane.addTab(
@@ -175,18 +159,57 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.themeConfigurationPanel));
 	}
 	
+	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
+		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
+				false);
+		tabbedPane.addTab(
+				Translations.getString("configuration.tab.synchronization"),
+				new JScrollPane(this.synchronizationConfigurationPanel));
+	}
+	
+	private void initializeApiSynchronizerPanel(final JTabbedPane tabbedPane) {
+		// For API Configuration Panel
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals("api")) {
+					if (ConfigurationDialog.this.apiSynchronizerConfigurationPanel != null)
+						tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
+					
+					ConfigurationDialog.this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
+							false);
+					
+					if (ConfigurationDialog.this.apiSynchronizerConfigurationPanel != null)
+						tabbedPane.addTab(
+								SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+								new JScrollPane(
+										ConfigurationDialog.this.apiSynchronizerConfigurationPanel));
+				}
+			}
+			
+		});
+		
+		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
+				false);
+		
+		if (this.apiSynchronizerConfigurationPanel != null)
+			tabbedPane.addTab(
+					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+					new JScrollPane(this.apiSynchronizerConfigurationPanel));
+	}
+	
 	private void saveAndApplyConfig() {
 		try {
-			this.generalConfigurationPanel.saveAndApplyConfig();
-			this.synchronizationConfigurationPanel.saveAndApplyConfig();
-			
 			if (this.apiSynchronizerConfigurationPanel != null)
 				this.apiSynchronizerConfigurationPanel.saveAndApplyConfig();
 			
+			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.taskConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
+			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
 		} catch (Exception e) {

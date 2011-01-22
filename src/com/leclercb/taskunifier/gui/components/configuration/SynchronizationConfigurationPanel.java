@@ -87,12 +87,6 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.Label(
 						Translations.getString("configuration.synchronization.api_reset_all"))));
 		
-		this.addField(new ConfigurationField(
-				"SETTINGS_AFTER_RESTART",
-				null,
-				new ConfigurationFieldType.Label(
-						Translations.getString("configuration.general.settings_changed_after_restart"))));
-		
 		ConfigurationFieldType.ComboBox comboBox = null;
 		
 		comboBox = new ConfigurationFieldType.ComboBox(

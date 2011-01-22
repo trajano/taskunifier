@@ -6,12 +6,15 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
@@ -34,13 +37,32 @@ public class WelcomeDialog extends JDialog {
 			new SettingsPanel(
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(true)),
-			new SettingsPanel() };
+			new SettingsPanel(
+					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+					SynchronizerUtils.getApi().getConfigurationPanel(true)) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;
 	
 	public WelcomeDialog(Frame frame, boolean modal) {
 		super(frame, modal);
+		
+		// For API Configuration Panel
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals("api")) {
+					SettingsPanel panel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
+					
+					panel.reset(
+							SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+							SynchronizerUtils.getApi().getConfigurationPanel(
+									true));
+				}
+			}
+			
+		});
 		
 		this.initialize();
 	}
@@ -101,14 +123,6 @@ public class WelcomeDialog extends JDialog {
 				if (event.getActionCommand() == "NEXT") {
 					if (WelcomeDialog.this.currentPanel < WelcomeDialog.this.panels.length - 1) {
 						WelcomeDialog.this.currentPanel++;
-						
-						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 1) {
-							((SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.currentPanel]).reset(
-									SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-									SynchronizerUtils.getApi().getConfigurationPanel(
-											true));
-						}
-						
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 					} else {
 						WelcomeDialog.this.dispose();

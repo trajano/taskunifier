@@ -43,7 +43,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSaveSettingsListener(this);
+		Main.SETTINGS.addSavePropertiesListener(this);
 		this.loadTaskColumnSettings();
 		
 		this.setLayout(new CardLayout());

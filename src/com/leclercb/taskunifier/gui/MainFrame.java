@@ -108,7 +108,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSaveSettingsListener(this);
+		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());

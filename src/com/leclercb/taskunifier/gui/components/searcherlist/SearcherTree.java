@@ -32,7 +32,7 @@ public class SearcherTree extends JTree implements SavePropertiesListener, Actio
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSaveSettingsListener(this);
+		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		((SearcherTreeModel) this.getModel()).addActionListener(this);
 		

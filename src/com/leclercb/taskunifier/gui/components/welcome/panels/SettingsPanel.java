@@ -15,10 +15,6 @@ public class SettingsPanel extends CardPanel {
 	private String title;
 	private ConfigurationPanel panel;
 	
-	public SettingsPanel() {
-
-	}
-	
 	public SettingsPanel(String title, ConfigurationPanel panel) {
 		this.reset(title, panel);
 	}
