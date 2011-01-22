@@ -85,13 +85,6 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		// All Tasks
 		filter = new TaskFilter();
 		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
-				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"))
-			filter.addElement(new TaskFilterElement(
-					TaskColumn.COMPLETED,
-					StringCondition.EQUALS,
-					"false"));
-		
 		GENERAL_TASK_SEARCHERS[0] = new TaskSearcher(
 				Translations.getString("searcherlist.general.all_tasks"),
 				Images.getResourceFile("document.png"),

@@ -8,9 +8,11 @@ import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
@@ -54,6 +56,14 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 		}
 		
 		TaskSorter sorter = new TaskSorter();
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
+				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end"))
+			sorter.addElement(new TaskSorterElement(
+					0,
+					TaskColumn.COMPLETED,
+					SortOrder.ASCENDING));
+		
 		sorter.addElement(new TaskSorterElement(
 				0,
 				TaskColumn.DUE_DATE,
@@ -72,6 +82,13 @@ public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearche
 				column,
 				ModelCondition.EQUALS,
 				model));
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
+				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"))
+			filter.addElement(new TaskFilterElement(
+					TaskColumn.COMPLETED,
+					StringCondition.EQUALS,
+					"false"));
 		
 		String title = (model == null ? Translations.getString("searcherlist.none") : model.getTitle());
 		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
