@@ -13,6 +13,8 @@ Version 0.6.5
 	- Import/export searchers
 	- Bug fixed: number condition in searchers didn't work
 	- Added option to show/hide/sort completed tasks
+	- Copy paste searchers
+	- Double click on searcher opens the edit searcher windows
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked

@@ -23,6 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -112,6 +114,18 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 		this.searcherTree = new SearcherTree();
 		this.searcherTree.addTreeSelectionListener(this);
 		
+		this.searcherTree.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					TaskSearcher searcher = SearcherPanel.this.searcherTree.getSelectedTaskSearcher();
+					new ActionEditSearcher().editSearcher(searcher);
+				}
+			}
+			
+		});
+		
 		this.setLayout(new BorderLayout());
 		
 		this.filterTitle = new JTextField();
@@ -161,7 +175,7 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
 					TaskSearcherFactory.getInstance().unregister(searcher);
 				} else if (event.getActionCommand().equals("EDIT")) {
-					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
+					TaskSearcher searcher = SearcherPanel.this.searcherTree.getSelectedTaskSearcher();
 					new ActionEditSearcher().editSearcher(searcher);
 				}
 			}

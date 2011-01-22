@@ -10,7 +10,7 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	
 	@Override
 	public ConfigurationPanel getConfigurationPanel(boolean welcome) {
-		return null;
+		return new DummyConfigurationPanel(welcome);
 	}
 	
 	@Override
