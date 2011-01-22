@@ -28,6 +28,8 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.SynchronizerGuiPluginListCellRenderer;
+import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -41,6 +43,15 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
+		if (!EqualsUtils.equals(
+				Main.SETTINGS.getStringProperty("api"),
+				((SynchronizerGuiPlugin) this.getValue("API")).getSynchronizerApi().getApiId()))
+			SynchronizerUtils.resetSynchronizerAndDeleteModels();
+		
+		Main.SETTINGS.setStringProperty(
+				"api",
+				((SynchronizerGuiPlugin) this.getValue("API")).getSynchronizerApi().getApiId());
+		
 		Main.SETTINGS.setEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class,
@@ -57,22 +68,53 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 	}
 	
 	private void initialize(boolean welcome) {
-		SynchronizerChoice toodledoChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
-		String toodledoKeepValue = "14";
+		SynchronizerChoice synchronizationChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
+		String synchronizationKeepValue = "14";
 		
 		if (Main.SETTINGS.getEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class) != null)
-			toodledoChoiceValue = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
+			synchronizationChoiceValue = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 		
 		if (Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
-			toodledoKeepValue = Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
+			synchronizationKeepValue = Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
 		
-		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
+		this.addField(new ConfigurationField(
+				"API_RESET_ALL",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.synchronization.api_reset_all"))));
+		
+		this.addField(new ConfigurationField(
+				"SETTINGS_AFTER_RESTART",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.general.settings_changed_after_restart"))));
+		
+		ConfigurationFieldType.ComboBox comboBox = null;
+		
+		comboBox = new ConfigurationFieldType.ComboBox(
+				Main.API_PLUGINS.getPlugins().toArray(
+						new SynchronizerGuiPlugin[0]),
+				SynchronizerUtils.getApi());
+		
+		comboBox.setRenderer(new SynchronizerGuiPluginListCellRenderer());
+		
+		this.addField(new ConfigurationField(
+				"API",
+				Translations.getString("general.api"),
+				comboBox));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		comboBox = new ConfigurationFieldType.ComboBox(
 				SynchronizerChoice.values(),
-				toodledoChoiceValue);
+				synchronizationChoiceValue);
 		
 		comboBox.setRenderer(new SynchronizerChoiceListCellRenderer());
 		
@@ -86,11 +128,11 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 				Translations.getString("configuration.synchronization.keep_tasks_for"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{1,3}$"),
-						toodledoKeepValue)));
+						synchronizationKeepValue)));
 		
 		if (!welcome) {
 			this.addField(new ConfigurationField(
-					"SEPARATOR_1",
+					"SEPARATOR_2",
 					null,
 					new ConfigurationFieldType.Separator()));
 			

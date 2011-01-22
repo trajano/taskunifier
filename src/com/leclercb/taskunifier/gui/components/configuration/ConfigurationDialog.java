@@ -139,9 +139,11 @@ public class ConfigurationDialog extends JDialog {
 	private void initializeApiSynchronizerPanel(JTabbedPane tabbedPane) {
 		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
 				false);
-		tabbedPane.addTab(
-				SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-				new JScrollPane(this.apiSynchronizerConfigurationPanel));
+		
+		if (this.apiSynchronizerConfigurationPanel != null)
+			tabbedPane.addTab(
+					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+					new JScrollPane(this.apiSynchronizerConfigurationPanel));
 	}
 	
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
@@ -177,7 +179,10 @@ public class ConfigurationDialog extends JDialog {
 		try {
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
-			this.apiSynchronizerConfigurationPanel.saveAndApplyConfig();
+			
+			if (this.apiSynchronizerConfigurationPanel != null)
+				this.apiSynchronizerConfigurationPanel.saveAndApplyConfig();
+			
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.taskConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();

@@ -2,19 +2,15 @@ package com.leclercb.taskunifier.gui.synchronizer.toodledo;
 
 import java.awt.Frame;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
+import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
-import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiApi;
+import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 
-public class ToodledoSynchronizerGuiApi implements SynchronizerGuiApi {
+public class ToodledoGuiPlugin extends ToodledoPlugin implements SynchronizerGuiPlugin {
 	
-	public static final ToodledoSynchronizerGuiApi INSTANCE = new ToodledoSynchronizerGuiApi();
-	
-	@Override
-	public SynchronizerApi getSynchronizerApi() {
-		return ToodledoApi.INSTANCE;
+	public ToodledoGuiPlugin() {
+
 	}
 	
 	@Override

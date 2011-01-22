@@ -35,14 +35,13 @@ public class ToodledoSynchronizerDialog extends SynchronizerDialog {
 	
 	@Override
 	protected void initializeApi() {
-		ToodledoApi.INSTANCE.setApplicationId("taskunifier");
-		ToodledoApi.INSTANCE.setVersion(Constants.VERSION);
-		ToodledoApi.INSTANCE.setApiKey("api4cff3de7e1c00");
+		ToodledoApi.getInstance().setApplicationId("taskunifier");
+		ToodledoApi.getInstance().setVersion(Constants.VERSION);
+		ToodledoApi.getInstance().setApiKey("api4cff3de7e1c00");
 	}
 	
 	@Override
-	protected Connection getConnection()
-			throws SynchronizerException {
+	protected Connection getConnection() throws SynchronizerException {
 		return SynchronizerUtils.getApi().getSynchronizerApi().getConnection(
 				new Object[] {
 						Main.SETTINGS.getStringProperty("toodledo.email"),

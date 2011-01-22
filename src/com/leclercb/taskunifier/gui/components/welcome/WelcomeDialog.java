@@ -34,9 +34,7 @@ public class WelcomeDialog extends JDialog {
 			new SettingsPanel(
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(true)),
-			new SettingsPanel(
-					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-					SynchronizerUtils.getApi().getConfigurationPanel(true)) };
+			new SettingsPanel() };
 	
 	private JPanel cardPanel;
 	private int currentPanel;
@@ -103,6 +101,14 @@ public class WelcomeDialog extends JDialog {
 				if (event.getActionCommand() == "NEXT") {
 					if (WelcomeDialog.this.currentPanel < WelcomeDialog.this.panels.length - 1) {
 						WelcomeDialog.this.currentPanel++;
+						
+						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 1) {
+							((SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.currentPanel]).reset(
+									SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+									SynchronizerUtils.getApi().getConfigurationPanel(
+											true));
+						}
+						
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 					} else {
 						WelcomeDialog.this.dispose();

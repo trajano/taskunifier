@@ -43,13 +43,18 @@ import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.lookandfeel.JTattooLookAndFeelDescriptor;
+import com.leclercb.taskunifier.gui.plugins.PluginLoader;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
+import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
+import com.leclercb.taskunifier.gui.synchronizer.toodledo.ToodledoGuiPlugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
 	
+	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	public static ExtendedProperties SETTINGS;
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
@@ -63,6 +68,7 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
+			loadApiPlugins();
 		} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -248,6 +254,14 @@ public class Main {
 			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
 					"jTattoo - " + jtattoo.getProperty(key.toString()),
 					key.toString()));
+	}
+	
+	public static void loadApiPlugins() {
+		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
+				SynchronizerGuiPlugin.class);
+		
+		API_PLUGINS.addPlugin(new DummyGuiPlugin());
+		API_PLUGINS.addPlugin(new ToodledoGuiPlugin());
 	}
 	
 	public static void stop() {
