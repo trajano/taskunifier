@@ -1,6 +1,5 @@
 package com.leclercb.taskunifier.gui.utils;
 
-import java.awt.Frame;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,13 +12,9 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
-import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
 import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.components.configuration.ToodledoConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizeDialog;
-import com.leclercb.taskunifier.gui.components.synchronize.ToodledoSynchronizeDialog;
+import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiApi;
+import com.leclercb.taskunifier.gui.synchronizer.toodledo.ToodledoSynchronizerGuiApi;
 
 public final class SynchronizerUtils {
 	
@@ -27,18 +22,8 @@ public final class SynchronizerUtils {
 
 	}
 	
-	public static SynchronizerApi getApi() {
-		return ToodledoApi.INSTANCE;
-	}
-	
-	public static ConfigurationPanel getApiConfigurationPanel(boolean welcome) {
-		return new ToodledoConfigurationPanel(welcome);
-	}
-	
-	public static SynchronizeDialog getApiSynchronizeDialog(
-			Frame frame,
-			boolean modal) {
-		return new ToodledoSynchronizeDialog(frame, modal);
+	public static SynchronizerGuiApi getApi() {
+		return ToodledoSynchronizerGuiApi.INSTANCE;
 	}
 	
 	public static void initializeProxy() {
@@ -101,7 +86,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizer() {
-		SynchronizerUtils.getApi().resetSynchronizerParameters(Main.SETTINGS);
+		SynchronizerUtils.getApi().getSynchronizerApi().resetSynchronizerParameters(
+				Main.SETTINGS);
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
@@ -111,7 +97,8 @@ public final class SynchronizerUtils {
 		LocationFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
 		
-		SynchronizerUtils.getApi().resetSynchronizerParameters(Main.SETTINGS);
+		SynchronizerUtils.getApi().getSynchronizerApi().resetSynchronizerParameters(
+				Main.SETTINGS);
 	}
 	
 }

@@ -104,9 +104,10 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		Main.SETTINGS.setStringProperty(
 				"task.default.reminder",
 				(String) this.getValue("REMINDER"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.repeat",
-				(String) this.getValue("REPEAT"));
+		/*
+		 * Main.SETTINGS.setStringProperty( "task.default.repeat", (String)
+		 * this.getValue("REPEAT"));
+		 */
 		Main.SETTINGS.setEnumProperty(
 				"task.default.repeat_from",
 				TaskRepeatFrom.class,
@@ -294,11 +295,12 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 						new RegexFormatter("^[0-9]{0,3}$"),
 						taskReminderValue)));
 		
-		this.addField(new ConfigurationField(
-				"REPEAT",
-				Translations.getString("general.task.repeat"),
-				new ConfigurationFieldType.TextField(taskRepeatValue)));
-		
+		/*
+		 * this.addField(new ConfigurationField( "REPEAT",
+		 * Translations.getString("general.task.repeat"), new
+		 * ConfigurationFieldType.TextField(taskRepeatValue)));
+		 */
+
 		this.addField(new ConfigurationField(
 				"REPEAT_FROM",
 				Translations.getString("general.task.repeat_from"),

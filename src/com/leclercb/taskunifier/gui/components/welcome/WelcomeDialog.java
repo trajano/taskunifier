@@ -35,8 +35,8 @@ public class WelcomeDialog extends JDialog {
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(true)),
 			new SettingsPanel(
-					SynchronizerUtils.getApi().getApiName(),
-					SynchronizerUtils.getApiConfigurationPanel(true)) };
+					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+					SynchronizerUtils.getApi().getConfigurationPanel(true)) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;

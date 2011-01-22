@@ -15,21 +15,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.synchronize;
+package com.leclercb.taskunifier.gui.synchronizer.toodledo;
 
 import java.awt.Frame;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerConnection;
+import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.api.synchronizer.toodledo.ToodledoApi;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ToodledoSynchronizeDialog extends SynchronizeDialog {
+public class ToodledoSynchronizerDialog extends SynchronizerDialog {
 	
-	public ToodledoSynchronizeDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	public ToodledoSynchronizerDialog(Frame frame) {
+		super(frame);
 	}
 	
 	@Override
@@ -40,9 +41,9 @@ public class ToodledoSynchronizeDialog extends SynchronizeDialog {
 	}
 	
 	@Override
-	protected SynchronizerConnection getConnection()
+	protected Connection getConnection()
 			throws SynchronizerException {
-		return SynchronizerUtils.getApi().getConnection(
+		return SynchronizerUtils.getApi().getSynchronizerApi().getConnection(
 				new Object[] {
 						Main.SETTINGS.getStringProperty("toodledo.email"),
 						Main.SETTINGS.getStringProperty("toodledo.password") });

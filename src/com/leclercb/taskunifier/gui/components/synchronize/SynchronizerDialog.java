@@ -39,9 +39,9 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerConnection;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerApiException;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
@@ -54,13 +54,13 @@ import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public abstract class SynchronizeDialog extends JDialog {
+public abstract class SynchronizerDialog extends JDialog {
 	
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
 	
-	public SynchronizeDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	public SynchronizerDialog(Frame frame) {
+		super(frame, true);
 		
 		this.initialize();
 	}
@@ -120,7 +120,7 @@ public abstract class SynchronizeDialog extends JDialog {
 		public void run() {
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 				
-				private SynchronizerConnection connection;
+				private Connection connection;
 				private Synchronizer synchronizer;
 				
 				private String modelTypeToString(ModelType type, boolean plurial) {
@@ -170,10 +170,10 @@ public abstract class SynchronizeDialog extends JDialog {
 									
 									if (m.getType().equals(
 											ProgressMessageType.START))
-										SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.start_synchronization")
+										SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.start_synchronization")
 												+ "\n");
 									else
-										SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.synchronization_completed")
+										SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.synchronization_completed")
 												+ "\n");
 								} else if (message instanceof RetrieveModelsProgressMessage) {
 									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
@@ -185,8 +185,8 @@ public abstract class SynchronizeDialog extends JDialog {
 									String type = modelTypeToString(
 											m.getModelType(),
 											true);
-									SynchronizeDialog.this.progressStatus.append(Translations.getString(
-											"synchronize.retrieving_models",
+									SynchronizerDialog.this.progressStatus.append(Translations.getString(
+											"synchronizer.retrieving_models",
 											type) + "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
 									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
@@ -199,8 +199,8 @@ public abstract class SynchronizeDialog extends JDialog {
 									String type = modelTypeToString(
 											m.getModelType(),
 											m.getActionCount() > 1);
-									SynchronizeDialog.this.progressStatus.append(Translations.getString(
-											"synchronize.synchronizing",
+									SynchronizerDialog.this.progressStatus.append(Translations.getString(
+											"synchronizer.synchronizing",
 											m.getActionCount(),
 											type) + "\n");
 								}
@@ -210,15 +210,16 @@ public abstract class SynchronizeDialog extends JDialog {
 					});
 					
 					try {
-						SynchronizeDialog.this.progressStatus.append(Translations.getString("synchronize.set_proxy")
+						SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.set_proxy")
 								+ "\n");
 						
-						SynchronizeDialog.this.initializeApi();
+						SynchronizerDialog.this.initializeApi();
 						SynchronizerUtils.initializeProxy();
 						
-						SynchronizeDialog.this.progressStatus.append(Translations.getString(
-								"synchronize.connecting",
-								SynchronizerUtils.getApi().getApiName()) + "\n");
+						SynchronizerDialog.this.progressStatus.append(Translations.getString(
+								"synchronizer.connecting",
+								SynchronizerUtils.getApi().getSynchronizerApi().getApiName())
+								+ "\n");
 						
 						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
 							throw new Exception(
@@ -228,13 +229,13 @@ public abstract class SynchronizeDialog extends JDialog {
 							throw new Exception(
 									Translations.getString("error.empty_password"));
 						
-						this.connection = SynchronizeDialog.this.getConnection();
+						this.connection = SynchronizerDialog.this.getConnection();
 						
 						this.connection.loadParameters(Main.SETTINGS);
 						
 						this.connection.connect();
 						
-						this.synchronizer = SynchronizerUtils.getApi().getSynchronizer(
+						this.synchronizer = SynchronizerUtils.getApi().getSynchronizerApi().getSynchronizer(
 								this.connection);
 						
 						this.synchronizer.loadParameters(Main.SETTINGS);
@@ -301,20 +302,19 @@ public abstract class SynchronizeDialog extends JDialog {
 							"synchronizer.last_synchronization_date",
 							Calendar.getInstance());
 					
-					SynchronizeDialog.this.setCursor(null);
-					SynchronizeDialog.this.dispose();
+					SynchronizerDialog.this.setCursor(null);
+					SynchronizerDialog.this.dispose();
 				}
 				
 			};
 			
-			SynchronizeDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 	}
 	
 	protected abstract void initializeApi();
 	
-	protected abstract SynchronizerConnection getConnection()
-			throws SynchronizerException;
+	protected abstract Connection getConnection() throws SynchronizerException;
 	
 }

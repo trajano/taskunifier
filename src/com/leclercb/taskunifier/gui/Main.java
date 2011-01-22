@@ -65,11 +65,13 @@ public class Main {
 			loadLookAndFeel();
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
 					"Error",
 					JOptionPane.ERROR_MESSAGE);
+			
 			return;
 		}
 		

@@ -55,7 +55,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.configuration"));
-		this.setSize(500, 500);
+		this.setSize(600, 500);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -137,9 +137,10 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeApiSynchronizerPanel(JTabbedPane tabbedPane) {
-		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApiConfigurationPanel(false);
+		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
+				false);
 		tabbedPane.addTab(
-				SynchronizerUtils.getApi().getApiName(),
+				SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
 				new JScrollPane(this.apiSynchronizerConfigurationPanel));
 	}
 	
