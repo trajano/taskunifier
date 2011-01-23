@@ -49,7 +49,7 @@ public final class SettingsVersion {
 			version = "0.6.4";
 		
 		if (version.equals("0.6.4"))
-			version = updateSettings_0_6_4_to_0_6_5();
+			version = updateSettings_0_6_4_to_0_7_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -93,9 +93,9 @@ public final class SettingsVersion {
 		return "0.6.3";
 	}
 	
-	private static String updateSettings_0_6_4_to_0_6_5() {
+	private static String updateSettings_0_6_4_to_0_7_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 0.6.4 to 0.6.5");
+				"Update settings from version 0.6.4 to 0.7.0");
 		
 		Main.SETTINGS.remove("synchronizer.last_context_edit");
 		Main.SETTINGS.remove("synchronizer.last_folder_edit");
@@ -117,6 +117,6 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.setStringProperty("proxy.use_system_proxy", "false");
 		
-		return "0.6.5";
+		return "0.7.0";
 	}
 }

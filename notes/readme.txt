@@ -1,7 +1,7 @@
 HISTORY
 -------
 
-Version 0.6.5
+Version 0.7.0
 	- Drag and drop multiple tasks at once
 	- Delete multiple tasks at once
 	- TaskUnifier installer for Windows
@@ -18,6 +18,7 @@ Version 0.6.5
 	- Added option to show/hide/sort completed tasks
 	- Copy paste searchers
 	- Double click on searcher opens the edit searcher windows
+	- Plugin support in order to add new APIs
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
