@@ -48,6 +48,12 @@ public abstract class ConfigurationPanel extends JPanel {
 		this.fields = new ArrayList<ConfigurationField>();
 	}
 	
+	public boolean containsId(String id) {
+		ConfigurationField field = this.getField(id);
+		
+		return (field != null);
+	}
+	
 	public Object getValue(String id) {
 		ConfigurationField field = this.getField(id);
 		

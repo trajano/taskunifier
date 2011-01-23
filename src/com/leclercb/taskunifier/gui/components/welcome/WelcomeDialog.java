@@ -53,9 +53,14 @@ public class WelcomeDialog extends JDialog {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals("api")) {
-					SettingsPanel panel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
+					SettingsPanel synchronizationPanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 2];
+					SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
 					
-					panel.reset(
+					synchronizationPanel.reset(
+							Translations.getString("configuration.tab.synchronization"),
+							new SynchronizationConfigurationPanel(true));
+					
+					servicePanel.reset(
 							SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
 							SynchronizerUtils.getApi().getConfigurationPanel(
 									true));

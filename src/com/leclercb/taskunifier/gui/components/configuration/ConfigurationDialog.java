@@ -175,6 +175,15 @@ public class ConfigurationDialog extends JDialog {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals("api")) {
 					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
+					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
+					
+					ConfigurationDialog.this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
+							false);
+					
+					tabbedPane.addTab(
+							Translations.getString("configuration.tab.synchronization"),
+							new JScrollPane(
+									ConfigurationDialog.this.synchronizationConfigurationPanel));
 					
 					ConfigurationDialog.this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
 							false);
@@ -184,6 +193,8 @@ public class ConfigurationDialog extends JDialog {
 								SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
 								new JScrollPane(
 										ConfigurationDialog.this.apiSynchronizerConfigurationPanel));
+					
+					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 2);
 				}
 			}
 			

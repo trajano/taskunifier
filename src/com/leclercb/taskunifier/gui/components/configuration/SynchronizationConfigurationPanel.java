@@ -30,6 +30,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPa
 import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerGuiPluginListCellRenderer;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyApi;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -181,6 +182,22 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 						}
 						
 					})));
+		}
+		
+		// Disable fields for DUMMY service
+		if (SynchronizerUtils.getApi().getSynchronizerApi().getApiId().equals(
+				DummyApi.getInstance().getApiId())) {
+			if (this.containsId("CHOICE"))
+				this.setEnabled("CHOICE", false);
+			
+			if (this.containsId("KEEP"))
+				this.setEnabled("KEEP", false);
+			
+			if (this.containsId("SYNCHRONIZE_ALL"))
+				this.setEnabled("SYNCHRONIZE_ALL", false);
+			
+			if (this.containsId("RESET_ALL"))
+				this.setEnabled("RESET_ALL", false);
 		}
 	}
 	
