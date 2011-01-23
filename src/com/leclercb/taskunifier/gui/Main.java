@@ -27,7 +27,9 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -43,7 +45,6 @@ import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.lookandfeel.JTattooLookAndFeelDescriptor;
-import com.leclercb.taskunifier.gui.plugins.PluginLoader;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
@@ -262,6 +263,29 @@ public class Main {
 		
 		API_PLUGINS.addPlugin(new DummyGuiPlugin());
 		API_PLUGINS.addPlugin(new ToodledoGuiPlugin());
+		
+		File pluginsFolder = new File(RESOURCES_FOLDER
+				+ File.separator
+				+ "plugins");
+		
+		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
+			File[] pluginFiles = pluginsFolder.listFiles();
+			
+			for (File file : pluginFiles) {
+				if (FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
+					try {
+						API_PLUGINS.loadPlugin(file);
+						
+						GuiLogger.getLogger().info(
+								"Plugin loaded: " + file.getAbsolutePath());
+					} catch (Exception e) {
+						GuiLogger.getLogger().warning(
+								"Could not load plugin jar file: "
+										+ file.getAbsolutePath());
+					}
+				}
+			}
+		}
 	}
 	
 	public static void stop() {
