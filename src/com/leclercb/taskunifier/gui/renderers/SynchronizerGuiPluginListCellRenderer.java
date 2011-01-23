@@ -28,7 +28,11 @@ public class SynchronizerGuiPluginListCellRenderer extends DefaultListCellRender
 			return component;
 		}
 		
-		this.setText(((SynchronizerGuiPlugin) value).getSynchronizerApi().getApiName());
+		SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) value;
+		
+		this.setText(plugin.getSynchronizerApi().getApiName()
+				+ " - "
+				+ plugin.getVersion());
 		return component;
 	}
 	

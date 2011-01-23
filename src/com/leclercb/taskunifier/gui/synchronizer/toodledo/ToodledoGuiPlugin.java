@@ -9,8 +9,15 @@ import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 
 public class ToodledoGuiPlugin extends ToodledoPlugin implements SynchronizerGuiPlugin {
 	
+	private static String VERSION = "0.1";
+	
 	public ToodledoGuiPlugin() {
 
+	}
+	
+	@Override
+	public String getVersion() {
+		return VERSION;
 	}
 	
 	@Override

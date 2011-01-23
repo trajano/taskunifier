@@ -5,8 +5,15 @@ import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
 
 public class DummyPlugin implements SynchronizerPlugin {
 	
+	private static String VERSION = "1.0";
+	
 	public DummyPlugin() {
 
+	}
+	
+	@Override
+	public String getVersion() {
+		return VERSION;
 	}
 	
 	@Override
