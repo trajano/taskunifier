@@ -17,6 +17,8 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +44,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
@@ -228,20 +231,28 @@ public class TaskTable extends JTable {
 		
 		this.getSelectionModel().setValueIsAdjusting(true);
 		
+		int firstRowIndex = -1;
 		for (Task task : tasks) {
 			for (int i = 0; i < model.getRowCount(); i++) {
 				if (task.equals(model.getTask(i))) {
 					int index = this.getRowSorter().convertRowIndexToView(i);
 					
-					if (index != -1)
+					if (index != -1) {
 						this.getSelectionModel().setSelectionInterval(
 								index,
 								index);
+						
+						if (firstRowIndex != -1)
+							firstRowIndex = index;
+					}
 				}
 			}
 		}
 		
 		this.getSelectionModel().setValueIsAdjusting(false);
+		
+		if (firstRowIndex != -1)
+			this.scrollToVisible(firstRowIndex, 0);
 	}
 	
 	public void refreshTasks() {
@@ -479,6 +490,18 @@ public class TaskTable extends JTable {
 			default:
 				return DEFAULT_RENDERER;
 		}
+	}
+	
+	public void scrollToVisible(int row, int col) {
+		if (!(this.getParent() instanceof JViewport)) {
+			return;
+		}
+		
+		JViewport viewport = (JViewport) this.getParent();
+		Rectangle rect = this.getCellRect(row, col, true);
+		Point pt = viewport.getViewPosition();
+		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
+		viewport.scrollRectToVisible(rect);
 	}
 	
 }

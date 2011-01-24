@@ -97,6 +97,23 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.4 to 0.7.0");
 		
+		Main.SETTINGS.remove("task.default.completed");
+		Main.SETTINGS.remove("task.default.context");
+		Main.SETTINGS.remove("task.default.due_date");
+		Main.SETTINGS.remove("task.default.folder");
+		Main.SETTINGS.remove("task.default.goal");
+		Main.SETTINGS.remove("task.default.length");
+		Main.SETTINGS.remove("task.default.note");
+		Main.SETTINGS.remove("task.default.priority");
+		Main.SETTINGS.remove("task.default.reminder");
+		Main.SETTINGS.remove("task.default.repeat");
+		Main.SETTINGS.remove("task.default.repeat_from");
+		Main.SETTINGS.remove("task.default.star");
+		Main.SETTINGS.remove("task.default.start_date");
+		Main.SETTINGS.remove("task.default.status");
+		Main.SETTINGS.remove("task.default.tags");
+		Main.SETTINGS.remove("task.default.title");
+		
 		Main.SETTINGS.remove("synchronizer.last_context_edit");
 		Main.SETTINGS.remove("synchronizer.last_folder_edit");
 		Main.SETTINGS.remove("synchronizer.last_goal_edit");

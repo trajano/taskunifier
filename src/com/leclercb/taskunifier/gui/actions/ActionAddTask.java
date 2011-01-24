@@ -20,24 +20,16 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Calendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.GoalFactory;
-import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.template.Template;
+import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddTask extends AbstractAction {
@@ -63,103 +55,12 @@ public class ActionAddTask extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 		
-		Task task = TaskFactory.getInstance().create(
-				Translations.getString("task.default.title"));
+		Task task = TaskFactory.getInstance().create("");
 		
-		if (Main.SETTINGS.getStringProperty("task.default.title") != null)
-			task.setTitle(Main.SETTINGS.getStringProperty("task.default.title"));
+		Template template = TemplateFactory.getInstance().getDefaultTemplate();
 		
-		if (Main.SETTINGS.getStringProperty("task.default.tags") != null) {
-			task.setTags(Main.SETTINGS.getStringProperty("task.default.tags").split(
-					","));
-		}
-		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.folder",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.folder",
-					ModelId.class);
-			task.setFolder(FolderFactory.getInstance().get(modelId));
-		}
-		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.context",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.context",
-					ModelId.class);
-			task.setContext(ContextFactory.getInstance().get(modelId));
-		}
-		
-		if (Main.SETTINGS.getObjectProperty("task.default.goal", ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.goal",
-					ModelId.class);
-			task.setGoal(GoalFactory.getInstance().get(modelId));
-		}
-		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.location",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.location",
-					ModelId.class);
-			task.setLocation(LocationFactory.getInstance().get(modelId));
-		}
-		
-		if (Main.SETTINGS.getBooleanProperty("task.default.completed") != null)
-			task.setCompleted(Main.SETTINGS.getBooleanProperty("task.default.completed"));
-		
-		if (Main.SETTINGS.getIntegerProperty("task.default.due_date") != null) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(
-					Calendar.DAY_OF_MONTH,
-					Main.SETTINGS.getIntegerProperty("task.default.due_date"));
-			task.setDueDate(calendar);
-		}
-		
-		if (Main.SETTINGS.getIntegerProperty("task.default.start_date") != null) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(
-					Calendar.DAY_OF_MONTH,
-					Main.SETTINGS.getIntegerProperty("task.default.start_date"));
-			task.setStartDate(calendar);
-		}
-		
-		if (Main.SETTINGS.getIntegerProperty("task.default.reminder") != null)
-			task.setReminder(Main.SETTINGS.getIntegerProperty("task.default.reminder"));
-		
-		if (Main.SETTINGS.getStringProperty("task.default.repeat") != null)
-			task.setRepeat(Main.SETTINGS.getStringProperty("task.default.repeat"));
-		
-		if (Main.SETTINGS.getStringProperty("task.default.repeat_from") != null)
-			task.setRepeatFrom((TaskRepeatFrom) Main.SETTINGS.getEnumProperty(
-					"task.default.repeat_from",
-					TaskRepeatFrom.class));
-		
-		if (Main.SETTINGS.getEnumProperty(
-				"task.default.status",
-				TaskStatus.class) != null)
-			task.setStatus((TaskStatus) Main.SETTINGS.getEnumProperty(
-					"task.default.status",
-					TaskStatus.class));
-		
-		if (Main.SETTINGS.getIntegerProperty("task.default.length") != null)
-			task.setLength(Main.SETTINGS.getIntegerProperty("task.default.length"));
-		
-		if (Main.SETTINGS.getEnumProperty(
-				"task.default.priority",
-				TaskPriority.class) != null)
-			task.setPriority((TaskPriority) Main.SETTINGS.getEnumProperty(
-					"task.default.priority",
-					TaskPriority.class));
-		
-		if (Main.SETTINGS.getBooleanProperty("task.default.star") != null)
-			task.setStar(Main.SETTINGS.getBooleanProperty("task.default.star"));
-		
-		if (Main.SETTINGS.getStringProperty("task.default.note") != null)
-			task.setNote(Main.SETTINGS.getStringProperty("task.default.note"));
+		if (template != null)
+			template.applyToTask(task);
 		
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
 				new Task[] { task });

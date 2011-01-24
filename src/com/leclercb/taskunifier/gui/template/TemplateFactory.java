@@ -45,13 +45,23 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
+	private Template defaultTemplate;
 	private List<Template> templates;
 	
 	private TemplateFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
+		this.defaultTemplate = null;
 		this.templates = new ArrayList<Template>();
+	}
+	
+	public Template getDefaultTemplate() {
+		return this.defaultTemplate;
+	}
+	
+	public void setDefaultTemplate(Template template) {
+		this.defaultTemplate = template;
 	}
 	
 	public boolean contains(Template template) {
@@ -96,7 +106,7 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	public void register(Template template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		this.templates.add(template);
-		//template.addPropertyChangeListener(this);
+		template.addPropertyChangeListener(this);
 		int index = this.templates.indexOf(template);
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
@@ -109,7 +119,7 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		
 		int index = this.templates.indexOf(template);
 		if (this.templates.remove(template)) {
-			//template.removePropertyChangeListener(this);
+			template.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
 					index,
@@ -119,6 +129,12 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	
 	public Template create(String title) {
 		Template template = new Template(title);
+		this.register(template);
+		return template;
+	}
+	
+	public Template create(String id, String title) {
+		Template template = new Template(id, title);
 		this.register(template);
 		return template;
 	}
