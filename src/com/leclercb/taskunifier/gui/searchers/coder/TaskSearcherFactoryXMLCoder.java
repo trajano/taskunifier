@@ -17,27 +17,17 @@
  */
 package com.leclercb.taskunifier.gui.searchers.coder;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.SortOrder;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.leclercb.commons.api.coder.FactoryCoder;
+import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.XMLUtils;
@@ -60,47 +50,16 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 
-public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
+public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	private static final String NULL_STRING_VALUE = "{{NULL}}";
 	
-	private String rootName;
-	
 	public TaskSearcherFactoryXMLCoder() {
-		this.rootName = "tasksearchers";
+		super("tasksearchers");
 	}
 	
 	@Override
-	public void decode(InputStream input) throws FactoryCoderException {
-		CheckUtils.isNotNull(input, "Input stream cannot be null");
-		
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			
-			factory.setIgnoringComments(true);
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(input);
-			
-			document.getDocumentElement().normalize();
-			
-			if (!document.getChildNodes().item(0).getNodeName().equals(
-					this.rootName))
-				throw new Exception("Root name must be \""
-						+ this.rootName
-						+ "\"");
-			
-			Node root = document.getChildNodes().item(0);
-			
-			this.decode(root);
-		} catch (FactoryCoderException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new FactoryCoderException(e.getMessage(), e);
-		}
-	}
-	
-	private void decode(Node root) throws FactoryCoderException {
+	public void decode(Node root) throws FactoryCoderException {
 		CheckUtils.isNotNull(root, "Root cannot be null");
 		
 		try {
@@ -348,37 +307,7 @@ public class TaskSearcherFactoryXMLCoder implements FactoryCoder {
 	}
 	
 	@Override
-	public void encode(OutputStream output) throws FactoryCoderException {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			DOMImplementation implementation = builder.getDOMImplementation();
-			
-			Document document = implementation.createDocument(null, null, null);
-			Element root = document.createElement(this.rootName);
-			document.appendChild(root);
-			
-			this.encode(document, root);
-			
-			DOMSource domSource = new DOMSource(document);
-			TransformerFactory tf = TransformerFactory.newInstance();
-			Transformer transformer = tf.newTransformer();
-			
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-			transformer.setOutputProperty(
-					"{http://xml.apache.org/xslt}indent-amount",
-					"4");
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			
-			StreamResult sr = new StreamResult(output);
-			transformer.transform(domSource, sr);
-		} catch (Exception e) {
-			throw new FactoryCoderException(e.getMessage(), e);
-		}
-	}
-	
-	private void encode(Document document, Element root) {
+	public void encode(Document document, Element root) {
 		List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
 		
 		for (TaskSearcher taskSearcher : searchers) {

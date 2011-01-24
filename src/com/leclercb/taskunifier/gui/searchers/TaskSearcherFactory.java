@@ -90,7 +90,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	 */
 	public int getIndexOf(TaskSearcher searcher) {
 		return this.searchers.indexOf(searcher);
-	};
+	}
 	
 	public void delete(TaskSearcher searcher) {
 		this.unregister(searcher);
