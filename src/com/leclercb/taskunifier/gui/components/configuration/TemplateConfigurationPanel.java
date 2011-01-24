@@ -52,12 +52,12 @@ import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskConfigurationPanel extends ConfigurationPanel {
+public class TemplateConfigurationPanel extends ConfigurationPanel {
 	
 	private JComboBox templateComboBox;
 	
-	public TaskConfigurationPanel() {
-		super("configuration_task.html");
+	public TemplateConfigurationPanel() {
+		super("configuration_template.html");
 		this.initialize();
 		this.pack();
 	}
@@ -84,10 +84,10 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+				Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
 				
 				if (template != null)
-					TaskConfigurationPanel.this.loadTemplate(template);
+					TemplateConfigurationPanel.this.loadTemplate(template);
 			}
 			
 		});
@@ -107,6 +107,7 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 		final JButton defaultTemplateButton = new JButton(
 				Images.getResourceImage("properties.png", 16, 16));
 		defaultTemplateButton.setActionCommand("DEFAULT");
+		defaultTemplateButton.setToolTipText(Translations.getString("general.set_default"));
 		buttonsPanel.add(defaultTemplateButton);
 		
 		ActionListener listener = new ActionListener() {
@@ -116,12 +117,12 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 				if (event.getActionCommand().equals("ADD")) {
 					Template template = TemplateFactory.getInstance().create(
 							Translations.getString("general.template"));
-					TaskConfigurationPanel.this.templateComboBox.setSelectedItem(template);
+					TemplateConfigurationPanel.this.templateComboBox.setSelectedItem(template);
 				} else if (event.getActionCommand().equals("REMOVE")) {
-					Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+					Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
 					TemplateFactory.getInstance().unregister(template);
 				} else if (event.getActionCommand().equals("DEFAULT")) {
-					Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+					Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
 					TemplateFactory.getInstance().setDefaultTemplate(template);
 				}
 			}
@@ -262,10 +263,10 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 							
 							@Override
 							public void actionPerformed(ActionEvent event) {
-								Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+								Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
 								
 								if (template != null)
-									TaskConfigurationPanel.this.saveTemplate(template);
+									TemplateConfigurationPanel.this.saveTemplate(template);
 							}
 							
 						})));

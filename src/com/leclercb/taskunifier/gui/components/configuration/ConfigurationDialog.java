@@ -45,7 +45,7 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	private ConfigurationPanel apiSynchronizerConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
-	private ConfigurationPanel taskConfigurationPanel;
+	private ConfigurationPanel templateConfigurationPanel;
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	
@@ -57,7 +57,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.configuration"));
-		this.setSize(600, 500);
+		this.setSize(600, 600);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -75,7 +75,7 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
-		this.initializeTaskPanel(tabbedPane);
+		this.initializeTemplatePanel(tabbedPane);
 		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
 		this.initializeSynchronizationPanel(tabbedPane);
@@ -137,11 +137,11 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.proxyConfigurationPanel));
 	}
 	
-	private void initializeTaskPanel(JTabbedPane tabbedPane) {
-		this.taskConfigurationPanel = new TaskConfigurationPanel();
+	private void initializeTemplatePanel(JTabbedPane tabbedPane) {
+		this.templateConfigurationPanel = new TemplateConfigurationPanel();
 		tabbedPane.addTab(
-				Translations.getString("configuration.tab.task"),
-				new JScrollPane(this.taskConfigurationPanel));
+				Translations.getString("configuration.tab.template"),
+				new JScrollPane(this.templateConfigurationPanel));
 	}
 	
 	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
@@ -214,7 +214,7 @@ public class ConfigurationDialog extends JDialog {
 			
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
-			this.taskConfigurationPanel.saveAndApplyConfig();
+			this.templateConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
