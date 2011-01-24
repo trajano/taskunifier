@@ -80,7 +80,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 					Node element = nTemplate.item(j);
 					
 					if (element.getNodeName().equals("id"))
-						title = element.getTextContent();
+						id = element.getTextContent();
 					
 					if (element.getNodeName().equals("title"))
 						title = element.getTextContent();
@@ -192,7 +192,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 		List<Template> templates = TemplateFactory.getInstance().getList();
 		
 		for (Template template : templates) {
-			Element nTemplate = document.createElement("task");
+			Element nTemplate = document.createElement("template");
 			root.appendChild(nTemplate);
 			
 			Element id = document.createElement("id");
@@ -250,19 +250,19 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskLocation);
 			
 			Element taskCompleted = document.createElement("taskcompleted");
-			setTextContext(taskCompleted, template.getTaskCompleted() + "");
+			setTextContext(taskCompleted, template.getTaskCompleted());
 			nTemplate.appendChild(taskCompleted);
 			
 			Element taskStartDate = document.createElement("taskstartdate");
-			setTextContext(taskStartDate, template.getTaskStartDate() + "");
+			setTextContext(taskStartDate, template.getTaskStartDate());
 			nTemplate.appendChild(taskStartDate);
 			
 			Element taskDueDate = document.createElement("taskduedate");
-			setTextContext(taskDueDate, template.getTaskDueDate() + "");
+			setTextContext(taskDueDate, template.getTaskDueDate());
 			nTemplate.appendChild(taskDueDate);
 			
 			Element taskReminder = document.createElement("taskreminder");
-			setTextContext(taskReminder, template.getTaskReminder() + "");
+			setTextContext(taskReminder, template.getTaskReminder());
 			nTemplate.appendChild(taskReminder);
 			
 			Element taskRepeat = document.createElement("taskrepeat");
@@ -278,7 +278,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskStatus);
 			
 			Element taskLength = document.createElement("tasklength");
-			setTextContext(taskLength, template.getTaskLength() + "");
+			setTextContext(taskLength, template.getTaskLength());
 			nTemplate.appendChild(taskLength);
 			
 			Element taskPriority = document.createElement("taskpriority");
@@ -286,7 +286,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskPriority);
 			
 			Element taskStar = document.createElement("taskstar");
-			setTextContext(taskStar, template.getTaskStar() + "");
+			setTextContext(taskStar, template.getTaskStar());
 			nTemplate.appendChild(taskStar);
 			
 			Element taskNote = document.createElement("tasknote");

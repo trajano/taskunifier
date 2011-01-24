@@ -146,6 +146,24 @@ public class TemplateConfigurationPanel extends ConfigurationPanel {
 				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
+				"SAVE",
+				null,
+				new ConfigurationFieldType.Button(
+						Translations.getString("general.save"),
+						Images.getResourceImage("save.png", 24, 24),
+						new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent event) {
+								Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
+								
+								if (template != null)
+									TemplateConfigurationPanel.this.saveTemplate(template);
+							}
+							
+						})));
+		
+		this.addField(new ConfigurationField(
 				"TITLE",
 				Translations.getString("general.task.title"),
 				new ConfigurationFieldType.TextField("")));
@@ -252,24 +270,6 @@ public class TemplateConfigurationPanel extends ConfigurationPanel {
 				"TASK_NOTE",
 				Translations.getString("general.task.note"),
 				new ConfigurationFieldType.TextArea("")));
-		
-		this.addField(new ConfigurationField(
-				"SAVE",
-				null,
-				new ConfigurationFieldType.Button(
-						Translations.getString("general.save"),
-						Images.getResourceImage("save.png", 24, 24),
-						new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent event) {
-								Template template = (Template) TemplateConfigurationPanel.this.templateComboBox.getSelectedItem();
-								
-								if (template != null)
-									TemplateConfigurationPanel.this.saveTemplate(template);
-							}
-							
-						})));
 		
 		// TODO finish config panel
 	}
