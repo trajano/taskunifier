@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.api;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
@@ -34,6 +36,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
@@ -44,6 +47,25 @@ import javax.swing.border.LineBorder;
 import com.leclercb.taskunifier.gui.images.Images;
 
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
+	
+	public static class Panel extends JPanel implements ConfigurationFieldType<JPanel, Void> {
+		
+		public Panel(JPanel panel) {
+			this.setLayout(new BorderLayout());
+			this.add(panel, BorderLayout.CENTER);
+		}
+		
+		@Override
+		public JPanel getFieldComponent() {
+			return this;
+		}
+		
+		@Override
+		public Void getFieldValue() {
+			return null;
+		}
+		
+	}
 	
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 		
@@ -90,6 +112,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		public Button(String label, ActionListener listener) {
 			super(label);
+			this.addActionListener(listener);
+		}
+		
+		public Button(String label, Icon icon, ActionListener listener) {
+			super(label, icon);
 			this.addActionListener(listener);
 		}
 		

@@ -242,7 +242,7 @@ public class TaskTable extends JTable {
 								index,
 								index);
 						
-						if (firstRowIndex != -1)
+						if (firstRowIndex == -1)
 							firstRowIndex = index;
 					}
 				}
@@ -492,10 +492,13 @@ public class TaskTable extends JTable {
 		}
 	}
 	
-	public void scrollToVisible(int row, int col) {
+	private void scrollToVisible(int row, int col) {
+		System.out.println("scroll man");
 		if (!(this.getParent() instanceof JViewport)) {
 			return;
 		}
+		
+		System.out.println("scroll man");
 		
 		JViewport viewport = (JViewport) this.getParent();
 		Rectangle rect = this.getCellRect(row, col, true);

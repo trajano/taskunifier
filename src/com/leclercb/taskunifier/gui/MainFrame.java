@@ -47,6 +47,7 @@ import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -264,6 +265,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
+		tasksMenu.add(new ActionAddTemplateTask(16, 16));
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
@@ -309,6 +311,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.toolBar.setFloatable(false);
 		
 		this.toolBar.add(new ActionAddTask());
+		this.toolBar.add(new ActionAddTemplateTask());
 		this.toolBar.add(new ActionDelete());
 		this.toolBar.addSeparator();
 		this.toolBar.add(new ActionManageModels());

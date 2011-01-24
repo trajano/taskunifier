@@ -102,6 +102,7 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("task.default.due_date");
 		Main.SETTINGS.remove("task.default.folder");
 		Main.SETTINGS.remove("task.default.goal");
+		Main.SETTINGS.remove("task.default.location");
 		Main.SETTINGS.remove("task.default.length");
 		Main.SETTINGS.remove("task.default.note");
 		Main.SETTINGS.remove("task.default.priority");

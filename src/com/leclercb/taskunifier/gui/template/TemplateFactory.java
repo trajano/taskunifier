@@ -33,6 +33,8 @@ import com.leclercb.commons.api.utils.CheckUtils;
 
 public class TemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
+	public static final String PROP_DEFAULT_TEMPLATE = "defaultTemplate";
+	
 	private static TemplateFactory FACTORY;
 	
 	public static TemplateFactory getInstance() {
@@ -60,12 +62,17 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		return this.defaultTemplate;
 	}
 	
-	public void setDefaultTemplate(Template template) {
-		this.defaultTemplate = template;
+	public void setDefaultTemplate(Template defaultTemplate) {
+		Template oldDefaultTemplate = this.defaultTemplate;
+		this.defaultTemplate = defaultTemplate;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_DEFAULT_TEMPLATE,
+				oldDefaultTemplate,
+				defaultTemplate);
 	}
 	
-	public boolean contains(Template template) {
-		return this.templates.contains(template);
+	public boolean contains(String id) {
+		return (this.get(id) != null);
 	}
 	
 	public int size() {
@@ -105,6 +112,10 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	
 	public void register(Template template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
+		
+		if (this.contains(template.getId()))
+			throw new IllegalArgumentException("ID already exists in factory");
+		
 		this.templates.add(template);
 		template.addPropertyChangeListener(this);
 		int index = this.templates.indexOf(template);

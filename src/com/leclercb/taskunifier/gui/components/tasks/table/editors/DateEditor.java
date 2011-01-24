@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.swing.JDatePicker;
 
 public class DateEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
@@ -52,7 +53,10 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 		
 		this.label = new JLabel();
 		
-		this.button = new JButton("...");
+		this.button = new JButton(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
 		this.button.setActionCommand("BUTTON_CLICK");
 		this.button.addActionListener(this);
 		

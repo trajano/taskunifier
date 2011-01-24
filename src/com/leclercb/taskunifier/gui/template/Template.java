@@ -16,7 +16,6 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -36,17 +35,16 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	private ModelId taskContext;
 	private ModelId taskGoal;
 	private ModelId taskLocation;
-	private ModelId taskParent;
-	private Boolean taskCompleted;
+	private boolean taskCompleted;
 	private Integer taskDueDate;
 	private Integer taskStartDate;
-	private Integer taskReminder;
+	private int taskReminder;
 	private String taskRepeat;
 	private TaskRepeatFrom taskRepeatFrom;
 	private TaskStatus taskStatus;
-	private Integer taskLength;
+	private int taskLength;
 	private TaskPriority taskPriority;
-	private Boolean taskStar;
+	private boolean taskStar;
 	private String taskNote;
 	
 	Template(String title) {
@@ -60,18 +58,30 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		
 		this.setId(id);
 		this.setTitle(title);
+		
+		this.setTaskTitle("");
+		this.setTaskTags(new String[0]);
+		this.setTaskFolder(null);
+		this.setTaskContext(null);
+		this.setTaskGoal(null);
+		this.setTaskLocation(null);
+		this.setTaskCompleted(false);
+		this.setTaskDueDate(null);
+		this.setTaskStartDate(null);
+		this.setTaskReminder(0);
+		this.setTaskRepeat(null);
+		this.setTaskRepeatFrom(TaskRepeatFrom.DUE_DATE);
+		this.setTaskStatus(TaskStatus.NONE);
+		this.setTaskLength(0);
+		this.setTaskPriority(TaskPriority.LOW);
+		this.setTaskStar(false);
+		this.setTaskNote(null);
 	}
 	
 	public void applyToTask(Task task) {
-		if (this.taskTitle != null)
-			task.setTitle(this.taskTitle);
-		else
-			task.setTitle("");
+		task.setTitle(this.taskTitle);
 		
-		if (this.taskTags != null)
-			task.setTags(this.taskTags);
-		else
-			task.setTags(new String[0]);
+		task.setTags(this.taskTags);
 		
 		if (this.taskFolder != null)
 			task.setFolder(FolderFactory.getInstance().get(this.taskFolder));
@@ -94,62 +104,36 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		else
 			task.setLocation(null);
 		
-		if (this.taskParent != null)
-			task.setParent(TaskFactory.getInstance().get(this.taskParent));
-		else
-			task.setParent(null);
-		
-		if (this.taskCompleted != null)
-			task.setCompleted(this.taskCompleted);
-		else
-			task.setCompleted(false);
+		task.setCompleted(this.taskCompleted);
 		
 		if (this.taskDueDate != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskDueDate);
-			
 			task.setDueDate(calendar);
-		} else {
-			task.setDueDate(null);
 		}
 		
 		if (this.taskStartDate != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskStartDate);
-			
 			task.setStartDate(calendar);
-		} else {
-			task.setStartDate(null);
 		}
 		
-		if (this.taskReminder != null)
-			task.setReminder(this.taskReminder);
-		else
-			task.setReminder(0);
+		task.setReminder(this.taskReminder);
 		
 		if (this.taskRepeat != null)
 			task.setRepeat(this.taskRepeat);
 		else
 			task.setRepeat(null);
 		
-		if (this.taskRepeatFrom != null)
-			task.setRepeatFrom(this.taskRepeatFrom);
+		task.setRepeatFrom(this.taskRepeatFrom);
 		
-		if (this.taskStatus != null)
-			task.setStatus(this.taskStatus);
+		task.setStatus(this.taskStatus);
 		
-		if (this.taskLength != null)
-			task.setLength(this.taskLength);
-		else
-			task.setLength(0);
+		task.setLength(this.taskLength);
 		
-		if (this.taskPriority != null)
-			task.setPriority(this.taskPriority);
+		task.setPriority(this.taskPriority);
 		
-		if (this.taskStar != null)
-			task.setStar(this.taskStar);
-		else
-			task.setStar(false);
+		task.setStar(this.taskStar);
 		
 		if (this.taskNote != null)
 			task.setNote(this.taskNote);
@@ -167,7 +151,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		template.setTaskContext(this.taskContext);
 		template.setTaskGoal(this.taskGoal);
 		template.setTaskLocation(this.taskLocation);
-		template.setTaskParent(this.taskParent);
 		template.setTaskCompleted(this.taskCompleted);
 		template.setTaskDueDate(this.taskDueDate);
 		template.setTaskStartDate(this.taskStartDate);
@@ -211,6 +194,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskTitle(String taskTitle) {
+		CheckUtils.isNotNull(taskTitle, "Task title cannot be null");
 		this.taskTitle = taskTitle;
 	}
 	
@@ -219,6 +203,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskTags(String[] taskTags) {
+		CheckUtils.isNotNull(taskTags, "Task tags cannot be null");
 		this.taskTags = taskTags;
 	}
 	
@@ -254,19 +239,11 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		this.taskLocation = taskLocation;
 	}
 	
-	public ModelId getTaskParent() {
-		return this.taskParent;
-	}
-	
-	public void setTaskParent(ModelId taskParent) {
-		this.taskParent = taskParent;
-	}
-	
-	public Boolean getTaskCompleted() {
+	public boolean getTaskCompleted() {
 		return this.taskCompleted;
 	}
 	
-	public void setTaskCompleted(Boolean taskCompleted) {
+	public void setTaskCompleted(boolean taskCompleted) {
 		this.taskCompleted = taskCompleted;
 	}
 	
@@ -286,11 +263,11 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		this.taskStartDate = taskStartDate;
 	}
 	
-	public Integer getTaskReminder() {
+	public int getTaskReminder() {
 		return this.taskReminder;
 	}
 	
-	public void setTaskReminder(Integer taskReminder) {
+	public void setTaskReminder(int taskReminder) {
 		this.taskReminder = taskReminder;
 	}
 	
@@ -307,6 +284,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskRepeatFrom(TaskRepeatFrom taskRepeatFrom) {
+		CheckUtils.isNotNull(taskRepeatFrom, "Task repeat from cannot be null");
 		this.taskRepeatFrom = taskRepeatFrom;
 	}
 	
@@ -315,14 +293,15 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskStatus(TaskStatus taskStatus) {
+		CheckUtils.isNotNull(taskStatus, "Task status cannot be null");
 		this.taskStatus = taskStatus;
 	}
 	
-	public Integer getTaskLength() {
+	public int getTaskLength() {
 		return this.taskLength;
 	}
 	
-	public void setTaskLength(Integer taskLength) {
+	public void setTaskLength(int taskLength) {
 		this.taskLength = taskLength;
 	}
 	
@@ -331,14 +310,15 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskPriority(TaskPriority taskPriority) {
+		CheckUtils.isNotNull(taskPriority, "Task priority cannot be null");
 		this.taskPriority = taskPriority;
 	}
 	
-	public Boolean getTaskStar() {
+	public boolean getTaskStar() {
 		return this.taskStar;
 	}
 	
-	public void setTaskStar(Boolean taskStar) {
+	public void setTaskStar(boolean taskStar) {
 		this.taskStar = taskStar;
 	}
 	

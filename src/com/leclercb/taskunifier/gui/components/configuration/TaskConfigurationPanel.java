@@ -17,34 +17,44 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
-import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
-import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType.ComboBox;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
 import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
 import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
+import com.leclercb.taskunifier.gui.models.TemplateComboBoxModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
+import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
+import com.leclercb.taskunifier.gui.template.Template;
+import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskConfigurationPanel extends ConfigurationPanel {
+	
+	private JComboBox templateComboBox;
 	
 	public TaskConfigurationPanel() {
 		super("configuration_task.html");
@@ -54,289 +64,239 @@ public class TaskConfigurationPanel extends ConfigurationPanel {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		ModelId folder = null;
-		if (this.getValue("FOLDER") != null)
-			folder = ((Folder) this.getValue("FOLDER")).getModelId();
-		
-		ModelId context = null;
-		if (this.getValue("CONTEXT") != null)
-			context = ((Context) this.getValue("CONTEXT")).getModelId();
-		
-		ModelId goal = null;
-		if (this.getValue("GOAL") != null)
-			goal = ((Goal) this.getValue("GOAL")).getModelId();
-		
-		ModelId location = null;
-		if (this.getValue("LOCATION") != null)
-			location = ((Location) this.getValue("LOCATION")).getModelId();
-		
-		Main.SETTINGS.setStringProperty(
-				"task.default.title",
-				(String) this.getValue("TITLE"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.tags",
-				(String) this.getValue("TAGS"));
-		Main.SETTINGS.setObjectProperty(
-				"task.default.folder",
-				ModelId.class,
-				folder);
-		Main.SETTINGS.setObjectProperty(
-				"task.default.context",
-				ModelId.class,
-				context);
-		Main.SETTINGS.setObjectProperty(
-				"task.default.goal",
-				ModelId.class,
-				goal);
-		Main.SETTINGS.setObjectProperty(
-				"task.default.location",
-				ModelId.class,
-				location);
-		Main.SETTINGS.setBooleanProperty(
-				"task.default.completed",
-				(Boolean) this.getValue("COMPLETED"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.due_date",
-				(String) this.getValue("DUE_DATE"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.start_date",
-				(String) this.getValue("START_DATE"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.reminder",
-				(String) this.getValue("REMINDER"));
-		/*
-		 * Main.SETTINGS.setStringProperty( "task.default.repeat", (String)
-		 * this.getValue("REPEAT"));
-		 */
-		Main.SETTINGS.setEnumProperty(
-				"task.default.repeat_from",
-				TaskRepeatFrom.class,
-				(TaskRepeatFrom) this.getValue("REPEAT_FROM"));
-		Main.SETTINGS.setEnumProperty(
-				"task.default.status",
-				TaskStatus.class,
-				(TaskStatus) this.getValue("STATUS"));
-		Main.SETTINGS.setEnumProperty(
-				"task.default.priority",
-				TaskPriority.class,
-				(TaskPriority) this.getValue("PRIORITY"));
-		Main.SETTINGS.setBooleanProperty(
-				"task.default.star",
-				(Boolean) this.getValue("STAR"));
-		Main.SETTINGS.setStringProperty(
-				"task.default.note",
-				(String) this.getValue("NOTE"));
+
 	}
 	
 	private void initialize() {
-		String taskTitleValue = "Untitled";
-		String taskTagsValue = "";
-		Folder taskFolderValue = null;
-		Context taskContextValue = null;
-		Goal taskGoalValue = null;
-		Location taskLocationValue = null;
-		Boolean taskCompletedValue = false;
-		String taskDueDateValue = "";
-		String taskStartDateValue = "";
-		String taskReminderValue = "";
-		String taskRepeatValue = "";
-		TaskRepeatFrom taskRepeatFromValue = TaskRepeatFrom.DUE_DATE;
-		TaskStatus taskStatusValue = TaskStatus.NONE;
-		TaskPriority taskPriorityValue = TaskPriority.LOW;
-		Boolean taskStarValue = false;
-		String taskNoteValue = null;
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
 		
-		if (Main.SETTINGS.getStringProperty("task.default.title") != null)
-			taskTitleValue = Main.SETTINGS.getStringProperty("task.default.title");
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new FlowLayout());
+		panel.add(buttonsPanel, BorderLayout.EAST);
 		
-		if (Main.SETTINGS.getStringProperty("task.default.tags") != null)
-			taskTagsValue = Main.SETTINGS.getStringProperty("task.default.tags");
+		this.templateComboBox = new JComboBox();
+		this.templateComboBox.setModel(new TemplateComboBoxModel());
+		this.templateComboBox.setRenderer(new TemplateListCellRenderer());
+		panel.add(this.templateComboBox, BorderLayout.CENTER);
 		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.folder",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.folder",
-					ModelId.class);
-			taskFolderValue = FolderFactory.getInstance().get(modelId);
-		}
+		this.templateComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+				
+				if (template != null)
+					TaskConfigurationPanel.this.loadTemplate(template);
+			}
+			
+		});
 		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.context",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.context",
-					ModelId.class);
-			taskContextValue = ContextFactory.getInstance().get(modelId);
-		}
+		final JButton addTemplateButton = new JButton(Images.getResourceImage(
+				"add.png",
+				16,
+				16));
+		addTemplateButton.setActionCommand("ADD");
+		buttonsPanel.add(addTemplateButton);
 		
-		if (Main.SETTINGS.getObjectProperty("task.default.goal", ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.goal",
-					ModelId.class);
-			taskGoalValue = GoalFactory.getInstance().get(modelId);
-		}
+		final JButton removeTemplateButton = new JButton(
+				Images.getResourceImage("remove.png", 16, 16));
+		removeTemplateButton.setActionCommand("REMOVE");
+		buttonsPanel.add(removeTemplateButton);
 		
-		if (Main.SETTINGS.getObjectProperty(
-				"task.default.location",
-				ModelId.class) != null) {
-			ModelId modelId = Main.SETTINGS.getObjectProperty(
-					"task.default.location",
-					ModelId.class);
-			taskLocationValue = LocationFactory.getInstance().get(modelId);
-		}
+		final JButton defaultTemplateButton = new JButton(
+				Images.getResourceImage("properties.png", 16, 16));
+		defaultTemplateButton.setActionCommand("DEFAULT");
+		buttonsPanel.add(defaultTemplateButton);
 		
-		if (Main.SETTINGS.getBooleanProperty("task.default.completed") != null)
-			taskCompletedValue = Main.SETTINGS.getBooleanProperty("task.default.completed");
+		ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if (event.getActionCommand().equals("ADD")) {
+					Template template = TemplateFactory.getInstance().create(
+							Translations.getString("general.template"));
+					TaskConfigurationPanel.this.templateComboBox.setSelectedItem(template);
+				} else if (event.getActionCommand().equals("REMOVE")) {
+					Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+					TemplateFactory.getInstance().unregister(template);
+				} else if (event.getActionCommand().equals("DEFAULT")) {
+					Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+					TemplateFactory.getInstance().setDefaultTemplate(template);
+				}
+			}
+			
+		};
 		
-		if (Main.SETTINGS.getIntegerProperty("task.default.due_date") != null)
-			taskDueDateValue = Main.SETTINGS.getStringProperty("task.default.due_date");
+		addTemplateButton.addActionListener(listener);
+		removeTemplateButton.addActionListener(listener);
+		defaultTemplateButton.addActionListener(listener);
 		
-		if (Main.SETTINGS.getIntegerProperty("task.default.start_date") != null)
-			taskStartDateValue = Main.SETTINGS.getStringProperty("task.default.start_date");
-		
-		if (Main.SETTINGS.getIntegerProperty("task.default.reminder") != null)
-			taskReminderValue = Main.SETTINGS.getStringProperty("task.default.reminder");
-		
-		if (Main.SETTINGS.getStringProperty("task.default.repeat") != null)
-			taskRepeatValue = Main.SETTINGS.getStringProperty("task.default.repeat");
-		
-		if (Main.SETTINGS.getEnumProperty(
-				"task.default.repeat_from",
-				TaskRepeatFrom.class) != null)
-			taskRepeatFromValue = (TaskRepeatFrom) Main.SETTINGS.getEnumProperty(
-					"task.default.repeat_from",
-					TaskRepeatFrom.class);
-		
-		if (Main.SETTINGS.getEnumProperty(
-				"task.default.status",
-				TaskStatus.class) != null)
-			taskStatusValue = (TaskStatus) Main.SETTINGS.getEnumProperty(
-					"task.default.status",
-					TaskStatus.class);
-		
-		if (Main.SETTINGS.getEnumProperty(
-				"task.default.priority",
-				TaskPriority.class) != null)
-			taskPriorityValue = (TaskPriority) Main.SETTINGS.getEnumProperty(
-					"task.default.priority",
-					TaskPriority.class);
-		
-		if (Main.SETTINGS.getBooleanProperty("task.default.star") != null)
-			taskStarValue = Main.SETTINGS.getBooleanProperty("task.default.star");
-		
-		if (Main.SETTINGS.getStringProperty("task.default.note") != null)
-			taskNoteValue = Main.SETTINGS.getStringProperty("task.default.note");
+		// Template fields
 		
 		this.addField(new ConfigurationField(
-				"DEFAULT_VALUE",
+				"TEMPLATES",
+				Translations.getString("general.template"),
+				new ConfigurationFieldType.Panel(panel)));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
 				null,
-				new ConfigurationFieldType.Label(
-						Translations.getString("configuration.task.default_value"))));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"TITLE",
 				Translations.getString("general.task.title"),
-				new ConfigurationFieldType.TextField(taskTitleValue)));
+				new ConfigurationFieldType.TextField("")));
 		
 		this.addField(new ConfigurationField(
-				"TAGS",
+				"TASK_TITLE",
+				Translations.getString("general.task.title"),
+				new ConfigurationFieldType.TextField("")));
+		
+		this.addField(new ConfigurationField(
+				"TASK_TAGS",
 				Translations.getString("general.task.tags"),
-				new ConfigurationFieldType.TextField(taskTagsValue)));
+				new ConfigurationFieldType.TextField("")));
 		
 		this.addField(new ConfigurationField(
-				"FOLDER",
+				"TASK_FOLDER",
 				Translations.getString("general.task.folder"),
 				new ConfigurationFieldType.ComboBox(new FolderComboBoxModel(
-						true), taskFolderValue)));
+						true), null)));
 		
 		this.addField(new ConfigurationField(
-				"CONTEXT",
+				"TASK_CONTEXT",
 				Translations.getString("general.task.context"),
 				new ConfigurationFieldType.ComboBox(new ContextComboBoxModel(
-						true), taskContextValue)));
+						true), null)));
 		
 		this.addField(new ConfigurationField(
-				"GOAL",
+				"TASK_GOAL",
 				Translations.getString("general.task.goal"),
 				new ConfigurationFieldType.ComboBox(
 						new GoalComboBoxModel(true),
-						taskGoalValue)));
+						null)));
 		
 		this.addField(new ConfigurationField(
-				"LOCATION",
+				"TASK_LOCATION",
 				Translations.getString("general.task.location"),
 				new ConfigurationFieldType.ComboBox(new LocationComboBoxModel(
-						true), taskLocationValue)));
+						true), null)));
 		
 		this.addField(new ConfigurationField(
-				"COMPLETED",
+				"TASK_COMPLETED",
 				Translations.getString("general.task.completed"),
-				new ConfigurationFieldType.CheckBox(taskCompletedValue)));
+				new ConfigurationFieldType.CheckBox(false)));
 		
 		this.addField(new ConfigurationField(
-				"DUE_DATE",
+				"TASK_DUE_DATE",
 				Translations.getString("general.task.due_date"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{0,3}$"),
-						taskDueDateValue)));
+						"")));
 		
 		this.addField(new ConfigurationField(
-				"START_DATE",
+				"TASK_START_DATE",
 				Translations.getString("general.task.start_date"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{0,3}$"),
-						taskStartDateValue)));
+						"")));
 		
 		this.addField(new ConfigurationField(
-				"REMINDER",
+				"TASK_REMINDER",
 				Translations.getString("general.task.reminder"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{0,3}$"),
-						taskReminderValue)));
+						"")));
 		
-		/*
-		 * this.addField(new ConfigurationField( "REPEAT",
-		 * Translations.getString("general.task.repeat"), new
-		 * ConfigurationFieldType.TextField(taskRepeatValue)));
-		 */
-
 		this.addField(new ConfigurationField(
-				"REPEAT_FROM",
+				"TASK_REPEAT",
+				Translations.getString("general.task.repeat"),
+				new ConfigurationFieldType.TextField("")));
+		
+		this.addField(new ConfigurationField(
+				"TASK_REPEAT_FROM",
 				Translations.getString("general.task.repeat_from"),
 				new ConfigurationFieldType.ComboBox(
 						TaskRepeatFrom.values(),
-						taskRepeatFromValue)));
-		((ComboBox) this.getField("REPEAT_FROM").getType()).getFieldComponent().setRenderer(
+						TaskRepeatFrom.DUE_DATE)));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_REPEAT_FROM").getType()).getFieldComponent().setRenderer(
 				new TaskRepeatFromListCellRenderer());
 		
 		this.addField(new ConfigurationField(
-				"STATUS",
+				"TASK_STATUS",
 				Translations.getString("general.task.status"),
 				new ConfigurationFieldType.ComboBox(
 						TaskStatus.values(),
-						taskStatusValue)));
-		((ComboBox) this.getField("STATUS").getType()).getFieldComponent().setRenderer(
+						TaskStatus.NONE)));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_STATUS").getType()).getFieldComponent().setRenderer(
 				new TaskStatusListCellRenderer());
 		
 		this.addField(new ConfigurationField(
-				"PRIORITY",
+				"TASK_PRIORITY",
 				Translations.getString("general.task.priority"),
 				new ConfigurationFieldType.ComboBox(
 						TaskPriority.values(),
-						taskPriorityValue)));
-		((ComboBox) this.getField("PRIORITY").getType()).getFieldComponent().setRenderer(
+						TaskPriority.LOW)));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_PRIORITY").getType()).getFieldComponent().setRenderer(
 				new TaskPriorityListCellRenderer());
 		
 		this.addField(new ConfigurationField(
-				"STAR",
+				"TASK_STAR",
 				Translations.getString("general.task.star"),
-				new ConfigurationFieldType.StarCheckBox(taskStarValue)));
+				new ConfigurationFieldType.StarCheckBox(false)));
 		
 		this.addField(new ConfigurationField(
-				"NOTE",
+				"TASK_NOTE",
 				Translations.getString("general.task.note"),
-				new ConfigurationFieldType.TextArea(taskNoteValue)));
+				new ConfigurationFieldType.TextArea("")));
+		
+		this.addField(new ConfigurationField(
+				"SAVE",
+				null,
+				new ConfigurationFieldType.Button(
+						Translations.getString("general.save"),
+						Images.getResourceImage("save.png", 24, 24),
+						new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent event) {
+								Template template = (Template) TaskConfigurationPanel.this.templateComboBox.getSelectedItem();
+								
+								if (template != null)
+									TaskConfigurationPanel.this.saveTemplate(template);
+							}
+							
+						})));
+		
+		// TODO finish config panel
+	}
+	
+	private void saveTemplate(Template template) {
+		template.setTitle((String) this.getValue("TITLE"));
+	}
+	
+	private void loadTemplate(Template template) {
+		String tags = "";
+		if (template.getTaskTags() != null)
+			tags = ArrayUtils.arrayToString(template.getTaskTags(), ", ");
+		
+		((ConfigurationFieldType.TextField) this.getField("TITLE").getType()).getFieldComponent().setText(
+				template.getTitle());
+		
+		((ConfigurationFieldType.TextField) this.getField("TASK_TITLE").getType()).getFieldComponent().setText(
+				template.getTaskTitle());
+		((ConfigurationFieldType.TextField) this.getField("TASK_TAGS").getType()).getFieldComponent().setText(
+				tags);
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_FOLDER").getType()).getFieldComponent().setSelectedItem(
+				FolderFactory.getInstance().get(template.getTaskFolder()));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_CONTEXT").getType()).getFieldComponent().setSelectedItem(
+				ContextFactory.getInstance().get(template.getTaskContext()));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_GOAL").getType()).getFieldComponent().setSelectedItem(
+				GoalFactory.getInstance().get(template.getTaskGoal()));
+		((ConfigurationFieldType.ComboBox) this.getField("TASK_LOCATION").getType()).getFieldComponent().setSelectedItem(
+				LocationFactory.getInstance().get(template.getTaskLocation()));
 	}
 	
 }

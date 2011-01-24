@@ -17,77 +17,55 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.swing.JTextAreaDialog;
+import com.leclercb.taskunifier.gui.template.Template;
+import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionBatchAddTasks extends AbstractAction {
+public class ActionAddTemplateTask extends AbstractAction {
 	
-	public ActionBatchAddTasks() {
+	public ActionAddTemplateTask() {
 		this(32, 32);
 	}
 	
-	public ActionBatchAddTasks(int width, int height) {
+	public ActionAddTemplateTask(int width, int height) {
 		super(
-				Translations.getString("action.name.batch_add_tasks"),
+				Translations.getString("action.name.add_template_task"),
 				Images.getResourceImage("duplicate.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.batch_add_tasks"));
+				Translations.getString("action.description.add_template_task"));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_N,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Task[] selectedTasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
-		
-		if (selectedTasks.length != 1) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.select_one_task"));
-			errorDialog.setVisible(true);
-			return;
-		}
-		
 		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 		
-		JTextAreaDialog dialog = new JTextAreaDialog(
-				MainFrame.getInstance().getFrame(),
-				Translations.getString("action.name.batch_add_tasks"),
-				Translations.getString("action.batch_add_tasks.insert_task_titles"));
+		Task task = TaskFactory.getInstance().create("");
 		
-		dialog.setVisible(true);
+		// TODO action.choose_template
+		//general.template
+		Template template = TemplateFactory.getInstance().getDefaultTemplate();
 		
-		if (dialog.getAnswer() == null)
-			return;
-		
-		String[] titles = dialog.getAnswer().split("\n");
-		
-		List<Task> tasks = new ArrayList<Task>();
-		for (String title : titles) {
-			title = title.trim();
-			
-			if (title.length() == 0)
-				continue;
-			
-			Task task = TaskFactory.getInstance().create(selectedTasks[0]);
-			task.setTitle(title);
-			
-			tasks.add(task);
-		}
+		if (template != null)
+			template.applyToTask(task);
 		
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
-				tasks.toArray(new Task[0]));
+				new Task[] { task });
 	}
 	
 }

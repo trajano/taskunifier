@@ -64,17 +64,16 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				ModelId taskContext = null;
 				ModelId taskGoal = null;
 				ModelId taskLocation = null;
-				ModelId taskParent = null;
-				Boolean taskCompleted = null;
+				boolean taskCompleted = false;
 				Integer taskDueDate = null;
 				Integer taskStartDate = null;
-				Integer taskReminder = null;
+				int taskReminder = 0;
 				String taskRepeat = null;
 				TaskRepeatFrom taskRepeatFrom = null;
 				TaskStatus taskStatus = null;
-				Integer taskLength = null;
+				int taskLength = 0;
 				TaskPriority taskPriority = null;
-				Boolean taskStar = null;
+				boolean taskStar = false;
 				String taskNote = null;
 				
 				for (int j = 0; j < nTemplate.getLength(); j++) {
@@ -120,16 +119,8 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 											element,
 											"isnew"), element.getTextContent());
 					
-					if (element.getNodeName().equals("taskparent"))
-						if (element.getTextContent().length() != 0)
-							taskParent = new ModelId(
-									XMLUtils.getBooleanAttributeValue(
-											element,
-											"isnew"), element.getTextContent());
-					
 					if (element.getNodeName().equals("taskcompleted"))
-						if (element.getTextContent().length() != 0)
-							taskCompleted = Boolean.parseBoolean(element.getTextContent());
+						taskCompleted = Boolean.parseBoolean(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskduedate"))
 						if (element.getTextContent().length() != 0)
@@ -140,31 +131,25 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							taskStartDate = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskreminder"))
-						if (element.getTextContent().length() != 0)
-							taskReminder = Integer.parseInt(element.getTextContent());
+						taskReminder = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskrepeat"))
 						taskRepeat = element.getTextContent();
 					
 					if (element.getNodeName().equals("taskrepeatfrom"))
-						if (element.getTextContent().length() != 0)
-							taskRepeatFrom = TaskRepeatFrom.valueOf(element.getTextContent());
+						taskRepeatFrom = TaskRepeatFrom.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskstatus"))
-						if (element.getTextContent().length() != 0)
-							taskStatus = TaskStatus.valueOf(element.getTextContent());
+						taskStatus = TaskStatus.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("tasklength"))
-						if (element.getTextContent().length() != 0)
-							taskLength = Integer.parseInt(element.getTextContent());
+						taskLength = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskpriority"))
-						if (element.getTextContent().length() != 0)
-							taskPriority = TaskPriority.valueOf(element.getTextContent());
+						taskPriority = TaskPriority.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskstar"))
-						if (element.getTextContent().length() != 0)
-							taskStar = Boolean.parseBoolean(element.getTextContent());
+						taskStar = Boolean.parseBoolean(element.getTextContent());
 					
 					if (element.getNodeName().equals("tasknote"))
 						taskNote = element.getTextContent();
@@ -180,7 +165,6 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				template.setTaskContext(taskContext);
 				template.setTaskGoal(taskGoal);
 				template.setTaskLocation(taskLocation);
-				template.setTaskParent(taskParent);
 				template.setTaskCompleted(taskCompleted);
 				template.setTaskDueDate(taskDueDate);
 				template.setTaskStartDate(taskStartDate);
@@ -264,15 +248,6 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				taskLocation.setTextContent(template.getTaskLocation().getId());
 			}
 			nTemplate.appendChild(taskLocation);
-			
-			Element taskParent = document.createElement("taskparent");
-			if (template.getTaskParent() != null) {
-				taskParent.setAttribute(
-						"isnew",
-						template.getTaskParent().isNewId() + "");
-				taskParent.setTextContent(template.getTaskParent().getId());
-			}
-			nTemplate.appendChild(taskParent);
 			
 			Element taskCompleted = document.createElement("taskcompleted");
 			setTextContext(taskCompleted, template.getTaskCompleted() + "");

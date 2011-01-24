@@ -54,8 +54,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 		this.searchers = new ArrayList<TaskSearcher>();
 	}
 	
-	public boolean contains(TaskSearcher searcher) {
-		return this.searchers.contains(searcher);
+	public boolean contains(String id) {
+		return (this.get(id) != null);
 	}
 	
 	public int size() {
@@ -105,6 +105,10 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	
 	public void register(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		
+		if (this.contains(searcher.getId()))
+			throw new IllegalArgumentException("ID already exists in factory");
+		
 		this.searchers.add(searcher);
 		searcher.addPropertyChangeListener(this);
 		int index = this.searchers.indexOf(searcher);

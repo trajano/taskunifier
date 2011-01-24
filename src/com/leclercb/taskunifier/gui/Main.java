@@ -51,6 +51,7 @@ import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.synchronizer.toodledo.ToodledoGuiPlugin;
+import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Main {
@@ -226,6 +227,11 @@ public class Main {
 		} catch (FileNotFoundException e) {}
 		
 		try {
+			new TemplateFactoryXMLCoder().decode(new FileInputStream(
+					DATA_FOLDER + File.separator + "templates.xml"));
+		} catch (FileNotFoundException e) {}
+		
+		try {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));
 		} catch (FileNotFoundException e) {}
@@ -305,6 +311,8 @@ public class Main {
 			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
+			new TemplateFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "templates.xml"));
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));
 			

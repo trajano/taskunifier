@@ -209,7 +209,7 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		boolean personalSearcher = TaskSearcherFactory.getInstance().contains(
-				this.searcherTree.getSelectedTaskSearcher());
+				this.searcherTree.getSelectedTaskSearcher().getId());
 		
 		this.filterTitle.setText("");
 		this.removeButton.setEnabled(personalSearcher);
