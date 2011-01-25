@@ -44,6 +44,9 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.help.Help;
 import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
@@ -108,25 +111,71 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				Bindings.bind(templateTaskTags, taskTagsModel);
 				
 				ValueModel taskFolderModel = this.adapter.getValueModel(Template.PROP_TASK_FOLDER);
+				// TODO fix setValue
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
 						new FolderComboBoxModel(true),
 						taskFolderModel));
 				
 				ValueModel taskContextModel = this.adapter.getValueModel(Template.PROP_TASK_CONTEXT);
+				// TODO fix setValue
 				templateTaskContext.setModel(new ComboBoxAdapter<Context>(
 						new ContextComboBoxModel(true),
 						taskContextModel));
 				
 				ValueModel taskGoalModel = this.adapter.getValueModel(Template.PROP_TASK_GOAL);
+				// TODO fix setValue
 				templateTaskGoal.setModel(new ComboBoxAdapter<Goal>(
 						new GoalComboBoxModel(true),
 						taskGoalModel));
 				
 				ValueModel taskLocationModel = this.adapter.getValueModel(Template.PROP_TASK_LOCATION);
-				// TODO fix setValue thing + add field models
+				// TODO fix setValue
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
 						new LocationComboBoxModel(true),
 						taskLocationModel));
+				
+				ValueModel taskCompletedModel = this.adapter.getValueModel(Template.PROP_TASK_COMPLETED);
+				Bindings.bind(templateTaskCompleted, taskCompletedModel);
+				
+				ValueModel taskDueDateModel = this.adapter.getValueModel(Template.PROP_TASK_DUE_DATE);
+				// TODO fix setValue
+				Bindings.bind(templateTaskDueDate, taskDueDateModel);
+				
+				ValueModel taskStartDateModel = this.adapter.getValueModel(Template.PROP_TASK_START_DATE);
+				// TODO fix setValue
+				Bindings.bind(templateTaskStartDate, taskStartDateModel);
+				
+				ValueModel taskReminderModel = this.adapter.getValueModel(Template.PROP_TASK_REMINDER);
+				// TODO fix setValue
+				Bindings.bind(templateTaskReminder, taskReminderModel);
+				
+				ValueModel taskRepeatModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT);
+				Bindings.bind(templateTaskRepeat, taskRepeatModel);
+				
+				ValueModel taskRepeatFromModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT_FROM);
+				templateTaskRepeatFrom.setModel(new ComboBoxAdapter<TaskRepeatFrom>(
+						TaskRepeatFrom.values(),
+						taskRepeatFromModel));
+				
+				ValueModel taskStatusModel = this.adapter.getValueModel(Template.PROP_TASK_STATUS);
+				templateTaskStatus.setModel(new ComboBoxAdapter<TaskStatus>(
+						TaskStatus.values(),
+						taskStatusModel));
+				
+				ValueModel taskLengthModel = this.adapter.getValueModel(Template.PROP_TASK_LENGTH);
+				// TODO fix setValue
+				Bindings.bind(templateTaskLength, taskLengthModel);
+				
+				ValueModel taskPriorityModel = this.adapter.getValueModel(Template.PROP_TASK_PRIORITY);
+				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
+						TaskPriority.values(),
+						taskPriorityModel));
+				
+				ValueModel taskStarModel = this.adapter.getValueModel(Template.PROP_TASK_STAR);
+				Bindings.bind(templateTaskStar, taskStarModel);
+				
+				ValueModel taskNoteModel = this.adapter.getValueModel(Template.PROP_TASK_NOTE);
+				Bindings.bind(templateTaskNote, taskNoteModel);
 			}
 			
 			@Override
