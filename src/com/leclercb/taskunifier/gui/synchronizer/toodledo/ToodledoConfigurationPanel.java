@@ -25,12 +25,12 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.actions.ActionCreateAccount;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ToodledoConfigurationPanel extends ConfigurationPanel {
+public class ToodledoConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ToodledoConfigurationPanel(boolean welcome) {
 		super("configuration_toodledo.html");
@@ -106,7 +106,7 @@ public class ToodledoConfigurationPanel extends ConfigurationPanel {
 										Translations.getString("error.empty_password"));
 							
 							SynchronizerUtils.initializeProxy();
-							SynchronizerUtils.getApi().getSynchronizerApi().createAccount(
+							SynchronizerUtils.getPlugin().getSynchronizerApi().createAccount(
 									new Object[] { email, password });
 							
 							JOptionPane.showMessageDialog(

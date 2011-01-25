@@ -23,7 +23,7 @@ public final class SynchronizerUtils {
 
 	}
 	
-	public static SynchronizerGuiPlugin getApi() {
+	public static SynchronizerGuiPlugin getPlugin() {
 		String api = Main.SETTINGS.getStringProperty("api");
 		
 		if (api == null)
@@ -98,7 +98,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizer() {
-		SynchronizerUtils.getApi().getSynchronizerApi().resetSynchronizerParameters(
+		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
 	}
 	
@@ -109,7 +109,7 @@ public final class SynchronizerUtils {
 		LocationFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
 		
-		SynchronizerUtils.getApi().getSynchronizerApi().resetSynchronizerParameters(
+		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
 	}
 	

@@ -42,7 +42,7 @@ public class ToodledoSynchronizerDialog extends SynchronizerDialog {
 	
 	@Override
 	protected Connection getConnection() throws SynchronizerException {
-		return SynchronizerUtils.getApi().getSynchronizerApi().getConnection(
+		return SynchronizerUtils.getPlugin().getSynchronizerApi().getConnection(
 				new Object[] {
 						Main.SETTINGS.getStringProperty("toodledo.email"),
 						Main.SETTINGS.getStringProperty("toodledo.password") });

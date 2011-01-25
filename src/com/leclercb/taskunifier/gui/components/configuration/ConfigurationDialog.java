@@ -43,7 +43,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private ConfigurationPanel generalConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
-	private ConfigurationPanel apiSynchronizerConfigurationPanel;
+	private PluginConfigurationPanel pluginConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
 	private ConfigurationPanel templateConfigurationPanel;
 	private ConfigurationPanel columnsConfigurationPanel;
@@ -79,7 +79,7 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
 		this.initializeSynchronizationPanel(tabbedPane);
-		this.initializeApiSynchronizerPanel(tabbedPane);
+		this.initializePluginPanel(tabbedPane);
 	}
 	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
@@ -167,7 +167,7 @@ public class ConfigurationDialog extends JDialog {
 				new JScrollPane(this.synchronizationConfigurationPanel));
 	}
 	
-	private void initializeApiSynchronizerPanel(final JTabbedPane tabbedPane) {
+	private void initializePluginPanel(final JTabbedPane tabbedPane) {
 		// For API Configuration Panel
 		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
@@ -185,14 +185,15 @@ public class ConfigurationDialog extends JDialog {
 							new JScrollPane(
 									ConfigurationDialog.this.synchronizationConfigurationPanel));
 					
-					ConfigurationDialog.this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
-							false);
+					ConfigurationDialog.this.pluginConfigurationPanel = new PluginConfigurationPanel(
+							false,
+							SynchronizerUtils.getPlugin());
 					
-					if (ConfigurationDialog.this.apiSynchronizerConfigurationPanel != null)
+					if (ConfigurationDialog.this.pluginConfigurationPanel != null)
 						tabbedPane.addTab(
-								SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
+								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
 								new JScrollPane(
-										ConfigurationDialog.this.apiSynchronizerConfigurationPanel));
+										ConfigurationDialog.this.pluginConfigurationPanel));
 					
 					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 2);
 				}
@@ -200,17 +201,18 @@ public class ConfigurationDialog extends JDialog {
 			
 		});
 		
-		this.apiSynchronizerConfigurationPanel = SynchronizerUtils.getApi().getConfigurationPanel(
-				false);
+		this.pluginConfigurationPanel = new PluginConfigurationPanel(
+				false,
+				SynchronizerUtils.getPlugin());
 		
 		tabbedPane.addTab(
-				SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-				new JScrollPane(this.apiSynchronizerConfigurationPanel));
+				SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+				new JScrollPane(this.pluginConfigurationPanel));
 	}
 	
 	private void saveAndApplyConfig() {
 		try {
-			this.apiSynchronizerConfigurationPanel.saveAndApplyConfig();
+			this.pluginConfigurationPanel.saveAndApplyConfig();
 			
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();

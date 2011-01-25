@@ -26,7 +26,7 @@ import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerGuiPluginListCellRenderer;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
@@ -34,7 +34,7 @@ import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyApi;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizationConfigurationPanel extends ConfigurationPanel {
+public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public SynchronizationConfigurationPanel(boolean welcome) {
 		super("configuration_synchronization.html");
@@ -93,7 +93,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 		comboBox = new ConfigurationFieldType.ComboBox(
 				Main.API_PLUGINS.getPlugins().toArray(
 						new SynchronizerGuiPlugin[0]),
-				SynchronizerUtils.getApi());
+				SynchronizerUtils.getPlugin());
 		
 		comboBox.setRenderer(new SynchronizerGuiPluginListCellRenderer());
 		
@@ -137,7 +137,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.synchronize_all",
-									SynchronizerUtils.getApi().getSynchronizerApi().getApiName()))));
+									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
@@ -161,7 +161,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.reset_all",
-									SynchronizerUtils.getApi().getSynchronizerApi().getApiName()))));
+									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
@@ -185,7 +185,7 @@ public class SynchronizationConfigurationPanel extends ConfigurationPanel {
 		}
 		
 		// Disable fields for DUMMY service
-		if (SynchronizerUtils.getApi().getSynchronizerApi().getApiId().equals(
+		if (SynchronizerUtils.getPlugin().getSynchronizerApi().getApiId().equals(
 				DummyApi.getInstance().getApiId())) {
 			if (this.containsId("CHOICE"))
 				this.setEnabled("CHOICE", false);

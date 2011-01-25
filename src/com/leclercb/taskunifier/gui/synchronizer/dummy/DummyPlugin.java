@@ -12,6 +12,11 @@ public class DummyPlugin implements SynchronizerPlugin {
 	}
 	
 	@Override
+	public String getAuthor() {
+		return "Benjamin Leclerc";
+	}
+	
+	@Override
 	public String getVersion() {
 		return VERSION;
 	}

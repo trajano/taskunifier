@@ -16,6 +16,7 @@ import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
@@ -38,8 +39,10 @@ public class WelcomeDialog extends JDialog {
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(true)),
 			new SettingsPanel(
-					SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-					SynchronizerUtils.getApi().getConfigurationPanel(true)) };
+					SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+					new PluginConfigurationPanel(
+							false,
+							SynchronizerUtils.getPlugin())) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;
@@ -61,9 +64,10 @@ public class WelcomeDialog extends JDialog {
 							new SynchronizationConfigurationPanel(true));
 					
 					servicePanel.reset(
-							SynchronizerUtils.getApi().getSynchronizerApi().getApiName(),
-							SynchronizerUtils.getApi().getConfigurationPanel(
-									true));
+							SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+							new PluginConfigurationPanel(
+									false,
+									SynchronizerUtils.getPlugin()));
 				}
 			}
 			

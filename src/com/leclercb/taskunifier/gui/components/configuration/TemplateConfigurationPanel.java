@@ -37,7 +37,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
 import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TemplateConfigurationPanel extends ConfigurationPanel {
+public class TemplateConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private JComboBox templateComboBox;
 	

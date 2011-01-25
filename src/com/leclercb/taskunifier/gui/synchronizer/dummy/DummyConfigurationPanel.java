@@ -19,10 +19,10 @@ package com.leclercb.taskunifier.gui.synchronizer.dummy;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class DummyConfigurationPanel extends ConfigurationPanel {
+public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public DummyConfigurationPanel(boolean welcome) {
 		super();

@@ -29,11 +29,11 @@ import javax.swing.SpinnerNumberModel;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.renderers.SimpleDateFormatListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class GeneralConfigurationPanel extends ConfigurationPanel {
+public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private boolean languageOnly;
 	

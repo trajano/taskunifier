@@ -19,11 +19,11 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ColumnsConfigurationPanel extends ConfigurationPanel {
+public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ColumnsConfigurationPanel() {
 		this.initialize();

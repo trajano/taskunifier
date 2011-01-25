@@ -218,7 +218,7 @@ public abstract class SynchronizerDialog extends JDialog {
 						
 						SynchronizerDialog.this.progressStatus.append(Translations.getString(
 								"synchronizer.connecting",
-								SynchronizerUtils.getApi().getSynchronizerApi().getApiName())
+								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())
 								+ "\n");
 						
 						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
@@ -235,7 +235,7 @@ public abstract class SynchronizerDialog extends JDialog {
 						
 						this.connection.connect();
 						
-						this.synchronizer = SynchronizerUtils.getApi().getSynchronizerApi().getSynchronizer(
+						this.synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
 								this.connection);
 						
 						this.synchronizer.loadParameters(Main.SETTINGS);
