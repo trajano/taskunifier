@@ -45,7 +45,6 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	private PluginConfigurationPanel pluginConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
-	private ConfigurationPanel templateConfigurationPanel;
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	
@@ -75,7 +74,6 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeGeneralPanel(tabbedPane);
 		this.initializeProxyPanel(tabbedPane);
-		this.initializeTemplatePanel(tabbedPane);
 		this.initializeColumnsPanel(tabbedPane);
 		this.initializeThemePanel(tabbedPane);
 		this.initializeSynchronizationPanel(tabbedPane);
@@ -135,13 +133,6 @@ public class ConfigurationDialog extends JDialog {
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.proxy"),
 				new JScrollPane(this.proxyConfigurationPanel));
-	}
-	
-	private void initializeTemplatePanel(JTabbedPane tabbedPane) {
-		this.templateConfigurationPanel = new TemplateConfigurationPanel();
-		tabbedPane.addTab(
-				Translations.getString("configuration.tab.template"),
-				new JScrollPane(this.templateConfigurationPanel));
 	}
 	
 	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
@@ -216,7 +207,6 @@ public class ConfigurationDialog extends JDialog {
 			
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
-			this.templateConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();

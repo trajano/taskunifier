@@ -22,29 +22,29 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
+import com.leclercb.taskunifier.gui.components.templates.TemplateConfigurationDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionManageModels extends AbstractAction {
+public class ActionManageTemplates extends AbstractAction {
 	
-	public ActionManageModels() {
+	public ActionManageTemplates() {
 		this(32, 32);
 	}
 	
-	public ActionManageModels(int width, int height) {
+	public ActionManageTemplates(int width, int height) {
 		super(
-				Translations.getString("action.name.manage_models"),
-				Images.getResourceImage("folder.png", width, height));
+				Translations.getString("action.name.manage_templates"),
+				Images.getResourceImage("properties.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.manage_models"));
+				Translations.getString("action.description.manage_templates"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ModelConfigurationDialog dialog = new ModelConfigurationDialog(
+		TemplateConfigurationDialog dialog = new TemplateConfigurationDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		dialog.setVisible(true);

@@ -26,7 +26,6 @@ import org.w3c.dom.NodeList;
 
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.XMLUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -59,7 +58,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				String title = null;
 				
 				String taskTitle = null;
-				String[] taskTags = null;
+				String taskTags = null;
 				ModelId taskFolder = null;
 				ModelId taskContext = null;
 				ModelId taskGoal = null;
@@ -89,7 +88,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						taskTitle = element.getTextContent();
 					
 					if (element.getNodeName().equals("tasktags"))
-						taskTags = element.getTextContent().split(",");
+						taskTags = element.getTextContent();
 					
 					if (element.getNodeName().equals("taskfolder"))
 						if (element.getTextContent().length() != 0)
@@ -208,10 +207,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskTitle);
 			
 			Element taskTags = document.createElement("tasktags");
-			if (template.getTaskTags() != null)
-				taskTags.setTextContent(ArrayUtils.arrayToString(
-						template.getTaskTags(),
-						","));
+			setTextContext(taskTags, template.getTaskTags());
 			nTemplate.appendChild(taskTags);
 			
 			Element taskFolder = document.createElement("taskfolder");

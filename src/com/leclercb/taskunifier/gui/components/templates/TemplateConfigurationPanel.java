@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.models;
+package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -33,52 +34,54 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.gui.utils.SpringUtils;
-import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.models.ContextListModel;
+import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ContextConfigurationPanel extends JSplitPane {
+public class TemplateConfigurationPanel extends JSplitPane {
 	
-	public ContextConfigurationPanel() {
+	public TemplateConfigurationPanel() {
 		this.initialize();
 	}
 	
 	private void initialize() {
 		// Initialize Fields
-		final JTextField contextTitle = new JTextField(30);
+		final JTextField templateTitle = new JTextField(30);
+		final JSeparator templateSeparator = new JSeparator(
+				JSeparator.HORIZONTAL);
+		
+		final JTextField templateTaskTitle = new JTextField(30);
+		final JTextField templateTaskTags = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new ContextListModel(false)) {
+		final TemplateList modelList = new TemplateList() {
 			
-			private BeanAdapter<Context> adapter;
+			private BeanAdapter<Template> adapter;
 			
 			{
-				this.adapter = new BeanAdapter<Context>((Context) null, true);
+				this.adapter = new BeanAdapter<Template>((Template) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Context.PROP_TITLE);
-				Bindings.bind(contextTitle, titleModel);
+				ValueModel titleModel = this.adapter.getValueModel(Template.PROP_TITLE);
+				Bindings.bind(templateTitle, titleModel);
+				
+				ValueModel taskTitleModel = this.adapter.getValueModel(Template.PROP_TASK_TITLE);
+				Bindings.bind(templateTaskTitle, taskTitleModel);
+				
+				ValueModel taskTagsModel = this.adapter.getValueModel(Template.PROP_TASK_TAGS);
+				Bindings.bind(templateTaskTags, taskTagsModel);
 			}
 			
 			@Override
-			public void addModel() {
-				Model model = ContextFactory.getInstance().create(
-						Translations.getString("context.default.title"));
-				this.setSelectedModel(model);
-				ContextConfigurationPanel.this.focusAndSelectTextInTextField(contextTitle);
+			public void addTemplate() {
+				super.addTemplate();
+				TemplateConfigurationPanel.this.focusAndSelectTextInTextField(templateTitle);
 			}
 			
 			@Override
-			public void removeModel(Model model) {
-				this.modelSelected(null);
-				ContextFactory.getInstance().markToDelete(model);
-			}
-			
-			@Override
-			public void modelSelected(Model model) {
-				this.adapter.setBean(model != null ? (Context) model : null);
-				contextTitle.setEnabled(model != null);
+			public void templateSelected(Template template) {
+				this.adapter.setBean(template != null ? template : null);
+				templateTitle.setEnabled(template != null);
+				templateTaskTitle.setEnabled(template != null);
+				templateTaskTags.setEnabled(template != null);
 			}
 			
 		};
@@ -97,20 +100,41 @@ public class ContextConfigurationPanel extends JSplitPane {
 		
 		JLabel label = null;
 		
-		// Context Title
-		label = new JLabel(Translations.getString("general.context.title")
+		// Template Title
+		label = new JLabel(Translations.getString("general.template.title")
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		contextTitle.setEnabled(false);
-		info.add(contextTitle);
+		templateTitle.setEnabled(false);
+		info.add(templateTitle);
+		
+		// Template Separator
+		
+		label = new JLabel();
+		info.add(label);
+		
+		info.add(templateSeparator);
+		
+		// Template Task Title
+		label = new JLabel(
+				Translations.getString("general.task.title") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		templateTaskTitle.setEnabled(false);
+		info.add(templateTaskTitle);
+		
+		// Template Task Tags
+		label = new JLabel(
+				Translations.getString("general.task.tags") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		templateTaskTags.setEnabled(false);
+		info.add(templateTaskTags);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		SpringUtils.makeCompactGrid(info, 4, 2, 6, 6, 6, 6);
 		
 		this.setDividerLocation(200);
 	}

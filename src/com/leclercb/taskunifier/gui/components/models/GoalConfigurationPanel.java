@@ -91,7 +91,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				GoalFactory.getInstance().markToDelete(this.getSelectedModel());
+				GoalFactory.getInstance().markToDelete(model);
 			}
 			
 			@Override

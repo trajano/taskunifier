@@ -90,8 +90,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				LocationFactory.getInstance().markToDelete(
-						this.getSelectedModel());
+				LocationFactory.getInstance().markToDelete(model);
 			}
 			
 			@Override

@@ -72,8 +72,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				FolderFactory.getInstance().markToDelete(
-						this.getSelectedModel());
+				FolderFactory.getInstance().markToDelete(model);
 			}
 			
 			@Override
