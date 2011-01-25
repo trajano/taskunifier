@@ -493,12 +493,9 @@ public class TaskTable extends JTable {
 	}
 	
 	private void scrollToVisible(int row, int col) {
-		System.out.println("scroll man");
 		if (!(this.getParent() instanceof JViewport)) {
 			return;
 		}
-		
-		System.out.println("scroll man");
 		
 		JViewport viewport = (JViewport) this.getParent();
 		Rectangle rect = this.getCellRect(row, col, true);

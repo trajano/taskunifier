@@ -274,6 +274,34 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
+		
+		// TEMPLATE
+		final JMenu templatesMenu = new JMenu(
+				Translations.getString("action.name.add_template_task"));
+		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
+		tasksMenu.add(templatesMenu);
+		
+		for (Template template : TemplateFactory.getInstance().getList()) {
+			templatesMenu.add(new ActionAddTemplateTask(template, 16, 16));
+		}
+		
+		TemplateFactory.getInstance().addListChangeListener(
+				new ListChangeListener() {
+					
+					@Override
+					public void listChange(ListChangeEvent event) {
+						templatesMenu.removeAll();
+						for (Template template : TemplateFactory.getInstance().getList()) {
+							templatesMenu.add(new ActionAddTemplateTask(
+									template,
+									16,
+									16));
+						}
+					}
+					
+				});
+		// TEMPLATE
+		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
