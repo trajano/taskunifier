@@ -37,13 +37,21 @@ import javax.swing.border.LineBorder;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
+import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -69,7 +77,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		// Initialize Fields
 		final JTextField templateTitle = new JTextField(20);
 		final JSeparator templateSeparator = new JSeparator(
-				JSeparator.HORIZONTAL);
+				SwingConstants.HORIZONTAL);
 		
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
@@ -79,16 +87,16 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JComboBox templateTaskLocation = new JComboBox();
 		final JCheckBox templateTaskCompleted = new JCheckBox();
 		final JFormattedTextField templateTaskDueDate = new JFormattedTextField(
-				new RegexFormatter("^[0-9]{0,3}$"));
+				FormatterUtils.getIntegerFormatter());
 		final JFormattedTextField templateTaskStartDate = new JFormattedTextField(
-				new RegexFormatter("^[0-9]{0,3}$"));
+				FormatterUtils.getIntegerFormatter());
 		final JFormattedTextField templateTaskReminder = new JFormattedTextField(
-				new RegexFormatter("^[0-9]{0,3}$"));
+				FormatterUtils.getIntegerFormatter());
 		final JTextField templateTaskRepeat = new JTextField();
 		final JComboBox templateTaskRepeatFrom = new JComboBox();
 		final JComboBox templateTaskStatus = new JComboBox();
 		final JFormattedTextField templateTaskLength = new JFormattedTextField(
-				new RegexFormatter("^[0-9]{0,3}$"));
+				FormatterUtils.getIntegerFormatter());
 		final JComboBox templateTaskPriority = new JComboBox();
 		final JCheckBox templateTaskStar = new JCheckBox();
 		final JTextField templateTaskNote = new JTextField();
@@ -110,26 +118,30 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				ValueModel taskTagsModel = this.adapter.getValueModel(Template.PROP_TASK_TAGS);
 				Bindings.bind(templateTaskTags, taskTagsModel);
 				
-				ValueModel taskFolderModel = this.adapter.getValueModel(Template.PROP_TASK_FOLDER);
-				// TODO fix setValue
+				ValueModel taskFolderModel = new ModelConverter(
+						ModelType.FOLDER,
+						this.adapter.getValueModel(Template.PROP_TASK_FOLDER));
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
 						new FolderComboBoxModel(true),
 						taskFolderModel));
 				
-				ValueModel taskContextModel = this.adapter.getValueModel(Template.PROP_TASK_CONTEXT);
-				// TODO fix setValue
+				ValueModel taskContextModel = new ModelConverter(
+						ModelType.CONTEXT,
+						this.adapter.getValueModel(Template.PROP_TASK_CONTEXT));
 				templateTaskContext.setModel(new ComboBoxAdapter<Context>(
 						new ContextComboBoxModel(true),
 						taskContextModel));
 				
-				ValueModel taskGoalModel = this.adapter.getValueModel(Template.PROP_TASK_GOAL);
-				// TODO fix setValue
+				ValueModel taskGoalModel = new ModelConverter(
+						ModelType.GOAL,
+						this.adapter.getValueModel(Template.PROP_TASK_GOAL));
 				templateTaskGoal.setModel(new ComboBoxAdapter<Goal>(
 						new GoalComboBoxModel(true),
 						taskGoalModel));
 				
-				ValueModel taskLocationModel = this.adapter.getValueModel(Template.PROP_TASK_LOCATION);
-				// TODO fix setValue
+				ValueModel taskLocationModel = new ModelConverter(
+						ModelType.LOCATION,
+						this.adapter.getValueModel(Template.PROP_TASK_LOCATION));
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
 						new LocationComboBoxModel(true),
 						taskLocationModel));
@@ -138,15 +150,12 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				Bindings.bind(templateTaskCompleted, taskCompletedModel);
 				
 				ValueModel taskDueDateModel = this.adapter.getValueModel(Template.PROP_TASK_DUE_DATE);
-				// TODO fix setValue
 				Bindings.bind(templateTaskDueDate, taskDueDateModel);
 				
 				ValueModel taskStartDateModel = this.adapter.getValueModel(Template.PROP_TASK_START_DATE);
-				// TODO fix setValue
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
 				
 				ValueModel taskReminderModel = this.adapter.getValueModel(Template.PROP_TASK_REMINDER);
-				// TODO fix setValue
 				Bindings.bind(templateTaskReminder, taskReminderModel);
 				
 				ValueModel taskRepeatModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT);
@@ -163,7 +172,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						taskStatusModel));
 				
 				ValueModel taskLengthModel = this.adapter.getValueModel(Template.PROP_TASK_LENGTH);
-				// TODO fix setValue
 				Bindings.bind(templateTaskLength, taskLengthModel);
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(Template.PROP_TASK_PRIORITY);
@@ -408,6 +416,38 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		field.setSelectionEnd(length);
 		
 		field.requestFocus();
+	}
+	
+	private static class ModelConverter extends AbstractConverter {
+		
+		private ModelType type;
+		
+		public ModelConverter(ModelType type, ValueModel subject) {
+			super(subject);
+			this.type = type;
+		}
+		
+		@Override
+		public void setValue(Object model) {
+			this.subject.setValue((model == null ? null : ((Model) model).getModelId()));
+		}
+		
+		@Override
+		public Object convertFromSubject(Object value) {
+			switch (this.type) {
+				case CONTEXT:
+					return ContextFactory.getInstance().get((ModelId) value);
+				case FOLDER:
+					return FolderFactory.getInstance().get((ModelId) value);
+				case GOAL:
+					return GoalFactory.getInstance().get((ModelId) value);
+				case LOCATION:
+					return LocationFactory.getInstance().get((ModelId) value);
+				default:
+					return null;
+			}
+		}
+		
 	}
 	
 }

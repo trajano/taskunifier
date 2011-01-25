@@ -17,38 +17,49 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.template.Template;
-import com.leclercb.taskunifier.gui.template.TemplateFactory;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddTemplateTask extends AbstractAction {
 	
-	public ActionAddTemplateTask() {
-		this(32, 32);
+	private Template template;
+	
+	public ActionAddTemplateTask(Template template) {
+		this(template, 32, 32);
 	}
 	
-	public ActionAddTemplateTask(int width, int height) {
-		super(
-				Translations.getString("action.name.add_template_task"),
-				Images.getResourceImage("duplicate.png", width, height));
+	public ActionAddTemplateTask(Template template, int width, int height) {
+		super(template.getTitle(), Images.getResourceImage(
+				"duplicate.png",
+				width,
+				height));
 		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_template_task"));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		CheckUtils.isNotNull(template, "Template cannot be null");
+		
+		this.template = template;
+		
+		template.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(Template.PROP_TITLE)) {
+					ActionAddTemplateTask.this.putValue(
+							NAME,
+							ActionAddTemplateTask.this.template.getTitle());
+				}
+			}
+			
+		});
 	}
 	
 	@Override
@@ -57,12 +68,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		Task task = TaskFactory.getInstance().create("");
 		
-		// TODO action.choose_template
-		//general.template
-		Template template = TemplateFactory.getInstance().getDefaultTemplate();
-		
-		if (template != null)
-			template.applyToTask(task);
+		this.template.applyToTask(task);
 		
 		MainFrame.getInstance().getTaskView().setSelectedTasks(
 				new Task[] { task });

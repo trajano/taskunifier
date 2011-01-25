@@ -26,10 +26,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -41,6 +43,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.apple.eawt.Application;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.OsUtils;
@@ -76,6 +80,8 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
+import com.leclercb.taskunifier.gui.template.Template;
+import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
@@ -268,7 +274,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
-		tasksMenu.add(new ActionAddTemplateTask(16, 16));
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
@@ -314,7 +319,48 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.toolBar.setFloatable(false);
 		
 		this.toolBar.add(new ActionAddTask());
-		this.toolBar.add(new ActionAddTemplateTask());
+		
+		// TEMPLATE
+		final JPopupMenu popupMenu = new JPopupMenu(
+				Translations.getString("action.name.add_template_task"));
+		for (Template template : TemplateFactory.getInstance().getList()) {
+			popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
+		}
+		
+		TemplateFactory.getInstance().addListChangeListener(
+				new ListChangeListener() {
+					
+					@Override
+					public void listChange(ListChangeEvent event) {
+						popupMenu.removeAll();
+						for (Template template : TemplateFactory.getInstance().getList()) {
+							popupMenu.add(new ActionAddTemplateTask(
+									template,
+									16,
+									16));
+						}
+					}
+					
+				});
+		
+		final JButton addTemplateTaskButton = new JButton(
+				Images.getResourceImage("duplicate.png", 32, 32));
+		addTemplateTaskButton.setToolTipText(Translations.getString("action.name.add_template_task"));
+		addTemplateTaskButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				popupMenu.show(
+						addTemplateTaskButton,
+						addTemplateTaskButton.getX(),
+						addTemplateTaskButton.getY());
+			}
+			
+		});
+		
+		this.toolBar.add(addTemplateTaskButton);
+		// TEMPLATE
+		
 		this.toolBar.add(new ActionDelete());
 		this.toolBar.addSeparator();
 		this.toolBar.add(new ActionManageModels());
