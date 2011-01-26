@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.import_data.ImportSearcherDialog;
+import com.leclercb.taskunifier.gui.components.import_data.ImportSearchersDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -48,7 +48,7 @@ public class ActionImportSearchers extends AbstractAction {
 	}
 	
 	public void importSearcher() {
-		ImportSearcherDialog importDialog = new ImportSearcherDialog(
+		ImportSearchersDialog importDialog = new ImportSearchersDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		importDialog.setVisible(true);

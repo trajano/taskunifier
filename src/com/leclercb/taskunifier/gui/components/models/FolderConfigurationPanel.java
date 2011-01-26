@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.models;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -91,7 +89,6 @@ public class FolderConfigurationPanel extends JSplitPane {
 		this.setRightComponent(rightPanel);
 		
 		JPanel info = new JPanel();
-		info.setBorder(new LineBorder(Color.BLACK));
 		info.setLayout(new SpringLayout());
 		rightPanel.add(info, BorderLayout.NORTH);
 		

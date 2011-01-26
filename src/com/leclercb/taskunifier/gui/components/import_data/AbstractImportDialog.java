@@ -132,11 +132,12 @@ public abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "IMPORT") {
 					try {
+						if (replaceValues.isSelected())
+							deleteExistingValue();
+						
 						FileInputStream input = new FileInputStream(
 								AbstractImportDialog.this.importFile.getText());
 						coder.decode(input);
-						
-						deleteExistingValue();
 						
 						AbstractImportDialog.this.dispose();
 					} catch (Exception e) {

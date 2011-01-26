@@ -8,9 +8,9 @@ import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ImportTemplateDialog extends AbstractImportDialog {
+public class ImportTemplatesDialog extends AbstractImportDialog {
 	
-	public ImportTemplateDialog(Frame frame, boolean modal) {
+	public ImportTemplatesDialog(Frame frame, boolean modal) {
 		super(
 				new TemplateFactoryXMLCoder(),
 				Translations.getString("general.import_templates"),

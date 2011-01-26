@@ -8,9 +8,9 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ImportSearcherDialog extends AbstractImportDialog {
+public class ImportSearchersDialog extends AbstractImportDialog {
 	
-	public ImportSearcherDialog(Frame frame, boolean modal) {
+	public ImportSearchersDialog(Frame frame, boolean modal) {
 		super(
 				new TaskSearcherFactoryXMLCoder(),
 				Translations.getString("general.import_searchers"),

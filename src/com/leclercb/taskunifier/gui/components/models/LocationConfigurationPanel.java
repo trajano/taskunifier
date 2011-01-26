@@ -30,7 +30,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.text.NumberFormatter;
 
 import com.jgoodies.binding.adapter.Bindings;
@@ -112,7 +111,6 @@ public class LocationConfigurationPanel extends JSplitPane {
 		this.setRightComponent(rightPanel);
 		
 		JPanel info = new JPanel();
-		info.setBorder(new LineBorder(Color.BLACK));
 		info.setLayout(new SpringLayout());
 		rightPanel.add(info, BorderLayout.NORTH);
 		

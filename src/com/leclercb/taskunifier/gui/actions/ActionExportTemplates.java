@@ -22,33 +22,33 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.export_data.ExportSearchersDialog;
+import com.leclercb.taskunifier.gui.components.export_data.ExportTemplatesDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionExportSearchers extends AbstractAction {
+public class ActionExportTemplates extends AbstractAction {
 	
-	public ActionExportSearchers() {
+	public ActionExportTemplates() {
 		this(32, 32);
 	}
 	
-	public ActionExportSearchers(int width, int height) {
+	public ActionExportTemplates(int width, int height) {
 		super(
-				Translations.getString("action.name.export_searchers"),
+				Translations.getString("action.name.export_templates"),
 				Images.getResourceImage("upload.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.export_searchers"));
+				Translations.getString("action.description.export_templates"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.exportSearcher();
+		this.exportTemplates();
 	}
 	
-	public void exportSearcher() {
-		ExportSearchersDialog exportDialog = new ExportSearchersDialog(
+	public void exportTemplates() {
+		ExportTemplatesDialog exportDialog = new ExportTemplatesDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		exportDialog.setVisible(true);
