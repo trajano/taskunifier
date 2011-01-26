@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.export_searcher;
+package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

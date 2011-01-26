@@ -26,6 +26,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -104,6 +105,9 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		this.removeAll();
 		this.setLayout(new BorderLayout());
 		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new SpringLayout());
 		
@@ -138,7 +142,8 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 				6,
 				6); // xPad, yPad
 		
-		this.add(panel, BorderLayout.NORTH);
+		mainPanel.add(panel, BorderLayout.NORTH);
+		this.add(new JScrollPane(mainPanel), BorderLayout.CENTER);
 	}
 	
 	/*

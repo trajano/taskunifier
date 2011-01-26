@@ -246,8 +246,14 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.menuBar.add(fileMenu);
 		
-		fileMenu.add(new ActionImportSearchers(16, 16));
-		fileMenu.add(new ActionExportSearchers(16, 16));
+		JMenu importMenu = new JMenu(Translations.getString("general.import"));
+		importMenu.add(new ActionImportSearchers(16, 16));
+		fileMenu.add(importMenu);
+		
+		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
+		exportMenu.add(new ActionExportSearchers(16, 16));
+		fileMenu.add(exportMenu);
+		
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionConfiguration(16, 16));
 		fileMenu.add(new ActionManageModels(16, 16));
