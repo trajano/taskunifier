@@ -245,7 +245,10 @@ public enum TaskColumn {
 				task.setStartDate((Calendar) value);
 				break;
 			case REMINDER:
-				task.setReminder((Integer) value);
+				if (value == null)
+					task.setReminder(0);
+				else
+					task.setReminder((Integer) value);
 				break;
 			case REPEAT:
 				task.setRepeat((String) value);
@@ -257,7 +260,10 @@ public enum TaskColumn {
 				task.setStatus((TaskStatus) value);
 				break;
 			case LENGTH:
-				task.setLength((Integer) value);
+				if (value == null)
+					task.setLength(0);
+				else
+					task.setLength((Integer) value);
 				break;
 			case PRIORITY:
 				task.setPriority((TaskPriority) value);
