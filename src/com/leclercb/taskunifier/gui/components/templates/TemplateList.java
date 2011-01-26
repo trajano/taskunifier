@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -76,7 +77,7 @@ abstract class TemplateList extends JPanel {
 			
 		});
 		
-		this.add(this.templateList, BorderLayout.CENTER);
+		this.add(new JScrollPane(this.templateList), BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
