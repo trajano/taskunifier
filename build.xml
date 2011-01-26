@@ -6,6 +6,8 @@
 	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
 	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
 	
+	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+	
     <property name="java.debuglevel" value="source,lines,vars"/>
     <property name="java.target" value="1.6"/>
     <property name="java.source" value="1.6"/>
