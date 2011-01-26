@@ -50,7 +50,6 @@ import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.synchronizer.toodledo.ToodledoGuiPlugin;
 import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -268,7 +267,6 @@ public class Main {
 				SynchronizerGuiPlugin.class);
 		
 		API_PLUGINS.addPlugin(new DummyGuiPlugin());
-		API_PLUGINS.addPlugin(new ToodledoGuiPlugin());
 		
 		File pluginsFolder = new File(RESOURCES_FOLDER
 				+ File.separator
