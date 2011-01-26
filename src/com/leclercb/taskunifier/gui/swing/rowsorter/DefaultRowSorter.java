@@ -108,6 +108,7 @@ import javax.swing.SortOrder;
  * @see java.text.Collator
  * @since 1.6
  */
+@SuppressWarnings({ "rawtypes", "unused" })
 public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 	
 	/**

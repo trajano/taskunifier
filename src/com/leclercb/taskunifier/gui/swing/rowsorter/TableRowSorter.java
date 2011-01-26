@@ -129,6 +129,7 @@ import javax.swing.table.TableStringConverter;
  * @see java.util.Comparator
  * @since 1.6
  */
+@SuppressWarnings("rawtypes")
 public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, Integer> {
 	
 	/**
