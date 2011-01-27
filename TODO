@@ -5,7 +5,6 @@ New TaskUnifier version :
 - history.txt
 - readme.txt
 
-New api :
-- Synchronizer package
-- Configuration panel
-- Synchronize dialog
+New plugin :
+- SynchronizerPlugin
+- SynchronizerGuiPlugin

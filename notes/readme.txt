@@ -20,6 +20,8 @@ Version 0.7.0
 	- Double click on searcher opens the edit searcher windows
 	- Plugin support in order to add new APIs
 	- Add templates feature
+	- Import/export templates
+	- New help files
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
