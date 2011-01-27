@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -36,10 +37,10 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	private static final long SLEEP_TIME = 10000;
 	
-	private List<Task> notifiedTasks;
+	private List<ModelId> notifiedTasks;
 	
 	public ReminderRunnable() {
-		this.notifiedTasks = new ArrayList<Task>();
+		this.notifiedTasks = new ArrayList<ModelId>();
 		
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
@@ -55,7 +56,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 			
 			List<Task> list = TaskFactory.getInstance().getList();
 			for (final Task task : list) {
-				if (this.notifiedTasks.contains(task))
+				if (this.notifiedTasks.contains(task.getModelId()))
 					continue;
 				
 				if (task.getModelStatus().equals(ModelStatus.LOADED)
@@ -68,8 +69,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 						
 						if (diffMinutes >= 0
 								&& diffMinutes <= task.getReminder()) {
-							this.notifiedTasks.remove(task);
-							this.notifiedTasks.add(task);
+							this.notifiedTasks.remove(task.getModelId());
+							this.notifiedTasks.add(task.getModelId());
 							
 							EventQueue.invokeLater(new Runnable() {
 								
@@ -111,7 +112,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
 				|| evt.getPropertyName().equals(Task.PROP_REMINDER))
-			this.notifiedTasks.remove(evt.getSource());
+			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
 	}
 	
 }
