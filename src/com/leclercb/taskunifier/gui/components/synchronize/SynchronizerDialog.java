@@ -264,7 +264,7 @@ public abstract class SynchronizerDialog extends JDialog {
 						});
 						
 						return null;
-					} catch (final Exception e) {
+					} catch (final Throwable e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
 							@Override
