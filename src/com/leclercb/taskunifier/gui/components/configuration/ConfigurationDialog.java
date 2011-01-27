@@ -56,7 +56,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.configuration"));
-		this.setSize(600, 600);
+		this.setSize(700, 600);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		

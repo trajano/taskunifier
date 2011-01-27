@@ -78,7 +78,7 @@ public class WelcomeDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.welcome"));
-		this.setSize(500, 500);
+		this.setSize(700, 600);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
