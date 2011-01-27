@@ -125,7 +125,7 @@ public class DefaultExportDialog extends JDialog {
 					try {
 						FileOutputStream output = new FileOutputStream(
 								DefaultExportDialog.this.exportFile.getText());
-						coder.encode(output);
+						DefaultExportDialog.this.coder.encode(output);
 						
 						DefaultExportDialog.this.dispose();
 					} catch (Exception e) {

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
@@ -21,19 +22,19 @@ public class PluginConfigurationPanel extends ConfigurationPanel {
 	private void initialize(boolean welcome, SynchronizerGuiPlugin plugin) {
 		this.setLayout(new BorderLayout());
 		
-		configPanel = plugin.getConfigurationPanel(welcome);
+		this.configPanel = plugin.getConfigurationPanel(welcome);
 		
 		String info = plugin.getAuthor() + " - " + plugin.getVersion();
-		JLabel pluginInfo = new JLabel(info, JLabel.RIGHT);
+		JLabel pluginInfo = new JLabel(info, SwingConstants.RIGHT);
 		pluginInfo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.add(configPanel, BorderLayout.CENTER);
+		this.add(this.configPanel, BorderLayout.CENTER);
 		this.add(pluginInfo, BorderLayout.SOUTH);
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		configPanel.saveAndApplyConfig();
+		this.configPanel.saveAndApplyConfig();
 	}
 	
 }
