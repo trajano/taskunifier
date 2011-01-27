@@ -14,10 +14,14 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 	
+	private Icon originalLeafIcon;
+	
 	public SearcherTreeRenderer() {
 		this.setLeafIcon(Images.getResourceImage("tree_leaf.png"));
 		this.setOpenIcon(Images.getResourceImage("tree_open.png"));
 		this.setClosedIcon(Images.getResourceImage("tree_closed.png"));
+		
+		originalLeafIcon = this.getLeafIcon();
 	}
 	
 	@Override
@@ -39,8 +43,6 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 			boolean leaf,
 			int row,
 			boolean hasFocus) {
-		Icon leafIcon = this.getLeafIcon();
-		
 		if (value instanceof SearcherTreeNode) {
 			TaskSearcher searcher = ((SearcherTreeNode) value).getTaskSearcher();
 			
@@ -77,7 +79,7 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 				row,
 				hasFocus);
 		
-		this.setLeafIcon(leafIcon);
+		this.setLeafIcon(originalLeafIcon);
 		
 		return component;
 	}

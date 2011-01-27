@@ -81,7 +81,7 @@ public class StatusBar extends JPanel {
 					String date = Translations.getString("statusbar.never");
 					
 					if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						dateFormat.format(Main.SETTINGS.getCalendarProperty(
+						date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
 								"synchronizer.last_synchronization_date").getTime());
 					
 					StatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")

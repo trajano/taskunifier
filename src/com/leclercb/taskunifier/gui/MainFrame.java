@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -138,11 +137,10 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
+		panel.setBorder(new EmptyBorder(5, 5, 0, 5));
 		
 		this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		
-		this.horizontalSplitPane.setBorder(new EmptyBorder(3, 0, 0, 0));
 		
 		this.loadSplitPaneSettings();
 		
@@ -153,7 +151,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 		
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);

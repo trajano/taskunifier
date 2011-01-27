@@ -98,11 +98,19 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizer() {
+		Main.SETTINGS.setCalendarProperty(
+				"synchronizer.last_synchronization_date",
+				null);
+		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
+		Main.SETTINGS.setCalendarProperty(
+				"synchronizer.last_synchronization_date",
+				null);
+		
 		ContextFactory.getInstance().deleteAll();
 		FolderFactory.getInstance().deleteAll();
 		GoalFactory.getInstance().deleteAll();
