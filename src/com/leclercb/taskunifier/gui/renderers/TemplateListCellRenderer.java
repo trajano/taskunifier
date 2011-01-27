@@ -24,6 +24,7 @@ import javax.swing.JList;
 
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TemplateListCellRenderer extends DefaultListCellRenderer {
 	
@@ -51,7 +52,9 @@ public class TemplateListCellRenderer extends DefaultListCellRenderer {
 		if (TemplateFactory.getInstance().getDefaultTemplate() != null
 				&& ((Template) value).getId().equals(
 						TemplateFactory.getInstance().getDefaultTemplate().getId()))
-			defaultString = " (Default)";
+			defaultString = String.format(
+					" (%1s)",
+					Translations.getString("general.default"));
 		
 		this.setText(((Template) value).getTitle() + defaultString);
 		return component;

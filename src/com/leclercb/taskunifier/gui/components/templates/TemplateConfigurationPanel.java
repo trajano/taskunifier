@@ -74,9 +74,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 	private void initialize() {
 		// Initialize Fields
 		final JTextField templateTitle = new JTextField(20);
-		final JSeparator templateSeparator = new JSeparator(
-				SwingConstants.HORIZONTAL);
-		
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
 		final JComboBox templateTaskFolder = new JComboBox();
@@ -245,7 +242,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		label = new JLabel();
 		info.add(label);
 		
-		info.add(templateSeparator);
+		info.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
 		// Template Task Title
 		label = new JLabel(
@@ -400,8 +397,22 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		templateTaskNote.setEnabled(false);
 		info.add(templateTaskNote);
 		
+		// Template Separator
+		
+		label = new JLabel();
+		info.add(label);
+		
+		info.add(new JSeparator(SwingConstants.HORIZONTAL));
+		
+		// Set Default Info
+		label = new JLabel();
+		info.add(label);
+		
+		label = new JLabel(Translations.getString("templates.set_default"));
+		info.add(label);
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 20, 2, 6, 6, 6, 6);
+		SpringUtils.makeCompactGrid(info, 22, 2, 6, 6, 6, 6);
 		
 		this.setDividerLocation(200);
 	}

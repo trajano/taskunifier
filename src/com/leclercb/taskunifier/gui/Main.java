@@ -226,7 +226,7 @@ public class Main {
 		} catch (FileNotFoundException e) {}
 		
 		try {
-			new TemplateFactoryXMLCoder().decode(new FileInputStream(
+			new TemplateFactoryXMLCoder(false).decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 		} catch (FileNotFoundException e) {}
 		
@@ -309,7 +309,7 @@ public class Main {
 			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
-			new TemplateFactoryXMLCoder().encode(new FileOutputStream(
+			new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));

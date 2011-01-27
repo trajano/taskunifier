@@ -9,7 +9,7 @@ public class ExportTemplatesDialog extends DefaultExportDialog {
 	
 	public ExportTemplatesDialog(Frame frame, boolean modal) {
 		super(
-				new TemplateFactoryXMLCoder(),
+				new TemplateFactoryXMLCoder(true),
 				Translations.getString("general.export_templates"),
 				frame,
 				modal);

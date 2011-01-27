@@ -1,9 +1,7 @@
 package com.leclercb.taskunifier.gui.components.import_data;
 
 import java.awt.Frame;
-import java.util.List;
 
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -20,11 +18,7 @@ public class ImportSearchersDialog extends AbstractImportDialog {
 	
 	@Override
 	public void deleteExistingValue() {
-		List<TaskSearcher> existingSearchers = TaskSearcherFactory.getInstance().getList();
-		
-		for (TaskSearcher searcher : existingSearchers) {
-			TaskSearcherFactory.getInstance().delete(searcher);
-		}
+		TaskSearcherFactory.getInstance().deleteAll();
 	}
 	
 }

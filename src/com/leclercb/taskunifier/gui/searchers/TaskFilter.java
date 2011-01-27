@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class TaskFilter implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
+public class TaskFilter implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
 	
 	public static enum Link {
 		
@@ -712,6 +712,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 		}
 		
 		filter.setParent(this);
+		filter.addListChangeListener(this);
 		filter.addPropertyChangeListener(this);
 		int index = this.filters.indexOf(filter);
 		this.listChangeSupport.fireListChange(
@@ -726,6 +727,7 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 		int index = this.filters.indexOf(filter);
 		if (this.filters.remove(filter)) {
 			filter.setParent(null);
+			filter.removeListChangeListener(this);
 			filter.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
@@ -780,6 +782,11 @@ public class TaskFilter implements PropertyChangeListener, ListChangeSupported, 
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		this.listChangeSupport.fireListChange(event);
 	}
 	
 	@Override

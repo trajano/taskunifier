@@ -37,8 +37,11 @@ import com.leclercb.taskunifier.gui.template.TemplateFactory;
 
 public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
-	public TemplateFactoryXMLCoder() {
+	private boolean createNewTemplates;
+	
+	public TemplateFactoryXMLCoder(boolean createNewTemplates) {
 		super("templates");
+		this.createNewTemplates = createNewTemplates;
 	}
 	
 	@Override
@@ -154,9 +157,12 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						taskNote = element.getTextContent();
 				}
 				
-				Template template = TemplateFactory.getInstance().create(
-						id,
-						title);
+				Template template = null;
+				
+				if (this.createNewTemplates)
+					template = TemplateFactory.getInstance().create(title);
+				else
+					template = TemplateFactory.getInstance().create(id, title);
 				
 				template.setTaskTitle(taskTitle);
 				template.setTaskTags(taskTags);
@@ -179,7 +185,10 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			
 			Template defaultTemplate = TemplateFactory.getInstance().get(
 					XMLUtils.getAttributeValue(root, "default"));
-			TemplateFactory.getInstance().setDefaultTemplate(defaultTemplate);
+			
+			if (defaultTemplate != null)
+				TemplateFactory.getInstance().setDefaultTemplate(
+						defaultTemplate);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}

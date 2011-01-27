@@ -1,9 +1,7 @@
 package com.leclercb.taskunifier.gui.components.import_data;
 
 import java.awt.Frame;
-import java.util.List;
 
-import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -12,7 +10,7 @@ public class ImportTemplatesDialog extends AbstractImportDialog {
 	
 	public ImportTemplatesDialog(Frame frame, boolean modal) {
 		super(
-				new TemplateFactoryXMLCoder(),
+				new TemplateFactoryXMLCoder(true),
 				Translations.getString("general.import_templates"),
 				frame,
 				modal);
@@ -20,11 +18,7 @@ public class ImportTemplatesDialog extends AbstractImportDialog {
 	
 	@Override
 	public void deleteExistingValue() {
-		List<Template> existingTemplates = TemplateFactory.getInstance().getList();
-		
-		for (Template template : existingTemplates) {
-			TemplateFactory.getInstance().delete(template);
-		}
+		TemplateFactory.getInstance().deleteAll();
 	}
 	
 }

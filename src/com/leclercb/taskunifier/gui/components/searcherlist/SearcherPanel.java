@@ -120,7 +120,11 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					TaskSearcher searcher = SearcherPanel.this.searcherTree.getSelectedTaskSearcher();
-					new ActionEditSearcher().editSearcher(searcher);
+					
+					if (searcher != null
+							&& TaskSearcherFactory.getInstance().contains(
+									searcher.getId()))
+						new ActionEditSearcher().editSearcher(searcher);
 				}
 			}
 			
@@ -208,8 +212,11 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		boolean personalSearcher = TaskSearcherFactory.getInstance().contains(
-				this.searcherTree.getSelectedTaskSearcher().getId());
+		boolean personalSearcher = false;
+		
+		if (this.searcherTree.getSelectedTaskSearcher() != null)
+			personalSearcher = TaskSearcherFactory.getInstance().contains(
+					this.searcherTree.getSelectedTaskSearcher().getId());
 		
 		this.filterTitle.setText("");
 		this.removeButton.setEnabled(personalSearcher);

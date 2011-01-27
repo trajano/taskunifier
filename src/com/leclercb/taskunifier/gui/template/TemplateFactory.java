@@ -130,6 +130,9 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		
 		int index = this.templates.indexOf(template);
 		if (this.templates.remove(template)) {
+			if (this.defaultTemplate.equals(template))
+				this.setDefaultTemplate(null);
+			
 			template.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
