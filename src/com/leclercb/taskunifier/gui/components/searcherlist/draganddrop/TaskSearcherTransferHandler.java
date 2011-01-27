@@ -44,6 +44,9 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 		SearcherTree tree = (SearcherTree) c;
 		TaskSearcher searcher = tree.getSelectedTaskSearcher();
 		
+		if (searcher == null)
+			return null;
+		
 		return new TaskSearcherTransferable(new TaskSearcherTransferData(
 				searcher));
 	}
@@ -66,6 +69,9 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 		try {
 			TaskSearcherTransferData data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
 			dragSearcher = data.getTaskSearcher();
+			
+			if (dragSearcher == null)
+				return false;
 		} catch (Exception e) {
 			return false;
 		}

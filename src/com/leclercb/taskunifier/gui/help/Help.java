@@ -70,7 +70,14 @@ public final class Help {
 			e.printStackTrace();
 		}
 		
-		return content.toString();
+		String c = content.toString();
+		
+		// Replace parameters
+		c = c.replace(
+				"{resources_folder}",
+				new File(Main.RESOURCES_FOLDER).getAbsolutePath());
+		
+		return c;
 	}
 	
 	public static JDialog getHelpDialog(final String helpFile) {
@@ -120,7 +127,7 @@ public final class Help {
 			super(MainFrame.getInstance().getFrame(), true);
 			
 			this.setTitle(Translations.getString("general.help"));
-			this.setSize(400, 400);
+			this.setSize(600, 600);
 			this.setResizable(true);
 			this.setLayout(new BorderLayout());
 			
