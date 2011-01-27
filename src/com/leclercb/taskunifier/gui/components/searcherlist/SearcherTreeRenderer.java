@@ -21,7 +21,7 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 		this.setOpenIcon(Images.getResourceImage("tree_open.png"));
 		this.setClosedIcon(Images.getResourceImage("tree_closed.png"));
 		
-		originalLeafIcon = this.getLeafIcon();
+		this.originalLeafIcon = this.getLeafIcon();
 	}
 	
 	@Override
@@ -48,6 +48,8 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 			
 			if (searcher.getIcon() != null)
 				this.setLeafIcon(Images.getImage(searcher.getIcon(), 16, 16));
+			else
+				this.setLeafIcon(originalLeafIcon);
 			
 			this.setToolTipText("<html>"
 					+ searcher.getTitle()
@@ -59,6 +61,8 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 		} else if (value instanceof ModelTreeNode) {
 			TaskSearcher searcher = ((ModelTreeNode) value).getTaskSearcher();
 			
+			this.setLeafIcon(originalLeafIcon);
+			
 			this.setToolTipText("<html>"
 					+ searcher.getTitle()
 					+ "<br />"
@@ -67,6 +71,7 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 					+ searcher.getFilter()
 					+ "</html>");
 		} else {
+			this.setLeafIcon(originalLeafIcon);
 			this.setToolTipText(null);
 		}
 		
@@ -78,8 +83,6 @@ public class SearcherTreeRenderer extends DefaultTreeCellRenderer {
 				leaf,
 				row,
 				hasFocus);
-		
-		this.setLeafIcon(originalLeafIcon);
 		
 		return component;
 	}
