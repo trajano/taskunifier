@@ -8,3 +8,10 @@ New TaskUnifier version :
 New plugin :
 - SynchronizerPlugin
 - SynchronizerGuiPlugin
+
+Build :
+- Commons: clean, build, create-jar
+- JavaVersion: clean, build, create-jar
+- TaskUnifierApi: clean, build, create-jar
+- TaskUnifierGui: clean, build, create-jar
+- TaskUnifierPlugins: clean, build, create-jar, copy-jar
