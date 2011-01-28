@@ -22,33 +22,33 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
+import com.leclercb.taskunifier.gui.components.review.ReviewDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionAbout extends AbstractAction {
+public class ActionReview extends AbstractAction {
 	
-	public ActionAbout() {
+	public ActionReview() {
 		this(32, 32);
 	}
 	
-	public ActionAbout(int width, int height) {
+	public ActionReview(int width, int height) {
 		super(
-				Translations.getString("action.name.about"),
+				Translations.getString("action.name.review"),
 				Images.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+				Translations.getString("action.description.review"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.about();
+		this.review();
 	}
 	
-	public void about() {
-		AboutDialog dialog = new AboutDialog(
+	public void review() {
+		ReviewDialog dialog = new ReviewDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		dialog.setVisible(true);

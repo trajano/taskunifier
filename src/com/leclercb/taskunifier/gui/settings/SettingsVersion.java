@@ -127,6 +127,7 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("toodledo.userid");
 		
 		Main.SETTINGS.setStringProperty("api", "TOODLEDO");
+		Main.SETTINGS.setStringProperty("review.showed", "false");
 		
 		Main.SETTINGS.setStringProperty("searcher.show_completed_tasks", "true");
 		Main.SETTINGS.setStringProperty(

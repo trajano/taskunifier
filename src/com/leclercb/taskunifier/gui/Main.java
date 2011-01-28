@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -113,6 +114,12 @@ public class Main {
 				
 				MainFrame.getInstance().getFrame().setVisible(true);
 				new ActionCheckVersion(true).checkVersion();
+				
+				Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
+				if (showed == null || !showed)
+					new ActionReview().review();
+				
+				Main.SETTINGS.setBooleanProperty("review.showed", true);
 			}
 			
 		});
