@@ -23,8 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -82,6 +82,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.models.TemplateComparator;
 import com.leclercb.taskunifier.gui.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.template.Template;
@@ -492,15 +493,9 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		if (popupMenu != null)
 			popupMenu.removeAll();
 		
-		List<Template> templates = TemplateFactory.getInstance().getList();
-		Collections.sort(templates, new Comparator<Template>() {
-			
-			@Override
-			public int compare(Template t1, Template t2) {
-				return t1.getTitle().compareTo(t2.getTitle());
-			}
-			
-		});
+		List<Template> templates = new ArrayList<Template>(
+				TemplateFactory.getInstance().getList());
+		Collections.sort(templates, new TemplateComparator());
 		
 		for (Template template : templates) {
 			if (menu != null)

@@ -19,6 +19,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Template implements Serializable, Cloneable, PropertyChangeSupported {
 	
@@ -77,7 +78,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		this.setId(id);
 		this.setTitle(title);
 		
-		this.setTaskTitle("");
+		this.setTaskTitle(Translations.getString("task.default.title"));
 		this.setTaskTags("");
 		this.setTaskFolder(null);
 		this.setTaskContext(null);
