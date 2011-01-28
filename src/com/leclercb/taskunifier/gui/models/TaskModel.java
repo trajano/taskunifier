@@ -23,9 +23,9 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
-public class TaskComboBoxModel extends AbstractModelComboBoxModel {
+public class TaskModel extends AbstractModelSortedModel {
 	
-	public TaskComboBoxModel(boolean firstNull) {
+	public TaskModel(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

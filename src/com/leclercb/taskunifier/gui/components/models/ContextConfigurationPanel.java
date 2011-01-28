@@ -34,7 +34,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.models.ContextListModel;
+import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ContextConfigurationPanel extends JSplitPane {
@@ -48,7 +48,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 		final JTextField contextTitle = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new ContextListModel(false)) {
+		final ModelList modelList = new ModelList(new ContextModel(false)) {
 			
 			private BeanAdapter<Context> adapter;
 			

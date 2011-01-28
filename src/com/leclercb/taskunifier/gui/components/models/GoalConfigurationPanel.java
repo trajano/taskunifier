@@ -39,8 +39,8 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
-import com.leclercb.taskunifier.gui.models.GoalContributeComboBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalListModel;
+import com.leclercb.taskunifier.gui.models.GoalContributeModel;
+import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -57,7 +57,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 		final JComboBox goalContributes = new JComboBox();
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new GoalListModel(false)) {
+		final ModelList modelList = new ModelList(new GoalModel(false)) {
 			
 			private BeanAdapter<Goal> adapter;
 			
@@ -74,7 +74,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 				
 				ValueModel contributesModel = this.adapter.getValueModel(Goal.PROP_CONTRIBUTES);
 				goalContributes.setModel(new ComboBoxAdapter<Goal>(
-						new GoalContributeComboBoxModel(true),
+						new GoalContributeModel(true),
 						contributesModel));
 			}
 			

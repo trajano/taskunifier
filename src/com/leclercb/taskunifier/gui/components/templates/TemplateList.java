@@ -33,7 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.TemplateListModel;
+import com.leclercb.taskunifier.gui.models.TemplateModel;
 import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
@@ -56,7 +56,7 @@ abstract class TemplateList extends JPanel {
 		this.templateList = new JList();
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new TemplateListCellRenderer());
-		this.templateList.setModel(new TemplateListModel());
+		this.templateList.setModel(new TemplateModel());
 		this.templateList.setBorder(new LineBorder(Color.BLACK));
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
 			

@@ -18,10 +18,10 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
-import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
-import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
+import com.leclercb.taskunifier.gui.models.ContextModel;
+import com.leclercb.taskunifier.gui.models.FolderModel;
+import com.leclercb.taskunifier.gui.models.GoalModel;
+import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -65,16 +65,16 @@ public class TaskCell extends JPanel {
 		this.title = new JTextField();
 		
 		this.context = new JComboBox();
-		this.context.setModel(new ContextComboBoxModel(true));
+		this.context.setModel(new ContextModel(true));
 		
 		this.folder = new JComboBox();
-		this.folder.setModel(new FolderComboBoxModel(true));
+		this.folder.setModel(new FolderModel(true));
 		
 		this.goal = new JComboBox();
-		this.goal.setModel(new GoalComboBoxModel(true));
+		this.goal.setModel(new GoalModel(true));
 		
 		this.location = new JComboBox();
-		this.location.setModel(new LocationComboBoxModel(true));
+		this.location.setModel(new LocationModel(true));
 		
 		this.status = new JComboBox();
 		this.status.setModel(new DefaultComboBoxModel(TaskStatus.values()));

@@ -39,7 +39,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.models.LocationListModel;
+import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class LocationConfigurationPanel extends JSplitPane {
@@ -58,7 +58,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 				new NumberFormatter());
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new LocationListModel(false)) {
+		final ModelList modelList = new ModelList(new LocationModel(false)) {
 			
 			private BeanAdapter<Location> adapter;
 			

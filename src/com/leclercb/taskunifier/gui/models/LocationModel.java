@@ -23,9 +23,9 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-public class LocationComboBoxModel extends AbstractModelComboBoxModel {
+public class LocationModel extends AbstractModelSortedModel {
 	
-	public LocationComboBoxModel(boolean firstNull) {
+	public LocationModel(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

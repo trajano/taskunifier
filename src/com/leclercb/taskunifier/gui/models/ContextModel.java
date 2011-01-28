@@ -19,24 +19,24 @@ package com.leclercb.taskunifier.gui.models;
 
 import java.util.List;
 
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-public class GoalListModel extends AbstractModelListModel {
+public class ContextModel extends AbstractModelSortedModel {
 	
-	public GoalListModel(boolean firstNull) {
+	public ContextModel(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
-		List<Goal> goals = GoalFactory.getInstance().getList();
-		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED)
-					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(goal);
+		List<Context> contexts = ContextFactory.getInstance().getList();
+		for (Context context : contexts)
+			if (context.getModelStatus().equals(ModelStatus.LOADED)
+					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
+				this.addElement(context);
 		
-		GoalFactory.getInstance().addListChangeListener(this);
-		GoalFactory.getInstance().addPropertyChangeListener(this);
+		ContextFactory.getInstance().addListChangeListener(this);
+		ContextFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 }

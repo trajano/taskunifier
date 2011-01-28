@@ -19,57 +19,40 @@ package com.leclercb.taskunifier.gui.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
-import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
-public class GoalContributeComboBoxModel extends DefaultComboBoxModel implements ListChangeListener, PropertyChangeListener {
+abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel<Model> implements ModelListModel, ListChangeListener, PropertyChangeListener {
 	
-	public GoalContributeComboBoxModel(boolean firstNull) {
-		if (firstNull)
-			this.addElement(null);
-		
-		List<Goal> goals = GoalFactory.getInstance().getList();
-		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED)
-					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				if (goal.getLevel().equals(GoalLevel.LIFE_TIME))
-					this.addElement(goal);
-		
-		GoalFactory.getInstance().addListChangeListener(this);
-		GoalFactory.getInstance().addPropertyChangeListener(this);
+	public AbstractModelSortedModel() {
+		super(new ModelComparator());
 	}
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement(event.getValue());
+			this.addElement((Model) event.getValue());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement(event.getValue());
+			this.removeElement((Model) event.getValue());
 		}
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if ((!((Model) event.getSource()).getModelStatus().equals(
-				ModelStatus.LOADED) && !((Model) event.getSource()).getModelStatus().equals(
-				ModelStatus.TO_UPDATE))
-				|| !((Goal) event.getSource()).getLevel().equals(
-						GoalLevel.LIFE_TIME)) {
-			this.removeElement(event.getSource());
+		if (!((Model) event.getSource()).getModelStatus().equals(
+				ModelStatus.LOADED)
+				&& !((Model) event.getSource()).getModelStatus().equals(
+						ModelStatus.TO_UPDATE)) {
+			this.removeElement((Model) event.getSource());
 		} else {
-			int index = this.getIndexOf(event.getSource());
+			int index = this.getIndexOf((Model) event.getSource());
 			
 			if (index == -1)
-				this.addElement(event.getSource());
+				this.addElement((Model) event.getSource());
 			else
 				this.fireContentsChanged(this, index, index);
 		}

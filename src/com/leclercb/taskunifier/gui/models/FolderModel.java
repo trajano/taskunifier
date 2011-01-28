@@ -19,24 +19,24 @@ package com.leclercb.taskunifier.gui.models;
 
 import java.util.List;
 
-import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-public class ContextComboBoxModel extends AbstractModelComboBoxModel {
+public class FolderModel extends AbstractModelSortedModel {
 	
-	public ContextComboBoxModel(boolean firstNull) {
+	public FolderModel(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
-		List<Context> contexts = ContextFactory.getInstance().getList();
-		for (Context context : contexts)
-			if (context.getModelStatus().equals(ModelStatus.LOADED)
-					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(context);
+		List<Folder> folders = FolderFactory.getInstance().getList();
+		for (Folder folder : folders)
+			if (folder.getModelStatus().equals(ModelStatus.LOADED)
+					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
+				this.addElement(folder);
 		
-		ContextFactory.getInstance().addListChangeListener(this);
-		ContextFactory.getInstance().addPropertyChangeListener(this);
+		FolderFactory.getInstance().addListChangeListener(this);
+		FolderFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 }

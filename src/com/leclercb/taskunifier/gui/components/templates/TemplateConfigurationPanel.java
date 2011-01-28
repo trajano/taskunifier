@@ -54,10 +54,10 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.help.Help;
-import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
-import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
-import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
+import com.leclercb.taskunifier.gui.models.ContextModel;
+import com.leclercb.taskunifier.gui.models.FolderModel;
+import com.leclercb.taskunifier.gui.models.GoalModel;
+import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
@@ -117,28 +117,28 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						ModelType.FOLDER,
 						this.adapter.getValueModel(Template.PROP_TASK_FOLDER));
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
-						new FolderComboBoxModel(true),
+						new FolderModel(true),
 						taskFolderModel));
 				
 				ValueModel taskContextModel = new ModelConverter(
 						ModelType.CONTEXT,
 						this.adapter.getValueModel(Template.PROP_TASK_CONTEXT));
 				templateTaskContext.setModel(new ComboBoxAdapter<Context>(
-						new ContextComboBoxModel(true),
+						new ContextModel(true),
 						taskContextModel));
 				
 				ValueModel taskGoalModel = new ModelConverter(
 						ModelType.GOAL,
 						this.adapter.getValueModel(Template.PROP_TASK_GOAL));
 				templateTaskGoal.setModel(new ComboBoxAdapter<Goal>(
-						new GoalComboBoxModel(true),
+						new GoalModel(true),
 						taskGoalModel));
 				
 				ValueModel taskLocationModel = new ModelConverter(
 						ModelType.LOCATION,
 						this.adapter.getValueModel(Template.PROP_TASK_LOCATION));
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
-						new LocationComboBoxModel(true),
+						new LocationModel(true),
 						taskLocationModel));
 				
 				ValueModel taskCompletedModel = this.adapter.getValueModel(Template.PROP_TASK_COMPLETED);

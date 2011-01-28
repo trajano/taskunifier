@@ -18,11 +18,11 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
-import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
-import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
-import com.leclercb.taskunifier.gui.models.TaskComboBoxModel;
+import com.leclercb.taskunifier.gui.models.ContextModel;
+import com.leclercb.taskunifier.gui.models.FolderModel;
+import com.leclercb.taskunifier.gui.models.GoalModel;
+import com.leclercb.taskunifier.gui.models.LocationModel;
+import com.leclercb.taskunifier.gui.models.TaskModel;
 import com.leclercb.taskunifier.gui.renderers.BooleanListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskFilterConditionListCellRenderer;
@@ -143,7 +143,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case FOLDER:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new FolderComboBoxModel(true));
+				this.elementValue.setModel(new FolderModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -151,7 +151,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case CONTEXT:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new ContextComboBoxModel(true));
+				this.elementValue.setModel(new ContextModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -159,7 +159,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case GOAL:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new GoalComboBoxModel(true));
+				this.elementValue.setModel(new GoalModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
@@ -167,14 +167,14 @@ public class TaskFilterElementPanel extends JPanel {
 			case LOCATION:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
-				this.elementValue.setModel(new LocationComboBoxModel(true));
+				this.elementValue.setModel(new LocationModel(true));
 				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
 			case PARENT:
-				this.elementCondition.setModel(new TaskComboBoxModel(true));
-				this.elementValue.setModel(new TaskComboBoxModel(true));
+				this.elementCondition.setModel(new TaskModel(true));
+				this.elementValue.setModel(new TaskModel(true));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;

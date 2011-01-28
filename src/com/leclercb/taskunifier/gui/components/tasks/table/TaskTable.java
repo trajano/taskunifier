@@ -75,10 +75,10 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskStatusR
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSorter;
-import com.leclercb.taskunifier.gui.models.ContextComboBoxModel;
-import com.leclercb.taskunifier.gui.models.FolderComboBoxModel;
-import com.leclercb.taskunifier.gui.models.GoalComboBoxModel;
-import com.leclercb.taskunifier.gui.models.LocationComboBoxModel;
+import com.leclercb.taskunifier.gui.models.ContextModel;
+import com.leclercb.taskunifier.gui.models.FolderModel;
+import com.leclercb.taskunifier.gui.models.GoalModel;
+import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -152,14 +152,13 @@ public class TaskTable extends JTable {
 		
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 		
-		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(
-				new ContextComboBoxModel(true)));
-		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(
-				new FolderComboBoxModel(true)));
-		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(
-				new GoalComboBoxModel(true)));
+		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(new ContextModel(
+				true)));
+		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderModel(
+				true)));
+		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalModel(true)));
 		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
-				new LocationComboBoxModel(true)));
+				new LocationModel(true)));
 		
 		JTextField textField = null;
 		

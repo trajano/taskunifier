@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.SortOrder;
@@ -16,6 +19,7 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -36,6 +40,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.nodes.ModelTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.SearcherTreeNode;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.models.ModelComparator;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
@@ -207,7 +212,10 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		
 		this.categoryContext.add(new ModelTreeNode(ModelType.CONTEXT, null));
 		
-		List<Context> contexts = ContextFactory.getInstance().getList();
+		List<Context> contexts = new ArrayList<Context>(
+				ContextFactory.getInstance().getList());
+		Collections.sort(contexts, new ModelComparator());
+		
 		for (Context context : contexts)
 			if (context.getModelStatus().equals(ModelStatus.LOADED)
 					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
@@ -228,7 +236,10 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		
 		this.categoryFolder.add(new ModelTreeNode(ModelType.FOLDER, null));
 		
-		List<Folder> folders = FolderFactory.getInstance().getList();
+		List<Folder> folders = new ArrayList<Folder>(
+				FolderFactory.getInstance().getList());
+		Collections.sort(folders, new ModelComparator());
+		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().equals(ModelStatus.LOADED)
 					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
@@ -249,7 +260,10 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		
 		this.categoryGoal.add(new ModelTreeNode(ModelType.GOAL, null));
 		
-		List<Goal> goals = GoalFactory.getInstance().getList();
+		List<Goal> goals = new ArrayList<Goal>(
+				GoalFactory.getInstance().getList());
+		Collections.sort(goals, new ModelComparator());
+		
 		for (Goal goal : goals)
 			if (goal.getModelStatus().equals(ModelStatus.LOADED)
 					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
@@ -268,7 +282,10 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		
 		this.categoryLocation.add(new ModelTreeNode(ModelType.LOCATION, null));
 		
-		List<Location> locations = LocationFactory.getInstance().getList();
+		List<Location> locations = new ArrayList<Location>(
+				LocationFactory.getInstance().getList());
+		Collections.sort(locations, new ModelComparator());
+		
 		for (Location location : locations)
 			if (location.getModelStatus().equals(ModelStatus.LOADED)
 					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
@@ -287,7 +304,21 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 				Translations.getString("searcherlist.personal"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryPersonal);
 		
-		for (TaskSearcher searcher : TaskSearcherFactory.getInstance().getList())
+		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
+				TaskSearcherFactory.getInstance().getList());
+		Collections.sort(searchers, new Comparator<TaskSearcher>() {
+			
+			@Override
+			public int compare(TaskSearcher ts1, TaskSearcher ts2) {
+				String s1 = ts1 == null ? null : ts1.getTitle();
+				String s2 = ts2 == null ? null : ts2.getTitle();
+				
+				return CompareUtils.compare(s1, s2);
+			}
+			
+		});
+		
+		for (TaskSearcher searcher : searchers)
 			this.categoryPersonal.add(new SearcherTreeNode(searcher));
 		
 		TaskSearcherFactory.getInstance().addListChangeListener(this);

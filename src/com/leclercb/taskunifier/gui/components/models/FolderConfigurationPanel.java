@@ -34,7 +34,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.models.FolderListModel;
+import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class FolderConfigurationPanel extends JSplitPane {
@@ -48,7 +48,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 		final JTextField folderTitle = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new FolderListModel(false)) {
+		final ModelList modelList = new ModelList(new FolderModel(false)) {
 			
 			private BeanAdapter<Folder> adapter;
 			
