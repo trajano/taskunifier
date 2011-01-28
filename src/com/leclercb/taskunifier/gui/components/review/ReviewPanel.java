@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.components.review;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +33,7 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
@@ -71,8 +73,9 @@ public class ReviewPanel extends JPanel {
 		pane.setText(Translations.getString("review.message"));
 		pane.setCaretPosition(0);
 		
-		JButton reviewLink = new JButton(Translations.getString("review.link"));
-		reviewLink.addActionListener(new ActionListener() {
+		JButton reviewButton = new JButton(
+				Translations.getString("review.link"));
+		reviewButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -89,8 +92,16 @@ public class ReviewPanel extends JPanel {
 			
 		});
 		
+		JButton donateButton = new JButton(new ActionDonate(16, 16));
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		
+		buttonsPanel.add(reviewButton);
+		buttonsPanel.add(donateButton);
+		
 		panel.add(new JScrollPane(pane), BorderLayout.CENTER);
-		panel.add(reviewLink, BorderLayout.SOUTH);
+		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.CENTER);
 	}
