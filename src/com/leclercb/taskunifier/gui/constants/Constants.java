@@ -33,6 +33,7 @@ public final class Constants {
 	
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
 	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
+	public static final String DONATE_URL = "http://sourceforge.net/donate/index.php?group_id=380204";
 	public static final String REVIEW_URL = "http://sourceforge.net/projects/taskunifier/reviews/";
 	
 	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
