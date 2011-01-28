@@ -23,6 +23,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -288,22 +291,14 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
 		tasksMenu.add(templatesMenu);
 		
-		for (Template template : TemplateFactory.getInstance().getList()) {
-			templatesMenu.add(new ActionAddTemplateTask(template, 16, 16));
-		}
+		this.updateTemplateList(templatesMenu, null);
 		
 		TemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						templatesMenu.removeAll();
-						for (Template template : TemplateFactory.getInstance().getList()) {
-							templatesMenu.add(new ActionAddTemplateTask(
-									template,
-									16,
-									16));
-						}
+						MainFrame.this.updateTemplateList(templatesMenu, null);
 					}
 					
 				});
@@ -358,22 +353,15 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		// TEMPLATE
 		final JPopupMenu popupMenu = new JPopupMenu(
 				Translations.getString("action.name.add_template_task"));
-		for (Template template : TemplateFactory.getInstance().getList()) {
-			popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
-		}
+		
+		this.updateTemplateList(null, popupMenu);
 		
 		TemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						popupMenu.removeAll();
-						for (Template template : TemplateFactory.getInstance().getList()) {
-							popupMenu.add(new ActionAddTemplateTask(
-									template,
-									16,
-									16));
-						}
+						MainFrame.this.updateTemplateList(null, popupMenu);
 					}
 					
 				});
@@ -495,6 +483,32 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.reminderThread.interrupt();
 		this.scheduledSyncThread.interrupt();
 		super.dispose();
+	}
+	
+	private void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
+		if (menu != null)
+			menu.removeAll();
+		
+		if (popupMenu != null)
+			popupMenu.removeAll();
+		
+		List<Template> templates = TemplateFactory.getInstance().getList();
+		Collections.sort(templates, new Comparator<Template>() {
+			
+			@Override
+			public int compare(Template t1, Template t2) {
+				return t1.getTitle().compareTo(t2.getTitle());
+			}
+			
+		});
+		
+		for (Template template : templates) {
+			if (menu != null)
+				menu.add(new ActionAddTemplateTask(template, 16, 16));
+			
+			if (popupMenu != null)
+				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
+		}
 	}
 	
 }
