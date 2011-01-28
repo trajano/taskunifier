@@ -30,6 +30,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 
 public class TemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
@@ -130,7 +131,7 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		
 		int index = this.templates.indexOf(template);
 		if (this.templates.remove(template)) {
-			if (this.defaultTemplate.equals(template))
+			if (EqualsUtils.equals(this.defaultTemplate, template))
 				this.setDefaultTemplate(null);
 			
 			template.removePropertyChangeListener(this);
