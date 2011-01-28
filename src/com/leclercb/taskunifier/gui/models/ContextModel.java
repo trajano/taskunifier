@@ -26,6 +26,10 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 public class ContextModel extends AbstractModelSortedModel {
 	
 	public ContextModel(boolean firstNull) {
+		this.initialize(firstNull);
+	}
+	
+	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

@@ -29,6 +29,10 @@ import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 public class GoalContributeModel extends AbstractModelSortedModel {
 	
 	public GoalContributeModel(boolean firstNull) {
+		this.initialize(firstNull);
+	}
+	
+	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

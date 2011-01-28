@@ -26,6 +26,10 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 public class TaskModel extends AbstractModelSortedModel {
 	
 	public TaskModel(boolean firstNull) {
+		this.initialize(firstNull);
+	}
+	
+	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

@@ -57,5 +57,4 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel<Model
 				this.fireContentsChanged(this, index, index);
 		}
 	}
-	
 }

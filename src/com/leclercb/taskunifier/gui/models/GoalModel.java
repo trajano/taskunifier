@@ -26,6 +26,10 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 public class GoalModel extends AbstractModelSortedModel {
 	
 	public GoalModel(boolean firstNull) {
+		this.initialize(firstNull);
+	}
+	
+	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		

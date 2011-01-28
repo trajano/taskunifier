@@ -9,8 +9,8 @@ public class ModelComparator implements Comparator<Model> {
 	
 	@Override
 	public int compare(Model m1, Model m2) {
-		String s1 = m1 == null ? null : m1.getTitle();
-		String s2 = m2 == null ? null : m2.getTitle();
+		String s1 = m1 == null ? null : m1.getTitle().toLowerCase();
+		String s2 = m2 == null ? null : m2.getTitle().toLowerCase();
 		
 		int result = CompareUtils.compare(s1, s2);
 		

@@ -26,6 +26,10 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 public class LocationModel extends AbstractModelSortedModel {
 	
 	public LocationModel(boolean firstNull) {
+		this.initialize(firstNull);
+	}
+	
+	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
