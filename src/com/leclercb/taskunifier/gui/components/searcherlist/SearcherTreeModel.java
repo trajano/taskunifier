@@ -6,7 +6,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.SortOrder;
@@ -19,7 +18,6 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -41,6 +39,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.nodes.SearcherTreeNo
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ModelComparator;
+import com.leclercb.taskunifier.gui.models.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
@@ -306,17 +305,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
 				TaskSearcherFactory.getInstance().getList());
-		Collections.sort(searchers, new Comparator<TaskSearcher>() {
-			
-			@Override
-			public int compare(TaskSearcher ts1, TaskSearcher ts2) {
-				String s1 = ts1 == null ? null : ts1.getTitle().toLowerCase();
-				String s2 = ts2 == null ? null : ts2.getTitle().toLowerCase();
-				
-				return CompareUtils.compare(s1, s2);
-			}
-			
-		});
+		Collections.sort(searchers, new TaskSearcherComparator());
 		
 		for (TaskSearcher searcher : searchers)
 			this.categoryPersonal.add(new SearcherTreeNode(searcher));
