@@ -22,6 +22,7 @@ Version 0.7.0
 	- Add templates feature
 	- Import/export templates
 	- New help files
+	- All the lists are now sorted
 
 Version 0.6.4
 	- Bug fixed: only first sorted column worked
