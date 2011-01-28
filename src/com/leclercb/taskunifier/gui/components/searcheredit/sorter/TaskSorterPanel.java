@@ -80,6 +80,7 @@ public class TaskSorterPanel extends JPanel {
 							TaskColumn.TITLE,
 							SortOrder.ASCENDING));
 				} else {
+					TaskSorterPanel.this.table.getCellEditor().stopCellEditing();
 					TaskSorterElement element = ((TaskSorterTableModel) TaskSorterPanel.this.table.getModel()).getTaskSorterElement(TaskSorterPanel.this.table.getSelectedRow());
 					TaskSorterPanel.this.sorter.removeElement(element);
 				}

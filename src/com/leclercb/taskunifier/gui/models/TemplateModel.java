@@ -10,7 +10,7 @@ import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 
-public class TemplateModel extends DefaultSortedComboBoxModel<Template> implements ListChangeListener, PropertyChangeListener {
+public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
 	public TemplateModel() {
 		super(new TemplateComparator());
@@ -29,9 +29,9 @@ public class TemplateModel extends DefaultSortedComboBoxModel<Template> implemen
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement((Template) event.getValue());
+			this.addElement(event.getValue());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement((Template) event.getValue());
+			this.removeElement(event.getValue());
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class TemplateModel extends DefaultSortedComboBoxModel<Template> implemen
 			return;
 		}
 		
-		int index = this.getIndexOf((Template) event.getSource());
+		int index = this.getIndexOf(event.getSource());
 		this.fireContentsChanged(this, index, index);
 	}
 	

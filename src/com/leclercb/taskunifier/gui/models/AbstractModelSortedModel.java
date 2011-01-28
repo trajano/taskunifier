@@ -26,7 +26,7 @@ import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 
-abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel<Model> implements ModelListModel, ListChangeListener, PropertyChangeListener {
+abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
 	
 	public AbstractModelSortedModel() {
 		super(new ModelComparator());
@@ -35,9 +35,9 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel<Model
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement((Model) event.getValue());
+			this.addElement(event.getValue());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement((Model) event.getValue());
+			this.removeElement(event.getValue());
 		}
 	}
 	
@@ -47,12 +47,12 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel<Model
 				ModelStatus.LOADED)
 				&& !((Model) event.getSource()).getModelStatus().equals(
 						ModelStatus.TO_UPDATE)) {
-			this.removeElement((Model) event.getSource());
+			this.removeElement(event.getSource());
 		} else {
-			int index = this.getIndexOf((Model) event.getSource());
+			int index = this.getIndexOf(event.getSource());
 			
 			if (index == -1)
-				this.addElement((Model) event.getSource());
+				this.addElement(event.getSource());
 			else
 				this.fireContentsChanged(this, index, index);
 		}
