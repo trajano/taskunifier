@@ -509,6 +509,16 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 			if (popupMenu != null)
 				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
 		}
+		
+		if (menu != null) {
+			menu.addSeparator();
+			menu.add(new ActionManageTemplates(16, 16));
+		}
+		
+		if (popupMenu != null) {
+			popupMenu.addSeparator();
+			popupMenu.add(new ActionManageTemplates(16, 16));
+		}
 	}
 	
 }
