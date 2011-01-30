@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -285,10 +286,15 @@ public class Main {
 			for (File file : pluginFiles) {
 				if (FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
 					try {
-						API_PLUGINS.loadPlugin(file);
+						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadPlugin(file);
 						
-						GuiLogger.getLogger().info(
-								"Plugin loaded: " + file.getAbsolutePath());
+						if (plugins.size() != 0)
+							GuiLogger.getLogger().info(
+									"Plugin loaded: " + file.getAbsolutePath());
+						else
+							GuiLogger.getLogger().info(
+									"Jar file doesn't contain any valid plugin: "
+											+ file.getAbsolutePath());
 					} catch (Exception e) {
 						GuiLogger.getLogger().warning(
 								"Could not load plugin jar file: "
