@@ -54,12 +54,12 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 				ModelStatus.TO_UPDATE))
 				|| !((Goal) event.getSource()).getLevel().equals(
 						GoalLevel.LIFE_TIME)) {
-			this.removeElement((Model) event.getSource());
+			this.removeElement(event.getSource());
 		} else {
-			int index = this.getIndexOf((Model) event.getSource());
+			int index = this.getIndexOf(event.getSource());
 			
 			if (index == -1)
-				this.addElement((Model) event.getSource());
+				this.addElement(event.getSource());
 			else
 				this.fireContentsChanged(this, index, index);
 		}
