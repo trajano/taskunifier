@@ -55,7 +55,7 @@ public class WelcomeDialog extends JDialog {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("api")) {
+				if (evt.getPropertyName().equals("api.id")) {
 					SettingsPanel synchronizationPanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 2];
 					SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
 					

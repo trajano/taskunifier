@@ -27,7 +27,7 @@ public final class SynchronizerUtils {
 		String apiId = Main.SETTINGS.getStringProperty("api.id");
 		String apiVersion = Main.SETTINGS.getStringProperty("api.version");
 		
-		if (apiId == null)
+		if (apiId == null || apiVersion == null)
 			return DummyGuiPlugin.getInstance();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
