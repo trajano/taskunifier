@@ -24,7 +24,11 @@ public class PluginConfigurationPanel extends ConfigurationPanel {
 		
 		this.configPanel = plugin.getConfigurationPanel(welcome);
 		
-		String info = plugin.getAuthor() + " - " + plugin.getVersion();
+		String info = plugin.getName()
+				+ " - "
+				+ plugin.getAuthor()
+				+ " - "
+				+ plugin.getVersion();
 		JLabel pluginInfo = new JLabel(info, SwingConstants.RIGHT);
 		pluginInfo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		

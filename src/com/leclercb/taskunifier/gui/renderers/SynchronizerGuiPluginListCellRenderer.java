@@ -32,6 +32,8 @@ public class SynchronizerGuiPluginListCellRenderer extends DefaultListCellRender
 		
 		this.setText(plugin.getSynchronizerApi().getApiName()
 				+ " ("
+				+ plugin.getName()
+				+ " - "
 				+ plugin.getVersion()
 				+ ")");
 		return component;

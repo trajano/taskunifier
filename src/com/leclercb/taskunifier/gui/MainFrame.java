@@ -66,7 +66,6 @@ import com.leclercb.taskunifier.gui.actions.ActionExportTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
-import com.leclercb.taskunifier.gui.actions.ActionInstallPlugin;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
@@ -251,9 +250,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.menuBar.add(fileMenu);
-		
-		fileMenu.add(new ActionInstallPlugin(16, 16));
-		fileMenu.addSeparator();
 		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.add(new ActionImportSearchers(16, 16));

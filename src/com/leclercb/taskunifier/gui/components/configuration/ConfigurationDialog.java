@@ -164,7 +164,7 @@ public class ConfigurationDialog extends JDialog {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("api")) {
+				if (evt.getPropertyName().equals("api.id")) {
 					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
 					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
 					
