@@ -284,17 +284,26 @@ public class Main {
 			File[] pluginFiles = pluginsFolder.listFiles();
 			
 			for (File file : pluginFiles) {
-				if (FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
+				if (file.isFile()
+						&& FileUtils.getExtention(file.getAbsolutePath()).equals(
+								"jar")) {
 					try {
 						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadPlugin(file);
 						
-						if (plugins.size() != 0)
+						if (plugins.size() != 0) {
 							GuiLogger.getLogger().info(
-									"Plugin loaded: " + file.getAbsolutePath());
-						else
+									"Plugin jar file loaded: "
+											+ file.getAbsolutePath());
+							
+							for (SynchronizerGuiPlugin plugin : plugins)
+								GuiLogger.getLogger().info(
+										"Plugin loaded: "
+												+ plugin.getSynchronizerApi().getApiName());
+						} else {
 							GuiLogger.getLogger().info(
 									"Jar file doesn't contain any valid plugin: "
 											+ file.getAbsolutePath());
+						}
 					} catch (Exception e) {
 						GuiLogger.getLogger().warning(
 								"Could not load plugin jar file: "
