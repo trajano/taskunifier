@@ -26,7 +26,7 @@ public class LanguageDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.welcome"));
-		this.setSize(300, 100);
+		this.setSize(400, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
