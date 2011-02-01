@@ -90,13 +90,18 @@ public class ActionInstallPlugin extends AbstractAction {
 		
 		if (FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
 			try {
-				List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadPlugin(
-						file,
+				File tmpFile = File.createTempFile("tu_plugin_", ".jar");
+				
+				FileUtils.copyFile(file, tmpFile);
+				
+				List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(
+						tmpFile,
 						false);
 				
-				if (plugins.size() == 0)
+				if (plugins.size() == 0) {
 					throw new Exception(
 							Translations.getString("error.no_valid_plugin"));
+				}
 				
 				File outFile = new File(Main.RESOURCES_FOLDER
 						+ File.separator
@@ -105,17 +110,28 @@ public class ActionInstallPlugin extends AbstractAction {
 						+ file.getName());
 				
 				if (outFile.exists()) {
-					outFile.delete();
+					JOptionPane.showMessageDialog(
+							MainFrame.getInstance().getFrame(),
+							Translations.getString("action.install_plugin.plugin_already_installed"),
+							Translations.getString("general.information"),
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					return;
 				}
 				
 				outFile.createNewFile();
 				
 				FileUtils.copyFile(file, outFile);
 				
-				Main.API_PLUGINS.loadPlugin(outFile);
+				plugins = Main.API_PLUGINS.loadJar(outFile);
 				
 				GuiLogger.getLogger().info(
-						"Plugin loaded: " + outFile.getAbsolutePath());
+						"Plugin jar file loaded: " + outFile.getAbsolutePath());
+				
+				for (SynchronizerGuiPlugin plugin : plugins)
+					GuiLogger.getLogger().info(
+							"Plugin loaded: "
+									+ plugin.getSynchronizerApi().getApiName());
 				
 				JOptionPane.showMessageDialog(
 						MainFrame.getInstance().getFrame(),

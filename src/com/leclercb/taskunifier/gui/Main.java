@@ -288,7 +288,7 @@ public class Main {
 						&& FileUtils.getExtention(file.getAbsolutePath()).equals(
 								"jar")) {
 					try {
-						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadPlugin(file);
+						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadJar(file);
 						
 						if (plugins.size() != 0) {
 							GuiLogger.getLogger().info(
