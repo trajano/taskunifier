@@ -33,7 +33,7 @@ public final class PluginUtils {
 									+ file.getAbsolutePath());
 				}
 				
-				if (plugins.size() >= 1) {
+				if (plugins.size() > 1) {
 					throw new PluginException(
 							PluginExceptionType.MORE_THAN_ONE_PLUGIN,
 							"Jar file contains more than one plugin: "
@@ -68,7 +68,10 @@ public final class PluginUtils {
 				}
 				
 				return;
+			} catch (PluginException e) {
+				throw e;
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new PluginException(
 						PluginExceptionType.ERROR_LOADING_PLUGIN,
 						"Could not load plugin jar file: "

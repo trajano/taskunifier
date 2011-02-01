@@ -123,20 +123,23 @@ public class ActionInstallPlugin extends AbstractAction {
 				switch (e.getType()) {
 					case ERROR_LOADING_PLUGIN:
 						message = Translations.getString("error.cannot_install_plugin");
+						break;
 					case NO_VALID_PLUGIN:
 						message = Translations.getString("error.no_valid_plugin");
+						break;
 					case MORE_THAN_ONE_PLUGIN:
 						message = Translations.getString("error.more_than_one_plugin");
+						break;
 					case PLUGIN_FOUND:
 						message = Translations.getString("error.plugin_already_installed");
+						break;
 				}
 				
 				GuiLogger.getLogger().warning(e.getMessage());
 				
 				ErrorDialog dialog = new ErrorDialog(
 						MainFrame.getInstance().getFrame(),
-						message,
-						e);
+						message);
 				dialog.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
