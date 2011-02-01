@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
@@ -274,7 +275,7 @@ public class Main {
 		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
 				SynchronizerGuiPlugin.class);
 		
-		API_PLUGINS.addPlugin(new DummyGuiPlugin());
+		API_PLUGINS.addPlugin(DummyGuiPlugin.getInstance());
 		
 		File pluginsFolder = new File(RESOURCES_FOLDER
 				+ File.separator
@@ -288,20 +289,38 @@ public class Main {
 						&& FileUtils.getExtention(file.getAbsolutePath()).equals(
 								"jar")) {
 					try {
-						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadJar(file);
+						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadJar(
+								file,
+								false);
 						
-						if (plugins.size() != 0) {
-							GuiLogger.getLogger().info(
-									"Plugin jar file loaded: "
-											+ file.getAbsolutePath());
-							
-							for (SynchronizerGuiPlugin plugin : plugins)
-								GuiLogger.getLogger().info(
-										"Plugin loaded: "
-												+ plugin.getSynchronizerApi().getApiName());
-						} else {
-							GuiLogger.getLogger().info(
+						if (plugins.size() == 0) {
+							GuiLogger.getLogger().warning(
 									"Jar file doesn't contain any valid plugin: "
+											+ file.getAbsolutePath());
+						} else if (plugins.size() == 1) {
+							List<SynchronizerGuiPlugin> existingPlugins = API_PLUGINS.getPlugins();
+							for (SynchronizerGuiPlugin plugin : plugins) {
+								for (SynchronizerGuiPlugin p : existingPlugins) {
+									if (EqualsUtils.equals(
+											p.getId(),
+											plugin.getId())) {
+										GuiLogger.getLogger().info(
+												"A plugin ("
+														+ p.getName()
+														+ ") with the same ID already exists: "
+														+ plugin.getName());
+										break;
+									}
+								}
+								
+								API_PLUGINS.addPlugin(plugin);
+								
+								GuiLogger.getLogger().info(
+										"Plugin loaded: " + plugin.getName());
+							}
+						} else {
+							GuiLogger.getLogger().warning(
+									"Jar file contains more than one plugin: "
 											+ file.getAbsolutePath());
 						}
 					} catch (Exception e) {

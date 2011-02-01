@@ -76,7 +76,6 @@ import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.actions.ActionUnInstallPlugin;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
@@ -254,7 +253,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.menuBar.add(fileMenu);
 		
 		fileMenu.add(new ActionInstallPlugin(16, 16));
-		fileMenu.add(new ActionUnInstallPlugin(16, 16));
 		fileMenu.addSeparator();
 		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));

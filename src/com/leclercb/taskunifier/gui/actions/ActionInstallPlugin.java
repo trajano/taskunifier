@@ -103,11 +103,17 @@ public class ActionInstallPlugin extends AbstractAction {
 							Translations.getString("error.no_valid_plugin"));
 				}
 				
+				if (plugins.size() > 1) {
+					throw new Exception(
+							Translations.getString("error.more_than_one_plugin"));
+				}
+				
 				File outFile = new File(Main.RESOURCES_FOLDER
 						+ File.separator
 						+ "plugins"
 						+ File.separator
-						+ file.getName());
+						+ plugins.get(0).getId()
+						+ ".jar");
 				
 				if (outFile.exists()) {
 					JOptionPane.showMessageDialog(

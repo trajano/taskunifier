@@ -126,7 +126,9 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("toodledo.token_creation_date");
 		Main.SETTINGS.remove("toodledo.userid");
 		
-		Main.SETTINGS.setStringProperty("api", "TOODLEDO");
+		Main.SETTINGS.setStringProperty("api.id", "1");
+		Main.SETTINGS.setStringProperty("api.version", "1.0");
+		
 		Main.SETTINGS.setStringProperty("review.showed", "false");
 		
 		Main.SETTINGS.setStringProperty("searcher.show_completed_tasks", "true");

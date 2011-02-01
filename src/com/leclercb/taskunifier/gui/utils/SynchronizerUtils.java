@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.ProxyUtils;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
@@ -14,7 +15,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyApi;
 import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 
 public final class SynchronizerUtils {
@@ -24,18 +24,20 @@ public final class SynchronizerUtils {
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
-		String api = Main.SETTINGS.getStringProperty("api");
+		String apiId = Main.SETTINGS.getStringProperty("api.id");
+		String apiVersion = Main.SETTINGS.getStringProperty("api.version");
 		
-		if (api == null)
-			api = DummyApi.getInstance().getApiId();
+		if (apiId == null)
+			return DummyGuiPlugin.getInstance();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			if (plugin.getSynchronizerApi().getApiId().equals(api))
+			if (EqualsUtils.equals(apiId, plugin.getId())
+					&& EqualsUtils.equals(apiVersion, plugin.getVersion()))
 				return plugin;
 		}
 		
-		return new DummyGuiPlugin();
+		return DummyGuiPlugin.getInstance();
 	}
 	
 	public static void initializeProxy() {

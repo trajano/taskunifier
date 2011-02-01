@@ -8,9 +8,18 @@ import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 
 public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
 	
+	private static DummyGuiPlugin INSTANCE;
+	
+	public static DummyGuiPlugin getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new DummyGuiPlugin();
+		
+		return INSTANCE;
+	}
+	
 	private static String VERSION = "1.0";
 	
-	public DummyGuiPlugin() {
+	private DummyGuiPlugin() {
 
 	}
 	

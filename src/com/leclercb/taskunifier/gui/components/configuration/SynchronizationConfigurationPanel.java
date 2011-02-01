@@ -30,7 +30,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.SynchronizerGuiPluginListCellRenderer;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyApi;
+import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -45,13 +45,13 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	@Override
 	public void saveAndApplyConfig() {
 		if (!EqualsUtils.equals(
-				Main.SETTINGS.getStringProperty("api"),
-				((SynchronizerGuiPlugin) this.getValue("API")).getSynchronizerApi().getApiId()))
+				Main.SETTINGS.getStringProperty("api.id"),
+				((SynchronizerGuiPlugin) this.getValue("API")).getId()))
 			SynchronizerUtils.resetSynchronizerAndDeleteModels();
 		
 		Main.SETTINGS.setStringProperty(
-				"api",
-				((SynchronizerGuiPlugin) this.getValue("API")).getSynchronizerApi().getApiId());
+				"api.id",
+				((SynchronizerGuiPlugin) this.getValue("API")).getId());
 		
 		Main.SETTINGS.setEnumProperty(
 				"synchronizer.choice",
@@ -91,8 +91,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		ConfigurationFieldType.ComboBox comboBox = null;
 		
 		comboBox = new ConfigurationFieldType.ComboBox(
-				Main.API_PLUGINS.getPlugins().toArray(
-						new SynchronizerGuiPlugin[0]),
+				Main.API_PLUGINS.getPlugins().toArray(),
 				SynchronizerUtils.getPlugin());
 		
 		comboBox.setRenderer(new SynchronizerGuiPluginListCellRenderer());
@@ -185,8 +184,8 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		}
 		
 		// Disable fields for DUMMY service
-		if (SynchronizerUtils.getPlugin().getSynchronizerApi().getApiId().equals(
-				DummyApi.getInstance().getApiId())) {
+		if (SynchronizerUtils.getPlugin().getId().equals(
+				DummyGuiPlugin.getInstance().getId())) {
 			if (this.containsId("CHOICE"))
 				this.setEnabled("CHOICE", false);
 			

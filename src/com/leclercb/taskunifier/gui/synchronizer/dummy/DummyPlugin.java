@@ -12,6 +12,16 @@ public class DummyPlugin implements SynchronizerPlugin {
 	}
 	
 	@Override
+	public String getId() {
+		return "0";
+	}
+	
+	@Override
+	public String getName() {
+		return "No service dummy plugin";
+	}
+	
+	@Override
 	public String getAuthor() {
 		return "Benjamin Leclerc";
 	}
