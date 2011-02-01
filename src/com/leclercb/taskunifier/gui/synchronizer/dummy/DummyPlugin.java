@@ -18,7 +18,7 @@ public class DummyPlugin implements SynchronizerPlugin {
 	
 	@Override
 	public String getName() {
-		return "No service dummy plugin";
+		return "No Service Plugin";
 	}
 	
 	@Override

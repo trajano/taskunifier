@@ -303,11 +303,14 @@ public class Main {
 								for (SynchronizerGuiPlugin p : existingPlugins) {
 									if (EqualsUtils.equals(
 											p.getId(),
-											plugin.getId())) {
+											plugin.getId())
+											&& EqualsUtils.equals(
+													p.getVersion(),
+													plugin.getVersion())) {
 										GuiLogger.getLogger().info(
 												"A plugin ("
 														+ p.getName()
-														+ ") with the same ID already exists: "
+														+ ") with the same ID and version already exists: "
 														+ plugin.getName());
 										break;
 									}
