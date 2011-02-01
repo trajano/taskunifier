@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -30,8 +29,6 @@ import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
-import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -55,6 +52,8 @@ import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.PluginUtils;
+import com.leclercb.taskunifier.gui.utils.PluginUtils.PluginException;
 
 public class Main {
 	
@@ -285,52 +284,10 @@ public class Main {
 			File[] pluginFiles = pluginsFolder.listFiles();
 			
 			for (File file : pluginFiles) {
-				if (file.isFile()
-						&& FileUtils.getExtention(file.getAbsolutePath()).equals(
-								"jar")) {
-					try {
-						List<SynchronizerGuiPlugin> plugins = API_PLUGINS.loadJar(
-								file,
-								false);
-						
-						if (plugins.size() == 0) {
-							GuiLogger.getLogger().warning(
-									"Jar file doesn't contain any valid plugin: "
-											+ file.getAbsolutePath());
-						} else if (plugins.size() == 1) {
-							List<SynchronizerGuiPlugin> existingPlugins = API_PLUGINS.getPlugins();
-							for (SynchronizerGuiPlugin plugin : plugins) {
-								for (SynchronizerGuiPlugin p : existingPlugins) {
-									if (EqualsUtils.equals(
-											p.getId(),
-											plugin.getId())
-											&& EqualsUtils.equals(
-													p.getVersion(),
-													plugin.getVersion())) {
-										GuiLogger.getLogger().info(
-												"A plugin ("
-														+ p.getName()
-														+ ") with the same ID and version already exists: "
-														+ plugin.getName());
-										break;
-									}
-								}
-								
-								API_PLUGINS.addPlugin(plugin);
-								
-								GuiLogger.getLogger().info(
-										"Plugin loaded: " + plugin.getName());
-							}
-						} else {
-							GuiLogger.getLogger().warning(
-									"Jar file contains more than one plugin: "
-											+ file.getAbsolutePath());
-						}
-					} catch (Exception e) {
-						GuiLogger.getLogger().warning(
-								"Could not load plugin jar file: "
-										+ file.getAbsolutePath());
-					}
+				try {
+					PluginUtils.loadPlugin(file, true);
+				} catch (PluginException e) {
+					GuiLogger.getLogger().warning(e.getMessage());
 				}
 			}
 		}
