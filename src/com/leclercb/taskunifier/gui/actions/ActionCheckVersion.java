@@ -22,9 +22,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.api.synchronizer.AbstractCall;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -64,9 +64,9 @@ public class ActionCheckVersion extends AbstractAction {
 			public void run() {
 				try {
 					SynchronizerUtils.initializeProxy();
-					VersionCall call = new VersionCall();
 					
-					String version = call.getVersion();
+					String version = HttpUtils.getHttpContent(
+							Constants.VERSION_FILE).getMessage().trim();
 					
 					if (Constants.VERSION.compareTo(version) < 0) {
 						GuiLogger.getLogger().info(
@@ -122,14 +122,6 @@ public class ActionCheckVersion extends AbstractAction {
 		});
 		
 		thread.start();
-	}
-	
-	private static class VersionCall extends AbstractCall {
-		
-		public String getVersion() throws Exception {
-			return this.call(Constants.VERSION_FILE).trim();
-		}
-		
 	}
 	
 }
