@@ -18,9 +18,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -130,19 +127,7 @@ public class ActionCheckVersion extends AbstractAction {
 	private static class VersionCall extends AbstractCall {
 		
 		public String getVersion() throws Exception {
-			InputStream stream = this.call(Constants.VERSION_FILE);
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					stream));
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			
-			stream.close();
-			return sb.toString().trim();
+			return this.call(Constants.VERSION_FILE).trim();
 		}
 		
 	}
