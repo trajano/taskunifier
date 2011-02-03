@@ -67,6 +67,8 @@ import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionInstallPlugin;
+import com.leclercb.taskunifier.gui.actions.ActionLogBug;
+import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
@@ -347,6 +349,9 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));
+		helpMenu.addSeparator();
+		helpMenu.add(new ActionLogBug(16, 16));
+		helpMenu.add(new ActionLogFeatureRequest(16, 16));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));

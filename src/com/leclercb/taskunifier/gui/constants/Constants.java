@@ -29,12 +29,14 @@ public final class Constants {
 	}
 	
 	public static final String TITLE = "TaskUnifier";
-	public static final String VERSION = "0.7.0";
+	public static final String VERSION = "0.7.1";
 	
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
 	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
 	public static final String DONATE_URL = "http://sourceforge.net/donate/index.php?group_id=380204";
 	public static final String REVIEW_URL = "http://sourceforge.net/projects/taskunifier/reviews/";
+	public static final String BUG_URL = "http://sourceforge.net/tracker/?group_id=380204";
+	public static final String FEATURE_REQUEST_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	
 	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
 	public static final UndoableEditSupport UNDO_EDIT_SUPPORT = new UndoableEditSupport();

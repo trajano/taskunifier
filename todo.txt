@@ -14,4 +14,4 @@ Build :
 - JavaVersion: clean, build, create-jar
 - TaskUnifierApi: clean, build, create-jar
 - TaskUnifierGui: clean, build, create-jar
-- TaskUnifierPlugins: clean, build, create-jar, copy-jar
+- TaskUnifierPlugin: clean, build, create-jar, copy-jar

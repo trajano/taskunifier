@@ -51,6 +51,9 @@ public final class SettingsVersion {
 		if (version.equals("0.6.4"))
 			version = updateSettings_0_6_4_to_0_7_0();
 		
+		if (version.equals("0.7.0"))
+			version = "0.7.1";
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -140,4 +143,5 @@ public final class SettingsVersion {
 		
 		return "0.7.0";
 	}
+	
 }

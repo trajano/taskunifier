@@ -1,3 +1,6 @@
+Version 0.7.1
+	- Added log bug and log feature request buttons
+
 Version 0.7.0
 	- Drag and drop multiple tasks at once
 	- Delete multiple tasks at once
