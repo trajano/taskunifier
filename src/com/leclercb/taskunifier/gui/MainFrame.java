@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -441,6 +443,14 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.taskNote = new JTextArea();
 		this.taskNote.setText(Translations.getString("error.select_one_task"));
 		this.taskNote.setEnabled(false);
+		this.taskNote.addFocusListener(new FocusAdapter() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				MainFrame.this.valueChanged(null);
+			}
+			
+		});
 		
 		verticalSplitPane.setBottomComponent(new JScrollPane(this.taskNote));
 	}
@@ -461,6 +471,9 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	@Override
 	public void valueChanged(ListSelectionEvent event) {
+		if (event != null && event.getValueIsAdjusting())
+			return;
+		
 		if (this.previousSelectedTask != null) {
 			if (!EqualsUtils.equals(
 					this.previousSelectedTask.getNote(),

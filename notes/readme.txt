@@ -3,6 +3,8 @@ HISTORY
 
 Version 0.7.1
 	- Added log bug and log feature request buttons
+	- Improved handling of http errors
+	- Task note is saved before sync (was not always the case)
 
 Version 0.7.0
 	- Drag and drop multiple tasks at once
