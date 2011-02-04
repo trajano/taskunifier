@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerHttpException;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -130,8 +131,16 @@ public class ErrorDialog extends JDialog {
 							file.createNewFile();
 							PrintStream ps = new PrintStream(file);
 							
-							// if (ErrorDialog.this.throwable instanceof SynchronizerParsingException)
-							// ps.println(((SynchronizerParsingException) ErrorDialog.this.throwable).getContent());
+							if (ErrorDialog.this.message != null)
+								ps.println(ErrorDialog.this.message);
+							
+							if (ErrorDialog.this.throwable instanceof SynchronizerHttpException)
+								ps.println(((SynchronizerHttpException) ErrorDialog.this.throwable).getMessage());
+							
+							// if (ErrorDialog.this.throwable instanceof
+							// SynchronizerParsingException)
+							// ps.println(((SynchronizerParsingException)
+							// ErrorDialog.this.throwable).getContent());
 							
 							ErrorDialog.this.throwable.printStackTrace(ps);
 							ps.close();
