@@ -33,14 +33,12 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -103,7 +101,6 @@ import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class MainFrame extends JFrame implements MainView, ListSelectionListener, SavePropertiesListener, ActionListener {
 	
@@ -326,32 +323,30 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
-		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		menuBar.add(viewMenu);
-		
-		ButtonGroup group = new ButtonGroup();
-		
-		ActionListener listener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.taskPanel.setView(TaskPanel.View.valueOf(e.getActionCommand()));
-			}
-			
-		};
-		
-		for (TaskPanel.View view : TaskPanel.View.values()) {
-			JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem(
-					TranslationsUtils.translateTaskPanelView(view));
-			menuItem.setActionCommand(view.name());
-			menuItem.addActionListener(listener);
-			viewMenu.add(menuItem);
-			group.add(menuItem);
-			
-			if (this.taskPanel.getView() == view)
-				menuItem.setSelected(true);
-		}
-		
+		/*
+		 * JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
+		 * menuBar.add(viewMenu);
+		 * 
+		 * ButtonGroup group = new ButtonGroup();
+		 * 
+		 * ActionListener listener = new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 * MainFrame.this.
+		 * taskPanel.setView(TaskPanel.View.valueOf(e.getActionCommand())); }
+		 * 
+		 * };
+		 * 
+		 * for (TaskPanel.View view : TaskPanel.View.values()) {
+		 * JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem(
+		 * TranslationsUtils.translateTaskPanelView(view));
+		 * menuItem.setActionCommand(view.name());
+		 * menuItem.addActionListener(listener); viewMenu.add(menuItem);
+		 * group.add(menuItem);
+		 * 
+		 * if (this.taskPanel.getView() == view) menuItem.setSelected(true); }
+		 */
+
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		menuBar.add(helpMenu);
 		
