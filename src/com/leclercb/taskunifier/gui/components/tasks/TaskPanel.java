@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable.PrintMode;
@@ -51,8 +52,11 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		this.taskTable = new TaskTable();
 		this.taskList = new TaskList();
 		
-		this.add(new JScrollPane(this.taskTable), View.TABLE.name());
-		// this.add(new JScrollPane(this.taskList), View.LIST.name());
+		JScrollPane scrollPane = null;
+		
+		scrollPane = new JScrollPane(this.taskTable);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		this.add(scrollPane, View.TABLE.name());
 		
 		this.setView(View.TABLE);
 	}

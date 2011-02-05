@@ -9,6 +9,7 @@ import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
@@ -19,7 +20,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {
+public class ModelTreeNode extends DefaultMutableTreeNode implements TaskSearcherElement {
 	
 	private ModelType modelType;
 	

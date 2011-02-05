@@ -17,10 +17,25 @@
  */
 package com.leclercb.taskunifier.gui.constants;
 
+import javax.swing.SortOrder;
 import javax.swing.undo.UndoableEditSupport;
 
 import com.leclercb.commons.gui.swing.undo.TransferActionListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class Constants {
 	
@@ -43,8 +58,114 @@ public final class Constants {
 	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
 	
+	public static final TaskSearcher[] GENERAL_TASK_SEARCHERS;
+	
 	static {
 		UNDO_EDIT_SUPPORT.addUndoableEditListener(UNDO_MANAGER);
+		
+		GENERAL_TASK_SEARCHERS = new TaskSearcher[5];
+		
+		TaskFilter filter;
+		TaskSorter sorter;
+		
+		sorter = new TaskSorter();
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
+				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end"))
+			sorter.addElement(new TaskSorterElement(
+					0,
+					TaskColumn.COMPLETED,
+					SortOrder.ASCENDING));
+		
+		sorter.addElement(new TaskSorterElement(
+				1,
+				TaskColumn.DUE_DATE,
+				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(
+				2,
+				TaskColumn.PRIORITY,
+				SortOrder.DESCENDING));
+		sorter.addElement(new TaskSorterElement(
+				3,
+				TaskColumn.TITLE,
+				SortOrder.ASCENDING));
+		
+		// All Tasks
+		filter = new TaskFilter();
+		
+		GENERAL_TASK_SEARCHERS[0] = new TaskSearcher(
+				Translations.getString("searcherlist.general.all_tasks"),
+				Images.getResourceFile("document.png"),
+				filter,
+				sorter.clone());
+		
+		// Hot List
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.DUE_DATE,
+				DaysCondition.LESS_THAN_OR_EQUALS,
+				3));
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.PRIORITY,
+				EnumCondition.GREATER_THAN_OR_EQUALS,
+				TaskPriority.HIGH));
+		
+		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
+				Translations.getString("searcherlist.general.hot_list"),
+				Images.getResourceFile("hot_pepper.png"),
+				filter,
+				sorter.clone());
+		
+		// Starred
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.STAR,
+				StringCondition.EQUALS,
+				"true"));
+		
+		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
+				Translations.getString("searcherlist.general.starred"),
+				Images.getResourceFile("star.png"),
+				filter,
+				sorter.clone());
+		
+		// Next Action
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.STATUS,
+				EnumCondition.EQUALS,
+				TaskStatus.NEXT_ACTION));
+		
+		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
+				Translations.getString("searcherlist.general.next_action"),
+				Images.getResourceFile("next.png"),
+				filter,
+				sorter.clone());
+		
+		// Completed
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"true"));
+		
+		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
+				Translations.getString("searcherlist.general.completed"),
+				Images.getResourceFile("check.png"),
+				filter,
+				sorter.clone());
 	}
 	
 }

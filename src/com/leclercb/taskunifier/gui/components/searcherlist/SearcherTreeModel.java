@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.SortOrder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -30,139 +29,20 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.ModelTreeNode;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.SearcherTreeNode;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.models.ModelComparator;
 import com.leclercb.taskunifier.gui.models.TaskSearcherComparator;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherTreeModel extends DefaultTreeModel implements ActionSupported, ListChangeListener, PropertyChangeListener {
 	
 	public static final String ACT_NODE_ADDED = "SEARCHER_TREE_MODEL_NODE_ADDED";
 	public static final String ACT_NODE_REMOVED = "SEARCHER_TREE_MODEL_NODE_REMOVED";
-	
-	private static final TaskSearcher[] GENERAL_TASK_SEARCHERS;
-	
-	static {
-		GENERAL_TASK_SEARCHERS = new TaskSearcher[5];
-		
-		TaskFilter filter;
-		TaskSorter sorter;
-		
-		sorter = new TaskSorter();
-		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
-				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end"))
-			sorter.addElement(new TaskSorterElement(
-					0,
-					TaskColumn.COMPLETED,
-					SortOrder.ASCENDING));
-		
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				2,
-				TaskColumn.PRIORITY,
-				SortOrder.DESCENDING));
-		sorter.addElement(new TaskSorterElement(
-				3,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
-		// All Tasks
-		filter = new TaskFilter();
-		
-		GENERAL_TASK_SEARCHERS[0] = new TaskSearcher(
-				Translations.getString("searcherlist.general.all_tasks"),
-				Images.getResourceFile("document.png"),
-				filter,
-				sorter.clone());
-		
-		// Hot List
-		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.DUE_DATE,
-				DaysCondition.LESS_THAN_OR_EQUALS,
-				3));
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.PRIORITY,
-				EnumCondition.GREATER_THAN_OR_EQUALS,
-				TaskPriority.HIGH));
-		
-		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
-				Translations.getString("searcherlist.general.hot_list"),
-				Images.getResourceFile("hot_pepper.png"),
-				filter,
-				sorter.clone());
-		
-		// Starred
-		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.STAR,
-				StringCondition.EQUALS,
-				"true"));
-		
-		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
-				Translations.getString("searcherlist.general.starred"),
-				Images.getResourceFile("star.png"),
-				filter,
-				sorter.clone());
-		
-		// Next Action
-		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.STATUS,
-				EnumCondition.EQUALS,
-				TaskStatus.NEXT_ACTION));
-		
-		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
-				Translations.getString("searcherlist.general.next_action"),
-				Images.getResourceFile("next.png"),
-				filter,
-				sorter.clone());
-		
-		// Completed
-		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"true"));
-		
-		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
-				Translations.getString("searcherlist.general.completed"),
-				Images.getResourceFile("check.png"),
-				filter,
-				sorter.clone());
-	}
 	
 	private ActionSupport actionSupport;
 	
@@ -198,7 +78,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ActionSupport
 				Translations.getString("searcherlist.general"));
 		((DefaultMutableTreeNode) this.getRoot()).add(this.categoryGeneral);
 		
-		for (TaskSearcher searcher : GENERAL_TASK_SEARCHERS)
+		for (TaskSearcher searcher : Constants.GENERAL_TASK_SEARCHERS)
 			this.categoryGeneral.add(new SearcherTreeNode(searcher));
 	}
 	

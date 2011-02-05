@@ -3,9 +3,10 @@ package com.leclercb.taskunifier.gui.components.searcherlist.nodes;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class SearcherTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {
+public class SearcherTreeNode extends DefaultMutableTreeNode implements TaskSearcherElement {
 	
 	public SearcherTreeNode(TaskSearcher searcher) {
 		super(searcher);

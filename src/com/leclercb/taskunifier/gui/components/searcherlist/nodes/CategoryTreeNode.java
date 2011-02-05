@@ -4,9 +4,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class CategoryTreeNode extends DefaultMutableTreeNode implements TaskSearcherTreeNode {
+public class CategoryTreeNode extends DefaultMutableTreeNode implements TaskSearcherElement {
 	
 	private ModelType modelType;
 	private String expandedPropetyName;

@@ -35,8 +35,14 @@ import javax.swing.JTextField;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
+import com.explodingpixels.macwidgets.SourceListCategory;
+import com.explodingpixels.macwidgets.SourceListClickListener;
+import com.explodingpixels.macwidgets.SourceListItem;
+import com.explodingpixels.macwidgets.SourceListSelectionListener;
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
+import com.leclercb.commons.api.utils.OsUtils;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
@@ -49,14 +55,14 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SearcherPanel extends JPanel implements ActionSupported, SearcherView, TreeSelectionListener {
+public class SearcherPanel extends JPanel implements ActionSupported, SearcherView {
 	
 	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
 	
 	private ActionSupport actionSupport;
 	
 	private JTextField filterTitle;
-	private SearcherTree searcherTree;
+	private SearcherView searcherView;
 	
 	private JButton addButton;
 	private JButton removeButton;
@@ -70,12 +76,12 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	
 	@Override
 	public void selectDefaultTaskSearcher() {
-		this.searcherTree.selectDefaultTaskSearcher();
+		this.searcherView.selectDefaultTaskSearcher();
 	}
 	
 	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
-		TaskSearcher searcher = this.searcherTree.getSelectedTaskSearcher();
+		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
 		
 		if (searcher == null)
 			return null;
@@ -111,26 +117,8 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	}
 	
 	private void initialize() {
-		this.searcherTree = new SearcherTree();
-		this.searcherTree.addTreeSelectionListener(this);
-		
-		this.searcherTree.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					TaskSearcher searcher = SearcherPanel.this.searcherTree.getSelectedTaskSearcher();
-					
-					if (searcher != null
-							&& TaskSearcherFactory.getInstance().contains(
-									searcher.getId()))
-						new ActionEditSearcher().editSearcher(searcher);
-				}
-			}
-			
-		});
-		
 		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		this.filterTitle = new JTextField();
 		
@@ -154,7 +142,71 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 		
 		this.add(panel, BorderLayout.NORTH);
 		
-		this.add(new JScrollPane(this.searcherTree), BorderLayout.CENTER);
+		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+			this.searcherView = new SearcherList();
+			
+			this.add(
+					new JScrollPane(
+							((SearcherList) this.searcherView).getComponent()),
+					BorderLayout.CENTER);
+			
+			((SearcherList) this.searcherView).getSourceList().addSourceListSelectionListener(
+					new SourceListSelectionListener() {
+						
+						@Override
+						public void sourceListItemSelected(SourceListItem e) {
+							SearcherPanel.this.searcherSelected();
+						}
+						
+					});
+			
+			((SearcherList) this.searcherView).getSourceList().addSourceListClickListener(
+					new SourceListClickListener() {
+						
+						@Override
+						public void sourceListCategoryClicked(
+								SourceListCategory category,
+								Button button,
+								int clickCount) {
+
+						}
+						
+						@Override
+						public void sourceListItemClicked(
+								SourceListItem category,
+								Button button,
+								int clickCount) {
+							if (clickCount == 2)
+								SearcherPanel.this.openTaskSearcherEdit();
+						}
+						
+					});
+		} else {
+			this.searcherView = new SearcherTree();
+			
+			this.add(
+					new JScrollPane(((SearcherTree) this.searcherView)),
+					BorderLayout.CENTER);
+			
+			((SearcherTree) this.searcherView).addTreeSelectionListener(new TreeSelectionListener() {
+				
+				@Override
+				public void valueChanged(TreeSelectionEvent e) {
+					SearcherPanel.this.searcherSelected();
+				}
+				
+			});
+			
+			((SearcherTree) this.searcherView).addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (e.getClickCount() == 2)
+						SearcherPanel.this.openTaskSearcherEdit();
+				}
+				
+			});
+		}
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -179,7 +231,7 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
 					TaskSearcherFactory.getInstance().unregister(searcher);
 				} else if (event.getActionCommand().equals("EDIT")) {
-					TaskSearcher searcher = SearcherPanel.this.searcherTree.getSelectedTaskSearcher();
+					TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 					new ActionEditSearcher().editSearcher(searcher);
 				}
 			}
@@ -210,21 +262,28 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 		buttonsPanel.add(this.editButton);
 	}
 	
-	@Override
-	public void valueChanged(TreeSelectionEvent e) {
+	private void searcherSelected() {
 		boolean personalSearcher = false;
 		
-		if (this.searcherTree.getSelectedTaskSearcher() != null)
+		if (SearcherPanel.this.searcherView.getSelectedTaskSearcher() != null)
 			personalSearcher = TaskSearcherFactory.getInstance().contains(
-					this.searcherTree.getSelectedTaskSearcher().getId());
+					SearcherPanel.this.searcherView.getSelectedTaskSearcher().getId());
 		
-		this.filterTitle.setText("");
-		this.removeButton.setEnabled(personalSearcher);
-		this.editButton.setEnabled(personalSearcher);
+		SearcherPanel.this.filterTitle.setText("");
+		SearcherPanel.this.removeButton.setEnabled(personalSearcher);
+		SearcherPanel.this.editButton.setEnabled(personalSearcher);
 		
-		this.actionSupport.fireActionPerformed(
+		SearcherPanel.this.actionSupport.fireActionPerformed(
 				ActionEvent.ACTION_PERFORMED,
 				ACT_SEARCHER_SELECTED);
+	}
+	
+	private void openTaskSearcherEdit() {
+		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
+		
+		if (searcher != null
+				&& TaskSearcherFactory.getInstance().contains(searcher.getId()))
+			new ActionEditSearcher().editSearcher(searcher);
 	}
 	
 }

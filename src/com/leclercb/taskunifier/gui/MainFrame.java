@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -117,7 +120,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
 	
-	private JMenuBar menuBar;
 	private SearcherPanel searcherPanel;
 	private TaskPanel taskPanel;
 	private JTextArea taskNote;
@@ -153,7 +155,10 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		panel.setBorder(new EmptyBorder(5, 5, 0, 5));
 		
 		this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		this.horizontalSplitPane.setBorder(BorderFactory.createEmptyBorder());
+		
 		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		this.verticalSplitPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		this.loadSplitPaneSettings();
 		
@@ -253,10 +258,10 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 			application.addApplicationListener(adapter);
 		}
 		
-		this.menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
-		this.menuBar.add(fileMenu);
+		menuBar.add(fileMenu);
 		
 		fileMenu.add(new ActionInstallPlugin(16, 16));
 		fileMenu.addSeparator();
@@ -281,7 +286,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		fileMenu.add(new ActionQuit(16, 16));
 		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
-		this.menuBar.add(editMenu);
+		menuBar.add(editMenu);
 		
 		editMenu.add(new ActionUndo(16, 16));
 		editMenu.add(new ActionRedo(16, 16));
@@ -291,7 +296,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		editMenu.add(new ActionPaste(16, 16));
 		
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
-		this.menuBar.add(tasksMenu);
+		menuBar.add(tasksMenu);
 		
 		tasksMenu.add(new ActionSynchronize(16, 16));
 		tasksMenu.add(new ActionScheduledSync(16, 16));
@@ -321,7 +326,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionDelete(16, 16));
 		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		this.menuBar.add(viewMenu);
+		menuBar.add(viewMenu);
 		
 		ButtonGroup group = new ButtonGroup();
 		
@@ -347,7 +352,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		}
 		
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
-		this.menuBar.add(helpMenu);
+		menuBar.add(helpMenu);
 		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
 		helpMenu.addSeparator();
@@ -360,7 +365,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));
 		
-		this.setJMenuBar(this.menuBar);
+		this.setJMenuBar(menuBar);
 	}
 	
 	private void initializeToolBar() {
@@ -368,7 +373,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		Object[] toolBarObjects = null;
 		
 		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			toolBarObjects = this.getToolBarObjects(16, 16);
+			toolBarObjects = this.getToolBarObjects(32, 32);
 			toolBarCreator = new MacToolBarCreator();
 		} else {
 			toolBarObjects = this.getToolBarObjects(32, 32);
@@ -395,7 +400,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.add(toolBarCreator.getComponent(), BorderLayout.NORTH);
 	}
 	
-	private Object[] getToolBarObjects(int iconWith, int iconHeight) {
+	private Object[] getToolBarObjects(final int iconWith, final int iconHeight) {
 		// TEMPLATE
 		final JPopupMenu popupMenu = new JPopupMenu(
 				Translations.getString("action.name.add_template_task"));
@@ -412,20 +417,36 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 					
 				});
 		
-		final JButton addTemplateTaskButton = new JButton(
-				Images.getResourceImage("duplicate.png", iconWith, iconHeight));
-		addTemplateTaskButton.setToolTipText(Translations.getString("action.name.add_template_task"));
-		addTemplateTaskButton.addActionListener(new ActionListener() {
+		final JButton addTemplateTaskButton = new JButton();
+		
+		Action actionAddTemplateTask = new AbstractAction() {
+			
+			{
+				this.putValue(
+						NAME,
+						Translations.getString("action.name.add_template_task"));
+				
+				this.putValue(SMALL_ICON, Images.getResourceImage(
+						"duplicate.png",
+						iconWith,
+						iconHeight));
+				
+				this.putValue(
+						SHORT_DESCRIPTION,
+						Translations.getString("action.description.add_template_task"));
+			}
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent evt) {
 				popupMenu.show(
 						addTemplateTaskButton,
 						addTemplateTaskButton.getX(),
 						addTemplateTaskButton.getY());
 			}
 			
-		});
+		};
+		
+		addTemplateTaskButton.setAction(actionAddTemplateTask);
 		// TEMPLATE
 		
 		return new Object[] {
@@ -433,15 +454,10 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 				addTemplateTaskButton,
 				new ActionDelete(iconWith, iconHeight),
 				null,
-				new ActionManageModels(iconWith, iconHeight),
-				new ActionManageTemplates(iconWith, iconHeight),
-				null,
 				new ActionSynchronize(iconWith, iconHeight),
 				new ActionScheduledSync(iconWith, iconHeight),
 				null,
 				new ActionConfiguration(iconWith, iconHeight),
-				null,
-				new ActionPrint(iconWith, iconHeight),
 				null,
 				new ActionHelp(iconWith, iconHeight) };
 	}
@@ -469,6 +485,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private void initializeTaskNote(JSplitPane verticalSplitPane) {
 		this.taskNote = new JTextArea();
+		this.taskNote.setBorder(BorderFactory.createEmptyBorder());
 		this.taskNote.setText(Translations.getString("error.select_one_task"));
 		this.taskNote.setEnabled(false);
 		this.taskNote.addFocusListener(new FocusAdapter() {
@@ -480,7 +497,10 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 			
 		});
 		
-		verticalSplitPane.setBottomComponent(new JScrollPane(this.taskNote));
+		JScrollPane scrollPane = new JScrollPane(this.taskNote);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		
+		verticalSplitPane.setBottomComponent(scrollPane);
 	}
 	
 	private void initializeDefaultTaskSearcher() {

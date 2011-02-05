@@ -21,10 +21,9 @@ import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
-import com.leclercb.taskunifier.gui.components.searcherlist.nodes.TaskSearcherTreeNode;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
-public class SearcherTree extends JTree implements SavePropertiesListener, ActionListener {
+public class SearcherTree extends JTree implements SavePropertiesListener, ActionListener, SearcherView {
 	
 	public SearcherTree() {
 		super(new SearcherTreeModel());
@@ -68,12 +67,14 @@ public class SearcherTree extends JTree implements SavePropertiesListener, Actio
 		this.initializeCopyAndPaste();
 	}
 	
+	@Override
 	public void selectDefaultTaskSearcher() {
 		this.setSelectionPath(((SearcherTreeModel) this.getModel()).getDefaultTaskSearcherPath());
 	}
 	
+	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
-		TaskSearcherTreeNode node = (TaskSearcherTreeNode) this.getLastSelectedPathComponent();
+		TaskSearcherElement node = (TaskSearcherElement) this.getLastSelectedPathComponent();
 		
 		if (node == null)
 			return null;
