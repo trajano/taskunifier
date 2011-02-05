@@ -16,11 +16,13 @@
         <pathelement location="${directory.gui}/bin"/>
         <pathelement location="${directory.gui}/lib/applejavaextensions.jar"/>
         <pathelement location="${directory.gui}/lib/commons.jar"/>
+        <pathelement location="${directory.gui}/lib/forms-1.2.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-binding-2.2.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-common-1.1.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-forms-1.4.0.jar"/>
         <pathelement location="${directory.gui}/lib/json.jar"/>
         <pathelement location="${directory.gui}/lib/jtattoo.jar"/>
+        <pathelement location="${directory.gui}/lib/mac_widgets-0.9.5.jar"/>
         <pathelement location="${directory.gui}/lib/taskunifierapi.jar"/>
         <pathelement location="${directory.gui}/lib/microba-0.4.4.3.jar"/>
         <pathelement location="${directory.gui}/lib/trident.jar"/>

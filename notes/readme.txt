@@ -96,7 +96,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Icons: Creative Commons
 -----------------------
-Licence: http://creativecommons.org/licenses/by-nd/3.0/)
+Licence: http://creativecommons.org/licenses/by-nd/3.0/
+
+Mac Widgets
+-----------
+http://code.google.com/p/macwidgets/
+Licence: http://www.gnu.org/licenses/lgpl.html
 
 Themes: Substance
 -----------------

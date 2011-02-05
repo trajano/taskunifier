@@ -87,7 +87,9 @@ import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
-import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
+import com.leclercb.taskunifier.gui.components.statusbar.AbstractStatusBar;
+import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
+import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
@@ -123,7 +125,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	private SearcherPanel searcherPanel;
 	private TaskPanel taskPanel;
 	private JTextArea taskNote;
-	private StatusBar statusBar;
 	
 	private Task previousSelectedTask;
 	
@@ -463,10 +464,16 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	}
 	
 	private void initializeStatusBar() {
-		this.statusBar = new StatusBar();
-		this.statusBar.initializeScheduledSyncStatus(this.scheduledSyncThread);
+		AbstractStatusBar statusBar = null;
 		
-		this.add(this.statusBar, BorderLayout.SOUTH);
+		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf())
+			statusBar = new MacStatusBar();
+		else
+			statusBar = new DefaultStatusBar();
+		
+		statusBar.initializeScheduledSyncStatus(this.scheduledSyncThread);
+		
+		this.add(statusBar, BorderLayout.SOUTH);
 	}
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {

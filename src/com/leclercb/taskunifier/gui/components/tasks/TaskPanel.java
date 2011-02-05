@@ -20,7 +20,6 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.components.tasks.list.TaskList;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
@@ -30,14 +29,12 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	public static enum View {
 		
 		TABLE;
-		// LIST;
 		
 	}
 	
 	private View currentView;
 	
 	private TaskTable taskTable;
-	private TaskList taskList;
 	
 	public TaskPanel() {
 		this.initialize();
@@ -50,7 +47,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		this.setLayout(new CardLayout());
 		
 		this.taskTable = new TaskTable();
-		this.taskList = new TaskList();
 		
 		JScrollPane scrollPane = null;
 		
@@ -132,8 +128,11 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	}
 	
 	public void addListSelectionListener(ListSelectionListener listener) {
-		this.taskList.getSelectionModel().addListSelectionListener(listener);
 		this.taskTable.getSelectionModel().addListSelectionListener(listener);
+	}
+	
+	public void removeListSelectionListener(ListSelectionListener listener) {
+		this.taskTable.getSelectionModel().removeListSelectionListener(listener);
 	}
 	
 	@Override

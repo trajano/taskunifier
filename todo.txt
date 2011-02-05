@@ -11,6 +11,7 @@ New plugin :
 
 New lib :
 - Gui MANIFEST.MF
+- Gui build.xml
 - windows.taskunifier.jsmooth
 
 Build :

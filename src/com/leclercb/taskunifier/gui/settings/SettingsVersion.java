@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -148,7 +149,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.0 to 0.7.1");
 		
-		Main.SETTINGS.setStringProperty("theme.lookandfeel", "");
+		if (OsUtils.isMacOSX())
+			Main.SETTINGS.setStringProperty("theme.lookandfeel", "");
 		
 		return "0.7.1";
 	}
