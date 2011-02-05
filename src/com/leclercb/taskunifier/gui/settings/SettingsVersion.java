@@ -52,7 +52,7 @@ public final class SettingsVersion {
 			version = updateSettings_0_6_4_to_0_7_0();
 		
 		if (version.equals("0.7.0"))
-			version = "0.7.1";
+			version = updateSettings_0_7_0_to_0_7_1();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -142,6 +142,15 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("proxy.use_system_proxy", "false");
 		
 		return "0.7.0";
+	}
+	
+	private static String updateSettings_0_7_0_to_0_7_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.7.0 to 0.7.1");
+		
+		Main.SETTINGS.setStringProperty("theme.lookandfeel", "");
+		
+		return "0.7.1";
 	}
 	
 }

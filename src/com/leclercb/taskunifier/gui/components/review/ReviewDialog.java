@@ -22,7 +22,7 @@ public class ReviewDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.review"));
-		this.setSize(500, 300);
+		this.setSize(600, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		

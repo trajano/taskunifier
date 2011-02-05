@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
@@ -93,6 +94,10 @@ public class Main {
 				try {
 					if (lookAndFeel != null) {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
+						if (laf != null)
+							laf.setLookAndFeel();
+					} else {
+						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						if (laf != null)
 							laf.setLookAndFeel();
 					}

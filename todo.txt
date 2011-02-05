@@ -9,6 +9,10 @@ New plugin :
 - SynchronizerPlugin
 - SynchronizerGuiPlugin
 
+New lib :
+- Gui MANIFEST.MF
+- windows.taskunifier.jsmooth
+
 Build :
 - Commons: clean, build, create-jar
 - JavaVersion: clean, build, create-jar
