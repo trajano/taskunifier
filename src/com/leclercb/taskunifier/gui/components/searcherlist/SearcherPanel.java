@@ -118,7 +118,6 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		this.filterTitle = new JTextField();
 		

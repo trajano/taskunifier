@@ -129,6 +129,12 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		this.initialize();
 	}
 	
+	@Override
+	public void setVisible(boolean b) {
+		super.setVisible(b);
+		this.repaint();
+	}
+	
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
@@ -150,7 +156,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(new EmptyBorder(5, 5, 0, 5));
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		this.horizontalSplitPane.setBorder(BorderFactory.createEmptyBorder());
