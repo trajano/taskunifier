@@ -28,7 +28,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -54,6 +53,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class SearcherPanel extends JPanel implements ActionSupported, SearcherView {
 	
@@ -132,14 +132,9 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 			
 		});
 		
-		JPanel panel = new JPanel(new BorderLayout(5, 0));
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
-		panel.add(
-				new JLabel(Images.getResourceImage("search.png", 16, 16)),
-				BorderLayout.WEST);
-		panel.add(this.filterTitle, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.NORTH);
+		JPanel searchField = ComponentFactory.createSearchField(this.filterTitle);
+		searchField.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+		this.add(searchField, BorderLayout.NORTH);
 		
 		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			this.searcherView = new SearcherList();

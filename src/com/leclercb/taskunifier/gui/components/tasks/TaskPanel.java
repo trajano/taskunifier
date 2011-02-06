@@ -7,9 +7,7 @@ import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -23,6 +21,7 @@ import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener {
 	
@@ -48,11 +47,9 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		
 		this.taskTable = new TaskTable();
 		
-		JScrollPane scrollPane = null;
-		
-		scrollPane = new JScrollPane(this.taskTable);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		this.add(scrollPane, View.TABLE.name());
+		this.add(
+				ComponentFactory.createJScrollPane(this.taskTable),
+				View.TABLE.name());
 		
 		this.setView(View.TABLE);
 	}

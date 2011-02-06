@@ -39,7 +39,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -101,6 +100,7 @@ import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class MainFrame extends JFrame implements MainView, ListSelectionListener, SavePropertiesListener, ActionListener {
 	
@@ -505,10 +505,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 			
 		});
 		
-		JScrollPane scrollPane = new JScrollPane(this.taskNote);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
-		verticalSplitPane.setBottomComponent(scrollPane);
+		verticalSplitPane.setBottomComponent(ComponentFactory.createJScrollPane(this.taskNote));
 	}
 	
 	private void initializeDefaultTaskSearcher() {
