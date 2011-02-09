@@ -24,7 +24,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -64,6 +63,7 @@ import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TemplateConfigurationPanel extends JSplitPane {
 	
@@ -217,7 +217,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(new JScrollPane(rightPanel));
+		this.setRightComponent(ComponentFactory.createJScrollPane(rightPanel));
 		
 		JPanel info = new JPanel();
 		info.setLayout(new SpringLayout());

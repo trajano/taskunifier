@@ -29,7 +29,6 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import com.leclercb.taskunifier.gui.Main;
@@ -37,6 +36,7 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
@@ -125,21 +125,21 @@ public class ConfigurationDialog extends JDialog {
 		this.generalConfigurationPanel = new GeneralConfigurationPanel(false);
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.general"),
-				new JScrollPane(this.generalConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.generalConfigurationPanel));
 	}
 	
 	private void initializeProxyPanel(JTabbedPane tabbedPane) {
 		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.proxy"),
-				new JScrollPane(this.proxyConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.proxyConfigurationPanel));
 	}
 	
 	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
 		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.columns"),
-				new JScrollPane(this.columnsConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.columnsConfigurationPanel));
 	}
 	
 	private void initializeThemePanel(JTabbedPane tabbedPane) {
@@ -147,7 +147,7 @@ public class ConfigurationDialog extends JDialog {
 				new Window[] { this, this.getOwner() });
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.theme"),
-				new JScrollPane(this.themeConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.themeConfigurationPanel));
 	}
 	
 	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
@@ -155,7 +155,7 @@ public class ConfigurationDialog extends JDialog {
 				false);
 		tabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
-				new JScrollPane(this.synchronizationConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.synchronizationConfigurationPanel));
 	}
 	
 	private void initializePluginPanel(final JTabbedPane tabbedPane) {
@@ -173,8 +173,7 @@ public class ConfigurationDialog extends JDialog {
 					
 					tabbedPane.addTab(
 							Translations.getString("configuration.tab.synchronization"),
-							new JScrollPane(
-									ConfigurationDialog.this.synchronizationConfigurationPanel));
+							ComponentFactory.createJScrollPane(ConfigurationDialog.this.synchronizationConfigurationPanel));
 					
 					ConfigurationDialog.this.pluginConfigurationPanel = new PluginConfigurationPanel(
 							false,
@@ -183,8 +182,7 @@ public class ConfigurationDialog extends JDialog {
 					if (ConfigurationDialog.this.pluginConfigurationPanel != null)
 						tabbedPane.addTab(
 								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
-								new JScrollPane(
-										ConfigurationDialog.this.pluginConfigurationPanel));
+								ComponentFactory.createJScrollPane(ConfigurationDialog.this.pluginConfigurationPanel));
 					
 					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 2);
 				}
@@ -198,7 +196,7 @@ public class ConfigurationDialog extends JDialog {
 		
 		tabbedPane.addTab(
 				SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
-				new JScrollPane(this.pluginConfigurationPanel));
+				ComponentFactory.createJScrollPane(this.pluginConfigurationPanel));
 	}
 	
 	private void saveAndApplyConfig() {

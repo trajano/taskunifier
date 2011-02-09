@@ -18,17 +18,16 @@
 package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -52,12 +51,12 @@ abstract class TemplateList extends JPanel {
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.templateList = new JList();
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new TemplateListCellRenderer());
 		this.templateList.setModel(new TemplateModel());
-		this.templateList.setBorder(new LineBorder(Color.BLACK));
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override

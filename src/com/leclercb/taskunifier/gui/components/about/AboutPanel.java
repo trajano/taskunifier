@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.about;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -57,7 +56,6 @@ public class AboutPanel extends JPanel {
 		
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setLineWrap(true);

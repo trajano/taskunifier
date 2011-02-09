@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -104,6 +104,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	public void pack() {
 		this.removeAll();
 		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -143,7 +144,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 				6); // xPad, yPad
 		
 		mainPanel.add(panel, BorderLayout.NORTH);
-		this.add(new JScrollPane(mainPanel), BorderLayout.CENTER);
+		this.add(mainPanel, BorderLayout.CENTER);
 	}
 	
 	/*
