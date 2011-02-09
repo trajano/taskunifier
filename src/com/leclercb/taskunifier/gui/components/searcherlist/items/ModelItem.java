@@ -1,10 +1,14 @@
 package com.leclercb.taskunifier.gui.components.searcherlist.items;
 
+import java.util.List;
+
 import javax.swing.SortOrder;
 
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -16,6 +20,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	
@@ -28,6 +33,7 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		this.modelType = modelType;
 		this.model = model;
+		this.updateBadgeCount();
 	}
 	
 	public ModelType getModelType() {
@@ -36,6 +42,18 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	
 	public Model getModel() {
 		return this.model;
+	}
+	
+	public void updateBadgeCount() {
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		TaskSearcher searcher = this.getTaskSearcher();
+		
+		int count = 0;
+		for (Task task : tasks)
+			if (TaskUtils.showTask(task, searcher.getFilter()))
+				count++;
+		
+		this.setCounterValue(count);
 	}
 	
 	@Override

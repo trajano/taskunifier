@@ -17,16 +17,13 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.sorter;
 
-import java.util.List;
-
 import javax.swing.RowFilter;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 	
@@ -51,23 +48,7 @@ public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
 		TaskTableModel taskTableModel = entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
 		
-		if (!task.getModelStatus().equals(ModelStatus.LOADED)
-				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
-			return false;
-		}
-		
-		// If a filtered parent task has non filtered children, it must be
-		// displayed
-		if (task.getParent() == null) {
-			List<Task> tasks = TaskFactory.getInstance().getList();
-			for (Task t : tasks) {
-				if (task.equals(t.getParent()))
-					if (this.filter.include(t))
-						return true;
-			}
-		}
-		
-		return this.filter.include(task);
+		return TaskUtils.showTask(task, this.filter);
 	}
 	
 }

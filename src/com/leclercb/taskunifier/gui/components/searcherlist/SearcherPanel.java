@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -45,6 +44,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -53,7 +53,7 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
 	private JTextField filterTitle;
-	private SearcherView searcherView;
+	private SearcherList searcherView;
 	
 	private JButton addButton;
 	private JButton removeButton;
@@ -123,15 +123,13 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 		
 		this.searcherView = new SearcherList();
 		
-		this.add(
-				ComponentFactory.createJScrollPane(
-						((SearcherList) this.searcherView).getSourceList().getComponent(),
-						true),
-				BorderLayout.CENTER);
+		this.add(ComponentFactory.createJScrollPane(
+				this.searcherView.getSourceList().getComponent(),
+				true), BorderLayout.CENTER);
 		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);
 		
-		((SearcherList) this.searcherView).getSourceList().addSourceListClickListener(
+		this.searcherView.getSourceList().addSourceListClickListener(
 				new SourceListClickListener() {
 					
 					@Override
@@ -153,66 +151,67 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 					
 				});
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtons();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
-		ActionListener listener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("ADD")) {
-					TaskSearcher searcher = TaskSearcherFactory.getInstance().create(
-							Translations.getString("searcher.default.title"),
-							new TaskFilter(),
-							new TaskSorter());
+	private void initializeButtons() {
+		SourceListControlBar controlBar = new SourceListControlBar();
+		controlBar.hideResizeHandle();
+		this.searcherView.getSourceList().installSourceListControlBar(
+				controlBar);
+		
+		this.addButton = controlBar.createAndAddButton(
+				Images.getResourceImage("add.png", 16, 16),
+				new ActionListener() {
 					
-					new ActionEditSearcher().editSearcher(searcher);
-				} else if (event.getActionCommand().equals("REMOVE")) {
-					TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
-					TaskSearcherFactory.getInstance().unregister(searcher);
-				} else if (event.getActionCommand().equals("EDIT")) {
-					TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
-					new ActionEditSearcher().editSearcher(searcher);
-				}
-			}
-			
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						TaskSearcherFactory.getInstance().create(
+								Translations.getString("searcher.default.title"),
+								new TaskFilter(),
+								new TaskSorter());
+						
+						SearcherPanel.this.openTaskSearcherEdit();
+					}
+					
+				});
 		
-		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
-		this.addButton.setActionCommand("ADD");
-		this.addButton.addActionListener(listener);
-		buttonsPanel.add(this.addButton);
+		this.removeButton = controlBar.createAndAddButton(
+				Images.getResourceImage("remove.png", 16, 16),
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
+						TaskSearcherFactory.getInstance().unregister(searcher);
+					}
+					
+				});
 		
-		this.removeButton = new JButton(Images.getResourceImage(
-				"remove.png",
-				16,
-				16));
-		this.removeButton.setActionCommand("REMOVE");
-		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
-		buttonsPanel.add(this.removeButton);
 		
-		this.editButton = new JButton(Images.getResourceImage(
-				"edit.png",
-				16,
-				16));
-		this.editButton.setActionCommand("EDIT");
-		this.editButton.addActionListener(listener);
+		this.editButton = controlBar.createAndAddButton(
+				Images.getResourceImage("edit.png", 16, 16),
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						SearcherPanel.this.openTaskSearcherEdit();
+					}
+					
+				});
+		
 		this.editButton.setEnabled(false);
-		buttonsPanel.add(this.editButton);
 	}
 	
 	private void openTaskSearcherEdit() {
 		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 		
 		if (searcher != null
-				&& TaskSearcherFactory.getInstance().contains(searcher.getId()))
+				&& TaskSearcherFactory.getInstance().contains(searcher.getId())) {
 			new ActionEditSearcher().editSearcher(searcher);
+			this.searcherView.updateBadges();
+		}
 	}
 	
 	@Override
@@ -237,6 +236,7 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 					event.getSelectedTaskSearcher().getId());
 		
 		this.filterTitle.setText("");
+		this.addButton.setEnabled(true);
 		this.removeButton.setEnabled(personalSearcher);
 		this.editButton.setEnabled(personalSearcher);
 		

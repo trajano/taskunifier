@@ -29,7 +29,6 @@ import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
 import com.explodingpixels.macwidgets.SourceListColorScheme;
 import com.explodingpixels.macwidgets.SourceListContextMenuProvider;
-import com.explodingpixels.macwidgets.SourceListControlBar;
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.explodingpixels.macwidgets.SourceListModel;
 import com.explodingpixels.macwidgets.SourceListModelListener;
@@ -39,11 +38,9 @@ import com.explodingpixels.widgets.TreeUtils;
 
 /**
  * An implementation of an OS X Source List. For a full descrption of what a
- * Source List is, see the
- * <a href=
+ * Source List is, see the <a href=
  * "http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE"
- * >Source Lists</a>
- * section of Apple's Human Interface Guidelines.
+ * >Source Lists</a> section of Apple's Human Interface Guidelines.
  * <p/>
  * This component provides the two basic sytles of Source List: focusble and
  * non-focusable. As the name implies, focusable Source Lists and recieve
@@ -142,9 +139,8 @@ public class SourceList {
 	
 	/**
 	 * Installs the given {@link SourceListControlBar} at the base of this
-	 * {@code SourceList}. This
-	 * method can be called only once, and should generally be called during
-	 * creation of the {@code SourceList}.
+	 * {@code SourceList}. This method can be called only once, and should
+	 * generally be called during creation of the {@code SourceList}.
 	 * 
 	 * @param sourceListControlBar
 	 *            the {@link SourceListControlBar} to add.
@@ -203,8 +199,7 @@ public class SourceList {
 	
 	/**
 	 * Uninstalls any listeners that this {@code SourceList} installed on
-	 * creation, thereby allowing
-	 * it to be garbage collected.
+	 * creation, thereby allowing it to be garbage collected.
 	 */
 	public void dispose() {
 		this.fModel.removeSourceListModelListener(this.fModelListener);
@@ -329,8 +324,7 @@ public class SourceList {
 	 *            the category to set the expanded state on.
 	 * @param expanded
 	 *            true if the given category should be expanded, false if it
-	 *            should be
-	 *            collapsed.
+	 *            should be collapsed.
 	 * @throws IllegalArgumentException
 	 *             if the given {@code SourceListCategory} is not part of the
 	 *             associated {@link SourceListModel}.
@@ -351,8 +345,7 @@ public class SourceList {
 	 *            the item to set the expanded state on.
 	 * @param expanded
 	 *            true if the given item should be expanded, false if it should
-	 *            be
-	 *            collapsed.
+	 *            be collapsed.
 	 * @throws IllegalArgumentException
 	 *             if the given {@code SourceListItem} is not part of the
 	 *             associated {@link SourceListModel}.

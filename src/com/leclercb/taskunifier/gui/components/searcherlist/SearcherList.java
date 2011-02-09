@@ -34,6 +34,8 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
@@ -74,6 +76,9 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
+		TaskFactory.getInstance().addListChangeListener(this);
+		TaskFactory.getInstance().addPropertyChangeListener(this);
+		
 		this.model = new SourceListModel();
 		
 		this.initializeGeneralCategory();
@@ -84,7 +89,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 		this.initializePersonalCategory();
 		
 		this.list = new SourceList(this.model);
-		this.list.setTransferHandler(new TaskSearcherTransferHandler(this));
+		
 		this.initializeToolTipText();
 		this.initializeCopyAndPaste();
 		this.initializeExpandedState();
@@ -135,6 +140,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	}
 	
 	private void initializeCopyAndPaste() {
+		this.list.setTransferHandler(new TaskSearcherTransferHandler(this));
+		
 		JComponent component = this.list.getComponent();
 		
 		ActionMap amap = component.getActionMap();
@@ -402,6 +409,11 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
+		if (event.getValue() instanceof Task) {
+			this.updateBadges();
+			return;
+		}
+		
 		if (event.getValue() instanceof Model) {
 			SourceListCategory category = this.getCategoryFromModel((Model) event.getValue());
 			
@@ -420,6 +432,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					this.selectDefaultTaskSearcher();
 				}
 			}
+			
+			return;
 		}
 		
 		if (event.getValue() instanceof TaskSearcher) {
@@ -439,11 +453,18 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					this.selectDefaultTaskSearcher();
 				}
 			}
+			
+			return;
 		}
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getSource() instanceof Task) {
+			this.updateBadges();
+			return;
+		}
+		
 		if (event.getSource() instanceof Model) {
 			SourceListCategory category = this.getCategoryFromModel((Model) event.getSource());
 			
@@ -474,6 +495,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					this.list.setSelectedItem(item);
 				}
 			}
+			
+			return;
 		}
 		
 		if (event.getSource() instanceof TaskSearcher) {
@@ -493,6 +516,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 				this.model.addItemToCategory(item, this.personalCategory);
 				this.list.setSelectedItem(item);
 			}
+			
+			return;
 		}
 	}
 	
@@ -521,7 +546,34 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 		Main.SETTINGS.setBooleanProperty(
 				this.personalCategory.getExpandedPropetyName(),
 				this.list.isExpanded(this.personalCategory));
+	}
+	
+	public void updateBadges() {
+		List<SourceListItem> items = null;
 		
+		items = this.generalCategory.getItems();
+		for (SourceListItem i : items)
+			((SearcherItem) i).updateBadgeCount();
+		
+		items = this.contextCategory.getItems();
+		for (SourceListItem i : items)
+			((ModelItem) i).updateBadgeCount();
+		
+		items = this.folderCategory.getItems();
+		for (SourceListItem i : items)
+			((ModelItem) i).updateBadgeCount();
+		
+		items = this.goalCategory.getItems();
+		for (SourceListItem i : items)
+			((ModelItem) i).updateBadgeCount();
+		
+		items = this.locationCategory.getItems();
+		for (SourceListItem i : items)
+			((ModelItem) i).updateBadgeCount();
+		
+		items = this.personalCategory.getItems();
+		for (SourceListItem i : items)
+			((SearcherItem) i).updateBadgeCount();
 	}
 	
 }

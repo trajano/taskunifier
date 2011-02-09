@@ -1,9 +1,14 @@
 package com.leclercb.taskunifier.gui.components.searcherlist.items;
 
+import java.util.List;
+
 import com.explodingpixels.macwidgets.SourceListItem;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class SearcherItem extends SourceListItem implements TaskSearcherElement {
 	
@@ -17,6 +22,19 @@ public class SearcherItem extends SourceListItem implements TaskSearcherElement 
 						16,
 						16)));
 		this.searcher = searcher;
+		this.updateBadgeCount();
+	}
+	
+	public void updateBadgeCount() {
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		TaskSearcher searcher = this.getTaskSearcher();
+		
+		int count = 0;
+		for (Task task : tasks)
+			if (TaskUtils.showTask(task, searcher.getFilter()))
+				count++;
+		
+		this.setCounterValue(count);
 	}
 	
 	@Override
