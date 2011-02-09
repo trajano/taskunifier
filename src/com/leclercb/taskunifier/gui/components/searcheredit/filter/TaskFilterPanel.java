@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
@@ -20,6 +19,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskFilterPanel extends JPanel {
 	
@@ -81,7 +81,9 @@ public class TaskFilterPanel extends JPanel {
 					
 				});
 		
-		treePanel.add(new JScrollPane(this.tree), BorderLayout.CENTER);
+		treePanel.add(
+				ComponentFactory.createJScrollPane(this.tree, true),
+				BorderLayout.CENTER);
 		
 		this.add(treePanel, BorderLayout.CENTER);
 		

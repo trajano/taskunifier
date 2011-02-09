@@ -45,6 +45,8 @@ public class ContextConfigurationPanel extends JSplitPane {
 	}
 	
 	private void initialize() {
+		this.setBorder(null);
+		
 		// Initialize Fields
 		final JTextField contextTitle = new JTextField(30);
 		
@@ -56,7 +58,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 			{
 				this.adapter = new BeanAdapter<Context>((Context) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Context.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(contextTitle, titleModel);
 			}
 			

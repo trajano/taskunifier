@@ -31,7 +31,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -41,6 +40,7 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public final class Help {
 	
@@ -160,7 +160,9 @@ public final class Help {
 				
 			});
 			
-			this.add(new JScrollPane(pane), BorderLayout.CENTER);
+			this.add(
+					ComponentFactory.createJScrollPane(pane, false),
+					BorderLayout.CENTER);
 		}
 		
 	}

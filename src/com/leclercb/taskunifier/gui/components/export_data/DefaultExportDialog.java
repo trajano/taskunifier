@@ -48,7 +48,7 @@ public class DefaultExportDialog extends JDialog {
 	
 	private void initialize(String title) {
 		this.setTitle(title);
-		this.setSize(500, 100);
+		this.setSize(500, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		

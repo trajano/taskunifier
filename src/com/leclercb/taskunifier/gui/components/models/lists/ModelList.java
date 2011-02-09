@@ -26,7 +26,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -35,6 +34,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ModelListModel;
 import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public abstract class ModelList extends JPanel {
 	
@@ -71,7 +71,9 @@ public abstract class ModelList extends JPanel {
 			
 		});
 		
-		this.add(new JScrollPane(this.modelList), BorderLayout.CENTER);
+		this.add(
+				ComponentFactory.createJScrollPane(this.modelList, true),
+				BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -85,10 +87,12 @@ public abstract class ModelList extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("ADD"))
+				if (event.getActionCommand().equals("ADD")) {
 					ModelList.this.addModel();
-				else
+				} else {
 					ModelList.this.removeModel((Model) ModelList.this.modelList.getSelectedValue());
+					ModelList.this.modelList.setSelectedIndex(0);
+				}
 			}
 			
 		};

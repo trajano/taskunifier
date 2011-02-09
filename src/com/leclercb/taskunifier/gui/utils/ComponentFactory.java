@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -39,12 +40,18 @@ public final class ComponentFactory {
 		}
 	}
 	
-	public static JScrollPane createJScrollPane(JComponent component) {
+	public static JScrollPane createJScrollPane(
+			JComponent component,
+			boolean border) {
 		JScrollPane scrollPane = new JScrollPane(component);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		
 		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf())
 			IAppWidgetFactory.makeIAppScrollPane(scrollPane);
+		
+		if (border)
+			scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		else
+			scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		
 		return scrollPane;
 	}

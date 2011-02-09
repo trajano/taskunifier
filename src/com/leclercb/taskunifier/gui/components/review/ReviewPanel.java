@@ -27,7 +27,6 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
@@ -37,6 +36,7 @@ import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ReviewPanel extends JPanel {
 	
@@ -98,7 +98,9 @@ public class ReviewPanel extends JPanel {
 		buttonsPanel.add(reviewButton);
 		buttonsPanel.add(donateButton);
 		
-		panel.add(new JScrollPane(pane), BorderLayout.CENTER);
+		panel.add(
+				ComponentFactory.createJScrollPane(pane, true),
+				BorderLayout.CENTER);
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.CENTER);

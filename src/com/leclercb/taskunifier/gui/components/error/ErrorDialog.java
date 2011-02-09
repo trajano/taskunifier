@@ -18,13 +18,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerHttpException;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ErrorDialog extends JDialog {
 	
@@ -104,7 +104,9 @@ public class ErrorDialog extends JDialog {
 			
 			JTextArea stackTrace = new JTextArea(stringWriter.toString());
 			stackTrace.setEditable(false);
-			panel.add(new JScrollPane(stackTrace), BorderLayout.CENTER);
+			panel.add(
+					ComponentFactory.createJScrollPane(stackTrace, true),
+					BorderLayout.CENTER);
 		}
 		
 		this.add(panel, BorderLayout.CENTER);

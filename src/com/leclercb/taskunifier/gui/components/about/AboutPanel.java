@@ -22,13 +22,13 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class AboutPanel extends JPanel {
 	
@@ -63,7 +63,9 @@ public class AboutPanel extends JPanel {
 		textArea.setText(Translations.getString("about.message"));
 		textArea.setCaretPosition(0);
 		
-		panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+		panel.add(
+				ComponentFactory.createJScrollPane(textArea, true),
+				BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);
 	}

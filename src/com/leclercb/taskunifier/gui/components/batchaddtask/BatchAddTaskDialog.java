@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
@@ -25,6 +24,7 @@ import com.leclercb.taskunifier.gui.models.TemplateModel;
 import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class BatchAddTaskDialog extends JDialog {
 	
@@ -75,7 +75,9 @@ public class BatchAddTaskDialog extends JDialog {
 				+ ": "), BorderLayout.WEST);
 		templatePanel.add(this.templateComboBox, BorderLayout.CENTER);
 		
-		panel.add(new JScrollPane(this.answerTextArea), BorderLayout.CENTER);
+		panel.add(
+				ComponentFactory.createJScrollPane(this.answerTextArea, true),
+				BorderLayout.CENTER);
 		panel.add(templatePanel, BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.CENTER);

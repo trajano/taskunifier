@@ -27,7 +27,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
@@ -125,8 +124,9 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 		this.searcherView = new SearcherList();
 		
 		this.add(
-				new JScrollPane(
-						((SearcherList) this.searcherView).getSourceList().getComponent()),
+				ComponentFactory.createJScrollPane(
+						((SearcherList) this.searcherView).getSourceList().getComponent(),
+						true),
 				BorderLayout.CENTER);
 		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);

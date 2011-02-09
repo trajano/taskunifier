@@ -64,7 +64,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 				});
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.taskTable),
+				ComponentFactory.createJScrollPane(this.taskTable, false),
 				View.TABLE.name());
 		
 		this.setView(View.TABLE);

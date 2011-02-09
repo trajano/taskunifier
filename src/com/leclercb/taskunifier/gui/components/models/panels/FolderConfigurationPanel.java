@@ -45,6 +45,8 @@ public class FolderConfigurationPanel extends JSplitPane {
 	}
 	
 	private void initialize() {
+		this.setBorder(null);
+		
 		// Initialize Fields
 		final JTextField folderTitle = new JTextField(30);
 		
@@ -56,7 +58,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 			{
 				this.adapter = new BeanAdapter<Folder>((Folder) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Folder.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(folderTitle, titleModel);
 			}
 			

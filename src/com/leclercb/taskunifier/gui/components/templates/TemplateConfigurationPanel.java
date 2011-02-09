@@ -74,6 +74,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 	}
 	
 	private void initialize() {
+		this.setBorder(null);
+		
 		// Initialize Fields
 		final JTextField templateTitle = new JTextField(20);
 		final JTextField templateTaskTitle = new JTextField();
@@ -219,7 +221,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(ComponentFactory.createJScrollPane(rightPanel));
+		this.setRightComponent(ComponentFactory.createJScrollPane(
+				rightPanel,
+				false));
 		
 		JPanel info = new JPanel();
 		info.setLayout(new SpringLayout());

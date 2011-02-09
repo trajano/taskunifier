@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public abstract class SynchronizerDialog extends JDialog {
@@ -89,7 +90,9 @@ public abstract class SynchronizerDialog extends JDialog {
 		this.progressStatus = new JTextArea();
 		this.progressStatus.setEditable(false);
 		
-		JScrollPane scrollStatus = new JScrollPane(this.progressStatus);
+		JScrollPane scrollStatus = ComponentFactory.createJScrollPane(
+				this.progressStatus,
+				true);
 		scrollStatus.setAutoscrolls(true);
 		scrollStatus.getVerticalScrollBar().addAdjustmentListener(
 				new AdjustmentListener() {

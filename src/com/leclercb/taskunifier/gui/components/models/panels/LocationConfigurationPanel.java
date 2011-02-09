@@ -49,6 +49,8 @@ public class LocationConfigurationPanel extends JSplitPane {
 	}
 	
 	private void initialize() {
+		this.setBorder(null);
+		
 		// Initialize Fields
 		final JTextField locationTitle = new JTextField(30);
 		final JTextArea locationDescription = new JTextArea(5, 20);
@@ -65,7 +67,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 			{
 				this.adapter = new BeanAdapter<Location>((Location) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Location.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(locationTitle, titleModel);
 				
 				ValueModel descriptionModel = this.adapter.getValueModel(Location.PROP_DESCRIPTION);

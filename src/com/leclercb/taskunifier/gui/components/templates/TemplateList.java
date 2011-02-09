@@ -26,7 +26,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -37,6 +36,7 @@ import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 abstract class TemplateList extends JPanel {
 	
@@ -76,7 +76,9 @@ abstract class TemplateList extends JPanel {
 			
 		});
 		
-		this.add(new JScrollPane(this.templateList), BorderLayout.CENTER);
+		this.add(
+				ComponentFactory.createJScrollPane(this.templateList, true),
+				BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -90,12 +92,14 @@ abstract class TemplateList extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("ADD"))
+				if (event.getActionCommand().equals("ADD")) {
 					TemplateList.this.addTemplate();
-				else if (event.getActionCommand().equals("REMOVE"))
+				} else if (event.getActionCommand().equals("REMOVE")) {
 					TemplateList.this.removeTemplate((Template) TemplateList.this.templateList.getSelectedValue());
-				else
+					TemplateList.this.templateList.setSelectedIndex(0);
+				} else {
 					TemplateList.this.setDefaultTemplate((Template) TemplateList.this.templateList.getSelectedValue());
+				}
 			}
 			
 		};

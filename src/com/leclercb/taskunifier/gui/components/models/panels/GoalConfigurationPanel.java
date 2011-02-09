@@ -52,6 +52,8 @@ public class GoalConfigurationPanel extends JSplitPane {
 	}
 	
 	private void initialize() {
+		this.setBorder(null);
+		
 		// Initialize Fields
 		final JTextField goalTitle = new JTextField(30);
 		final JComboBox goalLevel = new JComboBox();
@@ -65,7 +67,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			{
 				this.adapter = new BeanAdapter<Goal>((Goal) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Goal.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(goalTitle, titleModel);
 				
 				ValueModel levelModel = this.adapter.getValueModel(Goal.PROP_LEVEL);
