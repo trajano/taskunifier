@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -148,14 +149,18 @@ public class SourceListControlBar {
 	 * @param actionListener
 	 *            the {@code ActionListener} to call when the button is pressed.
 	 */
-	public EPButton createAndAddButton(Icon icon, ActionListener actionListener) {
+	public void createAndAddButton(Icon icon, ActionListener actionListener) {
 		EPButton button = MacButtonFactory.createGradientButton(
 				icon,
 				actionListener);
 		initSourceListButton(button);
 		this.addComponent(button);
-		
-		return button;
+	}
+	
+	public void createAndAddButton(Action action) {
+		EPButton button = MacButtonFactory.createGradientButton(action);
+		initSourceListButton(button);
+		this.addComponent(button);
 	}
 	
 	private static void initSourceListButton(JComponent component) {

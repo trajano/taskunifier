@@ -19,12 +19,12 @@ package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -55,9 +55,9 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 	private JTextField filterTitle;
 	private SearcherList searcherView;
 	
-	private JButton addButton;
-	private JButton removeButton;
-	private JButton editButton;
+	private Action addAction;
+	private Action removeAction;
+	private Action editAction;
 	
 	public SearcherPanel() {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
@@ -160,48 +160,55 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 		this.searcherView.getSourceList().installSourceListControlBar(
 				controlBar);
 		
-		this.addButton = controlBar.createAndAddButton(
-				Images.getResourceImage("add.png", 16, 16),
-				new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						TaskSearcherFactory.getInstance().create(
-								Translations.getString("searcher.default.title"),
-								new TaskFilter(),
-								new TaskSorter());
-						
-						SearcherPanel.this.openTaskSearcherEdit();
-					}
-					
-				});
+		this.addAction = new AbstractAction(null, Images.getResourceImage(
+				"add.png",
+				16,
+				16)) {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TaskSearcherFactory.getInstance().create(
+						Translations.getString("searcher.default.title"),
+						new TaskFilter(),
+						new TaskSorter());
+				
+				SearcherPanel.this.openTaskSearcherEdit();
+			}
+			
+		};
 		
-		this.removeButton = controlBar.createAndAddButton(
-				Images.getResourceImage("remove.png", 16, 16),
-				new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
-						TaskSearcherFactory.getInstance().unregister(searcher);
-					}
-					
-				});
+		this.removeAction = new AbstractAction(null, Images.getResourceImage(
+				"remove.png",
+				16,
+				16)) {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
+				TaskSearcherFactory.getInstance().unregister(searcher);
+			}
+			
+		};
 		
-		this.removeButton.setEnabled(false);
+		this.editAction = new AbstractAction(null, Images.getResourceImage(
+				"edit.png",
+				16,
+				16)) {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				SearcherPanel.this.openTaskSearcherEdit();
+			}
+			
+		};
 		
-		this.editButton = controlBar.createAndAddButton(
-				Images.getResourceImage("edit.png", 16, 16),
-				new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						SearcherPanel.this.openTaskSearcherEdit();
-					}
-					
-				});
+		controlBar.createAndAddButton(this.addAction);
+		controlBar.createAndAddButton(this.removeAction);
+		controlBar.createAndAddButton(this.editAction);
 		
-		this.editButton.setEnabled(false);
+		this.addAction.setEnabled(true);
+		this.removeAction.setEnabled(false);
+		this.editAction.setEnabled(false);
 	}
 	
 	private void openTaskSearcherEdit() {
@@ -236,9 +243,8 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 					event.getSelectedTaskSearcher().getId());
 		
 		this.filterTitle.setText("");
-		this.addButton.setEnabled(true);
-		this.removeButton.setEnabled(personalSearcher);
-		this.editButton.setEnabled(personalSearcher);
+		this.removeAction.setEnabled(personalSearcher);
+		this.editAction.setEnabled(personalSearcher);
 		
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}

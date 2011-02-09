@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -95,6 +96,16 @@ public class MacButtonFactory {
 		button.setBackgroundPainter(GRADIENT_BUTTON_PAINTER);
 		initGradientButton(button);
 		button.setPressedIcon(icon);
+		
+		return button;
+	}
+	
+	public static EPButton createGradientButton(Action action) {
+		
+		EPButton button = new EPButton(action);
+		
+		button.setBackgroundPainter(GRADIENT_BUTTON_PAINTER);
+		initGradientButton(button);
 		
 		return button;
 	}
