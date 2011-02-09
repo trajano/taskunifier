@@ -18,8 +18,4 @@ public interface TaskView extends TaskSelectionChangeSupported, TaskSearcherSele
 	public abstract void printTasks() throws HeadlessException,
 			PrinterException;
 	
-	public abstract int getTaskCount();
-	
-	public abstract int getDisplayedTaskCount();
-	
 }

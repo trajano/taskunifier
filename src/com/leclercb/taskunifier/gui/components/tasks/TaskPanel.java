@@ -5,7 +5,6 @@ import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
@@ -15,9 +14,7 @@ import javax.swing.table.TableColumn;
 
 import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -167,25 +164,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 				true,
 				null,
 				true);
-	}
-	
-	@Override
-	public int getTaskCount() {
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		int count = tasks.size();
-		
-		for (Task task : tasks) {
-			if (!task.getModelStatus().equals(ModelStatus.LOADED)
-					&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				count--;
-		}
-		
-		return count;
-	}
-	
-	@Override
-	public int getDisplayedTaskCount() {
-		return this.taskTable.getRowCount();
 	}
 	
 	@Override
