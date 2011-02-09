@@ -17,6 +17,8 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import javax.swing.UIManager;
+
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
@@ -153,7 +155,9 @@ public final class SettingsVersion {
 				"Update settings from version 0.7.0 to 0.7.1");
 		
 		if (OsUtils.isMacOSX())
-			Main.SETTINGS.setStringProperty("theme.lookandfeel", "");
+			Main.SETTINGS.setStringProperty(
+					"theme.lookandfeel",
+					UIManager.getSystemLookAndFeelClassName());
 		
 		Main.SETTINGS.remove("theme.color.searcher_list");
 		

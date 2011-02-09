@@ -100,6 +100,10 @@ public class Main {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						if (laf != null)
 							laf.setLookAndFeel();
+						
+						SETTINGS.setStringProperty(
+								"theme.lookandfeel",
+								UIManager.getSystemLookAndFeelClassName());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

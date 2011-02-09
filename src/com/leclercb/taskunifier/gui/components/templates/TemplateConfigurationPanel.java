@@ -24,8 +24,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
@@ -94,7 +96,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				FormatterUtils.getIntegerFormatter());
 		final JComboBox templateTaskPriority = new JComboBox();
 		final JCheckBox templateTaskStar = new JCheckBox();
-		final JTextField templateTaskNote = new JTextField();
+		final JTextArea templateTaskNote = new JTextArea(3, 5);
 		
 		// Initialize Model List
 		final TemplateList modelList = new TemplateList() {
@@ -201,7 +203,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskDueDate.setEnabled(template != null);
 				templateTaskStartDate.setEnabled(template != null);
 				templateTaskReminder.setEnabled(template != null);
-				templateTaskRepeat.setEnabled(template != null);
+				templateTaskRepeat.setEnabled(false);
 				templateTaskRepeatFrom.setEnabled(template != null);
 				templateTaskStatus.setEnabled(template != null);
 				templateTaskLength.setEnabled(template != null);
@@ -395,7 +397,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskNote.setEnabled(false);
-		info.add(templateTaskNote);
+		info.add(new JScrollPane(templateTaskNote));
 		
 		// Template Separator
 		
