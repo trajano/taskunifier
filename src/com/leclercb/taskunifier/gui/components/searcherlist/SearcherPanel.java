@@ -31,19 +31,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
 import com.explodingpixels.macwidgets.SourceListItem;
-import com.explodingpixels.macwidgets.SourceListSelectionListener;
-import com.leclercb.commons.api.event.action.ActionSupport;
-import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.Link;
@@ -55,11 +53,9 @@ import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class SearcherPanel extends JPanel implements ActionSupported, SearcherView {
+public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherSelectionListener {
 	
-	public static final String ACT_SEARCHER_SELECTED = "SEARCHER_SELECTED";
-	
-	private ActionSupport actionSupport;
+	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
 	private JTextField filterTitle;
 	private SearcherView searcherView;
@@ -69,7 +65,8 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	private JButton editButton;
 	
 	public SearcherPanel() {
-		this.actionSupport = new ActionSupport(this);
+		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
+				this);
 		
 		this.initialize();
 	}
@@ -107,13 +104,8 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 	}
 	
 	@Override
-	public void addActionListener(ActionListener listener) {
-		this.actionSupport.addActionListener(listener);
-	}
-	
-	@Override
-	public void removeActionListener(ActionListener listener) {
-		this.actionSupport.removeActionListener(listener);
+	public void refreshTaskSearcher() {
+		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
 	private void initialize() {
@@ -125,9 +117,7 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SearcherPanel.this.actionSupport.fireActionPerformed(
-						ActionEvent.ACTION_PERFORMED,
-						ACT_SEARCHER_SELECTED);
+				SearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherPanel.this.getSelectedTaskSearcher());
 			}
 			
 		});
@@ -141,18 +131,10 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 			
 			this.add(
 					new JScrollPane(
-							((SearcherList) this.searcherView).getComponent()),
+							((SearcherList) this.searcherView).getSourceList().getComponent()),
 					BorderLayout.CENTER);
 			
-			((SearcherList) this.searcherView).getSourceList().addSourceListSelectionListener(
-					new SourceListSelectionListener() {
-						
-						@Override
-						public void sourceListItemSelected(SourceListItem e) {
-							SearcherPanel.this.searcherSelected();
-						}
-						
-					});
+			this.searcherView.addTaskSearcherSelectionChangeListener(this);
 			
 			((SearcherList) this.searcherView).getSourceList().addSourceListClickListener(
 					new SourceListClickListener() {
@@ -182,14 +164,7 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 					new JScrollPane(((SearcherTree) this.searcherView)),
 					BorderLayout.CENTER);
 			
-			((SearcherTree) this.searcherView).addTreeSelectionListener(new TreeSelectionListener() {
-				
-				@Override
-				public void valueChanged(TreeSelectionEvent e) {
-					SearcherPanel.this.searcherSelected();
-				}
-				
-			});
+			this.searcherView.addTaskSearcherSelectionChangeListener(this);
 			
 			((SearcherTree) this.searcherView).addMouseListener(new MouseAdapter() {
 				
@@ -256,28 +231,40 @@ public class SearcherPanel extends JPanel implements ActionSupported, SearcherVi
 		buttonsPanel.add(this.editButton);
 	}
 	
-	private void searcherSelected() {
-		boolean personalSearcher = false;
-		
-		if (SearcherPanel.this.searcherView.getSelectedTaskSearcher() != null)
-			personalSearcher = TaskSearcherFactory.getInstance().contains(
-					SearcherPanel.this.searcherView.getSelectedTaskSearcher().getId());
-		
-		SearcherPanel.this.filterTitle.setText("");
-		SearcherPanel.this.removeButton.setEnabled(personalSearcher);
-		SearcherPanel.this.editButton.setEnabled(personalSearcher);
-		
-		SearcherPanel.this.actionSupport.fireActionPerformed(
-				ActionEvent.ACTION_PERFORMED,
-				ACT_SEARCHER_SELECTED);
-	}
-	
 	private void openTaskSearcherEdit() {
 		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 		
 		if (searcher != null
 				&& TaskSearcherFactory.getInstance().contains(searcher.getId()))
 			new ActionEditSearcher().editSearcher(searcher);
+	}
+	
+	@Override
+	public void addTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void taskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
+		boolean personalSearcher = false;
+		
+		if (event.getSelectedTaskSearcher() != null)
+			personalSearcher = TaskSearcherFactory.getInstance().contains(
+					event.getSelectedTaskSearcher().getId());
+		
+		this.filterTitle.setText("");
+		this.removeButton.setEnabled(personalSearcher);
+		this.editButton.setEnabled(personalSearcher);
+		
+		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
 }

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JComponent;
-
 import com.explodingpixels.macwidgets.SourceList;
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.explodingpixels.macwidgets.SourceListModel;
+import com.explodingpixels.macwidgets.SourceListSelectionListener;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -19,11 +18,15 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.SearcherItem;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.models.ModelComparator;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherList implements SearcherView {
+	
+	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
 	private SourceList list;
 	private SourceListModel model;
@@ -36,6 +39,9 @@ public class SearcherList implements SearcherView {
 	private SourceListCategory personalCategory;
 	
 	public SearcherList() {
+		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
+				this);
+		
 		this.initialize();
 	}
 	
@@ -59,6 +65,15 @@ public class SearcherList implements SearcherView {
 		this.model.addCategory(this.personalCategory);
 		
 		this.list = new SourceList(this.model);
+		
+		this.list.addSourceListSelectionListener(new SourceListSelectionListener() {
+			
+			@Override
+			public void sourceListItemSelected(SourceListItem e) {
+				SearcherList.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherList.this.getSelectedTaskSearcher());
+			}
+			
+		});
 	}
 	
 	private void initializeGeneralCategory() {
@@ -92,8 +107,8 @@ public class SearcherList implements SearcherView {
 						ModelType.CONTEXT,
 						context), this.contextCategory);
 		
-		//ContextFactory.getInstance().addListChangeListener(this);
-		//ContextFactory.getInstance().addPropertyChangeListener(this);
+		// ContextFactory.getInstance().addListChangeListener(this);
+		// ContextFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 	private void initializeFolderCategory() {
@@ -116,16 +131,12 @@ public class SearcherList implements SearcherView {
 						ModelType.FOLDER,
 						folder), this.folderCategory);
 		
-		//FolderFactory.getInstance().addListChangeListener(this);
-		//FolderFactory.getInstance().addPropertyChangeListener(this);
+		// FolderFactory.getInstance().addListChangeListener(this);
+		// FolderFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 	public SourceList getSourceList() {
 		return this.list;
-	}
-	
-	public JComponent getComponent() {
-		return this.list.getComponent();
 	}
 	
 	@Override
@@ -141,6 +152,23 @@ public class SearcherList implements SearcherView {
 			return null;
 		
 		return ((TaskSearcherElement) item).getTaskSearcher();
+	}
+	
+	@Override
+	public void refreshTaskSearcher() {
+
+	}
+	
+	@Override
+	public void addTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
 	}
 	
 }

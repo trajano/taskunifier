@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
@@ -20,10 +21,13 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.events.TaskSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener {
+public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {
 	
 	public static enum View {
 		
@@ -31,11 +35,14 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		
 	}
 	
+	private TaskSelectionChangeSupport taskSelectionChangeSupport;
+	
 	private View currentView;
 	
 	private TaskTable taskTable;
 	
 	public TaskPanel() {
+		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(this);
 		this.initialize();
 	}
 	
@@ -46,6 +53,15 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		this.setLayout(new CardLayout());
 		
 		this.taskTable = new TaskTable();
+		this.taskTable.getSelectionModel().addListSelectionListener(
+				new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						TaskPanel.this.taskSelectionChangeSupport.fireTaskSelectionChange(TaskPanel.this.getSelectedTasks());
+					}
+					
+				});
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.taskTable),
@@ -124,27 +140,14 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		layout.show(this, view.name());
 	}
 	
-	public void addListSelectionListener(ListSelectionListener listener) {
-		this.taskTable.getSelectionModel().addListSelectionListener(listener);
-	}
-	
-	public void removeListSelectionListener(ListSelectionListener listener) {
-		this.taskTable.getSelectionModel().removeListSelectionListener(listener);
-	}
-	
 	@Override
-	public void setTaskSearcher(TaskSearcher searcher) {
-		this.taskTable.setTaskSearcher(searcher);
+	public Task[] getSelectedTasks() {
+		return this.taskTable.getSelectedTasks();
 	}
 	
 	@Override
 	public void setSelectedTasks(Task[] tasks) {
 		this.taskTable.setSelectedTasks(tasks);
-	}
-	
-	@Override
-	public Task[] getSelectedTasks() {
-		return this.taskTable.getSelectedTasks();
 	}
 	
 	@Override
@@ -183,6 +186,23 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	@Override
 	public int getDisplayedTaskCount() {
 		return this.taskTable.getRowCount();
+	}
+	
+	@Override
+	public void addTaskSelectionChangeListener(TaskSelectionListener listener) {
+		this.taskSelectionChangeSupport.addTaskSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeTaskSelectionChangeListener(TaskSelectionListener listener) {
+		this.taskSelectionChangeSupport.removeTaskSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void taskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
+		if (event.getSelectedTaskSearcher() != null)
+			this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
 	}
 	
 }

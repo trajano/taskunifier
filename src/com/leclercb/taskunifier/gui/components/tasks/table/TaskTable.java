@@ -54,7 +54,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.OsUtils;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -300,6 +303,10 @@ public class TaskTable extends JTable {
 		this.setColumnModel(columnModel);
 		this.setRowHeight(30);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+			this.setUI(new ITunesTableUI());
+		}
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);

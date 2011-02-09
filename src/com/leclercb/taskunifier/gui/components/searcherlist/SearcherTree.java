@@ -13,6 +13,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -21,12 +23,20 @@ import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.searcherlist.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcherlist.nodes.CategoryTreeNode;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class SearcherTree extends JTree implements SavePropertiesListener, ActionListener, SearcherView {
 	
+	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
+	
 	public SearcherTree() {
 		super(new SearcherTreeModel());
+		
+		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
+				this);
+		
 		this.initialize();
 	}
 	
@@ -65,6 +75,15 @@ public class SearcherTree extends JTree implements SavePropertiesListener, Actio
 		
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
+		
+		this.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				SearcherTree.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherTree.this.getSelectedTaskSearcher());
+			}
+			
+		});
 	}
 	
 	@Override
@@ -80,6 +99,11 @@ public class SearcherTree extends JTree implements SavePropertiesListener, Actio
 			return null;
 		
 		return node.getTaskSearcher();
+	}
+	
+	@Override
+	public void refreshTaskSearcher() {
+
 	}
 	
 	@Override
@@ -146,6 +170,18 @@ public class SearcherTree extends JTree implements SavePropertiesListener, Actio
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 				TransferHandler.getPasteAction().getValue(Action.NAME));
+	}
+	
+	@Override
+	public void addTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
+		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
 	}
 	
 }

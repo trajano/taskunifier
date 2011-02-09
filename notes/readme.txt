@@ -6,6 +6,8 @@ Version 0.7.1
 	- Improved handling of http errors
 	- Task note is saved before sync (was not always the case)
 	- Improved UI (especially for Mac)
+	- Fixed bug with searcher condition Completed & Star
+	- Task note line wrap
 
 Version 0.7.0
 	- Drag and drop multiple tasks at once

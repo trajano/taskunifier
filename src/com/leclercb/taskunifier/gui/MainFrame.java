@@ -21,9 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -40,19 +37,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.apple.eawt.Application;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.properties.SavePropertiesListener;
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
@@ -87,6 +79,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.AbstractStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
+import com.leclercb.taskunifier.gui.components.tasknote.TaskNotePanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
@@ -102,7 +95,7 @@ import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class MainFrame extends JFrame implements MainView, ListSelectionListener, SavePropertiesListener, ActionListener {
+public class MainFrame extends JFrame implements MainView, SavePropertiesListener {
 	
 	private static MainView INSTANCE;
 	
@@ -121,9 +114,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private SearcherPanel searcherPanel;
 	private TaskPanel taskPanel;
-	private JTextArea taskNote;
-	
-	private Task previousSelectedTask;
 	
 	private MainFrame() {
 		this.initialize();
@@ -138,6 +128,7 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
+		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
@@ -152,37 +143,40 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 			
 		});
 		
-		this.setLayout(new BorderLayout());
+		{
+			JPanel panel = new JPanel();
+			panel.setLayout(new BorderLayout());
+			panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			
+			this.horizontalSplitPane = new JSplitPane(
+					JSplitPane.HORIZONTAL_SPLIT);
+			this.horizontalSplitPane.setBorder(BorderFactory.createEmptyBorder());
+			
+			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			this.verticalSplitPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			
+			this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
+			
+			panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
+			
+			this.add(panel, BorderLayout.CENTER);
+			
+			this.loadSplitPaneSettings();
+		}
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		this.horizontalSplitPane.setBorder(BorderFactory.createEmptyBorder());
-		
-		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		this.verticalSplitPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		
-		this.loadSplitPaneSettings();
-		
-		this.initializeSearcherList(this.horizontalSplitPane);
-		this.initializeTaskPanel(this.verticalSplitPane);
-		this.initializeTaskNote(this.verticalSplitPane);
-		this.initializeDefaultTaskSearcher();
-		
-		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
-		
-		panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.CENTER);
-		
-		this.initializeReminderThread();
-		this.initializeScheduledSyncThread();
-		
-		this.initializeMenuBar();
-		this.initializeToolBar();
-		this.initializeStatusBar();
+		{
+			this.initializeSearcherList(this.horizontalSplitPane);
+			this.initializeTaskPanel(this.verticalSplitPane);
+			this.initializeTaskNote(this.verticalSplitPane);
+			this.initializeDefaultTaskSearcher();
+			
+			this.initializeReminderThread();
+			this.initializeScheduledSyncThread();
+			
+			this.initializeMenuBar();
+			this.initializeToolBar();
+			this.initializeStatusBar();
+		}
 	}
 	
 	@Override
@@ -329,30 +323,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
-		/*
-		 * JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		 * menuBar.add(viewMenu);
-		 * 
-		 * ButtonGroup group = new ButtonGroup();
-		 * 
-		 * ActionListener listener = new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * MainFrame.this.
-		 * taskPanel.setView(TaskPanel.View.valueOf(e.getActionCommand())); }
-		 * 
-		 * };
-		 * 
-		 * for (TaskPanel.View view : TaskPanel.View.values()) {
-		 * JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem(
-		 * TranslationsUtils.translateTaskPanelView(view));
-		 * menuItem.setActionCommand(view.name());
-		 * menuItem.addActionListener(listener); viewMenu.add(menuItem);
-		 * group.add(menuItem);
-		 * 
-		 * if (this.taskPanel.getView() == view) menuItem.setSelected(true); }
-		 */
-
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		menuBar.add(helpMenu);
 		
@@ -361,8 +331,8 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));
 		helpMenu.addSeparator();
-		helpMenu.add(new ActionLogBug(16, 16));
-		helpMenu.add(new ActionLogFeatureRequest(16, 16));
+		helpMenu.add(new ActionLogBug());
+		helpMenu.add(new ActionLogFeatureRequest());
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));
@@ -479,33 +449,22 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
 		this.searcherPanel = new SearcherPanel();
-		this.searcherPanel.addActionListener(this);
 		
 		horizontalSplitPane.setLeftComponent(this.searcherPanel);
 	}
 	
 	private void initializeTaskPanel(JSplitPane verticalSplitPane) {
 		this.taskPanel = new TaskPanel();
-		this.taskPanel.addListSelectionListener(this);
+		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskPanel);
 		
 		verticalSplitPane.setTopComponent(this.taskPanel);
 	}
 	
 	private void initializeTaskNote(JSplitPane verticalSplitPane) {
-		this.taskNote = new JTextArea();
-		this.taskNote.setBorder(BorderFactory.createEmptyBorder());
-		this.taskNote.setText(Translations.getString("error.select_one_task"));
-		this.taskNote.setEnabled(false);
-		this.taskNote.addFocusListener(new FocusAdapter() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				MainFrame.this.valueChanged(null);
-			}
-			
-		});
+		TaskNotePanel taskNote = new TaskNotePanel();
+		this.taskPanel.addTaskSelectionChangeListener(taskNote);
 		
-		verticalSplitPane.setBottomComponent(ComponentFactory.createJScrollPane(this.taskNote));
+		verticalSplitPane.setBottomComponent(ComponentFactory.createJScrollPane(taskNote));
 	}
 	
 	private void initializeDefaultTaskSearcher() {
@@ -520,43 +479,6 @@ public class MainFrame extends JFrame implements MainView, ListSelectionListener
 	private void initializeScheduledSyncThread() {
 		this.scheduledSyncThread = new ScheduledSyncThread();
 		this.scheduledSyncThread.start();
-	}
-	
-	@Override
-	public void valueChanged(ListSelectionEvent event) {
-		if (event != null && event.getValueIsAdjusting())
-			return;
-		
-		if (this.previousSelectedTask != null) {
-			if (!EqualsUtils.equals(
-					this.previousSelectedTask.getNote(),
-					this.taskNote.getText()))
-				this.previousSelectedTask.setNote(this.taskNote.getText());
-		}
-		
-		Task[] tasks = this.taskPanel.getSelectedTasks();
-		
-		if (tasks.length != 1) {
-			this.previousSelectedTask = null;
-			
-			this.taskNote.setText(Translations.getString("error.select_one_task"));
-			this.taskNote.setEnabled(false);
-		} else {
-			this.previousSelectedTask = tasks[0];
-			
-			this.taskNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
-			this.taskNote.setEnabled(true);
-		}
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		if (evt.getActionCommand().equals(SearcherPanel.ACT_SEARCHER_SELECTED)) {
-			if (this.searcherPanel.getSelectedTaskSearcher() == null)
-				return;
-			
-			this.taskPanel.setTaskSearcher(this.searcherPanel.getSelectedTaskSearcher());
-		}
 	}
 	
 	@Override

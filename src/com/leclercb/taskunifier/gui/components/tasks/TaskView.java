@@ -4,15 +4,14 @@ import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.events.TaskSelectionChangeSupported;
 
-public interface TaskView {
+public interface TaskView extends TaskSelectionChangeSupported, TaskSearcherSelectionListener {
 	
 	public abstract Task[] getSelectedTasks();
 	
 	public abstract void setSelectedTasks(Task[] tasks);
-	
-	public abstract void setTaskSearcher(TaskSearcher searcher);
 	
 	public abstract void refreshTasks();
 	

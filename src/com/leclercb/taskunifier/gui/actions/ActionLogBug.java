@@ -25,19 +25,12 @@ import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionLogBug extends AbstractAction {
 	
 	public ActionLogBug() {
-		this(32, 32);
-	}
-	
-	public ActionLogBug(int width, int height) {
-		super(
-				Translations.getString("action.name.log_bug"),
-				Images.getResourceImage("information.png", width, height));
+		super(Translations.getString("action.name.log_bug"));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

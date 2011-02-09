@@ -96,7 +96,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		Color themeColorSearcherListValue = Color.WHITE;
 		
 		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
-			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
+			themeLookAndFeelValue = LookAndFeelUtils.getCurrentLookAndFeel();
 		
 		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
 			themeColorEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.enabled");

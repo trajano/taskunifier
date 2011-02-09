@@ -25,19 +25,12 @@ import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionLogFeatureRequest extends AbstractAction {
 	
 	public ActionLogFeatureRequest() {
-		this(32, 32);
-	}
-	
-	public ActionLogFeatureRequest(int width, int height) {
-		super(
-				Translations.getString("action.name.log_feature_request"),
-				Images.getResourceImage("information.png", width, height));
+		super(Translations.getString("action.name.log_feature_request"));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

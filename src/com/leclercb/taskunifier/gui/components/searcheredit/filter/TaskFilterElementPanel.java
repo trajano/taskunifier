@@ -184,7 +184,8 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
 				this.elementValue.setRenderer(new BooleanListCellRenderer());
-				this.elementValue.setSelectedItem(value == null ? false : value);
+				this.elementValue.setSelectedIndex(value != null
+						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
 				break;
 			case COMPLETED_ON:
@@ -262,7 +263,8 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
 				this.elementValue.setRenderer(new BooleanListCellRenderer());
-				this.elementValue.setSelectedItem(value == null ? false : value);
+				this.elementValue.setSelectedIndex(value != null
+						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
 				break;
 			case NOTE:
