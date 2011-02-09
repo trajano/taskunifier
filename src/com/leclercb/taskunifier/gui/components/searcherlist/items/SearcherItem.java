@@ -10,7 +10,12 @@ public class SearcherItem extends SourceListItem implements TaskSearcherElement 
 	private TaskSearcher searcher;
 	
 	public SearcherItem(TaskSearcher searcher) {
-		super(searcher.getTitle(), Images.getImage(searcher.getIcon(), 16, 16));
+		super(
+				searcher.getTitle(),
+				(searcher.getIcon() == null ? null : Images.getImage(
+						searcher.getIcon(),
+						16,
+						16)));
 		this.searcher = searcher;
 	}
 	

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.models;
+package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
 
@@ -31,52 +31,53 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.gui.utils.SpringUtils;
-import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.models.FolderModel;
+import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
+import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class FolderConfigurationPanel extends JSplitPane {
+public class ContextConfigurationPanel extends JSplitPane {
 	
-	public FolderConfigurationPanel() {
+	public ContextConfigurationPanel() {
 		this.initialize();
 	}
 	
 	private void initialize() {
 		// Initialize Fields
-		final JTextField folderTitle = new JTextField(30);
+		final JTextField contextTitle = new JTextField(30);
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new FolderModel(false)) {
+		final ModelList modelList = new ModelList(new ContextModel(false)) {
 			
-			private BeanAdapter<Folder> adapter;
+			private BeanAdapter<Context> adapter;
 			
 			{
-				this.adapter = new BeanAdapter<Folder>((Folder) null, true);
+				this.adapter = new BeanAdapter<Context>((Context) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Folder.PROP_TITLE);
-				Bindings.bind(folderTitle, titleModel);
+				ValueModel titleModel = this.adapter.getValueModel(Context.PROP_TITLE);
+				Bindings.bind(contextTitle, titleModel);
 			}
 			
 			@Override
 			public void addModel() {
-				Model model = FolderFactory.getInstance().create(
-						Translations.getString("folder.default.title"));
+				Model model = ContextFactory.getInstance().create(
+						Translations.getString("context.default.title"));
 				this.setSelectedModel(model);
-				FolderConfigurationPanel.this.focusAndSelectTextInTextField(folderTitle);
+				ContextConfigurationPanel.this.focusAndSelectTextInTextField(contextTitle);
 			}
 			
 			@Override
 			public void removeModel(Model model) {
 				this.modelSelected(null);
-				FolderFactory.getInstance().markToDelete(model);
+				ContextFactory.getInstance().markToDelete(model);
 			}
 			
 			@Override
 			public void modelSelected(Model model) {
-				this.adapter.setBean(model != null ? (Folder) model : null);
-				folderTitle.setEnabled(model != null);
+				this.adapter.setBean(model != null ? (Context) model : null);
+				contextTitle.setEnabled(model != null);
 			}
 			
 		};
@@ -94,14 +95,13 @@ public class FolderConfigurationPanel extends JSplitPane {
 		
 		JLabel label = null;
 		
-		// Folder Title
-		label = new JLabel(
-				Translations.getString("general.folder.title") + ":",
-				SwingConstants.TRAILING);
+		// Context Title
+		label = new JLabel(Translations.getString("general.context.title")
+				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		folderTitle.setEnabled(false);
-		info.add(folderTitle);
+		contextTitle.setEnabled(false);
+		info.add(contextTitle);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols

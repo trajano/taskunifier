@@ -22,11 +22,19 @@ import java.awt.datatransfer.Transferable;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import com.leclercb.taskunifier.gui.components.searcherlist.SearcherTree;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 
 public class TaskSearcherTransferHandler extends TransferHandler {
+	
+	private SearcherView view;
+	
+	public TaskSearcherTransferHandler(SearcherView view) {
+		CheckUtils.isNotNull(view, "View cannot be null");
+		this.view = view;
+	}
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
@@ -41,8 +49,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	protected Transferable createTransferable(JComponent c) {
-		SearcherTree tree = (SearcherTree) c;
-		TaskSearcher searcher = tree.getSelectedTaskSearcher();
+		TaskSearcher searcher = this.view.getSelectedTaskSearcher();
 		
 		if (searcher == null)
 			return null;

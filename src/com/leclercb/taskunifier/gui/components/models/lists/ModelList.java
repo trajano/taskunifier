@@ -15,20 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.models;
+package com.leclercb.taskunifier.gui.components.models.lists;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -37,7 +36,7 @@ import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ModelListModel;
 import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 
-abstract class ModelList extends JPanel {
+public abstract class ModelList extends JPanel {
 	
 	private JList modelList;
 	private JButton addButton;
@@ -49,12 +48,12 @@ abstract class ModelList extends JPanel {
 	
 	private void initialize(ModelListModel model) {
 		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.modelList = new JList();
 		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.modelList.setCellRenderer(new ModelListCellRenderer());
 		this.modelList.setModel(model);
-		this.modelList.setBorder(new LineBorder(Color.BLACK));
 		this.modelList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override

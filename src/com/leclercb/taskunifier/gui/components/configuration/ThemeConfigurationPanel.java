@@ -65,9 +65,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		Main.SETTINGS.setColorProperty(
 				"theme.color.odd",
 				(Color) this.getValue("COLOR_ODD"));
-		Main.SETTINGS.setColorProperty(
-				"theme.color.searcher_list",
-				(Color) this.getValue("COLOR_SEARCHER_LIST"));
 	}
 	
 	private void applyTheme() {
@@ -93,10 +90,9 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		Boolean themeColorEnabledValue = false;
 		Color themeColorEvenValue = Color.WHITE;
 		Color themeColorOddValue = Color.WHITE;
-		Color themeColorSearcherListValue = Color.WHITE;
 		
 		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
-			themeLookAndFeelValue = LookAndFeelUtils.getCurrentLookAndFeel();
+			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
 		
 		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
 			themeColorEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.enabled");
@@ -106,9 +102,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		
 		if (Main.SETTINGS.getColorProperty("theme.color.odd") != null)
 			themeColorOddValue = Main.SETTINGS.getColorProperty("theme.color.odd");
-		
-		if (Main.SETTINGS.getColorProperty("theme.color.searcher_list") != null)
-			themeColorSearcherListValue = Main.SETTINGS.getColorProperty("theme.color.searcher_list");
 		
 		// Sort look and feels by name
 		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(
@@ -171,12 +164,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
 				new ConfigurationFieldType.ColorChooser(themeColorOddValue)));
-		
-		this.addField(new ConfigurationField(
-				"COLOR_SEARCHER_LIST",
-				Translations.getString("configuration.theme.color_searcher_list"),
-				new ConfigurationFieldType.ColorChooser(
-						themeColorSearcherListValue)));
 	}
 	
 }

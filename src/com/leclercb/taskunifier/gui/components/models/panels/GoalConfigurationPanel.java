@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.models;
+package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
+import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;

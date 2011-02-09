@@ -15,15 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.components.models;
+package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,6 +38,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -130,9 +130,8 @@ public class LocationConfigurationPanel extends JSplitPane {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		locationDescription.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		locationDescription.setEnabled(false);
-		info.add(locationDescription);
+		info.add(new JScrollPane(locationDescription));
 		
 		// Location Latitude
 		label = new JLabel(Translations.getString("general.location.latitude")

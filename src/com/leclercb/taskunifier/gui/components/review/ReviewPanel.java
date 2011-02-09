@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.review;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,7 +64,6 @@ public class ReviewPanel extends JPanel {
 		
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		JEditorPane pane = new JEditorPane();
 		pane.setContentType("text/html");
@@ -95,7 +93,7 @@ public class ReviewPanel extends JPanel {
 		JButton donateButton = new JButton(new ActionDonate(16, 16));
 		
 		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		buttonsPanel.add(reviewButton);
 		buttonsPanel.add(donateButton);

@@ -28,24 +28,24 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.leclercb.taskunifier.gui.components.models.panels.ContextConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.models.panels.FolderConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelConfigurationDialog extends JDialog {
 	
 	public ModelConfigurationDialog(Frame frame, boolean modal) {
 		super(frame, modal);
-		
 		this.initialize();
 	}
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.manage_models"));
 		this.setSize(600, 400);
-		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
+		this.setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		

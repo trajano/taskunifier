@@ -130,6 +130,9 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("toodledo.token_creation_date");
 		Main.SETTINGS.remove("toodledo.userid");
 		
+		if ("KEEP_TOODLEDO".equals(Main.SETTINGS.getStringProperty("synchronizer.choice")))
+			Main.SETTINGS.setStringProperty("synchronizer.choice", "KEEP_API");
+		
 		Main.SETTINGS.setStringProperty("api.id", "1");
 		Main.SETTINGS.setStringProperty("api.version", "1.0");
 		
@@ -151,6 +154,8 @@ public final class SettingsVersion {
 		
 		if (OsUtils.isMacOSX())
 			Main.SETTINGS.setStringProperty("theme.lookandfeel", "");
+		
+		Main.SETTINGS.remove("theme.color.searcher_list");
 		
 		return "0.7.1";
 	}

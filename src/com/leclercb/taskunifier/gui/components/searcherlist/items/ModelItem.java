@@ -25,8 +25,17 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	public ModelItem(ModelType modelType, Model model) {
 		super(
 				model == null ? Translations.getString("searcherlist.none") : model.getTitle());
+		
 		this.modelType = modelType;
 		this.model = model;
+	}
+	
+	public ModelType getModelType() {
+		return this.modelType;
+	}
+	
+	public Model getModel() {
+		return this.model;
 	}
 	
 	@Override
@@ -88,5 +97,4 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		return searcher;
 	}
-	
 }

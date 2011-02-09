@@ -23,8 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,8 +33,6 @@ import javax.swing.JTextField;
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
 import com.explodingpixels.macwidgets.SourceListItem;
-import com.leclercb.commons.api.utils.OsUtils;
-import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeEvent;
@@ -126,56 +122,36 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 		searchField.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 		this.add(searchField, BorderLayout.NORTH);
 		
-		if (OsUtils.isMacOSX() && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			this.searcherView = new SearcherList();
-			
-			this.add(
-					new JScrollPane(
-							((SearcherList) this.searcherView).getSourceList().getComponent()),
-					BorderLayout.CENTER);
-			
-			this.searcherView.addTaskSearcherSelectionChangeListener(this);
-			
-			((SearcherList) this.searcherView).getSourceList().addSourceListClickListener(
-					new SourceListClickListener() {
-						
-						@Override
-						public void sourceListCategoryClicked(
-								SourceListCategory category,
-								Button button,
-								int clickCount) {
+		this.searcherView = new SearcherList();
+		
+		this.add(
+				new JScrollPane(
+						((SearcherList) this.searcherView).getSourceList().getComponent()),
+				BorderLayout.CENTER);
+		
+		this.searcherView.addTaskSearcherSelectionChangeListener(this);
+		
+		((SearcherList) this.searcherView).getSourceList().addSourceListClickListener(
+				new SourceListClickListener() {
+					
+					@Override
+					public void sourceListCategoryClicked(
+							SourceListCategory category,
+							Button button,
+							int clickCount) {
 
-						}
-						
-						@Override
-						public void sourceListItemClicked(
-								SourceListItem category,
-								Button button,
-								int clickCount) {
-							if (clickCount == 2)
-								SearcherPanel.this.openTaskSearcherEdit();
-						}
-						
-					});
-		} else {
-			this.searcherView = new SearcherTree();
-			
-			this.add(
-					new JScrollPane(((SearcherTree) this.searcherView)),
-					BorderLayout.CENTER);
-			
-			this.searcherView.addTaskSearcherSelectionChangeListener(this);
-			
-			((SearcherTree) this.searcherView).addMouseListener(new MouseAdapter() {
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					if (e.getClickCount() == 2)
-						SearcherPanel.this.openTaskSearcherEdit();
-				}
-				
-			});
-		}
+					}
+					
+					@Override
+					public void sourceListItemClicked(
+							SourceListItem category,
+							Button button,
+							int clickCount) {
+						if (clickCount == 2)
+							SearcherPanel.this.openTaskSearcherEdit();
+					}
+					
+				});
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
