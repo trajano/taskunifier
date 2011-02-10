@@ -419,7 +419,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				ModelItem item = new ModelItem(
-						ModelType.CONTEXT,
+						((Model) event.getValue()).getModelType(),
 						(Model) event.getValue());
 				
 				this.model.addItemToCategory(item, category);
@@ -488,7 +488,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					}
 					
 					item = new ModelItem(
-							ModelType.CONTEXT,
+							((Model) event.getSource()).getModelType(),
 							(Model) event.getSource());
 					
 					this.model.addItemToCategory(item, category);
