@@ -17,7 +17,6 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -299,8 +298,7 @@ public class TaskTable extends JTable {
 		
 		this.setModel(tableModel);
 		this.setColumnModel(columnModel);
-		this.setRowHeight(25);
-		this.setIntercellSpacing(new Dimension(0, 0));
+		this.setRowHeight(28);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
