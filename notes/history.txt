@@ -6,6 +6,7 @@ Version 0.7.1
 	- Fixed bug with searcher conditions Completed and Star
 	- Task note line wrap
 	- Repeat field is not editable
+	- Bug fixed: add/remove column with right click is not saved
 
 Version 0.7.0
 	- Drag and drop multiple tasks at once

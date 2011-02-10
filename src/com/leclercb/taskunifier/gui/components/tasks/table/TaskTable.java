@@ -68,6 +68,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRen
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.RepeatRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorityRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskRepeatFromRenderer;
@@ -92,6 +93,7 @@ public class TaskTable extends JTable {
 	private static final DefaultRenderer DEFAULT_RENDERER;
 	private static final CheckBoxRenderer CHECK_BOX_RENDERER;
 	private static final CalendarRenderer DATE_RENDERER;
+	private static final RepeatRenderer REPEAT_RENDERER;
 	private static final LengthRenderer LENGTH_RENDERER;
 	private static final TaskTitleRenderer TASK_TITLE_RENDERER;
 	private static final StarRenderer STAR_RENDERER;
@@ -124,6 +126,7 @@ public class TaskTable extends JTable {
 				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
 						+ Main.SETTINGS.getStringProperty("date.time_format")));
+		REPEAT_RENDERER = new RepeatRenderer();
 		LENGTH_RENDERER = new LengthRenderer(
 				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
@@ -405,9 +408,7 @@ public class TaskTable extends JTable {
 							
 							@Override
 							public void actionPerformed(ActionEvent event) {
-								TaskTable.this.showColumn(
-										taskColumn,
-										item.isSelected());
+								taskColumn.setVisible(item.isSelected());
 							}
 							
 						});
@@ -479,6 +480,8 @@ public class TaskTable extends JTable {
 				return STAR_RENDERER;
 			case PRIORITY:
 				return TASK_PRIORITY_RENDERER;
+			case REPEAT:
+				return REPEAT_RENDERER;
 			case REPEAT_FROM:
 				return TASK_REPEAT_FROM_RENDERER;
 			case STATUS:

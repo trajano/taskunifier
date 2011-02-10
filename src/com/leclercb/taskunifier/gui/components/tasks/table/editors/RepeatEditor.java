@@ -17,21 +17,35 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class RepeatEditor extends AbstractCellEditor implements TableCellEditor {
-	
-	private JTextField repeatField;
+public class RepeatEditor extends DefaultCellEditor {
 	
 	public RepeatEditor() {
-		this.repeatField = new JTextField();
+		super(new JTextField());
+		
+		final JTextField repeatField = (JTextField) this.getComponent();
+		repeatField.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+						repeatField.getText()))
+					repeatField.setForeground(Color.BLACK);
+				else
+					repeatField.setForeground(Color.RED);
+			}
+			
+		});
 	}
 	
 	@Override
@@ -41,22 +55,19 @@ public class RepeatEditor extends AbstractCellEditor implements TableCellEditor 
 			boolean isSelected,
 			int row,
 			int col) {
-		if (value == null)
-			this.repeatField.setText("");
+		Component component = super.getTableCellEditorComponent(
+				table,
+				value,
+				isSelected,
+				row,
+				col);
+		
+		if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+				(this.getCellEditorValue() == null ? null : this.getCellEditorValue().toString())))
+			component.setForeground(Color.BLACK);
 		else
-			this.repeatField.setText(value.toString());
+			component.setForeground(Color.RED);
 		
-		return this.repeatField;
+		return component;
 	}
-	
-	@Override
-	public Object getCellEditorValue() {
-		// TODO fireEditCancelled if not valid value
-		if (!SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
-				this.repeatField.getText()))
-			System.out.println("Not valid repeat value");
-		
-		return this.repeatField.getText();
-	}
-	
 }
