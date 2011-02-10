@@ -205,7 +205,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskDueDate.setEnabled(template != null);
 				templateTaskStartDate.setEnabled(template != null);
 				templateTaskReminder.setEnabled(template != null);
-				templateTaskRepeat.setEnabled(false);
+				templateTaskRepeat.setEnabled(template != null);
 				templateTaskRepeatFrom.setEnabled(template != null);
 				templateTaskStatus.setEnabled(template != null);
 				templateTaskLength.setEnabled(template != null);

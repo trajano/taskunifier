@@ -24,6 +24,11 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
+	public boolean isValidRepeatValue(String repeat) {
+		return true;
+	}
+	
+	@Override
 	public void createAccount(Object[] parameters) throws SynchronizerException {
 
 	}

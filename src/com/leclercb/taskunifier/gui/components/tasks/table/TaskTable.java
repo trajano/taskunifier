@@ -43,7 +43,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
@@ -64,6 +63,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
@@ -109,10 +109,11 @@ public class TaskTable extends JTable {
 	private static final DefaultCellEditor FOLDER_EDITOR;
 	private static final DefaultCellEditor GOAL_EDITOR;
 	private static final DefaultCellEditor LOCATION_EDITOR;
-	private static final DefaultCellEditor REPEAT_FROM_EDITOR;
+	
+	private static final RepeatEditor REPEAT_EDITOR;
 	
 	private static final DefaultCellEditor TASK_PRIORITY_EDITOR;
-	private static final DefaultCellEditor TASK_REPEAT_EDITOR;
+	private static final DefaultCellEditor TASK_REPEAT_FROM_EDITOR;
 	private static final DefaultCellEditor TASK_STATUS_EDITOR;
 	
 	static {
@@ -160,11 +161,7 @@ public class TaskTable extends JTable {
 		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
 				new LocationModel(true)));
 		
-		JTextField textField = null;
-		
-		textField = new JTextField();
-		
-		TASK_REPEAT_EDITOR = new DefaultCellEditor(textField);
+		REPEAT_EDITOR = new RepeatEditor();
 		
 		JComboBox comboBox = null;
 		
@@ -176,7 +173,7 @@ public class TaskTable extends JTable {
 		comboBox = new JComboBox(TaskRepeatFrom.values());
 		comboBox.setRenderer(new TaskRepeatFromListCellRenderer());
 		
-		REPEAT_FROM_EDITOR = new DefaultCellEditor(comboBox);
+		TASK_REPEAT_FROM_EDITOR = new DefaultCellEditor(comboBox);
 		
 		comboBox = new JComboBox(TaskStatus.values());
 		comboBox.setRenderer(new TaskStatusListCellRenderer());
@@ -445,9 +442,9 @@ public class TaskTable extends JTable {
 			case START_DATE:
 				return DATE_EDITOR;
 			case REPEAT:
-				return TASK_REPEAT_EDITOR;
+				return REPEAT_EDITOR;
 			case REPEAT_FROM:
-				return REPEAT_FROM_EDITOR;
+				return TASK_REPEAT_FROM_EDITOR;
 			case STATUS:
 				return TASK_STATUS_EDITOR;
 			case LENGTH:

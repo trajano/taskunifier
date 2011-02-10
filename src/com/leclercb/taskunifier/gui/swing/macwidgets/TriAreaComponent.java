@@ -55,9 +55,6 @@ public class TriAreaComponent {
 		FormLayout layout = new FormLayout(
 				"left:p:grow, center:p:grow, right:p:grow",
 				"fill:p:grow");
-		// TODO decide whether to offer the option to force left, center and
-		// TODO right groups to be the same size
-		//        layout.setColumnGroups(new int[][]{{1,2,3}});
 		// create the cell constraints to use in the layout.
 		CellConstraints cc = new CellConstraints();
 		// create the builder with our panel as the component to be filled.
@@ -71,9 +68,9 @@ public class TriAreaComponent {
 		this.fCenterPanelBuilder.getPanel().setOpaque(false);
 		this.fRightPanelBuilder.getPanel().setOpaque(false);
 		
-		//        fLeftPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.RED));
-		//        fCenterPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		//        fRightPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		// fLeftPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.RED));
+		// fCenterPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		// fRightPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.GREEN));
 	}
 	
 	/**

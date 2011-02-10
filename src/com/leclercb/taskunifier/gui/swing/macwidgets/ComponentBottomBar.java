@@ -36,9 +36,8 @@ public class ComponentBottomBar extends TriAreaComponent {
 	
 	@SuppressWarnings("unused")
 	public void addComponentToCenterWithBorder(JComponent toolToAdd) {
-		// TODO use matteBorder when on first center item addition.
 		// if this is the first component being added, add a line to the left
-		//    and right of the component.
+		// and right of the component.
 		// else add a border just to the right.
 		Border matteBorder = this.getCenterComponentCount() == 0 ? BorderFactory.createMatteBorder(
 				0,

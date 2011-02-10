@@ -49,7 +49,7 @@ public enum TaskColumn {
 	DUE_DATE(Calendar.class, 10, Translations.getString("general.task.due_date"), 150, true, true),
 	START_DATE(Calendar.class, 11, Translations.getString("general.task.start_date"), 150, true, true),
 	REMINDER(Integer.class, 12, Translations.getString("general.task.reminder"), 100, true, true),
-	REPEAT(String.class, 13, Translations.getString("general.task.repeat"), 100, false, true),
+	REPEAT(String.class, 13, Translations.getString("general.task.repeat"), 100, true, true),
 	REPEAT_FROM(TaskRepeatFrom.class, 14, Translations.getString("general.task.repeat_from"), 100, true, true),
 	STATUS(TaskStatus.class, 15, Translations.getString("general.task.status"), 100, true, true),
 	LENGTH(Integer.class, 16, Translations.getString("general.task.length"), 50, true, true),
