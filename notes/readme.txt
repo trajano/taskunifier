@@ -8,6 +8,7 @@ Version 0.7.1
 	- Improved UI (especially for Mac)
 	- Fixed bug with searcher conditions Completed and Star
 	- Task note line wrap
+	- Repeat field is not editable
 
 Version 0.7.0
 	- Drag and drop multiple tasks at once
