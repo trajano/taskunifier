@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jtattoo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgoodies-forms-1.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/trident.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/forms-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/taskunifierapi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgoodies-common-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgoodies-binding-2.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/substance.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/applejavaextensions.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/microba-0.4.4.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mac_widgets.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
