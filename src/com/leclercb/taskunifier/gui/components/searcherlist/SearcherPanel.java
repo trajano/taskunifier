@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
+import com.explodingpixels.macwidgets.SourceListControlBar;
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -44,7 +45,6 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
-import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 

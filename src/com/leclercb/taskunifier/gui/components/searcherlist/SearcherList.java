@@ -15,10 +15,12 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
 
+import com.explodingpixels.macwidgets.SourceList;
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.explodingpixels.macwidgets.SourceListModel;
 import com.explodingpixels.macwidgets.SourceListSelectionListener;
+import com.explodingpixels.macwidgets.SourceListToolTipProvider;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.properties.SavePropertiesListener;
@@ -48,8 +50,6 @@ import com.leclercb.taskunifier.gui.models.ModelComparator;
 import com.leclercb.taskunifier.gui.models.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.swing.macwidgets.SourceList;
-import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListToolTipProvider;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherList implements SearcherView, ListChangeListener, PropertyChangeListener, SavePropertiesListener {
