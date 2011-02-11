@@ -63,7 +63,7 @@ public final class Constants {
 	static {
 		UNDO_EDIT_SUPPORT.addUndoableEditListener(UNDO_MANAGER);
 		
-		GENERAL_TASK_SEARCHERS = new TaskSearcher[5];
+		GENERAL_TASK_SEARCHERS = new TaskSearcher[6];
 		
 		TaskFilter filter;
 		TaskSorter sorter;
@@ -99,6 +99,23 @@ public final class Constants {
 				filter,
 				sorter.clone());
 		
+		// Overdue
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.DUE_DATE,
+				DaysCondition.LESS_THAN_OR_EQUALS,
+				0));
+		
+		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
+				Translations.getString("searcherlist.general.overdue"),
+				Images.getResourceFile("warning.gif"),
+				filter,
+				sorter.clone());
+		
 		// Hot List
 		filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
@@ -114,7 +131,7 @@ public final class Constants {
 				EnumCondition.GREATER_THAN_OR_EQUALS,
 				TaskPriority.HIGH));
 		
-		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
 				Translations.getString("searcherlist.general.hot_list"),
 				Images.getResourceFile("hot_pepper.png"),
 				filter,
@@ -131,7 +148,7 @@ public final class Constants {
 				StringCondition.EQUALS,
 				"true"));
 		
-		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
 				Translations.getString("searcherlist.general.starred"),
 				Images.getResourceFile("star.png"),
 				filter,
@@ -148,7 +165,7 @@ public final class Constants {
 				EnumCondition.EQUALS,
 				TaskStatus.NEXT_ACTION));
 		
-		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
 				Translations.getString("searcherlist.general.next_action"),
 				Images.getResourceFile("next.png"),
 				filter,
@@ -161,7 +178,7 @@ public final class Constants {
 				StringCondition.EQUALS,
 				"true"));
 		
-		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[5] = new TaskSearcher(
 				Translations.getString("searcherlist.general.completed"),
 				Images.getResourceFile("check.png"),
 				filter,
