@@ -94,8 +94,13 @@ public class DefaultExportDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int result = DefaultExportDialog.this.fileChooser.showSaveDialog(DefaultExportDialog.this);
 				
-				if (result == JFileChooser.APPROVE_OPTION)
+				if (result == JFileChooser.APPROVE_OPTION) {
 					DefaultExportDialog.this.exportFile.setText(DefaultExportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
+					if (!DefaultExportDialog.this.exportFile.getText().endsWith(
+							".xml"))
+						DefaultExportDialog.this.exportFile.setText(DefaultExportDialog.this.exportFile.getText()
+								+ ".xml");
+				}
 			}
 			
 		});
