@@ -8,7 +8,7 @@ Version 0.7.1
 	- Improved UI (especially for Mac)
 	- Fixed bug with searcher conditions Completed and Star
 	- Task note line wrap
-	- Repeat field is not editable
+	- Repeat field is now editable
 	- Bug fixed: add/remove column with right click is not saved
 	- Bug fixed: contributes to goal sometimes fails
 
