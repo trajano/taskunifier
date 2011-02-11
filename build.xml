@@ -22,7 +22,7 @@
         <pathelement location="${directory.gui}/lib/jgoodies-forms-1.4.0.jar"/>
         <pathelement location="${directory.gui}/lib/json.jar"/>
         <pathelement location="${directory.gui}/lib/jtattoo.jar"/>
-        <pathelement location="${directory.gui}/lib/mac_widgets-0.9.5.jar"/>
+        <pathelement location="${directory.gui}/lib/mac_widgets.jar"/>
         <pathelement location="${directory.gui}/lib/taskunifierapi.jar"/>
         <pathelement location="${directory.gui}/lib/microba-0.4.4.3.jar"/>
         <pathelement location="${directory.gui}/lib/trident.jar"/>

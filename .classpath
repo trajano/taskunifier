@@ -14,6 +14,6 @@
 	<classpathentry kind="lib" path="lib/jgoodies-forms-1.4.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Commons"/>
 	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/mac_widgets-0.9.5.jar"/>
+	<classpathentry kind="lib" path="lib/mac_widgets.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
