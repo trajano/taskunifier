@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="TaskUnifierGui">
+<project basedir="." default="main" name="TaskUnifierGui">
+
+    <target name="main">
+        <antcall target="clean"/>
+        <antcall target="build"/>
+        <antcall target="create-jar"/>
+        <antcall target="clean"/>
+    </target>
 	
     <property environment="env"/>
 	<property name="directory.commons" value="${basedir}/../Commons"/>
 	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
 	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
-	
-	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
 	
     <property name="java.debuglevel" value="source,lines,vars"/>
     <property name="java.target" value="1.6"/>
@@ -53,7 +58,8 @@
 	
     <target depends="init" name="build">
 		<echo message="Compiling ${ant.project.name}..."/>
-        <javac nowarn="on" debug="true" debuglevel="${java.debuglevel}" destdir="${directory.gui}/bin" source="${java.source}" target="${java.target}">
+        <javac nowarn="on" debug="true" debuglevel="${java.debuglevel}" destdir="${directory.gui}/bin"
+               source="${java.source}" target="${java.target}" includeantruntime="false">
             <src path="${directory.gui}/src"/>
             <classpath refid="taskunifiergui.classpath"/>
         </javac>
