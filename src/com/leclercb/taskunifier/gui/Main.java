@@ -17,11 +17,7 @@
  */
 package com.leclercb.taskunifier.gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -30,6 +26,7 @@ import javax.swing.UIManager;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -57,15 +54,22 @@ import com.leclercb.taskunifier.gui.utils.PluginUtils;
 import com.leclercb.taskunifier.gui.utils.PluginUtils.PluginException;
 
 public class Main {
-	
+
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	public static ExtendedProperties SETTINGS;
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
-	
+
+    private static PrintStream ORIGINAL_OUT_STREAM;
+    private static PrintStream ORIGINAL_ERR_STREAM;
+    private static File LOG_FILE;
+    private static OutputStream LOG_FILE_STREAM;
+    private static PrintStream NEW_STREAM;
+
 	public static void main(String[] args) {
 		try {
+            loadStreamRedirection();
 			loadResourceFolder();
 			loadDataFolder();
 			loadSettings();
@@ -75,22 +79,22 @@ public class Main {
 			loadApiPlugins();
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
 					"Error",
 					JOptionPane.ERROR_MESSAGE);
-			
+
 			return;
 		}
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				String lookAndFeel = SETTINGS.getStringProperty("theme.lookandfeel");
-				
+
 				try {
 					if (lookAndFeel != null) {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
@@ -100,62 +104,78 @@ public class Main {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						if (laf != null)
 							laf.setLookAndFeel();
-						
+
 						SETTINGS.setStringProperty(
 								"theme.lookandfeel",
 								UIManager.getSystemLookAndFeelClassName());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					
+
 					ErrorDialog errorDialog = new ErrorDialog(
 							MainFrame.getInstance().getFrame(),
 							e,
 							true);
 					errorDialog.setVisible(true);
-					
+
 					return;
 				}
-				
+
 				if (FIRST_EXECUTION) {
 					new LanguageDialog(null, true).setVisible(true);
 					new WelcomeDialog(null, true).setVisible(true);
 				}
-				
+
 				MainFrame.getInstance().getFrame().setVisible(true);
 				new ActionCheckVersion(true).checkVersion();
-				
+
 				Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
 				if (showed == null || !showed)
 					new ActionReview().review();
-				
+
 				Main.SETTINGS.setBooleanProperty("review.showed", true);
 			}
-			
+
 		});
 	}
-	
+
+    private static void loadStreamRedirection() {
+        ORIGINAL_OUT_STREAM = System.out;
+        ORIGINAL_ERR_STREAM = System.err;
+
+		try {
+            LOG_FILE = File.createTempFile("taskunifier_log_", ".log");
+            LOG_FILE_STREAM = new FileOutputStream(LOG_FILE);
+			NEW_STREAM = new PrintStream(LOG_FILE_STREAM);
+
+			System.setOut(NEW_STREAM);
+			System.setErr(NEW_STREAM);
+		} catch (IOException e) {
+            GuiLogger.getLogger().severe("Error while creating log file");
+        }
+    }
+
 	private static void loadResourceFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.resource_folder") == null) {
 			RESOURCES_FOLDER = "resources";
 		} else {
 			RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
 		}
-		
+
 		File file = new File(RESOURCES_FOLDER);
 		if (!file.exists() || !file.isDirectory())
 			throw new Exception(Translations.getString(
 					"error.resources_folder_does_not_exist",
 					RESOURCES_FOLDER));
 	}
-	
+
 	private static void loadDataFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.data_folder") == null) {
 			DATA_FOLDER = "data";
 		} else {
 			DATA_FOLDER = System.getProperty("com.leclercb.taskunifier.data_folder");
 		}
-		
+
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
 			/*
@@ -164,7 +184,7 @@ public class Main {
 			 * DATA_FOLDER),
 			 * Translations.getString("general.create_data_folder"),
 			 * JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			 * 
+			 *
 			 * if (response == JOptionPane.NO_OPTION) throw new
 			 * Exception(Translations.getString( "error.data_folder_needed",
 			 * Constants.TITLE));
@@ -174,7 +194,7 @@ public class Main {
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
 						DATA_FOLDER));
-			
+
 			FIRST_EXECUTION = true;
 			return;
 		} else if (!file.isDirectory()) {
@@ -182,23 +202,23 @@ public class Main {
 					"error.data_folder_not_a_folder",
 					DATA_FOLDER));
 		}
-		
+
 		FIRST_EXECUTION = false;
 	}
-	
+
 	private static void loadSettings() throws Exception {
 		try {
 			SETTINGS = new ExtendedProperties(new Properties());
-			
+
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
-			
+
 			SETTINGS.load(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "settings.properties"));
 			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
 			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
-			
+
 			if (!FIRST_EXECUTION)
 				JOptionPane.showMessageDialog(
 						null,
@@ -207,62 +227,62 @@ public class Main {
 						JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	private static void loadLocale() throws Exception {
 		Translations.changeLocale(SETTINGS.getLocaleProperty("general.locale"));
 	}
-	
+
 	private static void loadModels() throws Exception {
 		try {
 			new ContextFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "contexts.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new FolderFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "folders.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new GoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "goals.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new LocationFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "locations.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new TemplateFactoryXMLCoder(false).decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 		} catch (FileNotFoundException e) {}
-		
+
 		try {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));
 		} catch (FileNotFoundException e) {}
 	}
-	
+
 	private static void loadLookAndFeel() throws Exception {
 		// Substance
 		// Substance issues :
 		// State tracking must be done on Event Dispatch Thread
-		
+
 		/*
 		 * try {
 		 * Class.forName("org.pushingpixels.substance.api.SubstanceLookAndFeel"
 		 * );
-		 * 
+		 *
 		 * Map<String, SkinInfo> lafs = SubstanceLookAndFeel.getAllSkins(); for
 		 * (SkinInfo laf : lafs.values()) LookAndFeelUtils.addLookAndFeel(new
 		 * SubstanceLookAndFeelDescriptor("Substance - " + laf.getDisplayName(),
@@ -272,26 +292,26 @@ public class Main {
 		// JTattoo
 		Properties jtattoo = new Properties();
 		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
-		
+
 		for (Object key : jtattoo.keySet())
 			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
 					"jTattoo - " + jtattoo.getProperty(key.toString()),
 					key.toString()));
 	}
-	
+
 	public static void loadApiPlugins() {
 		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
 				SynchronizerGuiPlugin.class);
-		
+
 		API_PLUGINS.addPlugin(DummyGuiPlugin.getInstance());
-		
+
 		File pluginsFolder = new File(RESOURCES_FOLDER
 				+ File.separator
 				+ "plugins");
-		
+
 		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
 			File[] pluginFiles = pluginsFolder.listFiles();
-			
+
 			for (File file : pluginFiles) {
 				try {
 					PluginUtils.loadPlugin(file, true);
@@ -301,11 +321,12 @@ public class Main {
 			}
 		}
 	}
-	
+
 	public static void stop() {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
-		
+
 		try {
+
 			new ContextFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "contexts.xml"));
 			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
@@ -322,12 +343,12 @@ public class Main {
 			new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "searchers.xml"));
-			
+                    DATA_FOLDER + File.separator + "searchers.xml"));
+
 			saveSettings();
-			
-			MainFrame.getInstance().getFrame().setVisible(false);
+
 			MainFrame.getInstance().getFrame().dispose();
+			MainFrame.getInstance().getFrame().setVisible(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -336,15 +357,33 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
-		}
-		
+		} finally {
+            try {
+                if (LOG_FILE != null) {
+                    System.setOut(ORIGINAL_OUT_STREAM);
+                    System.setErr(ORIGINAL_ERR_STREAM);
+
+                    if (NEW_STREAM != null)
+                    NEW_STREAM.close();
+
+                    if (LOG_FILE_STREAM != null)
+                    LOG_FILE_STREAM.close();
+
+                    // TODO: append to file instead of copy
+                    FileUtils.copyFile(LOG_FILE, new File(DATA_FOLDER + File.separator + "taskunifier.log"));
+                }
+            } catch (Exception e) {
+                GuiLogger.getLogger().severe("Could not copy log information into log file");
+            }
+        }
+
 		System.exit(0);
 	}
-	
+
 	public static void saveSettings() throws FileNotFoundException, IOException {
 		SETTINGS.store(new FileOutputStream(DATA_FOLDER
 				+ File.separator
 				+ "settings.properties"), Constants.TITLE + " Settings");
 	}
-	
+
 }
