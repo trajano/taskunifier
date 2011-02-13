@@ -24,6 +24,11 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
+	public void initializeApi() {
+		
+	}
+	
+	@Override
 	public boolean isValidRepeatValue(String repeat) {
 		return true;
 	}

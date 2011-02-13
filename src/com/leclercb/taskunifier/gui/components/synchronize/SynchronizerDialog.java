@@ -217,7 +217,7 @@ public abstract class SynchronizerDialog extends JDialog {
 						SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.set_proxy")
 								+ "\n");
 						
-						SynchronizerDialog.this.initializeApi();
+						SynchronizerUtils.getPlugin().getSynchronizerApi().initializeApi();
 						SynchronizerUtils.initializeProxy();
 						
 						SynchronizerDialog.this.progressStatus.append(Translations.getString(
@@ -333,8 +333,6 @@ public abstract class SynchronizerDialog extends JDialog {
 			worker.execute();
 		}
 	}
-	
-	protected abstract void initializeApi();
 	
 	protected abstract Connection getConnection() throws SynchronizerException;
 	
