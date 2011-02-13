@@ -11,7 +11,6 @@ Version 0.7.1
 	- Repeat field is now editable
 	- Bug fixed: add/remove column with right click is not saved
 	- Bug fixed: contributes to goal sometimes fails
-	- Bug fixed: synchronization error
 
 Version 0.7.0
 	- Drag and drop multiple tasks at once
