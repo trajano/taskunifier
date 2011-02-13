@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.7.2
+	- Bug fixed: encoding problem
+
 Version 0.7.1
 	- Added log bug and log feature request buttons
 	- Improved handling of http errors

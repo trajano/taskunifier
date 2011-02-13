@@ -57,6 +57,9 @@ public final class SettingsVersion {
 		if (version.equals("0.7.0"))
 			version = updateSettings_0_7_0_to_0_7_1();
 		
+		if (version.equals("0.7.1"))
+			version = "0.7.2";
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
