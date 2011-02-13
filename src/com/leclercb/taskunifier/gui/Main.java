@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
@@ -369,8 +370,10 @@ public class Main {
                     if (LOG_FILE_STREAM != null)
                     LOG_FILE_STREAM.close();
 
-                    // TODO: append to file instead of copy
-                    FileUtils.copyFile(LOG_FILE, new File(DATA_FOLDER + File.separator + "taskunifier.log"));
+                    String log = FileUtils.readFile(LOG_FILE);
+                    log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
+
+                    FileUtils.appendToFile(log, new File(DATA_FOLDER + File.separator + "taskunifier.log"));
                 }
             } catch (Exception e) {
                 GuiLogger.getLogger().severe("Could not copy log information into log file");
