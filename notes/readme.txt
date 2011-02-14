@@ -5,6 +5,7 @@ Version 0.7.2
 	- Bug fixed: encoding problem
 	- Bug fixed: Toodledo account creation
 	- Bug fixed: task note not correctly saved on focus lost
+	- Bug fixed: show new version message only once
 
 Version 0.7.1
 	- Added log bug and log feature request buttons
