@@ -342,6 +342,10 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	
 	@Override
 	public void selectDefaultTaskSearcher() {
+		// Fix background bug
+		this.list.setExpanded(this.generalCategory, false);
+		this.list.setExpanded(this.generalCategory, true);
+		
 		this.list.setSelectedItem(this.generalCategory.getItems().get(0));
 	}
 	

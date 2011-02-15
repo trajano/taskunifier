@@ -123,6 +123,9 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	public void setVisible(boolean b) {
 		super.setVisible(b);
 		this.repaint();
+		
+		// Fix background bug
+		this.searcherPanel.selectDefaultTaskSearcher();
 	}
 	
 	private void initialize() {
