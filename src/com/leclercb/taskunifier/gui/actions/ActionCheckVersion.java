@@ -22,6 +22,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -67,8 +70,9 @@ public class ActionCheckVersion extends AbstractAction {
 				try {
 					SynchronizerUtils.initializeProxy();
 
-					String version = HttpUtils.getHttpContent(
-							Constants.VERSION_FILE).getMessage().trim();
+					HttpResponse response = HttpUtils.getHttpResponse(Constants.VERSION_FILE);
+					
+					String version = EntityUtils.toString(response.getEntity()).trim();
 
 					if (Constants.VERSION.compareTo(version) < 0) {
 						GuiLogger.getLogger().info(

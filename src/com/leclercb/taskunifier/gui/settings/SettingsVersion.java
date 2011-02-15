@@ -172,6 +172,9 @@ public final class SettingsVersion {
 		"Update settings from version 0.7.1 to 0.7.2");
 
 		Main.SETTINGS.setStringProperty("new_version.showed", "0.7.2");
+		
+		Main.SETTINGS.remove("proxy.use_system_proxy");
+		Main.SETTINGS.remove("proxy.type");
 
 		return "0.7.2";
 	}
