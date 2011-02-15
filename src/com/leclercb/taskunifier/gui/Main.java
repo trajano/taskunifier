@@ -24,10 +24,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.apache.commons.io.FileUtils;
+
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.ExtendedProperties;
 import com.leclercb.commons.api.utils.DateUtils;
-import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -370,10 +371,12 @@ public class Main {
                     if (LOG_FILE_STREAM != null)
                     LOG_FILE_STREAM.close();
 
-                    String log = FileUtils.readFile(LOG_FILE);
+                    File logFile = new File(DATA_FOLDER + File.separator + "taskunifier.log");
+                    String logFileContent = FileUtils.readFileToString(logFile, "UTF-8");
+                    String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
                     log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
 
-                    FileUtils.appendToFile(log, new File(DATA_FOLDER + File.separator + "taskunifier.log"));
+                    FileUtils.writeStringToFile(logFile, logFileContent + log);
                 }
             } catch (Exception e) {
                 GuiLogger.getLogger().severe("Could not copy log information into log file");

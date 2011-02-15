@@ -95,7 +95,7 @@ public class ActionInstallPlugin extends AbstractAction {
 						"taskunifier_plugin_",
 						".jar");
 				
-				FileUtils.copyFile(file, tmpFile);
+				org.apache.commons.io.FileUtils.copyFile(file, tmpFile);
 				
 				PluginUtils.loadPlugin(tmpFile, false);
 				
@@ -108,7 +108,7 @@ public class ActionInstallPlugin extends AbstractAction {
 				
 				outFile.createNewFile();
 				
-				FileUtils.copyFile(file, outFile);
+				org.apache.commons.io.FileUtils.copyFile(file, outFile);
 				
 				PluginUtils.loadPlugin(outFile, true);
 				
