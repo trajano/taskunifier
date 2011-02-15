@@ -14,26 +14,13 @@
 	
     <path id="taskunifiergui.classpath">
         <pathelement location="${directory.gui}/bin"/>
-        <pathelement location="${directory.gui}/lib/applejavaextensions.jar"/>
-        <pathelement location="${directory.gui}/lib/commons-io-2.0.1.jar"/>
-        <pathelement location="${directory.gui}/lib/commons.jar"/>
-        <pathelement location="${directory.gui}/lib/forms-1.2.1.jar"/>
-        <pathelement location="${directory.gui}/lib/jgoodies-binding-2.2.1.jar"/>
-        <pathelement location="${directory.gui}/lib/jgoodies-common-1.1.1.jar"/>
-        <pathelement location="${directory.gui}/lib/jgoodies-forms-1.4.0.jar"/>
-        <pathelement location="${directory.gui}/lib/json.jar"/>
-        <pathelement location="${directory.gui}/lib/jtattoo.jar"/>
-        <pathelement location="${directory.gui}/lib/mac_widgets.jar"/>
-        <pathelement location="${directory.gui}/lib/taskunifierapi.jar"/>
-        <pathelement location="${directory.gui}/lib/microba-0.4.4.3.jar"/>
-        <pathelement location="${directory.gui}/lib/trident.jar"/>
-        <pathelement location="${directory.gui}/lib/substance.jar"/>
+        <fileset dir="${directory.gui}/lib" includes="**/*.jar"/>
     </path>
 	
 	<target name="copy-jars">
 		<echo message="Copying jars..."/>
-		<copy file="${directory.commons}/dist/Commons.jar" tofile="${directory.gui}/lib/commons.jar"/>
-		<copy file="${directory.api}/dist/TaskUnifierApi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
+		<copy file="${directory.commons}/dist/commons.jar" tofile="${directory.gui}/lib/commons.jar"/>
+		<copy file="${directory.api}/dist/taskunifierapi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
 	</target>
 	
     <target depends="copy-jars" name="init">
@@ -63,7 +50,7 @@
 	<target name="create-jar">
 		<echo message="Creating ${ant.project.name} jar file..."/>
 		<mkdir dir="${directory.gui}/dist"/>
-		<jar jarfile="${directory.gui}/dist/TaskUnifierGui.jar" basedir="${directory.gui}/bin" manifest="MANIFEST.MF"/>
+		<jar jarfile="${directory.gui}/dist/taskunifiergui.jar" basedir="${directory.gui}/bin" manifest="MANIFEST.MF"/>
 	</target>
 	
 </project>

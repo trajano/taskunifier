@@ -276,22 +276,6 @@ public class Main {
 	}
 
 	private static void loadLookAndFeel() throws Exception {
-		// Substance
-		// Substance issues :
-		// State tracking must be done on Event Dispatch Thread
-
-		/*
-		 * try {
-		 * Class.forName("org.pushingpixels.substance.api.SubstanceLookAndFeel"
-		 * );
-		 *
-		 * Map<String, SkinInfo> lafs = SubstanceLookAndFeel.getAllSkins(); for
-		 * (SkinInfo laf : lafs.values()) LookAndFeelUtils.addLookAndFeel(new
-		 * SubstanceLookAndFeelDescriptor("Substance - " + laf.getDisplayName(),
-		 * laf.getClassName())); } catch (ClassNotFoundException exc) {}
-		 */
-
-		// JTattoo
 		Properties jtattoo = new Properties();
 		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
 

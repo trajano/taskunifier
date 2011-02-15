@@ -2,19 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/microba-0.4.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/substance.jar"/>
-	<classpathentry kind="lib" path="lib/trident.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/TaskUnifierApi"/>
-	<classpathentry kind="lib" path="lib/jtattoo.jar"/>
-	<classpathentry kind="lib" path="lib/json.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Commons"/>
 	<classpathentry kind="lib" path="lib/applejavaextensions.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-binding-2.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-common-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-forms-1.4.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Commons"/>
-	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jtattoo.jar"/>
 	<classpathentry kind="lib" path="lib/mac_widgets.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/microba-0.4.4.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
