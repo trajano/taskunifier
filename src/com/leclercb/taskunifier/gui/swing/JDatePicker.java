@@ -156,10 +156,14 @@ public class JDatePicker extends JDialog {
 		timePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		timePanel.add(new JLabel(Translations.getString("general.time") + ": "));
 
-		this.timeField = new JFormattedTextField(new SimpleDateFormat(Main.SETTINGS.getStringProperty("date.time_format")));
+		SimpleDateFormat format = new SimpleDateFormat(Main.SETTINGS.getStringProperty("date.time_format"));
+		
+		this.timeField = new JFormattedTextField(format);
 		this.timeField.setColumns(15);
 
 		timePanel.add(this.timeField);
+		timePanel.add(new JLabel(" (" + format.format(Calendar.getInstance().getTime()) + ")"));
+
 		datePanel.add(timePanel, BorderLayout.NORTH);
 	}
 
