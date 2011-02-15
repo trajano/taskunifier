@@ -205,6 +205,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		Integer locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
 		
 		if (width == null || height == null || extendedState == null) {
+			this.setSize(640, 480);
 			this.setExtendedState(this.getExtendedState()
 					| Frame.MAXIMIZED_BOTH);
 		} else {
