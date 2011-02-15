@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.utils.BrowserUtils;
@@ -73,10 +74,10 @@ public class ActionCheckVersion extends AbstractAction {
 						GuiLogger.getLogger().info(
 								"New version available : " + version);
 
-						Boolean showed = Main.SETTINGS.getBooleanProperty("new_version.showed");
+						String showed = Main.SETTINGS.getStringProperty("new_version.showed");
 
-						if (!silent || !showed) {
-							Main.SETTINGS.setBooleanProperty("new_version.showed", true);
+						if (!silent || !EqualsUtils.equals(version, showed)) {
+							Main.SETTINGS.setStringProperty("new_version.showed", version);
 
 							String[] options = new String[] {
 									Translations.getString("general.download"),

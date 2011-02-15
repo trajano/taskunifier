@@ -19,7 +19,6 @@ package com.leclercb.taskunifier.gui.settings;
 
 import javax.swing.UIManager;
 
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.OsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
@@ -61,13 +60,6 @@ public final class SettingsVersion {
 		if (version.equals("0.7.1"))
 			version = updateSettings_0_7_1_to_0_7_2();
 
-		if (!EqualsUtils.equals(Main.SETTINGS.getStringProperty("general.version"), Constants.VERSION))
-			updateSettingsForAllVersions();
-	}
-
-	private static void updateSettingsForAllVersions() {
-		Main.SETTINGS.setStringProperty("new_version.showed", "false");
-		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 
@@ -174,12 +166,12 @@ public final class SettingsVersion {
 
 		return "0.7.1";
 	}
-	
+
 	private static String updateSettings_0_7_1_to_0_7_2() {
 		GuiLogger.getLogger().info(
 		"Update settings from version 0.7.1 to 0.7.2");
 
-		Main.SETTINGS.setStringProperty("new_version.showed", "false");
+		Main.SETTINGS.setStringProperty("new_version.showed", "0.7.2");
 
 		return "0.7.2";
 	}
