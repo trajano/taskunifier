@@ -7,6 +7,7 @@ Version 0.7.2 : 15/02/2011
 	- Bug fixed: task note not correctly saved on focus lost
 	- Bug fixed: show new version message only once
 	- Bug fixed: background of the search list not always displayed
+	- Use system proxy setting has been removed
 
 Version 0.7.1
 	- Added log bug and log feature request buttons
