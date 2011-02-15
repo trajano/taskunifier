@@ -19,8 +19,6 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.Proxy;
-import java.net.Proxy.Type;
 
 import javax.swing.JCheckBox;
 
@@ -32,13 +30,13 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
-	
+
 	public ProxyConfigurationPanel() {
 		super("configuration_proxy.html");
 		this.initialize();
 		this.pack();
 	}
-	
+
 	@Override
 	public void saveAndApplyConfig() {
 		Main.SETTINGS.setBooleanProperty(
@@ -57,66 +55,66 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				"proxy.password",
 				(String) this.getValue("PASSWORD"));
 	}
-	
+
 	private void initialize() {
 		Boolean proxyEnabledValue = false;
 		String proxyHostValue = "";
 		String proxyPortValue = "0";
 		String proxyLoginValue = "";
 		String proxyPasswordValue = "";
-		
+
 		if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
 			proxyEnabledValue = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-		
+
 		if (Main.SETTINGS.getStringProperty("proxy.host") != null)
 			proxyHostValue = Main.SETTINGS.getStringProperty("proxy.host");
-		
+
 		if (Main.SETTINGS.getIntegerProperty("proxy.port") != null)
 			proxyPortValue = Main.SETTINGS.getStringProperty("proxy.port");
-		
+
 		if (Main.SETTINGS.getStringProperty("proxy.login") != null)
 			proxyLoginValue = Main.SETTINGS.getStringProperty("proxy.login");
-		
+
 		if (Main.SETTINGS.getStringProperty("proxy.password") != null)
 			proxyPasswordValue = Main.SETTINGS.getStringProperty("proxy.password");
-		
+
 		this.addField(new ConfigurationField(
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
 				new ConfigurationFieldType.CheckBox(proxyEnabledValue)));
-		
+
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
-				"ENABLED").getType()).getFieldComponent();
-		
+		"ENABLED").getType()).getFieldComponent();
+
 		this.addField(new ConfigurationField(
 				"HOST",
 				Translations.getString("configuration.proxy.host"),
 				new ConfigurationFieldType.TextField(proxyHostValue)));
-		
+
 		this.addField(new ConfigurationField(
 				"PORT",
 				Translations.getString("configuration.proxy.port"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{1,4}$"),
 						proxyPortValue)));
-		
+
 		this.addField(new ConfigurationField(
 				"LOGIN",
 				Translations.getString("configuration.proxy.login"),
 				new ConfigurationFieldType.TextField(proxyLoginValue)));
-		
+
 		this.addField(new ConfigurationField(
 				"PASSWORD",
 				Translations.getString("configuration.proxy.password"),
 				new ConfigurationFieldType.PasswordField(proxyPasswordValue)));
-		
+
 		this.setEnabled("HOST", proxyEnabledField.isSelected());
 		this.setEnabled("PORT", proxyEnabledField.isSelected());
 		this.setEnabled("LOGIN", proxyEnabledField.isSelected());
 		this.setEnabled("PASSWORD", proxyEnabledField.isSelected());
-		
+
 		ActionListener listener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ProxyConfigurationPanel.this.setEnabled(
@@ -132,9 +130,9 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 						"PASSWORD",
 						proxyEnabledField.isSelected());
 			}
-			
+
 		};
-		
+
 		proxyEnabledField.addActionListener(listener);
 	}
 }
