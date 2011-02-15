@@ -15,6 +15,7 @@
     <path id="taskunifiergui.classpath">
         <pathelement location="${directory.gui}/bin"/>
         <pathelement location="${directory.gui}/lib/applejavaextensions.jar"/>
+        <pathelement location="${directory.gui}/lib/commons-io-2.0.1.jar"/>
         <pathelement location="${directory.gui}/lib/commons.jar"/>
         <pathelement location="${directory.gui}/lib/forms-1.2.1.jar"/>
         <pathelement location="${directory.gui}/lib/jgoodies-binding-2.2.1.jar"/>
