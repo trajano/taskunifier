@@ -362,6 +362,10 @@ public class Main {
 						LOG_FILE_STREAM.close();
 
 					File logFile = new File(DATA_FOLDER + File.separator + "taskunifier.log");
+					
+					if (!logFile.exists())
+						logFile.createNewFile();
+					
 					String logFileContent = FileUtils.readFileToString(logFile, "UTF-8");
 					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
 					log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
