@@ -19,7 +19,7 @@ package com.leclercb.taskunifier.gui.settings;
 
 import javax.swing.UIManager;
 
-import com.leclercb.commons.api.utils.OsUtils;
+import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -157,7 +157,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 		"Update settings from version 0.7.0 to 0.7.1");
 
-		if (OsUtils.isMacOSX())
+		if (SystemUtils.IS_OS_MAC)
 			Main.SETTINGS.setStringProperty(
 					"theme.lookandfeel",
 					UIManager.getSystemLookAndFeelClassName());
@@ -172,7 +172,7 @@ public final class SettingsVersion {
 		"Update settings from version 0.7.1 to 0.7.2");
 
 		Main.SETTINGS.setStringProperty("new_version.showed", "0.7.2");
-		
+
 		Main.SETTINGS.remove("proxy.use_system_proxy");
 		Main.SETTINGS.remove("proxy.type");
 
