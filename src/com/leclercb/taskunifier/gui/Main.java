@@ -35,6 +35,7 @@ import org.apache.commons.io.FileUtils;
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.commons.api.utils.DateUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -156,8 +157,10 @@ public class Main {
 			LOG_FILE_STREAM = new FileOutputStream(LOG_FILE);
 			NEW_STREAM = new PrintStream(LOG_FILE_STREAM);
 
-			System.setOut(NEW_STREAM);
-			System.setErr(NEW_STREAM);
+			if (!EqualsUtils.equals(System.getProperty("com.leclercb.taskunifier.debug_mode"), "true")) {
+				System.setOut(NEW_STREAM);
+				System.setErr(NEW_STREAM);
+			}
 		} catch (IOException e) {
 			GuiLogger.getLogger().severe("Error while creating log file");
 		}
@@ -362,10 +365,10 @@ public class Main {
 						LOG_FILE_STREAM.close();
 
 					File logFile = new File(DATA_FOLDER + File.separator + "taskunifier.log");
-					
+
 					if (!logFile.exists())
 						logFile.createNewFile();
-					
+
 					String logFileContent = FileUtils.readFileToString(logFile, "UTF-8");
 					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
 					log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
