@@ -1,12 +1,10 @@
 package com.leclercb.taskunifier.gui.utils;
 
-import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -48,14 +46,20 @@ public final class SynchronizerUtils {
 			String login = Main.SETTINGS.getStringProperty("proxy.login");
 			String password = Main.SETTINGS.getStringProperty("proxy.password");
 
-			HttpUtils.setProxy(host, port, login, password);
+			getPlugin().getSynchronizerApi().setProxyHost(host);
+			getPlugin().getSynchronizerApi().setProxyPort(port);
+			getPlugin().getSynchronizerApi().setProxyUsername(login);
+			getPlugin().getSynchronizerApi().setProxyPassword(password);
 		} else {
 			removeProxy();
 		}
 	}
 
 	public static void removeProxy() {
-		HttpUtils.removeProxy();
+		getPlugin().getSynchronizerApi().setProxyHost(null);
+		getPlugin().getSynchronizerApi().setProxyPort(0);
+		getPlugin().getSynchronizerApi().setProxyUsername(null);
+		getPlugin().getSynchronizerApi().setProxyPassword(null);
 	}
 
 	public static void removeOldCompletedTasks() {
