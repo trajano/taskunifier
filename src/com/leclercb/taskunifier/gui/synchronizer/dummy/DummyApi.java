@@ -2,7 +2,6 @@ package com.leclercb.taskunifier.gui.synchronizer.dummy;
 
 import java.util.Properties;
 
-import com.leclercb.commons.api.properties.ExtendedProperties;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
@@ -50,17 +49,7 @@ public class DummyApi extends SynchronizerApi {
 	}
 
 	@Override
-	public void resetConnectionParameters(ExtendedProperties properties) {
-
-	}
-
-	@Override
 	public void resetSynchronizerParameters(Properties properties) {
-
-	}
-
-	@Override
-	public void resetSynchronizerParameters(ExtendedProperties properties) {
 
 	}
 

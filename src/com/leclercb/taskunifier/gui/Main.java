@@ -17,7 +17,13 @@
  */
 package com.leclercb.taskunifier.gui;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -27,7 +33,7 @@ import javax.swing.UIManager;
 import org.apache.commons.io.FileUtils;
 
 import com.leclercb.commons.api.plugins.PluginLoader;
-import com.leclercb.commons.api.properties.ExtendedProperties;
+import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
@@ -58,20 +64,20 @@ import com.leclercb.taskunifier.gui.utils.PluginUtils.PluginException;
 public class Main {
 
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
-	public static ExtendedProperties SETTINGS;
+	public static PropertiesConfiguration SETTINGS;
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
 
-    private static PrintStream ORIGINAL_OUT_STREAM;
-    private static PrintStream ORIGINAL_ERR_STREAM;
-    private static File LOG_FILE;
-    private static OutputStream LOG_FILE_STREAM;
-    private static PrintStream NEW_STREAM;
+	private static PrintStream ORIGINAL_OUT_STREAM;
+	private static PrintStream ORIGINAL_ERR_STREAM;
+	private static File LOG_FILE;
+	private static OutputStream LOG_FILE_STREAM;
+	private static PrintStream NEW_STREAM;
 
 	public static void main(String[] args) {
 		try {
-            loadStreamRedirection();
+			loadStreamRedirection();
 			loadResourceFolder();
 			loadDataFolder();
 			loadSettings();
@@ -141,21 +147,21 @@ public class Main {
 		});
 	}
 
-    private static void loadStreamRedirection() {
-        ORIGINAL_OUT_STREAM = System.out;
-        ORIGINAL_ERR_STREAM = System.err;
+	private static void loadStreamRedirection() {
+		ORIGINAL_OUT_STREAM = System.out;
+		ORIGINAL_ERR_STREAM = System.err;
 
 		try {
-            LOG_FILE = File.createTempFile("taskunifier_log_", ".log");
-            LOG_FILE_STREAM = new FileOutputStream(LOG_FILE);
+			LOG_FILE = File.createTempFile("taskunifier_log_", ".log");
+			LOG_FILE_STREAM = new FileOutputStream(LOG_FILE);
 			NEW_STREAM = new PrintStream(LOG_FILE_STREAM);
 
 			System.setOut(NEW_STREAM);
 			System.setErr(NEW_STREAM);
 		} catch (IOException e) {
-            GuiLogger.getLogger().severe("Error while creating log file");
-        }
-    }
+			GuiLogger.getLogger().severe("Error while creating log file");
+		}
+	}
 
 	private static void loadResourceFolder() throws Exception {
 		if (System.getProperty("com.leclercb.taskunifier.resource_folder") == null) {
@@ -210,7 +216,7 @@ public class Main {
 
 	private static void loadSettings() throws Exception {
 		try {
-			SETTINGS = new ExtendedProperties(new Properties());
+			SETTINGS = new PropertiesConfiguration(new Properties());
 
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 
@@ -329,7 +335,7 @@ public class Main {
 			new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-                    DATA_FOLDER + File.separator + "searchers.xml"));
+					DATA_FOLDER + File.separator + "searchers.xml"));
 
 			saveSettings();
 
@@ -344,28 +350,28 @@ public class Main {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		} finally {
-            try {
-                if (LOG_FILE != null) {
-                    System.setOut(ORIGINAL_OUT_STREAM);
-                    System.setErr(ORIGINAL_ERR_STREAM);
+			try {
+				if (LOG_FILE != null) {
+					System.setOut(ORIGINAL_OUT_STREAM);
+					System.setErr(ORIGINAL_ERR_STREAM);
 
-                    if (NEW_STREAM != null)
-                    NEW_STREAM.close();
+					if (NEW_STREAM != null)
+						NEW_STREAM.close();
 
-                    if (LOG_FILE_STREAM != null)
-                    LOG_FILE_STREAM.close();
+					if (LOG_FILE_STREAM != null)
+						LOG_FILE_STREAM.close();
 
-                    File logFile = new File(DATA_FOLDER + File.separator + "taskunifier.log");
-                    String logFileContent = FileUtils.readFileToString(logFile, "UTF-8");
-                    String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
-                    log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
+					File logFile = new File(DATA_FOLDER + File.separator + "taskunifier.log");
+					String logFileContent = FileUtils.readFileToString(logFile, "UTF-8");
+					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
+					log = "\n\n\n---------- " + DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss") + " ----------\n\n" + log;
 
-                    FileUtils.writeStringToFile(logFile, logFileContent + log);
-                }
-            } catch (Exception e) {
-                GuiLogger.getLogger().severe("Could not copy log information into log file");
-            }
-        }
+					FileUtils.writeStringToFile(logFile, logFileContent + log);
+				}
+			} catch (Exception e) {
+				GuiLogger.getLogger().severe("Could not copy log information into log file");
+			}
+		}
 
 		System.exit(0);
 	}
