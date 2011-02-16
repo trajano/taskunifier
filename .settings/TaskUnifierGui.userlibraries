@@ -1,5 +1,17 @@
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<?xml version="1.0" encoding="MacRoman" standalone="no"?>
 <eclipse-userlibraries version="2">
+    <library name="Commons" systemlibrary="false">
+        <archive path="/Commons/lib/apache/httpmime-4.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-codec-1.4-javadoc.jar!/" path="/Commons/lib/apache/commons-codec-1.4.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-io-2.0.1-javadoc.jar!/" path="/Commons/lib/apache/commons-io-2.0.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-lang-2.6-javadoc.jar!/" path="/Commons/lib/apache/commons-lang-2.6.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-logging-1.1.1-javadoc.jar!/" path="/Commons/lib/apache/commons-logging-1.1.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/http-4.1.zip!/" path="/Commons/lib/apache/httpclient-4.1.jar"/>
+        <archive path="/Commons/lib/apache/httpclient-cache-4.1.jar"/>
+        <archive path="/Commons/lib/apache/httpcore-4.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/json/json-lib-2.4-jdk15-javadoc.jar!/" path="/Commons/lib/json/json-lib-2.4-jdk15.jar"/>
+        <archive path="/Commons/lib/leclercb-commons.jar"/>
+    </library>
     <library name="TaskUnifierGui" systemlibrary="false">
         <archive path="/TaskUnifierGui/lib/taskunifierapi.jar"/>
         <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
@@ -10,5 +22,6 @@
         <archive path="/TaskUnifierGui/lib/jtattoo.jar"/>
         <archive path="/TaskUnifierGui/lib/mac_widgets.jar"/>
         <archive path="/TaskUnifierGui/lib/microba-0.4.4.3.jar"/>
+        <archive path="/TaskUnifierGui/dist/taskunifiergui.jar"/>
     </library>
 </eclipse-userlibraries>
