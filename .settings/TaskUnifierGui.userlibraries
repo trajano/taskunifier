@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="TaskUnifierGui" systemlibrary="false">
+        <archive path="/TaskUnifierGui/lib/taskunifierapi.jar"/>
+        <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
+        <archive path="/TaskUnifierGui/lib/forms-1.2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-binding-2.2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-common-1.1.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-forms-1.4.0.jar"/>
+        <archive path="/TaskUnifierGui/lib/jtattoo.jar"/>
+        <archive path="/TaskUnifierGui/lib/mac_widgets.jar"/>
+        <archive path="/TaskUnifierGui/lib/microba-0.4.4.3.jar"/>
+    </library>
+</eclipse-userlibraries>
