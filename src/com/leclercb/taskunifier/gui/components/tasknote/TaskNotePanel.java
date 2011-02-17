@@ -35,11 +35,11 @@ public class TaskNotePanel extends JTextArea implements TaskSelectionListener {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (previousSelectedTask != null) {
+				if (TaskNotePanel.this.previousSelectedTask != null) {
 					if (!EqualsUtils.equals(
-							previousSelectedTask.getNote(),
-							getText()))
-						previousSelectedTask.setNote(getText());
+							TaskNotePanel.this.previousSelectedTask.getNote(),
+							TaskNotePanel.this.getText()))
+						TaskNotePanel.this.previousSelectedTask.setNote(TaskNotePanel.this.getText());
 				}
 			}
 			

@@ -38,83 +38,83 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.michaelbaranov.microba.calendar.CalendarPane;
 
 public class JDatePicker extends JDialog {
-
+	
 	public static enum Action {
-
+		
 		OK,
 		CANCEL;
-
+		
 	}
-
+	
 	private JFormattedTextField timeField;
 	private CalendarPane calendarPane;
 	private Action action;
 	private Calendar calendar;
-
+	
 	public JDatePicker(Frame frame) {
 		super(frame);
-
+		
 		this.initialize();
 	}
-
+	
 	public Action getAction() {
 		return this.action;
 	}
-
+	
 	public Calendar getValue() {
 		return this.calendar;
 	}
-
+	
 	public void setValue(Calendar calendar) {
 		this.calendar = calendar;
-
+		
 		if (calendar != null) {
 			this.timeField.setValue(calendar.getTime());
-
+			
 			try {
 				this.calendarPane.setDate(calendar.getTime());
 			} catch (PropertyVetoException e) {}
 		}
 	}
-
+	
 	private void initialize() {
 		this.setModal(true);
 		this.setResizable(false);
 		this.setTitle(Translations.getString("general.date_picker"));
 		this.setSize(400, 300);
 		this.setLayout(new BorderLayout());
-
+		
 		JPanel datePanel = new JPanel();
 		datePanel.setLayout(new BorderLayout());
-
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-
+		
 		this.add(datePanel, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtonsPanel(buttonsPanel);
 		this.initializeTimeField(datePanel);
 		this.initializeDatePanel(datePanel);
 	}
-
+	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					JDatePicker.this.action = Action.OK;
-
+					
 					if (JDatePicker.this.calendarPane.getDate() == null) {
 						JDatePicker.this.calendar = null;
 					} else {
 						Calendar time = Calendar.getInstance();
 						time.setTime((Date) JDatePicker.this.timeField.getValue());
-
+						
 						Calendar date = Calendar.getInstance();
 						date.setTime(JDatePicker.this.calendarPane.getDate());
-
+						
 						JDatePicker.this.calendar = date;
 						JDatePicker.this.calendar.set(
 								Calendar.HOUR_OF_DAY,
@@ -126,50 +126,53 @@ public class JDatePicker extends JDialog {
 								Calendar.SECOND,
 								time.get(Calendar.SECOND));
 					}
-
+					
 					JDatePicker.this.dispose();
 				}
-
+				
 				if (event.getActionCommand() == "CANCEL") {
 					JDatePicker.this.action = Action.CANCEL;
 					JDatePicker.this.calendar = null;
 					JDatePicker.this.dispose();
 				}
 			}
-
+			
 		};
-
+		
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
-
+		
 		JButton cancelButton = new JButton(
 				Translations.getString("general.cancel"));
 		cancelButton.setActionCommand("CANCEL");
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
 	}
-
+	
 	private void initializeTimeField(JPanel datePanel) {
 		JPanel timePanel = new JPanel();
 		timePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		timePanel.add(new JLabel(Translations.getString("general.time") + ": "));
-
-		SimpleDateFormat format = new SimpleDateFormat(Main.SETTINGS.getStringProperty("date.time_format"));
+		
+		SimpleDateFormat format = new SimpleDateFormat(
+				Main.SETTINGS.getStringProperty("date.time_format"));
 		
 		this.timeField = new JFormattedTextField(format);
 		this.timeField.setColumns(15);
-
+		
 		timePanel.add(this.timeField);
-		timePanel.add(new JLabel(" (" + format.format(Calendar.getInstance().getTime()) + ")"));
-
+		timePanel.add(new JLabel(" ("
+				+ format.format(Calendar.getInstance().getTime())
+				+ ")"));
+		
 		datePanel.add(timePanel, BorderLayout.NORTH);
 	}
-
+	
 	private void initializeDatePanel(JPanel datePanel) {
 		this.calendarPane = new CalendarPane();
 		datePanel.add(this.calendarPane, BorderLayout.CENTER);
 	}
-
+	
 }

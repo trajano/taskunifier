@@ -45,7 +45,7 @@ public class MacToolBarCreator implements ToolBarCreator {
 	
 	@Override
 	public void addElement(JButton button) {
-		//button.putClientProperty("JButton.buttonType", "textured");
+		// button.putClientProperty("JButton.buttonType", "textured");
 		button.setOpaque(false);
 		button.setBorderPainted(false);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);

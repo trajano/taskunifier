@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -68,7 +69,7 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(Task.PROP_MODEL_STATUS)
+		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)
 				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
 		} else {

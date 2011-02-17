@@ -38,88 +38,91 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {
-
+	
 	private boolean silent;
-
+	
 	public ActionCheckVersion(boolean silent) {
 		this(silent, 32, 32);
 	}
-
+	
 	public ActionCheckVersion(boolean silent, int width, int height) {
 		super(
 				Translations.getString("action.name.check_version"),
 				Images.getResourceImage("download.png", width, height));
-
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.check_version"));
-
+		
 		this.silent = silent;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		this.checkVersion();
 	}
-
+	
 	public void checkVersion() {
 		Thread thread = new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				try {
 					SynchronizerUtils.initializeProxy();
-
+					
 					HttpResponse response = HttpUtils.getHttpResponse(Constants.VERSION_FILE);
 					
 					String version = EntityUtils.toString(response.getEntity()).trim();
-
+					
 					if (Constants.VERSION.compareTo(version) < 0) {
 						GuiLogger.getLogger().info(
 								"New version available : " + version);
-
+						
 						String showed = Main.SETTINGS.getStringProperty("new_version.showed");
-
-						if (!silent || !EqualsUtils.equals(version, showed)) {
-							Main.SETTINGS.setStringProperty("new_version.showed", version);
-
+						
+						if (!ActionCheckVersion.this.silent
+								|| !EqualsUtils.equals(version, showed)) {
+							Main.SETTINGS.setStringProperty(
+									"new_version.showed",
+									version);
+							
 							String[] options = new String[] {
 									Translations.getString("general.download"),
 									Translations.getString("general.cancel") };
-
+							
 							int result = JOptionPane.showOptionDialog(
 									MainFrame.getInstance().getFrame(),
 									Translations.getString(
 											"action.check_version.new_version_available",
 											version),
-											Translations.getString("general.information"),
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.INFORMATION_MESSAGE,
-											null,
-											options,
-											options[0]);
-
+									Translations.getString("general.information"),
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.INFORMATION_MESSAGE,
+									null,
+									options,
+									options[0]);
+							
 							if (result == 0) {
 								BrowserUtils.openDefaultBrowser(Constants.DOWNLOAD_URL);
 							}
 						}
 					} else {
 						GuiLogger.getLogger().info("No new version available");
-
+						
 						if (!ActionCheckVersion.this.silent) {
 							JOptionPane.showMessageDialog(
 									MainFrame.getInstance().getFrame(),
 									Translations.getString(
 											"action.check_version.no_new_version_available",
 											Constants.VERSION),
-											Translations.getString("general.information"),
-											JOptionPane.INFORMATION_MESSAGE);
+									Translations.getString("general.information"),
+									JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				} catch (Exception e) {
 					if (ActionCheckVersion.this.silent) {
 						GuiLogger.getLogger().warning(
-						"An error occured while checking for updates");
+								"An error occured while checking for updates");
 					} else {
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
@@ -130,10 +133,10 @@ public class ActionCheckVersion extends AbstractAction {
 					SynchronizerUtils.removeProxy();
 				}
 			}
-
+			
 		});
-
+		
 		thread.start();
 	}
-
+	
 }
