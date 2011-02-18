@@ -1,7 +1,7 @@
 HISTORY
 -------
 
-Version 0.7.2 : 15/02/2011
+Version 0.7.2 : 18/02/2011
 	- Bug fixed: encoding problem
 	- Bug fixed: Toodledo account creation
 	- Bug fixed: task note not correctly saved on focus lost
