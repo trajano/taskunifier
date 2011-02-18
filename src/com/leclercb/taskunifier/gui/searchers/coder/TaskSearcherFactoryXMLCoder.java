@@ -34,6 +34,7 @@ import com.leclercb.commons.api.utils.XMLUtils;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -162,7 +163,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			TaskFilter filter = new TaskFilter();
 			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(
 					node,
-					"link")));
+			"link")));
 			
 			for (int i = 0; i < nFilter.getLength(); i++) {
 				if (nFilter.item(i).getNodeName().equals("element")) {
@@ -181,7 +182,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						
 						if (nElement.item(j).getNodeName().equals("condition")) {
 							String[] values = nElement.item(j).getTextContent().split(
-									"\\.");
+							"\\.");
 							conditionClass = values[0];
 							enumName = values[1];
 						}
@@ -273,15 +274,25 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						Model value = null;
 						
 						if (valueStr != null) {
-							if (column.equals(TaskColumn.CONTEXT))
-								value = ContextFactory.getInstance().get(
-										new ModelId(valueStr));
-							else if (column.equals(TaskColumn.FOLDER))
-								value = FolderFactory.getInstance().get(
-										new ModelId(valueStr));
-							else if (column.equals(TaskColumn.GOAL))
-								value = GoalFactory.getInstance().get(
-										new ModelId(valueStr));
+							try {
+								boolean newId = (Byte.parseByte(valueStr.charAt(0) + "") == 1);
+								String id = valueStr.substring(1);
+								
+								if (column.equals(TaskColumn.CONTEXT))
+									value = ContextFactory.getInstance().get(
+											new ModelId(newId, id));
+								else if (column.equals(TaskColumn.FOLDER))
+									value = FolderFactory.getInstance().get(
+											new ModelId(newId, id));
+								else if (column.equals(TaskColumn.GOAL))
+									value = GoalFactory.getInstance().get(
+											new ModelId(newId, id));
+								else if (column.equals(TaskColumn.LOCATION))
+									value = LocationFactory.getInstance().get(
+											new ModelId(newId, id));
+							} catch (Exception e) {
+								value = null;
+							}
 						}
 						
 						if (valueStr == null || value != null)
@@ -412,8 +423,10 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				condition.setTextContent("ModelCondition."
 						+ e.getCondition().name());
 				
-				if (e.getValue() != null)
-					value.setTextContent(((Model) e.getValue()).getModelId().getId());
+				if (e.getValue() != null) {
+					ModelId id = ((Model) e.getValue()).getModelId();
+					value.setTextContent((id.isNewId() ? 1 : 0) + id.getId());
+				}
 			}
 			
 			if (e.getValue() == null)
