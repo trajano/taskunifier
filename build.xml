@@ -50,7 +50,13 @@
 	<target name="create-jar">
 		<echo message="Creating ${ant.project.name} jar file..."/>
 		<mkdir dir="${directory.gui}/dist"/>
-		<jar jarfile="${directory.gui}/dist/taskunifiergui.jar" basedir="${directory.gui}/bin" manifest="MANIFEST.MF"/>
+		<jar jarfile="${directory.gui}/dist/taskunifiergui.jar" basedir="${directory.gui}/bin">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Main-Class" value="com.leclercb.taskunifier.gui.Main"/>
+				<attribute name="Class-Path" value="lib/applejavaextensions.jar lib/commons.jar lib/forms-1.2.1.jar lib/jgoodies-binding-2.2.1.jar lib/jgoodies-common-1.1.1.jar lib/jgoodies-forms-1.4.0.jar lib/jtattoo.jar lib/mac_widgets.jar lib/microba-0.4.4.3.jar lib/taskunifierapi.jar"/>
+			</manifest>
+		</jar>
 	</target>
 	
 </project>
