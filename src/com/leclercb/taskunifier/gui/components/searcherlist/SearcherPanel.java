@@ -123,9 +123,9 @@ public class SearcherPanel extends JPanel implements SearcherView, TaskSearcherS
 		
 		this.searcherView = new SearcherList();
 		
-		this.add(ComponentFactory.createJScrollPane(
+		this.add(
 				this.searcherView.getSourceList().getComponent(),
-				true), BorderLayout.CENTER);
+				BorderLayout.CENTER);
 		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);
 		

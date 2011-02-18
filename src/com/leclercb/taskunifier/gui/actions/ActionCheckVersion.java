@@ -108,12 +108,12 @@ public class ActionCheckVersion extends AbstractAction {
 									Translations.getString(
 											"action.check_version.new_version_available",
 											version),
-											Translations.getString("general.information"),
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.INFORMATION_MESSAGE,
-											null,
-											options,
-											options[0]);
+									Translations.getString("general.information"),
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.INFORMATION_MESSAGE,
+									null,
+									options,
+									options[0]);
 							
 							if (result == 0) {
 								BrowserUtils.openDefaultBrowser(Constants.DOWNLOAD_URL);
@@ -128,14 +128,14 @@ public class ActionCheckVersion extends AbstractAction {
 									Translations.getString(
 											"action.check_version.no_new_version_available",
 											Constants.VERSION),
-											Translations.getString("general.information"),
-											JOptionPane.INFORMATION_MESSAGE);
+									Translations.getString("general.information"),
+									JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				} catch (Exception e) {
 					if (ActionCheckVersion.this.silent) {
 						GuiLogger.getLogger().warning(
-						"An error occured while checking for updates");
+								"An error occured while checking for updates");
 					} else {
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),

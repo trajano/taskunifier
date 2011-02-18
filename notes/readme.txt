@@ -8,6 +8,7 @@ Version 0.7.2 : 18/02/2011
 	- Bug fixed: show new version message only once
 	- Bug fixed: background of the search list not always displayed
 	- Bug fixed: searcher condition on not already synced models
+	- Bug fixed: searcher list count badges sometimes disappeared
 	- Use system proxy setting has been removed
 	- Windows installer: uninstall from control panel
 
