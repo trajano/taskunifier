@@ -1,60 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="TaskUnifierGui">
+<project basedir="." default="main" name="TaskUnifierGui">
 	
     <property environment="env"/>
-	<property name="directory.commons" value="${basedir}/../Commons"/>
-	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
-	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
 	
+	<property name="directory.commons" value="../Commons"/>
+	<property name="directory.api" value="../TaskUnifierApi"/>
 	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-	
     <property name="java.debuglevel" value="source,lines,vars"/>
     <property name="java.target" value="1.6"/>
     <property name="java.source" value="1.6"/>
 	
-    <path id="taskunifiergui.classpath">
-        <pathelement location="${directory.gui}/bin"/>
-        <fileset dir="${directory.gui}/lib" includes="**/*.jar"/>
+    <path id="build.classpath">
+        <pathelement location="bin"/>
+        <fileset dir="lib" includes="**/*.jar"/>
     </path>
+	
+	<pathconvert property="lib.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+		<mapper>
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper> 
+		</mapper>
+	</pathconvert>
+	
+	<target name="main">
+		<antcall target="clean"/>
+		<antcall target="build"/>
+		<antcall target="create-jar"/>
+	</target>
+	
+    <target name="clean">
+		<echo message="Cleaning..."/>
+        <delete dir="bin"/>
+    </target>
 	
 	<target name="copy-jars">
 		<echo message="Copying jars..."/>
-		<copy file="${directory.commons}/dist/commons.jar" tofile="${directory.gui}/lib/commons.jar"/>
-		<copy file="${directory.api}/dist/taskunifierapi.jar" tofile="${directory.gui}/lib/taskunifierapi.jar"/>
+		<copy file="${directory.commons}/dist/commons.jar" tofile="lib/commons.jar"/>
+		<copy file="${directory.api}/dist/taskunifierapi.jar" tofile="lib/taskunifierapi.jar"/>
 	</target>
 	
     <target depends="copy-jars" name="init">
 		<echo message="Initializing compilation..."/>
-        <mkdir dir="${directory.gui}/bin"/>
-        <copy includeemptydirs="false" todir="${directory.gui}/bin">
-            <fileset dir="${directory.gui}/src">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
+                <exclude name="**/.svn"/>
             </fileset>
         </copy>
     </target>
 	
-    <target name="clean">
-		<echo message="Cleaning..."/>
-        <delete dir="${directory.gui}/bin"/>
-    </target>
-	
     <target depends="init" name="build">
 		<echo message="Compiling ${ant.project.name}..."/>
-        <javac nowarn="on" debug="true" debuglevel="${java.debuglevel}" destdir="${directory.gui}/bin" source="${java.source}" target="${java.target}">
-            <src path="${directory.gui}/src"/>
-            <classpath refid="taskunifiergui.classpath"/>
+        <javac nowarn="on" debug="true" debuglevel="${java.debuglevel}" destdir="bin" 
+        	source="${java.source}" target="${java.target}" includeantruntime="false">
+            <src path="src"/>
+            <classpath refid="build.classpath"/>
         </javac>
     </target>
 	
 	<target name="create-jar">
 		<echo message="Creating ${ant.project.name} jar file..."/>
-		<mkdir dir="${directory.gui}/dist"/>
-		<jar jarfile="${directory.gui}/dist/taskunifiergui.jar" basedir="${directory.gui}/bin">
+		<mkdir dir="dist"/>
+		<jar jarfile="dist/taskunifiergui.jar" basedir="bin">
 			<manifest>
 				<attribute name="Built-By" value="${user.name}"/>
 				<attribute name="Main-Class" value="com.leclercb.taskunifier.gui.Main"/>
-				<attribute name="Class-Path" value="lib/applejavaextensions.jar lib/commons.jar lib/forms-1.2.1.jar lib/jgoodies-binding-2.2.1.jar lib/jgoodies-common-1.1.1.jar lib/jgoodies-forms-1.4.0.jar lib/jtattoo.jar lib/mac_widgets.jar lib/microba-0.4.4.3.jar lib/taskunifierapi.jar"/>
+				<attribute name="Class-Path" value="${lib.classpath}"/>
 			</manifest>
 		</jar>
 	</target>
