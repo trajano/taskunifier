@@ -9,6 +9,7 @@ Version 0.7.2 : 18/02/2011
 	- Bug fixed: background of the search list not always displayed
 	- Bug fixed: searcher condition on not already synced models
 	- Use system proxy setting has been removed
+	- Windows installer: uninstall from control panel
 
 Version 0.7.1
 	- Added log bug and log feature request buttons
