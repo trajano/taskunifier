@@ -99,6 +99,9 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 			@Override
 			public void sourceListItemSelected(SourceListItem e) {
 				SearcherList.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherList.this.getSelectedTaskSearcher());
+				
+				// Fix background problem
+				SearcherList.this.list.getComponent().repaint();
 			}
 			
 		});
@@ -342,10 +345,6 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	
 	@Override
 	public void selectDefaultTaskSearcher() {
-		// Fix background bug
-		this.list.setExpanded(this.generalCategory, false);
-		this.list.setExpanded(this.generalCategory, true);
-		
 		this.list.setSelectedItem(this.generalCategory.getItems().get(0));
 	}
 	
