@@ -4,6 +4,7 @@ HISTORY
 Version 0.7.3 :
 	- Bug fixed: background of the search list not always displayed
 	- Improved UI (especially for Mac)
+	- Improved startup scripts
 
 Version 0.7.2 : 18/02/2011
 	- Bug fixed: encoding problem
