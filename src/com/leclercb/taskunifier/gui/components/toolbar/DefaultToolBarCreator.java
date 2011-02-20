@@ -17,8 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.toolbar;
 
-import javax.swing.Action;
-import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
@@ -35,20 +34,34 @@ public class DefaultToolBarCreator implements ToolBarCreator {
 	public JToolBar getComponent() {
 		return this.toolBar;
 	}
-	
+
 	@Override
-	public void addElement(Action action) {
-		this.toolBar.add(action);
+	public void addElementToLeft(JComponent component) {
+		this.toolBar.add(component);
 	}
-	
+
 	@Override
-	public void addElement(JButton button) {
-		button.setText(null);
-		this.toolBar.add(button);
+	public void addElementToCenter(JComponent component) {
+		this.toolBar.add(component);
 	}
-	
+
 	@Override
-	public void addSeparator() {
+	public void addElementToRight(JComponent component) {
+		this.toolBar.add(component);
+	}
+
+	@Override
+	public void addSeparatorToLeft() {
+		this.toolBar.addSeparator();
+	}
+
+	@Override
+	public void addSeparatorToCenter() {
+		this.toolBar.addSeparator();
+	}
+
+	@Override
+	public void addSeparatorToRight() {
 		this.toolBar.addSeparator();
 	}
 	

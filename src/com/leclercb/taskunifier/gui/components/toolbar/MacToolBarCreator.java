@@ -17,7 +17,6 @@
  */
 package com.leclercb.taskunifier.gui.components.toolbar;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
@@ -37,14 +36,38 @@ public class MacToolBarCreator implements ToolBarCreator {
 	public JComponent getComponent() {
 		return this.toolBar.getComponent();
 	}
-	
+
 	@Override
-	public void addElement(Action action) {
-		this.addElement(new JButton(action));
+	public void addElementToLeft(JComponent component) {
+		this.toolBar.addComponentToLeft(component);
+	}
+
+	@Override
+	public void addElementToCenter(JComponent component) {
+		this.toolBar.addComponentToCenter(component);
+	}
+
+	@Override
+	public void addElementToRight(JComponent component) {
+		this.toolBar.addComponentToRight(component);
+	}
+
+	@Override
+	public void addSeparatorToLeft() {
+		this.toolBar.addComponentToLeft(new JSeparator());
+	}
+
+	@Override
+	public void addSeparatorToCenter() {
+		this.toolBar.addComponentToCenter(new JSeparator());
+	}
+
+	@Override
+	public void addSeparatorToRight() {
+		this.toolBar.addComponentToRight(new JSeparator());
 	}
 	
-	@Override
-	public void addElement(JButton button) {
+	public void optimizeButton(JButton button) {
 		// button.putClientProperty("JButton.buttonType", "textured");
 		button.setOpaque(false);
 		button.setBorderPainted(false);
@@ -55,13 +78,6 @@ public class MacToolBarCreator implements ToolBarCreator {
 		text = text.length() > 30 ? text.substring(0, 30 - 2) + "..." : text;
 		
 		button.setText(text);
-		
-		this.toolBar.addComponentToLeft(button);
-	}
-	
-	@Override
-	public void addSeparator() {
-		this.toolBar.addComponentToLeft(new JSeparator());
 	}
 	
 }

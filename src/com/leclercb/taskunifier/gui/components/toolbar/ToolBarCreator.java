@@ -17,18 +17,22 @@
  */
 package com.leclercb.taskunifier.gui.components.toolbar;
 
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 
 public interface ToolBarCreator {
 	
 	public abstract JComponent getComponent();
 	
-	public abstract void addElement(Action action);
+	public abstract void addElementToLeft(JComponent component);
 	
-	public abstract void addElement(JButton button);
+	public abstract void addElementToCenter(JComponent component);
 	
-	public abstract void addSeparator();
+	public abstract void addElementToRight(JComponent component);
+	
+	public abstract void addSeparatorToLeft();
+	
+	public abstract void addSeparatorToCenter();
+	
+	public abstract void addSeparatorToRight();
 	
 }

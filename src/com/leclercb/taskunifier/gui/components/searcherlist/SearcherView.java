@@ -5,6 +5,8 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public interface SearcherView extends TaskSearcherSelectionChangeSupported {
 	
+	public abstract void setTitleFilter(String title);
+	
 	public abstract void selectDefaultTaskSearcher();
 	
 	public abstract TaskSearcher getSelectedTaskSearcher();

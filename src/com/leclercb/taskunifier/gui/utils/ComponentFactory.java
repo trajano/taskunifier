@@ -8,7 +8,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
@@ -26,11 +28,13 @@ public final class ComponentFactory {
 			textField.putClientProperty("JTextField.variant", "search");
 			
 			JPanel panel = new JPanel(new BorderLayout());
+			panel.setOpaque(false);
 			panel.add(textField, BorderLayout.CENTER);
 			
 			return panel;
 		} else {
 			JPanel panel = new JPanel(new BorderLayout(5, 0));
+			panel.setOpaque(false);
 			panel.add(
 					new JLabel(Images.getResourceImage("search.png", 16, 16)),
 					BorderLayout.WEST);
@@ -55,5 +59,15 @@ public final class ComponentFactory {
 		
 		return scrollPane;
 	}
+
+    public static JSplitPane createThinJScrollPane(int orientation) {
+        JSplitPane splitPane = new JSplitPane(orientation);
+        splitPane.setContinuousLayout(true);
+        splitPane.setDividerSize(1);
+        ((BasicSplitPaneUI) splitPane.getUI()).getDivider().setBorder(
+                BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(0xa5a5a5)));
+        splitPane.setBorder(BorderFactory.createEmptyBorder());
+        return splitPane;
+    }
 	
 }
