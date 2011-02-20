@@ -494,7 +494,8 @@ public class SourceList {
 
     private TreeSelectionListener createTreeSelectionListener() {
         return new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
+            @Override
+			public void valueChanged(TreeSelectionEvent e) {
                 fireSourceListItemSelected(getSelectedItem());
             }
         };
@@ -502,31 +503,38 @@ public class SourceList {
 
     private SourceListModelListener createSourceListModelListener() {
         return new SourceListModelListener() {
-            public void categoryAdded(SourceListCategory category, int index) {
+            @Override
+			public void categoryAdded(SourceListCategory category, int index) {
                 doAddCategory(category, index);
             }
 
-            public void categoryRemoved(SourceListCategory category) {
+            @Override
+			public void categoryRemoved(SourceListCategory category) {
                 doRemoveCategory(category);
             }
 
-            public void itemAddedToCategory(SourceListItem item, SourceListCategory category, int index) {
+            @Override
+			public void itemAddedToCategory(SourceListItem item, SourceListCategory category, int index) {
                 doAddItemToCategory(item, category, index);
             }
 
-            public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category) {
+            @Override
+			public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category) {
                 doRemoveItemFromCategory(item, category);
             }
 
-            public void itemAddedToItem(SourceListItem item, SourceListItem parentItem, int index) {
+            @Override
+			public void itemAddedToItem(SourceListItem item, SourceListItem parentItem, int index) {
                 doAddItemToItem(item, parentItem, index);
             }
 
-            public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem) {
+            @Override
+			public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem) {
                 doRemoveItemFromItem(item, parentItem);
             }
 
-            public void itemChanged(SourceListItem item) {
+            @Override
+			public void itemChanged(SourceListItem item) {
                 doItemChanged(item);
             }
         };
@@ -643,15 +651,18 @@ public class SourceList {
     // EmptySourceListContextMenuProvider implementation. /////////////////////////////////////////
 
     private static class EmptySourceListContextMenuProvider implements SourceListContextMenuProvider {
-        public JPopupMenu createContextMenu() {
+        @Override
+		public JPopupMenu createContextMenu() {
             return null;
         }
 
-        public JPopupMenu createContextMenu(SourceListItem item) {
+        @Override
+		public JPopupMenu createContextMenu(SourceListItem item) {
             return null;
         }
 
-        public JPopupMenu createContextMenu(SourceListCategory category) {
+        @Override
+		public JPopupMenu createContextMenu(SourceListCategory category) {
             return null;
         }
     }
@@ -688,11 +699,13 @@ public class SourceList {
     // Empty SourceListTooltipProvider. ///////////////////////////////////////////////////////////
 
     private static class EmptyToolTipProvider implements SourceListToolTipProvider {
-        public String getTooltip(SourceListCategory category) {
+        @Override
+		public String getTooltip(SourceListCategory category) {
             return null;
         }
 
-        public String getTooltip(SourceListItem item) {
+        @Override
+		public String getTooltip(SourceListItem item) {
             return null;
         }
     }

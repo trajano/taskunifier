@@ -173,7 +173,8 @@ public class SourceListControlBar {
 
         // MouseMotionListener implementation /////////////////////////////////////////////////////
 
-        public void mouseDragged(MouseEvent e) {
+        @Override
+		public void mouseDragged(MouseEvent e) {
             MouseEvent convertedEvent =
                     SwingUtilities.convertMouseEvent(fSplitterHandle, e, fSplitPane);
             int newLocation = convertedEvent.getPoint().x + fDelta;
@@ -183,7 +184,8 @@ public class SourceListControlBar {
             fSplitPane.setDividerLocation(boundedNewLocation);
         }
 
-        public void mouseMoved(MouseEvent e) {
+        @Override
+		public void mouseMoved(MouseEvent e) {
         }
     }
 
