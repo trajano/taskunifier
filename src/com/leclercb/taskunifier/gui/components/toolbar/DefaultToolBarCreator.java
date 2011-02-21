@@ -34,32 +34,32 @@ public class DefaultToolBarCreator implements ToolBarCreator {
 	public JToolBar getComponent() {
 		return this.toolBar;
 	}
-
+	
 	@Override
 	public void addElementToLeft(JComponent component) {
 		this.toolBar.add(component);
 	}
-
+	
 	@Override
 	public void addElementToCenter(JComponent component) {
 		this.toolBar.add(component);
 	}
-
+	
 	@Override
 	public void addElementToRight(JComponent component) {
 		this.toolBar.add(component);
 	}
-
+	
 	@Override
 	public void addSeparatorToLeft() {
 		this.toolBar.addSeparator();
 	}
-
+	
 	@Override
 	public void addSeparatorToCenter() {
 		this.toolBar.addSeparator();
 	}
-
+	
 	@Override
 	public void addSeparatorToRight() {
 		this.toolBar.addSeparator();

@@ -14,7 +14,8 @@ public class DummySynchronizerDialog extends SynchronizerDialog {
 	
 	@Override
 	protected Connection getConnection() throws SynchronizerException {
-		throw new SynchronizerException(true, 
+		throw new SynchronizerException(
+				true,
 				"You must select an API in order to synchronize your tasks");
 	}
 	

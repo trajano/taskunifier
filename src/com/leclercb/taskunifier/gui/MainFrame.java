@@ -151,10 +151,12 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			JPanel panel = new JPanel();
 			panel.setLayout(new BorderLayout());
 			
-			if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+			if (SystemUtils.IS_OS_MAC
+					&& LookAndFeelUtils.isCurrentLafSystemLaf())
 				this.horizontalSplitPane = ComponentFactory.createThinJScrollPane(JSplitPane.HORIZONTAL_SPLIT);
 			else
-				this.horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+				this.horizontalSplitPane = new JSplitPane(
+						JSplitPane.HORIZONTAL_SPLIT);
 			
 			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
@@ -366,7 +368,8 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			
 			if (toolBarObject instanceof Action) {
 				JButton button = new JButton((Action) toolBarObject);
-				if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+				if (SystemUtils.IS_OS_MAC
+						&& LookAndFeelUtils.isCurrentLafSystemLaf())
 					((MacToolBarCreator) toolBarCreator).optimizeButton(button);
 				
 				toolBarCreator.addElementToLeft(button);
@@ -374,7 +377,8 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			}
 			
 			if (toolBarObject instanceof JButton) {
-				if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+				if (SystemUtils.IS_OS_MAC
+						&& LookAndFeelUtils.isCurrentLafSystemLaf())
 					((MacToolBarCreator) toolBarCreator).optimizeButton((JButton) toolBarObject);
 				
 				toolBarCreator.addElementToLeft((JButton) toolBarObject);
@@ -384,7 +388,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		
 		// SEARCH FIELD
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
-			toolBarCreator.addElementToRight(ComponentFactory.createSearchField(searchField));
+			toolBarCreator.addElementToRight(ComponentFactory.createSearchField(this.searchField));
 		// SEARCH FIELD
 		
 		this.add(toolBarCreator.getComponent(), BorderLayout.NORTH);
@@ -447,7 +451,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 				new ActionSynchronize(iconWith, iconHeight),
 				new ActionScheduledSync(iconWith, iconHeight),
 				null,
-				new ActionConfiguration(iconWith, iconHeight)};
+				new ActionConfiguration(iconWith, iconHeight) };
 	}
 	
 	private void initializeStatusBar() {
@@ -464,13 +468,13 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	}
 	
 	private void initializeSearchField() {
-		searchField = new JTextField(15);
+		this.searchField = new JTextField(15);
 		
-		searchField.addKeyListener(new KeyAdapter() {
+		this.searchField.addKeyListener(new KeyAdapter() {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				searcherPanel.setTitleFilter(searchField.getText());
+				MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
 			}
 			
 		});
@@ -480,7 +484,9 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		JPanel panel = new JPanel(new BorderLayout(0, 5));
 		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			panel.add(ComponentFactory.createSearchField(searchField), BorderLayout.NORTH);
+			panel.add(
+					ComponentFactory.createSearchField(this.searchField),
+					BorderLayout.NORTH);
 			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		}
 		
@@ -490,8 +496,9 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(SearcherPanel.PROP_TITLE_FILTER))
-					searchField.setText((String) evt.getNewValue());
+				if (evt.getPropertyName().equals(
+						SearcherPanel.PROP_TITLE_FILTER))
+					MainFrame.this.searchField.setText((String) evt.getNewValue());
 			}
 			
 		});
@@ -526,9 +533,9 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		TaskNotePanel taskNote = new TaskNotePanel();
 		this.taskPanel.addTaskSelectionChangeListener(taskNote);
 		
-		panel.add(ComponentFactory.createJScrollPane(
-				taskNote,
-				false), BorderLayout.CENTER);
+		panel.add(
+				ComponentFactory.createJScrollPane(taskNote, false),
+				BorderLayout.CENTER);
 		
 		verticalSplitPane.setBottomComponent(panel);
 	}

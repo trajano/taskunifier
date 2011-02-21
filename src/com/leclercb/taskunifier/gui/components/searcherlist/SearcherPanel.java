@@ -49,91 +49,94 @@ import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherPanel extends JPanel implements SearcherView, PropertyChangeSupported, TaskSearcherSelectionChangeSupported, TaskSearcherSelectionListener {
-
+	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
-
+	
 	private PropertyChangeSupport propertyChangeSupport;
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
-
+	
 	private SearcherList searcherView;
-
+	
 	private String titleFilter;
-
+	
 	private Action addAction;
 	private Action removeAction;
 	private Action editAction;
-
+	
 	public SearcherPanel() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
 				this);
-
+		
 		this.initialize();
 	}
-
+	
 	@Override
 	public void setTitleFilter(String titleFilter) {
 		if (EqualsUtils.equals(this.titleFilter, titleFilter))
 			return;
-
+		
 		String oldTitleFilter = this.titleFilter;
 		this.titleFilter = titleFilter;
 		SearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherPanel.this.getSelectedTaskSearcher());
-
-		this.propertyChangeSupport.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
+		
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TITLE_FILTER,
+				oldTitleFilter,
+				titleFilter);
 	}
-
+	
 	@Override
 	public void selectDefaultTaskSearcher() {
 		this.searcherView.selectDefaultTaskSearcher();
 	}
-
+	
 	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
 		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
-
+		
 		if (searcher == null)
 			return null;
-
-		if (titleFilter == null || titleFilter.length() == 0)
+		
+		if (this.titleFilter == null || this.titleFilter.length() == 0)
 			return searcher;
-
+		
 		searcher = searcher.clone();
-
+		
 		TaskFilter originalFilter = searcher.getFilter();
-
+		
 		TaskFilter newFilter = new TaskFilter();
 		newFilter.setLink(Link.AND);
 		newFilter.addElement(new TaskFilterElement(
 				TaskColumn.TITLE,
 				StringCondition.CONTAINS,
-				titleFilter));
+				this.titleFilter));
 		newFilter.addFilter(originalFilter);
-
+		
 		searcher.setFilter(newFilter);
-
+		
 		return searcher;
 	}
-
+	
 	@Override
 	public void refreshTaskSearcher() {
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
-
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-
+		
 		this.searcherView = new SearcherList();
-
+		
 		this.add(
 				this.searcherView.getSourceList().getComponent(),
 				BorderLayout.CENTER);
-
+		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);
-
+		
 		this.searcherView.getSourceList().addSourceListClickListener(
 				new SourceListClickListener() {
-
+					
 					@Override
 					public void sourceListCategoryClicked(
 							SourceListCategory category,
@@ -141,7 +144,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 							int clickCount) {
 
 					}
-
+					
 					@Override
 					public void sourceListItemClicked(
 							SourceListItem category,
@@ -150,115 +153,115 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 						if (clickCount == 2)
 							SearcherPanel.this.openTaskSearcherEdit();
 					}
-
+					
 				});
-
+		
 		this.initializeButtons();
 	}
-
+	
 	private void initializeButtons() {
 		SourceListControlBar controlBar = new SourceListControlBar();
 		controlBar.hideResizeHandle();
 		this.searcherView.getSourceList().installSourceListControlBar(
 				controlBar);
-
+		
 		this.addAction = new AbstractAction(null, Images.getResourceImage(
 				"add.png",
 				16,
 				16)) {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				TaskSearcherFactory.getInstance().create(
 						Translations.getString("searcher.default.title"),
 						new TaskFilter(),
 						new TaskSorter());
-
+				
 				SearcherPanel.this.openTaskSearcherEdit();
 			}
-
+			
 		};
-
+		
 		this.removeAction = new AbstractAction(null, Images.getResourceImage(
 				"remove.png",
 				16,
 				16)) {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
 				TaskSearcherFactory.getInstance().unregister(searcher);
 			}
-
+			
 		};
-
+		
 		this.editAction = new AbstractAction(null, Images.getResourceImage(
 				"edit.png",
 				16,
 				16)) {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SearcherPanel.this.openTaskSearcherEdit();
 			}
-
+			
 		};
-
+		
 		controlBar.createAndAddButton(this.addAction);
 		controlBar.createAndAddButton(this.removeAction);
 		controlBar.createAndAddButton(this.editAction);
-
+		
 		this.addAction.setEnabled(true);
 		this.removeAction.setEnabled(false);
 		this.editAction.setEnabled(false);
 	}
-
+	
 	private void openTaskSearcherEdit() {
 		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
-
+		
 		if (searcher != null
 				&& TaskSearcherFactory.getInstance().contains(searcher.getId())) {
 			new ActionEditSearcher().editSearcher(searcher);
 			this.searcherView.updateBadges();
 		}
 	}
-
+	
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
-
+	
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
-
+	
 	@Override
 	public void addTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
 		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
 	}
-
+	
 	@Override
 	public void removeTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
 		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
 	}
-
+	
 	@Override
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
 		boolean personalSearcher = false;
-
+		
 		if (event.getSelectedTaskSearcher() != null)
 			personalSearcher = TaskSearcherFactory.getInstance().contains(
 					event.getSelectedTaskSearcher().getId());
-
+		
 		this.setTitleFilter(null);
 		this.removeAction.setEnabled(personalSearcher);
 		this.editAction.setEnabled(personalSearcher);
-
+		
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
-
+	
 }
