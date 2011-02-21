@@ -39,7 +39,7 @@ public class TemplateConfigurationDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.manage_templates"));
-		this.setSize(600, 400);
+		this.setSize(700, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
