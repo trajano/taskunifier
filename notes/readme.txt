@@ -7,6 +7,7 @@ Version 0.7.3 :
 	- Bug fixed: background of the search list not always displayed
 	- Improved UI (especially for Mac)
 	- Improved startup scripts
+	- Improved error handling
 
 Version 0.7.2 : 18/02/2011
 	- BG 3178988: encoding problem
