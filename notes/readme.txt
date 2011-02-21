@@ -2,12 +2,13 @@ HISTORY
 -------
 
 Version 0.7.3 :
+	- FR 3187796: keep current search list after sync
 	- Bug fixed: background of the search list not always displayed
 	- Improved UI (especially for Mac)
 	- Improved startup scripts
 
 Version 0.7.2 : 18/02/2011
-	- Bug fixed: encoding problem
+	- BG 3178988: encoding problem
 	- Bug fixed: Toodledo account creation
 	- Bug fixed: task note not correctly saved on focus lost
 	- Bug fixed: show new version message only once
