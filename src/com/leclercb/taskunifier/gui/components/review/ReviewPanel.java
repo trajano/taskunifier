@@ -82,6 +82,7 @@ public class ReviewPanel extends JPanel {
 				} catch (Exception e) {
 					ErrorDialog dialog = new ErrorDialog(
 							MainFrame.getInstance().getFrame(),
+							null,
 							e,
 							false);
 					dialog.setVisible(true);

@@ -55,6 +55,7 @@ public class ActionDonate extends AbstractAction {
 		} catch (Exception e) {
 			ErrorDialog dialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
+					null,
 					e,
 					false);
 			dialog.setVisible(true);

@@ -123,6 +123,7 @@ public class Main {
 					
 					ErrorDialog errorDialog = new ErrorDialog(
 							MainFrame.getInstance().getFrame(),
+							null,
 							e,
 							true);
 					errorDialog.setVisible(true);

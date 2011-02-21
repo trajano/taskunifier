@@ -55,7 +55,9 @@ public class ActionPrint extends AbstractAction {
 		} catch (Exception exc) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.print"));
+					Translations.getString("error.print"),
+					exc,
+					false);
 			errorDialog.setVisible(true);
 		}
 	}

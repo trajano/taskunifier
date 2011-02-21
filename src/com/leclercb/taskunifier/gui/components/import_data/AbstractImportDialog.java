@@ -144,6 +144,7 @@ public abstract class AbstractImportDialog extends JDialog {
 						e.printStackTrace();
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
+								null,
 								e,
 								false);
 						errorDialog.setVisible(true);

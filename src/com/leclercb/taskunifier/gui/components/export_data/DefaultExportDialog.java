@@ -136,6 +136,7 @@ public class DefaultExportDialog extends JDialog {
 					} catch (Exception e) {
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
+								null,
 								e,
 								false);
 						errorDialog.setVisible(true);

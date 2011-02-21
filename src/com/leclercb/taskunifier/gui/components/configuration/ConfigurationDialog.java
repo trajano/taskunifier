@@ -228,7 +228,8 @@ public class ConfigurationDialog extends JDialog {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.save_settings"),
-					e);
+					e,
+					true);
 			errorDialog.setVisible(true);
 			
 			return;

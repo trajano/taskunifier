@@ -152,7 +152,8 @@ public final class Help {
 							ErrorDialog errorDialog = new ErrorDialog(
 									MainFrame.getInstance().getFrame(),
 									Translations.getString("error.help_file_not_found"),
-									exc);
+									exc,
+									true);
 							errorDialog.setVisible(true);
 						}
 					}

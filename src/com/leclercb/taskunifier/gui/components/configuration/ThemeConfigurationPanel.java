@@ -77,6 +77,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		} catch (LookAndFeelException e) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
+					null,
 					e,
 					true);
 			errorDialog.setVisible(true);

@@ -139,13 +139,16 @@ public class ActionInstallPlugin extends AbstractAction {
 				
 				ErrorDialog dialog = new ErrorDialog(
 						MainFrame.getInstance().getFrame(),
-						message);
+						message,
+						e,
+						false);
 				dialog.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				
 				ErrorDialog dialog = new ErrorDialog(
 						MainFrame.getInstance().getFrame(),
+						null,
 						e,
 						true);
 				dialog.setVisible(true);

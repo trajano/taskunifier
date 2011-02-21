@@ -31,19 +31,7 @@ public class ErrorDialog extends JDialog {
 	private String message;
 	private Throwable throwable;
 	
-	public ErrorDialog(Frame frame, String message) {
-		this(frame, message, null, false);
-	}
-	
-	public ErrorDialog(Frame frame, Throwable throwable, boolean reportable) {
-		this(frame, null, throwable, reportable);
-	}
-	
-	public ErrorDialog(Frame frame, String message, Throwable throwable) {
-		this(frame, message, throwable, true);
-	}
-	
-	private ErrorDialog(
+	public ErrorDialog(
 			Frame frame,
 			String message,
 			Throwable throwable,

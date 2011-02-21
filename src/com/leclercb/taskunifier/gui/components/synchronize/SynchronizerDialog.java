@@ -253,18 +253,12 @@ public abstract class SynchronizerDialog extends JDialog {
 							
 							@Override
 							public void run() {
-								if (e.isExpected()) {
-									ErrorDialog errorDialog = new ErrorDialog(
-											MainFrame.getInstance().getFrame(),
-											e.getMessage());
-									errorDialog.setVisible(true);
-								} else {
-									ErrorDialog errorDialog = new ErrorDialog(
-											MainFrame.getInstance().getFrame(),
-											e.getMessage(),
-											e);
-									errorDialog.setVisible(true);
-								}
+								ErrorDialog errorDialog = new ErrorDialog(
+										MainFrame.getInstance().getFrame(),
+										null,
+										e,
+										!e.isExpected());
+								errorDialog.setVisible(true);
 							}
 							
 						});
@@ -277,6 +271,7 @@ public abstract class SynchronizerDialog extends JDialog {
 							public void run() {
 								ErrorDialog errorDialog = new ErrorDialog(
 										MainFrame.getInstance().getFrame(),
+										null,
 										e,
 										true);
 								errorDialog.setVisible(true);

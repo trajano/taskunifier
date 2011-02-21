@@ -50,7 +50,9 @@ public class ActionEditSearcher extends AbstractAction {
 		if (MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher() == null) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.select_searcher"));
+					Translations.getString("error.select_searcher"),
+					null,
+					false);
 			errorDialog.setVisible(true);
 			return;
 		}
