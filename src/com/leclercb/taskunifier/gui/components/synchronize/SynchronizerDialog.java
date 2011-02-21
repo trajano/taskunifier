@@ -42,9 +42,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerApiException;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerHttpException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
@@ -250,35 +248,23 @@ public abstract class SynchronizerDialog extends JDialog {
 						this.synchronizer.synchronize(choice, monitor);
 						
 						this.connection.disconnect();
-					} catch (final SynchronizerApiException e) {
+					} catch (final SynchronizerException e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
 							@Override
 							public void run() {
-								// TODO : replace e.getMessage() by translated
-								// error message
-								ErrorDialog errorDialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
-										e.getMessage(),
-										e);
-								errorDialog.setVisible(true);
-							}
-							
-						});
-						
-						return null;
-					} catch (final SynchronizerHttpException e) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								// TODO : replace e.getMessage() by translated
-								// error message
-								ErrorDialog errorDialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
-										"HTTP exception",
-										e);
-								errorDialog.setVisible(true);
+								if (e.isExpected()) {
+									ErrorDialog errorDialog = new ErrorDialog(
+											MainFrame.getInstance().getFrame(),
+											e.getMessage());
+									errorDialog.setVisible(true);
+								} else {
+									ErrorDialog errorDialog = new ErrorDialog(
+											MainFrame.getInstance().getFrame(),
+											e.getMessage(),
+											e);
+									errorDialog.setVisible(true);
+								}
 							}
 							
 						});
