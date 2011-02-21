@@ -57,7 +57,7 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setSize(500, (this.reportable ? 300 : 100));
+		this.setSize(500, (this.reportable ? 400 : 150));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
