@@ -31,10 +31,14 @@ public final class Translations {
 	private static ResourceBundle messages;
 	
 	static {
-		changeLocale(getDefaultLocale());
+		setLocale(getDefaultLocale());
 	}
 	
-	public static void changeLocale(Locale locale) {
+	public static Locale getLocale() {
+		return Locale.getDefault();
+	}
+	
+	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
 		
 		messages = ResourceBundle.getBundle(

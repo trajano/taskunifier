@@ -51,7 +51,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				(Locale) this.getValue("LANGUAGE"));
 		
 		if (this.languageOnly) {
-			Translations.changeLocale(Main.SETTINGS.getLocaleProperty("general.locale"));
+			Translations.setLocale(Main.SETTINGS.getLocaleProperty("general.locale"));
 		}
 		
 		if (!this.languageOnly) {
