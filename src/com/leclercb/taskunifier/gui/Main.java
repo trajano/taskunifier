@@ -315,6 +315,9 @@ public class Main {
 					PluginUtils.loadPlugin(file, true);
 				} catch (PluginException e) {
 					GuiLogger.getLogger().warning(e.getMessage());
+				} catch (Exception e) {
+					GuiLogger.getLogger().warning("Plugin unknown exception");
+					e.printStackTrace();
 				}
 			}
 		}
