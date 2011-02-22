@@ -9,6 +9,7 @@ Version 0.7.3 :
 	- Improved startup scripts
 	- Improved error handling
 	- Use jcalendar instead of microba
+	- Improved date/time chooser (start date and due date)
 
 Version 0.7.2 : 18/02/2011
 	- BG 3178988: encoding problem
