@@ -42,7 +42,8 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 	
 	private JPanel panel;
 	private JLabel label;
-	private JButton button;
+	private JButton buttonSet;
+	private JButton buttonRemove;
 	private JDatePicker dialog;
 	
 	public DateEditor(DateFormat formatter) {
@@ -53,24 +54,35 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 		
 		this.label = new JLabel();
 		
-		this.button = new JButton(Images.getResourceImage(
+		this.buttonSet = new JButton(Images.getResourceImage(
 				"calendar.png",
 				16,
 				16));
-		this.button.setActionCommand("BUTTON_CLICK");
-		this.button.addActionListener(this);
+		this.buttonSet.setActionCommand("SET");
+		this.buttonSet.addActionListener(this);
+		
+		this.buttonRemove = new JButton(Images.getResourceImage(
+				"remove.png",
+				16,
+				16));
+		this.buttonRemove.setActionCommand("REMOVE");
+		this.buttonRemove.addActionListener(this);
+		
+		JPanel buttonsPanel = new JPanel(new BorderLayout());
+		buttonsPanel.add(this.buttonSet, BorderLayout.WEST);
+		buttonsPanel.add(this.buttonRemove, BorderLayout.EAST);
 		
 		this.panel.add(this.label, BorderLayout.CENTER);
-		this.panel.add(this.button, BorderLayout.EAST);
+		this.panel.add(buttonsPanel, BorderLayout.EAST);
 		
 		this.dialog = new JDatePicker(null);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals("BUTTON_CLICK")) {
+		if (event.getActionCommand().equals("SET")) {
 			this.dialog.setValue(this.value);
-			this.dialog.setLocationRelativeTo(this.button);
+			this.dialog.setLocationRelativeTo(this.buttonSet);
 			this.dialog.setVisible(true);
 			
 			if (this.dialog.getAction() == JDatePicker.Action.OK) {
@@ -79,6 +91,9 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 			} else {
 				this.fireEditingCanceled();
 			}
+		} else if (event.getActionCommand().equals("REMOVE")) {
+			this.value = null;
+			this.fireEditingStopped();
 		}
 	}
 	
@@ -96,6 +111,8 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 		}
 		
 		this.value = (Calendar) value;
+		
+		this.buttonRemove.setVisible(this.value != null);
 		
 		return this.panel;
 	}

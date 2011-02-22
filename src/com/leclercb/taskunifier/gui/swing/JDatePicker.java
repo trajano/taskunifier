@@ -106,7 +106,9 @@ public class JDatePicker extends JDialog {
 						JDatePicker.this.calendar = null;
 					} else {
 						Calendar time = Calendar.getInstance();
-						time.setTime((Date) JDatePicker.this.timeField.getValue());
+						
+						if (timeField.getValue() != null)
+							time.setTime((Date) JDatePicker.this.timeField.getValue());
 						
 						Calendar date = Calendar.getInstance();
 						date.setTime(JDatePicker.this.calendarPane.getDate());
