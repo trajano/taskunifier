@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.net.URI;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -73,13 +74,13 @@ public class ActionCheckVersion extends AbstractAction {
 					Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
 					if (proxyEnabled != null && proxyEnabled) {
 						response = HttpUtils.getHttpResponse(
-								Constants.VERSION_FILE,
+								new URI(Constants.VERSION_FILE),
 								Main.SETTINGS.getStringProperty("proxy.host"),
 								Main.SETTINGS.getIntegerProperty("proxy.port"),
 								Main.SETTINGS.getStringProperty("proxy.login"),
 								Main.SETTINGS.getStringProperty("proxy.password"));
 					} else {
-						response = HttpUtils.getHttpResponse(Constants.VERSION_FILE);
+						response = HttpUtils.getHttpResponse(new URI(Constants.VERSION_FILE));
 					}
 					
 					String version = EntityUtils.toString(response.getEntity()).trim();
