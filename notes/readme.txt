@@ -8,6 +8,7 @@ Version 0.7.3 :
 	- Improved UI (especially for Mac)
 	- Improved startup scripts
 	- Improved error handling
+	- Use jcalendar instead of microba
 
 Version 0.7.2 : 18/02/2011
 	- BG 3178988: encoding problem
@@ -119,6 +120,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+JCalendar
+---------
+http://www.toedter.com/en/jcalendar/
 
 Icons: Creative Commons
 -----------------------

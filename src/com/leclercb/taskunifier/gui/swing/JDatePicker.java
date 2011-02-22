@@ -22,7 +22,6 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +34,7 @@ import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.michaelbaranov.microba.calendar.CalendarPane;
+import com.toedter.calendar.JCalendar;
 
 public class JDatePicker extends JDialog {
 	
@@ -47,7 +46,7 @@ public class JDatePicker extends JDialog {
 	}
 	
 	private JFormattedTextField timeField;
-	private CalendarPane calendarPane;
+	private JCalendar calendarPane;
 	private Action action;
 	private Calendar calendar;
 	
@@ -70,10 +69,7 @@ public class JDatePicker extends JDialog {
 		
 		if (calendar != null) {
 			this.timeField.setValue(calendar.getTime());
-			
-			try {
-				this.calendarPane.setDate(calendar.getTime());
-			} catch (PropertyVetoException e) {}
+			this.calendarPane.setDate(calendar.getTime());
 		}
 	}
 	
@@ -171,7 +167,8 @@ public class JDatePicker extends JDialog {
 	}
 	
 	private void initializeDatePanel(JPanel datePanel) {
-		this.calendarPane = new CalendarPane();
+		this.calendarPane = new JCalendar();
+		this.calendarPane.setLocale(Translations.getLocale());
 		datePanel.add(this.calendarPane, BorderLayout.CENTER);
 	}
 	
