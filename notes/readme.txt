@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 0.7.3 :
+	- BG 3190240: Bad request exception
+	- BG 3188712: URI Too Large Exception on Manual Sync
 	- BG 3186886: Improve error message for tasks with no title
 	- FR 3187796: keep current search list after sync
 	- Bug fixed: background of the search list not always displayed
