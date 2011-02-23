@@ -55,121 +55,121 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public abstract class SynchronizerDialog extends JDialog {
-	
+
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
-	
+
 	public SynchronizerDialog(Frame frame) {
 		super(frame, true);
-		
+
 		this.initialize();
 	}
-	
+
 	private void initialize() {
 		this.setTitle(Translations.getString("general.synchronization"));
 		this.setSize(400, 180);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		
+
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
+
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-		
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
+
 		this.progressBar = new JProgressBar(SwingConstants.HORIZONTAL);
 		this.progressBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0));
 		this.progressBar.setIndeterminate(true);
 		this.progressBar.setString("");
-		
+
 		this.progressStatus = new JTextArea();
 		this.progressStatus.setEditable(false);
-		
+
 		JScrollPane scrollStatus = ComponentFactory.createJScrollPane(
 				this.progressStatus,
 				true);
 		scrollStatus.setAutoscrolls(true);
 		scrollStatus.getVerticalScrollBar().addAdjustmentListener(
 				new AdjustmentListener() {
-					
+
 					@Override
 					public void adjustmentValueChanged(AdjustmentEvent e) {
 						e.getAdjustable().setValue(
 								e.getAdjustable().getMaximum());
 					}
-					
+
 				});
-		
+
 		panel.add(this.progressBar, BorderLayout.NORTH);
 		panel.add(scrollStatus, BorderLayout.CENTER);
-		
+
 		this.add(panel, BorderLayout.CENTER);
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		Thread synchronizeThread = new Thread(new SynchronizeRunnable());
 		synchronizeThread.start();
 		super.setVisible(visible);
 	}
-	
+
 	public class SynchronizeRunnable implements Runnable {
-		
+
 		@Override
 		public void run() {
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-				
+
 				private Connection connection;
 				private Synchronizer synchronizer;
-				
+
 				private String modelTypeToString(ModelType type, boolean plurial) {
 					if (plurial) {
 						switch (type) {
-							case CONTEXT:
-								return Translations.getString("general.contexts");
-							case FOLDER:
-								return Translations.getString("general.folders");
-							case GOAL:
-								return Translations.getString("general.goals");
-							case LOCATION:
-								return Translations.getString("general.locations");
-							case TASK:
-								return Translations.getString("general.tasks");
+						case CONTEXT:
+							return Translations.getString("general.contexts");
+						case FOLDER:
+							return Translations.getString("general.folders");
+						case GOAL:
+							return Translations.getString("general.goals");
+						case LOCATION:
+							return Translations.getString("general.locations");
+						case TASK:
+							return Translations.getString("general.tasks");
 						}
 					}
-					
+
 					switch (type) {
-						case CONTEXT:
-							return Translations.getString("general.context");
-						case FOLDER:
-							return Translations.getString("general.folder");
-						case GOAL:
-							return Translations.getString("general.goal");
-						case LOCATION:
-							return Translations.getString("general.location");
-						case TASK:
-							return Translations.getString("general.task");
+					case CONTEXT:
+						return Translations.getString("general.context");
+					case FOLDER:
+						return Translations.getString("general.folder");
+					case GOAL:
+						return Translations.getString("general.goal");
+					case LOCATION:
+						return Translations.getString("general.location");
+					case TASK:
+						return Translations.getString("general.task");
 					}
-					
+
 					return null;
 				}
-				
+
 				@Override
 				protected Void doInBackground() throws Exception {
 					ProgressMonitor monitor = new ProgressMonitor();
 					monitor.addListChangeListener(new ListChangeListener() {
-						
+
 						@Override
 						public void listChange(ListChangeEvent event) {
 							if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 								ProgressMessage message = (ProgressMessage) event.getValue();
-								
+
 								if (message instanceof SynchronizationProgressMessage) {
 									SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
-									
+
 									if (m.getType().equals(
 											ProgressMessageType.START))
 										SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.start_synchronization")
@@ -179,11 +179,11 @@ public abstract class SynchronizerDialog extends JDialog {
 												+ "\n");
 								} else if (message instanceof RetrieveModelsProgressMessage) {
 									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
-									
+
 									if (m.getType().equals(
 											ProgressMessageType.END))
 										return;
-									
+
 									String type = modelTypeToString(
 											m.getModelType(),
 											true);
@@ -192,12 +192,12 @@ public abstract class SynchronizerDialog extends JDialog {
 											type) + "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
 									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
-									
+
 									if (m.getType().equals(
 											ProgressMessageType.END)
 											|| m.getActionCount() == 0)
 										return;
-									
+
 									String type = modelTypeToString(
 											m.getModelType(),
 											m.getActionCount() > 1);
@@ -208,49 +208,41 @@ public abstract class SynchronizerDialog extends JDialog {
 								}
 							}
 						}
-						
+
 					});
-					
+
 					try {
 						SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.set_proxy")
 								+ "\n");
-						
+
 						SynchronizerUtils.initializeProxy();
-						
+
 						SynchronizerDialog.this.progressStatus.append(Translations.getString(
 								"synchronizer.connecting",
 								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())
 								+ "\n");
-						
-						if (Main.SETTINGS.getStringProperty("toodledo.email") == null)
-							throw new Exception(
-									Translations.getString("error.empty_email"));
-						
-						if (Main.SETTINGS.getStringProperty("toodledo.password") == null)
-							throw new Exception(
-									Translations.getString("error.empty_password"));
-						
+
 						this.connection = SynchronizerDialog.this.getConnection();
-						
+
 						this.connection.loadParameters(Main.SETTINGS);
-						
+
 						this.connection.connect();
-						
+
 						this.synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
 								this.connection);
-						
+
 						this.synchronizer.loadParameters(Main.SETTINGS);
-						
+
 						SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 								"synchronizer.choice",
 								SynchronizerChoice.class);
-						
+
 						this.synchronizer.synchronize(choice, monitor);
-						
+
 						this.connection.disconnect();
 					} catch (final SynchronizerException e) {
 						SwingUtilities.invokeLater(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								ErrorDialog errorDialog = new ErrorDialog(
@@ -260,13 +252,13 @@ public abstract class SynchronizerDialog extends JDialog {
 										!e.isExpected());
 								errorDialog.setVisible(true);
 							}
-							
+
 						});
-						
+
 						return null;
 					} catch (final Throwable e) {
 						SwingUtilities.invokeLater(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								ErrorDialog errorDialog = new ErrorDialog(
@@ -276,44 +268,44 @@ public abstract class SynchronizerDialog extends JDialog {
 										true);
 								errorDialog.setVisible(true);
 							}
-							
+
 						});
-						
+
 						return null;
 					} finally {
 						SynchronizerUtils.removeProxy();
 					}
-					
+
 					Thread.sleep(1000);
-					
+
 					return null;
 				}
-				
+
 				@Override
 				protected void done() {
 					if (this.connection != null)
 						this.connection.saveParameters(Main.SETTINGS);
-					
+
 					if (this.synchronizer != null)
 						this.synchronizer.saveParameters(Main.SETTINGS);
-					
+
 					SynchronizerUtils.removeOldCompletedTasks();
-					
+
 					Main.SETTINGS.setCalendarProperty(
 							"synchronizer.last_synchronization_date",
 							Calendar.getInstance());
-					
+
 					SynchronizerDialog.this.setCursor(null);
 					SynchronizerDialog.this.dispose();
 				}
-				
+
 			};
-			
+
 			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 	}
-	
+
 	protected abstract Connection getConnection() throws SynchronizerException;
-	
+
 }
