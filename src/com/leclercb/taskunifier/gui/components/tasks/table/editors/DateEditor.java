@@ -21,80 +21,57 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.util.Calendar;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.swing.JDatePicker;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
-public class DateEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	
-	private DateFormat formatter;
-	
-	private Calendar value;
-	
+	private JTextFieldDateEditor dateEditor;
 	private JPanel panel;
-	private JLabel label;
-	private JButton buttonSet;
+	private JDateChooser dateChooser;
 	private JButton buttonRemove;
-	private JDatePicker dialog;
 	
-	public DateEditor(DateFormat formatter) {
-		this.formatter = formatter;
-		
+	public DateEditor(final String format, final String mask) {
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
 		
-		this.label = new JLabel();
+		this.dateEditor = new JTextFieldDateEditor(format, null, '_') {
+			
+			@Override
+			public String createMaskFromDatePattern(String datePattern) {
+				return mask;
+			}
+			
+		};
 		
-		this.buttonSet = new JButton(Images.getResourceImage(
-				"calendar.png",
-				16,
-				16));
-		this.buttonSet.setActionCommand("SET");
-		this.buttonSet.addActionListener(this);
+		this.dateChooser = new JDateChooser(this.dateEditor);
 		
 		this.buttonRemove = new JButton(Images.getResourceImage(
 				"remove.png",
 				16,
 				16));
 		this.buttonRemove.setActionCommand("REMOVE");
-		this.buttonRemove.addActionListener(this);
-		
-		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.add(this.buttonSet, BorderLayout.WEST);
-		buttonsPanel.add(this.buttonRemove, BorderLayout.EAST);
-		
-		this.panel.add(this.label, BorderLayout.CENTER);
-		this.panel.add(buttonsPanel, BorderLayout.EAST);
-		
-		this.dialog = new JDatePicker(null);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals("SET")) {
-			this.dialog.setValue(this.value);
-			this.dialog.setLocationRelativeTo(this.buttonSet);
-			this.dialog.setVisible(true);
+		this.buttonRemove.addActionListener(new ActionListener() {
 			
-			if (this.dialog.getAction() == JDatePicker.Action.OK) {
-				this.value = this.dialog.getValue();
-				this.fireEditingStopped();
-			} else {
-				this.fireEditingCanceled();
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				DateEditor.this.dateChooser.setCalendar(null);
+				DateEditor.this.fireEditingStopped();
 			}
-		} else if (event.getActionCommand().equals("REMOVE")) {
-			this.value = null;
-			this.fireEditingStopped();
-		}
+			
+		});
+		
+		this.panel.add(this.dateChooser, BorderLayout.CENTER);
+		this.panel.add(this.buttonRemove, BorderLayout.EAST);
 	}
 	
 	@Override
@@ -105,21 +82,20 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor, A
 			int row,
 			int col) {
 		if (value == null) {
-			this.label.setText("");
+			this.dateChooser.setCalendar(null);
 		} else {
-			this.label.setText(this.formatter.format(((Calendar) value).getTime()));
+			this.dateChooser.setCalendar((Calendar) value);
 		}
 		
-		this.value = (Calendar) value;
-		
-		this.buttonRemove.setVisible(this.value != null);
+		this.buttonRemove.setVisible(value != null);
 		
 		return this.panel;
 	}
 	
 	@Override
 	public Object getCellEditorValue() {
-		return this.value;
+		this.dateEditor.focusLost(null);
+		return this.dateChooser.getCalendar();
 	}
 	
 }

@@ -32,6 +32,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.renderers.SimpleDateFormatListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
@@ -154,31 +155,21 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.Label(
 							Translations.getString("configuration.general.formats_changed_after_restart"))));
 			
-			SimpleDateFormat[] dateFormats = new SimpleDateFormat[] {
-					new SimpleDateFormat("MMM dd, yyyy"),
-					new SimpleDateFormat("MM/dd/yyyy"),
-					new SimpleDateFormat("dd/MM/yyyy"),
-					new SimpleDateFormat("yyyy-MM-dd") };
-			
 			this.addField(new ConfigurationField(
 					"DATE_FORMAT",
 					Translations.getString("configuration.general.date_format"),
 					new ConfigurationFieldType.ComboBox(
-							dateFormats,
+							DateTimeFormatUtils.getAvailableDateFormats(),
 							generalDateFormatValue)));
 			
 			((ConfigurationFieldType.ComboBox) this.getField("DATE_FORMAT").getType()).getFieldComponent().setRenderer(
 					new SimpleDateFormatListCellRenderer());
 			
-			SimpleDateFormat[] timeFormats = new SimpleDateFormat[] {
-					new SimpleDateFormat("h:mm aa"),
-					new SimpleDateFormat("HH:mm") };
-			
 			this.addField(new ConfigurationField(
 					"TIME_FORMAT",
 					Translations.getString("configuration.general.time_format"),
 					new ConfigurationFieldType.ComboBox(
-							timeFormats,
+							DateTimeFormatUtils.getAvailableTimeFormats(),
 							generalTimeFormatValue)));
 			
 			((ConfigurationFieldType.ComboBox) this.getField("TIME_FORMAT").getType()).getFieldComponent().setRenderer(

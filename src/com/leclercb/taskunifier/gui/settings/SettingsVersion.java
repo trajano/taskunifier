@@ -61,7 +61,7 @@ public final class SettingsVersion {
 			version = updateSettings_0_7_1_to_0_7_2();
 		
 		if (version.equals("0.7.2"))
-			version = "0.7.3";
+			version = updateSettings_0_7_2_to_0_7_3();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -180,6 +180,16 @@ public final class SettingsVersion {
 		Main.SETTINGS.remove("proxy.type");
 		
 		return "0.7.2";
+	}
+	
+	private static String updateSettings_0_7_2_to_0_7_3() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.7.2 to 0.7.3");
+		
+		if ("MMM dd, yyyy".equals(Main.SETTINGS.getStringProperty("date.date_format")))
+			Main.SETTINGS.setStringProperty("date.date_format", "MM/dd/yyyy");
+		
+		return "0.7.3";
 	}
 	
 }

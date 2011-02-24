@@ -87,6 +87,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 
 public class TaskTable extends JTable {
 	
@@ -143,11 +144,17 @@ public class TaskTable extends JTable {
 		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
-		DATE_EDITOR = new DateEditor(new SimpleDateFormat(
-				Main.SETTINGS.getStringProperty("date.date_format")
-						+ " "
-						+ Main.SETTINGS.getStringProperty("date.time_format")));
 		LENGTH_EDITOR = new LengthEditor();
+		
+		// DATE EDITOR
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String mask = DateTimeFormatUtils.getMask(dateFormat)
+				+ " "
+				+ DateTimeFormatUtils.getMask(timeFormat);
+		
+		DATE_EDITOR = new DateEditor(dateFormat + " " + timeFormat, mask);
+		// DATE EDITOR
 		
 		checkBox = new JCheckBox();
 		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
@@ -302,7 +309,7 @@ public class TaskTable extends JTable {
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
-		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
 		
 		this.initializeTaskColumn();
 		
