@@ -2,9 +2,10 @@ HISTORY
 -------
 
 Version 0.7.3 :
-	- BG 3190240: Bad request exception
-	- BG 3188712: URI Too Large Exception on Manual Sync
-	- BG 3186886: Improve error message for tasks with no title
+	- BF 3190245: Proxy Access Denied
+	- BF 3190240: Bad request exception
+	- BF 3188712: URI Too Large Exception on Manual Sync
+	- BF 3186886: Improve error message for tasks with no title
 	- FR 3187796: keep current search list after sync
 	- FR 3179777: More forgiving time parsing
 	- Bug fixed: background of the search list not always displayed
@@ -15,7 +16,7 @@ Version 0.7.3 :
 	- Improved date/time chooser (start date and due date)
 
 Version 0.7.2 : 18/02/2011
-	- BG 3178988: encoding problem
+	- BF 3178988: encoding problem
 	- Bug fixed: Toodledo account creation
 	- Bug fixed: task note not correctly saved on focus lost
 	- Bug fixed: show new version message only once
