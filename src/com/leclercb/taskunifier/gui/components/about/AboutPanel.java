@@ -29,6 +29,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.toedter.calendar.JDateChooser;
 
 public class AboutPanel extends JPanel {
 	
@@ -68,6 +69,8 @@ public class AboutPanel extends JPanel {
 				BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);
+		
+		this.add(new JDateChooser("yyyy/MM/dd HH:mm", "####/##/## ##:##", '_'), BorderLayout.NORTH);
 	}
 	
 }
