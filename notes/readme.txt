@@ -6,6 +6,7 @@ Version 0.7.3 :
 	- BG 3188712: URI Too Large Exception on Manual Sync
 	- BG 3186886: Improve error message for tasks with no title
 	- FR 3187796: keep current search list after sync
+	- FR 3179777: More forgiving time parsing
 	- Bug fixed: background of the search list not always displayed
 	- Improved UI (especially for Mac)
 	- Improved startup scripts
