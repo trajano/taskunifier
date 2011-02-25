@@ -23,9 +23,12 @@ import java.net.URI;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
-import com.leclercb.commons.api.utils.HttpUtils.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.Main;
@@ -71,19 +74,20 @@ public class ActionCheckVersion extends AbstractAction {
 					
 					Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
 					if (proxyEnabled != null && proxyEnabled) {
-						response = HttpUtils.getHttpGetResponse(
-								new URI(Constants.VERSION_FILE),
-								null,
+						response = HttpUtils.getHttpResponse(
+								new HttpGet(new URI(Constants.VERSION_FILE)),
 								Main.SETTINGS.getStringProperty("proxy.host"),
 								Main.SETTINGS.getIntegerProperty("proxy.port"),
 								Main.SETTINGS.getStringProperty("proxy.login"),
 								Main.SETTINGS.getStringProperty("proxy.password"));
 					} else {
-						response = HttpUtils.getHttpGetResponse(new URI(
-								Constants.VERSION_FILE), null);
+						response = HttpUtils.getHttpResponse(new HttpGet(
+								new URI(Constants.VERSION_FILE)));
 					}
 					
-					String version = response.getContent().trim();
+					String version = EntityUtils.toString(
+							response.getEntity(),
+							"UTF-8").trim();
 					
 					if (version.length() > 10)
 						throw new Exception();
