@@ -137,7 +137,7 @@ public final class TranslationsUtils {
 	}
 	
 	public static String translateBoolean(Boolean bool) {
-		if (bool)
+		if (bool != null && bool)
 			return Translations.getString("general.yes");
 		
 		return Translations.getString("general.no");
