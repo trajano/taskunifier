@@ -6,7 +6,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ImportSearchersDialog extends AbstractImportDialog {
+public class ImportSearchersDialog extends DefaultImportDialog {
 	
 	public ImportSearchersDialog(Frame frame, boolean modal) {
 		super(

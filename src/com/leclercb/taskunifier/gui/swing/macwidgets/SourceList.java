@@ -649,14 +649,6 @@ public class SourceList {
 	private MouseListener createMouseListener() {
 		return new MouseAdapter() {
 			
-			// TODO there is an interesting point of contention here: should
-			// TODO the context menu always be shown as if it were on a Mac (on
-			// TODO mouse press) or based on the platform on which it is
-			// running.
-			// TODO always doing the same thing would actually be harder,
-			// TODO because we wouldn't be able to rely on the isPopupTrigger
-			// TODO method and there is no way to determine when the
-			// TODO popup-menu-trigger button is.
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.isPopupTrigger()) {

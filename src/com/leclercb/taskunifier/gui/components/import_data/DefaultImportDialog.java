@@ -1,17 +1,17 @@
-package com.leclercb.taskunifier.gui.components.export_data;
+package com.leclercb.taskunifier.gui.components.import_data;
 
 import java.awt.Frame;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 
 import com.leclercb.commons.api.coder.FactoryCoder;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class DefaultExportDialog extends AbstractExportDialog {
+public abstract class DefaultImportDialog extends AbstractImportDialog {
 	
 	private FactoryCoder coder;
 	
-	public DefaultExportDialog(
+	public DefaultImportDialog(
 			FactoryCoder coder,
 			String title,
 			Frame frame,
@@ -29,9 +29,12 @@ public class DefaultExportDialog extends AbstractExportDialog {
 	}
 	
 	@Override
-	protected void exportToFile(String file) throws Exception {
-		FileOutputStream output = new FileOutputStream(file);
-		this.coder.encode(output);
+	protected abstract void deleteExistingValue();
+	
+	@Override
+	protected void importFromFile(String file) throws Exception {
+		FileInputStream input = new FileInputStream(file);
+		this.coder.decode(input);
 	}
 	
 }

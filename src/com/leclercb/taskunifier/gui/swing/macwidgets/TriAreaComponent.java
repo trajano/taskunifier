@@ -51,12 +51,10 @@ public class TriAreaComponent {
 	public TriAreaComponent(int spacer_pixels) {
 		this.fSpacer_pixels = spacer_pixels;
 		
-		// definte the FormLayout columns and rows.
+		// define the FormLayout columns and rows.
 		FormLayout layout = new FormLayout(
 				"left:p:grow, center:p:grow, right:p:grow",
 				"fill:p:grow");
-		// TODO decide whether to offer the option to force left, center and
-		// TODO right groups to be the same size
 		// layout.setColumnGroups(new int[][]{{1,2,3}});
 		// create the cell constraints to use in the layout.
 		CellConstraints cc = new CellConstraints();

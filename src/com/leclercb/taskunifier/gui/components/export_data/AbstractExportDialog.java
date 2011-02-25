@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.import_data;
+package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -9,7 +9,6 @@ import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -25,15 +24,14 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public abstract class AbstractImportDialog extends JDialog {
+public abstract class AbstractExportDialog extends JDialog {
 	
-	private JFileChooser fileChooser;
-	private JTextField importFile;
-	private JCheckBox replaceValues;
 	private String fileExtention;
 	private String fileExtentionDescription;
+	private JFileChooser fileChooser;
+	private JTextField exportFile;
 	
-	public AbstractImportDialog(
+	public AbstractExportDialog(
 			String title,
 			Frame frame,
 			boolean modal,
@@ -54,7 +52,7 @@ public abstract class AbstractImportDialog extends JDialog {
 	
 	private void initialize(String title) {
 		this.setTitle(title);
-		this.setSize(500, 150);
+		this.setSize(500, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -67,8 +65,8 @@ public abstract class AbstractImportDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.NORTH);
 		
-		// Import file
-		panel.add(new JLabel(Translations.getString("import.file_to_import")));
+		// Export file
+		panel.add(new JLabel(Translations.getString("export.export_to_file")));
 		
 		this.fileChooser = new JFileChooser();
 		this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -76,7 +74,7 @@ public abstract class AbstractImportDialog extends JDialog {
 			
 			@Override
 			public String getDescription() {
-				return AbstractImportDialog.this.fileExtentionDescription;
+				return AbstractExportDialog.this.fileExtentionDescription;
 			}
 			
 			@Override
@@ -86,42 +84,41 @@ public abstract class AbstractImportDialog extends JDialog {
 				
 				String extention = FileUtils.getExtention(f.getName());
 				
-				return AbstractImportDialog.this.fileExtention.equals(extention);
+				return AbstractExportDialog.this.fileExtention.equals(extention);
 			}
 			
 		});
 		
-		this.importFile = new JTextField();
-		JButton openFile = new JButton(Translations.getString("general.open"));
+		this.exportFile = new JTextField();
+		JButton openFile = new JButton(Translations.getString("general.select"));
 		
 		openFile.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = AbstractImportDialog.this.fileChooser.showOpenDialog(AbstractImportDialog.this);
+				int result = AbstractExportDialog.this.fileChooser.showSaveDialog(AbstractExportDialog.this);
 				
-				if (result == JFileChooser.APPROVE_OPTION)
-					AbstractImportDialog.this.importFile.setText(AbstractImportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
+				if (result == JFileChooser.APPROVE_OPTION) {
+					AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
+					if (!AbstractExportDialog.this.exportFile.getText().endsWith(
+							"." + AbstractExportDialog.this.fileExtention))
+						AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.exportFile.getText()
+								+ "."
+								+ AbstractExportDialog.this.fileExtention);
+				}
 			}
 			
 		});
 		
 		JPanel importFilePanel = new JPanel();
 		importFilePanel.setLayout(new BorderLayout(5, 0));
-		importFilePanel.add(this.importFile, BorderLayout.CENTER);
+		importFilePanel.add(this.exportFile, BorderLayout.CENTER);
 		importFilePanel.add(openFile, BorderLayout.EAST);
 		
 		panel.add(importFilePanel);
 		
-		// Replace values
-		panel.add(new JLabel(
-				Translations.getString("import.delete_existing_values")));
-		this.replaceValues = new JCheckBox();
-		
-		panel.add(this.replaceValues);
-		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, 2, 2, 6, 6, 6, 6);
+		SpringUtils.makeCompactGrid(panel, 1, 2, 6, 6, 6, 6);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
@@ -134,16 +131,11 @@ public abstract class AbstractImportDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "IMPORT") {
+				if (event.getActionCommand() == "EXPORT") {
 					try {
-						if (AbstractImportDialog.this.replaceValues.isSelected())
-							AbstractImportDialog.this.deleteExistingValue();
-						
-						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());
-						
-						AbstractImportDialog.this.dispose();
+						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
+						AbstractExportDialog.this.dispose();
 					} catch (Exception e) {
-						e.printStackTrace();
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
 								null,
@@ -154,17 +146,17 @@ public abstract class AbstractImportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					AbstractImportDialog.this.dispose();
+					AbstractExportDialog.this.dispose();
 				}
 			}
 			
 		};
 		
-		JButton importButton = new JButton(
-				Translations.getString("general.import"));
-		importButton.setActionCommand("IMPORT");
-		importButton.addActionListener(listener);
-		buttonsPanel.add(importButton);
+		JButton exportButton = new JButton(
+				Translations.getString("general.export"));
+		exportButton.setActionCommand("EXPORT");
+		exportButton.addActionListener(listener);
+		buttonsPanel.add(exportButton);
 		
 		JButton cancelButton = new JButton(
 				Translations.getString("general.cancel"));
@@ -172,11 +164,9 @@ public abstract class AbstractImportDialog extends JDialog {
 		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
 		
-		this.getRootPane().setDefaultButton(importButton);
+		this.getRootPane().setDefaultButton(exportButton);
 	}
 	
-	protected abstract void deleteExistingValue();
-	
-	protected abstract void importFromFile(String file) throws Exception;
+	protected abstract void exportToFile(String file) throws Exception;
 	
 }

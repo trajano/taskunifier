@@ -6,7 +6,7 @@ import com.leclercb.taskunifier.gui.template.TemplateFactory;
 import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ImportTemplatesDialog extends AbstractImportDialog {
+public class ImportTemplatesDialog extends DefaultImportDialog {
 	
 	public ImportTemplatesDialog(Frame frame, boolean modal) {
 		super(
