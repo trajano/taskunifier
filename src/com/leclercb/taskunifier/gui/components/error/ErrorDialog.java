@@ -57,7 +57,7 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setSize(500, (this.reportable ? 400 : 150));
+		this.setSize(500, (this.reportable ? 400 : 180));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		
@@ -73,7 +73,12 @@ public class ErrorDialog extends JDialog {
 		JLabel icon = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
 		panel.add(icon, BorderLayout.WEST);
 		
-		JLabel error = new JLabel(this.message);
+		JTextArea error = new JTextArea(3, 1);
+		error.setText(message);
+		error.setWrapStyleWord(true);
+		error.setLineWrap(true);
+		error.setEditable(false);
+		error.setOpaque(false);
 		panel.add(error, BorderLayout.CENTER);
 		
 		panel = new JPanel(new BorderLayout());
