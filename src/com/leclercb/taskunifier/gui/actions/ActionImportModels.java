@@ -22,33 +22,33 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
-import com.leclercb.taskunifier.gui.components.import_data.ImportSearchersDialog;
+import com.leclercb.taskunifier.gui.components.import_data.ImportModelsDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ActionImportSearchers extends AbstractAction {
+public class ActionImportModels extends AbstractAction {
 	
-	public ActionImportSearchers() {
+	public ActionImportModels() {
 		this(32, 32);
 	}
 	
-	public ActionImportSearchers(int width, int height) {
+	public ActionImportModels(int width, int height) {
 		super(
-				Translations.getString("action.name.import_searchers"),
+				Translations.getString("action.name.import_models"),
 				Images.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.import_searchers"));
+				Translations.getString("action.description.import_models"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.importSearchers();
+		this.importModels();
 	}
 	
-	public void importSearchers() {
-		ImportSearchersDialog importDialog = new ImportSearchersDialog(
+	public void importModels() {
+		ImportModelsDialog importDialog = new ImportModelsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
 		importDialog.setVisible(true);
