@@ -74,7 +74,7 @@ public class ErrorDialog extends JDialog {
 		panel.add(icon, BorderLayout.WEST);
 		
 		JTextArea error = new JTextArea(3, 1);
-		error.setText(message);
+		error.setText(this.message);
 		error.setWrapStyleWord(true);
 		error.setLineWrap(true);
 		error.setEditable(false);

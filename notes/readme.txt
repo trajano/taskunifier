@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.7.4 :
+	- Background synchronization (for scheduled sync)
+
 Version 0.7.3 :
 	- BF 3190245: Proxy Access Denied
 	- BF 3190240: Bad request exception

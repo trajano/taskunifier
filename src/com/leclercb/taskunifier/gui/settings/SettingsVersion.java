@@ -63,6 +63,9 @@ public final class SettingsVersion {
 		if (version.equals("0.7.2"))
 			version = updateSettings_0_7_2_to_0_7_3();
 		
+		if (version.equals("0.7.3"))
+			version = updateSettings_0_7_3_to_0_7_4();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -190,6 +193,13 @@ public final class SettingsVersion {
 			Main.SETTINGS.setStringProperty("date.date_format", "MM/dd/yyyy");
 		
 		return "0.7.3";
+	}
+	
+	private static String updateSettings_0_7_3_to_0_7_4() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.7.3 to 0.7.4");
+		
+		return "0.7.4";
 	}
 	
 }

@@ -54,7 +54,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public abstract class SynchronizerDialog extends JDialog {
+public class SynchronizerDialog extends JDialog {
 	
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
@@ -222,7 +222,7 @@ public abstract class SynchronizerDialog extends JDialog {
 								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())
 								+ "\n");
 						
-						this.connection = SynchronizerDialog.this.getConnection();
+						this.connection = SynchronizerUtils.getPlugin().getConnection();
 						
 						this.connection.loadParameters(Main.SETTINGS);
 						
@@ -305,7 +305,5 @@ public abstract class SynchronizerDialog extends JDialog {
 			worker.execute();
 		}
 	}
-	
-	protected abstract Connection getConnection() throws SynchronizerException;
 	
 }
