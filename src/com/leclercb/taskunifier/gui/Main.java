@@ -165,7 +165,7 @@ public class Main {
 			
 			if (!EqualsUtils.equals(
 					System.getProperty("com.leclercb.taskunifier.debug_mode"),
-			"true")) {
+					"true")) {
 				System.setOut(NEW_STREAM);
 				System.setErr(NEW_STREAM);
 			}
@@ -208,7 +208,7 @@ public class Main {
 			 * Exception(Translations.getString( "error.data_folder_needed",
 			 * Constants.TITLE));
 			 */
-			
+
 			if (!file.mkdir())
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
@@ -388,18 +388,18 @@ public class Main {
 					
 					String logFileContent = FileUtils.readFileToString(
 							logFile,
-					"UTF-8");
+							"UTF-8");
 					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
 					log = "\n\n\n---------- "
-						+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
-						+ " ----------\n\n"
-						+ log;
+							+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
+							+ " ----------\n\n"
+							+ log;
 					
 					FileUtils.writeStringToFile(logFile, logFileContent + log);
 				}
 			} catch (Exception e) {
 				GuiLogger.getLogger().severe(
-				"Could not copy log information into log file");
+						"Could not copy log information into log file");
 			}
 		}
 		

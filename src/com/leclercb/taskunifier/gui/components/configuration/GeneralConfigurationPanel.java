@@ -66,10 +66,10 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"synchronizer.scheduler_sleep_time",
 					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 			Main.SETTINGS.setBooleanProperty(
-					"synchronizer.sync_start", 
+					"synchronizer.sync_start",
 					(Boolean) this.getValue("SYNC_START"));
 			Main.SETTINGS.setBooleanProperty(
-					"synchronizer.sync_exit", 
+					"synchronizer.sync_exit",
 					(Boolean) this.getValue("SYNC_EXIT"));
 			Main.SETTINGS.setBooleanProperty(
 					"searcher.show_completed_tasks",
@@ -147,10 +147,10 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				generalSchedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
 			
 			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_start") != null)
-				generalSyncAtStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start"); 
+				generalSyncAtStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
 			
 			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
-				generalSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit"); 
+				generalSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 			
 			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
 				generalShowCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
@@ -231,7 +231,8 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS",
 					Translations.getString("configuration.general.show_completed_tasks"),
-					new ConfigurationFieldType.CheckBox(generalShowCompletedTasks)));
+					new ConfigurationFieldType.CheckBox(
+							generalShowCompletedTasks)));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
