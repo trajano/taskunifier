@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.swing.SwingUtilities;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.notifications.Notification;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
@@ -23,6 +24,16 @@ public class BackgroundSynchronizer {
 	}
 	
 	public void synchronize() {
+		synchronized (Synchronizing.class) {
+			if (Synchronizing.isSynchronizing()) {
+				GuiLogger.getLogger().info(
+						"Cannot synchronize because already synchronizing");
+				return;
+			}
+			
+			Synchronizing.setSynchronizing(true);
+		}
+		
 		Notification notification = null;
 		Connection connection = null;
 		Synchronizer synchronizer = null;
@@ -108,6 +119,8 @@ public class BackgroundSynchronizer {
 			Main.SETTINGS.setCalendarProperty(
 					"synchronizer.last_synchronization_date",
 					Calendar.getInstance());
+			
+			Synchronizing.setSynchronizing(false);
 		}
 		
 	}
