@@ -22,7 +22,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	public ScheduledSyncThread() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.synchronizeAction = new ActionSynchronize();
+		this.synchronizeAction = new ActionSynchronize(true);
 		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;
 		this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");

@@ -308,7 +308,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
 		menuBar.add(tasksMenu);
 		
-		tasksMenu.add(new ActionSynchronize(16, 16));
+		tasksMenu.add(new ActionSynchronize(false, 16, 16));
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
@@ -452,7 +452,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 				addTemplateTaskButton,
 				new ActionDelete(iconWith, iconHeight),
 				null,
-				new ActionSynchronize(iconWith, iconHeight),
+				new ActionSynchronize(false, iconWith, iconHeight),
 				new ActionScheduledSync(iconWith, iconHeight),
 				null,
 				new ActionConfiguration(iconWith, iconHeight) };

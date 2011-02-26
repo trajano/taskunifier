@@ -25,20 +25,25 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionSynchronize extends AbstractAction {
 	
-	public ActionSynchronize() {
-		this(32, 32);
+	private boolean background;
+	
+	public ActionSynchronize(boolean background) {
+		this(background, 32, 32);
 	}
 	
-	public ActionSynchronize(int width, int height) {
+	public ActionSynchronize(boolean background, int width, int height) {
 		super(
 				Translations.getString("action.name.synchronize"),
 				Images.getResourceImage("synchronize.png", width, height));
+		
+		this.background = background;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -54,11 +59,16 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public void synchronize() {
-		SynchronizerDialog dialog = new SynchronizerDialog(
-				MainFrame.getInstance().getFrame());
-		dialog.setVisible(true);
-		
-		// MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		if (this.background) {
+			BackgroundSynchronizer synchronizer = new BackgroundSynchronizer();
+			synchronizer.synchronize();
+		} else {
+			SynchronizerDialog dialog = new SynchronizerDialog(
+					MainFrame.getInstance().getFrame());
+			dialog.setVisible(true);
+			
+			// MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		}
 	}
 	
 }

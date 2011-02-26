@@ -3,6 +3,8 @@ HISTORY
 
 Version 0.7.4 :
 	- Background synchronization (for scheduled sync)
+	- Setting synchronize on start
+	- Setting synchronize on close
 
 Version 0.7.3 :
 	- BF 3190245: Proxy Access Denied

@@ -146,7 +146,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
 					null,
-					new ConfigurationFieldType.Button(new ActionSynchronize() {
+					new ConfigurationFieldType.Button(new ActionSynchronize(false) {
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
@@ -170,7 +170,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
 					null,
-					new ConfigurationFieldType.Button(new ActionSynchronize() {
+					new ConfigurationFieldType.Button(new ActionSynchronize(false) {
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {

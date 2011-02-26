@@ -199,6 +199,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.3 to 0.7.4");
 		
+		Main.SETTINGS.setStringProperty("synchronizer.sync_start", "false");
+		Main.SETTINGS.setStringProperty("synchronizer.sync_exit", "false");
+		
 		return "0.7.4";
 	}
 	

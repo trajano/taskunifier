@@ -23,10 +23,20 @@ public class BackgroundSynchronizer {
 	}
 	
 	public void synchronize() {
+		Notification notification = null;
 		Connection connection = null;
 		Synchronizer synchronizer = null;
 		
 		try {
+			notification = new Notification(
+					Images.getResourceImage("synchronize.png", 48, 48),
+					Translations.getString("synchronizer.start_synchronization"));
+			notification.setDuration(3000);
+			notification.setLocation(
+					MainFrame.getInstance().getFrame(),
+					Notification.POSITION_BOTTOM_RIGHT);
+			notification.setVisible(true);
+			
 			SynchronizerUtils.initializeProxy();
 			
 			connection = SynchronizerUtils.getPlugin().getConnection();
@@ -48,9 +58,10 @@ public class BackgroundSynchronizer {
 			
 			connection.disconnect();
 			
-			Notification notification = new Notification(
+			notification = new Notification(
 					Images.getResourceImage("synchronize.png", 48, 48),
 					Translations.getString("synchronizer.synchronization_completed"));
+			notification.setDuration(4000);
 			notification.setLocation(
 					MainFrame.getInstance().getFrame(),
 					Notification.POSITION_BOTTOM_RIGHT);

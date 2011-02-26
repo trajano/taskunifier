@@ -66,6 +66,12 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"synchronizer.scheduler_sleep_time",
 					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
 			Main.SETTINGS.setBooleanProperty(
+					"synchronizer.sync_start", 
+					(Boolean) this.getValue("SYNC_START"));
+			Main.SETTINGS.setBooleanProperty(
+					"synchronizer.sync_exit", 
+					(Boolean) this.getValue("SYNC_EXIT"));
+			Main.SETTINGS.setBooleanProperty(
 					"searcher.show_completed_tasks",
 					(Boolean) this.getValue("SHOW_COMPLETED_TASKS"));
 			Main.SETTINGS.setBooleanProperty(
@@ -125,9 +131,11 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"dd/MM/yyyy");
 			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
 					"dd/MM/yyyy");
-			Long schedulerSleepTime = 600l;
-			Boolean showCompletedTasks = true;
-			Boolean showCompletedTasksAtTheEnd = false;
+			Long generalSchedulerSleepTime = 600l;
+			Boolean generalSyncAtStart = false;
+			Boolean generalSyncAtExit = false;
+			Boolean generalShowCompletedTasks = true;
+			Boolean generalShowCompletedTasksAtTheEnd = false;
 			
 			if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
 				generalDateFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
@@ -136,13 +144,19 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				generalTimeFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 			
 			if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
-				schedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
+				generalSchedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
+			
+			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_start") != null)
+				generalSyncAtStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start"); 
+			
+			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
+				generalSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit"); 
 			
 			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
-				showCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
+				generalShowCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
 			
 			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null)
-				showCompletedTasksAtTheEnd = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
+				generalShowCompletedTasksAtTheEnd = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_1",
@@ -187,11 +201,21 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			JSpinner spinner = (JSpinner) this.getField("SCHEDULER_SLEEP_TIME").getType().getFieldComponent();
 			spinner.setModel(new SpinnerNumberModel(
-					schedulerSleepTime.intValue(),
+					generalSchedulerSleepTime.intValue(),
 					10,
 					5 * 3600,
 					60));
 			spinner.setEditor(new JSpinner.NumberEditor(spinner));
+			
+			this.addField(new ConfigurationField(
+					"SYNC_START",
+					Translations.getString("configuration.general.sync_start"),
+					new ConfigurationFieldType.CheckBox(generalSyncAtStart)));
+			
+			this.addField(new ConfigurationField(
+					"SYNC_EXIT",
+					Translations.getString("configuration.general.sync_exit"),
+					new ConfigurationFieldType.CheckBox(generalSyncAtExit)));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
@@ -207,13 +231,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS",
 					Translations.getString("configuration.general.show_completed_tasks"),
-					new ConfigurationFieldType.CheckBox(showCompletedTasks)));
+					new ConfigurationFieldType.CheckBox(generalShowCompletedTasks)));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
 					new ConfigurationFieldType.CheckBox(
-							showCompletedTasksAtTheEnd)));
+							generalShowCompletedTasksAtTheEnd)));
 		}
 	}
 	
