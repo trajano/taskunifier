@@ -10,6 +10,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskListModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
@@ -17,6 +18,16 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 	public TaskListModel() {
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
+		
+		Synchronizing.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (!(Boolean) evt.getNewValue())
+					fireTableDataChanged();
+			}
+			
+		});
 	}
 	
 	public Task getTask(int row) {
@@ -55,11 +66,14 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 	
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-
+		
 	}
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
+		if (Synchronizing.isSynchronizing())
+			return;
+		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			this.fireTableRowsInserted(event.getIndex(), event.getIndex());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
@@ -69,6 +83,9 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
+		if (Synchronizing.isSynchronizing())
+			return;
+		
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)
 				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
