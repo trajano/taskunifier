@@ -19,6 +19,9 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
@@ -71,11 +74,26 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		Main.SETTINGS.setStringProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",
 				(String) this.getValue("KEEP"));
+		
+		Main.SETTINGS.setLongProperty(
+				"synchronizer.scheduler_sleep_time",
+				((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
+		
+		Main.SETTINGS.setBooleanProperty(
+				"synchronizer.sync_start",
+				(Boolean) this.getValue("SYNC_START"));
+		
+		Main.SETTINGS.setBooleanProperty(
+				"synchronizer.sync_exit",
+				(Boolean) this.getValue("SYNC_EXIT"));
 	}
 	
 	private void initialize(boolean welcome) {
 		SynchronizerChoice synchronizationChoiceValue = SynchronizerChoice.KEEP_LAST_UPDATED;
 		String synchronizationKeepValue = "14";
+		Long synchronizationSchedulerSleepTime = 600l;
+		Boolean synchronizationSyncAtStart = false;
+		Boolean synchronizationSyncAtExit = false;
 		
 		if (Main.SETTINGS.getEnumProperty(
 				"synchronizer.choice",
@@ -86,6 +104,15 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		
 		if (Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
 			synchronizationKeepValue = Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
+		
+		if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
+			synchronizationSchedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
+		
+		if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_start") != null)
+			synchronizationSyncAtStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
+		
+		if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
+			synchronizationSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		
 		this.addField(new ConfigurationField(
 				"API_RESET_ALL",
@@ -129,9 +156,42 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						new RegexFormatter("^[0-9]{1,3}$"),
 						synchronizationKeepValue)));
 		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_2",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"SCHEDULER_SLEEP_TIME",
+				Translations.getString("configuration.synchronization.scheduler_sleep_time"),
+				new ConfigurationFieldType.Spinner()));
+		
+		JSpinner spinner = (JSpinner) this.getField("SCHEDULER_SLEEP_TIME").getType().getFieldComponent();
+		spinner.setModel(new SpinnerNumberModel(
+				synchronizationSchedulerSleepTime.intValue(),
+				10,
+				5 * 3600,
+				60));
+		spinner.setEditor(new JSpinner.NumberEditor(spinner));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_3",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"SYNC_START",
+				Translations.getString("configuration.synchronization.sync_start"),
+				new ConfigurationFieldType.CheckBox(synchronizationSyncAtStart)));
+		
+		this.addField(new ConfigurationField(
+				"SYNC_EXIT",
+				Translations.getString("configuration.synchronization.sync_exit"),
+				new ConfigurationFieldType.CheckBox(synchronizationSyncAtExit)));
+		
 		if (!welcome) {
 			this.addField(new ConfigurationField(
-					"SEPARATOR_2",
+					"SEPARATOR_4",
 					null,
 					new ConfigurationFieldType.Separator()));
 			

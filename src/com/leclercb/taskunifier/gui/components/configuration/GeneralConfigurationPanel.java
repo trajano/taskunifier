@@ -23,8 +23,6 @@ import java.util.Locale;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -62,15 +60,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			Main.SETTINGS.setSimpleDateFormatProperty(
 					"date.time_format",
 					(SimpleDateFormat) this.getValue("TIME_FORMAT"));
-			Main.SETTINGS.setLongProperty(
-					"synchronizer.scheduler_sleep_time",
-					((Integer) this.getValue("SCHEDULER_SLEEP_TIME")) * 1000l);
-			Main.SETTINGS.setBooleanProperty(
-					"synchronizer.sync_start",
-					(Boolean) this.getValue("SYNC_START"));
-			Main.SETTINGS.setBooleanProperty(
-					"synchronizer.sync_exit",
-					(Boolean) this.getValue("SYNC_EXIT"));
 			Main.SETTINGS.setBooleanProperty(
 					"searcher.show_completed_tasks",
 					(Boolean) this.getValue("SHOW_COMPLETED_TASKS"));
@@ -128,12 +117,9 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		if (!this.languageOnly) {
 			SimpleDateFormat generalDateFormatValue = new SimpleDateFormat(
-					"dd/MM/yyyy");
+			"dd/MM/yyyy");
 			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
-					"dd/MM/yyyy");
-			Long generalSchedulerSleepTime = 600l;
-			Boolean generalSyncAtStart = false;
-			Boolean generalSyncAtExit = false;
+			"dd/MM/yyyy");
 			Boolean generalShowCompletedTasks = true;
 			Boolean generalShowCompletedTasksAtTheEnd = false;
 			
@@ -142,15 +128,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
 				generalTimeFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
-			
-			if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
-				generalSchedulerSleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000;
-			
-			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_start") != null)
-				generalSyncAtStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
-			
-			if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
-				generalSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 			
 			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
 				generalShowCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
@@ -191,34 +168,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
-					null,
-					new ConfigurationFieldType.Separator()));
-			
-			this.addField(new ConfigurationField(
-					"SCHEDULER_SLEEP_TIME",
-					Translations.getString("configuration.general.scheduler_sleep_time"),
-					new ConfigurationFieldType.Spinner()));
-			
-			JSpinner spinner = (JSpinner) this.getField("SCHEDULER_SLEEP_TIME").getType().getFieldComponent();
-			spinner.setModel(new SpinnerNumberModel(
-					generalSchedulerSleepTime.intValue(),
-					10,
-					5 * 3600,
-					60));
-			spinner.setEditor(new JSpinner.NumberEditor(spinner));
-			
-			this.addField(new ConfigurationField(
-					"SYNC_START",
-					Translations.getString("configuration.general.sync_start"),
-					new ConfigurationFieldType.CheckBox(generalSyncAtStart)));
-			
-			this.addField(new ConfigurationField(
-					"SYNC_EXIT",
-					Translations.getString("configuration.general.sync_exit"),
-					new ConfigurationFieldType.CheckBox(generalSyncAtExit)));
-			
-			this.addField(new ConfigurationField(
-					"SEPARATOR_3",
 					null,
 					new ConfigurationFieldType.Separator()));
 			
