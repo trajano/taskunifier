@@ -44,7 +44,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (!(Boolean) evt.getNewValue())
-					fireTableDataChanged();
+					TaskTableModel.this.fireTableDataChanged();
 			}
 			
 		});

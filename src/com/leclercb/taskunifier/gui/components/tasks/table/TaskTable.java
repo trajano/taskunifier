@@ -431,6 +431,25 @@ public class TaskTable extends JTable {
 	}
 	
 	@Override
+	public String getToolTipText(MouseEvent event) {
+		Point p = event.getPoint();
+		
+		int colIndex = this.columnAtPoint(p);
+		int rowIndex = this.getRowSorter().convertRowIndexToModel(
+				this.rowAtPoint(p));
+		
+		if (((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(colIndex) != TaskColumn.TITLE)
+			return null;
+		
+		Task task = ((TaskTableModel) this.getModel()).getTask(rowIndex);
+		
+		if (task != null)
+			return task.getTitle();
+		
+		return null;
+	}
+	
+	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
 		

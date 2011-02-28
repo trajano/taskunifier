@@ -24,7 +24,7 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (!(Boolean) evt.getNewValue())
-					fireTableDataChanged();
+					TaskListModel.this.fireTableDataChanged();
 			}
 			
 		});
@@ -66,7 +66,7 @@ public class TaskListModel extends AbstractTableModel implements ListChangeListe
 	
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		
+
 	}
 	
 	@Override
