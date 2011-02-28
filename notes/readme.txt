@@ -4,6 +4,7 @@ HISTORY
 Version 0.7.4 :
 	- Bug fixed: Performance issue !!! 
 	- Bug fixed: Invalid key !!!
+	- FR 3195031: Popup task text
 	- FR 3192919: Background synchronization (for scheduled sync)
 	- FR 3192920: Setting synchronize on start
 	- FR 3192920: Setting synchronize on close
