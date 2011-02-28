@@ -117,9 +117,9 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		if (!this.languageOnly) {
 			SimpleDateFormat generalDateFormatValue = new SimpleDateFormat(
-			"dd/MM/yyyy");
+					"dd/MM/yyyy");
 			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
-			"dd/MM/yyyy");
+					"dd/MM/yyyy");
 			Boolean generalShowCompletedTasks = true;
 			Boolean generalShowCompletedTasksAtTheEnd = false;
 			
