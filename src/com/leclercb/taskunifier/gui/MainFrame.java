@@ -357,10 +357,10 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		Object[] toolBarObjects = null;
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			toolBarObjects = this.getToolBarObjects(32, 32);
+			toolBarObjects = this.getToolBarObjects(24, 24);
 			toolBarCreator = new MacToolBarCreator();
 		} else {
-			toolBarObjects = this.getToolBarObjects(32, 32);
+			toolBarObjects = this.getToolBarObjects(24, 24);
 			toolBarCreator = new DefaultToolBarCreator();
 		}
 		

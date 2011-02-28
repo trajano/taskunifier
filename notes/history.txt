@@ -1,4 +1,8 @@
-Version 0.7.4 :
+Version 0.7.5
+	- FR 3195225: Smaller top button bar
+	- FR 3195256: Date format dd.mm.yyyy
+
+Version 0.7.4
 	- Bug fixed: Performance issue !!! 
 	- Bug fixed: Invalid key !!!
 	- FR 3195031: Popup task text
@@ -6,7 +10,7 @@ Version 0.7.4 :
 	- FR 3192920: Setting synchronize on start
 	- FR 3192920: Setting synchronize on close
 
-Version 0.7.3 :
+Version 0.7.3
 	- BF 3190245: Proxy Access Denied
 	- BF 3190240: Bad request exception
 	- BF 3188712: URI Too Large Exception on Manual Sync
@@ -21,7 +25,7 @@ Version 0.7.3 :
 	- Use jcalendar instead of microba
 	- Improved date/time chooser (start date and due date)
 
-Version 0.7.2 : 18/02/2011
+Version 0.7.2: 18/02/2011
 	- BF 3178988: encoding problem
 	- Bug fixed: Toodledo account creation
 	- Bug fixed: task note not correctly saved on focus lost
