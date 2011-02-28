@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.SearcherItem;
 import com.leclercb.taskunifier.gui.components.searcherlist.transfer.TaskSearcherTransferHandler;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
@@ -78,6 +79,16 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 		
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
+		
+		Synchronizing.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (!(Boolean) evt.getNewValue())
+					updateBadges();
+			}
+			
+		});
 		
 		this.model = new SourceListModel();
 		
@@ -121,12 +132,12 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					return null;
 				
 				return "<html>"
-						+ searcher.getTitle()
-						+ "<br />"
-						+ searcher.getSorter()
-						+ "<br />"
-						+ searcher.getFilter()
-						+ "</html>";
+				+ searcher.getTitle()
+				+ "<br />"
+				+ searcher.getSorter()
+				+ "<br />"
+				+ searcher.getFilter()
+				+ "</html>";
 			}
 			
 			@Override
@@ -160,17 +171,17 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCutAction().getValue(Action.NAME));
+						TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCopyAction().getValue(Action.NAME));
+						TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getPasteAction().getValue(Action.NAME));
+						TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 	private void initializeExpandedState() {
@@ -208,7 +219,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializeGeneralCategory() {
 		this.generalCategory = new SearcherCategory(
 				Translations.getString("searcherlist.general"),
-				"searcher.category.general.expanded");
+		"searcher.category.general.expanded");
 		this.model.addCategory(this.generalCategory);
 		
 		for (TaskSearcher searcher : Constants.GENERAL_TASK_SEARCHERS)
@@ -220,7 +231,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializeContextCategory() {
 		this.contextCategory = new SearcherCategory(
 				Translations.getString("general.contexts"),
-				"searcher.category.context.expanded");
+		"searcher.category.context.expanded");
 		this.model.addCategory(this.contextCategory);
 		
 		this.model.addItemToCategory(
@@ -245,7 +256,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializeFolderCategory() {
 		this.folderCategory = new SearcherCategory(
 				Translations.getString("general.folders"),
-				"searcher.category.folder.expanded");
+		"searcher.category.folder.expanded");
 		this.model.addCategory(this.folderCategory);
 		
 		this.model.addItemToCategory(
@@ -270,7 +281,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializeGoalCategory() {
 		this.goalCategory = new SearcherCategory(
 				Translations.getString("general.goals"),
-				"searcher.category.goal.expanded");
+		"searcher.category.goal.expanded");
 		this.model.addCategory(this.goalCategory);
 		
 		this.model.addItemToCategory(
@@ -295,7 +306,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializeLocationCategory() {
 		this.locationCategory = new SearcherCategory(
 				Translations.getString("general.locations"),
-				"searcher.category.location.expanded");
+		"searcher.category.location.expanded");
 		this.model.addCategory(this.locationCategory);
 		
 		this.model.addItemToCategory(
@@ -320,7 +331,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	private void initializePersonalCategory() {
 		this.personalCategory = new SearcherCategory(
 				Translations.getString("searcherlist.personal"),
-				"searcher.category.personal.expanded");
+		"searcher.category.personal.expanded");
 		this.model.addCategory(this.personalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
@@ -362,7 +373,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	
 	@Override
 	public void refreshTaskSearcher() {
-
+		
 	}
 	
 	@Override
@@ -415,7 +426,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getValue() instanceof Task) {
-			this.updateBadges();
+			if (!Synchronizing.isSynchronizing())
+				this.updateBadges();
 			return;
 		}
 		
@@ -466,7 +478,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof Task) {
-			this.updateBadges();
+			if (!Synchronizing.isSynchronizing())
+				this.updateBadges();
 			return;
 		}
 		

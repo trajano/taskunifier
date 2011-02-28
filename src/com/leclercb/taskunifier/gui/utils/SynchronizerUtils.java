@@ -12,13 +12,14 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 
 public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
-
+		
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
@@ -105,6 +106,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
+		Synchronizing.setSynchronizing(true);
+		
 		Main.SETTINGS.setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
@@ -117,6 +120,8 @@ public final class SynchronizerUtils {
 		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
+		
+		Synchronizing.setSynchronizing(false);
 	}
 	
 }
