@@ -20,6 +20,7 @@ import javax.swing.UIManager;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.models.TemplateModel;
 import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
 import com.leclercb.taskunifier.gui.template.Template;
@@ -104,6 +105,8 @@ public class BatchAddTaskDialog extends JDialog {
 					
 					String[] titles = answer.split("\n");
 					
+					Synchronizing.setSynchronizing(true);
+					
 					List<Task> tasks = new ArrayList<Task>();
 					for (String title : titles) {
 						title = title.trim();
@@ -120,6 +123,8 @@ public class BatchAddTaskDialog extends JDialog {
 						
 						tasks.add(task);
 					}
+					
+					Synchronizing.setSynchronizing(false);
 					
 					MainFrame.getInstance().getTaskView().setSelectedTasks(
 							tasks.toArray(new Task[0]));

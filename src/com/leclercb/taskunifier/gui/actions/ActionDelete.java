@@ -27,6 +27,7 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -53,8 +54,12 @@ public class ActionDelete extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
+		Synchronizing.setSynchronizing(true);
+		
 		for (Task task : tasks)
 			TaskFactory.getInstance().markToDelete(task);
+		
+		Synchronizing.setSynchronizing(false);
 	}
 	
 }

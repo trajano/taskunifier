@@ -38,7 +38,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
@@ -112,15 +111,8 @@ public class SynchronizerDialog extends JDialog {
 	
 	@Override
 	public void setVisible(boolean visible) {
-		synchronized (Synchronizing.class) {
-			if (Synchronizing.isSynchronizing()) {
-				GuiLogger.getLogger().info(
-						"Cannot synchronize because already synchronizing");
-				return;
-			}
-			
-			Synchronizing.setSynchronizing(true);
-		}
+		if (!Synchronizing.setSynchronizing(true))
+			return;
 		
 		Thread synchronizeThread = new Thread(new SynchronizeRunnable());
 		synchronizeThread.start();

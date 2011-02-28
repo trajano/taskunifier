@@ -19,7 +19,7 @@ import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
-		
+
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
