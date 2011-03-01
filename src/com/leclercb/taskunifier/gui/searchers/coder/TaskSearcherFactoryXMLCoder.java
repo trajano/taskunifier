@@ -37,6 +37,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter.CalendarCondition;
@@ -163,7 +164,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			TaskFilter filter = new TaskFilter();
 			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(
 					node,
-					"link")));
+			"link")));
 			
 			for (int i = 0; i < nFilter.getLength(); i++) {
 				if (nFilter.item(i).getNodeName().equals("element")) {
@@ -183,7 +184,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						
 						if (nElement.item(j).getNodeName().equals("condition")) {
 							String[] values = nElement.item(j).getTextContent().split(
-									"\\.");
+							"\\.");
 							conditionClass = values[0];
 							enumName = values[1];
 						}
@@ -279,7 +280,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							try {
 								Boolean newId = XMLUtils.getBooleanAttributeValue(
 										valueNode,
-										"isnew");
+								"isnew");
 								
 								if (newId == null)
 									newId = false;
@@ -295,6 +296,9 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 											new ModelId(newId, valueStr));
 								else if (column.equals(TaskColumn.LOCATION))
 									value = LocationFactory.getInstance().get(
+											new ModelId(newId, valueStr));
+								else if (column.equals(TaskColumn.PARENT))
+									value = TaskFactory.getInstance().get(
 											new ModelId(newId, valueStr));
 							} catch (Exception e) {
 								value = null;

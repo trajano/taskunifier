@@ -173,8 +173,10 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setEditable(false);
 				break;
 			case PARENT:
-				this.elementCondition.setModel(new TaskModel(true));
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new TaskModel(true));
+				this.elementValue.setRenderer(new ModelListCellRenderer());
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
