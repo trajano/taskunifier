@@ -329,6 +329,8 @@ public class Main {
 	}
 	
 	public static void stop() {
+		// TODO cannot exit if syncing
+		
 		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
 			new ActionSynchronize(false).synchronize();
