@@ -4,6 +4,7 @@ HISTORY
 Version 0.7.5
 	- FR 3195225: Smaller top button bar
 	- FR 3195256: Date format dd.mm.yyyy
+	- FR 3194871: When adding a task, edit title
 	- BF 3195252: Date deleted on click
 
 Version 0.7.4

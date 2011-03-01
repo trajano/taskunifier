@@ -5,32 +5,32 @@ import java.text.SimpleDateFormat;
 public class DateTimeFormatUtils {
 	
 	private DateTimeFormatUtils() {
-		
+
 	}
 	
 	private static DateTimeFormatInfo[] dateFormats = new DateTimeFormatInfo[] {
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("MM/dd/yyyy"),
-		"##/##/####"),
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("MM-dd-yyyy"),
-		"##-##-####"),
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("dd/MM/yyyy"),
-		"##/##/####"),
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("dd-MM-yyyy"),
-		"##-##-####"),
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("dd.MM.yyyy"),
-		"##.##.####"),
-		new DateTimeFormatInfo(
-				new SimpleDateFormat("yyyy-MM-dd"),
-		"####-##-##") };
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("MM/dd/yyyy"),
+					"##/##/####"),
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("MM-dd-yyyy"),
+					"##-##-####"),
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("dd/MM/yyyy"),
+					"##/##/####"),
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("dd-MM-yyyy"),
+					"##-##-####"),
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("dd.MM.yyyy"),
+					"##.##.####"),
+			new DateTimeFormatInfo(
+					new SimpleDateFormat("yyyy-MM-dd"),
+					"####-##-##") };
 	
 	private static DateTimeFormatInfo[] timeFormats = new DateTimeFormatInfo[] {
-		new DateTimeFormatInfo(new SimpleDateFormat("hh:mm aa"), "##:## UU"),
-		new DateTimeFormatInfo(new SimpleDateFormat("HH:mm"), "##:##") };
+			new DateTimeFormatInfo(new SimpleDateFormat("hh:mm aa"), "##:## UU"),
+			new DateTimeFormatInfo(new SimpleDateFormat("HH:mm"), "##:##") };
 	
 	public static SimpleDateFormat[] getAvailableDateFormats() {
 		SimpleDateFormat[] formats = new SimpleDateFormat[dateFormats.length];

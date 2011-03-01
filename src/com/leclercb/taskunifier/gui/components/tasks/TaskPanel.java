@@ -143,6 +143,11 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	}
 	
 	@Override
+	public void setSelectedTaskAndStartEdit(Task task) {
+		this.taskTable.setSelectedTaskAndStartEdit(task);
+	}
+	
+	@Override
 	public void setSelectedTasks(Task[] tasks) {
 		this.taskTable.setSelectedTasks(tasks);
 	}

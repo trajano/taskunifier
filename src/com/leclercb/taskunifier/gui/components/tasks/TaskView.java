@@ -11,6 +11,8 @@ public interface TaskView extends TaskSelectionChangeSupported, TaskSearcherSele
 	
 	public abstract Task[] getSelectedTasks();
 	
+	public abstract void setSelectedTaskAndStartEdit(Task task);
+	
 	public abstract void setSelectedTasks(Task[] tasks);
 	
 	public abstract void refreshTasks();

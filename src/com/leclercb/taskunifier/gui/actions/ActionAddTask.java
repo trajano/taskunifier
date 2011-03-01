@@ -62,8 +62,7 @@ public class ActionAddTask extends AbstractAction {
 		if (template != null)
 			template.applyToTask(task);
 		
-		MainFrame.getInstance().getTaskView().setSelectedTasks(
-				new Task[] { task });
+		MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(task);
 	}
 	
 }

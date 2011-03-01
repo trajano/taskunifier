@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -230,6 +231,29 @@ public class TaskTable extends JTable {
 				tasks.add(this.getTask(indexes[i]));
 		
 		return tasks.toArray(new Task[0]);
+	}
+	
+	public void setSelectedTaskAndStartEdit(Task task) {
+		this.setSelectedTasks(new Task[] { task });
+		
+		TaskTableColumnModel columnModel = (TaskTableColumnModel) this.getColumnModel();
+		TaskTableModel model = (TaskTableModel) this.getModel();
+		
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if (task.equals(model.getTask(i))) {
+				int row = this.getRowSorter().convertRowIndexToView(i);
+				int col = columnModel.getColumnIndex(TaskColumn.TITLE);
+				
+				if (row != -1) {
+					if (this.editCellAt(row, col)) {
+						Component editor = this.getEditorComponent();
+						editor.requestFocusInWindow();
+					}
+				}
+				
+				break;
+			}
+		}
 	}
 	
 	public void setSelectedTasks(Task[] tasks) {

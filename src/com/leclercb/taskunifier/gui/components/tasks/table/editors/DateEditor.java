@@ -76,12 +76,14 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				buttonRemove.setVisible(buttonRemove.hasFocus() || dateEditor.hasFocus());
+				DateEditor.this.buttonRemove.setVisible(DateEditor.this.buttonRemove.hasFocus()
+						|| DateEditor.this.dateEditor.hasFocus());
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				buttonRemove.setVisible(buttonRemove.hasFocus() || dateEditor.hasFocus());
+				DateEditor.this.buttonRemove.setVisible(DateEditor.this.buttonRemove.hasFocus()
+						|| DateEditor.this.dateEditor.hasFocus());
 			}
 			
 		};
