@@ -62,6 +62,7 @@ public final class Translations {
 		
 		locales.add(new Locale("en", "US"));
 		locales.add(new Locale("fr", "FR"));
+		locales.add(new Locale("zh", "CN"));
 		locales.add(new Locale("zh", "TW"));
 		
 		return locales;
