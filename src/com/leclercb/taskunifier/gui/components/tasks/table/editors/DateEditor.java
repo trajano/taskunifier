@@ -19,13 +19,19 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Calendar;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
+import com.leclercb.taskunifier.gui.images.Images;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -34,6 +40,7 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	private JTextFieldDateEditor dateEditor;
 	private JPanel panel;
 	private JDateChooser dateChooser;
+	private JButton buttonRemove;
 	
 	public DateEditor(final String format, final String mask) {
 		this.panel = new JPanel();
@@ -50,7 +57,40 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 		
 		this.dateChooser = new JDateChooser(this.dateEditor);
 		
+		this.buttonRemove = new JButton(Images.getResourceImage(
+				"remove.png",
+				16,
+				16));
+		this.buttonRemove.setActionCommand("REMOVE");
+		this.buttonRemove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				DateEditor.this.dateChooser.setCalendar(null);
+				DateEditor.this.fireEditingStopped();
+			}
+			
+		});
+		
+		FocusListener focusListener = new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				buttonRemove.setVisible(buttonRemove.hasFocus() || dateEditor.hasFocus());
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				buttonRemove.setVisible(buttonRemove.hasFocus() || dateEditor.hasFocus());
+			}
+			
+		};
+		
+		this.buttonRemove.addFocusListener(focusListener);
+		this.dateEditor.addFocusListener(focusListener);
+		
 		this.panel.add(this.dateChooser, BorderLayout.CENTER);
+		this.panel.add(this.buttonRemove, BorderLayout.EAST);
 	}
 	
 	@Override
@@ -65,6 +105,8 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 		} else {
 			this.dateChooser.setCalendar((Calendar) value);
 		}
+		
+		this.buttonRemove.setVisible(false);
 		
 		return this.panel;
 	}
