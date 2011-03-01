@@ -87,8 +87,8 @@ public class ImportModelsDialog extends AbstractImportDialog {
 			for (Model model : models) {
 				if (model.getModelStatus() == ModelStatus.LOADED
 						|| model.getModelStatus() == ModelStatus.TO_UPDATE) {
-					// TODO: won't work because cannot replace new id by
-					// existing id
+					// TODO: won't work because cannot replace existing id by
+					// new id
 					model.setModelId(new ModelId());
 					model.setModelStatus(ModelStatus.TO_UPDATE);
 				}
