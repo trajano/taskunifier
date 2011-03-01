@@ -4,6 +4,7 @@ HISTORY
 Version 0.7.5
 	- FR 3195225: Smaller top button bar
 	- FR 3195256: Date format dd.mm.yyyy
+	- BF 3195252: Date deleted on click
 
 Version 0.7.4
 	- Bug fixed: Performance issue !!! 
