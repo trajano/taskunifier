@@ -10,6 +10,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.api.GuiFolder;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
@@ -20,6 +21,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ModelItem extends SourceListItem implements TaskSearcherElement {
@@ -29,7 +31,16 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	
 	public ModelItem(ModelType modelType, Model model) {
 		super(
-				model == null ? Translations.getString("searcherlist.none") : model.getTitle());
+				(model == null ? Translations.getString("searcherlist.none") : model.getTitle()));
+		
+		if (model instanceof GuiFolder)
+			this.setIcon(new ColorBadgeIcon(
+					((GuiFolder) model).getColor(),
+					16,
+					16));
+		
+		if (model == null && modelType == ModelType.FOLDER)
+			this.setIcon(new ColorBadgeIcon(null, 16, 16));
 		
 		this.modelType = modelType;
 		this.model = model;

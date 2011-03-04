@@ -37,6 +37,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.api.GuiFolder;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.SearcherItem;
@@ -511,7 +512,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 					this.selectDefaultTaskSearcher();
 				}
 			} else {
-				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+				if (event.getPropertyName().equals(Model.PROP_TITLE)
+						|| event.getPropertyName().equals(GuiFolder.PROP_COLOR)) {
 					SourceListItem item = this.findItemFromModel((Model) event.getSource());
 					
 					if (item != null) {
