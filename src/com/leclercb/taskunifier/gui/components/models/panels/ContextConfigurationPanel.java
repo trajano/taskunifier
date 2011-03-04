@@ -126,8 +126,9 @@ public class ContextConfigurationPanel extends JSplitPane {
 		info.add(contextTitle);
 		
 		// Context Color
-		label = new JLabel(Translations.getString("general.context.color")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(
+				Translations.getString("general.color") + ":",
+				SwingConstants.TRAILING);
 		info.add(label);
 		
 		contextColor.setEnabled(false);

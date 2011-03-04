@@ -128,7 +128,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 		
 		// Folder Color
 		label = new JLabel(
-				Translations.getString("general.folder.color") + ":",
+				Translations.getString("general.color") + ":",
 				SwingConstants.TRAILING);
 		info.add(label);
 		

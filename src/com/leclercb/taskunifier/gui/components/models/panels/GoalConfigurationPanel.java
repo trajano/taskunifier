@@ -181,7 +181,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 		
 		// Goal Color
 		label = new JLabel(
-				Translations.getString("general.goal.color") + ":",
+				Translations.getString("general.color") + ":",
 				SwingConstants.TRAILING);
 		info.add(label);
 		

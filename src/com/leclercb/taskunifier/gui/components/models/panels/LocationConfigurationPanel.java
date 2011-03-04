@@ -172,8 +172,9 @@ public class LocationConfigurationPanel extends JSplitPane {
 		info.add(locationLongitude);
 		
 		// Location Color
-		label = new JLabel(Translations.getString("general.location.color")
-				+ ":", SwingConstants.TRAILING);
+		label = new JLabel(
+				Translations.getString("general.color") + ":",
+				SwingConstants.TRAILING);
 		info.add(label);
 		
 		locationColor.setEnabled(false);
