@@ -25,7 +25,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void deleteExistingValue() {
-		
+
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				"searcher",
 				"synchronizer",
 				"taskcolumn",
-		"theme" };
+				"theme" };
 		
 		Properties properties = new Properties();
 		properties.load(new FileInputStream(file));
@@ -57,8 +57,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 		
 		JOptionPane.showMessageDialog(
 				MainFrame.getInstance().getFrame(),
-				Translations.getString(
-				"configuration.general.settings_changed_after_restart"),
+				Translations.getString("configuration.general.settings_changed_after_restart"),
 				Translations.getString("general.information"),
 				JOptionPane.INFORMATION_MESSAGE);
 	}

@@ -68,7 +68,7 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							modelId = new ModelId(
 									XMLUtils.getBooleanAttributeValue(
 											element,
-									"isnew"), element.getTextContent());
+											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("modelstatus"))
 						modelStatus = ModelStatus.valueOf(element.getTextContent());
@@ -83,13 +83,16 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 					
 					if (element.getNodeName().equals("color"))
 						if (element.getTextContent().length() != 0)
-							color = new Color(Integer.parseInt(element.getTextContent()));
+							color = new Color(
+									Integer.parseInt(element.getTextContent()));
 				}
 				
-				GuiFolder folder = (GuiFolder) FolderFactory.getInstance().get(modelId);
+				GuiFolder folder = (GuiFolder) FolderFactory.getInstance().get(
+						modelId);
 				
 				if (folder == null)
-					folder = (GuiFolder) FolderFactory.getInstance().createShell(modelId);
+					folder = (GuiFolder) FolderFactory.getInstance().createShell(
+							modelId);
 				
 				folder.setTitle(title);
 				folder.setColor(color);
@@ -105,7 +108,7 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	@Override
 	protected void encode(Document document, Element root)
-	throws FactoryCoderException {
+			throws FactoryCoderException {
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		
 		for (Folder folder : folders) {
@@ -133,7 +136,8 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nFolder.appendChild(title);
 			
 			Element color = document.createElement("color");
-			color.setTextContent(guiFolder.getColor() != null? guiFolder.getColor().getRGB() + "" : "");
+			color.setTextContent(guiFolder.getColor() != null ? guiFolder.getColor().getRGB()
+					+ "" : "");
 			nFolder.appendChild(color);
 		}
 	}

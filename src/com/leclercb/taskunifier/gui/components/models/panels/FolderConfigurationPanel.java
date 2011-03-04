@@ -59,7 +59,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 		// Initialize Fields
 		final JTextField folderTitle = new JTextField(30);
 		final JLabel folderColor = new JLabel();
-		final JColorChooser folderColorChooser = new JColorChooser(); 
+		final JColorChooser folderColorChooser = new JColorChooser();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new FolderModel(false)) {
