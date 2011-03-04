@@ -18,7 +18,14 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.text.NumberFormatter;
 
 import com.jgoodies.binding.adapter.Bindings;
@@ -38,6 +46,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.GuiLocation;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -58,6 +67,8 @@ public class LocationConfigurationPanel extends JSplitPane {
 				new NumberFormatter());
 		final JFormattedTextField locationLongitude = new JFormattedTextField(
 				new NumberFormatter());
+		final JLabel locationColor = new JLabel();
+		final JColorChooser locationColorChooser = new JColorChooser();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new LocationModel(false)) {
@@ -101,6 +112,15 @@ public class LocationConfigurationPanel extends JSplitPane {
 				locationDescription.setEnabled(model != null);
 				locationLatitude.setEnabled(model != null);
 				locationLongitude.setEnabled(model != null);
+				locationColor.setEnabled(model != null);
+				
+				if (model == null) {
+					locationColor.setBackground(Color.WHITE);
+					locationColorChooser.setColor(Color.WHITE);
+				} else {
+					locationColor.setBackground(((GuiLocation) model).getColor());
+					locationColorChooser.setColor(((GuiLocation) model).getColor());
+				}
 			}
 			
 		};
@@ -151,8 +171,46 @@ public class LocationConfigurationPanel extends JSplitPane {
 		locationLongitude.setEnabled(false);
 		info.add(locationLongitude);
 		
+		// Location Color
+		label = new JLabel(Translations.getString("general.location.color")
+				+ ":", SwingConstants.TRAILING);
+		info.add(label);
+		
+		locationColor.setOpaque(true);
+		locationColor.setBackground(Color.WHITE);
+		locationColor.setBorder(new LineBorder(Color.BLACK));
+		
+		locationColorChooser.setColor(Color.WHITE);
+		
+		final JDialog colorDialog = JColorChooser.createDialog(
+				this,
+				"Color",
+				true,
+				locationColorChooser,
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						locationColor.setBackground(locationColorChooser.getColor());
+						((GuiLocation) modelList.getSelectedModel()).setColor(locationColorChooser.getColor());
+					}
+					
+				},
+				null);
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				colorDialog.setVisible(true);
+			}
+			
+		});
+		
+		info.add(locationColor);
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 4, 2, // rows, cols
+		SpringUtils.makeCompactGrid(info, 5, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,

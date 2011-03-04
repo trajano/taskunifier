@@ -2,18 +2,18 @@ package com.leclercb.taskunifier.gui.api;
 
 import java.awt.Color;
 
-import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ModelId;
 
-public class GuiFolder extends Folder implements GuiModel {
+public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;
 	
-	public GuiFolder(ModelId modelId, String title) {
+	public GuiContext(ModelId modelId, String title) {
 		super(modelId, title);
 	}
 	
-	public GuiFolder(String title) {
+	public GuiContext(String title) {
 		super(title);
 	}
 	

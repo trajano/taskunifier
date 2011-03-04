@@ -18,10 +18,17 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -29,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
@@ -39,6 +47,7 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
+import com.leclercb.taskunifier.gui.api.GuiGoal;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
@@ -58,6 +67,8 @@ public class GoalConfigurationPanel extends JSplitPane {
 		final JTextField goalTitle = new JTextField(30);
 		final JComboBox goalLevel = new JComboBox();
 		final JComboBox goalContributes = new JComboBox();
+		final JLabel goalColor = new JLabel();
+		final JColorChooser goalColorChooser = new JColorChooser();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new GoalModel(false)) {
@@ -101,6 +112,15 @@ public class GoalConfigurationPanel extends JSplitPane {
 				goalTitle.setEnabled(model != null);
 				goalLevel.setEnabled(model != null);
 				goalContributes.setEnabled(model != null);
+				goalColor.setEnabled(model != null);
+				
+				if (model == null) {
+					goalColor.setBackground(Color.WHITE);
+					goalColorChooser.setColor(Color.WHITE);
+				} else {
+					goalColor.setBackground(((GuiGoal) model).getColor());
+					goalColorChooser.setColor(((GuiGoal) model).getColor());
+				}
 				
 				if (model != null)
 					goalContributes.setEnabled(!((Goal) model).getLevel().equals(
@@ -159,8 +179,47 @@ public class GoalConfigurationPanel extends JSplitPane {
 		goalContributes.setEnabled(false);
 		info.add(goalContributes);
 		
+		// Goal Color
+		label = new JLabel(
+				Translations.getString("general.goal.color") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		goalColor.setOpaque(true);
+		goalColor.setBackground(Color.WHITE);
+		goalColor.setBorder(new LineBorder(Color.BLACK));
+		
+		goalColorChooser.setColor(Color.WHITE);
+		
+		final JDialog colorDialog = JColorChooser.createDialog(
+				this,
+				"Color",
+				true,
+				goalColorChooser,
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						goalColor.setBackground(goalColorChooser.getColor());
+						((GuiGoal) modelList.getSelectedModel()).setColor(goalColorChooser.getColor());
+					}
+					
+				},
+				null);
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				colorDialog.setVisible(true);
+			}
+			
+		});
+		
+		info.add(goalColor);
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 3, 2, // rows, cols
+		SpringUtils.makeCompactGrid(info, 4, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,

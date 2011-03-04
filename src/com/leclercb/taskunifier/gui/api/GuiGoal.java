@@ -2,19 +2,28 @@ package com.leclercb.taskunifier.gui.api;
 
 import java.awt.Color;
 
-import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
-public class GuiFolder extends Folder implements GuiModel {
+public class GuiGoal extends Goal implements GuiModel {
 	
 	private Color color;
 	
-	public GuiFolder(ModelId modelId, String title) {
+	public GuiGoal(ModelId modelId, String title) {
 		super(modelId, title);
 	}
 	
-	public GuiFolder(String title) {
+	public GuiGoal(String title) {
 		super(title);
+	}
+	
+	public GuiGoal(ModelId modelId, String title, GoalLevel level) {
+		super(modelId, title, level);
+	}
+	
+	public GuiGoal(String title, GoalLevel level) {
+		super(title, level);
 	}
 	
 	@Override

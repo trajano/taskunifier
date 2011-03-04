@@ -39,17 +39,23 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.api.GuiContext;
 import com.leclercb.taskunifier.gui.api.GuiFolder;
-import com.leclercb.taskunifier.gui.api.GuiFolderFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.GuiGoal;
+import com.leclercb.taskunifier.gui.api.GuiLocation;
+import com.leclercb.taskunifier.gui.api.coders.GuiContextFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.coders.GuiFolderFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.coders.GuiGoalFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.coders.GuiLocationFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -254,12 +260,14 @@ public class Main {
 	}
 	
 	private static void loadModels() throws Exception {
+		ContextFactory.initializeWithClass(GuiContext.class);
 		FolderFactory.initializeWithClass(GuiFolder.class);
+		GoalFactory.initializeWithClass(GuiGoal.class);
+		LocationFactory.initializeWithClass(GuiLocation.class);
 		
 		try {
-			new ContextFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
-					+ File.separator
-					+ "contexts.xml"));
+			new GuiContextFactoryXMLCoder().decode(new FileInputStream(
+					DATA_FOLDER + File.separator + "contexts.xml"));
 		} catch (FileNotFoundException e) {}
 		
 		try {
@@ -268,13 +276,13 @@ public class Main {
 		} catch (FileNotFoundException e) {}
 		
 		try {
-			new GoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+			new GuiGoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "goals.xml"));
 		} catch (FileNotFoundException e) {}
 		
 		try {
-			new LocationFactoryXMLCoder().decode(new FileInputStream(
+			new GuiLocationFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "locations.xml"));
 		} catch (FileNotFoundException e) {}
 		
@@ -341,14 +349,13 @@ public class Main {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		
 		try {
-			new ContextFactoryXMLCoder().encode(new FileOutputStream(
+			new GuiContextFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "contexts.xml"));
 			new GuiFolderFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "folders.xml"));
-			new GoalFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
-					+ File.separator
-					+ "goals.xml"));
-			new LocationFactoryXMLCoder().encode(new FileOutputStream(
+			new GuiGoalFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "goals.xml"));
+			new GuiLocationFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "locations.xml"));
 			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
 					+ File.separator

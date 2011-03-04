@@ -18,7 +18,14 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -26,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -34,6 +42,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.GuiContext;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -49,6 +58,8 @@ public class ContextConfigurationPanel extends JSplitPane {
 		
 		// Initialize Fields
 		final JTextField contextTitle = new JTextField(30);
+		final JLabel contextColor = new JLabel();
+		final JColorChooser contextColorChooser = new JColorChooser();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new ContextModel(false)) {
@@ -80,6 +91,15 @@ public class ContextConfigurationPanel extends JSplitPane {
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Context) model : null);
 				contextTitle.setEnabled(model != null);
+				contextColor.setEnabled(model != null);
+				
+				if (model == null) {
+					contextColor.setBackground(Color.WHITE);
+					contextColorChooser.setColor(Color.WHITE);
+				} else {
+					contextColor.setBackground(((GuiContext) model).getColor());
+					contextColorChooser.setColor(((GuiContext) model).getColor());
+				}
 			}
 			
 		};
@@ -105,8 +125,46 @@ public class ContextConfigurationPanel extends JSplitPane {
 		contextTitle.setEnabled(false);
 		info.add(contextTitle);
 		
+		// Context Color
+		label = new JLabel(Translations.getString("general.context.color")
+				+ ":", SwingConstants.TRAILING);
+		info.add(label);
+		
+		contextColor.setOpaque(true);
+		contextColor.setBackground(Color.WHITE);
+		contextColor.setBorder(new LineBorder(Color.BLACK));
+		
+		contextColorChooser.setColor(Color.WHITE);
+		
+		final JDialog colorDialog = JColorChooser.createDialog(
+				this,
+				"Color",
+				true,
+				contextColorChooser,
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						contextColor.setBackground(contextColorChooser.getColor());
+						((GuiContext) modelList.getSelectedModel()).setColor(contextColorChooser.getColor());
+					}
+					
+				},
+				null);
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				colorDialog.setVisible(true);
+			}
+			
+		});
+		
+		info.add(contextColor);
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
+		SpringUtils.makeCompactGrid(info, 2, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,

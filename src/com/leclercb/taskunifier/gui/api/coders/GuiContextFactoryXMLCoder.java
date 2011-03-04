@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.api;
+package com.leclercb.taskunifier.gui.api.coders;
 
 import java.awt.Color;
 import java.util.Calendar;
@@ -30,15 +30,16 @@ import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.XMLUtils;
-import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.gui.api.GuiContext;
 
-public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
+public class GuiContextFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
-	public GuiFolderFactoryXMLCoder() {
-		super("folders");
+	public GuiContextFactoryXMLCoder() {
+		super("contexts");
 	}
 	
 	@Override
@@ -46,13 +47,13 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 		CheckUtils.isNotNull(root, "Root cannot be null");
 		
 		try {
-			NodeList nFolders = root.getChildNodes();
+			NodeList nContexts = root.getChildNodes();
 			
-			for (int i = 0; i < nFolders.getLength(); i++) {
-				if (!nFolders.item(i).getNodeName().equals("folder"))
+			for (int i = 0; i < nContexts.getLength(); i++) {
+				if (!nContexts.item(i).getNodeName().equals("context"))
 					continue;
 				
-				NodeList nFolder = nFolders.item(i).getChildNodes();
+				NodeList nContext = nContexts.item(i).getChildNodes();
 				
 				ModelId modelId = null;
 				ModelStatus modelStatus = null;
@@ -60,8 +61,8 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				String title = null;
 				Color color = null;
 				
-				for (int j = 0; j < nFolder.getLength(); j++) {
-					Node element = nFolder.item(j);
+				for (int j = 0; j < nContext.getLength(); j++) {
+					Node element = nContext.item(j);
 					
 					if (element.getNodeName().equals("modelid"))
 						if (element.getTextContent().length() != 0)
@@ -87,19 +88,19 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 									Integer.parseInt(element.getTextContent()));
 				}
 				
-				GuiFolder folder = (GuiFolder) FolderFactory.getInstance().get(
+				GuiContext context = (GuiContext) ContextFactory.getInstance().get(
 						modelId);
 				
-				if (folder == null)
-					folder = (GuiFolder) FolderFactory.getInstance().createShell(
+				if (context == null)
+					context = (GuiContext) ContextFactory.getInstance().createShell(
 							modelId);
 				
-				folder.setTitle(title);
-				folder.setColor(color);
+				context.setTitle(title);
+				context.setColor(color);
 				
 				// After all other setXxx methods
-				folder.setModelStatus(modelStatus);
-				folder.setModelUpdateDate(modelUpdateDate);
+				context.setModelStatus(modelStatus);
+				context.setModelUpdateDate(modelUpdateDate);
 			}
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
@@ -109,36 +110,36 @@ public class GuiFolderFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	@Override
 	protected void encode(Document document, Element root)
 			throws FactoryCoderException {
-		List<Folder> folders = FolderFactory.getInstance().getList();
+		List<Context> contexts = ContextFactory.getInstance().getList();
 		
-		for (Folder folder : folders) {
-			GuiFolder guiFolder = (GuiFolder) folder;
+		for (Context context : contexts) {
+			GuiContext guiContext = (GuiContext) context;
 			
-			Element nFolder = document.createElement("folder");
-			root.appendChild(nFolder);
+			Element nContext = document.createElement("context");
+			root.appendChild(nContext);
 			
 			Element modelId = document.createElement("modelid");
-			modelId.setAttribute("isnew", folder.getModelId().isNewId() + "");
-			modelId.setTextContent(folder.getModelId().getId());
-			nFolder.appendChild(modelId);
+			modelId.setAttribute("isnew", context.getModelId().isNewId() + "");
+			modelId.setTextContent(context.getModelId().getId());
+			nContext.appendChild(modelId);
 			
 			Element modelStatus = document.createElement("modelstatus");
-			modelStatus.setTextContent(folder.getModelStatus().name());
-			nFolder.appendChild(modelStatus);
+			modelStatus.setTextContent(context.getModelStatus().name());
+			nContext.appendChild(modelStatus);
 			
 			Element modelUpdateDate = document.createElement("modelupdatedate");
-			modelUpdateDate.setTextContent(folder.getModelUpdateDate().getTimeInMillis()
+			modelUpdateDate.setTextContent(context.getModelUpdateDate().getTimeInMillis()
 					+ "");
-			nFolder.appendChild(modelUpdateDate);
+			nContext.appendChild(modelUpdateDate);
 			
 			Element title = document.createElement("title");
-			title.setTextContent(folder.getTitle());
-			nFolder.appendChild(title);
+			title.setTextContent(context.getTitle());
+			nContext.appendChild(title);
 			
 			Element color = document.createElement("color");
-			color.setTextContent(guiFolder.getColor() != null ? guiFolder.getColor().getRGB()
+			color.setTextContent(guiContext.getColor() != null ? guiContext.getColor().getRGB()
 					+ "" : "");
-			nFolder.appendChild(color);
+			nContext.appendChild(color);
 		}
 	}
 	

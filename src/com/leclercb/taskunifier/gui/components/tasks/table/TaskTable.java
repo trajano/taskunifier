@@ -69,6 +69,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRen
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.RepeatRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorityRenderer;
@@ -94,6 +95,7 @@ public class TaskTable extends JTable {
 	
 	private static final DefaultRenderer DEFAULT_RENDERER;
 	private static final CheckBoxRenderer CHECK_BOX_RENDERER;
+	private static final ModelRenderer MODEL_RENDERER;
 	private static final CalendarRenderer DATE_RENDERER;
 	private static final RepeatRenderer REPEAT_RENDERER;
 	private static final LengthRenderer LENGTH_RENDERER;
@@ -124,6 +126,7 @@ public class TaskTable extends JTable {
 		// RENDERERS
 		DEFAULT_RENDERER = new DefaultRenderer();
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
+		MODEL_RENDERER = new ModelRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
@@ -544,6 +547,11 @@ public class TaskTable extends JTable {
 				return TASK_TITLE_RENDERER;
 			case COMPLETED:
 				return CHECK_BOX_RENDERER;
+			case CONTEXT:
+			case FOLDER:
+			case GOAL:
+			case LOCATION:
+				return MODEL_RENDERER;
 			case COMPLETED_ON:
 				return DATE_RENDERER;
 			case DUE_DATE:
