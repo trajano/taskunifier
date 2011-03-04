@@ -66,6 +66,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case START_DATE:
 				case REMINDER:
 				case LENGTH:
+				case IMPORTANCE:
 					try {
 						value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
 					} catch (NumberFormatException e) {
@@ -276,6 +277,12 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setSelectedIndex(0);
 				this.elementValue.setEditable(true);
 				break;
+			case IMPORTANCE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						TaskFilter.NumberCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
 		}
 		
 		if (condition == null)

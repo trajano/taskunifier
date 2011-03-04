@@ -185,6 +185,20 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	}
 	
 	private void initializeExpandedState() {
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().startsWith("searcher.category"))
+					updateExpandedState();
+			}
+			
+		});
+		
+		updateExpandedState();
+	}
+	
+	private void updateExpandedState() {
 		Boolean expanded;
 		
 		expanded = Main.SETTINGS.getBooleanProperty(this.generalCategory.getExpandedPropetyName());

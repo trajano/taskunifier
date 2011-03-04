@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 0.7.5
+	- FR 3196221: Save settings
+	- FR 3194775: Sorting by importance
 	- FR 3195225: Smaller top button bar
 	- FR 3195256: Date format dd.mm.yyyy
 	- FR 3194871: When adding a task, edit title

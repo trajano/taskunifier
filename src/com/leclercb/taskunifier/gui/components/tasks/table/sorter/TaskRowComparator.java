@@ -158,6 +158,9 @@ public class TaskRowComparator implements RowComparator<Object> {
 			case NOTE:
 				result = ((String) o1).compareTo((String) o2);
 				break;
+			case IMPORTANCE:
+				result = ((Integer) o1).compareTo((Integer) o2);
+				break;
 			default:
 				result = 0;
 				break;

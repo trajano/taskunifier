@@ -80,7 +80,6 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		}
 		
 		zos.close();
-		
 	}
 	
 	private void writeIntoZip(

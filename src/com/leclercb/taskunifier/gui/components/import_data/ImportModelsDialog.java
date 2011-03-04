@@ -29,6 +29,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				Translations.getString("general.import_models"),
 				frame,
 				modal,
+				true,
 				"zip",
 				Translations.getString("general.zip_files"));
 	}

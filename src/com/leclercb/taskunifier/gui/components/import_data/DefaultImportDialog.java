@@ -20,6 +20,7 @@ public abstract class DefaultImportDialog extends AbstractImportDialog {
 				title,
 				frame,
 				modal,
+				true,
 				"xml",
 				Translations.getString("general.xml_files"));
 		

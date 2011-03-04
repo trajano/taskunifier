@@ -60,10 +60,12 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.actions.ActionExportModels;
 import com.leclercb.taskunifier.gui.actions.ActionExportSearchers;
+import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionExportTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportModels;
 import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
+import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionInstallPlugin;
 import com.leclercb.taskunifier.gui.actions.ActionLogBug;
@@ -277,12 +279,14 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSearchers(16, 16));
+		importMenu.add(new ActionImportSettings(16, 16));
 		importMenu.add(new ActionImportTemplates(16, 16));
 		fileMenu.add(importMenu);
 		
 		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
 		exportMenu.add(new ActionExportModels(16, 16));
 		exportMenu.add(new ActionExportSearchers(16, 16));
+		exportMenu.add(new ActionExportSettings(16, 16));
 		exportMenu.add(new ActionExportTemplates(16, 16));
 		fileMenu.add(exportMenu);
 		

@@ -37,6 +37,7 @@ public abstract class AbstractImportDialog extends JDialog {
 			String title,
 			Frame frame,
 			boolean modal,
+			boolean showReplaceValues,
 			String fileExtention,
 			String fileExtentionDescription) {
 		super(frame, modal);
@@ -44,15 +45,15 @@ public abstract class AbstractImportDialog extends JDialog {
 		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
 		CheckUtils.isNotNull(
 				fileExtentionDescription,
-				"File extention description cannot be null");
+		"File extention description cannot be null");
 		
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;
 		
-		this.initialize(title);
+		this.initialize(title, showReplaceValues);
 	}
 	
-	private void initialize(String title) {
+	private void initialize(String title, boolean showReplaceValues) {
 		this.setTitle(title);
 		this.setSize(500, 150);
 		this.setResizable(false);
@@ -114,14 +115,16 @@ public abstract class AbstractImportDialog extends JDialog {
 		panel.add(importFilePanel);
 		
 		// Replace values
-		panel.add(new JLabel(
-				Translations.getString("import.delete_existing_values")));
-		this.replaceValues = new JCheckBox();
-		
-		panel.add(this.replaceValues);
+		if (showReplaceValues) {
+			panel.add(new JLabel(
+					Translations.getString("import.delete_existing_values")));
+			this.replaceValues = new JCheckBox();
+			
+			panel.add(this.replaceValues);
+		}
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, 2, 2, 6, 6, 6, 6);
+		SpringUtils.makeCompactGrid(panel, (showReplaceValues? 2 : 1), 2, 6, 6, 6, 6);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
@@ -136,7 +139,8 @@ public abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "IMPORT") {
 					try {
-						if (AbstractImportDialog.this.replaceValues.isSelected())
+						if (replaceValues != null && 
+								AbstractImportDialog.this.replaceValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());

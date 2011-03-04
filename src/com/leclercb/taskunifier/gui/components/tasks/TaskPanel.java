@@ -45,7 +45,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
-		this.loadTaskColumnSettings();
 		
 		this.setLayout(new CardLayout());
 		
@@ -67,43 +66,9 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		this.setView(View.TABLE);
 	}
 	
-	private void loadTaskColumnSettings() {
-		TaskColumn[] columns = TaskColumn.values();
-		for (int i = 0; i < columns.length; i++) {
-			Integer order = Main.SETTINGS.getIntegerProperty("taskcolumn."
-					+ columns[i].name().toLowerCase()
-					+ ".order");
-			Integer width = Main.SETTINGS.getIntegerProperty("taskcolumn."
-					+ columns[i].name().toLowerCase()
-					+ ".width");
-			Boolean visible = Main.SETTINGS.getBooleanProperty("taskcolumn."
-					+ columns[i].name().toLowerCase()
-					+ ".visible");
-			
-			if (order == null)
-				order = 0;
-			
-			if (width == null)
-				width = 100;
-			
-			if (visible == null)
-				visible = true;
-			
-			columns[i].setOrder(order);
-			columns[i].setWidth(width);
-			columns[i].setVisible(visible);
-		}
-	}
-	
 	@Override
 	public void saveSettings() {
-		TaskColumn[] taskColumns = TaskColumn.getValues(false);
-		for (int i = 0; i < taskColumns.length; i++) {
-			Main.SETTINGS.setBooleanProperty("taskcolumn."
-					+ taskColumns[i].name().toLowerCase()
-					+ ".visible", false);
-		}
-		
+		// TODO: add listeners in task table and put this in TaskColumn
 		int i = 0;
 		Enumeration<TableColumn> columns = this.taskTable.getColumnModel().getColumns();
 		while (columns.hasMoreElements()) {
