@@ -45,7 +45,7 @@ public abstract class AbstractImportDialog extends JDialog {
 		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
 		CheckUtils.isNotNull(
 				fileExtentionDescription,
-		"File extention description cannot be null");
+				"File extention description cannot be null");
 		
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;
@@ -124,7 +124,14 @@ public abstract class AbstractImportDialog extends JDialog {
 		}
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, (showReplaceValues? 2 : 1), 2, 6, 6, 6, 6);
+		SpringUtils.makeCompactGrid(
+				panel,
+				(showReplaceValues ? 2 : 1),
+				2,
+				6,
+				6,
+				6,
+				6);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
@@ -139,8 +146,8 @@ public abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "IMPORT") {
 					try {
-						if (replaceValues != null && 
-								AbstractImportDialog.this.replaceValues.isSelected())
+						if (AbstractImportDialog.this.replaceValues != null
+								&& AbstractImportDialog.this.replaceValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());

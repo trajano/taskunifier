@@ -22,7 +22,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void deleteExistingValue() {
-		
+
 	}
 	
 	@Override
@@ -35,8 +35,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				"searcher",
 				"synchronizer",
 				"taskcolumn",
-				"theme"
-		};
+				"theme" };
 		
 		Properties properties = new Properties();
 		properties.load(new FileInputStream(file));
@@ -45,7 +44,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 			String key = (String) entry.getKey();
 			String value = (String) entry.getValue();
 			
-			for (int i=0; i<toImport.length; i++) {
+			for (int i = 0; i < toImport.length; i++) {
 				if (key.startsWith(toImport[i])) {
 					Main.SETTINGS.setStringProperty(key, value);
 					break;

@@ -126,8 +126,8 @@ public class TaskTable extends JTable {
 		CHECK_BOX_RENDERER = new CheckBoxRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
-				+ " "
-				+ Main.SETTINGS.getStringProperty("date.time_format")));
+						+ " "
+						+ Main.SETTINGS.getStringProperty("date.time_format")));
 		REPEAT_RENDERER = new RepeatRenderer();
 		LENGTH_RENDERER = new LengthRenderer(
 				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
@@ -151,8 +151,8 @@ public class TaskTable extends JTable {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		String mask = DateTimeFormatUtils.getMask(dateFormat)
-		+ " "
-		+ DateTimeFormatUtils.getMask(timeFormat);
+				+ " "
+				+ DateTimeFormatUtils.getMask(timeFormat);
 		
 		DATE_EDITOR = new DateEditor(dateFormat + " " + timeFormat, mask);
 		// DATE EDITOR
@@ -358,23 +358,25 @@ public class TaskTable extends JTable {
 				
 				if (evt.getPropertyName().equals(TaskColumn.PROP_WIDTH)) {
 					try {
-						TableColumn tableCol = getColumn(column);
+						TableColumn tableCol = TaskTable.this.getColumn(column);
 						System.out.println(column + " : " + evt.getNewValue());
 						tableCol.setPreferredWidth((Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-						
+
 					}
 				}
 				
 				if (evt.getPropertyName().equals(TaskColumn.PROP_ORDER)) {
 					// TODO: fix set order problem
 					System.out.println(column + " : " + evt.getNewValue());
-					TaskTableColumnModel columnModel = (TaskTableColumnModel) getColumnModel();
+					TaskTableColumnModel columnModel = (TaskTableColumnModel) TaskTable.this.getColumnModel();
 					
 					try {
-						columnModel.moveColumn(columnModel.getColumnIndex(column), (Integer) evt.getNewValue());
+						columnModel.moveColumn(
+								columnModel.getColumnIndex(column),
+								(Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-						
+
 					}
 				}
 			}
@@ -405,17 +407,17 @@ public class TaskTable extends JTable {
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCutAction().getValue(Action.NAME));
+				TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCopyAction().getValue(Action.NAME));
+				TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getPasteAction().getValue(Action.NAME));
+				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 	private void initiliazeTableSorter() {

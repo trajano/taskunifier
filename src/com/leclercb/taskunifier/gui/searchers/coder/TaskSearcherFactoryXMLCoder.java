@@ -164,7 +164,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			TaskFilter filter = new TaskFilter();
 			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(
 					node,
-			"link")));
+					"link")));
 			
 			for (int i = 0; i < nFilter.getLength(); i++) {
 				if (nFilter.item(i).getNodeName().equals("element")) {
@@ -184,7 +184,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						
 						if (nElement.item(j).getNodeName().equals("condition")) {
 							String[] values = nElement.item(j).getTextContent().split(
-							"\\.");
+									"\\.");
 							conditionClass = values[0];
 							enumName = values[1];
 						}
@@ -280,7 +280,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							try {
 								Boolean newId = XMLUtils.getBooleanAttributeValue(
 										valueNode,
-								"isnew");
+										"isnew");
 								
 								if (newId == null)
 									newId = false;

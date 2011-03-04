@@ -64,10 +64,7 @@ public enum TaskColumn {
 	private String label;
 	private boolean editable;
 	
-	private TaskColumn(
-			Class<?> type,
-			String label,
-			boolean editable) {
+	private TaskColumn(Class<?> type, String label, boolean editable) {
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
@@ -80,20 +77,23 @@ public enum TaskColumn {
 					if (evt.getNewValue() == null)
 						return;
 					
-					if (evt.getPropertyName().equals("taskcolumn."
-							+ name().toLowerCase()
-							+ ".order"))
-						setOrder(Integer.parseInt(evt.getNewValue().toString()));
+					if (evt.getPropertyName().equals(
+							"taskcolumn."
+									+ TaskColumn.this.name().toLowerCase()
+									+ ".order"))
+						TaskColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
 					
-					if (evt.getPropertyName().equals("taskcolumn."
-							+ name().toLowerCase()
-							+ ".width"))
-						setWidth(Integer.parseInt(evt.getNewValue().toString()));
+					if (evt.getPropertyName().equals(
+							"taskcolumn."
+									+ TaskColumn.this.name().toLowerCase()
+									+ ".width"))
+						TaskColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
 					
-					if (evt.getPropertyName().equals("taskcolumn."
-							+ name().toLowerCase()
-							+ ".visible"))
-						setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
+					if (evt.getPropertyName().equals(
+							"taskcolumn."
+									+ TaskColumn.this.name().toLowerCase()
+									+ ".visible"))
+						TaskColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
 				}
 			}
 			
@@ -120,6 +120,9 @@ public enum TaskColumn {
 	}
 	
 	public void setOrder(int order) {
+		if (order == this.getOrder())
+			return;
+		
 		int oldOrder = this.getOrder();
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
@@ -147,6 +150,9 @@ public enum TaskColumn {
 	}
 	
 	public void setWidth(int width) {
+		if (width == this.getWidth())
+			return;
+		
 		int oldWidth = this.getWidth();
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
@@ -174,6 +180,9 @@ public enum TaskColumn {
 	}
 	
 	public void setVisible(boolean visible) {
+		if (visible == this.isVisible())
+			return;
+		
 		boolean oldVisible = this.isVisible();
 		Main.SETTINGS.setBooleanProperty("taskcolumn."
 				+ this.name().toLowerCase()

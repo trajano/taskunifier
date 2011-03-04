@@ -190,12 +190,12 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().startsWith("searcher.category"))
-					updateExpandedState();
+					SearcherList.this.updateExpandedState();
 			}
 			
 		});
 		
-		updateExpandedState();
+		this.updateExpandedState();
 	}
 	
 	private void updateExpandedState() {

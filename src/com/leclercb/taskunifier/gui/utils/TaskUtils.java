@@ -12,7 +12,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 public final class TaskUtils {
 	
 	private TaskUtils() {
-		
+
 	}
 	
 	public static int getImportance(Task task) {
@@ -21,14 +21,24 @@ public final class TaskUtils {
 		int importance = 2;
 		
 		switch (task.getPriority()) {
-			case NEGATIVE: importance += -1; break;
-			case LOW: importance += 0; break;
-			case MEDIUM: importance += 1; break;
-			case HIGH: importance += 2; break;
-			case TOP: importance += 3; break;
+			case NEGATIVE:
+				importance += -1;
+				break;
+			case LOW:
+				importance += 0;
+				break;
+			case MEDIUM:
+				importance += 1;
+				break;
+			case HIGH:
+				importance += 2;
+				break;
+			case TOP:
+				importance += 3;
+				break;
 		}
 		
-		importance += (task.isStar()? 1 : 0);
+		importance += (task.isStar() ? 1 : 0);
 		
 		if (task.getDueDate() != null) {
 			long milliSeconds1 = task.getDueDate().getTimeInMillis();
