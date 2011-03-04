@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ImportSettingsDialog extends AbstractImportDialog {
@@ -22,7 +25,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void deleteExistingValue() {
-
+		
 	}
 	
 	@Override
@@ -35,7 +38,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				"searcher",
 				"synchronizer",
 				"taskcolumn",
-				"theme" };
+		"theme" };
 		
 		Properties properties = new Properties();
 		properties.load(new FileInputStream(file));
@@ -51,6 +54,13 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				}
 			}
 		}
+		
+		JOptionPane.showMessageDialog(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString(
+				"configuration.general.settings_changed_after_restart"),
+				Translations.getString("general.information"),
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 }

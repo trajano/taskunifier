@@ -18,7 +18,14 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -26,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -34,6 +42,7 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.GuiFolder;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -49,6 +58,8 @@ public class FolderConfigurationPanel extends JSplitPane {
 		
 		// Initialize Fields
 		final JTextField folderTitle = new JTextField(30);
+		final JLabel folderColor = new JLabel();
+		final JColorChooser folderColorChooser = new JColorChooser(); 
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new FolderModel(false)) {
@@ -80,6 +91,15 @@ public class FolderConfigurationPanel extends JSplitPane {
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Folder) model : null);
 				folderTitle.setEnabled(model != null);
+				folderColor.setEnabled(model != null);
+				
+				if (model == null) {
+					folderColor.setBackground(Color.WHITE);
+					folderColorChooser.setColor(Color.WHITE);
+				} else {
+					folderColor.setBackground(((GuiFolder) model).getColor());
+					folderColorChooser.setColor(((GuiFolder) model).getColor());
+				}
 			}
 			
 		};
@@ -106,8 +126,47 @@ public class FolderConfigurationPanel extends JSplitPane {
 		folderTitle.setEnabled(false);
 		info.add(folderTitle);
 		
+		// Folder Color
+		label = new JLabel(
+				Translations.getString("general.folder.color") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		folderColor.setOpaque(true);
+		folderColor.setBackground(Color.WHITE);
+		folderColor.setBorder(new LineBorder(Color.BLACK));
+		
+		folderColorChooser.setColor(Color.WHITE);
+		
+		final JDialog colorDialog = JColorChooser.createDialog(
+				this,
+				"Color",
+				true,
+				folderColorChooser,
+				new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						folderColor.setBackground(folderColorChooser.getColor());
+						((GuiFolder) modelList.getSelectedModel()).setColor(folderColorChooser.getColor());
+					}
+					
+				},
+				null);
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				colorDialog.setVisible(true);
+			}
+			
+		});
+		
+		info.add(folderColor);
+		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 1, 2, // rows, cols
+		SpringUtils.makeCompactGrid(info, 2, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,

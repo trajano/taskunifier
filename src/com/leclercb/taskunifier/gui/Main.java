@@ -39,8 +39,8 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
@@ -48,6 +48,8 @@ import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.api.GuiFolder;
+import com.leclercb.taskunifier.gui.api.GuiFolderFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -165,7 +167,7 @@ public class Main {
 			
 			if (!EqualsUtils.equals(
 					System.getProperty("com.leclercb.taskunifier.debug_mode"),
-					"true")) {
+			"true")) {
 				System.setOut(NEW_STREAM);
 				System.setErr(NEW_STREAM);
 			}
@@ -208,7 +210,7 @@ public class Main {
 			 * Exception(Translations.getString( "error.data_folder_needed",
 			 * Constants.TITLE));
 			 */
-
+			
 			if (!file.mkdir())
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
@@ -252,6 +254,8 @@ public class Main {
 	}
 	
 	private static void loadModels() throws Exception {
+		FolderFactory.initializeWithClass(GuiFolder.class);
+		
 		try {
 			new ContextFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
@@ -259,7 +263,7 @@ public class Main {
 		} catch (FileNotFoundException e) {}
 		
 		try {
-			new FolderFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+			new GuiFolderFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "folders.xml"));
 		} catch (FileNotFoundException e) {}
@@ -338,10 +342,9 @@ public class Main {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		
 		try {
-			
 			new ContextFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "contexts.xml"));
-			new FolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
+			new GuiFolderFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
 					+ File.separator
 					+ "folders.xml"));
 			new GoalFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
@@ -390,18 +393,18 @@ public class Main {
 					
 					String logFileContent = FileUtils.readFileToString(
 							logFile,
-							"UTF-8");
+					"UTF-8");
 					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
 					log = "\n\n\n---------- "
-							+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
-							+ " ----------\n\n"
-							+ log;
+						+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
+						+ " ----------\n\n"
+						+ log;
 					
 					FileUtils.writeStringToFile(logFile, logFileContent + log);
 				}
 			} catch (Exception e) {
 				GuiLogger.getLogger().severe(
-						"Could not copy log information into log file");
+				"Could not copy log information into log file");
 			}
 		}
 		
