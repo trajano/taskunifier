@@ -10,7 +10,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.api.GuiFolder;
+import com.leclercb.taskunifier.gui.api.GuiModel;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.searchers.TaskFilter;
@@ -33,14 +33,14 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		super(
 				(model == null ? Translations.getString("searcherlist.none") : model.getTitle()));
 		
-		if (model instanceof GuiFolder)
+		if (model instanceof GuiModel)
 			this.setIcon(new ColorBadgeIcon(
-					((GuiFolder) model).getColor(),
-					16,
-					16));
+					((GuiModel) model).getColor(),
+					12,
+					12));
 		
-		if (model == null && modelType == ModelType.FOLDER)
-			this.setIcon(new ColorBadgeIcon(null, 16, 16));
+		if (model == null)
+			this.setIcon(new ColorBadgeIcon(null, 12, 12));
 		
 		this.modelType = modelType;
 		this.model = model;

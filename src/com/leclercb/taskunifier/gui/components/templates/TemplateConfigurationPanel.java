@@ -55,6 +55,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.help.Help;
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
@@ -390,6 +391,15 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				Translations.getString("general.task.star") + ":",
 				SwingConstants.TRAILING);
 		info.add(label);
+		
+		templateTaskStar.setIcon(Images.getResourceImage(
+				"checkbox_star.png",
+				18,
+				18));
+		templateTaskStar.setSelectedIcon(Images.getResourceImage(
+				"checkbox_star_selected.png",
+				18,
+				18));
 		
 		templateTaskStar.setEnabled(false);
 		info.add(templateTaskStar);

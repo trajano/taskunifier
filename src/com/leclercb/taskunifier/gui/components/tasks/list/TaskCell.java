@@ -59,8 +59,11 @@ public class TaskCell extends JPanel {
 		this.completed = new JCheckBox();
 		
 		this.star = new JCheckBox();
-		this.star.setIcon(Images.getResourceImage("checkbox_star.gif"));
-		this.star.setSelectedIcon(Images.getResourceImage("checkbox_star_selected.gif"));
+		this.star.setIcon(Images.getResourceImage("checkbox_star.png", 18, 18));
+		this.star.setSelectedIcon(Images.getResourceImage(
+				"checkbox_star_selected.png",
+				18,
+				18));
 		
 		this.title = new JTextField();
 		

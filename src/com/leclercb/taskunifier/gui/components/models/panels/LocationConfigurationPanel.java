@@ -115,8 +115,8 @@ public class LocationConfigurationPanel extends JSplitPane {
 				locationColor.setEnabled(model != null);
 				
 				if (model == null) {
-					locationColor.setBackground(Color.WHITE);
-					locationColorChooser.setColor(Color.WHITE);
+					locationColor.setBackground(Color.GRAY);
+					locationColorChooser.setColor(Color.GRAY);
 				} else {
 					locationColor.setBackground(((GuiLocation) model).getColor());
 					locationColorChooser.setColor(((GuiLocation) model).getColor());
@@ -176,11 +176,12 @@ public class LocationConfigurationPanel extends JSplitPane {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
+		locationColor.setEnabled(false);
 		locationColor.setOpaque(true);
-		locationColor.setBackground(Color.WHITE);
+		locationColor.setBackground(Color.GRAY);
 		locationColor.setBorder(new LineBorder(Color.BLACK));
 		
-		locationColorChooser.setColor(Color.WHITE);
+		locationColorChooser.setColor(Color.GRAY);
 		
 		final JDialog colorDialog = JColorChooser.createDialog(
 				this,
@@ -202,7 +203,8 @@ public class LocationConfigurationPanel extends JSplitPane {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				colorDialog.setVisible(true);
+				if (locationColor.isEnabled())
+					colorDialog.setVisible(true);
 			}
 			
 		});

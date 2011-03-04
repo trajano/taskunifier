@@ -94,8 +94,8 @@ public class ContextConfigurationPanel extends JSplitPane {
 				contextColor.setEnabled(model != null);
 				
 				if (model == null) {
-					contextColor.setBackground(Color.WHITE);
-					contextColorChooser.setColor(Color.WHITE);
+					contextColor.setBackground(Color.GRAY);
+					contextColorChooser.setColor(Color.GRAY);
 				} else {
 					contextColor.setBackground(((GuiContext) model).getColor());
 					contextColorChooser.setColor(((GuiContext) model).getColor());
@@ -130,11 +130,12 @@ public class ContextConfigurationPanel extends JSplitPane {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
+		contextColor.setEnabled(false);
 		contextColor.setOpaque(true);
-		contextColor.setBackground(Color.WHITE);
+		contextColor.setBackground(Color.GRAY);
 		contextColor.setBorder(new LineBorder(Color.BLACK));
 		
-		contextColorChooser.setColor(Color.WHITE);
+		contextColorChooser.setColor(Color.GRAY);
 		
 		final JDialog colorDialog = JColorChooser.createDialog(
 				this,
@@ -156,7 +157,8 @@ public class ContextConfigurationPanel extends JSplitPane {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				colorDialog.setVisible(true);
+				if (contextColor.isEnabled())
+					colorDialog.setVisible(true);
 			}
 			
 		});

@@ -94,8 +94,8 @@ public class FolderConfigurationPanel extends JSplitPane {
 				folderColor.setEnabled(model != null);
 				
 				if (model == null) {
-					folderColor.setBackground(Color.WHITE);
-					folderColorChooser.setColor(Color.WHITE);
+					folderColor.setBackground(Color.GRAY);
+					folderColorChooser.setColor(Color.GRAY);
 				} else {
 					folderColor.setBackground(((GuiFolder) model).getColor());
 					folderColorChooser.setColor(((GuiFolder) model).getColor());
@@ -132,11 +132,12 @@ public class FolderConfigurationPanel extends JSplitPane {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
+		folderColor.setEnabled(false);
 		folderColor.setOpaque(true);
-		folderColor.setBackground(Color.WHITE);
+		folderColor.setBackground(Color.GRAY);
 		folderColor.setBorder(new LineBorder(Color.BLACK));
 		
-		folderColorChooser.setColor(Color.WHITE);
+		folderColorChooser.setColor(Color.GRAY);
 		
 		final JDialog colorDialog = JColorChooser.createDialog(
 				this,
@@ -158,7 +159,8 @@ public class FolderConfigurationPanel extends JSplitPane {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				colorDialog.setVisible(true);
+				if (folderColor.isEnabled())
+					colorDialog.setVisible(true);
 			}
 			
 		});

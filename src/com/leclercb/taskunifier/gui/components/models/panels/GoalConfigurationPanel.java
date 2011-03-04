@@ -115,8 +115,8 @@ public class GoalConfigurationPanel extends JSplitPane {
 				goalColor.setEnabled(model != null);
 				
 				if (model == null) {
-					goalColor.setBackground(Color.WHITE);
-					goalColorChooser.setColor(Color.WHITE);
+					goalColor.setBackground(Color.GRAY);
+					goalColorChooser.setColor(Color.GRAY);
 				} else {
 					goalColor.setBackground(((GuiGoal) model).getColor());
 					goalColorChooser.setColor(((GuiGoal) model).getColor());
@@ -185,11 +185,12 @@ public class GoalConfigurationPanel extends JSplitPane {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
+		goalColor.setEnabled(false);
 		goalColor.setOpaque(true);
-		goalColor.setBackground(Color.WHITE);
+		goalColor.setBackground(Color.GRAY);
 		goalColor.setBorder(new LineBorder(Color.BLACK));
 		
-		goalColorChooser.setColor(Color.WHITE);
+		goalColorChooser.setColor(Color.GRAY);
 		
 		final JDialog colorDialog = JColorChooser.createDialog(
 				this,
@@ -211,7 +212,8 @@ public class GoalConfigurationPanel extends JSplitPane {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				colorDialog.setVisible(true);
+				if (goalColor.isEnabled())
+					colorDialog.setVisible(true);
 			}
 			
 		});
