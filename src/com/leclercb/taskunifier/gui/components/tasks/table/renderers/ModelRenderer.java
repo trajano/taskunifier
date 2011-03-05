@@ -33,7 +33,7 @@ public class ModelRenderer extends DefaultRenderer {
 	public void setValue(Object value) {
 		if (!(value instanceof Model)) {
 			this.setText("");
-			this.setIcon(new ColorBadgeIcon(Color.GRAY, 12, 12));
+			this.setIcon(null);
 			return;
 		}
 		
