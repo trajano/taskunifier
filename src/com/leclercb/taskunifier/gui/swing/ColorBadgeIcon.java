@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.utils;
+package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -15,7 +15,7 @@ public class ColorBadgeIcon implements Icon {
 	private int height;
 	
 	public ColorBadgeIcon(Color color, int width, int height) {
-		this.color = (color == null ? Color.GRAY : color);
+		this.color = color;
 		this.width = width;
 		this.height = height;
 	}
@@ -36,6 +36,9 @@ public class ColorBadgeIcon implements Icon {
 	
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
+		if (color == null)
+			return;
+		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(
 				RenderingHints.KEY_ANTIALIASING,

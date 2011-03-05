@@ -17,23 +17,21 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import java.awt.Color;
-
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.GuiModel;
-import com.leclercb.taskunifier.gui.utils.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 
 public class ModelRenderer extends DefaultRenderer {
 	
 	public ModelRenderer() {
-
+		
 	}
 	
 	@Override
 	public void setValue(Object value) {
 		if (!(value instanceof Model)) {
 			this.setText("");
-			this.setIcon(null);
+			this.setIcon(new ColorBadgeIcon(null, 12, 12));
 			return;
 		}
 		
@@ -45,7 +43,7 @@ public class ModelRenderer extends DefaultRenderer {
 					12,
 					12));
 		else
-			this.setIcon(new ColorBadgeIcon(Color.GRAY, 12, 12));
+			this.setIcon(new ColorBadgeIcon(null, 12, 12));
 	}
 	
 }
