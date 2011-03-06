@@ -67,7 +67,7 @@ public final class SettingsVersion {
 			version = updateSettings_0_7_3_to_0_7_4();
 		
 		if (version.equals("0.7.4"))
-			version = "0.7.5";
+			version = updateSettings_0_7_4_to_0_8_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -206,6 +206,15 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("synchronizer.sync_exit", "false");
 		
 		return "0.7.4";
+	}
+	
+	private static String updateSettings_0_7_4_to_0_8_0() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.7.4 to 0.8.0");
+		
+		Main.SETTINGS.setStringProperty("task.show_edit_window_on_add", "false");
+		
+		return "0.8.0";
 	}
 	
 }

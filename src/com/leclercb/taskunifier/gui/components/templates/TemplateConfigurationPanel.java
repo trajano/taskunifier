@@ -442,7 +442,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		field.requestFocus();
 	}
 	
-	private static class ModelConverter extends AbstractConverter {
+	public static class ModelConverter extends AbstractConverter {
 		
 		private ModelType type;
 		

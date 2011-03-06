@@ -61,6 +61,9 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"date.time_format",
 					(SimpleDateFormat) this.getValue("TIME_FORMAT"));
 			Main.SETTINGS.setBooleanProperty(
+					"task.show_edit_window_on_add",
+					(Boolean) this.getValue("SHOW_EDIT_WINDOW_ON_ADD"));
+			Main.SETTINGS.setBooleanProperty(
 					"searcher.show_completed_tasks",
 					(Boolean) this.getValue("SHOW_COMPLETED_TASKS"));
 			Main.SETTINGS.setBooleanProperty(
@@ -120,6 +123,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"dd/MM/yyyy");
 			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
 					"dd/MM/yyyy");
+			Boolean generalShowEditWindowOnAdd = false;
 			Boolean generalShowCompletedTasks = true;
 			Boolean generalShowCompletedTasksAtTheEnd = false;
 			
@@ -128,6 +132,9 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
 				generalTimeFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
+			
+			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null)
+				generalShowEditWindowOnAdd = Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add");
 			
 			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
 				generalShowCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
@@ -168,6 +175,17 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
+					null,
+					new ConfigurationFieldType.Separator()));
+			
+			this.addField(new ConfigurationField(
+					"SHOW_EDIT_WINDOW_ON_ADD",
+					Translations.getString("configuration.general.show_edit_window_on_add"),
+					new ConfigurationFieldType.CheckBox(
+							generalShowEditWindowOnAdd)));
+			
+			this.addField(new ConfigurationField(
+					"SEPARATOR_3",
 					null,
 					new ConfigurationFieldType.Separator()));
 			

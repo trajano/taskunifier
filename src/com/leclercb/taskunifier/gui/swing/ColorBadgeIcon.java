@@ -36,7 +36,7 @@ public class ColorBadgeIcon implements Icon {
 	
 	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
-		if (color == null)
+		if (this.color == null)
 			return;
 		
 		Graphics2D g2 = (Graphics2D) g;

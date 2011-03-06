@@ -70,4 +70,5 @@ public class RepeatEditor extends DefaultCellEditor {
 		
 		return component;
 	}
+	
 }

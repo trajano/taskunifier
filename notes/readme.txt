@@ -1,7 +1,8 @@
 HISTORY
 -------
 
-Version 0.7.5
+Version 0.8.0
+	- FR 3195235: Form to add/edit tasks
 	- FR 3197261: Color for folders
 	- FR 3196221: Save settings
 	- FR 3194775: Sorting by importance

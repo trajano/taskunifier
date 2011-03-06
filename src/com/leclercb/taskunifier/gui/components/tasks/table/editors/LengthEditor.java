@@ -18,8 +18,10 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import java.awt.Component;
+import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JSpinner;
@@ -72,6 +74,18 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 		
 		return (calendar.get(Calendar.HOUR_OF_DAY) * 60)
 				+ calendar.get(Calendar.MINUTE);
+	}
+	
+	@Override
+	public boolean isCellEditable(EventObject anEvent) {
+		if (anEvent instanceof MouseEvent) {
+			MouseEvent event = (MouseEvent) anEvent;
+			
+			if (event.getClickCount() != 1)
+				return false;
+		}
+		
+		return super.isCellEditable(anEvent);
 	}
 	
 }

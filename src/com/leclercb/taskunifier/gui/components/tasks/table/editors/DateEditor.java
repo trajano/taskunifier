@@ -23,7 +23,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
 import java.util.Calendar;
+import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
@@ -31,7 +33,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -42,7 +46,14 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	private JDateChooser dateChooser;
 	private JButton buttonRemove;
 	
-	public DateEditor(final String format, final String mask) {
+	public DateEditor() {
+		final String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		final String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		final String format = dateFormat + " " + timeFormat;
+		final String mask = DateTimeFormatUtils.getMask(dateFormat)
+				+ " "
+				+ DateTimeFormatUtils.getMask(timeFormat);
+		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
 		
@@ -117,6 +128,18 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	public Object getCellEditorValue() {
 		this.dateEditor.focusLost(null);
 		return this.dateChooser.getCalendar();
+	}
+	
+	@Override
+	public boolean isCellEditable(EventObject anEvent) {
+		if (anEvent instanceof MouseEvent) {
+			MouseEvent event = (MouseEvent) anEvent;
+			
+			if (event.getClickCount() != 1)
+				return false;
+		}
+		
+		return super.isCellEditable(anEvent);
 	}
 	
 }

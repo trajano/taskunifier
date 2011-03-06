@@ -58,6 +58,7 @@ import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDonate;
+import com.leclercb.taskunifier.gui.actions.ActionEditTask;
 import com.leclercb.taskunifier.gui.actions.ActionExportModels;
 import com.leclercb.taskunifier.gui.actions.ActionExportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
@@ -337,6 +338,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		// TEMPLATE
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
+		tasksMenu.add(new ActionEditTask(this.taskPanel, 16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));

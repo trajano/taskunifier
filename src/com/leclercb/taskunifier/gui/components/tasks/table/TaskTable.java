@@ -60,7 +60,9 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
@@ -89,7 +91,6 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 
 public class TaskTable extends JTable {
 	
@@ -106,21 +107,21 @@ public class TaskTable extends JTable {
 	private static final TaskRepeatFromRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TaskStatusRenderer TASK_STATUS_RENDERER;
 	
-	private static final DefaultCellEditor CHECK_BOX_EDITOR;
-	private static final DateEditor DATE_EDITOR;
-	private static final LengthEditor LENGTH_EDITOR;
-	private static final DefaultCellEditor STAR_EDITOR;
+	private static final TableCellEditor CHECK_BOX_EDITOR;
+	private static final TableCellEditor DATE_EDITOR;
+	private static final TableCellEditor LENGTH_EDITOR;
+	private static final TableCellEditor STAR_EDITOR;
 	
-	private static final DefaultCellEditor CONTEXT_EDITOR;
-	private static final DefaultCellEditor FOLDER_EDITOR;
-	private static final DefaultCellEditor GOAL_EDITOR;
-	private static final DefaultCellEditor LOCATION_EDITOR;
+	private static final TableCellEditor CONTEXT_EDITOR;
+	private static final TableCellEditor FOLDER_EDITOR;
+	private static final TableCellEditor GOAL_EDITOR;
+	private static final TableCellEditor LOCATION_EDITOR;
 	
-	private static final RepeatEditor REPEAT_EDITOR;
+	private static final TableCellEditor REPEAT_EDITOR;
 	
-	private static final DefaultCellEditor TASK_PRIORITY_EDITOR;
-	private static final DefaultCellEditor TASK_REPEAT_FROM_EDITOR;
-	private static final DefaultCellEditor TASK_STATUS_EDITOR;
+	private static final TableCellEditor TASK_PRIORITY_EDITOR;
+	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
+	private static final TableCellEditor TASK_STATUS_EDITOR;
 	
 	static {
 		// RENDERERS
@@ -149,16 +150,7 @@ public class TaskTable extends JTable {
 		
 		CHECK_BOX_EDITOR = new DefaultCellEditor(checkBox);
 		LENGTH_EDITOR = new LengthEditor();
-		
-		// DATE EDITOR
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
-		String mask = DateTimeFormatUtils.getMask(dateFormat)
-				+ " "
-				+ DateTimeFormatUtils.getMask(timeFormat);
-		
-		DATE_EDITOR = new DateEditor(dateFormat + " " + timeFormat, mask);
-		// DATE EDITOR
+		DATE_EDITOR = new DateEditor();
 		
 		checkBox = new JCheckBox();
 		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
@@ -338,12 +330,37 @@ public class TaskTable extends JTable {
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
 		
+		this.initializeTaskEdit();
 		this.initializeTaskColumn();
 		
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initiliazeTableSorter();
 		this.initializeTableHeaderMenu();
+	}
+	
+	private void initializeTaskEdit() {
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				// Or BUTTON3 due to a bug with OSX
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
+							TaskTable.this.rowAtPoint(event.getPoint()));
+					
+					Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+					
+					TaskEditDialog dialog = new TaskEditDialog(
+							task,
+							MainFrame.getInstance().getFrame(),
+							true);
+					dialog.setVisible(true);
+				}
+			}
+			
+		});
 	}
 	
 	private void initializeTaskColumn() {

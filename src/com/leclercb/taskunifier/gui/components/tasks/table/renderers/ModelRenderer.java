@@ -24,7 +24,7 @@ import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 public class ModelRenderer extends DefaultRenderer {
 	
 	public ModelRenderer() {
-		
+
 	}
 	
 	@Override

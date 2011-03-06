@@ -60,6 +60,7 @@ public final class Translations {
 	public static List<Locale> getLocales() {
 		List<Locale> locales = new ArrayList<Locale>();
 		
+		locales.add(new Locale("de", "DE"));
 		locales.add(new Locale("en", "US"));
 		locales.add(new Locale("fr", "FR"));
 		locales.add(new Locale("zh", "CN"));

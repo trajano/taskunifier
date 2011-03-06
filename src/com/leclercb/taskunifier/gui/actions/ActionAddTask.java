@@ -26,7 +26,9 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
@@ -62,7 +64,17 @@ public class ActionAddTask extends AbstractAction {
 		if (template != null)
 			template.applyToTask(task);
 		
-		MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(task);
+		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
+				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+			TaskEditDialog dialog = new TaskEditDialog(
+					task,
+					MainFrame.getInstance().getFrame(),
+					true);
+			dialog.setVisible(true);
+		} else {
+			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
+					task);
+		}
 	}
 	
 }
