@@ -26,6 +26,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -47,8 +48,10 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
+import com.leclercb.taskunifier.gui.api.GuiContext;
 import com.leclercb.taskunifier.gui.api.GuiGoal;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
@@ -70,6 +73,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 		final JComboBox goalContributes = new JComboBox();
 		final JLabel goalColor = new JLabel();
 		final JColorChooser goalColorChooser = new JColorChooser();
+		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new GoalModel(false)) {
@@ -114,6 +118,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 				goalLevel.setEnabled(model != null);
 				goalContributes.setEnabled(model != null);
 				goalColor.setEnabled(model != null);
+				removeColor.setEnabled(model != null);
 				
 				if (model == null) {
 					goalColor.setBackground(Color.GRAY);
@@ -220,7 +225,24 @@ public class GoalConfigurationPanel extends JSplitPane {
 			
 		});
 		
-		info.add(goalColor);
+		removeColor.setEnabled(false);
+		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
+		removeColor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				goalColor.setBackground(Color.GRAY);
+				goalColorChooser.setColor(Color.GRAY);
+				((GuiContext) modelList.getSelectedModel()).setColor(null);
+			}
+			
+		});
+		
+		JPanel p = new JPanel(new BorderLayout(5, 0));
+		p.add(goalColor, BorderLayout.CENTER);
+		p.add(removeColor, BorderLayout.EAST);
+		
+		info.add(p);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 4, 2, // rows, cols

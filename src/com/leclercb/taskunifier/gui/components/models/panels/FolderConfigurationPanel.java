@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -42,8 +43,10 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.GuiContext;
 import com.leclercb.taskunifier.gui.api.GuiFolder;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
+import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -60,6 +63,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 		final JTextField folderTitle = new JTextField(30);
 		final JLabel folderColor = new JLabel();
 		final JColorChooser folderColorChooser = new JColorChooser();
+		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
 		final ModelList modelList = new ModelList(new FolderModel(false)) {
@@ -92,6 +96,7 @@ public class FolderConfigurationPanel extends JSplitPane {
 				this.adapter.setBean(model != null ? (Folder) model : null);
 				folderTitle.setEnabled(model != null);
 				folderColor.setEnabled(model != null);
+				removeColor.setEnabled(model != null);
 				
 				if (model == null) {
 					folderColor.setBackground(Color.GRAY);
@@ -165,7 +170,24 @@ public class FolderConfigurationPanel extends JSplitPane {
 			
 		});
 		
-		info.add(folderColor);
+		removeColor.setEnabled(false);
+		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
+		removeColor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				folderColor.setBackground(Color.GRAY);
+				folderColorChooser.setColor(Color.GRAY);
+				((GuiContext) modelList.getSelectedModel()).setColor(null);
+			}
+			
+		});
+		
+		JPanel p = new JPanel(new BorderLayout(5, 0));
+		p.add(folderColor, BorderLayout.CENTER);
+		p.add(removeColor, BorderLayout.EAST);
+		
+		info.add(p);
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(info, 2, 2, // rows, cols
