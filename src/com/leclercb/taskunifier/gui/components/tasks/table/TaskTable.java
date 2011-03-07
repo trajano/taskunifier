@@ -84,6 +84,7 @@ import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.models.LocationModel;
+import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -157,19 +158,31 @@ public class TaskTable extends JTable {
 		checkBox.setIcon(new ImageIcon("images/blank_star.gif"));
 		checkBox.setSelectedIcon(new ImageIcon("images/star.gif"));
 		
+		JComboBox comboBox = null;
+		
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 		
-		CONTEXT_EDITOR = new DefaultCellEditor(new JComboBox(new ContextModel(
-				true)));
-		FOLDER_EDITOR = new DefaultCellEditor(new JComboBox(new FolderModel(
-				true)));
-		GOAL_EDITOR = new DefaultCellEditor(new JComboBox(new GoalModel(true)));
-		LOCATION_EDITOR = new DefaultCellEditor(new JComboBox(
-				new LocationModel(true)));
+		comboBox = new JComboBox(new ContextModel(true));
+		comboBox.setRenderer(new ModelListCellRenderer());
+		
+		CONTEXT_EDITOR = new DefaultCellEditor(comboBox);
+		
+		comboBox = new JComboBox(new FolderModel(true));
+		comboBox.setRenderer(new ModelListCellRenderer());
+		
+		FOLDER_EDITOR = new DefaultCellEditor(comboBox);
+		
+		comboBox = new JComboBox(new GoalModel(true));
+		comboBox.setRenderer(new ModelListCellRenderer());
+		
+		GOAL_EDITOR = new DefaultCellEditor(comboBox);
+		
+		comboBox = new JComboBox(new LocationModel(true));
+		comboBox.setRenderer(new ModelListCellRenderer());
+		
+		LOCATION_EDITOR = new DefaultCellEditor(comboBox);
 		
 		REPEAT_EDITOR = new RepeatEditor();
-		
-		JComboBox comboBox = null;
 		
 		comboBox = new JComboBox(TaskPriority.values());
 		comboBox.setRenderer(new TaskPriorityListCellRenderer());

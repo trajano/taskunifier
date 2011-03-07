@@ -61,7 +61,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				
 				if (task.getModelStatus().equals(ModelStatus.LOADED)
 						|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
-					if (task.getDueDate() != null) {
+					if (task.getDueDate() != null && !task.isCompleted()) {
 						long milliSeconds1 = task.getDueDate().getTimeInMillis();
 						long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
 						long diff = milliSeconds1 - milliSeconds2;
@@ -111,7 +111,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
-				|| evt.getPropertyName().equals(Task.PROP_REMINDER))
+				|| evt.getPropertyName().equals(Task.PROP_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_COMPLETED))
 			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
 	}
 	
