@@ -97,10 +97,10 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void applyToTask(Task task) {
-		if (this.taskTitle != null)
+		if (this.taskTitle != null && this.taskTitle.length() != 0)
 			task.setTitle(this.taskTitle);
 		
-		if (this.taskTags != null)
+		if (this.taskTags != null && this.taskTags.length() != 0)
 			task.setTags(this.taskTags.split(","));
 		
 		if (this.taskFolder != null)
@@ -134,7 +134,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		if (this.taskReminder != null)
 			task.setReminder(this.taskReminder);
 		
-		if (this.taskRepeat != null)
+		if (this.taskRepeat != null && this.taskRepeat.length() != 0)
 			task.setRepeat(this.taskRepeat);
 		
 		if (this.taskRepeatFrom != null)
@@ -152,7 +152,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		if (this.taskStar != null)
 			task.setStar(this.taskStar);
 		
-		if (this.taskNote != null)
+		if (this.taskNote != null && this.taskNote.length() != 0)
 			task.setNote(this.taskNote);
 	}
 	
@@ -282,17 +282,17 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				taskLocation);
 	}
 	
-	public boolean getTaskCompleted() {
+	public Boolean getTaskCompleted() {
 		return this.taskCompleted;
 	}
 	
 	public void setTaskCompleted(Boolean taskCompleted) {
-		boolean oldTaskCompleted = this.taskCompleted;
+		Boolean oldTaskCompleted = this.taskCompleted;
 		this.taskCompleted = taskCompleted;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_COMPLETED,
-				(Object) oldTaskCompleted,
-				(Object) taskCompleted);
+				oldTaskCompleted,
+				taskCompleted);
 	}
 	
 	public Integer getTaskDueDate() {
@@ -321,17 +321,17 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				taskStartDate);
 	}
 	
-	public int getTaskReminder() {
+	public Integer getTaskReminder() {
 		return this.taskReminder;
 	}
 	
 	public void setTaskReminder(Integer taskReminder) {
-		int oldTaskReminder = this.taskReminder;
+		Integer oldTaskReminder = this.taskReminder;
 		this.taskReminder = taskReminder;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_REMINDER,
-				(Object) oldTaskReminder,
-				(Object) taskReminder);
+				oldTaskReminder,
+				taskReminder);
 	}
 	
 	public String getTaskRepeat() {
@@ -373,17 +373,17 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				taskStatus);
 	}
 	
-	public int getTaskLength() {
+	public Integer getTaskLength() {
 		return this.taskLength;
 	}
 	
 	public void setTaskLength(Integer taskLength) {
-		int oldTaskLength = this.taskLength;
+		Integer oldTaskLength = this.taskLength;
 		this.taskLength = taskLength;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_LENGTH,
-				(Object) oldTaskLength,
-				(Object) taskLength);
+				oldTaskLength,
+				taskLength);
 	}
 	
 	public TaskPriority getTaskPriority() {
@@ -399,17 +399,17 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				taskPriority);
 	}
 	
-	public boolean getTaskStar() {
+	public Boolean getTaskStar() {
 		return this.taskStar;
 	}
 	
 	public void setTaskStar(Boolean taskStar) {
-		boolean oldTaskStar = this.taskStar;
+		Boolean oldTaskStar = this.taskStar;
 		this.taskStar = taskStar;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_STAR,
-				(Object) oldTaskStar,
-				(Object) taskStar);
+				oldTaskStar,
+				taskStar);
 	}
 	
 	public String getTaskNote() {

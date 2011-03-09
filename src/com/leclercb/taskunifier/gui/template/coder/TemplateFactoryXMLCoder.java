@@ -66,16 +66,16 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				ModelId taskContext = null;
 				ModelId taskGoal = null;
 				ModelId taskLocation = null;
-				boolean taskCompleted = false;
+				Boolean taskCompleted = false;
 				Integer taskDueDate = null;
 				Integer taskStartDate = null;
-				int taskReminder = 0;
+				Integer taskReminder = 0;
 				String taskRepeat = null;
 				TaskRepeatFrom taskRepeatFrom = null;
 				TaskStatus taskStatus = null;
-				int taskLength = 0;
+				Integer taskLength = 0;
 				TaskPriority taskPriority = null;
-				boolean taskStar = false;
+				Boolean taskStar = false;
 				String taskNote = null;
 				
 				for (int j = 0; j < nTemplate.getLength(); j++) {
@@ -122,7 +122,8 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("taskcompleted"))
-						taskCompleted = Boolean.parseBoolean(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskCompleted = Boolean.parseBoolean(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskduedate"))
 						if (element.getTextContent().length() != 0)
@@ -133,7 +134,8 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							taskStartDate = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskreminder"))
-						taskReminder = Integer.parseInt(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskReminder = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskrepeat"))
 						taskRepeat = element.getTextContent();
@@ -145,13 +147,15 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						taskStatus = TaskStatus.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("tasklength"))
-						taskLength = Integer.parseInt(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskLength = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskpriority"))
 						taskPriority = TaskPriority.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskstar"))
-						taskStar = Boolean.parseBoolean(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskStar = Boolean.parseBoolean(element.getTextContent());
 					
 					if (element.getNodeName().equals("tasknote"))
 						taskNote = element.getTextContent();
