@@ -81,7 +81,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 				this.icon,
 				this.filter.clone(),
 				this.sorter.clone(),
-				this.template.clone());
+				(this.template == null ? null : this.template.clone()));
 	}
 	
 	public String getId() {
