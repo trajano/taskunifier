@@ -35,11 +35,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			if (((Model) event.getSource()).getModelStatus().equals(
-					ModelStatus.LOADED)
-					|| ((Model) event.getSource()).getModelStatus().equals(
-							ModelStatus.TO_UPDATE))
-				this.addElement(event.getValue());
+			this.addElement(event.getValue());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 			this.removeElement(event.getValue());
 		}
