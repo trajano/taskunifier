@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,15 +14,43 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
+
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 
 public final class ComponentFactory {
 	
 	private ComponentFactory() {
-
+		
+	}
+	
+	public static JComboBox createModelComboBox(ComboBoxModel model) {
+		JComboBox comboBox = new JComboBox();
+		
+		if (model != null)
+			comboBox.setModel(model);
+		
+		comboBox.setRenderer(new ModelListCellRenderer());
+		
+		AutoCompleteDecorator.decorate(comboBox, new ObjectToStringConverter() {
+			
+			@Override
+			public String getPreferredStringForItem(Object item) {
+				if (item == null)
+					return null;
+				
+				return ((Model) item).getTitle();
+			}
+			
+		});
+		
+		return comboBox;
 	}
 	
 	public static JPanel createSearchField(JTextField textField) {

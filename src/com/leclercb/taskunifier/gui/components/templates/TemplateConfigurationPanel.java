@@ -60,7 +60,6 @@ import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.models.LocationModel;
-import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -81,10 +80,10 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JTextField templateTitle = new JTextField(20);
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
-		final JComboBox templateTaskFolder = new JComboBox();
-		final JComboBox templateTaskContext = new JComboBox();
-		final JComboBox templateTaskGoal = new JComboBox();
-		final JComboBox templateTaskLocation = new JComboBox();
+		final JComboBox templateTaskFolder = ComponentFactory.createModelComboBox(null);
+		final JComboBox templateTaskContext = ComponentFactory.createModelComboBox(null);
+		final JComboBox templateTaskGoal = ComponentFactory.createModelComboBox(null);
+		final JComboBox templateTaskLocation = ComponentFactory.createModelComboBox(null);
 		final JCheckBox templateTaskCompleted = new JCheckBox();
 		final JFormattedTextField templateTaskDueDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
@@ -269,16 +268,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		templateTaskTags.setEnabled(false);
 		info.add(templateTaskTags);
 		
-		// Template Task Folder
-		label = new JLabel(
-				Translations.getString("general.task.folder") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskFolder.setEnabled(false);
-		templateTaskFolder.setRenderer(new ModelListCellRenderer());
-		info.add(templateTaskFolder);
-		
 		// Template Task Context
 		label = new JLabel(
 				Translations.getString("general.task.context") + ":",
@@ -286,8 +275,16 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskContext.setEnabled(false);
-		templateTaskContext.setRenderer(new ModelListCellRenderer());
 		info.add(templateTaskContext);
+		
+		// Template Task Folder
+		label = new JLabel(
+				Translations.getString("general.task.folder") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		templateTaskFolder.setEnabled(false);
+		info.add(templateTaskFolder);
 		
 		// Template Task Goal
 		label = new JLabel(
@@ -296,7 +293,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskGoal.setEnabled(false);
-		templateTaskGoal.setRenderer(new ModelListCellRenderer());
 		info.add(templateTaskGoal);
 		
 		// Template Task Location
@@ -305,7 +301,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskLocation.setEnabled(false);
-		templateTaskLocation.setRenderer(new ModelListCellRenderer());
 		info.add(templateTaskLocation);
 		
 		// Template Task Completed

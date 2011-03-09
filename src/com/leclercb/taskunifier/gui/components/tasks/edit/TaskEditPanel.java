@@ -41,11 +41,11 @@ import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.models.LocationModel;
 import com.leclercb.taskunifier.gui.models.TaskModel;
-import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -89,23 +89,23 @@ public class TaskEditPanel extends JPanel {
 		final String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		final String format = dateFormat + " " + timeFormat;
 		final String mask = DateTimeFormatUtils.getMask(dateFormat)
-				+ " "
-				+ DateTimeFormatUtils.getMask(timeFormat);
+		+ " "
+		+ DateTimeFormatUtils.getMask(timeFormat);
 		
 		this.setLayout(new BorderLayout());
 		
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
-		this.taskFolder = new JComboBox();
-		this.taskContext = new JComboBox();
-		this.taskGoal = new JComboBox();
-		this.taskLocation = new JComboBox();
-		this.taskParent = new JComboBox();
+		this.taskFolder = ComponentFactory.createModelComboBox(null);
+		this.taskContext = ComponentFactory.createModelComboBox(null);
+		this.taskGoal = ComponentFactory.createModelComboBox(null);
+		this.taskLocation = ComponentFactory.createModelComboBox(null);
+		this.taskParent = ComponentFactory.createModelComboBox(null);
 		this.taskCompleted = new JCheckBox();
 		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
-				'_') {
+		'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
@@ -116,7 +116,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
-				'_') {
+		'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
@@ -181,23 +181,21 @@ public class TaskEditPanel extends JPanel {
 		
 		info.add(this.taskCompleted);
 		
-		// Task Folder
-		label = new JLabel(
-				Translations.getString("general.task.folder") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		this.taskFolder.setRenderer(new ModelListCellRenderer());
-		info.add(this.taskFolder);
-		
 		// Task Context
 		label = new JLabel(
 				Translations.getString("general.task.context") + ":",
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskContext.setRenderer(new ModelListCellRenderer());
 		info.add(this.taskContext);
+		
+		// Task Folder
+		label = new JLabel(
+				Translations.getString("general.task.folder") + ":",
+				SwingConstants.TRAILING);
+		info.add(label);
+		
+		info.add(this.taskFolder);
 		
 		// Task Goal
 		label = new JLabel(
@@ -205,7 +203,6 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskGoal.setRenderer(new ModelListCellRenderer());
 		info.add(this.taskGoal);
 		
 		// Task Location
@@ -213,7 +210,6 @@ public class TaskEditPanel extends JPanel {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskLocation.setRenderer(new ModelListCellRenderer());
 		info.add(this.taskLocation);
 		
 		// Task Parent
@@ -225,7 +221,6 @@ public class TaskEditPanel extends JPanel {
 		if (TaskFactory.getInstance().getChildren(this.task).size() != 0)
 			this.taskParent.setEnabled(false);
 		
-		this.taskParent.setRenderer(new ModelListCellRenderer());
 		info.add(this.taskParent);
 		
 		// Empty

@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="lib/mac_widgets.jar"/>
 	<classpathentry kind="lib" path="lib/taskunifierapi.jar"/>
 	<classpathentry kind="lib" path="lib/jgoodies-looks-2.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-beaninfo-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

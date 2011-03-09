@@ -54,6 +54,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -84,7 +86,6 @@ import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.models.FolderModel;
 import com.leclercb.taskunifier.gui.models.GoalModel;
 import com.leclercb.taskunifier.gui.models.LocationModel;
-import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
@@ -92,6 +93,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskTable extends JTable {
 	
@@ -131,8 +133,8 @@ public class TaskTable extends JTable {
 		MODEL_RENDERER = new ModelRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
-						+ " "
-						+ Main.SETTINGS.getStringProperty("date.time_format")));
+				+ " "
+				+ Main.SETTINGS.getStringProperty("date.time_format")));
 		REPEAT_RENDERER = new RepeatRenderer();
 		LENGTH_RENDERER = new LengthRenderer(
 				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
@@ -162,25 +164,17 @@ public class TaskTable extends JTable {
 		
 		STAR_EDITOR = new DefaultCellEditor(checkBox);
 		
-		comboBox = new JComboBox(new ContextModel(true));
-		comboBox.setRenderer(new ModelListCellRenderer());
+		CONTEXT_EDITOR = new ComboBoxCellEditor(
+				ComponentFactory.createModelComboBox(new ContextModel(true)));
 		
-		CONTEXT_EDITOR = new DefaultCellEditor(comboBox);
+		FOLDER_EDITOR = new ComboBoxCellEditor(
+				ComponentFactory.createModelComboBox(new FolderModel(true)));
 		
-		comboBox = new JComboBox(new FolderModel(true));
-		comboBox.setRenderer(new ModelListCellRenderer());
+		GOAL_EDITOR = new ComboBoxCellEditor(
+				ComponentFactory.createModelComboBox(new GoalModel(true)));
 		
-		FOLDER_EDITOR = new DefaultCellEditor(comboBox);
-		
-		comboBox = new JComboBox(new GoalModel(true));
-		comboBox.setRenderer(new ModelListCellRenderer());
-		
-		GOAL_EDITOR = new DefaultCellEditor(comboBox);
-		
-		comboBox = new JComboBox(new LocationModel(true));
-		comboBox.setRenderer(new ModelListCellRenderer());
-		
-		LOCATION_EDITOR = new DefaultCellEditor(comboBox);
+		LOCATION_EDITOR = new ComboBoxCellEditor(
+				ComponentFactory.createModelComboBox(new LocationModel(true)));
 		
 		REPEAT_EDITOR = new RepeatEditor();
 		
@@ -395,7 +389,7 @@ public class TaskTable extends JTable {
 						System.out.println(column + " : " + evt.getNewValue());
 						tableCol.setPreferredWidth((Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-
+						
 					}
 				}
 				
@@ -409,7 +403,7 @@ public class TaskTable extends JTable {
 								columnModel.getColumnIndex(column),
 								(Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-
+						
 					}
 				}
 			}
@@ -440,17 +434,17 @@ public class TaskTable extends JTable {
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCutAction().getValue(Action.NAME));
+						TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCopyAction().getValue(Action.NAME));
+						TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getPasteAction().getValue(Action.NAME));
+						TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 	private void initiliazeTableSorter() {
