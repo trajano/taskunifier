@@ -269,39 +269,102 @@ public class Main {
 		try {
 			new GuiContextFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "contexts.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new GuiFolderFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "folders.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new GuiGoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "goals.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new GuiLocationFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "locations.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new TemplateFactoryXMLCoder(false).decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 		try {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	private static void loadLookAndFeel() throws Exception {
