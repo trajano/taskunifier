@@ -141,17 +141,20 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						taskRepeat = element.getTextContent();
 					
 					if (element.getNodeName().equals("taskrepeatfrom"))
-						taskRepeatFrom = TaskRepeatFrom.valueOf(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskRepeatFrom = TaskRepeatFrom.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskstatus"))
-						taskStatus = TaskStatus.valueOf(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskStatus = TaskStatus.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("tasklength"))
 						if (element.getTextContent().length() != 0)
 							taskLength = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskpriority"))
-						taskPriority = TaskPriority.valueOf(element.getTextContent());
+						if (element.getTextContent().length() != 0)
+							taskPriority = TaskPriority.valueOf(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskstar"))
 						if (element.getTextContent().length() != 0)
@@ -279,11 +282,15 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskRepeat);
 			
 			Element taskRepeatFrom = document.createElement("taskrepeatfrom");
-			setTextContext(taskRepeatFrom, template.getTaskRepeatFrom().name());
+			if (template.getTaskRepeatFrom() != null)
+				setTextContext(
+						taskRepeatFrom,
+						template.getTaskRepeatFrom().name());
 			nTemplate.appendChild(taskRepeatFrom);
 			
 			Element taskStatus = document.createElement("taskstatus");
-			setTextContext(taskStatus, template.getTaskStatus().name());
+			if (template.getTaskStatus() != null)
+				setTextContext(taskStatus, template.getTaskStatus().name());
 			nTemplate.appendChild(taskStatus);
 			
 			Element taskLength = document.createElement("tasklength");
@@ -291,7 +298,8 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskLength);
 			
 			Element taskPriority = document.createElement("taskpriority");
-			setTextContext(taskPriority, template.getTaskPriority().name());
+			if (template.getTaskPriority() != null)
+				setTextContext(taskPriority, template.getTaskPriority().name());
 			nTemplate.appendChild(taskPriority);
 			
 			Element taskStar = document.createElement("taskstar");

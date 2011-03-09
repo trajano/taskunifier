@@ -66,6 +66,8 @@ public class ActionAddTask extends AbstractAction {
 		if (template != null)
 			template.applyToTask(task);
 		
+		MainFrame.getInstance().getTaskView().refreshTasks();
+		
 		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
 				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 			TaskEditDialog dialog = new TaskEditDialog(

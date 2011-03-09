@@ -360,34 +360,103 @@ public class Main {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		
 		try {
-			new GuiContextFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "contexts.xml"));
-			new GuiFolderFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "folders.xml"));
-			new GuiGoalFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "goals.xml"));
-			new GuiLocationFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "locations.xml"));
-			new TaskFactoryXMLCoder().encode(new FileOutputStream(DATA_FOLDER
-					+ File.separator
-					+ "tasks.xml"));
-			new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "templates.xml"));
-			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "searchers.xml"));
+			try {
+				new GuiContextFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "contexts.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
 			
-			saveSettings();
+			try {
+				new GuiFolderFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "folders.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new GuiGoalFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "goals.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new GuiLocationFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "locations.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new TaskFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "tasks.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "templates.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "searchers.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				saveSettings();
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
 			
 			MainFrame.getInstance().getFrame().dispose();
 			MainFrame.getInstance().getFrame().setVisible(false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-			return;
 		} finally {
 			try {
 				if (LOG_FILE != null) {
