@@ -19,7 +19,7 @@ import com.leclercb.taskunifier.gui.synchronizer.dummy.DummyGuiPlugin;
 public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
-
+		
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
@@ -94,6 +94,11 @@ public final class SynchronizerUtils {
 					TaskFactory.getInstance().markDeleted(task);
 			}
 		}
+	}
+	
+	public static void resetConnection() {
+		SynchronizerUtils.getPlugin().getSynchronizerApi().resetConnectionParameters(
+				Main.SETTINGS);
 	}
 	
 	public static void resetSynchronizer() {
