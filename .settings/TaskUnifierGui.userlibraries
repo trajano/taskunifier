@@ -11,5 +11,6 @@
         <archive path="/TaskUnifierGui/lib/mac_widgets.jar"/>
         <archive path="/TaskUnifierGui/dist/taskunifiergui.jar"/>
         <archive path="/TaskUnifierGui/lib/jcalendar-1.3.3.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-looks-2.4.0.jar"/>
     </library>
 </eclipse-userlibraries>

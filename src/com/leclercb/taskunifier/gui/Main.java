@@ -39,6 +39,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.commons.gui.swing.lookandfeel.types.DefaultLookAndFeelDescriptor;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -173,7 +174,7 @@ public class Main {
 			
 			if (!EqualsUtils.equals(
 					System.getProperty("com.leclercb.taskunifier.debug_mode"),
-					"true")) {
+			"true")) {
 				System.setOut(NEW_STREAM);
 				System.setErr(NEW_STREAM);
 			}
@@ -216,7 +217,7 @@ public class Main {
 			 * Exception(Translations.getString( "error.data_folder_needed",
 			 * Constants.TITLE));
 			 */
-
+			
 			if (!file.mkdir())
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
@@ -304,6 +305,16 @@ public class Main {
 	}
 	
 	private static void loadLookAndFeel() throws Exception {
+		// jGoodies
+		Properties jgoodies = new Properties();
+		jgoodies.load(Resources.class.getResourceAsStream("jgoodies_themes.properties"));
+		
+		for (Object key : jgoodies.keySet())
+			LookAndFeelUtils.addLookAndFeel(new DefaultLookAndFeelDescriptor(
+					"jGoodies - " + jgoodies.getProperty(key.toString()),
+					key.toString()));
+		
+		// jTattoo
 		Properties jtattoo = new Properties();
 		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
 		
@@ -398,18 +409,18 @@ public class Main {
 					
 					String logFileContent = FileUtils.readFileToString(
 							logFile,
-							"UTF-8");
+					"UTF-8");
 					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
 					log = "\n\n\n---------- "
-							+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
-							+ " ----------\n\n"
-							+ log;
+						+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
+						+ " ----------\n\n"
+						+ log;
 					
 					FileUtils.writeStringToFile(logFile, logFileContent + log);
 				}
 			} catch (Exception e) {
 				GuiLogger.getLogger().severe(
-						"Could not copy log information into log file");
+				"Could not copy log information into log file");
 			}
 		}
 		
