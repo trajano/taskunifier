@@ -27,7 +27,7 @@ import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 public final class ComponentFactory {
 	
 	private ComponentFactory() {
-		
+
 	}
 	
 	public static JComboBox createModelComboBox(ComboBoxModel model) {

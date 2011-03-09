@@ -133,8 +133,8 @@ public class TaskTable extends JTable {
 		MODEL_RENDERER = new ModelRenderer();
 		DATE_RENDERER = new CalendarRenderer(new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
-				+ " "
-				+ Main.SETTINGS.getStringProperty("date.time_format")));
+						+ " "
+						+ Main.SETTINGS.getStringProperty("date.time_format")));
 		REPEAT_RENDERER = new RepeatRenderer();
 		LENGTH_RENDERER = new LengthRenderer(
 				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
@@ -389,7 +389,7 @@ public class TaskTable extends JTable {
 						System.out.println(column + " : " + evt.getNewValue());
 						tableCol.setPreferredWidth((Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-						
+
 					}
 				}
 				
@@ -403,7 +403,7 @@ public class TaskTable extends JTable {
 								columnModel.getColumnIndex(column),
 								(Integer) evt.getNewValue());
 					} catch (IllegalArgumentException e) {
-						
+
 					}
 				}
 			}
@@ -434,17 +434,17 @@ public class TaskTable extends JTable {
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCutAction().getValue(Action.NAME));
+				TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCopyAction().getValue(Action.NAME));
+				TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getPasteAction().getValue(Action.NAME));
+				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 	private void initiliazeTableSorter() {

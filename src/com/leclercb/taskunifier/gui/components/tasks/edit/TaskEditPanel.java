@@ -89,8 +89,8 @@ public class TaskEditPanel extends JPanel {
 		final String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		final String format = dateFormat + " " + timeFormat;
 		final String mask = DateTimeFormatUtils.getMask(dateFormat)
-		+ " "
-		+ DateTimeFormatUtils.getMask(timeFormat);
+				+ " "
+				+ DateTimeFormatUtils.getMask(timeFormat);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -105,7 +105,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
-		'_') {
+				'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
@@ -116,7 +116,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
-		'_') {
+				'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
