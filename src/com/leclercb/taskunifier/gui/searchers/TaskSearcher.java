@@ -150,7 +150,6 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	}
 	
 	public void setTemplate(Template template) {
-		CheckUtils.isNotNull(template, "Template cannot be null");
 		Template oldTemplate = this.template;
 		this.template = template;
 		this.propertyChangeSupport.firePropertyChange(
