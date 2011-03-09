@@ -30,6 +30,7 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -51,6 +52,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 
 public class TaskEditPanel extends JPanel {
 	
+	private Task task;
 	private BeanAdapter<Task> adapter;
 	
 	private JTextField taskTitle;
@@ -75,6 +77,7 @@ public class TaskEditPanel extends JPanel {
 	public TaskEditPanel(Task task) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		
+		this.task = task;
 		this.adapter = new BeanAdapter<Task>(task, true);
 		
 		this.initialize();
@@ -219,6 +222,9 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
+		if (TaskFactory.getInstance().getChildren(this.task).size() != 0)
+			this.taskParent.setEnabled(false);
+		
 		this.taskParent.setRenderer(new ModelListCellRenderer());
 		info.add(this.taskParent);
 		
@@ -336,9 +342,14 @@ public class TaskEditPanel extends JPanel {
 				taskLocationModel));
 		
 		ValueModel taskParentModel = this.adapter.getValueModel(Task.PROP_PARENT);
-		this.taskParent.setModel(new ComboBoxAdapter<Task>(
-				new TaskModel(true),
-				taskParentModel));
+		if (TaskFactory.getInstance().getChildren(this.task).size() == 0)
+			this.taskParent.setModel(new ComboBoxAdapter<Task>(new TaskModel(
+					true,
+					this.task), taskParentModel));
+		else
+			this.taskParent.setModel(new ComboBoxAdapter<Task>(
+					new Task[0],
+					taskParentModel));
 		
 		ValueModel taskCompletedModel = this.adapter.getValueModel(Task.PROP_COMPLETED);
 		Bindings.bind(this.taskCompleted, taskCompletedModel);

@@ -19,14 +19,31 @@ package com.leclercb.taskunifier.gui.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
 public class TaskModel extends AbstractModelSortedModel {
 	
+	private Task hiddenTask;
+	
 	public TaskModel(boolean firstNull) {
+		this(firstNull, null);
+	}
+	
+	public TaskModel(boolean firstNull, Task hiddenTask) {
+		this.hiddenTask = hiddenTask;
 		this.initialize(firstNull);
+	}
+	
+	@Override
+	public void addElement(Object element) {
+		if (this.hiddenTask != null
+				&& EqualsUtils.equals(this.hiddenTask, element))
+			return;
+		
+		super.addElement(element);
 	}
 	
 	private void initialize(boolean firstNull) {
