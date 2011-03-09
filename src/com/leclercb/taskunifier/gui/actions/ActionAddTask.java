@@ -55,10 +55,7 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
-		
 		Task task = TaskFactory.getInstance().create("");
-		
 		Template template = TemplateFactory.getInstance().getDefaultTemplate();
 		
 		if (template != null)
@@ -72,6 +69,7 @@ public class ActionAddTask extends AbstractAction {
 					true);
 			dialog.setVisible(true);
 		} else {
+			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
 					task);
 		}
