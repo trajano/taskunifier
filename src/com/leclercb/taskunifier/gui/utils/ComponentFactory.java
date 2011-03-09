@@ -38,17 +38,21 @@ public final class ComponentFactory {
 		
 		comboBox.setRenderer(new ModelListCellRenderer());
 		
-		AutoCompleteDecorator.decorate(comboBox, new ObjectToStringConverter() {
-			
-			@Override
-			public String getPreferredStringForItem(Object item) {
-				if (item == null)
-					return null;
-				
-				return ((Model) item).getTitle();
-			}
-			
-		});
+		if (!SystemUtils.IS_OS_MAC || !LookAndFeelUtils.isCurrentLafSystemLaf()) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+						
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							if (item == null)
+								return null;
+							
+							return ((Model) item).getTitle();
+						}
+						
+					});
+		}
 		
 		return comboBox;
 	}

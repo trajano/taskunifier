@@ -155,14 +155,16 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout(new BorderLayout());
-			panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 			
 			if (SystemUtils.IS_OS_MAC
-					&& LookAndFeelUtils.isCurrentLafSystemLaf())
+					&& LookAndFeelUtils.isCurrentLafSystemLaf()) {
 				this.horizontalSplitPane = ComponentFactory.createThinJScrollPane(JSplitPane.HORIZONTAL_SPLIT);
-			else
+			} else {
+				panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+				
 				this.horizontalSplitPane = new JSplitPane(
 						JSplitPane.HORIZONTAL_SPLIT);
+			}
 			
 			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
