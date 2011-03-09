@@ -63,7 +63,7 @@ public final class Constants {
 	static {
 		UNDO_EDIT_SUPPORT.addUndoableEditListener(UNDO_MANAGER);
 		
-		GENERAL_TASK_SEARCHERS = new TaskSearcher[7];
+		GENERAL_TASK_SEARCHERS = new TaskSearcher[8];
 		
 		TaskFilter filter;
 		TaskSorter sorter;
@@ -99,6 +99,19 @@ public final class Constants {
 				filter,
 				sorter.clone());
 		
+		// Not Completed
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
+		
+		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
+				Translations.getString("searcherlist.general.not_completed"),
+				Images.getResourceFile("check.png"),
+				filter,
+				sorter.clone());
+		
 		// Overdue
 		filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
@@ -110,7 +123,7 @@ public final class Constants {
 				DaysCondition.LESS_THAN_OR_EQUALS,
 				0));
 		
-		GENERAL_TASK_SEARCHERS[1] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
 				Translations.getString("searcherlist.general.overdue"),
 				Images.getResourceFile("warning.gif"),
 				filter,
@@ -131,7 +144,7 @@ public final class Constants {
 				EnumCondition.GREATER_THAN_OR_EQUALS,
 				TaskPriority.HIGH));
 		
-		GENERAL_TASK_SEARCHERS[2] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
 				Translations.getString("searcherlist.general.hot_list"),
 				Images.getResourceFile("hot_pepper.png"),
 				filter,
@@ -151,7 +164,7 @@ public final class Constants {
 				TaskColumn.IMPORTANCE,
 				SortOrder.DESCENDING));
 		
-		GENERAL_TASK_SEARCHERS[3] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
 				Translations.getString("searcherlist.general.importance"),
 				Images.getResourceFile("importance.png"),
 				filter,
@@ -168,7 +181,7 @@ public final class Constants {
 				StringCondition.EQUALS,
 				"true"));
 		
-		GENERAL_TASK_SEARCHERS[4] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[5] = new TaskSearcher(
 				Translations.getString("searcherlist.general.starred"),
 				Images.getResourceFile("star.png"),
 				filter,
@@ -185,7 +198,7 @@ public final class Constants {
 				EnumCondition.EQUALS,
 				TaskStatus.NEXT_ACTION));
 		
-		GENERAL_TASK_SEARCHERS[5] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[6] = new TaskSearcher(
 				Translations.getString("searcherlist.general.next_action"),
 				Images.getResourceFile("next.png"),
 				filter,
@@ -198,7 +211,7 @@ public final class Constants {
 				StringCondition.EQUALS,
 				"true"));
 		
-		GENERAL_TASK_SEARCHERS[6] = new TaskSearcher(
+		GENERAL_TASK_SEARCHERS[7] = new TaskSearcher(
 				Translations.getString("searcherlist.general.completed"),
 				Images.getResourceFile("check.png"),
 				filter,
