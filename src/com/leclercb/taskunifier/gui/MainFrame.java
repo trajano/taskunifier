@@ -155,6 +155,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout(new BorderLayout());
+			panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 			
 			if (SystemUtils.IS_OS_MAC
 					&& LookAndFeelUtils.isCurrentLafSystemLaf())
