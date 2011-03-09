@@ -39,6 +39,7 @@ public final class ComponentFactory {
 					new JLabel(Images.getResourceImage("search.png", 16, 16)),
 					BorderLayout.WEST);
 			panel.add(textField, BorderLayout.CENTER);
+			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			
 			return panel;
 		}

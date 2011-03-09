@@ -491,13 +491,12 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	}
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
-		JPanel panel = new JPanel(new BorderLayout(0, 5));
+		JPanel panel = new JPanel(new BorderLayout());
 		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
 			panel.add(
 					ComponentFactory.createSearchField(this.searchField),
 					BorderLayout.NORTH);
-			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		}
 		
 		this.searcherPanel = new SearcherPanel();
@@ -521,10 +520,6 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	private void initializeTaskPanel(JSplitPane verticalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
 		
-		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		}
-		
 		this.taskPanel = new TaskPanel();
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskPanel);
 		
@@ -535,10 +530,6 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	
 	private void initializeTaskNote(JSplitPane verticalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
-		
-		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		}
 		
 		TaskNotePanel taskNote = new TaskNotePanel();
 		this.taskPanel.addTaskSelectionChangeListener(taskNote);
