@@ -61,6 +61,11 @@ public class ActionAddTask extends AbstractAction {
 		if (template != null)
 			template.applyToTask(task);
 		
+		template = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		
+		if (template != null)
+			template.applyToTask(task);
+		
 		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
 				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 			TaskEditDialog dialog = new TaskEditDialog(
@@ -69,7 +74,9 @@ public class ActionAddTask extends AbstractAction {
 					true);
 			dialog.setVisible(true);
 		} else {
-			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+			if (template == null)
+				MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+			
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
 					task);
 		}

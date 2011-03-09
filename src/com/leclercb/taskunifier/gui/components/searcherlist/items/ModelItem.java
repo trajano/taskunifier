@@ -21,6 +21,7 @@ import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -69,20 +70,29 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	
 	@Override
 	public TaskSearcher getTaskSearcher() {
+		Template template = new Template("ModelTemplate");
 		TaskColumn column = null;
 		
 		switch (this.modelType) {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
+				if (model != null)
+					template.setTaskContext(model.getModelId());
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
+				if (model != null)
+					template.setTaskFolder(model.getModelId());
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
+				if (model != null)
+					template.setTaskGoal(model.getModelId());
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
+				if (model != null)
+					template.setTaskLocation(model.getModelId());
 				break;
 		}
 		
@@ -115,14 +125,17 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 				this.model));
 		
 		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
-				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"))
+				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.COMPLETED,
 					StringCondition.EQUALS,
-					"false"));
+			"false"));
+			
+			template.setTaskCompleted(false);
+		}
 		
 		String title = (this.model == null ? Translations.getString("searcherlist.none") : this.model.getTitle());
-		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
+		TaskSearcher searcher = new TaskSearcher(title, null, filter, sorter, template);
 		
 		return searcher;
 	}

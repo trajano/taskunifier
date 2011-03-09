@@ -66,11 +66,11 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	private boolean taskStar;
 	private String taskNote;
 	
-	Template(String title) {
+	public Template(String title) {
 		this(UUID.randomUUID().toString(), title);
 	}
 	
-	Template(String id, String title) {
+	public Template(String id, String title) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		
 		this.propertyChangeSupport = new PropertyChangeSupport(this);

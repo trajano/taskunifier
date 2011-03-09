@@ -26,6 +26,7 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
+import com.leclercb.taskunifier.gui.template.Template;
 
 public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
 	
@@ -33,6 +34,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	public static final String PROP_ICON = "icon";
 	public static final String PROP_FILTER = "filter";
 	public static final String PROP_SORTER = "sorter";
+	public static final String PROP_TEMPLATE = "template";
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
@@ -41,6 +43,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	private String icon;
 	private TaskFilter filter;
 	private TaskSorter sorter;
+	private Template template;
 	
 	public TaskSearcher(String title, TaskFilter filter, TaskSorter sorter) {
 		this(title, null, filter, sorter);
@@ -51,6 +54,15 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
+		this(title, icon, filter, sorter, null);
+	}
+	
+	public TaskSearcher(
+			String title,
+			String icon,
+			TaskFilter filter,
+			TaskSorter sorter,
+			Template template) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setId(UUID.randomUUID().toString());
@@ -59,6 +71,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 		this.setIcon(icon);
 		this.setFilter(filter);
 		this.setSorter(sorter);
+		this.setTemplate(template);
 	}
 	
 	@Override
@@ -67,7 +80,8 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 				this.title,
 				this.icon,
 				this.filter.clone(),
-				this.sorter.clone());
+				this.sorter.clone(),
+				this.template.clone());
 	}
 	
 	public String getId() {
@@ -129,6 +143,20 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 				PROP_SORTER,
 				oldSorter,
 				sorter);
+	}
+	
+	public Template getTemplate() {
+		return this.template;
+	}
+	
+	public void setTemplate(Template template) {
+		CheckUtils.isNotNull(template, "Template cannot be null");
+		Template oldTemplate = this.template;
+		this.template = template;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TEMPLATE,
+				oldTemplate,
+				template);
 	}
 	
 	@Override
