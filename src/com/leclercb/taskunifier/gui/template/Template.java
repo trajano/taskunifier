@@ -19,7 +19,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Template implements Serializable, Cloneable, PropertyChangeSupported {
 	
@@ -54,16 +53,16 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	private ModelId taskContext;
 	private ModelId taskGoal;
 	private ModelId taskLocation;
-	private boolean taskCompleted;
+	private Boolean taskCompleted;
 	private Integer taskDueDate;
 	private Integer taskStartDate;
-	private int taskReminder;
+	private Integer taskReminder;
 	private String taskRepeat;
 	private TaskRepeatFrom taskRepeatFrom;
 	private TaskStatus taskStatus;
-	private int taskLength;
+	private Integer taskLength;
 	private TaskPriority taskPriority;
-	private boolean taskStar;
+	private Boolean taskStar;
 	private String taskNote;
 	
 	public Template(String title) {
@@ -78,52 +77,47 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		this.setId(id);
 		this.setTitle(title);
 		
-		this.setTaskTitle(Translations.getString("task.default.title"));
-		this.setTaskTags("");
+		this.setTaskTitle(null);
+		this.setTaskTags(null);
 		this.setTaskFolder(null);
 		this.setTaskContext(null);
 		this.setTaskGoal(null);
 		this.setTaskLocation(null);
-		this.setTaskCompleted(false);
+		this.setTaskCompleted(null);
 		this.setTaskDueDate(null);
 		this.setTaskStartDate(null);
-		this.setTaskReminder(0);
+		this.setTaskReminder(null);
 		this.setTaskRepeat(null);
-		this.setTaskRepeatFrom(TaskRepeatFrom.DUE_DATE);
-		this.setTaskStatus(TaskStatus.NONE);
-		this.setTaskLength(0);
-		this.setTaskPriority(TaskPriority.LOW);
-		this.setTaskStar(false);
+		this.setTaskRepeatFrom(null);
+		this.setTaskStatus(null);
+		this.setTaskLength(null);
+		this.setTaskPriority(null);
+		this.setTaskStar(null);
 		this.setTaskNote(null);
 	}
 	
 	public void applyToTask(Task task) {
-		task.setTitle(this.taskTitle);
+		if (this.taskTitle != null)
+			task.setTitle(this.taskTitle);
 		
-		task.setTags(this.taskTags.split(","));
+		if (this.taskTags != null)
+			task.setTags(this.taskTags.split(","));
 		
 		if (this.taskFolder != null)
 			task.setFolder(FolderFactory.getInstance().get(this.taskFolder));
-		else
-			task.setFolder(null);
 		
 		if (this.taskContext != null)
 			task.setContext(ContextFactory.getInstance().get(this.taskContext));
-		else
-			task.setContext(null);
 		
 		if (this.taskGoal != null)
 			task.setGoal(GoalFactory.getInstance().get(this.taskGoal));
-		else
-			task.setGoal(null);
 		
 		if (this.taskLocation != null)
 			task.setLocation(LocationFactory.getInstance().get(
 					this.taskLocation));
-		else
-			task.setLocation(null);
 		
-		task.setCompleted(this.taskCompleted);
+		if (this.taskCompleted != null)
+			task.setCompleted(this.taskCompleted);
 		
 		if (this.taskDueDate != null) {
 			Calendar calendar = Calendar.getInstance();
@@ -137,27 +131,29 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 			task.setStartDate(calendar);
 		}
 		
-		task.setReminder(this.taskReminder);
+		if (this.taskReminder != null)
+			task.setReminder(this.taskReminder);
 		
 		if (this.taskRepeat != null)
 			task.setRepeat(this.taskRepeat);
-		else
-			task.setRepeat(null);
 		
-		task.setRepeatFrom(this.taskRepeatFrom);
+		if (this.taskRepeatFrom != null)
+			task.setRepeatFrom(this.taskRepeatFrom);
 		
-		task.setStatus(this.taskStatus);
+		if (this.taskStatus != null)
+			task.setStatus(this.taskStatus);
 		
-		task.setLength(this.taskLength);
+		if (this.taskLength != null)
+			task.setLength(this.taskLength);
 		
-		task.setPriority(this.taskPriority);
+		if (this.taskPriority != null)
+			task.setPriority(this.taskPriority);
 		
-		task.setStar(this.taskStar);
+		if (this.taskStar != null)
+			task.setStar(this.taskStar);
 		
 		if (this.taskNote != null)
 			task.setNote(this.taskNote);
-		else
-			task.setNote(null);
 	}
 	
 	@Override
@@ -213,7 +209,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskTitle(String taskTitle) {
-		CheckUtils.isNotNull(taskTitle, "Task title cannot be null");
 		String oldTaskTitle = this.taskTitle;
 		this.taskTitle = taskTitle;
 		this.propertyChangeSupport.firePropertyChange(
@@ -227,7 +222,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskTags(String taskTags) {
-		CheckUtils.isNotNull(taskTags, "Task tags cannot be null");
 		String oldTaskTags = this.taskTags;
 		this.taskTags = taskTags;
 		this.propertyChangeSupport.firePropertyChange(
@@ -292,13 +286,13 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		return this.taskCompleted;
 	}
 	
-	public void setTaskCompleted(boolean taskCompleted) {
+	public void setTaskCompleted(Boolean taskCompleted) {
 		boolean oldTaskCompleted = this.taskCompleted;
 		this.taskCompleted = taskCompleted;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_COMPLETED,
-				oldTaskCompleted,
-				taskCompleted);
+				(Object) oldTaskCompleted,
+				(Object) taskCompleted);
 	}
 	
 	public Integer getTaskDueDate() {
@@ -331,13 +325,13 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		return this.taskReminder;
 	}
 	
-	public void setTaskReminder(int taskReminder) {
+	public void setTaskReminder(Integer taskReminder) {
 		int oldTaskReminder = this.taskReminder;
 		this.taskReminder = taskReminder;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_REMINDER,
-				oldTaskReminder,
-				taskReminder);
+				(Object) oldTaskReminder,
+				(Object) taskReminder);
 	}
 	
 	public String getTaskRepeat() {
@@ -358,7 +352,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskRepeatFrom(TaskRepeatFrom taskRepeatFrom) {
-		CheckUtils.isNotNull(taskRepeatFrom, "Task repeat from cannot be null");
 		TaskRepeatFrom oldTaskRepeatFrom = this.taskRepeatFrom;
 		this.taskRepeatFrom = taskRepeatFrom;
 		this.propertyChangeSupport.firePropertyChange(
@@ -372,7 +365,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskStatus(TaskStatus taskStatus) {
-		CheckUtils.isNotNull(taskStatus, "Task status cannot be null");
 		TaskStatus oldTaskStatus = this.taskStatus;
 		this.taskStatus = taskStatus;
 		this.propertyChangeSupport.firePropertyChange(
@@ -385,13 +377,13 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		return this.taskLength;
 	}
 	
-	public void setTaskLength(int taskLength) {
+	public void setTaskLength(Integer taskLength) {
 		int oldTaskLength = this.taskLength;
 		this.taskLength = taskLength;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_LENGTH,
-				oldTaskLength,
-				taskLength);
+				(Object) oldTaskLength,
+				(Object) taskLength);
 	}
 	
 	public TaskPriority getTaskPriority() {
@@ -399,7 +391,6 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	}
 	
 	public void setTaskPriority(TaskPriority taskPriority) {
-		CheckUtils.isNotNull(taskPriority, "Task priority cannot be null");
 		TaskPriority oldTaskPriority = this.taskPriority;
 		this.taskPriority = taskPriority;
 		this.propertyChangeSupport.firePropertyChange(
@@ -412,13 +403,13 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		return this.taskStar;
 	}
 	
-	public void setTaskStar(boolean taskStar) {
+	public void setTaskStar(Boolean taskStar) {
 		boolean oldTaskStar = this.taskStar;
 		this.taskStar = taskStar;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_STAR,
-				oldTaskStar,
-				taskStar);
+				(Object) oldTaskStar,
+				(Object) taskStar);
 	}
 	
 	public String getTaskNote() {

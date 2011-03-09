@@ -76,23 +76,23 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		switch (this.modelType) {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
-				if (model != null)
-					template.setTaskContext(model.getModelId());
+				if (this.model != null)
+					template.setTaskContext(this.model.getModelId());
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
-				if (model != null)
-					template.setTaskFolder(model.getModelId());
+				if (this.model != null)
+					template.setTaskFolder(this.model.getModelId());
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
-				if (model != null)
-					template.setTaskGoal(model.getModelId());
+				if (this.model != null)
+					template.setTaskGoal(this.model.getModelId());
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
-				if (model != null)
-					template.setTaskLocation(model.getModelId());
+				if (this.model != null)
+					template.setTaskLocation(this.model.getModelId());
 				break;
 		}
 		
@@ -129,13 +129,18 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.COMPLETED,
 					StringCondition.EQUALS,
-			"false"));
+					"false"));
 			
 			template.setTaskCompleted(false);
 		}
 		
 		String title = (this.model == null ? Translations.getString("searcherlist.none") : this.model.getTitle());
-		TaskSearcher searcher = new TaskSearcher(title, null, filter, sorter, template);
+		TaskSearcher searcher = new TaskSearcher(
+				title,
+				null,
+				filter,
+				sorter,
+				template);
 		
 		return searcher;
 	}
