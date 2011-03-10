@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 
 public class SynchronizerGuiPluginListCellRenderer extends DefaultListCellRenderer {
 	

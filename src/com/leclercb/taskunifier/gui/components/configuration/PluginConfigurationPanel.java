@@ -6,8 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.synchronizer.SynchronizerGuiPlugin;
 
 public class PluginConfigurationPanel extends ConfigurationPanel {
 	

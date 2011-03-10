@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.synchronizer;
+package com.leclercb.taskunifier.gui.api.synchronizer;
 
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
