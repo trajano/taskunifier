@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.reminder;
+package com.leclercb.taskunifier.gui.threads.reminder;
 
 import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;

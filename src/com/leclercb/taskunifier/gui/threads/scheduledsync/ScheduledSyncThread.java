@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.scheduledsync;
+package com.leclercb.taskunifier.gui.threads.scheduledsync;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

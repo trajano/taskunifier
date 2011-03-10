@@ -96,10 +96,10 @@ import com.leclercb.taskunifier.gui.components.toolbar.ToolBarCreator;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.models.TemplateComparator;
-import com.leclercb.taskunifier.gui.reminder.ReminderThread;
-import com.leclercb.taskunifier.gui.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.template.TemplateFactory;
+import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
+import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
