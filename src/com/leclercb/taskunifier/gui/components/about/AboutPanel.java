@@ -20,9 +20,9 @@ package com.leclercb.taskunifier.gui.components.about;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -57,14 +57,14 @@ public class AboutPanel extends JPanel {
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
-		textArea.setText(Translations.getString("about.message"));
-		textArea.setCaretPosition(0);
+		JEditorPane aboutMessage = new JEditorPane();
+		aboutMessage.setContentType("text/html");
+		aboutMessage.setEditable(false);
+		aboutMessage.setText(Translations.getString("about.message"));
+		aboutMessage.setCaretPosition(0);
 		
 		panel.add(
-				ComponentFactory.createJScrollPane(textArea, true),
+				ComponentFactory.createJScrollPane(aboutMessage, true),
 				BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);
