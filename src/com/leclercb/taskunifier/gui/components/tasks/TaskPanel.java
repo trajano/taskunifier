@@ -16,12 +16,12 @@ import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.events.TaskSelectionChangeSupport;
-import com.leclercb.taskunifier.gui.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {

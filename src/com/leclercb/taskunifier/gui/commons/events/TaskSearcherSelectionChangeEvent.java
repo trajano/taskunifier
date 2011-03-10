@@ -15,10 +15,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.events;
+package com.leclercb.taskunifier.gui.commons.events;
 
-public interface TaskSelectionListener {
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+
+public class TaskSearcherSelectionChangeEvent {
 	
-	public abstract void taskSelectionChange(TaskSelectionChangeEvent event);
+	private Object source;
+	private TaskSearcher selectedTaskSearcher;
+	
+	public TaskSearcherSelectionChangeEvent(
+			Object source,
+			TaskSearcher selectedTaskSearcher) {
+		CheckUtils.isNotNull(source, "Source cannot be null");
+		
+		this.source = source;
+		this.selectedTaskSearcher = selectedTaskSearcher;
+	}
+	
+	public Object getSource() {
+		return this.source;
+	}
+	
+	public TaskSearcher getSelectedTaskSearcher() {
+		return this.selectedTaskSearcher;
+	}
 	
 }

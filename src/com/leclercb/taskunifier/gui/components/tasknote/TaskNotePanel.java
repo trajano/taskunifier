@@ -8,8 +8,8 @@ import javax.swing.JTextArea;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.events.TaskSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.events.TaskSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskNotePanel extends JTextArea implements TaskSelectionListener {

@@ -15,41 +15,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.events;
+package com.leclercb.taskunifier.gui.commons.events;
 
 import com.leclercb.commons.api.event.ListenerList;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 
-public class TaskSelectionChangeSupport implements TaskSelectionChangeSupported {
+public class TaskSearcherSelectionChangeSupport implements TaskSearcherSelectionChangeSupported {
 	
-	private ListenerList<TaskSelectionListener> listeners;
+	private ListenerList<TaskSearcherSelectionListener> listeners;
 	
 	private Object source;
 	
-	public TaskSelectionChangeSupport(Object source) {
-		this.listeners = new ListenerList<TaskSelectionListener>();
+	public TaskSearcherSelectionChangeSupport(Object source) {
+		this.listeners = new ListenerList<TaskSearcherSelectionListener>();
 		this.source = source;
 	}
 	
 	@Override
-	public void addTaskSelectionChangeListener(TaskSelectionListener listener) {
+	public void addTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
 		this.listeners.addListener(listener);
 	}
 	
 	@Override
-	public void removeTaskSelectionChangeListener(TaskSelectionListener listener) {
+	public void removeTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener) {
 		this.listeners.removeListener(listener);
 	}
 	
-	public void fireTaskSelectionChange(TaskSelectionChangeEvent event) {
-		for (TaskSelectionListener listener : this.listeners)
-			listener.taskSelectionChange(event);
+	public void fireTaskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
+		for (TaskSearcherSelectionListener listener : this.listeners)
+			listener.taskSearcherSelectionChange(event);
 	}
 	
-	public void fireTaskSelectionChange(Task[] selectedTasks) {
-		this.fireTaskSelectionChange(new TaskSelectionChangeEvent(
+	public void fireTaskSearcherSelectionChange(
+			TaskSearcher selectedTaskSearcher) {
+		this.fireTaskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
 				this.source,
-				selectedTasks));
+				selectedTaskSearcher));
 	}
 	
 }

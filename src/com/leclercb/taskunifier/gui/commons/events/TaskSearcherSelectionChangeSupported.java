@@ -15,11 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.events;
+package com.leclercb.taskunifier.gui.commons.events;
 
-public interface TaskSearcherSelectionListener {
+public interface TaskSearcherSelectionChangeSupported {
 	
-	public abstract void taskSearcherSelectionChange(
-			TaskSearcherSelectionChangeEvent event);
+	public abstract void addTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener);
+	
+	public abstract void removeTaskSearcherSelectionChangeListener(
+			TaskSearcherSelectionListener listener);
 	
 }
