@@ -15,6 +15,7 @@ Version 0.8.0
 	- FR 3201299: Hide completed tasks in General ->All Tasks
 	- BF 3195252: Date deleted on click
 	- Bug fixed: Personal search: parent condition
+	- Added jGoodies themes
 
 Version 0.7.4
 	- Bug fixed: Performance issue !!! 
