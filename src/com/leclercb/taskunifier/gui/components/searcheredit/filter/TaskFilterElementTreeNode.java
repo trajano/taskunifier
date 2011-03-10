@@ -8,7 +8,7 @@ import javax.swing.tree.TreeNode;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 
 public class TaskFilterElementTreeNode implements TreeNode {
 	

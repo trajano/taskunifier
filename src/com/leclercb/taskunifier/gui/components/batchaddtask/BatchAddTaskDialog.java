@@ -20,10 +20,10 @@ import javax.swing.UIManager;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
+import com.leclercb.taskunifier.gui.commons.renderers.TemplateListCellRenderer;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.models.TemplateModel;
-import com.leclercb.taskunifier.gui.renderers.TemplateListCellRenderer;
-import com.leclercb.taskunifier.gui.template.Template;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 

@@ -43,10 +43,10 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.GuiContext;
+import com.leclercb.taskunifier.gui.api.models.GuiContext;
+import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.ContextModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ContextConfigurationPanel extends JSplitPane {

@@ -1,7 +1,7 @@
 package com.leclercb.taskunifier.gui.components.searcherlist;
 
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.events.TaskSearcherSelectionChangeSupported;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public interface SearcherView extends TaskSearcherSelectionChangeSupported {
 	

@@ -21,8 +21,8 @@ import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 
 public final class ComponentFactory {
 	

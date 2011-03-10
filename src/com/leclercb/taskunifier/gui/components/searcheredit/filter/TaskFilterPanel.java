@@ -11,11 +11,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 

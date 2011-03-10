@@ -2,7 +2,7 @@ package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.Frame;
 
-import com.leclercb.taskunifier.gui.template.coder.TemplateFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ExportTemplatesDialog extends DefaultExportDialog {

@@ -23,9 +23,9 @@ import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
 
 public class TaskSearcherTransferHandler extends TransferHandler {
 	

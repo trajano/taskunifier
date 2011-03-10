@@ -31,9 +31,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.commons.models.ModelListModel;
+import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.ModelListModel;
-import com.leclercb.taskunifier.gui.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public abstract class ModelList extends JPanel {

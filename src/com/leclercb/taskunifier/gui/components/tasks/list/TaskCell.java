@@ -17,14 +17,14 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.commons.models.ContextModel;
+import com.leclercb.taskunifier.gui.commons.models.FolderModel;
+import com.leclercb.taskunifier.gui.commons.models.GoalModel;
+import com.leclercb.taskunifier.gui.commons.models.LocationModel;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.ContextModel;
-import com.leclercb.taskunifier.gui.models.FolderModel;
-import com.leclercb.taskunifier.gui.models.GoalModel;
-import com.leclercb.taskunifier.gui.models.LocationModel;
-import com.leclercb.taskunifier.gui.renderers.TaskPriorityListCellRenderer;
-import com.leclercb.taskunifier.gui.renderers.TaskRepeatFromListCellRenderer;
-import com.leclercb.taskunifier.gui.renderers.TaskStatusListCellRenderer;
 
 public class TaskCell extends JPanel {
 	

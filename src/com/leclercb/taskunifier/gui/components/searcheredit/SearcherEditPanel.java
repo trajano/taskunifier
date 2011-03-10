@@ -9,13 +9,13 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterElementPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterElementTreeNode;
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.help.Help;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	

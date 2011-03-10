@@ -10,10 +10,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.commons.renderers.SortOrderListCellRenderer;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.renderers.SortOrderListCellRenderer;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter;
 
 public class TaskSorterTable extends JTable {
 	

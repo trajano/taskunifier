@@ -24,14 +24,14 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.CalendarCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.DaysCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.EnumCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.NumberCondition;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.CalendarCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.ModelCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.NumberCondition;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class TranslationsUtils {

@@ -8,9 +8,9 @@ import javax.swing.table.DefaultTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter;
-import com.leclercb.taskunifier.gui.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskSorterTableModel extends DefaultTableModel implements ListChangeListener, PropertyChangeListener {

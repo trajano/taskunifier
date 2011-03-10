@@ -2,7 +2,7 @@ package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.Frame;
 
-import com.leclercb.taskunifier.gui.searchers.coder.TaskSearcherFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ExportSearchersDialog extends DefaultExportDialog {

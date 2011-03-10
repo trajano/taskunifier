@@ -18,7 +18,7 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.GuiModel;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 
 public class ModelRenderer extends DefaultRenderer {

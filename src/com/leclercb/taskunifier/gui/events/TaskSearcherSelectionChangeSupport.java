@@ -18,7 +18,7 @@
 package com.leclercb.taskunifier.gui.events;
 
 import com.leclercb.commons.api.event.ListenerList;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 
 public class TaskSearcherSelectionChangeSupport implements TaskSearcherSelectionChangeSupported {
 	

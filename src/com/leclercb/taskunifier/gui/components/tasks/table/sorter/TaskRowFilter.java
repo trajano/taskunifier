@@ -21,8 +21,8 @@ import javax.swing.RowFilter;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
-import com.leclercb.taskunifier.gui.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {

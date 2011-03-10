@@ -48,13 +48,13 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
-import com.leclercb.taskunifier.gui.api.GuiContext;
-import com.leclercb.taskunifier.gui.api.GuiGoal;
+import com.leclercb.taskunifier.gui.api.models.GuiContext;
+import com.leclercb.taskunifier.gui.api.models.GuiGoal;
+import com.leclercb.taskunifier.gui.commons.models.GoalContributeModel;
+import com.leclercb.taskunifier.gui.commons.models.GoalModel;
+import com.leclercb.taskunifier.gui.commons.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.images.Images;
-import com.leclercb.taskunifier.gui.models.GoalContributeModel;
-import com.leclercb.taskunifier.gui.models.GoalModel;
-import com.leclercb.taskunifier.gui.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 

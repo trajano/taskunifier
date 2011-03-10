@@ -20,8 +20,8 @@ package com.leclercb.taskunifier.gui.components.searcherlist.transfer;
 import java.io.Serializable;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 
 public class TaskSearcherTransferData implements Serializable {
 	
