@@ -229,21 +229,25 @@ public class SynchronizerDialog extends JDialog {
 						this.connection = SynchronizerUtils.getPlugin().getConnection();
 						
 						this.connection.loadParameters(Main.SETTINGS);
-						
 						this.connection.connect();
+						this.connection.saveParameters(Main.SETTINGS);
 						
 						this.synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
 								this.connection);
-						
-						this.synchronizer.loadParameters(Main.SETTINGS);
 						
 						SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 								"synchronizer.choice",
 								SynchronizerChoice.class);
 						
+						this.synchronizer.loadParameters(Main.SETTINGS);
 						this.synchronizer.synchronize(choice, monitor);
+						this.synchronizer.saveParameters(Main.SETTINGS);
 						
 						this.connection.disconnect();
+						
+						Main.SETTINGS.setCalendarProperty(
+								"synchronizer.last_synchronization_date",
+								Calendar.getInstance());
 					} catch (final SynchronizerException e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
@@ -287,17 +291,7 @@ public class SynchronizerDialog extends JDialog {
 				
 				@Override
 				protected void done() {
-					if (this.connection != null)
-						this.connection.saveParameters(Main.SETTINGS);
-					
-					if (this.synchronizer != null)
-						this.synchronizer.saveParameters(Main.SETTINGS);
-					
 					SynchronizerUtils.removeOldCompletedTasks();
-					
-					Main.SETTINGS.setCalendarProperty(
-							"synchronizer.last_synchronization_date",
-							Calendar.getInstance());
 					
 					Synchronizing.setSynchronizing(false);
 					

@@ -45,21 +45,25 @@ public class BackgroundSynchronizer {
 			connection = SynchronizerUtils.getPlugin().getConnection();
 			
 			connection.loadParameters(Main.SETTINGS);
-			
 			connection.connect();
+			connection.saveParameters(Main.SETTINGS);
 			
 			synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
 					connection);
-			
-			synchronizer.loadParameters(Main.SETTINGS);
 			
 			SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 			
+			synchronizer.loadParameters(Main.SETTINGS);
 			synchronizer.synchronize(choice);
+			synchronizer.saveParameters(Main.SETTINGS);
 			
 			connection.disconnect();
+			
+			Main.SETTINGS.setCalendarProperty(
+					"synchronizer.last_synchronization_date",
+					Calendar.getInstance());
 			
 			notification = new Notification(
 					Images.getResourceImage("synchronize.png", 48, 48),
@@ -100,17 +104,7 @@ public class BackgroundSynchronizer {
 		} finally {
 			SynchronizerUtils.removeProxy();
 			
-			if (connection != null)
-				connection.saveParameters(Main.SETTINGS);
-			
-			if (synchronizer != null)
-				synchronizer.saveParameters(Main.SETTINGS);
-			
 			SynchronizerUtils.removeOldCompletedTasks();
-			
-			Main.SETTINGS.setCalendarProperty(
-					"synchronizer.last_synchronization_date",
-					Calendar.getInstance());
 			
 			Synchronizing.setSynchronizing(false);
 		}
