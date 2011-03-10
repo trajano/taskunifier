@@ -23,8 +23,8 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.import_data.ImportModelsDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionImportModels extends AbstractAction {
 	

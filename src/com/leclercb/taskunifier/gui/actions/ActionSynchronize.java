@@ -27,8 +27,8 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionSynchronize extends AbstractAction {
 	

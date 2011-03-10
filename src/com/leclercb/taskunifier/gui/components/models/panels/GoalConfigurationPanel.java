@@ -54,9 +54,9 @@ import com.leclercb.taskunifier.gui.commons.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.renderers.GoalLevelListCellRenderer;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class GoalConfigurationPanel extends JSplitPane {
 	

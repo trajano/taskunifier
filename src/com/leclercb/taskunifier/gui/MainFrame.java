@@ -97,11 +97,11 @@ import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBarCreator;
 import com.leclercb.taskunifier.gui.components.toolbar.ToolBarCreator;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class MainFrame extends JFrame implements MainView, SavePropertiesListener {
 	

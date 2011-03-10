@@ -15,9 +15,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskFilterPanel extends JPanel {
 	

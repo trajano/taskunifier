@@ -15,8 +15,8 @@ import javax.swing.tree.TreePath;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.Link;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskFilterTree extends JTree {
 	

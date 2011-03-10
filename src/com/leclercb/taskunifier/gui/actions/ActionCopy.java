@@ -27,8 +27,8 @@ import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionCopy extends AbstractAction {
 	

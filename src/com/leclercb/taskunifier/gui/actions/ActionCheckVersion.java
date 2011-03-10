@@ -32,8 +32,8 @@ import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {

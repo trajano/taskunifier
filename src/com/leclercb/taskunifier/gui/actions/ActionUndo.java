@@ -29,8 +29,8 @@ import javax.swing.event.UndoableEditListener;
 import com.leclercb.commons.gui.swing.undo.IRedoListener;
 import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 	

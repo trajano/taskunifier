@@ -24,7 +24,7 @@ import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskCell extends JPanel {
 	

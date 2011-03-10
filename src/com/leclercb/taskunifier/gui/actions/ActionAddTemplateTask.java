@@ -28,7 +28,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionAddTemplateTask extends AbstractAction {
 	

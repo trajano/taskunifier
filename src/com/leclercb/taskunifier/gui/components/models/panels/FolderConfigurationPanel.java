@@ -47,8 +47,8 @@ import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiFolder;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class FolderConfigurationPanel extends JSplitPane {
 	

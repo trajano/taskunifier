@@ -34,8 +34,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 

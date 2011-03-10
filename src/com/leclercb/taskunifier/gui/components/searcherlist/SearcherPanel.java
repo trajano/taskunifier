@@ -44,9 +44,9 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSu
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class SearcherPanel extends JPanel implements SearcherView, PropertyChangeSupported, TaskSearcherSelectionChangeSupported, TaskSearcherSelectionListener {
 	

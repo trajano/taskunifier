@@ -16,7 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskSorterPanel extends JPanel {
 	

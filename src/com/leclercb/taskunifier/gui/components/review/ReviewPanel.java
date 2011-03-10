@@ -34,9 +34,9 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ReviewPanel extends JPanel {
 	

@@ -33,7 +33,7 @@ import javax.swing.SwingConstants;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
-import com.leclercb.taskunifier.gui.help.Help;
+import com.leclercb.taskunifier.gui.components.help.Help;
 
 public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	

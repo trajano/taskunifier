@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.leclercb.taskunifier.gui.help;
+package com.leclercb.taskunifier.gui.components.help;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -38,9 +38,9 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public final class Help {
 	

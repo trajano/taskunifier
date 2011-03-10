@@ -44,7 +44,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
 	

@@ -21,8 +21,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public abstract class ActionCreateAccount extends AbstractAction {
 	

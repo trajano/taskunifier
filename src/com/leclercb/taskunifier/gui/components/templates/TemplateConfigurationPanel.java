@@ -62,10 +62,10 @@ import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
-import com.leclercb.taskunifier.gui.help.Help;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TemplateConfigurationPanel extends JSplitPane {
 	

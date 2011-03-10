@@ -34,9 +34,9 @@ import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TemplateListCellRenderer;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 abstract class TemplateList extends JPanel {
 	

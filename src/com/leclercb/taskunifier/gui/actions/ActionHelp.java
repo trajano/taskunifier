@@ -22,9 +22,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
-import com.leclercb.taskunifier.gui.help.Help;
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionHelp extends AbstractAction {
 	

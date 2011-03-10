@@ -31,8 +31,8 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.PluginUtils;
 import com.leclercb.taskunifier.gui.utils.PluginUtils.PluginException;
 

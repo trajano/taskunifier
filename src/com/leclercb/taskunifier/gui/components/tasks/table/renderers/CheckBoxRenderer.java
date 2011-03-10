@@ -19,7 +19,7 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import javax.swing.SwingConstants;
 
-import com.leclercb.taskunifier.gui.images.Images;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class CheckBoxRenderer extends DefaultRenderer {
 	

@@ -31,8 +31,8 @@ import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionAddTask extends AbstractAction {
 	

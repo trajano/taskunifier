@@ -27,8 +27,8 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
-import com.leclercb.taskunifier.gui.images.Images;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionEditTask extends AbstractAction {
 	
