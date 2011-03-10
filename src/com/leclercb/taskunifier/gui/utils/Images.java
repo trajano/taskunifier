@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
-import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.main.Main;
 
 public final class Images {
 	

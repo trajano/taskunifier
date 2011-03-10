@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 

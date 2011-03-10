@@ -7,8 +7,8 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.MainFrame;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ImportSettingsDialog extends AbstractImportDialog {

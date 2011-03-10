@@ -98,28 +98,28 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 							taskFolder = new ModelId(
 									XMLUtils.getBooleanAttributeValue(
 											element,
-									"isnew"), element.getTextContent());
+											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("taskcontext"))
 						if (element.getTextContent().length() != 0)
 							taskContext = new ModelId(
 									XMLUtils.getBooleanAttributeValue(
 											element,
-									"isnew"), element.getTextContent());
+											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("taskgoal"))
 						if (element.getTextContent().length() != 0)
 							taskGoal = new ModelId(
 									XMLUtils.getBooleanAttributeValue(
 											element,
-									"isnew"), element.getTextContent());
+											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("tasklocation"))
 						if (element.getTextContent().length() != 0)
 							taskLocation = new ModelId(
 									XMLUtils.getBooleanAttributeValue(
 											element,
-									"isnew"), element.getTextContent());
+											"isnew"), element.getTextContent());
 					
 					if (element.getNodeName().equals("taskcompleted"))
 						if (element.getTextContent().length() != 0)
@@ -203,7 +203,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	@Override
 	protected void encode(Document document, Element root)
-	throws FactoryCoderException {
+			throws FactoryCoderException {
 		List<Template> templates = TemplateFactory.getInstance().getList();
 		
 		for (Template template : templates) {

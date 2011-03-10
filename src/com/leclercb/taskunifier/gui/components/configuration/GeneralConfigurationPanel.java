@@ -24,11 +24,11 @@ import java.util.Locale;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.commons.renderers.SimpleDateFormatListCellRenderer;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 

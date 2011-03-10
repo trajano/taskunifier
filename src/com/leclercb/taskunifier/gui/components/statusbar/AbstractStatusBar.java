@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 

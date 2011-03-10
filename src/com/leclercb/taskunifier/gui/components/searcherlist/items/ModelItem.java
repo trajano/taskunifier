@@ -9,7 +9,6 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.Main;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
@@ -21,6 +20,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -129,7 +129,7 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.COMPLETED,
 					StringCondition.EQUALS,
-			"false"));
+					"false"));
 			
 			template.setTaskCompleted(false);
 		}

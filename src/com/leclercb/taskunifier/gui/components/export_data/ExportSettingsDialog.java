@@ -3,7 +3,7 @@ package com.leclercb.taskunifier.gui.components.export_data;
 import java.awt.Frame;
 import java.io.FileOutputStream;
 
-import com.leclercb.taskunifier.gui.Main;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ExportSettingsDialog extends AbstractExportDialog {

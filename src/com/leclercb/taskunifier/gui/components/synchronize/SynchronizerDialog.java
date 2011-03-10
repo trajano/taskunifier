@@ -47,9 +47,9 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessa
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
-import com.leclercb.taskunifier.gui.Main;
-import com.leclercb.taskunifier.gui.MainFrame;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
