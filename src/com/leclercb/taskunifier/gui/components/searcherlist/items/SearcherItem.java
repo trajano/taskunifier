@@ -22,7 +22,6 @@ public class SearcherItem extends SourceListItem implements TaskSearcherElement 
 						16,
 						16)));
 		this.searcher = searcher;
-		this.updateBadgeCount();
 	}
 	
 	public void updateBadgeCount() {

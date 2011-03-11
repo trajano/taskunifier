@@ -114,6 +114,8 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 			}
 			
 		});
+		
+		this.updateBadges();
 	}
 	
 	private void initializeToolTipText() {
@@ -583,6 +585,10 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	}
 	
 	public void updateBadges() {
+		Boolean showBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
+		if (showBadges == null || !showBadges)
+			return;
+		
 		List<SourceListItem> items = null;
 		
 		items = this.generalCategory.getItems();

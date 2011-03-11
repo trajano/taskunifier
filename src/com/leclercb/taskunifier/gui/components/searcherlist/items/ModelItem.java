@@ -45,7 +45,6 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		this.modelType = modelType;
 		this.model = model;
-		this.updateBadgeCount();
 	}
 	
 	public ModelType getModelType() {

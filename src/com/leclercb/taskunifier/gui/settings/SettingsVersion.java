@@ -212,6 +212,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.4 to 0.8.0");
 		
+		Main.SETTINGS.setStringProperty("searcher.show_badges", "false");
 		Main.SETTINGS.setStringProperty("task.show_edit_window_on_add", "false");
 		
 		return "0.8.0";

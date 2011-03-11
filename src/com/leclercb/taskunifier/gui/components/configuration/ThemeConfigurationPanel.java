@@ -55,6 +55,11 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"theme.lookandfeel",
 				laf.getIdentifier());
 		
+		// Badges
+		Main.SETTINGS.setBooleanProperty(
+				"searcher.show_badges",
+				(Boolean) this.getValue("SHOW_BADGES"));
+		
 		// Colors
 		Main.SETTINGS.setBooleanProperty(
 				"theme.color.enabled",
@@ -88,12 +93,16 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private void initialize() {
 		LookAndFeelDescriptor themeLookAndFeelValue = null;
+		Boolean themeShowBadges = false;
 		Boolean themeColorEnabledValue = false;
 		Color themeColorEvenValue = Color.WHITE;
 		Color themeColorOddValue = Color.WHITE;
 		
 		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
 			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_badges") != null)
+			themeShowBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
 		
 		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
 			themeColorEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.enabled");
@@ -144,6 +153,33 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				null,
 				new ConfigurationFieldType.Label(
 						Translations.getString("configuration.theme.look_and_feel_preview"))));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"SETTINGS_AFTER_RESTART",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.general.settings_changed_after_restart"))));
+		
+		this.addField(new ConfigurationField(
+				"SHOW_BADGES_PERFORMANCE",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.theme.show_badges_performance"))));
+		
+		this.addField(new ConfigurationField(
+				"SHOW_BADGES",
+				Translations.getString("configuration.theme.show_badges"),
+				new ConfigurationFieldType.CheckBox(themeShowBadges)));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_2",
+				null,
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_CHANGED_NEXT_STARTUP",
