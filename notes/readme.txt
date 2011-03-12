@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.8.1
+	- FR 3207436: Smaller icons in settings
+
 Version 0.8.0
 	- FR 3194872: Combobox search
 	- FR 3192554: German GUI
