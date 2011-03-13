@@ -207,7 +207,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					"SYNCHRONIZE_ALL",
 					null,
 					new ConfigurationFieldType.Button(new ActionSynchronize(
-							false, 22, 22) {
+							false,
+							22,
+							22) {
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
@@ -232,7 +234,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					"RESET_ALL",
 					null,
 					new ConfigurationFieldType.Button(new ActionSynchronize(
-							false, 22, 22) {
+							false,
+							22,
+							22) {
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {

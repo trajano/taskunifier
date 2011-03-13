@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.1
+	- BF 3208322: Subtasks problem
 	- FR 3207436: Smaller icons in settings
 
 Version 0.8.0
