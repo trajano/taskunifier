@@ -72,6 +72,9 @@ public final class SettingsVersion {
 		if (version.equals("0.8.0"))
 			version = "0.8.1";
 		
+		if (version.equals("0.8.1"))
+			version = "0.8.2";
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	

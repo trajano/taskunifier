@@ -44,7 +44,7 @@ public final class Constants {
 	}
 	
 	public static final String TITLE = "TaskUnifier";
-	public static final String VERSION = "0.8.1";
+	public static final String VERSION = "0.8.2";
 	
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
 	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
