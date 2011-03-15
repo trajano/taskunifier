@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.2
+	- FR 3207446: Larger note text box
 	- BF 3213050: Task length field
 	- Bug fixed: Select title & Edit task window with template
 

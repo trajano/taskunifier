@@ -95,7 +95,7 @@ public class TaskEditPanel extends JPanel {
 				+ " "
 				+ DateTimeFormatUtils.getMask(timeFormat);
 		
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 10));
 		
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
@@ -139,7 +139,7 @@ public class TaskEditPanel extends JPanel {
 		
 		JPanel info = new JPanel();
 		info.setLayout(new SpringLayout());
-		this.add(info, BorderLayout.CENTER);
+		this.add(info, BorderLayout.NORTH);
 		
 		JLabel label = null;
 		
@@ -293,24 +293,25 @@ public class TaskEditPanel extends JPanel {
 		this.taskPriority.setRenderer(new TaskPriorityListCellRenderer());
 		info.add(this.taskPriority);
 		
-		// Empty
-		info.add(new JLabel());
-		info.add(new JLabel());
-		
-		// Task Note
-		label = new JLabel(
-				Translations.getString("general.task.note") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(new JScrollPane(this.taskNote));
-		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 10, 4, // rows, cols
+		SpringUtils.makeCompactGrid(info, 9, 4, // rows, cols
 				6,
 				6, // initX, initY
 				6,
 				6); // xPad, yPad
+		
+		// Task Note
+		JPanel notePanel = new JPanel();
+		notePanel.setLayout(new BorderLayout());
+		
+		label = new JLabel(
+				Translations.getString("general.task.note") + ":",
+				SwingConstants.LEADING);
+		notePanel.add(label, BorderLayout.NORTH);
+		
+		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
+		
+		this.add(notePanel, BorderLayout.CENTER);
 	}
 	
 	private void initializeAdapter() {
