@@ -1,7 +1,6 @@
 package com.leclercb.taskunifier.gui.components.tasks.edit;
 
 import java.awt.BorderLayout;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JCheckBox;
@@ -10,17 +9,18 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
+import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
-import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
@@ -34,6 +34,9 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.commons.converters.CalendarConverter;
+import com.leclercb.taskunifier.gui.commons.converters.LengthConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TagsConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -69,7 +72,7 @@ public class TaskEditPanel extends JPanel {
 	private JTextField taskRepeat;
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
-	private JFormattedTextField taskLength;
+	private JSpinner taskLength;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
 	private JTextArea taskNote;
@@ -129,8 +132,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskRepeat = new JTextField();
 		this.taskRepeatFrom = new JComboBox();
 		this.taskStatus = new JComboBox();
-		this.taskLength = new JFormattedTextField(
-				FormatterUtils.getIntegerFormatter());
+		this.taskLength = new JSpinner();
 		this.taskPriority = new JComboBox();
 		this.taskStar = new JCheckBox();
 		this.taskNote = new JTextArea(3, 5);
@@ -254,6 +256,8 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
+		// this.taskLength.setModel(new SpinnerDateModel());
+		
 		info.add(this.taskLength);
 		
 		// Task Repeat
@@ -373,8 +377,16 @@ public class TaskEditPanel extends JPanel {
 				TaskStatus.values(),
 				taskStatusModel));
 		
-		ValueModel taskLengthModel = this.adapter.getValueModel(Task.PROP_LENGTH);
-		Bindings.bind(this.taskLength, taskLengthModel);
+		LengthConverter taskLengthModel = new LengthConverter(
+				this.adapter.getValueModel(Task.PROP_LENGTH));
+		SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
+				taskLengthModel,
+				(Date) taskLengthModel.convertFromSubject(this.task.getLength()));
+		
+		this.taskLength.setModel(model);
+		this.taskLength.setEditor(new JSpinner.DateEditor(
+				this.taskLength,
+				Main.SETTINGS.getStringProperty("date.time_format")));
 		
 		ValueModel taskPriorityModel = this.adapter.getValueModel(Task.PROP_PRIORITY);
 		this.taskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
@@ -386,52 +398,6 @@ public class TaskEditPanel extends JPanel {
 		
 		ValueModel taskNoteModel = this.adapter.getValueModel(Task.PROP_NOTE);
 		Bindings.bind(this.taskNote, taskNoteModel);
-	}
-	
-	public static class TagsConverter extends AbstractConverter {
-		
-		public TagsConverter(ValueModel subject) {
-			super(subject);
-		}
-		
-		@Override
-		public void setValue(Object tags) {
-			this.subject.setValue(((String) tags).split(","));
-		}
-		
-		@Override
-		public Object convertFromSubject(Object tags) {
-			return ArrayUtils.arrayToString((String[]) tags, ", ");
-		}
-		
-	}
-	
-	public static class CalendarConverter extends AbstractConverter {
-		
-		public CalendarConverter(ValueModel subject) {
-			super(subject);
-		}
-		
-		@Override
-		public void setValue(Object date) {
-			if (date == null) {
-				this.subject.setValue(null);
-				return;
-			}
-			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeInMillis(((Date) date).getTime());
-			this.subject.setValue(calendar);
-		}
-		
-		@Override
-		public Object convertFromSubject(Object calendar) {
-			if (calendar == null)
-				return null;
-			
-			return ((Calendar) calendar).getTime();
-		}
-		
 	}
 	
 }

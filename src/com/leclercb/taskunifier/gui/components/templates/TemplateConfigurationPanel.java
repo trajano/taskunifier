@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -26,35 +27,33 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
+import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
-import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
-import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.commons.converters.LengthConverter;
+import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -63,6 +62,7 @@ import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRender
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -94,8 +94,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JTextField templateTaskRepeat = new JTextField();
 		final JComboBox templateTaskRepeatFrom = new JComboBox();
 		final JComboBox templateTaskStatus = new JComboBox();
-		final JFormattedTextField templateTaskLength = new JFormattedTextField(
-				FormatterUtils.getIntegerFormatter());
+		final JSpinner templateTaskLength = new JSpinner();
 		final JComboBox templateTaskPriority = new JComboBox();
 		final JCheckBox templateTaskStar = new JCheckBox();
 		final JTextArea templateTaskNote = new JTextArea(3, 5);
@@ -170,8 +169,16 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						TaskStatus.values(),
 						taskStatusModel));
 				
-				ValueModel taskLengthModel = this.adapter.getValueModel(Template.PROP_TASK_LENGTH);
-				Bindings.bind(templateTaskLength, taskLengthModel);
+				LengthConverter taskLengthModel = new LengthConverter(
+						this.adapter.getValueModel(Template.PROP_TASK_LENGTH));
+				SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
+						taskLengthModel,
+						(Date) taskLengthModel.convertFromSubject(0));
+				
+				templateTaskLength.setModel(model);
+				templateTaskLength.setEditor(new JSpinner.DateEditor(
+						templateTaskLength,
+						Main.SETTINGS.getStringProperty("date.time_format")));
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(Template.PROP_TASK_PRIORITY);
 				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
@@ -435,38 +442,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		field.setSelectionEnd(length);
 		
 		field.requestFocus();
-	}
-	
-	public static class ModelConverter extends AbstractConverter {
-		
-		private ModelType type;
-		
-		public ModelConverter(ModelType type, ValueModel subject) {
-			super(subject);
-			this.type = type;
-		}
-		
-		@Override
-		public void setValue(Object model) {
-			this.subject.setValue((model == null ? null : ((Model) model).getModelId()));
-		}
-		
-		@Override
-		public Object convertFromSubject(Object value) {
-			switch (this.type) {
-				case CONTEXT:
-					return ContextFactory.getInstance().get((ModelId) value);
-				case FOLDER:
-					return FolderFactory.getInstance().get((ModelId) value);
-				case GOAL:
-					return GoalFactory.getInstance().get((ModelId) value);
-				case LOCATION:
-					return LocationFactory.getInstance().get((ModelId) value);
-				default:
-					return null;
-			}
-		}
-		
 	}
 	
 }
