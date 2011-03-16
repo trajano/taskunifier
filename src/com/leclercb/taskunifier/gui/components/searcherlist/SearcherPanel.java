@@ -19,8 +19,6 @@ package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -41,18 +39,16 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class SearcherPanel extends JPanel implements SearcherView, PropertyChangeSupported, TaskSearcherSelectionChangeSupported, TaskSearcherSelectionListener {
+public class SearcherPanel extends JPanel implements SearcherView, PropertyChangeSupported, TaskSearcherSelectionListener {
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
 	
-	private PropertyChangeSupport propertyChangeSupport;
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
 	private SearcherList searcherView;
@@ -64,7 +60,6 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	private Action editAction;
 	
 	public SearcherPanel() {
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
 				this);
 		
@@ -80,10 +75,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		this.titleFilter = titleFilter;
 		SearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherPanel.this.getSelectedTaskSearcher());
 		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TITLE_FILTER,
-				oldTitleFilter,
-				titleFilter);
+		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
 	}
 	
 	@Override
@@ -224,16 +216,6 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 			new ActionEditSearcher().editSearcher(searcher);
 			this.searcherView.updateBadges();
 		}
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 	@Override
