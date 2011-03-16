@@ -68,10 +68,10 @@ import com.leclercb.taskunifier.gui.actions.ActionImportModels;
 import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
-import com.leclercb.taskunifier.gui.actions.ActionInstallPlugin;
 import com.leclercb.taskunifier.gui.actions.ActionLogBug;
 import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
+import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
@@ -277,9 +277,6 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		menuBar.add(fileMenu);
 		
-		fileMenu.add(new ActionInstallPlugin(16, 16));
-		fileMenu.addSeparator();
-		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSearchers(16, 16));
@@ -296,6 +293,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionConfiguration(16, 16));
+		fileMenu.add(new ActionManagePlugins(16, 16));
 		fileMenu.add(new ActionManageModels(16, 16));
 		fileMenu.add(new ActionManageTemplates(16, 16));
 		fileMenu.addSeparator();

@@ -62,6 +62,8 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
+import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -69,8 +71,6 @@ import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.PluginUtils;
-import com.leclercb.taskunifier.gui.utils.PluginUtils.PluginException;
 
 public class Main {
 	
@@ -402,7 +402,7 @@ public class Main {
 			
 			for (File file : pluginFiles) {
 				try {
-					PluginUtils.loadPlugin(file, true);
+					PluginsUtils.loadPlugin(file, true);
 				} catch (PluginException e) {
 					GuiLogger.getLogger().warning(e.getMessage());
 				} catch (Exception e) {

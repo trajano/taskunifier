@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<plugins>
+    <plugin>
+        <id>1</id>
+        <name>Toodledo Plugin</name>
+        <author>Benjamin Leclerc</author>
+        <version>1.0</version>
+        <serviceProvider>http://www.toodledo.com</serviceProvider>
+        <downloadUrl>file:///C:/Documents and Settings/IGK557/My Documents/TaskUnifierPluginToodledo.jar</downloadUrl>
+    </plugin>
+</plugins>
