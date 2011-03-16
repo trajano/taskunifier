@@ -80,6 +80,8 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 				if (event.getActionCommand() == "DELETE") {
 					PluginsUtils.deletePlugin(PluginsPanel.this.table.getSelectedPlugin());
 				}
+				
+				valueChanged(null);
 			}
 			
 		};
@@ -108,7 +110,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
 	@Override
 	public void valueChanged(ListSelectionEvent evt) {
-		if (evt.getValueIsAdjusting())
+		if (evt != null && evt.getValueIsAdjusting())
 			return;
 		
 		Plugin plugin = this.table.getSelectedPlugin();

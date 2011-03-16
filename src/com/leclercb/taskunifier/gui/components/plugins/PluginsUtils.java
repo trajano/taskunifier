@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -34,7 +33,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class PluginsUtils {
 	
 	public static void loadPlugin(File file, boolean add)
-			throws PluginException {
+	throws PluginException {
 		if (file.isFile()
 				&& FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
 			try {
@@ -46,14 +45,14 @@ public class PluginsUtils {
 					throw new PluginException(
 							PluginExceptionType.NO_VALID_PLUGIN,
 							"Jar file doesn't contain any valid plugin: "
-									+ file.getAbsolutePath());
+							+ file.getAbsolutePath());
 				}
 				
 				if (plugins.size() > 1) {
 					throw new PluginException(
 							PluginExceptionType.MORE_THAN_ONE_PLUGIN,
 							"Jar file contains more than one plugin: "
-									+ file.getAbsolutePath());
+							+ file.getAbsolutePath());
 				}
 				
 				SynchronizerGuiPlugin plugin = plugins.get(0);
@@ -67,20 +66,20 @@ public class PluginsUtils {
 						throw new PluginException(
 								PluginExceptionType.PLUGIN_FOUND,
 								"A plugin ("
-										+ p.getName()
-										+ ") with the same ID and version already exists: "
-										+ plugin.getName());
+								+ p.getName()
+								+ ") with the same ID and version already exists: "
+								+ plugin.getName());
 					}
 				}
 				
 				if (add) {
-					Main.API_PLUGINS.addPlugin(plugin);
+					Main.API_PLUGINS.addPlugin(file, plugin);
 					
 					GuiLogger.getLogger().info(
 							"Plugin loaded: "
-									+ plugin.getName()
-									+ " - "
-									+ plugin.getVersion());
+							+ plugin.getName()
+							+ " - "
+							+ plugin.getVersion());
 				}
 				
 				return;
@@ -91,7 +90,7 @@ public class PluginsUtils {
 				throw new PluginException(
 						PluginExceptionType.ERROR_LOADING_PLUGIN,
 						"Could not load plugin jar file: "
-								+ file.getAbsolutePath());
+						+ file.getAbsolutePath());
 			}
 		}
 	}
@@ -120,12 +119,6 @@ public class PluginsUtils {
 			PluginsUtils.loadPlugin(outFile, true);
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
-			
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("action.install_plugin.plugin_installed"),
-					Translations.getString("general.information"),
-					JOptionPane.INFORMATION_MESSAGE);
 		} catch (PluginException e) {
 			String message = null;
 			
@@ -170,7 +163,15 @@ public class PluginsUtils {
 	}
 	
 	public static void deletePlugin(Plugin plugin) {
-		// TODO Auto-generated method stub
+		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(Main.API_PLUGINS.getPlugins());
+		for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
+			if (existingPlugin.getId().equals(plugin.getId())) {
+				File file = Main.API_PLUGINS.getFile(existingPlugin);
+				file.deleteOnExit();
+				Main.API_PLUGINS.removePlugin(existingPlugin);
+				plugin.setStatus(PluginStatus.TO_INSTALL);
+			}
+		}
 	}
 	
 	public static Plugin[] loadPluginsFromXML() {
@@ -213,7 +214,7 @@ public class PluginsUtils {
 			document.getDocumentElement().normalize();
 			
 			if (!document.getChildNodes().item(0).getNodeName().equals(
-					"plugins"))
+			"plugins"))
 				throw new Exception("Root name must be \"plugins\"");
 			
 			Node root = document.getChildNodes().item(0);

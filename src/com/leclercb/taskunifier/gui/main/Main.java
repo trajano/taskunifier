@@ -391,7 +391,7 @@ public class Main {
 		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
 				SynchronizerGuiPlugin.class);
 		
-		API_PLUGINS.addPlugin(DummyGuiPlugin.getInstance());
+		API_PLUGINS.addPlugin(null, DummyGuiPlugin.getInstance());
 		
 		File pluginsFolder = new File(RESOURCES_FOLDER
 				+ File.separator

@@ -1,17 +1,24 @@
 package com.leclercb.taskunifier.gui.components.plugins.table;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin;
 
-public class PluginTableModel extends AbstractTableModel {
+public class PluginTableModel extends AbstractTableModel implements PropertyChangeListener {
 	
 	private Plugin[] plugins;
 	
 	public PluginTableModel(Plugin[] plugins) {
 		CheckUtils.isNotNull(plugins, "Plugins cannot be null");
 		this.plugins = plugins;
+		
+		for (Plugin plugin : plugins) {
+			plugin.addPropertyChangeListener(this);
+		}
 	}
 	
 	public Plugin getPlugin(int row) {
@@ -71,6 +78,15 @@ public class PluginTableModel extends AbstractTableModel {
 				return this.plugins[row].getServiceProvider();
 			default:
 				return null;
+		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		for (int i=0; i<plugins.length; i++) {
+			if (plugins[i] == evt.getSource()) {
+				this.fireTableRowsUpdated(i, i);
+			}
 		}
 	}
 	
