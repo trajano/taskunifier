@@ -165,7 +165,8 @@ public class PluginsUtils {
 	}
 	
 	public static void updatePlugin(Plugin plugin) {
-		// TODO Auto-generated method stub
+		deletePlugin(plugin);
+		installPlugin(plugin);
 	}
 	
 	public static void deletePlugin(Plugin plugin) {
@@ -197,7 +198,7 @@ public class PluginsUtils {
 						false);
 				dialog.setVisible(true);
 				
-				// return new Plugin[0];
+				return new Plugin[0];
 			}
 			
 			String content = response.getContent();

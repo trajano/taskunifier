@@ -22,7 +22,7 @@ public class PluginsDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setTitle(Translations.getString("general.plugins"));
+		this.setTitle(Translations.getString("general.manage_plugins"));
 		this.setSize(600, 300);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
