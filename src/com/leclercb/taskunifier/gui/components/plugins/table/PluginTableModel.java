@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginTableModel extends AbstractTableModel implements PropertyChangeListener {
 	
@@ -29,15 +30,15 @@ public class PluginTableModel extends AbstractTableModel implements PropertyChan
 	public String getColumnName(int col) {
 		switch (col) {
 			case 0:
-				return "Status";
+				return Translations.getString("plugin.status");
 			case 1:
-				return "Name";
+				return Translations.getString("plugin.name");
 			case 2:
-				return "Author";
+				return Translations.getString("plugin.author");
 			case 3:
-				return "Version";
+				return Translations.getString("plugin.version");
 			case 4:
-				return "Service Provider";
+				return Translations.getString("plugin.service_provider");
 			default:
 				return null;
 		}
@@ -83,8 +84,8 @@ public class PluginTableModel extends AbstractTableModel implements PropertyChan
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		for (int i=0; i<plugins.length; i++) {
-			if (plugins[i] == evt.getSource()) {
+		for (int i = 0; i < this.plugins.length; i++) {
+			if (this.plugins[i] == evt.getSource()) {
 				this.fireTableRowsUpdated(i, i);
 			}
 		}

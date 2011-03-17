@@ -81,7 +81,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 					PluginsUtils.deletePlugin(PluginsPanel.this.table.getSelectedPlugin());
 				}
 				
-				valueChanged(null);
+				PluginsPanel.this.valueChanged(null);
 			}
 			
 		};

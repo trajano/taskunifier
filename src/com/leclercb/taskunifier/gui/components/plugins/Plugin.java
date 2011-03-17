@@ -11,9 +11,10 @@ public class Plugin implements PropertyChangeSupported {
 	
 	public static enum PluginStatus {
 		
-		TO_INSTALL(Translations.getString("plugin.to_install")),
-		INSTALLED(Translations.getString("plugin.installed")),
-		TO_UPDATE(Translations.getString("plugin.to_update"));
+		TO_INSTALL(Translations.getString("plugin.status.to_install")),
+		INSTALLED(Translations.getString("plugin.status.installed")),
+		TO_UPDATE(Translations.getString("plugin.status.to_update")),
+		DELETED(Translations.getString("plugin.status.deleted"));
 		
 		private String label;
 		
@@ -62,7 +63,7 @@ public class Plugin implements PropertyChangeSupported {
 		this.setAuthor(author);
 		this.setVersion(version);
 		this.setServiceProvider(serviceProvider);
-		this.setDownloadUrl("http://taskunifier.sourceforge.net/TaskUnifierPluginToodledo.jar");
+		this.setDownloadUrl(downloadUrl);
 	}
 	
 	public PluginStatus getStatus() {
@@ -73,7 +74,10 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(status, "Status cannot be null");
 		PluginStatus oldStatus = this.status;
 		this.status = status;
-		propertyChangeSupport.firePropertyChange(PROP_STATUS, oldStatus, status);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_STATUS,
+				oldStatus,
+				status);
 	}
 	
 	public String getId() {
@@ -84,7 +88,7 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		String oldId = this.id;
 		this.id = id;
-		propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
+		this.propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
 	}
 	
 	public String getName() {
@@ -95,7 +99,7 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(name, "Name cannot be null");
 		String oldName = this.name;
 		this.name = name;
-		propertyChangeSupport.firePropertyChange(PROP_NAME, oldName, name);
+		this.propertyChangeSupport.firePropertyChange(PROP_NAME, oldName, name);
 	}
 	
 	public String getAuthor() {
@@ -106,7 +110,10 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(author, "Author cannot be null");
 		String oldAuthor = this.author;
 		this.author = author;
-		propertyChangeSupport.firePropertyChange(PROP_AUTHOR, oldAuthor, author);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_AUTHOR,
+				oldAuthor,
+				author);
 	}
 	
 	public String getVersion() {
@@ -117,7 +124,10 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(version, "Version cannot be null");
 		String oldVersion = this.version;
 		this.version = version;
-		propertyChangeSupport.firePropertyChange(PROP_VERSION, oldVersion, version);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_VERSION,
+				oldVersion,
+				version);
 	}
 	
 	public String getServiceProvider() {
@@ -128,7 +138,10 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(serviceProvider, "Service provider cannot be null");
 		String oldServiceProvider = this.serviceProvider;
 		this.serviceProvider = serviceProvider;
-		propertyChangeSupport.firePropertyChange(PROP_SERVICE_PROVIDER, oldServiceProvider, serviceProvider);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_SERVICE_PROVIDER,
+				oldServiceProvider,
+				serviceProvider);
 	}
 	
 	public String getDownloadUrl() {
@@ -139,17 +152,20 @@ public class Plugin implements PropertyChangeSupported {
 		CheckUtils.isNotNull(downloadUrl, "Download url cannot be null");
 		String oldDownloadUrl = this.downloadUrl;
 		this.downloadUrl = downloadUrl;
-		propertyChangeSupport.firePropertyChange(PROP_DOWNLOAD_URL, oldDownloadUrl, downloadUrl);
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_DOWNLOAD_URL,
+				oldDownloadUrl,
+				downloadUrl);
 	}
 	
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 }

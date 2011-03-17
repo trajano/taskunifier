@@ -402,7 +402,7 @@ public class Main {
 			
 			for (File file : pluginFiles) {
 				try {
-					PluginsUtils.loadPlugin(file, true);
+					PluginsUtils.loadPlugin(file);
 				} catch (PluginException e) {
 					GuiLogger.getLogger().warning(e.getMessage());
 				} catch (Exception e) {

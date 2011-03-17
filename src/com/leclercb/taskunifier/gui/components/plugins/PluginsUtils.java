@@ -28,124 +28,92 @@ import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.Plugi
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginsUtils {
 	
-	public static void loadPlugin(File file, boolean add)
-	throws PluginException {
-		if (file.isFile()
-				&& FileUtils.getExtention(file.getAbsolutePath()).equals("jar")) {
-			try {
-				List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(
-						file,
-						false);
-				
-				if (plugins.size() == 0) {
-					throw new PluginException(
-							PluginExceptionType.NO_VALID_PLUGIN,
-							"Jar file doesn't contain any valid plugin: "
-							+ file.getAbsolutePath());
+	public static void loadPlugin(File file) throws PluginException {
+		if (!file.isFile()
+				|| !FileUtils.getExtention(file.getAbsolutePath()).equals("jar"))
+			return;
+		
+		try {
+			File tmpFile = File.createTempFile("taskunifier_plugin_", ".jar");
+			org.apache.commons.io.FileUtils.copyFile(file, tmpFile);
+			
+			List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(
+					tmpFile,
+					file,
+					false);
+			
+			if (plugins.size() == 0) {
+				throw new PluginException(PluginExceptionType.NO_VALID_PLUGIN);
+			}
+			
+			if (plugins.size() > 1) {
+				throw new PluginException(
+						PluginExceptionType.MORE_THAN_ONE_PLUGIN);
+			}
+			
+			SynchronizerGuiPlugin plugin = plugins.get(0);
+			List<SynchronizerGuiPlugin> existingPlugins = Main.API_PLUGINS.getPlugins();
+			
+			for (SynchronizerGuiPlugin p : existingPlugins) {
+				if (EqualsUtils.equals(p.getId(), plugin.getId())
+						&& EqualsUtils.equals(
+								p.getVersion(),
+								plugin.getVersion())) {
+					throw new PluginException(PluginExceptionType.PLUGIN_FOUND);
 				}
-				
-				if (plugins.size() > 1) {
-					throw new PluginException(
-							PluginExceptionType.MORE_THAN_ONE_PLUGIN,
-							"Jar file contains more than one plugin: "
-							+ file.getAbsolutePath());
-				}
-				
-				SynchronizerGuiPlugin plugin = plugins.get(0);
-				List<SynchronizerGuiPlugin> existingPlugins = Main.API_PLUGINS.getPlugins();
-				
-				for (SynchronizerGuiPlugin p : existingPlugins) {
-					if (EqualsUtils.equals(p.getId(), plugin.getId())
-							&& EqualsUtils.equals(
-									p.getVersion(),
-									plugin.getVersion())) {
-						throw new PluginException(
-								PluginExceptionType.PLUGIN_FOUND,
-								"A plugin ("
-								+ p.getName()
-								+ ") with the same ID and version already exists: "
-								+ plugin.getName());
-					}
-				}
-				
-				if (add) {
-					Main.API_PLUGINS.addPlugin(file, plugin);
-					
-					GuiLogger.getLogger().info(
-							"Plugin loaded: "
+			}
+			
+			Main.API_PLUGINS.addPlugin(file, plugin);
+			
+			GuiLogger.getLogger().info(
+					"Plugin loaded: "
 							+ plugin.getName()
 							+ " - "
 							+ plugin.getVersion());
-				}
-				
-				return;
-			} catch (PluginException e) {
-				throw e;
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new PluginException(
-						PluginExceptionType.ERROR_LOADING_PLUGIN,
-						"Could not load plugin jar file: "
-						+ file.getAbsolutePath());
-			}
+			
+			return;
+		} catch (PluginException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN);
 		}
 	}
 	
 	public static void installPlugin(Plugin plugin) {
+		File file = null;
+		
 		try {
-			File tmpFile = File.createTempFile("taskunifier_plugin_", ".jar");
-			
-			org.apache.commons.io.FileUtils.copyURLToFile(
-					new URL(plugin.getDownloadUrl()),
-					tmpFile);
-			
-			PluginsUtils.loadPlugin(tmpFile, false);
-			
-			File outFile = new File(Main.RESOURCES_FOLDER
+			file = new File(Main.RESOURCES_FOLDER
 					+ File.separator
 					+ "plugins"
 					+ File.separator
 					+ UUID.randomUUID().toString()
 					+ ".jar");
 			
-			outFile.createNewFile();
+			file.createNewFile();
 			
-			org.apache.commons.io.FileUtils.copyFile(tmpFile, outFile);
+			org.apache.commons.io.FileUtils.copyURLToFile(
+					new URL(plugin.getDownloadUrl()),
+					file);
 			
-			PluginsUtils.loadPlugin(outFile, true);
+			PluginsUtils.loadPlugin(file);
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
-			String message = null;
-			
-			switch (e.getType()) {
-				case ERROR_LOADING_PLUGIN:
-					message = Translations.getString("error.cannot_install_plugin");
-					break;
-				case NO_VALID_PLUGIN:
-					message = Translations.getString("error.no_valid_plugin");
-					break;
-				case MORE_THAN_ONE_PLUGIN:
-					message = Translations.getString("error.more_than_one_plugin");
-					break;
-				case PLUGIN_FOUND:
-					message = Translations.getString("error.plugin_already_installed");
-					break;
-			}
-			
-			GuiLogger.getLogger().warning(e.getMessage());
+			file.delete();
 			
 			ErrorDialog dialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
-					message,
+					e.getMessage(),
 					e,
 					false);
 			dialog.setVisible(true);
 		} catch (Exception e) {
+			file.delete();
+			
 			e.printStackTrace();
 			
 			ErrorDialog dialog = new ErrorDialog(
@@ -163,13 +131,14 @@ public class PluginsUtils {
 	}
 	
 	public static void deletePlugin(Plugin plugin) {
-		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(Main.API_PLUGINS.getPlugins());
+		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
+				Main.API_PLUGINS.getPlugins());
 		for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
 			if (existingPlugin.getId().equals(plugin.getId())) {
 				File file = Main.API_PLUGINS.getFile(existingPlugin);
-				file.deleteOnExit();
+				file.delete();
 				Main.API_PLUGINS.removePlugin(existingPlugin);
-				plugin.setStatus(PluginStatus.TO_INSTALL);
+				plugin.setStatus(PluginStatus.DELETED);
 			}
 		}
 	}
@@ -214,7 +183,7 @@ public class PluginsUtils {
 			document.getDocumentElement().normalize();
 			
 			if (!document.getChildNodes().item(0).getNodeName().equals(
-			"plugins"))
+					"plugins"))
 				throw new Exception("Root name must be \"plugins\"");
 			
 			Node root = document.getChildNodes().item(0);
