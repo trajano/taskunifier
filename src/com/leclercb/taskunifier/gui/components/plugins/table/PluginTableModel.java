@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin;
+import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginTableModel extends AbstractTableModel implements PropertyChangeListener {
@@ -61,6 +62,9 @@ public class PluginTableModel extends AbstractTableModel implements PropertyChan
 	
 	@Override
 	public Class<?> getColumnClass(int col) {
+		if (col == 0)
+			return PluginStatus.class;
+		
 		return String.class;
 	}
 	
@@ -68,7 +72,7 @@ public class PluginTableModel extends AbstractTableModel implements PropertyChan
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 			case 0:
-				return this.plugins[row].getStatus().toString();
+				return this.plugins[row].getStatus();
 			case 1:
 				return this.plugins[row].getName();
 			case 2:
