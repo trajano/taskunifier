@@ -23,13 +23,12 @@ import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginsUtils {
 	
@@ -91,7 +90,7 @@ public class PluginsUtils {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"start plugin installation"));
+						Translations.getString("manage_plugins.progress.start_plugin_installation")));
 			
 			file = new File(Main.RESOURCES_FOLDER
 					+ File.separator
@@ -104,7 +103,7 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"downloading plugin"));
+						Translations.getString("manage_plugins.progress.downloading_plugin")));
 			
 			org.apache.commons.io.FileUtils.copyURLToFile(
 					new URL(plugin.getDownloadUrl()),
@@ -112,13 +111,13 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"installing plugin"));
+						Translations.getString("manage_plugins.progress.installing_plugin")));
 			
 			PluginsUtils.loadPlugin(file);
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"plugin installed"));
+						Translations.getString("manage_plugins.progress.plugin_installed")));
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
@@ -134,19 +133,21 @@ public class PluginsUtils {
 	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
 			throws Exception {
 		if (monitor != null)
-			monitor.addMessage(new DefaultProgressMessage("start plugin update"));
+			monitor.addMessage(new DefaultProgressMessage(
+					Translations.getString("manage_plugins.progress.start_plugin_update")));
 		
 		deletePlugin(plugin, monitor);
 		installPlugin(plugin, monitor);
 		
 		if (monitor != null)
-			monitor.addMessage(new DefaultProgressMessage("plugin updated"));
+			monitor.addMessage(new DefaultProgressMessage(
+					Translations.getString("manage_plugins.progress.plugin_updated")));
 	}
 	
 	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
-					"start plugin deletion"));
+					Translations.getString("manage_plugins.progress.start_plugin_deletion")));
 		
 		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
 				Main.API_PLUGINS.getPlugins());
@@ -160,7 +161,8 @@ public class PluginsUtils {
 		}
 		
 		if (monitor != null)
-			monitor.addMessage(new DefaultProgressMessage("plugin deleted"));
+			monitor.addMessage(new DefaultProgressMessage(
+					Translations.getString("manage_plugins.progress.plugin_deleted")));
 	}
 	
 	public static Plugin[] loadPluginsFromXML(ProgressMonitor monitor)
@@ -168,7 +170,7 @@ public class PluginsUtils {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"retrieve plugin database"));
+						Translations.getString("manage_plugins.progress.retrieve_plugin_database")));
 			
 			HttpResponse response = null;
 			
@@ -186,19 +188,13 @@ public class PluginsUtils {
 			}
 			
 			if (!response.isSuccessfull()) {
-				ErrorDialog dialog = new ErrorDialog(
-						MainFrame.getInstance().getFrame(),
-						"Cannot load plugin database",
-						null,
-						false);
-				dialog.setVisible(true);
-				
-				return new Plugin[0];
+				throw new PluginException(
+						PluginExceptionType.ERROR_LOADING_PLUGIN_DB);
 			}
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"analysing plugin database"));
+						Translations.getString("manage_plugins.progress.analysing_plugin_database")));
 			
 			String content = response.getContent();
 			
@@ -270,12 +266,14 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						"plugin database retrieved"));
+						Translations.getString("manage_plugins.progress.plugin_database_retrieved")));
 			
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Cannot load plugin database");
+			throw new Exception(
+					Translations.getString("errors.cannot_load_plugin_database"),
+					e);
 		}
 	}
 	
