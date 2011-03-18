@@ -35,11 +35,18 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskEditDialog extends JDialog {
 	
+	private boolean cancelled;
+	
 	public TaskEditDialog(Task task, Frame frame, boolean modal) {
 		super(frame, modal);
+		this.cancelled = false;
 		this.initialize(task);
 	}
 	
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
 	private void initialize(Task task) {
 		this.setTitle(Translations.getString("task_edit"));
 		this.setSize(750, 500);
@@ -74,6 +81,12 @@ public class TaskEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
+					cancelled = false;
+					TaskEditDialog.this.dispose();
+				}
+				
+				if (event.getActionCommand() == "CANCEL") {
+					cancelled = true;
 					TaskEditDialog.this.dispose();
 				}
 			}
@@ -84,6 +97,11 @@ public class TaskEditDialog extends JDialog {
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
+		
+		JButton cancelButton = new JButton(Translations.getString("general.cancel"));
+		cancelButton.setActionCommand("CANCEL");
+		cancelButton.addActionListener(listener);
+		buttonsPanel.add(cancelButton);
 		
 		this.getRootPane().setDefaultButton(okButton);
 	}

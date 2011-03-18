@@ -78,6 +78,9 @@ public class ActionAddTask extends AbstractAction {
 					MainFrame.getInstance().getFrame(),
 					true);
 			dialog.setVisible(true);
+			
+			if (dialog.isCancelled())
+				TaskFactory.getInstance().markDeleted(task);
 		} else {
 			if (template == null)
 				MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
