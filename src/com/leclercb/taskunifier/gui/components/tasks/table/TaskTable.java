@@ -69,6 +69,7 @@ import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -82,6 +83,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRen
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ReminderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.RepeatRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorityRenderer;
@@ -105,6 +107,7 @@ public class TaskTable extends JTable {
 	private static final LengthRenderer LENGTH_RENDERER;
 	private static final TaskTitleRenderer TASK_TITLE_RENDERER;
 	private static final StarRenderer STAR_RENDERER;
+	private static final ReminderRenderer REMINDER_RENDERER;
 	
 	private static final TaskPriorityRenderer TASK_PRIORITY_RENDERER;
 	private static final TaskRepeatFromRenderer TASK_REPEAT_FROM_RENDERER;
@@ -122,6 +125,7 @@ public class TaskTable extends JTable {
 	
 	private static final TableCellEditor REPEAT_EDITOR;
 	
+	private static final TableCellEditor REMINDER_EDITOR;
 	private static final TableCellEditor TASK_PRIORITY_EDITOR;
 	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
 	private static final TableCellEditor TASK_STATUS_EDITOR;
@@ -140,6 +144,7 @@ public class TaskTable extends JTable {
 				Main.SETTINGS.getSimpleDateFormatProperty("date.time_format"));
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		STAR_RENDERER = new StarRenderer();
+		REMINDER_RENDERER = new ReminderRenderer();
 		
 		TASK_PRIORITY_RENDERER = new TaskPriorityRenderer();
 		TASK_REPEAT_FROM_RENDERER = new TaskRepeatFromRenderer();
@@ -177,6 +182,19 @@ public class TaskTable extends JTable {
 				ComponentFactory.createModelComboBox(new LocationModel(true)));
 		
 		REPEAT_EDITOR = new RepeatEditor();
+		
+		comboBox = new JComboBox(new Integer[] {
+				0,
+				5,
+				15,
+				30,
+				60,
+				60 * 24,
+				60 * 24 * 7 });
+		comboBox.setRenderer(new TaskReminderListCellRenderer());
+		comboBox.setEditable(true);
+		
+		REMINDER_EDITOR = new DefaultCellEditor(comboBox);
 		
 		comboBox = new JComboBox(TaskPriority.values());
 		comboBox.setRenderer(new TaskPriorityListCellRenderer());
@@ -547,6 +565,8 @@ public class TaskTable extends JTable {
 				return DATE_EDITOR;
 			case REPEAT:
 				return REPEAT_EDITOR;
+			case REMINDER:
+				return REMINDER_EDITOR;
 			case REPEAT_FROM:
 				return TASK_REPEAT_FROM_EDITOR;
 			case STATUS:
@@ -582,6 +602,8 @@ public class TaskTable extends JTable {
 				return DATE_RENDERER;
 			case START_DATE:
 				return DATE_RENDERER;
+			case REMINDER:
+				return REMINDER_RENDERER;
 			case LENGTH:
 				return LENGTH_RENDERER;
 			case STAR:

@@ -305,7 +305,7 @@ public enum TaskColumn {
 				task.setStartDate((Calendar) value);
 				break;
 			case REMINDER:
-				if (value == null)
+				if (value == null || !(value instanceof Integer))
 					task.setReminder(0);
 				else
 					task.setReminder((Integer) value);

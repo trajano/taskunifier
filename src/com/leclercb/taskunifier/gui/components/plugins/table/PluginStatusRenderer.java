@@ -21,17 +21,17 @@ public class PluginStatusRenderer extends DefaultTableCellRenderer {
 			int column) {
 		PluginStatus status = (PluginStatus) value;
 		switch (status) {
-			case DELETED: 
-				this.setIcon(new ColorBadgeIcon(Color.RED, 10, 10)); 
+			case DELETED:
+				this.setIcon(new ColorBadgeIcon(Color.RED, 10, 10));
 				break;
-			case INSTALLED: 
-				this.setIcon(new ColorBadgeIcon(Color.GREEN, 10, 10)); 
+			case INSTALLED:
+				this.setIcon(new ColorBadgeIcon(Color.GREEN, 10, 10));
 				break;
-			case TO_INSTALL: 
-				this.setIcon(new ColorBadgeIcon(Color.BLUE, 10, 10)); 
+			case TO_INSTALL:
+				this.setIcon(new ColorBadgeIcon(Color.BLUE, 10, 10));
 				break;
-			case TO_UPDATE: 
-				this.setIcon(new ColorBadgeIcon(Color.ORANGE, 10, 10)); 
+			case TO_UPDATE:
+				this.setIcon(new ColorBadgeIcon(Color.ORANGE, 10, 10));
 				break;
 		}
 		
@@ -44,7 +44,6 @@ public class PluginStatusRenderer extends DefaultTableCellRenderer {
 				hasFocus,
 				row,
 				column);
-		
 		
 	}
 	

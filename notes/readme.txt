@@ -2,10 +2,11 @@ HISTORY
 -------
 
 Version 0.8.2
+	- FR 3213145: Combobox for reminder value
 	- FR 3207413: Cancel button for task edit window
 	- FR 3207446: Larger note text box
 	- BF 3214534: Ubuntu crash at start
-	- BF 3213050: Task length field
+	- BF 3213050: Task length field in task edit window
 	- Bug fixed: Select title & Edit task window with template
 
 Version 0.8.1

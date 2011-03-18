@@ -59,6 +59,7 @@ import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.components.help.Help;
@@ -89,8 +90,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				FormatterUtils.getIntegerFormatter());
 		final JFormattedTextField templateTaskStartDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
-		final JFormattedTextField templateTaskReminder = new JFormattedTextField(
-				FormatterUtils.getIntegerFormatter());
+		final JComboBox templateTaskReminder = new JComboBox();
 		final JTextField templateTaskRepeat = new JTextField();
 		final JComboBox templateTaskRepeatFrom = new JComboBox();
 		final JComboBox templateTaskStatus = new JComboBox();
@@ -154,7 +154,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
 				
 				ValueModel taskReminderModel = this.adapter.getValueModel(Template.PROP_TASK_REMINDER);
-				Bindings.bind(templateTaskReminder, taskReminderModel);
+				templateTaskReminder.setModel(new ComboBoxAdapter<Integer>(
+						new Integer[] { 0, 5, 15, 30, 60, 60 * 24, 60 * 24 * 7 },
+						taskReminderModel));
 				
 				ValueModel taskRepeatModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT);
 				Bindings.bind(templateTaskRepeat, taskRepeatModel);
@@ -338,6 +340,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		label = new JLabel(Translations.getString("general.task.reminder")
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
+		
+		templateTaskReminder.setRenderer(new TaskReminderListCellRenderer());
+		templateTaskReminder.setEditable(true);
 		
 		templateTaskReminder.setEnabled(false);
 		info.add(templateTaskReminder);

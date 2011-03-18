@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,7 +21,6 @@ import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -43,6 +41,7 @@ import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -68,7 +67,7 @@ public class TaskEditPanel extends JPanel {
 	private JCheckBox taskCompleted;
 	private JDateChooser taskDueDate;
 	private JDateChooser taskStartDate;
-	private JFormattedTextField taskReminder;
+	private JComboBox taskReminder;
 	private JTextField taskRepeat;
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
@@ -127,8 +126,7 @@ public class TaskEditPanel extends JPanel {
 			}
 			
 		});
-		this.taskReminder = new JFormattedTextField(
-				FormatterUtils.getIntegerFormatter());
+		this.taskReminder = new JComboBox();
 		this.taskRepeat = new JTextField();
 		this.taskRepeatFrom = new JComboBox();
 		this.taskStatus = new JComboBox();
@@ -248,6 +246,9 @@ public class TaskEditPanel extends JPanel {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
+		this.taskReminder.setRenderer(new TaskReminderListCellRenderer());
+		this.taskReminder.setEditable(true);
+		
 		info.add(this.taskReminder);
 		
 		// Task Length
@@ -363,7 +364,14 @@ public class TaskEditPanel extends JPanel {
 				taskStartDateModel));
 		
 		ValueModel taskReminderModel = this.adapter.getValueModel(Task.PROP_REMINDER);
-		Bindings.bind(this.taskReminder, taskReminderModel);
+		this.taskReminder.setModel(new ComboBoxAdapter<Integer>(new Integer[] {
+				0,
+				5,
+				15,
+				30,
+				60,
+				60 * 24,
+				60 * 24 * 7 }, taskReminderModel));
 		
 		ValueModel taskRepeatModel = this.adapter.getValueModel(Task.PROP_REPEAT);
 		Bindings.bind(this.taskRepeat, taskRepeatModel);
