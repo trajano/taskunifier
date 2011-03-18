@@ -44,6 +44,7 @@ public final class Constants {
 	}
 	
 	public static final String TITLE = "TaskUnifier";
+	public static final String MAJOR_VERSION = "0";
 	public static final String VERSION = "0.8.2";
 	
 	public static final String PLUGINS_FILE = "http://taskunifier.sourceforge.net/plugins.xml";
