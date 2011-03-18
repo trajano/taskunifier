@@ -17,20 +17,10 @@
  */
 package com.leclercb.taskunifier.gui.components.synchronize;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Frame;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.util.Calendar;
 
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -50,63 +40,15 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeMo
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizerDialog extends JDialog {
-	
-	private JProgressBar progressBar;
-	private JTextArea progressStatus;
+public class SynchronizerDialog extends WaitDialog {
 	
 	public SynchronizerDialog(Frame frame) {
-		super(frame, true);
-		
-		this.initialize();
-	}
-	
-	private void initialize() {
-		this.setTitle(Translations.getString("general.synchronization"));
-		this.setSize(400, 180);
-		this.setResizable(false);
-		this.setLayout(new BorderLayout());
-		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
-		this.progressBar = new JProgressBar(SwingConstants.HORIZONTAL);
-		this.progressBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0));
-		this.progressBar.setIndeterminate(true);
-		this.progressBar.setString("");
-		
-		this.progressStatus = new JTextArea();
-		this.progressStatus.setEditable(false);
-		
-		JScrollPane scrollStatus = ComponentFactory.createJScrollPane(
-				this.progressStatus,
-				true);
-		scrollStatus.setAutoscrolls(true);
-		scrollStatus.getVerticalScrollBar().addAdjustmentListener(
-				new AdjustmentListener() {
-					
-					@Override
-					public void adjustmentValueChanged(AdjustmentEvent e) {
-						e.getAdjustable().setValue(
-								e.getAdjustable().getMaximum());
-					}
-					
-				});
-		
-		panel.add(this.progressBar, BorderLayout.NORTH);
-		panel.add(scrollStatus, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.CENTER);
+		super(frame, Translations.getString("general.synchronization"));
+		this.setRunnable(new SynchronizeRunnable());
 	}
 	
 	@Override
@@ -114,8 +56,6 @@ public class SynchronizerDialog extends JDialog {
 		if (!Synchronizing.setSynchronizing(true))
 			return;
 		
-		Thread synchronizeThread = new Thread(new SynchronizeRunnable());
-		synchronizeThread.start();
 		super.setVisible(visible);
 	}
 	
@@ -162,7 +102,6 @@ public class SynchronizerDialog extends JDialog {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					
 					ProgressMonitor monitor = new ProgressMonitor();
 					monitor.addListChangeListener(new ListChangeListener() {
 						
@@ -176,10 +115,10 @@ public class SynchronizerDialog extends JDialog {
 									
 									if (m.getType().equals(
 											ProgressMessageType.START))
-										SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.start_synchronization")
+										SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.start_synchronization")
 												+ "\n");
 									else
-										SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.synchronization_completed")
+										SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.synchronization_completed")
 												+ "\n");
 								} else if (message instanceof RetrieveModelsProgressMessage) {
 									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
@@ -191,7 +130,7 @@ public class SynchronizerDialog extends JDialog {
 									String type = modelTypeToString(
 											m.getModelType(),
 											true);
-									SynchronizerDialog.this.progressStatus.append(Translations.getString(
+									SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
 											"synchronizer.retrieving_models",
 											type) + "\n");
 								} else if (message instanceof SynchronizeModelsProgressMessage) {
@@ -205,7 +144,7 @@ public class SynchronizerDialog extends JDialog {
 									String type = modelTypeToString(
 											m.getModelType(),
 											m.getActionCount() > 1);
-									SynchronizerDialog.this.progressStatus.append(Translations.getString(
+									SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
 											"synchronizer.synchronizing",
 											m.getActionCount(),
 											type) + "\n");
@@ -216,12 +155,12 @@ public class SynchronizerDialog extends JDialog {
 					});
 					
 					try {
-						SynchronizerDialog.this.progressStatus.append(Translations.getString("synchronizer.set_proxy")
+						SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.set_proxy")
 								+ "\n");
 						
 						SynchronizerUtils.initializeProxy();
 						
-						SynchronizerDialog.this.progressStatus.append(Translations.getString(
+						SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
 								"synchronizer.connecting",
 								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())
 								+ "\n");
@@ -304,6 +243,7 @@ public class SynchronizerDialog extends JDialog {
 			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
+		
 	}
 	
 }

@@ -11,10 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.components.plugins.table.PluginTable;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -31,7 +33,22 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 	}
 	
 	private Plugin[] createPlugins() {
-		Plugin[] plugins = PluginsUtils.loadPluginsFromXML();
+		PluginWaitDialog<Plugin[]> dialog = new PluginWaitDialog<Plugin[]>(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("general.manage_plugins")) {
+			
+			@Override
+			public Plugin[] doActions(ProgressMonitor monitor) throws Throwable {
+				return PluginsUtils.loadPluginsFromXML(monitor);
+			}
+			
+		};
+		dialog.setVisible(true);
+		
+		Plugin[] plugins = dialog.getResult();
+		
+		if (plugins == null)
+			return new Plugin[0];
 		
 		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin p : loadedPlugins) {
@@ -70,15 +87,57 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "INSTALL") {
-					PluginsUtils.installPlugin(PluginsPanel.this.table.getSelectedPlugin());
+					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+							MainFrame.getInstance().getFrame(),
+							Translations.getString("general.manage_plugins")) {
+						
+						@Override
+						public Void doActions(ProgressMonitor monitor)
+								throws Throwable {
+							PluginsUtils.installPlugin(
+									PluginsPanel.this.table.getSelectedPlugin(),
+									monitor);
+							return null;
+						}
+						
+					};
+					dialog.setVisible(true);
 				}
 				
 				if (event.getActionCommand() == "UPDATE") {
-					PluginsUtils.updatePlugin(PluginsPanel.this.table.getSelectedPlugin());
+					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+							MainFrame.getInstance().getFrame(),
+							Translations.getString("general.manage_plugins")) {
+						
+						@Override
+						public Void doActions(ProgressMonitor monitor)
+								throws Throwable {
+							PluginsUtils.updatePlugin(
+									PluginsPanel.this.table.getSelectedPlugin(),
+									monitor);
+							return null;
+						}
+						
+					};
+					dialog.setVisible(true);
 				}
 				
 				if (event.getActionCommand() == "DELETE") {
-					PluginsUtils.deletePlugin(PluginsPanel.this.table.getSelectedPlugin());
+					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+							MainFrame.getInstance().getFrame(),
+							Translations.getString("general.manage_plugins")) {
+						
+						@Override
+						public Void doActions(ProgressMonitor monitor)
+								throws Throwable {
+							PluginsUtils.deletePlugin(
+									PluginsPanel.this.table.getSelectedPlugin(),
+									monitor);
+							return null;
+						}
+						
+					};
+					dialog.setVisible(true);
 				}
 				
 				PluginsPanel.this.valueChanged(null);
@@ -124,7 +183,8 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		
 		this.installButton.setEnabled(plugin.getStatus() == PluginStatus.TO_INSTALL);
 		this.updateButton.setEnabled(plugin.getStatus() == PluginStatus.TO_UPDATE);
-		this.deleteButton.setEnabled(plugin.getStatus() != PluginStatus.TO_INSTALL);
+		this.deleteButton.setEnabled(plugin.getStatus() == PluginStatus.INSTALLED
+				|| plugin.getStatus() == PluginStatus.TO_UPDATE);
 	}
 	
 }

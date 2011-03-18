@@ -15,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.leclercb.commons.api.progress.DefaultProgressMessage;
+import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
@@ -82,10 +84,15 @@ public class PluginsUtils {
 		}
 	}
 	
-	public static void installPlugin(Plugin plugin) {
+	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
+			throws Exception {
 		File file = null;
 		
 		try {
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"start plugin installation"));
+			
 			file = new File(Main.RESOURCES_FOLDER
 					+ File.separator
 					+ "plugins"
@@ -95,42 +102,52 @@ public class PluginsUtils {
 			
 			file.createNewFile();
 			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"downloading plugin"));
+			
 			org.apache.commons.io.FileUtils.copyURLToFile(
 					new URL(plugin.getDownloadUrl()),
 					file);
 			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"installing plugin"));
+			
 			PluginsUtils.loadPlugin(file);
+			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"plugin installed"));
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
 			file.delete();
-			
-			ErrorDialog dialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
-					e.getMessage(),
-					e,
-					false);
-			dialog.setVisible(true);
+			throw e;
 		} catch (Exception e) {
 			file.delete();
-			
 			e.printStackTrace();
-			
-			ErrorDialog dialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
-					null,
-					e,
-					true);
-			dialog.setVisible(true);
+			throw e;
 		}
 	}
 	
-	public static void updatePlugin(Plugin plugin) {
-		deletePlugin(plugin);
-		installPlugin(plugin);
+	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
+			throws Exception {
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage("start plugin update"));
+		
+		deletePlugin(plugin, monitor);
+		installPlugin(plugin, monitor);
+		
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage("plugin updated"));
 	}
 	
-	public static void deletePlugin(Plugin plugin) {
+	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage(
+					"start plugin deletion"));
+		
 		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
 				Main.API_PLUGINS.getPlugins());
 		for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
@@ -141,10 +158,18 @@ public class PluginsUtils {
 				plugin.setStatus(PluginStatus.DELETED);
 			}
 		}
+		
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage("plugin deleted"));
 	}
 	
-	public static Plugin[] loadPluginsFromXML() {
+	public static Plugin[] loadPluginsFromXML(ProgressMonitor monitor)
+			throws Exception {
 		try {
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"retrieve plugin database"));
+			
 			HttpResponse response = null;
 			
 			Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
@@ -170,6 +195,10 @@ public class PluginsUtils {
 				
 				return new Plugin[0];
 			}
+			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"analysing plugin database"));
 			
 			String content = response.getContent();
 			
@@ -239,18 +268,14 @@ public class PluginsUtils {
 				plugins.add(plugin);
 			}
 			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						"plugin database retrieved"));
+			
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
-			ErrorDialog dialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
-					"Cannot load plugin database",
-					null,
-					false);
-			dialog.setVisible(true);
-			
-			return new Plugin[0];
+			throw new Exception("Cannot load plugin database");
 		}
 	}
 	
