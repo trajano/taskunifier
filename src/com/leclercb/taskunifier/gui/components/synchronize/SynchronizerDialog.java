@@ -38,6 +38,7 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModel
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
@@ -159,6 +160,19 @@ public class SynchronizerDialog extends WaitDialog {
 								+ "\n");
 						
 						SynchronizerUtils.initializeProxy();
+						
+						if (SynchronizerUtils.getPlugin().needsLicense()) {
+							SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.checking_license")
+									+ "\n");
+							
+							if (!SynchronizerUtils.getPlugin().checkLicense()) {
+								SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
+										"synchronizer.wait_no_license",
+										Constants.WAIT_NO_LICENSE_TIME) + "\n");
+								
+								Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
+							}
+						}
 						
 						SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
 								"synchronizer.connecting",

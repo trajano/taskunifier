@@ -10,6 +10,7 @@ import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -41,6 +42,24 @@ public class BackgroundSynchronizer {
 			notification.setVisible(true);
 			
 			SynchronizerUtils.initializeProxy();
+			
+			if (SynchronizerUtils.getPlugin().needsLicense()) {
+				if (!SynchronizerUtils.getPlugin().checkLicense()) {
+					notification = new Notification(Images.getResourceImage(
+							"synchronize.png",
+							48,
+							48), Translations.getString(
+							"synchronizer.wait_no_license",
+							Constants.WAIT_NO_LICENSE_TIME));
+					notification.setDuration(3000);
+					notification.setLocation(
+							MainFrame.getInstance().getFrame(),
+							Notification.POSITION_BOTTOM_LEFT);
+					notification.setVisible(true);
+					
+					Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
+				}
+			}
 			
 			connection = SynchronizerUtils.getPlugin().getConnection();
 			
