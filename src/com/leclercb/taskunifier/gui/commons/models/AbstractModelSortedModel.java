@@ -25,6 +25,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 
 abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
 	

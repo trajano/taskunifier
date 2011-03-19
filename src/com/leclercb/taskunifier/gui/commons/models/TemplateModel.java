@@ -9,6 +9,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 
 public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	

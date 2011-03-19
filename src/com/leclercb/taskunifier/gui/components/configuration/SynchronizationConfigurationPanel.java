@@ -25,9 +25,11 @@ import javax.swing.SpinnerNumberModel;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
+import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
+import com.leclercb.taskunifier.gui.commons.models.SynchronizerGuiPluginModel;
 import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerChoiceListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerGuiPluginListCellRenderer;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -53,7 +55,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			if (!EqualsUtils.equals(
 					Main.SETTINGS.getStringProperty("api.id"),
 					DummyGuiPlugin.getInstance().getId()))
-				SynchronizerUtils.resetSynchronizerAndDeleteModels();
+				;//SynchronizerUtils.resetSynchronizerAndDeleteModels();
 		
 		// First update version because there are listeners on api.id
 		Main.SETTINGS.setStringProperty(
@@ -126,7 +128,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		ConfigurationFieldType.ComboBox comboBox = null;
 		
 		comboBox = new ConfigurationFieldType.ComboBox(
-				Main.API_PLUGINS.getPlugins().toArray(),
+				new SynchronizerGuiPluginModel(),
 				SynchronizerUtils.getPlugin());
 		
 		comboBox.setRenderer(new SynchronizerGuiPluginListCellRenderer());
@@ -135,6 +137,13 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				"API",
 				Translations.getString("general.api"),
 				comboBox));
+		
+		this.addField(new ConfigurationField(
+				"MANAGE_PLUGINS",
+				null,
+				new ConfigurationFieldType.Button(new ActionManagePlugins(
+						22,
+						22))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",

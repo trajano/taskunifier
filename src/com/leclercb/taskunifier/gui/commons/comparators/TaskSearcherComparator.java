@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.commons.comparators;
 
 import java.util.Comparator;
 

@@ -84,7 +84,7 @@ import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
-import com.leclercb.taskunifier.gui.commons.models.TemplateComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.AbstractStatusBar;
