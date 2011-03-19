@@ -5,6 +5,7 @@ import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
 	
@@ -47,7 +48,7 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	public Connection getConnection() throws SynchronizerException {
 		throw new SynchronizerException(
 				true,
-				"You must select an API in order to synchronize your tasks");
+				Translations.getString("synchronizer.select_an_api"));
 	}
 	
 }
