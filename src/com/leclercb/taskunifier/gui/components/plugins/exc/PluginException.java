@@ -10,6 +10,7 @@ public class PluginException extends Exception {
 		ERROR_LOADING_PLUGIN(Translations.getString("error.cannot_install_plugin")),
 		NO_VALID_PLUGIN(Translations.getString("error.no_valid_plugin")),
 		MORE_THAN_ONE_PLUGIN(Translations.getString("error.more_than_one_plugin")),
+		OUTDATED_PLUGIN(Translations.getString("error.plugin_not_up_to_date")),
 		PLUGIN_FOUND(Translations.getString("error.plugin_already_installed"));
 		
 		private String label;

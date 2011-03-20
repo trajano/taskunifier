@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +56,24 @@ public class PluginsUtils {
 						PluginExceptionType.MORE_THAN_ONE_PLUGIN);
 			}
 			
+			try {
+				Method method = plugins.get(0).getClass().getDeclaredMethod("getPluginApiVersion");
+				Object value = method.invoke(plugins.get(0));
+				
+				if (!(value instanceof Integer))
+					throw new PluginException(
+							PluginExceptionType.OUTDATED_PLUGIN);
+				
+				Integer version = (Integer) value;
+				
+				if (!EqualsUtils.equals(Constants.PLUGIN_API_VERSION, version))
+					throw new PluginException(
+							PluginExceptionType.OUTDATED_PLUGIN);
+			} catch (Exception e) {
+				throw new PluginException(
+						PluginExceptionType.OUTDATED_PLUGIN);
+			}
+			
 			SynchronizerGuiPlugin plugin = plugins.get(0);
 			List<SynchronizerGuiPlugin> existingPlugins = Main.API_PLUGINS.getPlugins();
 			
@@ -71,9 +90,9 @@ public class PluginsUtils {
 			
 			GuiLogger.getLogger().info(
 					"Plugin loaded: "
-							+ plugin.getName()
-							+ " - "
-							+ plugin.getVersion());
+					+ plugin.getName()
+					+ " - "
+					+ plugin.getVersion());
 			
 			return;
 		} catch (PluginException e) {
@@ -84,7 +103,7 @@ public class PluginsUtils {
 	}
 	
 	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		File file = null;
 		
 		try {
@@ -131,7 +150,7 @@ public class PluginsUtils {
 	}
 	
 	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString("manage_plugins.progress.start_plugin_update")));
@@ -166,7 +185,7 @@ public class PluginsUtils {
 	}
 	
 	public static Plugin[] loadPluginsFromXML(ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
@@ -208,7 +227,7 @@ public class PluginsUtils {
 			document.getDocumentElement().normalize();
 			
 			if (!document.getChildNodes().item(0).getNodeName().equals(
-					"plugins"))
+			"plugins"))
 				throw new Exception("Root name must be \"plugins\"");
 			
 			Node root = document.getChildNodes().item(0);

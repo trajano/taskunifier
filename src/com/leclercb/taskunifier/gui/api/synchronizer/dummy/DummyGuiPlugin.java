@@ -5,6 +5,7 @@ import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
@@ -22,6 +23,11 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	
 	private DummyGuiPlugin() {
 
+	}
+
+	@Override
+	public int getPluginApiVersion() {
+		return Constants.PLUGIN_API_VERSION;
 	}
 	
 	@Override
