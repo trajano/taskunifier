@@ -58,10 +58,14 @@ public class ActionCheckVersion extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.checkVersion();
+		ActionCheckVersion.checkVersion(this.silent);
 	}
 	
 	public void checkVersion() {
+		ActionCheckVersion.checkVersion(this.silent);
+	}
+	
+	public static void checkVersion(final boolean silent) {
 		Thread thread = new Thread(new Runnable() {
 			
 			@Override
@@ -96,8 +100,7 @@ public class ActionCheckVersion extends AbstractAction {
 						
 						String showed = Main.SETTINGS.getStringProperty("new_version.showed");
 						
-						if (!ActionCheckVersion.this.silent
-								|| !EqualsUtils.equals(version, showed)) {
+						if (!silent || !EqualsUtils.equals(version, showed)) {
 							Main.SETTINGS.setStringProperty(
 									"new_version.showed",
 									version);
@@ -125,7 +128,7 @@ public class ActionCheckVersion extends AbstractAction {
 					} else {
 						GuiLogger.getLogger().info("No new version available");
 						
-						if (!ActionCheckVersion.this.silent) {
+						if (!silent) {
 							JOptionPane.showMessageDialog(
 									MainFrame.getInstance().getFrame(),
 									Translations.getString(
@@ -136,7 +139,7 @@ public class ActionCheckVersion extends AbstractAction {
 						}
 					}
 				} catch (Exception e) {
-					if (ActionCheckVersion.this.silent) {
+					if (silent) {
 						GuiLogger.getLogger().warning(
 								"An error occured while checking for updates");
 					} else {

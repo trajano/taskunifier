@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
@@ -64,6 +65,7 @@ import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
+import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -87,6 +89,8 @@ public class Main {
 	private static PrintStream NEW_STREAM;
 	
 	public static void main(String[] args) {
+		boolean outdatedPlugins;
+		
 		try {
 			loadStreamRedirection();
 			loadResourceFolder();
@@ -95,7 +99,7 @@ public class Main {
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
-			loadApiPlugins();
+			outdatedPlugins = loadApiPlugins();
 		} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -107,6 +111,8 @@ public class Main {
 			
 			return;
 		}
+		
+		final boolean finalOutdatedPlugins = outdatedPlugins;
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -147,17 +153,20 @@ public class Main {
 				}
 				
 				MainFrame.getInstance().getFrame().setVisible(true);
-				new ActionCheckVersion(true).checkVersion();
+				ActionCheckVersion.checkVersion(true);
 				
 				Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
 				if (showed == null || !showed)
-					new ActionReview().review();
+					ActionReview.review();
 				
 				Main.SETTINGS.setBooleanProperty("review.showed", true);
 				
+				if (finalOutdatedPlugins)
+					ActionManagePlugins.managePlugins();
+				
 				Boolean syncStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
 				if (syncStart != null && syncStart)
-					new ActionSynchronize(false).synchronize();
+					ActionSynchronize.synchronize(false);
 			}
 			
 		});
@@ -387,7 +396,7 @@ public class Main {
 					key.toString()));
 	}
 	
-	public static void loadApiPlugins() {
+	public static boolean loadApiPlugins() {
 		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
 				SynchronizerGuiPlugin.class);
 		
@@ -397,6 +406,7 @@ public class Main {
 				+ File.separator
 				+ "plugins");
 		
+		boolean outdatedPlugins = false;
 		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
 			File[] pluginFiles = pluginsFolder.listFiles();
 			
@@ -404,13 +414,18 @@ public class Main {
 				try {
 					PluginsUtils.loadPlugin(file);
 				} catch (PluginException e) {
+					if (e.getType() == PluginExceptionType.OUTDATED_PLUGIN)
+						outdatedPlugins = true;
+					
 					GuiLogger.getLogger().warning(e.getMessage());
-				} catch (Exception e) {
+				} catch (Throwable t) {
 					GuiLogger.getLogger().warning("Plugin unknown exception");
-					e.printStackTrace();
+					t.printStackTrace();
 				}
 			}
 		}
+		
+		return outdatedPlugins;
 	}
 	
 	public static void stop() {
@@ -418,7 +433,7 @@ public class Main {
 		
 		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
-			new ActionSynchronize(false).synchronize();
+			ActionSynchronize.synchronize(false);
 		
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		

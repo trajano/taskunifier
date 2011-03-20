@@ -32,8 +32,9 @@ public final class SynchronizerUtils {
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
 			if (EqualsUtils.equals(apiId, plugin.getId())
-					&& EqualsUtils.equals(apiVersion, plugin.getVersion()))
+					&& EqualsUtils.equals(apiVersion, plugin.getVersion())) {
 				return plugin;
+			}
 		}
 		
 		return DummyGuiPlugin.getInstance();

@@ -24,7 +24,7 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	private DummyGuiPlugin() {
 
 	}
-
+	
 	@Override
 	public int getPluginApiVersion() {
 		return Constants.PLUGIN_API_VERSION;

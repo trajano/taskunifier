@@ -44,6 +44,10 @@ public class ActionManagePlugins extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		ActionManagePlugins.managePlugins();
+	}
+	
+	public static void managePlugins() {
 		PluginsDialog dialog = new PluginsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

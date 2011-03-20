@@ -55,11 +55,15 @@ public class ActionSynchronize extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.synchronize();
+		ActionSynchronize.synchronize(this.background);
 	}
 	
 	public void synchronize() {
-		if (this.background) {
+		ActionSynchronize.synchronize(this.background);
+	}
+	
+	public static void synchronize(boolean background) {
+		if (background) {
 			BackgroundSynchronizer synchronizer = new BackgroundSynchronizer();
 			synchronizer.synchronize();
 		} else {

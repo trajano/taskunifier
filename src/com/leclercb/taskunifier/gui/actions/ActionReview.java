@@ -44,10 +44,10 @@ public class ActionReview extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.review();
+		ActionReview.review();
 	}
 	
-	public void review() {
+	public static void review() {
 		ReviewDialog dialog = new ReviewDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
