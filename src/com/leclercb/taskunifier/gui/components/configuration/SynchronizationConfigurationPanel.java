@@ -55,8 +55,8 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			if (!EqualsUtils.equals(
 					Main.SETTINGS.getStringProperty("api.id"),
 					DummyGuiPlugin.getInstance().getId()))
-				;//SynchronizerUtils.resetSynchronizerAndDeleteModels();
-		
+				;// SynchronizerUtils.resetSynchronizerAndDeleteModels();
+				
 		// First update version because there are listeners on api.id
 		Main.SETTINGS.setStringProperty(
 				"api.version",
