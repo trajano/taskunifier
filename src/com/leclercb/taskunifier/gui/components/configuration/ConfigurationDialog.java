@@ -23,8 +23,6 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -40,6 +38,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
+	
+	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
@@ -61,21 +61,21 @@ public class ConfigurationDialog extends JDialog {
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane();
+		this.tabbedPane = new JTabbedPane();
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
-		this.add(tabbedPane, BorderLayout.CENTER);
+		this.add(this.tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel(buttonsPanel);
-		this.initializeGeneralPanel(tabbedPane);
-		this.initializeProxyPanel(tabbedPane);
-		this.initializeColumnsPanel(tabbedPane);
-		this.initializeThemePanel(tabbedPane);
-		this.initializeSynchronizationPanel(tabbedPane);
-		this.initializePluginPanel(tabbedPane);
+		this.initializeGeneralPanel();
+		this.initializeProxyPanel();
+		this.initializeColumnsPanel();
+		this.initializeThemePanel();
+		this.initializeSynchronizationPanel();
+		this.initializePluginPanel();
 	}
 	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
@@ -119,94 +119,59 @@ public class ConfigurationDialog extends JDialog {
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	
-	private void initializeGeneralPanel(JTabbedPane tabbedPane) {
+	private void initializeGeneralPanel() {
 		this.generalConfigurationPanel = new GeneralConfigurationPanel(false);
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.general"),
 				ComponentFactory.createJScrollPane(
 						this.generalConfigurationPanel,
 						false));
 	}
 	
-	private void initializeProxyPanel(JTabbedPane tabbedPane) {
+	private void initializeProxyPanel() {
 		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.proxy"),
 				ComponentFactory.createJScrollPane(
 						this.proxyConfigurationPanel,
 						false));
 	}
 	
-	private void initializeColumnsPanel(JTabbedPane tabbedPane) {
+	private void initializeColumnsPanel() {
 		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.columns"),
 				ComponentFactory.createJScrollPane(
 						this.columnsConfigurationPanel,
 						false));
 	}
 	
-	private void initializeThemePanel(JTabbedPane tabbedPane) {
+	private void initializeThemePanel() {
 		this.themeConfigurationPanel = new ThemeConfigurationPanel(
 				new Window[] { this, this.getOwner() });
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.theme"),
 				ComponentFactory.createJScrollPane(
 						this.themeConfigurationPanel,
 						false));
 	}
 	
-	private void initializeSynchronizationPanel(JTabbedPane tabbedPane) {
+	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
 				false);
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
 				ComponentFactory.createJScrollPane(
 						this.synchronizationConfigurationPanel,
 						false));
 	}
 	
-	private void initializePluginPanel(final JTabbedPane tabbedPane) {
-		// For API Configuration Panel
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("api.id")) {
-					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
-					tabbedPane.removeTabAt(tabbedPane.getTabCount() - 1);
-					
-					ConfigurationDialog.this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
-							false);
-					
-					tabbedPane.addTab(
-							Translations.getString("configuration.tab.synchronization"),
-							ComponentFactory.createJScrollPane(
-									ConfigurationDialog.this.synchronizationConfigurationPanel,
-									false));
-					
-					ConfigurationDialog.this.pluginConfigurationPanel = new PluginConfigurationPanel(
-							false,
-							SynchronizerUtils.getPlugin());
-					
-					if (ConfigurationDialog.this.pluginConfigurationPanel != null)
-						tabbedPane.addTab(
-								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
-								ComponentFactory.createJScrollPane(
-										ConfigurationDialog.this.pluginConfigurationPanel,
-										false));
-					
-					tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 2);
-				}
-			}
-			
-		});
-		
+	private void initializePluginPanel() {
 		this.pluginConfigurationPanel = new PluginConfigurationPanel(
 				false,
 				SynchronizerUtils.getPlugin());
 		
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
 				ComponentFactory.createJScrollPane(
 						this.pluginConfigurationPanel,
@@ -224,6 +189,8 @@ public class ConfigurationDialog extends JDialog {
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
+			
+			this.refreshSynchronizationPanels();
 		} catch (Exception e) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
@@ -234,6 +201,33 @@ public class ConfigurationDialog extends JDialog {
 			
 			return;
 		}
+	}
+	
+	private void refreshSynchronizationPanels() {
+		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
+		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
+		
+		ConfigurationDialog.this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
+				false);
+		
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.synchronization"),
+				ComponentFactory.createJScrollPane(
+						ConfigurationDialog.this.synchronizationConfigurationPanel,
+						false));
+		
+		ConfigurationDialog.this.pluginConfigurationPanel = new PluginConfigurationPanel(
+				false,
+				SynchronizerUtils.getPlugin());
+		
+		if (ConfigurationDialog.this.pluginConfigurationPanel != null)
+			this.tabbedPane.addTab(
+					SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+					ComponentFactory.createJScrollPane(
+							ConfigurationDialog.this.pluginConfigurationPanel,
+							false));
+		
+		this.tabbedPane.setSelectedIndex(this.tabbedPane.getTabCount() - 2);
 	}
 	
 }
