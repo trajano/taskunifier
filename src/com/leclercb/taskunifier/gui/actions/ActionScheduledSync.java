@@ -36,7 +36,7 @@ public class ActionScheduledSync extends AbstractAction {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(
-				"synchronizer.scheduler_enabled"))
+						"synchronizer.scheduler_enabled"))
 					ActionScheduledSync.this.updateIcon();
 			}
 			

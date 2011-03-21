@@ -213,7 +213,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		
 		if (searcher != null
 				&& TaskSearcherFactory.getInstance().contains(searcher.getId())) {
-			new ActionEditSearcher().editSearcher(searcher);
+			new ActionEditSearcher();
+			ActionEditSearcher.editSearcher(searcher);
 			this.searcherView.updateBadges();
 		}
 	}

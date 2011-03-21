@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
@@ -47,8 +46,7 @@ public class ActionEditSearcher extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditSearcher.editSearcher(
-				MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
+		ActionEditSearcher.editSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
 	}
 	
 	public static void editSearcher(TaskSearcher searcher) {

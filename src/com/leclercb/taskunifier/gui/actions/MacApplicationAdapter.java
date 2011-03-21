@@ -12,18 +12,21 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	@Override
 	public void handleQuit(ApplicationEvent e) {
-		new ActionQuit().quit();
+		new ActionQuit();
+		ActionQuit.quit();
 	}
 	
 	@Override
 	public void handleAbout(ApplicationEvent e) {
 		e.setHandled(true);
-		new ActionAbout().about();
+		new ActionAbout();
+		ActionAbout.about();
 	}
 	
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		new ActionConfiguration().configuration();
+		new ActionConfiguration();
+		ActionConfiguration.configuration();
 	}
 	
 }
