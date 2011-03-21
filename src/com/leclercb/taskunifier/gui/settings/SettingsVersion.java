@@ -73,7 +73,7 @@ public final class SettingsVersion {
 			version = "0.8.1";
 		
 		if (version.equals("0.8.1"))
-			version = "0.8.2";
+			version = updateSettings_0_8_1_to_0_8_2();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -222,6 +222,15 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("task.show_edit_window_on_add", "false");
 		
 		return "0.8.0";
+	}
+	
+	private static String updateSettings_0_8_1_to_0_8_2() {
+		GuiLogger.getLogger().info(
+		"Update settings from version 0.8.1 to 0.8.2");
+		
+		Main.SETTINGS.remove("api.version");
+		
+		return "0.8.2";
 	}
 	
 }

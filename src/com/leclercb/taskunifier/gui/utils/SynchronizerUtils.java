@@ -41,15 +41,13 @@ public final class SynchronizerUtils {
 	
 	public static SynchronizerGuiPlugin getPlugin() {
 		String apiId = Main.SETTINGS.getStringProperty("api.id");
-		String apiVersion = Main.SETTINGS.getStringProperty("api.version");
 		
-		if (apiId == null || apiVersion == null)
+		if (apiId == null)
 			return DummyGuiPlugin.getInstance();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			if (EqualsUtils.equals(apiId, plugin.getId())
-					&& EqualsUtils.equals(apiVersion, plugin.getVersion())) {
+			if (EqualsUtils.equals(apiId, plugin.getId())) {
 				return plugin;
 			}
 		}
