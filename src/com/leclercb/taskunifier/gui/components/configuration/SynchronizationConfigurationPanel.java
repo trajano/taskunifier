@@ -275,6 +275,15 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			if (this.containsId("KEEP"))
 				this.setEnabled("KEEP", false);
 			
+			if (this.containsId("SCHEDULER_SLEEP_TIME"))
+				this.setEnabled("SCHEDULER_SLEEP_TIME", false);
+			
+			if (this.containsId("SYNC_START"))
+				this.setEnabled("SYNC_START", false);
+			
+			if (this.containsId("SYNC_EXIT"))
+				this.setEnabled("SYNC_EXIT", false);
+			
 			if (this.containsId("SYNCHRONIZE_ALL"))
 				this.setEnabled("SYNCHRONIZE_ALL", false);
 			
