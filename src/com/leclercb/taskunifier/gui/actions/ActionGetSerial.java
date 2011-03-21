@@ -55,7 +55,6 @@ public class ActionGetSerial extends AbstractAction {
 	public static void getSerial(String url) {
 		try {
 			BrowserUtils.openDefaultBrowser(url);
-			throw new Exception();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					MainFrame.getInstance().getFrame(),

@@ -105,7 +105,7 @@ public class PluginsUtils {
 			return;
 		} catch (PluginException e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable t) {
 			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN);
 		}
 	}
