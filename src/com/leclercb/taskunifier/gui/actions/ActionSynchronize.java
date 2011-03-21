@@ -58,10 +58,6 @@ public class ActionSynchronize extends AbstractAction {
 		ActionSynchronize.synchronize(this.background);
 	}
 	
-	public void synchronize() {
-		ActionSynchronize.synchronize(this.background);
-	}
-	
 	public static void synchronize(boolean background) {
 		if (background) {
 			BackgroundSynchronizer synchronizer = new BackgroundSynchronizer();

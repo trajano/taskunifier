@@ -44,10 +44,10 @@ public class ActionExportSettings extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.exportSettings();
+		ActionExportSettings.exportSettings();
 	}
 	
-	public void exportSettings() {
+	public static void exportSettings() {
 		ExportSettingsDialog exportDialog = new ExportSettingsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

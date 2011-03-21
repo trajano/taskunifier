@@ -44,10 +44,10 @@ public class ActionConfiguration extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.configuration();
+		ActionConfiguration.configuration();
 	}
 	
-	public void configuration() {
+	public static void configuration() {
 		ConfigurationDialog config = new ConfigurationDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

@@ -44,10 +44,10 @@ public class ActionImportModels extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.importModels();
+		ActionImportModels.importModels();
 	}
 	
-	public void importModels() {
+	public static void importModels() {
 		ImportModelsDialog importDialog = new ImportModelsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

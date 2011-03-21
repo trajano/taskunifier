@@ -17,9 +17,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -40,10 +43,17 @@ public class ActionBatchAddTasks extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.batch_add_tasks"));
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_B,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionBatchAddTasks.batchAddTasks();
+	}
+	
+	public static void batchAddTasks() {
 		BatchAddTaskDialog dialog = new BatchAddTaskDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

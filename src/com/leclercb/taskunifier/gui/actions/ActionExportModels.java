@@ -44,10 +44,10 @@ public class ActionExportModels extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.exportModels();
+		ActionExportModels.exportModels();
 	}
 	
-	public void exportModels() {
+	public static void exportModels() {
 		ExportModelsDialog exportDialog = new ExportModelsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

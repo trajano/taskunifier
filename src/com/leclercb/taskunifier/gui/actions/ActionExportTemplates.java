@@ -44,10 +44,10 @@ public class ActionExportTemplates extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.exportTemplates();
+		ActionExportTemplates.exportTemplates();
 	}
 	
-	public void exportTemplates() {
+	public static void exportTemplates() {
 		ExportTemplatesDialog exportDialog = new ExportTemplatesDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

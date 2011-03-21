@@ -46,10 +46,10 @@ public class ActionDonate extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.donate();
+		ActionDonate.donate();
 	}
 	
-	public void donate() {
+	public static void donate() {
 		try {
 			BrowserUtils.openDefaultBrowser(Constants.DONATE_URL);
 		} catch (Exception e) {

@@ -14,7 +14,6 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private ActionSynchronize synchronizeAction;
 	private long sleepTime;
 	private long remainingSleepTime;
 	private boolean paused;
@@ -22,7 +21,6 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	public ScheduledSyncThread() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.synchronizeAction = new ActionSynchronize(true);
 		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;
 		this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");
@@ -70,7 +68,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				for (this.setRemainingSleepTime(this.sleepTime); this.getRemainingSleepTime() > 0; this.setRemainingSleepTime(this.isPaused() ? this.getRemainingSleepTime() : this.getRemainingSleepTime() - 1000))
 					Thread.sleep(1000);
 				
-				this.synchronizeAction.synchronize();
+				ActionSynchronize.synchronize(true);
 			}
 		} catch (InterruptedException e) {}
 	}

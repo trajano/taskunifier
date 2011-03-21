@@ -44,10 +44,10 @@ public class ActionAbout extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.about();
+		ActionAbout.about();
 	}
 	
-	public void about() {
+	public static void about() {
 		AboutDialog dialog = new AboutDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

@@ -39,10 +39,10 @@ public class ActionLogFeatureRequest extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.logFeatureRequest();
+		ActionLogFeatureRequest.logFeatureRequest();
 	}
 	
-	public void logFeatureRequest() {
+	public static void logFeatureRequest() {
 		try {
 			BrowserUtils.openDefaultBrowser(Constants.FEATURE_REQUEST_URL);
 		} catch (Exception e) {

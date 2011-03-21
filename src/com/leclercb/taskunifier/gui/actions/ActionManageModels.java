@@ -44,6 +44,10 @@ public class ActionManageModels extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionManageModels.manageModels();
+	}
+	
+	public static void manageModels() {
 		ModelConfigurationDialog dialog = new ModelConfigurationDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

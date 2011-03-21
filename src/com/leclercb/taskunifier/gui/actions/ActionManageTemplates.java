@@ -44,6 +44,10 @@ public class ActionManageTemplates extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionManageTemplates.manageTemplates();
+	}
+	
+	public static void manageTemplates() {
 		TemplateConfigurationDialog dialog = new TemplateConfigurationDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

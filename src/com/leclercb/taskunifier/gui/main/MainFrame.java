@@ -147,7 +147,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
-				Main.stop();
+				ActionQuit.quit();
 			}
 			
 		});

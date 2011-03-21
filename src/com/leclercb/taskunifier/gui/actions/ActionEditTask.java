@@ -59,6 +59,10 @@ public class ActionEditTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionEditTask.editTask();
+	}
+	
+	public static void editTask() {
 		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
 		if (tasks.length != 1)

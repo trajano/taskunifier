@@ -47,7 +47,12 @@ public class ActionEditSearcher extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher() == null) {
+		ActionEditSearcher.editSearcher(
+				MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
+	}
+	
+	public static void editSearcher(TaskSearcher searcher) {
+		if (searcher == null) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.select_searcher"),
@@ -56,12 +61,6 @@ public class ActionEditSearcher extends AbstractAction {
 			errorDialog.setVisible(true);
 			return;
 		}
-		
-		this.editSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
-	}
-	
-	public void editSearcher(TaskSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 		
 		SearcherEditDialog dialog = new SearcherEditDialog(
 				MainFrame.getInstance().getFrame(),

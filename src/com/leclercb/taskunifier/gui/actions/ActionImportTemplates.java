@@ -44,10 +44,10 @@ public class ActionImportTemplates extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.importTemplates();
+		ActionImportTemplates.importTemplates();
 	}
 	
-	public void importTemplates() {
+	public static void importTemplates() {
 		ImportTemplatesDialog importDialog = new ImportTemplatesDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

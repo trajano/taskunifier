@@ -66,6 +66,7 @@ import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -429,7 +430,14 @@ public class Main {
 	}
 	
 	public static void stop() {
-		// TODO: cannot exit if syncing
+		if (Synchronizing.isSynchronizing()) {
+			JOptionPane.showMessageDialog(
+					null,
+					Translations.getString("general.synchronization_ongoing"),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		
 		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)

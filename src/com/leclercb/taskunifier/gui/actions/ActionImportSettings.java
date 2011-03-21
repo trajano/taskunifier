@@ -44,10 +44,10 @@ public class ActionImportSettings extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.importSettings();
+		ActionImportSettings.importSettings();
 	}
 	
-	public void importSettings() {
+	public static void importSettings() {
 		ImportSettingsDialog importDialog = new ImportSettingsDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

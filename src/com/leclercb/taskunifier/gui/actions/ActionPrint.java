@@ -50,6 +50,10 @@ public class ActionPrint extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionPrint.print();
+	}
+	
+	public static void print() {
 		try {
 			MainFrame.getInstance().getTaskView().printTasks();
 		} catch (Exception exc) {

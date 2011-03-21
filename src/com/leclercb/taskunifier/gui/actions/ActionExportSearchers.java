@@ -44,10 +44,10 @@ public class ActionExportSearchers extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.exportSearchers();
+		ActionExportSearchers.exportSearchers();
 	}
 	
-	public void exportSearchers() {
+	public static void exportSearchers() {
 		ExportSearchersDialog exportDialog = new ExportSearchersDialog(
 				MainFrame.getInstance().getFrame(),
 				true);

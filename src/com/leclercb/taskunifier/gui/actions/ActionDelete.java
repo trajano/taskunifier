@@ -52,6 +52,10 @@ public class ActionDelete extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionDelete.delete();
+	}
+	
+	public static void delete() {
 		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
 		Synchronizing.setSynchronizing(true);

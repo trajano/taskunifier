@@ -44,6 +44,10 @@ public class ActionHelp extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		ActionHelp.help();
+	}
+	
+	public static void help() {
 		JDialog dialog = Help.getHelpDialog("index.html");
 		dialog.setVisible(true);
 	}

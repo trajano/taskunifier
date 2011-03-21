@@ -39,10 +39,10 @@ public class ActionLogBug extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.logBug();
+		ActionLogBug.logBug();
 	}
 	
-	public void logBug() {
+	public static void logBug() {
 		try {
 			BrowserUtils.openDefaultBrowser(Constants.BUG_URL);
 		} catch (Exception e) {

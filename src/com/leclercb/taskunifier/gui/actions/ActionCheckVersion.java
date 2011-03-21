@@ -61,10 +61,6 @@ public class ActionCheckVersion extends AbstractAction {
 		ActionCheckVersion.checkVersion(this.silent);
 	}
 	
-	public void checkVersion() {
-		ActionCheckVersion.checkVersion(this.silent);
-	}
-	
 	public static void checkVersion(final boolean silent) {
 		Thread thread = new Thread(new Runnable() {
 			

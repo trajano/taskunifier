@@ -44,10 +44,10 @@ public class ActionImportSearchers extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.importSearchers();
+		ActionImportSearchers.importSearchers();
 	}
 	
-	public void importSearchers() {
+	public static void importSearchers() {
 		ImportSearchersDialog importDialog = new ImportSearchersDialog(
 				MainFrame.getInstance().getFrame(),
 				true);
