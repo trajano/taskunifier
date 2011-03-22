@@ -26,7 +26,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Plugin implements PropertyChangeSupported {
 	
-	public static enum PluginStatus { 
+	public static enum PluginStatus {
 		
 		TO_INSTALL(Translations.getString("plugin.status.to_install")),
 		INSTALLED(Translations.getString("plugin.status.installed")),
