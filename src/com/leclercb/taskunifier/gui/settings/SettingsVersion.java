@@ -230,6 +230,10 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.remove("api.version");
 		
+		Main.SETTINGS.remove("toodledo.toodledo.token_creation_date");
+		Main.SETTINGS.remove("toodledo.toodledo.token");
+		Main.SETTINGS.remove("toodledo.toodledo.userid");
+		
 		return "0.8.2";
 	}
 	
