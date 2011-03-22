@@ -204,6 +204,8 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void refreshSynchronizationPanels() {
+		int selectedTab = this.tabbedPane.getSelectedIndex();
+		
 		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
 		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
 		
@@ -227,7 +229,11 @@ public class ConfigurationDialog extends JDialog {
 							ConfigurationDialog.this.pluginConfigurationPanel,
 							false));
 		
-		this.tabbedPane.setSelectedIndex(this.tabbedPane.getTabCount() - 2);
+		try {
+			this.tabbedPane.setSelectedIndex(selectedTab);
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 	}
 	
 }
