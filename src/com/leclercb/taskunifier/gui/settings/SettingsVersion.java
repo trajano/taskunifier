@@ -226,7 +226,7 @@ public final class SettingsVersion {
 	
 	private static String updateSettings_0_8_1_to_0_8_2() {
 		GuiLogger.getLogger().info(
-		"Update settings from version 0.8.1 to 0.8.2");
+				"Update settings from version 0.8.1 to 0.8.2");
 		
 		Main.SETTINGS.remove("api.version");
 		

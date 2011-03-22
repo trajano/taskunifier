@@ -56,7 +56,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					Main.SETTINGS.getStringProperty("api.id"),
 					DummyGuiPlugin.getInstance().getId()))
 				;// SynchronizerUtils.resetSynchronizerAndDeleteModels();
-		
+				
 		Main.SETTINGS.setStringProperty(
 				"api.id",
 				((SynchronizerGuiPlugin) this.getValue("API")).getId());

@@ -30,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -91,13 +90,10 @@ public class ReviewPanel extends JPanel {
 			
 		});
 		
-		JButton donateButton = new JButton(new ActionDonate(16, 16));
-		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		buttonsPanel.add(reviewButton);
-		buttonsPanel.add(donateButton);
 		
 		panel.add(
 				ComponentFactory.createJScrollPane(pane, true),
