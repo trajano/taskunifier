@@ -32,6 +32,8 @@ import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.commons.api.utils.DateUtils;
@@ -425,6 +427,28 @@ public class Main {
 				}
 			}
 		}
+		
+		API_PLUGINS.addListChangeListener(new ListChangeListener() {
+			
+			@Override
+			public void listChange(ListChangeEvent evt) {
+				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
+				
+				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+					Main.SETTINGS.setStringProperty("api.id", plugin.getId());
+				}
+				
+				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+					if (EqualsUtils.equals(
+							Main.SETTINGS.getStringProperty("api.id"),
+							plugin.getId()))
+						Main.SETTINGS.setStringProperty(
+								"api.id",
+								DummyGuiPlugin.getInstance().getId());
+				}
+			}
+			
+		});
 		
 		return outdatedPlugins;
 	}

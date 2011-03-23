@@ -51,14 +51,6 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	
 	@Override
 	public void saveAndApplyConfig() {
-		if (!EqualsUtils.equals(
-				Main.SETTINGS.getStringProperty("api.id"),
-				((SynchronizerGuiPlugin) this.getValue("API")).getId()))
-			if (!EqualsUtils.equals(
-					Main.SETTINGS.getStringProperty("api.id"),
-					DummyGuiPlugin.getInstance().getId()))
-				;// SynchronizerUtils.resetSynchronizerAndDeleteModels();
-				
 		Main.SETTINGS.setStringProperty(
 				"api.id",
 				((SynchronizerGuiPlugin) this.getValue("API")).getId());
