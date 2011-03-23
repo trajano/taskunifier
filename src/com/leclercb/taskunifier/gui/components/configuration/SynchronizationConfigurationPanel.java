@@ -114,12 +114,15 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
 			synchronizationSyncAtExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		
-		this.addField(new ConfigurationField(
-				"API_RESET_ALL",
-				null,
-				new ConfigurationFieldType.Label(
-						Translations.getString("configuration.synchronization.api_reset_all"))));
-		
+		/*
+		 * this.addField(new ConfigurationField(
+		 * "API_RESET_ALL",
+		 * null,
+		 * new ConfigurationFieldType.Label(
+		 * Translations.getString("configuration.synchronization.api_reset_all"))
+		 * ));
+		 */
+
 		ConfigurationFieldType.ComboBox comboBox = null;
 		
 		comboBox = new ConfigurationFieldType.ComboBox(
