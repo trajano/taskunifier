@@ -56,7 +56,7 @@ public class WelcomeDialog extends JDialog {
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(true)),
 			new SettingsPanel(
-					SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+					SynchronizerUtils.getPlugin().getName(),
 					new PluginConfigurationPanel(
 							false,
 							SynchronizerUtils.getPlugin())) };
@@ -81,10 +81,13 @@ public class WelcomeDialog extends JDialog {
 							new SynchronizationConfigurationPanel(true));
 					
 					servicePanel.reset(
-							SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+							SynchronizerUtils.getPlugin().getName(),
 							new PluginConfigurationPanel(
 									false,
 									SynchronizerUtils.getPlugin()));
+					
+					((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
+					((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 				}
 			}
 			

@@ -18,6 +18,8 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -135,6 +137,17 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				"API",
 				Translations.getString("general.api"),
 				comboBox));
+		
+		comboBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				Main.SETTINGS.setStringProperty(
+						"api.id",
+						((SynchronizerGuiPlugin) SynchronizationConfigurationPanel.this.getValue("API")).getId());
+			}
+			
+		});
 		
 		this.addField(new ConfigurationField(
 				"MANAGE_PLUGINS",

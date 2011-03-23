@@ -23,6 +23,8 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -76,6 +78,16 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeThemePanel();
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
+		
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals("api.id"))
+					ConfigurationDialog.this.refreshSynchronizationPanels();
+			}
+			
+		});
 	}
 	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
@@ -172,7 +184,7 @@ public class ConfigurationDialog extends JDialog {
 				SynchronizerUtils.getPlugin());
 		
 		this.tabbedPane.addTab(
-				SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+				SynchronizerUtils.getPlugin().getName(),
 				ComponentFactory.createJScrollPane(
 						this.pluginConfigurationPanel,
 						false));
@@ -189,8 +201,6 @@ public class ConfigurationDialog extends JDialog {
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
-			
-			this.refreshSynchronizationPanels();
 		} catch (Exception e) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
@@ -209,25 +219,8 @@ public class ConfigurationDialog extends JDialog {
 		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
 		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
 		
-		ConfigurationDialog.this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
-				false);
-		
-		this.tabbedPane.addTab(
-				Translations.getString("configuration.tab.synchronization"),
-				ComponentFactory.createJScrollPane(
-						ConfigurationDialog.this.synchronizationConfigurationPanel,
-						false));
-		
-		ConfigurationDialog.this.pluginConfigurationPanel = new PluginConfigurationPanel(
-				false,
-				SynchronizerUtils.getPlugin());
-		
-		if (ConfigurationDialog.this.pluginConfigurationPanel != null)
-			this.tabbedPane.addTab(
-					SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
-					ComponentFactory.createJScrollPane(
-							ConfigurationDialog.this.pluginConfigurationPanel,
-							false));
+		this.initializeSynchronizationPanel();
+		this.initializePluginPanel();
 		
 		try {
 			this.tabbedPane.setSelectedIndex(selectedTab);

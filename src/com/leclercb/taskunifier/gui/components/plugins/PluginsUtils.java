@@ -40,6 +40,7 @@ import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
@@ -183,6 +184,14 @@ public class PluginsUtils {
 				File file = Main.API_PLUGINS.getFile(existingPlugin);
 				file.delete();
 				Main.API_PLUGINS.removePlugin(existingPlugin);
+				
+				if (EqualsUtils.equals(
+						Main.SETTINGS.getStringProperty("api.id"),
+						existingPlugin.getId()))
+					Main.SETTINGS.setStringProperty(
+							"api.id",
+							DummyGuiPlugin.getInstance().getId());
+				
 				plugin.setStatus(PluginStatus.DELETED);
 			}
 		}
