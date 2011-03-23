@@ -68,6 +68,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceList;
+import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListColorScheme;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListToolTipProvider;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -118,6 +119,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 		this.initializePersonalCategory();
 		
 		this.list = new SourceList(this.model);
+		this.list.setColorScheme(new SourceListColorScheme());
 		
 		this.initializeToolTipText();
 		this.initializeCopyAndPaste();

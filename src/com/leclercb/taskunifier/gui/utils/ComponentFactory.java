@@ -84,7 +84,8 @@ public final class ComponentFactory {
 			return panel;
 		} else {
 			JPanel panel = new JPanel(new BorderLayout(5, 0));
-			panel.setOpaque(false);
+			panel.setOpaque(true);
+			panel.setBackground(new Color(0xd6dde5));
 			panel.add(
 					new JLabel(Images.getResourceImage("search.png", 16, 16)),
 					BorderLayout.WEST);
