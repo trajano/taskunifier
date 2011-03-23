@@ -170,6 +170,11 @@ public class SynchronizerDialog extends WaitDialog {
 										"synchronizer.wait_no_license",
 										Constants.WAIT_NO_LICENSE_TIME) + "\n");
 								
+								SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
+										"general.go_to_serial",
+										SynchronizerUtils.getPlugin().getName())
+										+ "\n");
+								
 								Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
 							}
 						}
