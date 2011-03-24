@@ -201,6 +201,8 @@ public class ConfigurationDialog extends JDialog {
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
+			
+			refreshSynchronizationPanels();
 		} catch (Exception e) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),

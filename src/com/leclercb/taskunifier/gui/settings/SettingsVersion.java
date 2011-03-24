@@ -231,7 +231,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.8.1 to 0.8.2");
 		
-		Main.SETTINGS.remove("api.version");
+		Main.SETTINGS.setStringProperty("api.id", "0");
+		Main.SETTINGS.setStringProperty("api.version", "1.0");
+		//Main.SETTINGS.remove("api.version");
 		
 		Main.SETTINGS.remove("toodledo.toodledo.token_creation_date");
 		Main.SETTINGS.remove("toodledo.toodledo.token");
