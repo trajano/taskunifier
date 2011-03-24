@@ -233,7 +233,7 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.setStringProperty("api.id", "0");
 		Main.SETTINGS.setStringProperty("api.version", "1.0");
-		//Main.SETTINGS.remove("api.version");
+		// Main.SETTINGS.remove("api.version");
 		
 		Main.SETTINGS.remove("toodledo.toodledo.token_creation_date");
 		Main.SETTINGS.remove("toodledo.toodledo.token");

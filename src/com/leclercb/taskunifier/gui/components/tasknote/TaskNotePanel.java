@@ -60,6 +60,7 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 		
 		this.htmlNote = new JEditorPane();
 		
+		this.htmlNote.setEnabled(false);
 		this.htmlNote.setEditable(false);
 		this.htmlNote.setEditorKit(new StyledEditorKit());
 		this.htmlNote.setContentType("text/html");
@@ -68,8 +69,10 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				((CardLayout) TaskNotePanel.this.getLayout()).last(TaskNotePanel.this);
-				TaskNotePanel.this.textNote.setCaretPosition(0);
+				if (TaskNotePanel.this.htmlNote.isEnabled()) {
+					((CardLayout) TaskNotePanel.this.getLayout()).last(TaskNotePanel.this);
+					TaskNotePanel.this.textNote.setCaretPosition(0);
+				}
 			}
 			
 		});
@@ -136,6 +139,8 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
+			
+			this.htmlNote.setEnabled(false);
 		} else {
 			this.previousSelectedTask = tasks[0];
 			
@@ -144,6 +149,8 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
+			
+			this.htmlNote.setEnabled(true);
 		}
 		
 		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
