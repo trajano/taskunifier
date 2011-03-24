@@ -11,6 +11,7 @@ Version 0.8.2: 23/03/2011
 	- BF 3213050: Task length field in task edit window
 	- Bug fixed: Select title & Edit task window with template
 	- Creation of a plugin manager
+	- Synchronization needs a license
 
 Version 0.8.1
 	- BF 3208322: Subtasks problem
