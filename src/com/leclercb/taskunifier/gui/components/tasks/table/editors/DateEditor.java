@@ -70,8 +70,8 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 		
 		this.buttonRemove = new JButton(Images.getResourceImage(
 				"remove.png",
-				16,
-				16));
+				10,
+				10));
 		this.buttonRemove.setActionCommand("REMOVE");
 		this.buttonRemove.addActionListener(new ActionListener() {
 			

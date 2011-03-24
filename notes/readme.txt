@@ -2,7 +2,9 @@ HISTORY
 -------
 
 Version 0.8.3
-	- FR : Improve task note
+	- FR 3235434: Option for HTML text formatting in task notes
+	- FR 3208907: Hyper links in task notes
+	- FR 3222956: Smaller date deletion button 
 	- License key validator
 
 Version 0.8.2: 23/03/2011
