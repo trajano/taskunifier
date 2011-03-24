@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 0.8.3
+	- FR : Improve task note
+	- License key validator
 
 Version 0.8.2: 23/03/2011
 	- FR 3213145: Combobox for reminder value

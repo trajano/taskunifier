@@ -17,19 +17,32 @@
  */
 package com.leclercb.taskunifier.gui.components.tasknote;
 
+import java.awt.CardLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.StyledEditorKit;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskNotePanel extends JTextArea implements TaskSelectionListener {
+public class TaskNotePanel extends JPanel implements TaskSelectionListener {
+	
+	private JEditorPane htmlNote;
+	private JTextArea textNote;
 	
 	private Task previousSelectedTask;
 	
@@ -39,28 +52,69 @@ public class TaskNotePanel extends JTextArea implements TaskSelectionListener {
 	}
 	
 	public String getTaskNote() {
-		return this.getText();
+		return this.textNote.getText();
 	}
 	
 	private void initialize() {
-		this.setLineWrap(true);
-		this.setWrapStyleWord(true);
-		this.setBorder(BorderFactory.createEmptyBorder());
-		this.setText(Translations.getString("error.select_one_task"));
-		this.setEnabled(false);
-		this.addFocusListener(new FocusAdapter() {
+		this.setLayout(new CardLayout());
+		
+		this.htmlNote = new JEditorPane();
+		
+		this.htmlNote.setEditable(false);
+		this.htmlNote.setEditorKit(new StyledEditorKit());
+		this.htmlNote.setContentType("text/html");
+		this.htmlNote.setText(Translations.getString("error.select_one_task"));
+		this.htmlNote.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				((CardLayout) TaskNotePanel.this.getLayout()).last(TaskNotePanel.this);
+				TaskNotePanel.this.textNote.setCaretPosition(0);
+			}
+			
+		});
+		
+		this.htmlNote.addHyperlinkListener(new HyperlinkListener() {
+			
+			@Override
+			public void hyperlinkUpdate(HyperlinkEvent evt) {
+				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+					try {
+						BrowserUtils.openDefaultBrowser(evt.getURL().toString());
+					} catch (Exception exc) {}
+				}
+			}
+			
+		});
+		
+		this.textNote = new JTextArea();
+		
+		this.textNote.setLineWrap(true);
+		this.textNote.setWrapStyleWord(true);
+		this.textNote.setBorder(BorderFactory.createEmptyBorder());
+		this.textNote.addFocusListener(new FocusAdapter() {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (TaskNotePanel.this.previousSelectedTask != null) {
 					if (!EqualsUtils.equals(
 							TaskNotePanel.this.previousSelectedTask.getNote(),
-							TaskNotePanel.this.getText()))
-						TaskNotePanel.this.previousSelectedTask.setNote(TaskNotePanel.this.getText());
+							TaskNotePanel.this.getTaskNote())) {
+						TaskNotePanel.this.previousSelectedTask.setNote(TaskNotePanel.this.getTaskNote());
+					}
 				}
 			}
 			
 		});
+		
+		this.add(
+				ComponentFactory.createJScrollPane(this.htmlNote, false),
+				"" + 0);
+		this.add(
+				ComponentFactory.createJScrollPane(this.textNote, false),
+				"" + 1);
+		
+		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
 	}
 	
 	@Override
@@ -68,8 +122,8 @@ public class TaskNotePanel extends JTextArea implements TaskSelectionListener {
 		if (this.previousSelectedTask != null) {
 			if (!EqualsUtils.equals(
 					this.previousSelectedTask.getNote(),
-					this.getText()))
-				this.previousSelectedTask.setNote(this.getText());
+					this.getTaskNote()))
+				this.previousSelectedTask.setNote(this.getTaskNote());
 		}
 		
 		Task[] tasks = event.getSelectedTasks();
@@ -77,14 +131,22 @@ public class TaskNotePanel extends JTextArea implements TaskSelectionListener {
 		if (tasks.length != 1) {
 			this.previousSelectedTask = null;
 			
-			this.setText(Translations.getString("error.select_one_task"));
-			this.setEnabled(false);
+			this.htmlNote.setText(Translations.getString("error.select_one_task"));
+			this.textNote.setText(null);
+			
+			this.htmlNote.setCaretPosition(0);
+			this.textNote.setCaretPosition(0);
 		} else {
 			this.previousSelectedTask = tasks[0];
 			
-			this.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
-			this.setEnabled(true);
+			this.htmlNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
+			this.textNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
+			
+			this.htmlNote.setCaretPosition(0);
+			this.textNote.setCaretPosition(0);
 		}
+		
+		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
 	}
 	
 }

@@ -535,9 +535,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		TaskNotePanel taskNote = new TaskNotePanel();
 		this.taskPanel.addTaskSelectionChangeListener(taskNote);
 		
-		panel.add(
-				ComponentFactory.createJScrollPane(taskNote, false),
-				BorderLayout.CENTER);
+		panel.add(taskNote, BorderLayout.CENTER);
 		
 		verticalSplitPane.setBottomComponent(panel);
 	}
