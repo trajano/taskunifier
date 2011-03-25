@@ -405,9 +405,7 @@ public class Main {
 		
 		API_PLUGINS.addPlugin(null, DummyGuiPlugin.getInstance());
 		
-		File pluginsFolder = new File(DATA_FOLDER
-				+ File.separator
-				+ "plugins");
+		File pluginsFolder = new File(DATA_FOLDER + File.separator + "plugins");
 		
 		if (!pluginsFolder.exists())
 			pluginsFolder.mkdir();

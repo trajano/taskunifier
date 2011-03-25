@@ -182,7 +182,7 @@ public class Plugin implements PropertyChangeSupported {
 	public String getPrice() {
 		return this.price;
 	}
-
+	
 	public void setPrice(String price) {
 		CheckUtils.isNotNull(price, "Price cannot be null");
 		String oldPrice = this.price;
@@ -192,7 +192,7 @@ public class Plugin implements PropertyChangeSupported {
 				oldPrice,
 				price);
 	}
-
+	
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
