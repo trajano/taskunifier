@@ -146,6 +146,12 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.plugin_installed")));
 			
+			GuiLogger.getLogger().info(
+					"Plugin installed: "
+							+ plugin.getName()
+							+ " - "
+							+ plugin.getVersion());
+			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
 			file.delete();
@@ -183,6 +189,13 @@ public class PluginsUtils {
 				File file = Main.API_PLUGINS.getFile(existingPlugin);
 				file.delete();
 				Main.API_PLUGINS.removePlugin(existingPlugin);
+				
+				GuiLogger.getLogger().info(
+						"Plugin deleted: "
+								+ plugin.getName()
+								+ " - "
+								+ plugin.getVersion());
+				
 				plugin.setStatus(PluginStatus.DELETED);
 			}
 		}
