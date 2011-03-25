@@ -1,8 +1,10 @@
+Version 0.8.4
+	- Plugins are now stored in the data folder
+
 Version 0.8.3
 	- FR 3235434: Option for HTML text formatting in task notes
 	- FR 3208907: Hyper links in task notes
-	- FR 3222956: Smaller date deletion button 
-	- License key validator
+	- FR 3222956: Smaller date deletion button
 
 Version 0.8.2: 23/03/2011
 	- FR 3213145: Combobox for reminder value

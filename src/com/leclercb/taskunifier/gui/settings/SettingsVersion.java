@@ -78,6 +78,9 @@ public final class SettingsVersion {
 		if (version.equals("0.8.2"))
 			version = updateSettings_0_8_2_to_0_8_3();
 		
+		if (version.equals("0.8.3"))
+			version = updateSettings_0_8_3_to_0_8_4();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -247,6 +250,13 @@ public final class SettingsVersion {
 				"Update settings from version 0.8.2 to 0.8.3");
 		
 		return "0.8.3";
+	}
+	
+	private static String updateSettings_0_8_3_to_0_8_4() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.8.3 to 0.8.4");
+		
+		return "0.8.4";
 	}
 	
 }

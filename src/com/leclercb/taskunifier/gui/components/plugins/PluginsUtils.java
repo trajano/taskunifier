@@ -119,7 +119,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.start_plugin_installation")));
 			
-			file = new File(Main.RESOURCES_FOLDER
+			file = new File(Main.DATA_FOLDER
 					+ File.separator
 					+ "plugins"
 					+ File.separator

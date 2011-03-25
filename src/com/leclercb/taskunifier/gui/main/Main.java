@@ -405,9 +405,12 @@ public class Main {
 		
 		API_PLUGINS.addPlugin(null, DummyGuiPlugin.getInstance());
 		
-		File pluginsFolder = new File(RESOURCES_FOLDER
+		File pluginsFolder = new File(DATA_FOLDER
 				+ File.separator
 				+ "plugins");
+		
+		if (!pluginsFolder.exists())
+			pluginsFolder.mkdir();
 		
 		boolean outdatedPlugins = false;
 		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
