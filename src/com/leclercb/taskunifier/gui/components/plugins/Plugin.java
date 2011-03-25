@@ -53,6 +53,7 @@ public class Plugin implements PropertyChangeSupported {
 	public static final String PROP_VERSION = "version";
 	public static final String PROP_SERVICE_PROVIDER = "serviceProvider";
 	public static final String PROP_DOWNLOAD_URL = "downloadUrl";
+	public static final String PROP_PRICE = "price";
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
@@ -63,6 +64,7 @@ public class Plugin implements PropertyChangeSupported {
 	private String version;
 	private String serviceProvider;
 	private String downloadUrl;
+	private String price;
 	
 	public Plugin(
 			PluginStatus status,
@@ -71,7 +73,8 @@ public class Plugin implements PropertyChangeSupported {
 			String author,
 			String version,
 			String serviceProvider,
-			String downloadUrl) {
+			String downloadUrl,
+			String price) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setStatus(status);
@@ -81,6 +84,7 @@ public class Plugin implements PropertyChangeSupported {
 		this.setVersion(version);
 		this.setServiceProvider(serviceProvider);
 		this.setDownloadUrl(downloadUrl);
+		this.setPrice(price);
 	}
 	
 	public PluginStatus getStatus() {
@@ -175,6 +179,20 @@ public class Plugin implements PropertyChangeSupported {
 				downloadUrl);
 	}
 	
+	public String getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(String price) {
+		CheckUtils.isNotNull(price, "Price cannot be null");
+		String oldPrice = this.price;
+		this.price = price;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_PRICE,
+				oldPrice,
+				price);
+	}
+
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);

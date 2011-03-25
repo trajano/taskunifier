@@ -136,6 +136,12 @@ public class PluginsUtils {
 					new URL(plugin.getDownloadUrl()),
 					file);
 			
+			GuiLogger.getLogger().info(
+					"Plugin installed: "
+							+ plugin.getName()
+							+ " - "
+							+ plugin.getVersion());
+			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.installing_plugin")));
@@ -145,12 +151,6 @@ public class PluginsUtils {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.plugin_installed")));
-			
-			GuiLogger.getLogger().info(
-					"Plugin installed: "
-							+ plugin.getName()
-							+ " - "
-							+ plugin.getVersion());
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
@@ -269,6 +269,7 @@ public class PluginsUtils {
 				String version = null;
 				String serviceProvider = null;
 				String downloadUrl = null;
+				String price = null;
 				
 				for (int j = 0; j < nPlugin.getLength(); j++) {
 					Node element = nPlugin.item(j);
@@ -290,6 +291,9 @@ public class PluginsUtils {
 					
 					if (element.getNodeName().equals("downloadUrl"))
 						downloadUrl = element.getTextContent();
+					
+					if (element.getNodeName().equals("price"))
+						price = element.getTextContent();
 				}
 				
 				Plugin plugin = new Plugin(
@@ -299,7 +303,8 @@ public class PluginsUtils {
 						author,
 						version,
 						serviceProvider,
-						downloadUrl);
+						downloadUrl,
+						price);
 				
 				plugins.add(plugin);
 			}
