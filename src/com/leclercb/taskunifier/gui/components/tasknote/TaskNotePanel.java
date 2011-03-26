@@ -144,8 +144,10 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 		} else {
 			this.previousSelectedTask = tasks[0];
 			
-			this.htmlNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
-			this.textNote.setText((tasks[0].getNote() == null ? "" : tasks[0].getNote()));
+			String note = (tasks[0].getNote() == null ? "" : tasks[0].getNote());
+			
+			this.htmlNote.setText(convertTextNoteToHtml(note));
+			this.textNote.setText(note);
 			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
@@ -154,6 +156,12 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 		}
 		
 		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
+	}
+	
+	private String convertTextNoteToHtml(String note) {
+		note = note.replaceAll("(\r\n|\r|\n|\n\r)", "<br />");
+		
+		return note;
 	}
 	
 }

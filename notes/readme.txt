@@ -3,6 +3,7 @@ HISTORY
 
 Version 0.8.4
 	- BF 3241151: Close edit task window doesn't delete the task
+	- Improve task note
 	- Plugins are now stored in the data folder
 
 Version 0.8.3
