@@ -119,9 +119,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.start_plugin_installation")));
 			
-			file = new File(Main.DATA_FOLDER
-					+ File.separator
-					+ "plugins"
+			file = new File(Main.PLUGINS_FOLDER
 					+ File.separator
 					+ UUID.randomUUID().toString()
 					+ ".jar");

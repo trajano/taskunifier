@@ -84,6 +84,7 @@ public class Main {
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
+	public static String PLUGINS_FOLDER;
 	
 	private static PrintStream ORIGINAL_OUT_STREAM;
 	private static PrintStream ORIGINAL_ERR_STREAM;
@@ -98,6 +99,7 @@ public class Main {
 			loadStreamRedirection();
 			loadResourceFolder();
 			loadDataFolder();
+			loadPluginsFolder();
 			loadSettings();
 			loadLocale();
 			loadModels();
@@ -246,6 +248,10 @@ public class Main {
 		FIRST_EXECUTION = false;
 	}
 	
+	private static void loadPluginsFolder() {
+		PLUGINS_FOLDER = DATA_FOLDER + File.separator + "plugins";
+	}
+	
 	private static void loadSettings() throws Exception {
 		try {
 			SETTINGS = new PropertiesConfiguration(new Properties());
@@ -255,6 +261,7 @@ public class Main {
 			SETTINGS.load(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "settings.properties"));
+			
 			SettingsVersion.updateSettings();
 		} catch (FileNotFoundException e) {
 			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
@@ -405,7 +412,7 @@ public class Main {
 		
 		API_PLUGINS.addPlugin(null, DummyGuiPlugin.getInstance());
 		
-		File pluginsFolder = new File(DATA_FOLDER + File.separator + "plugins");
+		File pluginsFolder = new File(PLUGINS_FOLDER);
 		
 		if (!pluginsFolder.exists())
 			pluginsFolder.mkdir();

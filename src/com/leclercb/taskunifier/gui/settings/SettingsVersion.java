@@ -17,7 +17,11 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import java.io.File;
+
 import javax.swing.UIManager;
+
+import org.apache.commons.io.FileUtils;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -255,6 +259,14 @@ public final class SettingsVersion {
 	private static String updateSettings_0_8_3_to_0_8_4() {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.8.3 to 0.8.4");
+		
+		try {
+			String oldPluginsDir = Main.RESOURCES_FOLDER + File.separator + "plugins";
+
+			FileUtils.copyDirectory(
+					new File(oldPluginsDir), 
+					new File(Main.PLUGINS_FOLDER));
+		} catch (Throwable t) {}
 		
 		return "0.8.4";
 	}
