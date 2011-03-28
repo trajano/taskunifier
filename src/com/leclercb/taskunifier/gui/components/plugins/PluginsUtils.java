@@ -34,6 +34,7 @@ import org.w3c.dom.NodeList;
 
 import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
+import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
@@ -83,17 +84,11 @@ public class PluginsUtils {
 			}
 			
 			SynchronizerGuiPlugin plugin = plugins.get(0);
-			List<SynchronizerGuiPlugin> existingPlugins = Main.API_PLUGINS.getPlugins();
 			
-			for (SynchronizerGuiPlugin p : existingPlugins) {
-				if (EqualsUtils.equals(p.getId(), plugin.getId())
-						&& EqualsUtils.equals(
-								p.getVersion(),
-								plugin.getVersion())) {
-					throw new PluginException(PluginExceptionType.PLUGIN_FOUND);
-				}
-			}
+			List<SynchronizerGuiPlugin> existingPlugins = 
+				new ArrayList<SynchronizerGuiPlugin>(Main.API_PLUGINS.getPlugins());
 			
+			// "existingPlugins" does not contain the new plugin yet
 			Main.API_PLUGINS.addPlugin(file, plugin);
 			
 			GuiLogger.getLogger().info(
@@ -102,12 +97,38 @@ public class PluginsUtils {
 							+ " - "
 							+ plugin.getVersion());
 			
+			for (SynchronizerGuiPlugin p : existingPlugins) {
+				if (EqualsUtils.equals(p.getId(), plugin.getId())) {
+					SynchronizerGuiPlugin pluginToDelete = null;
+					if (CompareUtils.compare(p.getVersion(), plugin.getVersion()) < 0)
+						pluginToDelete = p;
+					else
+						pluginToDelete = plugin;
+					
+					deletePlugin(pluginToDelete);
+					break;
+				}
+			}
+			
 			return;
 		} catch (PluginException e) {
 			throw e;
 		} catch (Throwable t) {
+			t.printStackTrace();
 			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN);
 		}
+	}
+	
+	public static void deletePlugin(SynchronizerGuiPlugin plugin) {
+		File file = Main.API_PLUGINS.getFile(plugin);
+		file.delete();
+		Main.API_PLUGINS.removePlugin(plugin);
+		
+		GuiLogger.getLogger().info(
+				"Plugin deleted: "
+						+ plugin.getName()
+						+ " - "
+						+ plugin.getVersion());
 	}
 	
 	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
