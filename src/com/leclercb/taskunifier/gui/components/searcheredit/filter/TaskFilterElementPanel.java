@@ -81,6 +81,15 @@ public class TaskFilterElementPanel extends JPanel {
 				case COMPLETED_ON:
 				case DUE_DATE:
 				case START_DATE:
+					try {
+						if (this.elementValue.getSelectedItem().toString().length() == 0)
+							value = null;
+						else
+							value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
+					} catch (NumberFormatException e) {
+						value = 0;
+					}
+					break;
 				case REMINDER:
 				case LENGTH:
 				case IMPORTANCE:
@@ -211,21 +220,21 @@ public class TaskFilterElementPanel extends JPanel {
 			case COMPLETED_ON:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.addItem(value == null ? "" : value);
 				this.elementValue.setSelectedIndex(0);
 				this.elementValue.setEditable(true);
 				break;
 			case DUE_DATE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.addItem(value == null ? "" : value);
 				this.elementValue.setSelectedIndex(0);
 				this.elementValue.setEditable(true);
 				break;
 			case START_DATE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.addItem(value == null ? "" : value);
 				this.elementValue.setSelectedIndex(0);
 				this.elementValue.setEditable(true);
 				break;
