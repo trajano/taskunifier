@@ -1,7 +1,7 @@
 HISTORY
 -------
 
-Version 0.8.4
+Version 0.8.4d
 	- FR 3252640: No date value in searcher
 	- BF 3241151: Close edit task window doesn't delete the task
 	- Improve task note
