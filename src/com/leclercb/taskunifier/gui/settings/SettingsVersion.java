@@ -261,11 +261,12 @@ public final class SettingsVersion {
 				"Update settings from version 0.8.3 to 0.8.4");
 		
 		try {
-			String oldPluginsDir = Main.RESOURCES_FOLDER + File.separator + "plugins";
-
-			FileUtils.copyDirectory(
-					new File(oldPluginsDir), 
-					new File(Main.PLUGINS_FOLDER));
+			String oldPluginsDir = Main.RESOURCES_FOLDER
+					+ File.separator
+					+ "plugins";
+			
+			FileUtils.copyDirectory(new File(oldPluginsDir), new File(
+					Main.PLUGINS_FOLDER));
 		} catch (Throwable t) {}
 		
 		return "0.8.4";

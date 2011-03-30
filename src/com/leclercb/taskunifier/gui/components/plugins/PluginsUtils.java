@@ -85,8 +85,8 @@ public class PluginsUtils {
 			
 			SynchronizerGuiPlugin plugin = plugins.get(0);
 			
-			List<SynchronizerGuiPlugin> existingPlugins = 
-				new ArrayList<SynchronizerGuiPlugin>(Main.API_PLUGINS.getPlugins());
+			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
+					Main.API_PLUGINS.getPlugins());
 			
 			// "existingPlugins" does not contain the new plugin yet
 			Main.API_PLUGINS.addPlugin(file, plugin);
@@ -100,7 +100,9 @@ public class PluginsUtils {
 			for (SynchronizerGuiPlugin p : existingPlugins) {
 				if (EqualsUtils.equals(p.getId(), plugin.getId())) {
 					SynchronizerGuiPlugin pluginToDelete = null;
-					if (CompareUtils.compare(p.getVersion(), plugin.getVersion()) < 0)
+					if (CompareUtils.compare(
+							p.getVersion(),
+							plugin.getVersion()) < 0)
 						pluginToDelete = p;
 					else
 						pluginToDelete = plugin;

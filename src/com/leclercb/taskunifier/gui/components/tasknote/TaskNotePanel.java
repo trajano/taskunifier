@@ -146,7 +146,7 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 			
 			String note = (tasks[0].getNote() == null ? "" : tasks[0].getNote());
 			
-			this.htmlNote.setText(convertTextNoteToHtml(note));
+			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);
 			
 			this.htmlNote.setCaretPosition(0);
