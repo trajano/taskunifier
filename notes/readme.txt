@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.8.5
+	- BF 3263920: Carriage return in task note
+
 Version 0.8.4
 	- FR 3252640: No date value in searcher
 	- BF 3241151: Close edit task window doesn't delete the task
