@@ -349,7 +349,7 @@ public class TaskTable extends JTable {
 		
 		this.setModel(tableModel);
 		this.setColumnModel(columnModel);
-		this.setRowHeight(28);
+		this.setRowHeight(24);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);

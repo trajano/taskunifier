@@ -78,7 +78,7 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 		calendar.setTime(date);
 		
 		return (calendar.get(Calendar.HOUR_OF_DAY) * 60)
-		+ calendar.get(Calendar.MINUTE);
+				+ calendar.get(Calendar.MINUTE);
 	}
 	
 	@Override

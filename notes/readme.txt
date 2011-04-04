@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.5
+	- FR 3266522: Narrower task row
 	- BF 3207477: Data entry by keyboard in length field not possible
 	- BF 3263325: Focus lost after sync
 	- BF 3263920: Carriage return in task note
