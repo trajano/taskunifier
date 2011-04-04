@@ -168,7 +168,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				"KEEP",
 				Translations.getString("configuration.synchronization.keep_tasks_for"),
 				new ConfigurationFieldType.FormattedTextField(
-						new RegexFormatter("^[0-9]{1,3}$"),
+						new RegexFormatter("^[0-9]{1,4}$"),
 						synchronizationKeepValue)));
 		
 		this.addField(new ConfigurationField(

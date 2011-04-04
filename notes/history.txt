@@ -1,6 +1,7 @@
 Version 0.8.5
 	- BF 3263920: Carriage return in task note
 	- Bug fixed: Java out of heap space
+	- Keep completed tasks: set max to 9999
 
 Version 0.8.4
 	- FR 3252640: No date value in searcher
