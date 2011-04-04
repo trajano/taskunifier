@@ -18,13 +18,16 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -40,6 +43,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
 	private PluginTable table;
+	
+	private JTextArea history;
 	
 	private JButton installButton;
 	private JButton updateButton;
@@ -92,8 +97,15 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 				ComponentFactory.createJScrollPane(this.table, false),
 				BorderLayout.CENTER);
 		
+		JPanel bottomPanel = new JPanel(new BorderLayout(10, 0));
+		this.add(bottomPanel, BorderLayout.SOUTH);
+		
+		this.history = new JTextArea(5, 10);
+		this.history.setEditable(false);
+		bottomPanel.add(ComponentFactory.createJScrollPane(this.history, true), BorderLayout.CENTER);
+		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
+		bottomPanel.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel(buttonsPanel);
 	}
@@ -110,7 +122,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
+						throws Throwable {
 							PluginsUtils.installPlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
@@ -128,7 +140,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
+						throws Throwable {
 							PluginsUtils.updatePlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
@@ -146,7 +158,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
+						throws Throwable {
 							PluginsUtils.deletePlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
@@ -192,11 +204,15 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		Plugin plugin = this.table.getSelectedPlugin();
 		
 		if (plugin == null) {
+			this.history.setText(null);
+			
 			this.installButton.setEnabled(false);
 			this.updateButton.setEnabled(false);
 			this.deleteButton.setEnabled(false);
 			return;
 		}
+		
+		this.history.setText(plugin.getHistory());
 		
 		this.installButton.setEnabled(plugin.getStatus() == PluginStatus.TO_INSTALL);
 		this.updateButton.setEnabled(plugin.getStatus() == PluginStatus.TO_UPDATE);

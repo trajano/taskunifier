@@ -53,6 +53,7 @@ public class Plugin implements PropertyChangeSupported {
 	public static final String PROP_VERSION = "version";
 	public static final String PROP_SERVICE_PROVIDER = "serviceProvider";
 	public static final String PROP_DOWNLOAD_URL = "downloadUrl";
+	public static final String PROP_HISTORY = "history";
 	public static final String PROP_PRICE = "price";
 	
 	private PropertyChangeSupport propertyChangeSupport;
@@ -64,6 +65,7 @@ public class Plugin implements PropertyChangeSupported {
 	private String version;
 	private String serviceProvider;
 	private String downloadUrl;
+	private String history;
 	private String price;
 	
 	public Plugin(
@@ -74,6 +76,7 @@ public class Plugin implements PropertyChangeSupported {
 			String version,
 			String serviceProvider,
 			String downloadUrl,
+			String history,
 			String price) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
@@ -84,6 +87,7 @@ public class Plugin implements PropertyChangeSupported {
 		this.setVersion(version);
 		this.setServiceProvider(serviceProvider);
 		this.setDownloadUrl(downloadUrl);
+		this.setHistory(history);
 		this.setPrice(price);
 	}
 	
@@ -179,6 +183,19 @@ public class Plugin implements PropertyChangeSupported {
 				downloadUrl);
 	}
 	
+	public String getHistory() {
+		return this.history;
+	}
+
+	public void setHistory(String history) {
+		String oldHistory = this.history;
+		this.history = history;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_HISTORY,
+				oldHistory,
+				history);
+	}
+
 	public String getPrice() {
 		return this.price;
 	}

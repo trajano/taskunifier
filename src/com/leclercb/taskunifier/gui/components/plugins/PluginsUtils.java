@@ -93,9 +93,9 @@ public class PluginsUtils {
 			
 			GuiLogger.getLogger().info(
 					"Plugin loaded: "
-							+ plugin.getName()
-							+ " - "
-							+ plugin.getVersion());
+					+ plugin.getName()
+					+ " - "
+					+ plugin.getVersion());
 			
 			for (SynchronizerGuiPlugin p : existingPlugins) {
 				if (EqualsUtils.equals(p.getId(), plugin.getId())) {
@@ -128,13 +128,13 @@ public class PluginsUtils {
 		
 		GuiLogger.getLogger().info(
 				"Plugin deleted: "
-						+ plugin.getName()
-						+ " - "
-						+ plugin.getVersion());
+				+ plugin.getName()
+				+ " - "
+				+ plugin.getVersion());
 	}
 	
 	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		File file = null;
 		
 		try {
@@ -159,9 +159,9 @@ public class PluginsUtils {
 			
 			GuiLogger.getLogger().info(
 					"Plugin installed: "
-							+ plugin.getName()
-							+ " - "
-							+ plugin.getVersion());
+					+ plugin.getName()
+					+ " - "
+					+ plugin.getVersion());
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
@@ -185,7 +185,7 @@ public class PluginsUtils {
 	}
 	
 	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString("manage_plugins.progress.start_plugin_update")));
@@ -213,9 +213,9 @@ public class PluginsUtils {
 				
 				GuiLogger.getLogger().info(
 						"Plugin deleted: "
-								+ plugin.getName()
-								+ " - "
-								+ plugin.getVersion());
+						+ plugin.getName()
+						+ " - "
+						+ plugin.getVersion());
 				
 				plugin.setStatus(PluginStatus.DELETED);
 			}
@@ -227,7 +227,7 @@ public class PluginsUtils {
 	}
 	
 	public static Plugin[] loadPluginsFromXML(ProgressMonitor monitor)
-			throws Exception {
+	throws Exception {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
@@ -269,7 +269,7 @@ public class PluginsUtils {
 			document.getDocumentElement().normalize();
 			
 			if (!document.getChildNodes().item(0).getNodeName().equals(
-					"plugins"))
+			"plugins"))
 				throw new Exception("Root name must be \"plugins\"");
 			
 			Node root = document.getChildNodes().item(0);
@@ -290,6 +290,8 @@ public class PluginsUtils {
 				String version = null;
 				String serviceProvider = null;
 				String downloadUrl = null;
+				String history = null;
+				String historyUrl = null;
 				String price = null;
 				
 				for (int j = 0; j < nPlugin.getLength(); j++) {
@@ -313,8 +315,30 @@ public class PluginsUtils {
 					if (element.getNodeName().equals("downloadUrl"))
 						downloadUrl = element.getTextContent();
 					
+					if (element.getNodeName().equals("historyUrl"))
+						historyUrl = element.getTextContent();
+					
 					if (element.getNodeName().equals("price"))
 						price = element.getTextContent();
+				}
+				
+				if (historyUrl != null) {
+					try {
+						if (proxyEnabled != null && proxyEnabled) {
+							response = HttpUtils.getHttpGetResponse(
+									new URI(historyUrl),
+									Main.SETTINGS.getStringProperty("proxy.host"),
+									Main.SETTINGS.getIntegerProperty("proxy.port"),
+									Main.SETTINGS.getStringProperty("proxy.login"),
+									Main.SETTINGS.getStringProperty("proxy.password"));
+						} else {
+							response = HttpUtils.getHttpGetResponse(new URI(historyUrl));
+						}
+						
+						if (response.isSuccessfull()) {
+							history = response.getContent();
+						}
+					} catch (Throwable t) {}
 				}
 				
 				Plugin plugin = new Plugin(
@@ -325,6 +349,7 @@ public class PluginsUtils {
 						version,
 						serviceProvider,
 						downloadUrl,
+						history,
 						price);
 				
 				plugins.add(plugin);

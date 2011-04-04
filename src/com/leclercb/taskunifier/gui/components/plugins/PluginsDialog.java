@@ -40,7 +40,7 @@ public class PluginsDialog extends JDialog {
 	
 	private void initialize() {
 		this.setTitle(Translations.getString("general.manage_plugins"));
-		this.setSize(650, 300);
+		this.setSize(650, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
