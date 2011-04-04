@@ -186,7 +186,7 @@ public class Plugin implements PropertyChangeSupported {
 	public String getHistory() {
 		return this.history;
 	}
-
+	
 	public void setHistory(String history) {
 		String oldHistory = this.history;
 		this.history = history;
@@ -195,7 +195,7 @@ public class Plugin implements PropertyChangeSupported {
 				oldHistory,
 				history);
 	}
-
+	
 	public String getPrice() {
 		return this.price;
 	}

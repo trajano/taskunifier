@@ -18,13 +18,11 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -102,7 +100,9 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		
 		this.history = new JTextArea(5, 10);
 		this.history.setEditable(false);
-		bottomPanel.add(ComponentFactory.createJScrollPane(this.history, true), BorderLayout.CENTER);
+		bottomPanel.add(
+				ComponentFactory.createJScrollPane(this.history, true),
+				BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		bottomPanel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -122,7 +122,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-						throws Throwable {
+								throws Throwable {
 							PluginsUtils.installPlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
@@ -140,7 +140,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-						throws Throwable {
+								throws Throwable {
 							PluginsUtils.updatePlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
@@ -158,7 +158,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						
 						@Override
 						public Void doActions(ProgressMonitor monitor)
-						throws Throwable {
+								throws Throwable {
 							PluginsUtils.deletePlugin(
 									PluginsPanel.this.table.getSelectedPlugin(),
 									monitor);
