@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.5
+	- BF 3263325: Focus lost after sync
 	- BF 3263920: Carriage return in task note
 	- Bug fixed: Java out of heap space
 	- Keep completed tasks: set max to 9999

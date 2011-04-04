@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -63,11 +64,14 @@ public class ActionSynchronize extends AbstractAction {
 			BackgroundSynchronizer synchronizer = new BackgroundSynchronizer();
 			synchronizer.synchronize();
 		} else {
+			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+			
 			SynchronizerDialog dialog = new SynchronizerDialog(
 					MainFrame.getInstance().getFrame());
 			dialog.setVisible(true);
 			
 			// MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+			MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
 		}
 	}
 	
