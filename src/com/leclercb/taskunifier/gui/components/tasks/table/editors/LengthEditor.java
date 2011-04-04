@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EventObject;
@@ -68,12 +69,16 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 	
 	@Override
 	public Object getCellEditorValue() {
+		try {
+			this.timeSpinner.commitEdit();
+		} catch (ParseException e) {}
+		
 		Date date = (Date) this.timeSpinner.getValue();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		
 		return (calendar.get(Calendar.HOUR_OF_DAY) * 60)
-				+ calendar.get(Calendar.MINUTE);
+		+ calendar.get(Calendar.MINUTE);
 	}
 	
 	@Override
