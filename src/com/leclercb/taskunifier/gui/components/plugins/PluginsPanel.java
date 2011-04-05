@@ -213,6 +213,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		}
 		
 		this.history.setText(plugin.getHistory());
+		this.history.setCaretPosition(0);
 		
 		this.installButton.setEnabled(plugin.getStatus() == PluginStatus.TO_INSTALL);
 		this.updateButton.setEnabled(plugin.getStatus() == PluginStatus.TO_UPDATE);
