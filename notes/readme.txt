@@ -1,6 +1,8 @@
 HISTORY
 -------
 
+Version 0.8.6
+
 Version 0.8.5
 	- FR 3266522: Narrower task row
 	- BF 3207477: Data entry by keyboard in length field not possible
