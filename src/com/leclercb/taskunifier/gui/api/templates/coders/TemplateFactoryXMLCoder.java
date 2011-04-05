@@ -68,7 +68,9 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				ModelId taskLocation = null;
 				Boolean taskCompleted = false;
 				Integer taskDueDate = null;
+				Integer taskDueTime = null;
 				Integer taskStartDate = null;
+				Integer taskStartTime = null;
 				Integer taskReminder = 0;
 				String taskRepeat = null;
 				TaskRepeatFrom taskRepeatFrom = null;
@@ -129,9 +131,17 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						if (element.getTextContent().length() != 0)
 							taskDueDate = Integer.parseInt(element.getTextContent());
 					
+					if (element.getNodeName().equals("taskduetime"))
+						if (element.getTextContent().length() != 0)
+							taskDueTime = Integer.parseInt(element.getTextContent());
+					
 					if (element.getNodeName().equals("taskstartdate"))
 						if (element.getTextContent().length() != 0)
 							taskStartDate = Integer.parseInt(element.getTextContent());
+					
+					if (element.getNodeName().equals("taskstarttime"))
+						if (element.getTextContent().length() != 0)
+							taskStartTime = Integer.parseInt(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskreminder"))
 						if (element.getTextContent().length() != 0)
@@ -179,7 +189,9 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				template.setTaskLocation(taskLocation);
 				template.setTaskCompleted(taskCompleted);
 				template.setTaskDueDate(taskDueDate);
+				template.setTaskDueTime(taskDueTime);
 				template.setTaskStartDate(taskStartDate);
+				template.setTaskStartTime(taskStartTime);
 				template.setTaskReminder(taskReminder);
 				template.setTaskRepeat(taskRepeat);
 				template.setTaskRepeatFrom(taskRepeatFrom);
@@ -269,9 +281,17 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			setTextContext(taskStartDate, template.getTaskStartDate());
 			nTemplate.appendChild(taskStartDate);
 			
+			Element taskStartTime = document.createElement("taskstarttime");
+			setTextContext(taskStartTime, template.getTaskStartTime());
+			nTemplate.appendChild(taskStartTime);
+			
 			Element taskDueDate = document.createElement("taskduedate");
 			setTextContext(taskDueDate, template.getTaskDueDate());
 			nTemplate.appendChild(taskDueDate);
+			
+			Element taskDueTime = document.createElement("taskduetime");
+			setTextContext(taskDueTime, template.getTaskDueTime());
+			nTemplate.appendChild(taskDueTime);
 			
 			Element taskReminder = document.createElement("taskreminder");
 			setTextContext(taskReminder, template.getTaskReminder());

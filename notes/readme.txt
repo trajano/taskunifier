@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.6
+	- Define start time and due time in template
 
 Version 0.8.5
 	- FR 3266522: Narrower task row

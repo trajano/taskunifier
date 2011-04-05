@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.commons.converters.LengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -88,8 +89,10 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JCheckBox templateTaskCompleted = new JCheckBox();
 		final JFormattedTextField templateTaskDueDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
+		final JSpinner templateTaskDueTime = new JSpinner();
 		final JFormattedTextField templateTaskStartDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
+		final JSpinner templateTaskStartTime = new JSpinner();
 		final JComboBox templateTaskReminder = new JComboBox();
 		final JTextField templateTaskRepeat = new JTextField();
 		final JComboBox templateTaskRepeatFrom = new JComboBox();
@@ -150,8 +153,30 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				ValueModel taskDueDateModel = this.adapter.getValueModel(Template.PROP_TASK_DUE_DATE);
 				Bindings.bind(templateTaskDueDate, taskDueDateModel);
 				
+				TimeConverter taskDueTimeModel = new TimeConverter(
+						this.adapter.getValueModel(Template.PROP_TASK_DUE_TIME));
+				SpinnerDateModel taskDueTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
+						taskDueTimeModel,
+						(Date) taskDueTimeModel.convertFromSubject(0));
+				
+				templateTaskDueTime.setModel(taskDueTimeSpinnerModel);
+				templateTaskDueTime.setEditor(new JSpinner.DateEditor(
+						templateTaskDueTime,
+						Main.SETTINGS.getStringProperty("date.time_format")));
+				
 				ValueModel taskStartDateModel = this.adapter.getValueModel(Template.PROP_TASK_START_DATE);
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
+				
+				TimeConverter taskStartTimeModel = new TimeConverter(
+						this.adapter.getValueModel(Template.PROP_TASK_START_TIME));
+				SpinnerDateModel taskStartTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
+						taskStartTimeModel,
+						(Date) taskStartTimeModel.convertFromSubject(0));
+				
+				templateTaskStartTime.setModel(taskStartTimeSpinnerModel);
+				templateTaskStartTime.setEditor(new JSpinner.DateEditor(
+						templateTaskStartTime,
+						Main.SETTINGS.getStringProperty("date.time_format")));
 				
 				ValueModel taskReminderModel = this.adapter.getValueModel(Template.PROP_TASK_REMINDER);
 				templateTaskReminder.setModel(new ComboBoxAdapter<Integer>(
@@ -173,11 +198,11 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				
 				LengthConverter taskLengthModel = new LengthConverter(
 						this.adapter.getValueModel(Template.PROP_TASK_LENGTH));
-				SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
+				SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskLengthModel,
 						(Date) taskLengthModel.convertFromSubject(0));
 				
-				templateTaskLength.setModel(model);
+				templateTaskLength.setModel(taskLengthSpinnerModel);
 				templateTaskLength.setEditor(new JSpinner.DateEditor(
 						templateTaskLength,
 						Main.SETTINGS.getStringProperty("date.time_format")));
@@ -212,7 +237,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskLocation.setEnabled(template != null);
 				templateTaskCompleted.setEnabled(template != null);
 				templateTaskDueDate.setEnabled(template != null);
+				templateTaskDueTime.setEnabled(template != null);
 				templateTaskStartDate.setEnabled(template != null);
+				templateTaskStartTime.setEnabled(template != null);
 				templateTaskReminder.setEnabled(template != null);
 				templateTaskRepeat.setEnabled(template != null);
 				templateTaskRepeatFrom.setEnabled(template != null);
@@ -325,16 +352,28 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
+		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));
+		info.add(taskDueDatePanel);
+		
 		templateTaskDueDate.setEnabled(false);
-		info.add(templateTaskDueDate);
+		taskDueDatePanel.add(templateTaskDueDate, BorderLayout.CENTER);
+		
+		templateTaskDueTime.setEnabled(false);
+		taskDueDatePanel.add(templateTaskDueTime, BorderLayout.EAST);
 		
 		// Template Task Start Date
 		label = new JLabel(Translations.getString("general.task.start_date")
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
+		JPanel taskStartDatePanel = new JPanel(new BorderLayout(10, 0));
+		info.add(taskStartDatePanel);
+		
 		templateTaskStartDate.setEnabled(false);
-		info.add(templateTaskStartDate);
+		taskStartDatePanel.add(templateTaskStartDate, BorderLayout.CENTER);
+		
+		templateTaskStartTime.setEnabled(false);
+		taskStartDatePanel.add(templateTaskStartTime, BorderLayout.EAST);
 		
 		// Template Task Reminder
 		label = new JLabel(Translations.getString("general.task.reminder")

@@ -49,7 +49,9 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	public static final String PROP_TASK_LOCATION = "taskLocation";
 	public static final String PROP_TASK_COMPLETED = "taskCompleted";
 	public static final String PROP_TASK_DUE_DATE = "taskDueDate";
+	public static final String PROP_TASK_DUE_TIME = "taskDueTime";
 	public static final String PROP_TASK_START_DATE = "taskStartDate";
+	public static final String PROP_TASK_START_TIME = "taskStartTime";
 	public static final String PROP_TASK_REMINDER = "taskReminder";
 	public static final String PROP_TASK_REPEAT = "taskRepeat";
 	public static final String PROP_TASK_REPEAT_FROM = "taskRepeatFrom";
@@ -72,7 +74,9 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	private ModelId taskLocation;
 	private Boolean taskCompleted;
 	private Integer taskDueDate;
+	private Integer taskDueTime;
 	private Integer taskStartDate;
+	private Integer taskStartTime;
 	private Integer taskReminder;
 	private String taskRepeat;
 	private TaskRepeatFrom taskRepeatFrom;
@@ -102,7 +106,9 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		this.setTaskLocation(null);
 		this.setTaskCompleted(null);
 		this.setTaskDueDate(null);
+		this.setTaskDueTime(null);
 		this.setTaskStartDate(null);
+		this.setTaskStartTime(null);
 		this.setTaskReminder(null);
 		this.setTaskRepeat(null);
 		this.setTaskRepeatFrom(null);
@@ -139,12 +145,32 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		if (this.taskDueDate != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskDueDate);
+			
+			if (this.taskDueTime != null) {
+				int hour = ((Integer) this.taskDueTime) / 60;
+				int minute = ((Integer) this.taskDueTime) % 60;
+				
+				calendar.set(Calendar.HOUR_OF_DAY, hour);
+				calendar.set(Calendar.MINUTE, minute);
+				calendar.set(Calendar.SECOND, 0);
+			}
+			
 			task.setDueDate(calendar);
 		}
 		
 		if (this.taskStartDate != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskStartDate);
+			
+			if (this.taskStartTime != null) {
+				int hour = ((Integer) this.taskStartTime) / 60;
+				int minute = ((Integer) this.taskStartTime) % 60;
+				
+				calendar.set(Calendar.HOUR_OF_DAY, hour);
+				calendar.set(Calendar.MINUTE, minute);
+				calendar.set(Calendar.SECOND, 0);
+			}
+			
 			task.setStartDate(calendar);
 		}
 		
@@ -185,7 +211,9 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		template.setTaskLocation(this.taskLocation);
 		template.setTaskCompleted(this.taskCompleted);
 		template.setTaskDueDate(this.taskDueDate);
+		template.setTaskDueTime(this.taskDueTime);
 		template.setTaskStartDate(this.taskStartDate);
+		template.setTaskStartTime(this.taskStartTime);
 		template.setTaskReminder(this.taskReminder);
 		template.setTaskRepeat(this.taskRepeat);
 		template.setTaskRepeatFrom(this.taskRepeatFrom);
@@ -325,6 +353,19 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				taskDueDate);
 	}
 	
+	public Integer getTaskDueTime() {
+		return this.taskDueTime;
+	}
+	
+	public void setTaskDueTime(Integer taskDueTime) {
+		Integer oldTaskDueTime = this.taskDueTime;
+		this.taskDueTime = taskDueTime;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TASK_DUE_TIME,
+				oldTaskDueTime,
+				taskDueTime);
+	}
+	
 	public Integer getTaskStartDate() {
 		return this.taskStartDate;
 	}
@@ -336,6 +377,19 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 				PROP_TASK_START_DATE,
 				oldTaskStartDate,
 				taskStartDate);
+	}
+	
+	public Integer getTaskStartTime() {
+		return this.taskStartTime;
+	}
+	
+	public void setTaskStartTime(Integer taskStartTime) {
+		Integer oldTaskStartTime = this.taskStartTime;
+		this.taskStartTime = taskStartTime;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TASK_START_TIME,
+				oldTaskStartTime,
+				taskStartTime);
 	}
 	
 	public Integer getTaskReminder() {
