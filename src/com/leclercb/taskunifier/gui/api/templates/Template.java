@@ -147,8 +147,8 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskDueDate);
 			
 			if (this.taskDueTime != null) {
-				int hour = ((Integer) this.taskDueTime) / 60;
-				int minute = ((Integer) this.taskDueTime) % 60;
+				int hour = this.taskDueTime / 60;
+				int minute = this.taskDueTime % 60;
 				
 				calendar.set(Calendar.HOUR_OF_DAY, hour);
 				calendar.set(Calendar.MINUTE, minute);
@@ -163,8 +163,8 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 			calendar.add(Calendar.DAY_OF_MONTH, this.taskStartDate);
 			
 			if (this.taskStartTime != null) {
-				int hour = ((Integer) this.taskStartTime) / 60;
-				int minute = ((Integer) this.taskStartTime) % 60;
+				int hour = this.taskStartTime / 60;
+				int minute = this.taskStartTime % 60;
 				
 				calendar.set(Calendar.HOUR_OF_DAY, hour);
 				calendar.set(Calendar.MINUTE, minute);
