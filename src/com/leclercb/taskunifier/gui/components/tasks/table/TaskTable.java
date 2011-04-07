@@ -73,11 +73,11 @@ import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRender
 import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
@@ -93,7 +93,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRe
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSorter;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -213,6 +212,7 @@ public class TaskTable extends JTable {
 	}
 	
 	private TaskSearcher searcher;
+	private TaskTableMenu taskTableMenu;
 	
 	public TaskTable() {
 		this.searcher = null;
@@ -365,6 +365,8 @@ public class TaskTable extends JTable {
 	}
 	
 	private void initializeTaskEdit() {
+		this.taskTableMenu = new TaskTableMenu(this);
+		
 		this.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -372,16 +374,19 @@ public class TaskTable extends JTable {
 				// Or BUTTON3 due to a bug with OSX
 				if (event.isPopupTrigger()
 						|| event.getButton() == MouseEvent.BUTTON3) {
-					int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
+					final int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
 							TaskTable.this.rowAtPoint(event.getPoint()));
 					
-					Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+					final Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
 					
-					TaskEditDialog dialog = new TaskEditDialog(
-							task,
-							MainFrame.getInstance().getFrame(),
-							true);
-					dialog.setVisible(true);
+					if (task == null)
+						return;
+					
+					TaskTable.this.taskTableMenu.setTaskToEdit(task);
+					TaskTable.this.taskTableMenu.show(
+							event.getComponent(),
+							event.getX(),
+							event.getY());
 				}
 			}
 			
