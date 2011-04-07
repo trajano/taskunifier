@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPanel;
+import javax.swing.SortOrder;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
@@ -37,6 +38,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
@@ -170,11 +172,29 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 				16)) {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
+				TaskSorter sorter = new TaskSorter();
+				sorter.addElement(new TaskSorterElement(
+						1,
+						TaskColumn.COMPLETED,
+						SortOrder.ASCENDING));
+				sorter.addElement(new TaskSorterElement(
+						2,
+						TaskColumn.DUE_DATE,
+						SortOrder.ASCENDING));
+				sorter.addElement(new TaskSorterElement(
+						3,
+						TaskColumn.PRIORITY,
+						SortOrder.DESCENDING));
+				sorter.addElement(new TaskSorterElement(
+						4,
+						TaskColumn.TITLE,
+						SortOrder.ASCENDING));
+				
 				TaskSearcherFactory.getInstance().create(
 						Translations.getString("searcher.default.title"),
 						new TaskFilter(),
-						new TaskSorter());
+						sorter);
 				
 				SearcherPanel.this.openTaskSearcherEdit();
 			}
