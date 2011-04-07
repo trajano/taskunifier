@@ -45,14 +45,27 @@ import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
+import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ContextConfigurationPanel extends JSplitPane {
+public class ContextConfigurationPanel extends JSplitPane implements IModelList {
+	
+	private ModelList modelList;
 	
 	public ContextConfigurationPanel() {
 		this.initialize();
+	}
+	
+	@Override
+	public Model getSelectedModel() {
+		return this.modelList.getSelectedModel();
+	}
+	
+	@Override
+	public void setSelectedModel(Model model) {
+		this.modelList.setSelectedModel(model);
 	}
 	
 	private void initialize() {
@@ -65,7 +78,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new ContextModel(false)) {
+		this.modelList = new ModelList(new ContextModel(false)) {
 			
 			private BeanAdapter<Context> adapter;
 			
@@ -108,7 +121,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 			
 		};
 		
-		this.setLeftComponent(modelList);
+		this.setLeftComponent(this.modelList);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -152,7 +165,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						contextColor.setBackground(contextColorChooser.getColor());
-						((GuiContext) modelList.getSelectedModel()).setColor(contextColorChooser.getColor());
+						((GuiContext) ContextConfigurationPanel.this.modelList.getSelectedModel()).setColor(contextColorChooser.getColor());
 					}
 					
 				},
@@ -176,7 +189,7 @@ public class ContextConfigurationPanel extends JSplitPane {
 			public void actionPerformed(ActionEvent e) {
 				contextColor.setBackground(Color.GRAY);
 				contextColorChooser.setColor(Color.GRAY);
-				((GuiContext) modelList.getSelectedModel()).setColor(null);
+				((GuiContext) ContextConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});

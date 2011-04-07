@@ -40,7 +40,10 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
+import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -139,11 +142,15 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 					
 					@Override
 					public void sourceListItemClicked(
-							SourceListItem category,
+							SourceListItem item,
 							Button button,
 							int clickCount) {
-						if (clickCount == 2)
+						if (clickCount == 2) {
+							if (item instanceof ModelItem)
+								SearcherPanel.this.openManageModels((ModelItem) item);
+							
 							SearcherPanel.this.openTaskSearcherEdit();
+						}
 					}
 					
 				});
@@ -206,6 +213,16 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		this.addAction.setEnabled(true);
 		this.removeAction.setEnabled(false);
 		this.editAction.setEnabled(false);
+	}
+	
+	private void openManageModels(ModelItem item) {
+		ModelConfigurationDialog dialog = new ModelConfigurationDialog(
+				MainFrame.getInstance().getFrame(),
+				true);
+		
+		dialog.setSelectedModel(item.getModelType(), item.getModel());
+		
+		dialog.setVisible(true);
 	}
 	
 	private void openTaskSearcherEdit() {

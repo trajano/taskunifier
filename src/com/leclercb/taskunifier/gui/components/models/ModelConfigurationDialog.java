@@ -28,6 +28,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.panels.ContextConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.FolderConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
@@ -36,9 +39,38 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelConfigurationDialog extends JDialog {
 	
+	private JTabbedPane tabbedPane;
+	
 	public ModelConfigurationDialog(Frame frame, boolean modal) {
 		super(frame, modal);
 		this.initialize();
+	}
+	
+	public void setSelectedModel(ModelType type, Model model) {
+		int index = -1;
+		
+		switch (type) {
+			case CONTEXT:
+				index = 0;
+				break;
+			case FOLDER:
+				index = 1;
+				break;
+			case GOAL:
+				index = 2;
+				break;
+			case LOCATION:
+				index = 3;
+				break;
+		}
+		
+		if (index == -1)
+			return;
+		
+		this.tabbedPane.setSelectedIndex(index);
+		
+		if (model != null)
+			((IModelList) this.tabbedPane.getSelectedComponent()).setSelectedModel(model);
 	}
 	
 	private void initialize() {
@@ -48,29 +80,29 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane();
+		this.tabbedPane = new JTabbedPane();
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
-		this.add(tabbedPane, BorderLayout.CENTER);
+		this.add(this.tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel(buttonsPanel);
 		
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("general.contexts"),
 				new ContextConfigurationPanel());
 		
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("general.folders"),
 				new FolderConfigurationPanel());
 		
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("general.goals"),
 				new GoalConfigurationPanel());
 		
-		tabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("general.locations"),
 				new LocationConfigurationPanel());
 	}

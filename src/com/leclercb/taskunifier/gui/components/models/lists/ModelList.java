@@ -36,7 +36,7 @@ import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public abstract class ModelList extends JPanel {
+public abstract class ModelList extends JPanel implements IModelList {
 	
 	private JList modelList;
 	private JButton addButton;
@@ -112,10 +112,12 @@ public abstract class ModelList extends JPanel {
 		buttonsPanel.add(this.removeButton);
 	}
 	
+	@Override
 	public void setSelectedModel(Model model) {
 		this.modelList.setSelectedValue(model, true);
 	}
 	
+	@Override
 	public Model getSelectedModel() {
 		return (Model) this.modelList.getSelectedValue();
 	}

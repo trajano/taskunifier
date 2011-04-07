@@ -52,15 +52,28 @@ import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.commons.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.renderers.GoalLevelListCellRenderer;
+import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class GoalConfigurationPanel extends JSplitPane {
+public class GoalConfigurationPanel extends JSplitPane implements IModelList {
+	
+	private ModelList modelList;
 	
 	public GoalConfigurationPanel() {
 		this.initialize();
+	}
+	
+	@Override
+	public Model getSelectedModel() {
+		return this.modelList.getSelectedModel();
+	}
+	
+	@Override
+	public void setSelectedModel(Model model) {
+		this.modelList.setSelectedModel(model);
 	}
 	
 	private void initialize() {
@@ -75,7 +88,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new GoalModel(false)) {
+		this.modelList = new ModelList(new GoalModel(false)) {
 			
 			private BeanAdapter<Goal> adapter;
 			
@@ -134,7 +147,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			
 		};
 		
-		this.setLeftComponent(modelList);
+		this.setLeftComponent(this.modelList);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -168,7 +181,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				Goal goal = (Goal) modelList.getSelectedModel();
+				Goal goal = (Goal) GoalConfigurationPanel.this.modelList.getSelectedModel();
 				goalContributes.setEnabled(!goal.getLevel().equals(
 						GoalLevel.LIFE_TIME));
 			}
@@ -207,7 +220,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						goalColor.setBackground(goalColorChooser.getColor());
-						((GuiGoal) modelList.getSelectedModel()).setColor(goalColorChooser.getColor());
+						((GuiGoal) GoalConfigurationPanel.this.modelList.getSelectedModel()).setColor(goalColorChooser.getColor());
 					}
 					
 				},
@@ -231,7 +244,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			public void actionPerformed(ActionEvent e) {
 				goalColor.setBackground(Color.GRAY);
 				goalColorChooser.setColor(Color.GRAY);
-				((GuiGoal) modelList.getSelectedModel()).setColor(null);
+				((GuiGoal) GoalConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});

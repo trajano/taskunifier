@@ -49,14 +49,27 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
+import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class LocationConfigurationPanel extends JSplitPane {
+public class LocationConfigurationPanel extends JSplitPane implements IModelList {
+	
+	private ModelList modelList;
 	
 	public LocationConfigurationPanel() {
 		this.initialize();
+	}
+	
+	@Override
+	public Model getSelectedModel() {
+		return this.modelList.getSelectedModel();
+	}
+	
+	@Override
+	public void setSelectedModel(Model model) {
+		this.modelList.setSelectedModel(model);
 	}
 	
 	private void initialize() {
@@ -74,7 +87,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		final ModelList modelList = new ModelList(new LocationModel(false)) {
+		this.modelList = new ModelList(new LocationModel(false)) {
 			
 			private BeanAdapter<Location> adapter;
 			
@@ -129,7 +142,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 			
 		};
 		
-		this.setLeftComponent(modelList);
+		this.setLeftComponent(this.modelList);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -198,7 +211,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						locationColor.setBackground(locationColorChooser.getColor());
-						((GuiLocation) modelList.getSelectedModel()).setColor(locationColorChooser.getColor());
+						((GuiLocation) LocationConfigurationPanel.this.modelList.getSelectedModel()).setColor(locationColorChooser.getColor());
 					}
 					
 				},
@@ -222,7 +235,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 			public void actionPerformed(ActionEvent e) {
 				locationColor.setBackground(Color.GRAY);
 				locationColorChooser.setColor(Color.GRAY);
-				((GuiLocation) modelList.getSelectedModel()).setColor(null);
+				((GuiLocation) LocationConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});
