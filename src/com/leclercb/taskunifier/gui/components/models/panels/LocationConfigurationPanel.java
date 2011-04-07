@@ -47,7 +47,6 @@ import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
@@ -223,7 +222,7 @@ public class LocationConfigurationPanel extends JSplitPane {
 			public void actionPerformed(ActionEvent e) {
 				locationColor.setBackground(Color.GRAY);
 				locationColorChooser.setColor(Color.GRAY);
-				((GuiContext) modelList.getSelectedModel()).setColor(null);
+				((GuiLocation) modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});

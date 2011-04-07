@@ -48,7 +48,6 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
-import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.commons.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -232,7 +231,7 @@ public class GoalConfigurationPanel extends JSplitPane {
 			public void actionPerformed(ActionEvent e) {
 				goalColor.setBackground(Color.GRAY);
 				goalColorChooser.setColor(Color.GRAY);
-				((GuiContext) modelList.getSelectedModel()).setColor(null);
+				((GuiGoal) modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});

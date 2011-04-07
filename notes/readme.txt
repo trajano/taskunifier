@@ -5,6 +5,7 @@ Version 0.8.6
 	- Shortcut CTRL+E to edit task
 	- Define start time and due time in template
 	- Menu when right click on a task 
+	- Bug fixed: remove color of folder/goal/location
 
 Version 0.8.5
 	- FR 3266522: Narrower task row
