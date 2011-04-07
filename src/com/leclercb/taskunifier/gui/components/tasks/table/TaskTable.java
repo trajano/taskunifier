@@ -77,6 +77,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTrans
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
@@ -111,6 +113,9 @@ public class TaskTable extends JTable {
 	private static final TaskPriorityRenderer TASK_PRIORITY_RENDERER;
 	private static final TaskRepeatFromRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TaskStatusRenderer TASK_STATUS_RENDERER;
+	
+	private static final TableCellEditor TITLE_EDITOR;
+	private static final TableCellEditor TAGS_EDITOR;
 	
 	private static final TableCellEditor CHECK_BOX_EDITOR;
 	private static final TableCellEditor DATE_EDITOR;
@@ -150,6 +155,9 @@ public class TaskTable extends JTable {
 		TASK_STATUS_RENDERER = new TaskStatusRenderer();
 		
 		// EDITORS
+		TITLE_EDITOR = new TitleEditor();
+		TAGS_EDITOR = new TagsEditor();
+		
 		JCheckBox checkBox = null;
 		
 		checkBox = new JCheckBox();
@@ -554,6 +562,10 @@ public class TaskTable extends JTable {
 		TaskColumn column = ((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(col);
 		
 		switch (column) {
+			case TITLE:
+				return TITLE_EDITOR;
+			case TAGS:
+				return TAGS_EDITOR;
 			case FOLDER:
 				return FOLDER_EDITOR;
 			case CONTEXT:

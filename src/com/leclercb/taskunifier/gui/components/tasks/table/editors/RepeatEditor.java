@@ -32,6 +32,7 @@ public class RepeatEditor extends DefaultCellEditor {
 	
 	public RepeatEditor() {
 		super(new JTextField());
+		this.setClickCountToStart(1);
 		
 		final JTextField repeatField = (JTextField) this.getComponent();
 		repeatField.addKeyListener(new KeyAdapter() {
