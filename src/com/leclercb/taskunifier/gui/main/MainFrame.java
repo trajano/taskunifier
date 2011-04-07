@@ -278,6 +278,8 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		menuBar.add(fileMenu);
 		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
+		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
+		
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSearchers(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
@@ -285,6 +287,8 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		fileMenu.add(importMenu);
 		
 		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
+		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
+		
 		exportMenu.add(new ActionExportModels(16, 16));
 		exportMenu.add(new ActionExportSearchers(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
