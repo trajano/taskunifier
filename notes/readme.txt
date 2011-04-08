@@ -7,6 +7,7 @@ Version 0.8.6
 	- Menu when right click on a task 
 	- FR 3207558: Double click on context, folder... to edit it
 	- FR 3276583: Default sort order
+	- FR 3207557: Default repeat values
 	- Bug fixed: remove color of folder/goal/location
 
 Version 0.8.5
