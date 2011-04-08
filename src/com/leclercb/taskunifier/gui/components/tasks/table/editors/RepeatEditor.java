@@ -23,6 +23,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -31,19 +32,23 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public class RepeatEditor extends DefaultCellEditor {
 	
 	public RepeatEditor() {
-		super(new JTextField());
-		this.setClickCountToStart(1);
+		super(
+				new JComboBox(
+						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues()));
 		
-		final JTextField repeatField = (JTextField) this.getComponent();
-		repeatField.addKeyListener(new KeyAdapter() {
+		final JComboBox repeatField = (JComboBox) this.getComponent();
+		final JTextField repeatTextField = (JTextField) repeatField.getEditor().getEditorComponent();
+		
+		repeatField.setEditable(true);
+		repeatTextField.addKeyListener(new KeyAdapter() {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
-						repeatField.getText()))
-					repeatField.setForeground(Color.BLACK);
+						repeatTextField.getText()))
+					repeatTextField.setForeground(Color.BLACK);
 				else
-					repeatField.setForeground(Color.RED);
+					repeatTextField.setForeground(Color.RED);
 			}
 			
 		});
@@ -63,11 +68,14 @@ public class RepeatEditor extends DefaultCellEditor {
 				row,
 				col);
 		
+		final JComboBox repeatField = (JComboBox) this.getComponent();
+		final JTextField repeatTextField = (JTextField) repeatField.getEditor().getEditorComponent();
+		
 		if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
 				(this.getCellEditorValue() == null ? null : this.getCellEditorValue().toString())))
-			component.setForeground(Color.BLACK);
+			repeatTextField.setForeground(Color.BLACK);
 		else
-			component.setForeground(Color.RED);
+			repeatTextField.setForeground(Color.RED);
 		
 		return component;
 	}
