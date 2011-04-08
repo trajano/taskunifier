@@ -6,6 +6,7 @@ Version 0.8.6
 	- FR 3276583: Default sort order
 	- FR 3207557: Default repeat values
 	- Bug fixed: remove color of folder/goal/location
+	- Delete tasks with "Delete" key
 
 Version 0.8.5
 	- FR 3266522: Narrower task row

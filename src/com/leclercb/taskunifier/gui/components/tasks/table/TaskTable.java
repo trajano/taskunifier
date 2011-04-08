@@ -23,6 +23,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -61,6 +62,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
@@ -363,6 +365,7 @@ public class TaskTable extends JTable {
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
 		
+		this.initializeDeleteTask();
 		this.initializeTaskEdit();
 		this.initializeTaskColumn();
 		
@@ -370,6 +373,18 @@ public class TaskTable extends JTable {
 		this.initializeCopyAndPaste();
 		this.initiliazeTableSorter();
 		this.initializeTableHeaderMenu();
+	}
+	
+	private void initializeDeleteTask() {
+		this.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_DELETE)
+					ActionDelete.delete();
+			}
+			
+		});
 	}
 	
 	private void initializeTaskEdit() {
