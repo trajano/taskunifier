@@ -366,7 +366,7 @@ public class TaskTable extends JTable {
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
 		
 		this.initializeDeleteTask();
-		this.initializeTaskEdit();
+		this.initializeTaskTableMenu();
 		this.initializeTaskColumn();
 		
 		this.initializeDragAndDrop();
@@ -387,7 +387,7 @@ public class TaskTable extends JTable {
 		});
 	}
 	
-	private void initializeTaskEdit() {
+	private void initializeTaskTableMenu() {
 		this.taskTableMenu = new TaskTableMenu(this);
 		
 		this.addMouseListener(new MouseAdapter() {
@@ -397,13 +397,25 @@ public class TaskTable extends JTable {
 				// Or BUTTON3 due to a bug with OSX
 				if (event.isPopupTrigger()
 						|| event.getButton() == MouseEvent.BUTTON3) {
-					final int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
+					int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
 							TaskTable.this.rowAtPoint(event.getPoint()));
 					
-					final Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+					Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
 					
 					if (task == null)
 						return;
+					
+					boolean found = false;
+					Task[] selectedTasks = TaskTable.this.getSelectedTasks();
+					for (Task selectedTask : selectedTasks) {
+						if (task.equals(selectedTask)) {
+							found = true;
+							break;
+						}
+					}
+					
+					if (!found)
+						TaskTable.this.setSelectedTasks(new Task[] { task });
 					
 					TaskTable.this.taskTableMenu.setTaskToEdit(task);
 					TaskTable.this.taskTableMenu.show(

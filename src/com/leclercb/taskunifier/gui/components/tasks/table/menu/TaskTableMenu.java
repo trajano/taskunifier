@@ -20,6 +20,9 @@ public class TaskTableMenu extends JPopupMenu {
 	private TaskTable taskTable;
 	private Task taskToEdit;
 	
+	private JMenuItem itemEditTask;
+	private JMenuItem itemDuplicateTasks;
+	
 	public TaskTableMenu(TaskTable taskTable) {
 		super(Translations.getString("general.task"));
 		
@@ -35,18 +38,20 @@ public class TaskTableMenu extends JPopupMenu {
 	
 	public void setTaskToEdit(Task taskToEdit) {
 		this.taskToEdit = taskToEdit;
+		this.itemEditTask.setEnabled(taskToEdit != null);
 	}
 	
 	private void initialize() {
-		JMenuItem item = null;
-		
-		item = new JMenuItem(
+		this.itemEditTask = new JMenuItem(
 				Translations.getString("action.name.edit_task"),
 				Images.getResourceImage("edit.png", 16, 16));
-		item.addActionListener(new ActionListener() {
+		this.itemEditTask.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if (TaskTableMenu.this.getTaskToEdit() == null)
+					return;
+				
 				TaskEditDialog dialog = new TaskEditDialog(
 						TaskTableMenu.this.getTaskToEdit(),
 						MainFrame.getInstance().getFrame(),
@@ -56,36 +61,23 @@ public class TaskTableMenu extends JPopupMenu {
 			
 		});
 		
-		this.add(item);
+		this.itemEditTask.setEnabled(false);
 		
-		this.addSeparator();
+		this.add(this.itemEditTask);
 		
-		item = new JMenuItem(
-				Translations.getString("action.name.copy"),
-				Images.getResourceImage("copy.png", 16, 16));
-		item.addActionListener(new ActionListener() {
+		this.itemDuplicateTasks = new JMenuItem(
+				Translations.getString("general.duplicate_tasks"),
+				Images.getResourceImage("paste.png", 16, 16));
+		this.itemDuplicateTasks.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				TaskTableMenu.this.taskTable.setSelectedTasks(new Task[] { TaskTableMenu.this.getTaskToEdit() });
 				TransferHandler.getCopyAction().actionPerformed(
 						new ActionEvent(
 								TaskTableMenu.this.taskTable,
 								ActionEvent.ACTION_PERFORMED,
 								null));
-			}
-			
-		});
-		
-		this.add(item);
-		
-		item = new JMenuItem(
-				Translations.getString("action.name.paste"),
-				Images.getResourceImage("paste.png", 16, 16));
-		item.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
+				
 				TransferHandler.getPasteAction().actionPerformed(
 						new ActionEvent(
 								TaskTableMenu.this.taskTable,
@@ -95,7 +87,7 @@ public class TaskTableMenu extends JPopupMenu {
 			
 		});
 		
-		this.add(item);
+		this.add(this.itemDuplicateTasks);
 	}
 	
 }
