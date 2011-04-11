@@ -17,6 +17,8 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -37,6 +39,22 @@ public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
 
+	}
+	
+	public static void initializeTaskRepeat() {
+		TaskFactory.getInstance().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (Task.PROP_COMPLETED.equals(evt.getPropertyName())) {
+							Task task = (Task) evt.getSource();
+							getPlugin().getSynchronizerApi().createRepeatTask(
+									task);
+						}
+					}
+					
+				});
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {

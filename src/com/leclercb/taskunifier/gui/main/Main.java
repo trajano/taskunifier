@@ -76,6 +76,7 @@ import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
 	
@@ -105,6 +106,7 @@ public class Main {
 			loadModels();
 			loadLookAndFeel();
 			outdatedPlugins = loadApiPlugins();
+			loadSynchronizer();
 		} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -459,6 +461,10 @@ public class Main {
 		});
 		
 		return outdatedPlugins;
+	}
+	
+	private static void loadSynchronizer() throws Exception {
+		SynchronizerUtils.initializeTaskRepeat();
 	}
 	
 	public static void stop() {
