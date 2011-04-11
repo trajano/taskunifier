@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 0.8.7
+	- Offline repeat
+
 Version 0.8.6
 	- Shortcut CTRL+E to edit task
 	- Define start time and due time in template
