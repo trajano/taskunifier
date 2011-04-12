@@ -19,6 +19,7 @@ package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import java.util.Properties;
 
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
@@ -40,8 +41,26 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
+	public String[] getDefaultRepeatValues() {
+		return new String[] {
+				"Daily",
+				"Weekly",
+				"Biweekly",
+				"Monthly",
+				"Bimonthly",
+				"Quarterly",
+				"Semiannually",
+				"Yearly" };
+	}
+	
+	@Override
 	public boolean isValidRepeatValue(String repeat) {
-		return true;
+		return RepeatUtils.isValidRepeatValue(repeat);
+	}
+	
+	@Override
+	public void createRepeatTask(Task task) {
+		RepeatUtils.createRepeatTask(task);
 	}
 	
 	@Override
