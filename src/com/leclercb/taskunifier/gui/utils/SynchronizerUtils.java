@@ -50,7 +50,7 @@ public final class SynchronizerUtils {
 						if (Task.PROP_COMPLETED.equals(evt.getPropertyName())) {
 							Task task = (Task) evt.getSource();
 							
-							if (task == null)
+							if (task == null || !task.isCompleted())
 								return;
 							
 							getPlugin().getSynchronizerApi().createRepeatTask(
