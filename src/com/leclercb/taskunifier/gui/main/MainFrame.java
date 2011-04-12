@@ -20,8 +20,6 @@ package com.leclercb.taskunifier.gui.main;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -41,6 +39,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
@@ -485,14 +485,25 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	private void initializeSearchField() {
 		this.searchField = new JTextField(15);
 		
-		this.searchField.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
-			}
-			
-		});
+		this.searchField.getDocument().addDocumentListener(
+				new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
+					}
+					
+				});
 	}
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
@@ -511,8 +522,11 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(
-						SearcherPanel.PROP_TITLE_FILTER))
-					MainFrame.this.searchField.setText((String) evt.getNewValue());
+						SearcherPanel.PROP_TITLE_FILTER)) {
+					String filter = (String) evt.getNewValue();
+					if (!MainFrame.this.searchField.getText().equals(filter))
+						MainFrame.this.searchField.setText(filter);
+				}
 			}
 			
 		});
