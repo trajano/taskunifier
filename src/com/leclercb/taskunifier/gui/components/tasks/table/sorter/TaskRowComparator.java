@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 import javax.swing.SortOrder;
 
+import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -102,10 +103,10 @@ public class TaskRowComparator implements RowComparator<Object> {
 		
 		switch (column) {
 			case TITLE:
-				result = ((String) o1).compareTo((String) o2);
+				result = CompareUtils.compare((String) o1, (String) o2);
 				break;
 			case TAGS:
-				result = ((String) o1).compareTo((String) o2);
+				result = CompareUtils.compare((String) o1, (String) o2);
 				break;
 			case FOLDER:
 				result = this.compareModels(((Folder) o1), ((Folder) o2));
@@ -123,7 +124,7 @@ public class TaskRowComparator implements RowComparator<Object> {
 				result = this.compareModels(((Task) o1), ((Task) o2));
 				break;
 			case COMPLETED:
-				result = ((Boolean) o1).compareTo((Boolean) o2);
+				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case COMPLETED_ON:
 				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
@@ -135,31 +136,35 @@ public class TaskRowComparator implements RowComparator<Object> {
 				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
 				break;
 			case REMINDER:
-				result = ((Integer) o1).compareTo((Integer) o2);
+				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case REPEAT:
-				result = ((String) o1).compareTo((String) o2);
+				result = CompareUtils.compare((String) o1, (String) o2);
 				break;
 			case REPEAT_FROM:
-				result = ((TaskRepeatFrom) o1).compareTo((TaskRepeatFrom) o2);
+				result = CompareUtils.compare(
+						(TaskRepeatFrom) o1,
+						(TaskRepeatFrom) o2);
 				break;
 			case STATUS:
-				result = ((TaskStatus) o1).compareTo((TaskStatus) o2);
+				result = CompareUtils.compare((TaskStatus) o1, (TaskStatus) o2);
 				break;
 			case LENGTH:
-				result = ((Integer) o1).compareTo((Integer) o2);
+				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case PRIORITY:
-				result = ((TaskPriority) o1).compareTo((TaskPriority) o2);
+				result = CompareUtils.compare(
+						(TaskPriority) o1,
+						(TaskPriority) o2);
 				break;
 			case STAR:
-				result = ((Boolean) o1).compareTo((Boolean) o2);
+				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case NOTE:
-				result = ((String) o1).compareTo((String) o2);
+				result = CompareUtils.compare((String) o1, (String) o2);
 				break;
 			case IMPORTANCE:
-				result = ((Integer) o1).compareTo((Integer) o2);
+				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			default:
 				result = 0;

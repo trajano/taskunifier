@@ -49,6 +49,10 @@ public final class SynchronizerUtils {
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (Task.PROP_COMPLETED.equals(evt.getPropertyName())) {
 							Task task = (Task) evt.getSource();
+							
+							if (task == null)
+								return;
+							
 							getPlugin().getSynchronizerApi().createRepeatTask(
 									task);
 						}
