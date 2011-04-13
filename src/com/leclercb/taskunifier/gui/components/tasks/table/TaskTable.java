@@ -417,6 +417,9 @@ public class TaskTable extends JTable {
 					if (!found)
 						TaskTable.this.setSelectedTasks(new Task[] { task });
 					
+					if (TaskTable.this.getCellEditor() != null)
+						TaskTable.this.getCellEditor().stopCellEditing();
+					
 					TaskTable.this.taskTableMenu.setTaskToEdit(task);
 					TaskTable.this.taskTableMenu.show(
 							event.getComponent(),
