@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class Help {
 	
@@ -57,7 +58,11 @@ public final class Help {
 		String content = null;
 		
 		try {
-			content = FileUtils.readFileToString(helpFile);
+			if (helpFile.getName().equals("task_repeat.html")) {
+				content = SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpContent();
+			} else {
+				content = FileUtils.readFileToString(helpFile);
+			}
 			
 			// Replace parameters
 			content = content.replace("{resources_folder}", new File(
