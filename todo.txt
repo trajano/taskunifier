@@ -1,0 +1,3 @@
+- Plugin help file
+- Help files implementation
+- Check how repeat with parent works
