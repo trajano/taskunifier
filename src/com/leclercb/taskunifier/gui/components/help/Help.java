@@ -52,16 +52,27 @@ public final class Help {
 			+ File.separator
 			+ "help";
 	
-	public static String getContent(File helpFile) {
+	public static String getHelpFile(String fileName) {
+		return HELP_FILES_FOLDER + File.separator + fileName;
+	}
+	
+	public static String getContent(String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
 		
-		String content = null;
+		String content = "";
 		
 		try {
-			if (helpFile.getName().equals("task_repeat.html")) {
-				content = SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpContent();
+			File file = new File(helpFile);
+			
+			if (file.getName().equals("task_repeat.html")) {
+				if (SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpFile() != null) {
+					file = new File(
+							SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpFile());
+					
+					content = FileUtils.readFileToString(file);
+				}
 			} else {
-				content = FileUtils.readFileToString(helpFile);
+				content = FileUtils.readFileToString(file);
 			}
 			
 			// Replace parameters
@@ -81,13 +92,13 @@ public final class Help {
 		return content;
 	}
 	
-	public static JDialog getHelpDialog(final File helpFile) {
+	public static JDialog getHelpDialog(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
 		
 		return new HelpDialog(helpFile);
 	}
 	
-	public static Component getHelpButton(final File helpFile) {
+	public static Component getHelpButton(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
 		
 		JPanel panel = new JPanel();
@@ -108,9 +119,9 @@ public final class Help {
 	
 	private static class HelpActionListener implements ActionListener {
 		
-		private File helpFile;
+		private String helpFile;
 		
-		public HelpActionListener(File helpFile) {
+		public HelpActionListener(String helpFile) {
 			this.helpFile = helpFile;
 		}
 		
@@ -124,7 +135,7 @@ public final class Help {
 	
 	private static class HelpDialog extends JDialog {
 		
-		public HelpDialog(File helpFile) {
+		public HelpDialog(String helpFile) {
 			super(MainFrame.getInstance().getFrame(), true);
 			
 			this.setTitle(Translations.getString("general.help"));
@@ -147,8 +158,7 @@ public final class Help {
 				public void hyperlinkUpdate(HyperlinkEvent evt) {
 					if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						try {
-							pane.setText(getContent(new File(
-									evt.getURL().getFile())));
+							pane.setText(getContent(evt.getURL().getFile()));
 							pane.setCaretPosition(0);
 						} catch (Exception exc) {
 							ErrorDialog errorDialog = new ErrorDialog(

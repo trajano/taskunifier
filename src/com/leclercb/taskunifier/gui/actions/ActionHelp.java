@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
@@ -49,9 +48,7 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public static void help() {
-		JDialog dialog = Help.getHelpDialog(new File(Help.HELP_FILES_FOLDER
-				+ File.separator
-				+ "index.html"));
+		JDialog dialog = Help.getHelpDialog(Help.getHelpFile("index.html"));
 		dialog.setVisible(true);
 	}
 	

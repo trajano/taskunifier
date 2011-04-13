@@ -19,7 +19,6 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -118,7 +117,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		
 		if (this.helpFile != null) {
 			panel.add(new JLabel());
-			panel.add(Help.getHelpButton(new File(this.helpFile)));
+			panel.add(Help.getHelpButton(this.helpFile));
 		}
 		
 		for (ConfigurationField field : this.fields) {

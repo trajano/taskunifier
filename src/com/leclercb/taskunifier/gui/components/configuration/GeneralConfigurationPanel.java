@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.Component;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -39,9 +38,8 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	private boolean languageOnly;
 	
 	public GeneralConfigurationPanel(boolean languageOnly) {
-		super(languageOnly ? null : Help.HELP_FILES_FOLDER
-				+ File.separator
-				+ "configuration_general.html");
+		super(
+				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
 		this.languageOnly = languageOnly;
 		this.initialize();
 		this.pack();

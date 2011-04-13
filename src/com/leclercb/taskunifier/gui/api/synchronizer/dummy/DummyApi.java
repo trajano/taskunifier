@@ -17,11 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
@@ -46,14 +42,8 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
-	public String getRepeatHelpContent() {
-		try {
-			return FileUtils.readFileToString(new File(Help.HELP_FILES_FOLDER
-					+ File.separator
-					+ "task_repeat.html"));
-		} catch (IOException e) {
-			return null;
-		}
+	public String getRepeatHelpFile() {
+		return Help.getHelpFile("task_repeat.html");
 	}
 	
 	@Override

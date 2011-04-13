@@ -19,7 +19,6 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JCheckBox;
 
@@ -34,9 +33,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ProxyConfigurationPanel() {
-		super(Help.HELP_FILES_FOLDER
-				+ File.separator
-				+ "configuration_proxy.html");
+		super(Help.getHelpFile("configuration_proxy.html"));
 		this.initialize();
 		this.pack();
 	}

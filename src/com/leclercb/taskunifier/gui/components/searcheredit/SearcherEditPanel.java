@@ -18,7 +18,6 @@
 package com.leclercb.taskunifier.gui.components.searcheredit;
 
 import java.awt.BorderLayout;
-import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -50,9 +49,7 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		this.setLayout(new BorderLayout());
 		
 		this.add(
-				Help.getHelpButton(new File(Help.HELP_FILES_FOLDER
-						+ File.separator
-						+ "searcher.html")),
+				Help.getHelpButton(Help.getHelpFile("searcher.html")),
 				BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel(new BorderLayout());
