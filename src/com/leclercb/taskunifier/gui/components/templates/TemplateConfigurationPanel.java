@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.util.Date;
 
 import javax.swing.JCheckBox;
@@ -269,7 +270,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		
 		// Help
 		info.add(new JLabel());
-		info.add(Help.getHelpButton("manage_templates.html"));
+		info.add(Help.getHelpButton(new File(Help.HELP_FILES_FOLDER
+				+ File.separator
+				+ "manage_templates.html")));
 		
 		// Template Title
 		label = new JLabel(Translations.getString("general.template.title")

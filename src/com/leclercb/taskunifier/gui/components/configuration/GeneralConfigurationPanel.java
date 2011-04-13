@@ -18,6 +18,7 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.Component;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -28,6 +29,7 @@ import com.leclercb.taskunifier.gui.commons.renderers.SimpleDateFormatListCellRe
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -37,7 +39,9 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	private boolean languageOnly;
 	
 	public GeneralConfigurationPanel(boolean languageOnly) {
-		super(languageOnly ? null : "configuration_general.html");
+		super(languageOnly ? null : Help.HELP_FILES_FOLDER
+				+ File.separator
+				+ "configuration_general.html");
 		this.languageOnly = languageOnly;
 		this.initialize();
 		this.pack();

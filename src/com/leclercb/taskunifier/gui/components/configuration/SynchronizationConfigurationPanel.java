@@ -20,6 +20,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -37,6 +38,7 @@ import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerGuiPluginListC
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -44,7 +46,9 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public SynchronizationConfigurationPanel(boolean welcome) {
-		super("configuration_synchronization.html");
+		super(Help.HELP_FILES_FOLDER
+				+ File.separator
+				+ "configuration_synchronization.html");
 		this.initialize(welcome);
 		this.pack();
 	}
