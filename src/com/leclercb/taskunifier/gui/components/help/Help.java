@@ -65,6 +65,10 @@ public final class Help {
 			}
 			
 			// Replace parameters
+			content = content.replace(
+					"{plugin_name}",
+					SynchronizerUtils.getPlugin().getName());
+			
 			content = content.replace("{resources_folder}", new File(
 					Main.RESOURCES_FOLDER).getAbsolutePath());
 			
