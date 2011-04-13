@@ -19,14 +19,13 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class RepeatEditor extends DefaultCellEditor {
@@ -37,21 +36,7 @@ public class RepeatEditor extends DefaultCellEditor {
 						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues()));
 		
 		final JComboBox repeatField = (JComboBox) this.getComponent();
-		final JTextField repeatTextField = (JTextField) repeatField.getEditor().getEditorComponent();
-		
-		repeatField.setEditable(true);
-		repeatTextField.addKeyListener(new KeyAdapter() {
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
-						repeatTextField.getText()))
-					repeatTextField.setForeground(Color.BLACK);
-				else
-					repeatTextField.setForeground(Color.RED);
-			}
-			
-		});
+		ComponentFactory.createRepeatComboBox(repeatField);
 	}
 	
 	@Override

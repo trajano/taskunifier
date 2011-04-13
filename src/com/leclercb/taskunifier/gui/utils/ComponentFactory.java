@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -44,6 +46,39 @@ public final class ComponentFactory {
 	
 	private ComponentFactory() {
 
+	}
+	
+	public static void createRepeatComboBox(JComboBox repeatComboBox) {
+		repeatComboBox.setEditable(true);
+		
+		final JTextField repeatTextField = (JTextField) repeatComboBox.getEditor().getEditorComponent();
+		repeatTextField.getDocument().addDocumentListener(
+				new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						this.update();
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						this.update();
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						this.update();
+					}
+					
+					private void update() {
+						if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+								repeatTextField.getText()))
+							repeatTextField.setForeground(Color.BLACK);
+						else
+							repeatTextField.setForeground(Color.RED);
+					}
+					
+				});
 	}
 	
 	public static JComboBox createModelComboBox(ComboBoxModel model) {

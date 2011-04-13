@@ -66,6 +66,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -85,7 +86,7 @@ public class TaskEditPanel extends JPanel {
 	private JDateChooser taskDueDate;
 	private JDateChooser taskStartDate;
 	private JComboBox taskReminder;
-	private JTextField taskRepeat;
+	private JComboBox taskRepeat;
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
 	private JSpinner taskLength;
@@ -144,7 +145,7 @@ public class TaskEditPanel extends JPanel {
 			
 		});
 		this.taskReminder = new JComboBox();
-		this.taskRepeat = new JTextField();
+		this.taskRepeat = new JComboBox();
 		this.taskRepeatFrom = new JComboBox();
 		this.taskStatus = new JComboBox();
 		this.taskLength = new JSpinner();
@@ -284,6 +285,8 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
+		ComponentFactory.createRepeatComboBox(this.taskRepeat);
+		
 		info.add(this.taskRepeat);
 		
 		// Task Repeat From
@@ -391,7 +394,9 @@ public class TaskEditPanel extends JPanel {
 				60 * 24 * 7 }, taskReminderModel));
 		
 		ValueModel taskRepeatModel = this.adapter.getValueModel(Task.PROP_REPEAT);
-		Bindings.bind(this.taskRepeat, taskRepeatModel);
+		this.taskRepeat.setModel(new ComboBoxAdapter<String>(
+				SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues(),
+				taskRepeatModel));
 		
 		ValueModel taskRepeatFromModel = this.adapter.getValueModel(Task.PROP_REPEAT_FROM);
 		this.taskRepeatFrom.setModel(new ComboBoxAdapter<TaskRepeatFrom>(

@@ -17,13 +17,18 @@
  */
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.components.help.Help;
 
 public class DummyApi extends SynchronizerApi {
 	
@@ -38,6 +43,17 @@ public class DummyApi extends SynchronizerApi {
 	
 	protected DummyApi() {
 		super("DUMMY", "No Service", "http://www.taskunifier.net");
+	}
+	
+	@Override
+	public String getRepeatHelpContent() {
+		try {
+			return FileUtils.readFileToString(new File(Help.HELP_FILES_FOLDER
+					+ File.separator
+					+ "task_repeat.html"));
+		} catch (IOException e) {
+			return null;
+		}
 	}
 	
 	@Override

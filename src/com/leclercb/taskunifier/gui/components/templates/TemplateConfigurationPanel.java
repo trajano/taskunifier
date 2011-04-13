@@ -69,6 +69,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class TemplateConfigurationPanel extends JSplitPane {
 	
@@ -95,7 +96,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				FormatterUtils.getIntegerFormatter());
 		final JSpinner templateTaskStartTime = new JSpinner();
 		final JComboBox templateTaskReminder = new JComboBox();
-		final JTextField templateTaskRepeat = new JTextField();
+		final JComboBox templateTaskRepeat = new JComboBox();
 		final JComboBox templateTaskRepeatFrom = new JComboBox();
 		final JComboBox templateTaskStatus = new JComboBox();
 		final JSpinner templateTaskLength = new JSpinner();
@@ -185,7 +186,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						taskReminderModel));
 				
 				ValueModel taskRepeatModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT);
-				Bindings.bind(templateTaskRepeat, taskRepeatModel);
+				templateTaskRepeat.setModel(new ComboBoxAdapter<String>(
+						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues(),
+						taskRepeatModel));
 				
 				ValueModel taskRepeatFromModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT_FROM);
 				templateTaskRepeatFrom.setModel(new ComboBoxAdapter<TaskRepeatFrom>(
@@ -396,6 +399,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskRepeat.setEnabled(false);
+		
+		ComponentFactory.createRepeatComboBox(templateTaskRepeat);
+		
 		info.add(templateTaskRepeat);
 		
 		// Template Task Repeat From
