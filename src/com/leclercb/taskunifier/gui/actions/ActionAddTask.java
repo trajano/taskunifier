@@ -58,7 +58,7 @@ public class ActionAddTask extends AbstractAction {
 		ActionAddTask.addTask(TemplateFactory.getInstance().getDefaultTemplate());
 	}
 	
-	public static void addTask(Template template) {
+	public static Task addTask(Template template) {
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
@@ -88,6 +88,8 @@ public class ActionAddTask extends AbstractAction {
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
 					task);
 		}
+		
+		return task;
 	}
 	
 }
