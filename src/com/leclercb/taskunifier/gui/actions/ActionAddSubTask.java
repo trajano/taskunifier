@@ -48,7 +48,7 @@ public class ActionAddSubTask extends AbstractAction {
 	public ActionAddSubTask(TaskView taskView, int width, int height) {
 		super(
 				Translations.getString("action.name.add_subtask"),
-				Images.getResourceImage("edit.png", width, height));
+				Images.getResourceImage("document.png", width, height));
 		
 		this.taskView = taskView;
 		
@@ -87,6 +87,9 @@ public class ActionAddSubTask extends AbstractAction {
 	}
 	
 	public static Task addSubTask(Template template, Task parent) {
+		if (parent == null)
+			return null;
+		
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
@@ -98,6 +101,10 @@ public class ActionAddSubTask extends AbstractAction {
 			template.applyToTask(task);
 		
 		task.setParent(parent);
+		task.setContext(parent.getContext());
+		task.setFolder(parent.getFolder());
+		task.setGoal(parent.getGoal());
+		task.setLocation(parent.getLocation());
 		
 		MainFrame.getInstance().getTaskView().refreshTasks();
 		

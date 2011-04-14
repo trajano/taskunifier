@@ -3,6 +3,7 @@ Version 0.8.7
 	- Repeat help
 	- Default repeat values in task edit window and template window
 	- FR 3274185: Add subtask button
+	- FR 3208904: Subtask will take over models from parent
 
 Version 0.8.6
 	- Shortcut CTRL+E to edit task

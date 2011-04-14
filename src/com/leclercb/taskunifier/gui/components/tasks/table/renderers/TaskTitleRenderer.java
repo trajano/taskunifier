@@ -17,6 +17,7 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
@@ -24,6 +25,7 @@ import javax.swing.JTable;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskTitleRenderer extends DefaultRenderer {
@@ -49,28 +51,40 @@ public class TaskTitleRenderer extends DefaultRenderer {
 				column);
 		
 		if (value == null) {
-			this.setIcon(null);
+			this.setForeground(Color.BLACK);
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
 			this.setText("");
+			this.setIcon(null);
 			return component;
 		}
 		
 		Task task = ((TaskTable) table).getTask(row);
 		
+		Color foreground = Color.BLACK;
+		String title = task.getTitle();
+		
+		if (title.length() == 0) {
+			foreground = Color.GRAY;
+			title = Translations.getString("task.default.title");
+		}
+		
+		this.setForeground(foreground);
+		
 		// Set Text & Font
 		if (task.getParent() == null) {
 			component.setFont(this.getFont().deriveFont(Font.BOLD));
-			this.setText(task.getTitle());
+			this.setText(title);
 		} else {
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
-			this.setText("          " + task.getTitle());
+			this.setText("          " + title);
 		}
 		
 		// Set Icon
-		if (!task.isCompleted() && task.isOverDue())
+		if (!task.isCompleted() && task.isOverDue()) {
 			this.setIcon(Images.getResourceImage("warning.gif"));
-		else
+		} else {
 			this.setIcon(Images.getResourceImage("transparent.png"));
+		}
 		
 		return component;
 	}
