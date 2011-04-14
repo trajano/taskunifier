@@ -49,6 +49,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.properties.SavePropertiesListener;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
@@ -322,6 +323,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
+		tasksMenu.add(new ActionAddSubTask(this.taskPanel, 16, 16));
 		
 		// TEMPLATE
 		final JMenu templatesMenu = new JMenu(

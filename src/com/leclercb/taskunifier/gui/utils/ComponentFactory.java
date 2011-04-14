@@ -33,13 +33,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
-
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
 
 public final class ComponentFactory {
@@ -88,22 +84,6 @@ public final class ComponentFactory {
 			comboBox.setModel(model);
 		
 		comboBox.setRenderer(new ModelListCellRenderer());
-		
-		if (!SystemUtils.IS_OS_MAC || !LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			AutoCompleteDecorator.decorate(
-					comboBox,
-					new ObjectToStringConverter() {
-						
-						@Override
-						public String getPreferredStringForItem(Object item) {
-							if (item == null)
-								return null;
-							
-							return ((Model) item).getTitle();
-						}
-						
-					});
-		}
 		
 		return comboBox;
 	}

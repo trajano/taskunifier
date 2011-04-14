@@ -5,6 +5,7 @@ Version 0.8.7
 	- Offline repeat
 	- Repeat help
 	- Default repeat values in task edit window and template window
+	- FR 3274185: Add subtask button
 
 Version 0.8.6
 	- Shortcut CTRL+E to edit task
