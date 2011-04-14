@@ -1,7 +1,9 @@
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +37,12 @@ public class RepeatUtils {
 		if (repeat.matches(regex))
 			return true;
 		
-		regex = "^(every (mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday))$".toLowerCase();
+		String daysRegex = "(mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday)";
+		regex = "^(every ("
+				+ daysRegex
+				+ "(, ?"
+				+ daysRegex
+				+ ")*))$".toLowerCase();
 		if (repeat.matches(regex))
 			return true;
 		
@@ -127,7 +134,12 @@ public class RepeatUtils {
 		if (repeat.matches(regex))
 			return getNextDueDate4(repeat, date);
 		
-		regex = "^(every (mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday))$".toLowerCase();
+		String daysRegex = "(mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday)";
+		regex = "^(every ("
+				+ daysRegex
+				+ "(, ?"
+				+ daysRegex
+				+ ")*))$".toLowerCase();
 		if (repeat.matches(regex))
 			return getNextDueDate5(repeat, date);
 		
@@ -255,59 +267,66 @@ public class RepeatUtils {
 	}
 	
 	private static Calendar getNextDueDate5(String repeat, Calendar date) {
-		String regex = "^(every (mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday))$".toLowerCase();
+		String daysRegex = "(mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday)";
+		String regex = "^(every ("
+				+ daysRegex
+				+ "(, ?"
+				+ daysRegex
+				+ ")*))$".toLowerCase();
+		
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(repeat);
 		
 		if (!matcher.find())
 			return null;
 		
-		String strField = matcher.group(2);
-		Integer field = null;
+		String[] strFields = matcher.group(2).split(",");
+		Set<Integer> fields = new HashSet<Integer>();
 		
-		if (strField.startsWith("mon")) {
-			field = Calendar.MONDAY;
-		} else if (strField.startsWith("tue")) {
-			field = Calendar.TUESDAY;
-		} else if (strField.startsWith("wed")) {
-			field = Calendar.WEDNESDAY;
-		} else if (strField.startsWith("thu")) {
-			field = Calendar.THURSDAY;
-		} else if (strField.startsWith("fri")) {
-			field = Calendar.FRIDAY;
-		} else if (strField.startsWith("sat")) {
-			field = Calendar.SATURDAY;
-		} else if (strField.startsWith("sun")) {
-			field = Calendar.SUNDAY;
-		} else if (strField.equals("weekend")) {
-			int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
-			switch (dayOfWeek) {
-				case Calendar.SATURDAY:
-					field = Calendar.SUNDAY;
-					break;
-				default:
-					field = Calendar.SATURDAY;
-					break;
-			}
-		} else if (strField.equals("weekday")) {
-			int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
-			switch (dayOfWeek) {
-				case Calendar.FRIDAY:
-				case Calendar.SATURDAY:
-				case Calendar.SUNDAY:
-					field = Calendar.MONDAY;
-					break;
-				default:
-					field = dayOfWeek + 1;
-					break;
+		for (String strField : strFields) {
+			strField = strField.trim();
+			
+			if (strField.startsWith("mon")) {
+				fields.add(Calendar.MONDAY);
+			} else if (strField.startsWith("tue")) {
+				fields.add(Calendar.TUESDAY);
+			} else if (strField.startsWith("wed")) {
+				fields.add(Calendar.WEDNESDAY);
+			} else if (strField.startsWith("thu")) {
+				fields.add(Calendar.THURSDAY);
+			} else if (strField.startsWith("fri")) {
+				fields.add(Calendar.FRIDAY);
+			} else if (strField.startsWith("sat")) {
+				fields.add(Calendar.SATURDAY);
+			} else if (strField.startsWith("sun")) {
+				fields.add(Calendar.SUNDAY);
+			} else if (strField.equals("weekend")) {
+				fields.add(Calendar.SATURDAY);
+				fields.add(Calendar.SUNDAY);
+			} else if (strField.equals("weekday")) {
+				fields.add(Calendar.MONDAY);
+				fields.add(Calendar.TUESDAY);
+				fields.add(Calendar.WEDNESDAY);
+				fields.add(Calendar.THURSDAY);
+				fields.add(Calendar.FRIDAY);
 			}
 		}
 		
-		if (field == null)
+		if (fields.size() == 0)
 			return null;
 		
+		int currentDay = date.get(Calendar.DAY_OF_WEEK);
+		int nextDay = currentDay;
+		
+		for (int i = 0; i < 7; i++) {
+			nextDay = (nextDay % 7) + 1;
+			
+			if (fields.contains(nextDay))
+				break;
+		}
+		
 		Calendar clone = DateUtils.cloneCalendar(date);
-		date.set(Calendar.DAY_OF_WEEK, field);
+		date.set(Calendar.DAY_OF_WEEK, nextDay);
 		if (date.compareTo(clone) <= 0)
 			date.add(Calendar.WEEK_OF_YEAR, 1);
 		
