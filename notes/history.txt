@@ -2,6 +2,7 @@ Version 0.8.7
 	- Offline repeat
 	- Repeat help
 	- Default repeat values in task edit window and template window
+	- Bug fixed: Edit task note with edit window
 	- FR 3274185: Add subtask button
 	- FR 3208904: Subtask will take over contexts, folders, goals, locations from parent
 
@@ -12,7 +13,7 @@ Version 0.8.6
 	- FR 3207558: Double click on context, folder... to edit it
 	- FR 3276583: Default sort order
 	- FR 3207557: Default repeat values
-	- Bug fixed: remove color of folder/goal/location
+	- Bug fixed: Remove color of folder/goal/location
 	- Delete tasks with "Delete" key
 
 Version 0.8.5

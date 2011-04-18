@@ -22,6 +22,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
@@ -40,7 +42,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskNotePanel extends JPanel implements TaskSelectionListener {
+public class TaskNotePanel extends JPanel implements TaskSelectionListener, PropertyChangeListener {
 	
 	private JEditorPane htmlNote;
 	private JTextArea textNote;
@@ -128,6 +130,8 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 					this.previousSelectedTask.getNote(),
 					this.getTaskNote()))
 				this.previousSelectedTask.setNote(this.getTaskNote());
+			
+			this.previousSelectedTask.removePropertyChangeListener(this);
 		}
 		
 		Task[] tasks = event.getSelectedTasks();
@@ -144,8 +148,9 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 			this.htmlNote.setEnabled(false);
 		} else {
 			this.previousSelectedTask = tasks[0];
+			this.previousSelectedTask.addPropertyChangeListener(this);
 			
-			String note = (tasks[0].getNote() == null ? "" : tasks[0].getNote());
+			String note = (this.previousSelectedTask.getNote() == null ? "" : this.previousSelectedTask.getNote());
 			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);
@@ -170,6 +175,19 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener {
 		}
 		
 		return ArrayUtils.arrayToString(lines, "\n");
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (EqualsUtils.equals(evt.getPropertyName(), Task.PROP_NOTE)) {
+			String note = (this.previousSelectedTask.getNote() == null ? "" : this.previousSelectedTask.getNote());
+			
+			this.htmlNote.setText(this.convertTextNoteToHtml(note));
+			this.textNote.setText(note);
+			
+			this.htmlNote.setCaretPosition(0);
+			this.textNote.setCaretPosition(0);
+		}
 	}
 	
 }
