@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -161,6 +162,7 @@ public class Main {
 				
 				MainFrame.getInstance().getFrame().setVisible(true);
 				ActionCheckVersion.checkVersion(true);
+				ActionCheckPluginVersion.checkPluginVersion(true);
 				
 				Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
 				if (showed == null || !showed)
