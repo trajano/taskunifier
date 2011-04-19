@@ -21,7 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -30,10 +29,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.components.plugins.table.PluginTable;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -52,43 +49,11 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		this.initialize();
 	}
 	
-	private Plugin[] createPlugins() {
-		PluginWaitDialog<Plugin[]> dialog = new PluginWaitDialog<Plugin[]>(
-				MainFrame.getInstance().getFrame(),
-				Translations.getString("general.manage_plugins")) {
-			
-			@Override
-			public Plugin[] doActions(ProgressMonitor monitor) throws Throwable {
-				return PluginsUtils.loadPluginsFromXML(monitor);
-			}
-			
-		};
-		dialog.setVisible(true);
-		
-		Plugin[] plugins = dialog.getResult();
-		
-		if (plugins == null)
-			return new Plugin[0];
-		
-		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
-		for (SynchronizerGuiPlugin p : loadedPlugins) {
-			for (int i = 0; i < plugins.length; i++) {
-				if (p.getId().equals(plugins[i].getId())) {
-					if (p.getVersion().compareTo(plugins[i].getVersion()) < 0)
-						plugins[i].setStatus(PluginStatus.TO_UPDATE);
-					else
-						plugins[i].setStatus(PluginStatus.INSTALLED);
-				}
-			}
-		}
-		
-		return plugins;
-	}
-	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		this.table = new PluginTable(this.createPlugins());
+		this.table = new PluginTable(
+				PluginsUtils.loadAndUpdatePluginsFromXML(false));
 		this.table.getSelectionModel().addListSelectionListener(this);
 		
 		this.add(

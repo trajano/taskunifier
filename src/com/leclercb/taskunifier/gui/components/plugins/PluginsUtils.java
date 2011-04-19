@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginsUtils {
@@ -367,6 +368,50 @@ public class PluginsUtils {
 					Translations.getString("errors.cannot_load_plugin_database"),
 					e);
 		}
+	}
+	
+	public static Plugin[] loadAndUpdatePluginsFromXML(boolean silent) {
+		Plugin[] plugins = null;
+		
+		if (silent) {
+			try {
+				plugins = PluginsUtils.loadPluginsFromXML(null);
+			} catch (Exception e) {
+				GuiLogger.getLogger().warning("Cannot load plugins from XML");
+			}
+		} else {
+			PluginWaitDialog<Plugin[]> dialog = new PluginWaitDialog<Plugin[]>(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("general.manage_plugins")) {
+				
+				@Override
+				public Plugin[] doActions(ProgressMonitor monitor)
+						throws Throwable {
+					return PluginsUtils.loadPluginsFromXML(monitor);
+				}
+				
+			};
+			dialog.setVisible(true);
+			
+			plugins = dialog.getResult();
+		}
+		
+		if (plugins == null)
+			return new Plugin[0];
+		
+		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
+		for (SynchronizerGuiPlugin p : loadedPlugins) {
+			for (int i = 0; i < plugins.length; i++) {
+				if (p.getId().equals(plugins[i].getId())) {
+					if (p.getVersion().compareTo(plugins[i].getVersion()) < 0)
+						plugins[i].setStatus(PluginStatus.TO_UPDATE);
+					else
+						plugins[i].setStatus(PluginStatus.INSTALLED);
+				}
+			}
+		}
+		
+		return plugins;
 	}
 	
 }
