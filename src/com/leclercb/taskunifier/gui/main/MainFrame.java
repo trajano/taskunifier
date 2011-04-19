@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
+import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
@@ -352,6 +353,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		menuBar.add(helpMenu);
 		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
+		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));

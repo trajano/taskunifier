@@ -29,7 +29,6 @@ import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
-import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -173,7 +172,7 @@ public class ActionCheckPluginVersion extends AbstractAction {
 							MainFrame.getInstance().getFrame(),
 							Translations.getString(
 									"action.check_plugin_version.no_new_plugin_version_available",
-									Constants.VERSION,
+									SynchronizerUtils.getPlugin().getVersion(),
 									SynchronizerUtils.getPlugin().getName()),
 							Translations.getString("general.information"),
 							JOptionPane.INFORMATION_MESSAGE);

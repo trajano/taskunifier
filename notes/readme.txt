@@ -6,6 +6,7 @@ Version 0.8.7
 	- Repeat help
 	- Default repeat values in task edit window and template window
 	- Bug fixed: Edit task note with edit window
+	- Check plugin version
 	- FR 3274185: Add subtask button
 	- FR 3208904: Subtask will take over contexts, folders, goals, locations from parent
 
