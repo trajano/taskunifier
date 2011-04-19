@@ -22,10 +22,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.Plugin;
+import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -44,12 +46,12 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	
 	public ActionCheckPluginVersion(boolean silent, int width, int height) {
 		super(
-				Translations.getString("action.name.check_version"),
+				Translations.getString("action.name.check_plugin_version"),
 				Images.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.check_version"));
+				Translations.getString("action.description.check_plugin_version"));
 		
 		this.silent = silent;
 	}
@@ -104,7 +106,43 @@ public class ActionCheckPluginVersion extends AbstractAction {
 											+ ".showed",
 									version);
 							
-							ActionManagePlugins.managePlugins();
+							String[] options = new String[] {
+									Translations.getString("general.update"),
+									Translations.getString("general.cancel") };
+							
+							int result = JOptionPane.showOptionDialog(
+									MainFrame.getInstance().getFrame(),
+									Translations.getString(
+											"action.check_plugin_version.new_plugin_version_available",
+											version,
+											SynchronizerUtils.getPlugin().getName()),
+									Translations.getString("general.information"),
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.INFORMATION_MESSAGE,
+									null,
+									options,
+									options[0]);
+							
+							if (result == 0) {
+								final Plugin pluginToUpdate = plugin;
+								
+								PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+										MainFrame.getInstance().getFrame(),
+										Translations.getString("general.manage_plugins")) {
+									
+									@Override
+									public Void doActions(
+											ProgressMonitor monitor)
+											throws Throwable {
+										PluginsUtils.updatePlugin(
+												pluginToUpdate,
+												monitor);
+										return null;
+									}
+									
+								};
+								dialog.setVisible(true);
+							}
 						}
 					} else {
 						this.showNoNewVersion(silent);
@@ -116,7 +154,7 @@ public class ActionCheckPluginVersion extends AbstractAction {
 					} else {
 						ErrorDialog errorDialog = new ErrorDialog(
 								MainFrame.getInstance().getFrame(),
-								Translations.getString("error.check_version_error"),
+								Translations.getString("error.check_plugin_version_error"),
 								t,
 								false);
 						errorDialog.setVisible(true);
@@ -134,8 +172,9 @@ public class ActionCheckPluginVersion extends AbstractAction {
 					JOptionPane.showMessageDialog(
 							MainFrame.getInstance().getFrame(),
 							Translations.getString(
-									"action.check_version.no_new_version_available",
-									Constants.VERSION),
+									"action.check_plugin_version.no_new_plugin_version_available",
+									Constants.VERSION,
+									SynchronizerUtils.getPlugin().getName()),
 							Translations.getString("general.information"),
 							JOptionPane.INFORMATION_MESSAGE);
 				}

@@ -32,7 +32,7 @@ import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 
-abstract class PluginWaitDialog<ResultType> extends WaitDialog {
+public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 	
 	private ResultType result;
 	private ProgressMonitor monitor;
