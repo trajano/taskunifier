@@ -6,6 +6,7 @@ Version 0.8.7
 	- Check plugin version
 	- FR 3274185: Add subtask button
 	- FR 3208904: Subtask will take over contexts, folders, goals, locations from parent
+	- BSD Licence
 
 Version 0.8.6
 	- Shortcut CTRL+E to edit task
