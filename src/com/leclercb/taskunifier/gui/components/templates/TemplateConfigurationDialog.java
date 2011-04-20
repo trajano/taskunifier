@@ -57,7 +57,9 @@ public class TemplateConfigurationDialog extends JDialog {
 		this.setSize(700, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		
+		if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));

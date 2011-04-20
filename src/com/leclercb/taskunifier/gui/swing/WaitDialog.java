@@ -72,7 +72,9 @@ public class WaitDialog extends JDialog {
 		this.setSize(400, 180);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		
+		if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		

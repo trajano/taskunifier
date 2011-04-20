@@ -93,7 +93,9 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setSize(600, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		
+		if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		
 		this.tabbedPane = new JTabbedPane();
 		

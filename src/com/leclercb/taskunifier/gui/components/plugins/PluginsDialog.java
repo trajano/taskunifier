@@ -58,7 +58,9 @@ public class PluginsDialog extends JDialog {
 		this.setSize(650, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		
+		if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

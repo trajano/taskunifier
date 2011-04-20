@@ -69,8 +69,10 @@ public class TaskEditDialog extends JDialog {
 		this.setSize(750, 500);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
+		if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		
 		this.addWindowListener(new WindowAdapter() {
 			
