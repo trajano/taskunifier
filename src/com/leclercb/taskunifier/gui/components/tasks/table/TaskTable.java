@@ -659,9 +659,7 @@ public class TaskTable extends JTable {
 			case LOCATION:
 				return MODEL_RENDERER;
 			case COMPLETED_ON:
-				return DATE_RENDERER;
 			case DUE_DATE:
-				return DATE_RENDERER;
 			case START_DATE:
 				return DATE_RENDERER;
 			case REMINDER:
