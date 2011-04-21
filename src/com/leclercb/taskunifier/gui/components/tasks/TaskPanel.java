@@ -35,11 +35,9 @@ package com.leclercb.taskunifier.gui.components.tasks;
 import java.awt.CardLayout;
 import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
-import java.text.MessageFormat;
 import java.util.Enumeration;
 
 import javax.swing.JPanel;
-import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -51,8 +49,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
-import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.components.tasks.treetable.TaskTreeTable;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -68,7 +65,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	
 	private View currentView;
 	
-	private TaskTable taskTable;
+	private TaskTreeTable taskTable;
 	
 	public TaskPanel() {
 		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(this);
@@ -80,7 +77,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		
 		this.setLayout(new CardLayout());
 		
-		this.taskTable = new TaskTable();
+		this.taskTable = new TaskTreeTable();
 		this.taskTable.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					
@@ -136,36 +133,38 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	
 	@Override
 	public Task[] getSelectedTasks() {
-		return this.taskTable.getSelectedTasks();
+		return new Task[0]; // this.taskTable.getSelectedTasks();
 	}
 	
 	@Override
 	public void setSelectedTaskAndStartEdit(Task task) {
-		this.taskTable.setSelectedTaskAndStartEdit(task);
+		// this.taskTable.setSelectedTaskAndStartEdit(task);
 	}
 	
 	@Override
 	public void setSelectedTasks(Task[] tasks) {
-		this.taskTable.setSelectedTasks(tasks);
+		// this.taskTable.setSelectedTasks(tasks);
 	}
 	
 	@Override
 	public void refreshTasks() {
-		this.taskTable.refreshTasks();
+		// this.taskTable.refreshTasks();
 	}
 	
 	@Override
 	public void printTasks() throws HeadlessException, PrinterException {
-		this.taskTable.print(
-				PrintMode.FIT_WIDTH,
-				new MessageFormat(Constants.TITLE
-						+ " - "
-						+ this.taskTable.getTaskSearcher().getTitle()),
-				new MessageFormat(this.taskTable.getRowCount()
-						+ " tasks | Page - {0}"),
-				true,
-				null,
-				true);
+		/*
+		 * this.taskTable.print(
+		 * PrintMode.FIT_WIDTH,
+		 * new MessageFormat(Constants.TITLE
+		 * + " - "
+		 * + this.taskTable.getTaskSearcher().getTitle()),
+		 * new MessageFormat(this.taskTable.getRowCount()
+		 * + " tasks | Page - {0}"),
+		 * true,
+		 * null,
+		 * true);
+		 */
 	}
 	
 	@Override
@@ -182,7 +181,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
 		if (event.getSelectedTaskSearcher() != null)
-			this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
+			; // this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
 	}
 	
 }
