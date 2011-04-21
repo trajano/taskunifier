@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-import org.jdesktop.swingx.treetable.MutableTreeTableNode;
 import org.jdesktop.swingx.treetable.TreeTableNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -17,12 +16,12 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskUndoableEdit;
 import com.leclercb.taskunifier.gui.constants.Constants;
 
-public class TaskTreeTableNode implements MutableTreeTableNode {
+public class TaskTreeTableNode implements TreeTableNode {
 	
-	private MutableTreeTableNode root;
+	private TaskTreeTableRootNode root;
 	private Task task;
 	
-	public TaskTreeTableNode(MutableTreeTableNode root, Task task) {
+	public TaskTreeTableNode(TaskTreeTableRootNode root, Task task) {
 		this.root = root;
 		this.setTask(task);
 	}
@@ -130,7 +129,7 @@ public class TaskTreeTableNode implements MutableTreeTableNode {
 	
 	@Override
 	public boolean isLeaf() {
-		return this.task.getParent() != null;
+		return this.task.getChildren().length == 0;
 	}
 	
 	@Override
@@ -143,36 +142,6 @@ public class TaskTreeTableNode implements MutableTreeTableNode {
 		}
 		
 		return Collections.enumeration(enumeration);
-	}
-	
-	@Override
-	public void insert(MutableTreeTableNode arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void remove(int arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void remove(MutableTreeTableNode arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void removeFromParent() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void setParent(MutableTreeTableNode arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

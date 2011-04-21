@@ -1,7 +1,6 @@
 package com.leclercb.taskunifier.gui.components.tasks.treetable;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -14,11 +13,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
-import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
-import org.jdesktop.swingx.treetable.TreeTableNode;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -182,23 +177,11 @@ public class TaskTreeTable extends JXTreeTable {
 		
 		TaskTableColumnModel columnModel = new TaskTableColumnModel();
 		TaskTreeTableModel treeTableModel = new TaskTreeTableModel(
-				this.createRoot());
+				new TaskTreeTableRootNode());
 		
 		this.setTreeTableModel(treeTableModel);
 		this.setColumnModel(columnModel);
 		this.setRootVisible(false);
-	}
-	
-	private TreeTableNode createRoot() {
-		DefaultMutableTreeTableNode root = new DefaultMutableTreeTableNode();
-		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		for (Task task : tasks) {
-			if (task.getParent() == null)
-				root.add(new TaskTreeTableNode(root, task));
-		}
-		
-		return root;
 	}
 	
 	@Override
