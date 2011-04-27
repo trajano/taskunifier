@@ -1,12 +1,19 @@
 package com.leclercb.taskunifier.gui.components.tasks.treetable;
 
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -14,9 +21,13 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -27,11 +38,14 @@ import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRend
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableColumnModel;
+import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSorter;
 import com.leclercb.taskunifier.gui.components.tasks.treetable.renderers.CalendarRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.treetable.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.treetable.renderers.DefaultRenderer;
@@ -168,8 +182,114 @@ public class TaskTreeTable extends JXTreeTable {
 		TASK_STATUS_EDITOR = new DefaultCellEditor(comboBox);
 	}
 	
+	private TaskSearcher searcher;
+	
 	public TaskTreeTable() {
 		this.initialize();
+	}
+	
+	public Task getTask(int row) {
+		int index = this.getRowSorter().convertRowIndexToModel(row);
+		return ((TaskTableModel) this.getModel()).getTask(index);
+	}
+	
+	public Task[] getSelectedTasks() {
+		int[] indexes = this.getSelectedRows();
+		
+		List<Task> tasks = new ArrayList<Task>();
+		for (int i = 0; i < indexes.length; i++)
+			if (indexes[i] != -1)
+				tasks.add(this.getTask(indexes[i]));
+		
+		return tasks.toArray(new Task[0]);
+	}
+	
+	public void setSelectedTaskAndStartEdit(Task task) {
+		this.setSelectedTasks(new Task[] { task });
+		
+		TaskTableColumnModel columnModel = (TaskTableColumnModel) this.getColumnModel();
+		TaskTableModel model = (TaskTableModel) this.getModel();
+		
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if (task.equals(model.getTask(i))) {
+				int row = this.getRowSorter().convertRowIndexToView(i);
+				int col = columnModel.getColumnIndex(TaskColumn.TITLE);
+				
+				if (row != -1) {
+					if (this.editCellAt(row, col)) {
+						Component editor = this.getEditorComponent();
+						editor.requestFocusInWindow();
+					}
+				}
+				
+				break;
+			}
+		}
+	}
+	
+	public void setSelectedTasks(Task[] tasks) {
+		TaskTableModel model = (TaskTableModel) this.getModel();
+		
+		this.getSelectionModel().setValueIsAdjusting(true);
+		
+		int firstRowIndex = -1;
+		for (Task task : tasks) {
+			for (int i = 0; i < model.getRowCount(); i++) {
+				if (task.equals(model.getTask(i))) {
+					int index = this.getRowSorter().convertRowIndexToView(i);
+					
+					if (index != -1) {
+						this.getSelectionModel().setSelectionInterval(
+								index,
+								index);
+						
+						if (firstRowIndex == -1)
+							firstRowIndex = index;
+					}
+				}
+			}
+		}
+		
+		this.getSelectionModel().setValueIsAdjusting(false);
+		
+		if (firstRowIndex != -1)
+			this.scrollToVisible(firstRowIndex, 0);
+	}
+	
+	public void refreshTasks() {
+		this.getRowSorter().allRowsChanged();
+	}
+	
+	public TaskSearcher getTaskSearcher() {
+		return this.searcher;
+	}
+	
+	public void setTaskSearcher(TaskSearcher searcher) {
+		CheckUtils.isNotNull(searcher, "Task searcher cannot be null");
+		
+		this.searcher = searcher;
+		
+		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this.getRowSorter()).getRowFilter();
+		taskRowFilter.setFilter(searcher.getFilter());
+		
+		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+		List<TaskSorterElement> sortElements = searcher.getSorter().getElements();
+		
+		for (TaskSorterElement element : sortElements) {
+			// Don't sort if column is not visible (does not exist)
+			try {
+				this.getColumn(element.getColumn());
+			} catch (IllegalArgumentException e) {
+				continue;
+			}
+			
+			sortKeys.add(new RowSorter.SortKey(
+					this.getColumn(element.getColumn()).getModelIndex(),
+					element.getSortOrder()));
+		}
+		
+		this.getRowSorter().setSortKeys(sortKeys);
+		this.refreshTasks();
 	}
 	
 	private void initialize() {
@@ -261,6 +381,18 @@ public class TaskTreeTable extends JXTreeTable {
 			default:
 				return DEFAULT_RENDERER;
 		}
+	}
+	
+	private void scrollToVisible(int row, int col) {
+		if (!(this.getParent() instanceof JViewport)) {
+			return;
+		}
+		
+		JViewport viewport = (JViewport) this.getParent();
+		Rectangle rect = this.getCellRect(row, col, true);
+		Point pt = viewport.getViewPosition();
+		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
+		viewport.scrollRectToVisible(rect);
 	}
 	
 }
