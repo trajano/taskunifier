@@ -48,39 +48,43 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
+
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
 
 public final class ComponentFactory {
-	
+
 	private ComponentFactory() {
 
 	}
-	
+
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {
 		repeatComboBox.setEditable(true);
-		
+
 		final JTextField repeatTextField = (JTextField) repeatComboBox.getEditor().getEditorComponent();
 		repeatTextField.getDocument().addDocumentListener(
 				new DocumentListener() {
-					
+
 					@Override
 					public void removeUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					@Override
 					public void insertUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					@Override
 					public void changedUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					private void update() {
 						if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
 								repeatTextField.getText()))
@@ -88,29 +92,45 @@ public final class ComponentFactory {
 						else
 							repeatTextField.setForeground(Color.RED);
 					}
-					
+
 				});
 	}
-	
+
 	public static JComboBox createModelComboBox(ComboBoxModel model) {
 		JComboBox comboBox = new JComboBox();
-		
+
 		if (model != null)
 			comboBox.setModel(model);
-		
+
 		comboBox.setRenderer(new ModelListCellRenderer());
-		
+
+		if (!SystemUtils.IS_OS_MAC || !LookAndFeelUtils.isCurrentLafSystemLaf()) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							if (item == null)
+								return null;
+
+							return ((Model) item).getTitle();
+						}
+
+					});
+		}
+
 		return comboBox;
 	}
-	
+
 	public static JPanel createSearchField(JTextField textField) {
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			textField.putClientProperty("JTextField.variant", "search");
-			
+
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.setOpaque(false);
 			panel.add(textField, BorderLayout.CENTER);
-			
+
 			return panel;
 		} else {
 			JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -121,27 +141,27 @@ public final class ComponentFactory {
 					BorderLayout.WEST);
 			panel.add(textField, BorderLayout.CENTER);
 			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			
+
 			return panel;
 		}
 	}
-	
+
 	public static JScrollPane createJScrollPane(
 			JComponent component,
 			boolean border) {
 		JScrollPane scrollPane = new JScrollPane(component);
-		
+
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
 			IAppWidgetFactory.makeIAppScrollPane(scrollPane);
-		
+
 		if (border)
 			scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		else
 			scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		return scrollPane;
 	}
-	
+
 	public static JSplitPane createThinJScrollPane(int orientation) {
 		JSplitPane splitPane = new JSplitPane(orientation);
 		splitPane.setContinuousLayout(true);
@@ -151,5 +171,5 @@ public final class ComponentFactory {
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		return splitPane;
 	}
-	
+
 }
