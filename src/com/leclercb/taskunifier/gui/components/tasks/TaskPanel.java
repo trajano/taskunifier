@@ -136,7 +136,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 
 	@Override
 	public Task[] getSelectedTasks() {
-		return new Task[0]; // this.taskTable.getSelectedTasks();
+		return this.taskTable.getSelectedTasks();
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
 		if (event.getSelectedTaskSearcher() != null)
-			; // this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
+			this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
 	}
 
 }
