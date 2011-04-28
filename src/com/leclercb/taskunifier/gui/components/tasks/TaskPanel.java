@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
-import com.leclercb.taskunifier.gui.components.tasks.treetable.TaskTreeTable;
+import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -68,7 +68,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 
 	private View currentView;
 
-	private TaskTreeTable taskTable;
+	private TaskTable taskTable;
 
 	public TaskPanel() {
 		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(this);
@@ -80,7 +80,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 
 		this.setLayout(new CardLayout());
 
-		this.taskTable = new TaskTreeTable();
+		this.taskTable = new TaskTable();
 		this.taskTable.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 
