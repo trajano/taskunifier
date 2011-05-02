@@ -46,6 +46,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.SystemUtils;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -150,12 +151,17 @@ public class Main {
 							laf.setLookAndFeel();
 					} else {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-						if (laf != null)
+						
+						if (SystemUtils.IS_OS_WINDOWS)
+							laf = LookAndFeelUtils.getLookAndFeel("com.jtattoo.plaf.fast.FastLookAndFeel$Blue");
+						
+						if (laf != null) {
 							laf.setLookAndFeel();
 						
-						SETTINGS.setStringProperty(
-								"theme.lookandfeel",
-								UIManager.getSystemLookAndFeelClassName());
+							SETTINGS.setStringProperty(
+									"theme.lookandfeel",
+									laf.getIdentifier());
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
