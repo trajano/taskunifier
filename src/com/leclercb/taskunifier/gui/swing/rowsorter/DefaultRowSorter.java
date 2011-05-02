@@ -1014,6 +1014,17 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
 				return result;
 			}
 		}
+		
+		if (this.sortComparators[this.sortComparators.length - 1] instanceof RowComparator<?>) {
+			result = ((RowComparator<?>) this.sortComparators[this.sortComparators.length - 1]).compareIfEquals(
+					model1,
+					model2);
+			
+			if (result != 0) {
+				return result;
+			}
+		}
+		
 		// If we get here, they're equal. Fallback to model order.
 		return model1 - model2;
 	}

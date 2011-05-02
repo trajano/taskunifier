@@ -2,7 +2,7 @@ HISTORY
 -------
 
 Version 0.8.8
-	- Bug fixed: tasks order
+	- Bug fixed: order of tasks with the same title
 	- Bug fixed: Combobox search with multiple letters
 
 Version 0.8.7

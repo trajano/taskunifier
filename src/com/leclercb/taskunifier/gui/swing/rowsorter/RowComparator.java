@@ -44,4 +44,8 @@ public interface RowComparator<T> extends Comparator<T> {
 			int column,
 			SortOrder sortOrder);
 	
+	public abstract int compareIfEquals(
+			int row1,
+			int row2);
+	
 }

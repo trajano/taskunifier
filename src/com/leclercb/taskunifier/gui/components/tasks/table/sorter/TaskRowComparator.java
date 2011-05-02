@@ -113,6 +113,16 @@ public class TaskRowComparator implements RowComparator<Object> {
 		
 		return result;
 	}
+
+	@Override
+	public int compareIfEquals(int row1, int row2) {
+		TaskTableModel tableModel = this.model;
+		
+		Task task1 = tableModel.getTask(row1);
+		Task task2 = tableModel.getTask(row2);
+		
+		return compare(TaskColumn.MODEL_ID, task1.getModelId(), task2.getModelId());
+	}
 	
 	private int compare(TaskColumn column, Object o1, Object o2) {
 		int result = 0;
