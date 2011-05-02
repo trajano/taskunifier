@@ -32,7 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
+import java.awt.Color;
+
+import javax.swing.Icon;
+
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskPriorityRenderer extends DefaultRenderer {
@@ -48,7 +53,29 @@ public class TaskPriorityRenderer extends DefaultRenderer {
 			return;
 		}
 		
-		this.setText(TranslationsUtils.translateTaskPriority((TaskPriority) value));
+		TaskPriority priority = (TaskPriority) value;
+		Icon icon = null;
+		
+		switch (priority) {
+			case NEGATIVE:
+				icon = new ColorBadgeIcon(Color.GRAY, 12, 12);
+				break;
+			case LOW:
+				icon = new ColorBadgeIcon(Color.YELLOW, 12, 12);
+				break;
+			case MEDIUM:
+				icon = new ColorBadgeIcon(Color.GREEN, 12, 12);
+				break;
+			case HIGH:
+				icon = new ColorBadgeIcon(Color.ORANGE, 12, 12);
+				break;
+			case TOP:
+				icon = new ColorBadgeIcon(Color.RED, 12, 12);
+				break;
+		}
+		
+		this.setText(TranslationsUtils.translateTaskPriority(priority));
+		this.setIcon(icon);
 	}
 	
 }
