@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -54,6 +55,7 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public enum TaskColumn {
 	
+	MODEL_ID(ModelId.class, Translations.getString("general.task.id"), false),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
 	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
@@ -239,6 +241,8 @@ public enum TaskColumn {
 	
 	public Object getValue(Task task) {
 		switch (this) {
+			case MODEL_ID:
+				return task.getModelId();
 			case TITLE:
 				return task.getTitle();
 			case TAGS:
@@ -286,6 +290,8 @@ public enum TaskColumn {
 	
 	public void setValue(Task task, Object value) {
 		switch (this) {
+			case MODEL_ID:
+				break;
 			case TITLE:
 				task.setTitle((String) value);
 				break;

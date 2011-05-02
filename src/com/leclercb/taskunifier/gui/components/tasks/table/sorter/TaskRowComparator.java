@@ -42,6 +42,7 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -117,6 +118,9 @@ public class TaskRowComparator implements RowComparator<Object> {
 		int result = 0;
 		
 		switch (column) {
+			case MODEL_ID:
+				result = CompareUtils.compare((ModelId) o1, (ModelId) o2);
+				break;
 			case TITLE:
 				result = CompareUtils.compare((String) o1, (String) o2);
 				break;

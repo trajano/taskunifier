@@ -324,6 +324,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.8.7 to 0.8.8");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.model_id.visible", "false");
+		
 		return "0.8.8";
 	}
 	
