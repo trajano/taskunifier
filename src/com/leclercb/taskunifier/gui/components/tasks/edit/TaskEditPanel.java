@@ -347,7 +347,7 @@ public class TaskEditPanel extends JPanel {
 		
 		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
-		this.add(notePanel, BorderLayout.CENTER);
+		this.add(notePanel, BorderLayout.SOUTH);
 	}
 	
 	private void initializeAdapter() {
