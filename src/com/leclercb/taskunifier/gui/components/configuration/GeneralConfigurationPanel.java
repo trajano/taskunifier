@@ -39,6 +39,7 @@ import java.util.Locale;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
+import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.commons.renderers.SimpleDateFormatListCellRenderer;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
@@ -207,12 +208,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
-					"SETTINGS_AFTER_RESTART",
-					null,
-					new ConfigurationFieldType.Label(
-							Translations.getString("configuration.general.settings_changed_after_restart"))));
-			
-			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS",
 					Translations.getString("configuration.general.show_completed_tasks"),
 					new ConfigurationFieldType.CheckBox(
@@ -223,6 +218,11 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
 					new ConfigurationFieldType.CheckBox(
 							generalShowCompletedTasksAtTheEnd)));
+			
+			this.addField(new ConfigurationField(
+					"RESET_GENERAL_SEARCHERS",
+					null,
+					new ConfigurationFieldType.Button(new ActionResetGeneralSearchers(22, 22))));
 		}
 	}
 	

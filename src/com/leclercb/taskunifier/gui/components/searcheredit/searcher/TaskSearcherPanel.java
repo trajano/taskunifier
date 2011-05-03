@@ -36,6 +36,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -43,7 +45,9 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -55,6 +59,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -62,7 +67,8 @@ import com.leclercb.taskunifier.gui.utils.Images;
 public class TaskSearcherPanel extends JPanel implements PropertyChangeListener {
 	
 	private TaskSearcher searcher;
-	
+
+	private JComboBox searcherType;
 	private JButton searcherIcon;
 	private JTextField searcherTitle;
 	
@@ -81,6 +87,28 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		JPanel panel = new JPanel();
 		panel.setLayout(new SpringLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		// Type
+		DefaultComboBoxModel searcherTypeModel = new DefaultComboBoxModel();
+		searcherTypeModel.addElement(TaskSearcherType.GENERAL);
+		searcherTypeModel.addElement(TaskSearcherType.PERSONAL);
+		
+		this.searcherType = new JComboBox(searcherTypeModel);
+		this.searcherType.setSelectedItem(searcher.getType());
+		this.searcherType.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				TaskSearcherType type = (TaskSearcherType) TaskSearcherPanel.this.searcherType.getSelectedItem();
+				
+				if (type != null)
+					TaskSearcherPanel.this.searcher.setType(type);
+			}
+		});
+		
+		panel.add(new JLabel(
+				Translations.getString("searcheredit.searcher.type") + ":"));
+		panel.add(this.searcherType);
 		
 		// Icon
 		JPanel iconPanel = new JPanel(new BorderLayout());
@@ -171,7 +199,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		panel.add(this.searcherTitle);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, 2, 2, // rows, cols
+		SpringUtils.makeCompactGrid(panel, 3, 2, // rows, cols
 				6,
 				6, // initX, initY
 				6,
@@ -182,6 +210,13 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(TaskSearcher.PROP_TYPE)) {
+			if (!EqualsUtils.equals(
+					this.searcherType.getSelectedItem(),
+					evt.getNewValue()))
+				this.searcherType.setSelectedItem(evt.getNewValue());
+		}
+		
 		if (evt.getPropertyName().equals(TaskSearcher.PROP_TITLE)) {
 			if (!EqualsUtils.equals(
 					this.searcherTitle.getText(),

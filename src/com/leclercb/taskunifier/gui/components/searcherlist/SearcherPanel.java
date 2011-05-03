@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
@@ -60,6 +61,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -110,22 +112,29 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		if (searcher == null)
 			return null;
 		
-		if (this.titleFilter == null || this.titleFilter.length() == 0)
-			return searcher;
-		
 		searcher = searcher.clone();
 		
-		TaskFilter originalFilter = searcher.getFilter();
+		if (this.titleFilter != null && this.titleFilter.length() != 0) {
+			TaskFilter originalFilter = searcher.getFilter();
+			
+			TaskFilter newFilter = new TaskFilter();
+			newFilter.setLink(Link.AND);
+			newFilter.addElement(new TaskFilterElement(
+					TaskColumn.TITLE,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			newFilter.addFilter(originalFilter);
+			
+			searcher.setFilter(newFilter);
+		}
 		
-		TaskFilter newFilter = new TaskFilter();
-		newFilter.setLink(Link.AND);
-		newFilter.addElement(new TaskFilterElement(
-				TaskColumn.TITLE,
-				StringCondition.CONTAINS,
-				this.titleFilter));
-		newFilter.addFilter(originalFilter);
-		
-		searcher.setFilter(newFilter);
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
+				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end")) {
+			searcher.getSorter().addElement(new TaskSorterElement(
+					0,
+					TaskColumn.COMPLETED,
+					SortOrder.ASCENDING));
+		}
 		
 		return searcher;
 	}
@@ -207,6 +216,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 						SortOrder.ASCENDING));
 				
 				TaskSearcherFactory.getInstance().create(
+						TaskSearcherType.PERSONAL,
 						Translations.getString("searcher.default.title"),
 						new TaskFilter(),
 						sorter);
@@ -222,8 +232,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 				16)) {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				TaskSearcher searcher = SearcherPanel.this.getSelectedTaskSearcher();
+			public void actionPerformed(ActionEvent evt) {
+				TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 				TaskSearcherFactory.getInstance().unregister(searcher);
 			}
 			
@@ -235,7 +245,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 				16)) {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
 				SearcherPanel.this.openTaskSearcherEdit();
 			}
 			
@@ -263,9 +273,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	private void openTaskSearcherEdit() {
 		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 		
-		if (searcher != null
-				&& TaskSearcherFactory.getInstance().contains(searcher.getId())) {
-			new ActionEditSearcher();
+		if (searcher != null && searcher.getType().isEditable()) {
 			ActionEditSearcher.editSearcher(searcher);
 			this.searcherView.updateBadges();
 		}
@@ -286,15 +294,16 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	@Override
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
-		boolean personalSearcher = false;
+		TaskSearcher searcher = event.getSelectedTaskSearcher();
 		
-		if (event.getSelectedTaskSearcher() != null)
-			personalSearcher = TaskSearcherFactory.getInstance().contains(
-					event.getSelectedTaskSearcher().getId());
+		if (searcher == null)
+			return;
+		
+		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(searcher.getId());
 		
 		this.setTitleFilter(null);
-		this.removeAction.setEnabled(personalSearcher);
-		this.editAction.setEnabled(personalSearcher);
+		this.removeAction.setEnabled(foundInFactory && searcher.getType().isDeletable());
+		this.editAction.setEnabled(foundInFactory && searcher.getType().isEditable());
 		
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}

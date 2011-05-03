@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
@@ -129,23 +130,16 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		TaskSorter sorter = new TaskSorter();
 		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
-				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end"))
-			sorter.addElement(new TaskSorterElement(
-					0,
-					TaskColumn.COMPLETED,
-					SortOrder.ASCENDING));
-		
 		sorter.addElement(new TaskSorterElement(
-				0,
+				1,
 				TaskColumn.DUE_DATE,
 				SortOrder.ASCENDING));
 		sorter.addElement(new TaskSorterElement(
-				1,
+				2,
 				TaskColumn.PRIORITY,
 				SortOrder.DESCENDING));
 		sorter.addElement(new TaskSorterElement(
-				2,
+				3,
 				TaskColumn.TITLE,
 				SortOrder.ASCENDING));
 		
@@ -167,6 +161,7 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		String title = (this.model == null ? Translations.getString("searcherlist.none") : this.model.getTitle());
 		TaskSearcher searcher = new TaskSearcher(
+				TaskSearcherType.MODEL,
 				title,
 				null,
 				filter,

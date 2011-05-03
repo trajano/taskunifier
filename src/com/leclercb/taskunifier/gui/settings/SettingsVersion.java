@@ -40,6 +40,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -324,6 +325,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.8.7 to 0.8.8");
 		
+		ActionResetGeneralSearchers.resetGeneralSearchers();
 		Main.SETTINGS.setStringProperty("taskcolumn.model_id.visible", "false");
 		
 		return "0.8.8";

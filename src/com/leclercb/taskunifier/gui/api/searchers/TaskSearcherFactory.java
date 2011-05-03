@@ -147,20 +147,22 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public TaskSearcher create(
+			TaskSearcherType type,
 			String title,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		TaskSearcher searcher = new TaskSearcher(title, filter, sorter);
+		TaskSearcher searcher = new TaskSearcher(type, title, filter, sorter);
 		this.register(searcher);
 		return searcher;
 	}
 	
 	public TaskSearcher create(
+			TaskSearcherType type,
 			String title,
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		TaskSearcher searcher = new TaskSearcher(title, icon, filter, sorter);
+		TaskSearcher searcher = new TaskSearcher(type, title, icon, filter, sorter);
 		this.register(searcher);
 		return searcher;
 	}

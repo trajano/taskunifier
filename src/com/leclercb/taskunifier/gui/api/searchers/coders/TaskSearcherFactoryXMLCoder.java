@@ -63,6 +63,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -99,12 +100,17 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 		try {
 			NodeList nSearcher = node.getChildNodes();
 			
+			TaskSearcherType type = TaskSearcherType.PERSONAL;
 			String title = null;
 			String icon = null;
 			TaskFilter filter = null;
 			TaskSorter sorter = null;
 			
 			for (int i = 0; i < nSearcher.getLength(); i++) {
+				if (nSearcher.item(i).getNodeName().equals("type")) {
+					type = TaskSearcherType.valueOf(nSearcher.item(i).getTextContent());
+				}
+				
 				if (nSearcher.item(i).getNodeName().equals("title")) {
 					title = nSearcher.item(i).getTextContent();
 				}
@@ -124,6 +130,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			}
 			
 			TaskSearcherFactory.getInstance().create(
+					type,
 					title,
 					icon,
 					filter,
@@ -349,6 +356,10 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 		for (TaskSearcher taskSearcher : searchers) {
 			Element searcher = document.createElement("searcher");
 			root.appendChild(searcher);
+			
+			Element type = document.createElement("type");
+			type.setTextContent(taskSearcher.getType().name());
+			searcher.appendChild(type);
 			
 			Element title = document.createElement("title");
 			title.setTextContent(taskSearcher.getTitle());

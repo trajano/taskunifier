@@ -74,17 +74,18 @@ public class ActionAddTask extends AbstractAction {
 	}
 	
 	public static Task addTask(Template template) {
+		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		
+		if (searcherTemplate == null)
+			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
 			template.applyToTask(task);
 		
-		template = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
-		
-		if (template != null)
-			template.applyToTask(task);
-		
-		MainFrame.getInstance().getTaskView().refreshTasks();
+		if (searcherTemplate != null)
+			searcherTemplate.applyToTask(task);
 		
 		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
 				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
@@ -97,9 +98,6 @@ public class ActionAddTask extends AbstractAction {
 			if (dialog.isCancelled())
 				TaskFactory.getInstance().markDeleted(task);
 		} else {
-			if (template == null)
-				MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
-			
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
 					task);
 		}

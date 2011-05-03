@@ -40,6 +40,7 @@ import javax.swing.TransferHandler;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 
 public class TaskSearcherTransferHandler extends TransferHandler {
@@ -99,6 +100,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 		}
 		
 		TaskSearcher newSearcher = dragSearcher.clone();
+		newSearcher.setType(TaskSearcherType.PERSONAL);
 		TaskSearcherFactory.getInstance().register(newSearcher);
 		
 		return true;

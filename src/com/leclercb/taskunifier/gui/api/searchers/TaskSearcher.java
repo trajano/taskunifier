@@ -44,7 +44,8 @@ import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 
 public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
-	
+
+	public static final String PROP_TYPE = "type";
 	public static final String PROP_TITLE = "title";
 	public static final String PROP_ICON = "icon";
 	public static final String PROP_FILTER = "filter";
@@ -53,6 +54,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
+	private TaskSearcherType type;
 	private String id;
 	private String title;
 	private String icon;
@@ -60,19 +62,25 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	private TaskSorter sorter;
 	private Template template;
 	
-	public TaskSearcher(String title, TaskFilter filter, TaskSorter sorter) {
-		this(title, null, filter, sorter);
+	public TaskSearcher(
+			TaskSearcherType type, 
+			String title, 
+			TaskFilter filter, 
+			TaskSorter sorter) {
+		this(type, title, null, filter, sorter);
 	}
 	
 	public TaskSearcher(
+			TaskSearcherType type, 
 			String title,
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		this(title, icon, filter, sorter, null);
+		this(type, title, icon, filter, sorter, null);
 	}
 	
 	public TaskSearcher(
+			TaskSearcherType type, 
 			String title,
 			String icon,
 			TaskFilter filter,
@@ -82,6 +90,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 		
 		this.setId(UUID.randomUUID().toString());
 		
+		this.setType(type);
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);
@@ -92,6 +101,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	@Override
 	public TaskSearcher clone() {
 		return new TaskSearcher(
+				this.type,
 				this.title,
 				this.icon,
 				this.filter.clone(),
@@ -108,6 +118,20 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 		this.id = id;
 	}
 	
+	public TaskSearcherType getType() {
+		return type;
+	}
+
+	public void setType(TaskSearcherType type) {
+		CheckUtils.isNotNull(type, "Type cannot be null");
+		TaskSearcherType oldType = this.type;
+		this.type = type;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TYPE,
+				oldType,
+				type);
+	}
+
 	public String getTitle() {
 		return this.title;
 	}
