@@ -2,7 +2,7 @@ HISTORY
 -------
 
 Version 0.8.8
-	- Bug fixed: order of tasks with the same title
+	- Bug fixed: Order of tasks with the same title
 	- Bug fixed: Combobox search with multiple letters
 	- FR 3287354: Priority icons
 	- FR 3181023: Editable general searchers
