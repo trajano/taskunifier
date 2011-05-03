@@ -56,6 +56,7 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
@@ -206,12 +207,12 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				
 				ValueModel taskRepeatFromModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT_FROM);
 				templateTaskRepeatFrom.setModel(new ComboBoxAdapter<TaskRepeatFrom>(
-						TaskRepeatFrom.values(),
+						ArrayUtils.concat(new TaskRepeatFrom[] { null }, TaskRepeatFrom.values()),
 						taskRepeatFromModel));
 				
 				ValueModel taskStatusModel = this.adapter.getValueModel(Template.PROP_TASK_STATUS);
 				templateTaskStatus.setModel(new ComboBoxAdapter<TaskStatus>(
-						TaskStatus.values(),
+						ArrayUtils.concat(new TaskStatus[] { null }, TaskStatus.values()),
 						taskStatusModel));
 				
 				LengthConverter taskLengthModel = new LengthConverter(
@@ -227,7 +228,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(Template.PROP_TASK_PRIORITY);
 				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
-						TaskPriority.values(),
+						ArrayUtils.concat(new TaskPriority[] { null }, TaskPriority.values()),
 						taskPriorityModel));
 				
 				ValueModel taskStarModel = this.adapter.getValueModel(Template.PROP_TASK_STAR);

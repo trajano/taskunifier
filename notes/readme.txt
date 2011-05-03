@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.8
+	- Bug fixed: Select empty value in template fields
 	- Bug fixed: Order of tasks with the same title
 	- Bug fixed: Combobox search with multiple letters
 	- FR 3287354: Priority icons
