@@ -32,18 +32,26 @@
  */
 package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.DefaultCellEditor;
+import javax.swing.DropMode;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.renderers.SortOrderListCellRenderer;
+import com.leclercb.taskunifier.gui.components.searcheredit.sorter.draganddrop.TaskSorterTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
@@ -53,7 +61,6 @@ public class TaskSorterTable extends JTable {
 	private static final DefaultTableCellRenderer COLUMN_RENDERER;
 	private static final DefaultTableCellRenderer SORT_ORDER_RENDERER;
 	
-	private static final DefaultCellEditor ORDER_EDITOR;
 	private static final DefaultCellEditor COLUMN_EDITOR;
 	private static final DefaultCellEditor SORT_ORDER_EDITOR;
 	
@@ -64,7 +71,6 @@ public class TaskSorterTable extends JTable {
 		SORT_ORDER_RENDERER = new TaskSorterSortOrderRenderer();
 		
 		// EDITORS
-		ORDER_EDITOR = new DefaultCellEditor(new JTextField());
 		COLUMN_EDITOR = new DefaultCellEditor(
 				new JComboBox(TaskColumn.values()));
 		
@@ -80,20 +86,55 @@ public class TaskSorterTable extends JTable {
 		this.initialize(sorter);
 	}
 	
+	public TaskSorter getTaskSorter() {
+		return ((TaskSorterTableModel) this.getModel()).getTaskSorter();
+	}
+	
+	public TaskSorterElement getTaskSorterElement(int row) {
+		int index = this.getRowSorter().convertRowIndexToModel(row);
+		return ((TaskSorterTableModel) this.getModel()).getTaskSorterElement(index);
+	}
+	
+	public TaskSorterElement[] getSelectedTaskSorterElements() {
+		int[] indexes = this.getSelectedRows();
+		
+		List<TaskSorterElement> sorters = new ArrayList<TaskSorterElement>();
+		for (int i = 0; i < indexes.length; i++)
+			if (indexes[i] != -1)
+				sorters.add(this.getTaskSorterElement(indexes[i]));
+		
+		return sorters.toArray(new TaskSorterElement[0]);
+	}
+	
 	private void initialize(TaskSorter sorter) {
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		TaskSorterTableModel tableModel = new TaskSorterTableModel(sorter);
 		
 		this.setModel(tableModel);
 		this.getTableHeader().setReorderingAllowed(false);
+		
+		this.initializeDragAndDrop();
+		this.initiliazeTableSorter();
+	}
+	
+	private void initializeDragAndDrop() {
+		this.setDragEnabled(true);
+		this.setTransferHandler(new TaskSorterTransferHandler());
+		this.setDropMode(DropMode.INSERT_ROWS);
+	}
+	
+	private void initiliazeTableSorter() {
+		TableRowSorter<TaskSorterTableModel> sorter = new TableRowSorter<TaskSorterTableModel>(
+				(TaskSorterTableModel) this.getModel());
+		sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+		
+		this.setRowSorter(sorter);
 	}
 	
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
-			case 0:
-				return ORDER_EDITOR;
 			case 1:
 				return COLUMN_EDITOR;
 			case 2:

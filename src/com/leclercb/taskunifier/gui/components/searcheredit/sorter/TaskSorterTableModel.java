@@ -55,6 +55,10 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 		this.sorter.addPropertyChangeListener(this);
 	}
 	
+	public TaskSorter getTaskSorter() {
+		return this.sorter;
+	}
+	
 	public TaskSorterElement getTaskSorterElement(int row) {
 		return this.sorter.getElement(row);
 	}
@@ -116,6 +120,9 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	
 	@Override
 	public boolean isCellEditable(int row, int col) {
+		if (col == 0)
+			return false;
+		
 		return true;
 	}
 	
@@ -146,8 +153,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		int index = this.sorter.getIndexOf((TaskSorterElement) event.getSource());
-		this.fireTableRowsUpdated(index, index);
+		this.fireTableDataChanged();
 	}
 	
 }

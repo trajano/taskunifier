@@ -153,7 +153,7 @@ public class TaskTransferHandler extends TransferHandler {
 			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
 			
 			// Import : If insert row
-			if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
+			if (dl.isInsertRow()) {
 				for (Task dragTask : dragTasks)
 					dragTask.setParent(null);
 				
