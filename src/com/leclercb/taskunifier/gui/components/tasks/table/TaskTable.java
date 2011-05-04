@@ -263,17 +263,26 @@ public class TaskTable extends JTable {
 	}
 	
 	public Task getTask(int row) {
-		int index = this.getRowSorter().convertRowIndexToModel(row);
-		return ((TaskTableModel) this.getModel()).getTask(index);
+		try {
+			int index = this.getRowSorter().convertRowIndexToModel(row);
+			return ((TaskTableModel) this.getModel()).getTask(index);
+		} catch (IndexOutOfBoundsException exc) {
+			return null;
+		}
 	}
 	
 	public Task[] getSelectedTasks() {
 		int[] indexes = this.getSelectedRows();
 		
 		List<Task> tasks = new ArrayList<Task>();
-		for (int i = 0; i < indexes.length; i++)
-			if (indexes[i] != -1)
-				tasks.add(this.getTask(indexes[i]));
+		for (int i = 0; i < indexes.length; i++) {
+			if (indexes[i] != -1) {
+				Task task = this.getTask(indexes[i]);
+				
+				if (task != null)
+					tasks.add(task);
+			}
+		}
 		
 		return tasks.toArray(new Task[0]);
 	}

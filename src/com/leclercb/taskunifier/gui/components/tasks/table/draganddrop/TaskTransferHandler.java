@@ -91,6 +91,9 @@ public class TaskTransferHandler extends TransferHandler {
 			// Get Drop Task
 			Task dropTask = table.getTask(dl.getRow());
 			
+			if (dropTask == null)
+				return false;
+			
 			// False if drag task equals to drop task
 			for (Task dragTask : dragTasks)
 				if (dragTask.equals(dropTask))
@@ -163,6 +166,9 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			// Get Drop Task
 			Task dropTask = table.getTask(dl.getRow());
+			
+			if (dropTask == null)
+				return false;
 			
 			// Validate Import
 			if (dropTask.getParent() != null)

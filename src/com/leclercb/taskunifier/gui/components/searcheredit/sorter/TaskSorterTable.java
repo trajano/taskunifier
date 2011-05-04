@@ -56,106 +56,115 @@ import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.Tas
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskSorterTable extends JTable {
-	
+
 	private static final DefaultTableCellRenderer ORDER_RENDERER;
 	private static final DefaultTableCellRenderer COLUMN_RENDERER;
 	private static final DefaultTableCellRenderer SORT_ORDER_RENDERER;
-	
+
 	private static final DefaultCellEditor COLUMN_EDITOR;
 	private static final DefaultCellEditor SORT_ORDER_EDITOR;
-	
+
 	static {
 		// RENDERERS
 		ORDER_RENDERER = new DefaultTableCellRenderer();
 		COLUMN_RENDERER = new DefaultTableCellRenderer();
 		SORT_ORDER_RENDERER = new TaskSorterSortOrderRenderer();
-		
+
 		// EDITORS
 		COLUMN_EDITOR = new DefaultCellEditor(
 				new JComboBox(TaskColumn.values()));
-		
+
 		JComboBox comboBox = null;
-		
+
 		comboBox = new JComboBox(SortOrder.values());
 		comboBox.setRenderer(new SortOrderListCellRenderer());
-		
+
 		SORT_ORDER_EDITOR = new DefaultCellEditor(comboBox);
 	}
-	
+
 	public TaskSorterTable(TaskSorter sorter) {
 		this.initialize(sorter);
 	}
-	
+
 	public TaskSorter getTaskSorter() {
 		return ((TaskSorterTableModel) this.getModel()).getTaskSorter();
 	}
-	
+
 	public TaskSorterElement getTaskSorterElement(int row) {
-		int index = this.getRowSorter().convertRowIndexToModel(row);
-		return ((TaskSorterTableModel) this.getModel()).getTaskSorterElement(index);
+		try {
+			int index = this.getRowSorter().convertRowIndexToModel(row);
+			return ((TaskSorterTableModel) this.getModel()).getTaskSorterElement(index);
+		} catch (IndexOutOfBoundsException exc) {
+			return null;
+		}
 	}
-	
+
 	public TaskSorterElement[] getSelectedTaskSorterElements() {
 		int[] indexes = this.getSelectedRows();
-		
-		List<TaskSorterElement> sorters = new ArrayList<TaskSorterElement>();
-		for (int i = 0; i < indexes.length; i++)
-			if (indexes[i] != -1)
-				sorters.add(this.getTaskSorterElement(indexes[i]));
-		
-		return sorters.toArray(new TaskSorterElement[0]);
+
+		List<TaskSorterElement> elements = new ArrayList<TaskSorterElement>();
+		for (int i = 0; i < indexes.length; i++) {
+			if (indexes[i] != -1) {
+				TaskSorterElement element = this.getTaskSorterElement(indexes[i]);
+
+				if (element != null)
+					elements.add(element);
+			}
+		}
+
+		return elements.toArray(new TaskSorterElement[0]);
 	}
-	
+
 	private void initialize(TaskSorter sorter) {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
+
 		TaskSorterTableModel tableModel = new TaskSorterTableModel(sorter);
-		
+
 		this.setModel(tableModel);
 		this.getTableHeader().setReorderingAllowed(false);
-		
+
 		this.initializeDragAndDrop();
 		this.initiliazeTableSorter();
 	}
-	
+
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new TaskSorterTransferHandler());
 		this.setDropMode(DropMode.INSERT_ROWS);
 	}
-	
+
 	private void initiliazeTableSorter() {
 		TableRowSorter<TaskSorterTableModel> sorter = new TableRowSorter<TaskSorterTableModel>(
 				(TaskSorterTableModel) this.getModel());
 		sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
-		
+
 		this.setRowSorter(sorter);
 	}
-	
+
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
-			case 1:
-				return COLUMN_EDITOR;
-			case 2:
-				return SORT_ORDER_EDITOR;
-			default:
-				return super.getCellEditor(row, col);
+		case 1:
+			return COLUMN_EDITOR;
+		case 2:
+			return SORT_ORDER_EDITOR;
+		default:
+			return super.getCellEditor(row, col);
 		}
 	}
-	
+
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int col) {
 		switch (col) {
-			case 0:
-				return ORDER_RENDERER;
-			case 1:
-				return COLUMN_RENDERER;
-			case 2:
-				return SORT_ORDER_RENDERER;
-			default:
-				return super.getCellRenderer(row, col);
+		case 0:
+			return ORDER_RENDERER;
+		case 1:
+			return COLUMN_RENDERER;
+		case 2:
+			return SORT_ORDER_RENDERER;
+		default:
+			return super.getCellRenderer(row, col);
 		}
 	}
-	
+
 }
