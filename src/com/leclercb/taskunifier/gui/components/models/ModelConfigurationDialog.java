@@ -50,14 +50,24 @@ import com.leclercb.taskunifier.gui.components.models.panels.ContextConfiguratio
 import com.leclercb.taskunifier.gui.components.models.panels.FolderConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelConfigurationDialog extends JDialog {
 	
+	private static ModelConfigurationDialog INSTANCE = null;
+	
+	public static ModelConfigurationDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ModelConfigurationDialog(MainFrame.getInstance().getFrame());
+		
+		return INSTANCE;
+	}
+	
 	private JTabbedPane tabbedPane;
 	
-	public ModelConfigurationDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	private ModelConfigurationDialog(Frame frame) {
+		super(frame, true);
 		this.initialize();
 	}
 	
@@ -93,6 +103,7 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setSize(600, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());

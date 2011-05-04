@@ -62,7 +62,6 @@ import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.searcherlist.items.ModelItem;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -261,12 +260,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	}
 	
 	private void openManageModels(ModelItem item) {
-		ModelConfigurationDialog dialog = new ModelConfigurationDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		
+		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedModel(item.getModelType(), item.getModel());
-		
 		dialog.setVisible(true);
 	}
 	
