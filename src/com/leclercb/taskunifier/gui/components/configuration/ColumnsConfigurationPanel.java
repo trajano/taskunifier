@@ -79,7 +79,7 @@ public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE + "x")) {
+				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
 					TaskColumn column = (TaskColumn) evt.getSource();
 					JCheckBox checkBox = (ConfigurationFieldType.CheckBox) getField(column.name()).getType();
 					checkBox.setSelected((Boolean) evt.getNewValue());
