@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -93,7 +93,7 @@ public class Plugin implements PropertyChangeSupported {
 			String downloadUrl,
 			String history,
 			String price) {
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 		
 		this.setStatus(status);
 		this.setId(id);

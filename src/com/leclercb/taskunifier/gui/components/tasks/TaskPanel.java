@@ -44,7 +44,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.properties.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
@@ -71,7 +71,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	private TaskTable taskTable;
 
 	public TaskPanel() {
-		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(this);
+		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(true, this);
 		this.initialize();
 	}
 
@@ -99,7 +99,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	}
 
 	@Override
-	public void saveSettings() {
+	public void saveProperties() {
 		// TODO: add listeners in task table and put this in TaskColumn
 		int i = 0;
 		Enumeration<TableColumn> columns = this.taskTable.getColumnModel().getColumns();

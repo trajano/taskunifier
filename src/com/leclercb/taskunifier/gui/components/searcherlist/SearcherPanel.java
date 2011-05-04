@@ -83,7 +83,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	
 	public SearcherPanel() {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
-				this);
+				true, this);
 		
 		this.initialize();
 	}

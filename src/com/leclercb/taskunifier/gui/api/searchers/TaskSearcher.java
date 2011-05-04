@@ -33,10 +33,10 @@
 package com.leclercb.taskunifier.gui.api.searchers;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
@@ -86,7 +86,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 			TaskFilter filter,
 			TaskSorter sorter,
 			Template template) {
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 		
 		this.setId(UUID.randomUUID().toString());
 		

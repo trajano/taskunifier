@@ -38,7 +38,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 
-import com.leclercb.commons.api.event.ListenerList;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -54,7 +54,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public enum TaskColumn {
-	
+
 	MODEL_ID(ModelId.class, Translations.getString("general.task.id"), false),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
@@ -76,325 +76,317 @@ public enum TaskColumn {
 	STAR(Boolean.class, Translations.getString("general.task.star"), true),
 	NOTE(String.class, Translations.getString("general.task.note"), false),
 	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false);
-	
+
 	private Class<?> type;
 	private String label;
 	private boolean editable;
-	
+
 	private TaskColumn(Class<?> type, String label, boolean editable) {
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
-		
+
 		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().startsWith("taskcolumn")) {
 					if (evt.getNewValue() == null)
 						return;
-					
+
 					if (evt.getPropertyName().equals(
 							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".order"))
+							+ TaskColumn.this.name().toLowerCase()
+							+ ".order"))
 						TaskColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
-					
+
 					if (evt.getPropertyName().equals(
 							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".width"))
+							+ TaskColumn.this.name().toLowerCase()
+							+ ".width"))
 						TaskColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-					
+
 					if (evt.getPropertyName().equals(
 							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".visible"))
+							+ TaskColumn.this.name().toLowerCase()
+							+ ".visible"))
 						TaskColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
 				}
 			}
-			
+
 		});
 	}
-	
+
 	public Class<?> getType() {
 		return this.type;
 	}
-	
+
 	private void setType(Class<?> type) {
 		this.type = type;
 	}
-	
+
 	public int getOrder() {
 		Integer order = Main.SETTINGS.getIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".order");
-		
+
 		if (order == null)
 			return 0;
-		
+
 		return order;
 	}
-	
+
 	public void setOrder(int order) {
 		if (order == this.getOrder())
 			return;
-		
+
 		int oldOrder = this.getOrder();
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".order", order);
 		TaskColumn.firePropertyChange(this, PROP_ORDER, oldOrder, order);
 	}
-	
+
 	public String getLabel() {
 		return this.label;
 	}
-	
+
 	private void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	public int getWidth() {
 		Integer width = Main.SETTINGS.getIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".width");
-		
+
 		if (width == null)
 			return 100;
-		
+
 		return width;
 	}
-	
+
 	public void setWidth(int width) {
 		if (width == this.getWidth())
 			return;
-		
+
 		int oldWidth = this.getWidth();
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".width", width);
 		TaskColumn.firePropertyChange(this, PROP_WIDTH, oldWidth, width);
 	}
-	
+
 	public boolean isEditable() {
 		return this.editable;
 	}
-	
+
 	private void setEditable(boolean editable) {
 		this.editable = editable;
 	}
-	
+
 	public boolean isVisible() {
 		Boolean visible = Main.SETTINGS.getBooleanProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".visible");
-		
+
 		if (visible == null)
 			return true;
-		
+
 		return visible;
 	}
-	
+
 	public void setVisible(boolean visible) {
 		if (visible == this.isVisible())
 			return;
-		
+
 		boolean oldVisible = this.isVisible();
 		Main.SETTINGS.setBooleanProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".visible", visible);
 		TaskColumn.firePropertyChange(this, PROP_VISIBLE, oldVisible, visible);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.label;
 	}
-	
+
 	public static TaskColumn[] getValues(boolean onlyVisible) {
 		TaskColumn[] columns = TaskColumn.values();
 		Arrays.sort(columns, new Comparator<TaskColumn>() {
-			
+
 			@Override
 			public int compare(TaskColumn o1, TaskColumn o2) {
 				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
 			}
-			
+
 		});
-		
+
 		if (!onlyVisible)
 			return columns;
-		
+
 		int count = 0;
 		for (int i = 0; i < columns.length; i++)
 			if (columns[i].isVisible())
 				count++;
-		
+
 		TaskColumn[] visibleColumns = new TaskColumn[count];
 		for (int i = 0, j = 0; i < columns.length; i++)
 			if (columns[i].isVisible())
 				visibleColumns[j++] = columns[i];
-		
+
 		return visibleColumns;
 	}
-	
+
 	public Object getValue(Task task) {
 		switch (this) {
-			case MODEL_ID:
-				return task.getModelId();
-			case TITLE:
-				return task.getTitle();
-			case TAGS:
-				return ArrayUtils.arrayToString(task.getTags(), ", ");
-			case FOLDER:
-				return task.getFolder();
-			case CONTEXT:
-				return task.getContext();
-			case GOAL:
-				return task.getGoal();
-			case LOCATION:
-				return task.getLocation();
-			case PARENT:
-				return task.getParent();
-			case COMPLETED:
-				return task.isCompleted();
-			case COMPLETED_ON:
-				return task.getCompletedOn();
-			case DUE_DATE:
-				return task.getDueDate();
-			case START_DATE:
-				return task.getStartDate();
-			case REMINDER:
-				return task.getReminder();
-			case REPEAT:
-				return task.getRepeat();
-			case REPEAT_FROM:
-				return task.getRepeatFrom();
-			case STATUS:
-				return task.getStatus();
-			case LENGTH:
-				return task.getLength();
-			case PRIORITY:
-				return task.getPriority();
-			case STAR:
-				return task.isStar();
-			case NOTE:
-				return task.getNote();
-			case IMPORTANCE:
-				return TaskUtils.getImportance(task);
-			default:
-				return null;
+		case MODEL_ID:
+			return task.getModelId();
+		case TITLE:
+			return task.getTitle();
+		case TAGS:
+			return ArrayUtils.arrayToString(task.getTags(), ", ");
+		case FOLDER:
+			return task.getFolder();
+		case CONTEXT:
+			return task.getContext();
+		case GOAL:
+			return task.getGoal();
+		case LOCATION:
+			return task.getLocation();
+		case PARENT:
+			return task.getParent();
+		case COMPLETED:
+			return task.isCompleted();
+		case COMPLETED_ON:
+			return task.getCompletedOn();
+		case DUE_DATE:
+			return task.getDueDate();
+		case START_DATE:
+			return task.getStartDate();
+		case REMINDER:
+			return task.getReminder();
+		case REPEAT:
+			return task.getRepeat();
+		case REPEAT_FROM:
+			return task.getRepeatFrom();
+		case STATUS:
+			return task.getStatus();
+		case LENGTH:
+			return task.getLength();
+		case PRIORITY:
+			return task.getPriority();
+		case STAR:
+			return task.isStar();
+		case NOTE:
+			return task.getNote();
+		case IMPORTANCE:
+			return TaskUtils.getImportance(task);
+		default:
+			return null;
 		}
 	}
-	
+
 	public void setValue(Task task, Object value) {
 		switch (this) {
-			case MODEL_ID:
-				break;
-			case TITLE:
-				task.setTitle((String) value);
-				break;
-			case TAGS:
-				task.setTags(((String) value).split(","));
-				break;
-			case FOLDER:
-				task.setFolder((Folder) value);
-				break;
-			case CONTEXT:
-				task.setContext((Context) value);
-				break;
-			case GOAL:
-				task.setGoal((Goal) value);
-				break;
-			case LOCATION:
-				task.setLocation((Location) value);
-				break;
-			case PARENT:
-				task.setParent((Task) value);
-				break;
-			case COMPLETED:
-				task.setCompleted((Boolean) value);
-				break;
-			case COMPLETED_ON:
-				task.setCompletedOn((Calendar) value);
-				break;
-			case DUE_DATE:
-				task.setDueDate((Calendar) value);
-				break;
-			case START_DATE:
-				task.setStartDate((Calendar) value);
-				break;
-			case REMINDER:
-				if (value == null || !(value instanceof Integer))
-					task.setReminder(0);
-				else
-					task.setReminder((Integer) value);
-				break;
-			case REPEAT:
-				task.setRepeat((String) value);
-				break;
-			case REPEAT_FROM:
-				task.setRepeatFrom((TaskRepeatFrom) value);
-				break;
-			case STATUS:
-				task.setStatus((TaskStatus) value);
-				break;
-			case LENGTH:
-				if (value == null)
-					task.setLength(0);
-				else
-					task.setLength((Integer) value);
-				break;
-			case PRIORITY:
-				task.setPriority((TaskPriority) value);
-				break;
-			case STAR:
-				task.setStar((Boolean) value);
-				break;
-			case NOTE:
-				task.setNote((String) value);
-				break;
-			case IMPORTANCE:
-				break;
+		case MODEL_ID:
+			break;
+		case TITLE:
+			task.setTitle((String) value);
+			break;
+		case TAGS:
+			task.setTags(((String) value).split(","));
+			break;
+		case FOLDER:
+			task.setFolder((Folder) value);
+			break;
+		case CONTEXT:
+			task.setContext((Context) value);
+			break;
+		case GOAL:
+			task.setGoal((Goal) value);
+			break;
+		case LOCATION:
+			task.setLocation((Location) value);
+			break;
+		case PARENT:
+			task.setParent((Task) value);
+			break;
+		case COMPLETED:
+			task.setCompleted((Boolean) value);
+			break;
+		case COMPLETED_ON:
+			task.setCompletedOn((Calendar) value);
+			break;
+		case DUE_DATE:
+			task.setDueDate((Calendar) value);
+			break;
+		case START_DATE:
+			task.setStartDate((Calendar) value);
+			break;
+		case REMINDER:
+			if (value == null || !(value instanceof Integer))
+				task.setReminder(0);
+			else
+				task.setReminder((Integer) value);
+			break;
+		case REPEAT:
+			task.setRepeat((String) value);
+			break;
+		case REPEAT_FROM:
+			task.setRepeatFrom((TaskRepeatFrom) value);
+			break;
+		case STATUS:
+			task.setStatus((TaskStatus) value);
+			break;
+		case LENGTH:
+			if (value == null)
+				task.setLength(0);
+			else
+				task.setLength((Integer) value);
+			break;
+		case PRIORITY:
+			task.setPriority((TaskPriority) value);
+			break;
+		case STAR:
+			task.setStar((Boolean) value);
+			break;
+		case NOTE:
+			task.setNote((String) value);
+			break;
+		case IMPORTANCE:
+			break;
 		}
 	}
-	
+
 	public static final String PROP_ORDER = "order";
 	public static final String PROP_WIDTH = "width";
 	public static final String PROP_VISIBLE = "visible";
-	
-	private static ListenerList<PropertyChangeListener> propertyChangeListenerList;
-	
+
+	private static PropertyChangeSupport propertyChangeSupport;
+
 	static {
-		propertyChangeListenerList = new ListenerList<PropertyChangeListener>();
+		propertyChangeSupport = new PropertyChangeSupport(true, TaskColumn.class);
 	}
-	
+
 	public static void addPropertyChangeListener(PropertyChangeListener listener) {
-		TaskColumn.propertyChangeListenerList.addListener(listener);
+		TaskColumn.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
-	
+
 	public static void removePropertyChangeListener(
 			PropertyChangeListener listener) {
-		TaskColumn.propertyChangeListenerList.removeListener(listener);
+		TaskColumn.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
-	
-	protected static void firePropertyChange(PropertyChangeEvent event) {
-		if (propertyChangeListenerList != null)
-			for (PropertyChangeListener listener : TaskColumn.propertyChangeListenerList)
-				listener.propertyChange(event);
+
+	private static void firePropertyChange(Object source,
+			String propertyName, Object oldValue, Object newValue) {
+		TaskColumn.propertyChangeSupport.firePropertyChange(
+				new PropertyChangeEvent(
+						source, 
+						propertyName, 
+						oldValue, 
+						newValue));
 	}
-	
-	protected static void firePropertyChange(
-			Object source,
-			String property,
-			Object oldValue,
-			Object newValue) {
-		firePropertyChange(new PropertyChangeEvent(
-				source,
-				property,
-				oldValue,
-				newValue));
-	}
-	
+
 }

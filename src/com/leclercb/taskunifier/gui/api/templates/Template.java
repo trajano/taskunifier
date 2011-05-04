@@ -33,11 +33,11 @@
 package com.leclercb.taskunifier.gui.api.templates;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.UUID;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
@@ -108,7 +108,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	public Template(String id, String title) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 		
 		this.setId(id);
 		this.setTitle(title);

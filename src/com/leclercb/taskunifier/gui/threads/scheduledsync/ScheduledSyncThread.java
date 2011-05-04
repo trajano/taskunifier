@@ -34,8 +34,8 @@ package com.leclercb.taskunifier.gui.threads.scheduledsync;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -51,7 +51,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	private boolean paused;
 	
 	public ScheduledSyncThread() {
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 		
 		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;

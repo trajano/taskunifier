@@ -53,7 +53,7 @@ import com.explodingpixels.macwidgets.SourceListModel;
 import com.explodingpixels.macwidgets.SourceListSelectionListener;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.properties.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -104,7 +104,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 
 	public SearcherList() {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
-				this);
+				true, this);
 
 		this.initialize();
 	}
@@ -649,7 +649,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	}
 
 	@Override
-	public void saveSettings() {
+	public void saveProperties() {
 		Main.SETTINGS.setBooleanProperty(
 				this.generalCategory.getExpandedPropetyName(),
 				this.list.isExpanded(this.generalCategory));

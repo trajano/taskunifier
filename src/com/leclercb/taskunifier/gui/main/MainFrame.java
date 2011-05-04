@@ -61,7 +61,7 @@ import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.properties.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
@@ -259,7 +259,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	}
 	
 	@Override
-	public void saveSettings() {
+	public void saveProperties() {
 		Main.SETTINGS.setIntegerProperty(
 				"window.extended_state",
 				this.getExtendedState());

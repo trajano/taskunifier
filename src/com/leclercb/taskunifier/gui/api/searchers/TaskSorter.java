@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.api.searchers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +46,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.ListUtils;
@@ -72,7 +72,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 				int order,
 				TaskColumn column,
 				SortOrder sortOrder) {
-			this.propertyChangeSupport = new PropertyChangeSupport(this);
+			this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 			
 			this.setOrder(order);
 			this.setColumn(column);
@@ -154,8 +154,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 	private List<TaskSorterElement> elements;
 	
 	public TaskSorter() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		this.listChangeSupport = new ListChangeSupport(true, this);
+		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
 		
 		this.elements = new ArrayList<TaskSorterElement>();
 	}

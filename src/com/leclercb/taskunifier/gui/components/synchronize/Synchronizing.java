@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.gui.logger.GuiLogger;
 
 public class Synchronizing {
@@ -43,7 +43,7 @@ public class Synchronizing {
 	
 	private static boolean synchronizing = false;
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			Synchronizing.class);
+			true, Synchronizing.class);
 	
 	public synchronized static boolean isSynchronizing() {
 		return synchronizing;
