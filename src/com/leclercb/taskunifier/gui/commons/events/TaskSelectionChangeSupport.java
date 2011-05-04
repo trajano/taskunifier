@@ -39,20 +39,15 @@ public class TaskSelectionChangeSupport implements TaskSelectionChangeSupported 
 	
 	private ListenerList<TaskSelectionListener> listeners;
 	
-	private boolean weak;
 	private Object source;
 	
-	public TaskSelectionChangeSupport(boolean weak, Object source) {
+	public TaskSelectionChangeSupport(Object source) {
 		this.listeners = new ListenerList<TaskSelectionListener>();
-		this.weak = weak;
 		this.source = source;
 	}
 	
 	@Override
 	public void addTaskSelectionChangeListener(TaskSelectionListener listener) {
-		if (weak)
-			listener = new WeakTaskSelectionListener(this, listener);
-		
 		this.listeners.addListener(listener);
 	}
 	

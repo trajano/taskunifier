@@ -71,7 +71,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	private TaskTable taskTable;
 
 	public TaskPanel() {
-		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(true, this);
+		this.taskSelectionChangeSupport = new TaskSelectionChangeSupport(this);
 		this.initialize();
 	}
 

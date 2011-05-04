@@ -72,7 +72,7 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 				int order,
 				TaskColumn column,
 				SortOrder sortOrder) {
-			this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+			this.propertyChangeSupport = new PropertyChangeSupport(this);
 			
 			this.setOrder(order);
 			this.setColumn(column);
@@ -154,8 +154,8 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 	private List<TaskSorterElement> elements;
 	
 	public TaskSorter() {
-		this.listChangeSupport = new ListChangeSupport(true, this);
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.elements = new ArrayList<TaskSorterElement>();
 	}

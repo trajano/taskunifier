@@ -104,7 +104,7 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 
 	public SearcherList() {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
-				true, this);
+				this);
 
 		this.initialize();
 	}

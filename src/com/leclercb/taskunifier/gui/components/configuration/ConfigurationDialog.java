@@ -56,6 +56,15 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
 	
+	private static ConfigurationDialog INSTANCE = null;
+	
+	public static ConfigurationDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ConfigurationDialog(MainFrame.getInstance().getFrame());
+		
+		return INSTANCE;
+	}
+	
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
@@ -65,8 +74,8 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	
-	public ConfigurationDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	public ConfigurationDialog(Frame frame) {
+		super(frame, true);
 		
 		this.initialize();
 	}

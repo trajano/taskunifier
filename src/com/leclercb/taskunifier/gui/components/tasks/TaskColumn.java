@@ -367,7 +367,7 @@ public enum TaskColumn {
 	private static PropertyChangeSupport propertyChangeSupport;
 
 	static {
-		propertyChangeSupport = new PropertyChangeSupport(true, TaskColumn.class);
+		propertyChangeSupport = new PropertyChangeSupport(TaskColumn.class);
 	}
 
 	public static void addPropertyChangeListener(PropertyChangeListener listener) {

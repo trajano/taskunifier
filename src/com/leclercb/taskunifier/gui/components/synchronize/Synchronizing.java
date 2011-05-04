@@ -43,7 +43,7 @@ public class Synchronizing {
 	
 	private static boolean synchronizing = false;
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			true, Synchronizing.class);
+			Synchronizing.class);
 	
 	public synchronized static boolean isSynchronizing() {
 		return synchronizing;

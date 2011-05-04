@@ -67,8 +67,8 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	private List<Template> templates;
 	
 	private TemplateFactory() {
-		this.listChangeSupport = new ListChangeSupport(true, this);
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.defaultTemplate = null;
 		this.templates = new ArrayList<Template>();

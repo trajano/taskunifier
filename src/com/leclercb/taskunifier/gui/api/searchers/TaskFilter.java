@@ -348,7 +348,7 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 		public static final String PROP_VALUE = "value";
 		
 		private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-				true, this);
+				this);
 		
 		private TaskFilter parent;
 		private TaskColumn column;
@@ -612,8 +612,8 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	private List<TaskFilterElement> elements;
 	
 	public TaskFilter() {
-		this.listChangeSupport = new ListChangeSupport(true, this);
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setParent(null);
 		this.setLink(Link.AND);

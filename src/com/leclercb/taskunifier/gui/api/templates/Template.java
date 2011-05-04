@@ -108,7 +108,7 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 	public Template(String id, String title) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setId(id);
 		this.setTitle(title);

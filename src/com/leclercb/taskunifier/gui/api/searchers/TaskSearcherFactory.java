@@ -63,8 +63,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	private List<TaskSearcher> searchers;
 	
 	private TaskSearcherFactory() {
-		this.listChangeSupport = new ListChangeSupport(true, this);
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.searchers = new ArrayList<TaskSearcher>();
 	}

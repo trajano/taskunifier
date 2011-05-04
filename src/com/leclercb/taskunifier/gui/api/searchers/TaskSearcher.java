@@ -86,7 +86,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 			TaskFilter filter,
 			TaskSorter sorter,
 			Template template) {
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setId(UUID.randomUUID().toString());
 		

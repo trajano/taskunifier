@@ -93,7 +93,7 @@ public class Plugin implements PropertyChangeSupported {
 			String downloadUrl,
 			String history,
 			String price) {
-		this.propertyChangeSupport = new PropertyChangeSupport(true, this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setStatus(status);
 		this.setId(id);
