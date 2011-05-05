@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.tasks.edit;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -44,7 +43,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.api.models.Task;
@@ -94,12 +92,7 @@ public class TaskEditDialog extends JDialog {
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
-		JLabel label = new JLabel(
-				Translations.getString("task_edit.how_to_edit"));
-		label.setForeground(Color.GRAY);
-		
-		panel.add(label, BorderLayout.NORTH);
-		panel.add(taskEditPanel, BorderLayout.CENTER);
+		panel.add(taskEditPanel, BorderLayout.NORTH);
 		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel(buttonsPanel);
