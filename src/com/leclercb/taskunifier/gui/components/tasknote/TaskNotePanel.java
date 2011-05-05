@@ -48,7 +48,6 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.StyledEditorKit;
 
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.api.models.Task;
@@ -180,16 +179,10 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 	}
 	
 	private String convertTextNoteToHtml(String note) {
-		String[] lines = note.split("(\r\n|\r|\n|\n\r)");
+		if (note.length() == 0)
+			return " ";
 		
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].startsWith("<"))
-				continue;
-			
-			lines[i] = lines[i] + "<br />";
-		}
-		
-		return ArrayUtils.arrayToString(lines, "\n");
+		return note;
 	}
 	
 	@Override
