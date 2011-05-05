@@ -33,24 +33,30 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.leclercb.taskunifier.gui.main.Main;
+
 public class CalendarRenderer extends DefaultRenderer {
-	
+
 	private DateFormat formatter;
-	
-	public CalendarRenderer(DateFormat formatter) {
-		this.formatter = formatter;
+
+	public CalendarRenderer() {
+		this.formatter = new SimpleDateFormat(
+				Main.SETTINGS.getStringProperty("date.date_format")
+				+ " "
+				+ Main.SETTINGS.getStringProperty("date.time_format"));
 	}
-	
+
 	@Override
 	public void setValue(Object value) {
 		if (value == null || !(value instanceof Calendar)) {
 			this.setText("");
 			return;
 		}
-		
+
 		this.setText((value == null ? "" : this.formatter.format(((Calendar) value).getTime())));
 	}
-	
+
 }

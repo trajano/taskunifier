@@ -35,12 +35,14 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import com.leclercb.taskunifier.gui.main.Main;
+
 public class LengthRenderer extends DefaultRenderer {
 	
 	private DateFormat formatter;
 	
-	public LengthRenderer(DateFormat formatter) {
-		this.formatter = formatter;
+	public LengthRenderer() {
+		this.formatter = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 	}
 	
 	@Override

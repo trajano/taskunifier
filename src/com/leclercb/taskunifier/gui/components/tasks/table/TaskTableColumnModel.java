@@ -32,33 +32,24 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableColumn;
+import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
-public class TaskTableColumnModel extends DefaultTableColumnModel {
-	
+public class TaskTableColumnModel extends DefaultTableColumnModelExt {
+
 	public TaskTableColumnModel() {
 		this.initialize();
 	}
-	
+
 	private void initialize() {
-		TaskColumn[] columns = TaskColumn.getValues(true);
-		for (int i = 0; i < columns.length; i++)
-			this.addColumn(columns[i]);
+		TaskColumn[] taskColumns = TaskColumn.values();
+		for (int i = 0; i < taskColumns.length; i++)
+			this.addColumn(new TaskTableColumn(taskColumns[i]));
 	}
-	
-	public void addColumn(TaskColumn taskColumn) {
-		TableColumn column = new TableColumn(taskColumn.ordinal());
-		column.setIdentifier(taskColumn);
-		column.setHeaderValue(taskColumn.getLabel());
-		column.setPreferredWidth(taskColumn.getWidth());
-		this.addColumn(column);
-	}
-	
+
 	public TaskColumn getTaskColumn(int col) {
 		return (TaskColumn) this.getColumn(col).getIdentifier();
 	}
-	
+
 }

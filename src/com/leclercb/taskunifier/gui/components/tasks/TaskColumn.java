@@ -34,10 +34,7 @@ package com.leclercb.taskunifier.gui.components.tasks;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
-
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.Context;
@@ -77,11 +74,19 @@ public enum TaskColumn {
 	NOTE(String.class, Translations.getString("general.task.note"), false),
 	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false);
 
+	public static final String PROP_ORDER = "order";
+	public static final String PROP_WIDTH = "width";
+	public static final String PROP_VISIBLE = "visible";
+
+	private PropertyChangeSupport propertyChangeSupport;
+	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
 
 	private TaskColumn(Class<?> type, String label, boolean editable) {
+		this.propertyChangeSupport = new PropertyChangeSupport(TaskColumn.class);
+		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
@@ -144,7 +149,7 @@ public enum TaskColumn {
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".order", order);
-		TaskColumn.firePropertyChange(this, PROP_ORDER, oldOrder, order);
+		this.propertyChangeSupport.firePropertyChange(PROP_ORDER, oldOrder, order);
 	}
 
 	public String getLabel() {
@@ -174,7 +179,7 @@ public enum TaskColumn {
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".width", width);
-		TaskColumn.firePropertyChange(this, PROP_WIDTH, oldWidth, width);
+		this.propertyChangeSupport.firePropertyChange(PROP_WIDTH, oldWidth, width);
 	}
 
 	public boolean isEditable() {
@@ -204,39 +209,12 @@ public enum TaskColumn {
 		Main.SETTINGS.setBooleanProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".visible", visible);
-		TaskColumn.firePropertyChange(this, PROP_VISIBLE, oldVisible, visible);
+		this.propertyChangeSupport.firePropertyChange(PROP_VISIBLE, oldVisible, visible);
 	}
 
 	@Override
 	public String toString() {
 		return this.label;
-	}
-
-	public static TaskColumn[] getValues(boolean onlyVisible) {
-		TaskColumn[] columns = TaskColumn.values();
-		Arrays.sort(columns, new Comparator<TaskColumn>() {
-
-			@Override
-			public int compare(TaskColumn o1, TaskColumn o2) {
-				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
-			}
-
-		});
-
-		if (!onlyVisible)
-			return columns;
-
-		int count = 0;
-		for (int i = 0; i < columns.length; i++)
-			if (columns[i].isVisible())
-				count++;
-
-		TaskColumn[] visibleColumns = new TaskColumn[count];
-		for (int i = 0, j = 0; i < columns.length; i++)
-			if (columns[i].isVisible())
-				visibleColumns[j++] = columns[i];
-
-		return visibleColumns;
 	}
 
 	public Object getValue(Task task) {
@@ -360,33 +338,13 @@ public enum TaskColumn {
 		}
 	}
 
-	public static final String PROP_ORDER = "order";
-	public static final String PROP_WIDTH = "width";
-	public static final String PROP_VISIBLE = "visible";
-
-	private static PropertyChangeSupport propertyChangeSupport;
-
-	static {
-		propertyChangeSupport = new PropertyChangeSupport(TaskColumn.class);
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 
-	public static void addPropertyChangeListener(PropertyChangeListener listener) {
-		TaskColumn.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	public static void removePropertyChangeListener(
+	public void removePropertyChangeListener(
 			PropertyChangeListener listener) {
-		TaskColumn.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	private static void firePropertyChange(Object source,
-			String propertyName, Object oldValue, Object newValue) {
-		TaskColumn.propertyChangeSupport.firePropertyChange(
-				new PropertyChangeEvent(
-						source, 
-						propertyName, 
-						oldValue, 
-						newValue));
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
 }

@@ -33,13 +33,20 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
-public class TitleEditor extends DefaultCellEditor {
-	
-	public TitleEditor() {
-		super(new JTextField());
-		this.setClickCountToStart(2);
+import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
+import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
+
+public class StatusEditor extends DefaultCellEditor {
+
+	public StatusEditor() {
+		super(new JComboBox());
+
+		JComboBox comboBox = (JComboBox) this.getComponent();
+
+		comboBox.setModel(new TaskStatusModel());
+		comboBox.setRenderer(new TaskStatusListCellRenderer());
 	}
-	
+
 }
