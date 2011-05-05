@@ -53,6 +53,9 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
 import javax.swing.TransferHandler;
+
+import org.jdesktop.swingx.JXTable;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -65,7 +68,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSorter;
 
-public class TaskTable extends TaskTableUI {
+public class TaskTable extends JXTable {
 
 	private TaskSearcher searcher;
 	private TaskTableMenu taskTableMenu;
