@@ -54,6 +54,7 @@ public class TaskTableMenu extends JPopupMenu {
 	
 	private JMenuItem itemEditTask;
 	private JMenuItem itemDuplicateTasks;
+	private JMenuItem itemSortTasks;
 	
 	public TaskTableMenu(TaskTable taskTable) {
 		super(Translations.getString("general.task"));
@@ -120,6 +121,22 @@ public class TaskTableMenu extends JPopupMenu {
 		});
 		
 		this.add(this.itemDuplicateTasks);
+		
+		this.addSeparator();
+		
+		this.itemSortTasks = new JMenuItem(
+				Translations.getString("general.sort"),
+				Images.getResourceImage("synchronize.png", 16, 16));
+		this.itemSortTasks.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				MainFrame.getInstance().getTaskView().refreshTasks();
+			}
+			
+		});
+		
+		this.add(this.itemSortTasks);
 	}
 	
 }
