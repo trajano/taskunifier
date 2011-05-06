@@ -157,7 +157,7 @@ public class Main {
 						
 						if (laf != null) {
 							laf.setLookAndFeel();
-						
+							
 							SETTINGS.setStringProperty(
 									"theme.lookandfeel",
 									laf.getIdentifier());

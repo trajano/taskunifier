@@ -62,6 +62,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	public SynchronizationConfigurationPanel(boolean welcome) {
 		super(Help.getHelpFile("configuration_synchronization.html"));
 		this.initialize(welcome);
+		this.initializeListeners();
 		this.pack();
 	}
 	

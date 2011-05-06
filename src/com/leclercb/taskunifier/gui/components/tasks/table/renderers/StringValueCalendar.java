@@ -41,22 +41,22 @@ import org.jdesktop.swingx.renderer.StringValue;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class StringValueCalendar implements StringValue {
-
+	
 	private DateFormat formatter;
-
+	
 	public StringValueCalendar() {
 		this.formatter = new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
-				+ " "
-				+ Main.SETTINGS.getStringProperty("date.time_format"));
+						+ " "
+						+ Main.SETTINGS.getStringProperty("date.time_format"));
 	}
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Calendar))
 			return "";
-
+		
 		return this.formatter.format(((Calendar) value).getTime());
 	}
-
+	
 }

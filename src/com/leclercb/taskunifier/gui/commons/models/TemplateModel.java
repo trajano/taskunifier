@@ -44,24 +44,24 @@ import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 
 public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
-
+	
 	public TemplateModel(boolean firstNull) {
 		super(new TemplateComparator());
 		this.initialize(firstNull);
 	}
-
+	
 	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
-
+		
 		List<Template> templates = TemplateFactory.getInstance().getList();
 		for (Template template : templates)
 			this.addElement(template);
-
+		
 		TemplateFactory.getInstance().addListChangeListener(this);
 		TemplateFactory.getInstance().addPropertyChangeListener(this);
 	}
-
+	
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -70,7 +70,7 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 			this.removeElement(event.getValue());
 		}
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof TemplateFactory) {
@@ -80,12 +80,12 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 						this,
 						0,
 						TemplateFactory.getInstance().size() - 1);
-
+			
 			return;
 		}
-
+		
 		int index = this.getIndexOf(event.getSource());
 		this.fireContentsChanged(this, index, index);
 	}
-
+	
 }

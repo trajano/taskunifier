@@ -35,13 +35,13 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 import org.jdesktop.swingx.renderer.StringValue;
 
 public class StringValueTitle implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof String))
 			return "";
-
+		
 		return (String) value;
 	}
-
+	
 }

@@ -60,18 +60,18 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		this.template = template;
 		
-		template.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(Template.PROP_TITLE)) {
-					ActionAddTemplateTask.this.putValue(
-							NAME,
-							ActionAddTemplateTask.this.template.getTitle());
-				}
-			}
-			
-		});
+		template.addPropertyChangeListener(
+				Template.PROP_TITLE,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						ActionAddTemplateTask.this.putValue(
+								NAME,
+								ActionAddTemplateTask.this.template.getTitle());
+					}
+					
+				});
 	}
 	
 	@Override

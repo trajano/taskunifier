@@ -50,6 +50,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	public ProxyConfigurationPanel() {
 		super(Help.getHelpFile("configuration_proxy.html"));
 		this.initialize();
+		this.initializeListeners();
 		this.pack();
 	}
 	

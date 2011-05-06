@@ -58,19 +58,17 @@ public final class SynchronizerUtils {
 	
 	public static void initializeTaskRepeat() {
 		TaskFactory.getInstance().addPropertyChangeListener(
+				Task.PROP_COMPLETED,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						if (Task.PROP_COMPLETED.equals(evt.getPropertyName())) {
-							Task task = (Task) evt.getSource();
-							
-							if (task == null || !task.isCompleted())
-								return;
-							
-							getPlugin().getSynchronizerApi().createRepeatTask(
-									task);
-						}
+						Task task = (Task) evt.getSource();
+						
+						if (task == null || !task.isCompleted())
+							return;
+						
+						getPlugin().getSynchronizerApi().createRepeatTask(task);
 					}
 					
 				});

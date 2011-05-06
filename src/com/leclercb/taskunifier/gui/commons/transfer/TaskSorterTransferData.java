@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.commons.transfer;
 
 import java.io.Serializable;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 
 public class TaskSorterTransferData implements Serializable {
@@ -48,9 +49,9 @@ public class TaskSorterTransferData implements Serializable {
 		
 		this.elementIndexes = elementIndexes;
 	}
-
+	
 	public int[] getElementIndexes() {
-		return elementIndexes;
+		return this.elementIndexes;
 	}
 	
 }

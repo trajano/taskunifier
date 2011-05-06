@@ -59,7 +59,8 @@ public class ModelConfigurationDialog extends JDialog {
 	
 	public static ModelConfigurationDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new ModelConfigurationDialog(MainFrame.getInstance().getFrame());
+			INSTANCE = new ModelConfigurationDialog(
+					MainFrame.getInstance().getFrame());
 		
 		return INSTANCE;
 	}

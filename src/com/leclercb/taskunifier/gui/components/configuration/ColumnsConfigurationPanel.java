@@ -32,6 +32,11 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JCheckBox;
+
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
@@ -42,6 +47,7 @@ public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ColumnsConfigurationPanel() {
 		this.initialize();
+		this.initializeListeners();
 		this.pack();
 	}
 	
@@ -68,6 +74,24 @@ public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 					taskColumn.name(),
 					taskColumn.getLabel(),
 					new ConfigurationFieldType.CheckBox(taskColumn.isVisible())));
+		}
+	}
+	
+	private void initializeListeners() {
+		for (TaskColumn taskColumn : TaskColumn.values()) {
+			final TaskColumn tc = taskColumn;
+			taskColumn.addPropertyChangeListener(
+					TaskColumn.PROP_VISIBLE,
+					new PropertyChangeListener() {
+						
+						@Override
+						public void propertyChange(PropertyChangeEvent evt) {
+							JCheckBox checkBox = ((ConfigurationFieldType.CheckBox) ColumnsConfigurationPanel.this.getField(
+									tc.name()).getType()).getFieldComponent();
+							checkBox.setSelected(tc.isVisible());
+						}
+						
+					});
 		}
 	}
 	

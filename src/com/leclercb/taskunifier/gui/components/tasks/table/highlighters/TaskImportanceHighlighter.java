@@ -48,57 +48,56 @@ public class TaskImportanceHighlighter extends AbstractHighlighter {
 	public TaskImportanceHighlighter() {
 		super();
 	}
-
+	
 	public TaskImportanceHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
-
+	
 	@Override
-	protected Component doHighlight(Component renderer,
-			ComponentAdapter adapter) {
+	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
-				adapter.row, 
+				adapter.row,
 				adapter.getColumnIndex(TaskColumn.TASK));
-
+		
 		if (value == null || !(value instanceof Task))
 			return renderer;
-
+		
 		int importance = TaskUtils.getImportance((Task) value);
-
+		
 		switch (importance) {
-		case 0:
-			renderer.setBackground(Color.WHITE);
-			break;
-		case 1:
-			renderer.setBackground(new Color(153, 255, 255));
-			break;
-		case 2:
-			renderer.setBackground(new Color(204, 255, 255));
-			break;
-		case 3:
-			renderer.setBackground(new Color(153, 255, 204));
-			break;
-		case 4:
-			renderer.setBackground(new Color(204, 255, 204));
-			break;
-		case 5:
-			renderer.setBackground(new Color(204, 255, 153));
-			break;
-		case 6:
-			renderer.setBackground(new Color(255, 255, 204));
-			break;
-		case 7:
-			renderer.setBackground(new Color(255, 255, 153));
-			break;
-		case 8:
-			renderer.setBackground(new Color(255, 204, 153));
-			break;
-		case 9:
-			renderer.setBackground(new Color(255, 204, 204));
-			break;
+			case 0:
+				renderer.setBackground(Color.WHITE);
+				break;
+			case 1:
+				renderer.setBackground(new Color(153, 255, 255));
+				break;
+			case 2:
+				renderer.setBackground(new Color(204, 255, 255));
+				break;
+			case 3:
+				renderer.setBackground(new Color(153, 255, 204));
+				break;
+			case 4:
+				renderer.setBackground(new Color(204, 255, 204));
+				break;
+			case 5:
+				renderer.setBackground(new Color(204, 255, 153));
+				break;
+			case 6:
+				renderer.setBackground(new Color(255, 255, 204));
+				break;
+			case 7:
+				renderer.setBackground(new Color(255, 255, 153));
+				break;
+			case 8:
+				renderer.setBackground(new Color(255, 204, 153));
+				break;
+			case 9:
+				renderer.setBackground(new Color(255, 204, 204));
+				break;
 		}
-
+		
 		return renderer;
 	}
-
+	
 }

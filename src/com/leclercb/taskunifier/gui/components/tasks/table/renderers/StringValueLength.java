@@ -40,30 +40,30 @@ import org.jdesktop.swingx.renderer.StringValue;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class StringValueLength implements StringValue {
-
+	
 	private DateFormat formatter;
-
+	
 	public StringValueLength() {
 		this.formatter = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 	}
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))
 			return "";
-
+		
 		int hour = 0;
 		int minute = 0;
-
+		
 		if (value != null) {
 			hour = ((Integer) value) / 60;
 			minute = ((Integer) value) % 60;
 		}
-
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(0, 0, 0, hour, minute, 0);
-
+		
 		return this.formatter.format(calendar.getTime());
 	}
-
+	
 }

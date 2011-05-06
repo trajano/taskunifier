@@ -39,16 +39,16 @@ import org.jdesktop.swingx.renderer.IconValue;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class IconValueCompleted implements IconValue {
-
+	
 	@Override
 	public Icon getIcon(Object value) {
 		if (value == null || !(value instanceof Boolean))
 			return Images.getResourceImage("checkbox.png", 16, 16);
-
+		
 		if ((Boolean) value)
 			return Images.getResourceImage("checkbox_selected.png", 16, 16);
 		else
 			return Images.getResourceImage("checkbox.png", 16, 16);
 	}
-
+	
 }

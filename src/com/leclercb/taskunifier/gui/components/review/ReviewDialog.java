@@ -46,21 +46,21 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ReviewDialog extends JDialog {
-
+	
 	private static ReviewDialog INSTANCE;
-
+	
 	public static ReviewDialog getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new ReviewDialog();
-
+		
 		return INSTANCE;
 	}
-
+	
 	public ReviewDialog() {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.review"));
@@ -71,34 +71,34 @@ public class ReviewDialog extends JDialog {
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-
+		
 		ReviewPanel reviewPanel = new ReviewPanel();
 		reviewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(reviewPanel, BorderLayout.CENTER);
-
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.add(buttonPanel, BorderLayout.SOUTH);
-
+		
 		this.initializeButtons(buttonPanel);
 	}
-
+	
 	private void initializeButtons(JPanel buttonPanel) {
 		ActionListener actionListener = new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ReviewDialog.this.dispose();
 			}
-
+			
 		};
-
+		
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.addActionListener(actionListener);
 		buttonPanel.add(okButton);
-
+		
 		this.getRootPane().setDefaultButton(okButton);
 	}
-
+	
 }

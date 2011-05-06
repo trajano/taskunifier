@@ -44,7 +44,7 @@ import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 
 public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
-
+	
 	public static final String PROP_TYPE = "type";
 	public static final String PROP_TITLE = "title";
 	public static final String PROP_ICON = "icon";
@@ -63,15 +63,15 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	private Template template;
 	
 	public TaskSearcher(
-			TaskSearcherType type, 
-			String title, 
-			TaskFilter filter, 
+			TaskSearcherType type,
+			String title,
+			TaskFilter filter,
 			TaskSorter sorter) {
 		this(type, title, null, filter, sorter);
 	}
 	
 	public TaskSearcher(
-			TaskSearcherType type, 
+			TaskSearcherType type,
 			String title,
 			String icon,
 			TaskFilter filter,
@@ -80,7 +80,7 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	}
 	
 	public TaskSearcher(
-			TaskSearcherType type, 
+			TaskSearcherType type,
 			String title,
 			String icon,
 			TaskFilter filter,
@@ -119,19 +119,16 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	}
 	
 	public TaskSearcherType getType() {
-		return type;
+		return this.type;
 	}
-
+	
 	public void setType(TaskSearcherType type) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		TaskSearcherType oldType = this.type;
 		this.type = type;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TYPE,
-				oldType,
-				type);
+		this.propertyChangeSupport.firePropertyChange(PROP_TYPE, oldType, type);
 	}
-
+	
 	public String getTitle() {
 		return this.title;
 	}
@@ -228,6 +225,15 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 	@Override

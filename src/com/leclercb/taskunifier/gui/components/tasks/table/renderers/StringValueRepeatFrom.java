@@ -38,13 +38,13 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class StringValueRepeatFrom implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskRepeatFrom))
 			return "";
-
+		
 		return TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value);
 	}
-
+	
 }

@@ -77,7 +77,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRe
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 
 public class TaskTableColumn extends TableColumnExt {
-
+	
 	private static final TableCellRenderer CALENDAR_RENDERER;
 	private static final TableCellRenderer COMPLETED_RENDERER;
 	private static final TableCellRenderer DEFAULT_RENDERER;
@@ -91,7 +91,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TableCellRenderer TASK_STATUS_RENDERER;
 	private static final TableCellRenderer TASK_TITLE_RENDERER;
-
+	
 	private static final TableCellEditor BOOLEAN_EDITOR;
 	private static final TableCellEditor CONTEXT_EDITOR;
 	private static final TableCellEditor DATE_EDITOR;
@@ -105,59 +105,46 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor TASK_PRIORITY_EDITOR;
 	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
 	private static final TableCellEditor TASK_STATUS_EDITOR;
-
+	
 	static {
-		CALENDAR_RENDERER = new DefaultTableRenderer(
-				new StringValueCalendar());
-
-		COMPLETED_RENDERER = new DefaultTableRenderer(
-				new MappedValue(
-						null, 
-						new IconValueCompleted(), 
-						new BooleanValueBoolean()), 
-						SwingConstants.CENTER);
-
+		CALENDAR_RENDERER = new DefaultTableRenderer(new StringValueCalendar());
+		
+		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				new IconValueCompleted(),
+				new BooleanValueBoolean()), SwingConstants.CENTER);
+		
 		DEFAULT_RENDERER = new DefaultRenderer();
-
-		LENGTH_RENDERER = new DefaultTableRenderer(
-				new StringValueLength());
-
-		MODEL_ID_RENDERER = new DefaultTableRenderer(
-				new StringValueModelId());
-
-		MODEL_RENDERER = new DefaultTableRenderer(
-				new MappedValue(
-						new StringValueModel(), 
-						new IconValueModel()));
-
-		REMINDER_RENDERER = new DefaultTableRenderer(
-				new StringValueReminder());
-
-		REPEAT_RENDERER = new DefaultTableRenderer(
-				new StringValueRepeat());
-
-		STAR_RENDERER = new DefaultTableRenderer(
-				new MappedValue(
-						null, 
-						new IconValueStar(), 
-						new BooleanValueBoolean()), 
-						SwingConstants.CENTER);
-
-		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(
-				new MappedValue(
-						new StringValuePriority(), 
-						new IconValuePriority(), 
-						null));
-
+		
+		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueLength());
+		
+		MODEL_ID_RENDERER = new DefaultTableRenderer(new StringValueModelId());
+		
+		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
+				new StringValueModel(),
+				new IconValueModel()));
+		
+		REMINDER_RENDERER = new DefaultTableRenderer(new StringValueReminder());
+		
+		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueRepeat());
+		
+		STAR_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				new IconValueStar(),
+				new BooleanValueBoolean()), SwingConstants.CENTER);
+		
+		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
+				new StringValuePriority(),
+				new IconValuePriority(),
+				null));
+		
 		TASK_REPEAT_FROM_RENDERER = new DefaultTableRenderer(
 				new StringValueRepeatFrom());
-
-		TASK_STATUS_RENDERER = new DefaultTableRenderer(
-				new StringValueStatus());
-
+		
+		TASK_STATUS_RENDERER = new DefaultTableRenderer(new StringValueStatus());
+		
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
-
-
+		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
 		DATE_EDITOR = new DateEditor();
@@ -172,140 +159,140 @@ public class TaskTableColumn extends TableColumnExt {
 		TASK_REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		TASK_STATUS_EDITOR = new StatusEditor();
 	}
-
+	
 	private TaskColumn taskColumn;
-
+	
 	public TaskTableColumn(TaskColumn taskColumn) {
 		super(taskColumn.ordinal());
-
+		
 		CheckUtils.isNotNull(taskColumn, "Task column cannot be null");
-
+		
 		this.taskColumn = taskColumn;
-
+		
 		this.setIdentifier(taskColumn);
 		this.setHeaderValue(taskColumn.getLabel());
 		this.setPreferredWidth(taskColumn.getWidth());
 		this.setVisible(taskColumn.isVisible());
-
+		
 		this.taskColumn.addPropertyChangeListener(new PropertyChangeListener() {
-
+			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
 					TaskTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
-
+				
 				if (evt.getPropertyName().equals(TaskColumn.PROP_WIDTH)) {
 					TaskTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
-
+			
 		});
 	}
-
+	
 	@Override
 	public Comparator<?> getComparator() {
 		if (this.taskColumn == TaskColumn.TASK)
 			return TaskRowComparator.getInstance();
-
+		
 		return super.getComparator();
 	}
-
+	
 	@Override
 	public boolean isSortable() {
 		if (this.taskColumn == TaskColumn.TASK)
 			return true;
-
+		
 		return false;
 	}
-
+	
 	@Override
 	public void setPreferredWidth(int preferredWidth) {
 		this.taskColumn.setWidth(preferredWidth);
 		super.setPreferredWidth(preferredWidth);
 	}
-
+	
 	@Override
 	public void setVisible(boolean visible) {
 		this.taskColumn.setVisible(visible);
 		super.setVisible(visible);
 	}
-
+	
 	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (taskColumn) {
-		case TASK:
-			return MODEL_ID_RENDERER;
-		case TITLE:
-			return TASK_TITLE_RENDERER;
-		case COMPLETED:
-			return COMPLETED_RENDERER;
-		case CONTEXT:
-		case FOLDER:
-		case GOAL:
-		case LOCATION:
-			return MODEL_RENDERER;
-		case COMPLETED_ON:
-		case DUE_DATE:
-		case START_DATE:
-			return CALENDAR_RENDERER;
-		case REMINDER:
-			return REMINDER_RENDERER;
-		case LENGTH:
-			return LENGTH_RENDERER;
-		case STAR:
-			return STAR_RENDERER;
-		case PRIORITY:
-			return TASK_PRIORITY_RENDERER;
-		case REPEAT:
-			return REPEAT_RENDERER;
-		case REPEAT_FROM:
-			return TASK_REPEAT_FROM_RENDERER;
-		case STATUS:
-			return TASK_STATUS_RENDERER;
-		default:
-			return DEFAULT_RENDERER;
+		switch (this.taskColumn) {
+			case TASK:
+				return MODEL_ID_RENDERER;
+			case TITLE:
+				return TASK_TITLE_RENDERER;
+			case COMPLETED:
+				return COMPLETED_RENDERER;
+			case CONTEXT:
+			case FOLDER:
+			case GOAL:
+			case LOCATION:
+				return MODEL_RENDERER;
+			case COMPLETED_ON:
+			case DUE_DATE:
+			case START_DATE:
+				return CALENDAR_RENDERER;
+			case REMINDER:
+				return REMINDER_RENDERER;
+			case LENGTH:
+				return LENGTH_RENDERER;
+			case STAR:
+				return STAR_RENDERER;
+			case PRIORITY:
+				return TASK_PRIORITY_RENDERER;
+			case REPEAT:
+				return REPEAT_RENDERER;
+			case REPEAT_FROM:
+				return TASK_REPEAT_FROM_RENDERER;
+			case STATUS:
+				return TASK_STATUS_RENDERER;
+			default:
+				return DEFAULT_RENDERER;
 		}
 	}
-
+	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (taskColumn) {
-		case TITLE:
-			return GENERIC_EDITOR;
-		case TAGS:
-			return GENERIC_EDITOR;
-		case FOLDER:
-			return FOLDER_EDITOR;
-		case CONTEXT:
-			return CONTEXT_EDITOR;
-		case GOAL:
-			return GOAL_EDITOR;
-		case LOCATION:
-			return LOCATION_EDITOR;
-		case COMPLETED:
-			return BOOLEAN_EDITOR;
-		case DUE_DATE:
-			return DATE_EDITOR;
-		case START_DATE:
-			return DATE_EDITOR;
-		case REPEAT:
-			return REPEAT_EDITOR;
-		case REMINDER:
-			return REMINDER_EDITOR;
-		case REPEAT_FROM:
-			return TASK_REPEAT_FROM_EDITOR;
-		case STATUS:
-			return TASK_STATUS_EDITOR;
-		case LENGTH:
-			return LENGTH_EDITOR;
-		case PRIORITY:
-			return TASK_PRIORITY_EDITOR;
-		case STAR:
-			return BOOLEAN_EDITOR;
-		default:
-			return super.getCellEditor();
+		switch (this.taskColumn) {
+			case TITLE:
+				return GENERIC_EDITOR;
+			case TAGS:
+				return GENERIC_EDITOR;
+			case FOLDER:
+				return FOLDER_EDITOR;
+			case CONTEXT:
+				return CONTEXT_EDITOR;
+			case GOAL:
+				return GOAL_EDITOR;
+			case LOCATION:
+				return LOCATION_EDITOR;
+			case COMPLETED:
+				return BOOLEAN_EDITOR;
+			case DUE_DATE:
+				return DATE_EDITOR;
+			case START_DATE:
+				return DATE_EDITOR;
+			case REPEAT:
+				return REPEAT_EDITOR;
+			case REMINDER:
+				return REMINDER_EDITOR;
+			case REPEAT_FROM:
+				return TASK_REPEAT_FROM_EDITOR;
+			case STATUS:
+				return TASK_STATUS_EDITOR;
+			case LENGTH:
+				return LENGTH_EDITOR;
+			case PRIORITY:
+				return TASK_PRIORITY_EDITOR;
+			case STAR:
+				return BOOLEAN_EDITOR;
+			default:
+				return super.getCellEditor();
 		}
 	}
-
+	
 }

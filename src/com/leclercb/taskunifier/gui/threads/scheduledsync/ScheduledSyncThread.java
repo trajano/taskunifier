@@ -111,6 +111,15 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	}
 	
 	@Override
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}

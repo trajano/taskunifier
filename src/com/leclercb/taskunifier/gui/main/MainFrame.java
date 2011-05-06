@@ -536,19 +536,18 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		
 		this.searcherPanel = new SearcherPanel();
 		
-		this.searcherPanel.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						SearcherPanel.PROP_TITLE_FILTER)) {
-					String filter = (String) evt.getNewValue();
-					if (!MainFrame.this.searchField.getText().equals(filter))
-						MainFrame.this.searchField.setText(filter);
-				}
-			}
-			
-		});
+		this.searcherPanel.addPropertyChangeListener(
+				SearcherPanel.PROP_TITLE_FILTER,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						String filter = (String) evt.getNewValue();
+						if (!MainFrame.this.searchField.getText().equals(filter))
+							MainFrame.this.searchField.setText(filter);
+					}
+					
+				});
 		
 		panel.add(this.searcherPanel, BorderLayout.CENTER);
 		

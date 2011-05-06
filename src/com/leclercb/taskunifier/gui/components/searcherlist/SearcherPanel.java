@@ -129,10 +129,11 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		
 		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null
 				&& Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end")) {
-			searcher.getSorter().addElement(new TaskSorterElement(
-					0,
-					TaskColumn.COMPLETED,
-					SortOrder.ASCENDING));
+			searcher.getSorter().addElement(
+					new TaskSorterElement(
+							0,
+							TaskColumn.COMPLETED,
+							SortOrder.ASCENDING));
 		}
 		
 		return searcher;
@@ -269,7 +270,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		TaskSearcher searcher = SearcherPanel.this.searcherView.getSelectedTaskSearcher();
 		
 		if (searcher != null && searcher.getType().isEditable()) {
-			boolean foundInFactory = TaskSearcherFactory.getInstance().contains(searcher.getId());
+			boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
+					searcher.getId());
 			
 			if (!foundInFactory)
 				return;
@@ -299,11 +301,14 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		if (searcher == null)
 			return;
 		
-		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(searcher.getId());
+		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
+				searcher.getId());
 		
 		this.setTitleFilter(null);
-		this.removeAction.setEnabled(foundInFactory && searcher.getType().isDeletable());
-		this.editAction.setEnabled(foundInFactory && searcher.getType().isEditable());
+		this.removeAction.setEnabled(foundInFactory
+				&& searcher.getType().isDeletable());
+		this.editAction.setEnabled(foundInFactory
+				&& searcher.getType().isEditable());
 		
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}

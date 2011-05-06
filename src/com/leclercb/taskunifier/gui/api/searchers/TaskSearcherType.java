@@ -17,31 +17,31 @@ public enum TaskSearcherType {
 		this.setDeletable(deletable);
 		this.setLabel(label);
 	}
-
+	
 	public boolean isEditable() {
-		return editable;
+		return this.editable;
 	}
-
+	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
 	}
-
+	
 	public boolean isDeletable() {
-		return deletable;
+		return this.deletable;
 	}
-
+	
 	private void setDeletable(boolean deletable) {
 		this.deletable = deletable;
 	}
-
+	
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
-
+	
 	private void setLabel(String label) {
 		this.label = label;
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.label;

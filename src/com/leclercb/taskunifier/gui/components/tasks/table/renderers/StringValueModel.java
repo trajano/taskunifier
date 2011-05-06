@@ -37,13 +37,13 @@ import org.jdesktop.swingx.renderer.StringValue;
 import com.leclercb.taskunifier.api.models.Model;
 
 public class StringValueModel implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof Model))
 			return "";
-
+		
 		return ((Model) value).getTitle();
 	}
-
+	
 }

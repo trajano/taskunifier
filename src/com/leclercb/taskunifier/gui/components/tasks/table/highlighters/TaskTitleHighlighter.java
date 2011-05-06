@@ -10,5 +10,5 @@ public class TaskTitleHighlighter extends ToolTipHighlighter {
 	public TaskTitleHighlighter(HighlightPredicate predicate) {
 		super(predicate, new StringValueTitle());
 	}
-
+	
 }

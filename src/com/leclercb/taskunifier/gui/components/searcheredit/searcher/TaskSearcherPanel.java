@@ -67,7 +67,7 @@ import com.leclercb.taskunifier.gui.utils.Images;
 public class TaskSearcherPanel extends JPanel implements PropertyChangeListener {
 	
 	private TaskSearcher searcher;
-
+	
 	private JComboBox searcherType;
 	private JButton searcherIcon;
 	private JTextField searcherTitle;
@@ -94,7 +94,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		searcherTypeModel.addElement(TaskSearcherType.PERSONAL);
 		
 		this.searcherType = new JComboBox(searcherTypeModel);
-		this.searcherType.setSelectedItem(searcher.getType());
+		this.searcherType.setSelectedItem(this.searcher.getType());
 		this.searcherType.addItemListener(new ItemListener() {
 			
 			@Override
@@ -126,7 +126,8 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				fileChooser.setCurrentDirectory(new File(TaskSearcherPanel.this.searcher.getIcon()));
+				fileChooser.setCurrentDirectory(new File(
+						TaskSearcherPanel.this.searcher.getIcon()));
 				fileChooser.setFileFilter(new FileFilter() {
 					
 					@Override

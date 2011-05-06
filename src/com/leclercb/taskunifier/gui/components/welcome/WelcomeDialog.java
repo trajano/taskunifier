@@ -83,30 +83,30 @@ public class WelcomeDialog extends JDialog {
 		super(frame, modal);
 		
 		// For API Configuration Panel
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("api.id")) {
-					SettingsPanel synchronizationPanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 2];
-					SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
+		Main.SETTINGS.addPropertyChangeListener(
+				"api.id",
+				new PropertyChangeListener() {
 					
-					synchronizationPanel.reset(
-							Translations.getString("configuration.tab.synchronization"),
-							new SynchronizationConfigurationPanel(true));
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						SettingsPanel synchronizationPanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 2];
+						SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
+						
+						synchronizationPanel.reset(
+								Translations.getString("configuration.tab.synchronization"),
+								new SynchronizationConfigurationPanel(true));
+						
+						servicePanel.reset(
+								SynchronizerUtils.getPlugin().getName(),
+								new PluginConfigurationPanel(
+										false,
+										SynchronizerUtils.getPlugin()));
+						
+						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
+						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
+					}
 					
-					servicePanel.reset(
-							SynchronizerUtils.getPlugin().getName(),
-							new PluginConfigurationPanel(
-									false,
-									SynchronizerUtils.getPlugin()));
-					
-					((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
-					((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
-				}
-			}
-			
-		});
+				});
 		
 		this.initialize();
 	}

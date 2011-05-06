@@ -41,17 +41,17 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskHighlightPredicate implements HighlightPredicate {
-
+	
 	@Override
 	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
-				adapter.row, 
+				adapter.row,
 				adapter.getColumnIndex(TaskColumn.TASK));
-
+		
 		if (value == null || !(value instanceof Task))
 			return false;
-
+		
 		return ((Task) value).isCompleted();
 	}
-
+	
 }

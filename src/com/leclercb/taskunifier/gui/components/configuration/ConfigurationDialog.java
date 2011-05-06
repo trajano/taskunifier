@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +55,15 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
 	
+	private static ConfigurationDialog INSTANCE;
+	
+	public static ConfigurationDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ConfigurationDialog();
+		
+		return INSTANCE;
+	}
+	
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
@@ -65,8 +73,8 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	
-	public ConfigurationDialog(Frame frame) {
-		super(frame, true);
+	private ConfigurationDialog() {
+		super(MainFrame.getInstance().getFrame(), true);
 		
 		this.initialize();
 	}
@@ -96,15 +104,16 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("api.id"))
-					ConfigurationDialog.this.refreshSynchronizationPanels();
-			}
-			
-		});
+		Main.SETTINGS.addPropertyChangeListener(
+				"api.id",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						ConfigurationDialog.this.refreshSynchronizationPanels();
+					}
+					
+				});
 	}
 	
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
@@ -188,7 +197,7 @@ public class ConfigurationDialog extends JDialog {
 	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
 				false);
-		this.tabbedPane.addTab(
+		thistabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
 				ComponentFactory.createJScrollPane(
 						this.synchronizationConfigurationPanel,

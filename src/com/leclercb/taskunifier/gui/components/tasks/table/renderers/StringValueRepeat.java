@@ -31,16 +31,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
+
 import org.jdesktop.swingx.renderer.StringValue;
 
 public class StringValueRepeat implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof String))
 			return "";
-
+		
 		return (String) value;
 	}
-
+	
 }

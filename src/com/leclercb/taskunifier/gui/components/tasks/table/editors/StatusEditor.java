@@ -39,14 +39,14 @@ import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
 
 public class StatusEditor extends DefaultCellEditor {
-
+	
 	public StatusEditor() {
 		super(new JComboBox());
-
+		
 		JComboBox comboBox = (JComboBox) this.getComponent();
-
+		
 		comboBox.setModel(new TaskStatusModel(false));
 		comboBox.setRenderer(new TaskStatusListCellRenderer());
 	}
-
+	
 }

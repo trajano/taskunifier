@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 public class DefaultRenderer extends DefaultTableCellRenderer {
 	
 	public DefaultRenderer() {
-		
+
 	}
 	
 	@Override

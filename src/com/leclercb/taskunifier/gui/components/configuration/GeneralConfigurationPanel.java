@@ -58,6 +58,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
 		this.languageOnly = languageOnly;
 		this.initialize();
+		this.initializeListeners();
 		this.pack();
 	}
 	
@@ -222,7 +223,8 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"RESET_GENERAL_SEARCHERS",
 					null,
-					new ConfigurationFieldType.Button(new ActionResetGeneralSearchers(22, 22))));
+					new ConfigurationFieldType.Button(
+							new ActionResetGeneralSearchers(22, 22))));
 		}
 	}
 	

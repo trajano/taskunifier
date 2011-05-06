@@ -35,13 +35,13 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 import org.jdesktop.swingx.renderer.BooleanValue;
 
 public class BooleanValueBoolean implements BooleanValue {
-
+	
 	@Override
 	public boolean getBoolean(Object value) {
 		if (value == null || !(value instanceof Boolean))
 			return false;
-
+		
 		return (Boolean) value;
 	}
-
+	
 }

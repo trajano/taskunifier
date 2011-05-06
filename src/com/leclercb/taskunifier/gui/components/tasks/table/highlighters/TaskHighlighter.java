@@ -42,20 +42,19 @@ import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 
 public class TaskHighlighter extends AbstractHighlighter {
-
+	
 	public TaskHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
-
+	
 	@Override
-	protected Component doHighlight(Component renderer,
-			ComponentAdapter adapter) {
+	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
 		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(
 				renderer.getFont().getAttributes());
 		attributes.put(TextAttribute.STRIKETHROUGH, true);
 		renderer.setFont(renderer.getFont().deriveFont(attributes));
-
+		
 		return renderer;
 	}
-
+	
 }

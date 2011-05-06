@@ -41,15 +41,15 @@ import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskTableColumnModel extends DefaultTableColumnModelExt {
-
+	
 	public TaskTableColumnModel() {
 		this.initialize();
 	}
-
+	
 	private void initialize() {
 		TaskColumn[] taskColumns = TaskColumn.values();
 		Arrays.sort(taskColumns, new Comparator<TaskColumn>() {
-
+			
 			@Override
 			public int compare(TaskColumn c1, TaskColumn c2) {
 				return CompareUtils.compare(c1.getOrder(), c2.getOrder());
@@ -60,7 +60,7 @@ public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 		for (int i = 0; i < taskColumns.length; i++)
 			this.addColumn(new TaskTableColumn(taskColumns[i]));
 	}
-
+	
 	public TaskColumn getTaskColumn(int col) {
 		return (TaskColumn) this.getColumn(col).getIdentifier();
 	}
@@ -72,5 +72,5 @@ public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 		
 		super.moveColumn(columnIndex, newIndex);
 	}
-
+	
 }

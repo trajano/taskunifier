@@ -37,36 +37,36 @@ import org.jdesktop.swingx.renderer.StringValue;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StringValueReminder implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))
 			return "";
-
+		
 		String text = null;
 		Integer reminder = (Integer) value;
-
+		
 		switch (reminder) {
-		case 0:
-			text = Translations.getString("general.task.reminder.no_reminder");
-			break;
-		case 60:
-			text = Translations.getString("general.task.reminder.one_hour");
-			break;
-		case 60 * 24:
-			text = Translations.getString("general.task.reminder.one_day");
-			break;
-		case 60 * 24 * 7:
-			text = Translations.getString("general.task.reminder.one_week");
-			break;
-		default:
-			text = Translations.getString(
-					"general.task.reminder.x_minutes",
-					reminder);
-			break;
+			case 0:
+				text = Translations.getString("general.task.reminder.no_reminder");
+				break;
+			case 60:
+				text = Translations.getString("general.task.reminder.one_hour");
+				break;
+			case 60 * 24:
+				text = Translations.getString("general.task.reminder.one_day");
+				break;
+			case 60 * 24 * 7:
+				text = Translations.getString("general.task.reminder.one_week");
+				break;
+			default:
+				text = Translations.getString(
+						"general.task.reminder.x_minutes",
+						reminder);
+				break;
 		}
-
+		
 		return text;
 	}
-
+	
 }

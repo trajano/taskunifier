@@ -17,5 +17,5 @@ public class ReminderEditor extends DefaultCellEditor {
 		comboBox.setRenderer(new TaskReminderListCellRenderer());
 		comboBox.setEditable(true);
 	}
-
+	
 }

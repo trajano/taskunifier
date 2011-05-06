@@ -162,7 +162,12 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		TaskSearcher searcher = new TaskSearcher(type, title, icon, filter, sorter);
+		TaskSearcher searcher = new TaskSearcher(
+				type,
+				title,
+				icon,
+				filter,
+				sorter);
 		this.register(searcher);
 		return searcher;
 	}
@@ -199,6 +204,24 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	/**
+	 * The listener will be notified when a searcher is updated
+	 * for the specified property name.
+	 * 
+	 * @param propertyName
+	 *            the property name to listen to
+	 * @param listener
+	 *            the listener to notify
+	 */
+	@Override
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 	/**

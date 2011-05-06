@@ -38,13 +38,13 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class StringValueStatus implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskStatus))
 			return "";
-
+		
 		return TranslationsUtils.translateTaskStatus((TaskStatus) value);
 	}
-
+	
 }

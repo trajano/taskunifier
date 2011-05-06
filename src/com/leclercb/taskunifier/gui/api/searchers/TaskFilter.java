@@ -595,6 +595,15 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 		}
 		
 		@Override
+		public void addPropertyChangeListener(
+				String propertyName,
+				PropertyChangeListener listener) {
+			this.propertyChangeSupport.addPropertyChangeListener(
+					propertyName,
+					listener);
+		}
+		
+		@Override
 		public void removePropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.removePropertyChangeListener(listener);
 		}
@@ -792,6 +801,15 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 	@Override

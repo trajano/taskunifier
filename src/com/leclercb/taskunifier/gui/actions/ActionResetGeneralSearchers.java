@@ -9,14 +9,14 @@ import javax.swing.SortOrder;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.DaysCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.EnumCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -42,7 +42,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 	public void actionPerformed(ActionEvent event) {
 		ActionResetGeneralSearchers.resetGeneralSearchers();
 	}
-
+	
 	public static void resetGeneralSearchers() {
 		List<TaskSearcher> oldSearchers = TaskSearcherFactory.getInstance().getList();
 		

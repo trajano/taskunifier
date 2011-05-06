@@ -38,13 +38,13 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class StringValuePriority implements StringValue {
-
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskPriority))
 			return "";
-
+		
 		return TranslationsUtils.translateTaskPriority((TaskPriority) value);
 	}
-
+	
 }

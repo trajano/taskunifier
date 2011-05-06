@@ -63,16 +63,16 @@ public class ActionScheduledSync extends AbstractAction {
 		
 		this.updateIcon();
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						"synchronizer.scheduler_enabled"))
-					ActionScheduledSync.this.updateIcon();
-			}
-			
-		});
+		Main.SETTINGS.addPropertyChangeListener(
+				"synchronizer.scheduler_enabled",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						ActionScheduledSync.this.updateIcon();
+					}
+					
+				});
 	}
 	
 	private void updateIcon() {

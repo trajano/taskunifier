@@ -67,54 +67,51 @@ public abstract class AbstractStatusBar extends JPanel {
 				+ ": "
 				+ date);
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getPropertyName().equals(
-						"synchronizer.last_synchronization_date")) {
-					String date = Translations.getString("statusbar.never");
+		Main.SETTINGS.addPropertyChangeListener(
+				"synchronizer.last_synchronization_date",
+				new PropertyChangeListener() {
 					
-					if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-						date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
-								"synchronizer.last_synchronization_date").getTime());
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						String date = Translations.getString("statusbar.never");
+						
+						if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
+							date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
+									"synchronizer.last_synchronization_date").getTime());
+						
+						AbstractStatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
+								+ ": "
+								+ date);
+					}
 					
-					AbstractStatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
-							+ ": "
-							+ date);
-				}
-			}
-			
-		});
+				});
 	}
 	
 	public final void initializeScheduledSyncStatus(
 			final ScheduledSyncThread thread) {
 		this.updateScheduledSyncStatusText(thread);
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						"synchronizer.scheduler_enabled")) {
-					AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
-				}
-			}
-			
-		});
+		Main.SETTINGS.addPropertyChangeListener(
+				"synchronizer.scheduler_enabled",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
+					}
+					
+				});
 		
-		thread.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						ScheduledSyncThread.PROP_REMAINING_SLEEP_TIME)) {
-					AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
-				}
-			}
-			
-		});
+		thread.addPropertyChangeListener(
+				ScheduledSyncThread.PROP_REMAINING_SLEEP_TIME,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
+					}
+					
+				});
 	}
 	
 	private final void updateScheduledSyncStatusText(ScheduledSyncThread thread) {

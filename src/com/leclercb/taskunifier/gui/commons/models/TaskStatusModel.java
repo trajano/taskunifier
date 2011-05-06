@@ -6,11 +6,11 @@ import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 
 public class TaskStatusModel extends DefaultComboBoxModel {
-
+	
 	public TaskStatusModel(boolean firstNull) {
 		super(ArrayUtils.concat(
-				(firstNull? new TaskStatus[] { null } : new TaskStatus[0]), 
+				(firstNull ? new TaskStatus[] { null } : new TaskStatus[0]),
 				TaskStatus.values()));
 	}
-
+	
 }

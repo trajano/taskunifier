@@ -41,19 +41,16 @@ import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 
 public class IconValueModel implements IconValue {
-
+	
 	@Override
 	public Icon getIcon(Object value) {
 		if (!(value instanceof Model))
 			return new ColorBadgeIcon(null, 12, 12);
-
+		
 		if (value instanceof GuiModel)
-			return new ColorBadgeIcon(
-					((GuiModel) value).getColor(),
-					12,
-					12);
+			return new ColorBadgeIcon(((GuiModel) value).getColor(), 12, 12);
 		else
 			return new ColorBadgeIcon(null, 12, 12);
 	}
-
+	
 }

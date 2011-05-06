@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
+
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskSorterElementComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferData;
@@ -30,7 +31,7 @@ public class TaskSorterTransferHandler extends TransferHandler {
 		TaskSorterElement[] elements = table.getSelectedTaskSorterElements();
 		
 		int[] indexes = new int[elements.length];
-		for (int i=0; i<elements.length; i++)
+		for (int i = 0; i < elements.length; i++)
 			indexes[i] = table.getTaskSorter().getIndexOf(elements[i]);
 		
 		return new TaskSorterTransferable(new TaskSorterTransferData(indexes));
@@ -56,7 +57,7 @@ public class TaskSorterTransferHandler extends TransferHandler {
 			e.printStackTrace();
 			return false;
 		}
-
+		
 		if (support.isDrop()) {
 			TaskSorterTable table = (TaskSorterTable) support.getComponent();
 			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
@@ -70,7 +71,8 @@ public class TaskSorterTransferHandler extends TransferHandler {
 				
 				TaskSorterElement dropElement = table.getTaskSorterElement(table.rowAtPoint(dl.getDropPoint()));
 				
-				List<TaskSorterElement> elements = new ArrayList<TaskSorterElement>(table.getTaskSorter().getElements());
+				List<TaskSorterElement> elements = new ArrayList<TaskSorterElement>(
+						table.getTaskSorter().getElements());
 				Collections.sort(elements, new TaskSorterElementComparator());
 				
 				int index = elements.indexOf(dropElement);
