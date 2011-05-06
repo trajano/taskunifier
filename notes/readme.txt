@@ -8,6 +8,7 @@ Version 0.8.8
 	- Bug fixed: Combobox search with multiple letters
 	- FR 3287354: Priority icons
 	- FR 3181023: Editable general searchers
+	- FR 3207539: Colors by importance
 	- BF 3241160: Task edit window size
 	- Change searcher sort order via drag and drop
 
