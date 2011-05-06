@@ -24,6 +24,4 @@ public class TaskRepeatHighlightPredicate implements HighlightPredicate {
 				(String) value);
 	}
 
-
-
 }
