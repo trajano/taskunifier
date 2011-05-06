@@ -126,6 +126,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				fileChooser.setCurrentDirectory(new File(TaskSearcherPanel.this.searcher.getIcon()));
 				fileChooser.setFileFilter(new FileFilter() {
 					
 					@Override
