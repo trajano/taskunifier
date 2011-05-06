@@ -327,6 +327,7 @@ public final class SettingsVersion {
 		
 		ActionResetGeneralSearchers.resetGeneralSearchers();
 		Main.SETTINGS.setStringProperty("taskcolumn.task.visible", "false");
+		Main.SETTINGS.setStringProperty("theme.color.importance.enabled", "false");
 		
 		return "0.8.8";
 	}

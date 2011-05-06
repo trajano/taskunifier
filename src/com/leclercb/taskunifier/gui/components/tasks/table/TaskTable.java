@@ -54,6 +54,7 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -62,8 +63,9 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
-import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskImportanceHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlightPredicate;
@@ -306,9 +308,17 @@ public class TaskTable extends JXTable {
 			odd = UIManager.getColor("Table.background");
 		}
 
+		Highlighter alternate = null;
+
+		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null &&
+				Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled"))
+			alternate = new TaskImportanceHighlighter();
+		else
+			alternate = new TaskHighlighter(new TaskHighlightPredicate());
+
 		this.setHighlighters(
 				HighlighterFactory.createAlternateStriping(even, odd),
-				new TaskHighlighter(new TaskHighlightPredicate()),
+				alternate,
 				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()),
 				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()));
 	}
