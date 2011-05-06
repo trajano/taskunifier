@@ -45,7 +45,7 @@ public class StatusEditor extends DefaultCellEditor {
 
 		JComboBox comboBox = (JComboBox) this.getComponent();
 
-		comboBox.setModel(new TaskStatusModel());
+		comboBox.setModel(new TaskStatusModel(false));
 		comboBox.setRenderer(new TaskStatusListCellRenderer());
 	}
 

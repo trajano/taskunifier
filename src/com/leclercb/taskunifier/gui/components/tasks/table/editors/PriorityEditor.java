@@ -13,7 +13,7 @@ public class PriorityEditor extends DefaultCellEditor {
 
 		JComboBox comboBox = (JComboBox) this.getComponent();
 
-		comboBox.setModel(new TaskPriorityModel());
+		comboBox.setModel(new TaskPriorityModel(false));
 		comboBox.setRenderer(new TaskPriorityListCellRenderer());
 	}
 

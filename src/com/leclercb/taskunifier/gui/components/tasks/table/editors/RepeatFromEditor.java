@@ -13,7 +13,7 @@ public class RepeatFromEditor extends DefaultCellEditor {
 
 		JComboBox comboBox = (JComboBox) this.getComponent();
 
-		comboBox.setModel(new TaskRepeatFromModel());
+		comboBox.setModel(new TaskRepeatFromModel(false));
 		comboBox.setRenderer(new TaskRepeatFromListCellRenderer());
 	}
 
