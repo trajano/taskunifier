@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.sorter;
 
 import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
@@ -40,30 +41,30 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public class TaskRowFilter extends RowFilter<TaskTableModel, Integer> {
-	
+public class TaskRowFilter extends RowFilter<TableModel, Integer> {
+
 	private TaskFilter filter;
-	
+
 	public TaskRowFilter(TaskFilter filter) {
 		this.setFilter(filter);
 	}
-	
+
 	public TaskFilter getFilter() {
 		return this.filter;
 	}
-	
+
 	public void setFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
 		this.filter = filter;
 	}
-	
+
 	@Override
 	public boolean include(
-			Entry<? extends TaskTableModel, ? extends Integer> entry) {
-		TaskTableModel taskTableModel = entry.getModel();
+			Entry<? extends TableModel, ? extends Integer> entry) {
+		TaskTableModel taskTableModel = (TaskTableModel) entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
-		
+
 		return TaskUtils.showTask(task, this.filter);
 	}
-	
+
 }

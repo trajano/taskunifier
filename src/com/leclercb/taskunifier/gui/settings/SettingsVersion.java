@@ -326,7 +326,7 @@ public final class SettingsVersion {
 				"Update settings from version 0.8.7 to 0.8.8");
 		
 		ActionResetGeneralSearchers.resetGeneralSearchers();
-		Main.SETTINGS.setStringProperty("taskcolumn.model_id.visible", "false");
+		Main.SETTINGS.setStringProperty("taskcolumn.task.visible", "false");
 		
 		return "0.8.8";
 	}

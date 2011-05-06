@@ -32,36 +32,21 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.main.Main;
 
 public class DefaultRenderer extends DefaultTableCellRenderer {
 	
-	private Color even;
-	private Color odd;
-	private Color selected;
-	
 	public DefaultRenderer() {
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
-			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
-			this.odd = Main.SETTINGS.getColorProperty("theme.color.odd");
-		} else {
-			this.even = UIManager.getColor("Table.background");
-			this.odd = UIManager.getColor("Table.background");
-		}
 		
-		this.selected = UIManager.getColor("Table.selectionBackground");
 	}
 	
 	@Override
@@ -81,7 +66,6 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 				column);
 		
 		if (value == null) {
-			component.setBackground(this.getBackgroundColor(isSelected, row));
 			return component;
 		}
 		
@@ -92,19 +76,7 @@ public class DefaultRenderer extends DefaultTableCellRenderer {
 		attributes.put(TextAttribute.STRIKETHROUGH, task.isCompleted());
 		component.setFont(component.getFont().deriveFont(attributes));
 		
-		component.setBackground(this.getBackgroundColor(isSelected, row));
-		
 		return component;
-	}
-	
-	private Color getBackgroundColor(boolean isSelected, int row) {
-		if (isSelected)
-			return this.selected;
-		
-		if (row % 2 == 0)
-			return this.even;
-		
-		return this.odd;
 	}
 	
 }

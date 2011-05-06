@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -51,31 +52,29 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
+import javax.swing.UIManager;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
+import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
-import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskTableRowSorter;
+import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskTable extends JXTable {
 
-	private TaskSearcher searcher;
 	private TaskTableMenu taskTableMenu;
 
 	public TaskTable() {
-		this.searcher = null;
-
 		this.initialize();
 	}
 
@@ -161,34 +160,16 @@ public class TaskTable extends JXTable {
 	}
 
 	public TaskSearcher getTaskSearcher() {
-		return this.searcher;
+		return TaskRowComparator.getInstance().getSearcher();
 	}
 
 	public void setTaskSearcher(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Task searcher cannot be null");
 
-		this.searcher = searcher;
-
-		TaskRowFilter taskRowFilter = (TaskRowFilter) ((TaskTableRowSorter) this.getRowSorter()).getRowFilter();
-		taskRowFilter.setFilter(searcher.getFilter());
-
-		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-		List<TaskSorterElement> sortElements = searcher.getSorter().getElements();
-
-		for (TaskSorterElement element : sortElements) {
-			// Don't sort if column is not visible (does not exist)
-			try {
-				this.getColumn(element.getColumn());
-			} catch (IllegalArgumentException e) {
-				continue;
-			}
-
-			sortKeys.add(new RowSorter.SortKey(
-					this.getColumn(element.getColumn()).getModelIndex(),
-					element.getSortOrder()));
-		}
-
-		this.getRowSorter().setSortKeys(sortKeys);
+		TaskRowComparator.getInstance().setSearcher(searcher);
+		
+		this.setSortOrder(TaskColumn.TASK, SortOrder.ASCENDING);
+		this.getSortController().setRowFilter(new TaskRowFilter(searcher.getFilter()));
 		this.refreshTasks();
 	}
 
@@ -211,9 +192,12 @@ public class TaskTable extends JXTable {
 
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
-		this.initiliazeTableSorter();
 		
-		// SwingX
+		this.initializeHighlighter();
+
+		this.setSortable(true);
+		this.setSortsOnUpdates(false);
+		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 	}
 
@@ -308,31 +292,20 @@ public class TaskTable extends JXTable {
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 						TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
-
-	private void initiliazeTableSorter() {
-		TaskTableRowSorter sorter = new TaskTableRowSorter(
-				(TaskTableModel) this.getModel());
-		sorter.setRowFilter(new TaskRowFilter(new TaskFilter()));
-		this.setRowSorter(sorter);
-	}
-
-	@Override
-	public String getToolTipText(MouseEvent event) {
-		Point p = event.getPoint();
-
-		int colIndex = this.columnAtPoint(p);
-		int rowIndex = this.getRowSorter().convertRowIndexToModel(
-				this.rowAtPoint(p));
-
-		if (((TaskTableColumnModel) this.getColumnModel()).getTaskColumn(colIndex) != TaskColumn.TITLE)
-			return null;
-
-		Task task = ((TaskTableModel) this.getModel()).getTask(rowIndex);
-
-		if (task != null)
-			return task.getTitle();
-
-		return null;
+	
+	private void initializeHighlighter() {
+		Color even = null;
+		Color odd = null;
+		
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
+			even = Main.SETTINGS.getColorProperty("theme.color.even");
+			odd = Main.SETTINGS.getColorProperty("theme.color.odd");
+		} else {
+			even = UIManager.getColor("Table.background");
+			odd = UIManager.getColor("Table.background");
+		}
+		
+		this.setHighlighters(HighlighterFactory.createAlternateStriping(even, odd));
 	}
 
 	private void scrollToVisible(int row, int col) {

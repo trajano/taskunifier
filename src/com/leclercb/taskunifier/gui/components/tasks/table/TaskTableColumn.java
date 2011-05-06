@@ -2,6 +2,7 @@ package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Comparator;
 
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -26,6 +27,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRen
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelIdRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ReminderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.RepeatRenderer;
@@ -34,6 +36,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorit
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskRepeatFromRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskStatusRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 
 public class TaskTableColumn extends TableColumnExt {
 
@@ -41,6 +44,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer DATE_RENDERER;
 	private static final TableCellRenderer DEFAULT_RENDERER;
 	private static final TableCellRenderer LENGTH_RENDERER;
+	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
 	private static final TableCellRenderer REMINDER_RENDERER;
 	private static final TableCellRenderer REPEAT_RENDERER;
@@ -69,6 +73,7 @@ public class TaskTableColumn extends TableColumnExt {
 		DATE_RENDERER = new CalendarRenderer();
 		DEFAULT_RENDERER = new DefaultRenderer();
 		LENGTH_RENDERER = new LengthRenderer();
+		MODEL_ID_RENDERER = new ModelIdRenderer();
 		MODEL_RENDERER = new ModelRenderer();
 		REMINDER_RENDERER = new ReminderRenderer();
 		REPEAT_RENDERER = new RepeatRenderer();
@@ -92,23 +97,23 @@ public class TaskTableColumn extends TableColumnExt {
 		TASK_REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		TASK_STATUS_EDITOR = new StatusEditor();
 	}
-	
+
 	private TaskColumn taskColumn;
-	
+
 	public TaskTableColumn(TaskColumn taskColumn) {
 		super(taskColumn.ordinal());
-		
+
 		CheckUtils.isNotNull(taskColumn, "Task column cannot be null");
-		
+
 		this.taskColumn = taskColumn;
-		
+
 		this.setIdentifier(taskColumn);
 		this.setHeaderValue(taskColumn.getLabel());
 		this.setPreferredWidth(taskColumn.getWidth());
 		this.setVisible(taskColumn.isVisible());
-		
+
 		this.taskColumn.addPropertyChangeListener(new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
@@ -119,15 +124,32 @@ public class TaskTableColumn extends TableColumnExt {
 					TaskTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
+			
 		});
 	}
-	
+
+	@Override
+	public Comparator<?> getComparator() {
+		if (this.taskColumn == TaskColumn.TASK)
+			return TaskRowComparator.getInstance();
+
+		return super.getComparator();
+	}
+
+	@Override
+	public boolean isSortable() {
+		if (this.taskColumn == TaskColumn.TASK)
+			return true;
+
+		return false;
+	}
+
 	@Override
 	public void setPreferredWidth(int preferredWidth) {
 		this.taskColumn.setWidth(preferredWidth);
 		super.setPreferredWidth(preferredWidth);
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		this.taskColumn.setVisible(visible);
@@ -137,6 +159,8 @@ public class TaskTableColumn extends TableColumnExt {
 	@Override
 	public TableCellRenderer getCellRenderer() {
 		switch (taskColumn) {
+		case TASK:
+			return MODEL_ID_RENDERER;
 		case TITLE:
 			return TASK_TITLE_RENDERER;
 		case COMPLETED:
