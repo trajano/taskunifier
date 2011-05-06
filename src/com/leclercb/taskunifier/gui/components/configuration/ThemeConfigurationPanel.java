@@ -61,7 +61,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 	public ThemeConfigurationPanel(Window[] windows) {
 		this.windows = windows;
 		this.initialize();
-		this.initializeListeners();
 		this.pack();
 	}
 	
@@ -113,31 +112,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		LookAndFeelDescriptor themeLookAndFeelValue = null;
-		Boolean themeShowBadges = false;
-		Boolean themeColorImportanceEnabledValue = false;
-		Boolean themeColorEnabledValue = false;
-		Color themeColorEvenValue = Color.WHITE;
-		Color themeColorOddValue = Color.WHITE;
-		
-		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
-			themeLookAndFeelValue = LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
-		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_badges") != null)
-			themeShowBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
-		
-		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null)
-			themeColorImportanceEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled");
-		
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
-			themeColorEnabledValue = Main.SETTINGS.getBooleanProperty("theme.color.enabled");
-		
-		if (Main.SETTINGS.getColorProperty("theme.color.even") != null)
-			themeColorEvenValue = Main.SETTINGS.getColorProperty("theme.color.even");
-		
-		if (Main.SETTINGS.getColorProperty("theme.color.odd") != null)
-			themeColorOddValue = Main.SETTINGS.getColorProperty("theme.color.odd");
-		
 		// Sort look and feels by name
 		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(
 				LookAndFeelUtils.getLookAndFeels());
@@ -157,7 +131,18 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.theme.look_and_feel"),
 				new ConfigurationFieldType.ComboBox(
 						lookAndFeels.toArray(),
-						themeLookAndFeelValue)));
+						Main.SETTINGS,
+						"theme.lookandfeel") {
+					
+					@Override
+					public Object getPropertyValue() {
+						if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
+							return LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
+						else
+							return null;
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"APPLY_THEME",
@@ -199,7 +184,19 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SHOW_BADGES",
 				Translations.getString("configuration.theme.show_badges"),
-				new ConfigurationFieldType.CheckBox(themeShowBadges)));
+				new ConfigurationFieldType.CheckBox(
+						Main.SETTINGS,
+						"searcher.show_badges") {
+					
+					@Override
+					public Boolean getPropertyValue() {
+						if (Main.SETTINGS.getBooleanProperty("searcher.show_badges") != null)
+							return Main.SETTINGS.getBooleanProperty("searcher.show_badges");
+						else
+							return false;
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -216,7 +213,18 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ConfigurationFieldType.CheckBox(
-						themeColorImportanceEnabledValue)));
+						Main.SETTINGS,
+						"theme.color.importance.enabled") {
+					
+					@Override
+					public Boolean getPropertyValue() {
+						if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null)
+							return Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled");
+						else
+							return false;
+					}
+					
+				}));
 		
 		final JCheckBox colorsByImportance = ((ConfigurationFieldType.CheckBox) this.getField(
 				"COLORS_IMPORTANCE_ENABLED").getType()).getFieldComponent();
@@ -224,17 +232,51 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",
 				Translations.getString("configuration.theme.colors_enabled"),
-				new ConfigurationFieldType.CheckBox(themeColorEnabledValue)));
+				new ConfigurationFieldType.CheckBox(
+						Main.SETTINGS,
+						"theme.color.enabled") {
+					
+					@Override
+					public Boolean getPropertyValue() {
+						if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
+							return Main.SETTINGS.getBooleanProperty("theme.color.enabled");
+						else
+							return true;
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_EVEN",
 				Translations.getString("configuration.theme.color_even"),
-				new ConfigurationFieldType.ColorChooser(themeColorEvenValue)));
+				new ConfigurationFieldType.ColorChooser(
+						Main.SETTINGS,
+						"theme.color.even") {
+					
+					@Override
+					public Color getPropertyValue() {
+						if (Main.SETTINGS.getColorProperty("theme.color.even") != null)
+							return Main.SETTINGS.getColorProperty("theme.color.even");
+						else
+							return Color.WHITE;
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
-				new ConfigurationFieldType.ColorChooser(themeColorOddValue)));
+				new ConfigurationFieldType.ColorChooser(Main.SETTINGS, "") {
+					
+					@Override
+					public Color getPropertyValue() {
+						if (Main.SETTINGS.getColorProperty("theme.color.odd") != null)
+							return Main.SETTINGS.getColorProperty("theme.color.odd");
+						else
+							return Color.WHITE;
+					}
+					
+				}));
 		
 		this.setEnabled("COLORS_ENABLED", !colorsByImportance.isSelected());
 		this.setEnabled("COLOR_EVEN", !colorsByImportance.isSelected());

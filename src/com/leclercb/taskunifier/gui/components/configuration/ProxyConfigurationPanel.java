@@ -34,13 +34,8 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -55,7 +50,6 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	public ProxyConfigurationPanel() {
 		super(Help.getHelpFile("configuration_proxy.html"));
 		this.initialize();
-		this.initializeListeners();
 		this.pack();
 	}
 	
@@ -79,56 +73,94 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		Boolean proxyEnabledValue = false;
-		String proxyHostValue = "";
-		String proxyPortValue = "0";
-		String proxyLoginValue = "";
-		String proxyPasswordValue = "";
-		
-		if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
-			proxyEnabledValue = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-		
-		if (Main.SETTINGS.getStringProperty("proxy.host") != null)
-			proxyHostValue = Main.SETTINGS.getStringProperty("proxy.host");
-		
-		if (Main.SETTINGS.getIntegerProperty("proxy.port") != null)
-			proxyPortValue = Main.SETTINGS.getStringProperty("proxy.port");
-		
-		if (Main.SETTINGS.getStringProperty("proxy.login") != null)
-			proxyLoginValue = Main.SETTINGS.getStringProperty("proxy.login");
-		
-		if (Main.SETTINGS.getStringProperty("proxy.password") != null)
-			proxyPasswordValue = Main.SETTINGS.getStringProperty("proxy.password");
-		
 		this.addField(new ConfigurationField(
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
-				new ConfigurationFieldType.CheckBox(proxyEnabledValue)));
+				new ConfigurationFieldType.CheckBox(
+						Main.SETTINGS,
+						"proxy.enabled") {
+					
+					@Override
+					public Boolean getPropertyValue() {
+						if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
+							return Main.SETTINGS.getBooleanProperty("proxy.enabled");
+						else
+							return false;
+					}
+					
+				}));
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
-		"ENABLED").getType()).getFieldComponent();
+				"ENABLED").getType()).getFieldComponent();
 		
 		this.addField(new ConfigurationField(
 				"HOST",
 				Translations.getString("configuration.proxy.host"),
-				new ConfigurationFieldType.TextField(proxyHostValue)));
+				new ConfigurationFieldType.TextField(
+						Main.SETTINGS,
+						"proxy.host") {
+					
+					@Override
+					public String getPropertyValue() {
+						if (Main.SETTINGS.getStringProperty("proxy.host") != null)
+							return Main.SETTINGS.getStringProperty("proxy.host");
+						else
+							return "";
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"PORT",
 				Translations.getString("configuration.proxy.port"),
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{1,4}$"),
-						proxyPortValue)));
+						Main.SETTINGS,
+						"proxy.host") {
+					
+					@Override
+					public String getPropertyValue() {
+						if (Main.SETTINGS.getStringProperty("proxy.host") != null)
+							return Main.SETTINGS.getStringProperty("proxy.host");
+						else
+							return "0";
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"LOGIN",
 				Translations.getString("configuration.proxy.login"),
-				new ConfigurationFieldType.TextField(proxyLoginValue)));
+				new ConfigurationFieldType.TextField(
+						Main.SETTINGS,
+						"proxy.login") {
+					
+					@Override
+					public String getPropertyValue() {
+						if (Main.SETTINGS.getStringProperty("proxy.login") != null)
+							return Main.SETTINGS.getStringProperty("proxy.login");
+						else
+							return "";
+					}
+					
+				}));
 		
 		this.addField(new ConfigurationField(
 				"PASSWORD",
 				Translations.getString("configuration.proxy.password"),
-				new ConfigurationFieldType.PasswordField(proxyPasswordValue)));
+				new ConfigurationFieldType.PasswordField(
+						Main.SETTINGS,
+						"proxy.password") {
+					
+					@Override
+					public String getPropertyValue() {
+						if (Main.SETTINGS.getStringProperty("proxy.password") != null)
+							return Main.SETTINGS.getStringProperty("proxy.password");
+						else
+							return "";
+					}
+					
+				}));
 		
 		this.setEnabled("HOST", proxyEnabledField.isSelected());
 		this.setEnabled("PORT", proxyEnabledField.isSelected());
@@ -156,42 +188,6 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		};
 		
 		proxyEnabledField.addActionListener(listener);
-	}
-	
-	private void initializeListeners() {
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("proxy.enabled")) {
-					JCheckBox checkBox = ((ConfigurationFieldType.CheckBox) getField("ENABLED").getType()).getFieldComponent();
-					
-					if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
-						checkBox.setSelected(Main.SETTINGS.getBooleanProperty("proxy.enabled"));
-				} else if (evt.getPropertyName().equals("proxy.host")) {
-					JTextField textField = ((ConfigurationFieldType.TextField) getField("HOST").getType()).getFieldComponent();
-					
-					if (Main.SETTINGS.getStringProperty("proxy.host") != null)
-						textField.setText(Main.SETTINGS.getStringProperty("proxy.host"));
-				} else if (evt.getPropertyName().equals("proxy.port")) {
-					JFormattedTextField textField = ((ConfigurationFieldType.FormattedTextField) getField("PORT").getType()).getFieldComponent();
-					
-					if (Main.SETTINGS.getIntegerProperty("proxy.port") != null)
-						textField.setText(Main.SETTINGS.getStringProperty("proxy.port"));
-				} else if (evt.getPropertyName().equals("proxy.login")) {
-					JTextField textField = ((ConfigurationFieldType.TextField) getField("LOGIN").getType()).getFieldComponent();
-					
-					if (Main.SETTINGS.getStringProperty("proxy.login") != null)
-						textField.setText(Main.SETTINGS.getStringProperty("proxy.login"));
-				} else if (evt.getPropertyName().equals("proxy.password")) {
-					JPasswordField passwordField = ((ConfigurationFieldType.PasswordField) getField("PASSWORD").getType()).getFieldComponent();
-					
-					if (Main.SETTINGS.getStringProperty("proxy.password") != null)
-						passwordField.setText(Main.SETTINGS.getStringProperty("proxy.password"));
-				}
-			}
-			
-		});
 	}
 	
 }

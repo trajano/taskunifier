@@ -58,7 +58,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
 		this.languageOnly = languageOnly;
 		this.initialize();
-		this.initializeListeners();
 		this.pack();
 	}
 	
@@ -92,10 +91,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		Locale generalLanguageValue = Translations.getDefaultLocale();
-		
-		if (Main.SETTINGS.getLocaleProperty("general.locale") != null)
-			generalLanguageValue = Main.SETTINGS.getLocaleProperty("general.locale");
 		
 		if (!this.languageOnly) {
 			this.addField(new ConfigurationField(
@@ -107,7 +102,18 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		ConfigurationFieldType.ComboBox comboBox = new ConfigurationFieldType.ComboBox(
 				Translations.getLocales().toArray(),
-				generalLanguageValue);
+				Main.SETTINGS,
+				"general.locale") {
+			
+			@Override
+			public Object getPropertyValue() {
+				if (Main.SETTINGS.getLocaleProperty("general.locale") != null)
+					return Main.SETTINGS.getLocaleProperty("general.locale");
+				else
+					return Translations.getDefaultLocale();
+			}
+			
+		};
 		
 		comboBox.setRenderer(new DefaultListCellRenderer() {
 			
@@ -138,29 +144,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				comboBox));
 		
 		if (!this.languageOnly) {
-			SimpleDateFormat generalDateFormatValue = new SimpleDateFormat(
-					"dd/MM/yyyy");
-			SimpleDateFormat generalTimeFormatValue = new SimpleDateFormat(
-					"dd/MM/yyyy");
-			Boolean generalShowEditWindowOnAdd = false;
-			Boolean generalShowCompletedTasks = true;
-			Boolean generalShowCompletedTasksAtTheEnd = false;
-			
-			if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
-				generalDateFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
-			
-			if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
-				generalTimeFormatValue = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
-			
-			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null)
-				generalShowEditWindowOnAdd = Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add");
-			
-			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
-				generalShowCompletedTasks = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
-			
-			if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null)
-				generalShowCompletedTasksAtTheEnd = Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
-			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_1",
 					null,
@@ -177,7 +160,18 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.date_format"),
 					new ConfigurationFieldType.ComboBox(
 							DateTimeFormatUtils.getAvailableDateFormats(),
-							generalDateFormatValue)));
+							Main.SETTINGS,
+							"date.date_format") {
+						
+						@Override
+						public Object getPropertyValue() {
+							if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
+								return Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
+							else
+								return new SimpleDateFormat("dd/MM/yyyy");
+						}
+						
+					}));
 			
 			((ConfigurationFieldType.ComboBox) this.getField("DATE_FORMAT").getType()).getFieldComponent().setRenderer(
 					new SimpleDateFormatListCellRenderer());
@@ -187,7 +181,18 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.time_format"),
 					new ConfigurationFieldType.ComboBox(
 							DateTimeFormatUtils.getAvailableTimeFormats(),
-							generalTimeFormatValue)));
+							Main.SETTINGS,
+							"date.time_format") {
+						
+						@Override
+						public Object getPropertyValue() {
+							if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
+								return Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
+							else
+								return new SimpleDateFormat("HH:mm");
+						}
+						
+					}));
 			
 			((ConfigurationFieldType.ComboBox) this.getField("TIME_FORMAT").getType()).getFieldComponent().setRenderer(
 					new SimpleDateFormatListCellRenderer());
@@ -201,7 +206,18 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SHOW_EDIT_WINDOW_ON_ADD",
 					Translations.getString("configuration.general.show_edit_window_on_add"),
 					new ConfigurationFieldType.CheckBox(
-							generalShowEditWindowOnAdd)));
+							Main.SETTINGS,
+							"task.show_edit_window_on_add") {
+						
+						@Override
+						public Boolean getPropertyValue() {
+							if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null)
+								return Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add");
+							else
+								return false;
+						}
+						
+					}));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
@@ -212,13 +228,35 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SHOW_COMPLETED_TASKS",
 					Translations.getString("configuration.general.show_completed_tasks"),
 					new ConfigurationFieldType.CheckBox(
-							generalShowCompletedTasks)));
+							Main.SETTINGS,
+							"searcher.show_completed_tasks") {
+						
+						@Override
+						public Boolean getPropertyValue() {
+							if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
+								return Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks");
+							else
+								return true;
+						}
+						
+					}));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
 					new ConfigurationFieldType.CheckBox(
-							generalShowCompletedTasksAtTheEnd)));
+							Main.SETTINGS,
+							"searcher.show_completed_tasks_at_the_end") {
+						
+						@Override
+						public Boolean getPropertyValue() {
+							if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null)
+								return Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
+							else
+								return false;
+						}
+						
+					}));
 			
 			this.addField(new ConfigurationField(
 					"RESET_GENERAL_SEARCHERS",
