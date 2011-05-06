@@ -1,13 +1,48 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -23,25 +58,28 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.ReminderEdito
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CalendarRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.CheckBoxRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.LengthRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelIdRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ReminderRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.RepeatRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StarRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskPriorityRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskRepeatFromRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskStatusRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueCompleted;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueModel;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValuePriority;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueStar;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueCalendar;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueLength;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueModel;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueModelId;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValuePriority;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueReminder;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueRepeat;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueRepeatFrom;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueStatus;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 
 public class TaskTableColumn extends TableColumnExt {
 
-	private static final TableCellRenderer CHECK_BOX_RENDERER;
-	private static final TableCellRenderer DATE_RENDERER;
+	private static final TableCellRenderer CALENDAR_RENDERER;
+	private static final TableCellRenderer COMPLETED_RENDERER;
 	private static final TableCellRenderer DEFAULT_RENDERER;
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
@@ -69,19 +107,56 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor TASK_STATUS_EDITOR;
 
 	static {
-		CHECK_BOX_RENDERER = new CheckBoxRenderer();
-		DATE_RENDERER = new CalendarRenderer();
+		CALENDAR_RENDERER = new DefaultTableRenderer(
+				new StringValueCalendar());
+
+		COMPLETED_RENDERER = new DefaultTableRenderer(
+				new MappedValue(
+						null, 
+						new IconValueCompleted(), 
+						new BooleanValueBoolean()), 
+						SwingConstants.CENTER);
+
 		DEFAULT_RENDERER = new DefaultRenderer();
-		LENGTH_RENDERER = new LengthRenderer();
-		MODEL_ID_RENDERER = new ModelIdRenderer();
-		MODEL_RENDERER = new ModelRenderer();
-		REMINDER_RENDERER = new ReminderRenderer();
-		REPEAT_RENDERER = new RepeatRenderer();
-		STAR_RENDERER = new StarRenderer();
-		TASK_PRIORITY_RENDERER = new TaskPriorityRenderer();
-		TASK_REPEAT_FROM_RENDERER = new TaskRepeatFromRenderer();
-		TASK_STATUS_RENDERER = new TaskStatusRenderer();
+
+		LENGTH_RENDERER = new DefaultTableRenderer(
+				new StringValueLength());
+
+		MODEL_ID_RENDERER = new DefaultTableRenderer(
+				new StringValueModelId());
+
+		MODEL_RENDERER = new DefaultTableRenderer(
+				new MappedValue(
+						new StringValueModel(), 
+						new IconValueModel()));
+
+		REMINDER_RENDERER = new DefaultTableRenderer(
+				new StringValueReminder());
+
+		REPEAT_RENDERER = new DefaultTableRenderer(
+				new StringValueRepeat());
+
+		STAR_RENDERER = new DefaultTableRenderer(
+				new MappedValue(
+						null, 
+						new IconValueStar(), 
+						new BooleanValueBoolean()), 
+						SwingConstants.CENTER);
+
+		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(
+				new MappedValue(
+						new StringValuePriority(), 
+						new IconValuePriority(), 
+						null));
+
+		TASK_REPEAT_FROM_RENDERER = new DefaultTableRenderer(
+				new StringValueRepeatFrom());
+
+		TASK_STATUS_RENDERER = new DefaultTableRenderer(
+				new StringValueStatus());
+
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
+
 
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
@@ -124,7 +199,7 @@ public class TaskTableColumn extends TableColumnExt {
 					TaskTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
-			
+
 		});
 	}
 
@@ -164,7 +239,7 @@ public class TaskTableColumn extends TableColumnExt {
 		case TITLE:
 			return TASK_TITLE_RENDERER;
 		case COMPLETED:
-			return CHECK_BOX_RENDERER;
+			return COMPLETED_RENDERER;
 		case CONTEXT:
 		case FOLDER:
 		case GOAL:
@@ -173,7 +248,7 @@ public class TaskTableColumn extends TableColumnExt {
 		case COMPLETED_ON:
 		case DUE_DATE:
 		case START_DATE:
-			return DATE_RENDERER;
+			return CALENDAR_RENDERER;
 		case REMINDER:
 			return REMINDER_RENDERER;
 		case LENGTH:

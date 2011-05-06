@@ -32,33 +32,23 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import javax.swing.SwingConstants;
+import javax.swing.Icon;
+
+import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class StarRenderer extends DefaultRenderer {
-	
-	public StarRenderer() {
+public class IconValueCompleted implements IconValue {
 
-	}
-	
 	@Override
-	protected void setValue(Object value) {
-		if (value == null || !(value instanceof Boolean)) {
-			this.setText("");
-			return;
-		}
-		
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof Boolean))
+			return Images.getResourceImage("checkbox.png", 16, 16);
+
 		if ((Boolean) value)
-			this.setIcon(Images.getResourceImage(
-					"checkbox_star_selected.png",
-					16,
-					16));
+			return Images.getResourceImage("checkbox_selected.png", 16, 16);
 		else
-			this.setIcon(Images.getResourceImage("checkbox_star.png", 16, 16));
-		
-		this.setHorizontalAlignment(SwingConstants.CENTER);
-		this.setText("");
+			return Images.getResourceImage("checkbox.png", 16, 16);
 	}
-	
+
 }

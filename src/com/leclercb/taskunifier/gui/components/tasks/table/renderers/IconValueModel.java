@@ -32,33 +32,28 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
+import javax.swing.Icon;
+
+import org.jdesktop.swingx.renderer.IconValue;
+
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 
-public class ModelRenderer extends DefaultRenderer {
-	
-	public ModelRenderer() {
+public class IconValueModel implements IconValue {
 
-	}
-	
 	@Override
-	public void setValue(Object value) {
-		if (!(value instanceof Model)) {
-			this.setText("");
-			this.setIcon(new ColorBadgeIcon(null, 12, 12));
-			return;
-		}
-		
-		this.setText(((Model) value).getTitle());
-		
+	public Icon getIcon(Object value) {
+		if (!(value instanceof Model))
+			return new ColorBadgeIcon(null, 12, 12);
+
 		if (value instanceof GuiModel)
-			this.setIcon(new ColorBadgeIcon(
+			return new ColorBadgeIcon(
 					((GuiModel) value).getColor(),
 					12,
-					12));
+					12);
 		else
-			this.setIcon(new ColorBadgeIcon(null, 12, 12));
+			return new ColorBadgeIcon(null, 12, 12);
 	}
-	
+
 }

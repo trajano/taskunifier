@@ -30,52 +30,32 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
+package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
-import java.awt.Color;
+import java.awt.Component;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.Icon;
+import org.jdesktop.swingx.decorator.AbstractHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
 
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+public class TaskHighlighter extends AbstractHighlighter {
 
-public class TaskPriorityRenderer extends DefaultRenderer {
-	
-	public TaskPriorityRenderer() {
-
+	public TaskHighlighter(HighlightPredicate predicate) {
+		super(predicate);
 	}
-	
+
 	@Override
-	public void setValue(Object value) {
-		if (value == null || !(value instanceof TaskPriority)) {
-			this.setText("");
-			return;
-		}
-		
-		TaskPriority priority = (TaskPriority) value;
-		Icon icon = null;
-		
-		switch (priority) {
-			case NEGATIVE:
-				icon = new ColorBadgeIcon(Color.GRAY, 12, 12);
-				break;
-			case LOW:
-				icon = new ColorBadgeIcon(Color.YELLOW, 12, 12);
-				break;
-			case MEDIUM:
-				icon = new ColorBadgeIcon(Color.GREEN, 12, 12);
-				break;
-			case HIGH:
-				icon = new ColorBadgeIcon(Color.ORANGE, 12, 12);
-				break;
-			case TOP:
-				icon = new ColorBadgeIcon(Color.RED, 12, 12);
-				break;
-		}
-		
-		this.setText(TranslationsUtils.translateTaskPriority(priority));
-		this.setIcon(icon);
+	protected Component doHighlight(Component renderer,
+			ComponentAdapter adapter) {
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(
+				renderer.getFont().getAttributes());
+		attributes.put(TextAttribute.STRIKETHROUGH, true);
+		renderer.setFont(renderer.getFont().deriveFont(attributes));
+
+		return renderer;
 	}
-	
+
 }

@@ -33,30 +33,37 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class CalendarRenderer extends DefaultRenderer {
+public class StringValueLength implements StringValue {
 
 	private DateFormat formatter;
 
-	public CalendarRenderer() {
-		this.formatter = new SimpleDateFormat(
-				Main.SETTINGS.getStringProperty("date.date_format")
-				+ " "
-				+ Main.SETTINGS.getStringProperty("date.time_format"));
+	public StringValueLength() {
+		this.formatter = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 	}
 
 	@Override
-	public void setValue(Object value) {
-		if (value == null || !(value instanceof Calendar)) {
-			this.setText("");
-			return;
+	public String getString(Object value) {
+		if (value == null || !(value instanceof Integer))
+			return "";
+
+		int hour = 0;
+		int minute = 0;
+
+		if (value != null) {
+			hour = ((Integer) value) / 60;
+			minute = ((Integer) value) % 60;
 		}
 
-		this.setText((value == null ? "" : this.formatter.format(((Calendar) value).getTime())));
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(0, 0, 0, hour, minute, 0);
+
+		return this.formatter.format(calendar.getTime());
 	}
 
 }

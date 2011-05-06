@@ -32,23 +32,18 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import org.jdesktop.swingx.renderer.StringValue;
 
-public class TaskRepeatFromRenderer extends DefaultRenderer {
-	
-	public TaskRepeatFromRenderer() {
+import com.leclercb.taskunifier.api.models.Model;
 
-	}
-	
+public class StringValueModel implements StringValue {
+
 	@Override
-	public void setValue(Object value) {
-		if (value == null || !(value instanceof TaskRepeatFrom)) {
-			this.setText("");
-			return;
-		}
-		
-		this.setText(TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value));
+	public String getString(Object value) {
+		if (!(value instanceof Model))
+			return "";
+
+		return ((Model) value).getTitle();
 	}
-	
+
 }

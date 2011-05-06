@@ -32,38 +32,23 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.main.Main;
+import org.jdesktop.swingx.renderer.IconValue;
 
-public class LengthRenderer extends DefaultRenderer {
-	
-	private DateFormat formatter;
-	
-	public LengthRenderer() {
-		this.formatter = Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
-	}
-	
+import com.leclercb.taskunifier.gui.utils.Images;
+
+public class IconValueStar implements IconValue {
+
 	@Override
-	public void setValue(Object value) {
-		if (value == null || !(value instanceof Integer)) {
-			this.setText("");
-			return;
-		}
-		
-		int hour = 0;
-		int minute = 0;
-		
-		if (value != null) {
-			hour = ((Integer) value) / 60;
-			minute = ((Integer) value) % 60;
-		}
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(0, 0, 0, hour, minute, 0);
-		
-		this.setText(this.formatter.format(calendar.getTime()));
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof Boolean))
+			return Images.getResourceImage("checkbox_star.png", 16, 16);
+
+		if ((Boolean) value)
+			return Images.getResourceImage("checkbox_star_selected.png", 16, 16);
+		else
+			return Images.getResourceImage("checkbox_star.png", 16, 16);
 	}
-	
+
 }

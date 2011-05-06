@@ -31,24 +31,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+public class StringValueRepeat implements StringValue {
 
-public class TaskStatusRenderer extends DefaultRenderer {
-	
-	public TaskStatusRenderer() {
-
-	}
-	
 	@Override
-	public void setValue(Object value) {
-		if (value == null || !(value instanceof TaskStatus)) {
-			this.setText("");
-			return;
-		}
-		
-		this.setText(TranslationsUtils.translateTaskStatus((TaskStatus) value));
+	public String getString(Object value) {
+		if (!(value instanceof String))
+			return "";
+
+		return (String) value;
 	}
-	
+
 }

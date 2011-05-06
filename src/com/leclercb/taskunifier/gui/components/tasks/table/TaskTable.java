@@ -34,8 +34,6 @@ package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -49,7 +47,6 @@ import javax.swing.ActionMap;
 import javax.swing.DropMode;
 import javax.swing.InputMap;
 import javax.swing.JTable;
-import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
@@ -65,6 +62,10 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
@@ -103,29 +104,6 @@ public class TaskTable extends JXTable {
 		return tasks.toArray(new Task[0]);
 	}
 
-	public void setSelectedTaskAndStartEdit(Task task) {
-		this.setSelectedTasks(new Task[] { task });
-
-		TaskTableColumnModel columnModel = (TaskTableColumnModel) this.getColumnModel();
-		TaskTableModel model = (TaskTableModel) this.getModel();
-
-		for (int i = 0; i < model.getRowCount(); i++) {
-			if (task.equals(model.getTask(i))) {
-				int row = this.getRowSorter().convertRowIndexToView(i);
-				int col = columnModel.getColumnIndex(TaskColumn.TITLE);
-
-				if (row != -1) {
-					if (this.editCellAt(row, col)) {
-						Component editor = this.getEditorComponent();
-						editor.requestFocusInWindow();
-					}
-				}
-
-				break;
-			}
-		}
-	}
-
 	public void setSelectedTasks(Task[] tasks) {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 
@@ -152,7 +130,30 @@ public class TaskTable extends JXTable {
 		this.getSelectionModel().setValueIsAdjusting(false);
 
 		if (firstRowIndex != -1)
-			this.scrollToVisible(firstRowIndex, 0);
+			this.scrollRowToVisible(firstRowIndex);
+	}
+
+	public void setSelectedTaskAndStartEdit(Task task) {
+		this.setSelectedTasks(new Task[] { task });
+
+		TaskTableColumnModel columnModel = (TaskTableColumnModel) this.getColumnModel();
+		TaskTableModel model = (TaskTableModel) this.getModel();
+
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if (task.equals(model.getTask(i))) {
+				int row = this.getRowSorter().convertRowIndexToView(i);
+				int col = columnModel.getColumnIndex(TaskColumn.TITLE);
+
+				if (row != -1) {
+					if (this.editCellAt(row, col)) {
+						Component editor = this.getEditorComponent();
+						editor.requestFocusInWindow();
+					}
+				}
+
+				break;
+			}
+		}
 	}
 
 	public void refreshTasks() {
@@ -167,7 +168,7 @@ public class TaskTable extends JXTable {
 		CheckUtils.isNotNull(searcher, "Task searcher cannot be null");
 
 		TaskRowComparator.getInstance().setSearcher(searcher);
-		
+
 		this.setSortOrder(TaskColumn.TASK, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(new TaskRowFilter(searcher.getFilter()));
 		this.refreshTasks();
@@ -187,18 +188,16 @@ public class TaskTable extends JXTable {
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
 
-		this.initializeDeleteTask();
-		this.initializeTaskTableMenu();
-
-		this.initializeDragAndDrop();
-		this.initializeCopyAndPaste();
-		
-		this.initializeHighlighter();
-
 		this.setSortable(true);
 		this.setSortsOnUpdates(false);
 		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
+
+		this.initializeDeleteTask();
+		this.initializeTaskTableMenu();
+		this.initializeDragAndDrop();
+		this.initializeCopyAndPaste();
+		this.initializeHighlighter();
 	}
 
 	private void initializeDeleteTask() {
@@ -292,11 +291,11 @@ public class TaskTable extends JXTable {
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 						TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
-	
+
 	private void initializeHighlighter() {
 		Color even = null;
 		Color odd = null;
-		
+
 		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
 			even = Main.SETTINGS.getColorProperty("theme.color.even");
 			odd = Main.SETTINGS.getColorProperty("theme.color.odd");
@@ -304,20 +303,11 @@ public class TaskTable extends JXTable {
 			even = UIManager.getColor("Table.background");
 			odd = UIManager.getColor("Table.background");
 		}
-		
-		this.setHighlighters(HighlighterFactory.createAlternateStriping(even, odd));
-	}
 
-	private void scrollToVisible(int row, int col) {
-		if (!(this.getParent() instanceof JViewport)) {
-			return;
-		}
-
-		JViewport viewport = (JViewport) this.getParent();
-		Rectangle rect = this.getCellRect(row, col, true);
-		Point pt = viewport.getViewPosition();
-		rect.setLocation(rect.x - pt.x, rect.y - pt.y);
-		viewport.scrollRectToVisible(rect);
+		this.setHighlighters(
+				HighlighterFactory.createAlternateStriping(even, odd),
+				new TaskHighlighter(new TaskHighlightPredicate()),
+				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()));
 	}
 
 }

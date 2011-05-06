@@ -32,31 +32,41 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import java.awt.Color;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class RepeatRenderer extends DefaultRenderer {
-	
-	public RepeatRenderer() {
+public class StringValueReminder implements StringValue {
 
-	}
-	
 	@Override
-	public void setValue(Object value) {
-		if (!(value instanceof String)) {
-			this.setText("");
-			this.setForeground(Color.BLACK);
-			return;
+	public String getString(Object value) {
+		if (value == null || !(value instanceof Integer))
+			return "";
+
+		String text = null;
+		Integer reminder = (Integer) value;
+
+		switch (reminder) {
+		case 0:
+			text = Translations.getString("general.task.reminder.no_reminder");
+			break;
+		case 60:
+			text = Translations.getString("general.task.reminder.one_hour");
+			break;
+		case 60 * 24:
+			text = Translations.getString("general.task.reminder.one_day");
+			break;
+		case 60 * 24 * 7:
+			text = Translations.getString("general.task.reminder.one_week");
+			break;
+		default:
+			text = Translations.getString(
+					"general.task.reminder.x_minutes",
+					reminder);
+			break;
 		}
-		
-		this.setText((String) value);
-		
-		if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
-				(String) value))
-			this.setForeground(Color.BLACK);
-		else
-			this.setForeground(Color.RED);
+
+		return text;
 	}
-	
+
 }

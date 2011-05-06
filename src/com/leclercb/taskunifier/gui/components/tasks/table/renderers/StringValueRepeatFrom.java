@@ -32,30 +32,19 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import javax.swing.SwingConstants;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class CheckBoxRenderer extends DefaultRenderer {
-	
-	public CheckBoxRenderer() {
+public class StringValueRepeatFrom implements StringValue {
 
-	}
-	
 	@Override
-	protected void setValue(Object value) {
-		if (value == null || !(value instanceof Boolean)) {
-			this.setText("");
-			return;
-		}
-		
-		if ((Boolean) value)
-			this.setIcon(Images.getResourceImage("checkbox_selected.png"));
-		else
-			this.setIcon(Images.getResourceImage("checkbox.png"));
-		
-		this.setHorizontalAlignment(SwingConstants.CENTER);
-		this.setText("");
+	public String getString(Object value) {
+		if (value == null || !(value instanceof TaskRepeatFrom))
+			return "";
+
+		return TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value);
 	}
-	
+
 }
