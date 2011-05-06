@@ -117,4 +117,5 @@ public class ReviewPanel extends JPanel {
 		
 		this.add(panel, BorderLayout.CENTER);
 	}
+	
 }

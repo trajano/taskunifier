@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.batchaddtask;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -61,19 +60,30 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class BatchAddTaskDialog extends JDialog {
 	
+	private static BatchAddTaskDialog INSTANCE;
+	
+	public static BatchAddTaskDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new BatchAddTaskDialog();
+		
+		return INSTANCE;
+	}
+	
 	private JTextArea answerTextArea;
 	private JComboBox templateComboBox;
 	
-	public BatchAddTaskDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	private BatchAddTaskDialog() {
+		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.batch_add_tasks"));
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -101,7 +111,7 @@ public class BatchAddTaskDialog extends JDialog {
 		templatePanel.setLayout(new BorderLayout());
 		
 		this.templateComboBox = new JComboBox();
-		this.templateComboBox.setModel(new TemplateModel());
+		this.templateComboBox.setModel(new TemplateModel(true));
 		this.templateComboBox.setRenderer(new TemplateListCellRenderer());
 		
 		templatePanel.add(new JLabel(Translations.getString("general.template")
@@ -160,6 +170,9 @@ public class BatchAddTaskDialog extends JDialog {
 					
 					MainFrame.getInstance().getTaskView().setSelectedTasks(
 							tasks.toArray(new Task[0]));
+					
+					BatchAddTaskDialog.this.answerTextArea.setText(null);
+					BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
 					
 					BatchAddTaskDialog.this.dispose();
 				}

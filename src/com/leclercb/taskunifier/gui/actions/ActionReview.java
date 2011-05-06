@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.review.ReviewDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -63,10 +62,7 @@ public class ActionReview extends AbstractAction {
 	}
 	
 	public static void review() {
-		ReviewDialog dialog = new ReviewDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		dialog.setVisible(true);
+		ReviewDialog.getInstance().setVisible(true);
 	}
 	
 }

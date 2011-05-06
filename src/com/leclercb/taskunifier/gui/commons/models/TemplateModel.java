@@ -45,12 +45,14 @@ import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 
 public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
-	public TemplateModel() {
+	public TemplateModel(boolean addNull) {
 		super(new TemplateComparator());
-		this.initialize();
+		this.initialize(addNull);
 	}
 	
-	private void initialize() {
+	private void initialize(boolean addNull) {
+		this.addElement(null);
+		
 		List<Template> templates = TemplateFactory.getInstance().getList();
 		for (Template template : templates)
 			this.addElement(template);

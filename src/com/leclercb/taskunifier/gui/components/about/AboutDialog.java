@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.about;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,20 +42,32 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class AboutDialog extends JDialog {
 	
-	public AboutDialog(Frame parent, boolean modal) {
-		super(parent, modal);
+	private static AboutDialog INSTANCE;
+	
+	public static AboutDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new AboutDialog();
+		
+		return INSTANCE;
+	}
+	
+	private AboutDialog() {
+		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.about"));
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -78,7 +89,7 @@ public class AboutDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AboutDialog.this.setVisible(false);
+				AboutDialog.this.dispose();
 			}
 			
 		};

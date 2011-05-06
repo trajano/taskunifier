@@ -40,7 +40,6 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -69,10 +68,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 	}
 	
 	public static void batchAddTasks() {
-		BatchAddTaskDialog dialog = new BatchAddTaskDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		dialog.setVisible(true);
+		BatchAddTaskDialog.getInstance().setVisible(true);
 	}
 	
 }

@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -63,10 +62,7 @@ public class ActionAbout extends AbstractAction {
 	}
 	
 	public static void about() {
-		AboutDialog dialog = new AboutDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		dialog.setVisible(true);
+		AboutDialog.getInstance().setVisible(true);
 	}
 	
 }

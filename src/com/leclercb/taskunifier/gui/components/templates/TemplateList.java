@@ -71,7 +71,7 @@ abstract class TemplateList extends JPanel {
 		this.templateList = new JList();
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new TemplateListCellRenderer());
-		this.templateList.setModel(new TemplateModel());
+		this.templateList.setModel(new TemplateModel(false));
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
