@@ -33,7 +33,7 @@
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -54,7 +54,7 @@ public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"NO_CONFIG",
 				null,
-				new ConfigurationFieldType.Label(
+				new ConfigurationFieldTypeExt.Label(
 						Translations.getString("general.no_configuration_values"))));
 	}
 	

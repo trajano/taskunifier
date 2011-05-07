@@ -38,13 +38,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -62,7 +59,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
@@ -84,11 +80,6 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return null;
 		}
 		
-		@Override
-		public Void getPropertyValue() {
-			return null;
-		}
-		
 	}
 	
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
@@ -104,11 +95,6 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public Void getFieldValue() {
-			return null;
-		}
-		
-		@Override
-		public Void getPropertyValue() {
 			return null;
 		}
 		
@@ -128,11 +114,6 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public Void getFieldValue() {
-			return null;
-		}
-		
-		@Override
-		public Void getPropertyValue() {
 			return null;
 		}
 		
@@ -164,28 +145,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return null;
 		}
 		
-		@Override
-		public Void getPropertyValue() {
-			return null;
-		}
-		
 	}
 	
-	public static abstract class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
+	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 		
-		public CheckBox(PropertiesConfiguration properties, String propertyName) {
-			this.setSelected(this.getPropertyValue());
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							CheckBox.this.setSelected(CheckBox.this.getPropertyValue());
-						}
-						
-					});
+		public CheckBox(Boolean selected) {
+			this.setSelected(selected);
 		}
 		
 		@Override
@@ -198,24 +163,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.isSelected();
 		}
 		
-		@Override
-		public abstract Boolean getPropertyValue();
-		
 	}
 	
-	public static abstract class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
+	public static class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
 		
-		public Spinner(PropertiesConfiguration properties, String propertyName) {
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							Spinner.this.setValue(Spinner.this.getPropertyValue());
-						}
-						
-					});
+		public Spinner() {
+
 		}
 		
 		@Override
@@ -228,53 +181,42 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.getValue();
 		}
 		
-		@Override
-		public abstract Object getPropertyValue();
-		
 	}
 	
-	public static abstract class StarCheckBox extends CheckBox {
+	public static class StarCheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 		
-		public StarCheckBox(
-				PropertiesConfiguration properties,
-				String propertyName) {
-			super(properties, propertyName);
-			
+		public StarCheckBox(Boolean selected) {
 			this.setIcon(Images.getResourceImage("checkbox_star.png", 18, 18));
 			this.setSelectedIcon(Images.getResourceImage(
 					"checkbox_star_selected.png",
 					18,
 					18));
+			
+			this.setSelected(selected);
+		}
+		
+		@Override
+		public JCheckBox getFieldComponent() {
+			return this;
+		}
+		
+		@Override
+		public Boolean getFieldValue() {
+			return this.isSelected();
 		}
 		
 	}
 	
-	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
+	public static class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
 		
-		public ComboBox(
-				Object[] items,
-				PropertiesConfiguration properties,
-				String propertyName) {
-			this(new DefaultComboBoxModel(items), properties, propertyName);
+		public ComboBox(ComboBoxModel model, Object selectedItem) {
+			super(model);
+			this.setSelectedItem(selectedItem);
 		}
 		
-		public ComboBox(
-				ComboBoxModel model,
-				PropertiesConfiguration properties,
-				String propertyName) {
-			super(model);
-			this.setSelectedItem(this.getPropertyValue());
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
-						}
-						
-					});
+		public ComboBox(Object[] items, Object selectedItem) {
+			super(items);
+			this.setSelectedItem(selectedItem);
 		}
 		
 		@Override
@@ -287,28 +229,13 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.getSelectedItem();
 		}
 		
-		@Override
-		public abstract Object getPropertyValue();
-		
 	}
 	
-	public static abstract class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
+	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
 		
-		public TextArea(PropertiesConfiguration properties, String propertyName) {
-			super(5, 20);
-			this.setText(this.getPropertyValue());
+		public TextArea(String text) {
+			super(text, 5, 20);
 			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							TextArea.this.setText(TextArea.this.getPropertyValue());
-						}
-						
-					});
 		}
 		
 		@Override
@@ -321,26 +248,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.getText();
 		}
 		
-		@Override
-		public abstract String getPropertyValue();
-		
 	}
 	
-	public static abstract class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
+	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
 		
-		public TextField(PropertiesConfiguration properties, String propertyName) {
-			this.setText(this.getPropertyValue());
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							TextField.this.setText(TextField.this.getPropertyValue());
-						}
-						
-					});
+		public TextField(String text) {
+			super(text);
 		}
 		
 		@Override
@@ -353,30 +266,13 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.getText();
 		}
 		
-		@Override
-		public abstract String getPropertyValue();
-		
 	}
 	
-	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
+	public static class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
 		
-		public FormattedTextField(
-				AbstractFormatter formatter,
-				PropertiesConfiguration properties,
-				String propertyName) {
+		public FormattedTextField(AbstractFormatter formatter, String text) {
 			super(formatter);
-			this.setText(this.getPropertyValue());
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							FormattedTextField.this.setText(FormattedTextField.this.getPropertyValue());
-						}
-						
-					});
+			this.setValue(text);
 		}
 		
 		@Override
@@ -389,28 +285,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.getText();
 		}
 		
-		@Override
-		public abstract String getPropertyValue();
-		
 	}
 	
-	public static abstract class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
+	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
 		
-		public PasswordField(
-				PropertiesConfiguration properties,
-				String propertyName) {
-			this.setText(this.getPropertyValue());
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							PasswordField.this.setText(PasswordField.this.getPropertyValue());
-						}
-						
-					});
+		public PasswordField(String password) {
+			super(password);
 		}
 		
 		@Override
@@ -423,24 +303,19 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return new String(this.getPassword());
 		}
 		
-		@Override
-		public abstract String getPropertyValue();
-		
 	}
 	
-	public static abstract class ColorChooser extends JLabel implements ConfigurationFieldType<JLabel, Color> {
+	public static class ColorChooser extends JLabel implements ConfigurationFieldType<JLabel, Color> {
 		
-		private JColorChooser colorChooser;
+		JColorChooser colorChooser;
 		
-		public ColorChooser(
-				PropertiesConfiguration properties,
-				String propertyName) {
+		public ColorChooser(Color color) {
 			this.setOpaque(true);
-			this.setBackground(this.getPropertyValue());
+			this.setBackground(color);
 			this.setBorder(new LineBorder(Color.BLACK));
 			
 			colorChooser = new JColorChooser();
-			colorChooser.setColor(this.getPropertyValue());
+			colorChooser.setColor(color);
 			
 			final JDialog colorDialog = JColorChooser.createDialog(
 					this,
@@ -465,18 +340,6 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				}
 				
 			});
-			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							ColorChooser.this.setBackground(ColorChooser.this.getPropertyValue());
-							ColorChooser.this.colorChooser.setColor(ColorChooser.this.getPropertyValue());
-						}
-						
-					});
 		}
 		
 		@Override
@@ -489,15 +352,10 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			return this.colorChooser.getColor();
 		}
 		
-		@Override
-		public abstract Color getPropertyValue();
-		
 	}
 	
 	public abstract ComponentType getFieldComponent();
 	
 	public abstract ValueType getFieldValue();
-	
-	public abstract ValueType getPropertyValue();
 	
 }

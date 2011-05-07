@@ -33,10 +33,9 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.fields.columns.ColumnFieldType;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.main.Main;
 
 public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 	
@@ -45,35 +44,12 @@ public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 		this.pack();
 	}
 	
-	@Override
-	public void saveAndApplyConfig() {
-		for (ConfigurationField field : this.getFields()) {
-			if (!(field.getType() instanceof ConfigurationFieldType.CheckBox))
-				continue;
-			
-			TaskColumn.valueOf(field.getId()).setVisible(
-					(Boolean) this.getValue(field.getId()));
-		}
-	}
-	
 	private void initialize() {
 		for (TaskColumn taskColumn : TaskColumn.values()) {
-			final TaskColumn tc = taskColumn;
 			this.addField(new ConfigurationField(
 					taskColumn.name(),
 					taskColumn.getLabel(),
-					new ConfigurationFieldType.CheckBox(
-							Main.SETTINGS,
-							"taskcolumn."
-									+ taskColumn.name().toLowerCase()
-									+ ".visible") {
-						
-						@Override
-						public Boolean getPropertyValue() {
-							return tc.isVisible();
-						}
-						
-					}));
+					new ColumnFieldType(taskColumn)));
 		}
 	}
 	

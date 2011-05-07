@@ -162,14 +162,13 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		this.add(mainPanel, BorderLayout.CENTER);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel
-	 * #saveAndApplyConfig()
-	 */
 	@Override
-	public abstract void saveAndApplyConfig();
+	public void saveAndApplyConfig() {
+		for (ConfigurationField field : this.fields) {
+			if (field.getType() instanceof ConfigurationFieldTypeExt) {
+				((ConfigurationFieldTypeExt<?, ?>) field.getType()).saveAndApplyConfig();
+			}
+		}
+	}
 	
 }
