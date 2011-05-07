@@ -117,12 +117,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldTypeExt.Separator()));
 		
 		this.addField(new ConfigurationField(
-				"COLOR_CHANGED_NEXT_STARTUP",
-				null,
-				new ConfigurationFieldTypeExt.Label(
-						Translations.getString("configuration.theme.colors_changed_after_restart"))));
-		
-		this.addField(new ConfigurationField(
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ColorsByImportanceEnabledFieldType()));

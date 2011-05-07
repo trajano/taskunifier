@@ -34,27 +34,77 @@ package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.UIManager;
 
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public class TaskImportanceHighlighter extends AbstractHighlighter {
+public class TaskAlternateHighlighter extends AbstractHighlighter {
 	
-	public TaskImportanceHighlighter() {
+	private boolean byImportance;
+	private Color even = null;
+	private Color odd = null;
+	
+	public TaskAlternateHighlighter() {
 		super();
-	}
-	
-	public TaskImportanceHighlighter(HighlightPredicate predicate) {
-		super(predicate);
+		
+		this.resetColors();
+		
+		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(
+						"theme.color.importance.enabled")
+						|| evt.getPropertyName().equals("theme.color.enabled")
+						|| evt.getPropertyName().equals("theme.color.even")
+						|| evt.getPropertyName().equals("theme.color.odd")) {
+					TaskAlternateHighlighter.this.resetColors();
+					MainFrame.getInstance().getTaskView().refreshTasks();
+				}
+			}
+			
+		});
 	}
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
+		if (adapter.isSelected())
+			return renderer;
+		
+		if (this.byImportance)
+			return this.doImportanceHighlight(renderer, adapter);
+		else
+			return this.doAlternateHighlight(renderer, adapter);
+	}
+	
+	private Component doAlternateHighlight(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Color color = null;
+		
+		if (adapter.row % 2 == 0)
+			color = this.even;
+		else
+			color = this.odd;
+		
+		renderer.setBackground(color);
+		
+		return renderer;
+	}
+	
+	private Component doImportanceHighlight(
+			Component renderer,
+			ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
 				adapter.row,
 				adapter.getColumnIndex(TaskColumn.TASK));
@@ -98,6 +148,22 @@ public class TaskImportanceHighlighter extends AbstractHighlighter {
 		}
 		
 		return renderer;
+	}
+	
+	private void resetColors() {
+		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null
+				&& Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled"))
+			this.byImportance = true;
+		else
+			this.byImportance = false;
+		
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
+			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
+			this.odd = Main.SETTINGS.getColorProperty("theme.color.odd");
+		} else {
+			this.even = UIManager.getColor("Table.background");
+			this.odd = UIManager.getColor("Table.background");
+		}
 	}
 	
 }

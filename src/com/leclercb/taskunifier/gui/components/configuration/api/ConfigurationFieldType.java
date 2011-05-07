@@ -71,6 +71,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JPanel getFieldComponent() {
 			return this;
 		}
@@ -85,6 +90,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 		
 		public Separator() {
+
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
 
 		}
 		
@@ -105,6 +115,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		public Label(String label) {
 			super(label);
 			this.setEnabled(false);
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
+
 		}
 		
 		@Override
@@ -136,6 +151,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JButton getFieldComponent() {
 			return this;
 		}
@@ -154,6 +174,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JCheckBox getFieldComponent() {
 			return this;
 		}
@@ -168,6 +193,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	public static class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
 		
 		public Spinner() {
+
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
 
 		}
 		
@@ -196,6 +226,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JCheckBox getFieldComponent() {
 			return this;
 		}
@@ -220,6 +255,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JComboBox getFieldComponent() {
 			return this;
 		}
@@ -239,6 +279,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JTextArea getFieldComponent() {
 			return this;
 		}
@@ -254,6 +299,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		public TextField(String text) {
 			super(text);
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
+
 		}
 		
 		@Override
@@ -276,6 +326,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JFormattedTextField getFieldComponent() {
 			return this;
 		}
@@ -291,6 +346,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		public PasswordField(String password) {
 			super(password);
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
+
 		}
 		
 		@Override
@@ -343,6 +403,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JLabel getFieldComponent() {
 			return this;
 		}
@@ -353,6 +418,8 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 	}
+	
+	public abstract void initializeFieldComponent();
 	
 	public abstract ComponentType getFieldComponent();
 	

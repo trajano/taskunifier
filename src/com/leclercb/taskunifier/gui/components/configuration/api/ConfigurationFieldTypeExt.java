@@ -75,6 +75,11 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JPanel getFieldComponent() {
 			return this;
 		}
@@ -99,6 +104,11 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	public static class Separator extends JSeparator implements ConfigurationFieldTypeExt<JSeparator, Void> {
 		
 		public Separator() {
+
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
 
 		}
 		
@@ -129,6 +139,11 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public Label(String label) {
 			super(label);
 			this.setEnabled(false);
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
+
 		}
 		
 		@Override
@@ -170,6 +185,11 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
+		public void initializeFieldComponent() {
+
+		}
+		
+		@Override
 		public JButton getFieldComponent() {
 			return this;
 		}
@@ -202,7 +222,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JCheckBox getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setSelected(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -215,7 +235,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JCheckBox getFieldComponent() {
 			return this;
 		}
 		
@@ -243,7 +266,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JSpinner getFieldComponent() {
+		public void initializeFieldComponent() {
 			properties.addPropertyChangeListener(
 					propertyName,
 					new PropertyChangeListener() {
@@ -254,7 +277,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JSpinner getFieldComponent() {
 			return this;
 		}
 		
@@ -310,7 +336,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JComboBox getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setSelectedItem(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -323,7 +349,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JComboBox getFieldComponent() {
 			return this;
 		}
 		
@@ -355,7 +384,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JTextArea getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -368,7 +397,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JTextArea getFieldComponent() {
 			return this;
 		}
 		
@@ -396,7 +428,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JTextField getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -409,7 +441,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JTextField getFieldComponent() {
 			return this;
 		}
 		
@@ -442,7 +477,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JFormattedTextField getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -455,7 +490,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JFormattedTextField getFieldComponent() {
 			return this;
 		}
 		
@@ -485,7 +523,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JPasswordField getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
 			properties.addPropertyChangeListener(
@@ -498,7 +536,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JPasswordField getFieldComponent() {
 			return this;
 		}
 		
@@ -559,7 +600,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JLabel getFieldComponent() {
+		public void initializeFieldComponent() {
 			this.setBackground(this.getPropertyValue());
 			
 			colorChooser.setColor(this.getPropertyValue());
@@ -575,7 +616,10 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 						}
 						
 					});
-			
+		}
+		
+		@Override
+		public JLabel getFieldComponent() {
 			return this;
 		}
 		

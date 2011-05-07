@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -51,11 +50,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
-import javax.swing.UIManager;
 
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.Highlighter;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
@@ -63,9 +59,9 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
-import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskImportanceHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlightPredicate;
@@ -73,7 +69,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitl
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
-import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskTable extends JXTable {
 	
@@ -298,28 +293,9 @@ public class TaskTable extends JXTable {
 	}
 	
 	private void initializeHighlighter() {
-		Color even = null;
-		Color odd = null;
-		
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
-			even = Main.SETTINGS.getColorProperty("theme.color.even");
-			odd = Main.SETTINGS.getColorProperty("theme.color.odd");
-		} else {
-			even = UIManager.getColor("Table.background");
-			odd = UIManager.getColor("Table.background");
-		}
-		
-		Highlighter alternate = null;
-		
-		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null
-				&& Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled"))
-			alternate = new TaskImportanceHighlighter();
-		else
-			alternate = new TaskHighlighter(new TaskHighlightPredicate());
-		
 		this.setHighlighters(
-				HighlighterFactory.createAlternateStriping(even, odd),
-				alternate,
+				new TaskAlternateHighlighter(),
+				new TaskHighlighter(new TaskHighlightPredicate()),
 				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()),
 				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()));
 	}

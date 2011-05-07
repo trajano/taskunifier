@@ -143,6 +143,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 						field.getLabel() + ":",
 						SwingConstants.TRAILING);
 			
+			field.getType().initializeFieldComponent();
 			component = field.getType().getFieldComponent();
 			
 			panel.add(label);
