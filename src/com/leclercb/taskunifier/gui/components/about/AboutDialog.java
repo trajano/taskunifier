@@ -67,7 +67,7 @@ public class AboutDialog extends JDialog {
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -89,7 +89,7 @@ public class AboutDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AboutDialog.this.dispose();
+				AboutDialog.this.setVisible(false);
 			}
 			
 		};

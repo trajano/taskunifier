@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 0.8.8
+	- Memory leaks
 	- Bug fixed: Repeat with completion date
 	- Bug fixed: Select empty value in template fields
 	- Bug fixed: Order of tasks with the same title

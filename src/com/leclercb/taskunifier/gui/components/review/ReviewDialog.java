@@ -67,7 +67,7 @@ public class ReviewDialog extends JDialog {
 		this.setSize(600, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -89,7 +89,7 @@ public class ReviewDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReviewDialog.this.dispose();
+				ReviewDialog.this.setVisible(false);
 			}
 			
 		};

@@ -104,7 +104,7 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setSize(600, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -142,7 +142,7 @@ public class ModelConfigurationDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					ModelConfigurationDialog.this.dispose();
+					ModelConfigurationDialog.this.setVisible(false);
 				}
 			}
 			

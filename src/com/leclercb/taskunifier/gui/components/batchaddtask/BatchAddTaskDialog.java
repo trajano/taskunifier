@@ -83,7 +83,7 @@ public class BatchAddTaskDialog extends JDialog {
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -174,11 +174,11 @@ public class BatchAddTaskDialog extends JDialog {
 					BatchAddTaskDialog.this.answerTextArea.setText(null);
 					BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
 					
-					BatchAddTaskDialog.this.dispose();
+					BatchAddTaskDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					BatchAddTaskDialog.this.dispose();
+					BatchAddTaskDialog.this.setVisible(false);
 				}
 			}
 			

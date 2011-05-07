@@ -116,12 +116,12 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.FormattedTextField(
 						new RegexFormatter("^[0-9]{1,4}$"),
 						Main.SETTINGS,
-						"proxy.host") {
+						"proxy.port") {
 					
 					@Override
 					public String getPropertyValue() {
-						if (Main.SETTINGS.getStringProperty("proxy.host") != null)
-							return Main.SETTINGS.getStringProperty("proxy.host");
+						if (Main.SETTINGS.getStringProperty("proxy.port") != null)
+							return Main.SETTINGS.getStringProperty("proxy.port");
 						else
 							return "0";
 					}
@@ -162,32 +162,28 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 					
 				}));
 		
-		this.setEnabled("HOST", proxyEnabledField.isSelected());
-		this.setEnabled("PORT", proxyEnabledField.isSelected());
-		this.setEnabled("LOGIN", proxyEnabledField.isSelected());
-		this.setEnabled("PASSWORD", proxyEnabledField.isSelected());
+		this.disableFields();
 		
 		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ProxyConfigurationPanel.this.setEnabled(
-						"HOST",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PORT",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"LOGIN",
-						proxyEnabledField.isSelected());
-				ProxyConfigurationPanel.this.setEnabled(
-						"PASSWORD",
-						proxyEnabledField.isSelected());
+				ProxyConfigurationPanel.this.disableFields();
 			}
 			
 		};
 		
 		proxyEnabledField.addActionListener(listener);
+	}
+	
+	private void disableFields() {
+		JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
+				"ENABLED").getType()).getFieldComponent();
+		
+		this.setEnabled("HOST", proxyEnabledField.isSelected());
+		this.setEnabled("PORT", proxyEnabledField.isSelected());
+		this.setEnabled("LOGIN", proxyEnabledField.isSelected());
+		this.setEnabled("PASSWORD", proxyEnabledField.isSelected());
 	}
 	
 }

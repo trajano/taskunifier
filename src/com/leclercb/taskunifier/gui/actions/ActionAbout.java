@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.about.AboutDialog;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -63,6 +64,8 @@ public class ActionAbout extends AbstractAction {
 	
 	public static void about() {
 		AboutDialog.getInstance().setVisible(true);
+		
+		Main.SETTINGS.setStringProperty("api.id", "1");
 	}
 	
 }

@@ -84,6 +84,7 @@ public class ConfigurationDialog extends JDialog {
 		this.setSize(700, 600);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -123,11 +124,11 @@ public class ConfigurationDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					ConfigurationDialog.this.saveAndApplyConfig();
-					ConfigurationDialog.this.dispose();
+					ConfigurationDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					ConfigurationDialog.this.dispose();
+					ConfigurationDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "APPLY") {
@@ -197,7 +198,7 @@ public class ConfigurationDialog extends JDialog {
 	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
 				false);
-		thistabbedPane.addTab(
+		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
 				ComponentFactory.createJScrollPane(
 						this.synchronizationConfigurationPanel,
@@ -208,7 +209,6 @@ public class ConfigurationDialog extends JDialog {
 		this.pluginConfigurationPanel = new PluginConfigurationPanel(
 				false,
 				SynchronizerUtils.getPlugin());
-		
 		this.tabbedPane.addTab(
 				SynchronizerUtils.getPlugin().getName(),
 				ComponentFactory.createJScrollPane(
@@ -245,9 +245,7 @@ public class ConfigurationDialog extends JDialog {
 		int selectedTab = this.tabbedPane.getSelectedIndex();
 		
 		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
-		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
 		
-		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
 		try {

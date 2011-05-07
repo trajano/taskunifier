@@ -266,7 +266,9 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
-				new ConfigurationFieldType.ColorChooser(Main.SETTINGS, "") {
+				new ConfigurationFieldType.ColorChooser(
+						Main.SETTINGS,
+						"theme.color.odd") {
 					
 					@Override
 					public Color getPropertyValue() {
@@ -278,28 +280,27 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 					
 				}));
 		
-		this.setEnabled("COLORS_ENABLED", !colorsByImportance.isSelected());
-		this.setEnabled("COLOR_EVEN", !colorsByImportance.isSelected());
-		this.setEnabled("COLOR_ODD", !colorsByImportance.isSelected());
+		this.disableFields();
 		
 		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ThemeConfigurationPanel.this.setEnabled(
-						"COLORS_ENABLED",
-						!colorsByImportance.isSelected());
-				ThemeConfigurationPanel.this.setEnabled(
-						"COLOR_EVEN",
-						!colorsByImportance.isSelected());
-				ThemeConfigurationPanel.this.setEnabled(
-						"COLOR_ODD",
-						!colorsByImportance.isSelected());
+				ThemeConfigurationPanel.this.disableFields();
 			}
 			
 		};
 		
 		colorsByImportance.addActionListener(listener);
+	}
+	
+	private void disableFields() {
+		JCheckBox colorsByImportance = ((ConfigurationFieldType.CheckBox) this.getField(
+				"COLORS_IMPORTANCE_ENABLED").getType()).getFieldComponent();
+		
+		this.setEnabled("COLORS_ENABLED", !colorsByImportance.isSelected());
+		this.setEnabled("COLOR_EVEN", !colorsByImportance.isSelected());
+		this.setEnabled("COLOR_ODD", !colorsByImportance.isSelected());
 	}
 	
 }
