@@ -32,7 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks;
 
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
@@ -45,7 +45,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
@@ -58,15 +57,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {
 	
-	public static enum View {
-		
-		TABLE;
-		
-	}
-	
 	private TaskSelectionChangeSupport taskSelectionChangeSupport;
-	
-	private View currentView;
 	
 	private TaskTable taskTable;
 	
@@ -78,7 +69,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
-		this.setLayout(new CardLayout());
+		this.setLayout(new BorderLayout());
 		
 		this.taskTable = new TaskTable();
 		this.taskTable.getSelectionModel().addListSelectionListener(
@@ -93,9 +84,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.taskTable, false),
-				View.TABLE.name());
-		
-		this.setView(View.TABLE);
+				BorderLayout.CENTER);
 	}
 	
 	@Override
@@ -119,19 +108,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 			
 			i++;
 		}
-	}
-	
-	public View getView() {
-		return this.currentView;
-	}
-	
-	public void setView(View view) {
-		CheckUtils.isNotNull(view, "View cannot be null");
-		
-		this.currentView = view;
-		
-		CardLayout layout = (CardLayout) (this.getLayout());
-		layout.show(this, view.name());
 	}
 	
 	@Override
@@ -161,11 +137,11 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 				new MessageFormat(Constants.TITLE
 						+ " - "
 						+ this.taskTable.getTaskSearcher().getTitle()),
-				new MessageFormat(this.taskTable.getRowCount()
-						+ " tasks | Page - {0}"),
-				true,
-				null,
-				true);
+						new MessageFormat(this.taskTable.getRowCount()
+								+ " tasks | Page - {0}"),
+								true,
+								null,
+								true);
 	}
 	
 	@Override
