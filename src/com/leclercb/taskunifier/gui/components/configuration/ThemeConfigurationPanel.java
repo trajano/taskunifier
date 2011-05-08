@@ -36,8 +36,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
-
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -120,9 +118,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ColorsByImportanceEnabledFieldType()));
-		
-		final JCheckBox colorsByImportance = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
-				"COLORS_IMPORTANCE_ENABLED").getType()).getFieldComponent();
 		
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",

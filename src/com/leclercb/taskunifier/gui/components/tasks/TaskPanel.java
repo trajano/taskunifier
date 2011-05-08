@@ -53,6 +53,8 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {
@@ -158,6 +160,8 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	@Override
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
+		MainFrame.getInstance().setSelectedView(View.TASKS);
+		
 		if (event.getSelectedTaskSearcher() != null)
 			this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
 	}
