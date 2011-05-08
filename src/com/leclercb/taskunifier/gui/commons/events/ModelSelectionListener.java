@@ -32,12 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.commons.events;
 
-public interface TaskSelectionChangeSupported {
+public interface ModelSelectionListener {
 	
-	public abstract void addTaskSelectionChangeListener(
-			TaskSelectionListener listener);
-	
-	public abstract void removeTaskSelectionChangeListener(
-			TaskSelectionListener listener);
+	public abstract void modelSelectionChange(ModelSelectionChangeEvent event);
 	
 }

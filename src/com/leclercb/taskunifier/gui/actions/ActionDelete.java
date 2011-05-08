@@ -39,10 +39,13 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -71,14 +74,21 @@ public class ActionDelete extends AbstractAction {
 	}
 	
 	public static void delete() {
-		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
-		
-		Synchronizing.setSynchronizing(true);
-		
-		for (Task task : tasks)
-			TaskFactory.getInstance().markToDelete(task);
-		
-		Synchronizing.setSynchronizing(false);
+		if (MainFrame.getInstance().getSelectedView() == View.TASKS) {
+			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+			
+			Synchronizing.setSynchronizing(true);
+			
+			for (Task task : tasks)
+				TaskFactory.getInstance().markToDelete(task);
+			
+			Synchronizing.setSynchronizing(false);
+		} else {
+			Note[] notes = MainFrame.getInstance().getNoteView().getSelectedNotes();
+			
+			for (Note note : notes)
+				NoteFactory.getInstance().markToDelete(note);
+		}
 	}
 	
 }

@@ -138,26 +138,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
 				new ColorOddFieldType()));
-		
-		this.disableFields();
-		
-		colorsByImportance.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ThemeConfigurationPanel.this.disableFields();
-			}
-			
-		});
-	}
-	
-	private void disableFields() {
-		JCheckBox colorsByImportance = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
-				"COLORS_IMPORTANCE_ENABLED").getType()).getFieldComponent();
-		
-		this.setEnabled("COLORS_ENABLED", !colorsByImportance.isSelected());
-		this.setEnabled("COLOR_EVEN", !colorsByImportance.isSelected());
-		this.setEnabled("COLOR_ODD", !colorsByImportance.isSelected());
 	}
 	
 	private void applyTheme() {

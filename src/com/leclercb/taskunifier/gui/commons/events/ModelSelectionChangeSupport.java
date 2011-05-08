@@ -30,39 +30,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.commons.events;
 
-import java.awt.event.ActionEvent;
+import com.leclercb.commons.api.event.ListenerList;
+import com.leclercb.taskunifier.api.models.Model;
 
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-
-public class ActionAbout extends AbstractAction {
+public class ModelSelectionChangeSupport implements ModelSelectionChangeSupported {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
+	private ListenerList<ModelSelectionListener> listeners;
 	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+	private Object source;
+	
+	public ModelSelectionChangeSupport(Object source) {
+		this.listeners = new ListenerList<ModelSelectionListener>();
+		this.source = source;
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
+	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
+		this.listeners.addListener(listener);
 	}
 	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
+	@Override
+	public void removeModelSelectionChangeListener(
+			ModelSelectionListener listener) {
+		this.listeners.removeListener(listener);
+	}
+	
+	public void fireModelSelectionChange(ModelSelectionChangeEvent event) {
+		for (ModelSelectionListener listener : this.listeners)
+			listener.modelSelectionChange(event);
+	}
+	
+	public void fireModelSelectionChange(Model[] selectedModels) {
+		this.fireModelSelectionChange(new ModelSelectionChangeEvent(
+				this.source,
+				selectedModels));
 	}
 	
 }

@@ -33,10 +33,10 @@
 package com.leclercb.taskunifier.gui.components.tasks;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeSupported;
 
-public interface TaskView extends TaskSelectionChangeSupported, TaskSearcherSelectionListener {
+public interface TaskView extends ModelSelectionChangeSupported, TaskSearcherSelectionListener {
 	
 	public abstract Task[] getSelectedTasks();
 	

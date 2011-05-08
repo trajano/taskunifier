@@ -30,39 +30,53 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.notes;
 
-import java.awt.event.ActionEvent;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 
-import javax.swing.AbstractAction;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Note;
 
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-
-public class ActionAbout extends AbstractAction {
+public class NoteUndoableEdit extends AbstractUndoableEdit {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
+	private Note note;
+	private NoteColumn column;
+	private Object newValue;
+	private Object oldValue;
 	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
+	public NoteUndoableEdit(
+			Note note,
+			NoteColumn column,
+			Object newValue,
+			Object oldValue) {
+		CheckUtils.isNotNull(note, "Note cannot be null");
+		CheckUtils.isNotNull(column, "Column cannot be null");
 		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+		this.note = note;
+		this.column = column;
+		this.newValue = newValue;
+		this.oldValue = oldValue;
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
+	public String getPresentationName() {
+		return "Cell Edit";
 	}
 	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
+	@Override
+	public void undo() throws CannotUndoException {
+		super.undo();
+		
+		this.column.setValue(this.note, this.oldValue);
+	}
+	
+	@Override
+	public void redo() throws CannotRedoException {
+		super.redo();
+		
+		this.column.setValue(this.note, this.newValue);
 	}
 	
 }

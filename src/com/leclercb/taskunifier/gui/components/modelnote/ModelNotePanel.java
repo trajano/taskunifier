@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasknote;
+package com.leclercb.taskunifier.gui.components.modelnote;
 
 import java.awt.CardLayout;
 import java.awt.event.FocusAdapter;
@@ -50,25 +50,26 @@ import javax.swing.text.StyledEditorKit;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelNote;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskNotePanel extends JPanel implements TaskSelectionListener, PropertyChangeListener {
+public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
 	
 	private JEditorPane htmlNote;
 	private JTextArea textNote;
 	
-	private Task previousSelectedTask;
+	private ModelNote previousSelectedModel;
 	
-	public TaskNotePanel() {
-		this.previousSelectedTask = null;
+	public ModelNotePanel() {
+		this.previousSelectedModel = null;
 		this.initialize();
 	}
 	
-	public String getTaskNote() {
+	public String getModelNote() {
 		return this.textNote.getText();
 	}
 	
@@ -81,14 +82,14 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 		this.htmlNote.setEditable(false);
 		this.htmlNote.setEditorKit(new StyledEditorKit());
 		this.htmlNote.setContentType("text/html");
-		this.htmlNote.setText(Translations.getString("error.select_one_task"));
+		this.htmlNote.setText(Translations.getString("error.select_one_row"));
 		this.htmlNote.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (TaskNotePanel.this.htmlNote.isEnabled()) {
-					((CardLayout) TaskNotePanel.this.getLayout()).last(TaskNotePanel.this);
-					TaskNotePanel.this.textNote.setCaretPosition(0);
+				if (ModelNotePanel.this.htmlNote.isEnabled()) {
+					((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
+					ModelNotePanel.this.textNote.setCaretPosition(0);
 				}
 			}
 			
@@ -116,11 +117,11 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (TaskNotePanel.this.previousSelectedTask != null) {
+				if (ModelNotePanel.this.previousSelectedModel != null) {
 					if (!EqualsUtils.equals(
-							TaskNotePanel.this.previousSelectedTask.getNote(),
-							TaskNotePanel.this.getTaskNote())) {
-						TaskNotePanel.this.previousSelectedTask.setNote(TaskNotePanel.this.getTaskNote());
+							ModelNotePanel.this.previousSelectedModel.getNote(),
+							ModelNotePanel.this.getModelNote())) {
+						ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
 					}
 				}
 			}
@@ -134,26 +135,26 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 				ComponentFactory.createJScrollPane(this.textNote, false),
 				"" + 1);
 		
-		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
+		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
 	}
 	
 	@Override
-	public void taskSelectionChange(TaskSelectionChangeEvent event) {
-		if (this.previousSelectedTask != null) {
+	public void modelSelectionChange(ModelSelectionChangeEvent event) {
+		if (this.previousSelectedModel != null) {
 			if (!EqualsUtils.equals(
-					this.previousSelectedTask.getNote(),
-					this.getTaskNote()))
-				this.previousSelectedTask.setNote(this.getTaskNote());
+					this.previousSelectedModel.getNote(),
+					this.getModelNote()))
+				this.previousSelectedModel.setNote(this.getModelNote());
 			
-			this.previousSelectedTask.removePropertyChangeListener(this);
+			this.previousSelectedModel.removePropertyChangeListener(this);
 		}
 		
-		Task[] tasks = event.getSelectedTasks();
+		Model[] models = event.getSelectedModels();
 		
-		if (tasks.length != 1) {
-			this.previousSelectedTask = null;
+		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
+			this.previousSelectedModel = null;
 			
-			this.htmlNote.setText(Translations.getString("error.select_one_task"));
+			this.htmlNote.setText(Translations.getString("error.select_one_row"));
 			this.textNote.setText(null);
 			
 			this.htmlNote.setCaretPosition(0);
@@ -161,10 +162,10 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 			
 			this.htmlNote.setEnabled(false);
 		} else {
-			this.previousSelectedTask = tasks[0];
-			this.previousSelectedTask.addPropertyChangeListener(this);
+			this.previousSelectedModel = (ModelNote) models[0];
+			this.previousSelectedModel.addPropertyChangeListener(this);
 			
-			String note = (this.previousSelectedTask.getNote() == null ? "" : this.previousSelectedTask.getNote());
+			String note = (this.previousSelectedModel.getNote() == null ? "" : this.previousSelectedModel.getNote());
 			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);
@@ -175,7 +176,7 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 			this.htmlNote.setEnabled(true);
 		}
 		
-		((CardLayout) this.getLayout()).first(TaskNotePanel.this);
+		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
 	}
 	
 	private String convertTextNoteToHtml(String note) {
@@ -187,8 +188,8 @@ public class TaskNotePanel extends JPanel implements TaskSelectionListener, Prop
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (EqualsUtils.equals(evt.getPropertyName(), Task.PROP_NOTE)) {
-			String note = (this.previousSelectedTask.getNote() == null ? "" : this.previousSelectedTask.getNote());
+		if (EqualsUtils.equals(evt.getPropertyName(), ModelNote.PROP_NOTE)) {
+			String note = (this.previousSelectedModel.getNote() == null ? "" : this.previousSelectedModel.getNote());
 			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);

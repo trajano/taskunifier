@@ -33,8 +33,11 @@
 package com.leclercb.taskunifier.gui.main;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -46,12 +49,14 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -61,9 +66,13 @@ import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
+import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
@@ -102,12 +111,14 @@ import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
+import com.leclercb.taskunifier.gui.components.notes.NotePanel;
+import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.AbstractStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
-import com.leclercb.taskunifier.gui.components.tasknote.TaskNotePanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
@@ -120,7 +131,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class MainFrame extends JFrame implements MainView, SavePropertiesListener {
+public class MainFrame extends JFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
+	
+	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
 	private static MainView INSTANCE;
 	
@@ -136,10 +149,15 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
+	private JPanel middlePane;
 	
 	private JTextField searchField;
 	private SearcherPanel searcherPanel;
+	
+	private NotePanel notePanel;
 	private TaskPanel taskPanel;
+	
+	private View selectedView;
 	
 	private MainFrame() {
 		this.initialize();
@@ -186,6 +204,10 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
 			
+			this.middlePane = new JPanel();
+			this.middlePane.setLayout(new CardLayout());
+			this.verticalSplitPane.setTopComponent(this.middlePane);
+			
 			this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 			
 			panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
@@ -198,9 +220,12 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		{
 			this.initializeSearchField();
 			this.initializeSearcherList(this.horizontalSplitPane);
-			this.initializeTaskPanel(this.verticalSplitPane);
-			this.initializeTaskNote(this.verticalSplitPane);
+			this.initializeNotePanel(this.middlePane);
+			this.initializeTaskPanel(this.middlePane);
+			this.initializeModelNote(this.verticalSplitPane);
 			this.initializeDefaultTaskSearcher();
+			
+			this.setSelectedView(View.TASKS);
 			
 			this.initializeReminderThread();
 			this.initializeScheduledSyncThread();
@@ -219,6 +244,32 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	@Override
 	public SearcherView getSearcherView() {
 		return this.searcherPanel;
+	}
+	
+	@Override
+	public View getSelectedView() {
+		return this.selectedView;
+	}
+	
+	@Override
+	public void setSelectedView(View view) {
+		CheckUtils.isNotNull(view, "View cannot be null");
+		
+		if (this.selectedView == view)
+			return;
+		
+		CardLayout layout = (CardLayout) this.middlePane.getLayout();
+		layout.show(this.middlePane, view.name());
+		
+		View oldSelectedView = this.selectedView;
+		this.selectedView = view;
+		
+		this.firePropertyChange(PROP_SELECTED_VIEW, oldSelectedView, view);
+	}
+	
+	@Override
+	public NoteView getNoteView() {
+		return this.notePanel;
 	}
 	
 	@Override
@@ -322,6 +373,43 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
 		
+		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
+		menuBar.add(viewMenu);
+		
+		ButtonGroup viewGroup = new ButtonGroup();
+		
+		for (View view : View.values()) {
+			final View v = view;
+			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
+					v.getLabel());
+			viewGroup.add(item);
+			viewMenu.add(item);
+			
+			if (this.getSelectedView() == view)
+				item.setSelected(true);
+			
+			item.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent evt) {
+					MainFrame.this.setSelectedView(v);
+				}
+				
+			});
+			
+			this.addPropertyChangeListener(
+					PROP_SELECTED_VIEW,
+					new PropertyChangeListener() {
+						
+						@Override
+						public void propertyChange(PropertyChangeEvent evt) {
+							if (EqualsUtils.equals(evt.getNewValue(), v))
+								item.setSelected(true);
+						}
+						
+					});
+		}
+		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		menuBar.add(editMenu);
 		
@@ -331,6 +419,12 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		editMenu.add(new ActionCut(16, 16));
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
+		
+		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
+		menuBar.add(notesMenu);
+		
+		notesMenu.add(new ActionAddNote(16, 16));
+		notesMenu.add(new ActionDelete(16, 16));
 		
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
 		menuBar.add(tasksMenu);
@@ -478,6 +572,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		// TEMPLATE
 		
 		return new Object[] {
+				new ActionAddNote(iconWith, iconHeight),
 				new ActionAddTask(iconWith, iconHeight),
 				addTemplateTaskButton,
 				new ActionDelete(iconWith, iconHeight),
@@ -554,24 +649,27 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		horizontalSplitPane.setLeftComponent(panel);
 	}
 	
-	private void initializeTaskPanel(JSplitPane verticalSplitPane) {
-		JPanel panel = new JPanel(new BorderLayout());
+	private void initializeNotePanel(JPanel middlePane) {
+		this.notePanel = new NotePanel();
 		
+		middlePane.add(this.notePanel, View.NOTES.name());
+	}
+	
+	private void initializeTaskPanel(JPanel middlePane) {
 		this.taskPanel = new TaskPanel();
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskPanel);
 		
-		panel.add(this.taskPanel, BorderLayout.CENTER);
-		
-		verticalSplitPane.setTopComponent(panel);
+		middlePane.add(this.taskPanel, View.TASKS.name());
 	}
 	
-	private void initializeTaskNote(JSplitPane verticalSplitPane) {
+	private void initializeModelNote(JSplitPane verticalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
 		
-		TaskNotePanel taskNote = new TaskNotePanel();
-		this.taskPanel.addTaskSelectionChangeListener(taskNote);
+		ModelNotePanel modelNote = new ModelNotePanel();
+		this.notePanel.addModelSelectionChangeListener(modelNote);
+		this.taskPanel.addModelSelectionChangeListener(modelNote);
 		
-		panel.add(taskNote, BorderLayout.CENTER);
+		panel.add(modelNote, BorderLayout.CENTER);
 		
 		verticalSplitPane.setBottomComponent(panel);
 	}

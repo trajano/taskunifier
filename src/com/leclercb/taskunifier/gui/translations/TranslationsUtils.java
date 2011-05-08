@@ -46,24 +46,12 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.EnumCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.NumberCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class TranslationsUtils {
 	
 	private TranslationsUtils() {
 
-	}
-	
-	public static String translateTaskPanelView(TaskPanel.View view) {
-		switch (view) {
-			// case LIST:
-			// return Translations.getString("task_panel.view.list");
-			case TABLE:
-				return Translations.getString("task_panel.view.table");
-		}
-		
-		return "Missing translation";
 	}
 	
 	public static String translateSynchronizerChoice(SynchronizerChoice choice) {

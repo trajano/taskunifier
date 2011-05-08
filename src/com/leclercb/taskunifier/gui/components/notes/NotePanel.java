@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks;
+package com.leclercb.taskunifier.gui.components.notes;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
@@ -45,24 +45,22 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {
+public class NotePanel extends JPanel implements NoteView, SavePropertiesListener {
 	
-	private ModelSelectionChangeSupport modelSelectionChangeSupport;
+	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
-	private TaskTable taskTable;
+	private NoteTable noteTable;
 	
-	public TaskPanel() {
-		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
+	public NotePanel() {
+		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
 	
@@ -71,74 +69,72 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		
 		this.setLayout(new BorderLayout());
 		
-		this.taskTable = new TaskTable();
-		this.taskTable.getSelectionModel().addListSelectionListener(
+		this.noteTable = new NoteTable();
+		this.noteTable.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						TaskPanel.this.modelSelectionChangeSupport.fireModelSelectionChange(TaskPanel.this.getSelectedTasks());
+						NotePanel.this.noteSelectionChangeSupport.fireModelSelectionChange(NotePanel.this.getSelectedNotes());
 					}
 					
 				});
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.taskTable, false),
+				ComponentFactory.createJScrollPane(this.noteTable, false),
 				BorderLayout.CENTER);
 	}
 	
 	@Override
 	public void saveProperties() {
-		// TODO: add listeners in task table and put this in TaskColumn
+		// TODO: add listeners in note table and put this in NoteColumn
 		int i = 0;
-		Enumeration<TableColumn> columns = this.taskTable.getColumnModel().getColumns();
+		Enumeration<TableColumn> columns = this.noteTable.getColumnModel().getColumns();
 		while (columns.hasMoreElements()) {
 			TableColumn column = columns.nextElement();
-			TaskColumn taskColumn = (TaskColumn) column.getIdentifier();
+			NoteColumn noteColumn = (NoteColumn) column.getIdentifier();
 			
-			Main.SETTINGS.setIntegerProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
+			Main.SETTINGS.setIntegerProperty("notecolumn."
+					+ noteColumn.name().toLowerCase()
 					+ ".order", i);
-			Main.SETTINGS.setIntegerProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
+			Main.SETTINGS.setIntegerProperty("notecolumn."
+					+ noteColumn.name().toLowerCase()
 					+ ".width", column.getWidth());
-			Main.SETTINGS.setBooleanProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
-					+ ".visible", taskColumn.isVisible());
+			Main.SETTINGS.setBooleanProperty("notecolumn."
+					+ noteColumn.name().toLowerCase()
+					+ ".visible", noteColumn.isVisible());
 			
 			i++;
 		}
 	}
 	
 	@Override
-	public Task[] getSelectedTasks() {
-		return this.taskTable.getSelectedTasks();
+	public Note[] getSelectedNotes() {
+		return this.noteTable.getSelectedNotes();
 	}
 	
 	@Override
-	public void setSelectedTaskAndStartEdit(Task task) {
-		this.taskTable.setSelectedTaskAndStartEdit(task);
+	public void setSelectedNoteAndStartEdit(Note note) {
+		this.noteTable.setSelectedNoteAndStartEdit(note);
 	}
 	
 	@Override
-	public void setSelectedTasks(Task[] tasks) {
-		this.taskTable.setSelectedTasks(tasks);
+	public void setSelectedNotes(Note[] notes) {
+		this.noteTable.setSelectedNotes(notes);
 	}
 	
 	@Override
-	public void refreshTasks() {
-		this.taskTable.refreshTasks();
+	public void refreshNotes() {
+		this.noteTable.refreshNotes();
 	}
 	
 	@Override
-	public void printTasks() throws HeadlessException, PrinterException {
-		this.taskTable.print(
+	public void printNotes() throws HeadlessException, PrinterException {
+		this.noteTable.print(
 				PrintMode.FIT_WIDTH,
-				new MessageFormat(Constants.TITLE
-						+ " - "
-						+ this.taskTable.getTaskSearcher().getTitle()),
-				new MessageFormat(this.taskTable.getRowCount()
-						+ " tasks | Page - {0}"),
+				new MessageFormat(Constants.TITLE + " - Notes"),
+				new MessageFormat(this.noteTable.getRowCount()
+						+ " notes | Page - {0}"),
 				true,
 				null,
 				true);
@@ -146,20 +142,13 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	
 	@Override
 	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
-		this.modelSelectionChangeSupport.removeModelSelectionChangeListener(listener);
+		this.noteSelectionChangeSupport.addModelSelectionChangeListener(listener);
 	}
 	
 	@Override
 	public void removeModelSelectionChangeListener(
 			ModelSelectionListener listener) {
-		this.modelSelectionChangeSupport.removeModelSelectionChangeListener(listener);
-	}
-	
-	@Override
-	public void taskSearcherSelectionChange(
-			TaskSearcherSelectionChangeEvent event) {
-		if (event.getSelectedTaskSearcher() != null)
-			this.taskTable.setTaskSearcher(event.getSelectedTaskSearcher());
+		this.noteSelectionChangeSupport.removeModelSelectionChangeListener(listener);
 	}
 	
 }

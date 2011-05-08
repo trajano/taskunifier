@@ -30,10 +30,47 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.events;
+package com.leclercb.taskunifier.gui.components.notes.table;
 
-public interface TaskSelectionListener {
+import java.util.Arrays;
+import java.util.Comparator;
+
+import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
+
+import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+
+public class NoteTableColumnModel extends DefaultTableColumnModelExt {
 	
-	public abstract void taskSelectionChange(TaskSelectionChangeEvent event);
+	public NoteTableColumnModel() {
+		this.initialize();
+	}
+	
+	private void initialize() {
+		NoteColumn[] noteColumns = NoteColumn.values();
+		Arrays.sort(noteColumns, new Comparator<NoteColumn>() {
+			
+			@Override
+			public int compare(NoteColumn c1, NoteColumn c2) {
+				return CompareUtils.compare(c1.getOrder(), c2.getOrder());
+			}
+			
+		});
+		
+		for (int i = 0; i < noteColumns.length; i++)
+			this.addColumn(new NoteTableColumn(noteColumns[i]));
+	}
+	
+	public NoteColumn getNoteColumn(int col) {
+		return (NoteColumn) this.getColumn(col).getIdentifier();
+	}
+	
+	@Override
+	public void moveColumn(int columnIndex, int newIndex) {
+		NoteColumn column = (NoteColumn) this.getColumn(columnIndex).getIdentifier();
+		column.setOrder(newIndex);
+		
+		super.moveColumn(columnIndex, newIndex);
+	}
 	
 }

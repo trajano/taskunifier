@@ -36,33 +36,44 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAbout extends AbstractAction {
+public class ActionAddNote extends AbstractAction {
 	
-	public ActionAbout() {
+	public ActionAddNote() {
 		this(32, 32);
 	}
 	
-	public ActionAbout(int width, int height) {
+	public ActionAddNote(int width, int height) {
 		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
+				Translations.getString("action.name.add_note"),
+				Images.getResourceImage("document.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+				Translations.getString("action.description.add_note"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
+		ActionAddNote.addNote();
 	}
 	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
+	public static Note addNote() {
+		MainFrame.getInstance().setSelectedView(View.NOTES);
+		
+		Note note = NoteFactory.getInstance().create("");
+		
+		MainFrame.getInstance().getNoteView().refreshNotes();
+		
+		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
+		
+		return note;
 	}
 	
 }

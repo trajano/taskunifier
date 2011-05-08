@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.main;
 
 import java.awt.Frame;
 
+import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 
@@ -42,6 +43,12 @@ public interface MainView {
 	public abstract Frame getFrame();
 	
 	public abstract SearcherView getSearcherView();
+	
+	public abstract View getSelectedView();
+	
+	public abstract void setSelectedView(View view);
+	
+	public abstract NoteView getNoteView();
 	
 	public abstract TaskView getTaskView();
 	

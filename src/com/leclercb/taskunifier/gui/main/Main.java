@@ -62,6 +62,7 @@ import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
@@ -368,6 +369,21 @@ public class Main {
 		}
 		
 		try {
+			new NoteFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+					+ File.separator
+					+ "notes.xml"));
+		} catch (FileNotFoundException e) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
 			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
@@ -546,6 +562,18 @@ public class Main {
 			try {
 				new GuiLocationFactoryXMLCoder().encode(new FileOutputStream(
 						DATA_FOLDER + File.separator + "locations.xml"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				new NoteFactoryXMLCoder().encode(new FileOutputStream(
+						DATA_FOLDER + File.separator + "notes.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(

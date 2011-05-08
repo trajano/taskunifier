@@ -30,39 +30,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.commons.events;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-
-public class ActionAbout extends AbstractAction {
+public interface ModelSelectionChangeSupported {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
+	public abstract void addModelSelectionChangeListener(
+			ModelSelectionListener listener);
 	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
-	}
-	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
-	}
+	public abstract void removeModelSelectionChangeListener(
+			ModelSelectionListener listener);
 	
 }

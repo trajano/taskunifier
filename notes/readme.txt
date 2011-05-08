@@ -1,7 +1,8 @@
 HISTORY
 -------
 
-Version 0.8.8
+Version 0.9.0
+	- Ability to add/edit/delete/synchronize notes
 	- Memory leaks
 	- Bug fixed: Repeat with completion date
 	- Bug fixed: Select empty value in template fields

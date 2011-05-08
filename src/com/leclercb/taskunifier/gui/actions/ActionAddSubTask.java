@@ -39,16 +39,18 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -74,11 +76,11 @@ public class ActionAddSubTask extends AbstractAction {
 				KeyEvent.VK_K,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		taskView.addTaskSelectionChangeListener(new TaskSelectionListener() {
+		taskView.addModelSelectionChangeListener(new ModelSelectionListener() {
 			
 			@Override
-			public void taskSelectionChange(TaskSelectionChangeEvent event) {
-				ActionAddSubTask.this.setEnabled(event.getSelectedTasks());
+			public void modelSelectionChange(ModelSelectionChangeEvent event) {
+				ActionAddSubTask.this.setEnabled(event.getSelectedModels());
 			}
 			
 		});
@@ -86,11 +88,12 @@ public class ActionAddSubTask extends AbstractAction {
 		this.setEnabled(this.taskView.getSelectedTasks());
 	}
 	
-	private void setEnabled(Task[] tasks) {
+	private void setEnabled(Model[] tasks) {
 		if (tasks == null)
 			return;
 		
-		this.setEnabled(tasks.length == 1 && tasks[0].getParent() == null);
+		this.setEnabled(tasks.length == 1
+				&& ((Task) tasks[0]).getParent() == null);
 	}
 	
 	@Override
@@ -102,6 +105,8 @@ public class ActionAddSubTask extends AbstractAction {
 	}
 	
 	public static Task addSubTask(Template template, Task parent) {
+		MainFrame.getInstance().setSelectedView(View.TASKS);
+		
 		if (parent == null)
 			return null;
 		

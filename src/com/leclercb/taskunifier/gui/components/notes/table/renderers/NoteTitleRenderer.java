@@ -30,39 +30,60 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.notes.table.renderers;
 
-import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Component;
 
-import javax.swing.AbstractAction;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAbout extends AbstractAction {
+public class NoteTitleRenderer extends DefaultTableCellRenderer {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
-	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+	public NoteTitleRenderer() {
+
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
-	}
-	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
+	public Component getTableCellRendererComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			boolean hasFocus,
+			int row,
+			int column) {
+		Component component = super.getTableCellRendererComponent(
+				table,
+				value,
+				isSelected,
+				hasFocus,
+				row,
+				column);
+		
+		if (value == null) {
+			this.setForeground(Color.BLACK);
+			this.setText("");
+			return component;
+		}
+		
+		Note note = ((NoteTable) table).getNote(row);
+		
+		Color foreground = Color.BLACK;
+		String title = note.getTitle();
+		
+		if (title.length() == 0) {
+			foreground = Color.GRAY;
+			title = Translations.getString("note.default.title");
+		}
+		
+		this.setForeground(foreground);
+		this.setText(title);
+		
+		return component;
 	}
 	
 }

@@ -32,39 +32,27 @@
  */
 package com.leclercb.taskunifier.gui.commons.events;
 
-import com.leclercb.commons.api.event.ListenerList;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Model;
 
-public class TaskSelectionChangeSupport implements TaskSelectionChangeSupported {
-	
-	private ListenerList<TaskSelectionListener> listeners;
+public class ModelSelectionChangeEvent {
 	
 	private Object source;
+	private Model[] selectedModels;
 	
-	public TaskSelectionChangeSupport(Object source) {
-		this.listeners = new ListenerList<TaskSelectionListener>();
+	public ModelSelectionChangeEvent(Object source, Model[] selectedModels) {
+		CheckUtils.isNotNull(source, "Source cannot be null");
+		
 		this.source = source;
+		this.selectedModels = selectedModels;
 	}
 	
-	@Override
-	public void addTaskSelectionChangeListener(TaskSelectionListener listener) {
-		this.listeners.addListener(listener);
+	public Object getSource() {
+		return this.source;
 	}
 	
-	@Override
-	public void removeTaskSelectionChangeListener(TaskSelectionListener listener) {
-		this.listeners.removeListener(listener);
-	}
-	
-	public void fireTaskSelectionChange(TaskSelectionChangeEvent event) {
-		for (TaskSelectionListener listener : this.listeners)
-			listener.taskSelectionChange(event);
-	}
-	
-	public void fireTaskSelectionChange(Task[] selectedTasks) {
-		this.fireTaskSelectionChange(new TaskSelectionChangeEvent(
-				this.source,
-				selectedTasks));
+	public Model[] getSelectedModels() {
+		return this.selectedModels;
 	}
 	
 }

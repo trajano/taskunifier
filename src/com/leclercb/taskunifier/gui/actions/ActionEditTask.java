@@ -40,8 +40,8 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -66,11 +66,11 @@ public class ActionEditTask extends AbstractAction {
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		taskView.addTaskSelectionChangeListener(new TaskSelectionListener() {
+		taskView.addModelSelectionChangeListener(new ModelSelectionListener() {
 			
 			@Override
-			public void taskSelectionChange(TaskSelectionChangeEvent event) {
-				ActionEditTask.this.setEnabled(event.getSelectedTasks().length == 1);
+			public void modelSelectionChange(ModelSelectionChangeEvent event) {
+				ActionEditTask.this.setEnabled(event.getSelectedModels().length == 1);
 			}
 			
 		});

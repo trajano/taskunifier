@@ -30,39 +30,20 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.notes.table.renderers;
 
-import java.awt.event.ActionEvent;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import javax.swing.AbstractAction;
+import com.leclercb.taskunifier.api.models.Model;
 
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-
-public class ActionAbout extends AbstractAction {
-	
-	public ActionAbout() {
-		this(32, 32);
-	}
-	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
-	}
+public class StringValueModelId implements StringValue {
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
-	}
-	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
+	public String getString(Object value) {
+		if (!(value instanceof Model))
+			return "";
+		
+		return ((Model) value).getModelId().toString();
 	}
 	
 }

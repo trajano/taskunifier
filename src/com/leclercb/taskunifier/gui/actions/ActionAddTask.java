@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -74,6 +75,8 @@ public class ActionAddTask extends AbstractAction {
 	}
 	
 	public static Task addTask(Template template) {
+		MainFrame.getInstance().setSelectedView(View.TASKS);
+		
 		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)

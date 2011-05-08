@@ -30,29 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.events;
+package com.leclercb.taskunifier.gui.components.notes.table.renderers;
 
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Task;
+import javax.swing.Icon;
 
-public class TaskSelectionChangeEvent {
+import org.jdesktop.swingx.renderer.IconValue;
+
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+
+public class IconValueModel implements IconValue {
 	
-	private Object source;
-	private Task[] selectedTasks;
-	
-	public TaskSelectionChangeEvent(Object source, Task[] selectedTasks) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+	@Override
+	public Icon getIcon(Object value) {
+		if (!(value instanceof Model))
+			return new ColorBadgeIcon(null, 12, 12);
 		
-		this.source = source;
-		this.selectedTasks = selectedTasks;
-	}
-	
-	public Object getSource() {
-		return this.source;
-	}
-	
-	public Task[] getSelectedTasks() {
-		return this.selectedTasks;
+		if (value instanceof GuiModel)
+			return new ColorBadgeIcon(((GuiModel) value).getColor(), 12, 12);
+		else
+			return new ColorBadgeIcon(null, 12, 12);
 	}
 	
 }

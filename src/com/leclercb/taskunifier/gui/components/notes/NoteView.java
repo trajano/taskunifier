@@ -30,39 +30,21 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.notes;
 
-import java.awt.event.ActionEvent;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
 
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.about.AboutDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-
-public class ActionAbout extends AbstractAction {
+public interface NoteView extends ModelSelectionChangeSupported {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
+	public abstract Note[] getSelectedNotes();
 	
-	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
-	}
+	public abstract void setSelectedNoteAndStartEdit(Note note);
 	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAbout.about();
-	}
+	public abstract void setSelectedNotes(Note[] notes);
 	
-	public static void about() {
-		AboutDialog.getInstance().setVisible(true);
-	}
+	public abstract void refreshNotes();
+	
+	public abstract void printNotes() throws Exception;
 	
 }

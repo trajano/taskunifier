@@ -59,6 +59,7 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -441,7 +442,7 @@ public class TaskEditPanel extends JPanel {
 		ValueModel taskStarModel = this.adapter.getValueModel(Task.PROP_STAR);
 		Bindings.bind(this.taskStar, taskStarModel);
 		
-		ValueModel taskNoteModel = this.adapter.getValueModel(Task.PROP_NOTE);
+		ValueModel taskNoteModel = this.adapter.getValueModel(ModelNote.PROP_NOTE);
 		Bindings.bind(this.taskNote, taskNoteModel);
 	}
 	

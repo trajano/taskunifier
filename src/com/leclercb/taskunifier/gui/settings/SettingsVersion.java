@@ -111,7 +111,7 @@ public final class SettingsVersion {
 			version = updateSettings_0_8_6_to_0_8_7();
 		
 		if (version.equals("0.8.7"))
-			version = updateSettings_0_8_7_to_0_8_8();
+			version = updateSettings_0_8_7_to_0_9_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -321,17 +321,18 @@ public final class SettingsVersion {
 		return "0.8.7";
 	}
 	
-	private static String updateSettings_0_8_7_to_0_8_8() {
+	private static String updateSettings_0_8_7_to_0_9_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 0.8.7 to 0.8.8");
+				"Update settings from version 0.8.7 to 0.9.0");
 		
 		ActionResetGeneralSearchers.resetGeneralSearchers();
+		Main.SETTINGS.setStringProperty("taskcolumn.note.visible", "false");
 		Main.SETTINGS.setStringProperty("taskcolumn.task.visible", "false");
 		Main.SETTINGS.setStringProperty(
 				"theme.color.importance.enabled",
 				"false");
 		
-		return "0.8.8";
+		return "0.9.0";
 	}
 	
 }

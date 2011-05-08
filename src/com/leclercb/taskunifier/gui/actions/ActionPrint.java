@@ -70,7 +70,14 @@ public class ActionPrint extends AbstractAction {
 	
 	public static void print() {
 		try {
-			MainFrame.getInstance().getTaskView().printTasks();
+			switch (MainFrame.getInstance().getSelectedView()) {
+				case NOTES:
+					MainFrame.getInstance().getNoteView().printNotes();
+					break;
+				case TASKS:
+					MainFrame.getInstance().getTaskView().printTasks();
+					break;
+			}
 		} catch (Exception exc) {
 			ErrorDialog errorDialog = new ErrorDialog(
 					MainFrame.getInstance().getFrame(),
