@@ -145,6 +145,9 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 			case 9:
 				renderer.setBackground(new Color(255, 204, 204));
 				break;
+			case 10:
+				renderer.setBackground(new Color(255, 153, 153));
+				break;
 		}
 		
 		return renderer;
