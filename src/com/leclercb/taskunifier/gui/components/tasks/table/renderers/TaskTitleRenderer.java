@@ -37,13 +37,14 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class TaskTitleRenderer extends DefaultRenderer {
+public class TaskTitleRenderer extends DefaultTableCellRenderer {
 	
 	public TaskTitleRenderer() {
 

@@ -59,7 +59,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.BooleanValueBoolean;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.DefaultRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueCompleted;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueModel;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValuePriority;
@@ -80,7 +79,6 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer CALENDAR_RENDERER;
 	private static final TableCellRenderer COMPLETED_RENDERER;
-	private static final TableCellRenderer DEFAULT_RENDERER;
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
@@ -113,8 +111,6 @@ public class TaskTableColumn extends TableColumnExt {
 				null,
 				new IconValueCompleted(),
 				new BooleanValueBoolean()), SwingConstants.CENTER);
-		
-		DEFAULT_RENDERER = new DefaultRenderer();
 		
 		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueLength());
 		
@@ -251,7 +247,7 @@ public class TaskTableColumn extends TableColumnExt {
 			case STATUS:
 				return TASK_STATUS_RENDERER;
 			default:
-				return DEFAULT_RENDERER;
+				return super.getCellRenderer();
 		}
 	}
 	
