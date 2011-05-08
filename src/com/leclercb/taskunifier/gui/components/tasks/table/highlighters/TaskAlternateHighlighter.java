@@ -160,7 +160,8 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 		else
 			this.byImportance = false;
 		
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
+		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null &&
+				Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
 			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
 			this.odd = Main.SETTINGS.getColorProperty("theme.color.odd");
 		} else {
