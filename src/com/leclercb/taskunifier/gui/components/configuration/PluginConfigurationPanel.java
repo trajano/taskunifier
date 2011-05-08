@@ -40,8 +40,9 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 
-public class PluginConfigurationPanel extends ConfigurationPanel {
+public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	
 	private ConfigurationPanel configPanel;
 	
@@ -71,6 +72,11 @@ public class PluginConfigurationPanel extends ConfigurationPanel {
 	@Override
 	public void saveAndApplyConfig() {
 		this.configPanel.saveAndApplyConfig();
+	}
+	
+	@Override
+	public void cancelConfig() {
+
 	}
 	
 }

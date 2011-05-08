@@ -213,10 +213,12 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class CheckBox extends JCheckBox implements ConfigurationFieldTypeExt<JCheckBox, Boolean> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
 		public CheckBox(PropertiesConfiguration properties, String propertyName) {
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
@@ -225,16 +227,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setSelected(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							CheckBox.this.setSelected(CheckBox.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								CheckBox.this.setSelected(CheckBox.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -257,26 +263,32 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class Spinner extends JSpinner implements ConfigurationFieldTypeExt<JSpinner, Object> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
 		public Spinner(PropertiesConfiguration properties, String propertyName) {
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
 		
 		@Override
 		public void initializeFieldComponent() {
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							Spinner.this.setValue(Spinner.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								Spinner.this.setValue(Spinner.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -315,6 +327,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldTypeExt<JComboBox, Object> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
@@ -331,6 +344,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 				String propertyName) {
 			super(model);
 			
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
@@ -339,16 +353,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setSelectedItem(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -371,12 +389,14 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class TextArea extends JTextArea implements ConfigurationFieldTypeExt<JTextArea, String> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
 		public TextArea(PropertiesConfiguration properties, String propertyName) {
 			super(5, 20);
 			
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 			
@@ -387,16 +407,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							TextArea.this.setText(TextArea.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								TextArea.this.setText(TextArea.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -419,10 +443,12 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class TextField extends JTextField implements ConfigurationFieldTypeExt<JTextField, String> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
 		public TextField(PropertiesConfiguration properties, String propertyName) {
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
@@ -431,16 +457,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							TextField.this.setText(TextField.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								TextField.this.setText(TextField.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -463,6 +493,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldTypeExt<JFormattedTextField, String> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
@@ -472,6 +503,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 				String propertyName) {
 			super(formatter);
 			
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
@@ -480,16 +512,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							FormattedTextField.this.setText(FormattedTextField.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								FormattedTextField.this.setText(FormattedTextField.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -512,12 +548,14 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class PasswordField extends JPasswordField implements ConfigurationFieldTypeExt<JPasswordField, String> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
 		public PasswordField(
 				PropertiesConfiguration properties,
 				String propertyName) {
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 		}
@@ -526,16 +564,20 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public void initializeFieldComponent() {
 			this.setText(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							PasswordField.this.setText(PasswordField.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								PasswordField.this.setText(PasswordField.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override
@@ -558,6 +600,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 	
 	public static abstract class ColorChooser extends JLabel implements ConfigurationFieldTypeExt<JLabel, Color> {
 		
+		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
@@ -566,6 +609,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public ColorChooser(
 				PropertiesConfiguration properties,
 				String propertyName) {
+			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 			
@@ -605,17 +649,21 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 			
 			colorChooser.setColor(this.getPropertyValue());
 			
-			properties.addPropertyChangeListener(
-					propertyName,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							ColorChooser.this.setBackground(ColorChooser.this.getPropertyValue());
-							ColorChooser.this.colorChooser.setColor(ColorChooser.this.getPropertyValue());
-						}
-						
-					});
+			if (this.first) {
+				this.first = false;
+				
+				properties.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								ColorChooser.this.setBackground(ColorChooser.this.getPropertyValue());
+								ColorChooser.this.colorChooser.setColor(ColorChooser.this.getPropertyValue());
+							}
+							
+						});
+			}
 		}
 		
 		@Override

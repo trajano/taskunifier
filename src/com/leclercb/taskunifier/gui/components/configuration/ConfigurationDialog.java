@@ -45,7 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -66,12 +66,12 @@ public class ConfigurationDialog extends JDialog {
 	
 	private JTabbedPane tabbedPane;
 	
-	private ConfigurationPanel generalConfigurationPanel;
-	private ConfigurationPanel synchronizationConfigurationPanel;
-	private PluginConfigurationPanel pluginConfigurationPanel;
-	private ConfigurationPanel proxyConfigurationPanel;
-	private ConfigurationPanel columnsConfigurationPanel;
-	private ConfigurationPanel themeConfigurationPanel;
+	private ConfigurationPanelExt generalConfigurationPanel;
+	private ConfigurationPanelExt synchronizationConfigurationPanel;
+	private ConfigurationPanelExt pluginConfigurationPanel;
+	private ConfigurationPanelExt proxyConfigurationPanel;
+	private ConfigurationPanelExt columnsConfigurationPanel;
+	private ConfigurationPanelExt themeConfigurationPanel;
 	
 	private ConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame(), true);
@@ -128,6 +128,13 @@ public class ConfigurationDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
+					ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
+					
 					ConfigurationDialog.this.setVisible(false);
 				}
 				

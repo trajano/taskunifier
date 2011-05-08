@@ -30,39 +30,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
+package com.leclercb.taskunifier.gui.components.configuration.api;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import org.jdesktop.swingx.renderer.StringValue;
-
-public class StringValueLength implements StringValue {
+public abstract class ConfigurationPanelExt extends ConfigurationPanel {
 	
-	private DateFormat formatter;
-	
-	public StringValueLength() {
-		this.formatter = new SimpleDateFormat("HH:mm");
-	}
-	
-	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Integer))
-			return "";
-		
-		int hour = 0;
-		int minute = 0;
-		
-		if (value != null) {
-			hour = ((Integer) value) / 60;
-			minute = ((Integer) value) % 60;
-		}
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(0, 0, 0, hour, minute, 0);
-		
-		return this.formatter.format(calendar.getTime());
-	}
+	public abstract void cancelConfig();
 	
 }

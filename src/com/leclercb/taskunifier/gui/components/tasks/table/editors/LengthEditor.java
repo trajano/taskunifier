@@ -45,8 +45,6 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.main.Main;
-
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private JSpinner timeSpinner;
@@ -56,7 +54,7 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 		this.timeSpinner.setModel(new SpinnerDateModel());
 		this.timeSpinner.setEditor(new JSpinner.DateEditor(
 				this.timeSpinner,
-				Main.SETTINGS.getStringProperty("date.time_format")));
+				"HH:mm"));
 	}
 	
 	@Override

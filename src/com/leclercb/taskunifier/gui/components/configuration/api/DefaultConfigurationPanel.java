@@ -50,7 +50,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
 
-public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
+public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
 	private String helpFile;
 	private List<ConfigurationField> fields;
@@ -169,6 +169,13 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 			if (field.getType() instanceof ConfigurationFieldTypeExt) {
 				((ConfigurationFieldTypeExt<?, ?>) field.getType()).saveAndApplyConfig();
 			}
+		}
+	}
+	
+	@Override
+	public void cancelConfig() {
+		for (ConfigurationField field : this.fields) {
+			field.getType().initializeFieldComponent();
 		}
 	}
 	
