@@ -95,6 +95,8 @@ public class SynchronizerDialog extends WaitDialog {
 								return Translations.getString("general.goals");
 							case LOCATION:
 								return Translations.getString("general.locations");
+							case NOTE:
+								return Translations.getString("general.notes");
 							case TASK:
 								return Translations.getString("general.tasks");
 						}
@@ -109,6 +111,8 @@ public class SynchronizerDialog extends WaitDialog {
 							return Translations.getString("general.goal");
 						case LOCATION:
 							return Translations.getString("general.location");
+						case NOTE:
+							return Translations.getString("general.note");
 						case TASK:
 							return Translations.getString("general.task");
 					}
