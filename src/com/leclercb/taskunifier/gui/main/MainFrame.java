@@ -136,172 +136,172 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class MainFrame extends JFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
-
+	
 	public static final String PROP_SELECTED_VIEW = "selectedView";
-
+	
 	private static MainView INSTANCE;
-
+	
 	public static MainView getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new MainFrame();
-
+		
 		return INSTANCE;
 	}
-
+	
 	private ReminderThread reminderThread;
 	private ScheduledSyncThread scheduledSyncThread;
-
+	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
 	private JPanel middlePane;
-
+	
 	private JTextField searchField;
 	private SearcherPanel searcherPanel;
-
+	
 	private NotePanel notePanel;
 	private TaskPanel taskPanel;
-
+	
 	private ModelNotePanel modelNote;
-
+	
 	private View selectedView;
-
+	
 	private MainFrame() {
 		this.initialize();
 	}
-
+	
 	@Override
 	public void setVisible(boolean b) {
 		super.setVisible(b);
 		this.repaint();
 	}
-
+	
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
-
+		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSizeSettings();
-
+		
 		this.addWindowListener(new WindowAdapter() {
-
+			
 			@Override
 			public void windowClosing(WindowEvent event) {
 				ActionQuit.quit();
 			}
-
+			
 		});
-
+		
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout(new BorderLayout());
-
+			
 			if (SystemUtils.IS_OS_MAC
 					&& LookAndFeelUtils.isCurrentLafSystemLaf()) {
 				this.horizontalSplitPane = ComponentFactory.createThinJScrollPane(JSplitPane.HORIZONTAL_SPLIT);
 			} else {
 				panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-
+				
 				this.horizontalSplitPane = new JSplitPane(
 						JSplitPane.HORIZONTAL_SPLIT);
 			}
-
+			
 			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
-
+			
 			this.middlePane = new JPanel();
 			this.middlePane.setLayout(new CardLayout());
 			this.verticalSplitPane.setTopComponent(this.middlePane);
-
+			
 			this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
-
+			
 			panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
-
+			
 			this.add(panel, BorderLayout.CENTER);
-
+			
 			this.loadSplitPaneSettings();
 		}
-
+		
 		{
 			this.initializeSearchField();
 			this.initializeSearcherList(this.horizontalSplitPane);
 			this.initializeNotePanel(this.middlePane);
 			this.initializeTaskPanel(this.middlePane);
 			this.initializeModelNote(this.verticalSplitPane);
-
+			
 			this.setSelectedView(View.TASKS);
-
+			
 			this.initializeDefaultTaskSearcher();
-
+			
 			this.initializeReminderThread();
 			this.initializeScheduledSyncThread();
-
+			
 			this.initializeMenuBar();
 			this.initializeToolBar();
 			this.initializeStatusBar();
 		}
 	}
-
+	
 	@Override
 	public Frame getFrame() {
 		return this;
 	}
-
+	
 	@Override
 	public SearcherView getSearcherView() {
 		return this.searcherPanel;
 	}
-
+	
 	@Override
 	public View getSelectedView() {
 		return this.selectedView;
 	}
-
+	
 	@Override
 	public void setSelectedView(View view) {
 		CheckUtils.isNotNull(view, "View cannot be null");
-
+		
 		if (this.selectedView == view)
 			return;
-
+		
 		CardLayout layout = (CardLayout) this.middlePane.getLayout();
 		layout.show(this.middlePane, view.name());
-
+		
 		this.searchField.setText(null);
-
+		
 		if (view == View.NOTES)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
-					this, 
+					this,
 					this.notePanel.getSelectedNotes()));
 		else if (view == View.TASKS)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
-					this, 
+					this,
 					this.taskPanel.getSelectedTasks()));
-
+		
 		View oldSelectedView = this.selectedView;
 		this.selectedView = view;
-
+		
 		this.firePropertyChange(PROP_SELECTED_VIEW, oldSelectedView, view);
 	}
-
+	
 	@Override
 	public NoteView getNoteView() {
 		return this.notePanel;
 	}
-
+	
 	@Override
 	public TaskView getTaskView() {
 		return this.taskPanel;
 	}
-
+	
 	private void loadWindowSizeSettings() {
 		Integer extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
 		Integer width = Main.SETTINGS.getIntegerProperty("window.width");
 		Integer height = Main.SETTINGS.getIntegerProperty("window.height");
 		Integer locationX = Main.SETTINGS.getIntegerProperty("window.location_x");
 		Integer locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
-
+		
 		if (width == null || height == null || extendedState == null) {
 			this.setSize(640, 480);
 			this.setExtendedState(this.getExtendedState()
@@ -310,23 +310,23 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			this.setSize(width, height);
 			this.setExtendedState(extendedState);
 		}
-
+		
 		if (locationX != null && locationY != null) {
 			this.setLocation(locationX, locationY);
 		}
 	}
-
+	
 	private void loadSplitPaneSettings() {
 		Integer hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
 		Integer vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
-
+		
 		if (hSplit != null)
 			this.horizontalSplitPane.setDividerLocation(hSplit);
-
+		
 		if (vSplit != null)
 			this.verticalSplitPane.setDividerLocation(vSplit);
 	}
-
+	
 	@Override
 	public void saveProperties() {
 		Main.SETTINGS.setIntegerProperty(
@@ -340,7 +340,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		Main.SETTINGS.setIntegerProperty(
 				"window.location_y",
 				(int) this.getLocationOnScreen().getY());
-
+		
 		Main.SETTINGS.setIntegerProperty(
 				"window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
@@ -348,7 +348,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 				"window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	private void initializeMenuBar() {
 		if (SystemUtils.IS_OS_MAC) {
@@ -357,30 +357,30 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			application.setEnabledPreferencesMenu(true);
 			application.addApplicationListener(adapter);
 		}
-
+		
 		JMenuBar menuBar = new JMenuBar();
-
+		
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		menuBar.add(fileMenu);
-
+		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
-
+		
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSearchers(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
 		importMenu.add(new ActionImportTemplates(16, 16));
 		fileMenu.add(importMenu);
-
+		
 		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
 		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
-
+		
 		exportMenu.add(new ActionExportModels(16, 16));
 		exportMenu.add(new ActionExportSearchers(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
 		exportMenu.add(new ActionExportTemplates(16, 16));
 		fileMenu.add(exportMenu);
-
+		
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionConfiguration(16, 16));
 		fileMenu.add(new ActionManagePlugins(16, 16));
@@ -390,95 +390,95 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		fileMenu.add(new ActionPrint(16, 16));
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
-
+		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		menuBar.add(viewMenu);
-
+		
 		ButtonGroup viewGroup = new ButtonGroup();
-
+		
 		for (View view : View.values()) {
 			final View v = view;
 			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
 					v.getLabel());
 			viewGroup.add(item);
 			viewMenu.add(item);
-
+			
 			if (this.getSelectedView() == view)
 				item.setSelected(true);
-
+			
 			item.addItemListener(new ItemListener() {
-
+				
 				@Override
 				public void itemStateChanged(ItemEvent evt) {
 					MainFrame.this.setSelectedView(v);
 				}
-
+				
 			});
-
+			
 			this.addPropertyChangeListener(
 					PROP_SELECTED_VIEW,
 					new PropertyChangeListener() {
-
+						
 						@Override
 						public void propertyChange(PropertyChangeEvent evt) {
 							if (EqualsUtils.equals(evt.getNewValue(), v))
 								item.setSelected(true);
 						}
-
+						
 					});
 		}
-
+		
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		menuBar.add(editMenu);
-
+		
 		editMenu.add(new ActionUndo(16, 16));
 		editMenu.add(new ActionRedo(16, 16));
 		editMenu.addSeparator();
 		editMenu.add(new ActionCut(16, 16));
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
-
+		
 		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
 		menuBar.add(notesMenu);
-
+		
 		notesMenu.add(new ActionAddNote(16, 16));
 		notesMenu.add(new ActionDelete(16, 16));
-
+		
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
 		menuBar.add(tasksMenu);
-
+		
 		tasksMenu.add(new ActionSynchronize(false, 16, 16));
 		tasksMenu.add(new ActionScheduledSync(16, 16));
 		tasksMenu.addSeparator();
 		tasksMenu.add(new ActionAddTask(16, 16));
 		tasksMenu.add(new ActionAddSubTask(this.taskPanel, 16, 16));
-
+		
 		// TEMPLATE
 		final JMenu templatesMenu = new JMenu(
 				Translations.getString("action.name.add_template_task"));
 		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
 		tasksMenu.add(templatesMenu);
-
+		
 		this.updateTemplateList(templatesMenu, null);
-
+		
 		TemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
-
+					
 					@Override
 					public void listChange(ListChangeEvent event) {
 						MainFrame.this.updateTemplateList(templatesMenu, null);
 					}
-
+					
 				});
 		// TEMPLATE
-
+		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionEditTask(this.taskPanel, 16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
-
+		
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		menuBar.add(helpMenu);
-
+		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
 		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
 		helpMenu.addSeparator();
@@ -490,14 +490,14 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));
-
+		
 		this.setJMenuBar(menuBar);
 	}
-
+	
 	private void initializeToolBar() {
 		ToolBarCreator toolBarCreator = null;
 		Object[] toolBarObjects = null;
-
+		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			toolBarObjects = this.getToolBarObjects(24, 24);
 			toolBarCreator = new MacToolBarCreator();
@@ -505,77 +505,77 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 			toolBarObjects = this.getToolBarObjects(24, 24);
 			toolBarCreator = new DefaultToolBarCreator();
 		}
-
+		
 		for (Object toolBarObject : toolBarObjects) {
 			if (toolBarObject == null) {
 				toolBarCreator.addSeparatorToLeft();
 				continue;
 			}
-
+			
 			if (toolBarObject instanceof Action) {
 				JButton button = new JButton((Action) toolBarObject);
 				if (SystemUtils.IS_OS_MAC
 						&& LookAndFeelUtils.isCurrentLafSystemLaf())
 					((MacToolBarCreator) toolBarCreator).optimizeButton(button);
-
+				
 				toolBarCreator.addElementToLeft(button);
 				continue;
 			}
-
+			
 			if (toolBarObject instanceof JButton) {
 				if (SystemUtils.IS_OS_MAC
 						&& LookAndFeelUtils.isCurrentLafSystemLaf())
 					((MacToolBarCreator) toolBarCreator).optimizeButton((JButton) toolBarObject);
-
+				
 				toolBarCreator.addElementToLeft((JButton) toolBarObject);
 				continue;
 			}
 		}
-
+		
 		// SEARCH FIELD
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
 			toolBarCreator.addElementToRight(ComponentFactory.createSearchField(this.searchField));
 		// SEARCH FIELD
-
+		
 		this.add(toolBarCreator.getComponent(), BorderLayout.NORTH);
 	}
-
+	
 	private Object[] getToolBarObjects(final int iconWith, final int iconHeight) {
 		// TEMPLATE
 		final JPopupMenu popupMenu = new JPopupMenu(
 				Translations.getString("action.name.add_template_task"));
-
+		
 		this.updateTemplateList(null, popupMenu);
-
+		
 		TemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
-
+					
 					@Override
 					public void listChange(ListChangeEvent event) {
 						MainFrame.this.updateTemplateList(null, popupMenu);
 					}
-
+					
 				});
-
+		
 		final JButton addTemplateTaskButton = new JButton();
-
+		
 		Action actionAddTemplateTask = new AbstractAction() {
-
+			
 			{
 				this.putValue(
 						NAME,
 						Translations.getString("action.name.add_template_task"));
-
+				
 				this.putValue(SMALL_ICON, Images.getResourceImage(
 						"duplicate.png",
 						iconWith,
 						iconHeight));
-
+				
 				this.putValue(
 						SHORT_DESCRIPTION,
 						Translations.getString("action.description.add_template_task"));
 			}
-
+			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				popupMenu.show(
@@ -583,12 +583,12 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 						addTemplateTaskButton.getX(),
 						addTemplateTaskButton.getY());
 			}
-
+			
 		};
-
+		
 		addTemplateTaskButton.setAction(actionAddTemplateTask);
 		// TEMPLATE
-
+		
 		return new Object[] {
 				new ActionAddNote(iconWith, iconHeight),
 				new ActionAddTask(iconWith, iconHeight),
@@ -600,195 +600,194 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 				null,
 				new ActionConfiguration(iconWith, iconHeight) };
 	}
-
+	
 	private void initializeStatusBar() {
 		AbstractStatusBar statusBar = null;
-
+		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
 			statusBar = new MacStatusBar();
 		else
 			statusBar = new DefaultStatusBar();
-
+		
 		statusBar.initializeScheduledSyncStatus(this.scheduledSyncThread);
-
+		
 		this.add(statusBar, BorderLayout.SOUTH);
 	}
-
+	
 	private void initializeSearchField() {
 		this.searchField = new JTextField(15);
-
+		
 		this.searchField.getDocument().addDocumentListener(
 				new DocumentListener() {
-
+					
 					@Override
 					public void removeUpdate(DocumentEvent e) {
-						updateTitleFilter();
+						this.updateTitleFilter();
 					}
-
+					
 					@Override
 					public void insertUpdate(DocumentEvent e) {
-						updateTitleFilter();
+						this.updateTitleFilter();
 					}
-
+					
 					@Override
 					public void changedUpdate(DocumentEvent e) {
-						updateTitleFilter();
+						this.updateTitleFilter();
 					}
-
+					
 					private void updateTitleFilter() {
-						if (getSelectedView() == View.NOTES)
+						if (MainFrame.this.getSelectedView() == View.NOTES)
 							MainFrame.this.notePanel.setTitleFilter(MainFrame.this.searchField.getText());
 						else
 							MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
 					}
-
+					
 				});
 	}
-
+	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
-
+		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
 			panel.add(
 					ComponentFactory.createSearchField(this.searchField),
 					BorderLayout.NORTH);
 		}
-
+		
 		this.searcherPanel = new SearcherPanel();
-
+		
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
-
+			
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
 				MainFrame.this.setSelectedView(View.TASKS);
 			}
-
+			
 		});
-
+		
 		this.searcherPanel.addPropertyChangeListener(
 				SearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
-
+					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						String filter = (String) evt.getNewValue();
 						if (!MainFrame.this.searchField.getText().equals(filter))
 							MainFrame.this.searchField.setText(filter);
 					}
-
+					
 				});
-
+		
 		panel.add(this.searcherPanel, BorderLayout.CENTER);
-
+		
 		horizontalSplitPane.setLeftComponent(panel);
 	}
-
+	
 	private void initializeNotePanel(JPanel middlePane) {
 		this.notePanel = new NotePanel();
-
+		
 		middlePane.add(this.notePanel, View.NOTES.name());
 	}
-
+	
 	private void initializeTaskPanel(JPanel middlePane) {
 		this.taskPanel = new TaskPanel();
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskPanel);
 		this.searcherPanel.addPropertyChangeListener(
 				SearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
-
+					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						MainFrame.this.taskPanel.taskSearcherSelectionChange(
-								new TaskSearcherSelectionChangeEvent(
-										evt.getSource(), 
-										searcherPanel.getSelectedTaskSearcher()));
+						MainFrame.this.taskPanel.taskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
+								evt.getSource(),
+								MainFrame.this.searcherPanel.getSelectedTaskSearcher()));
 					}
-
+					
 				});
-
+		
 		middlePane.add(this.taskPanel, View.TASKS.name());
 	}
-
+	
 	private void initializeModelNote(JSplitPane verticalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
-
+		
 		this.modelNote = new ModelNotePanel();
-
+		
 		this.notePanel.addModelSelectionChangeListener(new ModelSelectionListener() {
-
+			
 			@Override
 			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				if (getSelectedView() == View.NOTES)
-					modelNote.modelSelectionChange(event);
+				if (MainFrame.this.getSelectedView() == View.NOTES)
+					MainFrame.this.modelNote.modelSelectionChange(event);
 			}
-
+			
 		});
-
+		
 		this.taskPanel.addModelSelectionChangeListener(new ModelSelectionListener() {
-
+			
 			@Override
 			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				if (getSelectedView() == View.TASKS)
-					modelNote.modelSelectionChange(event);
+				if (MainFrame.this.getSelectedView() == View.TASKS)
+					MainFrame.this.modelNote.modelSelectionChange(event);
 			}
-
+			
 		});
-
-		panel.add(modelNote, BorderLayout.CENTER);
-
+		
+		panel.add(this.modelNote, BorderLayout.CENTER);
+		
 		verticalSplitPane.setBottomComponent(panel);
 	}
-
+	
 	private void initializeDefaultTaskSearcher() {
 		this.searcherPanel.selectDefaultTaskSearcher();
 	}
-
+	
 	private void initializeReminderThread() {
 		this.reminderThread = new ReminderThread();
 		this.reminderThread.start();
 	}
-
+	
 	private void initializeScheduledSyncThread() {
 		this.scheduledSyncThread = new ScheduledSyncThread();
 		this.scheduledSyncThread.start();
 	}
-
+	
 	@Override
 	public void dispose() {
 		this.reminderThread.interrupt();
 		this.scheduledSyncThread.interrupt();
 		super.dispose();
 	}
-
+	
 	private void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
 		if (menu != null)
 			menu.removeAll();
-
+		
 		if (popupMenu != null)
 			popupMenu.removeAll();
-
+		
 		List<Template> templates = new ArrayList<Template>(
 				TemplateFactory.getInstance().getList());
 		Collections.sort(templates, new TemplateComparator());
-
+		
 		for (Template template : templates) {
 			if (menu != null)
 				menu.add(new ActionAddTemplateTask(template, 16, 16));
-
+			
 			if (popupMenu != null)
 				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
 		}
-
+		
 		if (menu != null) {
 			menu.addSeparator();
 			menu.add(new ActionManageTemplates(16, 16));
 		}
-
+		
 		if (popupMenu != null) {
 			popupMenu.addSeparator();
 			popupMenu.add(new ActionManageTemplates(16, 16));
 		}
 	}
-
+	
 }

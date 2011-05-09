@@ -44,11 +44,11 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskTitleRenderer extends DefaultTableCellRenderer {
-
+	
 	public TaskTitleRenderer() {
 
 	}
-
+	
 	@Override
 	public Component getTableCellRendererComponent(
 			JTable table,
@@ -64,22 +64,22 @@ public class TaskTitleRenderer extends DefaultTableCellRenderer {
 				hasFocus,
 				row,
 				column);
-
+		
 		if (value == null) {
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
 			this.setText("");
 			this.setIcon(null);
 			return component;
 		}
-
+		
 		Task task = ((TaskTable) table).getTask(row);
-
+		
 		String title = task.getTitle();
-
+		
 		if (title.length() == 0) {
 			title = Translations.getString("task.default.title");
 		}
-
+		
 		// Set Text & Font
 		if (task.getParent() == null) {
 			component.setFont(this.getFont().deriveFont(Font.BOLD));
@@ -88,15 +88,15 @@ public class TaskTitleRenderer extends DefaultTableCellRenderer {
 			component.setFont(this.getFont().deriveFont(Font.PLAIN));
 			this.setText("          " + title);
 		}
-
+		
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue()) {
 			this.setIcon(Images.getResourceImage("warning.gif"));
 		} else {
 			this.setIcon(Images.getResourceImage("transparent.png"));
 		}
-
+		
 		return component;
 	}
-
+	
 }

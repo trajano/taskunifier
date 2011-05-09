@@ -42,42 +42,42 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 
 public final class TaskUtils {
-
+	
 	private TaskUtils() {
 
 	}
-
+	
 	public static int getImportance(Task task) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
-
+		
 		int importance = 2;
-
+		
 		switch (task.getPriority()) {
-		case NEGATIVE:
-			importance += -1;
-			break;
-		case LOW:
-			importance += 0;
-			break;
-		case MEDIUM:
-			importance += 1;
-			break;
-		case HIGH:
-			importance += 2;
-			break;
-		case TOP:
-			importance += 3;
-			break;
+			case NEGATIVE:
+				importance += -1;
+				break;
+			case LOW:
+				importance += 0;
+				break;
+			case MEDIUM:
+				importance += 1;
+				break;
+			case HIGH:
+				importance += 2;
+				break;
+			case TOP:
+				importance += 3;
+				break;
 		}
-
+		
 		importance += (task.isStar() ? 1 : 0);
-
+		
 		if (task.getDueDate() != null) {
 			long milliSeconds1 = task.getDueDate().getTimeInMillis();
 			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
 			long diff = milliSeconds1 - milliSeconds2;
 			double diffDays = diff / (24 * 60 * 60 * 1000.0);
-
+			
 			if (diffDays > 14)
 				importance += 0;
 			else if (diffDays >= 7)
@@ -91,16 +91,16 @@ public final class TaskUtils {
 			else
 				importance += 6;
 		}
-
+		
 		return importance;
 	}
-
+	
 	public static boolean showTask(Task task, TaskFilter filter) {
 		if (!task.getModelStatus().equals(ModelStatus.LOADED)
 				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
 		}
-
+		
 		// If a filtered parent task has non filtered children, it must be
 		// displayed
 		if (task.getParent() == null) {
@@ -111,8 +111,8 @@ public final class TaskUtils {
 						return true;
 			}
 		}
-
+		
 		return filter.include(task);
 	}
-
+	
 }

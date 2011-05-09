@@ -40,16 +40,16 @@ import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 
 public class TaskTitleHighlighter extends AbstractHighlighter {
-
+	
 	public TaskTitleHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
-
+	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
 		renderer.setForeground(Color.GRAY);
-
+		
 		return renderer;
 	}
-
+	
 }

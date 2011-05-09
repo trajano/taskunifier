@@ -40,26 +40,26 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
 
 public class NoteRowFilter extends RowFilter<TableModel, Integer> {
-
+	
 	private String titleFilter;
-
+	
 	public NoteRowFilter(String titleFilter) {
 		this.setTitleFilter(titleFilter);
 	}
-
+	
 	public String getTitleFilter() {
 		return this.titleFilter;
 	}
-
+	
 	public void setTitleFilter(String titleFilter) {
 		this.titleFilter = titleFilter;
 	}
-
+	
 	@Override
 	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
 		NoteTableModel noteTableModel = (NoteTableModel) entry.getModel();
 		Note note = noteTableModel.getNote(entry.getIdentifier());
-
+		
 		if (!note.getModelStatus().equals(ModelStatus.LOADED)
 				&& !note.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
@@ -67,8 +67,9 @@ public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 		
 		if (this.titleFilter == null)
 			return true;
-
-		return note.getTitle().toLowerCase().contains(this.titleFilter.toLowerCase());
+		
+		return note.getTitle().toLowerCase().contains(
+				this.titleFilter.toLowerCase());
 	}
-
+	
 }

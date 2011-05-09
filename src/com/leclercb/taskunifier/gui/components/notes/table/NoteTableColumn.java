@@ -45,125 +45,117 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.IconValueModel;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModel;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModelId;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueTitle;
+import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 
 public class NoteTableColumn extends TableColumnExt {
-
+	
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
-
+	
 	private static final TableCellEditor FOLDER_EDITOR;
 	private static final TableCellEditor GENERIC_EDITOR;
-
+	
 	static {
 		MODEL_ID_RENDERER = new DefaultTableRenderer(new StringValueModelId());
-
+		
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				new StringValueModel(),
 				new IconValueModel()));
-
+		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle());
 		FOLDER_EDITOR = new FolderEditor();
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}
-
+	
 	private NoteColumn noteColumn;
-	private Comparator<Model> noteComparator;
-
+	
 	public NoteTableColumn(NoteColumn noteColumn) {
 		super(noteColumn.ordinal());
-
+		
 		CheckUtils.isNotNull(noteColumn, "Note column cannot be null");
-
+		
 		this.noteColumn = noteColumn;
-		this.noteComparator = new ModelComparator();
-
+		
 		this.setIdentifier(noteColumn);
 		this.setHeaderValue(noteColumn.getLabel());
 		this.setPreferredWidth(noteColumn.getWidth());
 		this.setVisible(noteColumn.isVisible());
-
+		
 		this.noteColumn.addPropertyChangeListener(new PropertyChangeListener() {
-
+			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(NoteColumn.PROP_VISIBLE)) {
 					NoteTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
-
+				
 				if (evt.getPropertyName().equals(NoteColumn.PROP_WIDTH)) {
 					NoteTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
-
+			
 		});
 	}
-
+	
 	@Override
 	public Comparator<?> getComparator() {
-		switch (this.noteColumn) {
-		case MODEL:
-			return this.noteComparator;
-		case TITLE:
-			return super.getComparator();
-		case FOLDER:
-			return this.noteComparator;
-		case NOTE:
-			return super.getComparator();
-		default:
-			return super.getComparator();
-		}
+		if (this.noteColumn == NoteColumn.MODEL)
+			return NoteRowComparator.getInstance();
+		
+		return super.getComparator();
 	}
-
+	
 	@Override
 	public boolean isSortable() {
-		return true;
+		if (this.noteColumn == NoteColumn.MODEL)
+			return true;
+		
+		return false;
 	}
-
+	
 	@Override
 	public void setPreferredWidth(int preferredWidth) {
 		this.noteColumn.setWidth(preferredWidth);
 		super.setPreferredWidth(preferredWidth);
 	}
-
+	
 	@Override
 	public void setVisible(boolean visible) {
 		this.noteColumn.setVisible(visible);
 		super.setVisible(visible);
 	}
-
+	
 	@Override
 	public TableCellRenderer getCellRenderer() {
 		switch (this.noteColumn) {
-		case MODEL:
-			return MODEL_ID_RENDERER;
-		case TITLE:
-			return TITLE_RENDERER;
-		case FOLDER:
-			return MODEL_RENDERER;
-		default:
-			return super.getCellRenderer();
+			case MODEL:
+				return MODEL_ID_RENDERER;
+			case TITLE:
+				return TITLE_RENDERER;
+			case FOLDER:
+				return MODEL_RENDERER;
+			default:
+				return super.getCellRenderer();
 		}
 	}
-
+	
 	@Override
 	public TableCellEditor getCellEditor() {
 		switch (this.noteColumn) {
-		case TITLE:
-			return GENERIC_EDITOR;
-		case FOLDER:
-			return FOLDER_EDITOR;
-		default:
-			return super.getCellEditor();
+			case TITLE:
+				return GENERIC_EDITOR;
+			case FOLDER:
+				return FOLDER_EDITOR;
+			default:
+				return super.getCellEditor();
 		}
 	}
-
+	
 }

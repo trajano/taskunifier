@@ -58,33 +58,33 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
-
+	
 	private JEditorPane htmlNote;
 	private JTextArea textNote;
-
+	
 	private ModelNote previousSelectedModel;
-
+	
 	public ModelNotePanel() {
 		this.previousSelectedModel = null;
 		this.initialize();
 	}
-
+	
 	public String getModelNote() {
 		return this.textNote.getText();
 	}
-
+	
 	private void initialize() {
 		this.setLayout(new CardLayout());
-
+		
 		this.htmlNote = new JEditorPane();
-
+		
 		this.htmlNote.setEnabled(false);
 		this.htmlNote.setEditable(false);
 		this.htmlNote.setEditorKit(new StyledEditorKit());
 		this.htmlNote.setContentType("text/html");
 		this.htmlNote.setText(Translations.getString("error.select_one_row"));
 		this.htmlNote.addMouseListener(new MouseAdapter() {
-
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (ModelNotePanel.this.htmlNote.isEnabled()) {
@@ -92,11 +92,11 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 					ModelNotePanel.this.textNote.setCaretPosition(0);
 				}
 			}
-
+			
 		});
-
+		
 		this.htmlNote.addHyperlinkListener(new HyperlinkListener() {
-
+			
 			@Override
 			public void hyperlinkUpdate(HyperlinkEvent evt) {
 				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -105,16 +105,16 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 					} catch (Exception exc) {}
 				}
 			}
-
+			
 		});
-
+		
 		this.textNote = new JTextArea();
-
+		
 		this.textNote.setLineWrap(true);
 		this.textNote.setWrapStyleWord(true);
 		this.textNote.setBorder(BorderFactory.createEmptyBorder());
 		this.textNote.addFocusListener(new FocusAdapter() {
-
+			
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (ModelNotePanel.this.previousSelectedModel != null) {
@@ -125,68 +125,69 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 					}
 				}
 			}
-
+			
 		});
-
+		
 		this.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				"" + 0);
 		this.add(
 				ComponentFactory.createJScrollPane(this.textNote, false),
 				"" + 1);
-
+		
 		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
 	}
-
+	
 	@Override
-	public synchronized void modelSelectionChange(ModelSelectionChangeEvent event) {
+	public synchronized void modelSelectionChange(
+			ModelSelectionChangeEvent event) {
 		if (this.previousSelectedModel != null) {
 			if (!EqualsUtils.equals(
 					this.previousSelectedModel.getNote(),
 					this.getModelNote()))
 				this.previousSelectedModel.setNote(this.getModelNote());
-
+			
 			this.previousSelectedModel.removePropertyChangeListener(this);
 		}
-
+		
 		Model[] models = event.getSelectedModels();
-
+		
 		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
 			this.previousSelectedModel = null;
-
+			
 			this.htmlNote.setText(Translations.getString("error.select_one_row"));
 			this.textNote.setText(null);
-
+			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
-
+			
 			this.htmlNote.setEnabled(false);
 		} else {
 			this.previousSelectedModel = (ModelNote) models[0];
 			this.previousSelectedModel.addPropertyChangeListener(this);
-
+			
 			String note = (this.previousSelectedModel.getNote() == null ? "" : this.previousSelectedModel.getNote());
-
+			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);
-
+			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
-
+			
 			this.htmlNote.setEnabled(true);
 		}
-
+		
 		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
 	}
-
+	
 	private String convertTextNoteToHtml(String note) {
 		if (note.length() == 0)
 			return " ";
-
+		
 		StringBuffer buffer = new StringBuffer();
 		note = note.replace("\n", "\n ");
 		String[] lines = note.split("\n");
-		for (int i=0; i<lines.length; i++) {
+		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			
 			line = line.trim();
@@ -197,21 +198,21 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			buffer.append("<br />");
 		}
-
+		
 		return buffer.toString();
 	}
-
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (EqualsUtils.equals(evt.getPropertyName(), ModelNote.PROP_NOTE)) {
 			String note = (this.previousSelectedModel.getNote() == null ? "" : this.previousSelectedModel.getNote());
-
+			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
 			this.textNote.setText(note);
-
+			
 			this.htmlNote.setCaretPosition(0);
 			this.textNote.setCaretPosition(0);
 		}
 	}
-
+	
 }

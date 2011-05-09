@@ -127,12 +127,12 @@ public class NotePanel extends JPanel implements NoteView, SavePropertiesListene
 	public void refreshNotes() {
 		this.noteTable.refreshNotes();
 	}
-
+	
 	@Override
 	public String getTitleFilter() {
 		return this.noteTable.getTitleFilter();
 	}
-
+	
 	@Override
 	public void setTitleFilter(String titleFilter) {
 		this.noteTable.setTitleFilter(titleFilter);
