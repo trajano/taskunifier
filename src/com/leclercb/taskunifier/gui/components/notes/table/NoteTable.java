@@ -55,13 +55,16 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.draganddrop.NoteTransferHandler;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteAlternateHighlighter;
+import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 
 public class NoteTable extends JXTable {
-	
+
+	private NoteRowFilter filter;
+
 	public NoteTable() {
 		this.initialize();
 	}
-	
+
 	public Note getNote(int row) {
 		try {
 			int index = this.getRowSorter().convertRowIndexToModel(row);
@@ -70,121 +73,133 @@ public class NoteTable extends JXTable {
 			return null;
 		}
 	}
-	
+
 	public Note[] getSelectedNotes() {
 		int[] indexes = this.getSelectedRows();
-		
+
 		List<Note> notes = new ArrayList<Note>();
 		for (int i = 0; i < indexes.length; i++) {
 			if (indexes[i] != -1) {
 				Note note = this.getNote(indexes[i]);
-				
+
 				if (note != null)
 					notes.add(note);
 			}
 		}
-		
+
 		return notes.toArray(new Note[0]);
 	}
-	
+
 	public void setSelectedNotes(Note[] notes) {
 		NoteTableModel model = (NoteTableModel) this.getModel();
-		
+
 		this.getSelectionModel().setValueIsAdjusting(true);
-		
+
 		int firstRowIndex = -1;
 		for (Note note : notes) {
 			for (int i = 0; i < model.getRowCount(); i++) {
 				if (note.equals(model.getNote(i))) {
 					int index = this.getRowSorter().convertRowIndexToView(i);
-					
+
 					if (index != -1) {
 						this.getSelectionModel().setSelectionInterval(
 								index,
 								index);
-						
+
 						if (firstRowIndex == -1)
 							firstRowIndex = index;
 					}
 				}
 			}
 		}
-		
+
 		this.getSelectionModel().setValueIsAdjusting(false);
-		
+
 		if (firstRowIndex != -1)
 			this.scrollRowToVisible(firstRowIndex);
 	}
-	
+
 	public void setSelectedNoteAndStartEdit(Note note) {
 		this.setSelectedNotes(new Note[] { note });
-		
+
 		NoteTableColumnModel columnModel = (NoteTableColumnModel) this.getColumnModel();
 		NoteTableModel model = (NoteTableModel) this.getModel();
-		
+
 		for (int i = 0; i < model.getRowCount(); i++) {
 			if (note.equals(model.getNote(i))) {
 				int row = this.getRowSorter().convertRowIndexToView(i);
 				int col = columnModel.getColumnIndex(NoteColumn.TITLE);
-				
+
 				if (row != -1) {
 					if (this.editCellAt(row, col)) {
 						Component editor = this.getEditorComponent();
 						editor.requestFocusInWindow();
 					}
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 	public void refreshNotes() {
 		this.getRowSorter().allRowsChanged();
 	}
-	
+
+	public String getTitleFilter() {
+		return this.filter.getTitleFilter();
+	}
+
+	public void setTitleFilter(String titleFilter) {
+		this.filter.setTitleFilter(titleFilter);
+		this.refreshNotes();
+	}
+
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
+
 		NoteTableColumnModel columnModel = new NoteTableColumnModel();
 		NoteTableModel tableModel = new NoteTableModel();
-		
+
 		this.setModel(tableModel);
 		this.setColumnModel(columnModel);
 		this.setRowHeight(24);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
-		
+
 		this.setSortable(true);
-		this.setSortsOnUpdates(false);
+		this.setSortsOnUpdates(true);
 		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
-		
+
+		this.filter = new NoteRowFilter(null);
+		this.getSortController().setRowFilter(this.filter);
+
 		this.initializeDeleteNote();
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighter();
 	}
-	
+
 	private void initializeDeleteNote() {
 		this.addKeyListener(new KeyAdapter() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
 					ActionDelete.delete();
 			}
-			
+
 		});
 	}
-	
+
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new NoteTransferHandler());
 	}
-	
+
 	private void initializeCopyAndPaste() {
 		ActionMap amap = this.getActionMap();
 		amap.put(
@@ -196,27 +211,27 @@ public class NoteTable extends JXTable {
 		amap.put(
 				TransferHandler.getPasteAction().getValue(Action.NAME),
 				TransferHandler.getPasteAction());
-		
+
 		InputMap imap = this.getInputMap();
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCutAction().getValue(Action.NAME));
+						TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getCopyAction().getValue(Action.NAME));
+						TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-				TransferHandler.getPasteAction().getValue(Action.NAME));
+						TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
-	
+
 	private void initializeHighlighter() {
 		this.setHighlighters(new NoteAlternateHighlighter());
 	}
-	
+
 }

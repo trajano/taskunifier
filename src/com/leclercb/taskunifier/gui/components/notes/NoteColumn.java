@@ -43,7 +43,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum NoteColumn {
 	
-	MODEL(Note.class, Translations.getString("general.note"), false),
+	MODEL(Note.class, Translations.getString("general.id"), false),
 	TITLE(String.class, Translations.getString("general.note.title"), true),
 	FOLDER(Folder.class, Translations.getString("general.note.folder"), true),
 	NOTE(String.class, Translations.getString("general.note.note"), false);

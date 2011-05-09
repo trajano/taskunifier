@@ -188,7 +188,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public Comparator<?> getComparator() {
-		if (this.taskColumn == TaskColumn.TASK)
+		if (this.taskColumn == TaskColumn.MODEL)
 			return TaskRowComparator.getInstance();
 		
 		return super.getComparator();
@@ -196,7 +196,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public boolean isSortable() {
-		if (this.taskColumn == TaskColumn.TASK)
+		if (this.taskColumn == TaskColumn.MODEL)
 			return true;
 		
 		return false;
@@ -217,7 +217,7 @@ public class TaskTableColumn extends TableColumnExt {
 	@Override
 	public TableCellRenderer getCellRenderer() {
 		switch (this.taskColumn) {
-			case TASK:
+			case MODEL:
 				return MODEL_ID_RENDERER;
 			case TITLE:
 				return TASK_TITLE_RENDERER;

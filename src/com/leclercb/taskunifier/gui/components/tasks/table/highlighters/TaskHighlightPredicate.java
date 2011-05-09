@@ -46,7 +46,7 @@ public class TaskHighlightPredicate implements HighlightPredicate {
 	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
 				adapter.row,
-				adapter.getColumnIndex(TaskColumn.TASK));
+				adapter.getColumnIndex(TaskColumn.MODEL));
 		
 		if (value == null || !(value instanceof Task))
 			return false;

@@ -94,7 +94,6 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		
 		String oldTitleFilter = this.titleFilter;
 		this.titleFilter = titleFilter;
-		SearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherPanel.this.getSelectedTaskSearcher());
 		
 		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
 	}

@@ -95,7 +95,7 @@ public class TaskRowComparator implements Comparator<Task> {
 				return result;
 		}
 		
-		return this.compare(TaskColumn.TASK, SortOrder.ASCENDING, task1, task2);
+		return this.compare(TaskColumn.MODEL, SortOrder.ASCENDING, task1, task2);
 	}
 	
 	private int compare(
@@ -149,7 +149,7 @@ public class TaskRowComparator implements Comparator<Task> {
 		int result = 0;
 		
 		switch (column) {
-			case TASK:
+			case MODEL:
 				result = CompareUtils.compare(
 						((Task) o1).getModelId(),
 						((Task) o2).getModelId());

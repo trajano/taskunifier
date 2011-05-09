@@ -168,7 +168,7 @@ public class TaskTable extends JXTable {
 		
 		TaskRowComparator.getInstance().setSearcher(searcher);
 		
-		this.setSortOrder(TaskColumn.TASK, SortOrder.ASCENDING);
+		this.setSortOrder(TaskColumn.MODEL, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(
 				new TaskRowFilter(searcher.getFilter()));
 		this.refreshTasks();

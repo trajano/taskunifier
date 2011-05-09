@@ -45,6 +45,10 @@ public interface NoteView extends ModelSelectionChangeSupported {
 	
 	public abstract void refreshNotes();
 	
+	public abstract String getTitleFilter();
+	
+	public abstract void setTitleFilter(String titleFilter);
+	
 	public abstract void printNotes() throws Exception;
 	
 }

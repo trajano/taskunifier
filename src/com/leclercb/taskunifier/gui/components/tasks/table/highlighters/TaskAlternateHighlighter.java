@@ -107,7 +107,7 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 			ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
 				adapter.row,
-				adapter.getColumnIndex(TaskColumn.TASK));
+				adapter.getColumnIndex(TaskColumn.MODEL));
 		
 		if (value == null || !(value instanceof Task))
 			return renderer;
@@ -116,36 +116,38 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 		
 		switch (importance) {
 			case 0:
+			case 1:
+			case 2:
 				renderer.setBackground(Color.WHITE);
 				break;
-			case 1:
+			case 3:
 				renderer.setBackground(new Color(153, 255, 255));
 				break;
-			case 2:
+			case 4:
 				renderer.setBackground(new Color(204, 255, 255));
 				break;
-			case 3:
+			case 5:
 				renderer.setBackground(new Color(153, 255, 204));
 				break;
-			case 4:
+			case 6:
 				renderer.setBackground(new Color(204, 255, 204));
 				break;
-			case 5:
+			case 7:
 				renderer.setBackground(new Color(204, 255, 153));
 				break;
-			case 6:
+			case 8:
 				renderer.setBackground(new Color(255, 255, 204));
 				break;
-			case 7:
+			case 9:
 				renderer.setBackground(new Color(255, 255, 153));
 				break;
-			case 8:
+			case 10:
 				renderer.setBackground(new Color(255, 204, 153));
 				break;
-			case 9:
+			case 11:
 				renderer.setBackground(new Color(255, 204, 204));
 				break;
-			case 10:
+			case 12:
 				renderer.setBackground(new Color(255, 153, 153));
 				break;
 		}

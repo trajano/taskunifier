@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public enum TaskColumn {
 	
-	TASK(Task.class, Translations.getString("general.task"), false),
+	MODEL(Task.class, Translations.getString("general.id"), false),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
 	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
@@ -228,7 +228,7 @@ public enum TaskColumn {
 	
 	public Object getValue(Task task) {
 		switch (this) {
-			case TASK:
+			case MODEL:
 				return task;
 			case TITLE:
 				return task.getTitle();
@@ -277,7 +277,7 @@ public enum TaskColumn {
 	
 	public void setValue(Task task, Object value) {
 		switch (this) {
-			case TASK:
+			case MODEL:
 				break;
 			case TITLE:
 				task.setTitle((String) value);
