@@ -58,7 +58,7 @@ public final class Constants {
 	public static final int PLUGIN_API_VERSION = 2;
 	public static final int WAIT_NO_LICENSE_TIME = 30;
 	
-	public static final String PLUGINS_FILE = "http://www.taskunifier.com/plugins.xml";
+	public static final String PLUGINS_FILE = "http://www.taskunifier.com/plugins/plugins.xml";
 	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
 	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
 	public static final String DONATE_URL = "http://sourceforge.net/donate/index.php?group_id=380204";

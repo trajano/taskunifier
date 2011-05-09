@@ -301,6 +301,8 @@ public class PluginsUtils {
 				NodeList nPlugin = nPlugins.item(i).getChildNodes();
 				
 				String id = null;
+				String minVersion = null;
+				String maxVersion = null;
 				String name = null;
 				String author = null;
 				String version = null;
@@ -315,6 +317,12 @@ public class PluginsUtils {
 					
 					if (element.getNodeName().equals("id"))
 						id = element.getTextContent();
+					
+					if (element.getNodeName().equals("minVersion"))
+						minVersion = element.getTextContent();
+					
+					if (element.getNodeName().equals("maxVersion"))
+						maxVersion = element.getTextContent();
 					
 					if (element.getNodeName().equals("name"))
 						name = element.getTextContent();
@@ -356,6 +364,18 @@ public class PluginsUtils {
 							history = response.getContent();
 						}
 					} catch (Throwable t) {}
+				}
+				
+				// Check min version
+				if (minVersion != null && minVersion.length() != 0) {
+					if (Constants.VERSION.compareTo(minVersion) < 0)
+						continue;
+				}
+				
+				// Check max version
+				if (maxVersion != null && maxVersion.length() != 0) {
+					if (Constants.VERSION.compareTo(maxVersion) > 0)
+						continue;
 				}
 				
 				Plugin plugin = new Plugin(
