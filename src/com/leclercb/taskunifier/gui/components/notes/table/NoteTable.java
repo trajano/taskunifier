@@ -45,7 +45,6 @@ import javax.swing.InputMap;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 
 import org.jdesktop.swingx.JXTable;
@@ -55,6 +54,10 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.draganddrop.NoteTransferHandler;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteAlternateHighlighter;
+import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlighter;
+import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 
 public class NoteTable extends JXTable {
@@ -171,7 +174,6 @@ public class NoteTable extends JXTable {
 
 		this.setSortable(true);
 		this.setSortsOnUpdates(true);
-		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 
 		this.filter = new NoteRowFilter(null);
@@ -231,7 +233,10 @@ public class NoteTable extends JXTable {
 	}
 
 	private void initializeHighlighter() {
-		this.setHighlighters(new NoteAlternateHighlighter());
+		this.setHighlighters(
+				new NoteAlternateHighlighter(),
+				new NoteTitleHighlighter(new NoteTitleHighlightPredicate()),
+				new NoteTooltipHighlighter(new NoteTooltipHighlightPredicate()));
 	}
 
 }

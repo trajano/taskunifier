@@ -30,60 +30,26 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.renderers;
+package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
 
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import org.jdesktop.swingx.decorator.AbstractHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
-import com.leclercb.taskunifier.gui.translations.Translations;
+public class NoteTitleHighlighter extends AbstractHighlighter {
 
-public class NoteTitleRenderer extends DefaultTableCellRenderer {
-	
-	public NoteTitleRenderer() {
-
+	public NoteTitleHighlighter(HighlightPredicate predicate) {
+		super(predicate);
 	}
-	
+
 	@Override
-	public Component getTableCellRendererComponent(
-			JTable table,
-			Object value,
-			boolean isSelected,
-			boolean hasFocus,
-			int row,
-			int column) {
-		Component component = super.getTableCellRendererComponent(
-				table,
-				value,
-				isSelected,
-				hasFocus,
-				row,
-				column);
-		
-		if (value == null) {
-			this.setForeground(Color.BLACK);
-			this.setText("");
-			return component;
-		}
-		
-		Note note = ((NoteTable) table).getNote(row);
-		
-		Color foreground = Color.BLACK;
-		String title = note.getTitle();
-		
-		if (title.length() == 0) {
-			foreground = Color.GRAY;
-			title = Translations.getString("note.default.title");
-		}
-		
-		this.setForeground(foreground);
-		this.setText(title);
-		
-		return component;
+	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
+		renderer.setForeground(Color.GRAY);
+
+		return renderer;
 	}
-	
+
 }

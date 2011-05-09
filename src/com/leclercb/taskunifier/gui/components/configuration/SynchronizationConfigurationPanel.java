@@ -61,6 +61,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		super(Help.getHelpFile("configuration_synchronization.html"));
 		this.initialize(welcome);
 		this.pack();
+		this.disableFields();
 	}
 	
 	private void initialize(boolean welcome) {
@@ -189,8 +190,6 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						
 					})));
 		}
-		
-		this.disableFields();
 		
 		Main.SETTINGS.addPropertyChangeListener(
 				"api.id",

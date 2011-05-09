@@ -30,73 +30,23 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
+package com.leclercb.taskunifier.gui.components.notes.table.renderers;
 
-import java.awt.Component;
-import java.awt.Font;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
 
-public class TaskTitleRenderer extends DefaultTableCellRenderer {
-
-	public TaskTitleRenderer() {
-
-	}
-
+public class StringValueTitle implements StringValue {
+	
 	@Override
-	public Component getTableCellRendererComponent(
-			JTable table,
-			Object value,
-			boolean isSelected,
-			boolean hasFocus,
-			int row,
-			int column) {
-		Component component = super.getTableCellRendererComponent(
-				table,
-				value,
-				isSelected,
-				hasFocus,
-				row,
-				column);
-
-		if (value == null) {
-			component.setFont(this.getFont().deriveFont(Font.PLAIN));
-			this.setText("");
-			this.setIcon(null);
-			return component;
-		}
-
-		Task task = ((TaskTable) table).getTask(row);
-
-		String title = task.getTitle();
-
-		if (title.length() == 0) {
-			title = Translations.getString("task.default.title");
-		}
-
-		// Set Text & Font
-		if (task.getParent() == null) {
-			component.setFont(this.getFont().deriveFont(Font.BOLD));
-			this.setText(title);
-		} else {
-			component.setFont(this.getFont().deriveFont(Font.PLAIN));
-			this.setText("          " + title);
-		}
-
-		// Set Icon
-		if (!task.isCompleted() && task.isOverDue()) {
-			this.setIcon(Images.getResourceImage("warning.gif"));
-		} else {
-			this.setIcon(Images.getResourceImage("transparent.png"));
-		}
-
-		return component;
+	public String getString(Object value) {
+		if (!(value instanceof String))
+			return "";
+		
+		if (((String) value).length() == 0)
+			return Translations.getString("note.default.title");
+		
+		return (String) value;
 	}
-
+	
 }

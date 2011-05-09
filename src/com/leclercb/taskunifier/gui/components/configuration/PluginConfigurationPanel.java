@@ -76,7 +76,8 @@ public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	
 	@Override
 	public void cancelConfig() {
-
+		if (this.configPanel instanceof ConfigurationPanelExt)
+			((ConfigurationPanelExt) this.configPanel).cancelConfig();
 	}
 	
 }

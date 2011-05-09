@@ -66,6 +66,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepe
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTooltipHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTooltipHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
@@ -296,8 +298,9 @@ public class TaskTable extends JXTable {
 		this.setHighlighters(
 				new TaskAlternateHighlighter(),
 				new TaskHighlighter(new TaskHighlightPredicate()),
+				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()),
 				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()),
-				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()));
+				new TaskTooltipHighlighter(new TaskTooltipHighlightPredicate()));
 	}
 	
 }

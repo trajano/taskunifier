@@ -50,9 +50,9 @@ import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.IconValueModel;
-import com.leclercb.taskunifier.gui.components.notes.table.renderers.NoteTitleRenderer;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModel;
 import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModelId;
+import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueTitle;
 
 public class NoteTableColumn extends TableColumnExt {
 
@@ -70,8 +70,7 @@ public class NoteTableColumn extends TableColumnExt {
 				new StringValueModel(),
 				new IconValueModel()));
 
-		TITLE_RENDERER = new NoteTitleRenderer();
-
+		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle());
 		FOLDER_EDITOR = new FolderEditor();
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}

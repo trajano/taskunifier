@@ -34,12 +34,17 @@ package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
+import com.leclercb.taskunifier.gui.translations.Translations;
+
 public class StringValueTitle implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof String))
 			return "";
+		
+		if (((String) value).length() == 0)
+			return Translations.getString("task.default.title");
 		
 		return (String) value;
 	}

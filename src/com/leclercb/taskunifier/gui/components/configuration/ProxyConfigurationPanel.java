@@ -54,6 +54,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		super(Help.getHelpFile("configuration_proxy.html"));
 		this.initialize();
 		this.pack();
+		this.disableFields();
 	}
 	
 	private void initialize() {
@@ -84,8 +85,6 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				"PASSWORD",
 				Translations.getString("configuration.proxy.password"),
 				new ProxyPasswordFieldType()));
-		
-		this.disableFields();
 		
 		proxyEnabledField.addActionListener(new ActionListener() {
 			
