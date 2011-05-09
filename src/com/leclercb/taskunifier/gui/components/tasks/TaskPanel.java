@@ -146,7 +146,7 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	
 	@Override
 	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
-		this.modelSelectionChangeSupport.removeModelSelectionChangeListener(listener);
+		this.modelSelectionChangeSupport.addModelSelectionChangeListener(listener);
 	}
 	
 	@Override

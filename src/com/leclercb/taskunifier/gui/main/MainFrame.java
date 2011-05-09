@@ -111,6 +111,8 @@ import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
@@ -158,6 +160,8 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 
 	private NotePanel notePanel;
 	private TaskPanel taskPanel;
+
+	private ModelNotePanel modelNote;
 
 	private View selectedView;
 
@@ -263,8 +267,17 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 
 		CardLayout layout = (CardLayout) this.middlePane.getLayout();
 		layout.show(this.middlePane, view.name());
-		
+
 		this.searchField.setText(null);
+
+		if (view == View.NOTES)
+			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
+					this, 
+					this.notePanel.getSelectedNotes()));
+		else if (view == View.TASKS)
+			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
+					this, 
+					this.taskPanel.getSelectedTasks()));
 
 		View oldSelectedView = this.selectedView;
 		this.selectedView = view;
@@ -621,7 +634,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 					public void changedUpdate(DocumentEvent e) {
 						updateTitleFilter();
 					}
-					
+
 					private void updateTitleFilter() {
 						if (getSelectedView() == View.NOTES)
 							MainFrame.this.notePanel.setTitleFilter(MainFrame.this.searchField.getText());
@@ -700,9 +713,27 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	private void initializeModelNote(JSplitPane verticalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
 
-		ModelNotePanel modelNote = new ModelNotePanel();
-		this.notePanel.addModelSelectionChangeListener(modelNote);
-		this.taskPanel.addModelSelectionChangeListener(modelNote);
+		this.modelNote = new ModelNotePanel();
+
+		this.notePanel.addModelSelectionChangeListener(new ModelSelectionListener() {
+
+			@Override
+			public void modelSelectionChange(ModelSelectionChangeEvent event) {
+				if (getSelectedView() == View.NOTES)
+					modelNote.modelSelectionChange(event);
+			}
+
+		});
+
+		this.taskPanel.addModelSelectionChangeListener(new ModelSelectionListener() {
+
+			@Override
+			public void modelSelectionChange(ModelSelectionChangeEvent event) {
+				if (getSelectedView() == View.TASKS)
+					modelNote.modelSelectionChange(event);
+			}
+
+		});
 
 		panel.add(modelNote, BorderLayout.CENTER);
 

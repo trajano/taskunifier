@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.notes.table.sorter;
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
 
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
 
@@ -56,11 +57,16 @@ public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 
 	@Override
 	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-		if (this.titleFilter == null)
-			return true;
-
 		NoteTableModel noteTableModel = (NoteTableModel) entry.getModel();
 		Note note = noteTableModel.getNote(entry.getIdentifier());
+
+		if (!note.getModelStatus().equals(ModelStatus.LOADED)
+				&& !note.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+			return false;
+		}
+		
+		if (this.titleFilter == null)
+			return true;
 
 		return note.getTitle().toLowerCase().contains(this.titleFilter.toLowerCase());
 	}

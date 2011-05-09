@@ -139,7 +139,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	}
 	
 	@Override
-	public void modelSelectionChange(ModelSelectionChangeEvent event) {
+	public synchronized void modelSelectionChange(ModelSelectionChangeEvent event) {
 		if (this.previousSelectedModel != null) {
 			if (!EqualsUtils.equals(
 					this.previousSelectedModel.getNote(),
