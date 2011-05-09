@@ -186,12 +186,15 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		StringBuffer buffer = new StringBuffer();
 		note = note.replace("\n", "\n ");
 		String[] lines = note.split("\n");
-		for (String line : lines) {
+		for (int i=0; i<lines.length; i++) {
+			String line = lines[i];
+			
 			line = line.trim();
 			buffer.append(line);
 			if (line.startsWith("<"))
-				continue;
-
+				if (i + 1 < lines.length && lines[i + 1].trim().startsWith("<"))
+					continue;
+			
 			buffer.append("<br />");
 		}
 
