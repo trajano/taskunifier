@@ -43,6 +43,7 @@ import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -51,45 +52,45 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class SynchronizerUtils {
-	
+
 	private SynchronizerUtils() {
 
 	}
-	
+
 	public static void initializeTaskRepeat() {
 		TaskFactory.getInstance().addPropertyChangeListener(
 				Task.PROP_COMPLETED,
 				new PropertyChangeListener() {
-					
+
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						Task task = (Task) evt.getSource();
-						
+
 						if (task == null || !task.isCompleted())
 							return;
-						
+
 						getPlugin().getSynchronizerApi().createRepeatTask(task);
 					}
-					
+
 				});
 	}
-	
+
 	public static SynchronizerGuiPlugin getPlugin() {
 		String apiId = Main.SETTINGS.getStringProperty("api.id");
-		
+
 		if (apiId == null)
 			return DummyGuiPlugin.getInstance();
-		
+
 		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
 			if (EqualsUtils.equals(apiId, plugin.getId())) {
 				return plugin;
 			}
 		}
-		
+
 		return DummyGuiPlugin.getInstance();
 	}
-	
+
 	public static void initializeProxy() {
 		Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
 		if (proxyEnabled != null && proxyEnabled) {
@@ -97,7 +98,7 @@ public final class SynchronizerUtils {
 			Integer port = Main.SETTINGS.getIntegerProperty("proxy.port");
 			String login = Main.SETTINGS.getStringProperty("proxy.login");
 			String password = Main.SETTINGS.getStringProperty("proxy.password");
-			
+
 			getPlugin().getSynchronizerApi().setProxyHost(host);
 			getPlugin().getSynchronizerApi().setProxyPort(port);
 			getPlugin().getSynchronizerApi().setProxyUsername(login);
@@ -106,33 +107,33 @@ public final class SynchronizerUtils {
 			removeProxy();
 		}
 	}
-	
+
 	public static void removeProxy() {
 		getPlugin().getSynchronizerApi().setProxyHost(null);
 		getPlugin().getSynchronizerApi().setProxyPort(0);
 		getPlugin().getSynchronizerApi().setProxyUsername(null);
 		getPlugin().getSynchronizerApi().setProxyPassword(null);
 	}
-	
+
 	public static void removeOldCompletedTasks() {
 		Integer keep = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
-		
+
 		if (keep == null)
 			return;
-		
+
 		Calendar completedAfter = Calendar.getInstance();
 		completedAfter.add(Calendar.DAY_OF_MONTH, -keep);
-		
+
 		List<Task> tasks = new ArrayList<Task>(
 				TaskFactory.getInstance().getList());
-		
+
 		for (Task task : tasks) {
 			if (task.isCompleted()
 					&& task.getCompletedOn().compareTo(completedAfter) < 0) {
 				List<Task> children = TaskFactory.getInstance().getChildren(
 						task);
 				boolean delete = true;
-				
+
 				for (Task child : children) {
 					if (!(child.isCompleted() && child.getCompletedOn().compareTo(
 							completedAfter) < 0)) {
@@ -140,44 +141,45 @@ public final class SynchronizerUtils {
 						break;
 					}
 				}
-				
+
 				if (delete)
 					TaskFactory.getInstance().markDeleted(task);
 			}
 		}
 	}
-	
+
 	public static void resetConnection() {
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetConnectionParameters(
 				Main.SETTINGS);
 	}
-	
+
 	public static void resetSynchronizer() {
 		Main.SETTINGS.setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
-		
+
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
 	}
-	
+
 	public static void resetSynchronizerAndDeleteModels() {
 		Synchronizing.setSynchronizing(true);
-		
+
 		Main.SETTINGS.setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
-		
+
 		ContextFactory.getInstance().deleteAll();
 		FolderFactory.getInstance().deleteAll();
 		GoalFactory.getInstance().deleteAll();
 		LocationFactory.getInstance().deleteAll();
+		NoteFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
-		
+
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
-		
+
 		Synchronizing.setSynchronizing(false);
 	}
-	
+
 }
