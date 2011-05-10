@@ -56,53 +56,54 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 abstract class TemplateList extends JPanel {
-	
+
 	private JList templateList;
 	private JButton addButton;
 	private JButton removeButton;
 	private JButton defaultButton;
-	
+
 	public TemplateList() {
 		this.initialize();
 	}
-	
+
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
+
 		this.templateList = new JList();
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new TemplateListCellRenderer());
-		
+
 		TemplateModel model = new TemplateModel(false);
 		model.addListDataListener(new ListDataListener() {
-			
+
 			@Override
 			public void intervalRemoved(ListDataEvent e) {
 				TemplateList.this.templateList.setSelectedIndex(-1);
 			}
-			
+
 			@Override
 			public void intervalAdded(ListDataEvent e) {
 				TemplateList.this.templateList.setSelectedIndex(e.getIndex0());
 			}
-			
+
 			@Override
 			public void contentsChanged(ListDataEvent e) {
-				
+
 			}
-			
+
 		});
-		
+
 		this.templateList.setModel(model);
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				if (event.getValueIsAdjusting())
 					return;
-				
+
 				if (TemplateList.this.templateList.getSelectedValue() == null) {
+					TemplateList.this.templateSelected(null);
 					TemplateList.this.removeButton.setEnabled(false);
 					TemplateList.this.defaultButton.setEnabled(false);
 				} else {
@@ -111,23 +112,23 @@ abstract class TemplateList extends JPanel {
 					TemplateList.this.defaultButton.setEnabled(true);
 				}
 			}
-			
+
 		});
-		
+
 		this.add(
 				ComponentFactory.createJScrollPane(this.templateList, true),
 				BorderLayout.CENTER);
-		
+
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
+
 		this.initializeButtons(buttonsPanel);
 	}
-	
+
 	private void initializeButtons(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
@@ -138,14 +139,14 @@ abstract class TemplateList extends JPanel {
 					TemplateList.this.setDefaultTemplate((Template) TemplateList.this.templateList.getSelectedValue());
 				}
 			}
-			
+
 		};
-		
+
 		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		this.addButton.setActionCommand("ADD");
 		this.addButton.addActionListener(listener);
 		buttonsPanel.add(this.addButton);
-		
+
 		this.removeButton = new JButton(Images.getResourceImage(
 				"remove.png",
 				16,
@@ -154,7 +155,7 @@ abstract class TemplateList extends JPanel {
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
 		buttonsPanel.add(this.removeButton);
-		
+
 		this.defaultButton = new JButton(Images.getResourceImage(
 				"properties.png",
 				16,
@@ -165,28 +166,28 @@ abstract class TemplateList extends JPanel {
 		this.defaultButton.setEnabled(false);
 		buttonsPanel.add(this.defaultButton);
 	}
-	
+
 	public void setSelectedTemplate(Template template) {
 		this.templateList.setSelectedValue(template, true);
 	}
-	
+
 	public Template getSelectedTemplate() {
 		return (Template) this.templateList.getSelectedValue();
 	}
-	
+
 	public void addTemplate() {
 		TemplateFactory.getInstance().create(
 				Translations.getString("general.template"));
 	}
-	
+
 	public void removeTemplate(Template template) {
 		TemplateFactory.getInstance().unregister(template);
 	}
-	
+
 	public void setDefaultTemplate(Template template) {
 		TemplateFactory.getInstance().setDefaultTemplate(template);
 	}
-	
+
 	public abstract void templateSelected(Template template);
-	
+
 }

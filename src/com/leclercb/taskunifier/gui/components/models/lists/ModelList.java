@@ -99,6 +99,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 					return;
 
 				if (ModelList.this.modelList.getSelectedValue() == null) {
+					ModelList.this.modelSelected(null);
 					ModelList.this.removeButton.setEnabled(false);
 				} else {
 					ModelList.this.modelSelected((Model) ModelList.this.modelList.getSelectedValue());
