@@ -44,6 +44,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.Link;
@@ -60,8 +61,9 @@ public class TaskFilterTree extends JTree {
 	private void initialize() {
 		// Warning: might not work with all UIs
 		this.setLargeModel(true);
-		
 		this.setRootVisible(true);
+
+		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(Images.getResourceImage("tree_leaf.png"));
