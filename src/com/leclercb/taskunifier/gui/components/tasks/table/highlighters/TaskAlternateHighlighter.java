@@ -49,72 +49,75 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskAlternateHighlighter extends AbstractHighlighter {
-	
+
 	private boolean byImportance;
 	private Color even = null;
 	private Color odd = null;
-	
+
 	public TaskAlternateHighlighter() {
 		super();
-		
+
 		this.resetColors();
-		
+
 		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(
-						"theme.color.importance.enabled")
-						|| evt.getPropertyName().equals("theme.color.enabled")
-						|| evt.getPropertyName().equals("theme.color.even")
-						|| evt.getPropertyName().equals("theme.color.odd")) {
+				"theme.color.importance.enabled")
+				|| evt.getPropertyName().equals("theme.color.enabled")
+				|| evt.getPropertyName().equals("theme.color.even")
+				|| evt.getPropertyName().equals("theme.color.odd")) {
 					TaskAlternateHighlighter.this.resetColors();
 					MainFrame.getInstance().getTaskView().refreshTasks();
 				}
 			}
-			
+
 		});
 	}
-	
+
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
 		if (adapter.isSelected())
 			return renderer;
-		
+
 		if (this.byImportance)
 			return this.doImportanceHighlight(renderer, adapter);
 		else
 			return this.doAlternateHighlight(renderer, adapter);
 	}
-	
+
 	private Component doAlternateHighlight(
 			Component renderer,
 			ComponentAdapter adapter) {
 		Color color = null;
-		
+
 		if (adapter.row % 2 == 0)
 			color = this.even;
 		else
 			color = this.odd;
-		
+
 		renderer.setBackground(color);
-		
+
 		return renderer;
 	}
-	
+
 	private Component doImportanceHighlight(
 			Component renderer,
 			ComponentAdapter adapter) {
 		Object value = adapter.getFilteredValueAt(
 				adapter.row,
 				adapter.getColumnIndex(TaskColumn.MODEL));
-		
+
 		if (value == null || !(value instanceof Task))
 			return renderer;
-		
+
 		int importance = TaskUtils.getImportance((Task) value);
-		
-		switch (importance) {
+
+		if (((Task) value).isCompleted()) {
+			renderer.setBackground(Color.WHITE);
+		} else {
+			switch (importance) {
 			case 0:
 			case 1:
 			case 2:
@@ -150,18 +153,19 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 			case 12:
 				renderer.setBackground(new Color(255, 153, 153));
 				break;
+			}
 		}
-		
+
 		return renderer;
 	}
-	
+
 	private void resetColors() {
 		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null
 				&& Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled"))
 			this.byImportance = true;
 		else
 			this.byImportance = false;
-		
+
 		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null
 				&& Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
 			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
@@ -171,5 +175,5 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 			this.odd = UIManager.getColor("Table.background");
 		}
 	}
-	
+
 }
