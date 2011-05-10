@@ -65,7 +65,7 @@ public class ActionAddTask extends AbstractAction {
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.add_task"));
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
+				KeyEvent.VK_T,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	

@@ -32,54 +32,42 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddNote extends AbstractAction {
-	
-	public ActionAddNote() {
+public class ActionChangeView extends AbstractAction {
+
+	public ActionChangeView() {
 		this(32, 32);
 	}
-	
-	public ActionAddNote(int width, int height) {
-		super(
-				Translations.getString("action.name.add_note"),
-				Images.getResourceImage("document.png", width, height));
-		
+
+	public ActionChangeView(int width, int height) {
+		super(Translations.getString("action.name.change_view"));
+
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_note"));
+				Translations.getString("action.description.change_view"));
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+				KeyEvent.VK_V,
+				InputEvent.ALT_MASK));
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddNote.addNote();
+		ActionChangeView.changeView();
 	}
-	
-	public static Note addNote() {
-		MainFrame.getInstance().setSelectedView(View.NOTES);
-		
-		Note note = NoteFactory.getInstance().create("");
-		
-		MainFrame.getInstance().getNoteView().refreshNotes();
-		
-		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
-		
-		return note;
+
+	public static void changeView() {
+		int nextView = (MainFrame.getInstance().getSelectedView().ordinal() + 1) % View.values().length;
+		MainFrame.getInstance().setSelectedView(View.values()[nextView]);
 	}
-	
+
 }

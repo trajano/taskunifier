@@ -77,6 +77,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
+import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -393,6 +394,9 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		menuBar.add(viewMenu);
+		
+		viewMenu.add(new ActionChangeView(16, 16));
+		viewMenu.addSeparator();
 		
 		ButtonGroup viewGroup = new ButtonGroup();
 		
