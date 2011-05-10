@@ -400,7 +400,7 @@ public class PluginsUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(
-					Translations.getString("errors.cannot_load_plugin_database"),
+					Translations.getString("error.cannot_load_plugin_database"),
 					e);
 		}
 	}
