@@ -3,6 +3,9 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.synchroniza
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.models.SynchronizerGuiPluginModel;
 import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerGuiPluginListCellRenderer;
@@ -16,6 +19,25 @@ public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		super(new SynchronizerGuiPluginModel(), Main.SETTINGS, "api.id");
 		
 		this.setRenderer(new SynchronizerGuiPluginListCellRenderer());
+		
+		this.getModel().addListDataListener(new ListDataListener() {
+			
+			@Override
+			public void intervalRemoved(ListDataEvent e) {
+				
+			}
+			
+			@Override
+			public void intervalAdded(ListDataEvent e) {
+				setSelectedItem(getModel().getElementAt(e.getIndex0()));
+			}
+			
+			@Override
+			public void contentsChanged(ListDataEvent e) {
+				
+			}
+			
+		});
 		
 		this.addItemListener(new ItemListener() {
 			
