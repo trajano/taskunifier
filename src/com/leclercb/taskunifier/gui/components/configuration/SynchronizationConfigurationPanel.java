@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel {
-
+	
 	private boolean welcome;
 	
 	public SynchronizationConfigurationPanel(boolean welcome) {
@@ -68,7 +68,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.pack();
 		this.disableFields();
 	}
-
+	
 	private void initialize() {
 		/*
 		 * this.addField(new ConfigurationField(
@@ -83,60 +83,60 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				"API",
 				Translations.getString("general.api"),
 				new ApiFieldType()));
-
+		
 		this.addField(new ConfigurationField(
 				"MANAGE_PLUGINS",
 				null,
 				new ConfigurationFieldTypeExt.Button(new ActionManagePlugins(
 						22,
 						22))));
-
+		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
 				null,
 				new ConfigurationFieldTypeExt.Separator()));
-
+		
 		this.addField(new ConfigurationField(
 				"CHOICE",
 				Translations.getString("configuration.synchronization.choice"),
 				new ChoiceFieldType()));
-
+		
 		this.addField(new ConfigurationField(
 				"KEEP",
 				Translations.getString("configuration.synchronization.keep_tasks_for"),
 				new KeepTasksForFieldType()));
-
+		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
 				null,
 				new ConfigurationFieldTypeExt.Separator()));
-
+		
 		this.addField(new ConfigurationField(
 				"SCHEDULER_SLEEP_TIME",
 				Translations.getString("configuration.synchronization.scheduler_sleep_time"),
 				new SchedulerSleepTimeFieldType()));
-
+		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
 				null,
 				new ConfigurationFieldTypeExt.Separator()));
-
+		
 		this.addField(new ConfigurationField(
 				"SYNC_START",
 				Translations.getString("configuration.synchronization.sync_start"),
 				new SyncAtStartFieldType()));
-
+		
 		this.addField(new ConfigurationField(
 				"SYNC_EXIT",
 				Translations.getString("configuration.synchronization.sync_exit"),
 				new SyncAtExitFieldType()));
-
-		if (!welcome) {
+		
+		if (!this.welcome) {
 			this.addField(new ConfigurationField(
 					"SEPARATOR_4",
 					null,
 					new ConfigurationFieldTypeExt.Separator()));
-
+			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL_LABEL",
 					null,
@@ -144,7 +144,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							Translations.getString(
 									"configuration.synchronization.synchronize_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
-
+			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
 					null,
@@ -152,18 +152,18 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							false,
 							22,
 							22) {
-
+						
 						@Override
 						public void actionPerformed(ActionEvent event) {
 							SynchronizationConfigurationPanel.this.saveAndApplyConfig();
-
+							
 							SynchronizerUtils.resetSynchronizer();
-
+							
 							super.actionPerformed(event);
 						}
-
+						
 					})));
-
+			
 			this.addField(new ConfigurationField(
 					"RESET_ALL_LABEL",
 					null,
@@ -171,7 +171,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							Translations.getString(
 									"configuration.synchronization.reset_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
-
+			
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
 					null,
@@ -179,75 +179,75 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							false,
 							22,
 							22) {
-
+						
 						@Override
 						public void actionPerformed(ActionEvent event) {
 							try {
 								SynchronizationConfigurationPanel.this.saveAndApplyConfig();
-
+								
 								SynchronizerUtils.resetSynchronizerAndDeleteModels();
-
+								
 								super.actionPerformed(event);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
-
+						
 					})));
 		}
-
+		
 		Main.SETTINGS.addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
-
+					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						SynchronizationConfigurationPanel.this.disableFields();
-
-						if (!welcome) {
+						
+						if (!SynchronizationConfigurationPanel.this.welcome) {
 							JLabel synchronizeAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
 							JLabel resetAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
-							"RESET_ALL_LABEL").getType().getFieldComponent();
-
+									"RESET_ALL_LABEL").getType().getFieldComponent();
+							
 							synchronizeAllLabel.setText(Translations.getString(
 									"configuration.synchronization.synchronize_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()));
-
+							
 							resetAllLabel.setText(Translations.getString(
 									"configuration.synchronization.reset_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()));
 						}
 					}
-
+					
 				});
 	}
-
+	
 	private void disableFields() {
 		// Disable fields for DUMMY service
 		boolean enabled = !SynchronizerUtils.getPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId());
-
+		
 		if (this.containsId("CHOICE"))
 			this.setEnabled("CHOICE", enabled);
-
+		
 		if (this.containsId("KEEP"))
 			this.setEnabled("KEEP", enabled);
-
+		
 		if (this.containsId("SCHEDULER_SLEEP_TIME"))
 			this.setEnabled("SCHEDULER_SLEEP_TIME", enabled);
-
+		
 		if (this.containsId("SYNC_START"))
 			this.setEnabled("SYNC_START", enabled);
-
+		
 		if (this.containsId("SYNC_EXIT"))
 			this.setEnabled("SYNC_EXIT", enabled);
-
+		
 		if (this.containsId("SYNCHRONIZE_ALL"))
 			this.setEnabled("SYNCHRONIZE_ALL", enabled);
-
+		
 		if (this.containsId("RESET_ALL"))
 			this.setEnabled("RESET_ALL", enabled);
 	}
-
+	
 }

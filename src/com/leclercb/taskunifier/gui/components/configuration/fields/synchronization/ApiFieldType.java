@@ -24,17 +24,18 @@ public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 			
 			@Override
 			public void intervalRemoved(ListDataEvent e) {
-				
+
 			}
 			
 			@Override
 			public void intervalAdded(ListDataEvent e) {
-				setSelectedItem(getModel().getElementAt(e.getIndex0()));
+				ApiFieldType.this.setSelectedItem(ApiFieldType.this.getModel().getElementAt(
+						e.getIndex0()));
 			}
 			
 			@Override
 			public void contentsChanged(ListDataEvent e) {
-				
+
 			}
 			
 		});

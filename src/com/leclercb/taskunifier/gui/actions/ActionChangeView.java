@@ -44,30 +44,31 @@ import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionChangeView extends AbstractAction {
-
+	
 	public ActionChangeView() {
 		this(32, 32);
 	}
-
+	
 	public ActionChangeView(int width, int height) {
 		super(Translations.getString("action.name.change_view"));
-
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.change_view"));
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_V,
-				InputEvent.ALT_MASK));
+		this.putValue(
+				ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_MASK));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		ActionChangeView.changeView();
 	}
-
+	
 	public static void changeView() {
-		int nextView = (MainFrame.getInstance().getSelectedView().ordinal() + 1) % View.values().length;
+		int nextView = (MainFrame.getInstance().getSelectedView().ordinal() + 1)
+				% View.values().length;
 		MainFrame.getInstance().setSelectedView(View.values()[nextView]);
 	}
-
+	
 }

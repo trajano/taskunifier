@@ -95,24 +95,24 @@ public class ConfigurationDialog extends JDialog {
 		CheckUtils.isNotNull(panel, "Configuration panel cannot be null");
 		
 		switch (panel) {
-		case GENERAL:
-			tabbedPane.setSelectedIndex(0);
-			break;
-		case PROXY:
-			tabbedPane.setSelectedIndex(1);
-			break;
-		case COLUMNS:
-			tabbedPane.setSelectedIndex(2);
-			break;
-		case THEME:
-			tabbedPane.setSelectedIndex(3);
-			break;
-		case SYNCHRONIZATION:
-			tabbedPane.setSelectedIndex(4);
-			break;
-		case PLUGIN:
-			tabbedPane.setSelectedIndex(5);
-			break;
+			case GENERAL:
+				this.tabbedPane.setSelectedIndex(0);
+				break;
+			case PROXY:
+				this.tabbedPane.setSelectedIndex(1);
+				break;
+			case COLUMNS:
+				this.tabbedPane.setSelectedIndex(2);
+				break;
+			case THEME:
+				this.tabbedPane.setSelectedIndex(3);
+				break;
+			case SYNCHRONIZATION:
+				this.tabbedPane.setSelectedIndex(4);
+				break;
+			case PLUGIN:
+				this.tabbedPane.setSelectedIndex(5);
+				break;
 		}
 	}
 	
@@ -203,7 +203,9 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeGeneralPanel() {
-		this.generalConfigurationPanel = new GeneralConfigurationPanel(false);
+		this.generalConfigurationPanel = new GeneralConfigurationPanel(
+				false,
+				false);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.general"),
 				ComponentFactory.createJScrollPane(

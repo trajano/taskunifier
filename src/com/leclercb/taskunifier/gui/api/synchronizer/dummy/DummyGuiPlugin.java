@@ -56,10 +56,10 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	private DummyGuiPlugin() {
 
 	}
-
+	
 	@Override
 	public void installPlugin() {
-		
+
 	}
 	
 	@Override

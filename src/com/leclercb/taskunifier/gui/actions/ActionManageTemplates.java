@@ -41,28 +41,28 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionManageTemplates extends AbstractAction {
-
+	
 	public ActionManageTemplates() {
 		this(32, 32);
 	}
-
+	
 	public ActionManageTemplates(int width, int height) {
 		super(
 				Translations.getString("action.name.manage_templates"),
 				Images.getResourceImage("properties.png", width, height));
-
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.manage_templates"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ActionManageTemplates.manageTemplates();
 	}
-
+	
 	public static void manageTemplates() {
 		TemplateConfigurationDialog.getInstance().setVisible(true);
 	}
-
+	
 }

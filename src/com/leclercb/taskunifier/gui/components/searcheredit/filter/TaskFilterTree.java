@@ -62,8 +62,9 @@ public class TaskFilterTree extends JTree {
 		// Warning: might not work with all UIs
 		this.setLargeModel(true);
 		this.setRootVisible(true);
-
-		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		
+		this.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(Images.getResourceImage("tree_leaf.png"));

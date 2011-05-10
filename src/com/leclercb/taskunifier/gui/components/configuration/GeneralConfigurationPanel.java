@@ -48,11 +48,13 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private boolean languageOnly;
+	private boolean welcome;
 	
-	public GeneralConfigurationPanel(boolean languageOnly) {
+	public GeneralConfigurationPanel(boolean languageOnly, boolean welcome) {
 		super(
 				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
 		this.languageOnly = languageOnly;
+		this.welcome = welcome;
 		this.initialize();
 		this.pack();
 	}
@@ -118,11 +120,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
 					new ShowCompletedTasksAtTheEndFieldType()));
 			
-			this.addField(new ConfigurationField(
-					"RESET_GENERAL_SEARCHERS",
-					null,
-					new ConfigurationFieldTypeExt.Button(
-							new ActionResetGeneralSearchers(22, 22))));
+			if (!this.welcome) {
+				this.addField(new ConfigurationField(
+						"RESET_GENERAL_SEARCHERS",
+						null,
+						new ConfigurationFieldTypeExt.Button(
+								new ActionResetGeneralSearchers(22, 22))));
+			}
 		}
 	}
 	

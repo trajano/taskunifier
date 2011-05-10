@@ -67,7 +67,9 @@ public class LanguageDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		this.generalConfiruationPanel = new GeneralConfigurationPanel(true);
+		this.generalConfiruationPanel = new GeneralConfigurationPanel(
+				true,
+				false);
 		this.add(this.generalConfiruationPanel, BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();

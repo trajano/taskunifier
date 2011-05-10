@@ -66,7 +66,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginsUtils {
 	
-	public static SynchronizerGuiPlugin loadPlugin(File file) throws PluginException {
+	public static SynchronizerGuiPlugin loadPlugin(File file)
+			throws PluginException {
 		if (!file.isFile()
 				|| !FileUtils.getExtention(file.getAbsolutePath()).equals("jar"))
 			return null;
@@ -112,7 +113,7 @@ public class PluginsUtils {
 							+ plugin.getName()
 							+ " - "
 							+ plugin.getVersion());
-
+			
 			SynchronizerGuiPlugin loadedPlugin = plugin;
 			
 			for (SynchronizerGuiPlugin p : existingPlugins) {
@@ -405,7 +406,8 @@ public class PluginsUtils {
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN_DB);
+			throw new PluginException(
+					PluginExceptionType.ERROR_LOADING_PLUGIN_DB);
 		}
 	}
 	

@@ -68,6 +68,7 @@ import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
@@ -416,7 +417,7 @@ public class Main {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "searchers.xml"));
 		} catch (FileNotFoundException e) {
-
+			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(

@@ -64,7 +64,7 @@ public class WelcomeDialog extends JDialog {
 			new WelcomePanel(),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.general"),
-					new GeneralConfigurationPanel(false)),
+					new GeneralConfigurationPanel(false, true)),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.proxy"),
 					new ProxyConfigurationPanel()),
@@ -165,7 +165,7 @@ public class WelcomeDialog extends JDialog {
 						WelcomeDialog.this.currentPanel++;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 						
-						if (currentPanel == 3)
+						if (WelcomeDialog.this.currentPanel == 3)
 							ActionManagePlugins.managePlugins();
 					} else {
 						WelcomeDialog.this.dispose();

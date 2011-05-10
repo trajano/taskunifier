@@ -78,7 +78,8 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public static void synchronize(boolean background) {
-		if (SynchronizerUtils.getPlugin().getId().equals(DummyGuiPlugin.getInstance().getId())) {
+		if (SynchronizerUtils.getPlugin().getId().equals(
+				DummyGuiPlugin.getInstance().getId())) {
 			ActionManagePlugins.managePlugins();
 			ActionConfiguration.configuration(ConfigurationPanel.PLUGIN);
 			return;
