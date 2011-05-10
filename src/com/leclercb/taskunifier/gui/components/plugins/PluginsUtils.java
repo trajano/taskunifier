@@ -405,9 +405,7 @@ public class PluginsUtils {
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(
-					Translations.getString("error.cannot_load_plugin_database"),
-					e);
+			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN_DB);
 		}
 	}
 	
