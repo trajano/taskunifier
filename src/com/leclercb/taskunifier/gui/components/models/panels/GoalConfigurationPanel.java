@@ -126,15 +126,13 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			
 			@Override
 			public void addModel() {
-				Model model = GoalFactory.getInstance().create(
+				GoalFactory.getInstance().create(
 						Translations.getString("goal.default.title"));
-				this.setSelectedModel(model);
 				GoalConfigurationPanel.this.focusAndSelectTextInTextField(goalTitle);
 			}
 			
 			@Override
 			public void removeModel(Model model) {
-				this.modelSelected(null);
 				GoalFactory.getInstance().markToDelete(model);
 			}
 			

@@ -106,15 +106,13 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			
 			@Override
 			public void addModel() {
-				Model model = ContextFactory.getInstance().create(
+				ContextFactory.getInstance().create(
 						Translations.getString("context.default.title"));
-				this.setSelectedModel(model);
 				ContextConfigurationPanel.this.focusAndSelectTextInTextField(contextTitle);
 			}
 			
 			@Override
 			public void removeModel(Model model) {
-				this.modelSelected(null);
 				ContextFactory.getInstance().markToDelete(model);
 			}
 			

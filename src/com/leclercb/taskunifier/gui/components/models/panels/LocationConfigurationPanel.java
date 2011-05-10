@@ -124,15 +124,13 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			
 			@Override
 			public void addModel() {
-				Model model = LocationFactory.getInstance().create(
+				LocationFactory.getInstance().create(
 						Translations.getString("location.default.title"));
-				this.setSelectedModel(model);
 				LocationConfigurationPanel.this.focusAndSelectTextInTextField(locationTitle);
 			}
 			
 			@Override
 			public void removeModel(Model model) {
-				this.modelSelected(null);
 				LocationFactory.getInstance().markToDelete(model);
 			}
 			

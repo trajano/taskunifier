@@ -106,15 +106,13 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			
 			@Override
 			public void addModel() {
-				Model model = FolderFactory.getInstance().create(
+				FolderFactory.getInstance().create(
 						Translations.getString("folder.default.title"));
-				this.setSelectedModel(model);
 				FolderConfigurationPanel.this.focusAndSelectTextInTextField(folderTitle);
 			}
 			
 			@Override
 			public void removeModel(Model model) {
-				this.modelSelected(null);
 				FolderFactory.getInstance().markToDelete(model);
 			}
 			

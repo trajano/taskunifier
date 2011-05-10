@@ -42,6 +42,8 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -71,7 +73,28 @@ abstract class TemplateList extends JPanel {
 		this.templateList = new JList();
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new TemplateListCellRenderer());
-		this.templateList.setModel(new TemplateModel(false));
+		
+		TemplateModel model = new TemplateModel(false);
+		model.addListDataListener(new ListDataListener() {
+			
+			@Override
+			public void intervalRemoved(ListDataEvent e) {
+				TemplateList.this.templateList.setSelectedIndex(-1);
+			}
+			
+			@Override
+			public void intervalAdded(ListDataEvent e) {
+				TemplateList.this.templateList.setSelectedIndex(e.getIndex0());
+			}
+			
+			@Override
+			public void contentsChanged(ListDataEvent e) {
+				
+			}
+			
+		});
+		
+		this.templateList.setModel(model);
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -111,7 +134,6 @@ abstract class TemplateList extends JPanel {
 					TemplateList.this.addTemplate();
 				} else if (event.getActionCommand().equals("REMOVE")) {
 					TemplateList.this.removeTemplate((Template) TemplateList.this.templateList.getSelectedValue());
-					TemplateList.this.templateList.setSelectedIndex(0);
 				} else {
 					TemplateList.this.setDefaultTemplate((Template) TemplateList.this.templateList.getSelectedValue());
 				}
@@ -153,13 +175,11 @@ abstract class TemplateList extends JPanel {
 	}
 	
 	public void addTemplate() {
-		Template template = TemplateFactory.getInstance().create(
+		TemplateFactory.getInstance().create(
 				Translations.getString("general.template"));
-		this.setSelectedTemplate(template);
 	}
 	
 	public void removeTemplate(Template template) {
-		this.templateSelected(null);
 		TemplateFactory.getInstance().unregister(template);
 	}
 	

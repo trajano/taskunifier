@@ -42,52 +42,64 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TemplateConfigurationDialog extends JDialog {
-	
-	public TemplateConfigurationDialog(Frame frame, boolean modal) {
-		super(frame, modal);
-		
+
+	private static TemplateConfigurationDialog INSTANCE = null;
+
+	public static TemplateConfigurationDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new TemplateConfigurationDialog(
+					MainFrame.getInstance().getFrame());
+
+		return INSTANCE;
+	}
+
+	private TemplateConfigurationDialog(Frame frame) {
+		super(frame, true);
+
 		this.initialize();
 	}
-	
+
 	private void initialize() {
 		this.setTitle(Translations.getString("general.manage_templates"));
 		this.setSize(700, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
-		
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-		
+
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
+
 		this.add(new TemplateConfigurationPanel(), BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
+
 		this.initializeButtonsPanel(buttonsPanel);
 	}
-	
+
 	private void initializeButtonsPanel(JPanel buttonsPanel) {
 		ActionListener listener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					TemplateConfigurationDialog.this.dispose();
+					TemplateConfigurationDialog.this.setVisible(false);
 				}
 			}
-			
+
 		};
-		
+
 		JButton okButton = new JButton(Translations.getString("general.ok"));
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(listener);
 		buttonsPanel.add(okButton);
-		
+
 		this.getRootPane().setDefaultButton(okButton);
 	}
-	
+
 }
