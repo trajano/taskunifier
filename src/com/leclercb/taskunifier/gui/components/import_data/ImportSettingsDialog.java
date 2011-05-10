@@ -66,9 +66,11 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 		String[] toImport = new String[] {
 				"date",
 				"general.locale",
+				"notecolumn",
 				"proxy",
 				"searcher",
 				"synchronizer",
+				"task.show_edit_window_on_add",
 				"taskcolumn",
 				"theme" };
 		
