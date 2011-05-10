@@ -40,6 +40,8 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPa
 
 public interface SynchronizerGuiPlugin extends SynchronizerPlugin {
 	
+	public abstract void installPlugin();
+	
 	public abstract int getPluginApiVersion();
 	
 	public abstract ConfigurationPanel getConfigurationPanel(boolean welcome);

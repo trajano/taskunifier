@@ -66,10 +66,10 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginsUtils {
 	
-	public static void loadPlugin(File file) throws PluginException {
+	public static SynchronizerGuiPlugin loadPlugin(File file) throws PluginException {
 		if (!file.isFile()
 				|| !FileUtils.getExtention(file.getAbsolutePath()).equals("jar"))
-			return;
+			return null;
 		
 		try {
 			File tmpFile = File.createTempFile("taskunifier_plugin_", ".jar");
@@ -112,23 +112,27 @@ public class PluginsUtils {
 							+ plugin.getName()
 							+ " - "
 							+ plugin.getVersion());
+
+			SynchronizerGuiPlugin loadedPlugin = plugin;
 			
 			for (SynchronizerGuiPlugin p : existingPlugins) {
 				if (EqualsUtils.equals(p.getId(), plugin.getId())) {
 					SynchronizerGuiPlugin pluginToDelete = null;
 					if (CompareUtils.compare(
 							p.getVersion(),
-							plugin.getVersion()) < 0)
+							plugin.getVersion()) < 0) {
 						pluginToDelete = p;
-					else
+					} else {
 						pluginToDelete = plugin;
+						loadedPlugin = null;
+					}
 					
 					deletePlugin(pluginToDelete);
 					break;
 				}
 			}
 			
-			return;
+			return loadedPlugin;
 		} catch (PluginException e) {
 			throw e;
 		} catch (Throwable t) {
@@ -183,7 +187,9 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.installing_plugin")));
 			
-			PluginsUtils.loadPlugin(file);
+			SynchronizerGuiPlugin loadedPlugin = PluginsUtils.loadPlugin(file);
+			if (loadedPlugin != null)
+				loadedPlugin.installPlugin();
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
