@@ -67,8 +67,8 @@ public class ActionConfiguration extends AbstractAction {
 	}
 	
 	public static void configuration(ConfigurationPanel panel) {
-		ConfigurationDialog.getInstance().setVisible(true);
 		ConfigurationDialog.getInstance().setSelectedConfigurationPanel(panel);
+		ConfigurationDialog.getInstance().setVisible(true);
 	}
 	
 }

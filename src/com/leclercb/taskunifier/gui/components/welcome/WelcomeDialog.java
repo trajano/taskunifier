@@ -46,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
@@ -89,12 +90,7 @@ public class WelcomeDialog extends JDialog {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						SettingsPanel synchronizationPanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 2];
 						SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
-						
-						synchronizationPanel.reset(
-								Translations.getString("configuration.tab.synchronization"),
-								new SynchronizationConfigurationPanel(true));
 						
 						servicePanel.reset(
 								SynchronizerUtils.getPlugin().getName(),
@@ -168,6 +164,9 @@ public class WelcomeDialog extends JDialog {
 					if (WelcomeDialog.this.currentPanel < WelcomeDialog.this.panels.length - 1) {
 						WelcomeDialog.this.currentPanel++;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
+						
+						if (currentPanel == 3)
+							ActionManagePlugins.managePlugins();
 					} else {
 						WelcomeDialog.this.dispose();
 					}
