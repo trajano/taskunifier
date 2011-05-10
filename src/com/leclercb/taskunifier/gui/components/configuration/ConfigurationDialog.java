@@ -45,6 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -64,19 +65,55 @@ public class ConfigurationDialog extends JDialog {
 		return INSTANCE;
 	}
 	
+	public static enum ConfigurationPanel {
+		
+		GENERAL,
+		PROXY,
+		COLUMNS,
+		THEME,
+		SYNCHRONIZATION,
+		PLUGIN;
+		
+	}
+	
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanelExt generalConfigurationPanel;
-	private ConfigurationPanelExt synchronizationConfigurationPanel;
-	private ConfigurationPanelExt pluginConfigurationPanel;
 	private ConfigurationPanelExt proxyConfigurationPanel;
 	private ConfigurationPanelExt columnsConfigurationPanel;
 	private ConfigurationPanelExt themeConfigurationPanel;
+	private ConfigurationPanelExt synchronizationConfigurationPanel;
+	private ConfigurationPanelExt pluginConfigurationPanel;
 	
 	private ConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame(), true);
 		
 		this.initialize();
+	}
+	
+	public void setSelectedConfigurationPanel(ConfigurationPanel panel) {
+		CheckUtils.isNotNull(panel, "Configuration panel cannot be null");
+		
+		switch (panel) {
+		case GENERAL:
+			tabbedPane.setSelectedIndex(0);
+			break;
+		case PROXY:
+			tabbedPane.setSelectedIndex(1);
+			break;
+		case COLUMNS:
+			tabbedPane.setSelectedIndex(2);
+			break;
+		case THEME:
+			tabbedPane.setSelectedIndex(3);
+			break;
+		case SYNCHRONIZATION:
+			tabbedPane.setSelectedIndex(4);
+			break;
+		case PLUGIN:
+			tabbedPane.setSelectedIndex(5);
+			break;
+		}
 	}
 	
 	private void initialize() {
