@@ -5,6 +5,7 @@ Version 0.9.1
 	- Minor:
 		- BF 3300239: Edit menu then View menu
 		- BF 3300237: Add icon to searcher
+		- Bug fixed: Download plugin behind proxy
 
 Version 0.9.0
 	- Major:
