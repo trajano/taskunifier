@@ -392,6 +392,16 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
 		
+		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
+		menuBar.add(editMenu);
+		
+		editMenu.add(new ActionUndo(16, 16));
+		editMenu.add(new ActionRedo(16, 16));
+		editMenu.addSeparator();
+		editMenu.add(new ActionCut(16, 16));
+		editMenu.add(new ActionCopy(16, 16));
+		editMenu.add(new ActionPaste(16, 16));
+		
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		menuBar.add(viewMenu);
 		
@@ -431,16 +441,6 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 						
 					});
 		}
-		
-		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
-		menuBar.add(editMenu);
-		
-		editMenu.add(new ActionUndo(16, 16));
-		editMenu.add(new ActionRedo(16, 16));
-		editMenu.addSeparator();
-		editMenu.add(new ActionCut(16, 16));
-		editMenu.add(new ActionCopy(16, 16));
-		editMenu.add(new ActionPaste(16, 16));
 		
 		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
 		menuBar.add(notesMenu);
