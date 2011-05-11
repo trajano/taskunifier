@@ -174,9 +174,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.downloading_plugin")));
 			
-			org.apache.commons.io.FileUtils.copyURLToFile(
-					new URL(plugin.getDownloadUrl()),
-					file);
+			FileUtils.copyURLToFile(new URL(plugin.getDownloadUrl()), file);
 			
 			GuiLogger.getLogger().info(
 					"Plugin installed: "
