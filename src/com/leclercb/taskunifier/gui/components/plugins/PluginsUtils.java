@@ -96,7 +96,21 @@ public class PluginsUtils {
 						plugins.get(0).getPluginApiVersion()))
 					throw new PluginException(
 							PluginExceptionType.OUTDATED_PLUGIN);
-			} catch (Throwable t) {
+			} catch (PluginException pexc) {
+				try {
+					file.delete();
+				} catch (Throwable t) {
+					
+				}
+				
+				throw pexc;
+			} catch (Throwable t1) {
+				try {
+					file.delete();
+				} catch (Throwable t2) {
+					
+				}
+				
 				throw new PluginException(PluginExceptionType.OUTDATED_PLUGIN);
 			}
 			

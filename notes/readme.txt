@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.2
+	- Major:
+		- Bug fixed: "Manage plugins" window opened at startup
+
 Version 0.9.1
 	- Minor:
 		- BF 3300239: Edit menu then View menu
