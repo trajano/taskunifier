@@ -109,6 +109,7 @@ public class RepeatUtils {
 			return null;
 		
 		Task newTask = TaskFactory.getInstance().create(task);
+		newTask.setCompleted(false);
 		newTask.setStartDate(startDate);
 		newTask.setDueDate(dueDate);
 		newTask.setRepeat(task.getRepeat());

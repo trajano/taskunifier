@@ -100,7 +100,7 @@ public class PluginsUtils {
 				try {
 					file.delete();
 				} catch (Throwable t) {
-					
+
 				}
 				
 				throw pexc;
@@ -108,7 +108,7 @@ public class PluginsUtils {
 				try {
 					file.delete();
 				} catch (Throwable t2) {
-					
+
 				}
 				
 				throw new PluginException(PluginExceptionType.OUTDATED_PLUGIN);
