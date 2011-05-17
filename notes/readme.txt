@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.3
+	- Minor:
+		- Bug fixed: Completed repeated task
+
 Version 0.9.2
 	- Major:
 		- Bug fixed: "Manage plugins" window opened at startup
