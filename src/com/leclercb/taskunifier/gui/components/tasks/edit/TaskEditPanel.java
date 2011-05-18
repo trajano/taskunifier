@@ -61,7 +61,6 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -256,7 +255,7 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		if (TaskFactory.getInstance().getChildren(this.task).size() != 0)
+		if (this.task.getChildren().length != 0)
 			this.taskParent.setEnabled(false);
 		
 		info.add(this.taskParent);
@@ -383,7 +382,7 @@ public class TaskEditPanel extends JPanel {
 				taskLocationModel));
 		
 		ValueModel taskParentModel = this.adapter.getValueModel(Task.PROP_PARENT);
-		if (TaskFactory.getInstance().getChildren(this.task).size() == 0)
+		if (this.task.getChildren().length == 0)
 			this.taskParent.setModel(new ComboBoxAdapter<Task>(new TaskModel(
 					true,
 					this.task), taskParentModel));

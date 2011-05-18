@@ -80,7 +80,7 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			// False : If drag task has at least one child
 			for (Task dragTask : dragTasks)
-				if (TaskFactory.getInstance().getChildren(dragTask).size() != 0)
+				if (dragTask.getChildren().length != 0)
 					return false;
 			
 			// True : If insert row
