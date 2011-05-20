@@ -35,11 +35,8 @@ package com.leclercb.taskunifier.gui.api.templates;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.GlazedLists;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -67,14 +64,14 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	private Template defaultTemplate;
-	private EventList<Template> templates;
+	private List<Template> templates;
 	
 	private TemplateFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.defaultTemplate = null;
-		this.templates = GlazedLists.threadSafeList(new BasicEventList<Template>());
+		this.templates = new ArrayList<Template>();
 	}
 	
 	public Template getDefaultTemplate() {
@@ -99,11 +96,8 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	}
 	
 	public List<Template> getList() {
-		return GlazedLists.readOnlyList(GlazedLists.eventList(this.templates));
-	}
-	
-	public EventList<Template> getEventList() {
-		return GlazedLists.readOnlyList(this.templates);
+		return Collections.unmodifiableList(new ArrayList<Template>(
+				this.templates));
 	}
 	
 	public Template get(int index) {

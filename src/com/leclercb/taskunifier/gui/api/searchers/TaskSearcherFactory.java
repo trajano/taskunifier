@@ -35,11 +35,8 @@ package com.leclercb.taskunifier.gui.api.searchers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.GlazedLists;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -63,13 +60,13 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private EventList<TaskSearcher> searchers;
+	private List<TaskSearcher> searchers;
 	
 	private TaskSearcherFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.searchers = GlazedLists.threadSafeList(new BasicEventList<TaskSearcher>());
+		this.searchers = new ArrayList<TaskSearcher>();
 	}
 	
 	public boolean contains(String id) {
@@ -81,11 +78,8 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public List<TaskSearcher> getList() {
-		return GlazedLists.readOnlyList(GlazedLists.eventList(this.searchers));
-	}
-	
-	public EventList<TaskSearcher> getEventList() {
-		return GlazedLists.readOnlyList(this.searchers);
+		return Collections.unmodifiableList(new ArrayList<TaskSearcher>(
+				this.searchers));
 	}
 	
 	public TaskSearcher get(int index) {
