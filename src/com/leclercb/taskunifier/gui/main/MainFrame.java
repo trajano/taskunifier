@@ -52,7 +52,6 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -60,6 +59,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 
+import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXSearchField;
 
 import com.apple.eawt.Application;
@@ -136,7 +136,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class MainFrame extends JFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
+public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
 	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
