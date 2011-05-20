@@ -39,27 +39,38 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
+import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ModelListModel;
-import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public abstract class ModelList extends JPanel implements IModelList {
 	
-	private JList modelList;
+	private JTextField titleField;
+	
+	private JXList modelList;
 	private JButton addButton;
 	private JButton removeButton;
 	
-	public ModelList(ModelListModel model) {
+	public ModelList(ModelListModel model, JTextField titleField) {
+		CheckUtils.isNotNull(titleField, "Title field cannot be null");
+		this.titleField = titleField;
+		
 		this.initialize(model);
 	}
 	
@@ -67,30 +78,21 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.modelList = new JList();
-		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.modelList.setCellRenderer(new ModelListCellRenderer());
-		
-		model.addListDataListener(new ListDataListener() {
-			
-			@Override
-			public void intervalRemoved(ListDataEvent e) {
-				ModelList.this.modelList.setSelectedIndex(-1);
-			}
-			
-			@Override
-			public void intervalAdded(ListDataEvent e) {
-				ModelList.this.modelList.setSelectedIndex(e.getIndex0());
-			}
-			
-			@Override
-			public void contentsChanged(ListDataEvent e) {
-
-			}
-			
-		});
-		
+		this.modelList = new JXList();
 		this.modelList.setModel(model);
+		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.modelList.setCellRenderer(new DefaultListRenderer(
+				new StringValueModel(),
+				new IconValueModel()));
+		
+		this.modelList.setAutoCreateRowSorter(true);
+		this.modelList.setComparator(new ModelComparator());
+		this.modelList.setSortOrder(SortOrder.DESCENDING);
+		this.modelList.setSortsOnUpdates(true);
+		this.modelList.toggleSortOrder();
+		
+		this.modelList.setHighlighters(new AlternateHighlighter());
+		
 		this.modelList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -126,7 +128,9 @@ public abstract class ModelList extends JPanel implements IModelList {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					ModelList.this.addModel();
+					Model model = ModelList.this.addModel();
+					ModelList.this.modelList.setSelectedValue(model, true);
+					ModelList.this.focusAndSelectTextInTextField();
 				} else {
 					ModelList.this.removeModel((Model) ModelList.this.modelList.getSelectedValue());
 				}
@@ -159,10 +163,19 @@ public abstract class ModelList extends JPanel implements IModelList {
 		return (Model) this.modelList.getSelectedValue();
 	}
 	
-	public abstract void addModel();
+	public abstract Model addModel();
 	
 	public abstract void removeModel(Model model);
 	
 	public abstract void modelSelected(Model model);
+	
+	private void focusAndSelectTextInTextField() {
+		int length = this.titleField.getText().length();
+		
+		this.titleField.setSelectionStart(0);
+		this.titleField.setSelectionEnd(length);
+		
+		this.titleField.requestFocus();
+	}
 	
 }

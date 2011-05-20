@@ -51,6 +51,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
@@ -66,7 +67,7 @@ import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.commons.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.commons.models.GoalContributeModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
-import com.leclercb.taskunifier.gui.commons.renderers.GoalLevelListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueGoalLevel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -102,7 +103,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		this.modelList = new ModelList(new GoalModel(false)) {
+		this.modelList = new ModelList(new GoalModel(false), goalTitle) {
 			
 			private BeanAdapter<Goal> adapter;
 			
@@ -128,10 +129,9 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			}
 			
 			@Override
-			public void addModel() {
-				GoalFactory.getInstance().create(
+			public Model addModel() {
+				return GoalFactory.getInstance().create(
 						Translations.getString("goal.default.title"));
-				GoalConfigurationPanel.this.focusAndSelectTextInTextField(goalTitle);
 			}
 			
 			@Override
@@ -184,7 +184,8 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		info.add(label);
 		
 		goalLevel.setEnabled(false);
-		goalLevel.setRenderer(new GoalLevelListCellRenderer());
+		goalLevel.setRenderer(new DefaultListRenderer(
+				new StringValueGoalLevel()));
 		goalLevel.addItemListener(new ItemListener() {
 			
 			@Override
@@ -240,15 +241,6 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 				6); // xPad, yPad
 		
 		this.setDividerLocation(200);
-	}
-	
-	private void focusAndSelectTextInTextField(JTextField field) {
-		int length = field.getText().length();
-		
-		field.setSelectionStart(0);
-		field.setSelectionEnd(length);
-		
-		field.requestFocus();
 	}
 	
 }

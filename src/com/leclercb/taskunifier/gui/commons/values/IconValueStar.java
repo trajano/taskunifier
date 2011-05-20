@@ -30,19 +30,25 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import org.jdesktop.swingx.renderer.IconValue;
 
-public class NoteTooltipHighlighter extends ToolTipHighlighter {
+import com.leclercb.taskunifier.gui.utils.Images;
+
+public class IconValueStar implements IconValue {
 	
-	public NoteTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle(
-				Translations.getString("note.default.title")));
+	@Override
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof Boolean))
+			return Images.getResourceImage("checkbox_star.png", 16, 16);
+		
+		if ((Boolean) value)
+			return Images.getResourceImage("checkbox_star_selected.png", 16, 16);
+		else
+			return Images.getResourceImage("checkbox_star.png", 16, 16);
 	}
 	
 }

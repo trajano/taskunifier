@@ -101,7 +101,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		this.modelList = new ModelList(new LocationModel(false)) {
+		this.modelList = new ModelList(new LocationModel(false), locationTitle) {
 			
 			private BeanAdapter<Location> adapter;
 			
@@ -126,10 +126,9 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			}
 			
 			@Override
-			public void addModel() {
-				LocationFactory.getInstance().create(
+			public Model addModel() {
+				return LocationFactory.getInstance().create(
 						Translations.getString("location.default.title"));
-				LocationConfigurationPanel.this.focusAndSelectTextInTextField(locationTitle);
 			}
 			
 			@Override
@@ -231,15 +230,6 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				6); // xPad, yPad
 		
 		this.setDividerLocation(200);
-	}
-	
-	private void focusAndSelectTextInTextField(JTextField field) {
-		int length = field.getText().length();
-		
-		field.setSelectionStart(0);
-		field.setSelectionEnd(length);
-		
-		field.requestFocus();
 	}
 	
 }

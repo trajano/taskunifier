@@ -51,6 +51,8 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
@@ -78,10 +80,11 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -123,7 +126,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JTextArea templateTaskNote = new JTextArea(3, 5);
 		
 		// Initialize Model List
-		final TemplateList modelList = new TemplateList() {
+		final TemplateList modelList = new TemplateList(templateTitle) {
 			
 			private BeanAdapter<Template> adapter;
 			
@@ -239,12 +242,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				
 				ValueModel taskNoteModel = this.adapter.getValueModel(Template.PROP_TASK_NOTE);
 				Bindings.bind(templateTaskNote, taskNoteModel);
-			}
-			
-			@Override
-			public void addTemplate() {
-				super.addTemplate();
-				TemplateConfigurationPanel.this.focusAndSelectTextInTextField(templateTitle);
 			}
 			
 			@Override
@@ -402,7 +399,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		templateTaskReminder.setRenderer(new TaskReminderListCellRenderer());
+		templateTaskReminder.setRenderer(new DefaultListRenderer(
+				new StringValueTaskReminder()));
 		templateTaskReminder.setEditable(true);
 		
 		templateTaskReminder.setEnabled(false);
@@ -426,7 +424,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskRepeatFrom.setEnabled(false);
-		templateTaskRepeatFrom.setRenderer(new TaskRepeatFromListCellRenderer());
+		templateTaskRepeatFrom.setRenderer(new DefaultListRenderer(
+				new StringValueTaskRepeatFrom()));
 		info.add(templateTaskRepeatFrom);
 		
 		// Template Task Status
@@ -436,7 +435,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskStatus.setEnabled(false);
-		templateTaskStatus.setRenderer(new TaskStatusListCellRenderer());
+		templateTaskStatus.setRenderer(new DefaultListRenderer(
+				new StringValueTaskStatus()));
 		info.add(templateTaskStatus);
 		
 		// Template Task Length
@@ -454,7 +454,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		info.add(label);
 		
 		templateTaskPriority.setEnabled(false);
-		templateTaskPriority.setRenderer(new TaskPriorityListCellRenderer());
+		templateTaskPriority.setRenderer(new DefaultListRenderer(
+				new StringValueTaskPriority(),
+				new IconValueTaskPriority()));
 		info.add(templateTaskPriority);
 		
 		// Template Task Star
@@ -502,15 +504,6 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		SpringUtils.makeCompactGrid(info, 22, 2, 6, 6, 6, 6);
 		
 		this.setDividerLocation(200);
-	}
-	
-	private void focusAndSelectTextInTextField(JTextField field) {
-		int length = field.getText().length();
-		
-		field.setSelectionStart(0);
-		field.setSelectionEnd(length);
-		
-		field.requestFocus();
 	}
 	
 }

@@ -2,7 +2,9 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
 import java.util.Locale;
 
-import com.leclercb.taskunifier.gui.commons.renderers.LocaleListCellRenderer;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
+import com.leclercb.taskunifier.gui.commons.values.StringValueLocale;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -19,7 +21,7 @@ public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		
 		this.languageOnly = languageOnly;
 		
-		this.setRenderer(new LocaleListCellRenderer());
+		this.setRenderer(new DefaultListRenderer(new StringValueLocale()));
 	}
 	
 	@Override

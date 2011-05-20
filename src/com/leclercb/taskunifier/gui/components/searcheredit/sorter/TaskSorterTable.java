@@ -48,9 +48,11 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
-import com.leclercb.taskunifier.gui.commons.renderers.SortOrderListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueSortOrder;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.draganddrop.TaskSorterTransferHandler;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -77,7 +79,7 @@ public class TaskSorterTable extends JTable {
 		JComboBox comboBox = null;
 		
 		comboBox = new JComboBox(SortOrder.values());
-		comboBox.setRenderer(new SortOrderListCellRenderer());
+		comboBox.setRenderer(new DefaultListRenderer(new StringValueSortOrder()));
 		
 		SORT_ORDER_EDITOR = new DefaultCellEditor(comboBox);
 	}

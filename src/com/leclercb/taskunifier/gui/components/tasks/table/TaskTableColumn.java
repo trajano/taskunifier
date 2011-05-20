@@ -46,6 +46,20 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
+import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
+import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
@@ -58,20 +72,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.ReminderEdito
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.BooleanValueBoolean;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueCompleted;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueModel;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValuePriority;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.IconValueStar;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueCalendar;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueLength;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueModel;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueModelId;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValuePriority;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueReminder;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueRepeat;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueRepeatFrom;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueStatus;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 
@@ -112,7 +112,7 @@ public class TaskTableColumn extends TableColumnExt {
 				new IconValueCompleted(),
 				new BooleanValueBoolean()), SwingConstants.CENTER);
 		
-		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueLength());
+		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueTaskLength());
 		
 		MODEL_ID_RENDERER = new DefaultTableRenderer(new StringValueModelId());
 		
@@ -120,9 +120,10 @@ public class TaskTableColumn extends TableColumnExt {
 				new StringValueModel(),
 				new IconValueModel()));
 		
-		REMINDER_RENDERER = new DefaultTableRenderer(new StringValueReminder());
+		REMINDER_RENDERER = new DefaultTableRenderer(
+				new StringValueTaskReminder());
 		
-		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueRepeat());
+		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueTaskRepeat());
 		
 		STAR_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -130,14 +131,15 @@ public class TaskTableColumn extends TableColumnExt {
 				new BooleanValueBoolean()), SwingConstants.CENTER);
 		
 		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
-				new StringValuePriority(),
-				new IconValuePriority(),
+				new StringValueTaskPriority(),
+				new IconValueTaskPriority(),
 				null));
 		
 		TASK_REPEAT_FROM_RENDERER = new DefaultTableRenderer(
-				new StringValueRepeatFrom());
+				new StringValueTaskRepeatFrom());
 		
-		TASK_STATUS_RENDERER = new DefaultTableRenderer(new StringValueStatus());
+		TASK_STATUS_RENDERER = new DefaultTableRenderer(
+				new StringValueTaskStatus());
 		
 		TASK_TITLE_RENDERER = new TaskTitleRenderer();
 		

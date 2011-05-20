@@ -45,6 +45,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -56,12 +58,14 @@ import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskModel;
-import com.leclercb.taskunifier.gui.commons.renderers.BooleanListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskFilterConditionListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskFilterCondition;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -192,7 +196,9 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new FolderModel(true));
-				this.elementValue.setRenderer(new ModelListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueModel(),
+						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -200,7 +206,9 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new ContextModel(true));
-				this.elementValue.setRenderer(new ModelListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueModel(),
+						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -208,7 +216,9 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new GoalModel(true));
-				this.elementValue.setRenderer(new ModelListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueModel(),
+						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -216,7 +226,9 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new LocationModel(true));
-				this.elementValue.setRenderer(new ModelListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueModel(),
+						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -224,7 +236,9 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						TaskFilter.ModelCondition.values()));
 				this.elementValue.setModel(new TaskModel(true));
-				this.elementValue.setRenderer(new ModelListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueModel(),
+						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -233,7 +247,8 @@ public class TaskFilterElementPanel extends JPanel {
 						new Object[] { TaskFilter.StringCondition.EQUALS }));
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
-				this.elementValue.setRenderer(new BooleanListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueBoolean()));
 				this.elementValue.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
@@ -278,7 +293,8 @@ public class TaskFilterElementPanel extends JPanel {
 						TaskFilter.EnumCondition.values()));
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskRepeatFrom.values()));
-				this.elementValue.setRenderer(new TaskRepeatFromListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueTaskRepeatFrom()));
 				this.elementValue.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -287,7 +303,8 @@ public class TaskFilterElementPanel extends JPanel {
 						TaskFilter.EnumCondition.values()));
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskStatus.values()));
-				this.elementValue.setRenderer(new TaskStatusListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueTaskStatus()));
 				this.elementValue.setSelectedItem(value == null ? TaskStatus.NONE : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -303,7 +320,9 @@ public class TaskFilterElementPanel extends JPanel {
 						TaskFilter.EnumCondition.values()));
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskPriority.values()));
-				this.elementValue.setRenderer(new TaskPriorityListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueTaskPriority(),
+						new IconValueTaskPriority()));
 				this.elementValue.setSelectedItem(value == null ? TaskPriority.LOW : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -312,7 +331,8 @@ public class TaskFilterElementPanel extends JPanel {
 						new Object[] { TaskFilter.StringCondition.EQUALS }));
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
-				this.elementValue.setRenderer(new BooleanListCellRenderer());
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						new StringValueBoolean()));
 				this.elementValue.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
@@ -377,7 +397,8 @@ public class TaskFilterElementPanel extends JPanel {
 		
 		// Condition
 		this.elementCondition = new JComboBox();
-		this.elementCondition.setRenderer(new TaskFilterConditionListCellRenderer());
+		this.elementCondition.setRenderer(new DefaultListRenderer(
+				new StringValueTaskFilterCondition()));
 		this.elementCondition.setEnabled(false);
 		
 		panel.add(this.elementCondition);

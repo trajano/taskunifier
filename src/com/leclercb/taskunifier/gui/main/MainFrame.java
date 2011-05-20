@@ -36,6 +36,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -58,9 +59,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+
+import org.jdesktop.swingx.JXSearchField;
 
 import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
@@ -156,7 +156,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	private JSplitPane verticalSplitPane;
 	private JPanel middlePane;
 	
-	private JTextField searchField;
+	private JXSearchField searchField;
 	private SearcherPanel searcherPanel;
 	
 	private NotePanel notePanel;
@@ -538,7 +538,7 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 		
 		// SEARCH FIELD
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
-			toolBarCreator.addElementToRight(ComponentFactory.createSearchField(this.searchField));
+			toolBarCreator.addElementToRight(this.searchField);
 		// SEARCH FIELD
 		
 		this.add(toolBarCreator.getComponent(), BorderLayout.NORTH);
@@ -619,43 +619,26 @@ public class MainFrame extends JFrame implements MainView, SavePropertiesListene
 	}
 	
 	private void initializeSearchField() {
-		this.searchField = new JTextField(15);
+		this.searchField = new JXSearchField("Search");
 		
-		this.searchField.getDocument().addDocumentListener(
-				new DocumentListener() {
-					
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						this.updateTitleFilter();
-					}
-					
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						this.updateTitleFilter();
-					}
-					
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						this.updateTitleFilter();
-					}
-					
-					private void updateTitleFilter() {
-						if (MainFrame.this.getSelectedView() == View.NOTES)
-							MainFrame.this.notePanel.setTitleFilter(MainFrame.this.searchField.getText());
-						else
-							MainFrame.this.searcherPanel.setTitleFilter(MainFrame.this.searchField.getText());
-					}
-					
-				});
+		this.searchField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (MainFrame.this.getSelectedView() == View.NOTES)
+					MainFrame.this.notePanel.setTitleFilter(e.getActionCommand());
+				else
+					MainFrame.this.searcherPanel.setTitleFilter(e.getActionCommand());
+			}
+			
+		});
 	}
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
 		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			panel.add(
-					ComponentFactory.createSearchField(this.searchField),
-					BorderLayout.NORTH);
+			panel.add(this.searchField, BorderLayout.NORTH);
 		}
 		
 		this.searcherPanel = new SearcherPanel();

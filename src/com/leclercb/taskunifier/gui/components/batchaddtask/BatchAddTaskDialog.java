@@ -48,11 +48,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TemplateListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -112,7 +114,8 @@ public class BatchAddTaskDialog extends JDialog {
 		
 		this.templateComboBox = new JComboBox();
 		this.templateComboBox.setModel(new TemplateModel(true));
-		this.templateComboBox.setRenderer(new TemplateListCellRenderer());
+		this.templateComboBox.setRenderer(new DefaultListRenderer(
+				new StringValueTemplateTitle()));
 		
 		templatePanel.add(new JLabel(Translations.getString("general.template")
 				+ ": "), BorderLayout.WEST);

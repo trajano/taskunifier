@@ -30,19 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import org.jdesktop.swingx.renderer.IconValue;
 
-public class NoteTooltipHighlighter extends ToolTipHighlighter {
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+
+public class IconValueModel implements IconValue {
 	
-	public NoteTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle(
-				Translations.getString("note.default.title")));
+	@Override
+	public Icon getIcon(Object value) {
+		if (!(value instanceof Model))
+			return new ColorBadgeIcon(null, 12, 12);
+		
+		if (value instanceof GuiModel)
+			return new ColorBadgeIcon(((GuiModel) value).getColor(), 12, 12);
+		else
+			return new ColorBadgeIcon(null, 12, 12);
 	}
 	
 }

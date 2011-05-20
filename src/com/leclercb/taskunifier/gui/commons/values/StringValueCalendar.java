@@ -30,19 +30,33 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import org.jdesktop.swingx.renderer.StringValue;
 
-public class NoteTooltipHighlighter extends ToolTipHighlighter {
+import com.leclercb.taskunifier.gui.main.Main;
+
+public class StringValueCalendar implements StringValue {
 	
-	public NoteTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle(
-				Translations.getString("note.default.title")));
+	private DateFormat formatter;
+	
+	public StringValueCalendar() {
+		this.formatter = new SimpleDateFormat(
+				Main.SETTINGS.getStringProperty("date.date_format")
+						+ " "
+						+ Main.SETTINGS.getStringProperty("date.time_format"));
+	}
+	
+	@Override
+	public String getString(Object value) {
+		if (value == null || !(value instanceof Calendar))
+			return "";
+		
+		return this.formatter.format(((Calendar) value).getTime());
 	}
 	
 }

@@ -30,19 +30,46 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import java.awt.Color;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import javax.swing.Icon;
 
-public class NoteTooltipHighlighter extends ToolTipHighlighter {
+import org.jdesktop.swingx.renderer.IconValue;
+
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+
+public class IconValueTaskPriority implements IconValue {
 	
-	public NoteTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle(
-				Translations.getString("note.default.title")));
+	@Override
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof TaskPriority))
+			return null;
+		
+		TaskPriority priority = (TaskPriority) value;
+		Icon icon = null;
+		
+		switch (priority) {
+			case NEGATIVE:
+				icon = new ColorBadgeIcon(Color.GRAY, 12, 12);
+				break;
+			case LOW:
+				icon = new ColorBadgeIcon(Color.YELLOW, 12, 12);
+				break;
+			case MEDIUM:
+				icon = new ColorBadgeIcon(Color.GREEN, 12, 12);
+				break;
+			case HIGH:
+				icon = new ColorBadgeIcon(Color.ORANGE, 12, 12);
+				break;
+			case TOP:
+				icon = new ColorBadgeIcon(Color.RED, 12, 12);
+				break;
+		}
+		
+		return icon;
 	}
 	
 }

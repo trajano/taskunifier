@@ -30,19 +30,18 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
-import com.leclercb.taskunifier.gui.translations.Translations;
-
-public class NoteTooltipHighlighter extends ToolTipHighlighter {
+public class StringValueTaskRepeat implements StringValue {
 	
-	public NoteTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle(
-				Translations.getString("note.default.title")));
+	@Override
+	public String getString(Object value) {
+		if (!(value instanceof String))
+			return "";
+		
+		return (String) value;
 	}
 	
 }

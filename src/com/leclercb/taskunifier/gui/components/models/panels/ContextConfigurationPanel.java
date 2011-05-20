@@ -92,7 +92,7 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		this.modelList = new ModelList(new ContextModel(false)) {
+		this.modelList = new ModelList(new ContextModel(false), contextTitle) {
 			
 			private BeanAdapter<Context> adapter;
 			
@@ -108,10 +108,9 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			}
 			
 			@Override
-			public void addModel() {
-				ContextFactory.getInstance().create(
+			public Model addModel() {
+				return ContextFactory.getInstance().create(
 						Translations.getString("context.default.title"));
-				ContextConfigurationPanel.this.focusAndSelectTextInTextField(contextTitle);
 			}
 			
 			@Override
@@ -185,15 +184,6 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 				6); // xPad, yPad
 		
 		this.setDividerLocation(200);
-	}
-	
-	private void focusAndSelectTextInTextField(JTextField field) {
-		int length = field.getText().length();
-		
-		field.setSelectionStart(0);
-		field.setSelectionEnd(length);
-		
-		field.requestFocus();
 	}
 	
 }

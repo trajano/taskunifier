@@ -39,30 +39,40 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
+import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TemplateListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 abstract class TemplateList extends JPanel {
 	
-	private JList templateList;
+	private JTextField titleField;
+	
+	private JXList templateList;
 	private JButton addButton;
 	private JButton removeButton;
 	private JButton defaultButton;
 	
-	public TemplateList() {
+	public TemplateList(JTextField titleField) {
+		CheckUtils.isNotNull(titleField, "Title field cannot be null");
+		this.titleField = titleField;
+		
 		this.initialize();
 	}
 	
@@ -70,31 +80,22 @@ abstract class TemplateList extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.templateList = new JList();
-		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.templateList.setCellRenderer(new TemplateListCellRenderer());
-		
 		TemplateModel model = new TemplateModel(false);
-		model.addListDataListener(new ListDataListener() {
-			
-			@Override
-			public void intervalRemoved(ListDataEvent e) {
-				TemplateList.this.templateList.setSelectedIndex(-1);
-			}
-			
-			@Override
-			public void intervalAdded(ListDataEvent e) {
-				TemplateList.this.templateList.setSelectedIndex(e.getIndex0());
-			}
-			
-			@Override
-			public void contentsChanged(ListDataEvent e) {
-
-			}
-			
-		});
 		
+		this.templateList = new JXList();
 		this.templateList.setModel(model);
+		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.templateList.setCellRenderer(new DefaultListRenderer(
+				new StringValueTemplateTitle()));
+		
+		this.templateList.setAutoCreateRowSorter(true);
+		this.templateList.setComparator(new TemplateComparator());
+		this.templateList.setSortOrder(SortOrder.DESCENDING);
+		this.templateList.setSortsOnUpdates(true);
+		this.templateList.toggleSortOrder();
+		
+		this.templateList.setHighlighters(new AlternateHighlighter());
+		
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -132,7 +133,11 @@ abstract class TemplateList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					TemplateList.this.addTemplate();
+					Template template = TemplateList.this.addTemplate();
+					TemplateList.this.templateList.setSelectedValue(
+							template,
+							true);
+					TemplateList.this.focusAndSelectTextInTextField();
 				} else if (event.getActionCommand().equals("REMOVE")) {
 					TemplateList.this.removeTemplate((Template) TemplateList.this.templateList.getSelectedValue());
 				} else {
@@ -175,8 +180,8 @@ abstract class TemplateList extends JPanel {
 		return (Template) this.templateList.getSelectedValue();
 	}
 	
-	public void addTemplate() {
-		TemplateFactory.getInstance().create(
+	public Template addTemplate() {
+		return TemplateFactory.getInstance().create(
 				Translations.getString("general.template"));
 	}
 	
@@ -189,5 +194,14 @@ abstract class TemplateList extends JPanel {
 	}
 	
 	public abstract void templateSelected(Template template);
+	
+	private void focusAndSelectTextInTextField() {
+		int length = this.titleField.getText().length();
+		
+		this.titleField.setSelectionStart(0);
+		this.titleField.setSelectionEnd(length);
+		
+		this.titleField.requestFocus();
+	}
 	
 }

@@ -1,8 +1,10 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.commons.models.SynchronizerChoiceModel;
-import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerChoiceListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueSynchronizerChoice;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -14,7 +16,8 @@ public class ChoiceFieldType extends ConfigurationFieldTypeExt.ComboBox {
 				Main.SETTINGS,
 				"synchronizer.choice");
 		
-		this.setRenderer(new SynchronizerChoiceListCellRenderer());
+		this.setRenderer(new DefaultListRenderer(
+				new StringValueSynchronizerChoice()));
 	}
 	
 	@Override

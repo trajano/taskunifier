@@ -6,9 +6,11 @@ import java.awt.event.ItemListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.models.SynchronizerGuiPluginModel;
-import com.leclercb.taskunifier.gui.commons.renderers.SynchronizerGuiPluginListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueSynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -18,7 +20,8 @@ public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	public ApiFieldType() {
 		super(new SynchronizerGuiPluginModel(), Main.SETTINGS, "api.id");
 		
-		this.setRenderer(new SynchronizerGuiPluginListCellRenderer());
+		this.setRenderer(new DefaultListRenderer(
+				new StringValueSynchronizerGuiPlugin()));
 		
 		this.getModel().addListDataListener(new ListDataListener() {
 			

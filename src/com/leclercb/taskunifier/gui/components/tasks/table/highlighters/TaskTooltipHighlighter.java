@@ -35,12 +35,14 @@ package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.ToolTipHighlighter;
 
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.StringValueTitle;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskTooltipHighlighter extends ToolTipHighlighter {
 	
 	public TaskTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate, new StringValueTitle());
+		super(predicate, new StringValueTitle(
+				Translations.getString("task.default.title")));
 	}
 	
 }

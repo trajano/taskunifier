@@ -92,7 +92,7 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
-		this.modelList = new ModelList(new FolderModel(false)) {
+		this.modelList = new ModelList(new FolderModel(false), folderTitle) {
 			
 			private BeanAdapter<Folder> adapter;
 			
@@ -108,10 +108,9 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			}
 			
 			@Override
-			public void addModel() {
-				FolderFactory.getInstance().create(
+			public Model addModel() {
+				return FolderFactory.getInstance().create(
 						Translations.getString("folder.default.title"));
-				FolderConfigurationPanel.this.focusAndSelectTextInTextField(folderTitle);
 			}
 			
 			@Override
@@ -186,15 +185,6 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 				6); // xPad, yPad
 		
 		this.setDividerLocation(200);
-	}
-	
-	private void focusAndSelectTextInTextField(JTextField field) {
-		int length = field.getText().length();
-		
-		field.setSelectionStart(0);
-		field.setSelectionEnd(length);
-		
-		field.requestFocus();
 	}
 	
 }

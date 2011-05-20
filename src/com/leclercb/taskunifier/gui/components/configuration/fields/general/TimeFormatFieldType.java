@@ -2,7 +2,9 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
 import java.text.SimpleDateFormat;
 
-import com.leclercb.taskunifier.gui.commons.renderers.SimpleDateFormatListCellRenderer;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
+import com.leclercb.taskunifier.gui.commons.values.StringValueSimpleDateFormat;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -15,7 +17,8 @@ public class TimeFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 				Main.SETTINGS,
 				"date.time_format");
 		
-		this.setRenderer(new SimpleDateFormatListCellRenderer());
+		this.setRenderer(new DefaultListRenderer(
+				new StringValueSimpleDateFormat()));
 	}
 	
 	@Override

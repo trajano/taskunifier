@@ -45,13 +45,14 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
-import com.leclercb.taskunifier.gui.components.notes.table.renderers.IconValueModel;
-import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModel;
-import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueModelId;
-import com.leclercb.taskunifier.gui.components.notes.table.renderers.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class NoteTableColumn extends TableColumnExt {
 	
@@ -69,7 +70,8 @@ public class NoteTableColumn extends TableColumnExt {
 				new StringValueModel(),
 				new IconValueModel()));
 		
-		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle());
+		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
+				Translations.getString("note.default.title")));
 		FOLDER_EDITOR = new FolderEditor();
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}

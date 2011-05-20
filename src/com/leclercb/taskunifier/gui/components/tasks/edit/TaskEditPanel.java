@@ -47,6 +47,8 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
@@ -76,10 +78,11 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskReminderListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -283,7 +286,8 @@ public class TaskEditPanel extends JPanel {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskReminder.setRenderer(new TaskReminderListCellRenderer());
+		this.taskReminder.setRenderer(new DefaultListRenderer(
+				new StringValueTaskReminder()));
 		this.taskReminder.setEditable(true);
 		
 		info.add(this.taskReminder);
@@ -313,7 +317,8 @@ public class TaskEditPanel extends JPanel {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskRepeatFrom.setRenderer(new TaskRepeatFromListCellRenderer());
+		this.taskRepeatFrom.setRenderer(new DefaultListRenderer(
+				new StringValueTaskRepeatFrom()));
 		info.add(this.taskRepeatFrom);
 		
 		// Task Status
@@ -322,7 +327,8 @@ public class TaskEditPanel extends JPanel {
 				SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskStatus.setRenderer(new TaskStatusListCellRenderer());
+		this.taskStatus.setRenderer(new DefaultListRenderer(
+				new StringValueTaskStatus()));
 		info.add(this.taskStatus);
 		
 		// Task Priority
@@ -330,7 +336,9 @@ public class TaskEditPanel extends JPanel {
 				+ ":", SwingConstants.TRAILING);
 		info.add(label);
 		
-		this.taskPriority.setRenderer(new TaskPriorityListCellRenderer());
+		this.taskPriority.setRenderer(new DefaultListRenderer(
+				new StringValueTaskPriority(),
+				new IconValueTaskPriority()));
 		info.add(this.taskPriority);
 		
 		// Lay out the panel

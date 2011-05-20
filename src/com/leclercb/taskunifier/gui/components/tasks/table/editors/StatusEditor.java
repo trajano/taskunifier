@@ -35,8 +35,10 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskStatusListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 
 public class StatusEditor extends DefaultCellEditor {
 	
@@ -46,7 +48,8 @@ public class StatusEditor extends DefaultCellEditor {
 		JComboBox comboBox = (JComboBox) this.getComponent();
 		
 		comboBox.setModel(new TaskStatusModel(false));
-		comboBox.setRenderer(new TaskStatusListCellRenderer());
+		comboBox.setRenderer(new DefaultListRenderer(
+				new StringValueTaskStatus()));
 	}
 	
 }

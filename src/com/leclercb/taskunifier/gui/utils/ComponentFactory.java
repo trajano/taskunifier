@@ -32,15 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -48,14 +45,17 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+import org.jdesktop.swingx.JXComboBox;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.commons.renderers.ModelListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 
 public final class ComponentFactory {
 	
@@ -96,54 +96,29 @@ public final class ComponentFactory {
 				});
 	}
 	
-	public static JComboBox createModelComboBox(ComboBoxModel model) {
-		JComboBox comboBox = new JComboBox();
+	public static JXComboBox createModelComboBox(ComboBoxModel model) {
+		JXComboBox comboBox = new JXComboBox();
 		
 		if (model != null)
 			comboBox.setModel(model);
 		
-		comboBox.setRenderer(new ModelListCellRenderer());
+		comboBox.setRenderer(new DefaultListRenderer(
+				new StringValueModel(),
+				new IconValueModel()));
 		
-		if (!SystemUtils.IS_OS_MAC || !LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			AutoCompleteDecorator.decorate(
-					comboBox,
-					new ObjectToStringConverter() {
-						
-						@Override
-						public String getPreferredStringForItem(Object item) {
-							if (item == null)
-								return null;
-							
-							return ((Model) item).getTitle();
-						}
-						
-					});
-		}
+		AutoCompleteDecorator.decorate(comboBox, new ObjectToStringConverter() {
+			
+			@Override
+			public String getPreferredStringForItem(Object item) {
+				if (item == null)
+					return null;
+				
+				return ((Model) item).getTitle();
+			}
+			
+		});
 		
 		return comboBox;
-	}
-	
-	public static JPanel createSearchField(JTextField textField) {
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			textField.putClientProperty("JTextField.variant", "search");
-			
-			JPanel panel = new JPanel(new BorderLayout());
-			panel.setOpaque(false);
-			panel.add(textField, BorderLayout.CENTER);
-			
-			return panel;
-		} else {
-			JPanel panel = new JPanel(new BorderLayout(5, 0));
-			panel.setOpaque(true);
-			panel.setBackground(new Color(0xd6dde5));
-			panel.add(
-					new JLabel(Images.getResourceImage("search.png", 16, 16)),
-					BorderLayout.WEST);
-			panel.add(textField, BorderLayout.CENTER);
-			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			
-			return panel;
-		}
 	}
 	
 	public static JScrollPane createJScrollPane(

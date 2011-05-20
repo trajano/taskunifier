@@ -3,8 +3,11 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskPriorityListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 
 public class PriorityEditor extends DefaultCellEditor {
 	
@@ -14,7 +17,9 @@ public class PriorityEditor extends DefaultCellEditor {
 		JComboBox comboBox = (JComboBox) this.getComponent();
 		
 		comboBox.setModel(new TaskPriorityModel(false));
-		comboBox.setRenderer(new TaskPriorityListCellRenderer());
+		comboBox.setRenderer(new DefaultListRenderer(
+				new StringValueTaskPriority(),
+				new IconValueTaskPriority()));
 	}
 	
 }

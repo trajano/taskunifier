@@ -3,8 +3,10 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
-import com.leclercb.taskunifier.gui.commons.renderers.TaskRepeatFromListCellRenderer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 
 public class RepeatFromEditor extends DefaultCellEditor {
 	
@@ -14,7 +16,8 @@ public class RepeatFromEditor extends DefaultCellEditor {
 		JComboBox comboBox = (JComboBox) this.getComponent();
 		
 		comboBox.setModel(new TaskRepeatFromModel(false));
-		comboBox.setRenderer(new TaskRepeatFromListCellRenderer());
+		comboBox.setRenderer(new DefaultListRenderer(
+				new StringValueTaskRepeatFrom()));
 	}
 	
 }
