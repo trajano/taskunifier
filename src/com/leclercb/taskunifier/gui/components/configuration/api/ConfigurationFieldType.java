@@ -34,10 +34,8 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -45,10 +43,8 @@ import javax.swing.ComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -57,7 +53,8 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -365,41 +362,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 	}
 	
-	public static class ColorChooser extends JLabel implements ConfigurationFieldType<JLabel, Color> {
+	public static class ColorChooser implements ConfigurationFieldType<JXColorSelectionButton, Color> {
 		
-		JColorChooser colorChooser;
+		private JXColorSelectionButton component;
 		
 		public ColorChooser(Color color) {
-			this.setOpaque(true);
-			this.setBackground(color);
-			this.setBorder(new LineBorder(Color.BLACK));
-			
-			colorChooser = new JColorChooser();
-			colorChooser.setColor(color);
-			
-			final JDialog colorDialog = JColorChooser.createDialog(
-					this,
-					"Color",
-					true,
-					colorChooser,
-					new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							ColorChooser.this.setBackground(colorChooser.getColor());
-						}
-						
-					},
-					null);
-			
-			this.addMouseListener(new MouseAdapter() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					colorDialog.setVisible(true);
-				}
-				
-			});
+			this.component = new JXColorSelectionButton();
+			this.component.setPreferredSize(new Dimension(24, 24));
+			this.component.setBorder(BorderFactory.createEmptyBorder());
 		}
 		
 		@Override
@@ -408,13 +378,13 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
-		public JLabel getFieldComponent() {
-			return this;
+		public JXColorSelectionButton getFieldComponent() {
+			return this.component;
 		}
 		
 		@Override
 		public Color getFieldValue() {
-			return this.colorChooser.getColor();
+			return this.component.getBackground();
 		}
 		
 	}

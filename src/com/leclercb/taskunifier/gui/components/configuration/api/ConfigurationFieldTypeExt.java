@@ -34,10 +34,8 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -48,10 +46,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -60,7 +56,8 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -598,56 +595,30 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class ColorChooser extends JLabel implements ConfigurationFieldTypeExt<JLabel, Color> {
+	public static abstract class ColorChooser implements ConfigurationFieldTypeExt<JXColorSelectionButton, Color> {
+		
+		private JXColorSelectionButton component;
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
 		private String propertyName;
 		
-		private JColorChooser colorChooser;
-		
 		public ColorChooser(
 				PropertiesConfiguration properties,
 				String propertyName) {
+			this.component = new JXColorSelectionButton();
+			this.component.setPreferredSize(new Dimension(24, 24));
+			this.component.setBorder(BorderFactory.createEmptyBorder());
+			
 			this.first = true;
 			this.properties = properties;
 			this.propertyName = propertyName;
 			
-			this.setOpaque(true);
-			this.setBorder(new LineBorder(Color.BLACK));
-			
-			colorChooser = new JColorChooser();
-			
-			final JDialog colorDialog = JColorChooser.createDialog(
-					this,
-					"Color",
-					true,
-					colorChooser,
-					new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							ColorChooser.this.setBackground(colorChooser.getColor());
-						}
-						
-					},
-					null);
-			
-			this.addMouseListener(new MouseAdapter() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					colorDialog.setVisible(true);
-				}
-				
-			});
 		}
 		
 		@Override
 		public void initializeFieldComponent() {
-			this.setBackground(this.getPropertyValue());
-			
-			colorChooser.setColor(this.getPropertyValue());
+			this.component.setBackground(this.getPropertyValue());
 			
 			if (this.first) {
 				this.first = false;
@@ -658,8 +629,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 							
 							@Override
 							public void propertyChange(PropertyChangeEvent evt) {
-								ColorChooser.this.setBackground(ColorChooser.this.getPropertyValue());
-								ColorChooser.this.colorChooser.setColor(ColorChooser.this.getPropertyValue());
+								ColorChooser.this.component.setBackground(ColorChooser.this.getPropertyValue());
 							}
 							
 						});
@@ -667,13 +637,13 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		}
 		
 		@Override
-		public JLabel getFieldComponent() {
-			return this;
+		public JXColorSelectionButton getFieldComponent() {
+			return this.component;
 		}
 		
 		@Override
 		public Color getFieldValue() {
-			return this.colorChooser.getColor();
+			return this.component.getBackground();
 		}
 		
 		@Override

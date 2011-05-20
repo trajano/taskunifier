@@ -33,15 +33,12 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,8 +49,9 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.text.NumberFormatter;
+
+import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -63,6 +61,8 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.commons.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
@@ -97,8 +97,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				new NumberFormatter());
 		final JFormattedTextField locationLongitude = new JFormattedTextField(
 				new NumberFormatter());
-		final JLabel locationColor = new JLabel();
-		final JColorChooser locationColorChooser = new JColorChooser();
+		final JXColorSelectionButton locationColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
@@ -120,6 +119,10 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				
 				ValueModel longitudeModel = this.adapter.getValueModel(Location.PROP_LONGITUDE);
 				Bindings.bind(locationLongitude, longitudeModel);
+				
+				ValueModel colorModel = this.adapter.getValueModel(GuiModel.PROP_COLOR);
+				Bindings.bind(locationColor, "background", new ColorConverter(
+						colorModel));
 			}
 			
 			@Override
@@ -143,14 +146,6 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				locationLongitude.setEnabled(model != null);
 				locationColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);
-				
-				if (model == null) {
-					locationColor.setBackground(Color.GRAY);
-					locationColorChooser.setColor(Color.GRAY);
-				} else {
-					locationColor.setBackground(((GuiLocation) model).getColor());
-					locationColorChooser.setColor(((GuiLocation) model).getColor());
-				}
 			}
 			
 		};
@@ -208,37 +203,8 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 		info.add(label);
 		
 		locationColor.setEnabled(false);
-		locationColor.setOpaque(true);
-		locationColor.setBackground(Color.GRAY);
-		locationColor.setBorder(new LineBorder(Color.BLACK));
-		
-		locationColorChooser.setColor(Color.GRAY);
-		
-		final JDialog colorDialog = JColorChooser.createDialog(
-				this,
-				"Color",
-				true,
-				locationColorChooser,
-				new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent event) {
-						locationColor.setBackground(locationColorChooser.getColor());
-						((GuiLocation) LocationConfigurationPanel.this.modelList.getSelectedModel()).setColor(locationColorChooser.getColor());
-					}
-					
-				},
-				null);
-		
-		this.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (locationColor.isEnabled())
-					colorDialog.setVisible(true);
-			}
-			
-		});
+		locationColor.setPreferredSize(new Dimension(24, 24));
+		locationColor.setBorder(BorderFactory.createEmptyBorder());
 		
 		removeColor.setEnabled(false);
 		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
@@ -246,15 +212,13 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				locationColor.setBackground(Color.GRAY);
-				locationColorChooser.setColor(Color.GRAY);
 				((GuiLocation) LocationConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});
 		
 		JPanel p = new JPanel(new BorderLayout(5, 0));
-		p.add(locationColor, BorderLayout.CENTER);
+		p.add(locationColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
 		
 		info.add(p);

@@ -33,15 +33,12 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -49,7 +46,8 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
@@ -59,6 +57,8 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.commons.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
@@ -88,8 +88,7 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		
 		// Initialize Fields
 		final JTextField contextTitle = new JTextField(30);
-		final JLabel contextColor = new JLabel();
-		final JColorChooser contextColorChooser = new JColorChooser();
+		final JXColorSelectionButton contextColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
 		
 		// Initialize Model List
@@ -102,6 +101,10 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 				
 				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(contextTitle, titleModel);
+				
+				ValueModel colorModel = this.adapter.getValueModel(GuiModel.PROP_COLOR);
+				Bindings.bind(contextColor, "background", new ColorConverter(
+						colorModel));
 			}
 			
 			@Override
@@ -122,14 +125,6 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 				contextTitle.setEnabled(model != null);
 				contextColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);
-				
-				if (model == null) {
-					contextColor.setBackground(Color.GRAY);
-					contextColorChooser.setColor(Color.GRAY);
-				} else {
-					contextColor.setBackground(((GuiContext) model).getColor());
-					contextColorChooser.setColor(((GuiContext) model).getColor());
-				}
 			}
 			
 		};
@@ -162,37 +157,8 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		info.add(label);
 		
 		contextColor.setEnabled(false);
-		contextColor.setOpaque(true);
-		contextColor.setBackground(Color.GRAY);
-		contextColor.setBorder(new LineBorder(Color.BLACK));
-		
-		contextColorChooser.setColor(Color.GRAY);
-		
-		final JDialog colorDialog = JColorChooser.createDialog(
-				this,
-				"Color",
-				true,
-				contextColorChooser,
-				new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent event) {
-						contextColor.setBackground(contextColorChooser.getColor());
-						((GuiContext) ContextConfigurationPanel.this.modelList.getSelectedModel()).setColor(contextColorChooser.getColor());
-					}
-					
-				},
-				null);
-		
-		this.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (contextColor.isEnabled())
-					colorDialog.setVisible(true);
-			}
-			
-		});
+		contextColor.setPreferredSize(new Dimension(24, 24));
+		contextColor.setBorder(BorderFactory.createEmptyBorder());
 		
 		removeColor.setEnabled(false);
 		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
@@ -200,15 +166,13 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				contextColor.setBackground(Color.GRAY);
-				contextColorChooser.setColor(Color.GRAY);
 				((GuiContext) ContextConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
 			
 		});
 		
 		JPanel p = new JPanel(new BorderLayout(5, 0));
-		p.add(contextColor, BorderLayout.CENTER);
+		p.add(contextColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
 		
 		info.add(p);
