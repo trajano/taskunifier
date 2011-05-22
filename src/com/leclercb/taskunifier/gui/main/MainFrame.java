@@ -619,7 +619,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeSearchField() {
-		this.searchField = new JXSearchField("Search");
+		this.searchField = new JXSearchField(Translations.getString("general.search"));
+		this.searchField.setColumns(15);
 		
 		this.searchField.addActionListener(new ActionListener() {
 			

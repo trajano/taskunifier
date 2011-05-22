@@ -47,6 +47,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -56,6 +57,7 @@ import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ModelListModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -63,7 +65,11 @@ public abstract class ModelList extends JPanel implements IModelList {
 	
 	private JTextField titleField;
 	
+	private JXSearchField searchField;
+	
 	private JXList modelList;
+	private ModelRowFilter rowFilter;
+	
 	private JButton addButton;
 	private JButton removeButton;
 	
@@ -78,6 +84,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
+		this.rowFilter = new ModelRowFilter();
+		
 		this.modelList = new JXList();
 		this.modelList.setModel(model);
 		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -90,6 +98,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.modelList.setSortOrder(SortOrder.DESCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		this.modelList.toggleSortOrder();
+		
+		this.modelList.setRowFilter(rowFilter);
 		
 		this.modelList.setHighlighters(new AlternateHighlighter());
 		
@@ -115,6 +125,19 @@ public abstract class ModelList extends JPanel implements IModelList {
 				ComponentFactory.createJScrollPane(this.modelList, true),
 				BorderLayout.CENTER);
 		
+		this.searchField = new JXSearchField(Translations.getString("general.search"));
+		this.searchField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ModelList.this.rowFilter.setTitle(e.getActionCommand());
+				ModelList.this.modelList.setRowFilter(rowFilter);
+			}
+			
+		});
+		
+		this.add(this.searchField, BorderLayout.NORTH);
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
@@ -128,6 +151,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
+					ModelList.this.modelList.setRowFilter(rowFilter);
 					Model model = ModelList.this.addModel();
 					ModelList.this.modelList.setSelectedValue(model, true);
 					ModelList.this.focusAndSelectTextInTextField();
