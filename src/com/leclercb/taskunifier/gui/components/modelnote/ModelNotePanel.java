@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.modelnote;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -41,12 +42,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.StyledEditorKit;
+
+import org.jdesktop.swingx.JXEditorPane;
+import org.jdesktop.swingx.action.ActionContainerFactory;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.BrowserUtils;
@@ -59,7 +62,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
 	
-	private JEditorPane htmlNote;
+	private JXEditorPane htmlNote;
 	private JTextArea textNote;
 	
 	private ModelNote previousSelectedModel;
@@ -76,11 +79,14 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	private void initialize() {
 		this.setLayout(new CardLayout());
 		
-		this.htmlNote = new JEditorPane();
+		JPanel htmlPanel = new JPanel();
+		htmlPanel.setLayout(new BorderLayout());
+		
+		this.htmlNote = new JXEditorPane();
 		
 		this.htmlNote.setEnabled(false);
 		this.htmlNote.setEditable(false);
-		this.htmlNote.setEditorKit(new StyledEditorKit());
+		// this.htmlNote.setEditorKit(new StyledEditorKit());
 		this.htmlNote.setContentType("text/html");
 		this.htmlNote.setText(Translations.getString("error.select_one_row"));
 		this.htmlNote.addMouseListener(new MouseAdapter() {
@@ -108,6 +114,13 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 		});
 		
+		JToolBar toolBar = new ActionContainerFactory().createToolBar(this.htmlNote.getCommands());
+		toolBar.addSeparator();
+		toolBar.add(this.htmlNote.getParagraphSelector());
+		htmlPanel.add(toolBar, BorderLayout.NORTH);
+		
+		htmlPanel.add(this.htmlNote, BorderLayout.CENTER);
+		
 		this.textNote = new JTextArea();
 		
 		this.textNote.setLineWrap(true);
@@ -128,9 +141,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 		});
 		
-		this.add(
-				ComponentFactory.createJScrollPane(this.htmlNote, false),
-				"" + 0);
+		this.add(ComponentFactory.createJScrollPane(htmlPanel, false), "" + 0);
 		this.add(
 				ComponentFactory.createJScrollPane(this.textNote, false),
 				"" + 1);
