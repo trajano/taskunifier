@@ -36,6 +36,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -84,8 +86,6 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.rowFilter = new ModelRowFilter();
-		
 		this.modelList = new JXList();
 		this.modelList.setModel(model);
 		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -99,7 +99,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.modelList.setSortsOnUpdates(true);
 		this.modelList.toggleSortOrder();
 		
-		this.modelList.setRowFilter(rowFilter);
+		this.rowFilter = new ModelRowFilter();
+		this.modelList.setRowFilter(this.rowFilter);
 		
 		this.modelList.setHighlighters(new AlternateHighlighter());
 		
@@ -125,16 +126,28 @@ public abstract class ModelList extends JPanel implements IModelList {
 				ComponentFactory.createJScrollPane(this.modelList, true),
 				BorderLayout.CENTER);
 		
-		this.searchField = new JXSearchField(Translations.getString("general.search"));
+		this.searchField = new JXSearchField(
+				Translations.getString("general.search"));
 		this.searchField.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ModelList.this.rowFilter.setTitle(e.getActionCommand());
-				ModelList.this.modelList.setRowFilter(rowFilter);
 			}
 			
 		});
+		
+		this.rowFilter.addPropertyChangeListener(
+				ModelRowFilter.PROP_TITLE,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						ModelList.this.searchField.setText((String) evt.getNewValue());
+						ModelList.this.modelList.setRowFilter((ModelRowFilter) evt.getSource());
+					}
+					
+				});
 		
 		this.add(this.searchField, BorderLayout.NORTH);
 		
@@ -151,7 +164,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					ModelList.this.modelList.setRowFilter(rowFilter);
+					ModelList.this.rowFilter.setTitle(null);
 					Model model = ModelList.this.addModel();
 					ModelList.this.modelList.setSelectedValue(model, true);
 					ModelList.this.focusAndSelectTextInTextField();
