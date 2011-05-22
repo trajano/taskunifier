@@ -49,7 +49,7 @@ public class StringValueTaskLength implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))
-			return "";
+			return " ";
 		
 		int hour = 0;
 		int minute = 0;

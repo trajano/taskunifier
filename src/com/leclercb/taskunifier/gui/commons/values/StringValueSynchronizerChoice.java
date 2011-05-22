@@ -42,7 +42,7 @@ public class StringValueSynchronizerChoice implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SynchronizerChoice))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateSynchronizerChoice((SynchronizerChoice) value);
 	}

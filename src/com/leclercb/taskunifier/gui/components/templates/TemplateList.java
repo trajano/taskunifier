@@ -36,6 +36,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,6 +49,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -64,7 +67,11 @@ abstract class TemplateList extends JPanel {
 	
 	private JTextField titleField;
 	
+	private JXSearchField searchField;
+	
 	private JXList templateList;
+	private TemplateRowFilter rowFilter;
+	
 	private JButton addButton;
 	private JButton removeButton;
 	private JButton defaultButton;
@@ -94,6 +101,9 @@ abstract class TemplateList extends JPanel {
 		this.templateList.setSortsOnUpdates(true);
 		this.templateList.toggleSortOrder();
 		
+		this.rowFilter = new TemplateRowFilter();
+		this.templateList.setRowFilter(this.rowFilter);
+		
 		this.templateList.setHighlighters(new AlternateHighlighter());
 		
 		this.templateList.addListSelectionListener(new ListSelectionListener() {
@@ -120,6 +130,31 @@ abstract class TemplateList extends JPanel {
 				ComponentFactory.createJScrollPane(this.templateList, true),
 				BorderLayout.CENTER);
 		
+		this.searchField = new JXSearchField(
+				Translations.getString("general.search"));
+		this.searchField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TemplateList.this.rowFilter.setTitle(e.getActionCommand());
+			}
+			
+		});
+		
+		this.rowFilter.addPropertyChangeListener(
+				TemplateRowFilter.PROP_TITLE,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TemplateList.this.searchField.setText((String) evt.getNewValue());
+						TemplateList.this.templateList.setRowFilter((TemplateRowFilter) evt.getSource());
+					}
+					
+				});
+		
+		this.add(this.searchField, BorderLayout.NORTH);
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.add(buttonsPanel, BorderLayout.SOUTH);
@@ -133,6 +168,7 @@ abstract class TemplateList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
+					TemplateList.this.rowFilter.setTitle(null);
 					Template template = TemplateList.this.addTemplate();
 					TemplateList.this.templateList.setSelectedValue(
 							template,

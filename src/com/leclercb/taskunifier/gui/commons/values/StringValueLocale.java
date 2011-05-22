@@ -41,7 +41,7 @@ public class StringValueLocale implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Locale))
-			return "";
+			return " ";
 		
 		return ((Locale) value).getDisplayName();
 	}

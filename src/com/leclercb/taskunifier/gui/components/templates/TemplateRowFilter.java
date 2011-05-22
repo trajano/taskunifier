@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.models.lists;
+package com.leclercb.taskunifier.gui.components.templates;
 
 import java.beans.PropertyChangeListener;
 
@@ -7,9 +7,9 @@ import javax.swing.RowFilter;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.templates.Template;
 
-public class ModelRowFilter extends RowFilter<ListModel, Integer> implements PropertyChangeSupported {
+public class TemplateRowFilter extends RowFilter<ListModel, Integer> implements PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
 	
@@ -17,7 +17,7 @@ public class ModelRowFilter extends RowFilter<ListModel, Integer> implements Pro
 	
 	private String title;
 	
-	public ModelRowFilter() {
+	public TemplateRowFilter() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	
@@ -36,13 +36,14 @@ public class ModelRowFilter extends RowFilter<ListModel, Integer> implements Pro
 	
 	@Override
 	public boolean include(Entry<? extends ListModel, ? extends Integer> entry) {
-		ListModel modelListModel = entry.getModel();
-		Model model = (Model) modelListModel.getElementAt(entry.getIdentifier());
+		ListModel templateListModel = entry.getModel();
+		Template template = (Template) templateListModel.getElementAt(entry.getIdentifier());
 		
 		if (this.title == null)
 			return true;
 		
-		return model.getTitle().toLowerCase().contains(this.title.toLowerCase());
+		return template.getTitle().toLowerCase().contains(
+				this.title.toLowerCase());
 	}
 	
 	@Override

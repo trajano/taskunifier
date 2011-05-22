@@ -42,7 +42,7 @@ public class StringValueGoalLevel implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof GoalLevel))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateGoalLevel((GoalLevel) value);
 	}

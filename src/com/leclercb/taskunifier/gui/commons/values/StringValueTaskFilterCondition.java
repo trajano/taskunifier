@@ -42,7 +42,7 @@ public class StringValueTaskFilterCondition implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskFilter.Condition<?, ?>))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateTaskFilterCondition((TaskFilter.Condition<?, ?>) value);
 	}

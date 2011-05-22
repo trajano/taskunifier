@@ -42,7 +42,7 @@ public class StringValueTaskPriority implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskPriority))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateTaskPriority((TaskPriority) value);
 	}

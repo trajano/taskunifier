@@ -42,7 +42,7 @@ public class StringValueTaskStatus implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskStatus))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateTaskStatus((TaskStatus) value);
 	}

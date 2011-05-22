@@ -43,7 +43,7 @@ public class StringValueSortOrder implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SortOrder))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateSortOrder((SortOrder) value);
 	}

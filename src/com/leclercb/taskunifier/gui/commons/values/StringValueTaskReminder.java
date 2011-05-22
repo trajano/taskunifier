@@ -41,7 +41,7 @@ public class StringValueTaskReminder implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))
-			return "";
+			return " ";
 		
 		String text = null;
 		Integer reminder = (Integer) value;

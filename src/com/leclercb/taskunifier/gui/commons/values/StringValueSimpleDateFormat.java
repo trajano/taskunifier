@@ -42,7 +42,7 @@ public class StringValueSimpleDateFormat implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SimpleDateFormat))
-			return "";
+			return " ";
 		
 		SimpleDateFormat df = ((SimpleDateFormat) value);
 		

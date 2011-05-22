@@ -41,7 +41,7 @@ public class StringValueSynchronizerGuiPlugin implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SynchronizerGuiPlugin))
-			return "";
+			return " ";
 		
 		SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) value;
 		

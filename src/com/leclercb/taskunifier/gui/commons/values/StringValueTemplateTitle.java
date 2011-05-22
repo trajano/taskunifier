@@ -44,7 +44,7 @@ public class StringValueTemplateTitle implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof Template))
-			return "";
+			return " ";
 		
 		Template template = (Template) value;
 		

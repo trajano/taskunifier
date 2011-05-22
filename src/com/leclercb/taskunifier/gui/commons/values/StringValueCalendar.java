@@ -54,7 +54,7 @@ public class StringValueCalendar implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Calendar))
-			return "";
+			return " ";
 		
 		return this.formatter.format(((Calendar) value).getTime());
 	}

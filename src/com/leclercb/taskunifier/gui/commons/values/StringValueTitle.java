@@ -48,7 +48,7 @@ public class StringValueTitle implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof String))
-			return "";
+			return " ";
 		
 		if (((String) value).length() == 0)
 			return this.defaultTitle;

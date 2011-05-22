@@ -42,7 +42,7 @@ public class StringValueTaskRepeatFrom implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskRepeatFrom))
-			return "";
+			return " ";
 		
 		return TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) value);
 	}

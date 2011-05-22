@@ -39,7 +39,7 @@ public class StringValueTaskRepeat implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof String))
-			return "";
+			return " ";
 		
 		return (String) value;
 	}

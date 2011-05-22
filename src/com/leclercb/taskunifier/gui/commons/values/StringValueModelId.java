@@ -41,7 +41,7 @@ public class StringValueModelId implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof Model))
-			return "";
+			return " ";
 		
 		return ((Model) value).getModelId().toString();
 	}

@@ -41,7 +41,7 @@ public class StringValueModel implements StringValue {
 	@Override
 	public String getString(Object value) {
 		if (!(value instanceof Model))
-			return "";
+			return " ";
 		
 		return ((Model) value).getTitle();
 	}
