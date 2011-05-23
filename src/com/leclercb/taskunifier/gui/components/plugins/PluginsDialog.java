@@ -43,7 +43,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXHeader;
+
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class PluginsDialog extends JDialog {
 	
@@ -61,6 +64,12 @@ public class PluginsDialog extends JDialog {
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
+		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.manage_plugins"));
+		header.setDescription(Translations.getString("header.description.manage_plugins"));
+		header.setIcon(Images.getResourceImage("settings.png", 32, 32));
+		this.add(header, BorderLayout.NORTH);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
