@@ -13,7 +13,7 @@ public final class ReviewScanner {
 	}
 	
 	public static void main(String[] args) {
-		File folder = new File("src");
+		File folder = new File(args[0]);
 		
 		ArrayList<File> files = new ArrayList<File>();
 		FileUtils.listFiles(folder, new String[] { "java" }, true);
