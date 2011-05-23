@@ -36,8 +36,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.configuration.SettingsDialog;
-import com.leclercb.taskunifier.gui.components.configuration.SettingsDialog.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -65,12 +65,12 @@ public class ActionConfiguration extends AbstractAction {
 	}
 	
 	public static void configuration() {
-		SettingsDialog.getInstance().setVisible(true);
+		ConfigurationDialog.getInstance().setVisible(true);
 	}
 	
 	public static void configuration(ConfigurationPanel panel) {
-		SettingsDialog.getInstance().setSelectedConfigurationPanel(panel);
-		SettingsDialog.getInstance().setVisible(true);
+		ConfigurationDialog.getInstance().setSelectedConfigurationPanel(panel);
+		ConfigurationDialog.getInstance().setVisible(true);
 	}
 	
 }

@@ -58,13 +58,13 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SettingsDialog extends JDialog {
+public class ConfigurationDialog extends JDialog {
 	
-	private static SettingsDialog INSTANCE;
+	private static ConfigurationDialog INSTANCE;
 	
-	public static SettingsDialog getInstance() {
+	public static ConfigurationDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new SettingsDialog();
+			INSTANCE = new ConfigurationDialog();
 		
 		return INSTANCE;
 	}
@@ -89,7 +89,7 @@ public class SettingsDialog extends JDialog {
 	private ConfigurationPanelExt synchronizationConfigurationPanel;
 	private ConfigurationPanelExt pluginConfigurationPanel;
 	
-	private SettingsDialog() {
+	private ConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame(), true);
 		
 		this.initialize();
@@ -158,7 +158,7 @@ public class SettingsDialog extends JDialog {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						SettingsDialog.this.refreshSynchronizationPanels();
+						ConfigurationDialog.this.refreshSynchronizationPanels();
 					}
 					
 				});
@@ -170,23 +170,23 @@ public class SettingsDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
-					SettingsDialog.this.saveAndApplyConfig();
-					SettingsDialog.this.setVisible(false);
+					ConfigurationDialog.this.saveAndApplyConfig();
+					ConfigurationDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					SettingsDialog.this.generalConfigurationPanel.cancelConfig();
-					SettingsDialog.this.synchronizationConfigurationPanel.cancelConfig();
-					SettingsDialog.this.pluginConfigurationPanel.cancelConfig();
-					SettingsDialog.this.proxyConfigurationPanel.cancelConfig();
-					SettingsDialog.this.columnsConfigurationPanel.cancelConfig();
-					SettingsDialog.this.themeConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
 					
-					SettingsDialog.this.setVisible(false);
+					ConfigurationDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "APPLY") {
-					SettingsDialog.this.saveAndApplyConfig();
+					ConfigurationDialog.this.saveAndApplyConfig();
 				}
 			}
 			
