@@ -97,9 +97,8 @@ abstract class TemplateList extends JPanel {
 		
 		this.templateList.setAutoCreateRowSorter(true);
 		this.templateList.setComparator(new TemplateComparator());
-		this.templateList.setSortOrder(SortOrder.DESCENDING);
+		this.templateList.setSortOrder(SortOrder.ASCENDING);
 		this.templateList.setSortsOnUpdates(true);
-		this.templateList.toggleSortOrder();
 		
 		this.rowFilter = new TemplateRowFilter();
 		this.templateList.setRowFilter(this.rowFilter);

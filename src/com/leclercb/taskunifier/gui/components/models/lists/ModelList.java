@@ -95,9 +95,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 		
 		this.modelList.setAutoCreateRowSorter(true);
 		this.modelList.setComparator(new ModelComparator());
-		this.modelList.setSortOrder(SortOrder.DESCENDING);
+		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
-		this.modelList.toggleSortOrder();
 		
 		this.rowFilter = new ModelRowFilter();
 		this.modelList.setRowFilter(this.rowFilter);
