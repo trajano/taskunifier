@@ -57,8 +57,8 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		new ActionConfiguration();
-		ActionConfiguration.configuration();
+		new ActionSettings();
+		ActionSettings.settings();
 	}
 	
 }

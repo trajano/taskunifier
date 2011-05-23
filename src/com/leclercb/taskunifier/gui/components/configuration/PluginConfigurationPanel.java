@@ -30,59 +30,54 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.configuration;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.BorderLayout;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 
-@Reviewed
-public class ActionAddNote extends AbstractAction {
+public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	
-	public ActionAddNote() {
-		this(32, 32);
+	private ConfigurationPanel configPanel;
+	
+	public PluginConfigurationPanel(
+			boolean welcome,
+			SynchronizerGuiPlugin plugin) {
+		this.initialize(welcome, plugin);
 	}
 	
-	public ActionAddNote(int width, int height) {
-		super(
-				Translations.getString("action.name.add_note"),
-				Images.getResourceImage("document.png", width, height));
+	private void initialize(boolean welcome, SynchronizerGuiPlugin plugin) {
+		this.setLayout(new BorderLayout());
 		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_note"));
+		this.configPanel = plugin.getConfigurationPanel(welcome);
 		
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		String info = plugin.getName()
+		+ " - "
+		+ plugin.getAuthor()
+		+ " - "
+		+ plugin.getVersion();
+		JLabel pluginInfo = new JLabel(info, SwingConstants.RIGHT);
+		pluginInfo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		this.add(this.configPanel, BorderLayout.CENTER);
+		this.add(pluginInfo, BorderLayout.SOUTH);
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAddNote.addNote();
+	public void saveAndApplyConfig() {
+		this.configPanel.saveAndApplyConfig();
 	}
 	
-	public static Note addNote() {
-		MainFrame.getInstance().setSelectedView(View.NOTES);
-		
-		Note note = NoteFactory.getInstance().create("");
-		
-		MainFrame.getInstance().getNoteView().refreshNotes();
-		
-		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
-		
-		return note;
+	@Override
+	public void cancelConfig() {
+		if (this.configPanel instanceof ConfigurationPanelExt)
+			((ConfigurationPanelExt) this.configPanel).cancelConfig();
 	}
 	
 }

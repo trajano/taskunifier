@@ -41,7 +41,7 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.SettingsDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -81,7 +81,7 @@ public class ActionSynchronize extends AbstractAction {
 		if (SynchronizerUtils.getPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId())) {
 			ActionManagePlugins.managePlugins();
-			ActionConfiguration.configuration(ConfigurationPanel.PLUGIN);
+			ActionSettings.settings(ConfigurationPanel.PLUGIN);
 			return;
 		}
 		

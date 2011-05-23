@@ -42,7 +42,9 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionChangeView extends AbstractAction {
 	
 	public ActionChangeView() {
@@ -55,6 +57,7 @@ public class ActionChangeView extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.change_view"));
+		
 		this.putValue(
 				ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_MASK));
@@ -66,8 +69,8 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public static void changeView() {
-		int nextView = (MainFrame.getInstance().getSelectedView().ordinal() + 1)
-				% View.values().length;
+		int nextView = MainFrame.getInstance().getSelectedView().ordinal();
+		nextView = (nextView + 1) % View.values().length;
 		MainFrame.getInstance().setSelectedView(View.values()[nextView]);
 	}
 	

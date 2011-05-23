@@ -36,39 +36,41 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog;
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.SettingsDialog;
+import com.leclercb.taskunifier.gui.components.configuration.SettingsDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class ActionConfiguration extends AbstractAction {
+@Reviewed
+public class ActionSettings extends AbstractAction {
 	
-	public ActionConfiguration() {
+	public ActionSettings() {
 		this(32, 32);
 	}
 	
-	public ActionConfiguration(int width, int height) {
+	public ActionSettings(int width, int height) {
 		super(
-				Translations.getString("action.name.configuration"),
+				Translations.getString("action.name.settings"),
 				Images.getResourceImage("settings.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.configuration"));
+				Translations.getString("action.description.settings"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionConfiguration.configuration();
+		ActionSettings.settings();
 	}
 	
-	public static void configuration() {
-		ConfigurationDialog.getInstance().setVisible(true);
+	public static void settings() {
+		SettingsDialog.getInstance().setVisible(true);
 	}
 	
-	public static void configuration(ConfigurationPanel panel) {
-		ConfigurationDialog.getInstance().setSelectedConfigurationPanel(panel);
-		ConfigurationDialog.getInstance().setVisible(true);
+	public static void settings(ConfigurationPanel panel) {
+		SettingsDialog.getInstance().setSelectedConfigurationPanel(panel);
+		SettingsDialog.getInstance().setVisible(true);
 	}
 	
 }

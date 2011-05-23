@@ -42,7 +42,9 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionBatchAddTasks extends AbstractAction {
 	
 	public ActionBatchAddTasks() {
@@ -57,6 +59,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.batch_add_tasks"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_B,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

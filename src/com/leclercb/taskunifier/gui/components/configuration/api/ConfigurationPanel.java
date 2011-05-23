@@ -30,59 +30,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.configuration.api;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.JPanel;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
-
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
-public class ActionAddNote extends AbstractAction {
+public abstract class ConfigurationPanel extends JPanel {
 	
-	public ActionAddNote() {
-		this(32, 32);
-	}
-	
-	public ActionAddNote(int width, int height) {
-		super(
-				Translations.getString("action.name.add_note"),
-				Images.getResourceImage("document.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_note"));
-		
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionAddNote.addNote();
-	}
-	
-	public static Note addNote() {
-		MainFrame.getInstance().setSelectedView(View.NOTES);
-		
-		Note note = NoteFactory.getInstance().create("");
-		
-		MainFrame.getInstance().getNoteView().refreshNotes();
-		
-		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
-		
-		return note;
-	}
+	public abstract void saveAndApplyConfig();
 	
 }
