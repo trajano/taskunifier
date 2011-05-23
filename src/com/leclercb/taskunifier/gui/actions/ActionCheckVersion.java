@@ -38,12 +38,14 @@ import java.net.URI;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -154,12 +156,18 @@ public class ActionCheckVersion extends AbstractAction {
 						GuiLogger.getLogger().warning(
 								"An error occured while checking for updates");
 					} else {
-						ErrorDialog errorDialog = new ErrorDialog(
-								MainFrame.getInstance().getFrame(),
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
 								Translations.getString("error.check_version_error"),
+								null,
+								null,
 								e,
-								false);
-						errorDialog.setVisible(true);
+								null,
+								null);
+						
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
 					}
 				} finally {
 					SynchronizerUtils.removeProxy();

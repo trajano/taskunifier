@@ -39,6 +39,9 @@ import java.util.Calendar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
@@ -52,7 +55,6 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessa
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -230,28 +232,40 @@ public class SynchronizerDialog extends WaitDialog {
 							
 							@Override
 							public void run() {
-								ErrorDialog errorDialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
+								ErrorInfo info = new ErrorInfo(
+										Translations.getString("general.error"),
+										e.getMessage(),
 										null,
-										e,
-										!e.isExpected());
-								errorDialog.setVisible(true);
+										null,
+										e.isExpected() ? e : null,
+										null,
+										null);
+								
+								JXErrorPane.showDialog(
+										MainFrame.getInstance().getFrame(),
+										info);
 							}
 							
 						});
 						
 						return null;
-					} catch (final Throwable e) {
+					} catch (final Throwable t) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
 							@Override
 							public void run() {
-								ErrorDialog errorDialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
+								ErrorInfo info = new ErrorInfo(
+										Translations.getString("general.error"),
+										t.getMessage(),
 										null,
-										e,
-										true);
-								errorDialog.setVisible(true);
+										null,
+										t,
+										null,
+										null);
+								
+								JXErrorPane.showDialog(
+										MainFrame.getInstance().getFrame(),
+										info);
 							}
 							
 						});

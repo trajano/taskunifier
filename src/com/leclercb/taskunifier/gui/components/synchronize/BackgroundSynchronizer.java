@@ -36,12 +36,14 @@ import java.util.Calendar;
 
 import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.gui.swing.notifications.Notification;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -129,26 +131,38 @@ public class BackgroundSynchronizer {
 				
 				@Override
 				public void run() {
-					ErrorDialog errorDialog = new ErrorDialog(
-							MainFrame.getInstance().getFrame(),
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							e.getMessage(),
 							null,
-							e,
-							!e.isExpected());
-					errorDialog.setVisible(true);
+							null,
+							e.isExpected() ? e : null,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
 				}
 				
 			});
-		} catch (final Throwable e) {
+		} catch (final Throwable t) {
 			SwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
 				public void run() {
-					ErrorDialog errorDialog = new ErrorDialog(
-							MainFrame.getInstance().getFrame(),
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							t.getMessage(),
 							null,
-							e,
-							true);
-					errorDialog.setVisible(true);
+							null,
+							t,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
 				}
 				
 			});

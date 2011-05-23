@@ -47,6 +47,8 @@ import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -83,7 +85,6 @@ import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLC
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
@@ -168,12 +169,18 @@ public class Main {
 				} catch (Exception e) {
 					e.printStackTrace();
 					
-					ErrorDialog errorDialog = new ErrorDialog(
-							MainFrame.getInstance().getFrame(),
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							e.getMessage(),
+							null,
 							null,
 							e,
-							true);
-					errorDialog.setVisible(true);
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
 					
 					return;
 				}

@@ -45,13 +45,17 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.JXHeader;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog {
@@ -126,11 +130,17 @@ public class ConfigurationDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.configuration"));
+		header.setDescription(Translations.getString("header.description.configuration"));
+		header.setIcon(Images.getResourceImage("settings.png", 32, 32));
+		
 		this.tabbedPane = new JTabbedPane();
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
+		this.add(header, BorderLayout.NORTH);
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
@@ -182,21 +192,12 @@ public class ConfigurationDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton applyButton = ComponentFactory.createButtonApply(listener);
+		
 		buttonsPanel.add(okButton);
-		
-		JButton cancelButton = new JButton(
-				Translations.getString("general.cancel"));
-		cancelButton.setActionCommand("CANCEL");
-		cancelButton.addActionListener(listener);
 		buttonsPanel.add(cancelButton);
-		
-		JButton applyButton = new JButton(
-				Translations.getString("general.apply"));
-		applyButton.setActionCommand("APPLY");
-		applyButton.addActionListener(listener);
 		buttonsPanel.add(applyButton);
 		
 		this.getRootPane().setDefaultButton(okButton);
@@ -276,12 +277,16 @@ public class ConfigurationDialog extends JDialog {
 			
 			this.refreshSynchronizationPanels();
 		} catch (Exception e) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
 					Translations.getString("error.save_settings"),
+					null,
+					null,
 					e,
-					true);
-			errorDialog.setVisible(true);
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			
 			return;
 		}

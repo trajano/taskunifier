@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPa
 import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ModelConfigurationDialog extends JDialog {
 	
@@ -148,9 +149,7 @@ public class ModelConfigurationDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
 		buttonsPanel.add(okButton);
 		
 		this.getRootPane().setDefaultButton(okButton);

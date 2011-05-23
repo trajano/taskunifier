@@ -42,8 +42,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXHeader;
+
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TemplateConfigurationDialog extends JDialog {
 	
@@ -73,9 +77,15 @@ public class TemplateConfigurationDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.manage_templates"));
+		header.setDescription(Translations.getString("header.description.manage_templates"));
+		header.setIcon(Images.getResourceImage("properties.png", 32, 32));
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
+		this.add(header, BorderLayout.NORTH);
 		this.add(new TemplateConfigurationPanel(), BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
@@ -94,9 +104,7 @@ public class TemplateConfigurationDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
 		buttonsPanel.add(okButton);
 		
 		this.getRootPane().setDefaultButton(okButton);

@@ -49,12 +49,15 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileFilter;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public abstract class AbstractExportDialog extends JDialog {
 	
@@ -168,12 +171,18 @@ public abstract class AbstractExportDialog extends JDialog {
 						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
 						AbstractExportDialog.this.dispose();
 					} catch (Exception e) {
-						ErrorDialog errorDialog = new ErrorDialog(
-								MainFrame.getInstance().getFrame(),
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
+								e.getMessage(),
+								null,
 								null,
 								e,
-								false);
-						errorDialog.setVisible(true);
+								null,
+								null);
+						
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
 					}
 				}
 				
@@ -190,10 +199,7 @@ public abstract class AbstractExportDialog extends JDialog {
 		exportButton.addActionListener(listener);
 		buttonsPanel.add(exportButton);
 		
-		JButton cancelButton = new JButton(
-				Translations.getString("general.cancel"));
-		cancelButton.setActionCommand("CANCEL");
-		cancelButton.addActionListener(listener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		buttonsPanel.add(cancelButton);
 		
 		this.getRootPane().setDefaultButton(exportButton);

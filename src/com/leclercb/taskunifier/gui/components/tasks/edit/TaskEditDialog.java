@@ -47,6 +47,7 @@ import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskEditDialog extends JDialog {
 	
@@ -116,15 +117,10 @@ public class TaskEditDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
-		buttonsPanel.add(okButton);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
-		JButton cancelButton = new JButton(
-				Translations.getString("general.cancel"));
-		cancelButton.setActionCommand("CANCEL");
-		cancelButton.addActionListener(listener);
+		buttonsPanel.add(okButton);
 		buttonsPanel.add(cancelButton);
 		
 		this.getRootPane().setDefaultButton(okButton);

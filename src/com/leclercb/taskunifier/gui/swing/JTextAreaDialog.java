@@ -47,7 +47,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class JTextAreaDialog extends JDialog {
 	
@@ -131,15 +131,10 @@ public class JTextAreaDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
-		buttonsPanel.add(okButton);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
-		JButton cancelButton = new JButton(
-				Translations.getString("general.cancel"));
-		cancelButton.setActionCommand("CANCEL");
-		cancelButton.addActionListener(listener);
+		buttonsPanel.add(okButton);
 		buttonsPanel.add(cancelButton);
 		
 		this.getRootPane().setDefaultButton(okButton);

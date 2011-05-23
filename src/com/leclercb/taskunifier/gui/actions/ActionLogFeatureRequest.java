@@ -36,8 +36,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -61,12 +63,16 @@ public class ActionLogFeatureRequest extends AbstractAction {
 		try {
 			BrowserUtils.openDefaultBrowser(Constants.FEATURE_REQUEST_URL);
 		} catch (Exception e) {
-			ErrorDialog dialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					e.getMessage(),
+					null,
 					null,
 					e,
-					false);
-			dialog.setVisible(true);
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 		}
 	}
 	

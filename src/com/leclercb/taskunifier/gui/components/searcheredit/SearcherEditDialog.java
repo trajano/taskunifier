@@ -45,6 +45,7 @@ import javax.swing.JPanel;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class SearcherEditDialog extends JDialog {
 	
@@ -90,12 +91,8 @@ public class SearcherEditDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
 		buttonsPanel.add(okButton);
-		
-		// this.getRootPane().setDefaultButton(okButton);
 	}
 	
 }

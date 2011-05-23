@@ -38,14 +38,17 @@ import java.awt.Frame;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 	
@@ -91,12 +94,18 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 							
 							@Override
 							public void run() {
-								ErrorDialog dialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
+								ErrorInfo info = new ErrorInfo(
+										Translations.getString("general.error"),
 										e.getMessage(),
+										null,
+										null,
 										e,
-										false);
-								dialog.setVisible(true);
+										null,
+										null);
+								
+								JXErrorPane.showDialog(
+										MainFrame.getInstance().getFrame(),
+										info);
 							}
 							
 						});
@@ -107,12 +116,18 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 							
 							@Override
 							public void run() {
-								ErrorDialog dialog = new ErrorDialog(
-										MainFrame.getInstance().getFrame(),
+								ErrorInfo info = new ErrorInfo(
+										Translations.getString("general.error"),
+										e.getMessage(),
+										null,
 										null,
 										e,
-										true);
-								dialog.setVisible(true);
+										null,
+										null);
+								
+								JXErrorPane.showDialog(
+										MainFrame.getInstance().getFrame(),
+										info);
 							}
 							
 						});

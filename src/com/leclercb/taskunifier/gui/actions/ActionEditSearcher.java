@@ -36,8 +36,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -66,12 +68,17 @@ public class ActionEditSearcher extends AbstractAction {
 	
 	public static void editSearcher(TaskSearcher searcher) {
 		if (searcher == null) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
 					Translations.getString("error.select_searcher"),
 					null,
-					false);
-			errorDialog.setVisible(true);
+					null,
+					null,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
 			return;
 		}
 		

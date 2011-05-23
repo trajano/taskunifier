@@ -36,6 +36,9 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -47,7 +50,6 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.theme.Colors
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAndFeelFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowBadgesFieldType;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -143,12 +145,16 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				for (int i = 0; i < this.windows.length; i++)
 					laf.setLookAndFeel(this.windows[i]);
 		} catch (LookAndFeelException e) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					e.getMessage(),
+					null,
 					null,
 					e,
-					true);
-			errorDialog.setVisible(true);
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			
 			return;
 		}

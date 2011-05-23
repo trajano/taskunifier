@@ -39,7 +39,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -78,13 +80,17 @@ public class ActionPrint extends AbstractAction {
 					MainFrame.getInstance().getTaskView().printTasks();
 					break;
 			}
-		} catch (Exception exc) {
-			ErrorDialog errorDialog = new ErrorDialog(
-					MainFrame.getInstance().getFrame(),
+		} catch (Exception e) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
 					Translations.getString("error.print"),
-					exc,
-					false);
-			errorDialog.setVisible(true);
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 		}
 	}
 	

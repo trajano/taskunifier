@@ -33,9 +33,11 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -56,11 +58,36 @@ import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class ComponentFactory {
 	
 	private ComponentFactory() {
 
+	}
+	
+	public static JButton createButtonOk(ActionListener listener) {
+		JButton button = new JButton(Translations.getString("general.ok"));
+		button.setActionCommand("OK");
+		button.addActionListener(listener);
+		
+		return button;
+	}
+	
+	public static JButton createButtonCancel(ActionListener listener) {
+		JButton button = new JButton(Translations.getString("general.cancel"));
+		button.setActionCommand("CANCEL");
+		button.addActionListener(listener);
+		
+		return button;
+	}
+	
+	public static JButton createButtonApply(ActionListener listener) {
+		JButton button = new JButton(Translations.getString("general.apply"));
+		button.setActionCommand("APPLY");
+		button.addActionListener(listener);
+		
+		return button;
 	}
 	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {

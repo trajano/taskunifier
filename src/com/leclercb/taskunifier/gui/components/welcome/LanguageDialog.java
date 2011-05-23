@@ -45,6 +45,7 @@ import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class LanguageDialog extends JDialog {
 	
@@ -90,9 +91,7 @@ public class LanguageDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.setActionCommand("OK");
-		okButton.addActionListener(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
 		buttonsPanel.add(okButton);
 	}
 	

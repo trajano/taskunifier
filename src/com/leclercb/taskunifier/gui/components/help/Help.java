@@ -47,9 +47,10 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import org.apache.commons.io.FileUtils;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.error.ErrorDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -175,13 +176,19 @@ public final class Help {
 						try {
 							pane.setText(getContent(evt.getURL().getFile()));
 							pane.setCaretPosition(0);
-						} catch (Exception exc) {
-							ErrorDialog errorDialog = new ErrorDialog(
-									MainFrame.getInstance().getFrame(),
+						} catch (Exception e) {
+							ErrorInfo info = new ErrorInfo(
+									Translations.getString("general.error"),
 									Translations.getString("error.help_file_not_found"),
-									exc,
-									true);
-							errorDialog.setVisible(true);
+									null,
+									null,
+									e,
+									null,
+									null);
+							
+							JXErrorPane.showDialog(
+									MainFrame.getInstance().getFrame(),
+									info);
 						}
 					}
 				}

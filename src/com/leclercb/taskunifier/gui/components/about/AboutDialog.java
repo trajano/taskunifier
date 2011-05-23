@@ -44,6 +44,7 @@ import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class AboutDialog extends JDialog {
 	
@@ -76,16 +77,16 @@ public class AboutDialog extends JDialog {
 		aboutPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(aboutPanel, BorderLayout.CENTER);
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
-		this.initializeButtons(buttonPanel);
+		this.initializeButtons(buttonsPanel);
 	}
 	
-	private void initializeButtons(JPanel buttonPanel) {
-		ActionListener actionListener = new ActionListener() {
+	private void initializeButtons(JPanel buttonsPanel) {
+		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -94,9 +95,8 @@ public class AboutDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = new JButton(Translations.getString("general.ok"));
-		okButton.addActionListener(actionListener);
-		buttonPanel.add(okButton);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
+		buttonsPanel.add(okButton);
 		
 		this.getRootPane().setDefaultButton(okButton);
 	}
