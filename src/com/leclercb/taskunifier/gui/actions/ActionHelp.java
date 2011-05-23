@@ -35,12 +35,13 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JDialog;
 
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionHelp extends AbstractAction {
 	
 	public ActionHelp() {
@@ -63,8 +64,7 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public static void help() {
-		JDialog dialog = Help.getHelpDialog(Help.getHelpFile("index.html"));
-		dialog.setVisible(true);
+		Help.getHelpDialog(Help.getHelpFile("index.html")).setVisible(true);
 	}
 	
 }

@@ -35,15 +35,15 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
+import javax.swing.JOptionPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionLogBug extends AbstractAction {
 	
 	public ActionLogBug() {
@@ -63,16 +63,13 @@ public class ActionLogBug extends AbstractAction {
 		try {
 			BrowserUtils.openDefaultBrowser(Constants.BUG_URL);
 		} catch (Exception e) {
-			ErrorInfo info = new ErrorInfo(
-					Translations.getString("general.error"),
-					e.getMessage(),
-					null,
-					null,
-					e,
-					null,
-					null);
-			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JOptionPane.showMessageDialog(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString(
+							"general.please_visit",
+							Constants.BUG_URL),
+					Translations.getString("error.cannot_open_browser"),
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

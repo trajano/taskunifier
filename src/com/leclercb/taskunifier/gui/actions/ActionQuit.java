@@ -42,7 +42,9 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionQuit extends AbstractAction {
 	
 	public ActionQuit() {
@@ -57,6 +59,7 @@ public class ActionQuit extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.quit"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Q,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

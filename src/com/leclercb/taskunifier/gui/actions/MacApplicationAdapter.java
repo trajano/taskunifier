@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.actions;
 
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 @SuppressWarnings("deprecation")
 public class MacApplicationAdapter extends ApplicationAdapter {
 	
