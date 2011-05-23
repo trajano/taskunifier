@@ -1,7 +1,7 @@
 package com.leclercb.taskunifier.gui.utils.review;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,9 +14,10 @@ public final class ReviewScanner {
 	
 	public static void main(String[] args) {
 		File folder = new File(args[0]);
-		
-		ArrayList<File> files = new ArrayList<File>();
-		FileUtils.listFiles(folder, new String[] { "java" }, true);
+		Collection<File> files = FileUtils.listFiles(
+				folder,
+				new String[] { "java" },
+				true);
 		
 		System.out.println("To Review :");
 		System.out.println("-----------");
@@ -24,7 +25,7 @@ public final class ReviewScanner {
 		for (File file : files) {
 			try {
 				String path = file.getCanonicalPath();
-				path = path.substring(folder.getCanonicalPath().length());
+				path = path.substring(new File("src").getCanonicalPath().length());
 				path = toReference(path);
 				
 				Class<?> cls = Class.forName(
