@@ -45,9 +45,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXHeader;
+
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskEditDialog extends JDialog {
 	
@@ -73,6 +76,11 @@ public class TaskEditDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.edit_task"));
+		header.setDescription(Translations.getString("header.description.edit_task"));
+		header.setIcon(Images.getResourceImage("edit.png", 32, 32));
+		
 		this.addWindowListener(new WindowAdapter() {
 			
 			@Override
@@ -82,6 +90,8 @@ public class TaskEditDialog extends JDialog {
 			}
 			
 		});
+		
+		this.add(header, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 10));

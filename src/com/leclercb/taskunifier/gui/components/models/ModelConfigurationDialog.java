@@ -43,6 +43,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXHeader;
+
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
@@ -53,6 +55,7 @@ import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurati
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ModelConfigurationDialog extends JDialog {
 	
@@ -110,11 +113,17 @@ public class ModelConfigurationDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.manage_models"));
+		header.setDescription(Translations.getString("header.description.manage_models"));
+		header.setIcon(Images.getResourceImage("folder.png", 32, 32));
+		
 		this.tabbedPane = new JTabbedPane();
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
+		this.add(header, BorderLayout.NORTH);
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		

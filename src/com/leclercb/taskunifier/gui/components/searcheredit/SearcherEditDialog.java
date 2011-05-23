@@ -42,10 +42,13 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXHeader;
+
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class SearcherEditDialog extends JDialog {
 	
@@ -66,11 +69,17 @@ public class SearcherEditDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("header.title.edit_searcher"));
+		header.setDescription(Translations.getString("header.description.edit_searcher"));
+		header.setIcon(Images.getResourceImage("search.png", 32, 32));
+		
 		this.searcherEditPanel = new SearcherEditPanel(searcher);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
+		this.add(header, BorderLayout.NORTH);
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);
 		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
