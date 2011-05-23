@@ -49,7 +49,9 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	private boolean createNewTemplates;

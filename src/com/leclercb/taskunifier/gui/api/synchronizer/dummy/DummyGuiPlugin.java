@@ -39,7 +39,9 @@ import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseExce
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
 	
 	private static DummyGuiPlugin INSTANCE;

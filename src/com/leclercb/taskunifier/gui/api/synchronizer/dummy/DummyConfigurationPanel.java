@@ -36,18 +36,14 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public DummyConfigurationPanel(boolean welcome) {
-		super();
 		this.initialize(welcome);
 		this.pack();
-	}
-	
-	@Override
-	public void saveAndApplyConfig() {
-
 	}
 	
 	private void initialize(boolean welcome) {

@@ -40,7 +40,9 @@ import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class DummyApi extends SynchronizerApi {
 	
 	private static DummyApi INSTANCE;

@@ -51,7 +51,9 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class Template implements Serializable, Cloneable, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";

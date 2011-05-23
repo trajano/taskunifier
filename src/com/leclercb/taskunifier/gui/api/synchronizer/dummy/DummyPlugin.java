@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class DummyPlugin implements SynchronizerPlugin {
 	
 	private static String VERSION = "1.0";
