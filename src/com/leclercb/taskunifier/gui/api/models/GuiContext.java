@@ -36,7 +36,9 @@ import java.awt.Color;
 
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;

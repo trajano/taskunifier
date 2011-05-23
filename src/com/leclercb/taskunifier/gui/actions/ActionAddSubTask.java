@@ -39,6 +39,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -53,7 +54,9 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionAddSubTask extends AbstractAction {
 	
 	private TaskView taskView;
@@ -72,6 +75,7 @@ public class ActionAddSubTask extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.add_subtask"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_K,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -105,20 +109,22 @@ public class ActionAddSubTask extends AbstractAction {
 	}
 	
 	public static Task addSubTask(Template template, Task parent) {
+		CheckUtils.isNotNull(parent, "Parent cannot be null");
+		
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
-		if (parent == null)
-			return null;
+		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		
+		if (searcherTemplate == null)
+			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
 			template.applyToTask(task);
 		
-		template = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
-		
-		if (template != null)
-			template.applyToTask(task);
+		if (searcherTemplate != null)
+			searcherTemplate.applyToTask(task);
 		
 		task.setParent(parent);
 		task.setContext(parent.getContext());
@@ -139,9 +145,6 @@ public class ActionAddSubTask extends AbstractAction {
 			if (dialog.isCancelled())
 				TaskFactory.getInstance().markDeleted(task);
 		} else {
-			if (template == null)
-				MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
-			
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
 					task);
 		}

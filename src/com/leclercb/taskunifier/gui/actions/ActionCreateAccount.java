@@ -38,7 +38,9 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public abstract class ActionCreateAccount extends AbstractAction {
 	
 	public ActionCreateAccount() {

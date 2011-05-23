@@ -41,7 +41,9 @@ import javax.swing.AbstractAction;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionAddTemplateTask extends AbstractAction {
 	
 	private Template template;

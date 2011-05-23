@@ -36,7 +36,9 @@ import java.awt.Color;
 
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class GuiLocation extends Location implements GuiModel {
 	
 	private Color color;

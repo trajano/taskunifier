@@ -237,7 +237,7 @@ public class SynchronizerDialog extends WaitDialog {
 										e.getMessage(),
 										null,
 										null,
-										e.isExpected() ? e : null,
+										(e.isExpected() ? e : null),
 										null,
 										null);
 								

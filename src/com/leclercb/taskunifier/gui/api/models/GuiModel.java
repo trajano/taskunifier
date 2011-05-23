@@ -35,7 +35,9 @@ package com.leclercb.taskunifier.gui.api.models;
 import java.awt.Color;
 
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public interface GuiModel extends Model {
 	
 	public static final String PROP_COLOR = "color";

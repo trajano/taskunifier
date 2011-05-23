@@ -32,130 +32,34 @@
  */
 package com.leclercb.taskunifier.gui.api.models.coders;
 
-import java.awt.Color;
-import java.util.Calendar;
-import java.util.List;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.XMLUtils;
 import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.ModelStatus;
-import com.leclercb.taskunifier.gui.api.models.GuiContext;
+import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class GuiContextFactoryXMLCoder extends AbstractFactoryXMLCoder {
-	
-	public GuiContextFactoryXMLCoder() {
-		super("contexts");
-	}
+@Reviewed
+public class GuiContextFactoryXMLCoder extends ContextFactoryXMLCoder {
 	
 	@Override
-	protected void decode(Node root) throws FactoryCoderException {
-		CheckUtils.isNotNull(root, "Root cannot be null");
-		
-		try {
-			NodeList nContexts = root.getChildNodes();
-			
-			for (int i = 0; i < nContexts.getLength(); i++) {
-				if (!nContexts.item(i).getNodeName().equals("context"))
-					continue;
-				
-				NodeList nContext = nContexts.item(i).getChildNodes();
-				
-				ModelId modelId = null;
-				ModelStatus modelStatus = null;
-				Calendar modelUpdateDate = null;
-				String title = null;
-				Color color = null;
-				
-				for (int j = 0; j < nContext.getLength(); j++) {
-					Node element = nContext.item(j);
-					
-					if (element.getNodeName().equals("modelid"))
-						if (element.getTextContent().length() != 0)
-							modelId = new ModelId(
-									XMLUtils.getBooleanAttributeValue(
-											element,
-											"isnew"), element.getTextContent());
-					
-					if (element.getNodeName().equals("modelstatus"))
-						modelStatus = ModelStatus.valueOf(element.getTextContent());
-					
-					if (element.getNodeName().equals("modelupdatedate")) {
-						modelUpdateDate = Calendar.getInstance();
-						modelUpdateDate.setTimeInMillis(Long.parseLong(element.getTextContent()));
-					}
-					
-					if (element.getNodeName().equals("title"))
-						title = element.getTextContent();
-					
-					if (element.getNodeName().equals("color"))
-						if (element.getTextContent().length() != 0)
-							color = new Color(
-									Integer.parseInt(element.getTextContent()));
-				}
-				
-				GuiContext context = (GuiContext) ContextFactory.getInstance().get(
-						modelId);
-				
-				if (context == null)
-					context = (GuiContext) ContextFactory.getInstance().createShell(
-							modelId);
-				
-				context.setTitle(title);
-				context.setColor(color);
-				
-				// After all other setXxx methods
-				context.setModelStatus(modelStatus);
-				context.setModelUpdateDate(modelUpdateDate);
-			}
-		} catch (Exception e) {
-			throw new FactoryCoderException(e.getMessage(), e);
-		}
-	}
-	
-	@Override
-	protected void encode(Document document, Element root)
+	protected void decodeExtended(Context context, Node node)
 			throws FactoryCoderException {
-		List<Context> contexts = ContextFactory.getInstance().getList();
-		
-		for (Context context : contexts) {
-			GuiContext guiContext = (GuiContext) context;
-			
-			Element nContext = document.createElement("context");
-			root.appendChild(nContext);
-			
-			Element modelId = document.createElement("modelid");
-			modelId.setAttribute("isnew", context.getModelId().isNewId() + "");
-			modelId.setTextContent(context.getModelId().getId());
-			nContext.appendChild(modelId);
-			
-			Element modelStatus = document.createElement("modelstatus");
-			modelStatus.setTextContent(context.getModelStatus().name());
-			nContext.appendChild(modelStatus);
-			
-			Element modelUpdateDate = document.createElement("modelupdatedate");
-			modelUpdateDate.setTextContent(context.getModelUpdateDate().getTimeInMillis()
-					+ "");
-			nContext.appendChild(modelUpdateDate);
-			
-			Element title = document.createElement("title");
-			title.setTextContent(context.getTitle());
-			nContext.appendChild(title);
-			
-			Element color = document.createElement("color");
-			color.setTextContent(guiContext.getColor() != null ? guiContext.getColor().getRGB()
-					+ "" : "");
-			nContext.appendChild(color);
-		}
+		GuiModelFactoryXMLCoderUtils.decodeExtended((GuiModel) context, node);
+	}
+	
+	@Override
+	protected void encodeExtended(
+			Context context,
+			Document document,
+			Element element) throws FactoryCoderException {
+		GuiModelFactoryXMLCoderUtils.encodeExtended(
+				(GuiModel) context,
+				document,
+				element);
 	}
 	
 }
