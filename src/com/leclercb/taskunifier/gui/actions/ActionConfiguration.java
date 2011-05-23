@@ -43,32 +43,32 @@ import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionSettings extends AbstractAction {
+public class ActionConfiguration extends AbstractAction {
 	
-	public ActionSettings() {
+	public ActionConfiguration() {
 		this(32, 32);
 	}
 	
-	public ActionSettings(int width, int height) {
+	public ActionConfiguration(int width, int height) {
 		super(
-				Translations.getString("action.name.settings"),
+				Translations.getString("action.name.configuration"),
 				Images.getResourceImage("settings.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.description.settings"));
+				Translations.getString("action.description.configuration"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionSettings.settings();
+		ActionConfiguration.configuration();
 	}
 	
-	public static void settings() {
+	public static void configuration() {
 		SettingsDialog.getInstance().setVisible(true);
 	}
 	
-	public static void settings(ConfigurationPanel panel) {
+	public static void configuration(ConfigurationPanel panel) {
 		SettingsDialog.getInstance().setSelectedConfigurationPanel(panel);
 		SettingsDialog.getInstance().setVisible(true);
 	}

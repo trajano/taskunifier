@@ -64,7 +64,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				new ProxyEnabledFieldType()));
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
-		"ENABLED").getType()).getFieldComponent();
+				"ENABLED").getType()).getFieldComponent();
 		
 		this.addField(new ConfigurationField(
 				"HOST",
@@ -98,7 +98,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private void disableFields() {
 		JCheckBox proxyEnabledField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
-		"ENABLED").getType()).getFieldComponent();
+				"ENABLED").getType()).getFieldComponent();
 		
 		this.setEnabled("HOST", proxyEnabledField.isSelected());
 		this.setEnabled("PORT", proxyEnabledField.isSelected());

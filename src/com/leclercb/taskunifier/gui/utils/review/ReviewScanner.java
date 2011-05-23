@@ -9,7 +9,7 @@ import org.apache.commons.io.FileUtils;
 public final class ReviewScanner {
 	
 	private ReviewScanner() {
-		
+
 	}
 	
 	public static void main(String[] args) {
@@ -27,13 +27,16 @@ public final class ReviewScanner {
 				path = path.substring(folder.getCanonicalPath().length());
 				path = toReference(path);
 				
-				Class<?> cls = Class.forName(path, false, Thread.currentThread().getContextClassLoader());
+				Class<?> cls = Class.forName(
+						path,
+						false,
+						Thread.currentThread().getContextClassLoader());
 				
 				if (cls.equals(Reviewed.class) || cls.equals(NoReview.class))
 					continue;
 				
-				if (cls.getAnnotation(Reviewed.class) == null && 
-						cls.getAnnotation(NoReview.class) == null)
+				if (cls.getAnnotation(Reviewed.class) == null
+						&& cls.getAnnotation(NoReview.class) == null)
 					System.out.println(path);
 			} catch (Exception e) {}
 		}
@@ -50,4 +53,3 @@ public final class ReviewScanner {
 	}
 	
 }
-

@@ -44,21 +44,18 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	@Override
 	public void handleQuit(ApplicationEvent e) {
-		new ActionQuit();
 		ActionQuit.quit();
 	}
 	
 	@Override
 	public void handleAbout(ApplicationEvent e) {
 		e.setHandled(true);
-		new ActionAbout();
 		ActionAbout.about();
 	}
 	
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		new ActionSettings();
-		ActionSettings.settings();
+		ActionConfiguration.configuration();
 	}
 	
 }

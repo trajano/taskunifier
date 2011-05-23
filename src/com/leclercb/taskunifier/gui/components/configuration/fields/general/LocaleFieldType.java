@@ -17,7 +17,7 @@ public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		super(
 				Translations.getLocales().toArray(),
 				Main.SETTINGS,
-		"general.locale");
+				"general.locale");
 		
 		this.languageOnly = languageOnly;
 		

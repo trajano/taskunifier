@@ -1,7 +1,7 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.columns;
 
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class ColumnFieldType extends ConfigurationFieldTypeExt.CheckBox {

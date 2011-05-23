@@ -75,11 +75,8 @@ public class ActionAddNote extends AbstractAction {
 	
 	public static Note addNote() {
 		MainFrame.getInstance().setSelectedView(View.NOTES);
-		
 		Note note = NoteFactory.getInstance().create("");
-		
 		MainFrame.getInstance().getNoteView().refreshNotes();
-		
 		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
 		
 		return note;

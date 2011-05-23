@@ -15,7 +15,7 @@ public class TimeFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		super(
 				DateTimeFormatUtils.getAvailableTimeFormats(),
 				Main.SETTINGS,
-		"date.time_format");
+				"date.time_format");
 		
 		this.setRenderer(new DefaultListRenderer(
 				new StringValueSimpleDateFormat()));

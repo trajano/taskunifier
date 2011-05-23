@@ -80,7 +80,7 @@ import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
-import com.leclercb.taskunifier.gui.actions.ActionSettings;
+import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -383,7 +383,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		fileMenu.add(exportMenu);
 		
 		fileMenu.addSeparator();
-		fileMenu.add(new ActionSettings(16, 16));
+		fileMenu.add(new ActionConfiguration(16, 16));
 		fileMenu.add(new ActionManagePlugins(16, 16));
 		fileMenu.add(new ActionManageModels(16, 16));
 		fileMenu.add(new ActionManageTemplates(16, 16));
@@ -602,7 +602,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				new ActionSynchronize(false, iconWith, iconHeight),
 				new ActionScheduledSync(iconWith, iconHeight),
 				null,
-				new ActionSettings(iconWith, iconHeight) };
+				new ActionConfiguration(iconWith, iconHeight) };
 	}
 	
 	private void initializeStatusBar() {
