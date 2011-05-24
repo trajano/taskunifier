@@ -33,14 +33,14 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.util.Calendar;
-import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class TaskUtils {
 	
 	private TaskUtils() {
@@ -101,15 +101,13 @@ public final class TaskUtils {
 			return false;
 		}
 		
-		// If a filtered parent task has non filtered children, it must be
-		// displayed
+		// If a filtered parent task has non filtered children,
+		// it must be displayed
 		if (task.getParent() == null) {
-			List<Task> tasks = TaskFactory.getInstance().getList();
-			for (Task t : tasks) {
-				if (task.equals(t.getParent()))
-					if (filter.include(t))
-						return true;
-			}
+			Task[] children = task.getChildren();
+			for (Task child : children)
+				if (filter.include(child))
+					return true;
 		}
 		
 		return filter.include(task);

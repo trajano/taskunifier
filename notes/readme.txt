@@ -4,6 +4,7 @@ HISTORY
 Version 0.9.3
 	- Minor:
 		- Bug fixed: Completed repeated task
+		- User interface improvements
 
 Version 0.9.2
 	- Major:

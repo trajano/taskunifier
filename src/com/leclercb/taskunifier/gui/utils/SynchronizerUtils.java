@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -50,7 +49,9 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
@@ -93,6 +94,7 @@ public final class SynchronizerUtils {
 	
 	public static void initializeProxy() {
 		Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
+		
 		if (proxyEnabled != null && proxyEnabled) {
 			String host = Main.SETTINGS.getStringProperty("proxy.host");
 			Integer port = Main.SETTINGS.getIntegerProperty("proxy.port");
@@ -124,8 +126,7 @@ public final class SynchronizerUtils {
 		Calendar completedAfter = Calendar.getInstance();
 		completedAfter.add(Calendar.DAY_OF_MONTH, -keep);
 		
-		List<Task> tasks = new ArrayList<Task>(
-				TaskFactory.getInstance().getList());
+		List<Task> tasks = TaskFactory.getInstance().getList();
 		
 		for (Task task : tasks) {
 			if (task.isCompleted()

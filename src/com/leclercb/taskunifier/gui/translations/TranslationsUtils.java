@@ -47,7 +47,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.NumberCondition;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class TranslationsUtils {
 	
 	private TranslationsUtils() {

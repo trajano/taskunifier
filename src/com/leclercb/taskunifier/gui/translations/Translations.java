@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public final class Translations {
 	
 	private Translations() {

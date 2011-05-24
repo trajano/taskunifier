@@ -32,6 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.resources;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public final class Resources {
 	
 	private Resources() {}

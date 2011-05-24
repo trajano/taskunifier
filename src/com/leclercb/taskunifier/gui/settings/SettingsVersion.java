@@ -43,7 +43,9 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class SettingsVersion {
 	
 	private SettingsVersion() {
