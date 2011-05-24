@@ -36,7 +36,9 @@ import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TemplateComparator implements Comparator<Template> {
 	
 	@Override
@@ -46,14 +48,10 @@ public class TemplateComparator implements Comparator<Template> {
 		
 		int result = CompareUtils.compare(s1, s2);
 		
-		if (result == 0) {
-			s1 = t1 == null ? null : t1.getId();
-			s2 = t2 == null ? null : t2.getId();
-			
-			result = CompareUtils.compare(s1, s2);
-		}
+		if (result != 0)
+			return result;
 		
-		return result;
+		return CompareUtils.compare(t1, t2);
 	}
 	
 }

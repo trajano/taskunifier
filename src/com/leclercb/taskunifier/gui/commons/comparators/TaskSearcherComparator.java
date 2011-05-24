@@ -36,7 +36,9 @@ import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskSearcherComparator implements Comparator<TaskSearcher> {
 	
 	@Override
@@ -44,7 +46,12 @@ public class TaskSearcherComparator implements Comparator<TaskSearcher> {
 		String s1 = ts1 == null ? null : ts1.getTitle().toLowerCase();
 		String s2 = ts2 == null ? null : ts2.getTitle().toLowerCase();
 		
-		return CompareUtils.compare(s1, s2);
+		int result = CompareUtils.compare(s1, s2);
+		
+		if (result != 0)
+			return result;
+		
+		return CompareUtils.compare(ts1, ts2);
 	}
 	
 }

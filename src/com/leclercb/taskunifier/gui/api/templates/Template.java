@@ -54,7 +54,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class Template implements Serializable, Cloneable, PropertyChangeSupported {
+public class Template implements Serializable, Comparable<Template>, Cloneable, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
 	
@@ -539,6 +539,14 @@ public class Template implements Serializable, Cloneable, PropertyChangeSupporte
 		hashCode.append(this.id);
 		
 		return hashCode.toHashCode();
+	}
+	
+	@Override
+	public int compareTo(Template template) {
+		if (template == null)
+			return 1;
+		
+		return this.id.compareTo(template.id);
 	}
 	
 	@Override

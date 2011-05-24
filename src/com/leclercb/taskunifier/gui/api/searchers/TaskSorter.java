@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class TaskSorter implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
 	
-	public static class TaskSorterElement implements Cloneable, PropertyChangeSupported {
+	public static class TaskSorterElement implements Cloneable, Comparable<TaskSorterElement>, PropertyChangeSupported {
 		
 		public static final String PROP_ORDER = "order";
 		public static final String PROP_COLUMN = "column";
@@ -134,6 +134,14 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 					+ " ("
 					+ TranslationsUtils.translateSortOrder(this.sortOrder)
 					+ ")";
+		}
+		
+		@Override
+		public int compareTo(TaskSorterElement element) {
+			if (element == null)
+				return 1;
+			
+			return new Integer(this.order).compareTo(element.order);
 		}
 		
 		@Override

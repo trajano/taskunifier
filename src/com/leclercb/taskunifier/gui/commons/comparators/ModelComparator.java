@@ -36,7 +36,9 @@ import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelComparator implements Comparator<Model> {
 	
 	@Override
@@ -46,10 +48,10 @@ public class ModelComparator implements Comparator<Model> {
 		
 		int result = CompareUtils.compare(s1, s2);
 		
-		if (result == 0)
-			result = CompareUtils.compare(m1, m2);
+		if (result != 0)
+			return result;
 		
-		return result;
+		return CompareUtils.compare(m1, m2);
 	}
 	
 }

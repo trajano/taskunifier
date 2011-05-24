@@ -36,15 +36,14 @@ import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskSorterElementComparator implements Comparator<TaskSorterElement> {
 	
 	@Override
 	public int compare(TaskSorterElement tse1, TaskSorterElement tse2) {
-		Integer i1 = tse1 == null ? null : tse1.getOrder();
-		Integer i2 = tse2 == null ? null : tse2.getOrder();
-		
-		return CompareUtils.compare(i1, i2);
+		return CompareUtils.compare(tse1, tse2);
 	}
 	
 }

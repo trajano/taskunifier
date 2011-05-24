@@ -43,7 +43,7 @@ import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 
-public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupported {
+public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Cloneable, PropertyChangeSupported {
 	
 	public static final String PROP_TYPE = "type";
 	public static final String PROP_TITLE = "title";
@@ -220,6 +220,14 @@ public class TaskSearcher implements Serializable, Cloneable, PropertyChangeSupp
 		hashCode.append(this.id);
 		
 		return hashCode.toHashCode();
+	}
+	
+	@Override
+	public int compareTo(TaskSearcher searcher) {
+		if (searcher == null)
+			return 1;
+		
+		return this.id.compareTo(searcher.id);
 	}
 	
 	@Override
