@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.about;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,7 +44,9 @@ import javax.swing.JPanel;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class AboutDialog extends JDialog {
 	
 	private static AboutDialog INSTANCE;
@@ -74,18 +75,13 @@ public class AboutDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		AboutPanel aboutPanel = new AboutPanel();
-		aboutPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		aboutPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		this.add(aboutPanel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -96,8 +92,10 @@ public class AboutDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonsPanel.add(okButton);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

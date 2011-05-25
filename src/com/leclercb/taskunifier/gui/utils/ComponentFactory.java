@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -40,6 +41,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -54,6 +56,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
@@ -66,6 +69,21 @@ public final class ComponentFactory {
 	
 	private ComponentFactory() {
 
+	}
+	
+	public static JPanel createButtonsPanel(JButton... buttons) {
+		CheckUtils.isNotNull(buttons, "Buttons cannot be null");
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		for (JButton button : buttons) {
+			if (button != null)
+				panel.add(button);
+		}
+		
+		return panel;
 	}
 	
 	public static JButton createButtonOk(ActionListener listener) {
@@ -93,6 +111,8 @@ public final class ComponentFactory {
 	}
 	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {
+		CheckUtils.isNotNull(repeatComboBox, "Repeat combobox cannot be null");
+		
 		repeatComboBox.setEditable(true);
 		
 		final JTextField repeatTextField = (JTextField) repeatComboBox.getEditor().getEditorComponent();

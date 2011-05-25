@@ -35,16 +35,19 @@ package com.leclercb.taskunifier.gui.components.about;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class AboutPanel extends JPanel {
 	
 	public AboutPanel() {
@@ -72,7 +75,7 @@ public class AboutPanel extends JPanel {
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		
-		JEditorPane aboutMessage = new JEditorPane();
+		JXEditorPane aboutMessage = new JXEditorPane();
 		aboutMessage.setContentType("text/html");
 		aboutMessage.setEditable(false);
 		aboutMessage.setText(Translations.getString("about.message"));
