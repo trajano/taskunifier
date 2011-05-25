@@ -82,7 +82,16 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				null,
 				new ConfigurationFieldTypeExt.Button(new ActionManagePlugins(
 						22,
-						22))));
+						22) {
+					
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						SynchronizationConfigurationPanel.this.saveAndApplyConfig();
+						
+						super.actionPerformed(event);
+					}
+					
+				})));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
