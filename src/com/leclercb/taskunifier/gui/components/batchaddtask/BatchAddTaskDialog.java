@@ -179,6 +179,9 @@ public class BatchAddTaskDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
+					BatchAddTaskDialog.this.answerTextArea.setText(null);
+					BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
+					
 					BatchAddTaskDialog.this.setVisible(false);
 				}
 			}
