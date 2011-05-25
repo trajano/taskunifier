@@ -35,8 +35,6 @@ package com.leclercb.taskunifier.gui.components.batchaddtask;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,12 +47,10 @@ import javax.swing.UIManager;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -144,46 +140,15 @@ public class BatchAddTaskDialog extends JDialog {
 					if (answer == null)
 						return;
 					
-					MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
-					
 					String[] titles = answer.split("\n");
 					
-					Synchronizing.setSynchronizing(true);
-					
-					List<Task> tasks = new ArrayList<Task>();
-					for (String title : titles) {
-						title = title.trim();
-						
-						if (title.length() == 0)
-							continue;
-						
-						Task task = TaskFactory.getInstance().create("");
-						
-						if (template != null)
-							template.applyToTask(task);
-						
-						task.setTitle(title);
-						
-						tasks.add(task);
-					}
-					
-					Synchronizing.setSynchronizing(false);
-					
-					MainFrame.getInstance().getTaskView().setSelectedTasks(
-							tasks.toArray(new Task[0]));
-					
-					BatchAddTaskDialog.this.answerTextArea.setText(null);
-					BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
-					
-					BatchAddTaskDialog.this.setVisible(false);
+					ActionBatchAddTasks.batchAddTasks(template, titles);
 				}
 				
-				if (event.getActionCommand() == "CANCEL") {
-					BatchAddTaskDialog.this.answerTextArea.setText(null);
-					BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
-					
-					BatchAddTaskDialog.this.setVisible(false);
-				}
+				BatchAddTaskDialog.this.answerTextArea.setText(null);
+				BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
+				
+				BatchAddTaskDialog.this.setVisible(false);
 			}
 			
 		};

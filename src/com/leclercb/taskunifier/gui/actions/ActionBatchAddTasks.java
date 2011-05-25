@@ -35,11 +35,18 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -72,6 +79,34 @@ public class ActionBatchAddTasks extends AbstractAction {
 	
 	public static void batchAddTasks() {
 		BatchAddTaskDialog.getInstance().setVisible(true);
+	}
+	
+	public static void batchAddTasks(Template template, String[] titles) {
+		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		
+		Synchronizing.setSynchronizing(true);
+		
+		List<Task> tasks = new ArrayList<Task>();
+		for (String title : titles) {
+			title = title.trim();
+			
+			if (title.length() == 0)
+				continue;
+			
+			Task task = TaskFactory.getInstance().create("");
+			
+			if (template != null)
+				template.applyToTask(task);
+			
+			task.setTitle(title);
+			
+			tasks.add(task);
+		}
+		
+		Synchronizing.setSynchronizing(false);
+		
+		MainFrame.getInstance().getTaskView().setSelectedTasks(
+				tasks.toArray(new Task[0]));
 	}
 	
 }
