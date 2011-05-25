@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.review;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,7 +44,9 @@ import javax.swing.JPanel;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ReviewDialog extends JDialog {
 	
 	private static ReviewDialog INSTANCE;
@@ -74,18 +75,13 @@ public class ReviewDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		ReviewPanel reviewPanel = new ReviewPanel();
-		reviewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		reviewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		this.add(reviewPanel, BorderLayout.CENTER);
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.add(buttonPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -96,8 +92,10 @@ public class ReviewDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonPanel.add(okButton);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

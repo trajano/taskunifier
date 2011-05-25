@@ -39,13 +39,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
+import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -53,7 +52,9 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ReviewPanel extends JPanel {
 	
 	public ReviewPanel() {
@@ -81,7 +82,7 @@ public class ReviewPanel extends JPanel {
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		
-		JEditorPane pane = new JEditorPane();
+		JXEditorPane pane = new JXEditorPane();
 		pane.setContentType("text/html");
 		pane.setEditable(false);
 		pane.setText(Translations.getString("review.message"));
@@ -96,18 +97,13 @@ public class ReviewPanel extends JPanel {
 				try {
 					BrowserUtils.openDefaultBrowser(Constants.REVIEW_URL);
 				} catch (Exception e) {
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							e.getMessage(),
-							null,
-							null,
-							e,
-							null,
-							null);
-					
-					JXErrorPane.showDialog(
+					JOptionPane.showMessageDialog(
 							MainFrame.getInstance().getFrame(),
-							info);
+							Translations.getString(
+									"general.please_visit",
+									Constants.REVIEW_URL),
+							Translations.getString("error.cannot_open_browser"),
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			
