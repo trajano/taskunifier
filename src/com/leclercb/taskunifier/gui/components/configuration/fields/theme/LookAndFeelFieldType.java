@@ -11,7 +11,9 @@ import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class LookAndFeelFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	public LookAndFeelFieldType() {

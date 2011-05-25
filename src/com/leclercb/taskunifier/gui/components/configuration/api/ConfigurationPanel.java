@@ -34,6 +34,9 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public abstract class ConfigurationPanel extends JPanel {
 	
 	public abstract void saveAndApplyConfig();

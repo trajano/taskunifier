@@ -3,7 +3,9 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ProxyPortFieldType extends ConfigurationFieldTypeExt.FormattedTextField {
 	
 	public ProxyPortFieldType() {

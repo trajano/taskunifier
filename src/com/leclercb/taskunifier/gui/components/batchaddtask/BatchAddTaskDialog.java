@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.batchaddtask;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -59,7 +58,9 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class BatchAddTaskDialog extends JDialog {
 	
 	private static BatchAddTaskDialog INSTANCE;
@@ -82,7 +83,7 @@ public class BatchAddTaskDialog extends JDialog {
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.batch_add_tasks"));
-		this.setSize(500, 300);
+		this.setSize(600, 350);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -93,7 +94,7 @@ public class BatchAddTaskDialog extends JDialog {
 		JPanel panel = null;
 		
 		panel = new JPanel(new BorderLayout(20, 0));
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
 		this.add(panel, BorderLayout.NORTH);
 		
 		JLabel icon = new JLabel(UIManager.getIcon("OptionPane.questionIcon"));
@@ -128,13 +129,10 @@ public class BatchAddTaskDialog extends JDialog {
 		
 		this.add(panel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -190,9 +188,11 @@ public class BatchAddTaskDialog extends JDialog {
 		JButton okButton = ComponentFactory.createButtonOk(listener);
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
-		buttonsPanel.add(okButton);
-		buttonsPanel.add(cancelButton);
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				okButton,
+				cancelButton);
 		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

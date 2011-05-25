@@ -52,7 +52,9 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAn
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowBadgesFieldType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private Window[] windows;

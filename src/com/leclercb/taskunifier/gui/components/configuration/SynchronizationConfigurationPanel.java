@@ -54,7 +54,9 @@ import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private boolean welcome;
@@ -70,15 +72,6 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	}
 	
 	private void initialize() {
-		/*
-		 * this.addField(new ConfigurationField(
-		 * "API_RESET_ALL",
-		 * null,
-		 * new ConfigurationFieldType.Label(
-		 * Translations.getString("configuration.synchronization.api_reset_all"))
-		 * ));
-		 */
-
 		this.addField(new ConfigurationField(
 				"API",
 				Translations.getString("general.api"),

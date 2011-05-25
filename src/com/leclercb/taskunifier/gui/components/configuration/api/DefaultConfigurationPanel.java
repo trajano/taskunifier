@@ -49,7 +49,9 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
 	private String helpFile;
@@ -99,7 +101,8 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	}
 	
 	public List<ConfigurationField> getFields() {
-		return Collections.unmodifiableList(this.fields);
+		return Collections.unmodifiableList(new ArrayList<ConfigurationField>(
+				this.fields));
 	}
 	
 	public void addField(ConfigurationField field) {
@@ -152,12 +155,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		
 		// Lay out the panel
 		SpringUtils.makeCompactGrid(panel, this.fields.size()
-				+ (this.helpFile != null ? 1 : 0), 2, // rows,
-				// cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+				+ (this.helpFile != null ? 1 : 0), 2, 6, 6, 6, 6);
 		
 		mainPanel.add(panel, BorderLayout.NORTH);
 		this.add(mainPanel, BorderLayout.CENTER);

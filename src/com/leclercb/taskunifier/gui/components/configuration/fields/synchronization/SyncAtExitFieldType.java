@@ -2,7 +2,9 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.synchroniza
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SyncAtExitFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	public SyncAtExitFieldType() {
