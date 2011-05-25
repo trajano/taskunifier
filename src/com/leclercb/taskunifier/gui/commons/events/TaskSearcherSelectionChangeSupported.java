@@ -32,6 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.commons.events;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public interface TaskSearcherSelectionChangeSupported {
 	
 	public abstract void addTaskSearcherSelectionChangeListener(

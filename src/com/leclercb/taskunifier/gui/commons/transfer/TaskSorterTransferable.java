@@ -40,7 +40,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskSorterTransferable implements Transferable {
 	
 	public static final DataFlavor SORTER_FLAVOR = new DataFlavor(

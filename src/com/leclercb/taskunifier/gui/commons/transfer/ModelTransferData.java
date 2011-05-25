@@ -38,7 +38,9 @@ import java.util.Arrays;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelTransferData implements Serializable {
 	
 	private ModelType type;
