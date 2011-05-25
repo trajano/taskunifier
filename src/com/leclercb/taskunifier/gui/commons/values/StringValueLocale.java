@@ -36,6 +36,9 @@ import java.util.Locale;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public class StringValueLocale implements StringValue {
 	
 	@Override

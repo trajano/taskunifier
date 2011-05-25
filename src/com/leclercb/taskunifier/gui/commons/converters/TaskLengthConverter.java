@@ -32,24 +32,43 @@
  */
 package com.leclercb.taskunifier.gui.commons.converters;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.api.utils.ArrayUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class TagsConverter extends AbstractConverter {
+@Reviewed
+public class TaskLengthConverter extends AbstractConverter {
 	
-	public TagsConverter(ValueModel subject) {
+	public TaskLengthConverter(ValueModel subject) {
 		super(subject);
 	}
 	
 	@Override
-	public void setValue(Object tags) {
-		this.subject.setValue(((String) tags).split(","));
+	public void setValue(Object date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime((Date) date);
+		
+		this.subject.setValue((calendar.get(Calendar.HOUR_OF_DAY) * 60)
+				+ calendar.get(Calendar.MINUTE));
 	}
 	
 	@Override
-	public Object convertFromSubject(Object tags) {
-		return ArrayUtils.arrayToString((String[]) tags, ", ");
+	public Object convertFromSubject(Object length) {
+		int hour = 0;
+		int minute = 0;
+		
+		if (length != null) {
+			hour = ((Integer) length) / 60;
+			minute = ((Integer) length) % 60;
+		}
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(0, 0, 0, hour, minute, 0);
+		
+		return calendar.getTime();
 	}
 	
 }

@@ -39,12 +39,14 @@ import org.jdesktop.swingx.renderer.IconValue;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class IconValueModel implements IconValue {
 	
 	@Override
 	public Icon getIcon(Object value) {
-		if (!(value instanceof Model))
+		if (value == null || !(value instanceof Model))
 			return new ColorBadgeIcon(null, 12, 12);
 		
 		if (value instanceof GuiModel)

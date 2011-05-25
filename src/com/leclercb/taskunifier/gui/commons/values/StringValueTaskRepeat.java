@@ -34,6 +34,9 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public class StringValueTaskRepeat implements StringValue {
 	
 	@Override

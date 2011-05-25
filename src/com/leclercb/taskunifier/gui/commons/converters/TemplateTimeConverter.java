@@ -37,10 +37,12 @@ import java.util.Date;
 
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class TimeConverter extends AbstractConverter {
+@Reviewed
+public class TemplateTimeConverter extends AbstractConverter {
 	
-	public TimeConverter(ValueModel subject) {
+	public TemplateTimeConverter(ValueModel subject) {
 		super(subject);
 	}
 	

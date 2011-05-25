@@ -37,7 +37,9 @@ import javax.swing.SortOrder;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class StringValueSortOrder implements StringValue {
 	
 	@Override

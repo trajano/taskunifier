@@ -39,7 +39,9 @@ import java.util.Calendar;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class StringValueCalendar implements StringValue {
 	
 	private DateFormat formatter;

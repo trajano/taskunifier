@@ -41,7 +41,11 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelConverter extends AbstractConverter {
 	
 	private ModelType type;
@@ -67,6 +71,10 @@ public class ModelConverter extends AbstractConverter {
 				return GoalFactory.getInstance().get((ModelId) value);
 			case LOCATION:
 				return LocationFactory.getInstance().get((ModelId) value);
+			case NOTE:
+				return NoteFactory.getInstance().get((ModelId) value);
+			case TASK:
+				return TaskFactory.getInstance().get((ModelId) value);
 			default:
 				return null;
 		}

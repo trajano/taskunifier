@@ -67,8 +67,8 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.commons.converters.CalendarConverter;
-import com.leclercb.taskunifier.gui.commons.converters.LengthConverter;
-import com.leclercb.taskunifier.gui.commons.converters.TagsConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TaskTagsConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -366,7 +366,7 @@ public class TaskEditPanel extends JPanel {
 		ValueModel taskTitleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 		Bindings.bind(this.taskTitle, taskTitleModel);
 		
-		ValueModel taskTagsModel = new TagsConverter(
+		ValueModel taskTagsModel = new TaskTagsConverter(
 				this.adapter.getValueModel(Task.PROP_TAGS));
 		Bindings.bind(this.taskTags, taskTagsModel);
 		
@@ -430,7 +430,7 @@ public class TaskEditPanel extends JPanel {
 				new TaskStatusModel(false),
 				taskStatusModel));
 		
-		LengthConverter taskLengthModel = new LengthConverter(
+		TaskLengthConverter taskLengthModel = new TaskLengthConverter(
 				this.adapter.getValueModel(Task.PROP_LENGTH));
 		SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
 				taskLengthModel,

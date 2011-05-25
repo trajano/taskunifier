@@ -35,12 +35,14 @@ package com.leclercb.taskunifier.gui.commons.values;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class StringValueModel implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
-		if (!(value instanceof Model))
+		if (value == null || !(value instanceof Model))
 			return " ";
 		
 		return ((Model) value).getTitle();

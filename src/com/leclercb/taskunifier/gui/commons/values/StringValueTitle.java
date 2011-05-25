@@ -35,7 +35,9 @@ package com.leclercb.taskunifier.gui.commons.values;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class StringValueTitle implements StringValue {
 	
 	private String defaultTitle;
@@ -47,7 +49,7 @@ public class StringValueTitle implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
-		if (!(value instanceof String))
+		if (value == null || !(value instanceof String))
 			return " ";
 		
 		if (((String) value).length() == 0)

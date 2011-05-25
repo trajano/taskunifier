@@ -37,7 +37,9 @@ import javax.swing.Icon;
 import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class IconValueStar implements IconValue {
 	
 	@Override

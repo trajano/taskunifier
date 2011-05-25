@@ -38,12 +38,14 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class StringValueTemplateTitle implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
-		if (!(value instanceof Template))
+		if (value == null || !(value instanceof Template))
 			return " ";
 		
 		Template template = (Template) value;

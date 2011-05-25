@@ -69,9 +69,9 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.commons.converters.LengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
-import com.leclercb.taskunifier.gui.commons.converters.TimeConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -176,7 +176,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				ValueModel taskDueDateModel = this.adapter.getValueModel(Template.PROP_TASK_DUE_DATE);
 				Bindings.bind(templateTaskDueDate, taskDueDateModel);
 				
-				TimeConverter taskDueTimeModel = new TimeConverter(
+				TemplateTimeConverter taskDueTimeModel = new TemplateTimeConverter(
 						this.adapter.getValueModel(Template.PROP_TASK_DUE_TIME));
 				SpinnerDateModel taskDueTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskDueTimeModel,
@@ -190,7 +190,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				ValueModel taskStartDateModel = this.adapter.getValueModel(Template.PROP_TASK_START_DATE);
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
 				
-				TimeConverter taskStartTimeModel = new TimeConverter(
+				TemplateTimeConverter taskStartTimeModel = new TemplateTimeConverter(
 						this.adapter.getValueModel(Template.PROP_TASK_START_TIME));
 				SpinnerDateModel taskStartTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskStartTimeModel,
@@ -221,7 +221,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						new TaskStatusModel(true),
 						taskStatusModel));
 				
-				LengthConverter taskLengthModel = new LengthConverter(
+				TaskLengthConverter taskLengthModel = new TaskLengthConverter(
 						this.adapter.getValueModel(Template.PROP_TASK_LENGTH));
 				SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskLengthModel,

@@ -40,7 +40,9 @@ import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class IconValueTaskPriority implements IconValue {
 	
 	@Override

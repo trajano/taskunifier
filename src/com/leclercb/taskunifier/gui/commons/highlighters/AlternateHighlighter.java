@@ -43,8 +43,9 @@ import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class AlternateHighlighter extends AbstractHighlighter {
 	
 	private Color even = null;
@@ -63,7 +64,7 @@ public class AlternateHighlighter extends AbstractHighlighter {
 						|| evt.getPropertyName().equals("theme.color.even")
 						|| evt.getPropertyName().equals("theme.color.odd")) {
 					AlternateHighlighter.this.resetColors();
-					MainFrame.getInstance().getNoteView().refreshNotes();
+					AlternateHighlighter.this.fireStateChanged();
 				}
 			}
 			

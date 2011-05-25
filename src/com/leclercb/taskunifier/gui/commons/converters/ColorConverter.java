@@ -36,7 +36,9 @@ import java.awt.Color;
 
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ColorConverter extends AbstractConverter {
 	
 	public ColorConverter(ValueModel subject) {
