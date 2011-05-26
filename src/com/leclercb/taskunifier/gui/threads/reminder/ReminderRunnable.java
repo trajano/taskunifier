@@ -46,8 +46,11 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	private static final long SLEEP_TIME = 10000;
@@ -56,7 +59,6 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	public ReminderRunnable() {
 		this.notifiedTasks = new ArrayList<ModelId>();
-		
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
@@ -109,6 +111,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 											options[0]);
 									
 									if (n == JOptionPane.YES_OPTION) {
+										MainFrame.getInstance().setSelectedView(
+												View.TASKS);
 										MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 										MainFrame.getInstance().getTaskView().setSelectedTasks(
 												new Task[] { task });
