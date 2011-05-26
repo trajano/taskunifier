@@ -6,6 +6,7 @@ Version 0.9.3
 		- Bug fixed: Completed repeated task
 		- User interface improvements
 		- Background synchronization status in status bar
+		- FR3276629: Background sync notifications
 
 Version 0.9.2
 	- Major:
