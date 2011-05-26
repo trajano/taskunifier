@@ -43,7 +43,9 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class Images {
 	
 	private Images() {
@@ -72,9 +74,9 @@ public final class Images {
 			if (o instanceof ImageInfo) {
 				ImageInfo info = (ImageInfo) o;
 				
-				return new EqualsBuilder().append(info.file, info.file).append(
-						info.width,
-						info.width).append(info.height, info.height).isEqual();
+				return new EqualsBuilder().append(this.file, info.file).append(
+						this.width,
+						info.width).append(this.height, info.height).isEqual();
 			}
 			
 			return false;
