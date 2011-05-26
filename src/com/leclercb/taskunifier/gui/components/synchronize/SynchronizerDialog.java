@@ -59,7 +59,7 @@ public class SynchronizerDialog extends WaitDialog {
 		
 		@Override
 		public void run() {
-			ProgressMessageHandler handler = new ProgressMessageHandler() {
+			ProgressMessageListener handler = new ProgressMessageListener() {
 				
 				@Override
 				public void showMessage(String message) {

@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageHandler;
+import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
@@ -55,7 +55,7 @@ public abstract class AbstractStatusBar extends JPanel {
 	}
 	
 	protected final void initializeSynchronizerStatus() {
-		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageHandler() {
+		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
 			
 			@Override
 			public void showMessage(String message) {

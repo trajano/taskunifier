@@ -34,6 +34,9 @@ package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Enumeration;
+
+import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
@@ -67,10 +70,14 @@ public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 	
 	@Override
 	public void moveColumn(int columnIndex, int newIndex) {
-		TaskColumn column = (TaskColumn) this.getColumn(columnIndex).getIdentifier();
-		column.setOrder(newIndex);
-		
 		super.moveColumn(columnIndex, newIndex);
+		
+		int i = 1;
+		Enumeration<TableColumn> columns = this.getColumns();
+		while (columns.hasMoreElements()) {
+			TableColumn column = columns.nextElement();
+			((TaskColumn) column.getIdentifier()).setOrder(i++);
+		}
 	}
 	
 }

@@ -36,15 +36,12 @@ import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
-import java.util.Enumeration;
 
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
@@ -52,10 +49,9 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TaskPanel extends JPanel implements TaskView, SavePropertiesListener, TaskSearcherSelectionListener {
+public class TaskPanel extends JPanel implements TaskView, TaskSearcherSelectionListener {
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
@@ -67,8 +63,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
-		
 		this.setLayout(new BorderLayout());
 		
 		this.taskTable = new TaskTable();
@@ -85,29 +79,6 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 		this.add(
 				ComponentFactory.createJScrollPane(this.taskTable, false),
 				BorderLayout.CENTER);
-	}
-	
-	@Override
-	public void saveProperties() {
-		// TODO: add listeners in task table and put this in TaskColumn
-		int i = 0;
-		Enumeration<TableColumn> columns = this.taskTable.getColumnModel().getColumns();
-		while (columns.hasMoreElements()) {
-			TableColumn column = columns.nextElement();
-			TaskColumn taskColumn = (TaskColumn) column.getIdentifier();
-			
-			Main.SETTINGS.setIntegerProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
-					+ ".order", i);
-			Main.SETTINGS.setIntegerProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
-					+ ".width", column.getWidth());
-			Main.SETTINGS.setBooleanProperty("taskcolumn."
-					+ taskColumn.name().toLowerCase()
-					+ ".visible", taskColumn.isVisible());
-			
-			i++;
-		}
 	}
 	
 	@Override
@@ -137,11 +108,11 @@ public class TaskPanel extends JPanel implements TaskView, SavePropertiesListene
 				new MessageFormat(Constants.TITLE
 						+ " - "
 						+ this.taskTable.getTaskSearcher().getTitle()),
-				new MessageFormat(this.taskTable.getRowCount()
-						+ " tasks | Page - {0}"),
-				true,
-				null,
-				true);
+						new MessageFormat(this.taskTable.getRowCount()
+								+ " tasks | Page - {0}"),
+								true,
+								null,
+								true);
 	}
 	
 	@Override

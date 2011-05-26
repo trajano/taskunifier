@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class NotePanel extends JPanel implements NoteView, SavePropertiesListener {
+public class NotePanel extends JPanel implements NoteView {
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
@@ -65,8 +65,6 @@ public class NotePanel extends JPanel implements NoteView, SavePropertiesListene
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
-		
 		this.setLayout(new BorderLayout());
 		
 		this.noteTable = new NoteTable();
@@ -83,29 +81,6 @@ public class NotePanel extends JPanel implements NoteView, SavePropertiesListene
 		this.add(
 				ComponentFactory.createJScrollPane(this.noteTable, false),
 				BorderLayout.CENTER);
-	}
-	
-	@Override
-	public void saveProperties() {
-		// TODO: add listeners in note table and put this in NoteColumn
-		int i = 0;
-		Enumeration<TableColumn> columns = this.noteTable.getColumnModel().getColumns();
-		while (columns.hasMoreElements()) {
-			TableColumn column = columns.nextElement();
-			NoteColumn noteColumn = (NoteColumn) column.getIdentifier();
-			
-			Main.SETTINGS.setIntegerProperty("notecolumn."
-					+ noteColumn.name().toLowerCase()
-					+ ".order", i);
-			Main.SETTINGS.setIntegerProperty("notecolumn."
-					+ noteColumn.name().toLowerCase()
-					+ ".width", column.getWidth());
-			Main.SETTINGS.setBooleanProperty("notecolumn."
-					+ noteColumn.name().toLowerCase()
-					+ ".visible", noteColumn.isVisible());
-			
-			i++;
-		}
 	}
 	
 	@Override

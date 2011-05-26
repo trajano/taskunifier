@@ -41,7 +41,7 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.edit.TaskEditDialog;
+import com.leclercb.taskunifier.gui.components.taskedit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;

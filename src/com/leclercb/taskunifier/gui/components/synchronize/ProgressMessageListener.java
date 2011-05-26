@@ -13,7 +13,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public abstract class ProgressMessageHandler implements ListChangeListener {
+public abstract class ProgressMessageListener implements ListChangeListener {
 	
 	public abstract void showMessage(String message);
 	

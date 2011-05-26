@@ -36,7 +36,9 @@ import java.beans.PropertyChangeListener;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class Synchronizing {
 	
 	public static final String PROP_SYNCHRONIZING = "synchronizing";

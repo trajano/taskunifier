@@ -34,6 +34,9 @@ package com.leclercb.taskunifier.gui.components.notes.table;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Enumeration;
+
+import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
@@ -67,10 +70,14 @@ public class NoteTableColumnModel extends DefaultTableColumnModelExt {
 	
 	@Override
 	public void moveColumn(int columnIndex, int newIndex) {
-		NoteColumn column = (NoteColumn) this.getColumn(columnIndex).getIdentifier();
-		column.setOrder(newIndex);
-		
 		super.moveColumn(columnIndex, newIndex);
+		
+		int i = 1;
+		Enumeration<TableColumn> columns = this.getColumns();
+		while (columns.hasMoreElements()) {
+			TableColumn column = columns.nextElement();
+			((NoteColumn) column.getIdentifier()).setOrder(i++);
+		}
 	}
 	
 }

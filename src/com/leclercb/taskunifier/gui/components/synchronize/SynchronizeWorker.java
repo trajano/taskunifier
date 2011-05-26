@@ -24,13 +24,13 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	
-	private ProgressMessageHandler handler;
+	private ProgressMessageListener handler;
 	
 	public SynchronizeWorker() {
 		this(null);
 	}
 	
-	public SynchronizeWorker(ProgressMessageHandler handler) {
+	public SynchronizeWorker(ProgressMessageListener handler) {
 		this.handler = handler;
 	}
 	
