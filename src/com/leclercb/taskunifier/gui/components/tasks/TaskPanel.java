@@ -108,11 +108,11 @@ public class TaskPanel extends JPanel implements TaskView, TaskSearcherSelection
 				new MessageFormat(Constants.TITLE
 						+ " - "
 						+ this.taskTable.getTaskSearcher().getTitle()),
-						new MessageFormat(this.taskTable.getRowCount()
-								+ " tasks | Page - {0}"),
-								true,
-								null,
-								true);
+				new MessageFormat(this.taskTable.getRowCount()
+						+ " tasks | Page - {0}"),
+				true,
+				null,
+				true);
 	}
 	
 	@Override

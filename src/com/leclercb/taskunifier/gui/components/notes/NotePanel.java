@@ -36,21 +36,17 @@ import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
-import java.util.Enumeration;
 
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
 
-import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class NotePanel extends JPanel implements NoteView {
