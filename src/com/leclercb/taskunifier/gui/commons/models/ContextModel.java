@@ -36,7 +36,6 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class ContextModel extends AbstractModelSortedModel {
 	
@@ -50,9 +49,7 @@ public class ContextModel extends AbstractModelSortedModel {
 		
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts)
-			if (context.getModelStatus().equals(ModelStatus.LOADED)
-					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(context);
+			this.addElement(context);
 		
 		ContextFactory.getInstance().addListChangeListener(this);
 		ContextFactory.getInstance().addPropertyChangeListener(this);

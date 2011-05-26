@@ -51,6 +51,9 @@ public class TaskTagsConverter extends AbstractConverter {
 	
 	@Override
 	public Object convertFromSubject(Object tags) {
+		if (tags == null)
+			return null;
+		
 		return ArrayUtils.arrayToString((String[]) tags, ", ");
 	}
 	

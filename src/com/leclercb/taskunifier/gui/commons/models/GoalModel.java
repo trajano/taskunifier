@@ -36,7 +36,6 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class GoalModel extends AbstractModelSortedModel {
 	
@@ -50,9 +49,7 @@ public class GoalModel extends AbstractModelSortedModel {
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED)
-					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(goal);
+			this.addElement(goal);
 		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);

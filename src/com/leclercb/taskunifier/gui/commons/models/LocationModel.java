@@ -36,7 +36,6 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class LocationModel extends AbstractModelSortedModel {
 	
@@ -50,9 +49,7 @@ public class LocationModel extends AbstractModelSortedModel {
 		
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations)
-			if (location.getModelStatus().equals(ModelStatus.LOADED)
-					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(location);
+			this.addElement(location);
 		
 		LocationFactory.getInstance().addListChangeListener(this);
 		LocationFactory.getInstance().addPropertyChangeListener(this);

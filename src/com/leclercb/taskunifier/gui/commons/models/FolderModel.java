@@ -36,7 +36,6 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 
 public class FolderModel extends AbstractModelSortedModel {
 	
@@ -50,9 +49,7 @@ public class FolderModel extends AbstractModelSortedModel {
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
-			if (folder.getModelStatus().equals(ModelStatus.LOADED)
-					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(folder);
+			this.addElement(folder);
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);

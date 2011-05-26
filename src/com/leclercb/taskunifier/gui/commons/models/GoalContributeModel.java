@@ -53,10 +53,8 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED)
-					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				if (goal.getLevel().equals(GoalLevel.LIFE_TIME))
-					this.addElement(goal);
+			if (goal.getLevel().equals(GoalLevel.LIFE_TIME))
+				this.addElement(goal);
 		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);

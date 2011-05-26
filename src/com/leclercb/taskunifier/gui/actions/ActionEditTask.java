@@ -89,11 +89,14 @@ public class ActionEditTask extends AbstractAction {
 		if (tasks.length != 1)
 			return;
 		
-		TaskEditDialog dialog = new TaskEditDialog(
-				tasks[0],
-				MainFrame.getInstance().getFrame(),
-				true);
+		editTask(tasks[0]);
+	}
+	
+	public static boolean editTask(Task task) {
+		TaskEditDialog dialog = TaskEditDialog.getInstance();
+		dialog.setTask(task);
 		dialog.setVisible(true);
+		return !dialog.isCancelled();
 	}
 	
 }

@@ -61,20 +61,23 @@ public class ModelConverter extends AbstractConverter {
 	}
 	
 	@Override
-	public Object convertFromSubject(Object value) {
+	public Object convertFromSubject(Object modelId) {
+		if (modelId == null)
+			return null;
+		
 		switch (this.type) {
 			case CONTEXT:
-				return ContextFactory.getInstance().get((ModelId) value);
+				return ContextFactory.getInstance().get((ModelId) modelId);
 			case FOLDER:
-				return FolderFactory.getInstance().get((ModelId) value);
+				return FolderFactory.getInstance().get((ModelId) modelId);
 			case GOAL:
-				return GoalFactory.getInstance().get((ModelId) value);
+				return GoalFactory.getInstance().get((ModelId) modelId);
 			case LOCATION:
-				return LocationFactory.getInstance().get((ModelId) value);
+				return LocationFactory.getInstance().get((ModelId) modelId);
 			case NOTE:
-				return NoteFactory.getInstance().get((ModelId) value);
+				return NoteFactory.getInstance().get((ModelId) modelId);
 			case TASK:
-				return TaskFactory.getInstance().get((ModelId) value);
+				return TaskFactory.getInstance().get((ModelId) modelId);
 			default:
 				return null;
 		}

@@ -33,7 +33,7 @@
 package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -89,9 +89,11 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+@Reviewed
 public class TaskEditPanel extends JPanel {
 	
 	private Task task;
@@ -116,14 +118,29 @@ public class TaskEditPanel extends JPanel {
 	private JCheckBox taskStar;
 	private JTextArea taskNote;
 	
-	public TaskEditPanel(Task task) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
-		
-		this.task = task;
-		this.adapter = new BeanAdapter<Task>(task, true);
+	private TaskModel taskParentModel;
+	
+	public TaskEditPanel() {
+		this.task = null;
+		this.adapter = new BeanAdapter<Task>(this.task, true);
 		
 		this.initialize();
 		this.initializeAdapter();
+	}
+	
+	public Task getTask() {
+		return this.task;
+	}
+	
+	public void setTask(Task task) {
+		CheckUtils.isNotNull(task, "Task cannot be null");
+		
+		this.task = task;
+		this.adapter.setBean(this.task);
+		
+		this.taskParentModel.setHiddenTask(this.task);
+		if (this.task.getChildren().length != 0)
+			this.taskParent.setEnabled(false);
 	}
 	
 	private void initialize() {
@@ -177,7 +194,7 @@ public class TaskEditPanel extends JPanel {
 		
 		JPanel info = new JPanel();
 		info.setLayout(new SpringLayout());
-		this.add(info, BorderLayout.NORTH);
+		this.add(info, BorderLayout.CENTER);
 		
 		JLabel label = null;
 		
@@ -257,9 +274,6 @@ public class TaskEditPanel extends JPanel {
 				Translations.getString("general.task.parent") + ":",
 				SwingConstants.TRAILING);
 		info.add(label);
-		
-		if (this.task.getChildren().length != 0)
-			this.taskParent.setEnabled(false);
 		
 		info.add(this.taskParent);
 		
@@ -342,11 +356,7 @@ public class TaskEditPanel extends JPanel {
 		info.add(this.taskPriority);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 9, 4, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		SpringUtils.makeCompactGrid(info, 9, 4, 6, 6, 6, 6);
 		
 		// Task Note
 		JPanel notePanel = new JPanel();
@@ -390,14 +400,10 @@ public class TaskEditPanel extends JPanel {
 				taskLocationModel));
 		
 		ValueModel taskParentModel = this.adapter.getValueModel(Task.PROP_PARENT);
-		if (this.task.getChildren().length == 0)
-			this.taskParent.setModel(new ComboBoxAdapter<Task>(new TaskModel(
-					true,
-					this.task), taskParentModel));
-		else
-			this.taskParent.setModel(new ComboBoxAdapter<Task>(
-					new Task[0],
-					taskParentModel));
+		this.taskParentModel = new TaskModel(true);
+		this.taskParent.setModel(new ComboBoxAdapter<Task>(
+				this.taskParentModel,
+				taskParentModel));
 		
 		ValueModel taskCompletedModel = this.adapter.getValueModel(Task.PROP_COMPLETED);
 		Bindings.bind(this.taskCompleted, taskCompletedModel);
@@ -434,7 +440,7 @@ public class TaskEditPanel extends JPanel {
 				this.adapter.getValueModel(Task.PROP_LENGTH));
 		SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
 				taskLengthModel,
-				(Date) taskLengthModel.convertFromSubject(this.task.getLength()));
+				Calendar.getInstance().getTime());
 		
 		this.taskLength.setModel(model);
 		this.taskLength.setEditor(new JSpinner.DateEditor(

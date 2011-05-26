@@ -33,8 +33,6 @@
 package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -48,25 +46,54 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskEditDialog extends JDialog {
 	
+	private static TaskEditDialog INSTANCE;
+	
+	public static TaskEditDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new TaskEditDialog();
+		
+		return INSTANCE;
+	}
+	
+	private TaskEditPanel taskEditPanel;
 	private boolean cancelled;
 	
-	public TaskEditDialog(Task task, Frame frame, boolean modal) {
-		super(frame, modal);
-		this.cancelled = false;
-		this.initialize(task);
+	private TaskEditDialog() {
+		super(MainFrame.getInstance().getFrame());
+		this.initialize();
+	}
+	
+	public Task getTask() {
+		return this.taskEditPanel.getTask();
+	}
+	
+	public void setTask(Task task) {
+		this.taskEditPanel.setTask(task);
+	}
+	
+	@Override
+	public void setVisible(boolean b) {
+		if (b)
+			this.cancelled = false;
+		
+		super.setVisible(b);
 	}
 	
 	public boolean isCancelled() {
 		return this.cancelled;
 	}
 	
-	private void initialize(Task task) {
+	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("task_edit"));
 		this.setSize(750, 500);
 		this.setResizable(true);
@@ -91,25 +118,19 @@ public class TaskEditDialog extends JDialog {
 			
 		});
 		
+		this.taskEditPanel = new TaskEditPanel();
+		this.taskEditPanel.setBorder(BorderFactory.createEmptyBorder(
+				5,
+				10,
+				0,
+				10));
+		
 		this.add(header, BorderLayout.NORTH);
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout(0, 10));
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		this.add(panel, BorderLayout.CENTER);
-		
-		TaskEditPanel taskEditPanel = new TaskEditPanel(task);
-		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
-		panel.add(taskEditPanel, BorderLayout.NORTH);
-		panel.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.add(this.taskEditPanel, BorderLayout.CENTER);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -130,9 +151,11 @@ public class TaskEditDialog extends JDialog {
 		JButton okButton = ComponentFactory.createButtonOk(listener);
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
-		buttonsPanel.add(okButton);
-		buttonsPanel.add(cancelButton);
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				okButton,
+				cancelButton);
 		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

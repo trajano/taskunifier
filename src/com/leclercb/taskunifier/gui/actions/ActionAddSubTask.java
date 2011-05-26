@@ -47,7 +47,6 @@ import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.taskedit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -136,13 +135,7 @@ public class ActionAddSubTask extends AbstractAction {
 		
 		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
 				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
-			TaskEditDialog dialog = new TaskEditDialog(
-					task,
-					MainFrame.getInstance().getFrame(),
-					true);
-			dialog.setVisible(true);
-			
-			if (dialog.isCancelled())
+			if (!ActionEditTask.editTask(task))
 				TaskFactory.getInstance().markDeleted(task);
 		} else {
 			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(

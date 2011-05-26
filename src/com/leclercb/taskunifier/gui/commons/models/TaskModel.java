@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.commons.models;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
@@ -50,6 +49,21 @@ public class TaskModel extends AbstractModelSortedModel {
 	public TaskModel(boolean firstNull, Task hiddenTask) {
 		this.hiddenTask = hiddenTask;
 		this.initialize(firstNull);
+	}
+	
+	public Task getHiddenTask() {
+		return this.hiddenTask;
+	}
+	
+	public void setHiddenTask(Task hiddenTask) {
+		Task oldHiddenTask = this.hiddenTask;
+		this.hiddenTask = hiddenTask;
+		
+		if (oldHiddenTask != null)
+			this.addElement(oldHiddenTask);
+		
+		if (hiddenTask != null)
+			this.removeElement(hiddenTask);
 	}
 	
 	@Override
@@ -67,9 +81,7 @@ public class TaskModel extends AbstractModelSortedModel {
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks)
-			if (task.getModelStatus().equals(ModelStatus.LOADED)
-					|| task.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.addElement(task);
+			this.addElement(task);
 		
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
