@@ -33,8 +33,6 @@
 package com.leclercb.taskunifier.gui.components.models;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -56,23 +54,24 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelConfigurationDialog extends JDialog {
 	
 	private static ModelConfigurationDialog INSTANCE = null;
 	
 	public static ModelConfigurationDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new ModelConfigurationDialog(
-					MainFrame.getInstance().getFrame());
+			INSTANCE = new ModelConfigurationDialog();
 		
 		return INSTANCE;
 	}
 	
 	private JTabbedPane tabbedPane;
 	
-	private ModelConfigurationDialog(Frame frame) {
-		super(frame, true);
+	private ModelConfigurationDialog() {
+		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
 	
@@ -99,11 +98,14 @@ public class ModelConfigurationDialog extends JDialog {
 		
 		this.tabbedPane.setSelectedIndex(index);
 		
-		if (model != null)
-			((IModelList) this.tabbedPane.getSelectedComponent()).setSelectedModel(model);
+		if (model != null) {
+			IModelList list = (IModelList) this.tabbedPane.getSelectedComponent();
+			list.setSelectedModel(model);
+		}
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_models"));
 		this.setSize(600, 400);
 		this.setResizable(true);
@@ -120,15 +122,6 @@ public class ModelConfigurationDialog extends JDialog {
 		
 		this.tabbedPane = new JTabbedPane();
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
-		this.add(header, BorderLayout.NORTH);
-		this.add(this.tabbedPane, BorderLayout.CENTER);
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
-		
 		this.tabbedPane.addTab(
 				Translations.getString("general.contexts"),
 				new ContextConfigurationPanel());
@@ -144,9 +137,14 @@ public class ModelConfigurationDialog extends JDialog {
 		this.tabbedPane.addTab(
 				Translations.getString("general.locations"),
 				new LocationConfigurationPanel());
+		
+		this.add(header, BorderLayout.NORTH);
+		this.add(this.tabbedPane, BorderLayout.CENTER);
+		
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -159,8 +157,10 @@ public class ModelConfigurationDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonsPanel.add(okButton);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	
