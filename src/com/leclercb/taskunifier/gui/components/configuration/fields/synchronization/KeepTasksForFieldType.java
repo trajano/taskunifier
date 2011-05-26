@@ -1,7 +1,7 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.gui.swing.formatters.RegexFormatter;
+import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -12,7 +12,7 @@ public class KeepTasksForFieldType extends ConfigurationFieldTypeExt.FormattedTe
 	
 	public KeepTasksForFieldType() {
 		super(
-				new RegexFormatter("^[0-9]{1,4}$"),
+				FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"),
 				Main.SETTINGS,
 				"synchronizer.keep_tasks_completed_for_x_days");
 	}

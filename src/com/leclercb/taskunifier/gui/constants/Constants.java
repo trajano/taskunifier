@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.constants;
 import javax.swing.SortOrder;
 import javax.swing.undo.UndoableEditSupport;
 
+import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.gui.swing.undo.TransferActionListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
@@ -67,6 +68,8 @@ public final class Constants {
 	public static final String FEATURE_REQUEST_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	
 	public static final TaskSearcher DEFAULT_SEARCHER;
+	
+	public static final ProgressMonitor PROGRESS_MONITOR = new ProgressMonitor();
 	
 	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
 	public static final UndoableEditSupport UNDO_EDIT_SUPPORT = new UndoableEditSupport();

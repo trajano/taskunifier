@@ -5,6 +5,7 @@ Version 0.9.3
 	- Minor:
 		- Bug fixed: Completed repeated task
 		- User interface improvements
+		- Background synchronization status in status bar
 
 Version 0.9.2
 	- Major:

@@ -38,17 +38,36 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 
+import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageHandler;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public abstract class AbstractStatusBar extends JPanel {
 	
+	protected StatusElement synchronizerStatus;
 	protected StatusElement lastSynchronizationDate;
 	protected StatusElement scheduledSyncStatus;
 	
 	public AbstractStatusBar() {
 
+	}
+	
+	protected final void initializeSynchronizerStatus() {
+		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageHandler() {
+			
+			@Override
+			public void showMessage(String message) {
+				AbstractStatusBar.this.synchronizerStatus.setText(Translations.getString("synchronizer.status")
+						+ ": "
+						+ message);
+			}
+			
+		});
+		
+		AbstractStatusBar.this.synchronizerStatus.setText(Translations.getString("synchronizer.status")
+				+ ": ");
 	}
 	
 	protected final void initializeLastSynchronizationDate() {

@@ -53,12 +53,16 @@ public class DefaultStatusBar extends AbstractStatusBar {
 		this.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		this.setBorder(new EmptyBorder(1, 1, 1, 1));
 		
+		this.synchronizerStatus = new DefaultStatusElement();
+		this.add(this.synchronizerStatus.getComponent());
+		
 		this.scheduledSyncStatus = new DefaultStatusElement();
 		this.add(this.scheduledSyncStatus.getComponent());
 		
 		this.lastSynchronizationDate = new DefaultStatusElement();
 		this.add(this.lastSynchronizationDate.getComponent());
 		
+		this.initializeSynchronizerStatus();
 		this.initializeLastSynchronizationDate();
 	}
 	

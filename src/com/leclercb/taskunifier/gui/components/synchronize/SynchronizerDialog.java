@@ -34,34 +34,12 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
 import java.awt.Frame;
-import java.util.Calendar;
 
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.progress.ProgressMessage;
-import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.synchronizer.Connection;
-import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.RetrieveModelsProgressMessage;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
-import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SynchronizerDialog extends WaitDialog {
 	
 	public SynchronizerDialog(Frame frame) {
@@ -71,7 +49,7 @@ public class SynchronizerDialog extends WaitDialog {
 	
 	@Override
 	public void setVisible(boolean visible) {
-		if (!Synchronizing.setSynchronizing(true))
+		if (Synchronizing.isSynchronizing())
 			return;
 		
 		super.setVisible(visible);
@@ -81,218 +59,33 @@ public class SynchronizerDialog extends WaitDialog {
 		
 		@Override
 		public void run() {
-			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			ProgressMessageHandler handler = new ProgressMessageHandler() {
 				
-				private Connection connection;
-				private Synchronizer synchronizer;
-				
-				private String modelTypeToString(ModelType type, boolean plurial) {
-					if (plurial) {
-						switch (type) {
-							case CONTEXT:
-								return Translations.getString("general.contexts");
-							case FOLDER:
-								return Translations.getString("general.folders");
-							case GOAL:
-								return Translations.getString("general.goals");
-							case LOCATION:
-								return Translations.getString("general.locations");
-							case NOTE:
-								return Translations.getString("general.notes");
-							case TASK:
-								return Translations.getString("general.tasks");
-						}
-					}
-					
-					switch (type) {
-						case CONTEXT:
-							return Translations.getString("general.context");
-						case FOLDER:
-							return Translations.getString("general.folder");
-						case GOAL:
-							return Translations.getString("general.goal");
-						case LOCATION:
-							return Translations.getString("general.location");
-						case NOTE:
-							return Translations.getString("general.note");
-						case TASK:
-							return Translations.getString("general.task");
-					}
-					
-					return null;
+				@Override
+				public void showMessage(String message) {
+					SynchronizerDialog.this.appendToProgressStatus(message
+							+ "\n");
 				}
+				
+			};
+			
+			SynchronizeWorker worker = new SynchronizeWorker(handler) {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					ProgressMonitor monitor = new ProgressMonitor();
-					monitor.addListChangeListener(new ListChangeListener() {
-						
-						@Override
-						public void listChange(ListChangeEvent event) {
-							if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-								ProgressMessage message = (ProgressMessage) event.getValue();
-								
-								if (message instanceof SynchronizationProgressMessage) {
-									SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
-									
-									if (m.getType().equals(
-											ProgressMessageType.START))
-										SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.start_synchronization")
-												+ "\n");
-									else
-										SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.synchronization_completed")
-												+ "\n");
-								} else if (message instanceof RetrieveModelsProgressMessage) {
-									RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
-									
-									if (m.getType().equals(
-											ProgressMessageType.END))
-										return;
-									
-									String type = modelTypeToString(
-											m.getModelType(),
-											true);
-									SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
-											"synchronizer.retrieving_models",
-											type) + "\n");
-								} else if (message instanceof SynchronizeModelsProgressMessage) {
-									SynchronizeModelsProgressMessage m = (SynchronizeModelsProgressMessage) message;
-									
-									if (m.getType().equals(
-											ProgressMessageType.END)
-											|| m.getActionCount() == 0)
-										return;
-									
-									String type = modelTypeToString(
-											m.getModelType(),
-											m.getActionCount() > 1);
-									SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
-											"synchronizer.synchronizing",
-											m.getActionCount(),
-											type) + "\n");
-								}
-							}
-						}
-						
-					});
-					
-					try {
-						SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.set_proxy")
-								+ "\n");
-						
-						SynchronizerUtils.initializeProxy();
-						
-						if (SynchronizerUtils.getPlugin().needsLicense()) {
-							SynchronizerDialog.this.appendToProgressStatus(Translations.getString("synchronizer.checking_license")
-									+ "\n");
-							
-							if (!SynchronizerUtils.getPlugin().checkLicense()) {
-								SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
-										"synchronizer.wait_no_license",
-										Constants.WAIT_NO_LICENSE_TIME) + "\n");
-								
-								SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
-										"general.go_to_serial",
-										SynchronizerUtils.getPlugin().getName())
-										+ "\n");
-								
-								Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
-							}
-						}
-						
-						SynchronizerDialog.this.appendToProgressStatus(Translations.getString(
-								"synchronizer.connecting",
-								SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())
-								+ "\n");
-						
-						this.connection = SynchronizerUtils.getPlugin().getConnection();
-						
-						this.connection.loadParameters(Main.SETTINGS);
-						this.connection.connect();
-						this.connection.saveParameters(Main.SETTINGS);
-						
-						this.synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
-								this.connection);
-						
-						SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
-								"synchronizer.choice",
-								SynchronizerChoice.class);
-						
-						this.synchronizer.loadParameters(Main.SETTINGS);
-						this.synchronizer.synchronize(choice, monitor);
-						this.synchronizer.saveParameters(Main.SETTINGS);
-						
-						this.connection.disconnect();
-						
-						Main.SETTINGS.setCalendarProperty(
-								"synchronizer.last_synchronization_date",
-								Calendar.getInstance());
-					} catch (final SynchronizerException e) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								ErrorInfo info = new ErrorInfo(
-										Translations.getString("general.error"),
-										e.getMessage(),
-										null,
-										null,
-										(e.isExpected() ? e : null),
-										null,
-										null);
-								
-								JXErrorPane.showDialog(
-										MainFrame.getInstance().getFrame(),
-										info);
-							}
-							
-						});
-						
-						return null;
-					} catch (final Throwable t) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								ErrorInfo info = new ErrorInfo(
-										Translations.getString("general.error"),
-										t.getMessage(),
-										null,
-										null,
-										t,
-										null,
-										null);
-								
-								JXErrorPane.showDialog(
-										MainFrame.getInstance().getFrame(),
-										info);
-							}
-							
-						});
-						
-						return null;
-					} finally {
-						SynchronizerUtils.removeProxy();
-					}
-					
-					Thread.sleep(1000);
-					
-					return null;
+					SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					return super.doInBackground();
 				}
 				
 				@Override
 				protected void done() {
-					SynchronizerUtils.removeOldCompletedTasks();
-					
-					Synchronizing.setSynchronizing(false);
-					
+					super.done();
 					SynchronizerDialog.this.setCursor(null);
 					SynchronizerDialog.this.dispose();
 				}
 				
 			};
 			
-			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 		

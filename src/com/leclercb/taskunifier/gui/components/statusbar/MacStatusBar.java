@@ -53,12 +53,16 @@ public class MacStatusBar extends AbstractStatusBar {
 		BottomBar bottomBar = new BottomBar(BottomBarSize.LARGE);
 		this.add(bottomBar.getComponent(), BorderLayout.CENTER);
 		
+		this.synchronizerStatus = new MacStatusElement();
+		bottomBar.addComponentToLeft(this.synchronizerStatus.getComponent());
+		
 		this.scheduledSyncStatus = new MacStatusElement();
 		bottomBar.addComponentToCenter(this.scheduledSyncStatus.getComponent());
 		
 		this.lastSynchronizationDate = new MacStatusElement();
 		bottomBar.addComponentToRight(this.lastSynchronizationDate.getComponent());
 		
+		this.initializeSynchronizerStatus();
 		this.initializeLastSynchronizationDate();
 	}
 	
