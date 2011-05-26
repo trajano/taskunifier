@@ -74,7 +74,9 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEdi
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer CALENDAR_RENDERER;

@@ -49,7 +49,9 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public enum TaskColumn {
 	
 	MODEL(Task.class, Translations.getString("general.id"), false),
@@ -227,6 +229,9 @@ public enum TaskColumn {
 	}
 	
 	public Object getValue(Task task) {
+		if (task == null)
+			return null;
+		
 		switch (this) {
 			case MODEL:
 				return task;
@@ -276,6 +281,9 @@ public enum TaskColumn {
 	}
 	
 	public void setValue(Task task, Object value) {
+		if (task == null)
+			return;
+		
 		switch (this) {
 			case MODEL:
 				break;

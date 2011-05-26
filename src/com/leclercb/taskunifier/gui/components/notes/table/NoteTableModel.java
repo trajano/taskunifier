@@ -46,7 +46,9 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.NoteUndoableEdit;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class NoteTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
 	public NoteTableModel() {
@@ -103,7 +105,7 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setValue(note, value);
 			Constants.UNDO_EDIT_SUPPORT.postEdit(new NoteUndoableEdit(
-					note,
+					note.getModelId(),
 					column,
 					value,
 					oldValue));

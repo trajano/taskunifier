@@ -42,7 +42,9 @@ import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 	
 	public TaskTableColumnModel() {

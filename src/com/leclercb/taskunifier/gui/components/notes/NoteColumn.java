@@ -40,7 +40,9 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public enum NoteColumn {
 	
 	MODEL(Note.class, Translations.getString("general.id"), false),
@@ -201,6 +203,9 @@ public enum NoteColumn {
 	}
 	
 	public Object getValue(Note note) {
+		if (note == null)
+			return null;
+		
 		switch (this) {
 			case MODEL:
 				return note;
@@ -216,6 +221,9 @@ public enum NoteColumn {
 	}
 	
 	public void setValue(Note note, Object value) {
+		if (note == null)
+			return;
+		
 		switch (this) {
 			case MODEL:
 				break;

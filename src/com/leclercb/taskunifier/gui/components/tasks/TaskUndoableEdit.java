@@ -37,17 +37,20 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskUndoableEdit extends AbstractUndoableEdit {
 	
-	private Task task;
+	private ModelId task;
 	private TaskColumn column;
 	private Object newValue;
 	private Object oldValue;
 	
 	public TaskUndoableEdit(
-			Task task,
+			ModelId task,
 			TaskColumn column,
 			Object newValue,
 			Object oldValue) {
@@ -69,14 +72,18 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	public void undo() throws CannotUndoException {
 		super.undo();
 		
-		this.column.setValue(this.task, this.oldValue);
+		this.column.setValue(
+				TaskFactory.getInstance().get(this.task),
+				this.oldValue);
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
 		
-		this.column.setValue(this.task, this.newValue);
+		this.column.setValue(
+				TaskFactory.getInstance().get(this.task),
+				this.newValue);
 	}
 	
 }

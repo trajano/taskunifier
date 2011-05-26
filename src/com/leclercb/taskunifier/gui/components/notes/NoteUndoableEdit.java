@@ -37,17 +37,20 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class NoteUndoableEdit extends AbstractUndoableEdit {
 	
-	private Note note;
+	private ModelId note;
 	private NoteColumn column;
 	private Object newValue;
 	private Object oldValue;
 	
 	public NoteUndoableEdit(
-			Note note,
+			ModelId note,
 			NoteColumn column,
 			Object newValue,
 			Object oldValue) {
@@ -68,15 +71,17 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-		
-		this.column.setValue(this.note, this.oldValue);
+		this.column.setValue(
+				NoteFactory.getInstance().get(this.note),
+				this.oldValue);
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		
-		this.column.setValue(this.note, this.newValue);
+		this.column.setValue(
+				NoteFactory.getInstance().get(this.note),
+				this.newValue);
 	}
 	
 }
