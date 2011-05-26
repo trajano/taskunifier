@@ -37,85 +37,42 @@ import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXSearchField;
 
-import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
-import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
-import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
-import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
-import com.leclercb.taskunifier.gui.actions.ActionChangeView;
-import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
-import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
-import com.leclercb.taskunifier.gui.actions.ActionCopy;
-import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
-import com.leclercb.taskunifier.gui.actions.ActionDonate;
-import com.leclercb.taskunifier.gui.actions.ActionEditTask;
-import com.leclercb.taskunifier.gui.actions.ActionExportModels;
-import com.leclercb.taskunifier.gui.actions.ActionExportSearchers;
-import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
-import com.leclercb.taskunifier.gui.actions.ActionExportTemplates;
-import com.leclercb.taskunifier.gui.actions.ActionHelp;
-import com.leclercb.taskunifier.gui.actions.ActionImportModels;
-import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
-import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
-import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
-import com.leclercb.taskunifier.gui.actions.ActionLogBug;
-import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
-import com.leclercb.taskunifier.gui.actions.ActionManageModels;
-import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
-import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
-import com.leclercb.taskunifier.gui.actions.ActionPaste;
-import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.actions.ActionRedo;
-import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.actions.ActionUndo;
-import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
-import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
-import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
@@ -135,10 +92,9 @@ import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
-	
-	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
 	private static MainView INSTANCE;
 	
@@ -350,152 +306,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				this.verticalSplitPane.getDividerLocation());
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void initializeMenuBar() {
-		if (SystemUtils.IS_OS_MAC) {
-			Application application = Application.getApplication();
-			MacApplicationAdapter adapter = new MacApplicationAdapter();
-			application.setEnabledPreferencesMenu(true);
-			application.addApplicationListener(adapter);
-		}
-		
-		JMenuBar menuBar = new JMenuBar();
-		
-		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
-		menuBar.add(fileMenu);
-		
-		JMenu importMenu = new JMenu(Translations.getString("general.import"));
-		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
-		
-		importMenu.add(new ActionImportModels(16, 16));
-		importMenu.add(new ActionImportSearchers(16, 16));
-		importMenu.add(new ActionImportSettings(16, 16));
-		importMenu.add(new ActionImportTemplates(16, 16));
-		fileMenu.add(importMenu);
-		
-		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
-		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
-		
-		exportMenu.add(new ActionExportModels(16, 16));
-		exportMenu.add(new ActionExportSearchers(16, 16));
-		exportMenu.add(new ActionExportSettings(16, 16));
-		exportMenu.add(new ActionExportTemplates(16, 16));
-		fileMenu.add(exportMenu);
-		
-		fileMenu.addSeparator();
-		fileMenu.add(new ActionConfiguration(16, 16));
-		fileMenu.add(new ActionManagePlugins(16, 16));
-		fileMenu.add(new ActionManageModels(16, 16));
-		fileMenu.add(new ActionManageTemplates(16, 16));
-		fileMenu.addSeparator();
-		fileMenu.add(new ActionPrint(16, 16));
-		fileMenu.addSeparator();
-		fileMenu.add(new ActionQuit(16, 16));
-		
-		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
-		menuBar.add(editMenu);
-		
-		editMenu.add(new ActionUndo(16, 16));
-		editMenu.add(new ActionRedo(16, 16));
-		editMenu.addSeparator();
-		editMenu.add(new ActionCut(16, 16));
-		editMenu.add(new ActionCopy(16, 16));
-		editMenu.add(new ActionPaste(16, 16));
-		
-		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
-		menuBar.add(viewMenu);
-		
-		viewMenu.add(new ActionChangeView(16, 16));
-		viewMenu.addSeparator();
-		
-		ButtonGroup viewGroup = new ButtonGroup();
-		
-		for (View view : View.values()) {
-			final View v = view;
-			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
-					v.getLabel());
-			viewGroup.add(item);
-			viewMenu.add(item);
-			
-			if (this.getSelectedView() == view)
-				item.setSelected(true);
-			
-			item.addItemListener(new ItemListener() {
-				
-				@Override
-				public void itemStateChanged(ItemEvent evt) {
-					MainFrame.this.setSelectedView(v);
-				}
-				
-			});
-			
-			this.addPropertyChangeListener(
-					PROP_SELECTED_VIEW,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							if (EqualsUtils.equals(evt.getNewValue(), v))
-								item.setSelected(true);
-						}
-						
-					});
-		}
-		
-		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
-		menuBar.add(notesMenu);
-		
-		notesMenu.add(new ActionAddNote(16, 16));
-		notesMenu.add(new ActionDelete(16, 16));
-		
-		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
-		menuBar.add(tasksMenu);
-		
-		tasksMenu.add(new ActionSynchronize(false, 16, 16));
-		tasksMenu.add(new ActionScheduledSync(16, 16));
-		tasksMenu.addSeparator();
-		tasksMenu.add(new ActionAddTask(16, 16));
-		tasksMenu.add(new ActionAddSubTask(this.taskPanel, 16, 16));
-		
-		// TEMPLATE
-		final JMenu templatesMenu = new JMenu(
-				Translations.getString("action.name.add_template_task"));
-		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
-		tasksMenu.add(templatesMenu);
-		
-		this.updateTemplateList(templatesMenu, null);
-		
-		TemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						MainFrame.this.updateTemplateList(templatesMenu, null);
-					}
-					
-				});
-		// TEMPLATE
-		
-		tasksMenu.add(new ActionBatchAddTasks(16, 16));
-		tasksMenu.add(new ActionEditTask(this.taskPanel, 16, 16));
-		tasksMenu.add(new ActionDelete(16, 16));
-		
-		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
-		menuBar.add(helpMenu);
-		
-		helpMenu.add(new ActionCheckVersion(false, 16, 16));
-		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
-		helpMenu.addSeparator();
-		helpMenu.add(new ActionHelp(16, 16));
-		helpMenu.add(new ActionAbout(16, 16));
-		helpMenu.addSeparator();
-		helpMenu.add(new ActionLogBug());
-		helpMenu.add(new ActionLogFeatureRequest());
-		helpMenu.addSeparator();
-		helpMenu.add(new ActionDonate(16, 16));
-		helpMenu.add(new ActionReview(16, 16));
-		
-		this.setJMenuBar(menuBar);
+		this.setJMenuBar(new MenuBar(this, this.taskPanel));
 	}
 	
 	private void initializeToolBar() {
@@ -549,14 +361,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		final JPopupMenu popupMenu = new JPopupMenu(
 				Translations.getString("action.name.add_template_task"));
 		
-		this.updateTemplateList(null, popupMenu);
+		TemplateUtils.updateTemplateList(null, popupMenu);
 		
 		TemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						MainFrame.this.updateTemplateList(null, popupMenu);
+						TemplateUtils.updateTemplateList(null, popupMenu);
 					}
 					
 				});
@@ -747,36 +559,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.reminderThread.interrupt();
 		this.scheduledSyncThread.interrupt();
 		super.dispose();
-	}
-	
-	private void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
-		if (menu != null)
-			menu.removeAll();
-		
-		if (popupMenu != null)
-			popupMenu.removeAll();
-		
-		List<Template> templates = new ArrayList<Template>(
-				TemplateFactory.getInstance().getList());
-		Collections.sort(templates, new TemplateComparator());
-		
-		for (Template template : templates) {
-			if (menu != null)
-				menu.add(new ActionAddTemplateTask(template, 16, 16));
-			
-			if (popupMenu != null)
-				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
-		}
-		
-		if (menu != null) {
-			menu.addSeparator();
-			menu.add(new ActionManageTemplates(16, 16));
-		}
-		
-		if (popupMenu != null) {
-			popupMenu.addSeparator();
-			popupMenu.add(new ActionManageTemplates(16, 16));
-		}
 	}
 	
 }
