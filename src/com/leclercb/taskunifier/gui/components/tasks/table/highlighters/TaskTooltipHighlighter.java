@@ -37,7 +37,9 @@ import org.jdesktop.swingx.decorator.ToolTipHighlighter;
 
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTooltipHighlighter extends ToolTipHighlighter {
 	
 	public TaskTooltipHighlighter(HighlightPredicate predicate) {

@@ -38,7 +38,9 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public interface MainView extends PropertyChangeSupported {
 	
 	public static final String PROP_SELECTED_VIEW = "selectedView";

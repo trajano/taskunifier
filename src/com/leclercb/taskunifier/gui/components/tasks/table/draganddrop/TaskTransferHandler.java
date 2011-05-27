@@ -48,7 +48,9 @@ import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTransferHandler extends TransferHandler {
 	
 	@Override
@@ -141,9 +143,6 @@ public class TaskTransferHandler extends TransferHandler {
 		try {
 			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
 			
-			if (!data.getType().equals(ModelType.TASK))
-				return false;
-			
 			for (ModelId id : data.getIds())
 				dragTasks.add(TaskFactory.getInstance().get(id));
 		} catch (Exception e) {
@@ -160,7 +159,7 @@ public class TaskTransferHandler extends TransferHandler {
 				for (Task dragTask : dragTasks)
 					dragTask.setParent(null);
 				
-				table.getRowSorter().allRowsChanged();
+				table.refreshTasks();
 				return true;
 			}
 			
@@ -179,7 +178,7 @@ public class TaskTransferHandler extends TransferHandler {
 				for (Task dragTask : dragTasks)
 					dragTask.setParent(dropTask);
 				
-				table.getRowSorter().allRowsChanged();
+				table.refreshTasks();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -198,7 +197,7 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			Synchronizing.setSynchronizing(false);
 			
-			table.getRowSorter().allRowsChanged();
+			table.refreshTasks();
 			table.setSelectedTasks(newTasks.toArray(new Task[0]));
 			
 			return true;

@@ -4,7 +4,9 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class LocationEditor extends ComboBoxCellEditor {
 	
 	public LocationEditor() {

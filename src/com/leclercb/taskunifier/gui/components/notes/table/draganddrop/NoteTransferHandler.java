@@ -47,7 +47,9 @@ import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class NoteTransferHandler extends TransferHandler {
 	
 	@Override
@@ -102,9 +104,6 @@ public class NoteTransferHandler extends TransferHandler {
 		try {
 			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
 			
-			if (!data.getType().equals(ModelType.NOTE))
-				return false;
-			
 			for (ModelId id : data.getIds())
 				dragNotes.add(NoteFactory.getInstance().get(id));
 		} catch (Exception e) {
@@ -123,7 +122,7 @@ public class NoteTransferHandler extends TransferHandler {
 		
 		Synchronizing.setSynchronizing(false);
 		
-		table.getRowSorter().allRowsChanged();
+		table.refreshNotes();
 		table.setSelectedNotes(newNotes.toArray(new Note[0]));
 		
 		return true;

@@ -40,7 +40,9 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskRowFilter extends RowFilter<TableModel, Integer> {
 	
 	private TaskFilter filter;

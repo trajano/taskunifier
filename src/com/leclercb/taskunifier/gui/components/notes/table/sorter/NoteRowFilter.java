@@ -38,7 +38,9 @@ import javax.swing.table.TableModel;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 	
 	private String titleFilter;

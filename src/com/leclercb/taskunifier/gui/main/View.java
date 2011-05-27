@@ -1,7 +1,9 @@
 package com.leclercb.taskunifier.gui.main;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public enum View {
 	
 	NOTES(Translations.getString("general.notes")),

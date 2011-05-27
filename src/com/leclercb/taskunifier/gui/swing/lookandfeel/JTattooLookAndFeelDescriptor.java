@@ -41,7 +41,9 @@ import javax.swing.UIManager;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class JTattooLookAndFeelDescriptor extends LookAndFeelDescriptor {
 	
 	public JTattooLookAndFeelDescriptor(String name, String identifier) {
