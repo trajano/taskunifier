@@ -116,7 +116,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 					ModelList.this.modelSelected(null);
 					ModelList.this.removeButton.setEnabled(false);
 				} else {
-					ModelList.this.modelSelected((Model) ModelList.this.modelList.getSelectedValue());
+					ModelList.this.modelSelected(ModelList.this.getSelectedModel());
 					ModelList.this.removeButton.setEnabled(true);
 				}
 			}
@@ -167,10 +167,11 @@ public abstract class ModelList extends JPanel implements IModelList {
 				if (event.getActionCommand().equals("ADD")) {
 					ModelList.this.rowFilter.setTitle(null);
 					Model model = ModelList.this.addModel();
-					ModelList.this.modelList.setSelectedValue(model, true);
+					ModelList.this.setSelectedModel(model);
 					ModelList.this.focusAndSelectTextInTextField();
 				} else {
-					ModelList.this.removeModel((Model) ModelList.this.modelList.getSelectedValue());
+					Model model = ModelList.this.getSelectedModel();
+					ModelList.this.removeModel(model);
 				}
 			}
 			
@@ -192,13 +193,13 @@ public abstract class ModelList extends JPanel implements IModelList {
 	}
 	
 	@Override
-	public void setSelectedModel(Model model) {
-		this.modelList.setSelectedValue(model, true);
+	public Model getSelectedModel() {
+		return (Model) this.modelList.getSelectedValue();
 	}
 	
 	@Override
-	public Model getSelectedModel() {
-		return (Model) this.modelList.getSelectedValue();
+	public void setSelectedModel(Model model) {
+		this.modelList.setSelectedValue(model, true);
 	}
 	
 	public abstract Model addModel();

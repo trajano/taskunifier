@@ -62,7 +62,9 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 abstract class TemplateList extends JPanel {
 	
 	private JTextField titleField;
@@ -168,15 +170,16 @@ abstract class TemplateList extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
 					TemplateList.this.rowFilter.setTitle(null);
-					Template template = TemplateList.this.addTemplate();
-					TemplateList.this.templateList.setSelectedValue(
-							template,
-							true);
+					Template template = TemplateFactory.getInstance().create(
+							Translations.getString("template.default.title"));
+					TemplateList.this.setSelectedTemplate(template);
 					TemplateList.this.focusAndSelectTextInTextField();
 				} else if (event.getActionCommand().equals("REMOVE")) {
-					TemplateList.this.removeTemplate((Template) TemplateList.this.templateList.getSelectedValue());
+					Template template = TemplateList.this.getSelectedTemplate();
+					TemplateFactory.getInstance().unregister(template);
 				} else {
-					TemplateList.this.setDefaultTemplate((Template) TemplateList.this.templateList.getSelectedValue());
+					Template template = TemplateList.this.getSelectedTemplate();
+					TemplateFactory.getInstance().setDefaultTemplate(template);
 				}
 			}
 			
@@ -207,25 +210,12 @@ abstract class TemplateList extends JPanel {
 		buttonsPanel.add(this.defaultButton);
 	}
 	
-	public void setSelectedTemplate(Template template) {
-		this.templateList.setSelectedValue(template, true);
-	}
-	
 	public Template getSelectedTemplate() {
 		return (Template) this.templateList.getSelectedValue();
 	}
 	
-	public Template addTemplate() {
-		return TemplateFactory.getInstance().create(
-				Translations.getString("general.template"));
-	}
-	
-	public void removeTemplate(Template template) {
-		TemplateFactory.getInstance().unregister(template);
-	}
-	
-	public void setDefaultTemplate(Template template) {
-		TemplateFactory.getInstance().setDefaultTemplate(template);
+	public void setSelectedTemplate(Template template) {
+		this.templateList.setSelectedValue(template, true);
 	}
 	
 	public abstract void templateSelected(Template template);

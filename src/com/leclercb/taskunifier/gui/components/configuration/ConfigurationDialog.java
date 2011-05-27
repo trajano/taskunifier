@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +56,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ConfigurationDialog extends JDialog {
 	
 	private static ConfigurationDialog INSTANCE;
@@ -137,14 +138,10 @@ public class ConfigurationDialog extends JDialog {
 		
 		this.tabbedPane = new JTabbedPane();
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.tabbedPane, BorderLayout.CENTER);
-		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 		this.initializeGeneralPanel();
 		this.initializeProxyPanel();
 		this.initializeColumnsPanel();
@@ -164,7 +161,7 @@ public class ConfigurationDialog extends JDialog {
 				});
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -196,10 +193,12 @@ public class ConfigurationDialog extends JDialog {
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		JButton applyButton = ComponentFactory.createButtonApply(listener);
 		
-		buttonsPanel.add(okButton);
-		buttonsPanel.add(cancelButton);
-		buttonsPanel.add(applyButton);
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				okButton,
+				cancelButton,
+				applyButton);
 		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

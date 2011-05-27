@@ -113,6 +113,7 @@ public class TaskEditDialog extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				TaskEditDialog.this.cancelled = true;
+				TaskEditDialog.this.setTask(null);
 				TaskEditDialog.this.dispose();
 			}
 			
@@ -137,11 +138,13 @@ public class TaskEditDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "OK") {
 					TaskEditDialog.this.cancelled = false;
+					TaskEditDialog.this.setTask(null);
 					TaskEditDialog.this.dispose();
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
 					TaskEditDialog.this.cancelled = true;
+					TaskEditDialog.this.setTask(null);
 					TaskEditDialog.this.dispose();
 				}
 			}

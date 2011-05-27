@@ -54,7 +54,6 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -133,13 +132,11 @@ public class TaskEditPanel extends JPanel {
 	}
 	
 	public void setTask(Task task) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
-		
 		this.task = task;
 		this.adapter.setBean(this.task);
 		
 		this.taskParentModel.setHiddenTask(this.task);
-		if (this.task.getChildren().length != 0)
+		if (this.task == null || this.task.getChildren().length != 0)
 			this.taskParent.setEnabled(false);
 	}
 	

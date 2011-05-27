@@ -33,8 +33,6 @@
 package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -48,28 +46,30 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TemplateConfigurationDialog extends JDialog {
 	
 	private static TemplateConfigurationDialog INSTANCE = null;
 	
 	public static TemplateConfigurationDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new TemplateConfigurationDialog(
-					MainFrame.getInstance().getFrame());
+			INSTANCE = new TemplateConfigurationDialog();
 		
 		return INSTANCE;
 	}
 	
-	private TemplateConfigurationDialog(Frame frame) {
-		super(frame, true);
+	private TemplateConfigurationDialog() {
+		super(MainFrame.getInstance().getFrame());
 		
 		this.initialize();
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_templates"));
-		this.setSize(700, 400);
+		this.setSize(600, 450);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -82,17 +82,13 @@ public class TemplateConfigurationDialog extends JDialog {
 		header.setDescription(Translations.getString("header.description.manage_templates"));
 		header.setIcon(Images.getResourceImage("properties.png", 32, 32));
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
 		this.add(header, BorderLayout.NORTH);
 		this.add(new TemplateConfigurationPanel(), BorderLayout.CENTER);
-		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -105,8 +101,10 @@ public class TemplateConfigurationDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonsPanel.add(okButton);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	
