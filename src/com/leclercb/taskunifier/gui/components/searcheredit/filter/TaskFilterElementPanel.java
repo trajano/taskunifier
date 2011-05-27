@@ -41,13 +41,12 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.leclercb.commons.gui.utils.SpringUtils;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -365,15 +364,21 @@ public class TaskFilterElementPanel extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new SpringLayout());
+		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		panel.add(new JLabel(
-				Translations.getString("searcheredit.element.column") + ":"));
-		panel.add(new JLabel(
-				Translations.getString("searcheredit.element.condition") + ":"));
-		panel.add(new JLabel(
-				Translations.getString("searcheredit.element.value") + ":"));
+		FormLayout layout = new FormLayout(
+				"fill:default:grow, 10dlu, fill:default:grow, 10dlu, fill:default:grow",
+				"");
+		
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		
+		builder.append(Translations.getString("searcheredit.element.column")
+				+ ":");
+		builder.append(Translations.getString("searcheredit.element.condition")
+				+ ":");
+		builder.append(Translations.getString("searcheredit.element.value")
+				+ ":");
 		
 		// Column
 		this.elementColumn = new JComboBox();
@@ -393,7 +398,7 @@ public class TaskFilterElementPanel extends JPanel {
 			
 		});
 		
-		panel.add(this.elementColumn);
+		builder.append(this.elementColumn);
 		
 		// Condition
 		this.elementCondition = new JComboBox();
@@ -401,20 +406,16 @@ public class TaskFilterElementPanel extends JPanel {
 				new StringValueTaskFilterCondition()));
 		this.elementCondition.setEnabled(false);
 		
-		panel.add(this.elementCondition);
+		builder.append(this.elementCondition);
 		
 		// Value
 		this.elementValue = new JComboBox(TaskColumn.values());
 		this.elementValue.setEnabled(false);
 		
-		panel.add(this.elementValue);
+		builder.append(this.elementValue);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, 2, 3, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		panel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.NORTH);
 	}

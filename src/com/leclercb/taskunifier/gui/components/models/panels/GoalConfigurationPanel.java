@@ -42,12 +42,9 @@ import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
@@ -57,7 +54,8 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.gui.utils.SpringUtils;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -98,11 +96,18 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		this.setBorder(null);
 		
 		// Initialize Fields
-		final JTextField goalTitle = new JTextField(30);
+		final JTextField goalTitle = new JTextField();
 		final JComboBox goalLevel = new JComboBox();
 		final JComboBox goalContributes = ComponentFactory.createModelComboBox(null);
 		final JXColorSelectionButton goalColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
+		
+		// Set Disabled
+		goalTitle.setEnabled(false);
+		goalLevel.setEnabled(false);
+		goalContributes.setEnabled(false);
+		goalColor.setEnabled(false);
+		removeColor.setEnabled(false);
 		
 		// Initialize Model List
 		this.modelList = new ModelList(new GoalModel(false), goalTitle) {
@@ -162,30 +167,26 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(rightPanel);
+		this.setRightComponent(ComponentFactory.createJScrollPane(
+				rightPanel,
+				false));
 		
-		JPanel info = new JPanel();
-		info.setLayout(new SpringLayout());
-		rightPanel.add(info, BorderLayout.NORTH);
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JLabel label = null;
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
 		// Goal Title
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.goal.title") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		goalTitle.setEnabled(false);
-		info.add(goalTitle);
+				goalTitle);
 		
 		// Goal Level
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.goal.level") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				goalLevel);
 		
-		goalLevel.setEnabled(false);
 		goalLevel.setRenderer(new DefaultListRenderer(
 				new StringValueGoalLevel()));
 		goalLevel.addItemListener(new ItemListener() {
@@ -198,27 +199,20 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			}
 			
 		});
-		info.add(goalLevel);
 		
 		// Goal Contributes
-		label = new JLabel(Translations.getString("general.goal.contributes")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		goalContributes.setEnabled(false);
-		info.add(goalContributes);
+		builder.append(
+				Translations.getString("general.goal.contributes") + ":",
+				goalContributes);
 		
 		// Goal Color
-		label = new JLabel(
-				Translations.getString("general.color") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+		JPanel p = new JPanel(new BorderLayout(5, 0));
 		
-		goalColor.setEnabled(false);
+		builder.append(Translations.getString("general.color") + ":", p);
+		
 		goalColor.setPreferredSize(new Dimension(24, 24));
 		goalColor.setBorder(BorderFactory.createEmptyBorder());
 		
-		removeColor.setEnabled(false);
 		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
 			
@@ -229,18 +223,11 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			
 		});
 		
-		JPanel p = new JPanel(new BorderLayout(5, 0));
 		p.add(goalColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
 		
-		info.add(p);
-		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 4, 2, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.setDividerLocation(200);
 	}

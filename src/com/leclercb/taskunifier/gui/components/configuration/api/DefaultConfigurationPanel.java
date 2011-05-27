@@ -40,14 +40,11 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -124,41 +121,33 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new SpringLayout());
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
-		JLabel label = null;
+		String label = null;
 		Component component = null;
 		
 		if (this.helpFile != null) {
-			panel.add(new JLabel());
-			panel.add(Help.getHelpButton(this.helpFile));
+			builder.append("", Help.getHelpButton(this.helpFile));
 		}
 		
 		for (ConfigurationField field : this.fields) {
 			if (field.getLabel() == null)
-				label = new JLabel();
+				label = "";
 			else
-				label = new JLabel(
-						field.getLabel() + ":",
-						SwingConstants.TRAILING);
+				label = field.getLabel() + ":";
 			
 			field.getType().initializeFieldComponent();
 			component = field.getType().getFieldComponent();
 			
-			panel.add(label);
-			panel.add(component);
+			builder.append(label, component);
 		}
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, this.fields.size()
-				+ (this.helpFile != null ? 1 : 0), 2, 6, 6, 6, 6);
-		
-		mainPanel.add(panel, BorderLayout.NORTH);
-		this.add(mainPanel, BorderLayout.CENTER);
+		this.add(builder.getPanel(), BorderLayout.CENTER);
 	}
 	
 	@Override

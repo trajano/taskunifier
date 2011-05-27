@@ -40,14 +40,11 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
 
@@ -56,7 +53,8 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.gui.utils.SpringUtils;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -67,6 +65,7 @@ import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -93,14 +92,22 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 		this.setBorder(null);
 		
 		// Initialize Fields
-		final JTextField locationTitle = new JTextField(30);
-		final JTextArea locationDescription = new JTextArea(5, 20);
+		final JTextField locationTitle = new JTextField();
+		final JTextArea locationDescription = new JTextArea(5, 5);
 		final JFormattedTextField locationLatitude = new JFormattedTextField(
 				new NumberFormatter());
 		final JFormattedTextField locationLongitude = new JFormattedTextField(
 				new NumberFormatter());
 		final JXColorSelectionButton locationColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
+		
+		// Set Disabled
+		locationTitle.setEnabled(false);
+		locationDescription.setEnabled(false);
+		locationLatitude.setEnabled(false);
+		locationLongitude.setEnabled(false);
+		locationColor.setEnabled(false);
+		removeColor.setEnabled(false);
 		
 		// Initialize Model List
 		this.modelList = new ModelList(new LocationModel(false), locationTitle) {
@@ -156,58 +163,41 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(rightPanel);
+		this.setRightComponent(ComponentFactory.createJScrollPane(
+				rightPanel,
+				false));
 		
-		JPanel info = new JPanel();
-		info.setLayout(new SpringLayout());
-		rightPanel.add(info, BorderLayout.NORTH);
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JLabel label = null;
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
 		// Location Title
-		label = new JLabel(Translations.getString("general.location.title")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		locationTitle.setEnabled(false);
-		info.add(locationTitle);
+		builder.append(
+				Translations.getString("general.location.title") + ":",
+				locationTitle);
 		
 		// Location Description
-		label = new JLabel(
-				Translations.getString("general.location.description") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		locationDescription.setEnabled(false);
-		info.add(new JScrollPane(locationDescription));
+		builder.append(Translations.getString("general.location.description")
+				+ ":", new JScrollPane(locationDescription));
 		
 		// Location Latitude
-		label = new JLabel(Translations.getString("general.location.latitude")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		locationLatitude.setEnabled(false);
-		info.add(locationLatitude);
+		builder.append(Translations.getString("general.location.latitude")
+				+ ":", locationLatitude);
 		
 		// Location Longitude
-		label = new JLabel(Translations.getString("general.location.longitude")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		locationLongitude.setEnabled(false);
-		info.add(locationLongitude);
+		builder.append(Translations.getString("general.location.longitude")
+				+ ":", locationLongitude);
 		
 		// Location Color
-		label = new JLabel(
-				Translations.getString("general.color") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+		JPanel p = new JPanel(new BorderLayout(5, 0));
 		
-		locationColor.setEnabled(false);
+		builder.append(Translations.getString("general.color") + ":", p);
+		
 		locationColor.setPreferredSize(new Dimension(24, 24));
 		locationColor.setBorder(BorderFactory.createEmptyBorder());
 		
-		removeColor.setEnabled(false);
 		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
 			
@@ -218,18 +208,11 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			
 		});
 		
-		JPanel p = new JPanel(new BorderLayout(5, 0));
 		p.add(locationColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
 		
-		info.add(p);
-		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 5, 2, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.setDividerLocation(200);
 	}

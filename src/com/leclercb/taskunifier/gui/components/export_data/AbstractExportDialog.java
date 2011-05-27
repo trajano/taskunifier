@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,18 +42,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
-import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -94,15 +92,18 @@ public abstract class AbstractExportDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		JPanel panel = null;
-		
-		panel = new JPanel(new SpringLayout());
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.NORTH);
 		
-		// Export file
-		panel.add(new JLabel(Translations.getString("export.export_to_file")));
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		
+		// Export file
 		this.fileChooser = new JFileChooser();
 		this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		this.fileChooser.setFileFilter(new FileFilter() {
@@ -150,18 +151,17 @@ public abstract class AbstractExportDialog extends JDialog {
 		importFilePanel.add(this.exportFile, BorderLayout.CENTER);
 		importFilePanel.add(openFile, BorderLayout.EAST);
 		
-		panel.add(importFilePanel);
+		builder.append(
+				Translations.getString("export.export_to_file"),
+				importFilePanel);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(panel, 1, 2, 6, 6, 6, 6);
+		panel.add(builder.getPanel(), BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -197,11 +197,14 @@ public abstract class AbstractExportDialog extends JDialog {
 				Translations.getString("general.export"));
 		exportButton.setActionCommand("EXPORT");
 		exportButton.addActionListener(listener);
-		buttonsPanel.add(exportButton);
 		
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
-		buttonsPanel.add(cancelButton);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				exportButton,
+				cancelButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(exportButton);
 	}
 	

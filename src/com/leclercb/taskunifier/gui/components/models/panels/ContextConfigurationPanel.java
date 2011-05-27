@@ -39,12 +39,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
@@ -52,7 +49,8 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.gui.utils.SpringUtils;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -63,6 +61,7 @@ import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -89,9 +88,14 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		this.setBorder(null);
 		
 		// Initialize Fields
-		final JTextField contextTitle = new JTextField(30);
+		final JTextField contextTitle = new JTextField();
 		final JXColorSelectionButton contextColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
+		
+		// Set Disabled
+		contextTitle.setEnabled(false);
+		contextColor.setEnabled(false);
+		removeColor.setEnabled(false);
 		
 		// Initialize Model List
 		this.modelList = new ModelList(new ContextModel(false), contextTitle) {
@@ -135,33 +139,29 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(rightPanel);
+		this.setRightComponent(ComponentFactory.createJScrollPane(
+				rightPanel,
+				false));
 		
-		JPanel info = new JPanel();
-		info.setLayout(new SpringLayout());
-		rightPanel.add(info, BorderLayout.NORTH);
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JLabel label = null;
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
 		// Context Title
-		label = new JLabel(Translations.getString("general.context.title")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		contextTitle.setEnabled(false);
-		info.add(contextTitle);
+		builder.append(
+				Translations.getString("general.context.title") + ":",
+				contextTitle);
 		
 		// Context Color
-		label = new JLabel(
-				Translations.getString("general.color") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+		JPanel p = new JPanel(new BorderLayout(5, 0));
 		
-		contextColor.setEnabled(false);
+		builder.append(Translations.getString("general.color") + ":", p);
+		
 		contextColor.setPreferredSize(new Dimension(24, 24));
 		contextColor.setBorder(BorderFactory.createEmptyBorder());
 		
-		removeColor.setEnabled(false);
 		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
 			
@@ -172,18 +172,11 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			
 		});
 		
-		JPanel p = new JPanel(new BorderLayout(5, 0));
 		p.add(contextColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
 		
-		info.add(p);
-		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 2, 2, // rows, cols
-				6,
-				6, // initX, initY
-				6,
-				6); // xPad, yPad
+		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.setDividerLocation(200);
 	}

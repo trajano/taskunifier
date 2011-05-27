@@ -44,7 +44,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -54,7 +53,8 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.gui.utils.SpringUtils;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -189,33 +189,26 @@ public class TaskEditPanel extends JPanel {
 		this.taskStar = new JCheckBox();
 		this.taskNote = new JTextArea(3, 5);
 		
-		JPanel info = new JPanel();
-		info.setLayout(new SpringLayout());
-		this.add(info, BorderLayout.CENTER);
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JLabel label = null;
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
 		// Task Title
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.title") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskTitle);
+				this.taskTitle);
 		
 		// Task Tags
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.tags") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskTags);
+				this.taskTags);
 		
 		// Task Star
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.star") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				this.taskStar);
 		
 		this.taskStar.setIcon(Images.getResourceImage(
 				"checkbox_star.png",
@@ -226,147 +219,109 @@ public class TaskEditPanel extends JPanel {
 				18,
 				18));
 		
-		info.add(this.taskStar);
-		
 		// Task Completed
-		label = new JLabel(Translations.getString("general.task.completed")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskCompleted);
+		builder.append(
+				Translations.getString("general.task.completed") + ":",
+				this.taskCompleted);
 		
 		// Task Context
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.context") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskContext);
+				this.taskContext);
 		
 		// Task Folder
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.folder") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskFolder);
+				this.taskFolder);
 		
 		// Task Goal
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.goal") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskGoal);
+				this.taskGoal);
 		
 		// Task Location
-		label = new JLabel(Translations.getString("general.task.location")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskLocation);
+		builder.append(
+				Translations.getString("general.task.location") + ":",
+				this.taskLocation);
 		
 		// Task Parent
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.parent") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskParent);
+				this.taskParent);
 		
 		// Empty
-		info.add(new JLabel());
-		info.add(new JLabel());
+		builder.append("", new JLabel());
 		
 		// Task Due Date
-		label = new JLabel(Translations.getString("general.task.due_date")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskDueDate);
+		builder.append(
+				Translations.getString("general.task.due_date") + ":",
+				this.taskDueDate);
 		
 		// Task Start Date
-		label = new JLabel(Translations.getString("general.task.start_date")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		info.add(this.taskStartDate);
+		builder.append(
+				Translations.getString("general.task.start_date") + ":",
+				this.taskStartDate);
 		
 		// Task Reminder
-		label = new JLabel(Translations.getString("general.task.reminder")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.reminder") + ":",
+				this.taskReminder);
 		
 		this.taskReminder.setRenderer(new DefaultListRenderer(
 				new StringValueTaskReminder()));
 		this.taskReminder.setEditable(true);
 		
-		info.add(this.taskReminder);
-		
 		// Task Length
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.length") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		// this.taskLength.setModel(new SpinnerDateModel());
-		
-		info.add(this.taskLength);
+				this.taskLength);
 		
 		// Task Repeat
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.repeat") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				this.taskRepeat);
 		
 		ComponentFactory.createRepeatComboBox(this.taskRepeat);
 		
-		info.add(this.taskRepeat);
-		
 		// Task Repeat From
-		label = new JLabel(Translations.getString("general.task.repeat_from")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.repeat_from") + ":",
+				this.taskRepeatFrom);
 		
 		this.taskRepeatFrom.setRenderer(new DefaultListRenderer(
 				new StringValueTaskRepeatFrom()));
-		info.add(this.taskRepeatFrom);
 		
 		// Task Status
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.status") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				this.taskStatus);
 		
 		this.taskStatus.setRenderer(new DefaultListRenderer(
 				new StringValueTaskStatus()));
-		info.add(this.taskStatus);
 		
 		// Task Priority
-		label = new JLabel(Translations.getString("general.task.priority")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.priority") + ":",
+				this.taskPriority);
 		
 		this.taskPriority.setRenderer(new DefaultListRenderer(
 				new StringValueTaskPriority(),
 				new IconValueTaskPriority()));
-		info.add(this.taskPriority);
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 9, 4, 6, 6, 6, 6);
+		this.add(builder.getPanel(), BorderLayout.NORTH);
 		
 		// Task Note
 		JPanel notePanel = new JPanel();
 		notePanel.setLayout(new BorderLayout());
 		
-		label = new JLabel(
-				Translations.getString("general.task.note") + ":",
-				SwingConstants.LEADING);
+		JLabel label = new JLabel(Translations.getString("general.task.note")
+				+ ":", SwingConstants.LEADING);
 		notePanel.add(label, BorderLayout.NORTH);
 		
 		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
-		this.add(notePanel, BorderLayout.SOUTH);
+		this.add(notePanel, BorderLayout.CENTER);
 	}
 	
 	private void initializeAdapter() {

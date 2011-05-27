@@ -38,17 +38,13 @@ import java.util.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -58,8 +54,9 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.gui.utils.FormatterUtils;
-import com.leclercb.commons.gui.utils.SpringUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -104,7 +101,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		this.setBorder(null);
 		
 		// Initialize Fields
-		final JTextField templateTitle = new JTextField(20);
+		final JTextField templateTitle = new JTextField();
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
 		final JComboBox templateTaskFolder = ComponentFactory.createModelComboBox(null);
@@ -125,7 +122,29 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JSpinner templateTaskLength = new JSpinner();
 		final JComboBox templateTaskPriority = new JComboBox();
 		final JCheckBox templateTaskStar = new JCheckBox();
-		final JTextArea templateTaskNote = new JTextArea(3, 5);
+		final JTextArea templateTaskNote = new JTextArea(5, 5);
+		
+		// Set Disabled
+		templateTitle.setEnabled(false);
+		templateTaskTitle.setEnabled(false);
+		templateTaskTags.setEnabled(false);
+		templateTaskContext.setEnabled(false);
+		templateTaskFolder.setEnabled(false);
+		templateTaskGoal.setEnabled(false);
+		templateTaskLocation.setEnabled(false);
+		templateTaskCompleted.setEnabled(false);
+		templateTaskDueDate.setEnabled(false);
+		templateTaskDueTime.setEnabled(false);
+		templateTaskStartDate.setEnabled(false);
+		templateTaskStartTime.setEnabled(false);
+		templateTaskReminder.setEnabled(false);
+		templateTaskRepeat.setEnabled(false);
+		templateTaskRepeatFrom.setEnabled(false);
+		templateTaskStatus.setEnabled(false);
+		templateTaskLength.setEnabled(false);
+		templateTaskPriority.setEnabled(false);
+		templateTaskStar.setEnabled(false);
+		templateTaskNote.setEnabled(false);
 		
 		// Initialize Model List
 		final TemplateList modelList = new TemplateList(templateTitle) {
@@ -282,190 +301,130 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				rightPanel,
 				false));
 		
-		JPanel info = new JPanel();
-		info.setLayout(new SpringLayout());
-		rightPanel.add(info, BorderLayout.NORTH);
+		FormLayout layout = new FormLayout(
+				"right:pref, 4dlu, fill:default:grow",
+				"");
 		
-		JLabel label = null;
+		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
 		// Help
-		info.add(new JLabel());
-		info.add(Help.getHelpButton(Help.getHelpFile("manage_templates.html")));
+		rightPanel.add(
+				Help.getHelpButton(Help.getHelpFile("manage_templates.html")),
+				BorderLayout.NORTH);
 		
 		// Template Title
-		label = new JLabel(Translations.getString("general.template.title")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTitle.setEnabled(false);
-		info.add(templateTitle);
+		builder.append(
+				Translations.getString("general.template.title") + ":",
+				templateTitle);
 		
 		// Template Separator
-		
-		label = new JLabel();
-		info.add(label);
-		
-		info.add(new JSeparator(SwingConstants.HORIZONTAL));
+		builder.appendSeparator();
 		
 		// Template Task Title
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.title") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskTitle.setEnabled(false);
-		info.add(templateTaskTitle);
+				templateTaskTitle);
 		
 		// Template Task Tags
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.tags") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskTags.setEnabled(false);
-		info.add(templateTaskTags);
+				templateTaskTags);
 		
 		// Template Task Context
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.context") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskContext.setEnabled(false);
-		info.add(templateTaskContext);
+				templateTaskContext);
 		
 		// Template Task Folder
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.folder") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskFolder.setEnabled(false);
-		info.add(templateTaskFolder);
+				templateTaskFolder);
 		
 		// Template Task Goal
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.goal") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskGoal.setEnabled(false);
-		info.add(templateTaskGoal);
+				templateTaskGoal);
 		
 		// Template Task Location
-		label = new JLabel(Translations.getString("general.task.location")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskLocation.setEnabled(false);
-		info.add(templateTaskLocation);
+		builder.append(
+				Translations.getString("general.task.location") + ":",
+				templateTaskLocation);
 		
 		// Template Task Completed
-		label = new JLabel(Translations.getString("general.task.completed")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskCompleted.setEnabled(false);
-		info.add(templateTaskCompleted);
+		builder.append(
+				Translations.getString("general.task.completed") + ":",
+				templateTaskCompleted);
 		
 		// Template Task Due Date
-		label = new JLabel(Translations.getString("general.task.due_date")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
 		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));
-		info.add(taskDueDatePanel);
 		
-		templateTaskDueDate.setEnabled(false);
+		builder.append(
+				Translations.getString("general.task.due_date") + ":",
+				taskDueDatePanel);
+		
 		taskDueDatePanel.add(templateTaskDueDate, BorderLayout.CENTER);
-		
-		templateTaskDueTime.setEnabled(false);
 		taskDueDatePanel.add(templateTaskDueTime, BorderLayout.EAST);
 		
 		// Template Task Start Date
-		label = new JLabel(Translations.getString("general.task.start_date")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
-		
 		JPanel taskStartDatePanel = new JPanel(new BorderLayout(10, 0));
-		info.add(taskStartDatePanel);
 		
-		templateTaskStartDate.setEnabled(false);
+		builder.append(
+				Translations.getString("general.task.start_date") + ":",
+				taskStartDatePanel);
+		
 		taskStartDatePanel.add(templateTaskStartDate, BorderLayout.CENTER);
-		
-		templateTaskStartTime.setEnabled(false);
 		taskStartDatePanel.add(templateTaskStartTime, BorderLayout.EAST);
 		
 		// Template Task Reminder
-		label = new JLabel(Translations.getString("general.task.reminder")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.reminder") + ":",
+				templateTaskReminder);
 		
 		templateTaskReminder.setRenderer(new DefaultListRenderer(
 				new StringValueTaskReminder()));
 		templateTaskReminder.setEditable(true);
 		
-		templateTaskReminder.setEnabled(false);
-		info.add(templateTaskReminder);
-		
 		// Template Task Repeat
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.repeat") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskRepeat.setEnabled(false);
+				templateTaskRepeat);
 		
 		ComponentFactory.createRepeatComboBox(templateTaskRepeat);
 		
-		info.add(templateTaskRepeat);
-		
 		// Template Task Repeat From
-		label = new JLabel(Translations.getString("general.task.repeat_from")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.repeat_from") + ":",
+				templateTaskRepeatFrom);
 		
-		templateTaskRepeatFrom.setEnabled(false);
 		templateTaskRepeatFrom.setRenderer(new DefaultListRenderer(
 				new StringValueTaskRepeatFrom()));
-		info.add(templateTaskRepeatFrom);
 		
 		// Template Task Status
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.status") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				templateTaskStatus);
 		
-		templateTaskStatus.setEnabled(false);
 		templateTaskStatus.setRenderer(new DefaultListRenderer(
 				new StringValueTaskStatus()));
-		info.add(templateTaskStatus);
 		
 		// Template Task Length
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.length") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskLength.setEnabled(false);
-		info.add(templateTaskLength);
+				templateTaskLength);
 		
 		// Template Task Priority
-		label = new JLabel(Translations.getString("general.task.priority")
-				+ ":", SwingConstants.TRAILING);
-		info.add(label);
+		builder.append(
+				Translations.getString("general.task.priority") + ":",
+				templateTaskPriority);
 		
-		templateTaskPriority.setEnabled(false);
 		templateTaskPriority.setRenderer(new DefaultListRenderer(
 				new StringValueTaskPriority(),
 				new IconValueTaskPriority()));
-		info.add(templateTaskPriority);
 		
 		// Template Task Star
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.star") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
+				templateTaskStar);
 		
 		templateTaskStar.setIcon(Images.getResourceImage(
 				"checkbox_star.png",
@@ -476,34 +435,13 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				18,
 				18));
 		
-		templateTaskStar.setEnabled(false);
-		info.add(templateTaskStar);
-		
 		// Template Task Note
-		label = new JLabel(
+		builder.append(
 				Translations.getString("general.task.note") + ":",
-				SwingConstants.TRAILING);
-		info.add(label);
-		
-		templateTaskNote.setEnabled(false);
-		info.add(new JScrollPane(templateTaskNote));
-		
-		// Template Separator
-		
-		label = new JLabel();
-		info.add(label);
-		
-		info.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
-		// Set Default Info
-		label = new JLabel();
-		info.add(label);
-		
-		label = new JLabel(Translations.getString("templates.set_default"));
-		info.add(label);
+				new JScrollPane(templateTaskNote));
 		
 		// Lay out the panel
-		SpringUtils.makeCompactGrid(info, 22, 2, 6, 6, 6, 6);
+		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.setDividerLocation(200);
 	}
