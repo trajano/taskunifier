@@ -110,6 +110,25 @@ public final class ComponentFactory {
 		return button;
 	}
 	
+	public static JButton createButtonAdd(ActionListener listener) {
+		JButton button = new JButton(Images.getResourceImage("add.png", 16, 16));
+		button.setActionCommand("ADD");
+		button.addActionListener(listener);
+		
+		return button;
+	}
+	
+	public static JButton createButtonRemove(ActionListener listener) {
+		JButton button = new JButton(Images.getResourceImage(
+				"remove.png",
+				16,
+				16));
+		button.setActionCommand("REMOVE");
+		button.addActionListener(listener);
+		
+		return button;
+	}
+	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {
 		CheckUtils.isNotNull(repeatComboBox, "Repeat combobox cannot be null");
 		

@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.models.lists;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -61,7 +60,6 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -85,7 +83,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 	}
 	
 	private void initialize(ModelListModel model) {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 3));
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.modelList = new JXList();
@@ -152,14 +150,10 @@ public abstract class ModelList extends JPanel implements IModelList {
 		
 		this.add(this.searchField, BorderLayout.NORTH);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -177,19 +171,16 @@ public abstract class ModelList extends JPanel implements IModelList {
 			
 		};
 		
-		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
-		this.addButton.setActionCommand("ADD");
-		this.addButton.addActionListener(listener);
-		buttonsPanel.add(this.addButton);
+		this.addButton = ComponentFactory.createButtonAdd(listener);
 		
-		this.removeButton = new JButton(Images.getResourceImage(
-				"remove.png",
-				16,
-				16));
-		this.removeButton.setActionCommand("REMOVE");
-		this.removeButton.addActionListener(listener);
+		this.removeButton = ComponentFactory.createButtonRemove(listener);
 		this.removeButton.setEnabled(false);
-		buttonsPanel.add(this.removeButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				this.addButton,
+				this.removeButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 	@Override

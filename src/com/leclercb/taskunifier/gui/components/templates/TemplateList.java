@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.templates;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -86,7 +85,7 @@ abstract class TemplateList extends JPanel {
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 3));
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		TemplateModel model = new TemplateModel(false);
@@ -156,14 +155,10 @@ abstract class TemplateList extends JPanel {
 		
 		this.add(this.searchField, BorderLayout.NORTH);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -185,19 +180,10 @@ abstract class TemplateList extends JPanel {
 			
 		};
 		
-		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
-		this.addButton.setActionCommand("ADD");
-		this.addButton.addActionListener(listener);
-		buttonsPanel.add(this.addButton);
+		this.addButton = ComponentFactory.createButtonAdd(listener);
 		
-		this.removeButton = new JButton(Images.getResourceImage(
-				"remove.png",
-				16,
-				16));
-		this.removeButton.setActionCommand("REMOVE");
-		this.removeButton.addActionListener(listener);
+		this.removeButton = ComponentFactory.createButtonRemove(listener);
 		this.removeButton.setEnabled(false);
-		buttonsPanel.add(this.removeButton);
 		
 		this.defaultButton = new JButton(Images.getResourceImage(
 				"properties.png",
@@ -207,7 +193,13 @@ abstract class TemplateList extends JPanel {
 		this.defaultButton.setToolTipText(Translations.getString("general.set_default"));
 		this.defaultButton.addActionListener(listener);
 		this.defaultButton.setEnabled(false);
-		buttonsPanel.add(this.defaultButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				this.addButton,
+				this.removeButton,
+				this.defaultButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 	public Template getSelectedTemplate() {
