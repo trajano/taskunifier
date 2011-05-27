@@ -45,8 +45,6 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -66,7 +64,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public class TaskFilterElementPanel extends JPanel {
 	
@@ -367,18 +365,12 @@ public class TaskFilterElementPanel extends JPanel {
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		FormLayout layout = new FormLayout(
-				"fill:default:grow, 10dlu, fill:default:grow, 10dlu, fill:default:grow",
-				"");
+		FormBuilder builder = new FormBuilder(
+				"fill:default:grow, 10dlu, fill:default:grow, 10dlu, fill:default:grow");
 		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-		
-		builder.append(Translations.getString("searcheredit.element.column")
-				+ ":");
-		builder.append(Translations.getString("searcheredit.element.condition")
-				+ ":");
-		builder.append(Translations.getString("searcheredit.element.value")
-				+ ":");
+		builder.appendI15d("searcheredit.element.column", true);
+		builder.appendI15d("searcheredit.element.condition", true);
+		builder.appendI15d("searcheredit.element.value", true);
 		
 		// Column
 		this.elementColumn = new JComboBox();

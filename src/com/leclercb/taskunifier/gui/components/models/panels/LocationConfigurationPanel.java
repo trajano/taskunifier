@@ -53,8 +53,6 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -66,6 +64,7 @@ import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -167,33 +166,31 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				rightPanel,
 				false));
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		// Location Title
-		builder.append(
-				Translations.getString("general.location.title") + ":",
-				locationTitle);
+		builder.appendI15d("general.location.title", true, locationTitle);
 		
 		// Location Description
-		builder.append(Translations.getString("general.location.description")
-				+ ":", new JScrollPane(locationDescription));
+		builder.appendI15d(
+				"general.location.description",
+				true,
+				new JScrollPane(locationDescription));
 		
 		// Location Latitude
-		builder.append(Translations.getString("general.location.latitude")
-				+ ":", locationLatitude);
+		builder.appendI15d("general.location.latitude", true, locationLatitude);
 		
 		// Location Longitude
-		builder.append(Translations.getString("general.location.longitude")
-				+ ":", locationLongitude);
+		builder.appendI15d(
+				"general.location.longitude",
+				true,
+				locationLongitude);
 		
 		// Location Color
 		JPanel p = new JPanel(new BorderLayout(5, 0));
 		
-		builder.append(Translations.getString("general.color") + ":", p);
+		builder.appendI15d("general.color", true, p);
 		
 		locationColor.setPreferredSize(new Dimension(24, 24));
 		locationColor.setBorder(BorderFactory.createEmptyBorder());

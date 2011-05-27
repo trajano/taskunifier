@@ -50,13 +50,12 @@ import javax.swing.filechooser.FileFilter;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public abstract class AbstractImportDialog extends JDialog {
 	
@@ -100,11 +99,8 @@ public abstract class AbstractImportDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.NORTH);
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		// Import file
 		this.fileChooser = new JFileChooser();
@@ -148,16 +144,15 @@ public abstract class AbstractImportDialog extends JDialog {
 		importFilePanel.add(this.importFile, BorderLayout.CENTER);
 		importFilePanel.add(openFile, BorderLayout.EAST);
 		
-		builder.append(
-				Translations.getString("import.file_to_import"),
-				importFilePanel);
+		builder.appendI15d("import.file_to_import", true, importFilePanel);
 		
 		// Replace values
 		if (showReplaceValues) {
 			this.replaceValues = new JCheckBox();
 			
-			builder.append(
-					Translations.getString("import.delete_existing_values"),
+			builder.appendI15d(
+					"import.delete_existing_values",
+					true,
 					this.replaceValues);
 		}
 		

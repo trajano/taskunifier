@@ -53,14 +53,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskSearcherPanel extends JPanel implements PropertyChangeListener {
@@ -87,11 +86,8 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		// Type
 		DefaultComboBoxModel searcherTypeModel = new DefaultComboBoxModel();
@@ -111,8 +107,10 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			}
 		});
 		
-		builder.append(Translations.getString("searcheredit.searcher.type")
-				+ ":", this.searcherType);
+		builder.appendI15d(
+				"searcheredit.searcher.type",
+				true,
+				this.searcherType);
 		
 		// Icon
 		JPanel iconPanel = new JPanel(new BorderLayout());
@@ -190,8 +188,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			
 		});
 		
-		builder.append(Translations.getString("searcheredit.searcher.icon")
-				+ ":", iconPanel);
+		builder.appendI15d("searcheredit.searcher.icon", true, iconPanel);
 		
 		// Title
 		this.searcherTitle = new JTextField(this.searcher.getTitle());
@@ -204,8 +201,10 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			
 		});
 		
-		builder.append(Translations.getString("searcheredit.searcher.title")
-				+ ":", this.searcherTitle);
+		builder.appendI15d(
+				"searcheredit.searcher.title",
+				true,
+				this.searcherTitle);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);

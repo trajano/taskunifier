@@ -41,11 +41,10 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -121,11 +120,8 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		String label = null;
 		Component component = null;

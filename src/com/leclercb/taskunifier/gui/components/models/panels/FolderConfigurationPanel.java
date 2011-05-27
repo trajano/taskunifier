@@ -49,8 +49,6 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -62,6 +60,7 @@ import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -143,21 +142,16 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 				rightPanel,
 				false));
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		// Folder Title
-		builder.append(
-				Translations.getString("general.folder.title") + ":",
-				folderTitle);
+		builder.appendI15d("general.folder.title", true, folderTitle);
 		
 		// Folder Color
 		JPanel p = new JPanel(new BorderLayout(5, 0));
 		
-		builder.append(Translations.getString("general.color") + ":", p);
+		builder.appendI15d("general.color", true, p);
 		
 		folderColor.setPreferredSize(new Dimension(24, 24));
 		folderColor.setBorder(BorderFactory.createEmptyBorder());

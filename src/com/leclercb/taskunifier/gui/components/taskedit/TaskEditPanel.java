@@ -53,8 +53,6 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -86,6 +84,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -189,26 +188,17 @@ public class TaskEditPanel extends JPanel {
 		this.taskStar = new JCheckBox();
 		this.taskNote = new JTextArea(3, 5);
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow");
 		
 		// Task Title
-		builder.append(
-				Translations.getString("general.task.title") + ":",
-				this.taskTitle);
+		builder.appendI15d("general.task.title", true, this.taskTitle);
 		
 		// Task Tags
-		builder.append(
-				Translations.getString("general.task.tags") + ":",
-				this.taskTags);
+		builder.appendI15d("general.task.tags", true, this.taskTags);
 		
 		// Task Star
-		builder.append(
-				Translations.getString("general.task.star") + ":",
-				this.taskStar);
+		builder.appendI15d("general.task.star", true, this.taskStar);
 		
 		this.taskStar.setIcon(Images.getResourceImage(
 				"checkbox_star.png",
@@ -220,89 +210,64 @@ public class TaskEditPanel extends JPanel {
 				18));
 		
 		// Task Completed
-		builder.append(
-				Translations.getString("general.task.completed") + ":",
-				this.taskCompleted);
+		builder.appendI15d("general.task.completed", true, this.taskCompleted);
 		
 		// Task Context
-		builder.append(
-				Translations.getString("general.task.context") + ":",
-				this.taskContext);
+		builder.appendI15d("general.task.context", true, this.taskContext);
 		
 		// Task Folder
-		builder.append(
-				Translations.getString("general.task.folder") + ":",
-				this.taskFolder);
+		builder.appendI15d("general.task.folder", true, this.taskFolder);
 		
 		// Task Goal
-		builder.append(
-				Translations.getString("general.task.goal") + ":",
-				this.taskGoal);
+		builder.appendI15d("general.task.goal", true, this.taskGoal);
 		
 		// Task Location
-		builder.append(
-				Translations.getString("general.task.location") + ":",
-				this.taskLocation);
+		builder.appendI15d("general.task.location", true, this.taskLocation);
 		
 		// Task Parent
-		builder.append(
-				Translations.getString("general.task.parent") + ":",
-				this.taskParent);
+		builder.appendI15d("general.task.parent", true, this.taskParent);
 		
 		// Empty
 		builder.append("", new JLabel());
 		
 		// Task Due Date
-		builder.append(
-				Translations.getString("general.task.due_date") + ":",
-				this.taskDueDate);
+		builder.appendI15d("general.task.due_date", true, this.taskDueDate);
 		
 		// Task Start Date
-		builder.append(
-				Translations.getString("general.task.start_date") + ":",
-				this.taskStartDate);
+		builder.appendI15d("general.task.start_date", true, this.taskStartDate);
 		
 		// Task Reminder
-		builder.append(
-				Translations.getString("general.task.reminder") + ":",
-				this.taskReminder);
+		builder.appendI15d("general.task.reminder", true, this.taskReminder);
 		
 		this.taskReminder.setRenderer(new DefaultListRenderer(
 				new StringValueTaskReminder()));
 		this.taskReminder.setEditable(true);
 		
 		// Task Length
-		builder.append(
-				Translations.getString("general.task.length") + ":",
-				this.taskLength);
+		builder.appendI15d("general.task.length", true, this.taskLength);
 		
 		// Task Repeat
-		builder.append(
-				Translations.getString("general.task.repeat") + ":",
-				this.taskRepeat);
+		builder.appendI15d("general.task.repeat", true, this.taskRepeat);
 		
 		ComponentFactory.createRepeatComboBox(this.taskRepeat);
 		
 		// Task Repeat From
-		builder.append(
-				Translations.getString("general.task.repeat_from") + ":",
+		builder.appendI15d(
+				"general.task.repeat_from",
+				true,
 				this.taskRepeatFrom);
 		
 		this.taskRepeatFrom.setRenderer(new DefaultListRenderer(
 				new StringValueTaskRepeatFrom()));
 		
 		// Task Status
-		builder.append(
-				Translations.getString("general.task.status") + ":",
-				this.taskStatus);
+		builder.appendI15d("general.task.status", true, this.taskStatus);
 		
 		this.taskStatus.setRenderer(new DefaultListRenderer(
 				new StringValueTaskStatus()));
 		
 		// Task Priority
-		builder.append(
-				Translations.getString("general.task.priority") + ":",
-				this.taskPriority);
+		builder.appendI15d("general.task.priority", true, this.taskPriority);
 		
 		this.taskPriority.setRenderer(new DefaultListRenderer(
 				new StringValueTaskPriority(),

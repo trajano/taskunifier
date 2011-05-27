@@ -54,8 +54,6 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -84,8 +82,8 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -301,11 +299,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				rightPanel,
 				false));
 		
-		FormLayout layout = new FormLayout(
-				"right:pref, 4dlu, fill:default:grow",
-				"");
-		
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
 		
 		// Help
 		rightPanel.add(
@@ -313,54 +308,39 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				BorderLayout.NORTH);
 		
 		// Template Title
-		builder.append(
-				Translations.getString("general.template.title") + ":",
-				templateTitle);
+		builder.appendI15d("general.template.title", true, templateTitle);
 		
 		// Template Separator
 		builder.appendSeparator();
 		
 		// Template Task Title
-		builder.append(
-				Translations.getString("general.task.title") + ":",
-				templateTaskTitle);
+		builder.appendI15d("general.task.title", true, templateTaskTitle);
 		
 		// Template Task Tags
-		builder.append(
-				Translations.getString("general.task.tags") + ":",
-				templateTaskTags);
+		builder.appendI15d("general.task.tags", true, templateTaskTags);
 		
 		// Template Task Context
-		builder.append(
-				Translations.getString("general.task.context") + ":",
-				templateTaskContext);
+		builder.appendI15d("general.task.context", true, templateTaskContext);
 		
 		// Template Task Folder
-		builder.append(
-				Translations.getString("general.task.folder") + ":",
-				templateTaskFolder);
+		builder.appendI15d("general.task.folder", true, templateTaskFolder);
 		
 		// Template Task Goal
-		builder.append(
-				Translations.getString("general.task.goal") + ":",
-				templateTaskGoal);
+		builder.appendI15d("general.task.goal", true, templateTaskGoal);
 		
 		// Template Task Location
-		builder.append(
-				Translations.getString("general.task.location") + ":",
-				templateTaskLocation);
+		builder.appendI15d("general.task.location", true, templateTaskLocation);
 		
 		// Template Task Completed
-		builder.append(
-				Translations.getString("general.task.completed") + ":",
+		builder.appendI15d(
+				"general.task.completed",
+				true,
 				templateTaskCompleted);
 		
 		// Template Task Due Date
 		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));
 		
-		builder.append(
-				Translations.getString("general.task.due_date") + ":",
-				taskDueDatePanel);
+		builder.appendI15d("general.task.due_date", true, taskDueDatePanel);
 		
 		taskDueDatePanel.add(templateTaskDueDate, BorderLayout.CENTER);
 		taskDueDatePanel.add(templateTaskDueTime, BorderLayout.EAST);
@@ -368,63 +348,50 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		// Template Task Start Date
 		JPanel taskStartDatePanel = new JPanel(new BorderLayout(10, 0));
 		
-		builder.append(
-				Translations.getString("general.task.start_date") + ":",
-				taskStartDatePanel);
+		builder.appendI15d("general.task.start_date", true, taskStartDatePanel);
 		
 		taskStartDatePanel.add(templateTaskStartDate, BorderLayout.CENTER);
 		taskStartDatePanel.add(templateTaskStartTime, BorderLayout.EAST);
 		
 		// Template Task Reminder
-		builder.append(
-				Translations.getString("general.task.reminder") + ":",
-				templateTaskReminder);
+		builder.appendI15d("general.task.reminder", true, templateTaskReminder);
 		
 		templateTaskReminder.setRenderer(new DefaultListRenderer(
 				new StringValueTaskReminder()));
 		templateTaskReminder.setEditable(true);
 		
 		// Template Task Repeat
-		builder.append(
-				Translations.getString("general.task.repeat") + ":",
-				templateTaskRepeat);
+		builder.appendI15d("general.task.repeat", true, templateTaskRepeat);
 		
 		ComponentFactory.createRepeatComboBox(templateTaskRepeat);
 		
 		// Template Task Repeat From
-		builder.append(
-				Translations.getString("general.task.repeat_from") + ":",
+		builder.appendI15d(
+				"general.task.repeat_from",
+				true,
 				templateTaskRepeatFrom);
 		
 		templateTaskRepeatFrom.setRenderer(new DefaultListRenderer(
 				new StringValueTaskRepeatFrom()));
 		
 		// Template Task Status
-		builder.append(
-				Translations.getString("general.task.status") + ":",
-				templateTaskStatus);
+		builder.appendI15d("general.task.status", true, templateTaskStatus);
 		
 		templateTaskStatus.setRenderer(new DefaultListRenderer(
 				new StringValueTaskStatus()));
 		
 		// Template Task Length
-		builder.append(
-				Translations.getString("general.task.length") + ":",
-				templateTaskLength);
+		builder.appendI15d("general.task.length", true, templateTaskLength);
 		
 		// Template Task Priority
-		builder.append(
-				Translations.getString("general.task.priority") + ":",
-				templateTaskPriority);
+		builder.appendI15d("general.task.priority", true, templateTaskPriority);
 		
 		templateTaskPriority.setRenderer(new DefaultListRenderer(
 				new StringValueTaskPriority(),
 				new IconValueTaskPriority()));
 		
 		// Template Task Star
-		builder.append(
-				Translations.getString("general.task.star") + ":",
-				templateTaskStar);
+		builder.appendI15d("general.task.star", true, templateTaskStar);
 		
 		templateTaskStar.setIcon(Images.getResourceImage(
 				"checkbox_star.png",
@@ -436,9 +403,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				18));
 		
 		// Template Task Note
-		builder.append(
-				Translations.getString("general.task.note") + ":",
-				new JScrollPane(templateTaskNote));
+		builder.appendI15d("general.task.note", true, new JScrollPane(
+				templateTaskNote));
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
