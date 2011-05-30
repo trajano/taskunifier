@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.welcome;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,8 +55,11 @@ import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class WelcomeDialog extends JDialog {
 	
 	private CardPanel[] panels = new CardPanel[] {
@@ -80,8 +82,8 @@ public class WelcomeDialog extends JDialog {
 	private JPanel cardPanel;
 	private int currentPanel;
 	
-	public WelcomeDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	public WelcomeDialog(Frame frame) {
+		super(frame);
 		
 		// For API Configuration Panel
 		Main.SETTINGS.addPropertyChangeListener(
@@ -108,39 +110,30 @@ public class WelcomeDialog extends JDialog {
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.welcome"));
 		this.setSize(700, 600);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		JPanel panel = new JPanel();
-		this.add(panel, BorderLayout.CENTER);
-		
 		this.currentPanel = 0;
-		
-		panel.setLayout(new BorderLayout());
 		
 		this.cardPanel = new JPanel();
 		this.cardPanel.setLayout(new CardLayout());
-		panel.add(this.cardPanel, BorderLayout.CENTER);
-		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		panel.add(buttonsPanel, BorderLayout.SOUTH);
+		this.add(this.cardPanel, BorderLayout.CENTER);
 		
 		int i = 0;
 		for (CardPanel cp : this.panels)
 			this.cardPanel.add(cp, "" + i++);
 		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		final JButton previousButton = new JButton(
 				Translations.getString("general.previous"));
 		
@@ -188,11 +181,15 @@ public class WelcomeDialog extends JDialog {
 		previousButton.setActionCommand("PREVIOUS");
 		previousButton.addActionListener(listener);
 		previousButton.setEnabled(false);
-		buttonsPanel.add(previousButton);
 		
 		nextButton.setActionCommand("NEXT");
 		nextButton.addActionListener(listener);
-		buttonsPanel.add(nextButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				previousButton,
+				nextButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 }

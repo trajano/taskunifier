@@ -70,7 +70,6 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(String file) throws Exception {
-		// TODO: keep up to date
 		String[] toImport = new String[] {
 				"date",
 				"general.locale",

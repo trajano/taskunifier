@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.welcome;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,23 +45,25 @@ import javax.swing.WindowConstants;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class LanguageDialog extends JDialog {
 	
 	private GeneralConfigurationPanel generalConfiruationPanel;
 	
-	public LanguageDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	public LanguageDialog(Frame frame) {
+		super(frame);
 		
 		this.initialize();
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.welcome"));
 		this.setSize(400, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
@@ -73,14 +74,10 @@ public class LanguageDialog extends JDialog {
 				false);
 		this.add(this.generalConfiruationPanel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -92,7 +89,10 @@ public class LanguageDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonsPanel.add(okButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 }

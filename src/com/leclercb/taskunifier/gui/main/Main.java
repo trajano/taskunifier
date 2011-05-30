@@ -186,8 +186,8 @@ public class Main {
 				}
 				
 				if (FIRST_EXECUTION) {
-					new LanguageDialog(null, true).setVisible(true);
-					new WelcomeDialog(null, true).setVisible(true);
+					new LanguageDialog(null).setVisible(true);
+					new WelcomeDialog(null).setVisible(true);
 				}
 				
 				MainFrame.getInstance().getFrame().setVisible(true);

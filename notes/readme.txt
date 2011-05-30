@@ -3,6 +3,7 @@ HISTORY
 
 Version 0.9.3
 	- Minor:
+		- Memory leaks
 		- Bug fixed: Completed repeated task
 		- User interface improvements
 		- Background synchronization status in status bar
