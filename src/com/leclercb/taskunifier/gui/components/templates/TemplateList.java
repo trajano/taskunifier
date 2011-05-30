@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ComponentUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -168,7 +169,7 @@ abstract class TemplateList extends JPanel {
 					Template template = TemplateFactory.getInstance().create(
 							Translations.getString("template.default.title"));
 					TemplateList.this.setSelectedTemplate(template);
-					TemplateList.this.focusAndSelectTextInTextField();
+					ComponentUtils.focusAndSelectTextInTextField(TemplateList.this.titleField);
 				} else if (event.getActionCommand().equals("REMOVE")) {
 					Template template = TemplateList.this.getSelectedTemplate();
 					TemplateFactory.getInstance().unregister(template);
@@ -211,14 +212,5 @@ abstract class TemplateList extends JPanel {
 	}
 	
 	public abstract void templateSelected(Template template);
-	
-	private void focusAndSelectTextInTextField() {
-		int length = this.titleField.getText().length();
-		
-		this.titleField.setSelectionStart(0);
-		this.titleField.setSelectionEnd(length);
-		
-		this.titleField.requestFocus();
-	}
 	
 }

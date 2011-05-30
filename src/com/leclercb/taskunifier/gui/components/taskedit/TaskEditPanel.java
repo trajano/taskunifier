@@ -83,6 +83,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ComponentUtils;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -140,6 +141,8 @@ public class TaskEditPanel extends JPanel {
 			this.taskParent.setEnabled(false);
 		else
 			this.taskParent.setEnabled(true);
+		
+		ComponentUtils.focusAndSelectTextInTextField(this.taskTitle);
 	}
 	
 	private void initialize() {

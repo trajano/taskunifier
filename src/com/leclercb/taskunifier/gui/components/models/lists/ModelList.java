@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ComponentUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -162,7 +163,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 					ModelList.this.rowFilter.setTitle(null);
 					Model model = ModelList.this.addModel();
 					ModelList.this.setSelectedModel(model);
-					ModelList.this.focusAndSelectTextInTextField();
+					ComponentUtils.focusAndSelectTextInTextField(ModelList.this.titleField);
 				} else {
 					Model model = ModelList.this.getSelectedModel();
 					ModelList.this.removeModel(model);
@@ -198,14 +199,5 @@ public abstract class ModelList extends JPanel implements IModelList {
 	public abstract void removeModel(Model model);
 	
 	public abstract void modelSelected(Model model);
-	
-	private void focusAndSelectTextInTextField() {
-		int length = this.titleField.getText().length();
-		
-		this.titleField.setSelectionStart(0);
-		this.titleField.setSelectionEnd(length);
-		
-		this.titleField.requestFocus();
-	}
 	
 }
