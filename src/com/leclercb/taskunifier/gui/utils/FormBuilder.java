@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class FormBuilder {
 	
-	DefaultFormBuilder builder;
+	private DefaultFormBuilder builder;
 	
 	public FormBuilder(String layout) {
 		this.builder = new DefaultFormBuilder(new FormLayout(layout, ""));

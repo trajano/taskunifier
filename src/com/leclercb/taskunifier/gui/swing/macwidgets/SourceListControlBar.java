@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
 /**
  * <p>
@@ -59,6 +60,7 @@ import com.explodingpixels.widgets.PopupMenuCustomizer;
  * <img src="../../../../graphics/SourceListControlBar-buttons.png">
  * </p>
  */
+@NoReview
 public class SourceListControlBar {
 	
 	private static final ImageIcon SPLITTER_HANDLE = new ImageIcon(

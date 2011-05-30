@@ -7,6 +7,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
+
+@NoReview
 public class ComponentBottomBar extends TriAreaComponent {
 	
 	ComponentBottomBar() {

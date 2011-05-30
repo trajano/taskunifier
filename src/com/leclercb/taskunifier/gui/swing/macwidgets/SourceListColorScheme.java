@@ -6,7 +6,9 @@ import java.awt.Component;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.explodingpixels.painter.GradientWithBorderPainter;
 import com.explodingpixels.painter.Painter;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
+@NoReview
 public class SourceListColorScheme extends SourceListStandardColorScheme {
 	
 	private static final Painter<Component> ACTIVE_FOCUSED_SELECTION_PAINTER = createSourceListActiveFocusedSelectionPainter();

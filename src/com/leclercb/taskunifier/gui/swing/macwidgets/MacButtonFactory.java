@@ -22,10 +22,12 @@ import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.swingx.EPButton;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
 /**
  * A factory for creating Mac-style buttons.
  */
+@NoReview
 public class MacButtonFactory {
 	
 	// Unified toolbar button methods.

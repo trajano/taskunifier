@@ -40,6 +40,9 @@ import java.awt.RenderingHints;
 
 import javax.swing.Icon;
 
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
 public class ColorBadgeIcon implements Icon {
 	
 	private Color color;

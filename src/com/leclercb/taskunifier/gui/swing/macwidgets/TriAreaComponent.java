@@ -13,10 +13,12 @@ import com.explodingpixels.widgets.WindowDragger;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
 /**
  * A component that has three areas in which it widgets can be added.
  */
+@NoReview
 public class TriAreaComponent {
 	
 	private PanelBuilder fLeftPanelBuilder = new PanelBuilder(new FormLayout(

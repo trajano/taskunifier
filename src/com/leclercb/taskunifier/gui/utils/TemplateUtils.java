@@ -12,7 +12,9 @@ import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class TemplateUtils {
 	
 	private TemplateUtils() {

@@ -35,6 +35,7 @@ import com.explodingpixels.macwidgets.SourceListModelListener;
 import com.explodingpixels.macwidgets.SourceListSelectionListener;
 import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
 /**
  * An implementation of an OS X Source List. For a full descrption of what a
@@ -81,6 +82,7 @@ import com.explodingpixels.widgets.TreeUtils;
  * {@link #setSourceListContextMenuProvider(SourceListContextMenuProvider)} with
  * an implementation of {@link SourceListContextMenuProvider}.
  */
+@NoReview
 public class SourceList {
 	
 	private final SourceListModel fModel;

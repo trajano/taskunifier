@@ -2,11 +2,13 @@ package com.leclercb.taskunifier.gui.swing.macwidgets;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListItem;
+import com.leclercb.taskunifier.gui.utils.review.NoReview;
 
 /**
  * An interface that allows implementors to supply the tool tip for a
  * {@link SourceListCategory} or {@link SourceListItem}.
  */
+@NoReview
 public interface SourceListToolTipProvider {
 	
 	/**
