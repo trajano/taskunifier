@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.components.export_data;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -87,10 +89,20 @@ abstract class AbstractExportDialog extends JDialog {
 		this.setSize(500, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				AbstractExportDialog.this.exportFile.setText(null);
+				AbstractExportDialog.this.setVisible(false);
+			}
+			
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -164,6 +176,7 @@ abstract class AbstractExportDialog extends JDialog {
 				if (event.getActionCommand() == "EXPORT") {
 					try {
 						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
+						AbstractExportDialog.this.exportFile.setText(null);
 						AbstractExportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
@@ -182,6 +195,7 @@ abstract class AbstractExportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
+					AbstractExportDialog.this.exportFile.setText(null);
 					AbstractExportDialog.this.setVisible(false);
 				}
 			}

@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.components.import_data;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -90,10 +92,21 @@ abstract class AbstractImportDialog extends JDialog {
 		this.setSize(500, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				AbstractImportDialog.this.importFile.setText(null);
+				AbstractImportDialog.this.replaceValues.setSelected(false);
+				AbstractImportDialog.this.setVisible(false);
+			}
+			
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -176,6 +189,8 @@ abstract class AbstractImportDialog extends JDialog {
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());
 						
+						AbstractImportDialog.this.importFile.setText(null);
+						AbstractImportDialog.this.replaceValues.setSelected(false);
 						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
@@ -194,6 +209,8 @@ abstract class AbstractImportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
+					AbstractImportDialog.this.importFile.setText(null);
+					AbstractImportDialog.this.replaceValues.setSelected(false);
 					AbstractImportDialog.this.setVisible(false);
 				}
 			}
