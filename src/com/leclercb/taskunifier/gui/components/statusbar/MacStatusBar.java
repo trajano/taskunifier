@@ -32,58 +32,51 @@
  */
 package com.leclercb.taskunifier.gui.components.statusbar;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import com.explodingpixels.macwidgets.BottomBar;
 import com.explodingpixels.macwidgets.BottomBarSize;
 import com.explodingpixels.macwidgets.MacWidgetFactory;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class MacStatusBar extends AbstractStatusBar {
+@Reviewed
+public class MacStatusBar extends BottomBar implements StatusBar {
 	
-	public MacStatusBar() {
+	private ScheduledSyncThread thread;
+	
+	private JLabel synchronizerStatus;
+	private JLabel lastSynchronizationDate;
+	private JLabel scheduledSyncStatus;
+	
+	public MacStatusBar(ScheduledSyncThread thread) {
+		super(BottomBarSize.LARGE);
+		
+		CheckUtils.isNotNull(thread, "Thread cannot be null");
+		this.thread = thread;
+		
 		this.initialize();
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
+		this.synchronizerStatus = StatusBarElements.createSynchronizerStatus();
+		MacWidgetFactory.makeEmphasizedLabel(this.synchronizerStatus);
+		this.addComponentToLeft(this.synchronizerStatus);
 		
-		BottomBar bottomBar = new BottomBar(BottomBarSize.LARGE);
-		this.add(bottomBar.getComponent(), BorderLayout.CENTER);
+		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus(this.thread);
+		MacWidgetFactory.makeEmphasizedLabel(this.scheduledSyncStatus);
+		this.addComponentToCenter(this.scheduledSyncStatus);
 		
-		this.synchronizerStatus = new MacStatusElement();
-		bottomBar.addComponentToLeft(this.synchronizerStatus.getComponent());
-		
-		this.scheduledSyncStatus = new MacStatusElement();
-		bottomBar.addComponentToCenter(this.scheduledSyncStatus.getComponent());
-		
-		this.lastSynchronizationDate = new MacStatusElement();
-		bottomBar.addComponentToRight(this.lastSynchronizationDate.getComponent());
-		
-		this.initializeSynchronizerStatus();
-		this.initializeLastSynchronizationDate();
+		this.lastSynchronizationDate = StatusBarElements.createLastSynchronizationDate();
+		MacWidgetFactory.makeEmphasizedLabel(this.lastSynchronizationDate);
+		this.addComponentToLeft(this.lastSynchronizationDate);
 	}
 	
-	private static class MacStatusElement implements StatusElement {
-		
-		private JLabel label;
-		
-		public MacStatusElement() {
-			this.label = MacWidgetFactory.createEmphasizedLabel("");
-		}
-		
-		@Override
-		public void setText(String text) {
-			this.label.setText(text);
-		}
-		
-		@Override
-		public JComponent getComponent() {
-			return this.label;
-		}
-		
+	@Override
+	public JComponent getStatusBar() {
+		return this.getComponent();
 	}
 	
 }

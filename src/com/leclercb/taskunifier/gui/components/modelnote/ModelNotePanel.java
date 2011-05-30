@@ -56,7 +56,9 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
 	
 	private JXEditorPane htmlNote;
@@ -80,7 +82,6 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		
 		this.htmlNote.setEnabled(false);
 		this.htmlNote.setEditable(false);
-		// this.htmlNote.setEditorKit(new StyledEditorKit());
 		this.htmlNote.setContentType("text/html");
 		this.htmlNote.setText(Translations.getString("error.select_one_row"));
 		this.htmlNote.addMouseListener(new MouseAdapter() {

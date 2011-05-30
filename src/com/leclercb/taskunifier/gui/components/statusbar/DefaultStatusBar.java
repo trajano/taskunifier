@@ -32,68 +32,50 @@
  */
 package com.leclercb.taskunifier.gui.components.statusbar;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
-public class DefaultStatusBar extends AbstractStatusBar {
+import org.jdesktop.swingx.JXStatusBar;
+import org.jdesktop.swingx.JXStatusBar.Constraint.ResizeBehavior;
+
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
+public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	
-	public DefaultStatusBar() {
+	private ScheduledSyncThread thread;
+	
+	private JLabel synchronizerStatus;
+	private JLabel lastSynchronizationDate;
+	private JLabel scheduledSyncStatus;
+	
+	public DefaultStatusBar(ScheduledSyncThread thread) {
+		CheckUtils.isNotNull(thread, "Thread cannot be null");
+		this.thread = thread;
+		
 		this.initialize();
 	}
 	
 	private void initialize() {
-		this.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.setBorder(new EmptyBorder(1, 1, 1, 1));
+		JXStatusBar.Constraint c = null;
 		
-		this.synchronizerStatus = new DefaultStatusElement();
-		this.add(this.synchronizerStatus.getComponent());
+		c = new JXStatusBar.Constraint(ResizeBehavior.FILL);
+		this.synchronizerStatus = StatusBarElements.createSynchronizerStatus();
+		this.add(this.synchronizerStatus, c);
 		
-		this.scheduledSyncStatus = new DefaultStatusElement();
-		this.add(this.scheduledSyncStatus.getComponent());
+		c = new JXStatusBar.Constraint(300);
+		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus(this.thread);
+		this.add(this.scheduledSyncStatus, c);
 		
-		this.lastSynchronizationDate = new DefaultStatusElement();
-		this.add(this.lastSynchronizationDate.getComponent());
-		
-		this.initializeSynchronizerStatus();
-		this.initializeLastSynchronizationDate();
+		c = new JXStatusBar.Constraint(300);
+		this.lastSynchronizationDate = StatusBarElements.createLastSynchronizationDate();
+		this.add(this.lastSynchronizationDate, c);
 	}
 	
-	private class DefaultStatusElement extends JPanel implements StatusElement {
-		
-		private JLabel label;
-		
-		public DefaultStatusElement() {
-			this.initialize();
-		}
-		
-		private void initialize() {
-			this.setLayout(new BorderLayout());
-			this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			
-			this.label = new JLabel("");
-			this.label.setHorizontalAlignment(SwingConstants.TRAILING);
-			this.label.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-			this.add(this.label, BorderLayout.CENTER);
-		}
-		
-		@Override
-		public void setText(String text) {
-			this.label.setText(text);
-		}
-		
-		@Override
-		public JComponent getComponent() {
-			return this;
-		}
-		
+	@Override
+	public JXStatusBar getStatusBar() {
+		return this;
 	}
 	
 }

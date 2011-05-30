@@ -42,7 +42,9 @@ import javax.swing.JTextField;
 
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class RepeatEditor extends DefaultCellEditor {
 	
 	public RepeatEditor() {

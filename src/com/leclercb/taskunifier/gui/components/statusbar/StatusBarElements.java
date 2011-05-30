@@ -36,41 +36,44 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public abstract class AbstractStatusBar extends JPanel {
+@Reviewed
+final class StatusBarElements {
 	
-	protected StatusElement synchronizerStatus;
-	protected StatusElement lastSynchronizationDate;
-	protected StatusElement scheduledSyncStatus;
-	
-	public AbstractStatusBar() {
+	private StatusBarElements() {
 
 	}
 	
-	protected final void initializeSynchronizerStatus() {
+	public static final JLabel createSynchronizerStatus() {
+		final JLabel element = new JLabel();
+		
 		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
 			
 			@Override
 			public void showMessage(String message) {
-				AbstractStatusBar.this.synchronizerStatus.setText(Translations.getString("synchronizer.status")
+				element.setText(Translations.getString("synchronizer.status")
 						+ ": "
 						+ message);
 			}
 			
 		});
 		
-		AbstractStatusBar.this.synchronizerStatus.setText(Translations.getString("synchronizer.status")
-				+ ": ");
+		element.setText(Translations.getString("synchronizer.status") + ": ");
+		
+		return element;
 	}
 	
-	protected final void initializeLastSynchronizationDate() {
+	public static final JLabel createLastSynchronizationDate() {
+		final JLabel element = new JLabel();
+		
 		final SimpleDateFormat dateFormat = new SimpleDateFormat(
 				Main.SETTINGS.getStringProperty("date.date_format")
 						+ " "
@@ -82,7 +85,7 @@ public abstract class AbstractStatusBar extends JPanel {
 			date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
 					"synchronizer.last_synchronization_date").getTime());
 		
-		this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
+		element.setText(Translations.getString("statusbar.last_synchronization_date")
 				+ ": "
 				+ date);
 		
@@ -98,17 +101,21 @@ public abstract class AbstractStatusBar extends JPanel {
 							date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
 									"synchronizer.last_synchronization_date").getTime());
 						
-						AbstractStatusBar.this.lastSynchronizationDate.setText(Translations.getString("statusbar.last_synchronization_date")
+						element.setText(Translations.getString("statusbar.last_synchronization_date")
 								+ ": "
 								+ date);
 					}
 					
 				});
+		
+		return element;
 	}
 	
-	public final void initializeScheduledSyncStatus(
+	public static final JLabel createScheduledSyncStatus(
 			final ScheduledSyncThread thread) {
-		this.updateScheduledSyncStatusText(thread);
+		final JLabel element = new JLabel();
+		
+		updateScheduledSyncStatus(element, thread);
 		
 		Main.SETTINGS.addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
@@ -116,7 +123,7 @@ public abstract class AbstractStatusBar extends JPanel {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
+						updateScheduledSyncStatus(element, thread);
 					}
 					
 				});
@@ -127,13 +134,17 @@ public abstract class AbstractStatusBar extends JPanel {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						AbstractStatusBar.this.updateScheduledSyncStatusText(thread);
+						updateScheduledSyncStatus(element, thread);
 					}
 					
 				});
+		
+		return element;
 	}
 	
-	private final void updateScheduledSyncStatusText(ScheduledSyncThread thread) {
+	private static final void updateScheduledSyncStatus(
+			JLabel element,
+			ScheduledSyncThread thread) {
 		String text = null;
 		
 		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled")) {
@@ -152,7 +163,7 @@ public abstract class AbstractStatusBar extends JPanel {
 					Translations.getString("statusbar.never"));
 		}
 		
-		AbstractStatusBar.this.scheduledSyncStatus.setText(text);
+		element.setText(text);
 	}
 	
 }

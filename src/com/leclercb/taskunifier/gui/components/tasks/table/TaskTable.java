@@ -71,7 +71,9 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTable extends JXTable {
 	
 	private TaskTableMenu taskTableMenu;
@@ -199,7 +201,7 @@ public class TaskTable extends JXTable {
 		this.initializeTaskTableMenu();
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
-		this.initializeHighlighter();
+		this.initializeHighlighters();
 	}
 	
 	private void initializeDeleteTask() {
@@ -294,7 +296,7 @@ public class TaskTable extends JXTable {
 				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
-	private void initializeHighlighter() {
+	private void initializeHighlighters() {
 		this.setHighlighters(
 				new TaskAlternateHighlighter(),
 				new TaskHighlighter(new TaskHighlightPredicate()),

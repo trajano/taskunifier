@@ -52,6 +52,7 @@ import javax.swing.JSplitPane;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -78,9 +79,9 @@ import com.leclercb.taskunifier.gui.components.notes.NotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
-import com.leclercb.taskunifier.gui.components.statusbar.AbstractStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
+import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
@@ -418,16 +419,17 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeStatusBar() {
-		AbstractStatusBar statusBar = null;
+		StatusBar statusBar = null;
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
-			statusBar = new MacStatusBar();
+			statusBar = new MacStatusBar(this.scheduledSyncThread);
 		else
-			statusBar = new DefaultStatusBar();
+			statusBar = new DefaultStatusBar(this.scheduledSyncThread);
 		
-		statusBar.initializeScheduledSyncStatus(this.scheduledSyncThread);
-		
-		this.add(statusBar, BorderLayout.SOUTH);
+		if (statusBar.getStatusBar() instanceof JXStatusBar)
+			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());
+		else
+			this.add(statusBar.getStatusBar(), BorderLayout.SOUTH);
 	}
 	
 	private void initializeSearchField() {

@@ -46,7 +46,9 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskTableMenu extends JPopupMenu {
 	
 	private TaskTable taskTable;
@@ -75,9 +77,17 @@ public class TaskTableMenu extends JPopupMenu {
 	}
 	
 	private void initialize() {
+		this.initializeItemEditTask();
+		this.initializeItemDuplicateTasks();
+		this.addSeparator();
+		this.initializeItemSortTasks();
+	}
+	
+	private void initializeItemEditTask() {
 		this.itemEditTask = new JMenuItem(
 				Translations.getString("action.name.edit_task"),
 				Images.getResourceImage("edit.png", 16, 16));
+		
 		this.itemEditTask.addActionListener(new ActionListener() {
 			
 			@Override
@@ -93,10 +103,13 @@ public class TaskTableMenu extends JPopupMenu {
 		this.itemEditTask.setEnabled(false);
 		
 		this.add(this.itemEditTask);
-		
+	}
+	
+	private void initializeItemDuplicateTasks() {
 		this.itemDuplicateTasks = new JMenuItem(
 				Translations.getString("general.duplicate_tasks"),
 				Images.getResourceImage("paste.png", 16, 16));
+		
 		this.itemDuplicateTasks.addActionListener(new ActionListener() {
 			
 			@Override
@@ -117,12 +130,13 @@ public class TaskTableMenu extends JPopupMenu {
 		});
 		
 		this.add(this.itemDuplicateTasks);
-		
-		this.addSeparator();
-		
+	}
+	
+	private void initializeItemSortTasks() {
 		this.itemSortTasks = new JMenuItem(
 				Translations.getString("general.sort"),
 				Images.getResourceImage("synchronize.png", 16, 16));
+		
 		this.itemSortTasks.addActionListener(new ActionListener() {
 			
 			@Override

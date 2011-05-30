@@ -153,6 +153,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	
 	@Override
 	protected void done() {
+		Constants.PROGRESS_MONITOR.clear();
 		SynchronizerUtils.removeOldCompletedTasks();
 		Synchronizing.setSynchronizing(false);
 	}

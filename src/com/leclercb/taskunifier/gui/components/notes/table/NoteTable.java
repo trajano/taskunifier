@@ -60,7 +60,9 @@ import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitl
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class NoteTable extends JXTable {
 	
 	private NoteRowFilter filter;
@@ -185,7 +187,7 @@ public class NoteTable extends JXTable {
 		this.initializeDeleteNote();
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
-		this.initializeHighlighter();
+		this.initializeHighlighters();
 	}
 	
 	private void initializeDeleteNote() {
@@ -235,7 +237,7 @@ public class NoteTable extends JXTable {
 				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
-	private void initializeHighlighter() {
+	private void initializeHighlighters() {
 		this.setHighlighters(
 				new AlternateHighlighter(),
 				new NoteTitleHighlighter(new NoteTitleHighlightPredicate()),
