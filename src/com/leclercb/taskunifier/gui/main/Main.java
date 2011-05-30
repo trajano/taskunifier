@@ -166,23 +166,21 @@ public class Main {
 									laf.getIdentifier());
 						}
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Throwable t) {
+					t.printStackTrace();
 					
 					ErrorInfo info = new ErrorInfo(
 							Translations.getString("general.error"),
-							e.getMessage(),
+							t.getMessage(),
 							null,
 							null,
-							e,
+							t,
 							null,
 							null);
 					
 					JXErrorPane.showDialog(
 							MainFrame.getInstance().getFrame(),
 							info);
-					
-					return;
 				}
 				
 				if (FIRST_EXECUTION) {
