@@ -46,7 +46,9 @@ import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 	
 	public ActionRedo() {
@@ -61,6 +63,7 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.redo"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Y,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

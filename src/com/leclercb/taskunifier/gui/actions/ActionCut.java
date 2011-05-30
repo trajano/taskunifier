@@ -44,7 +44,9 @@ import javax.swing.TransferHandler;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionCut extends AbstractAction {
 	
 	public ActionCut() {
@@ -59,9 +61,11 @@ public class ActionCut extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.cut"));
+		
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getCutAction().getValue(Action.NAME));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_X,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

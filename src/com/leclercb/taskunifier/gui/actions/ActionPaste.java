@@ -44,7 +44,9 @@ import javax.swing.TransferHandler;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionPaste extends AbstractAction {
 	
 	public ActionPaste() {
@@ -59,9 +61,11 @@ public class ActionPaste extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.paste"));
+		
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getPasteAction().getValue(Action.NAME));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_V,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
