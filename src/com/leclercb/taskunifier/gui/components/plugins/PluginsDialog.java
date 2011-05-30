@@ -33,8 +33,6 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,22 +43,48 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class PluginsDialog extends JDialog {
 	
-	public PluginsDialog(Frame frame, boolean modal) {
-		super(frame, modal);
+	private static PluginsDialog INSTANCE;
+	
+	public static PluginsDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new PluginsDialog();
+		
+		return INSTANCE;
+	}
+	
+	private PluginsPanel pluginsPanel;
+	
+	private PluginsDialog() {
+		super(MainFrame.getInstance().getFrame());
 		
 		this.initialize();
 	}
 	
+	@Override
+	public void setVisible(boolean b) {
+		if (b) {
+			this.pluginsPanel.reloadPlugins();
+		}
+		
+		super.setVisible(b);
+	}
+	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_plugins"));
 		this.setSize(650, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -71,39 +95,34 @@ public class PluginsDialog extends JDialog {
 		header.setIcon(Images.getResourceImage("settings.png", 32, 32));
 		this.add(header, BorderLayout.NORTH);
 		
+		this.pluginsPanel = new PluginsPanel();
+		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.add(this.pluginsPanel, BorderLayout.CENTER);
+		
 		this.add(mainPanel, BorderLayout.CENTER);
 		
-		PluginsPanel pluginsPanel = new PluginsPanel();
-		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
-		mainPanel.add(pluginsPanel, BorderLayout.CENTER);
-		mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "CLOSE") {
-					PluginsDialog.this.dispose();
+					PluginsDialog.this.setVisible(false);
 				}
 			}
 			
 		};
 		
-		JButton closeButton = new JButton(
-				Translations.getString("general.close"));
-		closeButton.setActionCommand("CLOSE");
-		closeButton.addActionListener(listener);
-		buttonsPanel.add(closeButton);
+		JButton closeButton = ComponentFactory.createButtonClose(listener);
 		
+		JPanel panel = ComponentFactory.createButtonsPanel(closeButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(closeButton);
 	}
 	

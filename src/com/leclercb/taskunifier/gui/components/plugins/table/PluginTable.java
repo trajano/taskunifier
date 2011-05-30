@@ -32,22 +32,31 @@
  */
 package com.leclercb.taskunifier.gui.components.plugins.table;
 
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import com.leclercb.taskunifier.gui.components.plugins.Plugin;
-import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-public class PluginTable extends JTable {
+import com.leclercb.taskunifier.gui.api.plugins.Plugin;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
+import com.leclercb.taskunifier.gui.commons.values.IconValuePluginStatus;
+import com.leclercb.taskunifier.gui.commons.values.StringValuePluginStatus;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
+public class PluginTable extends JXTable {
 	
-	public PluginTable(Plugin[] plugins) {
-		this.initialize(plugins);
+	public PluginTable() {
+		this.initialize();
 	}
 	
-	private void initialize(Plugin[] plugins) {
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setModel(new PluginTableModel(plugins));
-		this.setDefaultRenderer(PluginStatus.class, new PluginStatusRenderer());
+	public Plugin[] getPlugins() {
+		return ((PluginTableModel) this.getModel()).getPlugins();
+	}
+	
+	public void setPlugins(Plugin[] plugins) {
+		((PluginTableModel) this.getModel()).setPlugins(plugins);
 	}
 	
 	public Plugin getSelectedPlugin() {
@@ -57,6 +66,20 @@ public class PluginTable extends JTable {
 			return null;
 		
 		return ((PluginTableModel) this.getModel()).getPlugin(index);
+	}
+	
+	private void initialize() {
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setModel(new PluginTableModel());
+		this.setDefaultRenderer(PluginStatus.class, new DefaultTableRenderer(
+				new StringValuePluginStatus(),
+				new IconValuePluginStatus()));
+		
+		this.initializeHighlighters();
+	}
+	
+	private void initializeHighlighters() {
+		this.setHighlighters(new AlternateHighlighter());
 	}
 	
 }

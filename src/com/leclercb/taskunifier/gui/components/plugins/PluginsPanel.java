@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,12 +43,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.table.PluginTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
 	private PluginTable table;
@@ -64,11 +67,14 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		this.initialize();
 	}
 	
+	public void reloadPlugins() {
+		this.table.setPlugins(PluginsUtils.loadAndUpdatePluginsFromXML(false));
+	}
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		this.table = new PluginTable(
-				PluginsUtils.loadAndUpdatePluginsFromXML(false));
+		this.table = new PluginTable();
 		this.table.getSelectionModel().addListSelectionListener(this);
 		
 		this.add(
@@ -84,13 +90,10 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 				ComponentFactory.createJScrollPane(this.history, true),
 				BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		bottomPanel.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel(bottomPanel);
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel(JPanel bottomPanel) {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -110,6 +113,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						}
 						
 					};
+					
 					dialog.setVisible(true);
 				}
 				
@@ -128,6 +132,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						}
 						
 					};
+					
 					dialog.setVisible(true);
 				}
 				
@@ -146,6 +151,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						}
 						
 					};
+					
 					dialog.setVisible(true);
 				}
 				
@@ -159,21 +165,25 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		this.installButton.setActionCommand("INSTALL");
 		this.installButton.addActionListener(listener);
 		this.installButton.setEnabled(false);
-		buttonsPanel.add(this.installButton);
 		
 		this.updateButton = new JButton(
 				Translations.getString("general.update"));
 		this.updateButton.setActionCommand("UPDATE");
 		this.updateButton.addActionListener(listener);
 		this.updateButton.setEnabled(false);
-		buttonsPanel.add(this.updateButton);
 		
 		this.deleteButton = new JButton(
 				Translations.getString("general.delete"));
 		this.deleteButton.setActionCommand("DELETE");
 		this.deleteButton.addActionListener(listener);
 		this.deleteButton.setEnabled(false);
-		buttonsPanel.add(this.deleteButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				this.installButton,
+				this.updateButton,
+				this.deleteButton);
+		
+		bottomPanel.add(panel, BorderLayout.SOUTH);
 	}
 	
 	@Override

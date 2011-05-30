@@ -30,53 +30,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.plugins.table;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Color;
-import java.awt.Component;
+import org.jdesktop.swingx.renderer.StringValue;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
-
-public class PluginStatusRenderer extends DefaultTableCellRenderer {
+@Reviewed
+public class StringValuePluginStatus implements StringValue {
 	
 	@Override
-	public Component getTableCellRendererComponent(
-			JTable table,
-			Object value,
-			boolean isSelected,
-			boolean hasFocus,
-			int row,
-			int column) {
-		PluginStatus status = (PluginStatus) value;
-		switch (status) {
-			case DELETED:
-				this.setIcon(new ColorBadgeIcon(Color.RED, 10, 10));
-				break;
-			case INSTALLED:
-				this.setIcon(new ColorBadgeIcon(Color.GREEN, 10, 10));
-				break;
-			case TO_INSTALL:
-				this.setIcon(new ColorBadgeIcon(Color.BLUE, 10, 10));
-				break;
-			case TO_UPDATE:
-				this.setIcon(new ColorBadgeIcon(Color.ORANGE, 10, 10));
-				break;
-		}
+	public String getString(Object value) {
+		if (value == null || !(value instanceof PluginStatus))
+			return " ";
 		
-		this.setText(status.toString());
-		
-		return super.getTableCellRendererComponent(
-				table,
-				value,
-				isSelected,
-				hasFocus,
-				row,
-				column);
-		
+		return value.toString();
 	}
 	
 }

@@ -30,41 +30,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.event.ActionEvent;
+import java.awt.Color;
 
-import javax.swing.AbstractAction;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.components.plugins.PluginsDialog;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import org.jdesktop.swingx.renderer.IconValue;
+
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionManagePlugins extends AbstractAction {
-	
-	public ActionManagePlugins() {
-		this(32, 32);
-	}
-	
-	public ActionManagePlugins(int width, int height) {
-		super(
-				Translations.getString("action.name.manage_plugins"),
-				Images.getResourceImage("download.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.manage_plugins"));
-	}
+public class IconValuePluginStatus implements IconValue {
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionManagePlugins.managePlugins();
-	}
-	
-	public static void managePlugins() {
-		PluginsDialog.getInstance().setVisible(true);
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof PluginStatus))
+			return null;
+		
+		PluginStatus status = (PluginStatus) value;
+		
+		switch (status) {
+			case DELETED:
+				return new ColorBadgeIcon(Color.RED, 10, 10);
+			case INSTALLED:
+				return new ColorBadgeIcon(Color.GREEN, 10, 10);
+			case TO_INSTALL:
+				return new ColorBadgeIcon(Color.BLUE, 10, 10);
+			case TO_UPDATE:
+				return new ColorBadgeIcon(Color.ORANGE, 10, 10);
+		}
+		
+		return null;
 	}
 	
 }

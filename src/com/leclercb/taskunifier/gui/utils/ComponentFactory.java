@@ -110,6 +110,14 @@ public final class ComponentFactory {
 		return button;
 	}
 	
+	public static JButton createButtonClose(ActionListener listener) {
+		JButton button = new JButton(Translations.getString("general.close"));
+		button.setActionCommand("CLOSE");
+		button.addActionListener(listener);
+		
+		return button;
+	}
+	
 	public static JButton createButtonAdd(ActionListener listener) {
 		JButton button = new JButton(Images.getResourceImage("add.png", 16, 16));
 		button.setActionCommand("ADD");

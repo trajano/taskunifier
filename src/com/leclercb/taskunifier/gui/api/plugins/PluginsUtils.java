@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.plugins;
+package com.leclercb.taskunifier.gui.api.plugins;
 
 import java.io.File;
 import java.net.URI;
@@ -55,15 +55,18 @@ import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class PluginsUtils {
 	
 	public static SynchronizerGuiPlugin loadPlugin(File file)

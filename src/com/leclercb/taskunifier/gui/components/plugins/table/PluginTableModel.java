@@ -38,21 +38,37 @@ import java.beans.PropertyChangeListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.plugins.Plugin;
-import com.leclercb.taskunifier.gui.components.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin;
+import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class PluginTableModel extends AbstractTableModel implements PropertyChangeListener {
 	
 	private Plugin[] plugins;
 	
-	public PluginTableModel(Plugin[] plugins) {
+	public PluginTableModel() {
+		this.setPlugins(new Plugin[0]);
+	}
+	
+	public Plugin[] getPlugins() {
+		return this.plugins;
+	}
+	
+	public void setPlugins(Plugin[] plugins) {
 		CheckUtils.isNotNull(plugins, "Plugins cannot be null");
+		
+		if (this.plugins != null)
+			for (Plugin plugin : this.plugins)
+				plugin.removePropertyChangeListener(this);
+		
 		this.plugins = plugins;
 		
-		for (Plugin plugin : plugins) {
+		for (Plugin plugin : this.plugins)
 			plugin.addPropertyChangeListener(this);
-		}
+		
+		this.fireTableDataChanged();
 	}
 	
 	public Plugin getPlugin(int row) {
