@@ -41,7 +41,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SearcherItem extends SourceListItem implements TaskSearcherElement {
 	
 	private TaskSearcher searcher;
@@ -53,6 +55,7 @@ public class SearcherItem extends SourceListItem implements TaskSearcherElement 
 						searcher.getIcon(),
 						16,
 						16)));
+		
 		this.searcher = searcher;
 	}
 	

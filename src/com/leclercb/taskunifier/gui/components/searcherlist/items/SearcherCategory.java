@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.components.searcherlist.items;
 
 import com.explodingpixels.macwidgets.SourceListCategory;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SearcherCategory extends SourceListCategory {
 	
 	private String expandedPropetyName;

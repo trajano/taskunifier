@@ -42,7 +42,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	private SearcherView view;

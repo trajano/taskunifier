@@ -37,6 +37,7 @@ import java.util.List;
 import javax.swing.SortOrder;
 
 import com.explodingpixels.macwidgets.SourceListItem;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
@@ -67,13 +68,14 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		super(
 				(model == null ? Translations.getString("searcherlist.none") : model.getTitle()));
 		
-		if (model instanceof GuiModel)
+		CheckUtils.isNotNull(modelType, "Model type cannot be null");
+		
+		if (model != null && model instanceof GuiModel)
 			this.setIcon(new ColorBadgeIcon(
 					((GuiModel) model).getColor(),
 					12,
 					12));
-		
-		if (model == null)
+		else
 			this.setIcon(new ColorBadgeIcon(null, 12, 12));
 		
 		this.modelType = modelType;
@@ -170,4 +172,5 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		return searcher;
 	}
+	
 }
