@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.components.batchaddtask;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -82,10 +84,22 @@ public class BatchAddTaskDialog extends JDialog {
 		this.setSize(600, 350);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				BatchAddTaskDialog.this.answerTextArea.setText(null);
+				BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
+				
+				BatchAddTaskDialog.this.setVisible(false);
+			}
+			
+		});
 		
 		JPanel panel = null;
 		

@@ -106,8 +106,8 @@ public class TaskEditPanel extends JPanel {
 	private JComboBox taskLocation;
 	private JComboBox taskParent;
 	private JCheckBox taskCompleted;
-	private JDateChooser taskDueDate;
 	private JDateChooser taskStartDate;
+	private JDateChooser taskDueDate;
 	private JComboBox taskReminder;
 	private JComboBox taskRepeat;
 	private JComboBox taskRepeatFrom;
@@ -163,7 +163,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskLocation = ComponentFactory.createModelComboBox(null);
 		this.taskParent = ComponentFactory.createModelComboBox(null);
 		this.taskCompleted = new JCheckBox();
-		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
+		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
 				'_') {
@@ -174,7 +174,7 @@ public class TaskEditPanel extends JPanel {
 			}
 			
 		});
-		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
+		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
 				null,
 				'_') {
@@ -236,11 +236,11 @@ public class TaskEditPanel extends JPanel {
 		// Empty
 		builder.append("", new JLabel());
 		
-		// Task Due Date
-		builder.appendI15d("general.task.due_date", true, this.taskDueDate);
-		
 		// Task Start Date
 		builder.appendI15d("general.task.start_date", true, this.taskStartDate);
+		
+		// Task Due Date
+		builder.appendI15d("general.task.due_date", true, this.taskDueDate);
 		
 		// Task Reminder
 		builder.appendI15d("general.task.reminder", true, this.taskReminder);
@@ -331,13 +331,13 @@ public class TaskEditPanel extends JPanel {
 		ValueModel taskCompletedModel = this.adapter.getValueModel(Task.PROP_COMPLETED);
 		Bindings.bind(this.taskCompleted, taskCompletedModel);
 		
-		ValueModel taskDueDateModel = this.adapter.getValueModel(Task.PROP_DUE_DATE);
-		Bindings.bind(this.taskDueDate, "date", new CalendarConverter(
-				taskDueDateModel));
-		
 		ValueModel taskStartDateModel = this.adapter.getValueModel(Task.PROP_START_DATE);
 		Bindings.bind(this.taskStartDate, "date", new CalendarConverter(
 				taskStartDateModel));
+		
+		ValueModel taskDueDateModel = this.adapter.getValueModel(Task.PROP_DUE_DATE);
+		Bindings.bind(this.taskDueDate, "date", new CalendarConverter(
+				taskDueDateModel));
 		
 		ValueModel taskReminderModel = this.adapter.getValueModel(Task.PROP_REMINDER);
 		this.taskReminder.setModel(new ComboBoxAdapter<Integer>(
