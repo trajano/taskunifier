@@ -32,29 +32,20 @@
  */
 package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.Frame;
 import java.io.FileInputStream;
 
 import com.leclercb.commons.api.coder.FactoryCoder;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public abstract class DefaultImportDialog extends AbstractImportDialog {
+@Reviewed
+abstract class DefaultImportDialog extends AbstractImportDialog {
 	
 	private FactoryCoder coder;
 	
-	public DefaultImportDialog(
-			FactoryCoder coder,
-			String title,
-			Frame frame,
-			boolean modal) {
-		super(
-				title,
-				frame,
-				modal,
-				true,
-				"xml",
-				Translations.getString("general.xml_files"));
+	public DefaultImportDialog(FactoryCoder coder, String title) {
+		super(title, true, "xml", Translations.getString("general.xml_files"));
 		
 		CheckUtils.isNotNull(coder, "Coder cannot be null");
 		

@@ -37,7 +37,9 @@ import java.util.List;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskModel extends AbstractModelSortedModel {
 	
 	private Task hiddenTask;

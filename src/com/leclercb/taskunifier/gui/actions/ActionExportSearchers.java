@@ -37,10 +37,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.export_data.ExportSearchersDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionExportSearchers extends AbstractAction {
 	
 	public ActionExportSearchers() {
@@ -63,10 +64,7 @@ public class ActionExportSearchers extends AbstractAction {
 	}
 	
 	public static void exportSearchers() {
-		ExportSearchersDialog exportDialog = new ExportSearchersDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		exportDialog.setVisible(true);
+		ExportSearchersDialog.getInstance().setVisible(true);
 	}
 	
 }

@@ -32,19 +32,26 @@
  */
 package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.awt.Frame;
-
 import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ExportTemplatesDialog extends DefaultExportDialog {
 	
-	public ExportTemplatesDialog(Frame frame, boolean modal) {
+	private static ExportTemplatesDialog INSTANCE;
+	
+	public static ExportTemplatesDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportTemplatesDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ExportTemplatesDialog() {
 		super(
 				new TemplateFactoryXMLCoder(true),
-				Translations.getString("general.export_templates"),
-				frame,
-				modal);
+				Translations.getString("general.export_templates"));
 	}
 	
 }

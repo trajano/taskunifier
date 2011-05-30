@@ -32,20 +32,27 @@
  */
 package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.Frame;
-
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ImportTemplatesDialog extends DefaultImportDialog {
 	
-	public ImportTemplatesDialog(Frame frame, boolean modal) {
+	private static ImportTemplatesDialog INSTANCE;
+	
+	public static ImportTemplatesDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportTemplatesDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ImportTemplatesDialog() {
 		super(
 				new TemplateFactoryXMLCoder(true),
-				Translations.getString("general.import_templates"),
-				frame,
-				modal);
+				Translations.getString("general.import_templates"));
 	}
 	
 	@Override

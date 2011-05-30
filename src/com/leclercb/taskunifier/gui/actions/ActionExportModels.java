@@ -37,10 +37,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.export_data.ExportModelsDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionExportModels extends AbstractAction {
 	
 	public ActionExportModels() {
@@ -63,10 +64,7 @@ public class ActionExportModels extends AbstractAction {
 	}
 	
 	public static void exportModels() {
-		ExportModelsDialog exportDialog = new ExportModelsDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		exportDialog.setVisible(true);
+		ExportModelsDialog.getInstance().setVisible(true);
 	}
 	
 }

@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.Frame;
 import java.io.FileInputStream;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -42,14 +41,23 @@ import javax.swing.JOptionPane;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ImportSettingsDialog extends AbstractImportDialog {
 	
-	public ImportSettingsDialog(Frame frame, boolean modal) {
+	private static ImportSettingsDialog INSTANCE;
+	
+	public static ImportSettingsDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportSettingsDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ImportSettingsDialog() {
 		super(
 				Translations.getString("general.import_settings"),
-				frame,
-				modal,
 				false,
 				"properties",
 				Translations.getString("general.properties_files"));

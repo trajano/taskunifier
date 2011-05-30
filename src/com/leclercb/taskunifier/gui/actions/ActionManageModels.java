@@ -39,7 +39,9 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionManageModels extends AbstractAction {
 	
 	public ActionManageModels() {
@@ -62,8 +64,7 @@ public class ActionManageModels extends AbstractAction {
 	}
 	
 	public static void manageModels() {
-		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
-		dialog.setVisible(true);
+		ModelConfigurationDialog.getInstance().setVisible(true);
 	}
 	
 }

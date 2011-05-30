@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.Frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -56,11 +55,18 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ImportModelsDialog extends AbstractImportDialog {
 	
-	public ImportModelsDialog(Frame frame, boolean modal) {
+	private static ImportModelsDialog INSTANCE;
+	
+	public static ImportModelsDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportModelsDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ImportModelsDialog() {
 		super(
 				Translations.getString("general.import_models"),
-				frame,
-				modal,
 				true,
 				"zip",
 				Translations.getString("general.zip_files"));

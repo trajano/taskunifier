@@ -32,19 +32,27 @@
  */
 package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.awt.Frame;
 import java.io.FileOutputStream;
 
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ExportSettingsDialog extends AbstractExportDialog {
 	
-	public ExportSettingsDialog(Frame frame, boolean modal) {
+	private static ExportSettingsDialog INSTANCE;
+	
+	public static ExportSettingsDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportSettingsDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ExportSettingsDialog() {
 		super(
 				Translations.getString("general.export_settings"),
-				frame,
-				modal,
 				"properties",
 				Translations.getString("general.properties_files"));
 	}

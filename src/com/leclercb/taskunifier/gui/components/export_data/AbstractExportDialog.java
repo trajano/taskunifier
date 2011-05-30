@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -55,8 +54,10 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public abstract class AbstractExportDialog extends JDialog {
+@Reviewed
+abstract class AbstractExportDialog extends JDialog {
 	
 	private String fileExtention;
 	private String fileExtentionDescription;
@@ -65,11 +66,9 @@ public abstract class AbstractExportDialog extends JDialog {
 	
 	public AbstractExportDialog(
 			String title,
-			Frame frame,
-			boolean modal,
 			String fileExtention,
 			String fileExtentionDescription) {
-		super(frame, modal);
+		super(MainFrame.getInstance().getFrame());
 		
 		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
 		CheckUtils.isNotNull(
@@ -83,10 +82,12 @@ public abstract class AbstractExportDialog extends JDialog {
 	}
 	
 	private void initialize(String title) {
+		this.setModal(true);
 		this.setTitle(title);
 		this.setSize(500, 120);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -163,7 +164,7 @@ public abstract class AbstractExportDialog extends JDialog {
 				if (event.getActionCommand() == "EXPORT") {
 					try {
 						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
-						AbstractExportDialog.this.dispose();
+						AbstractExportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),
@@ -181,7 +182,7 @@ public abstract class AbstractExportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					AbstractExportDialog.this.dispose();
+					AbstractExportDialog.this.setVisible(false);
 				}
 			}
 			

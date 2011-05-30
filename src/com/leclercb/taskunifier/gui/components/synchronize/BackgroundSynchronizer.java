@@ -38,13 +38,13 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class BackgroundSynchronizer {
+public final class BackgroundSynchronizer {
 	
-	public BackgroundSynchronizer() {
+	private BackgroundSynchronizer() {
 
 	}
 	
-	public void synchronize() {
+	public static void synchronize() {
 		SynchronizeWorker worker = new SynchronizeWorker() {
 			
 			@Override

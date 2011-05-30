@@ -114,7 +114,7 @@ public class TaskEditDialog extends JDialog {
 			public void windowClosing(WindowEvent e) {
 				TaskEditDialog.this.cancelled = true;
 				TaskEditDialog.this.setTask(null);
-				TaskEditDialog.this.dispose();
+				TaskEditDialog.this.setVisible(false);
 			}
 			
 		});
@@ -139,13 +139,13 @@ public class TaskEditDialog extends JDialog {
 				if (event.getActionCommand() == "OK") {
 					TaskEditDialog.this.cancelled = false;
 					TaskEditDialog.this.setTask(null);
-					TaskEditDialog.this.dispose();
+					TaskEditDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
 					TaskEditDialog.this.cancelled = true;
 					TaskEditDialog.this.setTask(null);
-					TaskEditDialog.this.dispose();
+					TaskEditDialog.this.setVisible(false);
 				}
 			}
 			

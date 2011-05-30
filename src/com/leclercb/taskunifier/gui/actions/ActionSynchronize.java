@@ -48,7 +48,9 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionSynchronize extends AbstractAction {
 	
 	private boolean background;
@@ -67,6 +69,7 @@ public class ActionSynchronize extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.description.synchronize"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -86,16 +89,13 @@ public class ActionSynchronize extends AbstractAction {
 		}
 		
 		if (background) {
-			BackgroundSynchronizer synchronizer = new BackgroundSynchronizer();
-			synchronizer.synchronize();
+			BackgroundSynchronizer.synchronize();
 		} else {
 			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 			
-			SynchronizerDialog dialog = new SynchronizerDialog(
-					MainFrame.getInstance().getFrame());
+			SynchronizerDialog dialog = new SynchronizerDialog();
 			dialog.setVisible(true);
 			
-			// MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 			MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
 		}
 	}

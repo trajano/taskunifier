@@ -40,7 +40,9 @@ import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.comparators.SynchronizerGuiPluginComparator;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel implements ListChangeListener {
 	
 	public SynchronizerGuiPluginModel() {

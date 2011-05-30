@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.awt.Frame;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -46,14 +45,23 @@ import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ExportModelsDialog extends AbstractExportDialog {
 	
-	public ExportModelsDialog(Frame frame, boolean modal) {
+	private static ExportModelsDialog INSTANCE;
+	
+	public static ExportModelsDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportModelsDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ExportModelsDialog() {
 		super(
 				Translations.getString("general.export_models"),
-				frame,
-				modal,
 				"zip",
 				Translations.getString("general.zip_files"));
 	}

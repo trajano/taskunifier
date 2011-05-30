@@ -37,10 +37,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.import_data.ImportTemplatesDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionImportTemplates extends AbstractAction {
 	
 	public ActionImportTemplates() {
@@ -63,10 +64,7 @@ public class ActionImportTemplates extends AbstractAction {
 	}
 	
 	public static void importTemplates() {
-		ImportTemplatesDialog importDialog = new ImportTemplatesDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		importDialog.setVisible(true);
+		ImportTemplatesDialog.getInstance().setVisible(true);
 	}
 	
 }

@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.import_data;
 
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -56,8 +55,10 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public abstract class AbstractImportDialog extends JDialog {
+@Reviewed
+abstract class AbstractImportDialog extends JDialog {
 	
 	private JFileChooser fileChooser;
 	private JTextField importFile;
@@ -67,12 +68,10 @@ public abstract class AbstractImportDialog extends JDialog {
 	
 	public AbstractImportDialog(
 			String title,
-			Frame frame,
-			boolean modal,
 			boolean showReplaceValues,
 			String fileExtention,
 			String fileExtentionDescription) {
-		super(frame, modal);
+		super(MainFrame.getInstance().getFrame());
 		
 		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
 		CheckUtils.isNotNull(
@@ -86,10 +85,12 @@ public abstract class AbstractImportDialog extends JDialog {
 	}
 	
 	private void initialize(String title, boolean showReplaceValues) {
+		this.setModal(true);
 		this.setTitle(title);
 		this.setSize(500, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
@@ -175,7 +176,7 @@ public abstract class AbstractImportDialog extends JDialog {
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());
 						
-						AbstractImportDialog.this.dispose();
+						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),
@@ -193,7 +194,7 @@ public abstract class AbstractImportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand() == "CANCEL") {
-					AbstractImportDialog.this.dispose();
+					AbstractImportDialog.this.setVisible(false);
 				}
 			}
 			

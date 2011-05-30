@@ -37,10 +37,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.export_data.ExportTemplatesDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionExportTemplates extends AbstractAction {
 	
 	public ActionExportTemplates() {
@@ -63,10 +64,7 @@ public class ActionExportTemplates extends AbstractAction {
 	}
 	
 	public static void exportTemplates() {
-		ExportTemplatesDialog exportDialog = new ExportTemplatesDialog(
-				MainFrame.getInstance().getFrame(),
-				true);
-		exportDialog.setVisible(true);
+		ExportTemplatesDialog.getInstance().setVisible(true);
 	}
 	
 }

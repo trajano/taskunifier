@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
-import java.awt.Frame;
 
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -42,8 +42,10 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class SynchronizerDialog extends WaitDialog {
 	
-	public SynchronizerDialog(Frame frame) {
-		super(frame, Translations.getString("general.synchronization"));
+	public SynchronizerDialog() {
+		super(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("general.synchronization"));
 		this.setRunnable(new SynchronizeRunnable());
 	}
 	
