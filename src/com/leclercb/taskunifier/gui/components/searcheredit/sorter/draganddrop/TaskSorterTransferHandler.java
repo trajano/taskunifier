@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskSorterElementComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferable;

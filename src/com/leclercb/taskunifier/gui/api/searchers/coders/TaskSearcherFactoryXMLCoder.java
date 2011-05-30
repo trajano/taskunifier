@@ -53,21 +53,24 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.CalendarCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.NumberCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.NumberCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	private static final String NULL_STRING_VALUE = "{{NULL}}";
@@ -184,7 +187,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 		try {
 			NodeList nFilter = node.getChildNodes();
 			TaskFilter filter = new TaskFilter();
-			filter.setLink(TaskFilter.Link.valueOf(XMLUtils.getAttributeValue(
+			filter.setLink(TaskFilterLink.valueOf(XMLUtils.getAttributeValue(
 					node,
 					"link")));
 			
@@ -422,32 +425,32 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			Element value = document.createElement("value");
 			element.appendChild(value);
 			
-			if (e.getCondition() instanceof TaskFilter.CalendarCondition) {
+			if (e.getCondition() instanceof CalendarCondition) {
 				condition.setTextContent("CalendarCondition."
 						+ e.getCondition().name());
 				
 				if (e.getValue() != null)
 					value.setTextContent(((Calendar) e.getValue()).getTimeInMillis()
 							+ "");
-			} else if (e.getCondition() instanceof TaskFilter.DaysCondition) {
+			} else if (e.getCondition() instanceof DaysCondition) {
 				condition.setTextContent("DaysCondition."
 						+ e.getCondition().name());
 				
 				if (e.getValue() != null)
 					value.setTextContent((e.getValue()) + "");
-			} else if (e.getCondition() instanceof TaskFilter.StringCondition) {
+			} else if (e.getCondition() instanceof StringCondition) {
 				condition.setTextContent("StringCondition."
 						+ e.getCondition().name());
 				
 				if (e.getValue() != null)
 					value.setTextContent((String) e.getValue());
-			} else if (e.getCondition() instanceof TaskFilter.NumberCondition) {
+			} else if (e.getCondition() instanceof NumberCondition) {
 				condition.setTextContent("NumberCondition."
 						+ e.getCondition().name());
 				
 				if (e.getValue() != null)
 					value.setTextContent((e.getValue()) + "");
-			} else if (e.getCondition() instanceof TaskFilter.EnumCondition) {
+			} else if (e.getCondition() instanceof EnumCondition) {
 				condition.setTextContent("EnumCondition."
 						+ e.getCondition().name());
 				
@@ -455,7 +458,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 					value.setTextContent(e.getValue().getClass().getName()
 							+ "#"
 							+ ((Enum<?>) e.getValue()).name());
-			} else if (e.getCondition() instanceof TaskFilter.ModelCondition) {
+			} else if (e.getCondition() instanceof ModelCondition) {
 				condition.setTextContent("ModelCondition."
 						+ e.getCondition().name());
 				

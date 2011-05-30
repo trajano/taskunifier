@@ -37,7 +37,7 @@ import javax.swing.table.TableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;

@@ -46,15 +46,15 @@ import com.explodingpixels.macwidgets.SourceListItem;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.Link;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
@@ -116,7 +116,7 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 			TaskFilter originalFilter = searcher.getFilter();
 			
 			TaskFilter newFilter = new TaskFilter();
-			newFilter.setLink(Link.AND);
+			newFilter.setLink(TaskFilterLink.AND);
 			newFilter.addElement(new TaskFilterElement(
 					TaskColumn.TITLE,
 					StringCondition.CONTAINS,

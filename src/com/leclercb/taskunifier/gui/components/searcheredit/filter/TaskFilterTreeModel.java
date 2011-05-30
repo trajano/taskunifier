@@ -40,8 +40,8 @@ import javax.swing.tree.TreeNode;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 
 public class TaskFilterTreeModel extends DefaultTreeModel implements ListChangeListener, PropertyChangeListener {
 	

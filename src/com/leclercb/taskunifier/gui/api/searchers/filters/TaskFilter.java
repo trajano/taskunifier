@@ -30,17 +30,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers;
+package com.leclercb.taskunifier.gui.api.searchers.filters;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import javax.swing.SortOrder;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -50,144 +47,69 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.ListUtils;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class TaskSorter implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
+@Reviewed
+public class TaskFilter implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
 	
-	public static class TaskSorterElement implements Cloneable, Comparable<TaskSorterElement>, PropertyChangeSupported {
-		
-		public static final String PROP_ORDER = "order";
-		public static final String PROP_COLUMN = "column";
-		public static final String PROP_SORT_ORDER = "sortOrder";
-		
-		private PropertyChangeSupport propertyChangeSupport;
-		
-		private int order;
-		private TaskColumn column;
-		private SortOrder sortOrder;
-		
-		public TaskSorterElement(
-				int order,
-				TaskColumn column,
-				SortOrder sortOrder) {
-			this.propertyChangeSupport = new PropertyChangeSupport(this);
-			
-			this.setOrder(order);
-			this.setColumn(column);
-			this.setSortOrder(sortOrder);
-		}
-		
-		@Override
-		public TaskSorterElement clone() {
-			return new TaskSorterElement(
-					this.order,
-					this.column,
-					this.sortOrder);
-		}
-		
-		public int getOrder() {
-			return this.order;
-		}
-		
-		public void setOrder(int order) {
-			int oldOrder = this.order;
-			this.order = order;
-			this.propertyChangeSupport.firePropertyChange(
-					PROP_ORDER,
-					oldOrder,
-					order);
-		}
-		
-		public TaskColumn getColumn() {
-			return this.column;
-		}
-		
-		public void setColumn(TaskColumn column) {
-			CheckUtils.isNotNull(column, "Column cannot be null");
-			TaskColumn oldColumn = this.column;
-			this.column = column;
-			this.propertyChangeSupport.firePropertyChange(
-					PROP_COLUMN,
-					oldColumn,
-					column);
-		}
-		
-		public SortOrder getSortOrder() {
-			return this.sortOrder;
-		}
-		
-		public void setSortOrder(SortOrder sortOrder) {
-			CheckUtils.isNotNull(sortOrder, "Sort order cannot be null");
-			SortOrder oldSortOrder = this.sortOrder;
-			this.sortOrder = sortOrder;
-			this.propertyChangeSupport.firePropertyChange(
-					PROP_SORT_ORDER,
-					oldSortOrder,
-					sortOrder);
-		}
-		
-		@Override
-		public String toString() {
-			return this.column
-					+ " ("
-					+ TranslationsUtils.translateSortOrder(this.sortOrder)
-					+ ")";
-		}
-		
-		@Override
-		public int compareTo(TaskSorterElement element) {
-			if (element == null)
-				return 1;
-			
-			return new Integer(this.order).compareTo(element.order);
-		}
-		
-		@Override
-		public void addPropertyChangeListener(PropertyChangeListener listener) {
-			this.propertyChangeSupport.addPropertyChangeListener(listener);
-		}
-		
-		@Override
-		public void addPropertyChangeListener(
-				String propertyName,
-				PropertyChangeListener listener) {
-			this.propertyChangeSupport.addPropertyChangeListener(
-					propertyName,
-					listener);
-		}
-		
-		@Override
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
-			this.propertyChangeSupport.removePropertyChangeListener(listener);
-		}
-		
-	}
+	public static final String PROP_LINK = "link";
 	
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private List<TaskSorterElement> elements;
+	private TaskFilter parent;
+	private TaskFilterLink link;
+	private List<TaskFilter> filters;
+	private List<TaskFilterElement> elements;
 	
-	public TaskSorter() {
+	public TaskFilter() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.elements = new ArrayList<TaskSorterElement>();
+		this.setParent(null);
+		this.setLink(TaskFilterLink.AND);
+		
+		this.filters = new ArrayList<TaskFilter>();
+		this.elements = new ArrayList<TaskFilterElement>();
 	}
 	
 	@Override
-	public TaskSorter clone() {
-		TaskSorter sorter = new TaskSorter();
+	public TaskFilter clone() {
+		TaskFilter filter = new TaskFilter();
+		filter.setLink(this.link);
 		
-		for (TaskSorterElement e : this.elements)
-			sorter.addElement(e.clone());
+		for (TaskFilterElement e : this.elements)
+			filter.addElement(e.clone());
 		
-		return sorter;
+		for (TaskFilter f : this.filters)
+			filter.addFilter(f.clone());
+		
+		return filter;
 	}
 	
-	public int getIndexOf(TaskSorterElement element) {
+	public TaskFilter getParent() {
+		return this.parent;
+	}
+	
+	private void setParent(TaskFilter parent) {
+		this.parent = parent;
+	}
+	
+	public TaskFilterLink getLink() {
+		return this.link;
+	}
+	
+	public void setLink(TaskFilterLink link) {
+		CheckUtils.isNotNull(link, "Link cannot be null");
+		TaskFilterLink oldLink = this.link;
+		this.link = link;
+		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
+	}
+	
+	public int getIndexOf(TaskFilterElement element) {
 		return this.elements.indexOf(element);
 	}
 	
@@ -195,29 +117,23 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 		return this.elements.size();
 	}
 	
-	public TaskSorterElement getElement(int index) {
+	public TaskFilterElement getElement(int index) {
 		return this.elements.get(index);
 	}
 	
-	public List<TaskSorterElement> getElements() {
-		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
-				this.elements);
-		
-		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
-			
-			@Override
-			public int compare(TaskSorterElement o1, TaskSorterElement o2) {
-				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
-			}
-			
-		});
-		
-		return Collections.unmodifiableList(sortElements);
+	public List<TaskFilterElement> getElements() {
+		return Collections.unmodifiableList(this.elements);
 	}
 	
-	public void addElement(TaskSorterElement element) {
+	public void addElement(TaskFilterElement element) {
 		CheckUtils.isNotNull(element, "Element cannot be null");
 		this.elements.add(element);
+		
+		if (element.getParent() != null) {
+			element.getParent().removeElement(element);
+		}
+		
+		element.setParent(this);
 		element.addPropertyChangeListener(this);
 		int index = this.elements.indexOf(element);
 		this.listChangeSupport.fireListChange(
@@ -226,16 +142,94 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 				element);
 	}
 	
-	public void removeElement(TaskSorterElement element) {
-		CheckUtils.isNotNull(element, "Searcher cannot be null");
+	public void removeElement(TaskFilterElement element) {
+		CheckUtils.isNotNull(element, "Element cannot be null");
 		
 		int index = this.elements.indexOf(element);
 		if (this.elements.remove(element)) {
+			element.setParent(null);
 			element.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
 					index,
 					element);
+		}
+	}
+	
+	public int getIndexOf(TaskFilter filter) {
+		return this.filters.indexOf(filter);
+	}
+	
+	public int getFilterCount() {
+		return this.filters.size();
+	}
+	
+	public TaskFilter getFilter(int index) {
+		return this.filters.get(index);
+	}
+	
+	public List<TaskFilter> getFilters() {
+		return Collections.unmodifiableList(this.filters);
+	}
+	
+	public void addFilter(TaskFilter filter) {
+		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		this.filters.add(filter);
+		
+		if (filter.getParent() != null) {
+			filter.getParent().removeFilter(filter);
+		}
+		
+		filter.setParent(this);
+		filter.addListChangeListener(this);
+		filter.addPropertyChangeListener(this);
+		int index = this.filters.indexOf(filter);
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_ADDED,
+				index,
+				filter);
+	}
+	
+	public void removeFilter(TaskFilter filter) {
+		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		
+		int index = this.filters.indexOf(filter);
+		if (this.filters.remove(filter)) {
+			filter.setParent(null);
+			filter.removeListChangeListener(this);
+			filter.removePropertyChangeListener(this);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_REMOVED,
+					index,
+					filter);
+		}
+	}
+	
+	public boolean include(Task task) {
+		if (this.link == TaskFilterLink.AND) {
+			for (TaskFilterElement element : this.elements) {
+				if (!element.include(task))
+					return false;
+			}
+			
+			for (TaskFilter filter : this.filters) {
+				if (!filter.include(task))
+					return false;
+			}
+			
+			return true;
+		} else {
+			for (TaskFilterElement element : this.elements) {
+				if (element.include(task))
+					return true;
+			}
+			
+			for (TaskFilter filter : this.filters) {
+				if (filter.include(task))
+					return true;
+			}
+			
+			return false;
 		}
 	}
 	
@@ -269,15 +263,36 @@ public class TaskSorter implements PropertyChangeListener, ListChangeSupported, 
 	}
 	
 	@Override
+	public void listChange(ListChangeEvent event) {
+		this.listChangeSupport.fireListChange(event);
+	}
+	
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.propertyChangeSupport.firePropertyChange(event);
 	}
 	
 	@Override
 	public String toString() {
-		return Translations.getString("general.sort")
-				+ ": "
-				+ ListUtils.listToString(this.elements, ", ");
+		if (this.elements.size() == 0 && this.filters.size() == 0)
+			return "";
+		
+		StringBuffer buffer = new StringBuffer(
+				Translations.getString("general.filter") + ": ((");
+		
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(this.elements);
+		list.addAll(this.filters);
+		
+		buffer.append(ListUtils.listToString(
+				list,
+				") "
+						+ TranslationsUtils.translateTaskFilterLink(this.link)
+						+ " ("));
+		
+		buffer.append("))");
+		
+		return buffer.toString();
 	}
 	
 }

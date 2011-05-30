@@ -39,13 +39,14 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.CalendarCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.DaysCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.EnumCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.NumberCondition;
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter.StringCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.NumberCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -148,7 +149,7 @@ public final class TranslationsUtils {
 		return Translations.getString("general.no");
 	}
 	
-	public static String translateTaskFilterLink(TaskFilter.Link link) {
+	public static String translateTaskFilterLink(TaskFilterLink link) {
 		switch (link) {
 			case AND:
 				return Translations.getString("general.and");
@@ -172,8 +173,7 @@ public final class TranslationsUtils {
 		return "Missing translation";
 	}
 	
-	public static String translateTaskFilterCondition(
-			TaskFilter.Condition<?, ?> condition) {
+	public static String translateTaskFilterCondition(Condition<?, ?> condition) {
 		if (condition instanceof CalendarCondition) {
 			switch ((CalendarCondition) condition) {
 				case AFTER:

@@ -35,7 +35,7 @@ package com.leclercb.taskunifier.gui.commons.comparators;
 import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSorter.TaskSorterElement;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed

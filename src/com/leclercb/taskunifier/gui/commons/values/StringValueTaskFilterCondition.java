@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.api.searchers.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -43,10 +43,10 @@ public class StringValueTaskFilterCondition implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
-		if (value == null || !(value instanceof TaskFilter.Condition<?, ?>))
+		if (value == null || !(value instanceof Condition<?, ?>))
 			return " ";
 		
-		return TranslationsUtils.translateTaskFilterCondition((TaskFilter.Condition<?, ?>) value);
+		return TranslationsUtils.translateTaskFilterCondition((Condition<?, ?>) value);
 	}
 	
 }
