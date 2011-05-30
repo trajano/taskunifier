@@ -54,8 +54,8 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	public void addElement(Object element) {
 		if (element != null) {
 			Model model = (Model) element;
-			if (model.getModelStatus().equals(ModelStatus.LOADED)
-					|| model.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (!model.getModelStatus().equals(ModelStatus.LOADED)
+					&& !model.getModelStatus().equals(ModelStatus.TO_UPDATE))
 				return;
 		}
 		

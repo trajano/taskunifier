@@ -135,8 +135,11 @@ public class TaskEditPanel extends JPanel {
 		this.adapter.setBean(this.task);
 		
 		this.taskParentModel.setHiddenTask(this.task);
+		
 		if (this.task == null || this.task.getChildren().length != 0)
 			this.taskParent.setEnabled(false);
+		else
+			this.taskParent.setEnabled(true);
 	}
 	
 	private void initialize() {

@@ -262,7 +262,7 @@ public class ConfigurationDialog extends JDialog {
 						false));
 	}
 	
-	private void saveAndApplyConfig() {
+	public void saveAndApplyConfig() {
 		try {
 			this.pluginConfigurationPanel.saveAndApplyConfig();
 			
