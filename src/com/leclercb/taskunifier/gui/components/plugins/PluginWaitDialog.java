@@ -49,7 +49,9 @@ import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 	
 	private ResultType result;
@@ -87,6 +89,8 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
+					PluginWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					
 					try {
 						PluginWaitDialog.this.result = PluginWaitDialog.this.doActions(PluginWaitDialog.this.monitor);
 					} catch (final PluginException e) {
@@ -148,7 +152,6 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 				
 			};
 			
-			PluginWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			worker.execute();
 		}
 		

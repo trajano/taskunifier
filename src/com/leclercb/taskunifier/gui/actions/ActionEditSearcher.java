@@ -44,7 +44,9 @@ import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ActionEditSearcher extends AbstractAction {
 	
 	public ActionEditSearcher() {
@@ -84,7 +86,6 @@ public class ActionEditSearcher extends AbstractAction {
 		
 		SearcherEditDialog dialog = new SearcherEditDialog(
 				MainFrame.getInstance().getFrame(),
-				true,
 				searcher);
 		
 		dialog.setVisible(true);

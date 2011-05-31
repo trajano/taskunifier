@@ -41,12 +41,12 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import org.apache.commons.io.FileUtils;
+import org.jdesktop.swingx.JXEditorPane;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
@@ -57,7 +57,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public final class Help {
 	
 	private Help() {
@@ -108,10 +110,11 @@ public final class Help {
 		return content;
 	}
 	
-	public static JDialog getHelpDialog(final String helpFile) {
+	public static void showHelpDialog(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
 		
-		return new HelpDialog(helpFile);
+		HelpDialog.getInstance().setText(getContent(helpFile));
+		HelpDialog.getInstance().setVisible(true);
 	}
 	
 	public static Component getHelpButton(final String helpFile) {
@@ -143,39 +146,59 @@ public final class Help {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			HelpDialog dialog = new HelpDialog(this.helpFile);
-			dialog.setVisible(true);
+			HelpDialog.getInstance().setText(getContent(this.helpFile));
+			HelpDialog.getInstance().setVisible(true);
 		}
 		
 	}
 	
 	private static class HelpDialog extends JDialog {
 		
-		public HelpDialog(String helpFile) {
-			super(MainFrame.getInstance().getFrame(), true);
+		private static HelpDialog INSTANCE;
+		
+		public static HelpDialog getInstance() {
+			if (INSTANCE == null)
+				INSTANCE = new HelpDialog();
 			
+			return INSTANCE;
+		}
+		
+		private JXEditorPane helpEditorPane;
+		
+		private HelpDialog() {
+			super(MainFrame.getInstance().getFrame());
+			
+			this.initialize();
+		}
+		
+		public void setText(String text) {
+			this.helpEditorPane.setText(text);
+			this.helpEditorPane.setCaretPosition(0);
+		}
+		
+		private void initialize() {
+			this.setModal(true);
 			this.setTitle(Translations.getString("general.help"));
 			this.setSize(600, 600);
 			this.setResizable(true);
 			this.setLayout(new BorderLayout());
+			this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 			
-			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			this.setLocationRelativeTo(MainFrame.getInstance().getFrame());
+			if (this.getOwner() != null)
+				this.setLocationRelativeTo(this.getOwner());
 			
-			final JEditorPane pane = new JEditorPane();
-			pane.setContentType("text/html");
-			pane.setText(getContent(helpFile));
-			pane.setEditable(false);
-			pane.setCaretPosition(0);
-			
-			pane.addHyperlinkListener(new HyperlinkListener() {
+			this.helpEditorPane = new JXEditorPane();
+			this.helpEditorPane.setContentType("text/html");
+			this.helpEditorPane.setEditable(false);
+			this.helpEditorPane.setCaretPosition(0);
+			this.helpEditorPane.addHyperlinkListener(new HyperlinkListener() {
 				
 				@Override
 				public void hyperlinkUpdate(HyperlinkEvent evt) {
 					if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						try {
-							pane.setText(getContent(evt.getURL().getFile()));
-							pane.setCaretPosition(0);
+							HelpDialog.this.helpEditorPane.setText(getContent(evt.getURL().getFile()));
+							HelpDialog.this.helpEditorPane.setCaretPosition(0);
 						} catch (Exception e) {
 							ErrorInfo info = new ErrorInfo(
 									Translations.getString("general.error"),
@@ -195,9 +218,9 @@ public final class Help {
 				
 			});
 			
-			this.add(
-					ComponentFactory.createJScrollPane(pane, false),
-					BorderLayout.CENTER);
+			this.add(ComponentFactory.createJScrollPane(
+					this.helpEditorPane,
+					false), BorderLayout.CENTER);
 		}
 		
 	}

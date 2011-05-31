@@ -64,7 +64,7 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public static void help() {
-		Help.getHelpDialog(Help.getHelpFile("index.html")).setVisible(true);
+		Help.showHelpDialog(Help.getHelpFile("index.html"));
 	}
 	
 }

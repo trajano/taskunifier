@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.searcheredit;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,13 +53,14 @@ public class SearcherEditDialog extends JDialog {
 	
 	private SearcherEditPanel searcherEditPanel;
 	
-	public SearcherEditDialog(Frame frame, boolean modal, TaskSearcher searcher) {
-		super(frame, modal);
+	public SearcherEditDialog(Frame frame, TaskSearcher searcher) {
+		super(frame);
 		
 		this.initialize(searcher);
 	}
 	
 	private void initialize(TaskSearcher searcher) {
+		this.setModal(true);
 		this.setTitle(Translations.getString("searcheredit.title"));
 		this.setSize(800, 500);
 		this.setResizable(true);
@@ -76,17 +76,13 @@ public class SearcherEditDialog extends JDialog {
 		
 		this.searcherEditPanel = new SearcherEditPanel(searcher);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);
-		this.add(buttonsPanel, BorderLayout.SOUTH);
 		
-		this.initializeButtonsPanel(buttonsPanel);
+		this.initializeButtonsPanel();
 	}
 	
-	private void initializeButtonsPanel(JPanel buttonsPanel) {
+	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -101,7 +97,10 @@ public class SearcherEditDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		buttonsPanel.add(okButton);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 }

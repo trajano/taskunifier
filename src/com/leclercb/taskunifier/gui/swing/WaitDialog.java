@@ -47,7 +47,9 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class WaitDialog extends JDialog {
 	
 	private Runnable runnable;
@@ -55,7 +57,7 @@ public class WaitDialog extends JDialog {
 	private JTextArea progressStatus;
 	
 	public WaitDialog(Frame frame, String title) {
-		super(frame, true);
+		super(frame);
 		this.initialize(title);
 	}
 	
@@ -68,15 +70,15 @@ public class WaitDialog extends JDialog {
 	}
 	
 	private void initialize(String title) {
+		this.setModal(true);
 		this.setTitle(title);
 		this.setSize(400, 180);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -113,10 +115,12 @@ public class WaitDialog extends JDialog {
 	
 	@Override
 	public void setVisible(boolean visible) {
-		CheckUtils.isNotNull(this.runnable, "Runnable cannot be null");
+		if (visible) {
+			CheckUtils.isNotNull(this.runnable, "Runnable cannot be null");
+			Thread synchronizeThread = new Thread(this.runnable);
+			synchronizeThread.start();
+		}
 		
-		Thread synchronizeThread = new Thread(this.runnable);
-		synchronizeThread.start();
 		super.setVisible(visible);
 	}
 	
