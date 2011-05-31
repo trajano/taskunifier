@@ -365,6 +365,9 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 						this.searcherView.selectTaskSearcher(searcher);
 						return;
 					}
+					
+					this.selectDefaultTaskSearcher();
+					return;
 				}
 				
 				ModelId id = new ModelIdSettingsCoder().decode(value);
@@ -384,6 +387,9 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 					this.searcherView.selectModel(model);
 					return;
 				}
+				
+				this.selectDefaultTaskSearcher();
+				return;
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();

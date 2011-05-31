@@ -98,7 +98,7 @@ public class PluginsDialog extends JDialog {
 		this.pluginsPanel = new PluginsPanel();
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 10));
 		mainPanel.add(this.pluginsPanel, BorderLayout.CENTER);
 		
 		this.add(mainPanel, BorderLayout.CENTER);

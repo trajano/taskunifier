@@ -72,16 +72,16 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 5));
 		
 		this.table = new PluginTable();
 		this.table.getSelectionModel().addListSelectionListener(this);
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.table, false),
+				ComponentFactory.createJScrollPane(this.table, true),
 				BorderLayout.CENTER);
 		
-		JPanel bottomPanel = new JPanel(new BorderLayout(10, 0));
+		JPanel bottomPanel = new JPanel(new BorderLayout());
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		
 		this.history = new JTextArea(5, 10);
