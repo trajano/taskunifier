@@ -177,8 +177,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			this.setSelectedView(View.TASKS);
 			
-			this.initializeDefaultTaskSearcher();
-			
 			this.initializeReminderThread();
 			this.initializeScheduledSyncThread();
 			
@@ -430,10 +428,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		panel.add(this.modelNote, BorderLayout.CENTER);
 		
 		verticalSplitPane.setBottomComponent(panel);
-	}
-	
-	private void initializeDefaultTaskSearcher() {
-		this.searcherPanel.selectDefaultTaskSearcher();
 	}
 	
 	private void initializeReminderThread() {

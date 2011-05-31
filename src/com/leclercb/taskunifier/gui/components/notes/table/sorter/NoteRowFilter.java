@@ -70,8 +70,10 @@ public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 		if (this.titleFilter == null)
 			return true;
 		
-		return note.getTitle().toLowerCase().contains(
-				this.titleFilter.toLowerCase());
+		String filter = this.titleFilter.toLowerCase();
+		
+		return note.getTitle().toLowerCase().contains(filter)
+				|| note.getNote().toLowerCase().contains(filter);
 	}
 	
 }

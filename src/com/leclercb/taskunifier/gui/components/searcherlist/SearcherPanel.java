@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.searcherlist;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -44,6 +45,7 @@ import com.explodingpixels.macwidgets.SourceListCategory;
 import com.explodingpixels.macwidgets.SourceListClickListener;
 import com.explodingpixels.macwidgets.SourceListItem;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
@@ -66,7 +68,7 @@ import com.leclercb.taskunifier.gui.swing.macwidgets.SourceListControlBar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class SearcherPanel extends JPanel implements SearcherView, PropertyChangeSupported, TaskSearcherSelectionListener {
+public class SearcherPanel extends JPanel implements SavePropertiesListener, SearcherView, PropertyChangeSupported, TaskSearcherSelectionListener {
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
 	
@@ -84,6 +86,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
 				this);
 		
+		Main.SETTINGS.addSavePropertiesListener(this);
+		
 		this.initialize();
 	}
 	
@@ -96,6 +100,11 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 		this.titleFilter = titleFilter;
 		
 		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
+	}
+	
+	@Override
+	public void selectTaskSearcher(TaskSearcher searcher) {
+		this.searcherView.selectTaskSearcher(searcher);
 	}
 	
 	@Override
@@ -117,10 +126,23 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 			
 			TaskFilter newFilter = new TaskFilter();
 			newFilter.setLink(TaskFilterLink.AND);
-			newFilter.addElement(new TaskFilterElement(
+			
+			TaskFilter searchFilter = new TaskFilter();
+			searchFilter.setLink(TaskFilterLink.OR);
+			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.TITLE,
 					StringCondition.CONTAINS,
 					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.TAGS,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.NOTE,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			
+			newFilter.addFilter(searchFilter);
 			newFilter.addFilter(originalFilter);
 			
 			searcher.setFilter(newFilter);
@@ -181,6 +203,8 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 				});
 		
 		this.initializeButtons();
+		
+		this.initializeSelectedSearcher();
 	}
 	
 	private void initializeButtons() {
@@ -260,6 +284,9 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 	}
 	
 	private void openManageModels(ModelItem item) {
+		if (item.getModel() == null)
+			return;
+		
 		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedModel(item.getModelType(), item.getModel());
 		dialog.setVisible(true);
@@ -310,6 +337,39 @@ public class SearcherPanel extends JPanel implements SearcherView, PropertyChang
 				&& searcher.getType().isEditable());
 		
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
+	}
+	
+	private void initializeSelectedSearcher() {
+		String title = Main.SETTINGS.getStringProperty("searcher.selected");
+		if (title != null) {
+			TaskSearcher searcher = null;
+			List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
+			for (TaskSearcher s : searchers) {
+				if (s.getTitle().equals(title)) {
+					searcher = s;
+					break;
+				}
+			}
+			
+			if (searcher != null) {
+				this.selectTaskSearcher(searcher);
+				return;
+			}
+		}
+		
+		this.selectDefaultTaskSearcher();
+	}
+	
+	@Override
+	public void saveProperties() {
+		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
+		if (searcher.getType() == TaskSearcherType.GENERAL
+				|| searcher.getType() == TaskSearcherType.PERSONAL)
+			Main.SETTINGS.setStringProperty(
+					"searcher.selected",
+					searcher.getTitle());
+		else
+			Main.SETTINGS.setStringProperty("searcher.selected", null);
 	}
 	
 }

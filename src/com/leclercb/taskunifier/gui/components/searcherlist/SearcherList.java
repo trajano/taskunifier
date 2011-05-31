@@ -419,6 +419,11 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	}
 	
 	@Override
+	public void selectTaskSearcher(TaskSearcher searcher) {
+		this.list.setSelectedItem(this.findItemFromSearcher(searcher));
+	}
+	
+	@Override
 	public void selectDefaultTaskSearcher() {
 		this.list.setSelectedItem(this.generalCategory.getItems().get(0));
 	}

@@ -9,6 +9,8 @@ Version 0.9.3
 		- User interface improvements
 		- Background synchronization status in status bar
 		- FR 3276629: Background sync notifications
+		- FR 3302367: Remember last selected searcher
+		- FR 3299266: Quick search on title, tags and note
 
 Version 0.9.2
 	- Major:

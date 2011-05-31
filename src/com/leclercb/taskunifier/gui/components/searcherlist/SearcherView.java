@@ -41,6 +41,8 @@ public interface SearcherView extends TaskSearcherSelectionChangeSupported {
 	
 	public abstract void setTitleFilter(String title);
 	
+	public abstract void selectTaskSearcher(TaskSearcher searcher);
+	
 	public abstract void selectDefaultTaskSearcher();
 	
 	public abstract TaskSearcher getSelectedTaskSearcher();
