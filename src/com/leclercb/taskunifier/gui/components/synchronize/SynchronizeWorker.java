@@ -85,7 +85,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
 					connection);
 			
-			SynchronizerChoice choice = (SynchronizerChoice) Main.SETTINGS.getEnumProperty(
+			SynchronizerChoice choice = Main.SETTINGS.getEnumProperty(
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 			

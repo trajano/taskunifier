@@ -47,6 +47,13 @@ import com.explodingpixels.macwidgets.SourceListItem;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
@@ -100,11 +107,6 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 		this.titleFilter = titleFilter;
 		
 		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
-	}
-	
-	@Override
-	public void selectTaskSearcher(TaskSearcher searcher) {
-		this.searcherView.selectTaskSearcher(searcher);
 	}
 	
 	@Override
@@ -340,21 +342,51 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 	}
 	
 	private void initializeSelectedSearcher() {
-		String title = Main.SETTINGS.getStringProperty("searcher.selected");
-		if (title != null) {
-			TaskSearcher searcher = null;
-			List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
-			for (TaskSearcher s : searchers) {
-				if (s.getTitle().equals(title)) {
-					searcher = s;
-					break;
+		try {
+			String value = Main.SETTINGS.getStringProperty("searcher.selected.value");
+			TaskSearcherType type = Main.SETTINGS.getEnumProperty(
+					"searcher.selected.type",
+					TaskSearcherType.class);
+			
+			if (value != null && type != null) {
+				if (type == TaskSearcherType.GENERAL
+						|| type == TaskSearcherType.PERSONAL) {
+					TaskSearcher searcher = null;
+					List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
+					for (TaskSearcher s : searchers) {
+						if (s.getTitle().equals(value)
+								&& s.getType().equals(type)) {
+							searcher = s;
+							break;
+						}
+					}
+					
+					if (searcher != null) {
+						this.searcherView.selectTaskSearcher(searcher);
+						return;
+					}
+				}
+				
+				ModelId id = new ModelIdSettingsCoder().decode(value);
+				Model model = null;
+				
+				if (type == TaskSearcherType.CONTEXT) {
+					model = ContextFactory.getInstance().get(id);
+				} else if (type == TaskSearcherType.FOLDER) {
+					model = FolderFactory.getInstance().get(id);
+				} else if (type == TaskSearcherType.GOAL) {
+					model = GoalFactory.getInstance().get(id);
+				} else if (type == TaskSearcherType.LOCATION) {
+					model = LocationFactory.getInstance().get(id);
+				}
+				
+				if (model != null) {
+					this.searcherView.selectModel(model);
+					return;
 				}
 			}
-			
-			if (searcher != null) {
-				this.selectTaskSearcher(searcher);
-				return;
-			}
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 		
 		this.selectDefaultTaskSearcher();
@@ -362,14 +394,37 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 	
 	@Override
 	public void saveProperties() {
-		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
-		if (searcher.getType() == TaskSearcherType.GENERAL
-				|| searcher.getType() == TaskSearcherType.PERSONAL)
-			Main.SETTINGS.setStringProperty(
-					"searcher.selected",
-					searcher.getTitle());
-		else
-			Main.SETTINGS.setStringProperty("searcher.selected", null);
+		try {
+			TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
+			
+			if (searcher == null)
+				return;
+			
+			Main.SETTINGS.setEnumProperty(
+					"searcher.selected.type",
+					TaskSearcherType.class,
+					searcher.getType());
+			
+			if (searcher.getType() == TaskSearcherType.GENERAL
+					|| searcher.getType() == TaskSearcherType.PERSONAL) {
+				Main.SETTINGS.setStringProperty(
+						"searcher.selected.value",
+						searcher.getTitle());
+				return;
+			}
+			
+			if (this.searcherView.getSelectedModel() != null) {
+				ModelId id = this.searcherView.getSelectedModel().getModelId();
+				Main.SETTINGS.setStringProperty(
+						"searcher.selected.value",
+						new ModelIdSettingsCoder().encode(id));
+				return;
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		
+		Main.SETTINGS.setStringProperty("searcher.selected.value", null);
 	}
 	
 }

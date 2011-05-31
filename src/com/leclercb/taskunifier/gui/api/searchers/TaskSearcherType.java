@@ -7,7 +7,10 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public enum TaskSearcherType {
 	
 	GENERAL(true, true, Translations.getString("searcherlist.general")),
-	MODEL(false, false, ""),
+	CONTEXT(false, false, ""),
+	FOLDER(false, false, ""),
+	GOAL(false, false, ""),
+	LOCATION(false, false, ""),
 	PERSONAL(true, true, Translations.getString("searcherlist.personal"));
 	
 	private boolean editable;

@@ -418,7 +418,10 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 		throw new UnsupportedOperationException();
 	}
 	
-	@Override
+	public void selectModel(Model model) {
+		this.list.setSelectedItem(this.findItemFromModel(model));
+	}
+	
 	public void selectTaskSearcher(TaskSearcher searcher) {
 		this.list.setSelectedItem(this.findItemFromSearcher(searcher));
 	}
@@ -426,6 +429,15 @@ public class SearcherList implements SearcherView, ListChangeListener, PropertyC
 	@Override
 	public void selectDefaultTaskSearcher() {
 		this.list.setSelectedItem(this.generalCategory.getItems().get(0));
+	}
+	
+	public Model getSelectedModel() {
+		SourceListItem item = this.list.getSelectedItem();
+		
+		if (item == null || !(item instanceof ModelItem))
+			return null;
+		
+		return ((ModelItem) item).getModel();
 	}
 	
 	@Override

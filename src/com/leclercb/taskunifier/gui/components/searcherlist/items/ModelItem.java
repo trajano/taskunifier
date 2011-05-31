@@ -106,25 +106,30 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 	public TaskSearcher getTaskSearcher() {
 		Template template = new Template("ModelTemplate");
 		TaskColumn column = null;
+		TaskSearcherType type = null;
 		
 		switch (this.modelType) {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
+				type = TaskSearcherType.CONTEXT;
 				if (this.model != null)
 					template.setTaskContext(this.model.getModelId());
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
+				type = TaskSearcherType.FOLDER;
 				if (this.model != null)
 					template.setTaskFolder(this.model.getModelId());
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
+				type = TaskSearcherType.GOAL;
 				if (this.model != null)
 					template.setTaskGoal(this.model.getModelId());
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
+				type = TaskSearcherType.LOCATION;
 				if (this.model != null)
 					template.setTaskLocation(this.model.getModelId());
 				break;
@@ -163,7 +168,7 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 		
 		String title = (this.model == null ? Translations.getString("searcherlist.none") : this.model.getTitle());
 		TaskSearcher searcher = new TaskSearcher(
-				TaskSearcherType.MODEL,
+				type,
 				title,
 				null,
 				filter,
