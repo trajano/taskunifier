@@ -42,12 +42,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 
 import org.jdesktop.swingx.JXFrame;
@@ -55,20 +51,11 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.gui.actions.ActionAddNote;
-import com.leclercb.taskunifier.gui.actions.ActionAddTask;
-import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
-import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
-import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
@@ -84,17 +71,17 @@ import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBarCreator;
-import com.leclercb.taskunifier.gui.components.toolbar.MacToolBarCreator;
-import com.leclercb.taskunifier.gui.components.toolbar.ToolBarCreator;
+import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
+import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.TemplateUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
 	private static MainView INSTANCE;
@@ -312,110 +299,13 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeToolBar() {
-		ToolBarCreator toolBarCreator = null;
-		Object[] toolBarObjects = null;
-		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			toolBarObjects = this.getToolBarObjects(24, 24);
-			toolBarCreator = new MacToolBarCreator();
+			this.add(
+					new MacToolBar(this.searchField).getComponent(),
+					BorderLayout.NORTH);
 		} else {
-			toolBarObjects = this.getToolBarObjects(24, 24);
-			toolBarCreator = new DefaultToolBarCreator();
+			this.add(new DefaultToolBar(), BorderLayout.NORTH);
 		}
-		
-		for (Object toolBarObject : toolBarObjects) {
-			if (toolBarObject == null) {
-				toolBarCreator.addSeparatorToLeft();
-				continue;
-			}
-			
-			if (toolBarObject instanceof Action) {
-				JButton button = new JButton((Action) toolBarObject);
-				if (SystemUtils.IS_OS_MAC
-						&& LookAndFeelUtils.isCurrentLafSystemLaf())
-					((MacToolBarCreator) toolBarCreator).optimizeButton(button);
-				
-				toolBarCreator.addElementToLeft(button);
-				continue;
-			}
-			
-			if (toolBarObject instanceof JButton) {
-				if (SystemUtils.IS_OS_MAC
-						&& LookAndFeelUtils.isCurrentLafSystemLaf())
-					((MacToolBarCreator) toolBarCreator).optimizeButton((JButton) toolBarObject);
-				
-				toolBarCreator.addElementToLeft((JButton) toolBarObject);
-				continue;
-			}
-		}
-		
-		// SEARCH FIELD
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
-			toolBarCreator.addElementToRight(this.searchField);
-		// SEARCH FIELD
-		
-		this.add(toolBarCreator.getComponent(), BorderLayout.NORTH);
-	}
-	
-	private Object[] getToolBarObjects(final int iconWith, final int iconHeight) {
-		// TEMPLATE
-		final JPopupMenu popupMenu = new JPopupMenu(
-				Translations.getString("action.name.add_template_task"));
-		
-		TemplateUtils.updateTemplateList(null, popupMenu);
-		
-		TemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(null, popupMenu);
-					}
-					
-				});
-		
-		final JButton addTemplateTaskButton = new JButton();
-		
-		Action actionAddTemplateTask = new AbstractAction() {
-			
-			{
-				this.putValue(
-						NAME,
-						Translations.getString("action.name.add_template_task"));
-				
-				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"duplicate.png",
-						iconWith,
-						iconHeight));
-				
-				this.putValue(
-						SHORT_DESCRIPTION,
-						Translations.getString("action.description.add_template_task"));
-			}
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				popupMenu.show(
-						addTemplateTaskButton,
-						addTemplateTaskButton.getX(),
-						addTemplateTaskButton.getY());
-			}
-			
-		};
-		
-		addTemplateTaskButton.setAction(actionAddTemplateTask);
-		// TEMPLATE
-		
-		return new Object[] {
-				new ActionAddNote(iconWith, iconHeight),
-				new ActionAddTask(iconWith, iconHeight),
-				addTemplateTaskButton,
-				new ActionDelete(iconWith, iconHeight),
-				null,
-				new ActionSynchronize(false, iconWith, iconHeight),
-				new ActionScheduledSync(iconWith, iconHeight),
-				null,
-				new ActionConfiguration(iconWith, iconHeight) };
 	}
 	
 	private void initializeStatusBar() {
