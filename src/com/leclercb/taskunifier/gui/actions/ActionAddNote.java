@@ -57,7 +57,7 @@ public class ActionAddNote extends AbstractAction {
 	public ActionAddNote(int width, int height) {
 		super(
 				Translations.getString("action.name.add_note"),
-				Images.getResourceImage("document.png", width, height));
+				Images.getResourceImage("note.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

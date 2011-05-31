@@ -60,7 +60,7 @@ public class ActionAddTask extends AbstractAction {
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.name.add_task"),
-				Images.getResourceImage("document.png", width, height));
+				Images.getResourceImage("task.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

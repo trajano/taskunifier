@@ -108,7 +108,7 @@ public class TaskTableMenu extends JPopupMenu {
 	private void initializeItemDuplicateTasks() {
 		this.itemDuplicateTasks = new JMenuItem(
 				Translations.getString("general.duplicate_tasks"),
-				Images.getResourceImage("paste.png", 16, 16));
+				Images.getResourceImage("duplicate.png", 16, 16));
 		
 		this.itemDuplicateTasks.addActionListener(new ActionListener() {
 			
