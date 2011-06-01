@@ -117,7 +117,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public void setVisible(boolean b) {
 		super.setVisible(b);
-		this.repaint();
+		
+		if (b)
+			this.repaint();
 	}
 	
 	private void initialize() {

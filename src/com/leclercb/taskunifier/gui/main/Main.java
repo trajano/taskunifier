@@ -46,6 +46,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.SystemUtils;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -111,8 +112,7 @@ public class Main {
 	
 	private static PrintStream ORIGINAL_OUT_STREAM;
 	private static PrintStream ORIGINAL_ERR_STREAM;
-	private static File LOG_FILE;
-	private static OutputStream LOG_FILE_STREAM;
+	private static OutputStream LOG_STREAM;
 	private static PrintStream NEW_STREAM;
 	
 	public static void main(String[] args) {
@@ -212,22 +212,17 @@ public class Main {
 	}
 	
 	private static void loadStreamRedirection() {
-		ORIGINAL_OUT_STREAM = System.out;
-		ORIGINAL_ERR_STREAM = System.err;
-		
-		try {
-			LOG_FILE = File.createTempFile("taskunifier_log_", ".log");
-			LOG_FILE_STREAM = new FileOutputStream(LOG_FILE);
-			NEW_STREAM = new PrintStream(LOG_FILE_STREAM);
+		if (EqualsUtils.equals(
+				System.getProperty("com.leclercb.taskunifier.debug_mode"),
+				"true")) {
+			ORIGINAL_OUT_STREAM = System.out;
+			ORIGINAL_ERR_STREAM = System.err;
 			
-			if (!EqualsUtils.equals(
-					System.getProperty("com.leclercb.taskunifier.debug_mode"),
-					"true")) {
-				System.setOut(NEW_STREAM);
-				System.setErr(NEW_STREAM);
-			}
-		} catch (IOException e) {
-			GuiLogger.getLogger().severe("Error while creating log file");
+			LOG_STREAM = new ByteArrayOutputStream();
+			NEW_STREAM = new PrintStream(LOG_STREAM, true);
+			
+			System.setOut(NEW_STREAM);
+			System.setErr(NEW_STREAM);
 		}
 	}
 	
@@ -639,18 +634,14 @@ public class Main {
 			}
 			
 			MainFrame.getInstance().getFrame().dispose();
-			MainFrame.getInstance().getFrame().setVisible(false);
 		} finally {
 			try {
-				if (LOG_FILE != null) {
+				if (ORIGINAL_OUT_STREAM != null) {
 					System.setOut(ORIGINAL_OUT_STREAM);
 					System.setErr(ORIGINAL_ERR_STREAM);
 					
-					if (NEW_STREAM != null)
-						NEW_STREAM.close();
-					
-					if (LOG_FILE_STREAM != null)
-						LOG_FILE_STREAM.close();
+					NEW_STREAM.close();
+					LOG_STREAM.close();
 					
 					File logFile = new File(DATA_FOLDER
 							+ File.separator
@@ -662,7 +653,8 @@ public class Main {
 					String logFileContent = FileUtils.readFileToString(
 							logFile,
 							"UTF-8");
-					String log = FileUtils.readFileToString(LOG_FILE, "UTF-8");
+					
+					String log = LOG_STREAM.toString();
 					log = "\n\n\n---------- "
 							+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
 							+ " ----------\n\n"
