@@ -55,7 +55,6 @@ import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
@@ -77,6 +76,7 @@ public class PluginsUtils {
 		
 		try {
 			File tmpFile = File.createTempFile("taskunifier_plugin_", ".jar");
+			tmpFile.deleteOnExit();
 			org.apache.commons.io.FileUtils.copyFile(file, tmpFile);
 			
 			List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(

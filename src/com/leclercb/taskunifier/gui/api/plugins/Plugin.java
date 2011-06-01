@@ -37,31 +37,10 @@ import java.beans.PropertyChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class Plugin implements PropertyChangeSupported {
-	
-	public static enum PluginStatus {
-		
-		TO_INSTALL(Translations.getString("plugin.status.to_install")),
-		INSTALLED(Translations.getString("plugin.status.installed")),
-		TO_UPDATE(Translations.getString("plugin.status.to_update")),
-		DELETED(Translations.getString("plugin.status.deleted"));
-		
-		private String label;
-		
-		private PluginStatus(String label) {
-			this.label = label;
-		}
-		
-		@Override
-		public String toString() {
-			return this.label;
-		}
-		
-	}
 	
 	public static final String PROP_STATUS = "status";
 	public static final String PROP_ID = "id";

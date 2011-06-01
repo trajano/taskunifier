@@ -38,7 +38,7 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 

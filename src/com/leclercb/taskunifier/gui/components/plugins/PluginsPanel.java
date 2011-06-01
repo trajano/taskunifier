@@ -44,7 +44,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.table.PluginTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;

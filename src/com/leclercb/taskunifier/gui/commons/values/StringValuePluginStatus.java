@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed

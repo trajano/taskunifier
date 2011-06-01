@@ -39,7 +39,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 

@@ -38,7 +38,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
-import com.leclercb.taskunifier.gui.api.plugins.Plugin.PluginStatus;
+import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.values.IconValuePluginStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValuePluginStatus;
