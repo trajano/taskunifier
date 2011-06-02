@@ -212,7 +212,7 @@ public class Main {
 	}
 	
 	private static void loadStreamRedirection() {
-		if (EqualsUtils.equals(
+		if (!EqualsUtils.equals(
 				System.getProperty("com.leclercb.taskunifier.debug_mode"),
 				"true")) {
 			ORIGINAL_OUT_STREAM = System.out;

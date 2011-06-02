@@ -71,7 +71,7 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 		
 		this.lastSynchronizationDate = StatusBarElements.createLastSynchronizationDate();
 		MacWidgetFactory.makeEmphasizedLabel(this.lastSynchronizationDate);
-		this.addComponentToLeft(this.lastSynchronizationDate);
+		this.addComponentToRight(this.lastSynchronizationDate);
 	}
 	
 	@Override
