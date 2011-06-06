@@ -33,10 +33,10 @@
 package com.leclercb.taskunifier.gui.commons.values;
 
 import javax.swing.Icon;
-import javax.swing.UIManager;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -48,9 +48,9 @@ public class IconValueShowChildren implements IconValue {
 			return null;
 		
 		if ((Boolean) value)
-			return UIManager.getIcon("Tree.expandedIcon");
+			return Images.getResourceImage("tree_expanded.png", 9, 9);
 		else
-			return UIManager.getIcon("Tree.collapsedIcon");
+			return Images.getResourceImage("tree_collapsed.png", 9, 9);
 	}
 	
 }
