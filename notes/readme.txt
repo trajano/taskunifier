@@ -4,6 +4,7 @@ HISTORY
 Version 0.9.4
 	- Major:
 		- Hide subtasks
+		- Bug fixed: Filter bug at startup
 
 Version 0.9.3
 	- Minor:
