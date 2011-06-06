@@ -41,12 +41,14 @@ public class GuiTask extends Task {
 	
 	private boolean showChildren;
 	
-	public GuiTask(ModelId modelId, String title) {
-		super(modelId, title);
-	}
-	
 	public GuiTask(String title) {
 		super(title);
+	}
+	
+	public GuiTask(ModelId modelId, String title) {
+		super(modelId, title);
+		
+		this.setShowChildren(true);
 	}
 	
 	public boolean isShowChildren() {

@@ -44,20 +44,20 @@ public class GuiGoal extends Goal implements GuiModel {
 	
 	private Color color;
 	
-	public GuiGoal(ModelId modelId, String title) {
-		super(modelId, title);
-	}
-	
 	public GuiGoal(String title) {
 		super(title);
 	}
 	
-	public GuiGoal(ModelId modelId, String title, GoalLevel level) {
-		super(modelId, title, level);
-	}
-	
 	public GuiGoal(String title, GoalLevel level) {
 		super(title, level);
+	}
+	
+	public GuiGoal(ModelId modelId, String title) {
+		super(modelId, title);
+	}
+	
+	public GuiGoal(ModelId modelId, String title, GoalLevel level) {
+		super(modelId, title, level);
 	}
 	
 	@Override

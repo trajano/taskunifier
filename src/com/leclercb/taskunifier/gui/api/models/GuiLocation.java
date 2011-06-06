@@ -43,12 +43,12 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	private Color color;
 	
-	public GuiLocation(ModelId modelId, String title) {
-		super(modelId, title);
-	}
-	
 	public GuiLocation(String title) {
 		super(title);
+	}
+	
+	public GuiLocation(ModelId modelId, String title) {
+		super(modelId, title);
 	}
 	
 	@Override

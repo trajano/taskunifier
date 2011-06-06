@@ -43,12 +43,12 @@ public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;
 	
-	public GuiContext(ModelId modelId, String title) {
-		super(modelId, title);
-	}
-	
 	public GuiContext(String title) {
 		super(title);
+	}
+	
+	public GuiContext(ModelId modelId, String title) {
+		super(modelId, title);
 	}
 	
 	@Override

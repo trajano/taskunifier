@@ -43,12 +43,12 @@ public class GuiFolder extends Folder implements GuiModel {
 	
 	private Color color;
 	
-	public GuiFolder(ModelId modelId, String title) {
-		super(modelId, title);
-	}
-	
 	public GuiFolder(String title) {
 		super(title);
+	}
+	
+	public GuiFolder(ModelId modelId, String title) {
+		super(modelId, title);
 	}
 	
 	@Override
