@@ -65,8 +65,8 @@ import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
@@ -78,10 +78,12 @@ import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiFolder;
 import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
+import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiContextFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiFolderFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -313,6 +315,7 @@ public class Main {
 		FolderFactory.initializeWithClass(GuiFolder.class);
 		GoalFactory.initializeWithClass(GuiGoal.class);
 		LocationFactory.initializeWithClass(GuiLocation.class);
+		TaskFactory.initializeWithClass(GuiTask.class);
 		
 		try {
 			new GuiContextFactoryXMLCoder().decode(new FileInputStream(
@@ -387,7 +390,7 @@ public class Main {
 		}
 		
 		try {
-			new TaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
+			new GuiTaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
 					+ File.separator
 					+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
@@ -587,7 +590,7 @@ public class Main {
 			}
 			
 			try {
-				new TaskFactoryXMLCoder().encode(new FileOutputStream(
+				new GuiTaskFactoryXMLCoder().encode(new FileOutputStream(
 						DATA_FOLDER + File.separator + "tasks.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
