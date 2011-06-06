@@ -156,6 +156,9 @@ public class TaskRowComparator implements Comparator<Task> {
 						((Task) o1).getModelId(),
 						((Task) o2).getModelId());
 				break;
+			case SHOW_CHILDREN:
+				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
+				break;
 			case TITLE:
 				result = CompareUtils.compare((String) o1, (String) o2);
 				break;

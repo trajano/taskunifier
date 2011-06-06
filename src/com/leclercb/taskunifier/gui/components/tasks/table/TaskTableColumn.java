@@ -49,6 +49,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueShowChildren;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
@@ -86,11 +87,12 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer MODEL_RENDERER;
 	private static final TableCellRenderer REMINDER_RENDERER;
 	private static final TableCellRenderer REPEAT_RENDERER;
+	private static final TableCellRenderer SHOW_CHILDREN_RENDERER;
 	private static final TableCellRenderer STAR_RENDERER;
 	private static final TableCellRenderer TASK_PRIORITY_RENDERER;
 	private static final TableCellRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TableCellRenderer TASK_STATUS_RENDERER;
-	private static final TableCellRenderer TASK_TITLE_RENDERER;
+	private static final TableCellRenderer TITLE_RENDERER;
 	
 	private static final TableCellEditor BOOLEAN_EDITOR;
 	private static final TableCellEditor CONTEXT_EDITOR;
@@ -127,6 +129,11 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueTaskRepeat());
 		
+		SHOW_CHILDREN_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				new IconValueShowChildren(),
+				new BooleanValueBoolean()), SwingConstants.CENTER);
+		
 		STAR_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
 				new IconValueStar(),
@@ -143,7 +150,7 @@ public class TaskTableColumn extends TableColumnExt {
 		TASK_STATUS_RENDERER = new DefaultTableRenderer(
 				new StringValueTaskStatus());
 		
-		TASK_TITLE_RENDERER = new TaskTitleRenderer();
+		TITLE_RENDERER = new TaskTitleRenderer();
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
@@ -223,8 +230,10 @@ public class TaskTableColumn extends TableColumnExt {
 		switch (this.taskColumn) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
+			case SHOW_CHILDREN:
+				return SHOW_CHILDREN_RENDERER;
 			case TITLE:
-				return TASK_TITLE_RENDERER;
+				return TITLE_RENDERER;
 			case COMPLETED:
 				return COMPLETED_RENDERER;
 			case CONTEXT:
@@ -258,6 +267,8 @@ public class TaskTableColumn extends TableColumnExt {
 	@Override
 	public TableCellEditor getCellEditor() {
 		switch (this.taskColumn) {
+			case SHOW_CHILDREN:
+				return BOOLEAN_EDITOR;
 			case TITLE:
 				return GENERIC_EDITOR;
 			case TAGS:

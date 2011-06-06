@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -55,6 +56,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public enum TaskColumn {
 	
 	MODEL(Task.class, Translations.getString("general.id"), false),
+	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
 	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
@@ -235,6 +237,8 @@ public enum TaskColumn {
 		switch (this) {
 			case MODEL:
 				return task;
+			case SHOW_CHILDREN:
+				return ((GuiTask) task).isShowChildren();
 			case TITLE:
 				return task.getTitle();
 			case TAGS:
@@ -286,6 +290,9 @@ public enum TaskColumn {
 		
 		switch (this) {
 			case MODEL:
+				break;
+			case SHOW_CHILDREN:
+				((GuiTask) task).setShowChildren((Boolean) value);
 				break;
 			case TITLE:
 				task.setTitle((String) value);

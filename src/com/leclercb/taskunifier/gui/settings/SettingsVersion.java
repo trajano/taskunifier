@@ -389,6 +389,12 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.3 to 0.9.4");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.show_children.order", "3");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.show_children.visible",
+				"true");
+		Main.SETTINGS.setStringProperty("taskcolumn.show_children.width", "40");
+		
 		return "0.9.4";
 	}
 	

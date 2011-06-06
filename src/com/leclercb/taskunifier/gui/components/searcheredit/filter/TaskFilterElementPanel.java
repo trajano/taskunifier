@@ -94,6 +94,7 @@ public class TaskFilterElementPanel extends JPanel {
 			
 			switch ((TaskColumn) this.elementColumn.getSelectedItem()) {
 				case MODEL:
+				case SHOW_CHILDREN:
 					value = null;
 					break;
 				case TITLE:
@@ -173,6 +174,7 @@ public class TaskFilterElementPanel extends JPanel {
 		DefaultComboBoxModel taskColumnsModel = new DefaultComboBoxModel(
 				TaskColumn.values());
 		taskColumnsModel.removeElement(TaskColumn.MODEL);
+		taskColumnsModel.removeElement(TaskColumn.SHOW_CHILDREN);
 		
 		this.elementColumn.setModel(taskColumnsModel);
 		this.elementColumn.setSelectedItem(column);
