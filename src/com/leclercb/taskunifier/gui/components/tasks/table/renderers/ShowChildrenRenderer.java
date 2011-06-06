@@ -30,27 +30,56 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.tasks.table.renderers;
 
-import javax.swing.Icon;
+import java.awt.Component;
+
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 
-import org.jdesktop.swingx.renderer.IconValue;
+import com.leclercb.taskunifier.gui.api.models.GuiTask;
+import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+public class ShowChildrenRenderer extends DefaultTableCellRenderer {
+	
+	public ShowChildrenRenderer() {
 
-@Reviewed
-public class IconValueShowChildren implements IconValue {
+	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof Boolean))
-			return null;
+	public Component getTableCellRendererComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			boolean hasFocus,
+			int row,
+			int column) {
+		Component component = super.getTableCellRendererComponent(
+				table,
+				value,
+				isSelected,
+				hasFocus,
+				row,
+				column);
 		
-		if ((Boolean) value)
-			return UIManager.getIcon("Tree.expandedIcon");
-		else
-			return UIManager.getIcon("Tree.collapsedIcon");
+		this.setHorizontalAlignment(SwingConstants.CENTER);
+		this.setText("");
+		this.setIcon(null);
+		
+		if (value == null)
+			return component;
+		
+		GuiTask task = (GuiTask) ((TaskTable) table).getTask(row);
+		
+		if (task.getChildren().length != 0)
+			if (task.isShowChildren())
+				this.setIcon(UIManager.getIcon("Tree.expandedIcon"));
+			else
+				this.setIcon(UIManager.getIcon("Tree.collapsedIcon"));
+		
+		return component;
 	}
 	
 }

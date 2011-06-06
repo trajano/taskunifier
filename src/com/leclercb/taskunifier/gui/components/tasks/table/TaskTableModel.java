@@ -43,6 +43,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskUndoableEdit;
@@ -141,6 +142,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 			return;
 		
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)
+				|| event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
 				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
 		} else {

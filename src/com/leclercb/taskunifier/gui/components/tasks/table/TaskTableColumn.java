@@ -49,7 +49,6 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
-import com.leclercb.taskunifier.gui.commons.values.IconValueShowChildren;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
@@ -73,7 +72,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.ReminderEdito
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TaskTitleRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -129,10 +129,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueTaskRepeat());
 		
-		SHOW_CHILDREN_RENDERER = new DefaultTableRenderer(new MappedValue(
-				null,
-				new IconValueShowChildren(),
-				new BooleanValueBoolean()), SwingConstants.CENTER);
+		SHOW_CHILDREN_RENDERER = new ShowChildrenRenderer();
 		
 		STAR_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -150,7 +147,7 @@ public class TaskTableColumn extends TableColumnExt {
 		TASK_STATUS_RENDERER = new DefaultTableRenderer(
 				new StringValueTaskStatus());
 		
-		TITLE_RENDERER = new TaskTitleRenderer();
+		TITLE_RENDERER = new TitleRenderer();
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();

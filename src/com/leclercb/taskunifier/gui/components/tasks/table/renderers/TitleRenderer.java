@@ -43,9 +43,9 @@ import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class TaskTitleRenderer extends DefaultTableCellRenderer {
+public class TitleRenderer extends DefaultTableCellRenderer {
 	
-	public TaskTitleRenderer() {
+	public TitleRenderer() {
 
 	}
 	
