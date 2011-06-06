@@ -43,11 +43,11 @@ public class GuiTask extends Task {
 	
 	public GuiTask(String title) {
 		super(title);
+		this.setShowChildren(true);
 	}
 	
 	public GuiTask(ModelId modelId, String title) {
 		super(modelId, title);
-		
 		this.setShowChildren(true);
 	}
 	
