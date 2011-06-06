@@ -37,6 +37,7 @@ import java.util.Calendar;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -108,6 +109,11 @@ public final class TaskUtils {
 			for (Task child : children)
 				if (filter.include(child))
 					return true;
+		}
+		
+		if (task.getParent() != null) {
+			if (!((GuiTask) task.getParent()).isShowChildren())
+				return false;
 		}
 		
 		return filter.include(task);
