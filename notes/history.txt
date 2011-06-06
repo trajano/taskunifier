@@ -2,6 +2,9 @@ Version 0.9.4
 	- Major:
 		- Hide subtasks
 		- Bug fixed: Filter bug at startup
+	- Minor:
+		- BF 3312532: Truncated edit task window
+		- BF 3312531: Sync error when offline
 
 Version 0.9.3
 	- Minor:

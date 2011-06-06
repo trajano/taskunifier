@@ -192,7 +192,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskLength = new JSpinner();
 		this.taskPriority = new JComboBox();
 		this.taskStar = new JCheckBox();
-		this.taskNote = new JTextArea(3, 5);
+		this.taskNote = new JTextArea(5, 5);
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow");
@@ -280,7 +280,7 @@ public class TaskEditPanel extends JPanel {
 				new IconValueTaskPriority()));
 		
 		// Lay out the panel
-		this.add(builder.getPanel(), BorderLayout.NORTH);
+		this.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		// Task Note
 		JPanel notePanel = new JPanel();
@@ -292,7 +292,7 @@ public class TaskEditPanel extends JPanel {
 		
 		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
-		this.add(notePanel, BorderLayout.CENTER);
+		this.add(notePanel, BorderLayout.SOUTH);
 	}
 	
 	private void initializeAdapter() {

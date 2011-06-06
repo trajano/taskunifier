@@ -71,7 +71,7 @@ public class SynchronizerDialog extends WaitDialog {
 				
 			};
 			
-			SynchronizeWorker worker = new SynchronizeWorker(handler) {
+			SynchronizeWorker worker = new SynchronizeWorker(false, handler) {
 				
 				@Override
 				protected Void doInBackground() throws Exception {

@@ -24,13 +24,15 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	
+	private boolean silent;
 	private ProgressMessageListener handler;
 	
-	public SynchronizeWorker() {
-		this(null);
+	public SynchronizeWorker(boolean silent) {
+		this(silent, null);
 	}
 	
-	public SynchronizeWorker(ProgressMessageListener handler) {
+	public SynchronizeWorker(boolean silent, ProgressMessageListener handler) {
+		this.silent = silent;
 		this.handler = handler;
 	}
 	
@@ -99,6 +101,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 					"synchronizer.last_synchronization_date",
 					Calendar.getInstance());
 		} catch (final SynchronizerException e) {
+			monitor.addMessage(new DefaultProgressMessage(e.getMessage()));
+			
 			SwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
@@ -121,25 +125,29 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			return null;
 		} catch (final Throwable t) {
-			SwingUtilities.invokeLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							t.getMessage(),
-							null,
-							null,
-							t,
-							null,
-							null);
+			monitor.addMessage(new DefaultProgressMessage(t.getMessage()));
+			
+			if (!this.silent) {
+				SwingUtilities.invokeLater(new Runnable() {
 					
-					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
-							info);
-				}
-				
-			});
+					@Override
+					public void run() {
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
+								t.getMessage(),
+								null,
+								null,
+								t,
+								null,
+								null);
+						
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
+					}
+					
+				});
+			}
 			
 			return null;
 		} finally {
