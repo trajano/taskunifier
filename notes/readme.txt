@@ -6,6 +6,7 @@ Version 0.9.5
 		- FR 3312542: Subtask button in toolbar
 		- FR 3312960: Settings for priority/importance colors
 		- FR 3312948: Collapse & expand all
+		- Paste from any application
 
 Version 0.9.4
 	- Major:
