@@ -72,6 +72,7 @@ import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
+import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
@@ -488,6 +489,18 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				@Override
 				public void windowDeiconified(WindowEvent event) {
 					tray.remove(trayIcon);
+				}
+				
+			});
+			
+			Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
+				
+				@Override
+				public void showMessage(String message) {
+					trayIcon.displayMessage(
+							Constants.TITLE,
+							message,
+							TrayIcon.MessageType.INFO);
 				}
 				
 			});
