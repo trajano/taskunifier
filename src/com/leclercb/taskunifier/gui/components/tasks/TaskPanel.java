@@ -34,11 +34,13 @@ package com.leclercb.taskunifier.gui.components.tasks;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
+import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -114,6 +116,18 @@ public class TaskPanel extends JPanel implements TaskView {
 				true,
 				null,
 				true);
+	}
+	
+	@Override
+	public void pasteTask() {
+		TransferHandler.getPasteAction().actionPerformed(
+				new ActionEvent(
+						this.taskTable,
+						ActionEvent.ACTION_PERFORMED,
+						null));
+		
+		if (this.taskTable.getCellEditor() != null)
+			this.taskTable.getCellEditor().stopCellEditing();
 	}
 	
 	@Override

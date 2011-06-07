@@ -30,26 +30,43 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks;
+package com.leclercb.taskunifier.gui.actions;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskView extends ModelSelectionChangeSupported, TaskSearcherSelectionListener {
+public class ActionCreateTaskFromClipboard extends AbstractAction {
 	
-	public abstract Task[] getSelectedTasks();
+	private TaskView view;
 	
-	public abstract void setSelectedTaskAndStartEdit(Task task);
+	public ActionCreateTaskFromClipboard(TaskView view) {
+		this(view, 32, 32);
+	}
 	
-	public abstract void setSelectedTasks(Task[] tasks);
+	public ActionCreateTaskFromClipboard(TaskView view, int width, int height) {
+		super(
+				Translations.getString("action.name.create_task_from_clipboard"),
+				Images.getResourceImage("information.png", width, height));
+		
+		CheckUtils.isNotNull(view, "View cannot be null");
+		this.view = view;
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.description.create_task_from_clipboard"));
+	}
 	
-	public abstract void refreshTasks();
-	
-	public abstract void printTasks() throws Exception;
-	
-	public abstract void pasteTask();
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		this.view.pasteTask();
+	}
 	
 }

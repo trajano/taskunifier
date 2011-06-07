@@ -53,4 +53,6 @@ public interface NoteView extends ModelSelectionChangeSupported {
 	
 	public abstract void printNotes() throws Exception;
 	
+	public abstract void pasteNote();
+	
 }
