@@ -78,7 +78,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(this.template);
+		ActionAddTask.addTask(this.template, null);
 	}
 	
 }

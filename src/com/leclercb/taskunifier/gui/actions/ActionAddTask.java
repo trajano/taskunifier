@@ -73,10 +73,10 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(TemplateFactory.getInstance().getDefaultTemplate());
+		ActionAddTask.addTask(TemplateFactory.getInstance().getDefaultTemplate(), null);
 	}
 	
-	public static Task addTask(Template template) {
+	public static Task addTask(Template template, String title) {
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
 		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
@@ -91,6 +91,9 @@ public class ActionAddTask extends AbstractAction {
 		
 		if (searcherTemplate != null)
 			searcherTemplate.applyToTask(task);
+		
+		if (title != null)
+			task.setTitle(title);
 		
 		MainFrame.getInstance().getTaskView().refreshTasks();
 		

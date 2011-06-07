@@ -70,12 +70,16 @@ public class ActionAddNote extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddNote.addNote();
+		ActionAddNote.addNote(null);
 	}
 	
-	public static Note addNote() {
+	public static Note addNote(String title) {
 		MainFrame.getInstance().setSelectedView(View.NOTES);
+		
 		Note note = NoteFactory.getInstance().create("");
+		if (title != null)
+			note.setTitle(title);
+		
 		MainFrame.getInstance().getNoteView().refreshNotes();
 		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
 		
