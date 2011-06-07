@@ -462,12 +462,15 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					MainFrame.this.setVisible(true);
+					MainFrame.this.setState(Frame.NORMAL);
 				}
 				
 			});
 			
-			trayIcon.setPopupMenu(new TrayPopup(this.taskPanel, this.notePanel));
+			trayIcon.setPopupMenu(new TrayPopup(
+					this,
+					this.taskPanel,
+					this.notePanel));
 			
 			try {
 				tray.add(trayIcon);
