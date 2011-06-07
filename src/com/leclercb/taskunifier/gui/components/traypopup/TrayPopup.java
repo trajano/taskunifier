@@ -33,6 +33,7 @@ public class TrayPopup extends PopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
+				frame.setVisible(true);
 				frame.setState(Frame.NORMAL);
 			}
 			

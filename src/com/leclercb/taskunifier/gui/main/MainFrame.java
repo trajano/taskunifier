@@ -452,8 +452,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeSystemTray() {
 		if (SystemTray.isSupported()) {
-			SystemTray tray = SystemTray.getSystemTray();
-			TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
+			final SystemTray tray = SystemTray.getSystemTray();
+			final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
 					"logo.png",
 					16,
 					16).getImage());
@@ -462,6 +462,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					MainFrame.this.setVisible(true);
 					MainFrame.this.setState(Frame.NORMAL);
 				}
 				
@@ -472,11 +473,24 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 					this.taskPanel,
 					this.notePanel));
 			
-			try {
-				tray.add(trayIcon);
-			} catch (AWTException e) {
-				e.printStackTrace();
-			}
+			this.addWindowListener(new WindowAdapter() {
+				
+				@Override
+				public void windowIconified(WindowEvent event) {
+					try {
+						tray.add(trayIcon);
+						MainFrame.this.setVisible(false);
+					} catch (AWTException e) {
+
+					}
+				}
+				
+				@Override
+				public void windowDeiconified(WindowEvent event) {
+					tray.remove(trayIcon);
+				}
+				
+			});
 		}
 	}
 	
