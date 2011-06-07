@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 
+import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -58,10 +59,10 @@ final class StatusBarElements {
 		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
 			
 			@Override
-			public void showMessage(String message) {
+			public void showMessage(ProgressMessage message, String content) {
 				element.setText(Translations.getString("synchronizer.status")
 						+ ": "
-						+ message);
+						+ content);
 			}
 			
 		});

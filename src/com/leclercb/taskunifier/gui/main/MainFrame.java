@@ -55,9 +55,12 @@ import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
@@ -488,6 +491,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				
 				@Override
 				public void windowDeiconified(WindowEvent event) {
+					MainFrame.this.setVisible(true);
+					MainFrame.this.setState(Frame.NORMAL);
 					tray.remove(trayIcon);
 				}
 				
@@ -496,11 +501,16 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
 				
 				@Override
-				public void showMessage(String message) {
-					trayIcon.displayMessage(
-							Constants.TITLE,
-							message,
-							TrayIcon.MessageType.INFO);
+				public void showMessage(ProgressMessage message, String content) {
+					if (message instanceof SynchronizationProgressMessage) {
+						SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
+						
+						if (m.getType() == ProgressMessageType.END)
+							trayIcon.displayMessage(
+									Constants.TITLE,
+									content,
+									TrayIcon.MessageType.INFO);
+					}
 				}
 				
 			});

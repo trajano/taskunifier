@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
 
+import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -64,8 +65,8 @@ public class SynchronizerDialog extends WaitDialog {
 			ProgressMessageListener handler = new ProgressMessageListener() {
 				
 				@Override
-				public void showMessage(String message) {
-					SynchronizerDialog.this.appendToProgressStatus(message
+				public void showMessage(ProgressMessage message, String content) {
+					SynchronizerDialog.this.appendToProgressStatus(content
 							+ "\n");
 				}
 				

@@ -15,7 +15,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public abstract class ProgressMessageListener implements ListChangeListener {
 	
-	public abstract void showMessage(String message);
+	public abstract void showMessage(ProgressMessage message, String content);
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
@@ -25,14 +25,18 @@ public abstract class ProgressMessageListener implements ListChangeListener {
 			if (message instanceof DefaultProgressMessage) {
 				DefaultProgressMessage m = (DefaultProgressMessage) message;
 				
-				this.showMessage(m.getMessage());
+				this.showMessage(m, m.getMessage());
 			} else if (message instanceof SynchronizationProgressMessage) {
 				SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
 				
 				if (m.getType().equals(ProgressMessageType.START))
-					this.showMessage(Translations.getString("synchronizer.start_synchronization"));
-				else
-					this.showMessage(Translations.getString("synchronizer.synchronization_completed"));
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.start_synchronization"));
+				else if (m.getType().equals(ProgressMessageType.END))
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.synchronization_completed"));
 			} else if (message instanceof RetrieveModelsProgressMessage) {
 				RetrieveModelsProgressMessage m = (RetrieveModelsProgressMessage) message;
 				
@@ -41,7 +45,7 @@ public abstract class ProgressMessageListener implements ListChangeListener {
 				
 				String type = this.modelTypeToString(m.getModelType(), true);
 				
-				this.showMessage(Translations.getString(
+				this.showMessage(m, Translations.getString(
 						"synchronizer.retrieving_models",
 						type));
 			} else if (message instanceof SynchronizeModelsProgressMessage) {
@@ -55,10 +59,12 @@ public abstract class ProgressMessageListener implements ListChangeListener {
 						m.getModelType(),
 						m.getActionCount() > 1);
 				
-				this.showMessage(Translations.getString(
-						"synchronizer.synchronizing",
-						m.getActionCount(),
-						type));
+				this.showMessage(
+						m,
+						Translations.getString(
+								"synchronizer.synchronizing",
+								m.getActionCount(),
+								type));
 			}
 		}
 	}
