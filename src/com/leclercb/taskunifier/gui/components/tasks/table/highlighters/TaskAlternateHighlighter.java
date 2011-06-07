@@ -65,8 +65,7 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						"theme.color.importance.enabled")
+				if (evt.getPropertyName().startsWith("theme.color.importance.")
 						|| evt.getPropertyName().equals("theme.color.enabled")
 						|| evt.getPropertyName().equals("theme.color.even")
 						|| evt.getPropertyName().equals("theme.color.odd")) {

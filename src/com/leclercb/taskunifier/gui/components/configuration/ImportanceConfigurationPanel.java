@@ -32,10 +32,15 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.importance.ColorImportanceFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.SettingsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -53,6 +58,20 @@ public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("general.task.importance") + " " + i,
 					new ColorImportanceFieldType(i)));
 		}
+		
+		this.addField(new ConfigurationField(
+				"RESET_COLORS",
+				null,
+				new ConfigurationFieldType.Button(
+						Translations.getString("general.reset_colors"),
+						new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent evt) {
+								SettingsUtils.resetImportanceColors();
+							}
+							
+						})));
 	}
 	
 }
