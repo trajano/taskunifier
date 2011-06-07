@@ -59,7 +59,6 @@ import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.ProgressMessageType;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
@@ -455,12 +454,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeSystemTray() {
-		if (SystemTray.isSupported()) {
+		if (SystemTray.isSupported()
+				&& Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray") != null
+				&& Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray")) {
 			final SystemTray tray = SystemTray.getSystemTray();
 			final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
 					"logo.png",
-					16,
-					16).getImage());
+					(int) tray.getTrayIconSize().getWidth(),
+					(int) tray.getTrayIconSize().getHeight()).getImage());
 			
 			trayIcon.addActionListener(new ActionListener() {
 				
@@ -503,13 +504,10 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				@Override
 				public void showMessage(ProgressMessage message, String content) {
 					if (message instanceof SynchronizationProgressMessage) {
-						SynchronizationProgressMessage m = (SynchronizationProgressMessage) message;
-						
-						if (m.getType() == ProgressMessageType.END)
-							trayIcon.displayMessage(
-									Constants.TITLE,
-									content,
-									TrayIcon.MessageType.INFO);
+						trayIcon.displayMessage(
+								Constants.TITLE,
+								content,
+								TrayIcon.MessageType.INFO);
 					}
 				}
 				

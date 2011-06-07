@@ -409,6 +409,10 @@ public final class SettingsVersion {
 		SettingsUtils.resetImportanceColors();
 		SettingsUtils.resetPriorityColors();
 		
+		Main.SETTINGS.setStringProperty(
+				"window.minimize_to_system_tray",
+				"false");
+		
 		return "0.9.5";
 	}
 	

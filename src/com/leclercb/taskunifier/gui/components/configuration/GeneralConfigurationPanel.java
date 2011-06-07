@@ -38,6 +38,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.MinimizeToSystemTrayFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksAtTheEndFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowWindowEditOnAddFieldType;
@@ -103,12 +104,22 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldTypeExt.Separator()));
 			
 			this.addField(new ConfigurationField(
+					"MINIMIZE_TO_SYSTEM_TRAY",
+					Translations.getString("configuration.general.minimize_to_system_tray"),
+					new MinimizeToSystemTrayFieldType()));
+			
+			this.addField(new ConfigurationField(
+					"SEPARATOR_3",
+					null,
+					new ConfigurationFieldTypeExt.Separator()));
+			
+			this.addField(new ConfigurationField(
 					"SHOW_EDIT_WINDOW_ON_ADD",
 					Translations.getString("configuration.general.show_edit_window_on_add"),
 					new ShowWindowEditOnAddFieldType()));
 			
 			this.addField(new ConfigurationField(
-					"SEPARATOR_3",
+					"SEPARATOR_4",
 					null,
 					new ConfigurationFieldTypeExt.Separator()));
 			
