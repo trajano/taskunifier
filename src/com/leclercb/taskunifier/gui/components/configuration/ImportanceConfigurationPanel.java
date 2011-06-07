@@ -30,35 +30,29 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.configuration;
 
-import java.awt.Color;
-
-import javax.swing.Icon;
-
-import org.jdesktop.swingx.renderer.IconValue;
-
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.fields.importance.ColorImportanceFieldType;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class IconValueTaskPriority implements IconValue {
+public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 	
-	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof TaskPriority))
-			return null;
-		
-		TaskPriority priority = (TaskPriority) value;
-		
-		Color color = Main.SETTINGS.getColorProperty("theme.color.priority."
-				+ priority.name().toLowerCase());
-		
-		Icon icon = new ColorBadgeIcon(color, 12, 12);
-		
-		return icon;
+	public ImportanceConfigurationPanel() {
+		this.initialize();
+		this.pack();
+	}
+	
+	private void initialize() {
+		for (int i = 0; i <= 12; i++) {
+			this.addField(new ConfigurationField(
+					"IMPORTANCE_" + i,
+					Translations.getString("general.task.importance") + " " + i,
+					new ColorImportanceFieldType(i)));
+		}
 	}
 	
 }

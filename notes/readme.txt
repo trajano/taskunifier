@@ -1,6 +1,11 @@
 HISTORY
 -------
 
+Version 0.9.5
+	- Minor:
+		- FR 3312542: Subtask button in toolbar
+		- FR 3312960: Settings for priority/importance colors
+
 Version 0.9.4
 	- Major:
 		- Hide subtasks

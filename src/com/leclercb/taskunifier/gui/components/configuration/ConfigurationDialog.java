@@ -76,6 +76,8 @@ public class ConfigurationDialog extends JDialog {
 		PROXY,
 		COLUMNS,
 		THEME,
+		PRIORITY,
+		IMPORTANCE,
 		SYNCHRONIZATION,
 		PLUGIN;
 		
@@ -87,6 +89,8 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanelExt proxyConfigurationPanel;
 	private ConfigurationPanelExt columnsConfigurationPanel;
 	private ConfigurationPanelExt themeConfigurationPanel;
+	private ConfigurationPanelExt priorityConfigurationPanel;
+	private ConfigurationPanelExt importanceConfigurationPanel;
 	private ConfigurationPanelExt synchronizationConfigurationPanel;
 	private ConfigurationPanelExt pluginConfigurationPanel;
 	
@@ -112,11 +116,17 @@ public class ConfigurationDialog extends JDialog {
 			case THEME:
 				this.tabbedPane.setSelectedIndex(3);
 				break;
-			case SYNCHRONIZATION:
+			case PRIORITY:
 				this.tabbedPane.setSelectedIndex(4);
 				break;
-			case PLUGIN:
+			case IMPORTANCE:
 				this.tabbedPane.setSelectedIndex(5);
+				break;
+			case SYNCHRONIZATION:
+				this.tabbedPane.setSelectedIndex(6);
+				break;
+			case PLUGIN:
+				this.tabbedPane.setSelectedIndex(7);
 				break;
 		}
 	}
@@ -146,6 +156,8 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeProxyPanel();
 		this.initializeColumnsPanel();
 		this.initializeThemePanel();
+		this.initializePriorityPanel();
+		this.initializeImportancePanel();
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
@@ -178,6 +190,8 @@ public class ConfigurationDialog extends JDialog {
 					ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.priorityConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.importanceConfigurationPanel.cancelConfig();
 					
 					ConfigurationDialog.this.setVisible(false);
 				}
@@ -241,6 +255,24 @@ public class ConfigurationDialog extends JDialog {
 						false));
 	}
 	
+	private void initializePriorityPanel() {
+		this.priorityConfigurationPanel = new PriorityConfigurationPanel();
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.priority"),
+				ComponentFactory.createJScrollPane(
+						this.priorityConfigurationPanel,
+						false));
+	}
+	
+	private void initializeImportancePanel() {
+		this.importanceConfigurationPanel = new ImportanceConfigurationPanel();
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.importance"),
+				ComponentFactory.createJScrollPane(
+						this.importanceConfigurationPanel,
+						false));
+	}
+	
 	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
 				false);
@@ -270,6 +302,8 @@ public class ConfigurationDialog extends JDialog {
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
+			this.priorityConfigurationPanel.saveAndApplyConfig();
+			this.importanceConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();

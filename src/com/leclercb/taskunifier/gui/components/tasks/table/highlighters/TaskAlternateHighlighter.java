@@ -119,43 +119,10 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 		if (((Task) value).isCompleted()) {
 			renderer.setBackground(Color.WHITE);
 		} else {
-			switch (importance) {
-				case 0:
-				case 1:
-				case 2:
-					renderer.setBackground(Color.WHITE);
-					break;
-				case 3:
-					renderer.setBackground(new Color(153, 255, 255));
-					break;
-				case 4:
-					renderer.setBackground(new Color(204, 255, 255));
-					break;
-				case 5:
-					renderer.setBackground(new Color(153, 255, 204));
-					break;
-				case 6:
-					renderer.setBackground(new Color(204, 255, 204));
-					break;
-				case 7:
-					renderer.setBackground(new Color(204, 255, 153));
-					break;
-				case 8:
-					renderer.setBackground(new Color(255, 255, 204));
-					break;
-				case 9:
-					renderer.setBackground(new Color(255, 255, 153));
-					break;
-				case 10:
-					renderer.setBackground(new Color(255, 204, 153));
-					break;
-				case 11:
-					renderer.setBackground(new Color(255, 204, 204));
-					break;
-				case 12:
-					renderer.setBackground(new Color(255, 153, 153));
-					break;
-			}
+			Color color = Main.SETTINGS.getColorProperty("theme.color.importance."
+					+ importance);
+			
+			renderer.setBackground(color);
 		}
 		
 		return renderer;
