@@ -303,10 +303,10 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private void initializeToolBar() {
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			this.add(
-					new MacToolBar(this.searchField).getComponent(),
+					new MacToolBar(this.taskPanel, this.searchField).getComponent(),
 					BorderLayout.NORTH);
 		} else {
-			this.add(new DefaultToolBar(), BorderLayout.NORTH);
+			this.add(new DefaultToolBar(this.taskPanel), BorderLayout.NORTH);
 		}
 	}
 	

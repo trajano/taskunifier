@@ -127,6 +127,9 @@ public final class SettingsVersion {
 		if (version.equals("0.9.3"))
 			version = updateSettings_0_9_3_to_0_9_4();
 		
+		if (version.equals("0.9.4"))
+			version = updateSettings_0_9_4_to_0_9_5();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -396,6 +399,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("taskcolumn.show_children.width", "40");
 		
 		return "0.9.4";
+	}
+	
+	private static String updateSettings_0_9_4_to_0_9_5() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.9.4 to 0.9.5");
+		
+		return "0.9.5";
 	}
 	
 }

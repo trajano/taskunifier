@@ -48,12 +48,14 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
@@ -62,16 +64,20 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class MacToolBar extends UnifiedToolBar {
 	
-	public MacToolBar(JXSearchField searchField) {
+	public MacToolBar(TaskView taskView, JXSearchField searchField) {
 		CheckUtils.isNotNull(searchField, "Search field cannot be null");
 		
-		this.initialize();
+		this.initialize(taskView);
 		this.addComponentToRight(searchField);
 	}
 	
-	private void initialize() {
+	private void initialize(TaskView taskView) {
 		this.addComponentToLeft(this.createButton(new ActionAddNote(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddTask(24, 24)));
+		this.addComponentToLeft(this.createButton(new ActionAddSubTask(
+				taskView,
+				24,
+				24)));
 		this.initializeTemplates();
 		this.addComponentToLeft(this.createButton(new ActionDelete(24, 24)));
 		this.addComponentToLeft(new JSeparator());

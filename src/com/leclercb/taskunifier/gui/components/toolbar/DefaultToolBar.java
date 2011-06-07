@@ -44,12 +44,14 @@ import javax.swing.JToolBar;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
@@ -58,16 +60,17 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class DefaultToolBar extends JToolBar {
 	
-	public DefaultToolBar() {
-		this.initialize();
+	public DefaultToolBar(TaskView taskView) {
+		this.initialize(taskView);
 	}
 	
-	private void initialize() {
+	private void initialize(TaskView taskView) {
 		this.setFloatable(false);
 		this.setRollover(true);
 		
 		this.add(new ActionAddNote(24, 24));
 		this.add(new ActionAddTask(24, 24));
+		this.add(new ActionAddSubTask(taskView, 24, 24));
 		this.initializeTemplates();
 		this.add(new ActionDelete(24, 24));
 		this.addSeparator(new Dimension(20, 20));
