@@ -73,7 +73,9 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(TemplateFactory.getInstance().getDefaultTemplate(), null);
+		ActionAddTask.addTask(
+				TemplateFactory.getInstance().getDefaultTemplate(),
+				null);
 	}
 	
 	public static Task addTask(Template template, String title) {
