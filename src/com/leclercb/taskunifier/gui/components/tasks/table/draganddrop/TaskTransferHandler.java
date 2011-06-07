@@ -32,7 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.draganddrop;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +42,14 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
+import org.apache.commons.io.IOUtils;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -55,60 +61,69 @@ public class TaskTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
-		if (!support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR))
-			return false;
-		
-		// Get Drag Task
 		Transferable t = support.getTransferable();
-		List<Task> dragTasks = new ArrayList<Task>();
 		
-		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			// Get Drag Task
+			List<Task> dragTasks = new ArrayList<Task>();
 			
-			if (!data.getType().equals(ModelType.TASK))
-				return false;
-			
-			for (ModelId id : data.getIds())
-				dragTasks.add(TaskFactory.getInstance().get(id));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		if (support.isDrop()) {
-			// Get Objects
-			TaskTable table = (TaskTable) support.getComponent();
-			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
-			
-			// False : If drag task has at least one child
-			for (Task dragTask : dragTasks)
-				if (dragTask.getChildren().length != 0)
+			try {
+				ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (!data.getType().equals(ModelType.TASK))
 					return false;
-			
-			// True : If insert row
-			if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
-				return true;
+				
+				for (ModelId id : data.getIds())
+					dragTasks.add(TaskFactory.getInstance().get(id));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 			
-			// Get Drop Task
-			Task dropTask = table.getTask(dl.getRow());
-			
-			if (dropTask == null)
-				return false;
-			
-			// False if drag task equals to drop task
-			for (Task dragTask : dragTasks)
-				if (dragTask.equals(dropTask))
+			if (support.isDrop()) {
+				// Get Objects
+				TaskTable table = (TaskTable) support.getComponent();
+				JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+				
+				// False : If drag task has at least one child
+				for (Task dragTask : dragTasks)
+					if (dragTask.getChildren().length != 0)
+						return false;
+				
+				// True : If insert row
+				if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
+					return true;
+				}
+				
+				// Get Drop Task
+				Task dropTask = table.getTask(dl.getRow());
+				
+				if (dropTask == null)
 					return false;
-			
-			// False if drop task has a parent task
-			if (dropTask.getParent() != null)
-				return false;
-			
-			return true;
+				
+				// False if drag task equals to drop task
+				for (Task dragTask : dragTasks)
+					if (dragTask.equals(dropTask))
+						return false;
+				
+				// False if drop task has a parent task
+				if (dropTask.getParent() != null)
+					return false;
+				
+				return true;
+			} else {
+				return true;
+			}
 		} else {
-			return true;
+			DataFlavor[] flavors = t.getTransferDataFlavors();
+			for (DataFlavor flavor : flavors) {
+				if (flavor.isFlavorTextType()
+						&& flavor.getHumanPresentableName().equals("text/plain"))
+					return true;
+			}
 		}
+		
+		return false;
 	}
 	
 	@Override
@@ -136,72 +151,95 @@ public class TaskTransferHandler extends TransferHandler {
 			return false;
 		}
 		
-		// Get Drag Task
 		Transferable t = support.getTransferable();
-		List<Task> dragTasks = new ArrayList<Task>();
 		
-		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			// Get Drag Task
+			List<Task> dragTasks = new ArrayList<Task>();
 			
-			for (ModelId id : data.getIds())
-				dragTasks.add(TaskFactory.getInstance().get(id));
-		} catch (Exception e) {
-			return false;
-		}
-		
-		if (support.isDrop()) {
-			// Get Objects
-			TaskTable table = (TaskTable) support.getComponent();
-			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+			try {
+				ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				for (ModelId id : data.getIds())
+					dragTasks.add(TaskFactory.getInstance().get(id));
+			} catch (Exception e) {
+				return false;
+			}
 			
-			// Import : If insert row
-			if (dl.isInsertRow()) {
+			if (support.isDrop()) {
+				// Get Objects
+				TaskTable table = (TaskTable) support.getComponent();
+				JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+				
+				// Import : If insert row
+				if (dl.isInsertRow()) {
+					for (Task dragTask : dragTasks)
+						dragTask.setParent(null);
+					
+					table.refreshTasks();
+					return true;
+				}
+				
+				// Get Drop Task
+				Task dropTask = table.getTask(dl.getRow());
+				
+				if (dropTask == null)
+					return false;
+				
+				// Validate Import
+				if (dropTask.getParent() != null)
+					return false;
+				
+				// Import
+				try {
+					for (Task dragTask : dragTasks)
+						dragTask.setParent(dropTask);
+					
+					table.refreshTasks();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				return true;
+			} else {
+				// Get Objects
+				TaskTable table = (TaskTable) support.getComponent();
+				
+				List<Task> newTasks = new ArrayList<Task>();
+				
+				Synchronizing.setSynchronizing(true);
+				
 				for (Task dragTask : dragTasks)
-					dragTask.setParent(null);
+					newTasks.add(TaskFactory.getInstance().create(dragTask));
+				
+				Synchronizing.setSynchronizing(false);
 				
 				table.refreshTasks();
+				table.setSelectedTasks(newTasks.toArray(new Task[0]));
+				
 				return true;
 			}
-			
-			// Get Drop Task
-			Task dropTask = table.getTask(dl.getRow());
-			
-			if (dropTask == null)
-				return false;
-			
-			// Validate Import
-			if (dropTask.getParent() != null)
-				return false;
-			
-			// Import
-			try {
-				for (Task dragTask : dragTasks)
-					dragTask.setParent(dropTask);
-				
-				table.refreshTasks();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return true;
 		} else {
-			// Get Objects
-			TaskTable table = (TaskTable) support.getComponent();
-			
-			List<Task> newTasks = new ArrayList<Task>();
-			
-			Synchronizing.setSynchronizing(true);
-			
-			for (Task dragTask : dragTasks)
-				newTasks.add(TaskFactory.getInstance().create(dragTask));
-			
-			Synchronizing.setSynchronizing(false);
-			
-			table.refreshTasks();
-			table.setSelectedTasks(newTasks.toArray(new Task[0]));
-			
-			return true;
+			try {
+				DataFlavor[] flavors = t.getTransferDataFlavors();
+				for (DataFlavor flavor : flavors) {
+					if (flavor.isFlavorTextType()
+							&& flavor.getHumanPresentableName().equals(
+									"text/plain")) {
+						Reader reader = flavor.getReaderForText(t);
+						String title = IOUtils.toString(reader);
+						ActionAddTask.addTask(
+								TemplateFactory.getInstance().getDefaultTemplate(),
+								title);
+						return true;
+					}
+				}
+			} catch (Throwable throwable) {
+				return false;
+			}
 		}
+		
+		return false;
 	}
 	
 	@Override

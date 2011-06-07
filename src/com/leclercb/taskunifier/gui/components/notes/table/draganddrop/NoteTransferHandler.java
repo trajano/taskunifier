@@ -32,17 +32,22 @@
  */
 package com.leclercb.taskunifier.gui.components.notes.table.draganddrop;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
+import org.apache.commons.io.IOUtils;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
@@ -54,22 +59,30 @@ public class NoteTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
-		if (!support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR))
-			return false;
-		
 		Transferable t = support.getTransferable();
 		
-		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
-			
-			if (!data.getType().equals(ModelType.NOTE))
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			try {
+				ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (!data.getType().equals(ModelType.NOTE))
+					return false;
+			} catch (Exception e) {
+				e.printStackTrace();
 				return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			}
+			
+			return true;
+		} else {
+			DataFlavor[] flavors = t.getTransferDataFlavors();
+			for (DataFlavor flavor : flavors) {
+				if (flavor.isFlavorTextType()
+						&& flavor.getHumanPresentableName().equals("text/plain"))
+					return true;
+			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -97,35 +110,56 @@ public class NoteTransferHandler extends TransferHandler {
 			return false;
 		}
 		
-		// Get Drag Note
 		Transferable t = support.getTransferable();
-		List<Note> dragNotes = new ArrayList<Note>();
 		
-		try {
-			ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			// Get Drag Note
+			List<Note> dragNotes = new ArrayList<Note>();
 			
-			for (ModelId id : data.getIds())
-				dragNotes.add(NoteFactory.getInstance().get(id));
-		} catch (Exception e) {
-			return false;
+			try {
+				ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				for (ModelId id : data.getIds())
+					dragNotes.add(NoteFactory.getInstance().get(id));
+			} catch (Exception e) {
+				return false;
+			}
+			
+			// Get Objects
+			NoteTable table = (NoteTable) support.getComponent();
+			
+			List<Note> newNotes = new ArrayList<Note>();
+			
+			Synchronizing.setSynchronizing(true);
+			
+			for (Note dragNote : dragNotes)
+				newNotes.add(NoteFactory.getInstance().create(dragNote));
+			
+			Synchronizing.setSynchronizing(false);
+			
+			table.refreshNotes();
+			table.setSelectedNotes(newNotes.toArray(new Note[0]));
+			
+			return true;
+		} else {
+			try {
+				DataFlavor[] flavors = t.getTransferDataFlavors();
+				for (DataFlavor flavor : flavors) {
+					if (flavor.isFlavorTextType()
+							&& flavor.getHumanPresentableName().equals(
+									"text/plain")) {
+						Reader reader = flavor.getReaderForText(t);
+						String title = IOUtils.toString(reader);
+						ActionAddNote.addNote(title);
+						return true;
+					}
+				}
+			} catch (Throwable throwable) {
+				return false;
+			}
 		}
 		
-		// Get Objects
-		NoteTable table = (NoteTable) support.getComponent();
-		
-		List<Note> newNotes = new ArrayList<Note>();
-		
-		Synchronizing.setSynchronizing(true);
-		
-		for (Note dragNote : dragNotes)
-			newNotes.add(NoteFactory.getInstance().create(dragNote));
-		
-		Synchronizing.setSynchronizing(false);
-		
-		table.refreshNotes();
-		table.setSelectedNotes(newNotes.toArray(new Note[0]));
-		
-		return true;
+		return false;
 	}
 	
 	@Override
