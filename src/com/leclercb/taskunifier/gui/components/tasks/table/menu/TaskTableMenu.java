@@ -41,7 +41,9 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionCollapseAll;
 import com.leclercb.taskunifier.gui.actions.ActionEditTask;
+import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -81,6 +83,8 @@ public class TaskTableMenu extends JPopupMenu {
 		this.initializeItemDuplicateTasks();
 		this.addSeparator();
 		this.initializeItemSortTasks();
+		this.addSeparator();
+		this.initializeCollapseExpandAll();
 	}
 	
 	private void initializeItemEditTask() {
@@ -147,6 +151,11 @@ public class TaskTableMenu extends JPopupMenu {
 		});
 		
 		this.add(this.itemSortTasks);
+	}
+	
+	private void initializeCollapseExpandAll() {
+		this.add(new JMenuItem(new ActionCollapseAll()));
+		this.add(new JMenuItem(new ActionExpandAll()));
 	}
 	
 }
