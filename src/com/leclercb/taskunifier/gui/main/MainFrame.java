@@ -32,9 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.main;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Frame;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -73,6 +76,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
+import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
@@ -185,6 +189,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.initializeMenuBar();
 			this.initializeToolBar();
 			this.initializeStatusBar();
+			
+			this.initializeSystemTray();
 			
 			this.searcherPanel.refreshTaskSearcher();
 		}
@@ -442,6 +448,33 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private void initializeScheduledSyncThread() {
 		this.scheduledSyncThread = new ScheduledSyncThread();
 		this.scheduledSyncThread.start();
+	}
+	
+	private void initializeSystemTray() {
+		if (SystemTray.isSupported()) {
+			SystemTray tray = SystemTray.getSystemTray();
+			TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
+					"logo.png",
+					16,
+					16).getImage());
+			
+			trayIcon.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MainFrame.this.setVisible(true);
+				}
+				
+			});
+			
+			trayIcon.setPopupMenu(new TrayPopup(this.taskPanel, this.notePanel));
+			
+			try {
+				tray.add(trayIcon);
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
