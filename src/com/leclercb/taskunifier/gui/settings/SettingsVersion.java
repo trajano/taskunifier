@@ -420,6 +420,10 @@ public final class SettingsVersion {
 			
 		});
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.progress.order", "2");
+		Main.SETTINGS.setStringProperty("taskcolumn.progress.visible", "true");
+		Main.SETTINGS.setStringProperty("taskcolumn.progress.width", "50");
+		
 		Main.SETTINGS.setStringProperty("theme.color.progress", "-3355393");
 		
 		Main.SETTINGS.setStringProperty(
