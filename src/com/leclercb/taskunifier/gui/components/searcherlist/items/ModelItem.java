@@ -48,13 +48,11 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.components.searcherlist.TaskSearcherElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -155,16 +153,6 @@ public class ModelItem extends SourceListItem implements TaskSearcherElement {
 				column,
 				ModelCondition.EQUALS,
 				this.model));
-		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
-				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
-			filter.addElement(new TaskFilterElement(
-					TaskColumn.COMPLETED,
-					StringCondition.EQUALS,
-					"false"));
-			
-			template.setTaskCompleted(false);
-		}
 		
 		String title = (this.model == null ? Translations.getString("searcherlist.none") : this.model.getTitle());
 		TaskSearcher searcher = new TaskSearcher(

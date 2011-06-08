@@ -51,6 +51,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.plugins.PluginLoader;
@@ -112,12 +113,18 @@ public class Main {
 	public static String DATA_FOLDER;
 	public static String PLUGINS_FOLDER;
 	
+	public static ActionSupport AFTER_START;
+	public static ActionSupport BEFORE_EXIT;
+	
 	private static PrintStream ORIGINAL_OUT_STREAM;
 	private static PrintStream ORIGINAL_ERR_STREAM;
 	private static OutputStream LOG_STREAM;
 	private static PrintStream NEW_STREAM;
 	
 	public static void main(String[] args) {
+		AFTER_START = new ActionSupport(Main.class);
+		BEFORE_EXIT = new ActionSupport(Main.class);
+		
 		boolean outdatedPlugins;
 		
 		try {
@@ -131,6 +138,8 @@ public class Main {
 			loadLookAndFeel();
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
+			
+			AFTER_START.fireActionPerformed(0, "AFTER_START");
 		} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -525,6 +534,8 @@ public class Main {
 		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
 			ActionSynchronize.synchronize(false);
+		
+		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		

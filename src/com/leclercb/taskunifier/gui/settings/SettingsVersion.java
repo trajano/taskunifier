@@ -32,6 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.UIManager;
@@ -408,6 +410,15 @@ public final class SettingsVersion {
 		
 		SettingsUtils.resetImportanceColors();
 		SettingsUtils.resetPriorityColors();
+		
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SettingsUtils.removeCompletedCondition();
+			}
+			
+		});
 		
 		Main.SETTINGS.setStringProperty(
 				"window.minimize_to_system_tray",

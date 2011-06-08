@@ -46,6 +46,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -108,6 +109,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private JPanel middlePane;
 	
 	private JXSearchField searchField;
+	private JCheckBox showCompletedTasksCheckBox;
 	private SearcherPanel searcherPanel;
 	
 	private NotePanel notePanel;
@@ -179,6 +181,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		{
 			this.initializeSearchField();
+			this.initializeShowCompletedTasksCheckBox();
 			this.initializeSearcherList(this.horizontalSplitPane);
 			this.initializeNotePanel(this.middlePane);
 			this.initializeTaskPanel(this.middlePane);
@@ -351,11 +354,34 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		});
 	}
 	
+	private void initializeShowCompletedTasksCheckBox() {
+		this.showCompletedTasksCheckBox = new JCheckBox(
+				Translations.getString("configuration.general.show_completed_tasks"));
+		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
+			this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"));
+		
+		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.SETTINGS.setBooleanProperty(
+						"searcher.show_completed_tasks",
+						MainFrame.this.showCompletedTasksCheckBox.isSelected());
+			}
+			
+		});
+	}
+	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
+		JPanel northPanel = new JPanel(new BorderLayout());
+		panel.add(northPanel, BorderLayout.NORTH);
+		
+		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.NORTH);
 		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			panel.add(this.searchField, BorderLayout.NORTH);
+			northPanel.add(this.searchField, BorderLayout.SOUTH);
 		}
 		
 		this.searcherPanel = new SearcherPanel();

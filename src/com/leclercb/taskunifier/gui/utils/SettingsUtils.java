@@ -1,5 +1,12 @@
 package com.leclercb.taskunifier.gui.utils;
 
+import java.util.List;
+
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -36,6 +43,28 @@ public final class SettingsUtils {
 				"-16711936");
 		Main.SETTINGS.setStringProperty("theme.color.priority.high", "-14336");
 		Main.SETTINGS.setStringProperty("theme.color.priority.top", "-65536");
+	}
+	
+	public static void removeCompletedCondition() {
+		List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
+		for (TaskSearcher searcher : searchers) {
+			removeCompletedCondition(searcher.getFilter());
+		}
+	}
+	
+	private static void removeCompletedCondition(TaskFilter filter) {
+		List<TaskFilterElement> elements = filter.getElements();
+		List<TaskFilter> filters = filter.getFilters();
+		
+		for (TaskFilterElement e : elements) {
+			if (e.getColumn() == TaskColumn.COMPLETED)
+				if (e.getValue().equals(Boolean.FALSE))
+					filter.removeElement(e);
+		}
+		
+		for (TaskFilter f : filters) {
+			removeCompletedCondition(f);
+		}
 	}
 	
 }

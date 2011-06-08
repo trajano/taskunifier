@@ -33,12 +33,16 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.util.Calendar;
+import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -116,7 +120,32 @@ public final class TaskUtils {
 				return false;
 		}
 		
+		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
+				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
+			if (task.isCompleted() && !containsCompletedTrue(filter))
+				return false;
+		}
+		
 		return filter.include(task);
+	}
+	
+	private static boolean containsCompletedTrue(TaskFilter filter) {
+		List<TaskFilterElement> elements = filter.getElements();
+		List<TaskFilter> filters = filter.getFilters();
+		
+		for (TaskFilterElement e : elements) {
+			if (e.getColumn() == TaskColumn.COMPLETED) {
+				if (e.getValue().toString().equals("true"))
+					return true;
+			}
+		}
+		
+		for (TaskFilter f : filters) {
+			if (containsCompletedTrue(f))
+				return true;
+		}
+		
+		return false;
 	}
 	
 }

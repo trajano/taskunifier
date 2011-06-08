@@ -122,7 +122,8 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	}
 	
 	public List<TaskFilterElement> getElements() {
-		return Collections.unmodifiableList(this.elements);
+		return Collections.unmodifiableList(new ArrayList<TaskFilterElement>(
+				this.elements));
 	}
 	
 	public void addElement(TaskFilterElement element) {
@@ -169,7 +170,8 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	}
 	
 	public List<TaskFilter> getFilters() {
-		return Collections.unmodifiableList(this.filters);
+		return Collections.unmodifiableList(new ArrayList<TaskFilter>(
+				this.filters));
 	}
 	
 	public void addFilter(TaskFilter filter) {

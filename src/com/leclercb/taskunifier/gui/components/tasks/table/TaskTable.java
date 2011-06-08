@@ -38,6 +38,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -202,6 +205,17 @@ public class TaskTable extends JXTable {
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"searcher.show_completed_tasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TaskTable.this.refreshTasks();
+					}
+					
+				});
 	}
 	
 	private void initializeDeleteTask() {

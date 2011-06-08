@@ -7,6 +7,7 @@ Version 0.9.5
 		- FR 3312960: Settings for priority/importance colors
 		- FR 3312948: Collapse & expand all
 		- FR 3300484: System tray
+		- FR 3313298: Show completed tasks
 		- Paste from any application
 
 Version 0.9.4
