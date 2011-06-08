@@ -10,6 +10,7 @@ Version 0.9.5
 		- FR 3313298: Show completed tasks
 		- FR 3260156: Progress of a task
 		- Paste from any application
+		- Bug fixed: force correct rights on data folder
 
 Version 0.9.4
 	- Major:
