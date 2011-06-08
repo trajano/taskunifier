@@ -122,6 +122,8 @@ public class Main {
 	private static PrintStream NEW_STREAM;
 	
 	public static void main(String[] args) {
+		FIRST_EXECUTION = false;
+		
 		AFTER_START = new ActionSupport(Main.class);
 		BEFORE_EXIT = new ActionSupport(Main.class);
 		
@@ -277,6 +279,14 @@ public class Main {
 						"error.create_data_folder",
 						DATA_FOLDER));
 			
+			try {
+				file.setExecutable(true, true);
+				file.setReadable(true, true);
+				file.setWritable(true, true);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+			
 			FIRST_EXECUTION = true;
 			return;
 		} else if (!file.isDirectory()) {
@@ -284,8 +294,6 @@ public class Main {
 					"error.data_folder_not_a_folder",
 					DATA_FOLDER));
 		}
-		
-		FIRST_EXECUTION = false;
 	}
 	
 	private static void loadPluginsFolder() {
@@ -312,6 +320,8 @@ public class Main {
 						Translations.getString("error.settings_file"),
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
+			
+			FIRST_EXECUTION = true;
 		}
 	}
 	
@@ -470,8 +480,17 @@ public class Main {
 		
 		File pluginsFolder = new File(PLUGINS_FOLDER);
 		
-		if (!pluginsFolder.exists())
+		if (!pluginsFolder.exists()) {
 			pluginsFolder.mkdir();
+			
+			try {
+				pluginsFolder.setExecutable(true, true);
+				pluginsFolder.setReadable(true, true);
+				pluginsFolder.setWritable(true, true);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+		}
 		
 		boolean outdatedPlugins = false;
 		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
