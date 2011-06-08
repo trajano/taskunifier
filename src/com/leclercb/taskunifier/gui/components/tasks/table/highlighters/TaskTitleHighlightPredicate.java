@@ -34,24 +34,21 @@ package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
 import java.awt.Component;
 
-import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskProgressHighlighter extends AbstractHighlighter {
-	
-	public TaskProgressHighlighter(HighlightPredicate predicate) {
-		super(predicate);
-	}
+public class TaskTitleHighlightPredicate implements HighlightPredicate {
 	
 	@Override
-	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		System.out.println(adapter.getClass());
+	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
+		if (adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column)) != TaskColumn.TITLE)
+			return false;
 		
-		return renderer;
+		return true;
 	}
 	
 }

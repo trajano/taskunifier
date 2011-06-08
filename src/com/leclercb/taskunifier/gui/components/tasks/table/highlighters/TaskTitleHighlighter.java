@@ -34,23 +34,92 @@ package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.JLabel;
 
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.painter.Painter;
+import org.jdesktop.swingx.renderer.JRendererLabel;
 
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskEmptyTitleHighlighter extends AbstractHighlighter {
+public class TaskTitleHighlighter extends AbstractHighlighter {
 	
-	public TaskEmptyTitleHighlighter(HighlightPredicate predicate) {
+	public TaskTitleHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		renderer.setForeground(Color.GRAY);
+		JRendererLabel r = (JRendererLabel) renderer;
+		
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return r;
+		
+		final Task task = (Task) value;
+		
+		String title = task.getTitle();
+		
+		if (title.length() == 0) {
+			title = Translations.getString("task.default.title");
+		}
+		
+		// Set Foreground
+		if (task.getTitle().length() == 0)
+			r.setForeground(Color.GRAY);
+		else
+			r.setForeground(Color.BLACK);
+		
+		// Set Text & Font
+		if (task.getParent() == null) {
+			r.setFont(r.getFont().deriveFont(Font.BOLD));
+			r.setText(title);
+		} else {
+			r.setFont(r.getFont().deriveFont(Font.PLAIN));
+			r.setText("          " + title);
+		}
+		
+		// Set Icon
+		if (!task.isCompleted() && task.isOverDue())
+			r.setIcon(Images.getResourceImage("warning.gif"));
+		else
+			r.setIcon(Images.getResourceImage("transparent.png"));
+		
+		// Set Progress
+		r.setPainter(new Painter<JLabel>() {
+			
+			@Override
+			public void paint(Graphics2D g, JLabel object, int width, int height) {
+				int x = 18;
+				int y = 3;
+				width = (int) ((width - (x + 3))
+						* task.getCompletedPercentage() / 100);
+				height = height - (y + 3);
+				
+				Color c = g.getColor();
+				g.setRenderingHint(
+						RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				g.setColor(Color.BLUE);
+				g.fillRoundRect(x, y, width, height, 10, 10);
+				g.setColor(c);
+			}
+			
+		});
 		
 		return renderer;
 	}

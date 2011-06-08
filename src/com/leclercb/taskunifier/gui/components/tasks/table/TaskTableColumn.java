@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
@@ -73,8 +74,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
-import com.leclercb.taskunifier.gui.components.tasks.table.renderers.TitleRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -147,7 +148,8 @@ public class TaskTableColumn extends TableColumnExt {
 		TASK_STATUS_RENDERER = new DefaultTableRenderer(
 				new StringValueTaskStatus());
 		
-		TITLE_RENDERER = new TitleRenderer();
+		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
+				Translations.getString("task.default.title")));
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
