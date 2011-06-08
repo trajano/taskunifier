@@ -40,7 +40,6 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.general.Date
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.MinimizeToSystemTrayFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksAtTheEndFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowWindowEditOnAddFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
 import com.leclercb.taskunifier.gui.components.help.Help;
@@ -122,11 +121,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SEPARATOR_4",
 					null,
 					new ConfigurationFieldTypeExt.Separator()));
-			
-			this.addField(new ConfigurationField(
-					"SHOW_COMPLETED_TASKS",
-					Translations.getString("configuration.general.show_completed_tasks"),
-					new ShowCompletedTasksFieldType()));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
