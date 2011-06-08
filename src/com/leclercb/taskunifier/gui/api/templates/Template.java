@@ -64,6 +64,7 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	public static final String PROP_TASK_CONTEXT = "taskContext";
 	public static final String PROP_TASK_GOAL = "taskGoal";
 	public static final String PROP_TASK_LOCATION = "taskLocation";
+	public static final String PROP_TASK_PROGRESS = "taskProgress";
 	public static final String PROP_TASK_COMPLETED = "taskCompleted";
 	public static final String PROP_TASK_DUE_DATE = "taskDueDate";
 	public static final String PROP_TASK_DUE_TIME = "taskDueTime";
@@ -89,6 +90,7 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	private ModelId taskContext;
 	private ModelId taskGoal;
 	private ModelId taskLocation;
+	private Double taskProgress;
 	private Boolean taskCompleted;
 	private Integer taskDueDate;
 	private Integer taskDueTime;
@@ -121,6 +123,7 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 		this.setTaskContext(null);
 		this.setTaskGoal(null);
 		this.setTaskLocation(null);
+		this.setTaskProgress(null);
 		this.setTaskCompleted(null);
 		this.setTaskDueDate(null);
 		this.setTaskDueTime(null);
@@ -155,6 +158,9 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 		if (this.taskLocation != null)
 			task.setLocation(LocationFactory.getInstance().get(
 					this.taskLocation));
+		
+		if (this.taskProgress != null)
+			task.setProgress(this.taskProgress);
 		
 		if (this.taskCompleted != null)
 			task.setCompleted(this.taskCompleted);
@@ -226,6 +232,7 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 		template.setTaskContext(this.taskContext);
 		template.setTaskGoal(this.taskGoal);
 		template.setTaskLocation(this.taskLocation);
+		template.setTaskProgress(this.taskProgress);
 		template.setTaskCompleted(this.taskCompleted);
 		template.setTaskDueDate(this.taskDueDate);
 		template.setTaskDueTime(this.taskDueTime);
@@ -342,6 +349,19 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 				PROP_TASK_LOCATION,
 				oldTaskLocation,
 				taskLocation);
+	}
+	
+	public Double getTaskProgress() {
+		return this.taskProgress;
+	}
+	
+	public void setTaskProgress(Double taskProgress) {
+		Double oldTaskProgress = this.taskProgress;
+		this.taskProgress = taskProgress;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TASK_PROGRESS,
+				oldTaskProgress,
+				taskProgress);
 	}
 	
 	public Boolean getTaskCompleted() {

@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorEvenFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorOddFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorTaskProgressFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsByImportanceEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAndFeelFieldType;
@@ -117,6 +118,16 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ColorsByImportanceEnabledFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"COLOR_TASK_PROGRESS",
+				Translations.getString("configuration.theme.color_task_progress"),
+				new ColorTaskProgressFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_3",
+				null,
+				new ConfigurationFieldTypeExt.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",

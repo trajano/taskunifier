@@ -128,6 +128,13 @@ public class TaskFilterElementPanel extends JPanel {
 				case STAR:
 					value = this.elementValue.getSelectedItem().toString();
 					break;
+				case PROGRESS:
+					try {
+						value = Double.parseDouble(this.elementValue.getSelectedItem().toString());
+					} catch (NumberFormatException e) {
+						value = 0.0;
+					}
+					break;
 				default:
 					value = this.elementValue.getSelectedItem();
 					break;
@@ -245,6 +252,13 @@ public class TaskFilterElementPanel extends JPanel {
 						new IconValueModel()));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
+				break;
+			case PROGRESS:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						NumberCondition.values()));
+				this.elementValue.addItem(value == null ? "0.0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
 				break;
 			case COMPLETED:
 				this.elementCondition.setModel(new DefaultComboBoxModel(

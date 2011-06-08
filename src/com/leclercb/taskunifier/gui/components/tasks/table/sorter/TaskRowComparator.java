@@ -180,6 +180,9 @@ public class TaskRowComparator implements Comparator<Task> {
 			case PARENT:
 				result = this.compareModels(((Task) o1), ((Task) o2));
 				break;
+			case PROGRESS:
+				result = CompareUtils.compare((Double) o1, (Double) o2);
+				break;
 			case COMPLETED:
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;

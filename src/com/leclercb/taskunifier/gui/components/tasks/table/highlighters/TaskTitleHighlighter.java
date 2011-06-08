@@ -37,6 +37,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 
@@ -48,6 +50,8 @@ import org.jdesktop.swingx.renderer.JRendererLabel;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -55,8 +59,24 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class TaskTitleHighlighter extends AbstractHighlighter {
 	
+	private Color progressColor;
+	
 	public TaskTitleHighlighter(HighlightPredicate predicate) {
 		super(predicate);
+		
+		this.resetColors();
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"theme.color.progress",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TaskTitleHighlighter.this.resetColors();
+						MainFrame.getInstance().getTaskView().refreshTasks();
+					}
+					
+				});
 	}
 	
 	@Override
@@ -106,15 +126,14 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 			public void paint(Graphics2D g, JLabel object, int width, int height) {
 				int x = 18;
 				int y = 3;
-				width = (int) ((width - (x + 3))
-						* task.getCompletedPercentage() / 100);
+				width = (int) ((width - (x + 3)) * task.getProgress());
 				height = height - (y + 3);
 				
 				Color c = g.getColor();
 				g.setRenderingHint(
 						RenderingHints.KEY_ANTIALIASING,
 						RenderingHints.VALUE_ANTIALIAS_ON);
-				g.setColor(Color.BLUE);
+				g.setColor(TaskTitleHighlighter.this.progressColor);
 				g.fillRoundRect(x, y, width, height, 10, 10);
 				g.setColor(c);
 			}
@@ -122,6 +141,13 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		});
 		
 		return renderer;
+	}
+	
+	private void resetColors() {
+		if (Main.SETTINGS.getColorProperty("theme.color.progress") != null)
+			this.progressColor = Main.SETTINGS.getColorProperty("theme.color.progress");
+		else
+			this.progressColor = Color.WHITE;
 	}
 	
 }

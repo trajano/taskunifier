@@ -420,6 +420,8 @@ public final class SettingsVersion {
 			
 		});
 		
+		Main.SETTINGS.setStringProperty("theme.color.progress", "-3355393");
+		
 		Main.SETTINGS.setStringProperty(
 				"window.minimize_to_system_tray",
 				"false");

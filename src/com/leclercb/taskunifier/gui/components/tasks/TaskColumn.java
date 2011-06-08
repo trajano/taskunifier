@@ -64,6 +64,7 @@ public enum TaskColumn {
 	GOAL(Goal.class, Translations.getString("general.task.goal"), true),
 	LOCATION(Location.class, Translations.getString("general.task.location"), true),
 	PARENT(Task.class, Translations.getString("general.task.parent"), false),
+	PROGRESS(Double.class, Translations.getString("general.task.progress"), true),
 	COMPLETED(Boolean.class, Translations.getString("general.task.completed"), true),
 	COMPLETED_ON(Calendar.class, Translations.getString("general.task.completed_on"), false),
 	DUE_DATE(Calendar.class, Translations.getString("general.task.due_date"), true),
@@ -253,6 +254,8 @@ public enum TaskColumn {
 				return task.getLocation();
 			case PARENT:
 				return task.getParent();
+			case PROGRESS:
+				return task.getProgress();
 			case COMPLETED:
 				return task.isCompleted();
 			case COMPLETED_ON:
@@ -314,6 +317,9 @@ public enum TaskColumn {
 				break;
 			case PARENT:
 				task.setParent((Task) value);
+				break;
+			case PROGRESS:
+				task.setProgress((Double) value);
 				break;
 			case COMPLETED:
 				task.setCompleted((Boolean) value);

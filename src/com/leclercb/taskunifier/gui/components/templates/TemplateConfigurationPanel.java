@@ -45,6 +45,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -106,6 +107,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		final JComboBox templateTaskContext = ComponentFactory.createModelComboBox(null);
 		final JComboBox templateTaskGoal = ComponentFactory.createModelComboBox(null);
 		final JComboBox templateTaskLocation = ComponentFactory.createModelComboBox(null);
+		final JSpinner templateTaskProgress = new JSpinner();
 		final JCheckBox templateTaskCompleted = new JCheckBox();
 		final JFormattedTextField templateTaskDueDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
@@ -130,6 +132,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		templateTaskFolder.setEnabled(false);
 		templateTaskGoal.setEnabled(false);
 		templateTaskLocation.setEnabled(false);
+		templateTaskProgress.setEnabled(false);
 		templateTaskCompleted.setEnabled(false);
 		templateTaskDueDate.setEnabled(false);
 		templateTaskDueTime.setEnabled(false);
@@ -188,6 +191,19 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
 						new LocationModel(true),
 						taskLocationModel));
+				
+				ValueModel taskProgressModel = this.adapter.getValueModel(Template.PROP_TASK_PROGRESS);
+				SpinnerNumberModel taskProgressSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
+						taskProgressModel,
+						new Double(0.00),
+						new Double(0.00),
+						new Double(1.00),
+						new Double(0.01));
+				
+				templateTaskProgress.setModel(taskProgressSpinnerModel);
+				templateTaskProgress.setEditor(new JSpinner.NumberEditor(
+						templateTaskProgress,
+						"##0.00%"));
 				
 				ValueModel taskCompletedModel = this.adapter.getValueModel(Template.PROP_TASK_COMPLETED);
 				Bindings.bind(templateTaskCompleted, taskCompletedModel);
@@ -273,6 +289,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskContext.setEnabled(template != null);
 				templateTaskGoal.setEnabled(template != null);
 				templateTaskLocation.setEnabled(template != null);
+				templateTaskProgress.setEnabled(template != null);
 				templateTaskCompleted.setEnabled(template != null);
 				templateTaskDueDate.setEnabled(template != null);
 				templateTaskDueTime.setEnabled(template != null);
@@ -336,6 +353,9 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				"general.task.completed",
 				true,
 				templateTaskCompleted);
+		
+		// Template Task Progress
+		builder.appendI15d("general.task.progress", true, templateTaskProgress);
 		
 		// Template Task Due Date
 		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));

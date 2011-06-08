@@ -83,6 +83,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				ModelId taskContext = null;
 				ModelId taskGoal = null;
 				ModelId taskLocation = null;
+				Double taskProgress = null;
 				Boolean taskCompleted = false;
 				Integer taskDueDate = null;
 				Integer taskDueTime = null;
@@ -139,6 +140,10 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 									XMLUtils.getBooleanAttributeValue(
 											element,
 											"isnew"), element.getTextContent());
+					
+					if (element.getNodeName().equals("taskprogress"))
+						if (element.getTextContent().length() != 0)
+							taskProgress = Double.parseDouble(element.getTextContent());
 					
 					if (element.getNodeName().equals("taskcompleted"))
 						if (element.getTextContent().length() != 0)
@@ -204,6 +209,7 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				template.setTaskContext(taskContext);
 				template.setTaskGoal(taskGoal);
 				template.setTaskLocation(taskLocation);
+				template.setTaskProgress(taskProgress);
 				template.setTaskCompleted(taskCompleted);
 				template.setTaskDueDate(taskDueDate);
 				template.setTaskDueTime(taskDueTime);
@@ -289,6 +295,10 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				taskLocation.setTextContent(template.getTaskLocation().getId());
 			}
 			nTemplate.appendChild(taskLocation);
+			
+			Element taskProgress = document.createElement("taskprogress");
+			setTextContext(taskProgress, template.getTaskProgress());
+			nTemplate.appendChild(taskProgress);
 			
 			Element taskCompleted = document.createElement("taskcompleted");
 			setTextContext(taskCompleted, template.getTaskCompleted());

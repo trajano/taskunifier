@@ -44,6 +44,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -105,6 +106,7 @@ public class TaskEditPanel extends JPanel {
 	private JComboBox taskGoal;
 	private JComboBox taskLocation;
 	private JComboBox taskParent;
+	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
 	private JDateChooser taskStartDate;
 	private JDateChooser taskDueDate;
@@ -162,6 +164,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskGoal = ComponentFactory.createModelComboBox(null);
 		this.taskLocation = ComponentFactory.createModelComboBox(null);
 		this.taskParent = ComponentFactory.createModelComboBox(null);
+		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
 				format,
@@ -217,6 +220,12 @@ public class TaskEditPanel extends JPanel {
 		
 		// Task Completed
 		builder.appendI15d("general.task.completed", true, this.taskCompleted);
+		
+		// Task Progress
+		builder.appendI15d("general.task.progress", true, this.taskProgress);
+		
+		// Empty
+		builder.append("", new JLabel());
 		
 		// Task Context
 		builder.appendI15d("general.task.context", true, this.taskContext);
@@ -328,6 +337,19 @@ public class TaskEditPanel extends JPanel {
 				this.taskParentModel,
 				taskParentModel));
 		
+		ValueModel taskProgressModel = this.adapter.getValueModel(Task.PROP_PROGRESS);
+		SpinnerNumberModel taskProgressSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
+				taskProgressModel,
+				new Double(0.00),
+				new Double(0.00),
+				new Double(1.00),
+				new Double(0.01));
+		
+		this.taskProgress.setModel(taskProgressSpinnerModel);
+		this.taskProgress.setEditor(new JSpinner.NumberEditor(
+				this.taskProgress,
+				"##0.00%"));
+		
 		ValueModel taskCompletedModel = this.adapter.getValueModel(Task.PROP_COMPLETED);
 		Bindings.bind(this.taskCompleted, taskCompletedModel);
 		
@@ -361,11 +383,11 @@ public class TaskEditPanel extends JPanel {
 		
 		TaskLengthConverter taskLengthModel = new TaskLengthConverter(
 				this.adapter.getValueModel(Task.PROP_LENGTH));
-		SpinnerDateModel model = SpinnerAdapterFactory.createDateAdapter(
+		SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 				taskLengthModel,
 				Calendar.getInstance().getTime());
 		
-		this.taskLength.setModel(model);
+		this.taskLength.setModel(taskLengthSpinnerModel);
 		this.taskLength.setEditor(new JSpinner.DateEditor(
 				this.taskLength,
 				Main.SETTINGS.getStringProperty("date.time_format")));
