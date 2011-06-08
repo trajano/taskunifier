@@ -56,11 +56,9 @@ import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizationProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
@@ -75,7 +73,6 @@ import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
-import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
@@ -521,20 +518,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 					MainFrame.this.setVisible(true);
 					MainFrame.this.setState(Frame.NORMAL);
 					tray.remove(trayIcon);
-				}
-				
-			});
-			
-			Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
-				
-				@Override
-				public void showMessage(ProgressMessage message, String content) {
-					if (message instanceof SynchronizationProgressMessage) {
-						trayIcon.displayMessage(
-								Constants.TITLE,
-								content,
-								TrayIcon.MessageType.INFO);
-					}
 				}
 				
 			});
