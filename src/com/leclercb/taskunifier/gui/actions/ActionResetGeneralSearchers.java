@@ -68,10 +68,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Not Completed
 		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
@@ -82,10 +78,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Overdue
 		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.DUE_DATE,
 				DaysCondition.LESS_THAN_OR_EQUALS,
@@ -100,10 +92,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Hot List
 		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.DUE_DATE,
 				DaysCondition.LESS_THAN_OR_EQUALS,
@@ -122,10 +110,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Importance
 		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
 		
 		TaskSorter importanceSorter = new TaskSorter();
 		
@@ -144,10 +128,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		// Starred
 		filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
-		filter.addElement(new TaskFilterElement(
 				TaskColumn.STAR,
 				StringCondition.EQUALS,
 				"true"));
@@ -161,10 +141,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Next Action
 		filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.COMPLETED,
-				StringCondition.EQUALS,
-				"false"));
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.STATUS,
 				EnumCondition.EQUALS,

@@ -54,6 +54,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public GeneralConfigurationPanel(boolean languageOnly, boolean welcome) {
 		super(
+				!languageOnly && !welcome,
 				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
 		this.languageOnly = languageOnly;
 		this.welcome = welcome;
@@ -62,17 +63,10 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		if (!this.languageOnly) {
-			this.addField(new ConfigurationField(
-					"LANGUAGE_AFTER_RESTART",
-					null,
-					new ConfigurationFieldTypeExt.Label(
-							Translations.getString("configuration.general.language_changed_after_restart"))));
-		}
-		
 		this.addField(new ConfigurationField(
 				"LANGUAGE",
 				Translations.getString("configuration.general.language"),
+				true,
 				new LocaleFieldType(this.languageOnly)));
 		
 		if (!this.languageOnly) {
@@ -82,19 +76,15 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldTypeExt.Separator()));
 			
 			this.addField(new ConfigurationField(
-					"FORMATS_AFTER_RESTART",
-					null,
-					new ConfigurationFieldTypeExt.Label(
-							Translations.getString("configuration.general.formats_changed_after_restart"))));
-			
-			this.addField(new ConfigurationField(
 					"DATE_FORMAT",
 					Translations.getString("configuration.general.date_format"),
+					true,
 					new DateFormatFieldType()));
 			
 			this.addField(new ConfigurationField(
 					"TIME_FORMAT",
 					Translations.getString("configuration.general.time_format"),
+					true,
 					new TimeFormatFieldType()));
 			
 			this.addField(new ConfigurationField(
@@ -105,6 +95,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",
 					Translations.getString("configuration.general.minimize_to_system_tray"),
+					true,
 					new MinimizeToSystemTrayFieldType()));
 			
 			this.addField(new ConfigurationField(

@@ -40,6 +40,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -124,6 +125,7 @@ public class WelcomeDialog extends JDialog {
 		
 		this.cardPanel = new JPanel();
 		this.cardPanel.setLayout(new CardLayout());
+		this.cardPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 		this.add(this.cardPanel, BorderLayout.CENTER);
 		
 		int i = 0;

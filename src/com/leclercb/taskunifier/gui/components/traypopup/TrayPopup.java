@@ -13,7 +13,9 @@ import com.leclercb.taskunifier.gui.actions.ActionCreateTaskFromClipboard;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class TrayPopup extends PopupMenu {
 	
 	public TrayPopup(Frame frame, TaskView taskView, NoteView noteView) {

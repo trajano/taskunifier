@@ -40,14 +40,24 @@ public class ConfigurationField {
 	
 	private String id;
 	private String label;
+	private boolean afterRestart;
 	private ConfigurationFieldType<?, ?> type;
 	
 	public ConfigurationField(
 			String id,
 			String label,
 			ConfigurationFieldType<?, ?> type) {
+		this(id, label, false, type);
+	}
+	
+	public ConfigurationField(
+			String id,
+			String label,
+			boolean afterRestart,
+			ConfigurationFieldType<?, ?> type) {
 		this.setId(id);
 		this.setLabel(label);
+		this.setAfterRestart(afterRestart);
 		this.setType(type);
 	}
 	
@@ -66,6 +76,14 @@ public class ConfigurationField {
 	
 	private void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public boolean isAfterRestart() {
+		return this.afterRestart;
+	}
+	
+	public void setAfterRestart(boolean afterRestart) {
+		this.afterRestart = afterRestart;
 	}
 	
 	public ConfigurationFieldType<?, ?> getType() {

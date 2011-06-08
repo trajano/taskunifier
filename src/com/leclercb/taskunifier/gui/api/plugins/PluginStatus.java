@@ -1,7 +1,9 @@
 package com.leclercb.taskunifier.gui.api.plugins;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public enum PluginStatus {
 	
 	TO_INSTALL(Translations.getString("plugin.status.to_install")),

@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.api.models;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class GuiTask extends Task {
 	
 	public static final String PROP_SHOW_CHILDREN = "showChildren";

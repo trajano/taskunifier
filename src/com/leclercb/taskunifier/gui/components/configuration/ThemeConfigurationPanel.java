@@ -97,12 +97,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldTypeExt.Separator()));
 		
 		this.addField(new ConfigurationField(
-				"SETTINGS_AFTER_RESTART",
-				null,
-				new ConfigurationFieldTypeExt.Label(
-						Translations.getString("configuration.general.settings_changed_after_restart"))));
-		
-		this.addField(new ConfigurationField(
 				"SHOW_BADGES_PERFORMANCE",
 				null,
 				new ConfigurationFieldTypeExt.Label(
@@ -111,6 +105,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SHOW_BADGES",
 				Translations.getString("configuration.theme.show_badges"),
+				true,
 				new ShowBadgesFieldType()));
 		
 		this.addField(new ConfigurationField(

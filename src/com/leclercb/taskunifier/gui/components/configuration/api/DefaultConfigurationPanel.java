@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,24 +41,36 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
+	private boolean showAfterRestart;
 	private String helpFile;
 	private List<ConfigurationField> fields;
 	
 	public DefaultConfigurationPanel() {
-		this(null);
+		this(true, null);
+	}
+	
+	public DefaultConfigurationPanel(boolean showAfterRestart) {
+		this(showAfterRestart, null);
 	}
 	
 	public DefaultConfigurationPanel(String helpFile) {
+		this(true, helpFile);
+	}
+	
+	public DefaultConfigurationPanel(boolean showAfterRestart, String helpFile) {
+		this.showAfterRestart = showAfterRestart;
 		this.helpFile = helpFile;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
@@ -117,33 +130,49 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
 	public void pack() {
 		this.removeAll();
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 5));
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");
 		
-		String label = null;
+		JLabel label = null;
 		Component component = null;
 		
 		if (this.helpFile != null) {
 			builder.append("", Help.getHelpButton(this.helpFile));
 		}
 		
+		boolean afterRestartFound = false;
+		
 		for (ConfigurationField field : this.fields) {
 			if (field.getLabel() == null)
-				label = "";
+				label = new JLabel("");
 			else
-				label = field.getLabel() + ":";
+				label = new JLabel(field.getLabel() + ":");
+			
+			if (this.showAfterRestart && field.isAfterRestart()) {
+				afterRestartFound = true;
+				label.setForeground(Color.RED);
+			}
 			
 			field.getType().initializeFieldComponent();
 			component = field.getType().getFieldComponent();
 			
-			builder.append(label, component);
+			builder.append(label);
+			builder.append(component);
 		}
 		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.CENTER);
+		
+		if (this.showAfterRestart && afterRestartFound) {
+			JLabel afterRestartLabel = new JLabel(
+					Translations.getString("configuration.general.settings_changed_after_restart"));
+			afterRestartLabel.setForeground(Color.RED);
+			
+			this.add(afterRestartLabel, BorderLayout.SOUTH);
+		}
 	}
 	
 	@Override
