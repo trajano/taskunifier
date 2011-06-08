@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
@@ -42,15 +41,15 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskEmptryTitleHighlighter extends AbstractHighlighter {
+public class TaskProgressHighlighter extends AbstractHighlighter {
 	
-	public TaskEmptryTitleHighlighter(HighlightPredicate predicate) {
+	public TaskProgressHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		renderer.setForeground(Color.GRAY);
+		System.out.println(adapter.getClass());
 		
 		return renderer;
 	}
