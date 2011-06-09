@@ -6,6 +6,7 @@ Version 0.9.5
 		- FR 3300484: System tray
 		- FR 3313298: Show completed tasks
 		- FR 3260156: Progress of a task
+		- FR 3312543: Add subtask in popup menu
 		- Paste from any application
 		- Bug fixed: force correct rights on data folder
 

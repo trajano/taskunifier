@@ -41,9 +41,11 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionCollapseAll;
 import com.leclercb.taskunifier.gui.actions.ActionEditTask;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
+import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -54,8 +56,9 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class TaskTableMenu extends JPopupMenu {
 	
 	private TaskTable taskTable;
-	private Task taskToEdit;
+	private Task focussedTask;
 	
+	private JMenuItem itemAddSubTask;
 	private JMenuItem itemEditTask;
 	private JMenuItem itemDuplicateTasks;
 	private JMenuItem itemSortTasks;
@@ -69,22 +72,48 @@ public class TaskTableMenu extends JPopupMenu {
 		this.initialize();
 	}
 	
-	public Task getTaskToEdit() {
-		return this.taskToEdit;
+	public Task getFocussedTask() {
+		return this.focussedTask;
 	}
 	
-	public void setTaskToEdit(Task taskToEdit) {
-		this.taskToEdit = taskToEdit;
-		this.itemEditTask.setEnabled(taskToEdit != null);
+	public void setFocussedTask(Task focussedTask) {
+		this.focussedTask = focussedTask;
+		this.itemAddSubTask.setEnabled(focussedTask != null);
+		this.itemEditTask.setEnabled(focussedTask != null);
 	}
 	
 	private void initialize() {
+		this.initializeItemAddSubTask();
 		this.initializeItemEditTask();
 		this.initializeItemDuplicateTasks();
 		this.addSeparator();
 		this.initializeItemSortTasks();
 		this.addSeparator();
 		this.initializeCollapseExpandAll();
+	}
+	
+	private void initializeItemAddSubTask() {
+		this.itemAddSubTask = new JMenuItem(
+				Translations.getString("action.name.add_subtask"),
+				Images.getResourceImage("document.png", 16, 16));
+		
+		this.itemAddSubTask.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if (TaskTableMenu.this.getFocussedTask() == null)
+					return;
+				
+				ActionAddSubTask.addSubTask(
+						TemplateFactory.getInstance().getDefaultTemplate(),
+						TaskTableMenu.this.getFocussedTask());
+			}
+			
+		});
+		
+		this.itemAddSubTask.setEnabled(false);
+		
+		this.add(this.itemAddSubTask);
 	}
 	
 	private void initializeItemEditTask() {
@@ -96,10 +125,10 @@ public class TaskTableMenu extends JPopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (TaskTableMenu.this.getTaskToEdit() == null)
+				if (TaskTableMenu.this.getFocussedTask() == null)
 					return;
 				
-				ActionEditTask.editTask(TaskTableMenu.this.getTaskToEdit());
+				ActionEditTask.editTask(TaskTableMenu.this.getFocussedTask());
 			}
 			
 		});

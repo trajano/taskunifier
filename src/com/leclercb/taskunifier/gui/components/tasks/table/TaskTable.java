@@ -263,7 +263,7 @@ public class TaskTable extends JXTable {
 					if (TaskTable.this.getCellEditor() != null)
 						TaskTable.this.getCellEditor().stopCellEditing();
 					
-					TaskTable.this.taskTableMenu.setTaskToEdit(task);
+					TaskTable.this.taskTableMenu.setFocussedTask(task);
 					TaskTable.this.taskTableMenu.show(
 							event.getComponent(),
 							event.getX(),
