@@ -36,7 +36,7 @@ import java.awt.Frame;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
-import com.leclercb.taskunifier.gui.components.searcherlist.SearcherView;
+import com.leclercb.taskunifier.gui.components.searchertree.SearcherView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
