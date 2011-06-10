@@ -1,5 +1,14 @@
 package com.leclercb.taskunifier.gui.components.searchertree;
 
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.TransferHandler;
 import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTree;
@@ -8,6 +17,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
+import com.leclercb.taskunifier.gui.components.searchertree.transfer.TaskSearcherTransferHandler;
 
 public class SearcherTree extends JXTree implements SearcherView {
 	
@@ -49,7 +59,7 @@ public class SearcherTree extends JXTree implements SearcherView {
 	
 	@Override
 	public void selectDefaultTaskSearcher() {
-
+		
 	}
 	
 	@Override
@@ -67,7 +77,86 @@ public class SearcherTree extends JXTree implements SearcherView {
 	
 	@Override
 	public void refreshTaskSearcher() {
-
+		
+	}
+	
+	private void initializeCopyAndPaste() {
+		this.setTransferHandler(new TaskSearcherTransferHandler(this));
+		
+		ActionMap amap = this.getActionMap();
+		amap.put(
+				TransferHandler.getCutAction().getValue(Action.NAME),
+				TransferHandler.getCutAction());
+		amap.put(
+				TransferHandler.getCopyAction().getValue(Action.NAME),
+				TransferHandler.getCopyAction());
+		amap.put(
+				TransferHandler.getPasteAction().getValue(Action.NAME),
+				TransferHandler.getPasteAction());
+		
+		InputMap imap = this.getInputMap();
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_X,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+						TransferHandler.getCutAction().getValue(Action.NAME));
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_C,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+						TransferHandler.getCopyAction().getValue(Action.NAME));
+		imap.put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_V,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+						TransferHandler.getPasteAction().getValue(Action.NAME));
+	}
+	
+	private void initializeExpandedState() {
+		Main.SETTINGS.addPropertyChangeListener(
+				"searcher.category",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						SearcherList.this.updateExpandedState();
+					}
+					
+				});
+		
+		this.updateExpandedState();
+	}
+	
+	private void updateExpandedState() {
+		Boolean expanded;
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.generalCategory.getExpandedPropetyName());
+		this.list.setExpanded(
+				this.generalCategory,
+				(expanded != null && expanded));
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.contextCategory.getExpandedPropetyName());
+		this.list.setExpanded(
+				this.contextCategory,
+				(expanded != null && expanded));
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.folderCategory.getExpandedPropetyName());
+		this.list.setExpanded(
+				this.folderCategory,
+				(expanded != null && expanded));
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.goalCategory.getExpandedPropetyName());
+		this.list.setExpanded(this.goalCategory, (expanded != null && expanded));
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.locationCategory.getExpandedPropetyName());
+		this.list.setExpanded(
+				this.locationCategory,
+				(expanded != null && expanded));
+		
+		expanded = Main.SETTINGS.getBooleanProperty(this.personalCategory.getExpandedPropetyName());
+		this.list.setExpanded(
+				this.personalCategory,
+				(expanded != null && expanded));
 	}
 	
 }
