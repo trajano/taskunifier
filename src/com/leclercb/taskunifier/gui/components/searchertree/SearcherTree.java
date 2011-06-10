@@ -11,6 +11,8 @@ import javax.swing.DropMode;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
@@ -67,6 +69,30 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 			@Override
 			public void valueChanged(TreeSelectionEvent evt) {
 				SearcherTree.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherTree.this.getSelectedTaskSearcher());
+			}
+			
+		});
+		
+		this.getSearcherModel().addTreeModelListener(new TreeModelListener() {
+			
+			@Override
+			public void treeStructureChanged(TreeModelEvent evt) {
+
+			}
+			
+			@Override
+			public void treeNodesRemoved(TreeModelEvent evt) {
+				// selectDefaultTaskSearcher();
+			}
+			
+			@Override
+			public void treeNodesInserted(TreeModelEvent evt) {
+				// setSelectionPath(evt.getTreePath());
+			}
+			
+			@Override
+			public void treeNodesChanged(TreeModelEvent evt) {
+
 			}
 			
 		});
