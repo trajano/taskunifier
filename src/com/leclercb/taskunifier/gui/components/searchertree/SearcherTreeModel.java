@@ -71,7 +71,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializeGeneralCategory() {
 		this.generalCategory = new SearcherCategory(
 				Translations.getString("searcherlist.general"),
-		"searcher.category.general.expanded");
+				"searcher.category.general.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.generalCategory);
 		
 		this.generalCategory.add(new SearcherItem(Constants.DEFAULT_SEARCHER));
@@ -88,7 +88,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializeContextCategory() {
 		this.contextCategory = new SearcherCategory(
 				Translations.getString("general.contexts"),
-		"searcher.category.context.expanded");
+				"searcher.category.context.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.contextCategory);
 		
 		this.contextCategory.add(new ModelItem(ModelType.CONTEXT, null));
@@ -100,7 +100,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Context context : contexts)
 			if (context.getModelStatus().equals(ModelStatus.LOADED)
 					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.contextCategory.add(new ModelItem(ModelType.CONTEXT, context));
+				this.contextCategory.add(new ModelItem(
+						ModelType.CONTEXT,
+						context));
 		
 		ContextFactory.getInstance().addListChangeListener(this);
 		ContextFactory.getInstance().addPropertyChangeListener(this);
@@ -109,7 +111,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializeFolderCategory() {
 		this.folderCategory = new SearcherCategory(
 				Translations.getString("general.folders"),
-		"searcher.category.folder.expanded");
+				"searcher.category.folder.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.folderCategory);
 		
 		this.folderCategory.add(new ModelItem(ModelType.FOLDER, null));
@@ -130,7 +132,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializeGoalCategory() {
 		this.goalCategory = new SearcherCategory(
 				Translations.getString("general.goals"),
-		"searcher.category.goal.expanded");
+				"searcher.category.goal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.goalCategory);
 		
 		this.goalCategory.add(new ModelItem(ModelType.GOAL, null));
@@ -151,7 +153,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializeLocationCategory() {
 		this.locationCategory = new SearcherCategory(
 				Translations.getString("general.locations"),
-		"searcher.category.location.expanded");
+				"searcher.category.location.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.locationCategory);
 		
 		this.locationCategory.add(new ModelItem(ModelType.LOCATION, null));
@@ -163,7 +165,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Location location : locations)
 			if (location.getModelStatus().equals(ModelStatus.LOADED)
 					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.locationCategory.add(new ModelItem(ModelType.LOCATION, location));
+				this.locationCategory.add(new ModelItem(
+						ModelType.LOCATION,
+						location));
 		
 		LocationFactory.getInstance().addListChangeListener(this);
 		LocationFactory.getInstance().addPropertyChangeListener(this);
@@ -172,7 +176,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private void initializePersonalCategory() {
 		this.personalCategory = new SearcherCategory(
 				Translations.getString("searcherlist.personal"),
-		"searcher.category.personal.expanded");
+				"searcher.category.personal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.personalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
@@ -185,14 +189,15 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	}
 	
 	private SearcherNode findItemFromModel(Model model) {
-		
+
 	}
 	
 	private SearcherNode findItemFromSearcher(TaskSearcher searcher) {
-		
+
 	}
 	
-	private SearcherCategory getCategoryFromTaskSearcherType(TaskSearcherType type) {
+	private SearcherCategory getCategoryFromTaskSearcherType(
+			TaskSearcherType type) {
 		switch (type) {
 			case GENERAL:
 				return this.generalCategory;

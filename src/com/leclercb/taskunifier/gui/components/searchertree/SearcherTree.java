@@ -10,12 +10,12 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTree;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
@@ -61,9 +61,21 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		throw new UnsupportedOperationException();
 	}
 	
+	public Model getSelectedModel() {
+
+	}
+	
+	public void selectTaskSearcher(TaskSearcher searcher) {
+
+	}
+	
+	public void selectModel(Model model) {
+
+	}
+	
 	@Override
 	public void selectDefaultTaskSearcher() {
-		
+
 	}
 	
 	@Override
@@ -81,7 +93,11 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 	
 	@Override
 	public void refreshTaskSearcher() {
-		
+
+	}
+	
+	public void updateBadges() {
+		this.getSearcherModel().updateBadges();
 	}
 	
 	private void initializeCopyAndPaste() {
@@ -103,17 +119,17 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_X,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCutAction().getValue(Action.NAME));
+				TransferHandler.getCutAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_C,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getCopyAction().getValue(Action.NAME));
+				TransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(
 				KeyStroke.getKeyStroke(
 						KeyEvent.VK_V,
 						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
-						TransferHandler.getPasteAction().getValue(Action.NAME));
+				TransferHandler.getPasteAction().getValue(Action.NAME));
 	}
 	
 	private void initializeExpandedState() {

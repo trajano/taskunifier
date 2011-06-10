@@ -112,6 +112,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 		String title = (this.getModel() == null ? Translations.getString("searcherlist.none") : this.getModel().getTitle());
 		TaskSearcher searcher = new TaskSearcher(
 				type,
+				0,
 				title,
 				null,
 				filter,

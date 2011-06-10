@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.components.searchertree;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -41,6 +43,7 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SortOrder;
+import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
@@ -174,34 +177,24 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);
 		
-		/*
-		 * this.searcherView.addSourceListClickListener(
-		 * new SourceListClickListener() {
-		 * 
-		 * @Override
-		 * public void sourceListCategoryClicked(
-		 * SourceListCategory category,
-		 * Button button,
-		 * int clickCount) {
-		 * 
-		 * }
-		 * 
-		 * @Override
-		 * public void sourceListItemClicked(
-		 * SourceListItem item,
-		 * Button button,
-		 * int clickCount) {
-		 * if (clickCount == 2) {
-		 * if (item instanceof ModelItem)
-		 * SearcherPanel.this.openManageModels((ModelItem) item);
-		 * 
-		 * SearcherPanel.this.openTaskSearcherEdit();
-		 * }
-		 * }
-		 * 
-		 * });
-		 */
-
+		this.searcherView.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					TreePath path = SearcherPanel.this.searcherView.getPathForLocation(
+							e.getX(),
+							e.getY());
+					Object node = path.getLastPathComponent();
+					if (node instanceof ModelItem)
+						SearcherPanel.this.openManageModels((ModelItem) node);
+					
+					SearcherPanel.this.openTaskSearcherEdit();
+				}
+			}
+			
+		});
+		
 		this.initializeButtons();
 		
 		this.initializeSelectedSearcher();
@@ -235,6 +228,7 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 				
 				TaskSearcherFactory.getInstance().create(
 						TaskSearcherType.PERSONAL,
+						Integer.MAX_VALUE,
 						Translations.getString("searcher.default.title"),
 						new TaskFilter(),
 						sorter);
@@ -300,7 +294,7 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 				return;
 			
 			ActionEditSearcher.editSearcher(searcher);
-			// this.searcherView.updateBadges();
+			this.searcherView.updateBadges();
 		}
 	}
 	
@@ -357,7 +351,7 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 					}
 					
 					if (searcher != null) {
-						// this.searcherView.selectTaskSearcher(searcher);
+						this.searcherView.selectTaskSearcher(searcher);
 						return;
 					}
 					
@@ -379,7 +373,7 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 				}
 				
 				if (model != null) {
-					// this.searcherView.selectModel(model);
+					this.searcherView.selectModel(model);
 					return;
 				}
 				
@@ -414,15 +408,13 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 				return;
 			}
 			
-			/*
-			 * if (this.searcherView.getSelectedModel() != null) {
-			 * ModelId id = this.searcherView.getSelectedModel().getModelId();
-			 * Main.SETTINGS.setStringProperty(
-			 * "searcher.selected.value",
-			 * new ModelIdSettingsCoder().encode(id));
-			 * return;
-			 * }
-			 */
+			if (this.searcherView.getSelectedModel() != null) {
+				ModelId id = this.searcherView.getSelectedModel().getModelId();
+				Main.SETTINGS.setStringProperty(
+						"searcher.selected.value",
+						new ModelIdSettingsCoder().encode(id));
+				return;
+			}
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

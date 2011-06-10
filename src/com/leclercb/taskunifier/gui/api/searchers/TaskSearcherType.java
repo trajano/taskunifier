@@ -6,6 +6,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public enum TaskSearcherType {
 	
+	DEFAULT(false, false, ""),
 	GENERAL(true, true, Translations.getString("searcherlist.general")),
 	CONTEXT(false, false, ""),
 	FOLDER(false, false, ""),

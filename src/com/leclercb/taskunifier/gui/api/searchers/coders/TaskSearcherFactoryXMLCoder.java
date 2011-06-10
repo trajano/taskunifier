@@ -104,6 +104,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			NodeList nSearcher = node.getChildNodes();
 			
 			TaskSearcherType type = TaskSearcherType.PERSONAL;
+			int order = 0;
 			String title = null;
 			String icon = null;
 			TaskFilter filter = null;
@@ -112,6 +113,10 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			for (int i = 0; i < nSearcher.getLength(); i++) {
 				if (nSearcher.item(i).getNodeName().equals("type")) {
 					type = TaskSearcherType.valueOf(nSearcher.item(i).getTextContent());
+				}
+				
+				if (nSearcher.item(i).getNodeName().equals("order")) {
+					order = Integer.parseInt(nSearcher.item(i).getTextContent());
 				}
 				
 				if (nSearcher.item(i).getNodeName().equals("title")) {
@@ -134,6 +139,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			
 			TaskSearcherFactory.getInstance().create(
 					type,
+					order,
 					title,
 					icon,
 					filter,
@@ -363,6 +369,10 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			Element type = document.createElement("type");
 			type.setTextContent(taskSearcher.getType().name());
 			searcher.appendChild(type);
+			
+			Element order = document.createElement("order");
+			order.setTextContent(taskSearcher.getOrder() + "");
+			searcher.appendChild(order);
 			
 			Element title = document.createElement("title");
 			title.setTextContent(taskSearcher.getTitle());

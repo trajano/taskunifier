@@ -97,7 +97,8 @@ public final class Constants {
 				SortOrder.ASCENDING));
 		
 		DEFAULT_SEARCHER = new TaskSearcher(
-				TaskSearcherType.GENERAL,
+				TaskSearcherType.DEFAULT,
+				0,
 				Translations.getString("searcherlist.general.all_tasks"),
 				Images.getResourceFile("document.png"),
 				new TaskFilter(),

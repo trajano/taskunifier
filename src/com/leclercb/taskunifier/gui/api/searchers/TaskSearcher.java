@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Cloneable, PropertyChangeSupported {
 	
 	public static final String PROP_TYPE = "type";
+	public static final String PROP_ORDER = "order";
 	public static final String PROP_TITLE = "title";
 	public static final String PROP_ICON = "icon";
 	public static final String PROP_FILTER = "filter";
@@ -60,6 +61,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	
 	private TaskSearcherType type;
 	private String id;
+	private int order;
 	private String title;
 	private String icon;
 	private TaskFilter filter;
@@ -68,23 +70,26 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	
 	public TaskSearcher(
 			TaskSearcherType type,
+			int order,
 			String title,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		this(type, title, null, filter, sorter);
+		this(type, order, title, null, filter, sorter);
 	}
 	
 	public TaskSearcher(
 			TaskSearcherType type,
+			int order,
 			String title,
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter) {
-		this(type, title, icon, filter, sorter, null);
+		this(type, order, title, icon, filter, sorter, null);
 	}
 	
 	public TaskSearcher(
 			TaskSearcherType type,
+			int order,
 			String title,
 			String icon,
 			TaskFilter filter,
@@ -106,6 +111,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	public TaskSearcher clone() {
 		return new TaskSearcher(
 				this.type,
+				this.order,
 				this.title,
 				this.icon,
 				this.filter.clone(),
@@ -131,6 +137,19 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 		TaskSearcherType oldType = this.type;
 		this.type = type;
 		this.propertyChangeSupport.firePropertyChange(PROP_TYPE, oldType, type);
+	}
+	
+	public int getOrder() {
+		return this.order;
+	}
+	
+	public void setOrder(int order) {
+		int oldOrder = this.order;
+		this.order = order;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_ORDER,
+				oldOrder,
+				order);
 	}
 	
 	public String getTitle() {
@@ -231,7 +250,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 		if (searcher == null)
 			return 1;
 		
-		return this.id.compareTo(searcher.id);
+		return new Integer(this.order).compareTo(searcher.order);
 	}
 	
 	@Override

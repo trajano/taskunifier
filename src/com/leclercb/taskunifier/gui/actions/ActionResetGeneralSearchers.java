@@ -71,6 +71,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				1,
 				Translations.getString("searcherlist.general.not_completed"),
 				Images.getResourceFile("check.png"),
 				filter,
@@ -85,6 +86,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				2,
 				Translations.getString("searcherlist.general.overdue"),
 				Images.getResourceFile("warning.gif"),
 				filter,
@@ -103,6 +105,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				3,
 				Translations.getString("searcherlist.general.hot_list"),
 				Images.getResourceFile("hot_pepper.png"),
 				filter,
@@ -120,6 +123,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				4,
 				Translations.getString("searcherlist.general.importance"),
 				Images.getResourceFile("importance.png"),
 				filter,
@@ -134,6 +138,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				5,
 				Translations.getString("searcherlist.general.starred"),
 				Images.getResourceFile("star.png"),
 				filter,
@@ -148,6 +153,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				6,
 				Translations.getString("searcherlist.general.next_action"),
 				Images.getResourceFile("next.png"),
 				filter,
@@ -162,6 +168,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
+				7,
 				Translations.getString("searcherlist.general.completed"),
 				Images.getResourceFile("check.png"),
 				filter,
