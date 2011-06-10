@@ -35,31 +35,21 @@ package com.leclercb.taskunifier.gui.components.searchertree.transfer;
 import java.awt.datatransfer.Transferable;
 
 import javax.swing.JComponent;
+import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.components.searchertree.SearcherView;
+import com.leclercb.taskunifier.gui.components.searchertree.SearcherTree;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class TaskSearcherTransferHandler extends TransferHandler {
 	
-	private SearcherView view;
-	
-	public TaskSearcherTransferHandler(SearcherView view) {
-		CheckUtils.isNotNull(view, "View cannot be null");
-		this.view = view;
-	}
-	
 	@Override
 	public boolean canImport(TransferSupport support) {
 		if (!support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR))
-			return false;
-		
-		if (support.isDrop())
 			return false;
 		
 		return true;
@@ -67,7 +57,8 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	protected Transferable createTransferable(JComponent c) {
-		TaskSearcher searcher = this.view.getSelectedTaskSearcher();
+		SearcherTree tree = (SearcherTree) c;
+		TaskSearcher searcher = tree.getSelectedTaskSearcher();
 		
 		if (searcher == null)
 			return null;
@@ -78,7 +69,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	public int getSourceActions(JComponent c) {
-		return TransferHandler.COPY;
+		return TransferHandler.COPY_OR_MOVE;
 	}
 	
 	@Override
@@ -89,23 +80,36 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 		
 		// Get Drag Task
 		Transferable t = support.getTransferable();
-		TaskSearcher dragSearcher = null;
 		
-		try {
-			TaskSearcherTransferData data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
-			dragSearcher = data.getTaskSearcher();
+		if (!support.isDrop()) {
+			TaskSearcher dragSearcher = null;
 			
-			if (dragSearcher == null)
+			try {
+				TaskSearcherTransferData data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
+				dragSearcher = data.getTaskSearcher();
+				
+				if (dragSearcher == null)
+					return false;
+			} catch (Exception e) {
 				return false;
-		} catch (Exception e) {
-			return false;
+			}
+			
+			TaskSearcher newSearcher = dragSearcher.clone();
+			newSearcher.setType(TaskSearcherType.PERSONAL);
+			TaskSearcherFactory.getInstance().register(newSearcher);
+			
+			return true;
+		} else {
+			SearcherTree tree = (SearcherTree) support.getComponent();
+			JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+			
+			// Import : If insert row
+			if (dl.isInsertRow()) {
+
+			}
+			
+			return true;
 		}
-		
-		TaskSearcher newSearcher = dragSearcher.clone();
-		newSearcher.setType(TaskSearcherType.PERSONAL);
-		TaskSearcherFactory.getInstance().register(newSearcher);
-		
-		return true;
 	}
 	
 	@Override

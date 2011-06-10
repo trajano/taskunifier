@@ -7,9 +7,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.DropMode;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTree;
@@ -24,6 +27,7 @@ import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.components.searchertree.transfer.TaskSearcherTransferHandler;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class SearcherTree extends JXTree implements SearcherView, SavePropertiesListener {
@@ -38,9 +42,34 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 	}
 	
 	private void initialize() {
-		this.setModel(new SearcherTreeModel());
+		Main.SETTINGS.addSavePropertiesListener(this);
 		
+		this.setModel(new SearcherTreeModel());
 		this.setUI(new SearcherTreeUI());
+		
+		// this.initializeToolTipText();
+		this.initializeDragAndDrop();
+		this.initializeCopyAndPaste();
+		this.initializeExpandedState();
+		
+		Synchronizing.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (!(Boolean) evt.getNewValue())
+					SearcherTree.this.updateBadges();
+			}
+			
+		});
+		
+		this.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent evt) {
+				SearcherTree.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(SearcherTree.this.getSelectedTaskSearcher());
+			}
+			
+		});
 	}
 	
 	private SearcherTreeModel getSearcherModel() {
@@ -114,9 +143,13 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		this.getSearcherModel().updateBadges();
 	}
 	
+	private void initializeDragAndDrop() {
+		this.setDragEnabled(true);
+		this.setTransferHandler(new TaskSearcherTransferHandler());
+		this.setDropMode(DropMode.INSERT);
+	}
+	
 	private void initializeCopyAndPaste() {
-		this.setTransferHandler(new TaskSearcherTransferHandler(this));
-		
 		ActionMap amap = this.getActionMap();
 		amap.put(
 				TransferHandler.getCutAction().getValue(Action.NAME),

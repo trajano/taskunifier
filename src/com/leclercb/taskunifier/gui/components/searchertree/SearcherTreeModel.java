@@ -25,6 +25,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
@@ -60,6 +61,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.initializeGoalCategory();
 		this.initializeLocationCategory();
 		this.initializePersonalCategory();
+		
+		TaskFactory.getInstance().addListChangeListener(this);
+		TaskFactory.getInstance().addPropertyChangeListener(this);
 		
 		TaskSearcherFactory.getInstance().addListChangeListener(this);
 		TaskSearcherFactory.getInstance().addPropertyChangeListener(this);

@@ -267,7 +267,7 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 				this.addAction), new JButton(this.removeAction), new JButton(
 				this.editAction));
 		
-		this.add(panel, BorderLayout.NORTH);
+		this.add(panel, BorderLayout.SOUTH);
 		
 		this.addAction.setEnabled(true);
 		this.removeAction.setEnabled(false);
