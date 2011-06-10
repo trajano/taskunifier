@@ -10,6 +10,7 @@ Version 0.9.5
 		- FR 3313298: Show completed tasks
 		- FR 3260156: Progress of a task
 		- FR 3312543: Add subtask in popup menu
+		- FR 3300471: Change order of searchers
 		- Paste from any application
 		- Bug fixed: force correct rights on data folder
 
