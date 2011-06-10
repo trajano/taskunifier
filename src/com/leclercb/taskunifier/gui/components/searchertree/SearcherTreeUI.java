@@ -42,6 +42,7 @@ import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 
 public class SearcherTreeUI extends BasicTreeUI {
@@ -345,7 +346,10 @@ public class SearcherTreeUI extends BasicTreeUI {
 	}
 	
 	private boolean isItemPath(TreePath path) {
-		return path != null && path.getPathCount() > 2;
+		if (path == null)
+			return false;
+		
+		return !(path.getLastPathComponent() instanceof SearcherCategory);
 	}
 	
 	private String getTextForNode(

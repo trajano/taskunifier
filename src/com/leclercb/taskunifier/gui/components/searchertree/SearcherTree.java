@@ -2,24 +2,28 @@ package com.leclercb.taskunifier.gui.components.searchertree;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.TransferHandler;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTree;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.components.searchertree.transfer.TaskSearcherTransferHandler;
+import com.leclercb.taskunifier.gui.main.Main;
 
-public class SearcherTree extends JXTree implements SearcherView {
+public class SearcherTree extends JXTree implements SearcherView, SavePropertiesListener {
 	
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
@@ -157,6 +161,33 @@ public class SearcherTree extends JXTree implements SearcherView {
 		this.list.setExpanded(
 				this.personalCategory,
 				(expanded != null && expanded));
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.SETTINGS.setBooleanProperty(
+				this.generalCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.generalCategory));
+		
+		Main.SETTINGS.setBooleanProperty(
+				this.contextCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.contextCategory));
+		
+		Main.SETTINGS.setBooleanProperty(
+				this.folderCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.folderCategory));
+		
+		Main.SETTINGS.setBooleanProperty(
+				this.goalCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.goalCategory));
+		
+		Main.SETTINGS.setBooleanProperty(
+				this.locationCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.locationCategory));
+		
+		Main.SETTINGS.setBooleanProperty(
+				this.personalCategory.getExpandedPropetyName(),
+				this.list.isExpanded(this.personalCategory));
 	}
 	
 }

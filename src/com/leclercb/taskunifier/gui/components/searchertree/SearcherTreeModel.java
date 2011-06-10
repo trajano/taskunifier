@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.components.searchertree;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +8,11 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
+import com.explodingpixels.macwidgets.SourceListCategory;
+import com.explodingpixels.macwidgets.SourceListItem;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -17,8 +22,11 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
@@ -28,7 +36,9 @@ import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherTreeModel extends DefaultTreeModel implements ListChangeListener, PropertyChangeListener {
@@ -44,6 +54,11 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		super(new DefaultMutableTreeNode("Root"));
 		
 		this.initializeGeneralCategory();
+		this.initializeContextCategory();
+		this.initializeFolderCategory();
+		this.initializeGoalCategory();
+		this.initializeLocationCategory();
+		this.initializePersonalCategory();
 		
 		TaskSearcherFactory.getInstance().addListChangeListener(this);
 		TaskSearcherFactory.getInstance().addPropertyChangeListener(this);
@@ -74,11 +89,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.contextCategory = new SearcherCategory(
 				Translations.getString("general.contexts"),
 		"searcher.category.context.expanded");
-		this.model.addCategory(this.contextCategory);
+		((DefaultMutableTreeNode) this.getRoot()).add(this.contextCategory);
 		
-		this.model.addItemToCategory(
-				new ModelItem(ModelType.CONTEXT, null),
-				this.contextCategory);
+		this.contextCategory.add(new ModelItem(ModelType.CONTEXT, null));
 		
 		List<Context> contexts = new ArrayList<Context>(
 				ContextFactory.getInstance().getList());
@@ -87,9 +100,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Context context : contexts)
 			if (context.getModelStatus().equals(ModelStatus.LOADED)
 					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.model.addItemToCategory(new ModelItem(
-						ModelType.CONTEXT,
-						context), this.contextCategory);
+				this.contextCategory.add(new ModelItem(ModelType.CONTEXT, context));
 		
 		ContextFactory.getInstance().addListChangeListener(this);
 		ContextFactory.getInstance().addPropertyChangeListener(this);
@@ -99,11 +110,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.folderCategory = new SearcherCategory(
 				Translations.getString("general.folders"),
 		"searcher.category.folder.expanded");
-		this.model.addCategory(this.folderCategory);
+		((DefaultMutableTreeNode) this.getRoot()).add(this.folderCategory);
 		
-		this.model.addItemToCategory(
-				new ModelItem(ModelType.FOLDER, null),
-				this.folderCategory);
+		this.folderCategory.add(new ModelItem(ModelType.FOLDER, null));
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
@@ -112,9 +121,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Folder folder : folders)
 			if (folder.getModelStatus().equals(ModelStatus.LOADED)
 					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.model.addItemToCategory(new ModelItem(
-						ModelType.FOLDER,
-						folder), this.folderCategory);
+				this.folderCategory.add(new ModelItem(ModelType.FOLDER, folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
@@ -124,11 +131,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.goalCategory = new SearcherCategory(
 				Translations.getString("general.goals"),
 		"searcher.category.goal.expanded");
-		this.model.addCategory(this.goalCategory);
+		((DefaultMutableTreeNode) this.getRoot()).add(this.goalCategory);
 		
-		this.model.addItemToCategory(
-				new ModelItem(ModelType.GOAL, null),
-				this.goalCategory);
+		this.goalCategory.add(new ModelItem(ModelType.GOAL, null));
 		
 		List<Goal> goals = new ArrayList<Goal>(
 				GoalFactory.getInstance().getList());
@@ -137,9 +142,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Goal goal : goals)
 			if (goal.getModelStatus().equals(ModelStatus.LOADED)
 					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.model.addItemToCategory(
-						new ModelItem(ModelType.GOAL, goal),
-						this.goalCategory);
+				this.goalCategory.add(new ModelItem(ModelType.GOAL, goal));
 		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);
@@ -149,11 +152,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.locationCategory = new SearcherCategory(
 				Translations.getString("general.locations"),
 		"searcher.category.location.expanded");
-		this.model.addCategory(this.locationCategory);
+		((DefaultMutableTreeNode) this.getRoot()).add(this.locationCategory);
 		
-		this.model.addItemToCategory(
-				new ModelItem(ModelType.LOCATION, null),
-				this.locationCategory);
+		this.locationCategory.add(new ModelItem(ModelType.LOCATION, null));
 		
 		List<Location> locations = new ArrayList<Location>(
 				LocationFactory.getInstance().getList());
@@ -162,9 +163,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		for (Location location : locations)
 			if (location.getModelStatus().equals(ModelStatus.LOADED)
 					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
-				this.model.addItemToCategory(new ModelItem(
-						ModelType.LOCATION,
-						location), this.locationCategory);
+				this.locationCategory.add(new ModelItem(ModelType.LOCATION, location));
 		
 		LocationFactory.getInstance().addListChangeListener(this);
 		LocationFactory.getInstance().addPropertyChangeListener(this);
@@ -174,7 +173,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.personalCategory = new SearcherCategory(
 				Translations.getString("searcherlist.personal"),
 		"searcher.category.personal.expanded");
-		this.model.addCategory(this.personalCategory);
+		((DefaultMutableTreeNode) this.getRoot()).add(this.personalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
 				TaskSearcherFactory.getInstance().getList());
@@ -182,60 +181,47 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		
 		for (TaskSearcher searcher : searchers)
 			if (searcher.getType() == TaskSearcherType.PERSONAL)
-				this.model.addItemToCategory(
-						new SearcherItem(searcher),
-						this.personalCategory);
+				this.personalCategory.add(new SearcherItem(searcher));
 	}
 	
-	private SourceListItem findItemFromModel(Model model) {
-		List<SourceListItem> items = this.getCategoryFromModel(model).getItems();
-		for (SourceListItem item : items) {
-			if (EqualsUtils.equals(((ModelItem) item).getModel(), model))
-				return item;
-		}
+	private SearcherNode findItemFromModel(Model model) {
 		
-		return null;
 	}
 	
-	private SourceListItem findItemFromSearcher(TaskSearcher searcher) {
-		SearcherCategory[] categories = new SearcherCategory[] {
-				this.generalCategory,
-				this.personalCategory };
+	private SearcherNode findItemFromSearcher(TaskSearcher searcher) {
 		
-		for (SearcherCategory category : categories) {
-			List<SourceListItem> items = category.getItems();
-			for (SourceListItem item : items) {
-				if (EqualsUtils.equals(
-						((SearcherItem) item).getTaskSearcher(),
-						searcher))
-					return item;
-			}
-		}
-		
-		return null;
 	}
 	
-	private SourceListCategory getCategoryFromTaskSearcherType(
-			TaskSearcherType type) {
+	private SearcherCategory getCategoryFromTaskSearcherType(TaskSearcherType type) {
 		switch (type) {
 			case GENERAL:
 				return this.generalCategory;
+			case CONTEXT:
+				return this.contextCategory;
+			case FOLDER:
+				return this.folderCategory;
+			case GOAL:
+				return this.goalCategory;
+			case LOCATION:
+				return this.locationCategory;
 			case PERSONAL:
 				return this.personalCategory;
-			default:
-				return null;
 		}
+		
+		return null;
 	}
 	
-	private SourceListCategory getCategoryFromModel(Model model) {
-		if (model instanceof Context)
-			return this.contextCategory;
-		else if (model instanceof Folder)
-			return this.folderCategory;
-		else if (model instanceof Goal)
-			return this.goalCategory;
-		else if (model instanceof Location)
-			return this.locationCategory;
+	private SearcherCategory getCategoryFromModelType(ModelType type) {
+		switch (type) {
+			case CONTEXT:
+				return this.contextCategory;
+			case FOLDER:
+				return this.folderCategory;
+			case GOAL:
+				return this.goalCategory;
+			case LOCATION:
+				return this.locationCategory;
+		}
 		
 		return null;
 	}
@@ -249,20 +235,20 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		}
 		
 		if (event.getValue() instanceof Model) {
-			SourceListCategory category = this.getCategoryFromModel((Model) event.getValue());
+			SearcherCategory category = this.getCategoryFromModelType(((Model) event.getValue()).getModelType());
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				ModelItem item = new ModelItem(
 						((Model) event.getValue()).getModelType(),
 						(Model) event.getValue());
 				
-				this.model.addItemToCategory(item, category);
+				category.add(item);
 				this.list.setSelectedItem(item);
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-				SourceListItem item = this.findItemFromModel((Model) event.getValue());
+				SearcherNode item = this.findItemFromModel((Model) event.getValue());
 				
 				if (item != null) {
-					this.model.removeItemFromCategory(item, category);
+					category.remove(item);
 					this.selectDefaultTaskSearcher();
 				}
 			}
@@ -275,7 +261,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				TaskSearcher searcher = (TaskSearcher) event.getValue();
 				SearcherItem item = new SearcherItem(searcher);
 				
-				SourceListCategory category = this.getCategoryFromTaskSearcherType(searcher.getType());
+				SearcherCategory category = this.getCategoryFromTaskSearcherType(searcher.getType());
 				
 				this.model.addItemToCategory(item, category);
 				
@@ -381,63 +367,12 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		}
 	}
 	
-	@Override
-	public void saveProperties() {
-		Main.SETTINGS.setBooleanProperty(
-				this.generalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.generalCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.contextCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.contextCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.folderCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.folderCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.goalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.goalCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.locationCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.locationCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.personalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.personalCategory));
-	}
-	
 	public void updateBadges() {
 		Boolean showBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
 		if (showBadges == null || !showBadges)
 			return;
 		
-		List<SourceListItem> items = null;
-		
-		items = this.generalCategory.getItems();
-		for (SourceListItem i : items)
-			((SearcherItem) i).updateBadgeCount();
-		
-		items = this.contextCategory.getItems();
-		for (SourceListItem i : items)
-			((ModelItem) i).updateBadgeCount();
-		
-		items = this.folderCategory.getItems();
-		for (SourceListItem i : items)
-			((ModelItem) i).updateBadgeCount();
-		
-		items = this.goalCategory.getItems();
-		for (SourceListItem i : items)
-			((ModelItem) i).updateBadgeCount();
-		
-		items = this.locationCategory.getItems();
-		for (SourceListItem i : items)
-			((ModelItem) i).updateBadgeCount();
-		
-		items = this.personalCategory.getItems();
-		for (SourceListItem i : items)
-			((SearcherItem) i).updateBadgeCount();
+		this.nodeChanged((TreeNode) this.getRoot());
 	}
 	
 }
