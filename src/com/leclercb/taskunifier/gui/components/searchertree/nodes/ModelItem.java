@@ -145,4 +145,9 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 		return "<html>" + count + "</html>";
 	}
 	
+	@Override
+	public boolean getAllowsChildren() {
+		return false;
+	}
+	
 }

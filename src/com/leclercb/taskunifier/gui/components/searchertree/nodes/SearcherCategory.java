@@ -20,4 +20,9 @@ public class SearcherCategory extends DefaultMutableTreeNode {
 		return this.expandedPropetyName;
 	}
 	
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+	
 }

@@ -9,10 +9,12 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -43,6 +45,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherTreeModel extends DefaultTreeModel implements ListChangeListener, PropertyChangeListener {
 	
+	private TreeSelectionModel treeSelectionModel;
+	
 	private SearcherNode defaultSearcher;
 	private SearcherCategory generalCategory;
 	private SearcherCategory contextCategory;
@@ -51,8 +55,10 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private SearcherCategory locationCategory;
 	private SearcherCategory personalCategory;
 	
-	public SearcherTreeModel() {
+	public SearcherTreeModel(TreeSelectionModel treeSelectionModel) {
 		super(new DefaultMutableTreeNode("Root"));
+		
+		this.treeSelectionModel = treeSelectionModel;
 		
 		this.initializeDefaultSearcher();
 		this.initializeGeneralCategory();
@@ -222,7 +228,13 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	}
 	
 	public SearcherNode findItemFromSearcher(TaskSearcher searcher) {
-		SearcherCategory category = this.getCategoryFromTaskSearcherType(searcher.getType());
+		return this.findItemFromSearcher(searcher, searcher.getType());
+	}
+	
+	private SearcherNode findItemFromSearcher(
+			TaskSearcher searcher,
+			TaskSearcherType type) {
+		SearcherCategory category = this.getCategoryFromTaskSearcherType(type);
 		
 		for (int i = 0; i < category.getChildCount(); i++) {
 			TreeNode node = category.getChildAt(i);
@@ -288,12 +300,15 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				ModelItem item = new ModelItem(model.getModelType(), model);
 				
-				category.add(item);
+				this.insertNodeInto(item, category, 0);
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				SearcherNode item = this.findItemFromModel(model);
 				
 				if (item != null)
-					category.remove(item);
+					this.removeNodeFromParent(item);
+				
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
 			return;
@@ -306,12 +321,15 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				SearcherItem item = new SearcherItem(searcher);
 				
-				category.add(item);
+				this.insertNodeInto(item, category, 0);
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				SearcherNode item = this.findItemFromSearcher(searcher);
 				
 				if (item != null)
-					category.remove(item);
+					this.removeNodeFromParent(item);
+				
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
 			return;
@@ -328,7 +346,6 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		
 		if (event.getSource() instanceof Model) {
 			Model model = (Model) event.getSource();
-			SearcherCategory category = this.getCategoryFromModelType(model.getModelType());
 			SearcherNode item = this.findItemFromModel(model);
 			
 			if (!((Model) event.getSource()).getModelStatus().equals(
@@ -336,7 +353,9 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 					&& !((Model) event.getSource()).getModelStatus().equals(
 							ModelStatus.TO_UPDATE)) {
 				if (item != null)
-					category.remove(item);
+					this.removeNodeFromParent(item);
+				
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			} else {
 				if (event.getPropertyName().equals(Model.PROP_TITLE)
 						|| event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
@@ -349,26 +368,28 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		
 		if (event.getSource() instanceof TaskSearcher) {
 			TaskSearcher searcher = (TaskSearcher) event.getSource();
-			SearcherNode item = this.findItemFromSearcher(searcher);
 			
 			if (event.getPropertyName().equals(TaskSearcher.PROP_TITLE)
 					|| event.getPropertyName().equals(TaskSearcher.PROP_ICON)) {
+				SearcherNode item = this.findItemFromSearcher(searcher);
 				this.nodeChanged(item);
 			}
 			
 			if (event.getPropertyName().equals(TaskSearcher.PROP_TYPE)) {
-				SearcherCategory category = null;
+				SearcherNode item = this.findItemFromSearcher(
+						searcher,
+						(TaskSearcherType) event.getOldValue());
 				
-				category = this.getCategoryFromTaskSearcherType((TaskSearcherType) event.getOldValue());
+				if (item != null)
+					this.removeNodeFromParent(item);
 				
-				if (item != null && category != null)
-					category.remove(item);
-				
-				category = this.getCategoryFromTaskSearcherType(searcher.getType());
+				SearcherCategory category = this.getCategoryFromTaskSearcherType(searcher.getType());
 				
 				item = new SearcherItem(searcher);
 				
-				category.add(item);
+				this.insertNodeInto(item, category, 0);
+				
+				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			}
 			
 			return;
