@@ -15,10 +15,13 @@ import javax.swing.tree.TreeNode;
 import org.jdesktop.swingx.JXTree;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.components.searchertree.transfer.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -61,21 +64,32 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		throw new UnsupportedOperationException();
 	}
 	
-	public Model getSelectedModel() {
-
-	}
-	
 	public void selectTaskSearcher(TaskSearcher searcher) {
-
+		TreeNode node = this.getSearcherModel().findItemFromSearcher(searcher);
+		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
 	public void selectModel(Model model) {
-
+		TreeNode node = this.getSearcherModel().findItemFromModel(model);
+		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
 	@Override
 	public void selectDefaultTaskSearcher() {
-
+		TreeNode node = this.getSearcherModel().getDefaultSearcher();
+		this.setSelectionPath(TreeUtils.getPath(node));
+	}
+	
+	public Model getSelectedModel() {
+		if (this.getSelectionPath() == null)
+			return null;
+		
+		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
+		
+		if (node == null || !(node instanceof ModelItem))
+			return null;
+		
+		return ((ModelItem) node).getModel();
 	}
 	
 	@Override
@@ -139,7 +153,7 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						SearcherList.this.updateExpandedState();
+						SearcherTree.this.updateExpandedState();
 					}
 					
 				});
@@ -150,60 +164,23 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 	private void updateExpandedState() {
 		Boolean expanded;
 		
-		expanded = Main.SETTINGS.getBooleanProperty(this.generalCategory.getExpandedPropetyName());
-		this.list.setExpanded(
-				this.generalCategory,
-				(expanded != null && expanded));
-		
-		expanded = Main.SETTINGS.getBooleanProperty(this.contextCategory.getExpandedPropetyName());
-		this.list.setExpanded(
-				this.contextCategory,
-				(expanded != null && expanded));
-		
-		expanded = Main.SETTINGS.getBooleanProperty(this.folderCategory.getExpandedPropetyName());
-		this.list.setExpanded(
-				this.folderCategory,
-				(expanded != null && expanded));
-		
-		expanded = Main.SETTINGS.getBooleanProperty(this.goalCategory.getExpandedPropetyName());
-		this.list.setExpanded(this.goalCategory, (expanded != null && expanded));
-		
-		expanded = Main.SETTINGS.getBooleanProperty(this.locationCategory.getExpandedPropetyName());
-		this.list.setExpanded(
-				this.locationCategory,
-				(expanded != null && expanded));
-		
-		expanded = Main.SETTINGS.getBooleanProperty(this.personalCategory.getExpandedPropetyName());
-		this.list.setExpanded(
-				this.personalCategory,
-				(expanded != null && expanded));
+		SearcherCategory[] categories = this.getSearcherModel().getCategories();
+		for (SearcherCategory category : categories) {
+			expanded = Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName());
+			this.setExpandedState(
+					TreeUtils.getPath(category),
+					(expanded != null && expanded));
+		}
 	}
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.setBooleanProperty(
-				this.generalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.generalCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.contextCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.contextCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.folderCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.folderCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.goalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.goalCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.locationCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.locationCategory));
-		
-		Main.SETTINGS.setBooleanProperty(
-				this.personalCategory.getExpandedPropetyName(),
-				this.list.isExpanded(this.personalCategory));
+		SearcherCategory[] categories = this.getSearcherModel().getCategories();
+		for (SearcherCategory category : categories) {
+			Main.SETTINGS.setBooleanProperty(
+					category.getExpandedPropetyName(),
+					this.isExpanded(TreeUtils.getPath(category)));
+		}
 	}
 	
 }
