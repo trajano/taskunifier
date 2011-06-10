@@ -44,8 +44,14 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
+		this.setOpaque(false);
+		this.setRootVisible(false);
+		this.setLargeModel(true);
+		this.setShowsRootHandles(true);
+		this.setRowHeight(20);
+		
+		this.setSelectionModel(new SearcherTreeSelectionModel());
 		this.setModel(new SearcherTreeModel(this.getSelectionModel()));
-		// this.setUI(new SearcherTreeUI());
 		
 		// this.initializeToolTipText();
 		this.initializeDragAndDrop();
