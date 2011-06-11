@@ -50,15 +50,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.jdesktop.swingx.JXComboBox;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -181,18 +178,6 @@ public final class ComponentFactory {
 		comboBox.setRenderer(new DefaultListRenderer(
 				new StringValueModel(),
 				new IconValueModel()));
-		
-		AutoCompleteDecorator.decorate(comboBox, new ObjectToStringConverter() {
-			
-			@Override
-			public String getPreferredStringForItem(Object item) {
-				if (item == null)
-					return null;
-				
-				return ((Model) item).getTitle();
-			}
-			
-		});
 		
 		return comboBox;
 	}
