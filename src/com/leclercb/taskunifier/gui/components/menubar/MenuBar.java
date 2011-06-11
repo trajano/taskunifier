@@ -171,7 +171,7 @@ public class MenuBar extends JMenuBar {
 				
 			});
 			
-			this.addPropertyChangeListener(
+			this.mainView.addPropertyChangeListener(
 					MainView.PROP_SELECTED_VIEW,
 					new PropertyChangeListener() {
 						

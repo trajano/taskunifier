@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.beans.PropertyChangeEvent;
@@ -81,7 +82,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		JRendererLabel r = (JRendererLabel) renderer;
+		final JRendererLabel r = (JRendererLabel) renderer;
 		
 		Object value = adapter.getFilteredValueAt(
 				adapter.row,
@@ -124,10 +125,16 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 			
 			@Override
 			public void paint(Graphics2D g, JLabel object, int width, int height) {
+				FontMetrics metrics = g.getFontMetrics(r.getFont());
+				
 				int x = 18;
 				int y = 3;
+				
+				if (task.getParent() != null)
+					x += metrics.stringWidth("          ");
+				
 				width = (int) ((width - (x + 3)) * task.getProgress());
-				height = height - (y + 3);
+				height = height - (y + y);
 				
 				Color c = g.getColor();
 				g.setRenderingHint(
