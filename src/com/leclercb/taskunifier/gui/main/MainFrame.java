@@ -355,6 +355,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private void initializeShowCompletedTasksCheckBox() {
 		this.showCompletedTasksCheckBox = new JCheckBox(
 				Translations.getString("configuration.general.show_completed_tasks"));
+		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
+				10.0f));
 		
 		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
 			this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"));
