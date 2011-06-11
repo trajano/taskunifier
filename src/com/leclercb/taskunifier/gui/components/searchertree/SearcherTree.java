@@ -1,3 +1,35 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.leclercb.taskunifier.gui.components.searchertree;
 
 import java.awt.Toolkit;
@@ -9,13 +41,13 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.DropMode;
 import javax.swing.InputMap;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
-
-import org.jdesktop.swingx.JXTree;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
@@ -23,14 +55,16 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.searchertree.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
-import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
-import com.leclercb.taskunifier.gui.components.searchertree.transfer.TaskSearcherTransferHandler;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.TaskSearcherProvider;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-public class SearcherTree extends JXTree implements SearcherView, SavePropertiesListener {
+@Reviewed
+public class SearcherTree extends JTree implements SearcherView, SavePropertiesListener {
 	
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
 	
@@ -52,8 +86,9 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		
 		this.setSelectionModel(new SearcherTreeSelectionModel());
 		this.setModel(new SearcherTreeModel(this.getSelectionModel()));
+		this.setUI(new SearcherTreeUI());
 		
-		// this.initializeToolTipText();
+		this.initializeToolTipText();
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initializeExpandedState();
@@ -78,7 +113,7 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		});
 	}
 	
-	private SearcherTreeModel getSearcherModel() {
+	public SearcherTreeModel getSearcherModel() {
 		return (SearcherTreeModel) this.getModel();
 	}
 	
@@ -134,10 +169,10 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		
 		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
 		
-		if (node == null || !(node instanceof SearcherNode))
+		if (node == null || !(node instanceof TaskSearcherProvider))
 			return null;
 		
-		return ((SearcherNode) node).getTaskSearcher();
+		return ((TaskSearcherProvider) node).getTaskSearcher();
 	}
 	
 	@Override
@@ -153,6 +188,10 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		this.setDragEnabled(true);
 		this.setTransferHandler(new TaskSearcherTransferHandler());
 		this.setDropMode(DropMode.INSERT);
+	}
+	
+	private void initializeToolTipText() {
+		ToolTipManager.sharedInstance().registerComponent(this);
 	}
 	
 	private void initializeCopyAndPaste() {
@@ -205,10 +244,12 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 		
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
-			expanded = Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName());
-			this.setExpandedState(
-					TreeUtils.getPath(category),
-					(expanded != null && expanded));
+			if (category.getExpandedPropetyName() != null) {
+				expanded = Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName());
+				this.setExpandedState(
+						TreeUtils.getPath(category),
+						(expanded != null && expanded));
+			}
 		}
 	}
 	
@@ -216,9 +257,11 @@ public class SearcherTree extends JXTree implements SearcherView, SaveProperties
 	public void saveProperties() {
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
-			Main.SETTINGS.setBooleanProperty(
-					category.getExpandedPropetyName(),
-					this.isExpanded(TreeUtils.getPath(category)));
+			if (category.getExpandedPropetyName() != null) {
+				Main.SETTINGS.setBooleanProperty(
+						category.getExpandedPropetyName(),
+						this.isExpanded(TreeUtils.getPath(category)));
+			}
 		}
 	}
 	

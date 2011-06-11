@@ -1,5 +1,39 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.leclercb.taskunifier.gui.components.searchertree.nodes;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -21,30 +55,25 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	
-	private Icon icon;
-	
 	private ModelType modelType;
+	private TaskSearcher searcher;
 	
 	public ModelItem(ModelType modelType, Model model) {
 		super(model);
 		
 		CheckUtils.isNotNull(modelType, "Model type cannot be null");
-		
 		this.modelType = modelType;
 		
-		if (model != null && model instanceof GuiModel)
-			this.icon = new ColorBadgeIcon(
-					((GuiModel) model).getColor(),
-					12,
-					12);
-		else
-			this.icon = new ColorBadgeIcon(null, 12, 12);
+		this.initializeTaskSearcher();
 	}
 	
 	public ModelType getModelType() {
@@ -55,9 +84,9 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 		return (Model) this.getUserObject();
 	}
 	
-	@Override
-	public TaskSearcher getTaskSearcher() {
-		Template template = new Template("ModelTemplate");
+	private void initializeTaskSearcher() {
+		final Model model = this.getModel();
+		final Template template = new Template("ModelTemplate");
 		TaskColumn column = null;
 		TaskSearcherType type = null;
 		
@@ -65,26 +94,26 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
 				type = TaskSearcherType.CONTEXT;
-				if (this.getModel() != null)
-					template.setTaskContext(this.getModel().getModelId());
+				if (model != null)
+					template.setTaskContext(model.getModelId());
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
-				if (this.getModel() != null)
-					template.setTaskFolder(this.getModel().getModelId());
+				if (model != null)
+					template.setTaskFolder(model.getModelId());
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
 				type = TaskSearcherType.GOAL;
-				if (this.getModel() != null)
-					template.setTaskGoal(this.getModel().getModelId());
+				if (model != null)
+					template.setTaskGoal(model.getModelId());
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
 				type = TaskSearcherType.LOCATION;
-				if (this.getModel() != null)
-					template.setTaskLocation(this.getModel().getModelId());
+				if (model != null)
+					template.setTaskLocation(model.getModelId());
 				break;
 		}
 		
@@ -109,8 +138,12 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				ModelCondition.EQUALS,
 				this.getModel()));
 		
-		String title = (this.getModel() == null ? Translations.getString("searcherlist.none") : this.getModel().getTitle());
-		TaskSearcher searcher = new TaskSearcher(
+		String title = Translations.getString("searcherlist.none");
+		
+		if (model != null)
+			title = model.getTitle();
+		
+		this.searcher = new TaskSearcher(
 				type,
 				0,
 				title,
@@ -119,12 +152,54 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				sorter,
 				template);
 		
-		return searcher;
+		if (model != null) {
+			model.addPropertyChangeListener(new PropertyChangeListener() {
+				
+				@Override
+				public void propertyChange(PropertyChangeEvent event) {
+					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
+						switch (ModelItem.this.modelType) {
+							case CONTEXT:
+								template.setTaskContext(model.getModelId());
+								break;
+							case FOLDER:
+								template.setTaskFolder(model.getModelId());
+								break;
+							case GOAL:
+								template.setTaskGoal(model.getModelId());
+								break;
+							case LOCATION:
+								template.setTaskLocation(model.getModelId());
+								break;
+						}
+						
+						return;
+					}
+					
+					if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+						ModelItem.this.searcher.setTitle(model.getTitle());
+						return;
+					}
+				}
+				
+			});
+		}
+	}
+	
+	@Override
+	public TaskSearcher getTaskSearcher() {
+		return this.searcher;
 	}
 	
 	@Override
 	public Icon getIcon() {
-		return this.icon;
+		if (this.getModel() != null && this.getModel() instanceof GuiModel)
+			return new ColorBadgeIcon(
+					((GuiModel) this.getModel()).getColor(),
+					12,
+					12);
+		else
+			return new ColorBadgeIcon(null, 12, 12);
 	}
 	
 	@Override
@@ -133,16 +208,26 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	}
 	
 	@Override
-	public String getBadge() {
+	public BadgeCount getBadgeCount() {
+		Boolean showBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
+		if (showBadges == null || !showBadges)
+			return null;
+		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		TaskSearcher searcher = this.getTaskSearcher();
 		
 		int count = 0;
-		for (Task task : tasks)
-			if (TaskUtils.showTask(task, searcher.getFilter()))
+		int countOverdue = 0;
+		for (Task task : tasks) {
+			if (TaskUtils.showTask(task, searcher.getFilter())) {
 				count++;
+				
+				if (!task.isCompleted() && task.isOverDue())
+					countOverdue++;
+			}
+		}
 		
-		return "<html>" + count + "</html>";
+		return new BadgeCount(count, countOverdue);
 	}
 	
 	@Override

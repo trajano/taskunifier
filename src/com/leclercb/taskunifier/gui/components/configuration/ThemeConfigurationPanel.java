@@ -106,7 +106,6 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SHOW_BADGES",
 				Translations.getString("configuration.theme.show_badges"),
-				true,
 				new ShowBadgesFieldType()));
 		
 		this.addField(new ConfigurationField(

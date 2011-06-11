@@ -1,13 +1,15 @@
 Version 0.9.5
+	- Major:
+		- FR 3300484: System tray
+		- FR 3313298: Show completed tasks
+		- FR 3260156: Progress of a task
 	- Minor:
 		- FR 3312542: Subtask button in toolbar
 		- FR 3312960: Settings for priority/importance colors
 		- FR 3312948: Collapse & expand all
-		- FR 3300484: System tray
-		- FR 3313298: Show completed tasks
-		- FR 3260156: Progress of a task
 		- FR 3312543: Add subtask in popup menu
 		- FR 3300471: Change order of searchers
+		- BF 3312532: Truncated edit task window
 		- Paste from any application
 		- Bug fixed: force correct rights on data folder
 

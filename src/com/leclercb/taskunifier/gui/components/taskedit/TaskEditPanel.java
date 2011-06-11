@@ -45,7 +45,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
@@ -54,6 +53,7 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.jgoodies.forms.layout.CellConstraints;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -82,7 +82,6 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -288,20 +287,14 @@ public class TaskEditPanel extends JPanel {
 				new StringValueTaskPriority(),
 				new IconValueTaskPriority()));
 		
+		// Task Note
+		builder.appendI15d("general.task.note", true);
+		builder.getBuilder().add(
+				new JScrollPane(this.taskNote),
+				new CellConstraints(3, builder.getBuilder().getRowCount(), 5, 1));
+		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.CENTER);
-		
-		// Task Note
-		JPanel notePanel = new JPanel();
-		notePanel.setLayout(new BorderLayout());
-		
-		JLabel label = new JLabel(Translations.getString("general.task.note")
-				+ ":", SwingConstants.LEADING);
-		notePanel.add(label, BorderLayout.NORTH);
-		
-		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
-		
-		this.add(notePanel, BorderLayout.SOUTH);
 	}
 	
 	private void initializeAdapter() {

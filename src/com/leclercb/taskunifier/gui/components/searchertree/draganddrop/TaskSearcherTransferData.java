@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searchertree.transfer;
+package com.leclercb.taskunifier.gui.components.searchertree.draganddrop;
 
 import java.io.Serializable;
 
@@ -46,7 +46,6 @@ public class TaskSearcherTransferData implements Serializable {
 	
 	public TaskSearcherTransferData(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
-		
 		this.id = searcher.getId();
 	}
 	

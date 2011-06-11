@@ -8,10 +8,10 @@ public enum TaskSearcherType {
 	
 	DEFAULT(false, false, ""),
 	GENERAL(true, true, Translations.getString("searcherlist.general")),
-	CONTEXT(false, false, ""),
-	FOLDER(false, false, ""),
-	GOAL(false, false, ""),
-	LOCATION(false, false, ""),
+	CONTEXT(false, false, Translations.getString("general.contexts")),
+	FOLDER(false, false, Translations.getString("general.folders")),
+	GOAL(false, false, Translations.getString("general.goals")),
+	LOCATION(false, false, Translations.getString("general.locations")),
 	PERSONAL(true, true, Translations.getString("searcherlist.personal"));
 	
 	private boolean editable;

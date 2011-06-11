@@ -100,6 +100,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 		this.setId(UUID.randomUUID().toString());
 		
 		this.setType(type);
+		this.setOrder(order);
 		this.setTitle(title);
 		this.setIcon(icon);
 		this.setFilter(filter);

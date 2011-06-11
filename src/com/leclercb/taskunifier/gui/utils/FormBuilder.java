@@ -59,7 +59,11 @@ public class FormBuilder {
 		return this.builder.appendSeparator();
 	}
 	
-	public final JPanel getPanel() {
+	public DefaultFormBuilder getBuilder() {
+		return this.builder;
+	}
+	
+	public JPanel getPanel() {
 		return this.builder.getPanel();
 	}
 	

@@ -40,11 +40,13 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SortOrder;
 import javax.swing.tree.TreePath;
 
+import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
@@ -75,7 +77,9 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SearcherPanel extends JPanel implements SavePropertiesListener, SearcherView, PropertyChangeSupported, TaskSearcherSelectionListener {
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
@@ -266,6 +270,8 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 		JPanel panel = ComponentFactory.createButtonsPanel(new JButton(
 				this.addAction), new JButton(this.removeAction), new JButton(
 				this.editAction));
+		panel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		this.add(panel, BorderLayout.SOUTH);
 		

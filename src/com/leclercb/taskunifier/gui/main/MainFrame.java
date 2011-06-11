@@ -54,6 +54,7 @@ import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXStatusBar;
 
+import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
@@ -372,7 +373,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
 		JPanel panel = new JPanel(new BorderLayout());
-		JPanel northPanel = new JPanel(new BorderLayout());
+		JPanel northPanel = new JPanel(new BorderLayout(0, 5));
+		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		panel.add(northPanel, BorderLayout.NORTH);
 		
 		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.NORTH);

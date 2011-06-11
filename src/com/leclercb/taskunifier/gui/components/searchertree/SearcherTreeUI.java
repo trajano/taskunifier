@@ -1,5 +1,39 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.leclercb.taskunifier.gui.components.searchertree;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,86 +42,80 @@ import java.awt.Rectangle;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.JViewport;
-import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.AbstractLayoutCache;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
+import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.explodingpixels.macwidgets.SourceListColorScheme;
+import com.explodingpixels.macwidgets.SourceListCountBadgeRenderer;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.RectanglePainter;
+import com.explodingpixels.widgets.WindowUtils;
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
+@Reviewed
 public class SearcherTreeUI extends BasicTreeUI {
 	
-	private Font categoryFont = UIManager.getFont("Label.font").deriveFont(
-			Font.BOLD,
-			11.0f);
-	private Font itemFont = UIManager.getFont("Label.font").deriveFont(11.0f);
-	private Font itemSelectedFont = this.itemFont.deriveFont(Font.BOLD);
+	private Font categoryFont = new Font("Arial", Font.BOLD, 12);
+	private Font itemFont = new Font("Arial", Font.PLAIN, 12);
+	private Font itemSelectedFont = new Font("Arial", Font.BOLD, 12);
 	
-	private SourceListColorScheme fColorScheme;
-	private FocusStatePainter fBackgroundPainter;
-	private FocusStatePainter fSelectionBackgroundPainter;
+	private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
+	
+	private SourceListColorScheme colorScheme;
+	private FocusStatePainter backgroundPainter;
+	private FocusStatePainter selectionBackgroundPainter;
+	
+	public SearcherTreeUI() {
+
+	}
 	
 	@Override
 	protected void completeUIInstall() {
 		super.completeUIInstall();
-		
 		this.setColorScheme(new SourceListStandardColorScheme());
 	}
 	
-	public Font getCategoryFont() {
-		return this.categoryFont;
-	}
-	
-	public void setCategoryFont(Font categoryFont) {
-		this.categoryFont = categoryFont;
-	}
-	
-	public Font getItemFont() {
-		return this.itemFont;
-	}
-	
-	public void setItemFont(Font itemFont) {
-		this.itemFont = itemFont;
-	}
-	
-	public Font getItemSelectedFont() {
-		return this.itemSelectedFont;
-	}
-	
-	public void setItemSelectedFont(Font itemSelectedFont) {
-		this.itemSelectedFont = itemSelectedFont;
-	}
-	
-	public SourceListColorScheme getColorScheme() {
-		return this.fColorScheme;
-	}
-	
 	public void setColorScheme(SourceListColorScheme colorScheme) {
-		this.fColorScheme = colorScheme;
-		this.fBackgroundPainter = new FocusStatePainter(
+		this.colorScheme = colorScheme;
+		this.backgroundPainter = new FocusStatePainter(
 				new RectanglePainter(
-						this.fColorScheme.getActiveBackgroundColor()),
+						this.colorScheme.getActiveBackgroundColor()),
 				new RectanglePainter(
-						this.fColorScheme.getActiveBackgroundColor()),
+						this.colorScheme.getActiveBackgroundColor()),
 				new RectanglePainter(
-						this.fColorScheme.getInactiveBackgroundColor()));
-		this.fSelectionBackgroundPainter = new FocusStatePainter(
-				this.fColorScheme.getActiveFocusedSelectedItemPainter(),
-				this.fColorScheme.getActiveUnfocusedSelectedItemPainter(),
-				this.fColorScheme.getInactiveSelectedItemPainter());
+						this.colorScheme.getInactiveBackgroundColor()));
+		this.selectionBackgroundPainter = new FocusStatePainter(
+				this.colorScheme.getActiveFocusedSelectedItemPainter(),
+				this.colorScheme.getActiveUnfocusedSelectedItemPainter(),
+				this.colorScheme.getInactiveSelectedItemPainter());
+		
+		this.tree.setCellRenderer(new SearcherTreeCellRenderer());
 		
 		this.installDisclosureIcons();
 	}
 	
+	@Override
+	protected void installListeners() {
+		super.installListeners();
+		WindowUtils.installJComponentRepainterOnWindowFocusChanged(this.tree);
+	}
+	
 	private void installDisclosureIcons() {
-		this.setCollapsedIcon(this.fColorScheme.getUnselectedCollapsedIcon());
-		this.setExpandedIcon(this.fColorScheme.getUnselectedExpandedIcon());
-		int indent = this.fColorScheme.getUnselectedCollapsedIcon().getIconWidth() / 2 + 4;
+		this.setCollapsedIcon(this.colorScheme.getUnselectedCollapsedIcon());
+		this.setExpandedIcon(this.colorScheme.getUnselectedExpandedIcon());
+		int indent = this.colorScheme.getUnselectedCollapsedIcon().getIconWidth() / 2 + 4;
 		this.setLeftChildIndent(indent);
 		this.setRightChildIndent(indent);
 	}
@@ -106,8 +134,8 @@ public class SearcherTreeUI extends BasicTreeUI {
 		boolean isPathSelected = this.tree.getSelectionModel().isPathSelected(
 				path);
 		
-		Icon expandIcon = isPathSelected ? this.fColorScheme.getSelectedExpandedIcon() : this.fColorScheme.getUnselectedExpandedIcon();
-		Icon collapseIcon = isPathSelected ? this.fColorScheme.getSelectedCollapsedIcon() : this.fColorScheme.getUnselectedCollapsedIcon();
+		Icon expandIcon = isPathSelected ? this.colorScheme.getSelectedExpandedIcon() : this.colorScheme.getUnselectedExpandedIcon();
+		Icon collapseIcon = isPathSelected ? this.colorScheme.getSelectedCollapsedIcon() : this.colorScheme.getUnselectedCollapsedIcon();
 		
 		boolean setIcon = true;
 		
@@ -150,6 +178,7 @@ public class SearcherTreeUI extends BasicTreeUI {
 				
 				return dimensions;
 			}
+			
 		};
 	}
 	
@@ -168,7 +197,7 @@ public class SearcherTreeUI extends BasicTreeUI {
 	@Override
 	public void paint(Graphics g, JComponent c) {
 		Graphics2D backgroundGraphics = (Graphics2D) g.create();
-		this.fBackgroundPainter.paint(
+		this.backgroundPainter.paint(
 				backgroundGraphics,
 				c,
 				c.getWidth(),
@@ -183,7 +212,7 @@ public class SearcherTreeUI extends BasicTreeUI {
 			
 			Graphics2D selectionBackgroundGraphics = (Graphics2D) g.create();
 			selectionBackgroundGraphics.translate(0, bounds.y);
-			this.fSelectionBackgroundPainter.paint(
+			this.selectionBackgroundPainter.paint(
 					selectionBackgroundGraphics,
 					c,
 					c.getWidth(),
@@ -211,6 +240,159 @@ public class SearcherTreeUI extends BasicTreeUI {
 			Insets insets,
 			TreePath path) {
 
+	}
+	
+	private class SearcherTreeCellRenderer implements TreeCellRenderer {
+		
+		private CategoryTreeCellRenderer categoryRenderer = new CategoryTreeCellRenderer();
+		private ItemTreeCellRenderer itemRenderer = new ItemTreeCellRenderer();
+		
+		@Override
+		public Component getTreeCellRendererComponent(
+				JTree tree,
+				Object value,
+				boolean selected,
+				boolean expanded,
+				boolean leaf,
+				int row,
+				boolean hasFocus) {
+			TreeCellRenderer renderer = this.itemRenderer;
+			
+			if (value instanceof SearcherCategory)
+				renderer = this.categoryRenderer;
+			
+			return renderer.getTreeCellRendererComponent(
+					tree,
+					value,
+					selected,
+					expanded,
+					leaf,
+					row,
+					hasFocus);
+		}
+		
+	}
+	
+	private class CategoryTreeCellRenderer implements TreeCellRenderer {
+		
+		private JLabel label = MacWidgetFactory.makeEmphasizedLabel(
+				new JLabel(),
+				SearcherTreeUI.this.colorScheme.getCategoryTextColor(),
+				SearcherTreeUI.this.colorScheme.getCategoryTextColor(),
+				SearcherTreeUI.this.colorScheme.getCategoryTextShadowColor());
+		
+		private CategoryTreeCellRenderer() {
+
+		}
+		
+		@Override
+		public Component getTreeCellRendererComponent(
+				JTree tree,
+				Object value,
+				boolean selected,
+				boolean expanded,
+				boolean leaf,
+				int row,
+				boolean hasFocus) {
+			SearcherCategory node = (SearcherCategory) value;
+			
+			this.label.setFont(SearcherTreeUI.this.categoryFont);
+			this.label.setText(node.getTitle());
+			
+			return this.label;
+		}
+		
+	}
+	
+	private class ItemTreeCellRenderer implements TreeCellRenderer {
+		
+		private PanelBuilder fBuilder;
+		
+		private SourceListCountBadgeRenderer normalCountRenderer = new SourceListCountBadgeRenderer(
+				SearcherTreeUI.this.colorScheme.getSelectedBadgeColor(),
+				SearcherTreeUI.this.colorScheme.getActiveUnselectedBadgeColor(),
+				SearcherTreeUI.this.colorScheme.getInativeUnselectedBadgeColor(),
+				SearcherTreeUI.this.colorScheme.getBadgeTextColor());
+		
+		private SourceListCountBadgeRenderer errorCountRenderer = new SourceListCountBadgeRenderer(
+				SearcherTreeUI.this.colorScheme.getSelectedBadgeColor(),
+				SearcherTreeUI.this.colorScheme.getActiveUnselectedBadgeColor(),
+				SearcherTreeUI.this.colorScheme.getInativeUnselectedBadgeColor(),
+				Color.RED);
+		
+		private JLabel selectedLabel = MacWidgetFactory.makeEmphasizedLabel(
+				new JLabel(),
+				SearcherTreeUI.this.colorScheme.getSelectedItemTextColor(),
+				SearcherTreeUI.this.colorScheme.getSelectedItemTextColor(),
+				SearcherTreeUI.this.colorScheme.getSelectedItemFontShadowColor());
+		
+		private JLabel unselectedLabel = MacWidgetFactory.makeEmphasizedLabel(
+				new JLabel(),
+				SearcherTreeUI.this.colorScheme.getUnselectedItemTextColor(),
+				SearcherTreeUI.this.colorScheme.getUnselectedItemTextColor(),
+				TRANSPARENT_COLOR);
+		
+		private ItemTreeCellRenderer() {
+			FormLayout layout = new FormLayout(
+					"fill:0px:grow, 5px, p, 5px, p, 5px",
+					"3px, fill:p:grow, 3px");
+			this.fBuilder = new PanelBuilder(layout);
+			this.fBuilder.getPanel().setOpaque(false);
+		}
+		
+		@Override
+		public Component getTreeCellRendererComponent(
+				JTree tree,
+				Object value,
+				boolean selected,
+				boolean expanded,
+				boolean leaf,
+				int row,
+				boolean hasFocus) {
+			this.selectedLabel.setFont(SearcherTreeUI.this.itemSelectedFont);
+			this.unselectedLabel.setFont(SearcherTreeUI.this.itemFont);
+			
+			SearcherNode node = (SearcherNode) value;
+			JLabel label = (selected ? this.selectedLabel : this.unselectedLabel);
+			label.setText(node.getText());
+			label.setIcon(node.getIcon());
+			
+			this.fBuilder.getPanel().removeAll();
+			CellConstraints cc = new CellConstraints();
+			this.fBuilder.add(label, cc.xywh(1, 1, 1, 3));
+			
+			if (node.getBadgeCount() != null) {
+				if (node.getBadgeCount().getErrorCount() != 0) {
+					this.errorCountRenderer.setState(
+							node.getBadgeCount().getErrorCount(),
+							selected);
+					this.fBuilder.add(
+							this.errorCountRenderer.getComponent(),
+							cc.xy(3, 2, "center, fill"));
+				}
+				
+				if (node.getBadgeCount().getNormalCount() != 0) {
+					this.normalCountRenderer.setState(
+							node.getBadgeCount().getNormalCount(),
+							selected);
+					this.fBuilder.add(
+							this.normalCountRenderer.getComponent(),
+							cc.xy(5, 2, "center, fill"));
+				}
+			}
+			
+			this.fBuilder.getPanel().setToolTipText(
+					"<html>"
+							+ node.getTaskSearcher().getTitle()
+							+ "<br />"
+							+ node.getTaskSearcher().getSorter()
+							+ "<br />"
+							+ node.getTaskSearcher().getFilter()
+							+ "</html>");
+			
+			return this.fBuilder.getPanel();
+		}
+		
 	}
 	
 }

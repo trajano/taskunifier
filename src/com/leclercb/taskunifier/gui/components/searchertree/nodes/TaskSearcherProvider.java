@@ -32,46 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.components.searchertree.nodes;
 
-import javax.swing.Icon;
-import javax.swing.tree.MutableTreeNode;
-
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface SearcherNode extends TaskSearcherProvider, MutableTreeNode {
+public interface TaskSearcherProvider {
 	
-	public abstract Icon getIcon();
-	
-	public abstract String getText();
-	
-	public abstract BadgeCount getBadgeCount();
-	
-	public static class BadgeCount {
-		
-		private int normalCount;
-		private int errorCount;
-		
-		public BadgeCount(int normalCount, int errorCount) {
-			this.normalCount = normalCount;
-			this.errorCount = errorCount;
-		}
-		
-		public int getNormalCount() {
-			return normalCount;
-		}
-		
-		public void setNormalCount(int normalCount) {
-			this.normalCount = normalCount;
-		}
-		
-		public int getErrorCount() {
-			return errorCount;
-		}
-		
-		public void setErrorCount(int errorCount) {
-			this.errorCount = errorCount;
-		}
-		
-	}
+	public abstract TaskSearcher getTaskSearcher();
 	
 }
