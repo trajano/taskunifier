@@ -67,9 +67,15 @@ public class TaskEditDialog extends JDialog {
 	private TaskEditPanel taskEditPanel;
 	private boolean cancelled;
 	
+	private JButton cancelButton;
+	
 	private TaskEditDialog() {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize();
+	}
+	
+	public void showCancelButton(boolean b) {
+		this.cancelButton.setVisible(b);
 	}
 	
 	public Task getTask() {
@@ -127,7 +133,9 @@ public class TaskEditDialog extends JDialog {
 				10));
 		
 		this.add(header, BorderLayout.NORTH);
-		this.add(this.taskEditPanel, BorderLayout.CENTER);
+		this.add(
+				ComponentFactory.createJScrollPane(this.taskEditPanel, false),
+				BorderLayout.CENTER);
 		this.initializeButtonsPanel();
 	}
 	
@@ -152,11 +160,11 @@ public class TaskEditDialog extends JDialog {
 		};
 		
 		JButton okButton = ComponentFactory.createButtonOk(listener);
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		this.cancelButton = ComponentFactory.createButtonCancel(listener);
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(
 				okButton,
-				cancelButton);
+				this.cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

@@ -128,7 +128,9 @@ public class TaskTableMenu extends JPopupMenu {
 				if (TaskTableMenu.this.getFocussedTask() == null)
 					return;
 				
-				ActionEditTask.editTask(TaskTableMenu.this.getFocussedTask());
+				ActionEditTask.editTask(
+						TaskTableMenu.this.getFocussedTask(),
+						false);
 			}
 			
 		});

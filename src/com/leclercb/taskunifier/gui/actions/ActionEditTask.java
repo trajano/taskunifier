@@ -92,11 +92,12 @@ public class ActionEditTask extends AbstractAction {
 		if (tasks.length != 1)
 			return;
 		
-		editTask(tasks[0]);
+		editTask(tasks[0], false);
 	}
 	
-	public static boolean editTask(Task task) {
+	public static boolean editTask(Task task, boolean showCancelButton) {
 		TaskEditDialog dialog = TaskEditDialog.getInstance();
+		dialog.showCancelButton(showCancelButton);
 		dialog.setTask(task);
 		dialog.setVisible(true);
 		return !dialog.isCancelled();
