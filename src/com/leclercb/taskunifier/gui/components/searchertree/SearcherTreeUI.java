@@ -318,7 +318,7 @@ public class SearcherTreeUI extends BasicTreeUI {
 				SearcherTreeUI.this.colorScheme.getSelectedBadgeColor(),
 				SearcherTreeUI.this.colorScheme.getActiveUnselectedBadgeColor(),
 				SearcherTreeUI.this.colorScheme.getInativeUnselectedBadgeColor(),
-				Color.RED);
+				Color.ORANGE);
 		
 		private JLabel selectedLabel = MacWidgetFactory.makeEmphasizedLabel(
 				new JLabel(),
