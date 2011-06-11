@@ -9,7 +9,9 @@ Version 0.9.5
 		- FR 3312948: Collapse & expand all
 		- FR 3312543: Add subtask in popup menu
 		- FR 3300471: Change order of searchers
+		- FR 3314144: Show overdue count
 		- BF 3312532: Truncated edit task window
+		- New font in notes
 		- Paste from any application
 		- Bug fixed: force correct rights on data folder
 

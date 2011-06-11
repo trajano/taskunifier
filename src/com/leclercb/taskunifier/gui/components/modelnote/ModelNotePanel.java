@@ -43,6 +43,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -83,6 +84,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		this.htmlNote.setEnabled(false);
 		this.htmlNote.setEditable(false);
 		this.htmlNote.setContentType("text/html");
+		this.htmlNote.setFont(UIManager.getFont("Label.font"));
 		this.htmlNote.setText(Translations.getString("error.select_one_row"));
 		this.htmlNote.addMouseListener(new MouseAdapter() {
 			
