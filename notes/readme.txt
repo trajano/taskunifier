@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.6
+	- Minor:
+		- Changed searcher list font
+
 Version 0.9.5
 	- Major:
 		- FR 3300484: System tray

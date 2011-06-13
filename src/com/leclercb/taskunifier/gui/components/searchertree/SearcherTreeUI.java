@@ -45,6 +45,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.JViewport;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.AbstractLayoutCache;
 import javax.swing.tree.TreeCellRenderer;
@@ -67,9 +68,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class SearcherTreeUI extends BasicTreeUI {
 	
-	private Font categoryFont = new Font("Arial", Font.BOLD, 12);
-	private Font itemFont = new Font("Arial", Font.PLAIN, 12);
-	private Font itemSelectedFont = new Font("Arial", Font.BOLD, 12);
+	private Font categoryFont = UIManager.getFont("Label.font").deriveFont(
+			Font.BOLD);
+	private Font itemFont = UIManager.getFont("Label.font").deriveFont(
+			Font.PLAIN);
+	private Font itemSelectedFont = UIManager.getFont("Label.font").deriveFont(
+			Font.BOLD);
 	
 	private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 	
