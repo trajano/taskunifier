@@ -198,7 +198,7 @@ public final class ComponentFactory {
 		return scrollPane;
 	}
 	
-	public static JSplitPane createThinJScrollPane(int orientation) {
+	public static JSplitPane createThinJSplitPane(int orientation) {
 		JSplitPane splitPane = new JSplitPane(orientation);
 		splitPane.setContinuousLayout(true);
 		splitPane.setDividerSize(1);

@@ -177,7 +177,9 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 		
 		this.searcherView = new SearcherTree();
 		
-		this.add(this.searcherView, BorderLayout.CENTER);
+		this.add(
+				ComponentFactory.createJScrollPane(this.searcherView, false),
+				BorderLayout.CENTER);
 		
 		this.searcherView.addTaskSearcherSelectionChangeListener(this);
 		

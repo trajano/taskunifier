@@ -153,7 +153,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			if (SystemUtils.IS_OS_MAC
 					&& LookAndFeelUtils.isCurrentLafSystemLaf()) {
-				this.horizontalSplitPane = ComponentFactory.createThinJScrollPane(JSplitPane.HORIZONTAL_SPLIT);
+				this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 			} else {
 				panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 				
@@ -355,6 +355,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private void initializeShowCompletedTasksCheckBox() {
 		this.showCompletedTasksCheckBox = new JCheckBox(
 				Translations.getString("configuration.general.show_completed_tasks"));
+		
+		this.showCompletedTasksCheckBox.setOpaque(false);
 		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
 				10.0f));
 		
@@ -374,9 +376,12 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
-		JPanel panel = new JPanel(new BorderLayout());
-		JPanel northPanel = new JPanel(new BorderLayout(0, 5));
+		JPanel panel = new JPanel(new BorderLayout(0, 10));
+		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
+		
+		JPanel northPanel = new JPanel(new BorderLayout());
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
+		
 		panel.add(northPanel, BorderLayout.NORTH);
 		
 		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.NORTH);
