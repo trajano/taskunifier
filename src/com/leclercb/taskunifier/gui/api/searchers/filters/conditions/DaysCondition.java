@@ -2,6 +2,7 @@ package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 import java.util.Calendar;
 
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -29,10 +30,29 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	
 	@Override
 	public boolean include(Integer value, Calendar taskValue) {
+		Calendar conditionValue = Calendar.getInstance();
+		taskValue = DateUtils.cloneCalendar(taskValue);
+		
+		conditionValue.set(
+				conditionValue.get(Calendar.YEAR),
+				conditionValue.get(Calendar.MONTH),
+				conditionValue.get(Calendar.DAY_OF_MONTH),
+				0,
+				0,
+				0);
+		
+		taskValue.set(
+				taskValue.get(Calendar.YEAR),
+				taskValue.get(Calendar.MONTH),
+				taskValue.get(Calendar.DAY_OF_MONTH),
+				0,
+				0,
+				0);
+		
 		long milliSeconds1 = taskValue.getTimeInMillis();
-		long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
+		long milliSeconds2 = conditionValue.getTimeInMillis();
 		long diff = milliSeconds1 - milliSeconds2;
-		double diffDays = diff / (24 * 60 * 60 * 1000.0);
+		long diffDays = Math.round(diff / (24 * 60 * 60 * 1000.0));
 		
 		if (this == GREATER_THAN) {
 			return diffDays > value;
