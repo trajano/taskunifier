@@ -154,7 +154,7 @@ public class TaskEditPanel extends JPanel {
 				+ " "
 				+ DateTimeFormatUtils.getMask(timeFormat);
 		
-		this.setLayout(new BorderLayout(0, 10));
+		this.setLayout(new BorderLayout());
 		
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
@@ -194,7 +194,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskLength = new JSpinner();
 		this.taskPriority = new JComboBox();
 		this.taskStar = new JCheckBox();
-		this.taskNote = new JTextArea(5, 5);
+		this.taskNote = new JTextArea(5, 0);
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow");
