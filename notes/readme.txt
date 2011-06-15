@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 0.9.7
+	- Major:
+		- Hide due time and/or start time
 	- Minor:
 		- Switched search field and completed checkbox
 		- Changed inactive searcher tree background color

@@ -77,14 +77,16 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEdi
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class TaskTableColumn extends TableColumnExt {
 	
-	private static final TableCellRenderer CALENDAR_RENDERER;
 	private static final TableCellRenderer COMPLETED_RENDERER;
+	private static final TableCellRenderer COMPLETED_ON_RENDERER;
+	private static final TableCellRenderer DUE_DATE_RENDERER;
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
@@ -93,6 +95,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer REPEAT_RENDERER;
 	private static final TableCellRenderer SHOW_CHILDREN_RENDERER;
 	private static final TableCellRenderer STAR_RENDERER;
+	private static final TableCellRenderer START_DATE_RENDERER;
 	private static final TableCellRenderer TASK_PRIORITY_RENDERER;
 	private static final TableCellRenderer TASK_REPEAT_FROM_RENDERER;
 	private static final TableCellRenderer TASK_STATUS_RENDERER;
@@ -114,12 +117,16 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor TASK_STATUS_EDITOR;
 	
 	static {
-		CALENDAR_RENDERER = new DefaultTableRenderer(new StringValueCalendar());
-		
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
 				new IconValueCompleted(),
 				new BooleanValueBoolean()), SwingConstants.CENTER);
+		
+		COMPLETED_ON_RENDERER = new DefaultTableRenderer(
+				new StringValueCalendar(true));
+		
+		DUE_DATE_RENDERER = new DefaultTableRenderer(new StringValueCalendar(
+				Main.SETTINGS.getBooleanProperty("date.use_due_time")));
 		
 		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueTaskLength());
 		
@@ -143,6 +150,9 @@ public class TaskTableColumn extends TableColumnExt {
 				null,
 				new IconValueStar(),
 				new BooleanValueBoolean()), SwingConstants.CENTER);
+		
+		START_DATE_RENDERER = new DefaultTableRenderer(new StringValueCalendar(
+				Main.SETTINGS.getBooleanProperty("date.use_start_time")));
 		
 		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
 				new StringValueTaskPriority(),
@@ -251,9 +261,11 @@ public class TaskTableColumn extends TableColumnExt {
 			case LOCATION:
 				return MODEL_RENDERER;
 			case COMPLETED_ON:
+				return COMPLETED_ON_RENDERER;
 			case DUE_DATE:
+				return DUE_DATE_RENDERER;
 			case START_DATE:
-				return CALENDAR_RENDERER;
+				return START_DATE_RENDERER;
 			case REMINDER:
 				return REMINDER_RENDERER;
 			case LENGTH:

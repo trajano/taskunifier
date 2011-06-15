@@ -46,11 +46,17 @@ public class StringValueCalendar implements StringValue {
 	
 	private DateFormat formatter;
 	
-	public StringValueCalendar() {
-		this.formatter = new SimpleDateFormat(
-				Main.SETTINGS.getStringProperty("date.date_format")
-						+ " "
-						+ Main.SETTINGS.getStringProperty("date.time_format"));
+	public StringValueCalendar(boolean showTime) {
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String format = null;
+		
+		if (showTime)
+			format = dateFormat + " " + timeFormat;
+		else
+			format = dateFormat;
+		
+		this.formatter = new SimpleDateFormat(format);
 	}
 	
 	@Override

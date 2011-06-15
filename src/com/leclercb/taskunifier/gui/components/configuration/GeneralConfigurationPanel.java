@@ -42,6 +42,8 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.general.Mini
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksAtTheEndFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowWindowEditOnAddFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseDueTimeFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseStartTimeFieldType;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -86,6 +88,18 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.time_format"),
 					true,
 					new TimeFormatFieldType()));
+			
+			this.addField(new ConfigurationField(
+					"USE_DUE_TIME",
+					Translations.getString("configuration.general.use_due_time"),
+					true,
+					new UseDueTimeFieldType()));
+			
+			this.addField(new ConfigurationField(
+					"USE_START_TIME",
+					Translations.getString("configuration.general.use_start_time"),
+					true,
+					new UseStartTimeFieldType()));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
