@@ -384,11 +384,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		panel.add(northPanel, BorderLayout.NORTH);
 		
-		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.NORTH);
-		
 		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			northPanel.add(this.searchField, BorderLayout.SOUTH);
+			northPanel.add(this.searchField, BorderLayout.NORTH);
 		}
+		
+		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
 		
 		this.searcherPanel = new SearcherPanel();
 		
