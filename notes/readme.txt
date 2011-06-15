@@ -7,6 +7,7 @@ Version 0.9.7
 	- Minor:
 		- Switched search field and completed checkbox
 		- Changed inactive searcher tree background color
+		- BG 3316801: Repeat from completion date
 
 Version 0.9.6
 	- Minor:

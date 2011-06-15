@@ -71,15 +71,19 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		String format = null;
+		String mask = null;
 		
-		if (showTime)
+		if (showTime) {
 			format = dateFormat + " " + timeFormat;
-		else
+			mask = DateTimeFormatUtils.getMask(dateFormat)
+					+ " "
+					+ DateTimeFormatUtils.getMask(timeFormat);
+		} else {
 			format = dateFormat;
+			mask = DateTimeFormatUtils.getMask(dateFormat);
+		}
 		
-		final String mask = DateTimeFormatUtils.getMask(dateFormat)
-				+ " "
-				+ DateTimeFormatUtils.getMask(timeFormat);
+		final String finalMask = mask;
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
@@ -88,7 +92,7 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
-				return mask;
+				return finalMask;
 			}
 			
 		};

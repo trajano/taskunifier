@@ -147,12 +147,37 @@ public class TaskEditPanel extends JPanel {
 	}
 	
 	private void initialize() {
-		final String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		final String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
-		final String format = dateFormat + " " + timeFormat;
-		final String mask = DateTimeFormatUtils.getMask(dateFormat)
-				+ " "
-				+ DateTimeFormatUtils.getMask(timeFormat);
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		
+		String dueDateFormat = null;
+		String dueDateMask = null;
+		
+		String startDateFormat = null;
+		String startDateMask = null;
+		
+		if (Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
+			dueDateFormat = dateFormat + " " + timeFormat;
+			dueDateMask = DateTimeFormatUtils.getMask(dateFormat)
+					+ " "
+					+ DateTimeFormatUtils.getMask(timeFormat);
+		} else {
+			dueDateFormat = dateFormat;
+			dueDateMask = DateTimeFormatUtils.getMask(dateFormat);
+		}
+		
+		if (Main.SETTINGS.getBooleanProperty("date.use_start_time")) {
+			startDateFormat = dateFormat + " " + timeFormat;
+			startDateMask = DateTimeFormatUtils.getMask(dateFormat)
+					+ " "
+					+ DateTimeFormatUtils.getMask(timeFormat);
+		} else {
+			startDateFormat = dateFormat;
+			startDateMask = DateTimeFormatUtils.getMask(dateFormat);
+		}
+		
+		final String finalDueDateMask = dueDateMask;
+		final String finalStartDateMask = startDateMask;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -166,24 +191,24 @@ public class TaskEditPanel extends JPanel {
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
-				format,
+				startDateFormat,
 				null,
 				'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
-				return mask;
+				return finalStartDateMask;
 			}
 			
 		});
 		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
-				format,
+				dueDateFormat,
 				null,
 				'_') {
 			
 			@Override
 			public String createMaskFromDatePattern(String datePattern) {
-				return mask;
+				return finalDueDateMask;
 			}
 			
 		});
