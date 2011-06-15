@@ -58,16 +58,12 @@ import com.toedter.calendar.JTextFieldDateEditor;
 @Reviewed
 public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	
-	private boolean showTime;
-	
 	private JTextFieldDateEditor dateEditor;
 	private JPanel panel;
 	private JDateChooser dateChooser;
 	private JButton buttonRemove;
 	
 	public DateEditor(boolean showTime) {
-		this.showTime = showTime;
-		
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		String format = null;
@@ -158,19 +154,7 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	@Override
 	public Object getCellEditorValue() {
 		this.dateEditor.focusLost(null);
-		Calendar c = this.dateChooser.getCalendar();
-		
-		if (!this.showTime) {
-			c.set(
-					c.get(Calendar.YEAR),
-					c.get(Calendar.MONTH),
-					c.get(Calendar.DAY_OF_MONTH),
-					0,
-					0,
-					0);
-		}
-		
-		return c;
+		return this.dateChooser.getCalendar();
 	}
 	
 	@Override

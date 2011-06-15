@@ -41,10 +41,12 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -79,7 +81,19 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				if (task.getModelStatus().equals(ModelStatus.LOADED)
 						|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 					if (task.getDueDate() != null && !task.isCompleted()) {
-						long milliSeconds1 = task.getDueDate().getTimeInMillis();
+						Calendar dueDate = DateUtils.cloneCalendar(task.getDueDate());
+						
+						if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
+							dueDate.set(
+									dueDate.get(Calendar.YEAR),
+									dueDate.get(Calendar.MONTH),
+									dueDate.get(Calendar.DAY_OF_MONTH),
+									0,
+									0,
+									0);
+						}
+						
+						long milliSeconds1 = dueDate.getTimeInMillis();
 						long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
 						long diff = milliSeconds1 - milliSeconds2;
 						final double diffMinutes = diff / (60 * 1000.0);
