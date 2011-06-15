@@ -42,6 +42,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -89,22 +90,31 @@ public class RepeatUtils {
 	public static Task createRepeatTask(Task task, String repeat) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		
-		Calendar startDate = getNextRepeatDate(repeat, task.getStartDate());
-		
+		Calendar startDate = null;
 		Calendar dueDate = null;
 		
-		switch (task.getRepeatFrom()) {
-			case COMPLETION_DATE:
-				dueDate = task.getCompletedOn();
-				break;
-			case DUE_DATE:
-				dueDate = task.getDueDate();
-				break;
+		if (task.getRepeatFrom() == TaskRepeatFrom.COMPLETION_DATE) {
+			if (task.getStartDate() == null || task.getDueDate() == null) {
+				if (task.getStartDate() != null)
+					startDate = getNextRepeatDate(repeat, task.getCompletedOn());
+				
+				if (task.getDueDate() != null)
+					dueDate = getNextRepeatDate(repeat, task.getCompletedOn());
+			} else {
+				dueDate = getNextRepeatDate(repeat, task.getCompletedOn());
+				startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(dueDate.getTimeInMillis()
+						- (task.getDueDate().getTimeInMillis() - task.getStartDate().getTimeInMillis()));
+			}
 		}
 		
-		dueDate = getNextRepeatDate(
-				repeat,
-				(dueDate == null ? task.getCompletedOn() : dueDate));
+		if (task.getRepeatFrom() == TaskRepeatFrom.DUE_DATE) {
+			if (task.getStartDate() != null)
+				startDate = getNextRepeatDate(repeat, task.getStartDate());
+			
+			if (task.getDueDate() != null)
+				dueDate = getNextRepeatDate(repeat, task.getDueDate());
+		}
 		
 		if (startDate == null && dueDate == null)
 			return null;
