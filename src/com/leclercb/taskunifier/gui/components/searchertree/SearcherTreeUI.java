@@ -99,7 +99,7 @@ public class SearcherTreeUI extends BasicTreeUI {
 				new RectanglePainter(
 						this.colorScheme.getActiveBackgroundColor()),
 				new RectanglePainter(
-						this.colorScheme.getInactiveBackgroundColor()));
+						this.colorScheme.getActiveBackgroundColor()));
 		this.selectionBackgroundPainter = new FocusStatePainter(
 				this.colorScheme.getActiveFocusedSelectedItemPainter(),
 				this.colorScheme.getActiveUnfocusedSelectedItemPainter(),
