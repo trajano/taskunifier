@@ -450,6 +450,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.6 to 0.9.7");
 		
+		Main.SETTINGS.setStringProperty("date.use_due_time", "true");
+		Main.SETTINGS.setStringProperty("date.use_start_time", "true");
+		
 		return "0.9.7";
 	}
 	
