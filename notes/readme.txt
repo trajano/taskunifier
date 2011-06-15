@@ -1,6 +1,11 @@
 HISTORY
 -------
 
+Version 0.9.7
+	- Minor:
+		- Switched search field and completed checkbox
+		- Changed inactive searcher tree background color
+
 Version 0.9.6
 	- Minor:
 		- Changed searcher list font
