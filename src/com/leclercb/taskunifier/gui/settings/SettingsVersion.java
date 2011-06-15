@@ -136,6 +136,9 @@ public final class SettingsVersion {
 		if (version.equals("0.9.5"))
 			version = updateSettings_0_9_5_to_0_9_6();
 		
+		if (version.equals("0.9.6"))
+			version = updateSettings_0_9_6_to_0_9_7();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -441,6 +444,13 @@ public final class SettingsVersion {
 				"Update settings from version 0.9.5 to 0.9.6");
 		
 		return "0.9.6";
+	}
+	
+	private static String updateSettings_0_9_6_to_0_9_7() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.9.6 to 0.9.7");
+		
+		return "0.9.7";
 	}
 	
 }
