@@ -103,7 +103,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	private static final TableCellEditor BOOLEAN_EDITOR;
 	private static final TableCellEditor CONTEXT_EDITOR;
-	private static final TableCellEditor DATE_EDITOR;
+	private static final TableCellEditor DUE_DATE_EDITOR;
 	private static final TableCellEditor FOLDER_EDITOR;
 	private static final TableCellEditor GENERIC_EDITOR;
 	private static final TableCellEditor GOAL_EDITOR;
@@ -112,6 +112,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor PROGRESS_EDITOR;
 	private static final TableCellEditor REMINDER_EDITOR;
 	private static final TableCellEditor REPEAT_EDITOR;
+	private static final TableCellEditor START_DATE_EDITOR;
 	private static final TableCellEditor TASK_PRIORITY_EDITOR;
 	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
 	private static final TableCellEditor TASK_STATUS_EDITOR;
@@ -170,7 +171,8 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
-		DATE_EDITOR = new DateEditor();
+		DUE_DATE_EDITOR = new DateEditor(
+				Main.SETTINGS.getBooleanProperty("date.use_due_time"));
 		FOLDER_EDITOR = new FolderEditor();
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 		GOAL_EDITOR = new GoalEditor();
@@ -179,6 +181,8 @@ public class TaskTableColumn extends TableColumnExt {
 		PROGRESS_EDITOR = new ProgressEditor();
 		REMINDER_EDITOR = new ReminderEditor();
 		REPEAT_EDITOR = new RepeatEditor();
+		START_DATE_EDITOR = new DateEditor(
+				Main.SETTINGS.getBooleanProperty("date.use_start_time"));
 		TASK_PRIORITY_EDITOR = new PriorityEditor();
 		TASK_REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		TASK_STATUS_EDITOR = new StatusEditor();
@@ -307,9 +311,9 @@ public class TaskTableColumn extends TableColumnExt {
 			case COMPLETED:
 				return BOOLEAN_EDITOR;
 			case DUE_DATE:
-				return DATE_EDITOR;
+				return DUE_DATE_EDITOR;
 			case START_DATE:
-				return DATE_EDITOR;
+				return START_DATE_EDITOR;
 			case REPEAT:
 				return REPEAT_EDITOR;
 			case REMINDER:
