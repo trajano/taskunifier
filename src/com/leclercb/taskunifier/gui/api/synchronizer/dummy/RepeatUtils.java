@@ -95,13 +95,46 @@ public class RepeatUtils {
 		
 		if (task.getRepeatFrom() == TaskRepeatFrom.COMPLETION_DATE) {
 			if (task.getStartDate() == null || task.getDueDate() == null) {
-				if (task.getStartDate() != null)
-					startDate = getNextRepeatDate(repeat, task.getCompletedOn());
+				if (task.getStartDate() != null) {
+					startDate = DateUtils.cloneCalendar(task.getStartDate());
+					Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
+					completedOn.set(
+							completedOn.get(Calendar.YEAR),
+							completedOn.get(Calendar.MONTH),
+							completedOn.get(Calendar.DAY_OF_MONTH),
+							startDate.get(Calendar.HOUR_OF_DAY),
+							startDate.get(Calendar.MINUTE),
+							startDate.get(Calendar.SECOND));
+					
+					startDate = getNextRepeatDate(repeat, completedOn);
+				}
 				
-				if (task.getDueDate() != null)
-					dueDate = getNextRepeatDate(repeat, task.getCompletedOn());
+				if (task.getDueDate() != null) {
+					dueDate = DateUtils.cloneCalendar(task.getDueDate());
+					Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
+					completedOn.set(
+							completedOn.get(Calendar.YEAR),
+							completedOn.get(Calendar.MONTH),
+							completedOn.get(Calendar.DAY_OF_MONTH),
+							dueDate.get(Calendar.HOUR_OF_DAY),
+							dueDate.get(Calendar.MINUTE),
+							dueDate.get(Calendar.SECOND));
+					
+					dueDate = getNextRepeatDate(repeat, completedOn);
+				}
 			} else {
-				dueDate = getNextRepeatDate(repeat, task.getCompletedOn());
+				dueDate = DateUtils.cloneCalendar(task.getDueDate());
+				Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
+				completedOn.set(
+						completedOn.get(Calendar.YEAR),
+						completedOn.get(Calendar.MONTH),
+						completedOn.get(Calendar.DAY_OF_MONTH),
+						dueDate.get(Calendar.HOUR_OF_DAY),
+						dueDate.get(Calendar.MINUTE),
+						dueDate.get(Calendar.SECOND));
+				
+				dueDate = getNextRepeatDate(repeat, completedOn);
+				
 				startDate = Calendar.getInstance();
 				startDate.setTimeInMillis(dueDate.getTimeInMillis()
 						- (task.getDueDate().getTimeInMillis() - task.getStartDate().getTimeInMillis()));
