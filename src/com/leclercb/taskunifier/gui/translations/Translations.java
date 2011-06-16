@@ -32,10 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.translations;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -45,20 +51,21 @@ public final class Translations {
 
 	}
 	
-	private static final String bundlePackage = "com.leclercb.taskunifier.gui";
+	private static final String bundleFolder = Main.RESOURCES_FOLDER
+			+ File.separator
+			+ "translations";
 	private static final String bundleName = "Translations";
-	private static final String baseName = bundlePackage + bundleName;
 	
-	private static Locale[] locales;
+	private static Map<Locale, File> locales;
 	private static ResourceBundle messages;
 	
 	static {
 		try {
-			locales = ResourceBundleUtils.getAvailableLocales(
-					bundlePackage,
-					bundleName);
+			locales = ResourceBundleUtils.getAvailableLocales(new File(
+					bundleFolder), bundleName);
 		} catch (Exception e) {
-			locales = new Locale[] { new Locale("en", "US") };
+			e.printStackTrace();
+			locales = new HashMap<Locale, File>();
 		}
 	}
 	
@@ -69,11 +76,17 @@ public final class Translations {
 	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
 		
-		messages = ResourceBundle.getBundle(baseName, locale);
+		try {
+			File file = locales.get(locale);
+			messages = new PropertyResourceBundle(new FileInputStream(file));
+		} catch (Exception e) {
+			e.printStackTrace();
+			messages = null;
+		}
 	}
 	
 	public static Locale[] getAvailableLocales() {
-		return locales;
+		return locales.keySet().toArray(new Locale[0]);
 	}
 	
 	public static String getString(String key) {
