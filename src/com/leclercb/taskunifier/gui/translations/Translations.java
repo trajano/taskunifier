@@ -45,14 +45,18 @@ public final class Translations {
 
 	}
 	
+	private static final String bundlePackage = "";
+	private static final String bundleName = "Translations";
+	private static final String baseName = bundlePackage + bundleName;
+	
 	private static Locale[] locales;
 	private static ResourceBundle messages;
 	
 	static {
 		try {
 			locales = ResourceBundleUtils.getAvailableLocales(
-					"",
-					"Translations");
+					bundlePackage,
+					bundleName);
 		} catch (Exception e) {
 			locales = new Locale[] { new Locale("en", "US") };
 		}
@@ -65,9 +69,7 @@ public final class Translations {
 	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
 		
-		messages = ResourceBundle.getBundle(
-				Translations.class.getName(),
-				locale);
+		messages = ResourceBundle.getBundle(baseName, locale);
 	}
 	
 	public static Locale[] getAvailableLocales() {
