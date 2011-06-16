@@ -32,11 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.translations;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -46,10 +45,17 @@ public final class Translations {
 
 	}
 	
+	private static Locale[] locales;
 	private static ResourceBundle messages;
 	
 	static {
-		setLocale(getDefaultLocale());
+		try {
+			locales = ResourceBundleUtils.getAvailableLocales(
+					"",
+					"Translations");
+		} catch (Exception e) {
+			locales = new Locale[] { new Locale("en", "US") };
+		}
 	}
 	
 	public static Locale getLocale() {
@@ -64,31 +70,12 @@ public final class Translations {
 				locale);
 	}
 	
-	public static Locale getDefaultLocale() {
-		String language = Locale.getDefault().getLanguage();
-		
-		for (Locale locale : getLocales()) {
-			if (locale.getLanguage().equals(language))
-				return locale;
-		}
-		
-		return new Locale("en", "US");
-	}
-	
-	public static List<Locale> getLocales() {
-		List<Locale> locales = new ArrayList<Locale>();
-		
-		locales.add(new Locale("de", "DE"));
-		locales.add(new Locale("en", "US"));
-		locales.add(new Locale("fr", "FR"));
-		locales.add(new Locale("zh", "CN"));
-		locales.add(new Locale("zh", "TW"));
-		
+	public static Locale[] getAvailableLocales() {
 		return locales;
 	}
 	
 	public static String getString(String key) {
-		if (!messages.containsKey(key))
+		if (messages == null || !messages.containsKey(key))
 			return "#" + key + "#";
 		
 		return messages.getString(key);

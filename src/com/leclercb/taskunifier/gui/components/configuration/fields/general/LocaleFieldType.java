@@ -17,7 +17,7 @@ public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	public LocaleFieldType(boolean languageOnly) {
 		super(
-				Translations.getLocales().toArray(),
+				Translations.getAvailableLocales(),
 				Main.SETTINGS,
 				"general.locale");
 		
@@ -28,10 +28,7 @@ public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getLocaleProperty("general.locale") != null)
-			return Main.SETTINGS.getLocaleProperty("general.locale");
-		else
-			return Translations.getDefaultLocale();
+		return Main.SETTINGS.getLocaleProperty("general.locale");
 	}
 	
 	@Override
