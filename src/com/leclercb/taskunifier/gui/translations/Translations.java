@@ -45,7 +45,7 @@ public final class Translations {
 
 	}
 	
-	private static final String bundlePackage = "";
+	private static final String bundlePackage = "com.leclercb.taskunifier.gui";
 	private static final String bundleName = "Translations";
 	private static final String baseName = bundlePackage + bundleName;
 	
