@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.8
+	- Minor:
+		- Translation files in resources folder
+
 Version 0.9.7
 	- Major:
 		- FR 3308388: Hide due time and/or start time
