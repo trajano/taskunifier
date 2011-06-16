@@ -76,8 +76,14 @@ public final class Translations {
 	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
 		
+		File file = locales.get(locale);
+		
+		if (file == null) {
+			messages = null;
+			return;
+		}
+		
 		try {
-			File file = locales.get(locale);
 			messages = new PropertyResourceBundle(new FileInputStream(file));
 		} catch (Exception e) {
 			e.printStackTrace();
