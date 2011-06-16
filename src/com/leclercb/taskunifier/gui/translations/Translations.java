@@ -55,6 +55,10 @@ public final class Translations {
 			+ File.separator
 			+ "translations";
 	private static final String bundleName = "Translations";
+	private static final String defaultBundle = bundleFolder
+			+ File.separator
+			+ bundleName
+			+ ".properties";
 	
 	private static Map<Locale, File> locales;
 	private static ResourceBundle messages;
@@ -79,8 +83,7 @@ public final class Translations {
 		File file = locales.get(locale);
 		
 		if (file == null) {
-			messages = null;
-			return;
+			file = new File(defaultBundle);
 		}
 		
 		try {
