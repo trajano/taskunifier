@@ -147,7 +147,7 @@ public class MenuBar extends JMenuBar {
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		this.add(viewMenu);
 		
-		viewMenu.add(new ActionChangeView(16, 16));
+		viewMenu.add(new ActionChangeView(this.mainView, 16, 16));
 		viewMenu.addSeparator();
 		
 		ButtonGroup viewGroup = new ButtonGroup();

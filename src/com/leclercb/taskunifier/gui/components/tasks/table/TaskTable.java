@@ -64,6 +64,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTrans
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverdueHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverdueHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlightPredicate;
@@ -316,6 +318,7 @@ public class TaskTable extends JXTable {
 				new TaskHighlighter(new TaskHighlightPredicate()),
 				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()),
 				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()),
+				new TaskOverdueHighlighter(new TaskOverdueHighlightPredicate()),
 				new TaskTooltipHighlighter(new TaskTooltipHighlightPredicate()));
 	}
 	

@@ -35,24 +35,38 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class ActionChangeView extends AbstractAction {
 	
-	public ActionChangeView() {
-		this(32, 32);
+	private MainView view;
+	
+	private int width;
+	private int height;
+	
+	public ActionChangeView(MainView view) {
+		this(view, 32, 32);
 	}
 	
-	public ActionChangeView(int width, int height) {
+	public ActionChangeView(MainView view, int width, int height) {
 		super(Translations.getString("action.name.change_view"));
+		
+		this.view = view;
+		
+		this.width = width;
+		this.height = height;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -61,6 +75,37 @@ public class ActionChangeView extends AbstractAction {
 		this.putValue(
 				ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_MASK));
+		
+		this.updateIcon();
+		
+		view.addPropertyChangeListener(
+				MainView.PROP_SELECTED_VIEW,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						ActionChangeView.this.updateIcon();
+					}
+					
+				});
+	}
+	
+	private void updateIcon() {
+		View view = this.view.getSelectedView();
+		switch (view) {
+			case NOTES:
+				this.putValue(SMALL_ICON, Images.getResourceImage(
+						"note.png",
+						this.width,
+						this.height));
+				break;
+			case TASKS:
+				this.putValue(SMALL_ICON, Images.getResourceImage(
+						"task.png",
+						this.width,
+						this.height));
+				break;
+		}
 	}
 	
 	@Override

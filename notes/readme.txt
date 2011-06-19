@@ -4,6 +4,8 @@ HISTORY
 Version 0.9.8
 	- Minor:
 		- Translation files in resources folder
+		- FR 3317325: Action "Change view" in toolbar
+		- FR 3321812: Overdue tasks in red
 
 Version 0.9.7
 	- Major:
