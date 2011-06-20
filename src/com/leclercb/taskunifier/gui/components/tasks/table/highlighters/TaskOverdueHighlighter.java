@@ -50,7 +50,7 @@ public class TaskOverdueHighlighter extends AbstractHighlighter {
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		renderer.setForeground(Color.RED);
+		renderer.setForeground(new Color(140, 25, 25));
 		return renderer;
 	}
 	
