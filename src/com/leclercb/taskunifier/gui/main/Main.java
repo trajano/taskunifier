@@ -327,6 +327,7 @@ public class Main {
 	
 	private static void loadLocale() throws Exception {
 		Translations.setLocale(SETTINGS.getLocaleProperty("general.locale"));
+		SETTINGS.setLocaleProperty("general.locale", Translations.getLocale());
 	}
 	
 	private static void loadModels() throws Exception {

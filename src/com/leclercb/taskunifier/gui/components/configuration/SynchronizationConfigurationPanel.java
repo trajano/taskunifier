@@ -74,7 +74,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	private void initialize() {
 		this.addField(new ConfigurationField(
 				"API",
-				Translations.getString("general.api"),
+				Translations.getString("configuration.synchronization.synchronize_with"),
 				new ApiFieldType()));
 		
 		this.addField(new ConfigurationField(

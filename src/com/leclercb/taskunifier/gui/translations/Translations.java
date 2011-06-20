@@ -55,6 +55,8 @@ public final class Translations {
 			+ File.separator
 			+ "translations";
 	private static final String bundleName = "Translations";
+	
+	private static final Locale defaultLocale = new Locale("en", "US");
 	private static final String defaultBundle = bundleFolder
 			+ File.separator
 			+ bundleName
@@ -79,10 +81,10 @@ public final class Translations {
 	
 	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
-		
 		File file = locales.get(locale);
 		
 		if (file == null) {
+			Locale.setDefault(defaultLocale);
 			file = new File(defaultBundle);
 		}
 		
