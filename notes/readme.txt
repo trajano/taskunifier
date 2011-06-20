@@ -8,6 +8,7 @@ Version 0.9.8
 		- FR 3317325: Action "Change view" in toolbar
 		- FR 3321812: Overdue tasks in red
 		- BF 3316281: Download plugin over proxy
+		- BF 3312532: Truncated edit task window
 
 Version 0.9.7
 	- Major:
