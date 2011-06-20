@@ -3,6 +3,7 @@ Version 0.9.8
 		- Translation files in resources folder
 		- FR 3317325: Action "Change view" in toolbar
 		- FR 3321812: Overdue tasks in red
+		- BF 3316281: Download plugin over proxy
 
 Version 0.9.7
 	- Major:
