@@ -33,9 +33,11 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
@@ -44,7 +46,6 @@ import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.ApiFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.ChoiceFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.KeepTasksForFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SchedulerSleepTimeFieldType;
@@ -73,25 +74,19 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	
 	private void initialize() {
 		this.addField(new ConfigurationField(
-				"API",
-				Translations.getString("configuration.synchronization.synchronize_with"),
-				new ApiFieldType()));
-		
-		this.addField(new ConfigurationField(
 				"MANAGE_PLUGINS",
-				null,
-				new ConfigurationFieldTypeExt.Button(new ActionManagePlugins(
-						22,
-						22) {
-					
-					@Override
-					public void actionPerformed(ActionEvent event) {
-						ConfigurationDialog.getInstance().saveAndApplyConfig();
-						
-						super.actionPerformed(event);
-					}
-					
-				})));
+				Translations.getString("configuration.synchronization.synchronize_with"),
+				new ConfigurationFieldTypeExt.Button(
+						SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+						new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								ConfigurationDialog.getInstance().saveAndApplyConfig();
+								ActionManagePlugins.managePlugins();
+							}
+							
+						})));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
@@ -207,18 +202,24 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						SynchronizationConfigurationPanel.this.disableFields();
 						
 						if (!SynchronizationConfigurationPanel.this.welcome) {
+							JButton managePluginsButton = (JButton) SynchronizationConfigurationPanel.this.getField(
+									"MANAGE_PLUGINS").getType().getFieldComponent();
 							JLabel synchronizeAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
 							JLabel resetAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"RESET_ALL_LABEL").getType().getFieldComponent();
 							
+							String apiName = SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName();
+							
+							managePluginsButton.setText(apiName);
+							
 							synchronizeAllLabel.setText(Translations.getString(
 									"configuration.synchronization.synchronize_all",
-									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()));
+									apiName));
 							
 							resetAllLabel.setText(Translations.getString(
 									"configuration.synchronization.reset_all",
-									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()));
+									apiName));
 						}
 					}
 					

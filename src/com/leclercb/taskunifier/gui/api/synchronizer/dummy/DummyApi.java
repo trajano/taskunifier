@@ -55,7 +55,7 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	protected DummyApi() {
-		super("DUMMY", "Offline", "http://www.taskunifier.net");
+		super("DUMMY", "No Synchronization", "http://www.taskunifier.net");
 	}
 	
 	@Override
