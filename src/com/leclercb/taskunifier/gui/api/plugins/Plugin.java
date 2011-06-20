@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.api.plugins;
 
 import java.beans.PropertyChangeListener;
 
+import javax.swing.ImageIcon;
+
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -50,6 +52,7 @@ public class Plugin implements PropertyChangeSupported {
 	public static final String PROP_SERVICE_PROVIDER = "serviceProvider";
 	public static final String PROP_DOWNLOAD_URL = "downloadUrl";
 	public static final String PROP_HISTORY = "history";
+	public static final String PROP_LOGO = "logo";
 	public static final String PROP_PRICE = "price";
 	
 	private PropertyChangeSupport propertyChangeSupport;
@@ -62,6 +65,7 @@ public class Plugin implements PropertyChangeSupported {
 	private String serviceProvider;
 	private String downloadUrl;
 	private String history;
+	private ImageIcon logo;
 	private String price;
 	
 	public Plugin(
@@ -73,6 +77,7 @@ public class Plugin implements PropertyChangeSupported {
 			String serviceProvider,
 			String downloadUrl,
 			String history,
+			ImageIcon logo,
 			String price) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
@@ -84,6 +89,7 @@ public class Plugin implements PropertyChangeSupported {
 		this.setServiceProvider(serviceProvider);
 		this.setDownloadUrl(downloadUrl);
 		this.setHistory(history);
+		this.setLogo(logo);
 		this.setPrice(price);
 	}
 	
@@ -190,6 +196,16 @@ public class Plugin implements PropertyChangeSupported {
 				PROP_HISTORY,
 				oldHistory,
 				history);
+	}
+	
+	public ImageIcon getLogo() {
+		return this.logo;
+	}
+	
+	public void setLogo(ImageIcon logo) {
+		ImageIcon oldLogo = this.logo;
+		this.logo = logo;
+		this.propertyChangeSupport.firePropertyChange(PROP_LOGO, oldLogo, logo);
 	}
 	
 	public String getPrice() {

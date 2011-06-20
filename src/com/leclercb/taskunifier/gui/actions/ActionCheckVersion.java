@@ -42,7 +42,6 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.utils.BrowserUtils;
@@ -50,6 +49,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -86,20 +86,8 @@ public class ActionCheckVersion extends AbstractAction {
 			@Override
 			public void run() {
 				try {
-					HttpResponse response = null;
-					
-					Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-					if (proxyEnabled != null && proxyEnabled) {
-						response = HttpUtils.getHttpGetResponse(
-								new URI(Constants.VERSION_FILE),
-								Main.SETTINGS.getStringProperty("proxy.host"),
-								Main.SETTINGS.getIntegerProperty("proxy.port"),
-								Main.SETTINGS.getStringProperty("proxy.login"),
-								Main.SETTINGS.getStringProperty("proxy.password"));
-					} else {
-						response = HttpUtils.getHttpGetResponse(new URI(
-								Constants.VERSION_FILE));
-					}
+					HttpResponse response = HttpUtils.getHttpGetResponse(new URI(
+							Constants.VERSION_FILE));
 					
 					if (!response.isSuccessfull())
 						throw new Exception();

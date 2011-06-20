@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.api.plugins;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -52,7 +54,6 @@ import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
-import com.leclercb.commons.api.utils.HttpUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -63,6 +64,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -191,7 +193,18 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.downloading_plugin")));
 			
-			FileUtils.copyURLToFile(new URL(plugin.getDownloadUrl()), file);
+			Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
+			if (proxyEnabled != null && proxyEnabled) {
+				FileUtils.copyURLToFile(
+						new URL(plugin.getDownloadUrl()),
+						file,
+						Main.SETTINGS.getStringProperty("proxy.host"),
+						Main.SETTINGS.getIntegerProperty("proxy.port"),
+						Main.SETTINGS.getStringProperty("proxy.login"),
+						Main.SETTINGS.getStringProperty("proxy.password"));
+			} else {
+				FileUtils.copyURLToFile(new URL(plugin.getDownloadUrl()), file);
+			}
 			
 			GuiLogger.getLogger().info(
 					"Plugin installed: "
@@ -273,18 +286,8 @@ public class PluginsUtils {
 			
 			HttpResponse response = null;
 			
-			Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-			if (proxyEnabled != null && proxyEnabled) {
-				response = HttpUtils.getHttpGetResponse(
-						new URI(Constants.PLUGINS_FILE),
-						Main.SETTINGS.getStringProperty("proxy.host"),
-						Main.SETTINGS.getIntegerProperty("proxy.port"),
-						Main.SETTINGS.getStringProperty("proxy.login"),
-						Main.SETTINGS.getStringProperty("proxy.password"));
-			} else {
-				response = HttpUtils.getHttpGetResponse(new URI(
-						Constants.PLUGINS_FILE));
-			}
+			response = HttpUtils.getHttpGetResponse(new URI(
+					Constants.PLUGINS_FILE));
 			
 			if (!response.isSuccessfull()) {
 				throw new PluginException(
@@ -332,6 +335,8 @@ public class PluginsUtils {
 				String downloadUrl = null;
 				String history = null;
 				String historyUrl = null;
+				ImageIcon logo = null;
+				String logoUrl = null;
 				String price = null;
 				
 				for (int j = 0; j < nPlugin.getLength(); j++) {
@@ -364,26 +369,31 @@ public class PluginsUtils {
 					if (element.getNodeName().equals("historyUrl"))
 						historyUrl = element.getTextContent();
 					
+					if (element.getNodeName().equals("logoUrl"))
+						logoUrl = element.getTextContent();
+					
 					if (element.getNodeName().equals("price"))
 						price = element.getTextContent();
 				}
 				
 				if (historyUrl != null) {
 					try {
-						if (proxyEnabled != null && proxyEnabled) {
-							response = HttpUtils.getHttpGetResponse(
-									new URI(historyUrl),
-									Main.SETTINGS.getStringProperty("proxy.host"),
-									Main.SETTINGS.getIntegerProperty("proxy.port"),
-									Main.SETTINGS.getStringProperty("proxy.login"),
-									Main.SETTINGS.getStringProperty("proxy.password"));
-						} else {
-							response = HttpUtils.getHttpGetResponse(new URI(
-									historyUrl));
-						}
+						response = HttpUtils.getHttpGetResponse(new URI(
+								historyUrl));
 						
 						if (response.isSuccessfull()) {
 							history = response.getContent();
+						}
+					} catch (Throwable t) {}
+				}
+				
+				if (logoUrl != null) {
+					try {
+						response = HttpUtils.getHttpGetResponse(new URI(logoUrl));
+						
+						if (response.isSuccessfull()) {
+							logo = Toolkit.getDefaultToolkit().createImage(
+									response.getBytes());
 						}
 					} catch (Throwable t) {}
 				}
@@ -409,6 +419,7 @@ public class PluginsUtils {
 						serviceProvider,
 						downloadUrl,
 						history,
+						logo,
 						price);
 				
 				plugins.add(plugin);
