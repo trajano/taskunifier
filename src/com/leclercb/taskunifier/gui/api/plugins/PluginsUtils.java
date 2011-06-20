@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.api.plugins;
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -392,8 +391,7 @@ public class PluginsUtils {
 						response = HttpUtils.getHttpGetResponse(new URI(logoUrl));
 						
 						if (response.isSuccessfull()) {
-							logo = Toolkit.getDefaultToolkit().createImage(
-									response.getBytes());
+							logo = new ImageIcon(response.getBytes());
 						}
 					} catch (Throwable t) {}
 				}
