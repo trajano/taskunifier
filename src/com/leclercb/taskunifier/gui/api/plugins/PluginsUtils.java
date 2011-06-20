@@ -80,7 +80,7 @@ public class PluginsUtils {
 			DummyGuiPlugin.getInstance().getVersion(),
 			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
 			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
-			null,
+			"Version " + DummyGuiPlugin.getInstance().getVersion(),
 			Images.getResourceImage("do_not_synchronize.png"),
 			null);
 	
