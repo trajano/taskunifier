@@ -30,56 +30,66 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.plugins.table;
+package com.leclercb.taskunifier.gui.components.plugins.list;
 
-import javax.swing.ListSelectionModel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import javax.swing.AbstractListModel;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
-import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
-import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
-import com.leclercb.taskunifier.gui.commons.values.IconValuePluginStatus;
-import com.leclercb.taskunifier.gui.commons.values.StringValuePluginStatus;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class PluginTable extends JXTable {
+public class PluginListModel extends AbstractListModel implements PropertyChangeListener {
 	
-	public PluginTable() {
-		this.initialize();
+	private Plugin[] plugins;
+	
+	public PluginListModel() {
+		this.setPlugins(new Plugin[0]);
 	}
 	
 	public Plugin[] getPlugins() {
-		return ((PluginTableModel) this.getModel()).getPlugins();
+		return this.plugins;
 	}
 	
 	public void setPlugins(Plugin[] plugins) {
-		((PluginTableModel) this.getModel()).setPlugins(plugins);
+		CheckUtils.isNotNull(plugins, "Plugins cannot be null");
+		
+		if (this.plugins != null)
+			for (Plugin plugin : this.plugins)
+				plugin.removePropertyChangeListener(this);
+		
+		this.plugins = plugins;
+		
+		for (Plugin plugin : this.plugins)
+			plugin.addPropertyChangeListener(this);
+		
+		this.fireContentsChanged(this, 0, this.getSize());
 	}
 	
-	public Plugin getSelectedPlugin() {
-		int index = this.getSelectedRow();
-		
-		if (index == -1)
-			return null;
-		
-		return ((PluginTableModel) this.getModel()).getPlugin(index);
+	public Plugin getPlugin(int index) {
+		return this.plugins[index];
 	}
 	
-	private void initialize() {
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setModel(new PluginTableModel());
-		this.setDefaultRenderer(PluginStatus.class, new DefaultTableRenderer(
-				new StringValuePluginStatus(),
-				new IconValuePluginStatus()));
-		
-		this.initializeHighlighters();
+	@Override
+	public Object getElementAt(int index) {
+		return this.plugins[index];
 	}
 	
-	private void initializeHighlighters() {
-		this.setHighlighters(new AlternateHighlighter());
+	@Override
+	public int getSize() {
+		return this.plugins.length;
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		for (int i = 0; i < this.plugins.length; i++) {
+			if (this.plugins[i] == evt.getSource()) {
+				this.fireContentsChanged(this, i, i);
+			}
+		}
 	}
 	
 }

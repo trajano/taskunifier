@@ -45,6 +45,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -85,10 +86,17 @@ public class ActionCheckPluginVersion extends AbstractAction {
 			@Override
 			public void run() {
 				try {
-					Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(true);
-					
 					Plugin plugin = null;
 					String pluginId = SynchronizerUtils.getPlugin().getId();
+					
+					if (pluginId.equals(DummyGuiPlugin.getInstance().getId())) {
+						this.showNoNewVersion(silent);
+						return;
+					}
+					
+					Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(
+							false,
+							true);
 					
 					for (Plugin p : plugins) {
 						if (pluginId.equals(p.getId()))
@@ -124,22 +132,26 @@ public class ActionCheckPluginVersion extends AbstractAction {
 											+ ".showed",
 									version);
 							
-							String[] options = new String[] {
-									Translations.getString("general.update"),
-									Translations.getString("general.cancel") };
+							int result = 0;
 							
-							int result = JOptionPane.showOptionDialog(
-									MainFrame.getInstance().getFrame(),
-									Translations.getString(
-											"action.check_plugin_version.new_plugin_version_available",
-											version,
-											SynchronizerUtils.getPlugin().getName()),
-									Translations.getString("general.information"),
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.INFORMATION_MESSAGE,
-									null,
-									options,
-									options[0]);
+							if (!silent) {
+								String[] options = new String[] {
+										Translations.getString("general.update"),
+										Translations.getString("general.cancel") };
+								
+								result = JOptionPane.showOptionDialog(
+										MainFrame.getInstance().getFrame(),
+										Translations.getString(
+												"action.check_plugin_version.new_plugin_version_available",
+												version,
+												SynchronizerUtils.getPlugin().getName()),
+										Translations.getString("general.information"),
+										JOptionPane.YES_NO_OPTION,
+										JOptionPane.INFORMATION_MESSAGE,
+										null,
+										options,
+										options[0]);
+							}
 							
 							if (result == 0) {
 								final Plugin pluginToUpdate = plugin;
@@ -159,6 +171,7 @@ public class ActionCheckPluginVersion extends AbstractAction {
 									}
 									
 								};
+								
 								dialog.setVisible(true);
 							}
 						}

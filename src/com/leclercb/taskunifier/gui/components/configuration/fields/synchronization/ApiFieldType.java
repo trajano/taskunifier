@@ -3,9 +3,6 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.synchroniza
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -24,26 +21,6 @@ public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		
 		this.setRenderer(new DefaultListRenderer(
 				new StringValueSynchronizerGuiPlugin()));
-		
-		this.getModel().addListDataListener(new ListDataListener() {
-			
-			@Override
-			public void intervalRemoved(ListDataEvent e) {
-
-			}
-			
-			@Override
-			public void intervalAdded(ListDataEvent e) {
-				ApiFieldType.this.setSelectedItem(ApiFieldType.this.getModel().getElementAt(
-						e.getIndex0()));
-			}
-			
-			@Override
-			public void contentsChanged(ListDataEvent e) {
-
-			}
-			
-		});
 		
 		this.addItemListener(new ItemListener() {
 			

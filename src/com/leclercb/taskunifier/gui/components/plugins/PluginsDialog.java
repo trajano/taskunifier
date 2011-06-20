@@ -112,6 +112,7 @@ public class PluginsDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand() == "CLOSE") {
+					PluginsDialog.this.pluginsPanel.installSelectedPlugin();
 					PluginsDialog.this.setVisible(false);
 				}
 			}

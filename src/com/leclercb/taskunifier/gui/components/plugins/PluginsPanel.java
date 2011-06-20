@@ -33,10 +33,7 @@
 package com.leclercb.taskunifier.gui.components.plugins;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
@@ -46,7 +43,8 @@ import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
-import com.leclercb.taskunifier.gui.components.plugins.table.PluginTable;
+import com.leclercb.taskunifier.gui.components.plugins.list.PluginList;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -55,135 +53,78 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
-	private PluginTable table;
-	
+	private PluginList list;
 	private JTextArea history;
-	
-	private JButton installButton;
-	private JButton updateButton;
-	private JButton deleteButton;
 	
 	public PluginsPanel() {
 		this.initialize();
 	}
 	
 	public void reloadPlugins() {
-		this.table.setPlugins(PluginsUtils.loadAndUpdatePluginsFromXML(false));
+		this.list.setPlugins(PluginsUtils.loadAndUpdatePluginsFromXML(
+				true,
+				false));
 	}
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout(0, 5));
 		
-		this.table = new PluginTable();
-		this.table.getSelectionModel().addListSelectionListener(this);
+		this.list = new PluginList();
+		this.list.addListSelectionListener(this);
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.table, true),
+				ComponentFactory.createJScrollPane(this.list, true),
 				BorderLayout.CENTER);
-		
-		JPanel bottomPanel = new JPanel(new BorderLayout());
-		this.add(bottomPanel, BorderLayout.SOUTH);
 		
 		this.history = new JTextArea(5, 10);
 		this.history.setEditable(false);
-		bottomPanel.add(
-				ComponentFactory.createJScrollPane(this.history, true),
-				BorderLayout.CENTER);
 		
-		this.initializeButtonsPanel(bottomPanel);
+		this.add(
+				ComponentFactory.createJScrollPane(this.history, true),
+				BorderLayout.SOUTH);
 	}
 	
-	private void initializeButtonsPanel(JPanel bottomPanel) {
-		ActionListener listener = new ActionListener() {
+	public void installSelectedPlugin() {
+		final Plugin plugin = this.list.getSelectedPlugin();
+		
+		if (plugin == null)
+			return;
+		
+		if (plugin.getStatus() == PluginStatus.TO_INSTALL) {
+			PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("general.manage_plugins")) {
+				
+				@Override
+				public Void doActions(ProgressMonitor monitor) throws Throwable {
+					PluginsUtils.installPlugin(plugin, monitor);
+					return null;
+				}
+				
+			};
 			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "INSTALL") {
-					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
-							MainFrame.getInstance().getFrame(),
-							Translations.getString("general.manage_plugins")) {
-						
-						@Override
-						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
-							PluginsUtils.installPlugin(
-									PluginsPanel.this.table.getSelectedPlugin(),
-									monitor);
-							return null;
-						}
-						
-					};
-					
-					dialog.setVisible(true);
+			dialog.setVisible(true);
+		}
+		
+		if (plugin.getStatus() == PluginStatus.TO_UPDATE) {
+			PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("general.manage_plugins")) {
+				
+				@Override
+				public Void doActions(ProgressMonitor monitor) throws Throwable {
+					PluginsUtils.updatePlugin(plugin, monitor);
+					return null;
 				}
 				
-				if (event.getActionCommand() == "UPDATE") {
-					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
-							MainFrame.getInstance().getFrame(),
-							Translations.getString("general.manage_plugins")) {
-						
-						@Override
-						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
-							PluginsUtils.updatePlugin(
-									PluginsPanel.this.table.getSelectedPlugin(),
-									monitor);
-							return null;
-						}
-						
-					};
-					
-					dialog.setVisible(true);
-				}
-				
-				if (event.getActionCommand() == "DELETE") {
-					PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
-							MainFrame.getInstance().getFrame(),
-							Translations.getString("general.manage_plugins")) {
-						
-						@Override
-						public Void doActions(ProgressMonitor monitor)
-								throws Throwable {
-							PluginsUtils.deletePlugin(
-									PluginsPanel.this.table.getSelectedPlugin(),
-									monitor);
-							return null;
-						}
-						
-					};
-					
-					dialog.setVisible(true);
-				}
-				
-				PluginsPanel.this.valueChanged(null);
-			}
+			};
 			
-		};
+			dialog.setVisible(true);
+		}
 		
-		this.installButton = new JButton(
-				Translations.getString("general.install"));
-		this.installButton.setActionCommand("INSTALL");
-		this.installButton.addActionListener(listener);
-		this.installButton.setEnabled(false);
+		Main.SETTINGS.setStringProperty("api.id", plugin.getId());
 		
-		this.updateButton = new JButton(
-				Translations.getString("general.update"));
-		this.updateButton.setActionCommand("UPDATE");
-		this.updateButton.addActionListener(listener);
-		this.updateButton.setEnabled(false);
-		
-		this.deleteButton = new JButton(
-				Translations.getString("general.delete"));
-		this.deleteButton.setActionCommand("DELETE");
-		this.deleteButton.addActionListener(listener);
-		this.deleteButton.setEnabled(false);
-		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				this.installButton,
-				this.updateButton,
-				this.deleteButton);
-		
-		bottomPanel.add(panel, BorderLayout.SOUTH);
+		PluginsPanel.this.valueChanged(null);
 	}
 	
 	@Override
@@ -191,24 +132,15 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (evt != null && evt.getValueIsAdjusting())
 			return;
 		
-		Plugin plugin = this.table.getSelectedPlugin();
+		Plugin plugin = this.list.getSelectedPlugin();
 		
 		if (plugin == null) {
 			this.history.setText(null);
-			
-			this.installButton.setEnabled(false);
-			this.updateButton.setEnabled(false);
-			this.deleteButton.setEnabled(false);
 			return;
 		}
 		
 		this.history.setText(plugin.getHistory());
 		this.history.setCaretPosition(0);
-		
-		this.installButton.setEnabled(plugin.getStatus() == PluginStatus.TO_INSTALL);
-		this.updateButton.setEnabled(plugin.getStatus() == PluginStatus.TO_UPDATE);
-		this.deleteButton.setEnabled(plugin.getStatus() == PluginStatus.INSTALLED
-				|| plugin.getStatus() == PluginStatus.TO_UPDATE);
 	}
 	
 }

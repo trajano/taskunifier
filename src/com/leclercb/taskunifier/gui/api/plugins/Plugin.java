@@ -176,7 +176,6 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setDownloadUrl(String downloadUrl) {
-		CheckUtils.isNotNull(downloadUrl, "Download url cannot be null");
 		String oldDownloadUrl = this.downloadUrl;
 		this.downloadUrl = downloadUrl;
 		this.propertyChangeSupport.firePropertyChange(
@@ -213,7 +212,6 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setPrice(String price) {
-		CheckUtils.isNotNull(price, "Price cannot be null");
 		String oldPrice = this.price;
 		this.price = price;
 		this.propertyChangeSupport.firePropertyChange(

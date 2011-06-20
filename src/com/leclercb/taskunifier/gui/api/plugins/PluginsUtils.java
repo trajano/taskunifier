@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.api.plugins;
 
+import java.awt.Image;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -56,6 +57,7 @@ import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
@@ -64,10 +66,23 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class PluginsUtils {
+	
+	public static final Plugin DUMMY_PLUGIN = new Plugin(
+			PluginStatus.INSTALLED,
+			DummyGuiPlugin.getInstance().getId(),
+			DummyGuiPlugin.getInstance().getName(),
+			DummyGuiPlugin.getInstance().getAuthor(),
+			DummyGuiPlugin.getInstance().getVersion(),
+			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
+			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
+			null,
+			Images.getResourceImage("do_not_synchronize.png"),
+			null);
 	
 	public static SynchronizerGuiPlugin loadPlugin(File file)
 			throws PluginException {
@@ -161,8 +176,12 @@ public class PluginsUtils {
 	}
 	
 	public static void deletePlugin(SynchronizerGuiPlugin plugin) {
+		if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
+			return;
+		
 		File file = Main.API_PLUGINS.getFile(plugin);
 		file.delete();
+		
 		Main.API_PLUGINS.removePlugin(plugin);
 		
 		GuiLogger.getLogger().info(
@@ -177,6 +196,9 @@ public class PluginsUtils {
 		File file = null;
 		
 		try {
+			if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
+				return;
+			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.start_plugin_installation")));
@@ -236,6 +258,9 @@ public class PluginsUtils {
 	
 	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
 			throws Exception {
+		if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
+			return;
+		
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString("manage_plugins.progress.start_plugin_update")));
@@ -276,8 +301,9 @@ public class PluginsUtils {
 					Translations.getString("manage_plugins.progress.plugin_deleted")));
 	}
 	
-	public static Plugin[] loadPluginsFromXML(ProgressMonitor monitor)
-			throws Exception {
+	private static Plugin[] loadPluginsFromXML(
+			ProgressMonitor monitor,
+			boolean includeDummy) throws Exception {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
@@ -391,7 +417,12 @@ public class PluginsUtils {
 						response = HttpUtils.getHttpGetResponse(new URI(logoUrl));
 						
 						if (response.isSuccessfull()) {
-							logo = new ImageIcon(response.getBytes());
+							Image img = new ImageIcon(response.getBytes()).getImage();
+							img = img.getScaledInstance(
+									240,
+									60,
+									Image.SCALE_SMOOTH);
+							logo = new ImageIcon(img);
 						}
 					} catch (Throwable t) {}
 				}
@@ -427,6 +458,9 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.plugin_database_retrieved")));
 			
+			if (includeDummy)
+				plugins.add(0, DUMMY_PLUGIN);
+			
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -435,12 +469,14 @@ public class PluginsUtils {
 		}
 	}
 	
-	public static Plugin[] loadAndUpdatePluginsFromXML(boolean silent) {
+	public static Plugin[] loadAndUpdatePluginsFromXML(
+			final boolean includeDummy,
+			final boolean silent) {
 		Plugin[] plugins = null;
 		
 		if (silent) {
 			try {
-				plugins = PluginsUtils.loadPluginsFromXML(null);
+				plugins = PluginsUtils.loadPluginsFromXML(null, includeDummy);
 			} catch (Exception e) {
 				GuiLogger.getLogger().warning("Cannot load plugins from XML");
 			}
@@ -452,7 +488,9 @@ public class PluginsUtils {
 				@Override
 				public Plugin[] doActions(ProgressMonitor monitor)
 						throws Throwable {
-					return PluginsUtils.loadPluginsFromXML(monitor);
+					return PluginsUtils.loadPluginsFromXML(
+							monitor,
+							includeDummy);
 				}
 				
 			};
