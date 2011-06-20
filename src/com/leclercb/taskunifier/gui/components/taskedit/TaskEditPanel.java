@@ -222,7 +222,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskNote = new JTextArea(5, 0);
 		
 		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow");
+				"right:pref, 4dlu, pref:grow, 10dlu, right:pref, 4dlu, pref:grow");
 		
 		// Task Title
 		builder.appendI15d("general.task.title", true, this.taskTitle);

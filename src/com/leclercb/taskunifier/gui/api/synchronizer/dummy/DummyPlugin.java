@@ -52,7 +52,7 @@ public class DummyPlugin implements SynchronizerPlugin {
 	
 	@Override
 	public String getName() {
-		return "Offline Plugin";
+		return "No Synchronization Plugin";
 	}
 	
 	@Override
