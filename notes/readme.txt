@@ -7,6 +7,8 @@ Version 0.9.8
 		- Translation files in resources folder
 		- FR 3317325: Action "Change view" in toolbar
 		- FR 3321812: Overdue tasks in red
+		- FR 3317708: Buttons for formatting notes
+		- FR 3312541: URLs in notes
 		- BF 3316281: Download plugin over proxy
 		- BF 3312532: Truncated edit task window
 
