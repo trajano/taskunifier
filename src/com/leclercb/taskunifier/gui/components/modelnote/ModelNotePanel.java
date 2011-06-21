@@ -39,8 +39,11 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -68,6 +71,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	private JXEditorPane htmlNote;
 	private JTextArea textNote;
+	private Action editAction;
 	
 	private ModelNote previousSelectedModel;
 	
@@ -109,7 +113,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		toolBar = new JToolBar(SwingConstants.VERTICAL);
 		toolBar.setFloatable(false);
 		
-		toolBar.add(new AbstractAction("", Images.getResourceImage(
+		this.editAction = new AbstractAction("", Images.getResourceImage(
 				"edit.png",
 				16,
 				16)) {
@@ -122,7 +126,11 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 				}
 			}
 			
-		});
+		};
+		
+		this.editAction.setEnabled(false);
+		
+		toolBar.add(this.editAction);
 		
 		JPanel htmlPanel = new JPanel(new BorderLayout());
 		htmlPanel.add(toolBar, BorderLayout.WEST);
@@ -154,7 +162,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		toolBar.setFloatable(false);
 		
 		toolBar.add(new AbstractAction("", Images.getResourceImage(
-				"edit.png",
+				"previous.png",
 				16,
 				16)) {
 			
@@ -204,16 +212,16 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	@Override
 	public synchronized void modelSelectionChange(
 			ModelSelectionChangeEvent event) {
-		if (this.previousSelectedModel != null) {
-			if (!EqualsUtils.equals(
-					this.previousSelectedModel.getNote(),
-					this.getModelNote()))
-				this.previousSelectedModel.setNote(this.getModelNote());
-			
-			this.previousSelectedModel.removePropertyChangeListener(this);
+		Model[] models = event.getSelectedModels();
+		
+		if (models.length == 1 && models[0] instanceof ModelNote) {
+			if (EqualsUtils.equals(models[0], this.previousSelectedModel))
+				return;
 		}
 		
-		Model[] models = event.getSelectedModels();
+		if (this.previousSelectedModel != null) {
+			this.previousSelectedModel.removePropertyChangeListener(this);
+		}
 		
 		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
 			this.previousSelectedModel = null;
@@ -223,6 +231,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			this.textNote.setCaretPosition(0);
 			
 			this.htmlNote.setEnabled(false);
+			this.editAction.setEnabled(false);
 		} else {
 			this.previousSelectedModel = (ModelNote) models[0];
 			this.previousSelectedModel.addPropertyChangeListener(
@@ -236,6 +245,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			this.textNote.setCaretPosition(0);
 			
 			this.htmlNote.setEnabled(true);
+			this.editAction.setEnabled(true);
 		}
 		
 		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
@@ -245,9 +255,73 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		if (note == null || note.length() == 0)
 			return " ";
 		
+		note = this.convertToFullUrl(note);
+		note = this.convertToHtmlUrl(note);
+		note = this.convertNlToBr(note);
+		
+		return note;
+	}
+	
+	private String convertToFullUrl(String note) {
+		StringBuffer buffer = new StringBuffer(note);
+		
+		Pattern p = Pattern.compile("(.?)(www\\.[\\w\\-]+\\.[\\w\\-]+[^\\s'\"]+)");
+		Matcher m = p.matcher(buffer.toString());
+		int position = 0;
+		
+		while (true) {
+			if (!m.find(position))
+				break;
+			
+			position = m.end();
+			String firstGroup = m.group(1);
+			
+			if (firstGroup.length() == 1 && !firstGroup.matches("\\s"))
+				continue;
+			
+			String url = firstGroup + "http://" + m.group(2);
+			
+			buffer.replace(m.start(), m.end(), url);
+		}
+		
+		return buffer.toString();
+	}
+	
+	private String convertToHtmlUrl(String note) {
+		StringBuffer buffer = new StringBuffer(note);
+		
+		Pattern p = Pattern.compile("(.?)(https?://www\\.[\\w\\-]+\\.[\\w\\-]+[^\\s'\"]+)");
+		Matcher m = p.matcher(buffer.toString());
+		int position = 0;
+		
+		while (true) {
+			if (!m.find(position))
+				break;
+			
+			position = m.end();
+			String firstGroup = m.group(1);
+			
+			if (firstGroup.length() == 1 && !firstGroup.matches("\\s"))
+				continue;
+			
+			String url = firstGroup
+					+ "<a href=\""
+					+ m.group(2)
+					+ "\">"
+					+ m.group(2)
+					+ "</a>";
+			
+			buffer.replace(m.start(), m.end(), url);
+		}
+		
+		return buffer.toString();
+	}
+	
+	private String convertNlToBr(String note) {
 		StringBuffer buffer = new StringBuffer();
 		note = note.replace("\n", "\n ");
 		String[] lines = note.split("\n");
+		
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			
@@ -265,7 +339,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		String note = this.previousSelectedModel.getNote();
+		String note = (String) evt.getNewValue();
 		
 		this.htmlNote.setText(this.convertTextNoteToHtml(note));
 		
