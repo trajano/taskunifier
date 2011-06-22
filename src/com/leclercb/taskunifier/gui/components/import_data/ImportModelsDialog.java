@@ -75,7 +75,6 @@ public class ImportModelsDialog extends AbstractImportDialog {
 		SynchronizerUtils.resetSynchronizerAndDeleteModels();
 	}
 	
-	@SuppressWarnings("unused")
 	@Override
 	protected void importFromFile(String file) throws Exception {
 		String[] options = new String[] {
@@ -92,28 +91,30 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				options,
 				options[1]);
 		
+		boolean forceNewModel = (result == 0);
+		
 		ZipFile zip = new ZipFile(new File(file));
 		
 		for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
 			ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
 			
 			if (entry.getName().equals("contexts.xml"))
-				new ContextFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new ContextFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 			
 			if (entry.getName().equals("folders.xml"))
-				new FolderFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new FolderFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 			
 			if (entry.getName().equals("goals.xml"))
-				new GoalFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new GoalFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 			
 			if (entry.getName().equals("locations.xml"))
-				new LocationFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new LocationFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 			
 			if (entry.getName().equals("notes.xml"))
-				new NoteFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new NoteFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 			
 			if (entry.getName().equals("tasks.xml"))
-				new TaskFactoryXMLCoder().decode(zip.getInputStream(entry));
+				new TaskFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
 		}
 	}
 	
