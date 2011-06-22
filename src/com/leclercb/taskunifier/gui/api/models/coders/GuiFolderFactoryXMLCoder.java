@@ -45,6 +45,14 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class GuiFolderFactoryXMLCoder extends FolderFactoryXMLCoder {
 	
+	public GuiFolderFactoryXMLCoder() {
+		super();
+	}
+	
+	public GuiFolderFactoryXMLCoder(boolean forceNewModel) {
+		super(forceNewModel);
+	}
+	
 	@Override
 	protected void decodeExtended(Folder folder, Node node)
 			throws FactoryCoderException {

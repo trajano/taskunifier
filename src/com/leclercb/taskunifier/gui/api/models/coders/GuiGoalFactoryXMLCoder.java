@@ -45,6 +45,14 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class GuiGoalFactoryXMLCoder extends GoalFactoryXMLCoder {
 	
+	public GuiGoalFactoryXMLCoder() {
+		super();
+	}
+	
+	public GuiGoalFactoryXMLCoder(boolean forceNewModel) {
+		super(forceNewModel);
+	}
+	
 	@Override
 	protected void decodeExtended(Goal goal, Node node)
 			throws FactoryCoderException {

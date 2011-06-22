@@ -45,6 +45,14 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class GuiLocationFactoryXMLCoder extends LocationFactoryXMLCoder {
 	
+	public GuiLocationFactoryXMLCoder() {
+		super();
+	}
+	
+	public GuiLocationFactoryXMLCoder(boolean forceNewModel) {
+		super(forceNewModel);
+	}
+	
 	@Override
 	protected void decodeExtended(Location location, Node node)
 			throws FactoryCoderException {

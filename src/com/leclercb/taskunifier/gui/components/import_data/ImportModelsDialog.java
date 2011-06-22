@@ -36,16 +36,20 @@ import java.io.File;
 import java.util.Enumeration;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 
-import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
-import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiContextFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiFolderFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -76,7 +80,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	}
 	
 	@Override
-	protected void importFromFile(String file) throws Exception {
+	protected void importFromFile(final String file) throws Exception {
 		String[] options = new String[] {
 				Translations.getString("general.yes"),
 				Translations.getString("general.no") };
@@ -91,31 +95,75 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				options,
 				options[1]);
 		
-		boolean forceNewModel = (result == 0);
+		final boolean forceNewModel = (result == 0);
 		
-		ZipFile zip = new ZipFile(new File(file));
+		final WaitDialog dialog = new WaitDialog(
+				MainFrame.getInstance().getFrame(),
+				"general.import_models");
 		
-		for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
-			ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
+		dialog.setRunnable(new Runnable() {
 			
-			if (entry.getName().equals("contexts.xml"))
-				new ContextFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+			@Override
+			public void run() {
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					
+					@Override
+					protected Void doInBackground() throws Exception {
+						if (!Synchronizing.setSynchronizing(true)) {
+							JOptionPane.showMessageDialog(
+									null,
+									Translations.getString("general.synchronization_ongoing"),
+									Translations.getString("general.error"),
+									JOptionPane.ERROR_MESSAGE);
+							return null;
+						}
+						
+						dialog.appendToProgressStatus(Translations.getString("general.import_models"));
+						
+						SynchronizerUtils.setTaskRepeatEnabled(false);
+						
+						ZipFile zip = new ZipFile(new File(file));
+						
+						for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
+							ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
+							
+							if (entry.getName().equals("contexts.xml"))
+								new GuiContextFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+							
+							if (entry.getName().equals("folders.xml"))
+								new GuiFolderFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+							
+							if (entry.getName().equals("goals.xml"))
+								new GuiGoalFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+							
+							if (entry.getName().equals("locations.xml"))
+								new GuiLocationFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+							
+							if (entry.getName().equals("notes.xml"))
+								new NoteFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+							
+							if (entry.getName().equals("tasks.xml"))
+								new GuiTaskFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+						}
+						
+						Thread.sleep(1000);
+						
+						return null;
+					}
+					
+					@Override
+					protected void done() {
+						SynchronizerUtils.setTaskRepeatEnabled(true);
+						Synchronizing.setSynchronizing(false);
+						dialog.dispose();
+					}
+					
+				};
+				
+				worker.execute();
+			}
 			
-			if (entry.getName().equals("folders.xml"))
-				new FolderFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
-			
-			if (entry.getName().equals("goals.xml"))
-				new GoalFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
-			
-			if (entry.getName().equals("locations.xml"))
-				new LocationFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
-			
-			if (entry.getName().equals("notes.xml"))
-				new NoteFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
-			
-			if (entry.getName().equals("tasks.xml"))
-				new TaskFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
-		}
+		});
 	}
 	
 }
