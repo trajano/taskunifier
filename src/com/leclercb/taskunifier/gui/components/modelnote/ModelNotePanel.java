@@ -264,7 +264,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	private String convertToHtmlUrl(String note) {
 		StringBuffer buffer = new StringBuffer(note);
 		
-		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+-=\\\\.&]*)");
+		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+\\-=\\\\.&]*)");
 		Matcher m = p.matcher(buffer.toString());
 		int position = 0;
 		
