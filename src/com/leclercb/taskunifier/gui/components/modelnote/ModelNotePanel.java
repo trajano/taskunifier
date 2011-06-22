@@ -255,8 +255,8 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		if (note == null || note.length() == 0)
 			return " ";
 		
-		note = this.convertToHtmlUrl(note);
 		note = this.convertNlToBr(note);
+		note = this.convertToHtmlUrl(note);
 		
 		return note;
 	}
