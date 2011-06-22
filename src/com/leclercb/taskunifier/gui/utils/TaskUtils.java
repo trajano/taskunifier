@@ -101,6 +101,14 @@ public final class TaskUtils {
 	}
 	
 	public static boolean showTask(Task task, TaskFilter filter) {
+		return showTask(task, filter, containsCompletedTrue(filter), false);
+	}
+	
+	public static boolean showTask(
+			Task task,
+			TaskFilter filter,
+			boolean containsCompletedTrue,
+			boolean skipParentCheck) {
 		if (!task.getModelStatus().equals(ModelStatus.LOADED)
 				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 			return false;
@@ -108,11 +116,13 @@ public final class TaskUtils {
 		
 		// If a filtered parent task has non filtered children,
 		// it must be displayed
-		if (task.getParent() == null) {
-			Task[] children = task.getChildren();
-			for (Task child : children)
-				if (filter.include(child))
-					return true;
+		if (!skipParentCheck) {
+			if (task.getParent() == null) {
+				Task[] children = task.getChildren();
+				for (Task child : children)
+					if (showTask(child, filter, containsCompletedTrue, false))
+						return true;
+			}
 		}
 		
 		if (task.getParent() != null) {
@@ -122,8 +132,13 @@ public final class TaskUtils {
 		
 		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
 				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
-			if (task.isCompleted() && !containsCompletedTrue(filter))
+			if (task.isCompleted() && !containsCompletedTrue)
 				return false;
+		}
+		
+		if (task.getParent() != null) {
+			if (showTask(task.getParent(), filter, containsCompletedTrue, true))
+				return true;
 		}
 		
 		return filter.include(task);

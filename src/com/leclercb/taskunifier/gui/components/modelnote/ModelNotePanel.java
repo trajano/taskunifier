@@ -255,42 +255,16 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		if (note == null || note.length() == 0)
 			return " ";
 		
-		note = this.convertToFullUrl(note);
 		note = this.convertToHtmlUrl(note);
 		note = this.convertNlToBr(note);
 		
 		return note;
 	}
 	
-	private String convertToFullUrl(String note) {
-		StringBuffer buffer = new StringBuffer(note);
-		
-		Pattern p = Pattern.compile("(.?)(www\\.[\\w\\-]+\\.[\\w\\-]+[^\\s'\"]+)");
-		Matcher m = p.matcher(buffer.toString());
-		int position = 0;
-		
-		while (true) {
-			if (!m.find(position))
-				break;
-			
-			position = m.end();
-			String firstGroup = m.group(1);
-			
-			if (firstGroup.length() == 1 && !firstGroup.matches("\\s"))
-				continue;
-			
-			String url = firstGroup + "http://" + m.group(2);
-			
-			buffer.replace(m.start(), m.end(), url);
-		}
-		
-		return buffer.toString();
-	}
-	
 	private String convertToHtmlUrl(String note) {
 		StringBuffer buffer = new StringBuffer(note);
 		
-		Pattern p = Pattern.compile("(.?)(https?://www\\.[\\w\\-]+\\.[\\w\\-]+[^\\s'\"]+)");
+		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+-=\\\\.&]*)");
 		Matcher m = p.matcher(buffer.toString());
 		int position = 0;
 		
@@ -301,7 +275,10 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			position = m.end();
 			String firstGroup = m.group(1);
 			
-			if (firstGroup.length() == 1 && !firstGroup.matches("\\s"))
+			if (firstGroup == null)
+				firstGroup = "";
+			
+			if (firstGroup.contains("href"))
 				continue;
 			
 			String url = firstGroup
@@ -319,6 +296,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	private String convertNlToBr(String note) {
 		StringBuffer buffer = new StringBuffer();
+		
 		note = note.replace("\n", "\n ");
 		String[] lines = note.split("\n");
 		
