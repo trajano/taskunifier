@@ -49,10 +49,6 @@ public class GuiLocationFactoryXMLCoder extends LocationFactoryXMLCoder {
 		super();
 	}
 	
-	public GuiLocationFactoryXMLCoder(boolean forceNewModel) {
-		super(forceNewModel);
-	}
-	
 	@Override
 	protected void decodeExtended(Location location, Node node)
 			throws FactoryCoderException {

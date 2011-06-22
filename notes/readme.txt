@@ -12,6 +12,7 @@ Version 0.9.8
 		- FR 3312589: Display all subtasks of a task matching a search
 		- BF 3316281: Download plugin over proxy
 		- BF 3312532: Truncated edit task window
+		- BF 3283538: Import data
 
 Version 0.9.7
 	- Major:

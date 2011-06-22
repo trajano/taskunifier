@@ -49,10 +49,6 @@ public class GuiFolderFactoryXMLCoder extends FolderFactoryXMLCoder {
 		super();
 	}
 	
-	public GuiFolderFactoryXMLCoder(boolean forceNewModel) {
-		super(forceNewModel);
-	}
-	
 	@Override
 	protected void decodeExtended(Folder folder, Node node)
 			throws FactoryCoderException {

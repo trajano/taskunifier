@@ -49,10 +49,6 @@ public class GuiContextFactoryXMLCoder extends ContextFactoryXMLCoder {
 		super();
 	}
 	
-	public GuiContextFactoryXMLCoder(boolean forceNewModel) {
-		super(forceNewModel);
-	}
-	
 	@Override
 	protected void decodeExtended(Context context, Node node)
 			throws FactoryCoderException {

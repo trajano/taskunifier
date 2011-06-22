@@ -81,22 +81,6 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(final String file) throws Exception {
-		String[] options = new String[] {
-				Translations.getString("general.yes"),
-				Translations.getString("general.no") };
-		
-		int result = JOptionPane.showOptionDialog(
-				this.getOwner(),
-				"Flag all the imported data as new data ? (Allow you to sync/add them with/to another service provider)",
-				Translations.getString("general.question"),
-				JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE,
-				null,
-				options,
-				options[1]);
-		
-		final boolean forceNewModel = (result == 0);
-		
 		final WaitDialog dialog = new WaitDialog(
 				MainFrame.getInstance().getFrame(),
 				"general.import_models");
@@ -128,22 +112,22 @@ public class ImportModelsDialog extends AbstractImportDialog {
 							ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
 							
 							if (entry.getName().equals("contexts.xml"))
-								new GuiContextFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new GuiContextFactoryXMLCoder().decode(zip.getInputStream(entry));
 							
 							if (entry.getName().equals("folders.xml"))
-								new GuiFolderFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new GuiFolderFactoryXMLCoder().decode(zip.getInputStream(entry));
 							
 							if (entry.getName().equals("goals.xml"))
-								new GuiGoalFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new GuiGoalFactoryXMLCoder().decode(zip.getInputStream(entry));
 							
 							if (entry.getName().equals("locations.xml"))
-								new GuiLocationFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new GuiLocationFactoryXMLCoder().decode(zip.getInputStream(entry));
 							
 							if (entry.getName().equals("notes.xml"))
-								new NoteFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new NoteFactoryXMLCoder().decode(zip.getInputStream(entry));
 							
 							if (entry.getName().equals("tasks.xml"))
-								new GuiTaskFactoryXMLCoder(forceNewModel).decode(zip.getInputStream(entry));
+								new GuiTaskFactoryXMLCoder().decode(zip.getInputStream(entry));
 						}
 						
 						Thread.sleep(1000);
@@ -164,6 +148,8 @@ public class ImportModelsDialog extends AbstractImportDialog {
 			}
 			
 		});
+		
+		dialog.setVisible(true);
 	}
 	
 }

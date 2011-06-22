@@ -50,10 +50,6 @@ public class GuiTaskFactoryXMLCoder extends TaskFactoryXMLCoder {
 		super();
 	}
 	
-	public GuiTaskFactoryXMLCoder(boolean forceNewModel) {
-		super(forceNewModel);
-	}
-	
 	@Override
 	protected void decodeExtended(Task task, Node node)
 			throws FactoryCoderException {

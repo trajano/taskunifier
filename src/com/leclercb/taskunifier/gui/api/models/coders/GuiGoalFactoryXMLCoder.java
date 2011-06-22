@@ -49,10 +49,6 @@ public class GuiGoalFactoryXMLCoder extends GoalFactoryXMLCoder {
 		super();
 	}
 	
-	public GuiGoalFactoryXMLCoder(boolean forceNewModel) {
-		super(forceNewModel);
-	}
-	
 	@Override
 	protected void decodeExtended(Goal goal, Node node)
 			throws FactoryCoderException {
