@@ -538,7 +538,7 @@ public class Main {
 	}
 	
 	private static void loadSynchronizer() throws Exception {
-		SynchronizerUtils.initializeTaskRepeat();
+		SynchronizerUtils.setTaskRepeatEnabled(true);
 	}
 	
 	public static void stop() {

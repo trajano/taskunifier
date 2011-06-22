@@ -43,6 +43,7 @@ import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.FolderFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.LocationFactoryXMLCoder;
+import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
 import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -106,6 +107,17 @@ public class ExportModelsDialog extends AbstractExportDialog {
 			
 			this.writeIntoZip(zos, "locations.xml", new ByteArrayInputStream(
 					output.toByteArray()));
+		}
+		
+		// NOTES
+		{
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			new NoteFactoryXMLCoder().encode(output);
+			
+			this.writeIntoZip(
+					zos,
+					"notes.xml",
+					new ByteArrayInputStream(output.toByteArray()));
 		}
 		
 		// TASKS

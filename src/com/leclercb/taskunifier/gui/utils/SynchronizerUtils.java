@@ -58,13 +58,18 @@ public final class SynchronizerUtils {
 
 	}
 	
-	public static void initializeTaskRepeat() {
+	private static boolean TASK_REPEAT_ENABLED = false;
+	
+	static {
 		TaskFactory.getInstance().addPropertyChangeListener(
 				Task.PROP_COMPLETED,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
+						if (!TASK_REPEAT_ENABLED)
+							return;
+						
 						Task task = (Task) evt.getSource();
 						
 						if (task == null || !task.isCompleted())
@@ -74,6 +79,10 @@ public final class SynchronizerUtils {
 					}
 					
 				});
+	}
+	
+	public static void setTaskRepeatEnabled(boolean enabled) {
+		TASK_REPEAT_ENABLED = enabled;
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
