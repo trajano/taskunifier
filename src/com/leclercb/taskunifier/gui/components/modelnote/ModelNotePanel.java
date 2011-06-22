@@ -110,7 +110,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 		});
 		
-		toolBar = new JToolBar(SwingConstants.VERTICAL);
+		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
 		this.editAction = new AbstractAction("", Images.getResourceImage(
@@ -133,7 +133,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		toolBar.add(this.editAction);
 		
 		JPanel htmlPanel = new JPanel(new BorderLayout());
-		htmlPanel.add(toolBar, BorderLayout.WEST);
+		htmlPanel.add(toolBar, BorderLayout.NORTH);
 		htmlPanel.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				BorderLayout.CENTER);
@@ -158,7 +158,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 		});
 		
-		toolBar = new JToolBar(SwingConstants.VERTICAL);
+		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
 		toolBar.add(new AbstractAction("", Images.getResourceImage(
@@ -198,7 +198,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 				"\n<li>|</li>"));
 		
 		JPanel textPanel = new JPanel(new BorderLayout());
-		textPanel.add(toolBar, BorderLayout.WEST);
+		textPanel.add(toolBar, BorderLayout.NORTH);
 		textPanel.add(
 				ComponentFactory.createJScrollPane(this.textNote, false),
 				BorderLayout.CENTER);
