@@ -40,6 +40,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -66,23 +68,18 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 	private ListChangeSupport listChangeSupport;
 	
 	private List<IgnoreCaseString> tags;
+	private SortedSet<IgnoreCaseString> sortedTags;
 	
 	private TagList() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.tags = new ArrayList<IgnoreCaseString>();
+		this.sortedTags = new TreeSet<IgnoreCaseString>();
 		
 		this.initialize();
 	}
 	
 	public String[] getTags() {
-		Set<IgnoreCaseString> uniqueTags = new HashSet<IgnoreCaseString>(
-				this.tags);
-		List<IgnoreCaseString> tags = new ArrayList<IgnoreCaseString>(
-				uniqueTags);
-		
-		Collections.sort(tags);
-		
-		return IgnoreCaseString.to(tags.toArray(new IgnoreCaseString[0]));
+		return IgnoreCaseString.to(this.sortedTags.toArray(new IgnoreCaseString[0]));
 	}
 	
 	private void initialize() {
@@ -110,19 +107,23 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 		this.tags.removeAll(tags);
 		
 		for (IgnoreCaseString tag : tags) {
-			if (!this.tags.contains(tag))
+			if (!this.tags.contains(tag)) {
+				this.sortedTags.remove(tag);
 				this.listChangeSupport.fireListChange(
 						ListChangeEvent.VALUE_REMOVED,
 						-1,
 						tag.toString());
+			}
 		}
 		
 		tags = Arrays.asList(IgnoreCaseString.as((String[]) evt.getNewValue()));
 		
 		List<IgnoreCaseString> newTags = new ArrayList<IgnoreCaseString>();
 		for (IgnoreCaseString tag : tags) {
-			if (!this.tags.contains(tag))
+			if (!this.tags.contains(tag)) {
+				this.sortedTags.add(tag);
 				newTags.add(tag);
+			}
 		}
 		
 		this.tags.addAll(tags);
