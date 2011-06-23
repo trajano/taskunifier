@@ -69,8 +69,10 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.TagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -84,6 +86,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	private SearcherCategory folderCategory;
 	private SearcherCategory goalCategory;
 	private SearcherCategory locationCategory;
+	private SearcherCategory tagCategory;
 	private SearcherCategory personalCategory;
 	
 	public SearcherTreeModel(TreeSelectionModel treeSelectionModel) {
@@ -97,6 +100,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		this.initializeFolderCategory();
 		this.initializeGoalCategory();
 		this.initializeLocationCategory();
+		this.initializeTagCategory();
 		this.initializePersonalCategory();
 		
 		TaskFactory.getInstance().addListChangeListener(this);
@@ -117,6 +121,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				this.folderCategory,
 				this.goalCategory,
 				this.locationCategory,
+				this.tagCategory,
 				this.personalCategory };
 	}
 	
@@ -228,6 +233,20 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		LocationFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
+	private void initializeTagCategory() {
+		this.tagCategory = new SearcherCategory(
+				TaskSearcherType.TAG,
+				"searcher.category.tag.expanded");
+		((DefaultMutableTreeNode) this.getRoot()).add(this.tagCategory);
+		
+		String[] tags = TagList.getInstance().getTags();
+		
+		for (String tag : tags)
+			this.tagCategory.add(new TagItem(tag));
+		
+		TagList.getInstance().addListChangeListener(this);
+	}
+	
 	private void initializePersonalCategory() {
 		this.personalCategory = new SearcherCategory(
 				TaskSearcherType.PERSONAL,
@@ -281,6 +300,19 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		return null;
 	}
 	
+	public TagItem findItemFromTag(String tag) {
+		for (int i = 0; i < this.tagCategory.getChildCount(); i++) {
+			TreeNode node = this.tagCategory.getChildAt(i);
+			if (node instanceof TagItem) {
+				if (((TagItem) node).getTag().equalsIgnoreCase(tag)) {
+					return (TagItem) node;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	private SearcherCategory getCategoryFromTaskSearcherType(
 			TaskSearcherType type) {
 		switch (type) {
@@ -296,6 +328,8 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				return this.goalCategory;
 			case LOCATION:
 				return this.locationCategory;
+			case TAG:
+				return this.tagCategory;
 			case PERSONAL:
 				return this.personalCategory;
 		}
@@ -363,6 +397,24 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 					this.removeNodeFromParent(item);
 				
 				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
+			}
+			
+			return;
+		}
+		
+		// Tag
+		if (event.getValue() instanceof String) {
+			String tag = (String) event.getValue();
+			
+			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+				TagItem item = new TagItem(tag);
+				
+				this.insertNodeInto(item, this.tagCategory, 0);
+			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+				TagItem item = this.findItemFromTag(tag);
+				
+				if (item != null)
+					this.removeNodeFromParent(item);
 			}
 			
 			return;

@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.9
+	- Minor:
+		- New tag searcher category
+
 Version 0.9.8
 	- Minor:
 		- New "Synchronize with" window

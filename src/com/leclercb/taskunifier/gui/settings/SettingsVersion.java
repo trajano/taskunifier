@@ -473,6 +473,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.8 to 0.9.9");
 		
+		Main.SETTINGS.setStringProperty(
+				"searcher.category.tag.expanded",
+				"false");
+		
 		return "0.9.9";
 	}
 	
