@@ -160,7 +160,9 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			}
 			
 			private void updateNote() {
-				ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
+				if (ModelNotePanel.this.previousSelectedModel != null) {
+					ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
+				}
 			}
 			
 		});

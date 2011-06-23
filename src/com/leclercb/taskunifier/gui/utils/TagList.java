@@ -46,11 +46,12 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
-public final class TagList implements ListChangeSupported, PropertyChangeListener {
+public final class TagList implements ListChangeSupported, ListChangeListener, PropertyChangeListener {
 	
 	private static TagList INSTANCE;
 	
@@ -91,31 +92,55 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 			this.sortedTags.addAll(this.tags);
 		}
 		
-		TaskFactory.getInstance().addPropertyChangeListener(
-				Task.PROP_TAGS,
-				this);
+		TaskFactory.getInstance().addListChangeListener(this);
+		TaskFactory.getInstance().addPropertyChangeListener(this);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
+		Task task = (Task) evt.getValue();
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+			if (task.getModelStatus().equals(ModelStatus.LOADED)
+					|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+				this.addTags(task.getTags());
+			}
+		}
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+			this.removeTags(task.getTags());
+		}
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		List<IgnoreCaseString> tags = null;
+		Task task = (Task) evt.getSource();
 		
-		tags = Arrays.asList(IgnoreCaseString.as((String[]) evt.getOldValue()));
-		this.tags.removeAll(tags);
-		
-		for (IgnoreCaseString tag : tags) {
-			if (!this.tags.contains(tag)) {
-				if (this.sortedTags.contains(tag)) {
-					this.sortedTags.remove(tag);
-					this.listChangeSupport.fireListChange(
-							ListChangeEvent.VALUE_REMOVED,
-							-1,
-							tag.toString());
-				}
+		if (evt.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+			ModelStatus oldStatus = (ModelStatus) evt.getOldValue();
+			ModelStatus newStatus = (ModelStatus) evt.getNewValue();
+			
+			boolean oldStatusVisible = (ModelStatus.LOADED.equals(oldStatus) || ModelStatus.TO_UPDATE.equals(oldStatus));
+			boolean newStatusVisible = (ModelStatus.LOADED.equals(newStatus) || ModelStatus.TO_UPDATE.equals(newStatus));
+			
+			if (!oldStatusVisible && newStatusVisible) {
+				this.addTags(task.getTags());
+			} else if (oldStatusVisible && !newStatusVisible) {
+				this.removeTags(task.getTags());
 			}
 		}
 		
-		tags = Arrays.asList(IgnoreCaseString.as((String[]) evt.getNewValue()));
+		if (evt.getPropertyName().equals(Task.PROP_TAGS)) {
+			if (task.getModelStatus().equals(ModelStatus.LOADED)
+					|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+				this.addTags((String[]) evt.getNewValue());
+				this.removeTags((String[]) evt.getOldValue());
+			}
+		}
+	}
+	
+	private void addTags(String[] t) {
+		List<IgnoreCaseString> tags = Arrays.asList(IgnoreCaseString.as(t));
 		
 		List<IgnoreCaseString> newTags = new ArrayList<IgnoreCaseString>();
 		for (IgnoreCaseString tag : tags) {
@@ -143,6 +168,23 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 						ListChangeEvent.VALUE_ADDED,
 						index,
 						tag.toString());
+			}
+		}
+	}
+	
+	private void removeTags(String[] t) {
+		List<IgnoreCaseString> tags = Arrays.asList(IgnoreCaseString.as(t));
+		this.tags.removeAll(tags);
+		
+		for (IgnoreCaseString tag : tags) {
+			if (!this.tags.contains(tag)) {
+				if (this.sortedTags.contains(tag)) {
+					this.sortedTags.remove(tag);
+					this.listChangeSupport.fireListChange(
+							ListChangeEvent.VALUE_REMOVED,
+							-1,
+							tag.toString());
+				}
 			}
 		}
 	}
