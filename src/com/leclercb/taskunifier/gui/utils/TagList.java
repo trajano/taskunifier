@@ -36,10 +36,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -51,9 +49,7 @@ import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public final class TagList implements ListChangeSupported, PropertyChangeListener {
 	
 	private static TagList INSTANCE;
@@ -92,6 +88,7 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 			}
 			
 			this.tags.addAll(Arrays.asList(IgnoreCaseString.as(task.getTags())));
+			this.sortedTags.addAll(this.tags);
 		}
 		
 		TaskFactory.getInstance().addPropertyChangeListener(
@@ -108,11 +105,13 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 		
 		for (IgnoreCaseString tag : tags) {
 			if (!this.tags.contains(tag)) {
-				this.sortedTags.remove(tag);
-				this.listChangeSupport.fireListChange(
-						ListChangeEvent.VALUE_REMOVED,
-						-1,
-						tag.toString());
+				if (this.sortedTags.contains(tag)) {
+					this.sortedTags.remove(tag);
+					this.listChangeSupport.fireListChange(
+							ListChangeEvent.VALUE_REMOVED,
+							-1,
+							tag.toString());
+				}
 			}
 		}
 		
@@ -121,7 +120,6 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 		List<IgnoreCaseString> newTags = new ArrayList<IgnoreCaseString>();
 		for (IgnoreCaseString tag : tags) {
 			if (!this.tags.contains(tag)) {
-				this.sortedTags.add(tag);
 				newTags.add(tag);
 			}
 		}
@@ -129,10 +127,23 @@ public final class TagList implements ListChangeSupported, PropertyChangeListene
 		this.tags.addAll(tags);
 		
 		for (IgnoreCaseString tag : newTags) {
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_ADDED,
-					-1,
-					tag.toString());
+			if (!this.sortedTags.contains(tag)) {
+				this.sortedTags.add(tag);
+				
+				int index = 0;
+				Iterator<IgnoreCaseString> it = this.sortedTags.iterator();
+				while (it.hasNext()) {
+					if (it.next().equals(tag))
+						break;
+					
+					index++;
+				}
+				
+				this.listChangeSupport.fireListChange(
+						ListChangeEvent.VALUE_ADDED,
+						index,
+						tag.toString());
+			}
 		}
 	}
 	

@@ -409,7 +409,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				TagItem item = new TagItem(tag);
 				
-				this.insertNodeInto(item, this.tagCategory, 0);
+				this.insertNodeInto(item, this.tagCategory, event.getIndex());
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				TagItem item = this.findItemFromTag(tag);
 				

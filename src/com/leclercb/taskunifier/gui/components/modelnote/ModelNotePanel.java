@@ -35,8 +35,6 @@ package com.leclercb.taskunifier.gui.components.modelnote;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.regex.Matcher;
@@ -50,6 +48,8 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -122,7 +122,6 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			public void actionPerformed(ActionEvent event) {
 				if (ModelNotePanel.this.htmlNote.isEnabled()) {
 					((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
-					ModelNotePanel.this.textNote.setCaretPosition(0);
 				}
 			}
 			
@@ -143,17 +142,25 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		this.textNote.setLineWrap(true);
 		this.textNote.setWrapStyleWord(true);
 		this.textNote.setBorder(BorderFactory.createEmptyBorder());
-		this.textNote.addFocusListener(new FocusAdapter() {
+		this.textNote.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
-			public void focusLost(FocusEvent e) {
-				if (ModelNotePanel.this.previousSelectedModel != null) {
-					if (!EqualsUtils.equals(
-							ModelNotePanel.this.previousSelectedModel.getNote(),
-							ModelNotePanel.this.getModelNote())) {
-						ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
-					}
-				}
+			public void removeUpdate(DocumentEvent e) {
+				this.updateNote();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				this.updateNote();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				this.updateNote();
+			}
+			
+			private void updateNote() {
+				ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
 			}
 			
 		});
@@ -168,10 +175,8 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (ModelNotePanel.this.htmlNote.isEnabled()) {
-					((CardLayout) ModelNotePanel.this.getLayout()).first(ModelNotePanel.this);
-					ModelNotePanel.this.textNote.setCaretPosition(0);
-				}
+				((CardLayout) ModelNotePanel.this.getLayout()).first(ModelNotePanel.this);
+				ModelNotePanel.this.htmlNote.setText(ModelNotePanel.this.convertTextNoteToHtml(ModelNotePanel.this.getModelNote()));
 			}
 			
 		});
@@ -265,10 +270,12 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		StringBuffer buffer = new StringBuffer(note);
 		
 		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+\\-=\\\\.&]*)");
-		Matcher m = p.matcher(buffer.toString());
+		Matcher m = null;
 		int position = 0;
 		
 		while (true) {
+			m = p.matcher(buffer.toString());
+			
 			if (!m.find(position))
 				break;
 			
@@ -289,6 +296,8 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 					+ "</a>";
 			
 			buffer.replace(m.start(), m.end(), url);
+			
+			position = m.start() + url.length() - 1;
 		}
 		
 		return buffer.toString();
@@ -319,10 +328,10 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	public void propertyChange(PropertyChangeEvent evt) {
 		String note = (String) evt.getNewValue();
 		
-		this.htmlNote.setText(this.convertTextNoteToHtml(note));
-		
 		if (EqualsUtils.equals(this.textNote.getText(), note))
 			return;
+		
+		this.htmlNote.setText(this.convertTextNoteToHtml(note));
 		
 		this.textNote.setText(note);
 		this.textNote.setCaretPosition(0);

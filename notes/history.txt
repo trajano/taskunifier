@@ -1,6 +1,8 @@
 Version 0.9.9
 	- Minor:
 		- New tag searcher category
+		- BF 3325072: Urls in notes
+		- Bug fixed: Save note
 
 Version 0.9.8
 	- Minor:
@@ -27,7 +29,7 @@ Version 0.9.6
 	- Minor:
 		- Changed searcher list font
 		- Add scroll bar to searcher list
-		- Bug fixed: start date and due date condition
+		- Bug fixed: Start date and due date condition
 
 Version 0.9.5
 	- Major:
