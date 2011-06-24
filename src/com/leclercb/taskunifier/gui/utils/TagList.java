@@ -142,16 +142,9 @@ public final class TagList implements ListChangeSupported, ListChangeListener, P
 	private void addTags(String[] t) {
 		List<IgnoreCaseString> tags = Arrays.asList(IgnoreCaseString.as(t));
 		
-		List<IgnoreCaseString> newTags = new ArrayList<IgnoreCaseString>();
 		for (IgnoreCaseString tag : tags) {
-			if (!this.tags.contains(tag)) {
-				newTags.add(tag);
-			}
-		}
-		
-		this.tags.addAll(tags);
-		
-		for (IgnoreCaseString tag : newTags) {
+			this.tags.add(tag);
+			
 			if (!this.sortedTags.contains(tag)) {
 				this.sortedTags.add(tag);
 				
@@ -174,9 +167,10 @@ public final class TagList implements ListChangeSupported, ListChangeListener, P
 	
 	private void removeTags(String[] t) {
 		List<IgnoreCaseString> tags = Arrays.asList(IgnoreCaseString.as(t));
-		this.tags.removeAll(tags);
 		
 		for (IgnoreCaseString tag : tags) {
+			this.tags.remove(tag);
+			
 			if (!this.tags.contains(tag)) {
 				if (this.sortedTags.contains(tag)) {
 					this.sortedTags.remove(tag);
