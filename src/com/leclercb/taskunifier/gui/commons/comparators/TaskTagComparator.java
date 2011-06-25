@@ -30,22 +30,20 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.commons.comparators;
 
-import javax.swing.DefaultComboBoxModel;
+import java.util.Comparator;
 
-import com.leclercb.commons.api.utils.ArrayUtils;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskRepeatFromModel extends DefaultComboBoxModel {
+public class TaskTagComparator implements Comparator<IgnoreCaseString> {
 	
-	public TaskRepeatFromModel(boolean firstNull) {
-		super(
-				ArrayUtils.concat(
-						(firstNull ? new TaskRepeatFrom[] { null } : new TaskRepeatFrom[0]),
-						TaskRepeatFrom.values()));
+	@Override
+	public int compare(IgnoreCaseString s1, IgnoreCaseString s2) {
+		return CompareUtils.compare(s1, s2);
 	}
 	
 }

@@ -32,20 +32,35 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
-import com.leclercb.commons.api.utils.ArrayUtils;
-import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.gui.utils.TagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskRepeatFromModel extends DefaultComboBoxModel {
+public class TaskTagModel extends DefaultListModel implements ListChangeListener {
 	
-	public TaskRepeatFromModel(boolean firstNull) {
-		super(
-				ArrayUtils.concat(
-						(firstNull ? new TaskRepeatFrom[] { null } : new TaskRepeatFrom[0]),
-						TaskRepeatFrom.values()));
+	public TaskTagModel() {
+		String[] tags = TagList.getInstance().getTags();
+		
+		for (String tag : tags) {
+			this.addElement(IgnoreCaseString.as(tag));
+		}
+		
+		TagList.getInstance().addListChangeListener(this);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
+		String tag = (String) evt.getValue();
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.addElement(IgnoreCaseString.as(tag));
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.removeElement(IgnoreCaseString.as(tag));
 	}
 	
 }
