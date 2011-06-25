@@ -1,10 +1,11 @@
 Version 0.9.9
-	- Minor:
-		- New tag searcher category
+	- Major:
 		- Manage tags
-		- BF 3325072: Urls in notes
+		- New tag searcher category
+	- Minor:
 		- Bug fixed: Save note
-		- New tag editor in task table
+		- BF 3325072: Urls in notes
+		- FR 3312536: Dropdown list for editing tags
 
 Version 0.9.8
 	- Minor:
