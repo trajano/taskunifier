@@ -4,8 +4,10 @@ HISTORY
 Version 0.9.9
 	- Minor:
 		- New tag searcher category
+		- Manage tags
 		- BF 3325072: Urls in notes
 		- Bug fixed: Save note
+		- New tag editor in task table
 
 Version 0.9.8
 	- Minor:

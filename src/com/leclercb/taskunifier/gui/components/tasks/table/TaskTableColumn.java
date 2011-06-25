@@ -75,6 +75,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.ReminderEdito
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -113,6 +114,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor REMINDER_EDITOR;
 	private static final TableCellEditor REPEAT_EDITOR;
 	private static final TableCellEditor START_DATE_EDITOR;
+	private static final TableCellEditor TAGS_EDITOR;
 	private static final TableCellEditor TASK_PRIORITY_EDITOR;
 	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
 	private static final TableCellEditor TASK_STATUS_EDITOR;
@@ -183,6 +185,7 @@ public class TaskTableColumn extends TableColumnExt {
 		REPEAT_EDITOR = new RepeatEditor();
 		START_DATE_EDITOR = new DateEditor(
 				Main.SETTINGS.getBooleanProperty("date.use_start_time"));
+		TAGS_EDITOR = new TagsEditor();
 		TASK_PRIORITY_EDITOR = new PriorityEditor();
 		TASK_REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		TASK_STATUS_EDITOR = new StatusEditor();
@@ -297,7 +300,7 @@ public class TaskTableColumn extends TableColumnExt {
 			case TITLE:
 				return GENERIC_EDITOR;
 			case TAGS:
-				return GENERIC_EDITOR;
+				return TAGS_EDITOR;
 			case FOLDER:
 				return FOLDER_EDITOR;
 			case CONTEXT:

@@ -32,7 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultListModel;
+import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -41,10 +41,12 @@ import com.leclercb.taskunifier.gui.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskTagModel extends DefaultListModel implements ListChangeListener {
+public class TaskTagModel extends DefaultComboBoxModel implements ListChangeListener {
 	
-	public TaskTagModel() {
+	public TaskTagModel(boolean firstNull) {
 		String[] tags = TaskTagList.getInstance().getTags();
+		
+		this.addElement(null);
 		
 		for (String tag : tags) {
 			this.addElement(IgnoreCaseString.as(tag));
