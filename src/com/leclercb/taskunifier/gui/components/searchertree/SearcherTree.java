@@ -58,6 +58,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener
 import com.leclercb.taskunifier.gui.components.searchertree.draganddrop.TaskSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.TaskSearcherProvider;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -144,6 +145,11 @@ public class SearcherTree extends JTree implements SearcherView, SavePropertiesL
 		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
+	public void selectTag(String tag) {
+		TreeNode node = this.getSearcherModel().findItemFromTag(tag);
+		this.setSelectionPath(TreeUtils.getPath(node));
+	}
+	
 	@Override
 	public void selectDefaultTaskSearcher() {
 		TreeNode node = this.getSearcherModel().getDefaultSearcher();
@@ -173,6 +179,18 @@ public class SearcherTree extends JTree implements SearcherView, SavePropertiesL
 			return null;
 		
 		return ((TaskSearcherProvider) node).getTaskSearcher();
+	}
+	
+	public String getSelectedTag() {
+		if (this.getSelectionPath() == null)
+			return null;
+		
+		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
+		
+		if (node == null || !(node instanceof TagItem))
+			return null;
+		
+		return ((TagItem) node).getTag();
 	}
 	
 	@Override

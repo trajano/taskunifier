@@ -43,13 +43,16 @@ import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXHeader;
 
+import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
+import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
 import com.leclercb.taskunifier.gui.components.models.panels.ContextConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.FolderConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.models.panels.TagConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -104,6 +107,13 @@ public class ModelConfigurationDialog extends JDialog {
 		}
 	}
 	
+	public void setSelectedTag(String tag) {
+		this.tabbedPane.setSelectedIndex(4);
+		
+		ITagList list = (ITagList) this.tabbedPane.getSelectedComponent();
+		list.setSelectedTag(IgnoreCaseString.as(tag));
+	}
+	
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_models"));
@@ -137,6 +147,10 @@ public class ModelConfigurationDialog extends JDialog {
 		this.tabbedPane.addTab(
 				Translations.getString("general.locations"),
 				new LocationConfigurationPanel());
+		
+		this.tabbedPane.addTab(
+				Translations.getString("general.task.tags"),
+				new TagConfigurationPanel());
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.tabbedPane, BorderLayout.CENTER);

@@ -30,37 +30,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.components.models.lists;
 
-import javax.swing.DefaultListModel;
-
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
-import com.leclercb.taskunifier.gui.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskTagModel extends DefaultListModel implements ListChangeListener {
+public interface ITagList {
 	
-	public TaskTagModel() {
-		String[] tags = TaskTagList.getInstance().getTags();
-		
-		for (String tag : tags) {
-			this.addElement(IgnoreCaseString.as(tag));
-		}
-		
-		TaskTagList.getInstance().addListChangeListener(this);
-	}
+	public abstract IgnoreCaseString getSelectedTag();
 	
-	@Override
-	public void listChange(ListChangeEvent evt) {
-		String tag = (String) evt.getValue();
-		
-		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(IgnoreCaseString.as(tag));
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(IgnoreCaseString.as(tag));
-	}
+	public abstract void setSelectedTag(IgnoreCaseString tag);
 	
 }

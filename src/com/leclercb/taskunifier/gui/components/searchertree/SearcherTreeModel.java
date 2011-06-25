@@ -72,7 +72,7 @@ import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.utils.TagList;
+import com.leclercb.taskunifier.gui.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -239,12 +239,12 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 				"searcher.category.tag.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.tagCategory);
 		
-		String[] tags = TagList.getInstance().getTags();
+		String[] tags = TaskTagList.getInstance().getTags();
 		
 		for (String tag : tags)
 			this.tagCategory.add(new TagItem(tag));
 		
-		TagList.getInstance().addListChangeListener(this);
+		TaskTagList.getInstance().addListChangeListener(this);
 	}
 	
 	private void initializePersonalCategory() {

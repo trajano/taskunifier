@@ -72,6 +72,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSu
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -191,9 +192,14 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 					TreePath path = SearcherPanel.this.searcherView.getPathForLocation(
 							e.getX(),
 							e.getY());
+					
 					Object node = path.getLastPathComponent();
+					
 					if (node instanceof ModelItem)
 						SearcherPanel.this.openManageModels((ModelItem) node);
+					
+					if (node instanceof TagItem)
+						SearcherPanel.this.openManageTags((TagItem) node);
 					
 					SearcherPanel.this.openTaskSearcherEdit();
 				}
@@ -288,6 +294,12 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 		
 		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedModel(item.getModelType(), item.getModel());
+		dialog.setVisible(true);
+	}
+	
+	private void openManageTags(TagItem item) {
+		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
+		dialog.setSelectedTag(item.getTag());
 		dialog.setVisible(true);
 	}
 	

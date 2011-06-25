@@ -51,13 +51,13 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
-public final class TagList implements ListChangeSupported, ListChangeListener, PropertyChangeListener {
+public final class TaskTagList implements ListChangeSupported, ListChangeListener, PropertyChangeListener {
 	
-	private static TagList INSTANCE;
+	private static TaskTagList INSTANCE;
 	
-	public static TagList getInstance() {
+	public static TaskTagList getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new TagList();
+			INSTANCE = new TaskTagList();
 		
 		return INSTANCE;
 	}
@@ -67,7 +67,7 @@ public final class TagList implements ListChangeSupported, ListChangeListener, P
 	private List<IgnoreCaseString> tags;
 	private SortedSet<IgnoreCaseString> sortedTags;
 	
-	private TagList() {
+	private TaskTagList() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.tags = new ArrayList<IgnoreCaseString>();
 		this.sortedTags = new TreeSet<IgnoreCaseString>();
@@ -77,6 +77,25 @@ public final class TagList implements ListChangeSupported, ListChangeListener, P
 	
 	public String[] getTags() {
 		return IgnoreCaseString.to(this.sortedTags.toArray(new IgnoreCaseString[0]));
+	}
+	
+	public void removeTag(String tag) {
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		
+		for (Task task : tasks) {
+			String[] tags = task.getTags();
+			
+			boolean removed = false;
+			for (int i = 0; i < tags.length; i++) {
+				if (tags[i].equalsIgnoreCase(tag)) {
+					removed = true;
+					tags[i] = null;
+				}
+			}
+			
+			if (removed)
+				task.setTags(tags);
+		}
 	}
 	
 	private void initialize() {
