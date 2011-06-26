@@ -32,22 +32,27 @@
  */
 package com.leclercb.taskunifier.gui.api.searchers;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Cloneable, PropertyChangeSupported {
+public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Cloneable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
 	
 	public static final String PROP_TYPE = "type";
 	public static final String PROP_ORDER = "order";
@@ -183,8 +188,18 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	
 	public void setFilter(TaskFilter filter) {
 		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		
+		if (this.filter != null) {
+			this.filter.removeListChangeListener(this);
+			this.filter.removePropertyChangeListener(this);
+		}
+		
 		TaskFilter oldFilter = this.filter;
 		this.filter = filter;
+		
+		this.filter.addListChangeListener(this);
+		this.filter.addPropertyChangeListener(this);
+		
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_FILTER,
 				oldFilter,
@@ -197,8 +212,18 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	
 	public void setSorter(TaskSorter sorter) {
 		CheckUtils.isNotNull(sorter, "Sorter cannot be null");
+		
+		if (this.sorter != null) {
+			this.sorter.removeListChangeListener(this);
+			this.sorter.removePropertyChangeListener(this);
+		}
+		
 		TaskSorter oldSorter = this.sorter;
 		this.sorter = sorter;
+		
+		this.sorter.addListChangeListener(this);
+		this.sorter.addPropertyChangeListener(this);
+		
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_SORTER,
 				oldSorter,
@@ -271,6 +296,32 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
+		this.fireChange(evt.getSource());
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		this.fireChange(evt.getSource());
+	}
+	
+	private void fireChange(Object source) {
+		if (source instanceof TaskFilter || source instanceof TaskFilterElement) {
+			this.propertyChangeSupport.firePropertyChange(
+					PROP_FILTER,
+					null,
+					this.filter);
+		}
+		
+		if (source instanceof TaskSorter || source instanceof TaskSorterElement) {
+			this.propertyChangeSupport.firePropertyChange(
+					PROP_SORTER,
+					null,
+					this.sorter);
+		}
 	}
 	
 }

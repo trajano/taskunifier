@@ -37,7 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.SortOrder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -51,10 +50,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.api.templates.Template;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -117,21 +115,6 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				break;
 		}
 		
-		TaskSorter sorter = new TaskSorter();
-		
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				2,
-				TaskColumn.PRIORITY,
-				SortOrder.DESCENDING));
-		sorter.addElement(new TaskSorterElement(
-				3,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		TaskFilter filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
 				column,
@@ -149,7 +132,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				title,
 				null,
 				filter,
-				sorter,
+				Constants.getDefaultSorter(),
 				template);
 		
 		if (model != null) {

@@ -68,6 +68,10 @@ public class TaskSorterPanel extends JPanel {
 		this.initialize();
 	}
 	
+	public TaskSorter getSorter() {
+		return this.sorter;
+	}
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		

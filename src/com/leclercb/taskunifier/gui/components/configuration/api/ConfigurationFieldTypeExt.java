@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.api;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -66,11 +65,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, ValueType> extends ConfigurationFieldType<ComponentType, ValueType> {
 	
-	public static class Panel extends JPanel implements ConfigurationFieldTypeExt<JPanel, Void> {
+	public static class Panel implements ConfigurationFieldTypeExt<JPanel, Void> {
+		
+		private JPanel panel;
 		
 		public Panel(JPanel panel) {
-			this.setLayout(new BorderLayout());
-			this.add(panel, BorderLayout.CENTER);
+			this.panel = panel;
 		}
 		
 		@Override
@@ -80,7 +80,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 		@Override
 		public JPanel getFieldComponent() {
-			return this;
+			return this.panel;
 		}
 		
 		@Override

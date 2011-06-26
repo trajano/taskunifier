@@ -126,7 +126,7 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	}
 	
 	private void initializeDefaultSearcher() {
-		this.defaultSearcher = new SearcherItem(Constants.DEFAULT_SEARCHER);
+		this.defaultSearcher = new SearcherItem(Constants.getDefaultSearcher());
 		((DefaultMutableTreeNode) this.getRoot()).add(this.defaultSearcher);
 	}
 	
