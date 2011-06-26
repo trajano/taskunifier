@@ -75,6 +75,7 @@ public class ConfigurationDialog extends JDialog {
 		GENERAL,
 		PROXY,
 		COLUMNS,
+		SEARCHER,
 		THEME,
 		PRIORITY,
 		IMPORTANCE,
@@ -88,6 +89,7 @@ public class ConfigurationDialog extends JDialog {
 	private ConfigurationPanelExt generalConfigurationPanel;
 	private ConfigurationPanelExt proxyConfigurationPanel;
 	private ConfigurationPanelExt columnsConfigurationPanel;
+	private ConfigurationPanelExt searcherConfigurationPanel;
 	private ConfigurationPanelExt themeConfigurationPanel;
 	private ConfigurationPanelExt priorityConfigurationPanel;
 	private ConfigurationPanelExt importanceConfigurationPanel;
@@ -113,20 +115,23 @@ public class ConfigurationDialog extends JDialog {
 			case COLUMNS:
 				this.tabbedPane.setSelectedIndex(2);
 				break;
-			case THEME:
+			case SEARCHER:
 				this.tabbedPane.setSelectedIndex(3);
 				break;
-			case PRIORITY:
+			case THEME:
 				this.tabbedPane.setSelectedIndex(4);
 				break;
-			case IMPORTANCE:
+			case PRIORITY:
 				this.tabbedPane.setSelectedIndex(5);
 				break;
-			case SYNCHRONIZATION:
+			case IMPORTANCE:
 				this.tabbedPane.setSelectedIndex(6);
 				break;
-			case PLUGIN:
+			case SYNCHRONIZATION:
 				this.tabbedPane.setSelectedIndex(7);
+				break;
+			case PLUGIN:
+				this.tabbedPane.setSelectedIndex(8);
 				break;
 		}
 	}
@@ -155,6 +160,7 @@ public class ConfigurationDialog extends JDialog {
 		this.initializeGeneralPanel();
 		this.initializeProxyPanel();
 		this.initializeColumnsPanel();
+		this.initializeSearcherPanel();
 		this.initializeThemePanel();
 		this.initializePriorityPanel();
 		this.initializeImportancePanel();
@@ -185,10 +191,13 @@ public class ConfigurationDialog extends JDialog {
 				
 				if (event.getActionCommand() == "CANCEL") {
 					ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
+					
 					ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
+					
 					ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
+					ConfigurationDialog.this.searcherConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.priorityConfigurationPanel.cancelConfig();
 					ConfigurationDialog.this.importanceConfigurationPanel.cancelConfig();
@@ -242,6 +251,15 @@ public class ConfigurationDialog extends JDialog {
 				Translations.getString("configuration.tab.columns"),
 				ComponentFactory.createJScrollPane(
 						this.columnsConfigurationPanel,
+						false));
+	}
+	
+	private void initializeSearcherPanel() {
+		this.searcherConfigurationPanel = new SearcherConfigurationPanel();
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.searcher"),
+				ComponentFactory.createJScrollPane(
+						this.searcherConfigurationPanel,
 						false));
 	}
 	
@@ -301,6 +319,7 @@ public class ConfigurationDialog extends JDialog {
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
+			this.searcherConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.priorityConfigurationPanel.saveAndApplyConfig();
 			this.importanceConfigurationPanel.saveAndApplyConfig();

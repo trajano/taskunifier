@@ -141,6 +141,8 @@ public class Main {
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
 			
+			Constants.initialize();
+			
 			AFTER_START.fireActionPerformed(0, "AFTER_START");
 		} catch (Exception e) {
 			e.printStackTrace();

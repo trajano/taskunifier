@@ -32,6 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.constants;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SortOrder;
 import javax.swing.undo.UndoableEditSupport;
 
@@ -44,6 +47,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -52,7 +56,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public final class Constants {
 	
 	private Constants() {
-
+		
 	}
 	
 	public static final String TITLE = "TaskUnifier";
@@ -69,7 +73,8 @@ public final class Constants {
 	public static final String BUG_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	public static final String FEATURE_REQUEST_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	
-	public static final TaskSearcher DEFAULT_SEARCHER;
+	public static TaskSorter DEFAULT_SORTER;
+	public static TaskSearcher DEFAULT_SEARCHER;
 	
 	public static final ProgressMonitor PROGRESS_MONITOR = new ProgressMonitor();
 	
@@ -78,31 +83,38 @@ public final class Constants {
 	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
 	
-	static {
+	public static void initialize() {
 		UNDO_EDIT_SUPPORT.addUndoableEditListener(UNDO_MANAGER);
 		
-		TaskSorter sorter = new TaskSorter();
-		
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				2,
-				TaskColumn.PRIORITY,
-				SortOrder.DESCENDING));
-		sorter.addElement(new TaskSorterElement(
-				3,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
-		DEFAULT_SEARCHER = new TaskSearcher(
-				TaskSearcherType.DEFAULT,
-				0,
-				Translations.getString("searcherlist.general.all_tasks"),
-				Images.getResourceFile("document.png"),
-				new TaskFilter(),
-				sorter.clone());
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DEFAULT_SORTER = new TaskSorter();
+				
+				DEFAULT_SORTER.addElement(new TaskSorterElement(
+						1,
+						TaskColumn.DUE_DATE,
+						SortOrder.ASCENDING));
+				DEFAULT_SORTER.addElement(new TaskSorterElement(
+						2,
+						TaskColumn.PRIORITY,
+						SortOrder.DESCENDING));
+				DEFAULT_SORTER.addElement(new TaskSorterElement(
+						3,
+						TaskColumn.TITLE,
+						SortOrder.ASCENDING));
+				
+				DEFAULT_SEARCHER = new TaskSearcher(
+						TaskSearcherType.DEFAULT,
+						0,
+						Translations.getString("searcherlist.general.all_tasks"),
+						Images.getResourceFile("document.png"),
+						new TaskFilter(),
+						DEFAULT_SORTER);
+			}
+			
+		});
 	}
 	
 }
