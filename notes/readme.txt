@@ -5,6 +5,7 @@ Version 0.9.9
 	- Major:
 		- Manage tags
 		- New tag searcher category
+		- Change sort order of the special categories
 	- Minor:
 		- Bug fixed: Save note
 		- BF 3325072: Urls in notes
