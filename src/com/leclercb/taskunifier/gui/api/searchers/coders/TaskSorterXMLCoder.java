@@ -61,8 +61,7 @@ public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 	}
 	
 	@Override
-	protected void encode(Document document, Element root, TaskSorter sorter)
-			throws FactoryCoderException {
+	protected void encode(Document document, Element root, TaskSorter sorter) {
 		for (TaskSorterElement e : sorter.getElements()) {
 			Element element = document.createElement("element");
 			root.appendChild(element);
