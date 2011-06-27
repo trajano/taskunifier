@@ -21,7 +21,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/TaskUnifierGui/doc/swingx-1.6.2-javadoc.zip!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/commons.jar"/>
 	<classpathentry kind="lib" path="lib/taskunifierapi.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Commons"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
