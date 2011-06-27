@@ -120,8 +120,13 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (ModelNotePanel.this.htmlNote.isEnabled()) {
-					((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
+				if (ModelNotePanel.this.previousSelectedModel != null) {
+					if (ModelNotePanel.this.htmlNote.isEnabled()) {
+						String note = ModelNotePanel.this.previousSelectedModel.getNote();
+						ModelNotePanel.this.textNote.setText(note);
+						ModelNotePanel.this.textNote.setCaretPosition(0);
+						((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
+					}
 				}
 			}
 			
@@ -234,8 +239,6 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			this.previousSelectedModel = null;
 			
 			this.htmlNote.setText(Translations.getString("error.select_one_row"));
-			this.textNote.setText(null);
-			this.textNote.setCaretPosition(0);
 			
 			this.htmlNote.setEnabled(false);
 			this.editAction.setEnabled(false);
@@ -248,8 +251,6 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			String note = this.previousSelectedModel.getNote();
 			
 			this.htmlNote.setText(this.convertTextNoteToHtml(note));
-			this.textNote.setText(note);
-			this.textNote.setCaretPosition(0);
 			
 			this.htmlNote.setEnabled(true);
 			this.editAction.setEnabled(true);
