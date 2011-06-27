@@ -104,7 +104,8 @@ public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 		@Override
 		public void setItem(Object anObject) {
 			if (anObject instanceof IgnoreCaseString) {
-				this.editor.setText(this.editor.getText() + ", " + anObject);
+				String s = (this.editor.getText().length() == 0 ? "" : ", ");
+				this.editor.setText(this.editor.getText() + s + anObject);
 				TagsEditor.this.comboBox.setSelectedItem(this.editor.getText());
 			} else {
 				super.setItem(anObject);
