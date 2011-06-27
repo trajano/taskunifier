@@ -24,14 +24,9 @@ public class ChoiceFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getEnumProperty(
+		return Main.SETTINGS.getEnumProperty(
 				"synchronizer.choice",
-				SynchronizerChoice.class) != null)
-			return Main.SETTINGS.getEnumProperty(
-					"synchronizer.choice",
-					SynchronizerChoice.class);
-		else
-			return SynchronizerChoice.KEEP_LAST_UPDATED;
+				SynchronizerChoice.class);
 	}
 	
 	@Override

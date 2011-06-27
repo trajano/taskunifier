@@ -22,10 +22,7 @@ public class LookAndFeelFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("theme.lookandfeel") != null)
-			return LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
-		else
-			return null;
+		return LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
 	}
 	
 	@Override

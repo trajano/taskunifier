@@ -13,10 +13,7 @@ public class SyncAtStartFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_start") != null)
-			return Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
 	}
 	
 	@Override

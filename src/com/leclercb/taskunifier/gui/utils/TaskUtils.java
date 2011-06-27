@@ -130,8 +130,7 @@ public final class TaskUtils {
 				return false;
 		}
 		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null
-				&& !Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
+		if (!Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
 			if (task.isCompleted() && !containsCompletedTrue)
 				return false;
 		}

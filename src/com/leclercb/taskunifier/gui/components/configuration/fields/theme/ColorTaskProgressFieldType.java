@@ -15,10 +15,7 @@ public class ColorTaskProgressFieldType extends ConfigurationFieldTypeExt.ColorC
 	
 	@Override
 	public Color getPropertyValue() {
-		if (Main.SETTINGS.getColorProperty("theme.color.progress") != null)
-			return Main.SETTINGS.getColorProperty("theme.color.progress");
-		else
-			return Color.WHITE;
+		return Main.SETTINGS.getColorProperty("theme.color.progress");
 	}
 	
 	@Override

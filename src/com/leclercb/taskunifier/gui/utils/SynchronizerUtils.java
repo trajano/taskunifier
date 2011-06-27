@@ -102,9 +102,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void initializeProxy() {
-		Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-		
-		if (proxyEnabled != null && proxyEnabled) {
+		if (Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
 			String host = Main.SETTINGS.getStringProperty("proxy.host");
 			Integer port = Main.SETTINGS.getIntegerProperty("proxy.port");
 			String login = Main.SETTINGS.getStringProperty("proxy.login");
@@ -127,10 +125,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void removeOldCompletedTasks() {
-		Integer keep = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
-		
-		if (keep == null)
-			return;
+		int keep = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
 		
 		Calendar completedAfter = Calendar.getInstance();
 		completedAfter.add(Calendar.DAY_OF_MONTH, -keep);

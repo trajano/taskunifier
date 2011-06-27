@@ -107,8 +107,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public BadgeCount getBadgeCount() {
-		Boolean showBadges = Main.SETTINGS.getBooleanProperty("searcher.show_badges");
-		if (showBadges == null || !showBadges)
+		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges"))
 			return null;
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();

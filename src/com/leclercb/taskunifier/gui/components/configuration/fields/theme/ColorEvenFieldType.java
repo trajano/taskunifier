@@ -15,10 +15,7 @@ public class ColorEvenFieldType extends ConfigurationFieldTypeExt.ColorChooser {
 	
 	@Override
 	public Color getPropertyValue() {
-		if (Main.SETTINGS.getColorProperty("theme.color.even") != null)
-			return Main.SETTINGS.getColorProperty("theme.color.even");
-		else
-			return Color.WHITE;
+		return Main.SETTINGS.getColorProperty("theme.color.even");
 	}
 	
 	@Override

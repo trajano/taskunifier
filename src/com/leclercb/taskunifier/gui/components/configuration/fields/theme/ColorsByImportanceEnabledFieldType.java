@@ -13,10 +13,7 @@ public class ColorsByImportanceEnabledFieldType extends ConfigurationFieldTypeEx
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled") != null)
-			return Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("theme.color.importance.enabled");
 	}
 	
 	@Override

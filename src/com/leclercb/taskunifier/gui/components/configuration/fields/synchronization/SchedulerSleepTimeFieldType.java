@@ -24,10 +24,7 @@ public class SchedulerSleepTimeFieldType extends ConfigurationFieldTypeExt.Spinn
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") != null)
-			return (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
-		else
-			return 600;
+		return (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
 	}
 	
 	@Override

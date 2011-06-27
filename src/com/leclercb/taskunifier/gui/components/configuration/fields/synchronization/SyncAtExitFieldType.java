@@ -13,10 +13,7 @@ public class SyncAtExitFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit") != null)
-			return Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 	}
 	
 	@Override

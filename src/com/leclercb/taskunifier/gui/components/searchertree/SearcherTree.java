@@ -258,15 +258,12 @@ public class SearcherTree extends JTree implements SearcherView, SavePropertiesL
 	}
 	
 	private void updateExpandedState() {
-		Boolean expanded;
-		
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
 			if (category.getExpandedPropetyName() != null) {
-				expanded = Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName());
 				this.setExpandedState(
 						TreeUtils.getPath(category),
-						(expanded != null && expanded));
+						Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName()));
 			}
 		}
 	}

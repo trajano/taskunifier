@@ -13,10 +13,7 @@ public class UseDueTimeFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("date.use_due_time") != null)
-			return Main.SETTINGS.getBooleanProperty("date.use_due_time");
-		else
-			return true;
+		return Main.SETTINGS.getBooleanProperty("date.use_due_time");
 	}
 	
 	@Override

@@ -13,10 +13,7 @@ public class ProxyEnabledFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("proxy.enabled") != null)
-			return Main.SETTINGS.getBooleanProperty("proxy.enabled");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("proxy.enabled");
 	}
 	
 	@Override

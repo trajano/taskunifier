@@ -22,10 +22,7 @@ public class ColorPriorityFieldType extends ConfigurationFieldTypeExt.ColorChoos
 	
 	@Override
 	public Color getPropertyValue() {
-		if (Main.SETTINGS.getColorProperty(this.key) != null)
-			return Main.SETTINGS.getColorProperty(this.key);
-		else
-			return Color.WHITE;
+		return Main.SETTINGS.getColorProperty(this.key);
 	}
 	
 	@Override

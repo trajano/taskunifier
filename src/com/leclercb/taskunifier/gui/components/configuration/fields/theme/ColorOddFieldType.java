@@ -15,10 +15,7 @@ public class ColorOddFieldType extends ConfigurationFieldTypeExt.ColorChooser {
 	
 	@Override
 	public Color getPropertyValue() {
-		if (Main.SETTINGS.getColorProperty("theme.color.odd") != null)
-			return Main.SETTINGS.getColorProperty("theme.color.odd");
-		else
-			return Color.WHITE;
+		return Main.SETTINGS.getColorProperty("theme.color.odd");
 	}
 	
 	@Override

@@ -13,10 +13,7 @@ public class MinimizeToSystemTrayFieldType extends ConfigurationFieldTypeExt.Che
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray") != null)
-			return Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray");
 	}
 	
 	@Override

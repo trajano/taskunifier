@@ -214,8 +214,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.downloading_plugin")));
 			
-			Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-			if (proxyEnabled != null && proxyEnabled) {
+			if (Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
 				FileUtils.copyURLToFile(
 						new URL(plugin.getDownloadUrl()),
 						file,

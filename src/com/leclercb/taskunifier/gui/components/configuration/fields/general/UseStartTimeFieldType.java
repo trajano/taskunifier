@@ -13,10 +13,7 @@ public class UseStartTimeFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("date.use_start_time") != null)
-			return Main.SETTINGS.getBooleanProperty("date.use_start_time");
-		else
-			return true;
+		return Main.SETTINGS.getBooleanProperty("date.use_start_time");
 	}
 	
 	@Override

@@ -13,10 +13,7 @@ public class ColorsEnabledFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled") != null)
-			return Main.SETTINGS.getBooleanProperty("theme.color.enabled");
-		else
-			return true;
+		return Main.SETTINGS.getBooleanProperty("theme.color.enabled");
 	}
 	
 	@Override

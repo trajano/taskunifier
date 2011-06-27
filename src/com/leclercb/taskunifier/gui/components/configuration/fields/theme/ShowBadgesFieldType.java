@@ -13,10 +13,7 @@ public class ShowBadgesFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_badges") != null)
-			return Main.SETTINGS.getBooleanProperty("searcher.show_badges");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("searcher.show_badges");
 	}
 	
 	@Override

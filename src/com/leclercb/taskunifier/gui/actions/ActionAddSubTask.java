@@ -133,8 +133,7 @@ public class ActionAddSubTask extends AbstractAction {
 		
 		MainFrame.getInstance().getTaskView().refreshTasks();
 		
-		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null
-				&& Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 			if (!ActionEditTask.editTask(task, true))
 				TaskFactory.getInstance().markDeleted(task);
 		} else {

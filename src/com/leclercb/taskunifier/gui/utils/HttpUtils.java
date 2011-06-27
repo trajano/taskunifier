@@ -42,8 +42,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class HttpUtils {
 	
 	public static HttpResponse getHttpGetResponse(URI uri) throws Exception {
-		Boolean proxyEnabled = Main.SETTINGS.getBooleanProperty("proxy.enabled");
-		if (proxyEnabled != null && proxyEnabled) {
+		if (Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
 			return com.leclercb.commons.api.utils.HttpUtils.getHttpGetResponse(
 					uri,
 					Main.SETTINGS.getStringProperty("proxy.host"),

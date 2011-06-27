@@ -151,10 +151,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 	}
 	
 	private void resetColors() {
-		if (Main.SETTINGS.getColorProperty("theme.color.progress") != null)
-			this.progressColor = Main.SETTINGS.getColorProperty("theme.color.progress");
-		else
-			this.progressColor = Color.WHITE;
+		this.progressColor = Main.SETTINGS.getColorProperty("theme.color.progress");
 	}
 	
 }

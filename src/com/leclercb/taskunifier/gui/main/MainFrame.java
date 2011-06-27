@@ -254,35 +254,23 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void loadWindowSizeSettings() {
-		Integer extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
-		Integer width = Main.SETTINGS.getIntegerProperty("window.width");
-		Integer height = Main.SETTINGS.getIntegerProperty("window.height");
-		Integer locationX = Main.SETTINGS.getIntegerProperty("window.location_x");
-		Integer locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
+		int extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
+		int width = Main.SETTINGS.getIntegerProperty("window.width");
+		int height = Main.SETTINGS.getIntegerProperty("window.height");
+		int locationX = Main.SETTINGS.getIntegerProperty("window.location_x");
+		int locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
 		
-		if (width == null || height == null || extendedState == null) {
-			this.setSize(640, 480);
-			this.setExtendedState(this.getExtendedState()
-					| Frame.MAXIMIZED_BOTH);
-		} else {
-			this.setSize(width, height);
-			this.setExtendedState(extendedState);
-		}
-		
-		if (locationX != null && locationY != null) {
-			this.setLocation(locationX, locationY);
-		}
+		this.setSize(width, height);
+		this.setExtendedState(extendedState);
+		this.setLocation(locationX, locationY);
 	}
 	
 	private void loadSplitPaneSettings() {
-		Integer hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
-		Integer vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
+		int hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
+		int vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
 		
-		if (hSplit != null)
-			this.horizontalSplitPane.setDividerLocation(hSplit);
-		
-		if (vSplit != null)
-			this.verticalSplitPane.setDividerLocation(vSplit);
+		this.horizontalSplitPane.setDividerLocation(hSplit);
+		this.verticalSplitPane.setDividerLocation(vSplit);
 	}
 	
 	@Override
@@ -363,8 +351,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
 				10.0f));
 		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks") != null)
-			this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"));
+		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks"));
 		
 		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
 			
@@ -490,7 +477,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeSystemTray() {
 		if (SystemTray.isSupported()
-				&& Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray") != null
 				&& Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray")) {
 			final SystemTray tray = SystemTray.getSystemTray();
 			final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(

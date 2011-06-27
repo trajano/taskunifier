@@ -13,10 +13,7 @@ public class ShowCompletedTasksAtTheEndFieldType extends ConfigurationFieldTypeE
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end") != null)
-			return Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end");
 	}
 	
 	@Override

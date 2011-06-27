@@ -25,10 +25,7 @@ public class DateFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getSimpleDateFormatProperty("date.date_format") != null)
-			return Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
-		else
-			return new SimpleDateFormat("dd/MM/yyyy");
+		return Main.SETTINGS.getSimpleDateFormatProperty("date.date_format");
 	}
 	
 	@Override

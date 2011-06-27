@@ -13,10 +13,7 @@ public class ShowWindowEditOnAddFieldType extends ConfigurationFieldTypeExt.Chec
 	
 	@Override
 	public Boolean getPropertyValue() {
-		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add") != null)
-			return Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add");
-		else
-			return false;
+		return Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add");
 	}
 	
 	@Override

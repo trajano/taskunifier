@@ -19,10 +19,7 @@ public class KeepTasksForFieldType extends ConfigurationFieldTypeExt.FormattedTe
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days") != null)
-			return Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
-		else
-			return "14";
+		return Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
 	}
 	
 	@Override

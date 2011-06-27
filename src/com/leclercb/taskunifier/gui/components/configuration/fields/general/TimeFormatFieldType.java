@@ -25,10 +25,7 @@ public class TimeFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		if (Main.SETTINGS.getSimpleDateFormatProperty("date.time_format") != null)
-			return Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
-		else
-			return new SimpleDateFormat("HH:mm");
+		return Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
 	}
 	
 	@Override
