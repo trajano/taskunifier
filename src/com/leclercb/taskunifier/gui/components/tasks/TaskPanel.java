@@ -131,6 +131,12 @@ public class TaskPanel extends JPanel implements TaskView {
 	}
 	
 	@Override
+	public void commitChanges() {
+		if (this.taskTable.getCellEditor() != null)
+			this.taskTable.getCellEditor().stopCellEditing();
+	}
+	
+	@Override
 	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
 		this.modelSelectionChangeSupport.addModelSelectionChangeListener(listener);
 	}

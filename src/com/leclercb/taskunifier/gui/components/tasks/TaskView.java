@@ -52,4 +52,6 @@ public interface TaskView extends ModelSelectionChangeSupported, TaskSearcherSel
 	
 	public abstract void pasteTask();
 	
+	public abstract void commitChanges();
+	
 }

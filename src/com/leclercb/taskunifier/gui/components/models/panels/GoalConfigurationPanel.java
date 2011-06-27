@@ -186,6 +186,12 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				Goal goal = (Goal) GoalConfigurationPanel.this.modelList.getSelectedModel();
+				
+				if (goal == null) {
+					goalContributes.setEnabled(false);
+					return;
+				}
+				
 				goalContributes.setEnabled(!goal.getLevel().equals(
 						GoalLevel.LIFE_TIME));
 			}

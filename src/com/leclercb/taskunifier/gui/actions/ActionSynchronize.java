@@ -88,6 +88,8 @@ public class ActionSynchronize extends AbstractAction {
 			return;
 		}
 		
+		MainFrame.getInstance().getTaskView().commitChanges();
+		
 		if (background) {
 			BackgroundSynchronizer.synchronize();
 		} else {
