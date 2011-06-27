@@ -475,7 +475,7 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.setStringProperty(
 				"searcher.category.tag.expanded",
-				"false");
+				"true");
 		
 		return "0.9.9";
 	}
