@@ -304,7 +304,11 @@ public class Main {
 	
 	private static void loadSettings() throws Exception {
 		try {
-			SETTINGS = new PropertiesConfiguration(new Properties());
+			Properties defaultProperties = new Properties();
+			defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
+			
+			SETTINGS = new PropertiesConfiguration(new Properties(
+					defaultProperties));
 			
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
