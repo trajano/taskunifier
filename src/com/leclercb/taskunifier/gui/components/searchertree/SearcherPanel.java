@@ -57,6 +57,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
@@ -70,6 +71,7 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
@@ -289,8 +291,10 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 	}
 	
 	private void openManageModels(ModelItem item) {
-		if (item.getModel() == null)
+		if (item.getModel() == null) {
+			ActionConfiguration.configuration(ConfigurationPanel.SEARCHER);
 			return;
+		}
 		
 		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedModel(item.getModelType(), item.getModel());
