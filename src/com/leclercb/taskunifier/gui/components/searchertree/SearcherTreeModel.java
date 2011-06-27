@@ -72,6 +72,7 @@ import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -108,6 +109,17 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 		
 		TaskSearcherFactory.getInstance().addListChangeListener(this);
 		TaskSearcherFactory.getInstance().addPropertyChangeListener(this);
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"searcher.show_completed_tasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						SearcherTreeModel.this.updateBadges();
+					}
+					
+				});
 	}
 	
 	public SearcherItem getDefaultSearcher() {
