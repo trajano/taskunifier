@@ -78,8 +78,12 @@ public class ColorBadgeIcon implements Icon {
 		g2.setRenderingHint(
 				RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		g2.setColor(this.color);
 		g2.fillOval(x, y, this.width, this.height);
+		
+		g2.setColor(Color.GRAY);
+		g2.drawOval(x, y, this.width, this.height);
 	}
 	
 }
