@@ -11,6 +11,7 @@ Version 0.9.9
 		- BF 3325072: Urls in notes
 		- FR 3312536: Dropdown list for editing tags
 		- BF 3312532: Truncated edit task window
+		- Copy paste to HTML/Excel/...
 
 Version 0.9.8
 	- Minor:

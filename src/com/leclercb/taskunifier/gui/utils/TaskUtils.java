@@ -41,6 +41,17 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskProgress;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -53,21 +64,118 @@ public final class TaskUtils {
 	}
 	
 	public static String toHtml(Task[] tasks, TaskColumn[] columns) {
+		CheckUtils.isNotNull(tasks, "Tasks cannot be null");
+		CheckUtils.isNotNull(columns, "Columns cannot be null");
+		
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append("<table>");
 		
+		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
+		
+		buffer.append("<tr>");
+		
+		for (TaskColumn column : columns) {
+			buffer.append("<td>" + column.getLabel() + "</td>");
+		}
+		
+		buffer.append("</tr>");
+		
 		for (Task task : tasks) {
+			if (task == null)
+				continue;
+			
 			buffer.append("<tr>");
+			
 			for (TaskColumn column : columns) {
-				buffer.append("<td>");
+				if (column == null)
+					continue;
+				
+				String content = null;
+				Object value = column.getValue(task);
 				switch (column) {
 					case COMPLETED:
+						content = StringValueBoolean.INSTANCE.getString(value);
+						break;
+					case COMPLETED_ON:
+						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+						break;
+					case CONTEXT:
+					case FOLDER:
+					case GOAL:
+					case LOCATION:
+					case PARENT:
+						content = StringValueModel.INSTANCE.getString(value);
+						break;
+					case DUE_DATE:
+						if (useDueTime)
+							content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+						else
+							content = StringValueCalendar.INSTANCE_DATE.getString(value);
+						break;
+					case IMPORTANCE:
+						content = (value == null ? null : value.toString());
+						break;
+					case LENGTH:
+						content = StringValueTaskLength.INSTANCE.getString(value);
+						break;
+					case MODEL:
+						content = StringValueModelId.INSTANCE.getString(value);
+						break;
+					case NOTE:
+						content = (value == null ? null : value.toString());
+						break;
+					case PRIORITY:
+						content = StringValueTaskPriority.INSTANCE.getString(value);
+						break;
+					case PROGRESS:
+						content = StringValueTaskProgress.INSTANCE.getString(value);
+						break;
+					case REMINDER:
+						content = StringValueTaskReminder.INSTANCE.getString(value);
+						break;
+					case REPEAT:
+						content = StringValueTaskRepeat.INSTANCE.getString(value);
+						break;
+					case REPEAT_FROM:
+						content = StringValueTaskRepeatFrom.INSTANCE.getString(value);
+						break;
+					case SHOW_CHILDREN:
+						content = StringValueBoolean.INSTANCE.getString(value);
+						break;
+					case STAR:
+						content = StringValueBoolean.INSTANCE.getString(value);
+						break;
+					case START_DATE:
+						if (useStartTime)
+							content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+						else
+							content = StringValueCalendar.INSTANCE_DATE.getString(value);
+						break;
+					case STATUS:
+						content = StringValueTaskStatus.INSTANCE.getString(value);
+						break;
+					case TAGS:
+						content = (value == null ? null : value.toString());
+						break;
+					case TITLE:
+						content = (value == null ? null : value.toString());
+						break;
 				}
-				buffer.append("</td>");
+				
+				if (content == null)
+					content = "";
+				
+				buffer.append("<td>" + content + "</td>");
 			}
+			
 			buffer.append("</tr>");
 		}
+		
+		buffer.append("</table>");
+		
+		return buffer.toString();
 	}
 	
 	public static int getImportance(Task task) {

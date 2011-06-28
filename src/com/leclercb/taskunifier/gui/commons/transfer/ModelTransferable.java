@@ -33,46 +33,50 @@
 package com.leclercb.taskunifier.gui.commons.transfer;
 
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
-import com.leclercb.commons.api.utils.CheckUtils;
+import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
+
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ModelTransferable implements Transferable {
+public class ModelTransferable extends BasicTransferable {
 	
 	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(
 			ModelTransferData.class,
 			"MODEL_FLAVOR");
-	public static final DataFlavor[] FLAVORS = { MODEL_FLAVOR };
-	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
 	private ModelTransferData data;
 	
 	public ModelTransferable(ModelTransferData data) {
-		CheckUtils.isNotNull(data, "Data cannot be null");
-		
+		super(data.getPlainData(), data.getHtmlData());
 		this.data = data;
 	}
 	
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-		return FLAVORS;
+		return ArrayUtils.concat(
+				new DataFlavor[] { MODEL_FLAVOR },
+				super.getTransferDataFlavors());
 	}
 	
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		return FLAVOR_LIST.contains(flavor);
+		if (MODEL_FLAVOR.equals(flavor))
+			return true;
+		
+		return super.isDataFlavorSupported(flavor);
 	}
 	
 	@Override
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
-		return this.data;
+		if (MODEL_FLAVOR.equals(flavor))
+			return this.data;
+		
+		return super.getTransferData(flavor);
 	}
 	
 }

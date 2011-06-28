@@ -33,11 +33,17 @@
 package com.leclercb.taskunifier.gui.commons.transfer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -68,6 +74,27 @@ public class ModelTransferData implements Serializable {
 	
 	public ModelId[] getIds() {
 		return this.ids;
+	}
+	
+	public String getPlainData() {
+		return null;
+	}
+	
+	public String getHtmlData() {
+		if (this.type == ModelType.TASK) {
+			List<Task> tasks = new ArrayList<Task>();
+			for (ModelId id : this.ids) {
+				Task task = TaskFactory.getInstance().get(id);
+				if (task != null)
+					tasks.add(task);
+			}
+			
+			return TaskUtils.toHtml(
+					tasks.toArray(new Task[0]),
+					TaskColumn.values());
+		}
+		
+		return null;
 	}
 	
 }
