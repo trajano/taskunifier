@@ -135,16 +135,19 @@ public class SearcherTree extends JTree implements SearcherView, SavePropertiesL
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public void selectTaskSearcher(TaskSearcher searcher) {
 		TreeNode node = this.getSearcherModel().findItemFromSearcher(searcher);
 		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
+	@Override
 	public void selectModel(Model model) {
 		TreeNode node = this.getSearcherModel().findItemFromModel(model);
 		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
+	@Override
 	public void selectTag(String tag) {
 		TreeNode node = this.getSearcherModel().findItemFromTag(tag);
 		this.setSelectionPath(TreeUtils.getPath(node));

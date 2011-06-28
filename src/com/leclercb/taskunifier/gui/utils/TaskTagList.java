@@ -81,23 +81,27 @@ public final class TaskTagList implements ListChangeSupported, ListChangeListene
 		return IgnoreCaseString.to(this.sortedTags.toArray(new IgnoreCaseString[0]));
 	}
 	
-	public void removeTag(String tag) {
+	public void editTag(String tag, String newTag) {
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		
 		for (Task task : tasks) {
 			String[] tags = task.getTags();
 			
-			boolean removed = false;
+			boolean flag = false;
 			for (int i = 0; i < tags.length; i++) {
 				if (tags[i].equalsIgnoreCase(tag)) {
-					removed = true;
-					tags[i] = null;
+					flag = true;
+					tags[i] = newTag;
 				}
 			}
 			
-			if (removed)
+			if (flag)
 				task.setTags(tags);
 		}
+	}
+	
+	public void removeTag(String tag) {
+		this.editTag(tag, null);
 	}
 	
 	private void initialize() {

@@ -33,7 +33,10 @@
 package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -43,6 +46,8 @@ import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
 import com.leclercb.taskunifier.gui.components.models.lists.TagList;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.TaskTagList;
@@ -72,6 +77,8 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 		
 		// Initialize Fields
 		final JTextField tagTitle = new JTextField();
+		final JButton tagSave = new JButton(
+				Translations.getString("general.save"));
 		
 		// Set Disabled
 		tagTitle.setEnabled(false);
@@ -87,7 +94,8 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 			@Override
 			public void tagSelected(IgnoreCaseString tag) {
 				tagTitle.setText(tag != null ? tag.toString() : null);
-				// tagTitle.setEnabled(tag != null);
+				tagTitle.setEnabled(tag != null);
+				tagSave.setEnabled(tag != null);
 			}
 			
 		};
@@ -106,6 +114,23 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 		
 		// Tag Title
 		builder.appendI15d("general.task.tag", true, tagTitle);
+		
+		// Tag Save
+		tagSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				TaskTagList.getInstance().editTag(
+						TagConfigurationPanel.this.tagList.getSelectedTag().toString(),
+						tagTitle.getText());
+				
+				MainFrame.getInstance().getSearcherView().selectTag(
+						tagTitle.getText());
+			}
+			
+		});
+		
+		builder.appendI15d(" ", true, tagSave);
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);

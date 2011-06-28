@@ -123,6 +123,21 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 	}
 	
 	@Override
+	public void selectTaskSearcher(TaskSearcher searcher) {
+		this.searcherView.selectTaskSearcher(searcher);
+	}
+	
+	@Override
+	public void selectModel(Model model) {
+		this.searcherView.selectModel(model);
+	}
+	
+	@Override
+	public void selectTag(String tag) {
+		this.searcherView.selectTag(tag);
+	}
+	
+	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
 		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
 		
