@@ -41,9 +41,11 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskProgress implements StringValue {
 	
+	public static final StringValueTaskProgress INSTANCE = new StringValueTaskProgress();
+	
 	private DecimalFormat format;
 	
-	public StringValueTaskProgress() {
+	private StringValueTaskProgress() {
 		this.format = new DecimalFormat("##0.00%");
 	}
 	

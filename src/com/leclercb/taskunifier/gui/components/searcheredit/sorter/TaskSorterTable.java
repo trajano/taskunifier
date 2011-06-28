@@ -79,7 +79,8 @@ public class TaskSorterTable extends JTable {
 		JComboBox comboBox = null;
 		
 		comboBox = new JComboBox(SortOrder.values());
-		comboBox.setRenderer(new DefaultListRenderer(new StringValueSortOrder()));
+		comboBox.setRenderer(new DefaultListRenderer(
+				StringValueSortOrder.INSTANCE));
 		
 		SORT_ORDER_EDITOR = new DefaultCellEditor(comboBox);
 	}

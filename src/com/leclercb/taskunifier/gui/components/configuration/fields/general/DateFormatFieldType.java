@@ -20,7 +20,7 @@ public class DateFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 				"date.date_format");
 		
 		this.setRenderer(new DefaultListRenderer(
-				new StringValueSimpleDateFormat()));
+				StringValueSimpleDateFormat.INSTANCE));
 	}
 	
 	@Override

@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueGoalLevel implements StringValue {
 	
+	public static final StringValueGoalLevel INSTANCE = new StringValueGoalLevel();
+	
+	private StringValueGoalLevel() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof GoalLevel))

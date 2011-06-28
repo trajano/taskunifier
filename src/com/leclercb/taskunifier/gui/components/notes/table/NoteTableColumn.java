@@ -66,11 +66,12 @@ public class NoteTableColumn extends TableColumnExt {
 	private static final TableCellEditor GENERIC_EDITOR;
 	
 	static {
-		MODEL_ID_RENDERER = new DefaultTableRenderer(new StringValueModelId());
+		MODEL_ID_RENDERER = new DefaultTableRenderer(
+				StringValueModelId.INSTANCE);
 		
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
-				new StringValueModel(),
-				new IconValueModel()));
+				StringValueModel.INSTANCE,
+				IconValueModel.INSTANCE));
 		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
 				Translations.getString("note.default.title")));

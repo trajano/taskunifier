@@ -176,8 +176,8 @@ public final class ComponentFactory {
 			comboBox.setModel(model);
 		
 		comboBox.setRenderer(new DefaultListRenderer(
-				new StringValueModel(),
-				new IconValueModel()));
+				StringValueModel.INSTANCE,
+				IconValueModel.INSTANCE));
 		
 		return comboBox;
 	}

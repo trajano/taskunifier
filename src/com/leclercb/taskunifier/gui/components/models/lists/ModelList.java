@@ -91,8 +91,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.modelList.setModel(model);
 		this.modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.modelList.setCellRenderer(new DefaultListRenderer(
-				new StringValueModel(),
-				new IconValueModel()));
+				StringValueModel.INSTANCE,
+				IconValueModel.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
 		this.modelList.setComparator(new ModelComparator());

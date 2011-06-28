@@ -40,6 +40,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskReminder implements StringValue {
 	
+	public static final StringValueTaskReminder INSTANCE = new StringValueTaskReminder();
+	
+	private StringValueTaskReminder() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))

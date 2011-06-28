@@ -180,7 +180,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		builder.appendI15d("general.goal.level", true, goalLevel);
 		
 		goalLevel.setRenderer(new DefaultListRenderer(
-				new StringValueGoalLevel()));
+				StringValueGoalLevel.INSTANCE));
 		goalLevel.addItemListener(new ItemListener() {
 			
 			@Override

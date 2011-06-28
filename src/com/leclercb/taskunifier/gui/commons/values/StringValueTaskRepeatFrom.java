@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskRepeatFrom implements StringValue {
 	
+	public static final StringValueTaskRepeatFrom INSTANCE = new StringValueTaskRepeatFrom();
+	
+	private StringValueTaskRepeatFrom() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskRepeatFrom))

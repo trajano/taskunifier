@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskStatus implements StringValue {
 	
+	public static final StringValueTaskStatus INSTANCE = new StringValueTaskStatus();
+	
+	private StringValueTaskStatus() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof TaskStatus))

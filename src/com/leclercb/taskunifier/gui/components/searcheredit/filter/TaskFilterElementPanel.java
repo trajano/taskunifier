@@ -208,8 +208,8 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValue.setModel(new FolderModel(true));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueModel(),
-						new IconValueModel()));
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -218,8 +218,8 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValue.setModel(new ContextModel(true));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueModel(),
-						new IconValueModel()));
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -228,8 +228,8 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValue.setModel(new GoalModel(true));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueModel(),
-						new IconValueModel()));
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -238,8 +238,8 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValue.setModel(new LocationModel(true));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueModel(),
-						new IconValueModel()));
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -248,8 +248,8 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValue.setModel(new TaskModel(true));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueModel(),
-						new IconValueModel()));
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
 				break;
@@ -266,7 +266,7 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueBoolean()));
+						StringValueBoolean.INSTANCE));
 				this.elementValue.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
@@ -312,7 +312,7 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskRepeatFrom.values()));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueTaskRepeatFrom()));
+						StringValueTaskRepeatFrom.INSTANCE));
 				this.elementValue.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -322,7 +322,7 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskStatus.values()));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueTaskStatus()));
+						StringValueTaskStatus.INSTANCE));
 				this.elementValue.setSelectedItem(value == null ? TaskStatus.NONE : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -339,8 +339,8 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						TaskPriority.values()));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueTaskPriority(),
-						new IconValueTaskPriority()));
+						StringValueTaskPriority.INSTANCE,
+						IconValueTaskPriority.INSTANCE));
 				this.elementValue.setSelectedItem(value == null ? TaskPriority.LOW : value);
 				this.elementValue.setEditable(false);
 				break;
@@ -350,7 +350,7 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
 				this.elementValue.setRenderer(new DefaultListRenderer(
-						new StringValueBoolean()));
+						StringValueBoolean.INSTANCE));
 				this.elementValue.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
 				this.elementValue.setEditable(false);
@@ -416,7 +416,7 @@ public class TaskFilterElementPanel extends JPanel {
 		// Condition
 		this.elementCondition = new JComboBox();
 		this.elementCondition.setRenderer(new DefaultListRenderer(
-				new StringValueTaskFilterCondition()));
+				StringValueTaskFilterCondition.INSTANCE));
 		this.elementCondition.setEnabled(false);
 		
 		builder.append(this.elementCondition);

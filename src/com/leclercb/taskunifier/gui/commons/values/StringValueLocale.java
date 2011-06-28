@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueLocale implements StringValue {
 	
+	public static final StringValueLocale INSTANCE = new StringValueLocale();
+	
+	private StringValueLocale() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Locale))

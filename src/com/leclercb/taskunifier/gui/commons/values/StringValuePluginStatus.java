@@ -40,6 +40,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValuePluginStatus implements StringValue {
 	
+	public static final StringValuePluginStatus INSTANCE = new StringValuePluginStatus();
+	
+	private StringValuePluginStatus() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof PluginStatus))

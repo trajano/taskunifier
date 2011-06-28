@@ -279,7 +279,7 @@ public class TaskEditPanel extends JPanel {
 		builder.appendI15d("general.task.reminder", true, this.taskReminder);
 		
 		this.taskReminder.setRenderer(new DefaultListRenderer(
-				new StringValueTaskReminder()));
+				StringValueTaskReminder.INSTANCE));
 		this.taskReminder.setEditable(true);
 		
 		// Task Length
@@ -297,20 +297,20 @@ public class TaskEditPanel extends JPanel {
 				this.taskRepeatFrom);
 		
 		this.taskRepeatFrom.setRenderer(new DefaultListRenderer(
-				new StringValueTaskRepeatFrom()));
+				StringValueTaskRepeatFrom.INSTANCE));
 		
 		// Task Status
 		builder.appendI15d("general.task.status", true, this.taskStatus);
 		
 		this.taskStatus.setRenderer(new DefaultListRenderer(
-				new StringValueTaskStatus()));
+				StringValueTaskStatus.INSTANCE));
 		
 		// Task Priority
 		builder.appendI15d("general.task.priority", true, this.taskPriority);
 		
 		this.taskPriority.setRenderer(new DefaultListRenderer(
-				new StringValueTaskPriority(),
-				new IconValueTaskPriority()));
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
 		
 		// Task Note
 		this.taskNote.setLineWrap(true);

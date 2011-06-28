@@ -126,7 +126,7 @@ public class BatchAddTaskDialog extends JDialog {
 		this.templateComboBox = new JComboBox();
 		this.templateComboBox.setModel(new TemplateModel(true));
 		this.templateComboBox.setRenderer(new DefaultListRenderer(
-				new StringValueTemplateTitle()));
+				StringValueTemplateTitle.INSTANCE));
 		
 		templatePanel.add(new JLabel(Translations.getString("general.template")
 				+ ": "), BorderLayout.WEST);

@@ -42,6 +42,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueSimpleDateFormat implements StringValue {
 	
+	public static final StringValueSimpleDateFormat INSTANCE = new StringValueSimpleDateFormat();
+	
+	private StringValueSimpleDateFormat() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SimpleDateFormat))

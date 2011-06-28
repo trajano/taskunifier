@@ -23,7 +23,7 @@ public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		
 		this.languageOnly = languageOnly;
 		
-		this.setRenderer(new DefaultListRenderer(new StringValueLocale()));
+		this.setRenderer(new DefaultListRenderer(StringValueLocale.INSTANCE));
 	}
 	
 	@Override

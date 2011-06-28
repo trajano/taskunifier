@@ -20,8 +20,8 @@ public class PriorityEditor extends ComboBoxCellEditor {
 		
 		comboBox.setModel(new TaskPriorityModel(false));
 		comboBox.setRenderer(new DefaultListRenderer(
-				new StringValueTaskPriority(),
-				new IconValueTaskPriority()));
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
 	}
 	
 }

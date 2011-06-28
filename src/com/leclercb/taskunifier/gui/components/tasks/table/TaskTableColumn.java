@@ -122,51 +122,54 @@ public class TaskTableColumn extends TableColumnExt {
 	static {
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				new IconValueCompleted(),
-				new BooleanValueBoolean()), SwingConstants.CENTER);
+				IconValueCompleted.INSTANCE,
+				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		
 		COMPLETED_ON_RENDERER = new DefaultTableRenderer(
-				new StringValueCalendar(true));
+				StringValueCalendar.INSTANCE_DATE_TIME);
 		
-		DUE_DATE_RENDERER = new DefaultTableRenderer(new StringValueCalendar(
-				Main.SETTINGS.getBooleanProperty("date.use_due_time")));
+		DUE_DATE_RENDERER = new DefaultTableRenderer(
+				(Main.SETTINGS.getBooleanProperty("date.use_due_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
 		
-		LENGTH_RENDERER = new DefaultTableRenderer(new StringValueTaskLength());
+		LENGTH_RENDERER = new DefaultTableRenderer(
+				StringValueTaskLength.INSTANCE);
 		
-		MODEL_ID_RENDERER = new DefaultTableRenderer(new StringValueModelId());
+		MODEL_ID_RENDERER = new DefaultTableRenderer(
+				StringValueModelId.INSTANCE);
 		
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
-				new StringValueModel(),
-				new IconValueModel()));
+				StringValueModel.INSTANCE,
+				IconValueModel.INSTANCE));
 		
 		PROGRESS_RENDERER = new DefaultTableRenderer(
-				new StringValueTaskProgress());
+				StringValueTaskProgress.INSTANCE);
 		
 		REMINDER_RENDERER = new DefaultTableRenderer(
-				new StringValueTaskReminder());
+				StringValueTaskReminder.INSTANCE);
 		
-		REPEAT_RENDERER = new DefaultTableRenderer(new StringValueTaskRepeat());
+		REPEAT_RENDERER = new DefaultTableRenderer(
+				StringValueTaskRepeat.INSTANCE);
 		
 		SHOW_CHILDREN_RENDERER = new ShowChildrenRenderer();
 		
 		STAR_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				new IconValueStar(),
-				new BooleanValueBoolean()), SwingConstants.CENTER);
+				IconValueStar.INSTANCE,
+				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		
-		START_DATE_RENDERER = new DefaultTableRenderer(new StringValueCalendar(
-				Main.SETTINGS.getBooleanProperty("date.use_start_time")));
+		START_DATE_RENDERER = new DefaultTableRenderer(
+				(Main.SETTINGS.getBooleanProperty("date.use_start_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
 		
 		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
-				new StringValueTaskPriority(),
-				new IconValueTaskPriority(),
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE,
 				null));
 		
 		TASK_REPEAT_FROM_RENDERER = new DefaultTableRenderer(
-				new StringValueTaskRepeatFrom());
+				StringValueTaskRepeatFrom.INSTANCE);
 		
 		TASK_STATUS_RENDERER = new DefaultTableRenderer(
-				new StringValueTaskStatus());
+				StringValueTaskStatus.INSTANCE);
 		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
 				Translations.getString("task.default.title")));

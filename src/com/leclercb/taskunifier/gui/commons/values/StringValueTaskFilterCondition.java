@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskFilterCondition implements StringValue {
 	
+	public static final StringValueTaskFilterCondition INSTANCE = new StringValueTaskFilterCondition();
+	
+	private StringValueTaskFilterCondition() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Condition<?, ?>))

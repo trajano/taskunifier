@@ -40,6 +40,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueSynchronizerGuiPlugin implements StringValue {
 	
+	public static final StringValueSynchronizerGuiPlugin INSTANCE = new StringValueSynchronizerGuiPlugin();
+	
+	private StringValueSynchronizerGuiPlugin() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SynchronizerGuiPlugin))

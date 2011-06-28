@@ -39,6 +39,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class BooleanValueBoolean implements BooleanValue {
 	
+	public static final BooleanValueBoolean INSTANCE = new BooleanValueBoolean();
+	
+	private BooleanValueBoolean() {
+
+	}
+	
 	@Override
 	public boolean getBoolean(Object value) {
 		if (value == null || !(value instanceof Boolean))

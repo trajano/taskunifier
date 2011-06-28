@@ -42,6 +42,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueSortOrder implements StringValue {
 	
+	public static final StringValueSortOrder INSTANCE = new StringValueSortOrder();
+	
+	private StringValueSortOrder() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SortOrder))

@@ -41,6 +41,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueSynchronizerChoice implements StringValue {
 	
+	public static final StringValueSynchronizerChoice INSTANCE = new StringValueSynchronizerChoice();
+	
+	private StringValueSynchronizerChoice() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof SynchronizerChoice))

@@ -51,7 +51,7 @@ public class StatusEditor extends ComboBoxCellEditor {
 		
 		comboBox.setModel(new TaskStatusModel(false));
 		comboBox.setRenderer(new DefaultListRenderer(
-				new StringValueTaskStatus()));
+				StringValueTaskStatus.INSTANCE));
 	}
 	
 }

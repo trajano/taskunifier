@@ -43,6 +43,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTemplateTitle implements StringValue {
 	
+	public static final StringValueTemplateTitle INSTANCE = new StringValueTemplateTitle();
+	
+	private StringValueTemplateTitle() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Template))

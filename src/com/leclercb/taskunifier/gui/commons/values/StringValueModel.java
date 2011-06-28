@@ -40,6 +40,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueModel implements StringValue {
 	
+	public static final StringValueModel INSTANCE = new StringValueModel();
+	
+	private StringValueModel() {
+
+	}
+	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Model))

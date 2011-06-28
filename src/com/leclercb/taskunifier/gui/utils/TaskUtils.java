@@ -52,6 +52,24 @@ public final class TaskUtils {
 
 	}
 	
+	public static String toHtml(Task[] tasks, TaskColumn[] columns) {
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("<table>");
+		
+		for (Task task : tasks) {
+			buffer.append("<tr>");
+			for (TaskColumn column : columns) {
+				buffer.append("<td>");
+				switch (column) {
+					case COMPLETED:
+				}
+				buffer.append("</td>");
+			}
+			buffer.append("</tr>");
+		}
+	}
+	
 	public static int getImportance(Task task) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
 		
@@ -104,7 +122,7 @@ public final class TaskUtils {
 		return showTask(task, filter, containsCompletedTrue(filter), false);
 	}
 	
-	public static boolean showTask(
+	private static boolean showTask(
 			Task task,
 			TaskFilter filter,
 			boolean containsCompletedTrue,

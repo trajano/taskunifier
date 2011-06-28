@@ -45,6 +45,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class IconValuePluginStatus implements IconValue {
 	
+	public static final IconValuePluginStatus INSTANCE = new IconValuePluginStatus();
+	
+	private IconValuePluginStatus() {
+
+	}
+	
 	@Override
 	public Icon getIcon(Object value) {
 		if (value == null || !(value instanceof PluginStatus))

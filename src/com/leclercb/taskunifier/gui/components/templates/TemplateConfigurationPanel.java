@@ -377,7 +377,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		builder.appendI15d("general.task.reminder", true, templateTaskReminder);
 		
 		templateTaskReminder.setRenderer(new DefaultListRenderer(
-				new StringValueTaskReminder()));
+				StringValueTaskReminder.INSTANCE));
 		templateTaskReminder.setEditable(true);
 		
 		// Template Task Repeat
@@ -392,13 +392,13 @@ public class TemplateConfigurationPanel extends JSplitPane {
 				templateTaskRepeatFrom);
 		
 		templateTaskRepeatFrom.setRenderer(new DefaultListRenderer(
-				new StringValueTaskRepeatFrom()));
+				StringValueTaskRepeatFrom.INSTANCE));
 		
 		// Template Task Status
 		builder.appendI15d("general.task.status", true, templateTaskStatus);
 		
 		templateTaskStatus.setRenderer(new DefaultListRenderer(
-				new StringValueTaskStatus()));
+				StringValueTaskStatus.INSTANCE));
 		
 		// Template Task Length
 		builder.appendI15d("general.task.length", true, templateTaskLength);
@@ -407,8 +407,8 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		builder.appendI15d("general.task.priority", true, templateTaskPriority);
 		
 		templateTaskPriority.setRenderer(new DefaultListRenderer(
-				new StringValueTaskPriority(),
-				new IconValueTaskPriority()));
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
 		
 		// Template Task Star
 		builder.appendI15d("general.task.star", true, templateTaskStar);

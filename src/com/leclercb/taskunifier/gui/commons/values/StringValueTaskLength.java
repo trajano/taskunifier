@@ -43,9 +43,11 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueTaskLength implements StringValue {
 	
+	public static final StringValueTaskLength INSTANCE = new StringValueTaskLength();
+	
 	private DateFormat formatter;
 	
-	public StringValueTaskLength() {
+	private StringValueTaskLength() {
 		this.formatter = new SimpleDateFormat("HH:mm");
 	}
 	

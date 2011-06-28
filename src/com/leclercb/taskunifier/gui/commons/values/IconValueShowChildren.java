@@ -42,6 +42,12 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class IconValueShowChildren implements IconValue {
 	
+	public static final IconValueShowChildren INSTANCE = new IconValueShowChildren();
+	
+	private IconValueShowChildren() {
+
+	}
+	
 	@Override
 	public Icon getIcon(Object value) {
 		if (value == null || !(value instanceof Boolean))

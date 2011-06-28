@@ -19,7 +19,7 @@ public class ChoiceFieldType extends ConfigurationFieldTypeExt.ComboBox {
 				"synchronizer.choice");
 		
 		this.setRenderer(new DefaultListRenderer(
-				new StringValueSynchronizerChoice()));
+				StringValueSynchronizerChoice.INSTANCE));
 	}
 	
 	@Override

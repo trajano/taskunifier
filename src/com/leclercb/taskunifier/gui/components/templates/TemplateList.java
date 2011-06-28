@@ -95,7 +95,7 @@ abstract class TemplateList extends JPanel {
 		this.templateList.setModel(model);
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new DefaultListRenderer(
-				new StringValueTemplateTitle()));
+				StringValueTemplateTitle.INSTANCE));
 		
 		this.templateList.setAutoCreateRowSorter(true);
 		this.templateList.setComparator(new TemplateComparator());

@@ -44,9 +44,14 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class StringValueCalendar implements StringValue {
 	
+	public static final StringValueCalendar INSTANCE_DATE = new StringValueCalendar(
+			false);
+	public static final StringValueCalendar INSTANCE_DATE_TIME = new StringValueCalendar(
+			true);
+	
 	private DateFormat formatter;
 	
-	public StringValueCalendar(boolean showTime) {
+	private StringValueCalendar(boolean showTime) {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		String format = null;

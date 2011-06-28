@@ -19,7 +19,7 @@ public class RepeatFromEditor extends ComboBoxCellEditor {
 		
 		comboBox.setModel(new TaskRepeatFromModel(false));
 		comboBox.setRenderer(new DefaultListRenderer(
-				new StringValueTaskRepeatFrom()));
+				StringValueTaskRepeatFrom.INSTANCE));
 	}
 	
 }

@@ -20,7 +20,7 @@ public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 		super(new SynchronizerGuiPluginModel(), Main.SETTINGS, "api.id");
 		
 		this.setRenderer(new DefaultListRenderer(
-				new StringValueSynchronizerGuiPlugin()));
+				StringValueSynchronizerGuiPlugin.INSTANCE));
 		
 		this.addItemListener(new ItemListener() {
 			
