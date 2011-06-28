@@ -105,6 +105,9 @@ public class TaskTableMenu extends JPopupMenu {
 				if (TaskTableMenu.this.getFocussedTask() == null)
 					return;
 				
+				if (TaskTableMenu.this.getFocussedTask().getParent() != null)
+					return;
+				
 				ActionAddSubTask.addSubTask(
 						TemplateFactory.getInstance().getDefaultTemplate(),
 						TaskTableMenu.this.getFocussedTask());
