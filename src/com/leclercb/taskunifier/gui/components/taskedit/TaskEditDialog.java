@@ -133,9 +133,7 @@ public class TaskEditDialog extends JDialog {
 				10));
 		
 		this.add(header, BorderLayout.NORTH);
-		this.add(
-				ComponentFactory.createJScrollPane(this.taskEditPanel, false),
-				BorderLayout.CENTER);
+		this.add(this.taskEditPanel, BorderLayout.CENTER);
 		this.initializeButtonsPanel();
 	}
 	

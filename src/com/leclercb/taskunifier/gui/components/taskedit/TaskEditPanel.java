@@ -53,7 +53,6 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.forms.layout.CellConstraints;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -82,6 +81,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -222,7 +222,7 @@ public class TaskEditPanel extends JPanel {
 		this.taskNote = new JTextArea(5, 0);
 		
 		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:pref:grow, 10dlu, right:pref, 4dlu, fill:pref:grow");
+				"right:pref, 4dlu, fill:default:grow, 10dlu, right:pref, 4dlu, fill:default:grow");
 		
 		// Task Title
 		builder.appendI15d("general.task.title", true, this.taskTitle);
@@ -264,10 +264,10 @@ public class TaskEditPanel extends JPanel {
 		builder.appendI15d("general.task.location", true, this.taskLocation);
 		
 		// Task Parent
-		builder.appendI15d("general.task.parent", true, this.taskParent);
-		
-		// Empty
-		builder.append("", new JLabel());
+		builder.getBuilder().append(
+				Translations.getString("general.task.parent"),
+				this.taskParent,
+				5);
 		
 		// Task Start Date
 		builder.appendI15d("general.task.start_date", true, this.taskStartDate);
@@ -313,10 +313,13 @@ public class TaskEditPanel extends JPanel {
 				new IconValueTaskPriority()));
 		
 		// Task Note
-		builder.appendI15d("general.task.note", true);
-		builder.getBuilder().add(
+		this.taskNote.setLineWrap(true);
+		this.taskNote.setWrapStyleWord(true);
+		
+		builder.getBuilder().append(
+				Translations.getString("general.task.note"),
 				new JScrollPane(this.taskNote),
-				new CellConstraints(3, builder.getBuilder().getRowCount(), 5, 1));
+				5);
 		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.CENTER);
