@@ -75,6 +75,9 @@ public class PluginListModel extends AbstractListModel implements PropertyChange
 	
 	@Override
 	public Object getElementAt(int index) {
+		if (index < 0 || index >= this.plugins.length)
+			return null;
+		
 		return this.plugins[index];
 	}
 	

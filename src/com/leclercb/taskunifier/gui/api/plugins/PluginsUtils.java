@@ -56,11 +56,11 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.http.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
+import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
-import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
-import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -171,7 +171,9 @@ public class PluginsUtils {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
-			throw new PluginException(PluginExceptionType.ERROR_LOADING_PLUGIN);
+			throw new PluginException(
+					PluginExceptionType.ERROR_LOADING_PLUGIN,
+					t);
 		}
 	}
 	
@@ -464,7 +466,8 @@ public class PluginsUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PluginException(
-					PluginExceptionType.ERROR_LOADING_PLUGIN_DB);
+					PluginExceptionType.ERROR_LOADING_PLUGIN_DB,
+					e);
 		}
 	}
 	

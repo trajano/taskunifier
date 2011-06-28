@@ -86,12 +86,12 @@ import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
+import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
+import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException;
-import com.leclercb.taskunifier.gui.components.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -244,16 +244,15 @@ public class Main {
 	}
 	
 	private static void loadResourceFolder() throws Exception {
-		if (System.getProperty("com.leclercb.taskunifier.resource_folder") == null) {
+		RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
+		
+		if (RESOURCES_FOLDER == null)
 			RESOURCES_FOLDER = "resources";
-		} else {
-			RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
-		}
 		
 		File file = new File(RESOURCES_FOLDER);
 		if (!file.exists() || !file.isDirectory())
-			throw new Exception(Translations.getString(
-					"error.resources_folder_does_not_exist",
+			throw new Exception(String.format(
+					"Resources folder \"%1s\" does not exist",
 					RESOURCES_FOLDER));
 	}
 	
@@ -281,8 +280,8 @@ public class Main {
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
 			if (!file.mkdir())
-				throw new Exception(Translations.getString(
-						"error.create_data_folder",
+				throw new Exception(String.format(
+						"Error while creating folder \"%1s\"",
 						DATA_FOLDER));
 			
 			try {
@@ -296,8 +295,8 @@ public class Main {
 			FIRST_EXECUTION = true;
 			return;
 		} else if (!file.isDirectory()) {
-			throw new Exception(Translations.getString(
-					"error.data_folder_not_a_folder",
+			throw new Exception(String.format(
+					"\"%1s\" is not a folder",
 					DATA_FOLDER));
 		}
 	}
@@ -331,7 +330,7 @@ public class Main {
 			if (!FIRST_EXECUTION)
 				JOptionPane.showMessageDialog(
 						null,
-						Translations.getString("error.settings_file"),
+						"Settings file not found. A default settings file is loaded.",
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
 			

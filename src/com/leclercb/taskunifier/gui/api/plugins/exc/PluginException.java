@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.plugins.exc;
+package com.leclercb.taskunifier.gui.api.plugins.exc;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -63,7 +63,11 @@ public class PluginException extends Exception {
 	private PluginExceptionType type;
 	
 	public PluginException(PluginExceptionType type) {
-		super(type.toString());
+		this(type, null);
+	}
+	
+	public PluginException(PluginExceptionType type, Throwable cause) {
+		super(type.toString(), cause);
 		
 		this.type = type;
 	}
