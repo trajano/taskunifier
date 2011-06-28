@@ -107,6 +107,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class Main {
 	
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
+	public static PropertiesConfiguration INIT_SETTINGS;
 	public static PropertiesConfiguration SETTINGS;
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
@@ -132,6 +133,7 @@ public class Main {
 		try {
 			loadStreamRedirection();
 			loadResourceFolder();
+			loadInitSettings();
 			loadDataFolder();
 			loadPluginsFolder();
 			loadSettings();
@@ -255,27 +257,29 @@ public class Main {
 					RESOURCES_FOLDER));
 	}
 	
-	private static void loadDataFolder() throws Exception {
-		if (System.getProperty("com.leclercb.taskunifier.data_folder") == null) {
-			DATA_FOLDER = "data";
-		} else {
-			DATA_FOLDER = System.getProperty("com.leclercb.taskunifier.data_folder");
+	private static void loadInitSettings() {
+		INIT_SETTINGS = new PropertiesConfiguration(new Properties());
+		
+		try {
+			INIT_SETTINGS.load(new FileInputStream(RESOURCES_FOLDER
+					+ File.separator
+					+ "taskunifier.properties"));
+		} catch (Exception e) {
+
 		}
+	}
+	
+	private static void loadDataFolder() throws Exception {
+		DATA_FOLDER = INIT_SETTINGS.getStringProperty("com.leclercb.taskunifier.data_folder");
+		
+		if (DATA_FOLDER == null)
+			DATA_FOLDER = System.getProperty("com.leclercb.taskunifier.data_folder");
+		
+		if (DATA_FOLDER == null)
+			DATA_FOLDER = "data";
 		
 		File file = new File(DATA_FOLDER);
 		if (!file.exists()) {
-			/*
-			 * int response = JOptionPane.showConfirmDialog( null,
-			 * Translations.getString( "general.create_data_folder_question",
-			 * DATA_FOLDER),
-			 * Translations.getString("general.create_data_folder"),
-			 * JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			 * 
-			 * if (response == JOptionPane.NO_OPTION) throw new
-			 * Exception(Translations.getString( "error.data_folder_needed",
-			 * Constants.TITLE));
-			 */
-
 			if (!file.mkdir())
 				throw new Exception(Translations.getString(
 						"error.create_data_folder",
@@ -317,7 +321,11 @@ public class Main {
 					+ "settings.properties"));
 			
 			SettingsVersion.updateSettings();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
+			SETTINGS = new PropertiesConfiguration(new Properties());
+			
+			SETTINGS.addCoder(new ModelIdSettingsCoder());
+			
 			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
 			if (!FIRST_EXECUTION)
