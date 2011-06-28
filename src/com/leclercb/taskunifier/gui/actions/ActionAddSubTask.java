@@ -110,6 +110,9 @@ public class ActionAddSubTask extends AbstractAction {
 	public static Task addSubTask(Template template, Task parent) {
 		CheckUtils.isNotNull(parent, "Parent cannot be null");
 		
+		if (parent.getParent() != null)
+			return null;
+		
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
 		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();

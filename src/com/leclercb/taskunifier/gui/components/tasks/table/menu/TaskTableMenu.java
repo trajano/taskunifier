@@ -78,7 +78,8 @@ public class TaskTableMenu extends JPopupMenu {
 	
 	public void setFocussedTask(Task focussedTask) {
 		this.focussedTask = focussedTask;
-		this.itemAddSubTask.setEnabled(focussedTask != null);
+		this.itemAddSubTask.setEnabled(focussedTask != null
+				&& focussedTask.getParent() == null);
 		this.itemEditTask.setEnabled(focussedTask != null);
 	}
 	
