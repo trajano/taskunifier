@@ -48,7 +48,9 @@ public class TaskSorterTransferable implements Transferable {
 	public static final DataFlavor SORTER_FLAVOR = new DataFlavor(
 			TaskSorterTransferData.class,
 			"SORTER_FLAVOR");
+	
 	public static final DataFlavor[] FLAVORS = { SORTER_FLAVOR };
+	
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
 	private TaskSorterTransferData data;
