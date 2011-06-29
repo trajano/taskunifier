@@ -106,6 +106,8 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class Main {
 	
+	public static boolean DEBUG_MODE;
+	
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	public static PropertiesConfiguration INIT_SETTINGS;
 	public static PropertiesConfiguration SETTINGS;
@@ -139,6 +141,7 @@ public class Main {
 		boolean outdatedPlugins;
 		
 		try {
+			loadDebugMode();
 			loadStreamRedirection();
 			loadResourceFolder();
 			loadInitSettings();
@@ -236,10 +239,13 @@ public class Main {
 		});
 	}
 	
+	private static void loadDebugMode() {
+		String p = System.getProperty("com.leclercb.taskunifier.debug_mode");
+		DEBUG_MODE = EqualsUtils.equals(p, "true");
+	}
+	
 	private static void loadStreamRedirection() {
-		if (!EqualsUtils.equals(
-				System.getProperty("com.leclercb.taskunifier.debug_mode"),
-				"true")) {
+		if (!DEBUG_MODE) {
 			ORIGINAL_OUT_STREAM = System.out;
 			ORIGINAL_ERR_STREAM = System.err;
 			
@@ -676,7 +682,7 @@ public class Main {
 			try {
 				File f = new File(getInitSettingsFile());
 				
-				if (f.canWrite())
+				if (!DEBUG_MODE && f.canWrite())
 					saveInitSettings();
 			} catch (Exception e) {
 				e.printStackTrace();
