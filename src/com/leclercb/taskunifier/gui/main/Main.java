@@ -122,6 +122,14 @@ public class Main {
 	private static OutputStream LOG_STREAM;
 	private static PrintStream NEW_STREAM;
 	
+	public static String getInitSettingsFile() {
+		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
+	}
+	
+	public static String getSettingsFile() {
+		return DATA_FOLDER + File.separator + "settings.properties";
+	}
+	
 	public static void main(String[] args) {
 		FIRST_EXECUTION = false;
 		
@@ -260,9 +268,7 @@ public class Main {
 		INIT_SETTINGS = new PropertiesConfiguration(new Properties());
 		
 		try {
-			INIT_SETTINGS.load(new FileInputStream(RESOURCES_FOLDER
-					+ File.separator
-					+ "taskunifier.properties"));
+			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
 		} catch (Exception e) {
 
 		}
@@ -315,9 +321,7 @@ public class Main {
 			
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
-			SETTINGS.load(new FileInputStream(DATA_FOLDER
-					+ File.separator
-					+ "settings.properties"));
+			SETTINGS.load(new FileInputStream(getSettingsFile()));
 			
 			SettingsVersion.updateSettings();
 		} catch (Exception e) {
@@ -670,14 +674,12 @@ public class Main {
 			}
 			
 			try {
-				saveInitSettings();
+				File f = new File(getInitSettingsFile());
+				
+				if (f.canWrite())
+					saveInitSettings();
 			} catch (Exception e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
 			}
 			
 			try {
@@ -731,15 +733,14 @@ public class Main {
 	
 	private static void saveInitSettings() throws FileNotFoundException,
 			IOException {
-		INIT_SETTINGS.store(new FileOutputStream(RESOURCES_FOLDER
-				+ File.separator
-				+ "taskunifier.properties"), Constants.TITLE + " Init Settings");
+		INIT_SETTINGS.store(
+				new FileOutputStream(getInitSettingsFile()),
+				Constants.TITLE + " Init Settings");
 	}
 	
 	public static void saveSettings() throws FileNotFoundException, IOException {
-		SETTINGS.store(new FileOutputStream(DATA_FOLDER
-				+ File.separator
-				+ "settings.properties"), Constants.TITLE + " Settings");
+		SETTINGS.store(new FileOutputStream(getSettingsFile()), Constants.TITLE
+				+ " Settings");
 	}
 	
 }

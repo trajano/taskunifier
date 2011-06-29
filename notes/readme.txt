@@ -12,6 +12,7 @@ Version 0.9.9
 		- BF 3312532: Truncated edit task window
 		- FR 3312536: Dropdown list for editing tags
 		- FR 3208888: Copy paste to HTML/Word/Excel/...
+		- FR 3338340: Change data folder location
 
 Version 0.9.8
 	- Minor:

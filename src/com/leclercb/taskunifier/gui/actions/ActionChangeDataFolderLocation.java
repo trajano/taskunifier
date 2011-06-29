@@ -33,10 +33,13 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.gui.components.change_data_folder.ChangeDataFolderDialog;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -61,6 +64,16 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 	}
 	
 	public static void changeDataFolderLocation() {
+		if (!new File(Main.getInitSettingsFile()).canWrite()) {
+			JOptionPane.showMessageDialog(
+					null,
+					Translations.getString("general.cannot_write", new File(
+							Main.getInitSettingsFile()).getAbsolutePath()),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		ChangeDataFolderDialog.getInstance().setVisible(true);
 	}
 	

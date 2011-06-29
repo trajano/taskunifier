@@ -74,9 +74,19 @@ public class ChangeDataFolderDialog extends JDialog {
 		this.initialize();
 	}
 	
+	@Override
+	public void setVisible(boolean b) {
+		if (b) {
+			File file = new File(Main.DATA_FOLDER);
+			this.changeLocation.setText(file.getAbsolutePath());
+		}
+		
+		super.setVisible(b);
+	}
+	
 	private void initialize() {
 		this.setModal(true);
-		this.setTitle(Translations.getString("sqdfsdfq"));
+		this.setTitle(Translations.getString("action.name.change_data_folder_location"));
 		this.setSize(500, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
@@ -127,7 +137,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		changeLocationPanel.add(this.changeLocation, BorderLayout.CENTER);
 		changeLocationPanel.add(openFile, BorderLayout.EAST);
 		
-		builder.appendI15d("dsqqfds", true, changeLocationPanel);
+		builder.appendI15d("general.folder", true, changeLocationPanel);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
@@ -140,11 +150,17 @@ public class ChangeDataFolderDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				boolean stop = false;
+				
 				if (event.getActionCommand().equals("RESET")) {
+					stop = true;
+					
 					Main.INIT_SETTINGS.remove("com.leclercb.taskunifier.data_folder");
 				}
 				
 				if (event.getActionCommand().equals("CHANGE")) {
+					stop = true;
+					
 					String path = ChangeDataFolderDialog.this.changeLocation.getText();
 					
 					if (path == null || path.length() == 0)
@@ -162,6 +178,9 @@ public class ChangeDataFolderDialog extends JDialog {
 				
 				ChangeDataFolderDialog.this.changeLocation.setText(null);
 				ChangeDataFolderDialog.this.setVisible(false);
+				
+				if (stop)
+					Main.stop();
 			}
 			
 		};
@@ -179,6 +198,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(
+				resetButton,
 				importButton,
 				cancelButton);
 		
