@@ -38,6 +38,10 @@ import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
 import javax.swing.TransferHandler;
@@ -115,13 +119,17 @@ public class NotePanel extends JPanel implements NoteView {
 	
 	@Override
 	public void printNotes() throws HeadlessException, PrinterException {
+		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+		attributes.add(new JobName(Constants.TITLE, null));
+		attributes.add(OrientationRequested.LANDSCAPE);
+		
 		this.noteTable.print(
 				PrintMode.FIT_WIDTH,
 				new MessageFormat(Constants.TITLE + " - Notes"),
 				new MessageFormat(this.noteTable.getRowCount()
 						+ " notes | Page - {0}"),
 				true,
-				null,
+				attributes,
 				true);
 	}
 	

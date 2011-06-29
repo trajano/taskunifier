@@ -38,6 +38,10 @@ import java.awt.event.ActionEvent;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JPanel;
 import javax.swing.JTable.PrintMode;
 import javax.swing.TransferHandler;
@@ -106,6 +110,10 @@ public class TaskPanel extends JPanel implements TaskView {
 	
 	@Override
 	public void printTasks() throws HeadlessException, PrinterException {
+		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+		attributes.add(new JobName(Constants.TITLE, null));
+		attributes.add(OrientationRequested.LANDSCAPE);
+		
 		this.taskTable.print(
 				PrintMode.FIT_WIDTH,
 				new MessageFormat(Constants.TITLE
@@ -114,7 +122,7 @@ public class TaskPanel extends JPanel implements TaskView {
 				new MessageFormat(this.taskTable.getRowCount()
 						+ " tasks | Page - {0}"),
 				true,
-				null,
+				attributes,
 				true);
 	}
 	
