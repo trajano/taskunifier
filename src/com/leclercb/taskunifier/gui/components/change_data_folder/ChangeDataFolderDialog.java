@@ -46,6 +46,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -161,19 +164,36 @@ public class ChangeDataFolderDialog extends JDialog {
 				if (event.getActionCommand().equals("CHANGE")) {
 					stop = true;
 					
-					String path = ChangeDataFolderDialog.this.changeLocation.getText();
-					
-					if (path == null || path.length() == 0)
-						;
-					
-					File file = new File(path);
-					
-					if (!file.exists() || !file.isDirectory())
-						;
-					
-					Main.INIT_SETTINGS.setStringProperty(
-							"com.leclercb.taskunifier.data_folder",
-							file.getAbsolutePath());
+					try {
+						String path = ChangeDataFolderDialog.this.changeLocation.getText();
+						
+						if (path == null || path.length() == 0)
+							throw new Exception();
+						
+						File file = new File(path);
+						
+						if (!file.exists() || !file.isDirectory())
+							throw new Exception();
+						
+						Main.INIT_SETTINGS.setStringProperty(
+								"com.leclercb.taskunifier.data_folder",
+								file.getAbsolutePath());
+					} catch (Exception e) {
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
+								Translations.getString("error.not_valid_directory"),
+								null,
+								null,
+								null,
+								null,
+								null);
+						
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
+						
+						return;
+					}
 				}
 				
 				ChangeDataFolderDialog.this.changeLocation.setText(null);
