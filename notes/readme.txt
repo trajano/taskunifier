@@ -9,9 +9,9 @@ Version 0.9.9
 	- Minor:
 		- Bug fixed: Save note
 		- BF 3325072: Urls in notes
-		- FR 3312536: Dropdown list for editing tags
 		- BF 3312532: Truncated edit task window
-		- Copy paste to HTML/Word/Excel/...
+		- FR 3312536: Dropdown list for editing tags
+		- FR 3208888: Copy paste to HTML/Word/Excel/...
 
 Version 0.9.8
 	- Minor:

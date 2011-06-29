@@ -184,12 +184,12 @@ public class ConfigurationDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "OK") {
+				if (event.getActionCommand().equals("OK")) {
 					ConfigurationDialog.this.saveAndApplyConfig();
 					ConfigurationDialog.this.setVisible(false);
 				}
 				
-				if (event.getActionCommand() == "CANCEL") {
+				if (event.getActionCommand().equals("CANCEL")) {
 					ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
 					
 					ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
@@ -205,7 +205,7 @@ public class ConfigurationDialog extends JDialog {
 					ConfigurationDialog.this.setVisible(false);
 				}
 				
-				if (event.getActionCommand() == "APPLY") {
+				if (event.getActionCommand().equals("APPLY")) {
 					ConfigurationDialog.this.saveAndApplyConfig();
 				}
 			}

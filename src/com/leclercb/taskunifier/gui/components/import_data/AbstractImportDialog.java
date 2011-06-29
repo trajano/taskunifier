@@ -181,7 +181,7 @@ abstract class AbstractImportDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "IMPORT") {
+				if (event.getActionCommand().equals("IMPORT")) {
 					try {
 						if (AbstractImportDialog.this.replaceValues != null
 								&& AbstractImportDialog.this.replaceValues.isSelected())
@@ -208,7 +208,7 @@ abstract class AbstractImportDialog extends JDialog {
 					}
 				}
 				
-				if (event.getActionCommand() == "CANCEL") {
+				if (event.getActionCommand().equals("CANCEL")) {
 					AbstractImportDialog.this.importFile.setText(null);
 					AbstractImportDialog.this.replaceValues.setSelected(false);
 					AbstractImportDialog.this.setVisible(false);

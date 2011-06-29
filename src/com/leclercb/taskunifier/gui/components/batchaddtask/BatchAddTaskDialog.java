@@ -147,7 +147,7 @@ public class BatchAddTaskDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "OK") {
+				if (event.getActionCommand().equals("OK")) {
 					String answer = BatchAddTaskDialog.this.answerTextArea.getText();
 					Template template = (Template) BatchAddTaskDialog.this.templateComboBox.getSelectedItem();
 					

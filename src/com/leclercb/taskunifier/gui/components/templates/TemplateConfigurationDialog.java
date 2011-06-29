@@ -93,7 +93,7 @@ public class TemplateConfigurationDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "OK") {
+				if (event.getActionCommand().equals("OK")) {
 					TemplateConfigurationDialog.this.setVisible(false);
 				}
 			}

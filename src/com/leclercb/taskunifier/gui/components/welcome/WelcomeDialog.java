@@ -148,14 +148,14 @@ public class WelcomeDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				WelcomeDialog.this.panels[WelcomeDialog.this.currentPanel].applyChanges();
 				
-				if (event.getActionCommand() == "PREVIOUS") {
+				if (event.getActionCommand().equals("PREVIOUS")) {
 					if (WelcomeDialog.this.currentPanel != 0) {
 						WelcomeDialog.this.currentPanel--;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
 					}
 				}
 				
-				if (event.getActionCommand() == "NEXT") {
+				if (event.getActionCommand().equals("NEXT")) {
 					if (WelcomeDialog.this.currentPanel < WelcomeDialog.this.panels.length - 1) {
 						WelcomeDialog.this.currentPanel++;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);

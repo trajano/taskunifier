@@ -142,13 +142,13 @@ public class TaskEditDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand() == "OK") {
+				if (event.getActionCommand().equals("OK")) {
 					TaskEditDialog.this.cancelled = false;
 					TaskEditDialog.this.setTask(null);
 					TaskEditDialog.this.setVisible(false);
 				}
 				
-				if (event.getActionCommand() == "CANCEL") {
+				if (event.getActionCommand().equals("CANCEL")) {
 					TaskEditDialog.this.cancelled = true;
 					TaskEditDialog.this.setTask(null);
 					TaskEditDialog.this.setVisible(false);

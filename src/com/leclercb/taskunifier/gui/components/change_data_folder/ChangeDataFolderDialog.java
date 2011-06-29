@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.export_data;
+package com.leclercb.taskunifier.gui.components.change_data_folder;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -45,13 +45,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileFilter;
 
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.FileUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -59,34 +54,30 @@ import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-abstract class AbstractExportDialog extends JDialog {
+public class ChangeDataFolderDialog extends JDialog {
 	
-	private String fileExtention;
-	private String fileExtentionDescription;
-	private JFileChooser fileChooser;
-	private JTextField exportFile;
+	private static ChangeDataFolderDialog INSTANCE;
 	
-	public AbstractExportDialog(
-			String title,
-			String fileExtention,
-			String fileExtentionDescription) {
-		super(MainFrame.getInstance().getFrame());
+	public static ChangeDataFolderDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ChangeDataFolderDialog();
 		
-		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
-		CheckUtils.isNotNull(
-				fileExtentionDescription,
-				"File extention description cannot be null");
-		
-		this.fileExtention = fileExtention;
-		this.fileExtentionDescription = fileExtentionDescription;
-		
-		this.initialize(title);
+		return INSTANCE;
 	}
 	
-	private void initialize(String title) {
+	private JFileChooser fileChooser;
+	private JTextField changeLocation;
+	
+	private ChangeDataFolderDialog() {
+		super(MainFrame.getInstance().getFrame());
+		
+		this.initialize();
+	}
+	
+	private void initialize() {
 		this.setModal(true);
-		this.setTitle(title);
-		this.setSize(500, 120);
+		this.setTitle(Translations.getString("sqdfsdfq"));
+		this.setSize(500, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -98,8 +89,8 @@ abstract class AbstractExportDialog extends JDialog {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				AbstractExportDialog.this.exportFile.setText(null);
-				AbstractExportDialog.this.setVisible(false);
+				ChangeDataFolderDialog.this.changeLocation.setText(null);
+				ChangeDataFolderDialog.this.setVisible(false);
 			}
 			
 		});
@@ -112,55 +103,31 @@ abstract class AbstractExportDialog extends JDialog {
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");
 		
-		// Export file
+		// Import file
 		this.fileChooser = new JFileChooser();
-		this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		this.fileChooser.setFileFilter(new FileFilter() {
-			
-			@Override
-			public String getDescription() {
-				return AbstractExportDialog.this.fileExtentionDescription;
-			}
-			
-			@Override
-			public boolean accept(File f) {
-				if (f.isDirectory())
-					return true;
-				
-				String extention = FileUtils.getExtention(f.getName());
-				
-				return AbstractExportDialog.this.fileExtention.equals(extention);
-			}
-			
-		});
+		this.fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		
-		this.exportFile = new JTextField();
-		JButton openFile = new JButton(Translations.getString("general.select"));
+		this.changeLocation = new JTextField();
+		JButton openFile = new JButton(Translations.getString("general.open"));
 		
 		openFile.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = AbstractExportDialog.this.fileChooser.showSaveDialog(AbstractExportDialog.this);
+				int result = ChangeDataFolderDialog.this.fileChooser.showOpenDialog(ChangeDataFolderDialog.this);
 				
-				if (result == JFileChooser.APPROVE_OPTION) {
-					AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
-					if (!AbstractExportDialog.this.exportFile.getText().endsWith(
-							"." + AbstractExportDialog.this.fileExtention))
-						AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.exportFile.getText()
-								+ "."
-								+ AbstractExportDialog.this.fileExtention);
-				}
+				if (result == JFileChooser.APPROVE_OPTION)
+					ChangeDataFolderDialog.this.changeLocation.setText(ChangeDataFolderDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
 			}
 			
 		});
 		
-		JPanel importFilePanel = new JPanel();
-		importFilePanel.setLayout(new BorderLayout(5, 0));
-		importFilePanel.add(this.exportFile, BorderLayout.CENTER);
-		importFilePanel.add(openFile, BorderLayout.EAST);
+		JPanel changeLocationPanel = new JPanel();
+		changeLocationPanel.setLayout(new BorderLayout(5, 0));
+		changeLocationPanel.add(this.changeLocation, BorderLayout.CENTER);
+		changeLocationPanel.add(openFile, BorderLayout.EAST);
 		
-		builder.appendI15d("export.export_to_file", true, importFilePanel);
+		builder.appendI15d("dsqqfds", true, changeLocationPanel);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
@@ -173,50 +140,50 @@ abstract class AbstractExportDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("EXPORT")) {
-					try {
-						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
-						AbstractExportDialog.this.exportFile.setText(null);
-						AbstractExportDialog.this.setVisible(false);
-					} catch (Exception e) {
-						ErrorInfo info = new ErrorInfo(
-								Translations.getString("general.error"),
-								e.getMessage(),
-								null,
-								null,
-								e,
-								null,
-								null);
-						
-						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
-								info);
-					}
+				if (event.getActionCommand().equals("RESET")) {
+					Main.INIT_SETTINGS.remove("com.leclercb.taskunifier.data_folder");
 				}
 				
-				if (event.getActionCommand().equals("CANCEL")) {
-					AbstractExportDialog.this.exportFile.setText(null);
-					AbstractExportDialog.this.setVisible(false);
+				if (event.getActionCommand().equals("CHANGE")) {
+					String path = ChangeDataFolderDialog.this.changeLocation.getText();
+					
+					if (path == null || path.length() == 0)
+						;
+					
+					File file = new File(path);
+					
+					if (!file.exists() || !file.isDirectory())
+						;
+					
+					Main.INIT_SETTINGS.setStringProperty(
+							"com.leclercb.taskunifier.data_folder",
+							file.getAbsolutePath());
 				}
+				
+				ChangeDataFolderDialog.this.changeLocation.setText(null);
+				ChangeDataFolderDialog.this.setVisible(false);
 			}
 			
 		};
 		
-		JButton exportButton = new JButton(
-				Translations.getString("general.export"));
-		exportButton.setActionCommand("EXPORT");
-		exportButton.addActionListener(listener);
+		JButton resetButton = new JButton(
+				Translations.getString("general.reset_default"));
+		resetButton.setActionCommand("RESET");
+		resetButton.addActionListener(listener);
+		
+		JButton importButton = new JButton(
+				Translations.getString("action.name.change_data_folder_location"));
+		importButton.setActionCommand("CHANGE");
+		importButton.addActionListener(listener);
 		
 		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(
-				exportButton,
+				importButton,
 				cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
-		this.getRootPane().setDefaultButton(exportButton);
+		this.getRootPane().setDefaultButton(importButton);
 	}
-	
-	protected abstract void exportToFile(String file) throws Exception;
 	
 }

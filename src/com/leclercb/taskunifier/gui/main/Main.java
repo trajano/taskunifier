@@ -670,6 +670,17 @@ public class Main {
 			}
 			
 			try {
+				saveInitSettings();
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(
+						null,
+						e.getMessage(),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
 				saveSettings();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -716,6 +727,13 @@ public class Main {
 		}
 		
 		System.exit(0);
+	}
+	
+	private static void saveInitSettings() throws FileNotFoundException,
+			IOException {
+		INIT_SETTINGS.store(new FileOutputStream(RESOURCES_FOLDER
+				+ File.separator
+				+ "taskunifier.properties"), Constants.TITLE + " Init Settings");
 	}
 	
 	public static void saveSettings() throws FileNotFoundException, IOException {
