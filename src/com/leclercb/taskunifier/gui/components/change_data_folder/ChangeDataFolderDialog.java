@@ -44,13 +44,13 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.JFileField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -68,8 +68,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		return INSTANCE;
 	}
 	
-	private JFileChooser fileChooser;
-	private JTextField changeLocation;
+	private JFileField fileField;
 	
 	private ChangeDataFolderDialog() {
 		super(MainFrame.getInstance().getFrame());
@@ -81,7 +80,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	public void setVisible(boolean b) {
 		if (b) {
 			File file = new File(Main.DATA_FOLDER);
-			this.changeLocation.setText(file.getAbsolutePath());
+			this.fileField.setFile(file.getAbsolutePath());
 		}
 		
 		super.setVisible(b);
@@ -102,7 +101,7 @@ public class ChangeDataFolderDialog extends JDialog {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				ChangeDataFolderDialog.this.changeLocation.setText(null);
+				ChangeDataFolderDialog.this.fileField.setFile(null);
 				ChangeDataFolderDialog.this.setVisible(false);
 			}
 			
@@ -117,30 +116,13 @@ public class ChangeDataFolderDialog extends JDialog {
 				"right:pref, 4dlu, fill:default:grow");
 		
 		// Import file
-		this.fileChooser = new JFileChooser();
-		this.fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		this.fileField = new JFileField(
+				null,
+				JFileChooser.DIRECTORIES_ONLY,
+				null,
+				null);
 		
-		this.changeLocation = new JTextField();
-		JButton openFile = new JButton(Translations.getString("general.open"));
-		
-		openFile.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int result = ChangeDataFolderDialog.this.fileChooser.showOpenDialog(ChangeDataFolderDialog.this);
-				
-				if (result == JFileChooser.APPROVE_OPTION)
-					ChangeDataFolderDialog.this.changeLocation.setText(ChangeDataFolderDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
-			}
-			
-		});
-		
-		JPanel changeLocationPanel = new JPanel();
-		changeLocationPanel.setLayout(new BorderLayout(5, 0));
-		changeLocationPanel.add(this.changeLocation, BorderLayout.CENTER);
-		changeLocationPanel.add(openFile, BorderLayout.EAST);
-		
-		builder.appendI15d("general.folder", true, changeLocationPanel);
+		builder.appendI15d("general.folder", true, this.fileField);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
@@ -165,7 +147,7 @@ public class ChangeDataFolderDialog extends JDialog {
 					stop = true;
 					
 					try {
-						String path = ChangeDataFolderDialog.this.changeLocation.getText();
+						String path = ChangeDataFolderDialog.this.fileField.getFile();
 						
 						if (path == null || path.length() == 0)
 							throw new Exception();
@@ -196,7 +178,7 @@ public class ChangeDataFolderDialog extends JDialog {
 					}
 				}
 				
-				ChangeDataFolderDialog.this.changeLocation.setText(null);
+				ChangeDataFolderDialog.this.fileField.setFile(null);
 				ChangeDataFolderDialog.this.setVisible(false);
 				
 				if (stop)

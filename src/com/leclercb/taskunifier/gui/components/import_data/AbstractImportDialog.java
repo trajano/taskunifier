@@ -45,7 +45,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -54,6 +53,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.JFileField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -62,8 +62,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 abstract class AbstractImportDialog extends JDialog {
 	
-	private JFileChooser fileChooser;
-	private JTextField importFile;
+	private JFileField fileField;
 	private JCheckBox replaceValues;
 	private String fileExtention;
 	private String fileExtentionDescription;
@@ -101,7 +100,7 @@ abstract class AbstractImportDialog extends JDialog {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				AbstractImportDialog.this.importFile.setText(null);
+				AbstractImportDialog.this.fileField.setFile(null);
 				AbstractImportDialog.this.replaceValues.setSelected(false);
 				AbstractImportDialog.this.setVisible(false);
 			}
@@ -117,9 +116,7 @@ abstract class AbstractImportDialog extends JDialog {
 				"right:pref, 4dlu, fill:default:grow");
 		
 		// Import file
-		this.fileChooser = new JFileChooser();
-		this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		this.fileChooser.setFileFilter(new FileFilter() {
+		FileFilter fileFilter = new FileFilter() {
 			
 			@Override
 			public String getDescription() {
@@ -136,29 +133,15 @@ abstract class AbstractImportDialog extends JDialog {
 				return AbstractImportDialog.this.fileExtention.equals(extention);
 			}
 			
-		});
+		};
 		
-		this.importFile = new JTextField();
-		JButton openFile = new JButton(Translations.getString("general.open"));
+		this.fileField = new JFileField(
+				null,
+				JFileChooser.FILES_ONLY,
+				fileFilter,
+				null);
 		
-		openFile.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int result = AbstractImportDialog.this.fileChooser.showOpenDialog(AbstractImportDialog.this);
-				
-				if (result == JFileChooser.APPROVE_OPTION)
-					AbstractImportDialog.this.importFile.setText(AbstractImportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
-			}
-			
-		});
-		
-		JPanel importFilePanel = new JPanel();
-		importFilePanel.setLayout(new BorderLayout(5, 0));
-		importFilePanel.add(this.importFile, BorderLayout.CENTER);
-		importFilePanel.add(openFile, BorderLayout.EAST);
-		
-		builder.appendI15d("import.file_to_import", true, importFilePanel);
+		builder.appendI15d("import.file_to_import", true, this.fileField);
 		
 		// Replace values
 		if (showReplaceValues) {
@@ -187,9 +170,9 @@ abstract class AbstractImportDialog extends JDialog {
 								&& AbstractImportDialog.this.replaceValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
-						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.importFile.getText());
+						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.fileField.getFile());
 						
-						AbstractImportDialog.this.importFile.setText(null);
+						AbstractImportDialog.this.fileField.setFile(null);
 						AbstractImportDialog.this.replaceValues.setSelected(false);
 						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {
@@ -209,7 +192,7 @@ abstract class AbstractImportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					AbstractImportDialog.this.importFile.setText(null);
+					AbstractImportDialog.this.fileField.setFile(null);
 					AbstractImportDialog.this.replaceValues.setSelected(false);
 					AbstractImportDialog.this.setVisible(false);
 				}

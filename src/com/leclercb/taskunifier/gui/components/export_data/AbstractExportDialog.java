@@ -44,7 +44,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -53,6 +52,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.JFileField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -61,10 +61,9 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 abstract class AbstractExportDialog extends JDialog {
 	
+	private JFileField fileField;
 	private String fileExtention;
 	private String fileExtentionDescription;
-	private JFileChooser fileChooser;
-	private JTextField exportFile;
 	
 	public AbstractExportDialog(
 			String title,
@@ -98,7 +97,7 @@ abstract class AbstractExportDialog extends JDialog {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				AbstractExportDialog.this.exportFile.setText(null);
+				AbstractExportDialog.this.fileField.setFile(null);
 				AbstractExportDialog.this.setVisible(false);
 			}
 			
@@ -113,9 +112,7 @@ abstract class AbstractExportDialog extends JDialog {
 				"right:pref, 4dlu, fill:default:grow");
 		
 		// Export file
-		this.fileChooser = new JFileChooser();
-		this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		this.fileChooser.setFileFilter(new FileFilter() {
+		FileFilter fileFilter = new FileFilter() {
 			
 			@Override
 			public String getDescription() {
@@ -132,35 +129,15 @@ abstract class AbstractExportDialog extends JDialog {
 				return AbstractExportDialog.this.fileExtention.equals(extention);
 			}
 			
-		});
+		};
 		
-		this.exportFile = new JTextField();
-		JButton openFile = new JButton(Translations.getString("general.select"));
+		this.fileField = new JFileField(
+				null,
+				JFileChooser.FILES_ONLY,
+				fileFilter,
+				this.fileExtention);
 		
-		openFile.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int result = AbstractExportDialog.this.fileChooser.showSaveDialog(AbstractExportDialog.this);
-				
-				if (result == JFileChooser.APPROVE_OPTION) {
-					AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.fileChooser.getSelectedFile().getAbsolutePath());
-					if (!AbstractExportDialog.this.exportFile.getText().endsWith(
-							"." + AbstractExportDialog.this.fileExtention))
-						AbstractExportDialog.this.exportFile.setText(AbstractExportDialog.this.exportFile.getText()
-								+ "."
-								+ AbstractExportDialog.this.fileExtention);
-				}
-			}
-			
-		});
-		
-		JPanel importFilePanel = new JPanel();
-		importFilePanel.setLayout(new BorderLayout(5, 0));
-		importFilePanel.add(this.exportFile, BorderLayout.CENTER);
-		importFilePanel.add(openFile, BorderLayout.EAST);
-		
-		builder.appendI15d("export.export_to_file", true, importFilePanel);
+		builder.appendI15d("export.export_to_file", true, this.fileField);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
@@ -175,8 +152,8 @@ abstract class AbstractExportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("EXPORT")) {
 					try {
-						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.exportFile.getText());
-						AbstractExportDialog.this.exportFile.setText(null);
+						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.fileField.getFile());
+						AbstractExportDialog.this.fileField.setFile(null);
 						AbstractExportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
@@ -195,7 +172,7 @@ abstract class AbstractExportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					AbstractExportDialog.this.exportFile.setText(null);
+					AbstractExportDialog.this.fileField.setFile(null);
 					AbstractExportDialog.this.setVisible(false);
 				}
 			}
