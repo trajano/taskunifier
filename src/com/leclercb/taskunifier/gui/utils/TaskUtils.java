@@ -32,8 +32,11 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
@@ -64,29 +67,73 @@ public final class TaskUtils {
 	}
 	
 	public static String toHtml(Task[] tasks, TaskColumn[] columns) {
-		CheckUtils.isNotNull(tasks, "Tasks cannot be null");
-		CheckUtils.isNotNull(columns, "Columns cannot be null");
-		
+		String[][] data = toStringData(tasks, columns);
 		StringBuffer buffer = new StringBuffer();
 		
+		if (data == null)
+			return null;
+		
 		buffer.append("<table>");
+		
+		int i = 0;
+		for (String[] row : data) {
+			if (i == 0)
+				buffer.append("<tr style=\"font-weight:bold;\">");
+			else
+				buffer.append("<tr>");
+			
+			for (String col : row)
+				buffer.append("<td>"
+						+ StringEscapeUtils.escapeHtml(col)
+						+ "</td>");
+			buffer.append("</tr>");
+			
+			i++;
+		}
+		
+		buffer.append("</table>");
+		
+		return buffer.toString();
+	}
+	
+	public static String[][] toStringData(Task[] tasks, TaskColumn[] columns) {
+		CheckUtils.isNotNull(tasks, "Tasks cannot be null");
+		CheckUtils.isNotNull(columns, "Columns cannot be null");
 		
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
 		
-		buffer.append("<tr>");
+		int colCount = 0;
+		List<String[]> data = new ArrayList<String[]>();
 		
 		for (TaskColumn column : columns) {
-			buffer.append("<td>" + column.getLabel() + "</td>");
+			if (column == null)
+				continue;
+			
+			colCount++;
 		}
 		
-		buffer.append("</tr>");
+		if (colCount == 0)
+			return null;
+		
+		int i = 0;
+		String[] row = new String[colCount];
+		
+		for (TaskColumn column : columns) {
+			if (column == null)
+				continue;
+			
+			row[i++] = column.getLabel();
+		}
+		
+		data.add(row);
 		
 		for (Task task : tasks) {
 			if (task == null)
 				continue;
 			
-			buffer.append("<tr>");
+			i = 0;
+			row = new String[colCount];
 			
 			for (TaskColumn column : columns) {
 				if (column == null)
@@ -94,6 +141,7 @@ public final class TaskUtils {
 				
 				String content = null;
 				Object value = column.getValue(task);
+				
 				switch (column) {
 					case COMPLETED:
 						content = StringValueBoolean.INSTANCE.getString(value);
@@ -167,15 +215,13 @@ public final class TaskUtils {
 				if (content == null)
 					content = "";
 				
-				buffer.append("<td>" + content + "</td>");
+				row[i++] = content;
 			}
 			
-			buffer.append("</tr>");
+			data.add(row);
 		}
 		
-		buffer.append("</table>");
-		
-		return buffer.toString();
+		return data.toArray(new String[0][]);
 	}
 	
 	public static int getImportance(Task task) {

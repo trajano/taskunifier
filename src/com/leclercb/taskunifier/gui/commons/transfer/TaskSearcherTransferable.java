@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searchertree.draganddrop;
+package com.leclercb.taskunifier.gui.commons.transfer;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -48,14 +48,15 @@ public class TaskSearcherTransferable implements Transferable {
 	public static final DataFlavor TASK_SEARCHER_FLAVOR = new DataFlavor(
 			TaskSearcherTransferData.class,
 			"TASK_SEARCHER_FLAVOR");
+	
 	public static final DataFlavor[] FLAVORS = { TASK_SEARCHER_FLAVOR };
+	
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
 	private TaskSearcherTransferData data;
 	
 	public TaskSearcherTransferable(TaskSearcherTransferData data) {
 		CheckUtils.isNotNull(data, "Data cannot be null");
-		
 		this.data = data;
 	}
 	

@@ -48,6 +48,8 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferData;
+import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.searchertree.SearcherTree;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
