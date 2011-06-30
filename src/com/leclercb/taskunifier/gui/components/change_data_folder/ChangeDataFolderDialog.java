@@ -88,7 +88,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	
 	private void initialize() {
 		this.setModal(true);
-		this.setTitle(Translations.getString("action.name.change_data_folder_location"));
+		this.setTitle(Translations.getString("action.change_data_folder_location"));
 		this.setSize(500, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
@@ -193,7 +193,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		resetButton.addActionListener(listener);
 		
 		JButton importButton = new JButton(
-				Translations.getString("action.name.change_data_folder_location"));
+				Translations.getString("action.change_data_folder_location"));
 		importButton.setActionCommand("CHANGE");
 		importButton.addActionListener(listener);
 		

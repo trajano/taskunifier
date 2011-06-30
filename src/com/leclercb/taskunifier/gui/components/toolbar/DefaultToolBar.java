@@ -86,7 +86,7 @@ public class DefaultToolBar extends JToolBar {
 	
 	private void initializeTemplates() {
 		final JPopupMenu popupMenu = new JPopupMenu(
-				Translations.getString("action.name.add_template_task"));
+				Translations.getString("action.add_template_task"));
 		
 		TemplateUtils.updateTemplateList(null, popupMenu);
 		
@@ -108,10 +108,6 @@ public class DefaultToolBar extends JToolBar {
 				this.putValue(
 						SMALL_ICON,
 						Images.getResourceImage("duplicate.png", 24, 24));
-				
-				this.putValue(
-						SHORT_DESCRIPTION,
-						Translations.getString("action.description.add_template_task"));
 			}
 			
 			@Override

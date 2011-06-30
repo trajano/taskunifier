@@ -67,8 +67,8 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
-import com.leclercb.taskunifier.gui.components.notes.NotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
+import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.components.searchertree.SearcherPanel;
 import com.leclercb.taskunifier.gui.components.searchertree.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
@@ -110,7 +110,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private JCheckBox showCompletedTasksCheckBox;
 	private SearcherPanel searcherPanel;
 	
-	private NotePanel notePanel;
+	private NoteTable noteTable;
 	private TaskTable taskTable;
 	
 	private ModelNotePanel modelNote;
@@ -231,7 +231,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		if (view == View.NOTES)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
 					this,
-					this.notePanel.getSelectedNotes()));
+					this.noteTable.getSelectedNotes()));
 		else if (view == View.TASKS)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
 					this,
@@ -245,7 +245,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	@Override
 	public NoteView getNoteView() {
-		return this.notePanel;
+		return this.noteTable;
 	}
 	
 	@Override
@@ -335,7 +335,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (MainFrame.this.getSelectedView() == View.NOTES)
-					MainFrame.this.notePanel.setTitleFilter(e.getActionCommand());
+					MainFrame.this.noteTable.setTitleFilter(e.getActionCommand());
 				else
 					MainFrame.this.searcherPanel.setTitleFilter(e.getActionCommand());
 			}
@@ -411,9 +411,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeNotePanel(JPanel middlePane) {
-		this.notePanel = new NotePanel();
+		this.noteTable = new NoteTable();
 		
-		middlePane.add(this.notePanel, View.NOTES.name());
+		JPanel notePanel = new JPanel(new BorderLayout());
+		notePanel.add(
+				ComponentFactory.createJScrollPane(this.noteTable, false),
+				BorderLayout.CENTER);
+		
+		middlePane.add(notePanel, View.NOTES.name());
 	}
 	
 	private void initializeTaskPanel(JPanel middlePane) {
@@ -446,7 +451,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.modelNote = new ModelNotePanel();
 		
-		this.notePanel.addModelSelectionChangeListener(new ModelSelectionListener() {
+		this.noteTable.addModelSelectionChangeListener(new ModelSelectionListener() {
 			
 			@Override
 			public void modelSelectionChange(ModelSelectionChangeEvent event) {
@@ -503,7 +508,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			trayIcon.setPopupMenu(new TrayPopup(
 					this,
 					this.taskTable,
-					this.notePanel));
+					this.noteTable));
 			
 			this.addWindowListener(new WindowAdapter() {
 				

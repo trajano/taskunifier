@@ -227,7 +227,7 @@ public class MenuBar extends JMenuBar {
 	
 	private void initializeTemplateMenu(JMenu tasksMenu) {
 		final JMenu templatesMenu = new JMenu(
-				Translations.getString("action.name.add_template_task"));
+				Translations.getString("action.add_template_task"));
 		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
 		tasksMenu.add(templatesMenu);
 		

@@ -33,12 +33,20 @@
 package com.leclercb.taskunifier.gui.components.notes.table;
 
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -47,27 +55,36 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.notes.table.draganddrop.NoteTransferHandler;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class NoteTable extends JXTable {
+public class NoteTable extends JXTable implements NoteView {
+	
+	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
 	private NoteRowFilter filter;
 	
 	public NoteTable() {
+		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
 	
@@ -80,6 +97,7 @@ public class NoteTable extends JXTable {
 		}
 	}
 	
+	@Override
 	public Note[] getSelectedNotes() {
 		int[] indexes = this.getSelectedRows();
 		
@@ -96,6 +114,7 @@ public class NoteTable extends JXTable {
 		return notes.toArray(new Note[0]);
 	}
 	
+	@Override
 	public void setSelectedNotes(Note[] notes) {
 		NoteTableModel model = (NoteTableModel) this.getModel();
 		
@@ -125,6 +144,7 @@ public class NoteTable extends JXTable {
 			this.scrollRowToVisible(firstRowIndex);
 	}
 	
+	@Override
 	public void setSelectedNoteAndStartEdit(Note note) {
 		this.setSelectedNotes(new Note[] { note });
 		
@@ -148,17 +168,56 @@ public class NoteTable extends JXTable {
 		}
 	}
 	
+	@Override
 	public void refreshNotes() {
 		this.getRowSorter().allRowsChanged();
 	}
 	
+	@Override
 	public String getTitleFilter() {
 		return this.filter.getTitleFilter();
 	}
 	
+	@Override
 	public void setTitleFilter(String titleFilter) {
 		this.filter.setTitleFilter(titleFilter);
 		this.refreshNotes();
+	}
+	
+	@Override
+	public void printNotes() throws HeadlessException, PrinterException {
+		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+		attributes.add(new JobName(Constants.TITLE, null));
+		attributes.add(OrientationRequested.LANDSCAPE);
+		
+		this.print(PrintMode.FIT_WIDTH, new MessageFormat(Constants.TITLE
+				+ " - Notes"), new MessageFormat(this.getRowCount()
+				+ " notes | Page - {0}"), true, attributes, true);
+	}
+	
+	@Override
+	public void pasteNote() {
+		TransferHandler.getPasteAction().actionPerformed(
+				new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		
+		this.commitChanges();
+	}
+	
+	@Override
+	public void commitChanges() {
+		if (this.getCellEditor() != null)
+			this.getCellEditor().stopCellEditing();
+	}
+	
+	@Override
+	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
+		this.noteSelectionChangeSupport.addModelSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeModelSelectionChangeListener(
+			ModelSelectionListener listener) {
+		this.noteSelectionChangeSupport.removeModelSelectionChangeListener(listener);
 	}
 	
 	private void initialize() {
@@ -188,6 +247,16 @@ public class NoteTable extends JXTable {
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
+		
+		this.getSelectionModel().addListSelectionListener(
+				new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						NoteTable.this.noteSelectionChangeSupport.fireModelSelectionChange(NoteTable.this.getSelectedNotes());
+					}
+					
+				});
 	}
 	
 	private void initializeDeleteNote() {
