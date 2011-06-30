@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.about;
 
 import java.awt.BorderLayout;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -42,7 +43,7 @@ import javax.swing.SwingConstants;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -78,7 +79,7 @@ public class AboutPanel extends JPanel {
 		JXEditorPane aboutMessage = new JXEditorPane();
 		aboutMessage.setContentType("text/html");
 		aboutMessage.setEditable(false);
-		aboutMessage.setText(Translations.getString("about.message"));
+		aboutMessage.setText(this.getAboutMessage());
 		aboutMessage.setCaretPosition(0);
 		
 		panel.add(
@@ -86,6 +87,16 @@ public class AboutPanel extends JPanel {
 				BorderLayout.CENTER);
 		
 		this.add(panel, BorderLayout.CENTER);
+	}
+	
+	private String getAboutMessage() {
+		try {
+			Properties properties = new Properties();
+			properties.load(Resources.class.getResourceAsStream("about_message.properties"));
+			return (String) properties.get("about.message");
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 }
