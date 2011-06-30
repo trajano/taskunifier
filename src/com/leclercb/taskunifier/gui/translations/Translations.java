@@ -54,15 +54,16 @@ public final class Translations {
 	private static final String bundleFolder = Main.RESOURCES_FOLDER
 			+ File.separator
 			+ "translations";
+	
 	private static final String bundleName = "Translations";
 	
-	private static final Locale defaultLocale = new Locale("en", "US");
 	private static final String defaultBundle = bundleFolder
 			+ File.separator
 			+ bundleName
 			+ ".properties";
 	
 	private static Map<Locale, File> locales;
+	private static ResourceBundle defaultMessages;
 	private static ResourceBundle messages;
 	
 	static {
@@ -73,6 +74,18 @@ public final class Translations {
 			e.printStackTrace();
 			locales = new HashMap<Locale, File>();
 		}
+		
+		try {
+			defaultMessages = new PropertyResourceBundle(new FileInputStream(
+					defaultBundle));
+		} catch (Exception e) {
+			e.printStackTrace();
+			defaultMessages = null;
+		}
+	}
+	
+	public static Locale[] getAvailableLocales() {
+		return locales.keySet().toArray(new Locale[0]);
 	}
 	
 	public static Locale getLocale() {
@@ -81,11 +94,12 @@ public final class Translations {
 	
 	public static void setLocale(Locale locale) {
 		Locale.setDefault(locale);
+		
 		File file = locales.get(locale);
 		
 		if (file == null) {
-			Locale.setDefault(defaultLocale);
-			file = new File(defaultBundle);
+			messages = null;
+			return;
 		}
 		
 		try {
@@ -96,15 +110,14 @@ public final class Translations {
 		}
 	}
 	
-	public static Locale[] getAvailableLocales() {
-		return locales.keySet().toArray(new Locale[0]);
-	}
-	
 	public static String getString(String key) {
-		if (messages == null || !messages.containsKey(key))
-			return "#" + key + "#";
+		if (messages != null && messages.containsKey(key))
+			return messages.getString(key);
 		
-		return messages.getString(key);
+		if (defaultMessages != null && defaultMessages.containsKey(key))
+			return defaultMessages.getString(key);
+		
+		return "#" + key + "#";
 	}
 	
 	public static String getString(String key, Object... args) {
