@@ -52,13 +52,10 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 	public ActionQuit(int width, int height) {
-		super(
-				Translations.getString("action.name.quit"),
-				Images.getResourceImage("exit.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.quit"));
+		super(Translations.getString("action.quit"), Images.getResourceImage(
+				"exit.png",
+				width,
+				height));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Q,

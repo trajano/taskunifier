@@ -58,13 +58,10 @@ public class ActionDelete extends AbstractAction {
 	}
 	
 	public ActionDelete(int width, int height) {
-		super(
-				Translations.getString("action.name.delete"),
-				Images.getResourceImage("remove.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.delete"));
+		super(Translations.getString("action.delete"), Images.getResourceImage(
+				"remove.png",
+				width,
+				height));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_D,

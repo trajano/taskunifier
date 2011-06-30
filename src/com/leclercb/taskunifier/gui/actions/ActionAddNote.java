@@ -56,12 +56,8 @@ public class ActionAddNote extends AbstractAction {
 	
 	public ActionAddNote(int width, int height) {
 		super(
-				Translations.getString("action.name.add_note"),
+				Translations.getString("action.add_note"),
 				Images.getResourceImage("note.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_note"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_N,

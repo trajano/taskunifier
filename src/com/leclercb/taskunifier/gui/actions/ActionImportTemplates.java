@@ -50,12 +50,8 @@ public class ActionImportTemplates extends AbstractAction {
 	
 	public ActionImportTemplates(int width, int height) {
 		super(
-				Translations.getString("action.name.import_templates"),
+				Translations.getString("action.import_templates"),
 				Images.getResourceImage("download.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.import_templates"));
 	}
 	
 	@Override

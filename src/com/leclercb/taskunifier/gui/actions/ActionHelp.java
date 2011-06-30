@@ -49,13 +49,10 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public ActionHelp(int width, int height) {
-		super(
-				Translations.getString("action.name.help"),
-				Images.getResourceImage("help.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.help"));
+		super(Translations.getString("action.help"), Images.getResourceImage(
+				"help.png",
+				width,
+				height));
 	}
 	
 	@Override

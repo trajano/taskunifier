@@ -33,16 +33,24 @@
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PrinterException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.DropMode;
@@ -52,6 +60,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -59,7 +69,11 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
@@ -75,15 +89,19 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskTable extends JXTable {
+public class TaskTable extends JXTable implements TaskView {
+	
+	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
 	private TaskTableMenu taskTableMenu;
 	
 	public TaskTable() {
+		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
 	
@@ -96,6 +114,7 @@ public class TaskTable extends JXTable {
 		}
 	}
 	
+	@Override
 	public Task[] getSelectedTasks() {
 		int[] indexes = this.getSelectedRows();
 		
@@ -112,6 +131,7 @@ public class TaskTable extends JXTable {
 		return tasks.toArray(new Task[0]);
 	}
 	
+	@Override
 	public void setSelectedTasks(Task[] tasks) {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 		
@@ -141,6 +161,7 @@ public class TaskTable extends JXTable {
 			this.scrollRowToVisible(firstRowIndex);
 	}
 	
+	@Override
 	public void setSelectedTaskAndStartEdit(Task task) {
 		this.setSelectedTasks(new Task[] { task });
 		
@@ -164,6 +185,7 @@ public class TaskTable extends JXTable {
 		}
 	}
 	
+	@Override
 	public void refreshTasks() {
 		this.getRowSorter().allRowsChanged();
 	}
@@ -181,6 +203,55 @@ public class TaskTable extends JXTable {
 		this.getSortController().setRowFilter(
 				new TaskRowFilter(searcher.getFilter()));
 		this.refreshTasks();
+	}
+	
+	@Override
+	public void printTasks() throws HeadlessException, PrinterException {
+		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+		attributes.add(new JobName(Constants.TITLE, null));
+		attributes.add(OrientationRequested.LANDSCAPE);
+		
+		this.print(
+				PrintMode.FIT_WIDTH,
+				new MessageFormat(Constants.TITLE
+						+ " - "
+						+ this.getTaskSearcher().getTitle()),
+				new MessageFormat(this.getRowCount() + " tasks | Page - {0}"),
+				true,
+				attributes,
+				true);
+	}
+	
+	@Override
+	public void pasteTask() {
+		TransferHandler.getPasteAction().actionPerformed(
+				new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		
+		this.commitChanges();
+	}
+	
+	@Override
+	public void commitChanges() {
+		if (this.getCellEditor() != null)
+			this.getCellEditor().stopCellEditing();
+	}
+	
+	@Override
+	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
+		this.modelSelectionChangeSupport.addModelSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeModelSelectionChangeListener(
+			ModelSelectionListener listener) {
+		this.modelSelectionChangeSupport.removeModelSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void taskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
+		if (event.getSelectedTaskSearcher() != null)
+			this.setTaskSearcher(event.getSelectedTaskSearcher());
 	}
 	
 	private void initialize() {
@@ -218,6 +289,16 @@ public class TaskTable extends JXTable {
 					}
 					
 				});
+		
+		this.getSelectionModel().addListSelectionListener(
+				new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						TaskTable.this.modelSelectionChangeSupport.fireModelSelectionChange(TaskTable.this.getSelectedTasks());
+					}
+					
+				});
 	}
 	
 	private void initializeDeleteTask() {
@@ -250,22 +331,10 @@ public class TaskTable extends JXTable {
 					if (task == null)
 						return;
 					
-					boolean found = false;
-					Task[] selectedTasks = TaskTable.this.getSelectedTasks();
-					for (Task selectedTask : selectedTasks) {
-						if (task.equals(selectedTask)) {
-							found = true;
-							break;
-						}
-					}
+					TaskTable.this.commitChanges();
 					
-					if (!found)
-						TaskTable.this.setSelectedTasks(new Task[] { task });
+					TaskTable.this.setSelectedTasks(new Task[] { task });
 					
-					if (TaskTable.this.getCellEditor() != null)
-						TaskTable.this.getCellEditor().stopCellEditing();
-					
-					TaskTable.this.taskTableMenu.setFocussedTask(task);
 					TaskTable.this.taskTableMenu.show(
 							event.getComponent(),
 							event.getX(),

@@ -50,12 +50,8 @@ public class ActionManageModels extends AbstractAction {
 	
 	public ActionManageModels(int width, int height) {
 		super(
-				Translations.getString("action.name.manage_models"),
+				Translations.getString("action.manage_models"),
 				Images.getResourceImage("folder.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.manage_models"));
 	}
 	
 	@Override

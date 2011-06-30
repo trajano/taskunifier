@@ -49,10 +49,10 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -202,20 +202,7 @@ public class TaskTransferHandler extends TransferHandler {
 				
 				return true;
 			} else {
-				// Get Objects
-				TaskTable table = (TaskTable) support.getComponent();
-				
-				List<Task> newTasks = new ArrayList<Task>();
-				
-				Synchronizing.setSynchronizing(true);
-				
-				for (Task dragTask : dragTasks)
-					newTasks.add(TaskFactory.getInstance().create(dragTask));
-				
-				Synchronizing.setSynchronizing(false);
-				
-				table.refreshTasks();
-				table.setSelectedTasks(newTasks.toArray(new Task[0]));
+				ActionDuplicateTasks.duplicateTasks(dragTasks.toArray(new Task[0]));
 				
 				return true;
 			}

@@ -49,12 +49,8 @@ public abstract class ActionCreateAccount extends AbstractAction {
 	
 	public ActionCreateAccount(int width, int height) {
 		super(
-				Translations.getString("action.name.create_account"),
+				Translations.getString("action.create_account"),
 				Images.getResourceImage("user.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.create_account"));
 	}
 	
 	@Override

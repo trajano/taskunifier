@@ -56,13 +56,10 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	}
 	
 	public ActionUndo(int width, int height) {
-		super(
-				Translations.getString("action.name.undo"),
-				Images.getResourceImage("undo.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.undo"));
+		super(Translations.getString("action.undo"), Images.getResourceImage(
+				"undo.png",
+				width,
+				height));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Z,

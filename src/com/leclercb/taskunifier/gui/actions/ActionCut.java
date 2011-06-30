@@ -54,13 +54,10 @@ public class ActionCut extends AbstractAction {
 	}
 	
 	public ActionCut(int width, int height) {
-		super(
-				Translations.getString("action.name.cut"),
-				Images.getResourceImage("cut.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.cut"));
+		super(Translations.getString("action.cut"), Images.getResourceImage(
+				"cut.png",
+				width,
+				height));
 		
 		this.putValue(
 				ACTION_COMMAND_KEY,

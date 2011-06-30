@@ -55,13 +55,10 @@ public class ActionPrint extends AbstractAction {
 	}
 	
 	public ActionPrint(int width, int height) {
-		super(
-				Translations.getString("action.name.print"),
-				Images.getResourceImage("print.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.print"));
+		super(Translations.getString("action.print"), Images.getResourceImage(
+				"print.png",
+				width,
+				height));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_P,

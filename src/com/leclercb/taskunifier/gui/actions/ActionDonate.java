@@ -52,13 +52,10 @@ public class ActionDonate extends AbstractAction {
 	}
 	
 	public ActionDonate(int width, int height) {
-		super(
-				Translations.getString("action.name.donate"),
-				Images.getResourceImage("dollar.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.donate"));
+		super(Translations.getString("action.donate"), Images.getResourceImage(
+				"dollar.png",
+				width,
+				height));
 	}
 	
 	@Override

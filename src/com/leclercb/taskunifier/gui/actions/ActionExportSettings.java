@@ -50,12 +50,8 @@ public class ActionExportSettings extends AbstractAction {
 	
 	public ActionExportSettings(int width, int height) {
 		super(
-				Translations.getString("action.name.export_settings"),
+				Translations.getString("action.export_settings"),
 				Images.getResourceImage("upload.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.export_settings"));
 	}
 	
 	@Override

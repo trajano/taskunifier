@@ -65,12 +65,8 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	
 	public ActionCheckPluginVersion(boolean silent, int width, int height) {
 		super(
-				Translations.getString("action.name.check_plugin_version"),
+				Translations.getString("action.check_plugin_version"),
 				Images.getResourceImage("download.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.check_plugin_version"));
 		
 		this.silent = silent;
 	}

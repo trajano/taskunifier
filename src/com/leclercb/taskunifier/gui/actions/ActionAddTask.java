@@ -59,12 +59,8 @@ public class ActionAddTask extends AbstractAction {
 	
 	public ActionAddTask(int width, int height) {
 		super(
-				Translations.getString("action.name.add_task"),
+				Translations.getString("action.add_task"),
 				Images.getResourceImage("task.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.add_task"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_T,

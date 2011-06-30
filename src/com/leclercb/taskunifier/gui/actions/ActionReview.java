@@ -49,13 +49,10 @@ public class ActionReview extends AbstractAction {
 	}
 	
 	public ActionReview(int width, int height) {
-		super(
-				Translations.getString("action.name.review"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.review"));
+		super(Translations.getString("action.review"), Images.getResourceImage(
+				"information.png",
+				width,
+				height));
 	}
 	
 	@Override

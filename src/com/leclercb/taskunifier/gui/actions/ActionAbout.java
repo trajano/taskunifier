@@ -49,13 +49,10 @@ public class ActionAbout extends AbstractAction {
 	}
 	
 	public ActionAbout(int width, int height) {
-		super(
-				Translations.getString("action.name.about"),
-				Images.getResourceImage("information.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.about"));
+		super(Translations.getString("action.about"), Images.getResourceImage(
+				"information.png",
+				width,
+				height));
 	}
 	
 	@Override

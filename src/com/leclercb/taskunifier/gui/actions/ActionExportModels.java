@@ -50,12 +50,8 @@ public class ActionExportModels extends AbstractAction {
 	
 	public ActionExportModels(int width, int height) {
 		super(
-				Translations.getString("action.name.export_models"),
+				Translations.getString("action.export_models"),
 				Images.getResourceImage("upload.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.export_models"));
 	}
 	
 	@Override

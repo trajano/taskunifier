@@ -47,11 +47,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class ActionLogFeatureRequest extends AbstractAction {
 	
 	public ActionLogFeatureRequest() {
-		super(Translations.getString("action.name.log_feature_request"));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.log_feature_request"));
+		super(Translations.getString("action.log_feature_request"));
 	}
 	
 	@Override

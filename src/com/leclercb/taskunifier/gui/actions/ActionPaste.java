@@ -54,13 +54,10 @@ public class ActionPaste extends AbstractAction {
 	}
 	
 	public ActionPaste(int width, int height) {
-		super(
-				Translations.getString("action.name.paste"),
-				Images.getResourceImage("paste.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.paste"));
+		super(Translations.getString("action.paste"), Images.getResourceImage(
+				"paste.png",
+				width,
+				height));
 		
 		this.putValue(
 				ACTION_COMMAND_KEY,

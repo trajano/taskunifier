@@ -47,11 +47,7 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class ActionLogBug extends AbstractAction {
 	
 	public ActionLogBug() {
-		super(Translations.getString("action.name.log_bug"));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.log_bug"));
+		super(Translations.getString("action.log_bug"));
 	}
 	
 	@Override

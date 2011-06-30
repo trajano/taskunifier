@@ -33,41 +33,50 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionExpandAll extends AbstractAction {
+public class ActionDuplicateTasks extends AbstractAction {
 	
-	public ActionExpandAll() {
+	public ActionDuplicateTasks() {
+		this(32, 32);
+	}
+	
+	public ActionDuplicateTasks(int width, int height) {
 		super(
-				Translations.getString("action.expand_all"),
-				Images.getResourceImage("tree_collapsed.png", 9, 9));
+				Translations.getString("action.duplicate_tasks"),
+				Images.getResourceImage("duplicate.png", width, height));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionExpandAll.expandAll();
+		ActionDuplicateTasks.duplicateTasks(MainFrame.getInstance().getTaskView().getSelectedTasks());
 	}
 	
-	public static void expandAll() {
+	public static void duplicateTasks(Task[] tasks) {
+		List<Task> newTasks = new ArrayList<Task>();
+		
 		Synchronizing.setSynchronizing(true);
 		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		for (Task task : tasks) {
-			((GuiTask) task).setShowChildren(true);
-		}
+		for (Task task : tasks)
+			newTasks.add(TaskFactory.getInstance().create(task));
 		
 		Synchronizing.setSynchronizing(false);
+		
+		MainFrame.getInstance().getTaskView().refreshTasks();
+		MainFrame.getInstance().getTaskView().setSelectedTasks(
+				newTasks.toArray(new Task[0]));
 	}
 	
 }

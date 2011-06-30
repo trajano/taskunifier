@@ -56,13 +56,10 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 	}
 	
 	public ActionRedo(int width, int height) {
-		super(
-				Translations.getString("action.name.redo"),
-				Images.getResourceImage("redo.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.redo"));
+		super(Translations.getString("action.redo"), Images.getResourceImage(
+				"redo.png",
+				width,
+				height));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Y,

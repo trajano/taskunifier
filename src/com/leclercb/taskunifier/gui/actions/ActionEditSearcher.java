@@ -55,12 +55,8 @@ public class ActionEditSearcher extends AbstractAction {
 	
 	public ActionEditSearcher(int width, int height) {
 		super(
-				Translations.getString("action.name.edit_searcher"),
+				Translations.getString("action.edit_searcher"),
 				Images.getResourceImage("search.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.edit_searcher"));
 	}
 	
 	@Override

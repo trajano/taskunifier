@@ -60,12 +60,8 @@ public class ActionBatchAddTasks extends AbstractAction {
 	
 	public ActionBatchAddTasks(int width, int height) {
 		super(
-				Translations.getString("action.name.batch_add_tasks"),
+				Translations.getString("action.batch_add_tasks"),
 				Images.getResourceImage("duplicate.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.batch_add_tasks"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_B,

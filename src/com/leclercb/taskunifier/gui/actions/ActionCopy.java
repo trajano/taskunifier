@@ -54,13 +54,10 @@ public class ActionCopy extends AbstractAction {
 	}
 	
 	public ActionCopy(int width, int height) {
-		super(
-				Translations.getString("action.name.copy"),
-				Images.getResourceImage("copy.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.copy"));
+		super(Translations.getString("action.copy"), Images.getResourceImage(
+				"copy.png",
+				width,
+				height));
 		
 		this.putValue(
 				ACTION_COMMAND_KEY,

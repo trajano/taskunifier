@@ -50,12 +50,8 @@ public class ActionImportModels extends AbstractAction {
 	
 	public ActionImportModels(int width, int height) {
 		super(
-				Translations.getString("action.name.import_models"),
+				Translations.getString("action.import_models"),
 				Images.getResourceImage("download.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.import_models"));
 	}
 	
 	@Override

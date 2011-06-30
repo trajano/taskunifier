@@ -61,16 +61,12 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public ActionChangeView(MainView view, int width, int height) {
-		super(Translations.getString("action.name.change_view"));
+		super(Translations.getString("action.change_view"));
 		
 		this.view = view;
 		
 		this.width = width;
 		this.height = height;
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.description.change_view"));
 		
 		this.putValue(
 				ACCELERATOR_KEY,

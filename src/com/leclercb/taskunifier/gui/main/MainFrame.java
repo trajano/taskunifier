@@ -74,8 +74,8 @@ import com.leclercb.taskunifier.gui.components.searchertree.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
-import com.leclercb.taskunifier.gui.components.tasks.TaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
@@ -111,7 +111,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private SearcherPanel searcherPanel;
 	
 	private NotePanel notePanel;
-	private TaskPanel taskPanel;
+	private TaskTable taskTable;
 	
 	private ModelNotePanel modelNote;
 	
@@ -235,7 +235,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		else if (view == View.TASKS)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
 					this,
-					this.taskPanel.getSelectedTasks()));
+					this.taskTable.getSelectedTasks()));
 		
 		View oldSelectedView = this.selectedView;
 		this.selectedView = view;
@@ -250,7 +250,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	@Override
 	public TaskView getTaskView() {
-		return this.taskPanel;
+		return this.taskTable;
 	}
 	
 	private void loadWindowSizeSettings() {
@@ -296,17 +296,17 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeMenuBar() {
-		this.setJMenuBar(new MenuBar(this, this.taskPanel));
+		this.setJMenuBar(new MenuBar(this, this.taskTable));
 	}
 	
 	private void initializeToolBar() {
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			this.add(
-					new MacToolBar(this, this.taskPanel, this.searchField).getComponent(),
+					new MacToolBar(this, this.taskTable, this.searchField).getComponent(),
 					BorderLayout.NORTH);
 		} else {
 			this.add(
-					new DefaultToolBar(this, this.taskPanel),
+					new DefaultToolBar(this, this.taskTable),
 					BorderLayout.NORTH);
 		}
 	}
@@ -417,22 +417,28 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeTaskPanel(JPanel middlePane) {
-		this.taskPanel = new TaskPanel();
-		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskPanel);
+		this.taskTable = new TaskTable();
+		
+		JPanel taskPanel = new JPanel(new BorderLayout());
+		taskPanel.add(
+				ComponentFactory.createJScrollPane(this.taskTable, false),
+				BorderLayout.CENTER);
+		
+		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskTable);
 		this.searcherPanel.addPropertyChangeListener(
 				SearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						MainFrame.this.taskPanel.taskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
+						MainFrame.this.taskTable.taskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
 								evt.getSource(),
 								MainFrame.this.searcherPanel.getSelectedTaskSearcher()));
 					}
 					
 				});
 		
-		middlePane.add(this.taskPanel, View.TASKS.name());
+		middlePane.add(taskPanel, View.TASKS.name());
 	}
 	
 	private void initializeModelNote(JSplitPane verticalSplitPane) {
@@ -450,7 +456,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 		});
 		
-		this.taskPanel.addModelSelectionChangeListener(new ModelSelectionListener() {
+		this.taskTable.addModelSelectionChangeListener(new ModelSelectionListener() {
 			
 			@Override
 			public void modelSelectionChange(ModelSelectionChangeEvent event) {
@@ -496,7 +502,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			trayIcon.setPopupMenu(new TrayPopup(
 					this,
-					this.taskPanel,
+					this.taskTable,
 					this.notePanel));
 			
 			this.addWindowListener(new WindowAdapter() {
