@@ -30,38 +30,18 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.models.coders;
+package com.leclercb.taskunifier.gui.api.models.beans;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import java.awt.Color;
 
-import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.coders.GoalFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class GuiGoalFactoryXMLCoder extends GoalFactoryXMLCoder {
+public interface GuiModelBean extends ModelBean {
 	
-	public GuiGoalFactoryXMLCoder() {
-		super();
-	}
+	public abstract Color getColor();
 	
-	@Override
-	protected void decodeExtended(Goal goal, Node node)
-			throws FactoryCoderException {
-		GuiModelFactoryXMLCoderUtils.decodeExtended((GuiModel) goal, node);
-	}
-	
-	@Override
-	protected void encodeExtended(Goal goal, Document document, Element element)
-			throws FactoryCoderException {
-		GuiModelFactoryXMLCoderUtils.encodeExtended(
-				(GuiModel) goal,
-				document,
-				element);
-	}
+	public abstract void setColor(Color color);
 	
 }

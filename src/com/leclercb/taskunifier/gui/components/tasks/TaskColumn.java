@@ -36,8 +36,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -243,7 +244,7 @@ public enum TaskColumn {
 			case TITLE:
 				return task.getTitle();
 			case TAGS:
-				return ArrayUtils.arrayToString(task.getTags(), ", ");
+				return StringUtils.join(task.getTags(), ", ");
 			case FOLDER:
 				return task.getFolder();
 			case CONTEXT:

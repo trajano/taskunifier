@@ -30,40 +30,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.models.coders;
+package com.leclercb.taskunifier.gui.api.models.beans;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import java.awt.Color;
 
-import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.taskunifier.api.models.Context;
-import com.leclercb.taskunifier.api.models.coders.ContextFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.beans.FolderBean;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @Reviewed
-public class GuiContextFactoryXMLCoder extends ContextFactoryXMLCoder {
+public class GuiFolderBean extends FolderBean implements GuiModelBean {
 	
-	public GuiContextFactoryXMLCoder() {
+	@XStreamAlias("color")
+	@XStreamConverter(ColorConverter.class)
+	private Color color;
+	
+	public GuiFolderBean() {
 		super();
 	}
 	
-	@Override
-	protected void decodeExtended(Context context, Node node)
-			throws FactoryCoderException {
-		GuiModelFactoryXMLCoderUtils.decodeExtended((GuiModel) context, node);
+	public GuiFolderBean(ModelId modelId) {
+		super(modelId);
 	}
 	
 	@Override
-	protected void encodeExtended(
-			Context context,
-			Document document,
-			Element element) throws FactoryCoderException {
-		GuiModelFactoryXMLCoderUtils.encodeExtended(
-				(GuiModel) context,
-				document,
-				element);
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }

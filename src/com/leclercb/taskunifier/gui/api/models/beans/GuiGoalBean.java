@@ -30,22 +30,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.api.models.beans;
 
-import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
 
-import org.apache.commons.lang.ArrayUtils;
-
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.beans.GoalBean;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @Reviewed
-public class TaskStatusModel extends DefaultComboBoxModel {
+public class GuiGoalBean extends GoalBean implements GuiModelBean {
 	
-	public TaskStatusModel(boolean firstNull) {
-		super(ArrayUtils.add(
-				(firstNull ? new TaskStatus[] { null } : new TaskStatus[0]),
-				TaskStatus.values()));
+	@XStreamAlias("color")
+	@XStreamConverter(ColorConverter.class)
+	private Color color;
+	
+	public GuiGoalBean() {
+		super();
+	}
+	
+	public GuiGoalBean(ModelId modelId) {
+		super(modelId);
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }

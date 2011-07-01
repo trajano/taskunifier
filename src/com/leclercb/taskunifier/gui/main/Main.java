@@ -66,8 +66,8 @@ import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
@@ -80,11 +80,11 @@ import com.leclercb.taskunifier.gui.api.models.GuiFolder;
 import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiContextFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiFolderFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiContextBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiFolderBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiGoalBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiLocationBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
@@ -354,15 +354,21 @@ public class Main {
 	}
 	
 	private static void loadModels() throws Exception {
-		ContextFactory.initializeWithClass(GuiContext.class);
-		FolderFactory.initializeWithClass(GuiFolder.class);
-		GoalFactory.initializeWithClass(GuiGoal.class);
-		LocationFactory.initializeWithClass(GuiLocation.class);
-		TaskFactory.initializeWithClass(GuiTask.class);
+		ContextFactory.initializeWithClass(
+				GuiContext.class,
+				GuiContextBean.class);
+		FolderFactory.initializeWithClass(GuiFolder.class, GuiFolderBean.class);
+		GoalFactory.initializeWithClass(GuiGoal.class, GuiGoalBean.class);
+		LocationFactory.initializeWithClass(
+				GuiLocation.class,
+				GuiLocationBean.class);
+		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
 		try {
-			new GuiContextFactoryXMLCoder().decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "contexts.xml"));
+			ContextFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "contexts.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -375,8 +381,10 @@ public class Main {
 		}
 		
 		try {
-			new GuiFolderFactoryXMLCoder().decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "folders.xml"));
+			FolderFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "folders.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -389,9 +397,10 @@ public class Main {
 		}
 		
 		try {
-			new GuiGoalFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
-					+ File.separator
-					+ "goals.xml"));
+			GoalFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "goals.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -404,8 +413,10 @@ public class Main {
 		}
 		
 		try {
-			new GuiLocationFactoryXMLCoder().decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "locations.xml"));
+			LocationFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "locations.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -418,9 +429,10 @@ public class Main {
 		}
 		
 		try {
-			new NoteFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
-					+ File.separator
-					+ "notes.xml"));
+			NoteFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "notes.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -433,9 +445,10 @@ public class Main {
 		}
 		
 		try {
-			new GuiTaskFactoryXMLCoder().decode(new FileInputStream(DATA_FOLDER
-					+ File.separator
-					+ "tasks.xml"));
+			TaskFactory.getInstance().decodeFromXML(
+					new FileInputStream(DATA_FOLDER
+							+ File.separator
+							+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -584,8 +597,10 @@ public class Main {
 		
 		try {
 			try {
-				new GuiContextFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "contexts.xml"));
+				ContextFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "contexts.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -596,8 +611,10 @@ public class Main {
 			}
 			
 			try {
-				new GuiFolderFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "folders.xml"));
+				FolderFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "folders.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -608,8 +625,10 @@ public class Main {
 			}
 			
 			try {
-				new GuiGoalFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "goals.xml"));
+				GoalFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "goals.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -620,8 +639,10 @@ public class Main {
 			}
 			
 			try {
-				new GuiLocationFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "locations.xml"));
+				LocationFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "locations.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -632,8 +653,10 @@ public class Main {
 			}
 			
 			try {
-				new NoteFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "notes.xml"));
+				NoteFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "notes.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -644,8 +667,10 @@ public class Main {
 			}
 			
 			try {
-				new GuiTaskFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "tasks.xml"));
+				TaskFactory.getInstance().encodeToXML(
+						new FileOutputStream(DATA_FOLDER
+								+ File.separator
+								+ "tasks.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(

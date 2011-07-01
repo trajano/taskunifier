@@ -39,12 +39,12 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiContextFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiFolderFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
+import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -74,7 +74,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// CONTEXTS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new GuiContextFactoryXMLCoder().encode(output);
+			ContextFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(zos, "contexts.xml", new ByteArrayInputStream(
 					output.toByteArray()));
@@ -83,7 +83,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// FOLDERS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new GuiFolderFactoryXMLCoder().encode(output);
+			FolderFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(zos, "folders.xml", new ByteArrayInputStream(
 					output.toByteArray()));
@@ -92,7 +92,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// GOALS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new GuiGoalFactoryXMLCoder().encode(output);
+			GoalFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(
 					zos,
@@ -103,7 +103,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// LOCATIONS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new GuiLocationFactoryXMLCoder().encode(output);
+			LocationFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(zos, "locations.xml", new ByteArrayInputStream(
 					output.toByteArray()));
@@ -112,7 +112,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// NOTES
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new NoteFactoryXMLCoder().encode(output);
+			NoteFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(
 					zos,
@@ -123,7 +123,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 		// TASKS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			new GuiTaskFactoryXMLCoder().encode(output);
+			TaskFactory.getInstance().encodeToXML(output);
 			
 			this.writeIntoZip(
 					zos,

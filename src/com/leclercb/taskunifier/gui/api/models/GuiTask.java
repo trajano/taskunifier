@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.api.models;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -62,6 +64,22 @@ public class GuiTask extends Task {
 		boolean oldShowChildren = this.showChildren;
 		this.showChildren = showChildren;
 		this.updateProperty(PROP_SHOW_CHILDREN, oldShowChildren, showChildren);
+	}
+	
+	@Override
+	public void loadBean(TaskBean bean) {
+		super.loadBean(bean);
+		
+		if (bean instanceof GuiTaskBean)
+			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
+	}
+	
+	@Override
+	public void toBean(TaskBean bean) {
+		super.toBean(bean);
+		
+		if (bean instanceof GuiTaskBean)
+			((GuiTaskBean) bean).setShowChildren(this.isShowChildren());
 	}
 	
 }

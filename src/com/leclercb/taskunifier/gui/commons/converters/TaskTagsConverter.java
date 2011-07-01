@@ -32,9 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.commons.converters;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -54,7 +55,7 @@ public class TaskTagsConverter extends AbstractConverter {
 		if (tags == null)
 			return null;
 		
-		return ArrayUtils.arrayToString((String[]) tags, ", ");
+		return StringUtils.join((String[]) tags, ", ");
 	}
 	
 }

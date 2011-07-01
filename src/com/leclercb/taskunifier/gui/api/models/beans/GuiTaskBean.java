@@ -30,22 +30,33 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.api.models.beans;
 
-import javax.swing.DefaultComboBoxModel;
-
-import org.apache.commons.lang.ArrayUtils;
-
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @Reviewed
-public class TaskStatusModel extends DefaultComboBoxModel {
+public class GuiTaskBean extends TaskBean {
 	
-	public TaskStatusModel(boolean firstNull) {
-		super(ArrayUtils.add(
-				(firstNull ? new TaskStatus[] { null } : new TaskStatus[0]),
-				TaskStatus.values()));
+	@XStreamAlias("showchildren")
+	private boolean showChildren;
+	
+	public GuiTaskBean() {
+		super();
+	}
+	
+	public GuiTaskBean(ModelId modelId) {
+		super(modelId);
+	}
+	
+	public boolean isShowChildren() {
+		return this.showChildren;
+	}
+	
+	public void setShowChildren(boolean showChildren) {
+		this.showChildren = showChildren;
 	}
 	
 }

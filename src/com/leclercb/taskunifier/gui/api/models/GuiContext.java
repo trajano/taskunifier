@@ -36,6 +36,8 @@ import java.awt.Color;
 
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.beans.ContextBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiContextBean;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -62,6 +64,22 @@ public class GuiContext extends Context implements GuiModel {
 		Color oldColor = this.color;
 		this.color = color;
 		this.updateProperty(PROP_COLOR, oldColor, color);
+	}
+	
+	@Override
+	public void loadBean(ContextBean bean) {
+		super.loadBean(bean);
+		
+		if (bean instanceof GuiContextBean)
+			this.setColor(((GuiContextBean) bean).getColor());
+	}
+	
+	@Override
+	public void toBean(ContextBean bean) {
+		super.toBean(bean);
+		
+		if (bean instanceof GuiContextBean)
+			((GuiContextBean) bean).setColor(this.getColor());
 	}
 	
 }

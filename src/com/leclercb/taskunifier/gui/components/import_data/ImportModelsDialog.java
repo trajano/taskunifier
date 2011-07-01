@@ -41,12 +41,12 @@ import javax.swing.SwingWorker;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 
-import com.leclercb.taskunifier.api.models.coders.NoteFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiContextFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiFolderFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiGoalFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiLocationFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.coders.GuiTaskFactoryXMLCoder;
+import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
@@ -112,22 +112,28 @@ public class ImportModelsDialog extends AbstractImportDialog {
 							ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
 							
 							if (entry.getName().equals("contexts.xml"))
-								new GuiContextFactoryXMLCoder().decode(zip.getInputStream(entry));
+								ContextFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 							
 							if (entry.getName().equals("folders.xml"))
-								new GuiFolderFactoryXMLCoder().decode(zip.getInputStream(entry));
+								FolderFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 							
 							if (entry.getName().equals("goals.xml"))
-								new GuiGoalFactoryXMLCoder().decode(zip.getInputStream(entry));
+								GoalFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 							
 							if (entry.getName().equals("locations.xml"))
-								new GuiLocationFactoryXMLCoder().decode(zip.getInputStream(entry));
+								LocationFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 							
 							if (entry.getName().equals("notes.xml"))
-								new NoteFactoryXMLCoder().decode(zip.getInputStream(entry));
+								NoteFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 							
 							if (entry.getName().equals("tasks.xml"))
-								new GuiTaskFactoryXMLCoder().decode(zip.getInputStream(entry));
+								TaskFactory.getInstance().decodeFromXML(
+										zip.getInputStream(entry));
 						}
 						
 						Thread.sleep(1000);

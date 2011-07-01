@@ -30,49 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.models.coders;
+package com.leclercb.taskunifier.gui.api.models.beans.converters;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.awt.Color;
 
-import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.coders.TaskFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.api.models.GuiTask;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
 
-@Reviewed
-public class GuiTaskFactoryXMLCoder extends TaskFactoryXMLCoder {
+public class ColorConverter implements SingleValueConverter {
 	
-	public GuiTaskFactoryXMLCoder() {
-		super();
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean canConvert(Class cls) {
+		return Color.class.isAssignableFrom(cls);
 	}
 	
 	@Override
-	protected void decodeExtended(Task task, Node node)
-			throws FactoryCoderException {
-		NodeList nTask = node.getChildNodes();
+	public Object fromString(String value) {
+		if (value == null || value.length() == 0)
+			return null;
 		
-		boolean showChildren = true;
-		
-		for (int i = 0; i < nTask.getLength(); i++) {
-			Node element = nTask.item(i);
-			
-			if (element.getNodeName().equals("showchildren"))
-				showChildren = Boolean.parseBoolean(element.getTextContent());
-		}
-		
-		((GuiTask) task).setShowChildren(showChildren);
+		return new Color(Integer.parseInt(value));
 	}
 	
 	@Override
-	protected void encodeExtended(Task task, Document document, Element element)
-			throws FactoryCoderException {
-		Element showChildren = document.createElement("showchildren");
-		showChildren.setTextContent(((GuiTask) task).isShowChildren() + "");
-		element.appendChild(showChildren);
+	public String toString(Object value) {
+		return ((Color) value).getRGB() + "";
 	}
 	
 }
