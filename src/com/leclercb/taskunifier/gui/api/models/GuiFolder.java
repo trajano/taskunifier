@@ -72,18 +72,18 @@ public class GuiFolder extends Folder implements GuiModel {
 	
 	@Override
 	public void loadBean(FolderBean bean) {
-		super.loadBean(bean);
-		
 		if (bean instanceof GuiFolderBean)
 			this.setColor(((GuiFolderBean) bean).getColor());
+		
+		super.loadBean(bean);
 	}
 	
 	@Override
 	public void toBean(FolderBean bean) {
-		super.toBean(bean);
-		
 		if (bean instanceof GuiFolderBean)
 			((GuiFolderBean) bean).setColor(this.getColor());
+		
+		super.toBean(bean);
 	}
 	
 }

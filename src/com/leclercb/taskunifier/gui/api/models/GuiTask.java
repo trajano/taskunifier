@@ -72,18 +72,18 @@ public class GuiTask extends Task {
 	
 	@Override
 	public void loadBean(TaskBean bean) {
-		super.loadBean(bean);
-		
 		if (bean instanceof GuiTaskBean)
 			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
+		
+		super.loadBean(bean);
 	}
 	
 	@Override
 	public void toBean(TaskBean bean) {
-		super.toBean(bean);
-		
 		if (bean instanceof GuiTaskBean)
 			((GuiTaskBean) bean).setShowChildren(this.isShowChildren());
+		
+		super.toBean(bean);
 	}
 	
 }

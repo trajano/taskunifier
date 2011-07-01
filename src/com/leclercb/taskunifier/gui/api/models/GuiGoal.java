@@ -81,18 +81,18 @@ public class GuiGoal extends Goal implements GuiModel {
 	
 	@Override
 	public void loadBean(GoalBean bean) {
-		super.loadBean(bean);
-		
 		if (bean instanceof GuiGoalBean)
 			this.setColor(((GuiGoalBean) bean).getColor());
+		
+		super.loadBean(bean);
 	}
 	
 	@Override
 	public void toBean(GoalBean bean) {
-		super.toBean(bean);
-		
 		if (bean instanceof GuiGoalBean)
 			((GuiGoalBean) bean).setColor(this.getColor());
+		
+		super.toBean(bean);
 	}
 	
 }

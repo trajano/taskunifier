@@ -72,18 +72,18 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	@Override
 	public void loadBean(LocationBean bean) {
-		super.loadBean(bean);
-		
 		if (bean instanceof GuiLocationBean)
 			this.setColor(((GuiLocationBean) bean).getColor());
+		
+		super.loadBean(bean);
 	}
 	
 	@Override
 	public void toBean(LocationBean bean) {
-		super.toBean(bean);
-		
 		if (bean instanceof GuiLocationBean)
 			((GuiLocationBean) bean).setColor(this.getColor());
+		
+		super.toBean(bean);
 	}
 	
 }
