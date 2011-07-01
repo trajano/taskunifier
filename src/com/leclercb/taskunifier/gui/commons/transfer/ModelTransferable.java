@@ -35,10 +35,10 @@ package com.leclercb.taskunifier.gui.commons.transfer;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -57,11 +57,9 @@ public class ModelTransferable extends BasicTransferable {
 	
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-		DataFlavor[] flavors = super.getTransferDataFlavors();
-		flavors = Arrays.copyOf(flavors, flavors.length + 1);
-		flavors[flavors.length - 1] = MODEL_FLAVOR;
-		
-		return flavors;
+		return ArrayUtils.concat(
+				new DataFlavor[] { MODEL_FLAVOR },
+				super.getTransferDataFlavors());
 	}
 	
 	@Override

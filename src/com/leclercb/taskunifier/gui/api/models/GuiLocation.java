@@ -45,6 +45,10 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	private Color color;
 	
+	public GuiLocation(LocationBean bean) {
+		super(bean);
+	}
+	
 	public GuiLocation(String title) {
 		super(title);
 	}

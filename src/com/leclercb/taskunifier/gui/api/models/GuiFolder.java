@@ -45,6 +45,10 @@ public class GuiFolder extends Folder implements GuiModel {
 	
 	private Color color;
 	
+	public GuiFolder(FolderBean bean) {
+		super(bean);
+	}
+	
 	public GuiFolder(String title) {
 		super(title);
 	}
