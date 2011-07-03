@@ -41,7 +41,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
@@ -81,7 +80,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				if (task.getModelStatus().equals(ModelStatus.LOADED)
 						|| task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
 					if (task.getDueDate() != null && !task.isCompleted()) {
-						Calendar dueDate = DateUtils.cloneCalendar(task.getDueDate());
+						Calendar dueDate = task.getDueDate();
 						
 						if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
 							dueDate.set(

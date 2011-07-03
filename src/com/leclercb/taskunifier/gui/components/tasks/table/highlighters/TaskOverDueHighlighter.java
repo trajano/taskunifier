@@ -42,9 +42,9 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskOverdueHighlighter extends AbstractHighlighter {
+public class TaskOverDueHighlighter extends AbstractHighlighter {
 	
-	public TaskOverdueHighlighter(HighlightPredicate predicate) {
+	public TaskOverDueHighlighter(HighlightPredicate predicate) {
 		super(predicate);
 	}
 	

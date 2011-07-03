@@ -39,10 +39,11 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskOverdueHighlightPredicate implements HighlightPredicate {
+public class TaskOverDueHighlightPredicate implements HighlightPredicate {
 	
 	@Override
 	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
@@ -55,7 +56,9 @@ public class TaskOverdueHighlightPredicate implements HighlightPredicate {
 		
 		Task task = (Task) value;
 		
-		return task.isOverDue() && !task.isCompleted();
+		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		
+		return task.isOverDue(!useDueTime) && !task.isCompleted();
 	}
 	
 }

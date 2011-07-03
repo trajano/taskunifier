@@ -93,6 +93,8 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		final Task task = (Task) value;
 		
+		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		
 		String title = task.getTitle();
 		
 		if (title.length() == 0) {
@@ -115,7 +117,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		}
 		
 		// Set Icon
-		if (!task.isCompleted() && task.isOverDue())
+		if (!task.isCompleted() && task.isOverDue(!useDueTime))
 			r.setIcon(Images.getResourceImage("warning.gif"));
 		else
 			r.setIcon(Images.getResourceImage("transparent.png"));

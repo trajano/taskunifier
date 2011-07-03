@@ -76,10 +76,12 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskDueTodayHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskDueTodayHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskHighlighter;
-import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverdueHighlightPredicate;
-import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverdueHighlighter;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverDueHighlightPredicate;
+import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskOverDueHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskRepeatHighlighter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTitleHighlightPredicate;
@@ -387,7 +389,9 @@ public class TaskTable extends JXTable implements TaskView {
 				new TaskHighlighter(new TaskHighlightPredicate()),
 				new TaskTitleHighlighter(new TaskTitleHighlightPredicate()),
 				new TaskRepeatHighlighter(new TaskRepeatHighlightPredicate()),
-				new TaskOverdueHighlighter(new TaskOverdueHighlightPredicate()),
+				new TaskDueTodayHighlighter(
+						new TaskDueTodayHighlightPredicate()),
+				new TaskOverDueHighlighter(new TaskOverDueHighlightPredicate()),
 				new TaskTooltipHighlighter(new TaskTooltipHighlightPredicate()));
 	}
 	

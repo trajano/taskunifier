@@ -30,76 +30,35 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searchertree.nodes;
+package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
-import java.util.List;
+import java.awt.Component;
 
-import javax.swing.Icon;
-import javax.swing.tree.DefaultMutableTreeNode;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.TaskUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
+public class TaskDueTodayHighlightPredicate implements HighlightPredicate {
 	
-	public SearcherItem(TaskSearcher searcher) {
-		super(searcher);
+	@Override
+	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
 		
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
-	}
-	
-	@Override
-	public TaskSearcher getTaskSearcher() {
-		return (TaskSearcher) this.getUserObject();
-	}
-	
-	@Override
-	public Icon getIcon() {
-		if (this.getTaskSearcher().getIcon() == null)
-			return Images.getResourceImage("transparent.png", 16, 16);
-		else
-			return Images.getImage(this.getTaskSearcher().getIcon(), 16, 16);
-	}
-	
-	@Override
-	public String getText() {
-		return this.getTaskSearcher().getTitle();
-	}
-	
-	@Override
-	public BadgeCount getBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges"))
-			return null;
+		if (value == null || !(value instanceof Task))
+			return false;
 		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		TaskSearcher searcher = this.getTaskSearcher();
+		Task task = (Task) value;
 		
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		
-		int count = 0;
-		int countOverdue = 0;
-		for (Task task : tasks) {
-			if (TaskUtils.showTask(task, searcher.getFilter())) {
-				count++;
-				
-				if (!task.isCompleted() && task.isOverDue(!useDueTime))
-					countOverdue++;
-			}
-		}
-		
-		return new BadgeCount(count, countOverdue);
-	}
-	
-	@Override
-	public boolean getAllowsChildren() {
-		return false;
+		return task.isDueToday(!useDueTime) && !task.isCompleted();
 	}
 	
 }
