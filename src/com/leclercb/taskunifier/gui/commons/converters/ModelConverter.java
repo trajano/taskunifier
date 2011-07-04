@@ -34,15 +34,10 @@ package com.leclercb.taskunifier.gui.commons.converters;
 
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.taskunifier.api.models.ContextFactory;
-import com.leclercb.taskunifier.api.models.FolderFactory;
-import com.leclercb.taskunifier.api.models.GoalFactory;
-import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.utils.ModelUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -62,25 +57,7 @@ public class ModelConverter extends AbstractConverter {
 	
 	@Override
 	public Object convertFromSubject(Object modelId) {
-		if (modelId == null)
-			return null;
-		
-		switch (this.type) {
-			case CONTEXT:
-				return ContextFactory.getInstance().get((ModelId) modelId);
-			case FOLDER:
-				return FolderFactory.getInstance().get((ModelId) modelId);
-			case GOAL:
-				return GoalFactory.getInstance().get((ModelId) modelId);
-			case LOCATION:
-				return LocationFactory.getInstance().get((ModelId) modelId);
-			case NOTE:
-				return NoteFactory.getInstance().get((ModelId) modelId);
-			case TASK:
-				return TaskFactory.getInstance().get((ModelId) modelId);
-			default:
-				return null;
-		}
+		return ModelUtils.getModel(this.type, (ModelId) modelId);
 	}
 	
 }

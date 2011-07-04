@@ -39,11 +39,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -83,15 +86,27 @@ public class ActionDelete extends AbstractAction {
 			
 			Synchronizing.setSynchronizing(true);
 			
-			for (Task task : tasks)
+			Constants.UNDO_EDIT_SUPPORT.beginUpdate();
+			for (Task task : tasks) {
 				TaskFactory.getInstance().markToDelete(task);
+				Constants.UNDO_EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+						ModelType.TASK,
+						task.getModelId()));
+			}
+			Constants.UNDO_EDIT_SUPPORT.endUpdate();
 			
 			Synchronizing.setSynchronizing(false);
 		} else {
 			Note[] notes = MainFrame.getInstance().getNoteView().getSelectedNotes();
 			
-			for (Note note : notes)
+			Constants.UNDO_EDIT_SUPPORT.beginUpdate();
+			for (Note note : notes) {
 				NoteFactory.getInstance().markToDelete(note);
+				Constants.UNDO_EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+						ModelType.NOTE,
+						note.getModelId()));
+			}
+			Constants.UNDO_EDIT_SUPPORT.endUpdate();
 		}
 	}
 	

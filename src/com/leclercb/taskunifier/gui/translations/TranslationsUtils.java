@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.translations;
 
 import javax.swing.SortOrder;
 
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -55,6 +56,42 @@ public final class TranslationsUtils {
 	
 	private TranslationsUtils() {
 
+	}
+	
+	public static String translateModelType(ModelType type, boolean plurial) {
+		if (plurial) {
+			switch (type) {
+				case CONTEXT:
+					return Translations.getString("general.contexts");
+				case FOLDER:
+					return Translations.getString("general.folders");
+				case GOAL:
+					return Translations.getString("general.goals");
+				case LOCATION:
+					return Translations.getString("general.locations");
+				case NOTE:
+					return Translations.getString("general.notes");
+				case TASK:
+					return Translations.getString("general.tasks");
+			}
+		}
+		
+		switch (type) {
+			case CONTEXT:
+				return Translations.getString("general.context");
+			case FOLDER:
+				return Translations.getString("general.folder");
+			case GOAL:
+				return Translations.getString("general.goal");
+			case LOCATION:
+				return Translations.getString("general.location");
+			case NOTE:
+				return Translations.getString("general.note");
+			case TASK:
+				return Translations.getString("general.task");
+		}
+		
+		return "Missing translation";
 	}
 	
 	public static String translateSynchronizerChoice(SynchronizerChoice choice) {
