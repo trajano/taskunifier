@@ -47,6 +47,7 @@ public class GuiTask extends Task {
 	
 	public GuiTask(TaskBean bean) {
 		super(bean);
+		this.setShowChildren(true);
 	}
 	
 	public GuiTask(String title) {
