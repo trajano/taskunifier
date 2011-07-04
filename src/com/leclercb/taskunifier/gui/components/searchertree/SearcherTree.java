@@ -208,7 +208,7 @@ public class SearcherTree extends JTree implements SearcherView, SavePropertiesL
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new TaskSearcherTransferHandler());
-		this.setDropMode(DropMode.INSERT);
+		this.setDropMode(DropMode.ON_OR_INSERT);
 	}
 	
 	private void initializeToolTipText() {

@@ -46,13 +46,20 @@ import javax.swing.tree.TreePath;
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.TreeUtils;
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
+import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.searchertree.SearcherTree;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.TaskSearcherProvider;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -60,51 +67,69 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
-		if (!support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR))
-			return false;
-		
-		Transferable t = support.getTransferable();
-		TaskSearcherTransferData data = null;
-		TaskSearcher dragSearcher = null;
-		
-		try {
-			data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
-			dragSearcher = data.getTaskSearcher();
-			
-			if (dragSearcher == null)
-				return false;
-		} catch (Exception e) {
-			return false;
-		}
-		
-		if (!support.isDrop()) {
-			return true;
-		} else {
-			SearcherTree tree = (SearcherTree) support.getComponent();
-			JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-			TreePath path = tree.getPathForLocation(
-					dl.getDropPoint().x,
-					dl.getDropPoint().y);
-			
-			if (path == null
-					|| !(path.getLastPathComponent() instanceof SearcherItem))
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			if (!support.isDrop())
 				return false;
 			
-			SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
+			Transferable t = support.getTransferable();
+			ModelTransferData data = null;
 			
-			SearcherItem dragItem = null;
-			List<SearcherItem> items = new ArrayList<SearcherItem>();
-			SearcherCategory category = (SearcherCategory) dropItem.getParent();
-			
-			for (int i = 0; i < category.getChildCount(); i++) {
-				SearcherItem item = (SearcherItem) category.getChildAt(i);
-				items.add(item);
-				if (EqualsUtils.equals(item.getTaskSearcher(), dragSearcher))
-					dragItem = item;
+			try {
+				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+			} catch (Exception e) {
+				return false;
 			}
 			
-			if (dragItem == null)
+			if (!data.getType().equals(ModelType.TASK))
 				return false;
+			
+			return true;
+		}
+		
+		if (support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR)) {
+			Transferable t = support.getTransferable();
+			TaskSearcherTransferData data = null;
+			TaskSearcher dragSearcher = null;
+			
+			try {
+				data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
+				dragSearcher = data.getTaskSearcher();
+				
+				if (dragSearcher == null)
+					return false;
+			} catch (Exception e) {
+				return false;
+			}
+			
+			if (!support.isDrop()) {
+				return true;
+			} else {
+				SearcherTree tree = (SearcherTree) support.getComponent();
+				JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
+				TreePath path = tree.getPathForLocation(
+						dl.getDropPoint().x,
+						dl.getDropPoint().y);
+				
+				if (path == null
+						|| !(path.getLastPathComponent() instanceof SearcherItem))
+					return false;
+				
+				SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
+				
+				SearcherItem dragItem = null;
+				List<SearcherItem> items = new ArrayList<SearcherItem>();
+				SearcherCategory category = (SearcherCategory) dropItem.getParent();
+				
+				for (int i = 0; i < category.getChildCount(); i++) {
+					SearcherItem item = (SearcherItem) category.getChildAt(i);
+					items.add(item);
+					if (EqualsUtils.equals(item.getTaskSearcher(), dragSearcher))
+						dragItem = item;
+				}
+				
+				if (dragItem == null)
+					return false;
+			}
 		}
 		
 		return true;
@@ -133,86 +158,134 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			return false;
 		}
 		
-		Transferable t = support.getTransferable();
-		TaskSearcherTransferData data = null;
-		TaskSearcher dragSearcher = null;
-		
-		try {
-			data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
-			dragSearcher = data.getTaskSearcher();
-			
-			if (dragSearcher == null)
+		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
+			if (!support.isDrop())
 				return false;
-		} catch (Exception e) {
-			return false;
-		}
-		
-		if (!support.isDrop()) {
-			TaskSearcher newSearcher = dragSearcher.clone();
-			TaskSearcherFactory.getInstance().register(newSearcher);
 			
-			return true;
-		} else {
+			Transferable t = support.getTransferable();
+			ModelTransferData data = null;
+			List<Task> dragTasks = new ArrayList<Task>();
+			
+			try {
+				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+			} catch (Exception e) {
+				return false;
+			}
+			
+			if (!data.getType().equals(ModelType.TASK))
+				return false;
+			
+			for (ModelId id : data.getIds())
+				dragTasks.add(TaskFactory.getInstance().get(id));
+			
 			SearcherTree tree = (SearcherTree) support.getComponent();
 			JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
 			TreePath path = tree.getPathForLocation(
 					dl.getDropPoint().x,
 					dl.getDropPoint().y);
 			
-			if (path == null
-					|| !(path.getLastPathComponent() instanceof SearcherItem))
+			if (path == null)
 				return false;
 			
-			SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
-			
-			SearcherItem dragItem = null;
-			List<SearcherItem> items = new ArrayList<SearcherItem>();
-			SearcherCategory category = (SearcherCategory) dropItem.getParent();
-			
-			for (int i = 0; i < category.getChildCount(); i++) {
-				SearcherItem item = (SearcherItem) category.getChildAt(i);
-				items.add(item);
-				if (EqualsUtils.equals(item.getTaskSearcher(), dragSearcher))
-					dragItem = item;
-			}
-			
-			if (dragItem == null)
+			if (!(path.getLastPathComponent() instanceof TaskSearcherProvider))
 				return false;
 			
-			Collections.sort(items, new Comparator<SearcherItem>() {
-				
-				@Override
-				public int compare(SearcherItem o1, SearcherItem o2) {
-					return CompareUtils.compare(
-							o1.getTaskSearcher(),
-							o2.getTaskSearcher());
-				}
-				
-			});
+			TaskSearcherProvider dropItem = (TaskSearcherProvider) path.getLastPathComponent();
 			
-			int index = items.indexOf(dropItem);
+			if (dropItem.getTaskSearcher().getTemplate() == null)
+				return false;
 			
-			items.remove(dragItem);
-			items.add(index, dragItem);
-			
-			int order = 1;
-			for (SearcherItem i : items) {
-				i.getTaskSearcher().setOrder(order++);
+			for (Task task : dragTasks) {
+				dropItem.getTaskSearcher().getTemplate().applyToTask(task);
 			}
-			
-			for (SearcherItem i : items) {
-				tree.getSearcherModel().removeNodeFromParent(i);
-			}
-			
-			order = 0;
-			for (SearcherItem i : items) {
-				tree.getSearcherModel().insertNodeInto(i, category, order++);
-			}
-			
-			tree.expandPath(TreeUtils.getPath(category));
 			
 			return true;
 		}
+		
+		if (support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR)) {
+			Transferable t = support.getTransferable();
+			TaskSearcherTransferData data = null;
+			TaskSearcher dragSearcher = null;
+			
+			try {
+				data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
+				dragSearcher = data.getTaskSearcher();
+				
+				if (dragSearcher == null)
+					return false;
+			} catch (Exception e) {
+				return false;
+			}
+			
+			if (!support.isDrop()) {
+				TaskSearcher newSearcher = dragSearcher.clone();
+				TaskSearcherFactory.getInstance().register(newSearcher);
+				
+				return true;
+			} else {
+				SearcherTree tree = (SearcherTree) support.getComponent();
+				JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
+				TreePath path = tree.getPathForLocation(
+						dl.getDropPoint().x,
+						dl.getDropPoint().y);
+				
+				if (path == null
+						|| !(path.getLastPathComponent() instanceof SearcherItem))
+					return false;
+				
+				SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
+				
+				SearcherItem dragItem = null;
+				List<SearcherItem> items = new ArrayList<SearcherItem>();
+				SearcherCategory category = (SearcherCategory) dropItem.getParent();
+				
+				for (int i = 0; i < category.getChildCount(); i++) {
+					SearcherItem item = (SearcherItem) category.getChildAt(i);
+					items.add(item);
+					if (EqualsUtils.equals(item.getTaskSearcher(), dragSearcher))
+						dragItem = item;
+				}
+				
+				if (dragItem == null)
+					return false;
+				
+				Collections.sort(items, new Comparator<SearcherItem>() {
+					
+					@Override
+					public int compare(SearcherItem o1, SearcherItem o2) {
+						return CompareUtils.compare(
+								o1.getTaskSearcher(),
+								o2.getTaskSearcher());
+					}
+					
+				});
+				
+				int index = items.indexOf(dropItem);
+				
+				items.remove(dragItem);
+				items.add(index, dragItem);
+				
+				int order = 1;
+				for (SearcherItem i : items) {
+					i.getTaskSearcher().setOrder(order++);
+				}
+				
+				for (SearcherItem i : items) {
+					tree.getSearcherModel().removeNodeFromParent(i);
+				}
+				
+				order = 0;
+				for (SearcherItem i : items) {
+					tree.getSearcherModel().insertNodeInto(i, category, order++);
+				}
+				
+				tree.expandPath(TreeUtils.getPath(category));
+				
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	@Override

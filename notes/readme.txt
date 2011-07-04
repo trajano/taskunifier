@@ -15,6 +15,8 @@ Version 0.9.9
 		- FR 3338340: Change data folder location
 		- FR 3349261: Due today tasks in green
 		- FR 3353485: Single application instance check
+		- FR 3303962: Drag and drop to model/tag searchers
+		- FR 3353478: Always show tray icon
 
 Version 0.9.8
 	- Minor:

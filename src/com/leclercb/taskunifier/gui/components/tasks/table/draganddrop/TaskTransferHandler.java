@@ -160,6 +160,9 @@ public class TaskTransferHandler extends TransferHandler {
 			try {
 				ModelTransferData data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
 				
+				if (!data.getType().equals(ModelType.TASK))
+					return false;
+				
 				for (ModelId id : data.getIds())
 					dragTasks.add(TaskFactory.getInstance().get(id));
 			} catch (Exception e) {

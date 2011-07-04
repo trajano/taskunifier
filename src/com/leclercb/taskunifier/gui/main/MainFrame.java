@@ -510,23 +510,23 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 					this.taskTable,
 					this.noteTable));
 			
+			try {
+				tray.add(trayIcon);
+			} catch (AWTException e) {
+
+			}
+			
 			this.addWindowListener(new WindowAdapter() {
 				
 				@Override
 				public void windowIconified(WindowEvent event) {
-					try {
-						tray.add(trayIcon);
-						MainFrame.this.setVisible(false);
-					} catch (AWTException e) {
-
-					}
+					MainFrame.this.setVisible(false);
 				}
 				
 				@Override
 				public void windowDeiconified(WindowEvent event) {
 					MainFrame.this.setVisible(true);
 					MainFrame.this.setState(Frame.NORMAL);
-					tray.remove(trayIcon);
 				}
 				
 			});
