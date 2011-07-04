@@ -54,7 +54,7 @@ import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
-import com.leclercb.commons.api.utils.http.HttpResponse;
+import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;

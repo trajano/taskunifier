@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.net.URI;
 
-import com.leclercb.commons.api.utils.http.HttpResponse;
+import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
