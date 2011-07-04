@@ -48,6 +48,10 @@ public class ActionLogBug extends AbstractAction {
 	
 	public ActionLogBug() {
 		super(Translations.getString("action.log_bug"));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.log_bug"));
 	}
 	
 	@Override

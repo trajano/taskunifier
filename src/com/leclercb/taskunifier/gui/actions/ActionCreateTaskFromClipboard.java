@@ -56,6 +56,10 @@ public class ActionCreateTaskFromClipboard extends AbstractAction {
 				Translations.getString("action.create_task_from_clipboard"),
 				Images.getResourceImage("information.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.create_task_from_clipboard"));
+		
 		CheckUtils.isNotNull(view, "View cannot be null");
 		this.view = view;
 	}

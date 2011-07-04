@@ -54,6 +54,10 @@ public class ActionConfiguration extends AbstractAction {
 		super(
 				Translations.getString("action.configuration"),
 				Images.getResourceImage("settings.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.configuration"));
 	}
 	
 	@Override

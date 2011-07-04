@@ -56,6 +56,10 @@ public class ActionCreateNoteFromClipboard extends AbstractAction {
 				Translations.getString("action.create_note_from_clipboard"),
 				Images.getResourceImage("information.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.create_note_from_clipboard"));
+		
 		CheckUtils.isNotNull(view, "View cannot be null");
 		this.view = view;
 	}

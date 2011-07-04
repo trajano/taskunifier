@@ -59,6 +59,8 @@ public class ActionCopy extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.copy"));
+		
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getCopyAction().getValue(Action.NAME));

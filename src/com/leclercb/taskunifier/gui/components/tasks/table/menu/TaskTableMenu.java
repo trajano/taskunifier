@@ -66,9 +66,9 @@ public class TaskTableMenu extends JPopupMenu {
 	}
 	
 	private void initialize() {
-		this.add(new ActionAddTask());
-		this.add(new ActionEditTask(this.taskTable));
-		this.add(new ActionDuplicateTasks());
+		this.add(new ActionAddTask(16, 16));
+		this.add(new ActionEditTask(this.taskTable, 16, 16));
+		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
 		this.add(new ActionDelete(16, 16));
 		this.addSeparator();

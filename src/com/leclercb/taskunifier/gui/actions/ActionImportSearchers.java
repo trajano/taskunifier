@@ -52,6 +52,10 @@ public class ActionImportSearchers extends AbstractAction {
 		super(
 				Translations.getString("action.import_searchers"),
 				Images.getResourceImage("download.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.import_searchers"));
 	}
 	
 	@Override

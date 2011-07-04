@@ -59,6 +59,8 @@ public class ActionPaste extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.paste"));
+		
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getPasteAction().getValue(Action.NAME));

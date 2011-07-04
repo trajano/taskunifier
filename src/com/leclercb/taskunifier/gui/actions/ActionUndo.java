@@ -61,6 +61,8 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.undo"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Z,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

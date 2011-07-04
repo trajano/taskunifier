@@ -63,6 +63,10 @@ public class ActionBatchAddTasks extends AbstractAction {
 				Translations.getString("action.batch_add_tasks"),
 				Images.getResourceImage("duplicate.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.batch_add_tasks"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_B,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

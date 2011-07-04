@@ -48,6 +48,10 @@ public class ActionLogFeatureRequest extends AbstractAction {
 	
 	public ActionLogFeatureRequest() {
 		super(Translations.getString("action.log_feature_request"));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.log_feature_request"));
 	}
 	
 	@Override

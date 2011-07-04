@@ -59,6 +59,8 @@ public class ActionCut extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.cut"));
+		
 		this.putValue(
 				ACTION_COMMAND_KEY,
 				TransferHandler.getCutAction().getValue(Action.NAME));

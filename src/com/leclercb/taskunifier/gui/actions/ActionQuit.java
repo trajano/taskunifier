@@ -57,6 +57,8 @@ public class ActionQuit extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.quit"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_Q,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

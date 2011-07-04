@@ -58,6 +58,8 @@ public class ActionAddTemplateTask extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, template.getTitle());
+		
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
 		this.template = template;
@@ -70,6 +72,10 @@ public class ActionAddTemplateTask extends AbstractAction {
 					public void propertyChange(PropertyChangeEvent evt) {
 						ActionAddTemplateTask.this.putValue(
 								NAME,
+								ActionAddTemplateTask.this.template.getTitle());
+						
+						ActionAddTemplateTask.this.putValue(
+								SHORT_DESCRIPTION,
 								ActionAddTemplateTask.this.template.getTitle());
 					}
 					

@@ -52,6 +52,10 @@ public class ActionCollapseAll extends AbstractAction {
 		super(
 				Translations.getString("action.collapse_all"),
 				Images.getResourceImage("tree_expanded.png", 9, 9));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.collapse_all"));
 	}
 	
 	@Override

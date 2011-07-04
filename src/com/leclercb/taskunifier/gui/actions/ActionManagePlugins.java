@@ -52,6 +52,10 @@ public class ActionManagePlugins extends AbstractAction {
 		super(
 				Translations.getString("action.manage_plugins"),
 				Images.getResourceImage("download.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.manage_plugins"));
 	}
 	
 	@Override

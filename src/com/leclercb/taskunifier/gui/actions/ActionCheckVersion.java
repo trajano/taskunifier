@@ -68,6 +68,10 @@ public class ActionCheckVersion extends AbstractAction {
 				Translations.getString("action.check_version"),
 				Images.getResourceImage("download.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.check_version"));
+		
 		this.silent = silent;
 	}
 	

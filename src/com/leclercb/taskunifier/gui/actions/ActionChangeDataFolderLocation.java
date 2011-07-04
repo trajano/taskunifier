@@ -52,6 +52,10 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 	
 	public ActionChangeDataFolderLocation(int width, int height) {
 		super(Translations.getString("action.change_data_folder_location"));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.change_data_folder_location"));
 	}
 	
 	@Override

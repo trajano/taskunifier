@@ -56,6 +56,10 @@ public class ActionDonate extends AbstractAction {
 				"dollar.png",
 				width,
 				height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.donate"));
 	}
 	
 	@Override

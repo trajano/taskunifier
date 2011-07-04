@@ -62,6 +62,10 @@ public class ActionAddTask extends AbstractAction {
 				Translations.getString("action.add_task"),
 				Images.getResourceImage("task.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.add_task"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_T,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

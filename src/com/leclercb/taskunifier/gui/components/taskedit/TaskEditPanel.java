@@ -316,13 +316,15 @@ public class TaskEditPanel extends JPanel {
 		this.taskNote.setLineWrap(true);
 		this.taskNote.setWrapStyleWord(true);
 		
-		builder.getBuilder().append(
-				Translations.getString("general.task.note"),
-				new JScrollPane(this.taskNote),
-				5);
+		JPanel notePanel = new JPanel(new BorderLayout());
+		notePanel.add(
+				new JLabel(Translations.getString("general.task.note")),
+				BorderLayout.NORTH);
+		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
 		// Lay out the panel
-		this.add(builder.getPanel(), BorderLayout.CENTER);
+		this.add(builder.getPanel(), BorderLayout.NORTH);
+		this.add(notePanel, BorderLayout.CENTER);
 	}
 	
 	private void initializeAdapter() {

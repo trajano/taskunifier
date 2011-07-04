@@ -61,6 +61,10 @@ public class ActionEditTask extends AbstractAction {
 				Translations.getString("action.edit_task"),
 				Images.getResourceImage("edit.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.edit_task"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

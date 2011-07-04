@@ -67,9 +67,13 @@ public class ActionAddSubTask extends AbstractAction {
 	public ActionAddSubTask(TaskView taskView, int width, int height) {
 		super(
 				Translations.getString("action.add_subtask"),
-				Images.getResourceImage("document.png", width, height));
+				Images.getResourceImage("subtask.png", width, height));
 		
 		this.taskView = taskView;
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.add_subtask"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_K,

@@ -34,6 +34,10 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		super(
 				Translations.getString("action.reset_general_searchers"),
 				Images.getResourceImage("undo.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.reset_general_searchers"));
 	}
 	
 	@Override

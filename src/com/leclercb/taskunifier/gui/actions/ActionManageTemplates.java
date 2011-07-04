@@ -52,6 +52,10 @@ public class ActionManageTemplates extends AbstractAction {
 		super(
 				Translations.getString("action.manage_templates"),
 				Images.getResourceImage("properties.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.manage_templates"));
 	}
 	
 	@Override

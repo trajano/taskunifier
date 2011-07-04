@@ -60,6 +60,8 @@ public class ActionPrint extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.print"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_P,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

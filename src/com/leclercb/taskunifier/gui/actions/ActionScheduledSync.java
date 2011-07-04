@@ -56,6 +56,10 @@ public class ActionScheduledSync extends AbstractAction {
 	public ActionScheduledSync(int width, int height) {
 		super(Translations.getString("action.scheduled_sync"));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.scheduled_sync"));
+		
 		this.width = width;
 		this.height = height;
 		

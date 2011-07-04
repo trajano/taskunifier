@@ -64,6 +64,10 @@ public class ActionSynchronize extends AbstractAction {
 				Translations.getString("action.synchronize"),
 				Images.getResourceImage("synchronize.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.synchronize"));
+		
 		this.background = background;
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(

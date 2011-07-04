@@ -63,6 +63,10 @@ public class ActionDelete extends AbstractAction {
 				width,
 				height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.delete"));
+		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_D,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));

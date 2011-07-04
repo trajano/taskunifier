@@ -57,6 +57,10 @@ public class ActionDuplicateTasks extends AbstractAction {
 		super(
 				Translations.getString("action.duplicate_tasks"),
 				Images.getResourceImage("duplicate.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.duplicate_tasks"));
 	}
 	
 	@Override

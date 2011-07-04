@@ -53,6 +53,8 @@ public class ActionAbout extends AbstractAction {
 				"information.png",
 				width,
 				height));
+		
+		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.about"));
 	}
 	
 	@Override

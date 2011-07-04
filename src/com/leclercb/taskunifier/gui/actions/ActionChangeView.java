@@ -69,6 +69,10 @@ public class ActionChangeView extends AbstractAction {
 		this.height = height;
 		
 		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.change_view"));
+		
+		this.putValue(
 				ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_MASK));
 		
@@ -91,13 +95,13 @@ public class ActionChangeView extends AbstractAction {
 		switch (view) {
 			case NOTES:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"note.png",
+						"change_view_note.png",
 						this.width,
 						this.height));
 				break;
 			case TASKS:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"task.png",
+						"change_view_task.png",
 						this.width,
 						this.height));
 				break;
