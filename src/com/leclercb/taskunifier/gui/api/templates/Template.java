@@ -39,6 +39,7 @@ import java.util.UUID;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
@@ -140,11 +141,18 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	}
 	
 	public void applyToTask(Task task) {
+		if (task == null)
+			return;
+		
 		if (this.taskTitle != null && this.taskTitle.length() != 0)
 			task.setTitle(this.taskTitle);
 		
-		if (this.taskTags != null && this.taskTags.length() != 0)
-			task.setTags(this.taskTags.split(","));
+		if (this.taskTags != null && this.taskTags.length() != 0) {
+			String[] oldTags = task.getTags();
+			String[] newTags = this.taskTags.split(",");
+			
+			task.setTags(ArrayUtils.concat(oldTags, newTags));
+		}
 		
 		if (this.taskFolder != null)
 			task.setFolder(FolderFactory.getInstance().get(this.taskFolder));

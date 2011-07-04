@@ -59,7 +59,7 @@ import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.searchertree.SearcherTree;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
-import com.leclercb.taskunifier.gui.components.searchertree.nodes.TaskSearcherProvider;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -67,6 +67,16 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
+		if (this.canImportModelFlavor(support))
+			return true;
+		
+		if (this.canImportTaskSearcherFlavor(support))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean canImportModelFlavor(TransferSupport support) {
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			if (!support.isDrop())
 				return false;
@@ -83,9 +93,21 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			if (!data.getType().equals(ModelType.TASK))
 				return false;
 			
+			SearcherNode node = this.getSearcherNodeForLocation(support);
+			
+			if (node == null)
+				return false;
+			
+			if (node.getTaskSearcher().getTemplate() == null)
+				return false;
+			
 			return true;
 		}
 		
+		return false;
+	}
+	
+	private boolean canImportTaskSearcherFlavor(TransferSupport support) {
 		if (support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR)) {
 			Transferable t = support.getTransferable();
 			TaskSearcherTransferData data = null;
@@ -94,31 +116,27 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			try {
 				data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
 				dragSearcher = data.getTaskSearcher();
-				
-				if (dragSearcher == null)
-					return false;
 			} catch (Exception e) {
 				return false;
 			}
 			
+			if (dragSearcher == null)
+				return false;
+			
 			if (!support.isDrop()) {
 				return true;
 			} else {
-				SearcherTree tree = (SearcherTree) support.getComponent();
-				JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-				TreePath path = tree.getPathForLocation(
-						dl.getDropPoint().x,
-						dl.getDropPoint().y);
+				SearcherNode node = this.getSearcherNodeForLocation(support);
 				
-				if (path == null
-						|| !(path.getLastPathComponent() instanceof SearcherItem))
+				if (node == null)
 					return false;
 				
-				SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
+				if (!(node instanceof SearcherItem))
+					return false;
 				
 				SearcherItem dragItem = null;
 				List<SearcherItem> items = new ArrayList<SearcherItem>();
-				SearcherCategory category = (SearcherCategory) dropItem.getParent();
+				SearcherCategory category = (SearcherCategory) node.getParent();
 				
 				for (int i = 0; i < category.getChildCount(); i++) {
 					SearcherItem item = (SearcherItem) category.getChildAt(i);
@@ -129,10 +147,12 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 				
 				if (dragItem == null)
 					return false;
+				
+				return true;
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -154,17 +174,22 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean importData(TransferSupport support) {
-		if (!this.canImport(support)) {
+		if (!this.canImport(support))
 			return false;
-		}
 		
+		if (this.importModelFlavorData(support))
+			return true;
+		
+		if (this.importTaskSearcherFlavorData(support))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean importModelFlavorData(TransferSupport support) {
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
-			if (!support.isDrop())
-				return false;
-			
 			Transferable t = support.getTransferable();
 			ModelTransferData data = null;
-			List<Task> dragTasks = new ArrayList<Task>();
 			
 			try {
 				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
@@ -172,36 +197,20 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 				return false;
 			}
 			
-			if (!data.getType().equals(ModelType.TASK))
-				return false;
+			SearcherNode node = this.getSearcherNodeForLocation(support);
 			
-			for (ModelId id : data.getIds())
-				dragTasks.add(TaskFactory.getInstance().get(id));
-			
-			SearcherTree tree = (SearcherTree) support.getComponent();
-			JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-			TreePath path = tree.getPathForLocation(
-					dl.getDropPoint().x,
-					dl.getDropPoint().y);
-			
-			if (path == null)
-				return false;
-			
-			if (!(path.getLastPathComponent() instanceof TaskSearcherProvider))
-				return false;
-			
-			TaskSearcherProvider dropItem = (TaskSearcherProvider) path.getLastPathComponent();
-			
-			if (dropItem.getTaskSearcher().getTemplate() == null)
-				return false;
-			
-			for (Task task : dragTasks) {
-				dropItem.getTaskSearcher().getTemplate().applyToTask(task);
+			for (ModelId id : data.getIds()) {
+				Task task = TaskFactory.getInstance().get(id);
+				node.getTaskSearcher().getTemplate().applyToTask(task);
 			}
 			
 			return true;
 		}
 		
+		return false;
+	}
+	
+	private boolean importTaskSearcherFlavorData(TransferSupport support) {
 		if (support.isDataFlavorSupported(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR)) {
 			Transferable t = support.getTransferable();
 			TaskSearcherTransferData data = null;
@@ -210,12 +219,12 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			try {
 				data = (TaskSearcherTransferData) t.getTransferData(TaskSearcherTransferable.TASK_SEARCHER_FLAVOR);
 				dragSearcher = data.getTaskSearcher();
-				
-				if (dragSearcher == null)
-					return false;
 			} catch (Exception e) {
 				return false;
 			}
+			
+			if (dragSearcher == null)
+				return false;
 			
 			if (!support.isDrop()) {
 				TaskSearcher newSearcher = dragSearcher.clone();
@@ -224,20 +233,17 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 				return true;
 			} else {
 				SearcherTree tree = (SearcherTree) support.getComponent();
-				JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
-				TreePath path = tree.getPathForLocation(
-						dl.getDropPoint().x,
-						dl.getDropPoint().y);
+				SearcherNode node = this.getSearcherNodeForLocation(support);
 				
-				if (path == null
-						|| !(path.getLastPathComponent() instanceof SearcherItem))
+				if (node == null)
 					return false;
 				
-				SearcherItem dropItem = (SearcherItem) path.getLastPathComponent();
+				if (!(node instanceof SearcherItem))
+					return false;
 				
 				SearcherItem dragItem = null;
 				List<SearcherItem> items = new ArrayList<SearcherItem>();
-				SearcherCategory category = (SearcherCategory) dropItem.getParent();
+				SearcherCategory category = (SearcherCategory) node.getParent();
 				
 				for (int i = 0; i < category.getChildCount(); i++) {
 					SearcherItem item = (SearcherItem) category.getChildAt(i);
@@ -260,7 +266,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 					
 				});
 				
-				int index = items.indexOf(dropItem);
+				int index = items.indexOf(node);
 				
 				items.remove(dragItem);
 				items.add(index, dragItem);
@@ -291,6 +297,22 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
 
+	}
+	
+	private SearcherNode getSearcherNodeForLocation(TransferSupport support) {
+		SearcherTree tree = (SearcherTree) support.getComponent();
+		JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
+		TreePath path = tree.getPathForLocation(
+				dl.getDropPoint().x,
+				dl.getDropPoint().y);
+		
+		if (path == null)
+			return null;
+		
+		if (!(path.getLastPathComponent() instanceof SearcherNode))
+			return null;
+		
+		return (SearcherNode) path.getLastPathComponent();
 	}
 	
 }
