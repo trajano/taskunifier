@@ -38,6 +38,8 @@ import javax.swing.undo.CannotUndoException;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -71,17 +73,33 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-		this.column.setValue(
-				NoteFactory.getInstance().get(this.note),
-				this.oldValue);
+		
+		Note note = NoteFactory.getInstance().get(this.note);
+		
+		if (note == null)
+			return;
+		
+		if (note.getModelStatus() != ModelStatus.LOADED
+				&& note.getModelStatus() != ModelStatus.TO_UPDATE)
+			return;
+		
+		this.column.setValue(note, this.oldValue);
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		this.column.setValue(
-				NoteFactory.getInstance().get(this.note),
-				this.newValue);
+		
+		Note note = NoteFactory.getInstance().get(this.note);
+		
+		if (note == null)
+			return;
+		
+		if (note.getModelStatus() != ModelStatus.LOADED
+				&& note.getModelStatus() != ModelStatus.TO_UPDATE)
+			return;
+		
+		this.column.setValue(note, this.newValue);
 	}
 	
 }
