@@ -58,6 +58,7 @@ import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.api.utils.SingleInstanceUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -133,6 +134,8 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
+		checkSingleInstance();
+		
 		FIRST_EXECUTION = false;
 		
 		AFTER_START = new ActionSupport(Main.class);
@@ -237,6 +240,16 @@ public class Main {
 			}
 			
 		});
+	}
+	
+	private static void checkSingleInstance() {
+		if (!SingleInstanceUtils.isSingleInstance()) {
+			String message = "There is another instance of "
+					+ Constants.TITLE
+					+ " running.";
+			JOptionPane.showMessageDialog(null, message);
+			throw new RuntimeException(message);
+		}
 	}
 	
 	private static void loadDebugMode() {

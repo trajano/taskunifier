@@ -14,6 +14,7 @@ Version 0.9.9
 		- FR 3208888: Copy paste to HTML/Word/Excel/...
 		- FR 3338340: Change data folder location
 		- FR 3349261: Due today tasks in green
+		- FR 3353485: Single application instance check
 
 Version 0.9.8
 	- Minor:
