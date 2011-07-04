@@ -477,6 +477,8 @@ public final class SettingsVersion {
 				"searcher.category.tag.expanded",
 				"true");
 		
+		Main.SETTINGS.setStringProperty("proxy.use_system_proxies", "false");
+		
 		return "0.9.9";
 	}
 	

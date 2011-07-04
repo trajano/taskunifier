@@ -3,6 +3,7 @@ Version 0.9.9
 		- Manage tags
 		- New tag searcher category
 		- Change sort order of the special categories
+		- Use system proxies
 	- Minor:
 		- Bug fixed: Save note
 		- BF 3325072: Urls in notes

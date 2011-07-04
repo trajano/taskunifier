@@ -32,6 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.main;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -151,6 +153,7 @@ public class Main {
 			loadDataFolder();
 			loadPluginsFolder();
 			loadSettings();
+			loadProxies();
 			loadLocale();
 			loadModels();
 			loadLookAndFeel();
@@ -359,6 +362,23 @@ public class Main {
 			
 			FIRST_EXECUTION = true;
 		}
+	}
+	
+	private static void loadProxies() {
+		boolean p = SETTINGS.getBooleanProperty("proxy.use_system_proxies");
+		System.setProperty("java.net.useSystemProxies", p + "");
+		
+		SETTINGS.addPropertyChangeListener(
+				"proxy.use_system_proxies",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						boolean p = SETTINGS.getBooleanProperty("proxy.use_system_proxies");
+						System.setProperty("java.net.useSystemProxies", p + "");
+					}
+					
+				});
 	}
 	
 	private static void loadLocale() throws Exception {

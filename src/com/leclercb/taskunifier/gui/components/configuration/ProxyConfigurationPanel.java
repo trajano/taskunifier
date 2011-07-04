@@ -45,6 +45,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyH
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyLoginFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPasswordFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPortFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.UseSystemProxiesFieldType;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -60,6 +61,14 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
+		this.addField(new ConfigurationField(
+				"USE_SYSTEM",
+				Translations.getString("configuration.proxy.use_system_proxies"),
+				new UseSystemProxiesFieldType()));
+		
+		final JCheckBox useSystemProxiesField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+				"USE_SYSTEM").getType()).getFieldComponent();
+		
 		this.addField(new ConfigurationField(
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
@@ -88,6 +97,15 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.proxy.password"),
 				new ProxyPasswordFieldType()));
 		
+		useSystemProxiesField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProxyConfigurationPanel.this.disableFields();
+			}
+			
+		});
+		
 		proxyEnabledField.addActionListener(new ActionListener() {
 			
 			@Override
@@ -99,13 +117,21 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void disableFields() {
+		JCheckBox useSystemProxiesField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+				"USE_SYSTEM").getType()).getFieldComponent();
+		
 		JCheckBox proxyEnabledField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();
 		
-		this.setEnabled("HOST", proxyEnabledField.isSelected());
-		this.setEnabled("PORT", proxyEnabledField.isSelected());
-		this.setEnabled("LOGIN", proxyEnabledField.isSelected());
-		this.setEnabled("PASSWORD", proxyEnabledField.isSelected());
+		this.setEnabled("ENABLED", !useSystemProxiesField.isSelected());
+		
+		boolean s = !useSystemProxiesField.isSelected()
+				&& proxyEnabledField.isSelected();
+		
+		this.setEnabled("HOST", s);
+		this.setEnabled("PORT", s);
+		this.setEnabled("LOGIN", s);
+		this.setEnabled("PASSWORD", s);
 	}
 	
 }
