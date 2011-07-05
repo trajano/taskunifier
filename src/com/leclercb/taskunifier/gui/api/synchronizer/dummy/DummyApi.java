@@ -96,7 +96,9 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
-	public Synchronizer getSynchronizer(Connection connection) {
+	public Synchronizer getSynchronizer(
+			Properties properties,
+			Connection connection) {
 		return null;
 	}
 	

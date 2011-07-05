@@ -86,6 +86,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			connection.saveParameters(Main.SETTINGS);
 			
 			synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
+					Main.SETTINGS,
 					connection);
 			
 			SynchronizerChoice choice = Main.SETTINGS.getEnumProperty(
