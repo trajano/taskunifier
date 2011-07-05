@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -87,14 +88,11 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
-	public void createAccount(Object[] parameters) throws SynchronizerException {
-
-	}
-	
-	@Override
-	public Connection getConnection(Object[] parameters)
+	public Connection getConnection(Properties properties)
 			throws SynchronizerException {
-		return null;
+		throw new SynchronizerException(
+				true,
+				Translations.getString("synchronizer.select_an_api"));
 	}
 	
 	@Override

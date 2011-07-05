@@ -32,13 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import com.leclercb.taskunifier.api.synchronizer.Connection;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -87,13 +84,6 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	@Override
 	public boolean checkLicense() throws SynchronizerLicenseException {
 		return true;
-	}
-	
-	@Override
-	public Connection getConnection() throws SynchronizerException {
-		throw new SynchronizerException(
-				true,
-				Translations.getString("synchronizer.select_an_api"));
 	}
 	
 }

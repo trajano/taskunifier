@@ -78,7 +78,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 							"synchronizer.connecting",
 							SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())));
 			
-			connection = SynchronizerUtils.getPlugin().getConnection();
+			connection = SynchronizerUtils.getPlugin().getSynchronizerApi().getConnection(
+					Main.SETTINGS);
 			
 			connection.loadParameters(Main.SETTINGS);
 			connection.connect();
