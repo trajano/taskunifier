@@ -38,6 +38,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -72,6 +74,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitl
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlighter;
+import com.leclercb.taskunifier.gui.components.notes.table.menu.NoteTableMenu;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -82,6 +85,8 @@ public class NoteTable extends JXTable implements NoteView {
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
 	private NoteRowFilter filter;
+	
+	private NoteTableMenu noteTableMenu;
 	
 	public NoteTable() {
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
@@ -244,6 +249,7 @@ public class NoteTable extends JXTable implements NoteView {
 		this.getSortController().setRowFilter(this.filter);
 		
 		this.initializeDeleteNote();
+		this.initializeNoteTableMenu();
 		this.initializeDragAndDrop();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
@@ -266,6 +272,38 @@ public class NoteTable extends JXTable implements NoteView {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
 					ActionDelete.delete();
+			}
+			
+		});
+	}
+	
+	private void initializeNoteTableMenu() {
+		this.noteTableMenu = new NoteTableMenu();
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				// Or BUTTON3 due to a bug with OSX
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					int rowIndex = NoteTable.this.getRowSorter().convertRowIndexToModel(
+							NoteTable.this.rowAtPoint(event.getPoint()));
+					
+					Note note = ((NoteTableModel) NoteTable.this.getModel()).getNote(rowIndex);
+					
+					if (note == null)
+						return;
+					
+					NoteTable.this.commitChanges();
+					
+					NoteTable.this.setSelectedNotes(new Note[] { note });
+					
+					NoteTable.this.noteTableMenu.show(
+							event.getComponent(),
+							event.getX(),
+							event.getY());
+				}
 			}
 			
 		});

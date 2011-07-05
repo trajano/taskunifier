@@ -31,6 +31,7 @@ import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDonate;
+import com.leclercb.taskunifier.gui.actions.ActionDuplicateNotes;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTask;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
@@ -195,6 +196,7 @@ public class MenuBar extends JMenuBar {
 		this.add(notesMenu);
 		
 		notesMenu.add(new ActionAddNote(16, 16));
+		notesMenu.add(new ActionDuplicateNotes(16, 16));
 		notesMenu.add(new ActionDelete(16, 16));
 	}
 	
