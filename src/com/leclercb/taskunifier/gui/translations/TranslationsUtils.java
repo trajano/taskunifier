@@ -186,7 +186,7 @@ public final class TranslationsUtils {
 		return Translations.getString("general.no");
 	}
 	
-	public static String translateTaskFilterLink(FilterLink link) {
+	public static String translateFilterLink(FilterLink link) {
 		switch (link) {
 			case AND:
 				return Translations.getString("general.and");

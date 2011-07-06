@@ -97,9 +97,9 @@ public class TaskFilterTree extends JTree {
 						ButtonGroup group = new ButtonGroup();
 						
 						JRadioButtonMenuItem itemAnd = new JRadioButtonMenuItem(
-								TranslationsUtils.translateTaskFilterLink(FilterLink.AND));
+								TranslationsUtils.translateFilterLink(FilterLink.AND));
 						JRadioButtonMenuItem itemOr = new JRadioButtonMenuItem(
-								TranslationsUtils.translateTaskFilterLink(FilterLink.OR));
+								TranslationsUtils.translateFilterLink(FilterLink.OR));
 						
 						group.add(itemAnd);
 						group.add(itemOr);

@@ -61,7 +61,7 @@ public class TaskFilterTreeNode implements TreeNode {
 	
 	@Override
 	public String toString() {
-		return TranslationsUtils.translateTaskFilterLink(this.filter.getLink());
+		return TranslationsUtils.translateFilterLink(this.filter.getLink());
 	}
 	
 	@Override

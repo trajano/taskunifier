@@ -288,9 +288,7 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 		
 		buffer.append(ListUtils.listToString(
 				list,
-				") "
-						+ TranslationsUtils.translateTaskFilterLink(this.link)
-						+ " ("));
+				") " + TranslationsUtils.translateFilterLink(this.link) + " ("));
 		
 		buffer.append("))");
 		
