@@ -61,11 +61,9 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
@@ -382,18 +380,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
 		
 		this.searcherPanel = new SearcherPanel();
-		
-		this.searcherPanel.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
-			
-			@Override
-			public void taskSearcherSelectionChange(
-					TaskSearcherSelectionChangeEvent event) {
-				if (event.getSelectedTaskSearcher() != null
-						&& event.getSelectedTaskSearcher().getType() != TaskSearcherType.FOLDER)
-					MainFrame.this.setSelectedView(View.TASKS);
-			}
-			
-		});
 		
 		this.searcherPanel.addPropertyChangeListener(
 				SearcherPanel.PROP_TITLE_FILTER,
