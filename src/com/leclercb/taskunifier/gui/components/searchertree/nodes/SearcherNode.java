@@ -44,6 +44,8 @@ public interface SearcherNode extends TaskSearcherProvider, MutableTreeNode {
 	
 	public abstract String getText();
 	
+	public abstract void updateBadgeCount();
+	
 	public abstract BadgeCount getBadgeCount();
 	
 	public static class BadgeCount {

@@ -49,10 +49,14 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 @Reviewed
 public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
 	
+	private BadgeCount badgeCount;
+	
 	public SearcherItem(TaskSearcher searcher) {
 		super(searcher);
 		
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		
+		this.updateBadgeCount();
 	}
 	
 	@Override
@@ -74,9 +78,10 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	}
 	
 	@Override
-	public BadgeCount getBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges"))
-			return null;
+	public void updateBadgeCount() {
+		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges")) {
+			this.badgeCount = null;
+		}
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		TaskSearcher searcher = this.getTaskSearcher();
@@ -94,7 +99,12 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 			}
 		}
 		
-		return new BadgeCount(count, countOverdue);
+		this.badgeCount = new BadgeCount(count, countOverdue);
+	}
+	
+	@Override
+	public BadgeCount getBadgeCount() {
+		return this.badgeCount;
 	}
 	
 	@Override

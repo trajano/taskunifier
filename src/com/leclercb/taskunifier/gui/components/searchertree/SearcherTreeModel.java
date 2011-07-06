@@ -69,6 +69,7 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherItem;
+import com.leclercb.taskunifier.gui.components.searchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.components.searchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -494,6 +495,14 @@ public class SearcherTreeModel extends DefaultTreeModel implements ListChangeLis
 	}
 	
 	public void updateBadges() {
+		this.defaultSearcher.updateBadgeCount();
+		
+		SearcherCategory[] categories = this.getCategories();
+		for (SearcherCategory category : categories) {
+			for (int i = 0; i < category.getChildCount(); i++)
+				((SearcherNode) category.getChildAt(i)).updateBadgeCount();
+		}
+		
 		this.nodeChanged((TreeNode) this.getRoot());
 	}
 	
