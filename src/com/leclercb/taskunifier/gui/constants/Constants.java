@@ -133,7 +133,7 @@ public final class Constants {
 				DEFAULT_SEARCHER = new TaskSearcher(
 						TaskSearcherType.DEFAULT,
 						0,
-						Translations.getString("searcherlist.general.all_tasks"),
+						Translations.getString("searcherlist.general.all"),
 						Images.getResourceFile("document.png"),
 						new TaskFilter(),
 						DEFAULT_SORTER.clone());
