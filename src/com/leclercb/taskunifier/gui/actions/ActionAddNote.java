@@ -35,12 +35,18 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -76,9 +82,25 @@ public class ActionAddNote extends AbstractAction {
 	public static Note addNote(String title) {
 		MainFrame.getInstance().setSelectedView(View.NOTES);
 		
+		Folder folder = null;
+		TaskSearcher searcher = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher();
+		if (searcher != null && searcher.getType() == TaskSearcherType.FOLDER) {
+			List<TaskFilterElement> elements = searcher.getFilter().getElements();
+			for (TaskFilterElement e : elements) {
+				if (e.getColumn() == TaskColumn.FOLDER) {
+					folder = (Folder) e.getValue();
+					break;
+				}
+			}
+		}
+		
 		Note note = NoteFactory.getInstance().create("");
+		
 		if (title != null)
 			note.setTitle(title);
+		
+		if (folder != null)
+			note.setFolder(folder);
 		
 		MainFrame.getInstance().getNoteView().refreshNotes();
 		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);

@@ -32,21 +32,37 @@
  */
 package com.leclercb.taskunifier.gui.components.notes.table.sorter;
 
+import java.util.List;
+
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 	
+	private TaskFilter filter;
 	private String titleFilter;
 	
-	public NoteRowFilter(String titleFilter) {
+	public NoteRowFilter(TaskFilter filter, String titleFilter) {
+		this.setFilter(filter);
 		this.setTitleFilter(titleFilter);
+	}
+	
+	public TaskFilter getFilter() {
+		return this.filter;
+	}
+	
+	public void setFilter(TaskFilter filter) {
+		this.filter = filter;
 	}
 	
 	public String getTitleFilter() {
@@ -67,13 +83,27 @@ public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 			return false;
 		}
 		
-		if (this.titleFilter == null)
-			return true;
+		if (this.filter != null) {
+			List<TaskFilterElement> elements = this.filter.getElements();
+			for (TaskFilterElement e : elements) {
+				if (e.getColumn() == TaskColumn.FOLDER) {
+					if (!EqualsUtils.equals(note.getFolder(), e.getValue()))
+						return false;
+					
+					break;
+				}
+			}
+		}
 		
-		String filter = this.titleFilter.toLowerCase();
+		if (this.titleFilter != null) {
+			String filter = this.titleFilter.toLowerCase();
+			
+			if (!note.getTitle().toLowerCase().contains(filter)
+					&& !note.getNote().toLowerCase().contains(filter))
+				return false;
+		}
 		
-		return note.getTitle().toLowerCase().contains(filter)
-				|| note.getNote().toLowerCase().contains(filter);
+		return true;
 	}
 	
 }

@@ -64,8 +64,11 @@ import org.jdesktop.swingx.JXTable;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
@@ -189,6 +192,16 @@ public class NoteTable extends JXTable implements NoteView {
 		this.refreshNotes();
 	}
 	
+	public void setTaskSearcher(TaskSearcher searcher) {
+		if (searcher != null && searcher.getType() == TaskSearcherType.FOLDER) {
+			this.filter.setFilter(searcher.getFilter());
+		} else {
+			this.filter.setFilter(null);
+		}
+		
+		this.refreshNotes();
+	}
+	
 	@Override
 	public void printNotes() throws HeadlessException, PrinterException {
 		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
@@ -225,6 +238,13 @@ public class NoteTable extends JXTable implements NoteView {
 		this.noteSelectionChangeSupport.removeModelSelectionChangeListener(listener);
 	}
 	
+	@Override
+	public void taskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
+		if (event.getSelectedTaskSearcher() != null)
+			this.setTaskSearcher(event.getSelectedTaskSearcher());
+	}
+	
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
@@ -245,7 +265,7 @@ public class NoteTable extends JXTable implements NoteView {
 		this.setSortOrder(NoteColumn.MODEL, SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 		
-		this.filter = new NoteRowFilter(null);
+		this.filter = new NoteRowFilter(null, null);
 		this.getSortController().setRowFilter(this.filter);
 		
 		this.initializeDeleteNote();

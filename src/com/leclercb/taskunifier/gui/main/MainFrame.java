@@ -61,6 +61,7 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
@@ -182,8 +183,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.initializeSearchField();
 			this.initializeShowCompletedTasksCheckBox();
 			this.initializeSearcherList(this.horizontalSplitPane);
-			this.initializeNotePanel(this.middlePane);
-			this.initializeTaskPanel(this.middlePane);
+			this.initializeNoteTable(this.middlePane);
+			this.initializeTaskTable(this.middlePane);
 			this.initializeModelNote(this.verticalSplitPane);
 			
 			this.setSelectedView(View.TASKS);
@@ -387,7 +388,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
-				MainFrame.this.setSelectedView(View.TASKS);
+				if (event.getSelectedTaskSearcher() != null
+						&& event.getSelectedTaskSearcher().getType() != TaskSearcherType.FOLDER)
+					MainFrame.this.setSelectedView(View.TASKS);
 			}
 			
 		});
@@ -410,7 +413,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		horizontalSplitPane.setLeftComponent(panel);
 	}
 	
-	private void initializeNotePanel(JPanel middlePane) {
+	private void initializeNoteTable(JPanel middlePane) {
 		this.noteTable = new NoteTable();
 		
 		JPanel notePanel = new JPanel(new BorderLayout());
@@ -418,10 +421,12 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				ComponentFactory.createJScrollPane(this.noteTable, false),
 				BorderLayout.CENTER);
 		
+		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.noteTable);
+		
 		middlePane.add(notePanel, View.NOTES.name());
 	}
 	
-	private void initializeTaskPanel(JPanel middlePane) {
+	private void initializeTaskTable(JPanel middlePane) {
 		this.taskTable = new TaskTable();
 		
 		JPanel taskPanel = new JPanel(new BorderLayout());

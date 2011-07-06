@@ -312,10 +312,16 @@ public final class TaskUtils {
 				return true;
 		}
 		
+		if (filter == null)
+			return true;
+		
 		return filter.include(task);
 	}
 	
 	private static boolean containsCompletedTrue(TaskFilter filter) {
+		if (filter == null)
+			return false;
+		
 		List<TaskFilterElement> elements = filter.getElements();
 		List<TaskFilter> filters = filter.getFilters();
 		
