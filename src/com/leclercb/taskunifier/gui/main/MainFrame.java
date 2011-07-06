@@ -225,8 +225,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		CardLayout layout = (CardLayout) this.middlePane.getLayout();
 		layout.show(this.middlePane, view.name());
 		
-		this.searchField.setText(null);
-		
 		if (view == View.NOTES)
 			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
 					this,
@@ -333,10 +331,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (MainFrame.this.getSelectedView() == View.NOTES)
-					MainFrame.this.noteTable.setTitleFilter(e.getActionCommand());
-				else
-					MainFrame.this.searcherPanel.setTitleFilter(e.getActionCommand());
+				MainFrame.this.noteTable.setTitleFilter(e.getActionCommand());
+				MainFrame.this.searcherPanel.setTitleFilter(e.getActionCommand());
 			}
 			
 		});

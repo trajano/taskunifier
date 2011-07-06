@@ -46,8 +46,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -97,9 +97,9 @@ public class TaskFilterTree extends JTree {
 						ButtonGroup group = new ButtonGroup();
 						
 						JRadioButtonMenuItem itemAnd = new JRadioButtonMenuItem(
-								TranslationsUtils.translateTaskFilterLink(TaskFilterLink.AND));
+								TranslationsUtils.translateTaskFilterLink(FilterLink.AND));
 						JRadioButtonMenuItem itemOr = new JRadioButtonMenuItem(
-								TranslationsUtils.translateTaskFilterLink(TaskFilterLink.OR));
+								TranslationsUtils.translateTaskFilterLink(FilterLink.OR));
 						
 						group.add(itemAnd);
 						group.add(itemOr);
@@ -108,7 +108,7 @@ public class TaskFilterTree extends JTree {
 						popup.add(itemOr);
 						
 						if (((TaskFilterTreeNode) node).getFilter().getLink().equals(
-								TaskFilterLink.AND))
+								FilterLink.AND))
 							itemAnd.setSelected(true);
 						else
 							itemOr.setSelected(true);
@@ -118,7 +118,7 @@ public class TaskFilterTree extends JTree {
 							@Override
 							public void actionPerformed(ActionEvent evt) {
 								((TaskFilterTreeNode) node).getFilter().setLink(
-										TaskFilterLink.AND);
+										FilterLink.AND);
 							}
 							
 						});
@@ -128,7 +128,7 @@ public class TaskFilterTree extends JTree {
 							@Override
 							public void actionPerformed(ActionEvent evt) {
 								((TaskFilterTreeNode) node).getFilter().setLink(
-										TaskFilterLink.OR);
+										FilterLink.OR);
 							}
 							
 						});

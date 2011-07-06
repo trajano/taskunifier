@@ -62,9 +62,9 @@ import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
@@ -150,10 +150,10 @@ public class SearcherPanel extends JPanel implements SavePropertiesListener, Sea
 			TaskFilter originalFilter = searcher.getFilter();
 			
 			TaskFilter newFilter = new TaskFilter();
-			newFilter.setLink(TaskFilterLink.AND);
+			newFilter.setLink(FilterLink.AND);
 			
 			TaskFilter searchFilter = new TaskFilter();
-			searchFilter.setLink(TaskFilterLink.OR);
+			searchFilter.setLink(FilterLink.OR);
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.TITLE,
 					StringCondition.CONTAINS,

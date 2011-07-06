@@ -49,9 +49,9 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
@@ -75,7 +75,7 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 		try {
 			NodeList nFilter = node.getChildNodes();
 			TaskFilter filter = new TaskFilter();
-			filter.setLink(TaskFilterLink.valueOf(XMLUtils.getAttributeValue(
+			filter.setLink(FilterLink.valueOf(XMLUtils.getAttributeValue(
 					node,
 					"link")));
 			

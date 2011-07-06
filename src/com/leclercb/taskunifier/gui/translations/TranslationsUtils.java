@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterLink;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
@@ -186,7 +186,7 @@ public final class TranslationsUtils {
 		return Translations.getString("general.no");
 	}
 	
-	public static String translateTaskFilterLink(TaskFilterLink link) {
+	public static String translateTaskFilterLink(FilterLink link) {
 		switch (link) {
 			case AND:
 				return Translations.getString("general.and");

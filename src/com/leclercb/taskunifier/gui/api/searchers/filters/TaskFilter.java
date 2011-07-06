@@ -61,7 +61,7 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	private TaskFilter parent;
-	private TaskFilterLink link;
+	private FilterLink link;
 	private List<TaskFilter> filters;
 	private List<TaskFilterElement> elements;
 	
@@ -70,7 +70,7 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setParent(null);
-		this.setLink(TaskFilterLink.AND);
+		this.setLink(FilterLink.AND);
 		
 		this.filters = new ArrayList<TaskFilter>();
 		this.elements = new ArrayList<TaskFilterElement>();
@@ -98,13 +98,13 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 		this.parent = parent;
 	}
 	
-	public TaskFilterLink getLink() {
+	public FilterLink getLink() {
 		return this.link;
 	}
 	
-	public void setLink(TaskFilterLink link) {
+	public void setLink(FilterLink link) {
 		CheckUtils.isNotNull(link, "Link cannot be null");
-		TaskFilterLink oldLink = this.link;
+		FilterLink oldLink = this.link;
 		this.link = link;
 		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
 	}
@@ -208,7 +208,7 @@ public class TaskFilter implements ListChangeListener, PropertyChangeListener, L
 	}
 	
 	public boolean include(Task task) {
-		if (this.link == TaskFilterLink.AND) {
+		if (this.link == FilterLink.AND) {
 			for (TaskFilterElement element : this.elements) {
 				if (!element.include(task))
 					return false;
