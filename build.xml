@@ -68,7 +68,7 @@
 		<mkdir dir="dist"/>
 		<jar jarfile="dist/taskunifiergui.jar" basedir="bin">
 			<manifest>
-				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Built-By" value="leclercb"/>
 				<attribute name="Main-Class" value="com.leclercb.taskunifier.gui.main.Main"/>
 				<attribute name="Class-Path" value="${lib.classpath}"/>
 			</manifest>
