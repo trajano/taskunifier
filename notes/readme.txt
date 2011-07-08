@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 0.9.9b
+	- Major:
+		- Bug fixed: Last synchronize date
+
 Version 0.9.9
 	- Major:
 		- Manage tags

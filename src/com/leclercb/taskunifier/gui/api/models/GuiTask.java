@@ -43,21 +43,18 @@ public class GuiTask extends Task {
 	
 	public static final String PROP_SHOW_CHILDREN = "showChildren";
 	
-	private boolean showChildren;
+	private boolean showChildren = true;
 	
 	public GuiTask(TaskBean bean) {
 		super(bean);
-		this.setShowChildren(true);
 	}
 	
 	public GuiTask(String title) {
 		super(title);
-		this.setShowChildren(true);
 	}
 	
 	public GuiTask(ModelId modelId, String title) {
 		super(modelId, title);
-		this.setShowChildren(true);
 	}
 	
 	public boolean isShowChildren() {
