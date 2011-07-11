@@ -145,6 +145,9 @@ public final class SettingsVersion {
 		if (version.equals("0.9.8"))
 			version = updateSettings_0_9_8_to_0_9_9();
 		
+		if (version.equals("1.0.0"))
+			version = updateSettings_0_9_9_to_1_0_0();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -480,6 +483,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("proxy.use_system_proxies", "false");
 		
 		return "0.9.9";
+	}
+	
+	private static String updateSettings_0_9_9_to_1_0_0() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.9.9 to 1.0.0");
+		
+		return "1.0.0";
 	}
 	
 }

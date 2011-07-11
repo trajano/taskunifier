@@ -1,6 +1,8 @@
 HISTORY
 -------
 
+Version 1.0.0
+
 Version 0.9.9b
 	- Major:
 		- Bug fixed: Last synchronize date
