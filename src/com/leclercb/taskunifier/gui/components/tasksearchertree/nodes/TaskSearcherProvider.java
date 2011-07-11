@@ -30,31 +30,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main;
+package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 
-import java.awt.Frame;
-
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.gui.components.notes.NoteView;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface MainView extends PropertyChangeSupported {
+public interface TaskSearcherProvider {
 	
-	public static final String PROP_SELECTED_VIEW = "selectedView";
-	
-	public abstract Frame getFrame();
-	
-	public abstract TaskSearcherView getSearcherView();
-	
-	public abstract View getSelectedView();
-	
-	public abstract void setSelectedView(View view);
-	
-	public abstract NoteView getNoteView();
-	
-	public abstract TaskView getTaskView();
+	public abstract TaskSearcher getTaskSearcher();
 	
 }

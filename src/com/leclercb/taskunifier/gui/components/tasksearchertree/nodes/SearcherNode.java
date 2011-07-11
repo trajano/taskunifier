@@ -30,31 +30,50 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main;
+package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 
-import java.awt.Frame;
+import javax.swing.Icon;
+import javax.swing.tree.MutableTreeNode;
 
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.gui.components.notes.NoteView;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface MainView extends PropertyChangeSupported {
+public interface SearcherNode extends TaskSearcherProvider, MutableTreeNode {
 	
-	public static final String PROP_SELECTED_VIEW = "selectedView";
+	public abstract Icon getIcon();
 	
-	public abstract Frame getFrame();
+	public abstract String getText();
 	
-	public abstract TaskSearcherView getSearcherView();
+	public abstract void updateBadgeCount();
 	
-	public abstract View getSelectedView();
+	public abstract BadgeCount getBadgeCount();
 	
-	public abstract void setSelectedView(View view);
-	
-	public abstract NoteView getNoteView();
-	
-	public abstract TaskView getTaskView();
+	public static class BadgeCount {
+		
+		private int normalCount;
+		private int errorCount;
+		
+		public BadgeCount(int normalCount, int errorCount) {
+			this.normalCount = normalCount;
+			this.errorCount = errorCount;
+		}
+		
+		public int getNormalCount() {
+			return normalCount;
+		}
+		
+		public void setNormalCount(int normalCount) {
+			this.normalCount = normalCount;
+		}
+		
+		public int getErrorCount() {
+			return errorCount;
+		}
+		
+		public void setErrorCount(int errorCount) {
+			this.errorCount = errorCount;
+		}
+		
+	}
 	
 }

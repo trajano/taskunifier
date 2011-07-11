@@ -71,13 +71,13 @@ import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
-import com.leclercb.taskunifier.gui.components.searchertree.SearcherPanel;
-import com.leclercb.taskunifier.gui.components.searchertree.SearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
@@ -110,7 +110,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private JXSearchField searchField;
 	private JCheckBox showCompletedTasksCheckBox;
-	private SearcherPanel searcherPanel;
+	private TaskSearcherPanel searcherPanel;
 	
 	private NoteTable noteTable;
 	private TaskTable taskTable;
@@ -209,7 +209,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	@Override
-	public SearcherView getSearcherView() {
+	public TaskSearcherView getSearcherView() {
 		return this.searcherPanel;
 	}
 	
@@ -378,7 +378,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
 		
-		this.searcherPanel = new SearcherPanel();
+		this.searcherPanel = new TaskSearcherPanel();
 		
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
 			
@@ -400,7 +400,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		});
 		
 		this.searcherPanel.addPropertyChangeListener(
-				SearcherPanel.PROP_TITLE_FILTER,
+				TaskSearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
 					
 					@Override
@@ -440,7 +440,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.searcherPanel.addTaskSearcherSelectionChangeListener(this.taskTable);
 		this.searcherPanel.addPropertyChangeListener(
-				SearcherPanel.PROP_TITLE_FILTER,
+				TaskSearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
 					
 					@Override
