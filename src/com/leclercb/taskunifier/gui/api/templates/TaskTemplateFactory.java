@@ -49,15 +49,15 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	public static final String PROP_DEFAULT_TEMPLATE = "defaultTemplate";
 	
-	private static TemplateFactory FACTORY;
+	private static TaskTemplateFactory FACTORY;
 	
-	public static TemplateFactory getInstance() {
+	public static TaskTemplateFactory getInstance() {
 		if (FACTORY == null)
-			FACTORY = new TemplateFactory();
+			FACTORY = new TaskTemplateFactory();
 		
 		return FACTORY;
 	}
@@ -65,23 +65,23 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private Template defaultTemplate;
-	private List<Template> templates;
+	private TaskTemplate defaultTemplate;
+	private List<TaskTemplate> templates;
 	
-	private TemplateFactory() {
+	private TaskTemplateFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.defaultTemplate = null;
-		this.templates = new ArrayList<Template>();
+		this.templates = new ArrayList<TaskTemplate>();
 	}
 	
-	public Template getDefaultTemplate() {
+	public TaskTemplate getDefaultTemplate() {
 		return this.defaultTemplate;
 	}
 	
-	public void setDefaultTemplate(Template defaultTemplate) {
-		Template oldDefaultTemplate = this.defaultTemplate;
+	public void setDefaultTemplate(TaskTemplate defaultTemplate) {
+		TaskTemplate oldDefaultTemplate = this.defaultTemplate;
 		this.defaultTemplate = defaultTemplate;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_DEFAULT_TEMPLATE,
@@ -97,38 +97,39 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		return this.templates.size();
 	}
 	
-	public List<Template> getList() {
-		return Collections.unmodifiableList(new ArrayList<Template>(
+	public List<TaskTemplate> getList() {
+		return Collections.unmodifiableList(new ArrayList<TaskTemplate>(
 				this.templates));
 	}
 	
-	public Template get(int index) {
+	public TaskTemplate get(int index) {
 		return this.templates.get(index);
 	}
 	
-	public Template get(String id) {
-		for (Template template : this.templates)
+	public TaskTemplate get(String id) {
+		for (TaskTemplate template : this.templates)
 			if (template.getId().equals(id))
 				return template;
 		
 		return null;
 	}
 	
-	public int getIndexOf(Template template) {
+	public int getIndexOf(TaskTemplate template) {
 		return this.templates.indexOf(template);
 	}
 	
-	public void delete(Template template) {
+	public void delete(TaskTemplate template) {
 		this.unregister(template);
 	}
 	
 	public void deleteAll() {
-		List<Template> templates = new ArrayList<Template>(this.templates);
-		for (Template template : templates)
+		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
+				this.templates);
+		for (TaskTemplate template : templates)
 			this.unregister(template);
 	}
 	
-	public void register(Template template) {
+	public void register(TaskTemplate template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
 		if (this.contains(template.getId()))
@@ -143,7 +144,7 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 				template);
 	}
 	
-	public void unregister(Template template) {
+	public void unregister(TaskTemplate template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
 		int index = this.templates.indexOf(template);
@@ -159,14 +160,14 @@ public class TemplateFactory implements PropertyChangeListener, ListChangeSuppor
 		}
 	}
 	
-	public Template create(String title) {
-		Template template = new Template(title);
+	public TaskTemplate create(String title) {
+		TaskTemplate template = new TaskTemplate(title);
 		this.register(template);
 		return template;
 	}
 	
-	public Template create(String id, String title) {
-		Template template = new Template(id, title);
+	public TaskTemplate create(String id, String title) {
+		TaskTemplate template = new TaskTemplate(id, title);
 		this.register(template);
 		return template;
 	}

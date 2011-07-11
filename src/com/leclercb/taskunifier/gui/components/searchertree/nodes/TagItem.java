@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -73,7 +73,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	}
 	
 	private void initializeTaskSearcher() {
-		final Template template = new Template("TagTemplate");
+		final TaskTemplate template = new TaskTemplate("TagTemplate");
 		template.setTaskTags(this.getTag());
 		
 		TaskFilter filter = new TaskFilter();

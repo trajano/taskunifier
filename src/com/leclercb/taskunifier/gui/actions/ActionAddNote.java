@@ -87,7 +87,7 @@ public class ActionAddNote extends AbstractAction {
 		if (searcher != null && searcher.getType() == TaskSearcherType.FOLDER) {
 			List<TaskFilterElement> elements = searcher.getFilter().getElements();
 			for (TaskFilterElement e : elements) {
-				if (e.getColumn() == TaskColumn.FOLDER) {
+				if (e.getProperty() == TaskColumn.FOLDER) {
 					folder = (Folder) e.getValue();
 					break;
 				}

@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -71,7 +71,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 	private String icon;
 	private TaskFilter filter;
 	private TaskSorter sorter;
-	private Template template;
+	private TaskTemplate template;
 	
 	public TaskSearcher(
 			TaskSearcherType type,
@@ -99,7 +99,7 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 			String icon,
 			TaskFilter filter,
 			TaskSorter sorter,
-			Template template) {
+			TaskTemplate template) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setId(UUID.randomUUID().toString());
@@ -230,12 +230,12 @@ public class TaskSearcher implements Serializable, Comparable<TaskSearcher>, Clo
 				sorter);
 	}
 	
-	public Template getTemplate() {
+	public TaskTemplate getTemplate() {
 		return this.template;
 	}
 	
-	public void setTemplate(Template template) {
-		Template oldTemplate = this.template;
+	public void setTemplate(TaskTemplate template) {
+		TaskTemplate oldTemplate = this.template;
 		this.template = template;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TEMPLATE,

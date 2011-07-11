@@ -66,8 +66,8 @@ public class NoteRowComparator implements Comparator<Note> {
 				NoteColumn.TITLE };
 		
 		for (NoteColumn noteColumn : noteColumns) {
-			Object o1 = noteColumn.getValue(note1);
-			Object o2 = noteColumn.getValue(note2);
+			Object o1 = noteColumn.getProperty(note1);
+			Object o2 = noteColumn.getProperty(note2);
 			
 			result = this.compare(noteColumn, o1, o2);
 			

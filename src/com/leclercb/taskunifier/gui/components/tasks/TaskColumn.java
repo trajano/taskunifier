@@ -48,13 +48,14 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
+import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public enum TaskColumn {
+public enum TaskColumn implements ModelProperties<Task> {
 	
 	MODEL(Task.class, Translations.getString("general.id"), false),
 	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true),
@@ -128,6 +129,7 @@ public enum TaskColumn {
 		});
 	}
 	
+	@Override
 	public Class<?> getType() {
 		return this.type;
 	}
@@ -232,7 +234,8 @@ public enum TaskColumn {
 		return this.label;
 	}
 	
-	public Object getValue(Task task) {
+	@Override
+	public Object getProperty(Task task) {
 		if (task == null)
 			return null;
 		
@@ -288,7 +291,8 @@ public enum TaskColumn {
 		}
 	}
 	
-	public void setValue(Task task, Object value) {
+	@Override
+	public void setProperty(Task task, Object value) {
 		if (task == null)
 			return;
 		
@@ -350,7 +354,7 @@ public enum TaskColumn {
 				task.setStatus((TaskStatus) value);
 				break;
 			case LENGTH:
-				if (value == null)
+				if (value == null || !(value instanceof Integer))
 					task.setLength(0);
 				else
 					task.setLength((Integer) value);

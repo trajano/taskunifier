@@ -37,7 +37,7 @@ import javax.swing.DefaultComboBoxModel;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
-import com.leclercb.taskunifier.gui.utils.TaskTagList;
+import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed

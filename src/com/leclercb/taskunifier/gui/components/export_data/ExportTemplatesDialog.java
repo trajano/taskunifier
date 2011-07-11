@@ -32,7 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.export_data;
 
-import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.templates.coders.TaskTemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -50,7 +50,7 @@ public class ExportTemplatesDialog extends DefaultExportDialog {
 	
 	private ExportTemplatesDialog() {
 		super(
-				new TemplateFactoryXMLCoder(true),
+				new TaskTemplateFactoryXMLCoder(true),
 				Translations.getString("general.export_templates"));
 	}
 	

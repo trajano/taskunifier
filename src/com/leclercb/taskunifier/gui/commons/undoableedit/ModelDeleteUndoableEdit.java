@@ -9,9 +9,9 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.ModelUtils;
 
 public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	
@@ -37,7 +37,7 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	public void undo() throws CannotUndoException {
 		super.undo();
 		
-		Model model = ModelUtils.getModel(this.type, this.id);
+		Model model = ModelFactoryUtils.getModel(this.type, this.id);
 		
 		if (model == null)
 			return;
@@ -52,7 +52,7 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	public void redo() throws CannotRedoException {
 		super.redo();
 		
-		Model model = ModelUtils.getModel(this.type, this.id);
+		Model model = ModelFactoryUtils.getModel(this.type, this.id);
 		
 		if (model == null)
 			return;
@@ -61,7 +61,7 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 				&& model.getModelStatus() != ModelStatus.TO_UPDATE)
 			return;
 		
-		ModelUtils.getFactory(this.type).markToDelete(this.id);
+		ModelFactoryUtils.getFactory(this.type).markToDelete(this.id);
 	}
 	
 }

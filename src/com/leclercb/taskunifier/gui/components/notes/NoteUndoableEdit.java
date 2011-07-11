@@ -83,7 +83,7 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 				&& note.getModelStatus() != ModelStatus.TO_UPDATE)
 			return;
 		
-		this.column.setValue(note, this.oldValue);
+		this.column.setProperty(note, this.oldValue);
 	}
 	
 	@Override
@@ -99,7 +99,7 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 				&& note.getModelStatus() != ModelStatus.TO_UPDATE)
 			return;
 		
-		this.column.setValue(note, this.newValue);
+		this.column.setProperty(note, this.newValue);
 	}
 	
 }

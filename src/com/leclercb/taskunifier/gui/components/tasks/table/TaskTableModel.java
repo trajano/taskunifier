@@ -99,7 +99,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 	@Override
 	public Object getValueAt(int row, int col) {
 		Task task = TaskFactory.getInstance().get(row);
-		return TaskColumn.values()[col].getValue(task);
+		return TaskColumn.values()[col].getProperty(task);
 	}
 	
 	@Override
@@ -112,10 +112,10 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		Task task = TaskFactory.getInstance().get(row);
 		TaskColumn column = TaskColumn.values()[col];
 		
-		Object oldValue = column.getValue(task);
+		Object oldValue = column.getProperty(task);
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
-			column.setValue(task, value);
+			column.setProperty(task, value);
 			Constants.UNDO_EDIT_SUPPORT.postEdit(new TaskUndoableEdit(
 					task.getModelId(),
 					column,

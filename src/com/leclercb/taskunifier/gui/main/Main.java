@@ -94,7 +94,7 @@ import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExcept
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.api.templates.coders.TemplateFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.api.templates.coders.TaskTemplateFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -494,7 +494,7 @@ public class Main {
 		}
 		
 		try {
-			new TemplateFactoryXMLCoder(false).decode(new FileInputStream(
+			new TaskTemplateFactoryXMLCoder(false).decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "templates.xml"));
 		} catch (FileNotFoundException e) {
 
@@ -714,7 +714,7 @@ public class Main {
 			}
 			
 			try {
-				new TemplateFactoryXMLCoder(false).encode(new FileOutputStream(
+				new TaskTemplateFactoryXMLCoder(false).encode(new FileOutputStream(
 						DATA_FOLDER + File.separator + "templates.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();

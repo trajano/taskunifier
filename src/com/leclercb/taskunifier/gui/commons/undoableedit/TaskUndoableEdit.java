@@ -84,7 +84,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 				&& task.getModelStatus() != ModelStatus.TO_UPDATE)
 			return;
 		
-		this.column.setValue(task, this.oldValue);
+		this.column.setProperty(task, this.oldValue);
 	}
 	
 	@Override
@@ -100,7 +100,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 				&& task.getModelStatus() != ModelStatus.TO_UPDATE)
 			return;
 		
-		this.column.setValue(task, this.newValue);
+		this.column.setProperty(task, this.newValue);
 	}
 	
 }

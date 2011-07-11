@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -90,7 +90,7 @@ public class DefaultToolBar extends JToolBar {
 		
 		TemplateUtils.updateTemplateList(null, popupMenu);
 		
-		TemplateFactory.getInstance().addListChangeListener(
+		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override

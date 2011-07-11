@@ -38,12 +38,13 @@ import java.beans.PropertyChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public enum NoteColumn {
+public enum NoteColumn implements ModelProperties<Note> {
 	
 	MODEL(Note.class, Translations.getString("general.id"), false),
 	TITLE(String.class, Translations.getString("general.note.title"), true),
@@ -98,6 +99,7 @@ public enum NoteColumn {
 		});
 	}
 	
+	@Override
 	public Class<?> getType() {
 		return this.type;
 	}
@@ -202,7 +204,8 @@ public enum NoteColumn {
 		return this.label;
 	}
 	
-	public Object getValue(Note note) {
+	@Override
+	public Object getProperty(Note note) {
 		if (note == null)
 			return null;
 		
@@ -220,7 +223,8 @@ public enum NoteColumn {
 		}
 	}
 	
-	public void setValue(Note note, Object value) {
+	@Override
+	public void setProperty(Note note, Object value) {
 		if (note == null)
 			return;
 		

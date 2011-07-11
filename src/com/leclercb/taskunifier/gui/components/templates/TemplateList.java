@@ -52,8 +52,8 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
@@ -119,7 +119,7 @@ abstract class TemplateList extends JPanel {
 					TemplateList.this.removeButton.setEnabled(false);
 					TemplateList.this.defaultButton.setEnabled(false);
 				} else {
-					TemplateList.this.templateSelected((Template) TemplateList.this.templateList.getSelectedValue());
+					TemplateList.this.templateSelected((TaskTemplate) TemplateList.this.templateList.getSelectedValue());
 					TemplateList.this.removeButton.setEnabled(true);
 					TemplateList.this.defaultButton.setEnabled(true);
 				}
@@ -166,16 +166,17 @@ abstract class TemplateList extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
 					TemplateList.this.rowFilter.setTitle(null);
-					Template template = TemplateFactory.getInstance().create(
+					TaskTemplate template = TaskTemplateFactory.getInstance().create(
 							Translations.getString("template.default.title"));
 					TemplateList.this.setSelectedTemplate(template);
 					ComponentUtils.focusAndSelectTextInTextField(TemplateList.this.titleField);
 				} else if (event.getActionCommand().equals("REMOVE")) {
-					Template template = TemplateList.this.getSelectedTemplate();
-					TemplateFactory.getInstance().unregister(template);
+					TaskTemplate template = TemplateList.this.getSelectedTemplate();
+					TaskTemplateFactory.getInstance().unregister(template);
 				} else {
-					Template template = TemplateList.this.getSelectedTemplate();
-					TemplateFactory.getInstance().setDefaultTemplate(template);
+					TaskTemplate template = TemplateList.this.getSelectedTemplate();
+					TaskTemplateFactory.getInstance().setDefaultTemplate(
+							template);
 				}
 			}
 			
@@ -203,14 +204,14 @@ abstract class TemplateList extends JPanel {
 		this.add(panel, BorderLayout.SOUTH);
 	}
 	
-	public Template getSelectedTemplate() {
-		return (Template) this.templateList.getSelectedValue();
+	public TaskTemplate getSelectedTemplate() {
+		return (TaskTemplate) this.templateList.getSelectedValue();
 	}
 	
-	public void setSelectedTemplate(Template template) {
+	public void setSelectedTemplate(TaskTemplate template) {
 		this.templateList.setSelectedValue(template, true);
 	}
 	
-	public abstract void templateSelected(Template template);
+	public abstract void templateSelected(TaskTemplate template);
 	
 }

@@ -32,141 +32,25 @@
  */
 package com.leclercb.taskunifier.gui.api.searchers.sorters;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.ListUtils;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskSorter implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
-	
-	private ListChangeSupport listChangeSupport;
-	private PropertyChangeSupport propertyChangeSupport;
-	
-	private List<TaskSorterElement> elements;
+public class TaskSorter extends Sorter<Task, TaskColumn, TaskSorterElement> implements Cloneable {
 	
 	public TaskSorter() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		
-		this.elements = new ArrayList<TaskSorterElement>();
+
 	}
 	
 	@Override
 	public TaskSorter clone() {
 		TaskSorter sorter = new TaskSorter();
 		
-		for (TaskSorterElement e : this.elements)
+		for (TaskSorterElement e : this.getElements())
 			sorter.addElement(e.clone());
 		
 		return sorter;
-	}
-	
-	public int getIndexOf(TaskSorterElement element) {
-		return this.elements.indexOf(element);
-	}
-	
-	public int getElementCount() {
-		return this.elements.size();
-	}
-	
-	public TaskSorterElement getElement(int index) {
-		return this.elements.get(index);
-	}
-	
-	public List<TaskSorterElement> getElements() {
-		List<TaskSorterElement> sortElements = new ArrayList<TaskSorterElement>(
-				this.elements);
-		
-		Collections.sort(sortElements, new Comparator<TaskSorterElement>() {
-			
-			@Override
-			public int compare(TaskSorterElement o1, TaskSorterElement o2) {
-				return new Integer(o1.getOrder()).compareTo(o2.getOrder());
-			}
-			
-		});
-		
-		return Collections.unmodifiableList(sortElements);
-	}
-	
-	public void addElement(TaskSorterElement element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
-		this.elements.add(element);
-		element.addPropertyChangeListener(this);
-		int index = this.elements.indexOf(element);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				element);
-	}
-	
-	public void removeElement(TaskSorterElement element) {
-		CheckUtils.isNotNull(element, "Searcher cannot be null");
-		
-		int index = this.elements.indexOf(element);
-		if (this.elements.remove(element)) {
-			element.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					element);
-		}
-	}
-	
-	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
-	}
-	
-	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		this.propertyChangeSupport.firePropertyChange(event);
-	}
-	
-	@Override
-	public String toString() {
-		return Translations.getString("general.sort")
-				+ ": "
-				+ ListUtils.listToString(this.elements, ", ");
 	}
 	
 }

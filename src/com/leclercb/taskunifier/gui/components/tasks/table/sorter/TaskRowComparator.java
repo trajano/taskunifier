@@ -88,7 +88,7 @@ public class TaskRowComparator implements Comparator<Task> {
 		
 		for (TaskSorterElement element : sortElements) {
 			int result = this.compare(
-					element.getColumn(),
+					element.getProperty(),
 					element.getSortOrder(),
 					task1,
 					task2);
@@ -105,8 +105,8 @@ public class TaskRowComparator implements Comparator<Task> {
 			SortOrder sortOrder,
 			Task task1,
 			Task task2) {
-		Object o1 = taskColumn.getValue(task1);
-		Object o2 = taskColumn.getValue(task2);
+		Object o1 = taskColumn.getProperty(task1);
+		Object o2 = taskColumn.getProperty(task2);
 		
 		int result = 0;
 		
@@ -138,8 +138,8 @@ public class TaskRowComparator implements Comparator<Task> {
 			if (task2.getParent() != null)
 				task2 = task2.getParent();
 			
-			Object newO1 = taskColumn.getValue(task1);
-			Object newO2 = taskColumn.getValue(task2);
+			Object newO1 = taskColumn.getProperty(task1);
+			Object newO2 = taskColumn.getProperty(task2);
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
 					* this.compare(taskColumn, newO1, newO2);
 		}

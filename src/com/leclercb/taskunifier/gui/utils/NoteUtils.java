@@ -52,7 +52,7 @@ public final class NoteUtils {
 	private static Folder findFolder(TaskFilter rootFilter) {
 		List<TaskFilterElement> elements = rootFilter.getElements();
 		for (TaskFilterElement e : elements) {
-			if (e.getColumn() == TaskColumn.FOLDER) {
+			if (e.getProperty() == TaskColumn.FOLDER) {
 				return (Folder) e.getValue();
 			}
 		}

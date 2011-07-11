@@ -30,27 +30,29 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers.sorters;
+package com.leclercb.taskunifier.gui.api.searchers.filters;
 
-import javax.swing.SortOrder;
-
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskSorterElement extends SorterElement<Task, TaskColumn> implements Cloneable {
+public class NoteFilterElement extends FilterElement<Note, NoteColumn, NoteFilter> implements Cloneable {
 	
-	public TaskSorterElement(int order, TaskColumn property, SortOrder sortOrder) {
-		super(order, property, sortOrder);
+	public NoteFilterElement(
+			NoteColumn property,
+			Condition<?, ?> condition,
+			Object value) {
+		super(property, condition, value);
 	}
 	
 	@Override
-	public TaskSorterElement clone() {
-		return new TaskSorterElement(
-				this.getOrder(),
+	public NoteFilterElement clone() {
+		return new NoteFilterElement(
 				this.getProperty(),
-				this.getSortOrder());
+				this.getCondition(),
+				this.getValue());
 	}
 	
 }

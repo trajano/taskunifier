@@ -110,7 +110,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 			case 0:
 				return this.sorter.getElement(row).getOrder() + "";
 			case 1:
-				return this.sorter.getElement(row).getColumn();
+				return this.sorter.getElement(row).getProperty();
 			case 2:
 				return this.sorter.getElement(row).getSortOrder();
 			default:
@@ -134,7 +134,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 						Integer.parseInt((String) value));
 				break;
 			case 1:
-				this.sorter.getElement(row).setColumn((TaskColumn) value);
+				this.sorter.getElement(row).setProperty((TaskColumn) value);
 				break;
 			case 2:
 				this.sorter.getElement(row).setSortOrder((SortOrder) value);

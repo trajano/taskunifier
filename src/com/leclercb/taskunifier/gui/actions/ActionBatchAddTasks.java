@@ -43,7 +43,7 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -81,7 +81,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 		BatchAddTaskDialog.getInstance().setVisible(true);
 	}
 	
-	public static void batchAddTasks(Template template, String[] titles) {
+	public static void batchAddTasks(TaskTemplate template, String[] titles) {
 		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
 		
 		Synchronizing.setSynchronizing(true);

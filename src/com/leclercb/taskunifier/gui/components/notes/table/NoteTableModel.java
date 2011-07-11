@@ -87,7 +87,7 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 	@Override
 	public Object getValueAt(int row, int col) {
 		Note note = NoteFactory.getInstance().get(row);
-		return NoteColumn.values()[col].getValue(note);
+		return NoteColumn.values()[col].getProperty(note);
 	}
 	
 	@Override
@@ -100,10 +100,10 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 		Note note = NoteFactory.getInstance().get(row);
 		NoteColumn column = NoteColumn.values()[col];
 		
-		Object oldValue = column.getValue(note);
+		Object oldValue = column.getProperty(note);
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
-			column.setValue(note, value);
+			column.setProperty(note, value);
 			Constants.UNDO_EDIT_SUPPORT.postEdit(new NoteUndoableEdit(
 					note.getModelId(),
 					column,

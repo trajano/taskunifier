@@ -105,7 +105,7 @@ public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 			element.appendChild(order);
 			
 			Element column = document.createElement("column");
-			column.setTextContent(e.getColumn().name());
+			column.setTextContent(e.getProperty().name());
 			element.appendChild(column);
 			
 			Element sortOrder = document.createElement("sortorder");

@@ -50,7 +50,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
@@ -219,7 +219,7 @@ public class TaskTransferHandler extends TransferHandler {
 						Reader reader = flavor.getReaderForText(t);
 						String title = IOUtils.toString(reader);
 						ActionAddTask.addTask(
-								TemplateFactory.getInstance().getDefaultTemplate(),
+								TaskTemplateFactory.getInstance().getDefaultTemplate(),
 								title);
 						return true;
 					}

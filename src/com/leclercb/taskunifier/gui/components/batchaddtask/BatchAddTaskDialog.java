@@ -50,7 +50,7 @@ import javax.swing.UIManager;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -149,7 +149,7 @@ public class BatchAddTaskDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
 					String answer = BatchAddTaskDialog.this.answerTextArea.getText();
-					Template template = (Template) BatchAddTaskDialog.this.templateComboBox.getSelectedItem();
+					TaskTemplate template = (TaskTemplate) BatchAddTaskDialog.this.templateComboBox.getSelectedItem();
 					
 					if (answer == null)
 						return;

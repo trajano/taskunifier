@@ -64,7 +64,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
@@ -150,49 +150,51 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		// Initialize Model List
 		final TemplateList modelList = new TemplateList(templateTitle) {
 			
-			private BeanAdapter<Template> adapter;
+			private BeanAdapter<TaskTemplate> adapter;
 			
 			{
-				this.adapter = new BeanAdapter<Template>((Template) null, true);
+				this.adapter = new BeanAdapter<TaskTemplate>(
+						(TaskTemplate) null,
+						true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Template.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(TaskTemplate.PROP_TITLE);
 				Bindings.bind(templateTitle, titleModel);
 				
-				ValueModel taskTitleModel = this.adapter.getValueModel(Template.PROP_TASK_TITLE);
+				ValueModel taskTitleModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_TITLE);
 				Bindings.bind(templateTaskTitle, taskTitleModel);
 				
-				ValueModel taskTagsModel = this.adapter.getValueModel(Template.PROP_TASK_TAGS);
+				ValueModel taskTagsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_TAGS);
 				Bindings.bind(templateTaskTags, taskTagsModel);
 				
 				ValueModel taskFolderModel = new ModelConverter(
 						ModelType.FOLDER,
-						this.adapter.getValueModel(Template.PROP_TASK_FOLDER));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_FOLDER));
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
 						new FolderModel(true),
 						taskFolderModel));
 				
 				ValueModel taskContextModel = new ModelConverter(
 						ModelType.CONTEXT,
-						this.adapter.getValueModel(Template.PROP_TASK_CONTEXT));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXT));
 				templateTaskContext.setModel(new ComboBoxAdapter<Context>(
 						new ContextModel(true),
 						taskContextModel));
 				
 				ValueModel taskGoalModel = new ModelConverter(
 						ModelType.GOAL,
-						this.adapter.getValueModel(Template.PROP_TASK_GOAL));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOAL));
 				templateTaskGoal.setModel(new ComboBoxAdapter<Goal>(
 						new GoalModel(true),
 						taskGoalModel));
 				
 				ValueModel taskLocationModel = new ModelConverter(
 						ModelType.LOCATION,
-						this.adapter.getValueModel(Template.PROP_TASK_LOCATION));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATION));
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
 						new LocationModel(true),
 						taskLocationModel));
 				
-				ValueModel taskProgressModel = this.adapter.getValueModel(Template.PROP_TASK_PROGRESS);
+				ValueModel taskProgressModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PROGRESS);
 				SpinnerNumberModel taskProgressSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
 						taskProgressModel,
 						new Double(0.00),
@@ -205,14 +207,14 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						templateTaskProgress,
 						"##0.00%"));
 				
-				ValueModel taskCompletedModel = this.adapter.getValueModel(Template.PROP_TASK_COMPLETED);
+				ValueModel taskCompletedModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_COMPLETED);
 				Bindings.bind(templateTaskCompleted, taskCompletedModel);
 				
-				ValueModel taskDueDateModel = this.adapter.getValueModel(Template.PROP_TASK_DUE_DATE);
+				ValueModel taskDueDateModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_DUE_DATE);
 				Bindings.bind(templateTaskDueDate, taskDueDateModel);
 				
 				TemplateTimeConverter taskDueTimeModel = new TemplateTimeConverter(
-						this.adapter.getValueModel(Template.PROP_TASK_DUE_TIME));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_DUE_TIME));
 				SpinnerDateModel taskDueTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskDueTimeModel,
 						(Date) taskDueTimeModel.convertFromSubject(0));
@@ -222,11 +224,11 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						templateTaskDueTime,
 						Main.SETTINGS.getStringProperty("date.time_format")));
 				
-				ValueModel taskStartDateModel = this.adapter.getValueModel(Template.PROP_TASK_START_DATE);
+				ValueModel taskStartDateModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_START_DATE);
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
 				
 				TemplateTimeConverter taskStartTimeModel = new TemplateTimeConverter(
-						this.adapter.getValueModel(Template.PROP_TASK_START_TIME));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_START_TIME));
 				SpinnerDateModel taskStartTimeSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskStartTimeModel,
 						(Date) taskStartTimeModel.convertFromSubject(0));
@@ -236,28 +238,28 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						templateTaskStartTime,
 						Main.SETTINGS.getStringProperty("date.time_format")));
 				
-				ValueModel taskReminderModel = this.adapter.getValueModel(Template.PROP_TASK_REMINDER);
+				ValueModel taskReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REMINDER);
 				templateTaskReminder.setModel(new ComboBoxAdapter<Integer>(
 						new TaskReminderModel(),
 						taskReminderModel));
 				
-				ValueModel taskRepeatModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT);
+				ValueModel taskRepeatModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT);
 				templateTaskRepeat.setModel(new ComboBoxAdapter<String>(
 						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues(),
 						taskRepeatModel));
 				
-				ValueModel taskRepeatFromModel = this.adapter.getValueModel(Template.PROP_TASK_REPEAT_FROM);
+				ValueModel taskRepeatFromModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT_FROM);
 				templateTaskRepeatFrom.setModel(new ComboBoxAdapter<TaskRepeatFrom>(
 						new TaskRepeatFromModel(true),
 						taskRepeatFromModel));
 				
-				ValueModel taskStatusModel = this.adapter.getValueModel(Template.PROP_TASK_STATUS);
+				ValueModel taskStatusModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_STATUS);
 				templateTaskStatus.setModel(new ComboBoxAdapter<TaskStatus>(
 						new TaskStatusModel(true),
 						taskStatusModel));
 				
 				TaskLengthConverter taskLengthModel = new TaskLengthConverter(
-						this.adapter.getValueModel(Template.PROP_TASK_LENGTH));
+						this.adapter.getValueModel(TaskTemplate.PROP_TASK_LENGTH));
 				SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
 						taskLengthModel,
 						(Date) taskLengthModel.convertFromSubject(0));
@@ -267,20 +269,20 @@ public class TemplateConfigurationPanel extends JSplitPane {
 						templateTaskLength,
 						Main.SETTINGS.getStringProperty("date.time_format")));
 				
-				ValueModel taskPriorityModel = this.adapter.getValueModel(Template.PROP_TASK_PRIORITY);
+				ValueModel taskPriorityModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PRIORITY);
 				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
 						new TaskPriorityModel(true),
 						taskPriorityModel));
 				
-				ValueModel taskStarModel = this.adapter.getValueModel(Template.PROP_TASK_STAR);
+				ValueModel taskStarModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_STAR);
 				Bindings.bind(templateTaskStar, taskStarModel);
 				
-				ValueModel taskNoteModel = this.adapter.getValueModel(Template.PROP_TASK_NOTE);
+				ValueModel taskNoteModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_NOTE);
 				Bindings.bind(templateTaskNote, taskNoteModel);
 			}
 			
 			@Override
-			public void templateSelected(Template template) {
+			public void templateSelected(TaskTemplate template) {
 				this.adapter.setBean(template != null ? template : null);
 				templateTitle.setEnabled(template != null);
 				templateTaskTitle.setEnabled(template != null);

@@ -39,11 +39,11 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class StringValueTaskFilterCondition implements StringValue {
+public class StringValueFilterCondition implements StringValue {
 	
-	public static final StringValueTaskFilterCondition INSTANCE = new StringValueTaskFilterCondition();
+	public static final StringValueFilterCondition INSTANCE = new StringValueFilterCondition();
 	
-	private StringValueTaskFilterCondition() {
+	private StringValueFilterCondition() {
 
 	}
 	
@@ -52,7 +52,7 @@ public class StringValueTaskFilterCondition implements StringValue {
 		if (value == null || !(value instanceof Condition<?, ?>))
 			return " ";
 		
-		return TranslationsUtils.translateTaskFilterCondition((Condition<?, ?>) value);
+		return TranslationsUtils.translateFilterCondition((Condition<?, ?>) value);
 	}
 	
 }

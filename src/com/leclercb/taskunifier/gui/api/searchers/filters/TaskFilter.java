@@ -32,267 +32,29 @@
  */
 package com.leclercb.taskunifier.gui.api.searchers.filters;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskFilter implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable, Cloneable {
-	
-	public static final String PROP_LINK = "link";
-	
-	private ListChangeSupport listChangeSupport;
-	private PropertyChangeSupport propertyChangeSupport;
-	
-	private TaskFilter parent;
-	private FilterLink link;
-	private List<TaskFilter> filters;
-	private List<TaskFilterElement> elements;
+public class TaskFilter extends Filter<Task, TaskColumn, TaskFilter, TaskFilterElement> implements Cloneable {
 	
 	public TaskFilter() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		
-		this.setParent(null);
-		this.setLink(FilterLink.AND);
-		
-		this.filters = new ArrayList<TaskFilter>();
-		this.elements = new ArrayList<TaskFilterElement>();
+
 	}
 	
 	@Override
 	public TaskFilter clone() {
 		TaskFilter filter = new TaskFilter();
-		filter.setLink(this.link);
+		filter.setLink(this.getLink());
 		
-		for (TaskFilterElement e : this.elements)
+		for (TaskFilterElement e : this.getElements())
 			filter.addElement(e.clone());
 		
-		for (TaskFilter f : this.filters)
+		for (TaskFilter f : this.getFilters())
 			filter.addFilter(f.clone());
 		
 		return filter;
-	}
-	
-	public TaskFilter getParent() {
-		return this.parent;
-	}
-	
-	private void setParent(TaskFilter parent) {
-		this.parent = parent;
-	}
-	
-	public FilterLink getLink() {
-		return this.link;
-	}
-	
-	public void setLink(FilterLink link) {
-		CheckUtils.isNotNull(link, "Link cannot be null");
-		FilterLink oldLink = this.link;
-		this.link = link;
-		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
-	}
-	
-	public int getIndexOf(TaskFilterElement element) {
-		return this.elements.indexOf(element);
-	}
-	
-	public int getElementCount() {
-		return this.elements.size();
-	}
-	
-	public TaskFilterElement getElement(int index) {
-		return this.elements.get(index);
-	}
-	
-	public List<TaskFilterElement> getElements() {
-		return Collections.unmodifiableList(new ArrayList<TaskFilterElement>(
-				this.elements));
-	}
-	
-	public void addElement(TaskFilterElement element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
-		this.elements.add(element);
-		
-		if (element.getParent() != null) {
-			element.getParent().removeElement(element);
-		}
-		
-		element.setParent(this);
-		element.addPropertyChangeListener(this);
-		int index = this.elements.indexOf(element);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				element);
-	}
-	
-	public void removeElement(TaskFilterElement element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
-		
-		int index = this.elements.indexOf(element);
-		if (this.elements.remove(element)) {
-			element.setParent(null);
-			element.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					element);
-		}
-	}
-	
-	public int getIndexOf(TaskFilter filter) {
-		return this.filters.indexOf(filter);
-	}
-	
-	public int getFilterCount() {
-		return this.filters.size();
-	}
-	
-	public TaskFilter getFilter(int index) {
-		return this.filters.get(index);
-	}
-	
-	public List<TaskFilter> getFilters() {
-		return Collections.unmodifiableList(new ArrayList<TaskFilter>(
-				this.filters));
-	}
-	
-	public void addFilter(TaskFilter filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
-		this.filters.add(filter);
-		
-		if (filter.getParent() != null) {
-			filter.getParent().removeFilter(filter);
-		}
-		
-		filter.setParent(this);
-		filter.addListChangeListener(this);
-		filter.addPropertyChangeListener(this);
-		int index = this.filters.indexOf(filter);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				filter);
-	}
-	
-	public void removeFilter(TaskFilter filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
-		
-		int index = this.filters.indexOf(filter);
-		if (this.filters.remove(filter)) {
-			filter.setParent(null);
-			filter.removeListChangeListener(this);
-			filter.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					filter);
-		}
-	}
-	
-	public boolean include(Task task) {
-		if (this.link == FilterLink.AND) {
-			for (TaskFilterElement element : this.elements) {
-				if (!element.include(task))
-					return false;
-			}
-			
-			for (TaskFilter filter : this.filters) {
-				if (!filter.include(task))
-					return false;
-			}
-			
-			return true;
-		} else {
-			for (TaskFilterElement element : this.elements) {
-				if (element.include(task))
-					return true;
-			}
-			
-			for (TaskFilter filter : this.filters) {
-				if (filter.include(task))
-					return true;
-			}
-			
-			return false;
-		}
-	}
-	
-	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
-	}
-	
-	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void listChange(ListChangeEvent event) {
-		this.listChangeSupport.fireListChange(event);
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		this.propertyChangeSupport.firePropertyChange(event);
-	}
-	
-	@Override
-	public String toString() {
-		if (this.elements.size() == 0 && this.filters.size() == 0)
-			return "";
-		
-		StringBuffer buffer = new StringBuffer(
-				Translations.getString("general.filter") + ": ((");
-		
-		List<Object> list = new ArrayList<Object>();
-		list.addAll(this.elements);
-		list.addAll(this.filters);
-		
-		buffer.append(ListUtils.listToString(
-				list,
-				") " + TranslationsUtils.translateFilterLink(this.link) + " ("));
-		
-		buffer.append("))");
-		
-		return buffer.toString();
 	}
 	
 }

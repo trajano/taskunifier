@@ -41,8 +41,8 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
@@ -74,14 +74,14 @@ public class ActionAddTask extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ActionAddTask.addTask(
-				TemplateFactory.getInstance().getDefaultTemplate(),
+				TaskTemplateFactory.getInstance().getDefaultTemplate(),
 				null);
 	}
 	
-	public static Task addTask(Template template, String title) {
+	public static Task addTask(TaskTemplate template, String title) {
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
-		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
 			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();

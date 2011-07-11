@@ -43,8 +43,8 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
@@ -103,11 +103,11 @@ public class ActionAddSubTask extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		if (this.taskView.getSelectedTasks().length == 1)
 			ActionAddSubTask.addSubTask(
-					TemplateFactory.getInstance().getDefaultTemplate(),
+					TaskTemplateFactory.getInstance().getDefaultTemplate(),
 					this.taskView.getSelectedTasks()[0]);
 	}
 	
-	public static Task addSubTask(Template template, Task parent) {
+	public static Task addSubTask(TaskTemplate template, Task parent) {
 		CheckUtils.isNotNull(parent, "Parent cannot be null");
 		
 		if (parent.getParent() != null)
@@ -115,7 +115,7 @@ public class ActionAddSubTask extends AbstractAction {
 		
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
-		Template searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
 			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();

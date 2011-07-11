@@ -35,14 +35,14 @@ package com.leclercb.taskunifier.gui.commons.comparators;
 import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
-import com.leclercb.taskunifier.gui.api.templates.Template;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateComparator implements Comparator<Template> {
+public class TemplateComparator implements Comparator<TaskTemplate> {
 	
 	@Override
-	public int compare(Template t1, Template t2) {
+	public int compare(TaskTemplate t1, TaskTemplate t2) {
 		String s1 = t1 == null ? null : t1.getTitle().toLowerCase();
 		String s2 = t2 == null ? null : t2.getTitle().toLowerCase();
 		

@@ -34,20 +34,20 @@ package com.leclercb.taskunifier.gui.api.searchers.sorters;
 
 import javax.swing.SortOrder;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskSorterElement extends SorterElement<Task, TaskColumn> implements Cloneable {
+public class NoteSorterElement extends SorterElement<Note, NoteColumn> implements Cloneable {
 	
-	public TaskSorterElement(int order, TaskColumn property, SortOrder sortOrder) {
+	public NoteSorterElement(int order, NoteColumn property, SortOrder sortOrder) {
 		super(order, property, sortOrder);
 	}
 	
 	@Override
-	public TaskSorterElement clone() {
-		return new TaskSorterElement(
+	public NoteSorterElement clone() {
+		return new NoteSorterElement(
 				this.getOrder(),
 				this.getProperty(),
 				this.getSortOrder());

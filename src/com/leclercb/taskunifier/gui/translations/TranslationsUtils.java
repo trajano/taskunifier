@@ -210,7 +210,7 @@ public final class TranslationsUtils {
 		return "Missing translation";
 	}
 	
-	public static String translateTaskFilterCondition(Condition<?, ?> condition) {
+	public static String translateFilterCondition(Condition<?, ?> condition) {
 		if (condition instanceof CalendarCondition) {
 			switch ((CalendarCondition) condition) {
 				case AFTER:

@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.main.View;
@@ -237,7 +237,7 @@ public class MenuBar extends JMenuBar {
 		
 		TemplateUtils.updateTemplateList(templatesMenu, null);
 		
-		TemplateFactory.getInstance().addListChangeListener(
+		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override

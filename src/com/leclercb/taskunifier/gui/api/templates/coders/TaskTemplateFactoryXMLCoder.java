@@ -47,16 +47,16 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
+public class TaskTemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	private boolean createNewTemplates;
 	
-	public TemplateFactoryXMLCoder(boolean createNewTemplates) {
+	public TaskTemplateFactoryXMLCoder(boolean createNewTemplates) {
 		super("templates");
 		this.createNewTemplates = createNewTemplates;
 	}
@@ -196,12 +196,14 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 						taskNote = element.getTextContent();
 				}
 				
-				Template template = null;
+				TaskTemplate template = null;
 				
 				if (this.createNewTemplates)
-					template = TemplateFactory.getInstance().create(title);
+					template = TaskTemplateFactory.getInstance().create(title);
 				else
-					template = TemplateFactory.getInstance().create(id, title);
+					template = TaskTemplateFactory.getInstance().create(
+							id,
+							title);
 				
 				template.setTaskTitle(taskTitle);
 				template.setTaskTags(taskTags);
@@ -225,11 +227,11 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				template.setTaskNote(taskNote);
 			}
 			
-			Template defaultTemplate = TemplateFactory.getInstance().get(
+			TaskTemplate defaultTemplate = TaskTemplateFactory.getInstance().get(
 					XMLUtils.getAttributeValue(root, "default"));
 			
 			if (defaultTemplate != null)
-				TemplateFactory.getInstance().setDefaultTemplate(
+				TaskTemplateFactory.getInstance().setDefaultTemplate(
 						defaultTemplate);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
@@ -239,9 +241,9 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	@Override
 	protected void encode(Document document, Element root)
 			throws FactoryCoderException {
-		List<Template> templates = TemplateFactory.getInstance().getList();
+		List<TaskTemplate> templates = TaskTemplateFactory.getInstance().getList();
 		
-		for (Template template : templates) {
+		for (TaskTemplate template : templates) {
 			Element nTemplate = document.createElement("template");
 			root.appendChild(nTemplate);
 			
@@ -358,10 +360,10 @@ public class TemplateFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			nTemplate.appendChild(taskNote);
 		}
 		
-		if (TemplateFactory.getInstance().getDefaultTemplate() != null)
+		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)
 			root.setAttribute(
 					"default",
-					TemplateFactory.getInstance().getDefaultTemplate().getId());
+					TaskTemplateFactory.getInstance().getDefaultTemplate().getId());
 		else
 			root.setAttribute("default", "");
 	}

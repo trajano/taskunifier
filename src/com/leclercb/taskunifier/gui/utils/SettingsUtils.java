@@ -89,7 +89,7 @@ public final class SettingsUtils {
 		List<TaskFilter> filters = filter.getFilters();
 		
 		for (TaskFilterElement e : elements) {
-			if (e.getColumn() == TaskColumn.COMPLETED)
+			if (e.getProperty() == TaskColumn.COMPLETED)
 				if (e.getValue().equals(Boolean.FALSE))
 					filter.removeElement(e);
 		}

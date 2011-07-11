@@ -37,7 +37,7 @@ import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.gui.utils.ModelUtils;
+import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -57,7 +57,7 @@ public class ModelConverter extends AbstractConverter {
 	
 	@Override
 	public Object convertFromSubject(Object modelId) {
-		return ModelUtils.getModel(this.type, (ModelId) modelId);
+		return ModelFactoryUtils.getModel(this.type, (ModelId) modelId);
 	}
 	
 }

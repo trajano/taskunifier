@@ -35,7 +35,10 @@ package com.leclercb.taskunifier.gui.commons.comparators;
 import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.SorterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
@@ -43,7 +46,9 @@ public class TaskSorterElementComparator implements Comparator<TaskSorterElement
 	
 	@Override
 	public int compare(TaskSorterElement tse1, TaskSorterElement tse2) {
-		return CompareUtils.compare(tse1, tse2);
+		return CompareUtils.compare(
+				(SorterElement<Task, TaskColumn>) tse1,
+				(SorterElement<Task, TaskColumn>) tse2);
 	}
 	
 }

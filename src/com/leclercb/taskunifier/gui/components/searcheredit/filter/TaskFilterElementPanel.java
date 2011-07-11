@@ -63,8 +63,8 @@ import com.leclercb.taskunifier.gui.commons.models.TaskModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
+import com.leclercb.taskunifier.gui.commons.values.StringValueFilterCondition;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskFilterCondition;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
@@ -152,7 +152,7 @@ public class TaskFilterElementPanel extends JPanel {
 			this.resetFields(null, null, null);
 		else
 			this.resetFields(
-					element.getColumn(),
+					element.getProperty(),
 					element.getCondition(),
 					element.getValue());
 		
@@ -416,7 +416,7 @@ public class TaskFilterElementPanel extends JPanel {
 		// Condition
 		this.elementCondition = new JComboBox();
 		this.elementCondition.setRenderer(new DefaultListRenderer(
-				StringValueTaskFilterCondition.INSTANCE));
+				StringValueFilterCondition.INSTANCE));
 		this.elementCondition.setEnabled(false);
 		
 		builder.append(this.elementCondition);

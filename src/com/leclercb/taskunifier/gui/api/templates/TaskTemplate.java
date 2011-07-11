@@ -55,7 +55,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class Template implements Serializable, Comparable<Template>, Cloneable, PropertyChangeSupported {
+public class TaskTemplate implements Serializable, Comparable<TaskTemplate>, Cloneable, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
 	
@@ -106,11 +106,11 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	private Boolean taskStar;
 	private String taskNote;
 	
-	public Template(String title) {
+	public TaskTemplate(String title) {
 		this(UUID.randomUUID().toString(), title);
 	}
 	
-	public Template(String id, String title) {
+	public TaskTemplate(String id, String title) {
 		CheckUtils.isNotNull(id, "Id cannot be null");
 		
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -231,8 +231,8 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	}
 	
 	@Override
-	public Template clone() {
-		Template template = new Template(this.title);
+	public TaskTemplate clone() {
+		TaskTemplate template = new TaskTemplate(this.title);
 		
 		template.setTaskTitle(this.taskTitle);
 		template.setTaskTags(this.taskTags);
@@ -552,8 +552,8 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 			return true;
 		}
 		
-		if (o instanceof Template) {
-			Template template = (Template) o;
+		if (o instanceof TaskTemplate) {
+			TaskTemplate template = (TaskTemplate) o;
 			
 			return new EqualsBuilder().append(this.id, template.id).isEqual();
 		}
@@ -570,7 +570,7 @@ public class Template implements Serializable, Comparable<Template>, Cloneable, 
 	}
 	
 	@Override
-	public int compareTo(Template template) {
+	public int compareTo(TaskTemplate template) {
 		if (template == null)
 			return 1;
 		

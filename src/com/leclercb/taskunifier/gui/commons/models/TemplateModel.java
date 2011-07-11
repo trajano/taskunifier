@@ -39,8 +39,8 @@ import java.util.List;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -56,12 +56,12 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 		if (firstNull)
 			this.addElement(null);
 		
-		List<Template> templates = TemplateFactory.getInstance().getList();
-		for (Template template : templates)
+		List<TaskTemplate> templates = TaskTemplateFactory.getInstance().getList();
+		for (TaskTemplate template : templates)
 			this.addElement(template);
 		
-		TemplateFactory.getInstance().addListChangeListener(this);
-		TemplateFactory.getInstance().addPropertyChangeListener(this);
+		TaskTemplateFactory.getInstance().addListChangeListener(this);
+		TaskTemplateFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 	@Override
@@ -75,13 +75,13 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getSource() instanceof TemplateFactory) {
+		if (event.getSource() instanceof TaskTemplateFactory) {
 			if (event.getPropertyName().equals(
-					TemplateFactory.PROP_DEFAULT_TEMPLATE))
+					TaskTemplateFactory.PROP_DEFAULT_TEMPLATE))
 				this.fireContentsChanged(
 						this,
 						0,
-						TemplateFactory.getInstance().size() - 1);
+						TaskTemplateFactory.getInstance().size() - 1);
 			
 			return;
 		}

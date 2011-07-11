@@ -140,7 +140,7 @@ public final class TaskUtils {
 					continue;
 				
 				String content = null;
-				Object value = column.getValue(task);
+				Object value = column.getProperty(task);
 				
 				switch (column) {
 					case COMPLETED:
@@ -326,7 +326,7 @@ public final class TaskUtils {
 		List<TaskFilter> filters = filter.getFilters();
 		
 		for (TaskFilterElement e : elements) {
-			if (e.getColumn() == TaskColumn.COMPLETED) {
+			if (e.getProperty() == TaskColumn.COMPLETED) {
 				if (e.getValue().toString().equals("true"))
 					return true;
 			}

@@ -30,61 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.api.searchers.filters;
 
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.AbstractAction;
-
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionAddTemplateTask extends AbstractAction {
+public class NoteFilter extends Filter<Note, NoteColumn, NoteFilter, NoteFilterElement> implements Cloneable {
 	
-	private TaskTemplate template;
-	
-	public ActionAddTemplateTask(TaskTemplate template) {
-		this(template, 32, 32);
-	}
-	
-	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
-		super(template.getTitle(), Images.getResourceImage(
-				"duplicate.png",
-				width,
-				height));
-		
-		this.putValue(SHORT_DESCRIPTION, template.getTitle());
-		
-		CheckUtils.isNotNull(template, "Template cannot be null");
-		
-		this.template = template;
-		
-		template.addPropertyChangeListener(
-				TaskTemplate.PROP_TITLE,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ActionAddTemplateTask.this.putValue(
-								NAME,
-								ActionAddTemplateTask.this.template.getTitle());
-						
-						ActionAddTemplateTask.this.putValue(
-								SHORT_DESCRIPTION,
-								ActionAddTemplateTask.this.template.getTitle());
-					}
-					
-				});
+	public NoteFilter() {
+
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(this.template, null);
+	public NoteFilter clone() {
+		NoteFilter filter = new NoteFilter();
+		filter.setLink(this.getLink());
+		
+		for (NoteFilterElement e : this.getElements())
+			filter.addElement(e.clone());
+		
+		for (NoteFilter f : this.getFilters())
+			filter.addFilter(f.clone());
+		
+		return filter;
 	}
 	
 }

@@ -43,6 +43,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
 import com.leclercb.taskunifier.gui.components.models.lists.TagList;
@@ -50,7 +51,6 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed

@@ -249,7 +249,7 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 			root.appendChild(element);
 			
 			Element column = document.createElement("column");
-			column.setTextContent(e.getColumn().name());
+			column.setTextContent(e.getProperty().name());
 			element.appendChild(column);
 			
 			Element condition = document.createElement("condition");

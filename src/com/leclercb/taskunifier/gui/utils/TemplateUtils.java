@@ -41,8 +41,8 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
-import com.leclercb.taskunifier.gui.api.templates.Template;
-import com.leclercb.taskunifier.gui.api.templates.TemplateFactory;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -60,11 +60,11 @@ public final class TemplateUtils {
 		if (popupMenu != null)
 			popupMenu.removeAll();
 		
-		List<Template> templates = new ArrayList<Template>(
-				TemplateFactory.getInstance().getList());
+		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
+				TaskTemplateFactory.getInstance().getList());
 		Collections.sort(templates, new TemplateComparator());
 		
-		for (Template template : templates) {
+		for (TaskTemplate template : templates) {
 			if (menu != null)
 				menu.add(new ActionAddTemplateTask(template, 16, 16));
 			
