@@ -43,7 +43,6 @@ import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
-import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -52,6 +51,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.commons.comparators.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferData;
@@ -257,9 +257,11 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 				
 				Collections.sort(items, new Comparator<SearcherItem>() {
 					
+					private TaskSearcherComparator comparator = new TaskSearcherComparator();
+					
 					@Override
 					public int compare(SearcherItem o1, SearcherItem o2) {
-						return CompareUtils.compare(
+						return this.comparator.compare(
 								o1.getTaskSearcher(),
 								o2.getTaskSearcher());
 					}

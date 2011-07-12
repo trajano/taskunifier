@@ -35,15 +35,12 @@ package com.leclercb.taskunifier.gui.api.searchers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.UUID;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsBuilder;
-import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
@@ -52,7 +49,7 @@ import com.leclercb.taskunifier.gui.api.templates.NoteTemplate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class NoteSearcher implements Serializable, Comparable<NoteSearcher>, Cloneable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
+public class NoteSearcher implements Cloneable, Serializable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
 	
 	public static final String PROP_TYPE = "type";
 	public static final String PROP_ORDER = "order";
@@ -65,7 +62,6 @@ public class NoteSearcher implements Serializable, Comparable<NoteSearcher>, Clo
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	private NoteSearcherType type;
-	private String id;
 	private int order;
 	private String title;
 	private String icon;
@@ -102,8 +98,6 @@ public class NoteSearcher implements Serializable, Comparable<NoteSearcher>, Clo
 			NoteTemplate template) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.setId(UUID.randomUUID().toString());
-		
 		this.setType(type);
 		this.setOrder(order);
 		this.setTitle(title);
@@ -123,15 +117,6 @@ public class NoteSearcher implements Serializable, Comparable<NoteSearcher>, Clo
 				this.filter.clone(),
 				this.sorter.clone(),
 				(this.template == null ? null : this.template.clone()));
-	}
-	
-	public String getId() {
-		return this.id;
-	}
-	
-	private void setId(String id) {
-		CheckUtils.isNotNull(id, "ID cannot be null");
-		this.id = id;
 	}
 	
 	public NoteSearcherType getType() {
@@ -246,37 +231,6 @@ public class NoteSearcher implements Serializable, Comparable<NoteSearcher>, Clo
 	@Override
 	public String toString() {
 		return this.title;
-	}
-	
-	@Override
-	public final boolean equals(Object o) {
-		if (o == this) {
-			return true;
-		}
-		
-		if (o instanceof NoteSearcher) {
-			NoteSearcher searcher = (NoteSearcher) o;
-			
-			return new EqualsBuilder().append(this.id, searcher.id).isEqual();
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public final int hashCode() {
-		HashCodeBuilder hashCode = new HashCodeBuilder();
-		hashCode.append(this.id);
-		
-		return hashCode.toHashCode();
-	}
-	
-	@Override
-	public int compareTo(NoteSearcher searcher) {
-		if (searcher == null)
-			return 1;
-		
-		return new Integer(this.order).compareTo(searcher.order);
 	}
 	
 	@Override

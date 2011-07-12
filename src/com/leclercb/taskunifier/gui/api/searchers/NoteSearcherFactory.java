@@ -73,8 +73,8 @@ public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSu
 		this.searchers = new ArrayList<NoteSearcher>();
 	}
 	
-	public boolean contains(String id) {
-		return (this.get(id) != null);
+	public boolean contains(NoteSearcher searcher) {
+		return this.searchers.contains(searcher);
 	}
 	
 	public int size() {
@@ -88,14 +88,6 @@ public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSu
 	
 	public NoteSearcher get(int index) {
 		return this.searchers.get(index);
-	}
-	
-	public NoteSearcher get(String id) {
-		for (NoteSearcher searcher : this.searchers)
-			if (searcher.getId().equals(id))
-				return searcher;
-		
-		return null;
 	}
 	
 	/**
@@ -125,8 +117,8 @@ public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSu
 	public void register(NoteSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 		
-		if (this.contains(searcher.getId()))
-			throw new IllegalArgumentException("ID already exists in factory");
+		if (this.contains(searcher))
+			return;
 		
 		this.searchers.add(searcher);
 		searcher.addPropertyChangeListener(this);

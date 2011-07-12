@@ -351,7 +351,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 			return;
 		
 		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
-				searcher.getId());
+				searcher);
 		
 		this.setTitleFilter(null);
 		this.removeAction.setEnabled(foundInFactory
