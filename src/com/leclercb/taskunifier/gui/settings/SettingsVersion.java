@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.UIManager;
 
@@ -145,8 +146,11 @@ public final class SettingsVersion {
 		if (version.equals("0.9.8"))
 			version = updateSettings_0_9_8_to_0_9_9();
 		
-		if (version.equals("1.0.0"))
-			version = updateSettings_0_9_9_to_1_0_0();
+		if (version.equals("0.9.9"))
+			version = updateSettings_0_9_9_to_0_9_9b();
+		
+		if (version.equals("0.9.9b"))
+			version = updateSettings_0_9_9b_to_1_0_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -485,9 +489,52 @@ public final class SettingsVersion {
 		return "0.9.9";
 	}
 	
-	private static String updateSettings_0_9_9_to_1_0_0() {
+	private static String updateSettings_0_9_9_to_0_9_9b() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 0.9.9 to 1.0.0");
+				"Update settings from version 0.9.9 to 0.9.9b");
+		
+		return "0.9.9b";
+	}
+	
+	private static String updateSettings_0_9_9b_to_1_0_0() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 0.9.9b to 1.0.0");
+		
+		Main.SETTINGS.setStringProperty(
+				"searcher.task.default_sorter",
+				Main.SETTINGS.getStringProperty("searcher.default_sorter"));
+		
+		Main.SETTINGS.setStringProperty(
+				"searcher.task.selected.value",
+				Main.SETTINGS.getStringProperty("searcher.selected.value"));
+		
+		Main.SETTINGS.setStringProperty(
+				"searcher.task.selected.type",
+				Main.SETTINGS.getStringProperty("searcher.selected.type"));
+		
+		Main.SETTINGS.remove("searcher.default_sorter");
+		Main.SETTINGS.remove("searcher.selected.value");
+		Main.SETTINGS.remove("searcher.selected.type");
+		
+		try {
+			FileUtils.moveFile(new File(Main.DATA_FOLDER
+					+ File.separator
+					+ "templates.xml"), new File(Main.DATA_FOLDER
+					+ File.separator
+					+ "task_templates.xml"));
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+		
+		try {
+			FileUtils.moveFile(new File(Main.DATA_FOLDER
+					+ File.separator
+					+ "searchers.xml"), new File(Main.DATA_FOLDER
+					+ File.separator
+					+ "task_searchers.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		return "1.0.0";
 	}

@@ -49,15 +49,15 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public class NoteTemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
-	public static final String PROP_DEFAULT_TASK_TEMPLATE = "defaultTaskTemplate";
+	public static final String PROP_DEFAULT_NOTE_TEMPLATE = "defaultNoteTemplate";
 	
-	private static TaskTemplateFactory FACTORY;
+	private static NoteTemplateFactory FACTORY;
 	
-	public static TaskTemplateFactory getInstance() {
+	public static NoteTemplateFactory getInstance() {
 		if (FACTORY == null)
-			FACTORY = new TaskTemplateFactory();
+			FACTORY = new NoteTemplateFactory();
 		
 		return FACTORY;
 	}
@@ -65,26 +65,26 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private TaskTemplate defaultTemplate;
-	private List<TaskTemplate> templates;
+	private NoteTemplate defaultTemplate;
+	private List<NoteTemplate> templates;
 	
-	private TaskTemplateFactory() {
+	private NoteTemplateFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.defaultTemplate = null;
-		this.templates = new ArrayList<TaskTemplate>();
+		this.templates = new ArrayList<NoteTemplate>();
 	}
 	
-	public TaskTemplate getDefaultTemplate() {
+	public NoteTemplate getDefaultTemplate() {
 		return this.defaultTemplate;
 	}
 	
-	public void setDefaultTemplate(TaskTemplate defaultTemplate) {
-		TaskTemplate oldDefaultTemplate = this.defaultTemplate;
+	public void setDefaultTemplate(NoteTemplate defaultTemplate) {
+		NoteTemplate oldDefaultTemplate = this.defaultTemplate;
 		this.defaultTemplate = defaultTemplate;
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_DEFAULT_TASK_TEMPLATE,
+				PROP_DEFAULT_NOTE_TEMPLATE,
 				oldDefaultTemplate,
 				defaultTemplate);
 	}
@@ -97,39 +97,39 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 		return this.templates.size();
 	}
 	
-	public List<TaskTemplate> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskTemplate>(
+	public List<NoteTemplate> getList() {
+		return Collections.unmodifiableList(new ArrayList<NoteTemplate>(
 				this.templates));
 	}
 	
-	public TaskTemplate get(int index) {
+	public NoteTemplate get(int index) {
 		return this.templates.get(index);
 	}
 	
-	public TaskTemplate get(String id) {
-		for (TaskTemplate template : this.templates)
+	public NoteTemplate get(String id) {
+		for (NoteTemplate template : this.templates)
 			if (template.getId().equals(id))
 				return template;
 		
 		return null;
 	}
 	
-	public int getIndexOf(TaskTemplate template) {
+	public int getIndexOf(NoteTemplate template) {
 		return this.templates.indexOf(template);
 	}
 	
-	public void delete(TaskTemplate template) {
+	public void delete(NoteTemplate template) {
 		this.unregister(template);
 	}
 	
 	public void deleteAll() {
-		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
+		List<NoteTemplate> templates = new ArrayList<NoteTemplate>(
 				this.templates);
-		for (TaskTemplate template : templates)
+		for (NoteTemplate template : templates)
 			this.unregister(template);
 	}
 	
-	public void register(TaskTemplate template) {
+	public void register(NoteTemplate template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
 		if (this.contains(template.getId()))
@@ -144,7 +144,7 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 				template);
 	}
 	
-	public void unregister(TaskTemplate template) {
+	public void unregister(NoteTemplate template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
 		int index = this.templates.indexOf(template);
@@ -160,14 +160,14 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 		}
 	}
 	
-	public TaskTemplate create(String title) {
-		TaskTemplate template = new TaskTemplate(title);
+	public NoteTemplate create(String title) {
+		NoteTemplate template = new NoteTemplate(title);
 		this.register(template);
 		return template;
 	}
 	
-	public TaskTemplate create(String id, String title) {
-		TaskTemplate template = new TaskTemplate(id, title);
+	public NoteTemplate create(String id, String title) {
+		NoteTemplate template = new NoteTemplate(id, title);
 		this.register(template);
 		return template;
 	}

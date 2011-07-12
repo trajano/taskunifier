@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.components.notesearchertree;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -51,26 +51,25 @@ import javax.swing.tree.TreeNode;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.notesearchertree.draganddrop.NoteSearcherTransferHandler;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.NoteSearcherProvider;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.draganddrop.TaskSearcherTransferHandler;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherCategory;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TagItem;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TaskSearcherProvider;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePropertiesListener {
+public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePropertiesListener {
 	
-	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
+	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;
 	
-	public TaskSearcherTree() {
-		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
+	public NoteSearcherTree() {
+		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
 				this);
 		
 		this.initialize();
@@ -85,9 +84,9 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		this.setShowsRootHandles(true);
 		this.setRowHeight(20);
 		
-		this.setSelectionModel(new TaskSearcherTreeSelectionModel());
-		this.setModel(new TaskSearcherTreeModel(this.getSelectionModel()));
-		this.setUI(new TaskSearcherTreeUI());
+		this.setSelectionModel(new NoteSearcherTreeSelectionModel());
+		this.setModel(new NoteSearcherTreeModel(this.getSelectionModel()));
+		this.setUI(new NoteSearcherTreeUI());
 		
 		this.initializeToolTipText();
 		this.initializeDragAndDrop();
@@ -99,7 +98,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (!(Boolean) evt.getNewValue())
-					TaskSearcherTree.this.updateBadges();
+					NoteSearcherTree.this.updateBadges();
 			}
 			
 		});
@@ -108,26 +107,26 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent evt) {
-				TaskSearcherTree.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(TaskSearcherTree.this.getSelectedTaskSearcher());
+				NoteSearcherTree.this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(NoteSearcherTree.this.getSelectedNoteSearcher());
 			}
 			
 		});
 	}
 	
-	public TaskSearcherTreeModel getSearcherModel() {
-		return (TaskSearcherTreeModel) this.getModel();
+	public NoteSearcherTreeModel getSearcherModel() {
+		return (NoteSearcherTreeModel) this.getModel();
 	}
 	
 	@Override
-	public void addTaskSearcherSelectionChangeListener(
-			TaskSearcherSelectionListener listener) {
-		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
+	public void addNoteSearcherSelectionChangeListener(
+			NoteSearcherSelectionListener listener) {
+		this.noteSearcherSelectionChangeSupport.addNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	@Override
-	public void removeTaskSearcherSelectionChangeListener(
-			TaskSearcherSelectionListener listener) {
-		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
+	public void removeNoteSearcherSelectionChangeListener(
+			NoteSearcherSelectionListener listener) {
+		this.noteSearcherSelectionChangeSupport.removeNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	@Override
@@ -136,7 +135,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	@Override
-	public boolean selectTaskSearcher(TaskSearcher searcher) {
+	public boolean selectNoteSearcher(NoteSearcher searcher) {
 		TreeNode node = this.getSearcherModel().findItemFromSearcher(searcher);
 		
 		if (node == null)
@@ -147,8 +146,8 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	@Override
-	public boolean selectModel(Model model) {
-		TreeNode node = this.getSearcherModel().findItemFromModel(model);
+	public boolean selectFolder(Folder folder) {
+		TreeNode node = this.getSearcherModel().findItemFromFolder(folder);
 		
 		if (node == null)
 			return false;
@@ -158,61 +157,38 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	@Override
-	public boolean selectTag(String tag) {
-		TreeNode node = this.getSearcherModel().findItemFromTag(tag);
-		
-		if (node == null)
-			return false;
-		
-		this.setSelectionPath(TreeUtils.getPath(node));
-		return true;
-	}
-	
-	@Override
-	public void selectDefaultTaskSearcher() {
+	public void selectDefaultNoteSearcher() {
 		TreeNode node = this.getSearcherModel().getDefaultSearcher();
 		this.setSelectionPath(TreeUtils.getPath(node));
 	}
 	
-	public Model getSelectedModel() {
+	public Folder getSelectedFolder() {
 		if (this.getSelectionPath() == null)
 			return null;
 		
 		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
 		
-		if (node == null || !(node instanceof ModelItem))
+		if (node == null || !(node instanceof FolderItem))
 			return null;
 		
-		return ((ModelItem) node).getModel();
+		return ((FolderItem) node).getFolder();
 	}
 	
 	@Override
-	public TaskSearcher getSelectedTaskSearcher() {
+	public NoteSearcher getSelectedNoteSearcher() {
 		if (this.getSelectionPath() == null)
 			return null;
 		
 		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
 		
-		if (node == null || !(node instanceof TaskSearcherProvider))
+		if (node == null || !(node instanceof NoteSearcherProvider))
 			return null;
 		
-		return ((TaskSearcherProvider) node).getTaskSearcher();
-	}
-	
-	public String getSelectedTag() {
-		if (this.getSelectionPath() == null)
-			return null;
-		
-		TreeNode node = (TreeNode) this.getSelectionPath().getLastPathComponent();
-		
-		if (node == null || !(node instanceof TagItem))
-			return null;
-		
-		return ((TagItem) node).getTag();
+		return ((NoteSearcherProvider) node).getNoteSearcher();
 	}
 	
 	@Override
-	public void refreshTaskSearcher() {
+	public void refreshNoteSearcher() {
 
 	}
 	
@@ -222,7 +198,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
-		this.setTransferHandler(new TaskSearcherTransferHandler());
+		this.setTransferHandler(new NoteSearcherTransferHandler());
 		this.setDropMode(DropMode.ON_OR_INSERT);
 	}
 	
@@ -267,7 +243,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						TaskSearcherTree.this.updateExpandedState();
+						NoteSearcherTree.this.updateExpandedState();
 					}
 					
 				});

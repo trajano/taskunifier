@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
+package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 
 import java.util.List;
 
@@ -38,73 +38,43 @@ import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.NoteUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
+public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
 	
-	private TaskSearcher searcher;
 	private BadgeCount badgeCount;
 	
-	public TagItem(String tag) {
-		super(tag);
+	public SearcherItem(NoteSearcher searcher) {
+		super(searcher);
 		
-		CheckUtils.isNotNull(tag, "Tag cannot be null");
+		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 		
-		this.initializeTaskSearcher();
 		this.updateBadgeCount();
 	}
 	
-	public String getTag() {
-		return (String) this.getUserObject();
-	}
-	
-	private void initializeTaskSearcher() {
-		final TaskTemplate template = new TaskTemplate("TagTemplate");
-		template.setTaskTags(this.getTag());
-		
-		TaskFilter filter = new TaskFilter();
-		filter.addElement(new TaskFilterElement(
-				TaskColumn.TAGS,
-				StringCondition.CONTAINS,
-				this.getTag()));
-		
-		this.searcher = new TaskSearcher(
-				TaskSearcherType.TAG,
-				0,
-				this.getTag(),
-				null,
-				filter,
-				Constants.getDefaultTaskSorter(),
-				template);
-	}
-	
 	@Override
-	public TaskSearcher getTaskSearcher() {
-		return this.searcher;
+	public NoteSearcher getNoteSearcher() {
+		return (NoteSearcher) this.getUserObject();
 	}
 	
 	@Override
 	public Icon getIcon() {
-		return Images.getResourceImage("transparent.png", 16, 16);
+		if (this.getNoteSearcher().getIcon() == null)
+			return Images.getResourceImage("transparent.png", 16, 16);
+		else
+			return Images.getImage(this.getNoteSearcher().getIcon(), 16, 16);
 	}
 	
 	@Override
 	public String getText() {
-		return this.getTag();
+		return this.getNoteSearcher().getTitle();
 	}
 	
 	@Override
@@ -113,23 +83,17 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 			this.badgeCount = null;
 		}
 		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		TaskSearcher searcher = this.getTaskSearcher();
-		
-		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		List<Note> notes = NoteFactory.getInstance().getList();
+		NoteSearcher searcher = this.getNoteSearcher();
 		
 		int count = 0;
-		int countOverdue = 0;
-		for (Task task : tasks) {
-			if (TaskUtils.showTask(task, searcher.getFilter())) {
+		for (Note note : notes) {
+			if (NoteUtils.showNote(note, searcher.getFilter())) {
 				count++;
-				
-				if (!task.isCompleted() && task.isOverDue(!useDueTime))
-					countOverdue++;
 			}
 		}
 		
-		this.badgeCount = new BadgeCount(count, countOverdue);
+		this.badgeCount = new BadgeCount(count);
 	}
 	
 	@Override

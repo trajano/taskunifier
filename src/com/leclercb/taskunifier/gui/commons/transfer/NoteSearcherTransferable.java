@@ -30,28 +30,50 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.commons.transfer;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class NoteSearcherTransferable implements Transferable {
 	
-	public abstract void setTitleFilter(String title);
+	public static final DataFlavor NOTE_SEARCHER_FLAVOR = new DataFlavor(
+			NoteSearcherTransferData.class,
+			"NOTE_SEARCHER_FLAVOR");
 	
-	public abstract void selectDefaultTaskSearcher();
+	public static final DataFlavor[] FLAVORS = { NOTE_SEARCHER_FLAVOR };
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
+	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
-	public abstract boolean selectModel(Model model);
+	private NoteSearcherTransferData data;
 	
-	public abstract boolean selectTag(String tag);
+	public NoteSearcherTransferable(NoteSearcherTransferData data) {
+		CheckUtils.isNotNull(data, "Data cannot be null");
+		this.data = data;
+	}
 	
-	public abstract TaskSearcher getSelectedTaskSearcher();
+	@Override
+	public DataFlavor[] getTransferDataFlavors() {
+		return FLAVORS;
+	}
 	
-	public abstract void refreshTaskSearcher();
+	@Override
+	public boolean isDataFlavorSupported(DataFlavor flavor) {
+		return FLAVOR_LIST.contains(flavor);
+	}
+	
+	@Override
+	public Object getTransferData(DataFlavor flavor)
+			throws UnsupportedFlavorException, IOException {
+		return this.data;
+	}
 	
 }

@@ -77,7 +77,7 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof TaskTemplateFactory) {
 			if (event.getPropertyName().equals(
-					TaskTemplateFactory.PROP_DEFAULT_TEMPLATE))
+					TaskTemplateFactory.PROP_DEFAULT_TASK_TEMPLATE))
 				this.fireContentsChanged(
 						this,
 						0,

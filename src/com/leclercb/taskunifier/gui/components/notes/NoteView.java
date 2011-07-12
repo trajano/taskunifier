@@ -34,11 +34,11 @@ package com.leclercb.taskunifier.gui.components.notes;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface NoteView extends ModelSelectionChangeSupported, TaskSearcherSelectionListener {
+public interface NoteView extends ModelSelectionChangeSupported, NoteSearcherSelectionListener {
 	
 	public abstract Note[] getSelectedNotes();
 	
@@ -53,9 +53,5 @@ public interface NoteView extends ModelSelectionChangeSupported, TaskSearcherSel
 	public abstract void pasteNote();
 	
 	public abstract void commitChanges();
-	
-	public abstract String getTitleFilter();
-	
-	public abstract void setTitleFilter(String titleFilter);
 	
 }

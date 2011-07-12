@@ -35,7 +35,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultSorterFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultTaskSorterFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -49,16 +49,16 @@ public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private void initialize() {
 		this.addField(new ConfigurationField(
-				"SORTER",
+				"TASK_SORTER",
 				null,
 				new ConfigurationFieldTypeExt.Label(
-						Translations.getString("configuration.searcher.edit_default_sorter"))));
+						Translations.getString("configuration.searcher.edit_default_task_sorter"))));
 		
 		this.addField(new ConfigurationField(
-				"EDIT_DEFAULT_SORTER",
+				"EDIT_DEFAULT_TASK_SORTER",
 				null,
 				true,
-				new EditDefaultSorterFieldType()));
+				new EditDefaultTaskSorterFieldType()));
 	}
 	
 }

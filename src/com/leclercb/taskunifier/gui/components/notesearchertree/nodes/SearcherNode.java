@@ -30,45 +30,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.fields.searcher;
+package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 
-import java.io.ByteArrayOutputStream;
+import javax.swing.Icon;
+import javax.swing.tree.MutableTreeNode;
 
-import com.leclercb.commons.api.coder.exc.FactoryCoderException;
-import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
-import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class EditDefaultSorterFieldType extends ConfigurationFieldTypeExt.Panel {
+public interface SearcherNode extends NoteSearcherProvider, MutableTreeNode {
 	
-	private TaskSorter sorter;
-	private TaskSorterXMLCoder coder;
+	public abstract Icon getIcon();
 	
-	public EditDefaultSorterFieldType() {
-		super(new TaskSorterPanel(Constants.getDefaultSorter()));
+	public abstract String getText();
+	
+	public abstract void updateBadgeCount();
+	
+	public abstract BadgeCount getBadgeCount();
+	
+	public static class BadgeCount {
 		
-		this.sorter = ((TaskSorterPanel) this.getFieldComponent()).getSorter();
-		this.coder = new TaskSorterXMLCoder();
-	}
-	
-	@Override
-	public void saveAndApplyConfig() {
-		String value = null;
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		private int normalCount;
 		
-		try {
-			this.coder.encode(output, this.sorter);
-			value = new String(output.toByteArray());
-		} catch (FactoryCoderException e) {
-			e.printStackTrace();
+		public BadgeCount(int normalCount) {
+			this.normalCount = normalCount;
 		}
 		
-		Main.SETTINGS.setStringProperty("searcher.default_sorter", value);
+		public int getNormalCount() {
+			return normalCount;
+		}
+		
+		public void setNormalCount(int normalCount) {
+			this.normalCount = normalCount;
+		}
+		
 	}
 	
 }

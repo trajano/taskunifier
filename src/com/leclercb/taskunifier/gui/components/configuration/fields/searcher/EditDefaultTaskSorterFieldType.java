@@ -30,40 +30,45 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.sorter;
+package com.leclercb.taskunifier.gui.components.configuration.fields.searcher;
 
-import javax.swing.RowFilter;
-import javax.swing.table.TableModel;
+import java.io.ByteArrayOutputStream;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
-import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
-import com.leclercb.taskunifier.gui.utils.NoteUtils;
+import com.leclercb.commons.api.coder.exc.FactoryCoderException;
+import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
+import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class NoteRowFilter extends RowFilter<TableModel, Integer> {
+public class EditDefaultTaskSorterFieldType extends ConfigurationFieldTypeExt.Panel {
 	
-	private NoteFilter filter;
+	private TaskSorter sorter;
+	private TaskSorterXMLCoder coder;
 	
-	public NoteRowFilter(NoteFilter filter) {
-		this.setFilter(filter);
-	}
-	
-	public NoteFilter getFilter() {
-		return this.filter;
-	}
-	
-	public void setFilter(NoteFilter filter) {
-		this.filter = filter;
+	public EditDefaultTaskSorterFieldType() {
+		super(new TaskSorterPanel(Constants.getDefaultTaskSorter()));
+		
+		this.sorter = ((TaskSorterPanel) this.getFieldComponent()).getSorter();
+		this.coder = new TaskSorterXMLCoder();
 	}
 	
 	@Override
-	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-		NoteTableModel noteTableModel = (NoteTableModel) entry.getModel();
-		Note note = noteTableModel.getNote(entry.getIdentifier());
+	public void saveAndApplyConfig() {
+		String value = null;
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		
-		return NoteUtils.showNote(note, this.filter);
+		try {
+			this.coder.encode(output, this.sorter);
+			value = new String(output.toByteArray());
+		} catch (FactoryCoderException e) {
+			e.printStackTrace();
+		}
+		
+		Main.SETTINGS.setStringProperty("searcher.default_sorter", value);
 	}
 	
 }

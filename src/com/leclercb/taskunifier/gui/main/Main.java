@@ -495,7 +495,7 @@ public class Main {
 		
 		try {
 			new TaskTemplateFactoryXMLCoder(false).decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "templates.xml"));
+					DATA_FOLDER + File.separator + "task_templates.xml"));
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
@@ -509,7 +509,7 @@ public class Main {
 		
 		try {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "searchers.xml"));
+					DATA_FOLDER + File.separator + "task_searchers.xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Exception e) {
@@ -715,7 +715,7 @@ public class Main {
 			
 			try {
 				new TaskTemplateFactoryXMLCoder(false).encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "templates.xml"));
+						DATA_FOLDER + File.separator + "task_templates.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -727,7 +727,7 @@ public class Main {
 			
 			try {
 				new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "searchers.xml"));
+						DATA_FOLDER + File.separator + "task_searchers.xml"));
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(

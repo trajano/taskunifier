@@ -44,10 +44,14 @@ import org.apache.commons.io.IOUtils;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.gui.swing.undo.TransferActionListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
+import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -77,8 +81,11 @@ public final class Constants {
 	public static final String BUG_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	public static final String FEATURE_REQUEST_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	
-	private static TaskSorter DEFAULT_SORTER;
-	private static TaskSearcher DEFAULT_SEARCHER;
+	private static NoteSorter DEFAULT_NOTE_SORTER;
+	private static NoteSearcher DEFAULT_NOTE_SEARCHER;
+	
+	private static TaskSorter DEFAULT_TASK_SORTER;
+	private static TaskSearcher DEFAULT_TASK_SEARCHER;
 	
 	public static final ProgressMonitor PROGRESS_MONITOR = new ProgressMonitor();
 	
@@ -87,12 +94,20 @@ public final class Constants {
 	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
 	
-	public static TaskSorter getDefaultSorter() {
-		return DEFAULT_SORTER.clone();
+	public static NoteSorter getDefaultNoteSorter() {
+		return DEFAULT_NOTE_SORTER.clone();
 	}
 	
-	public static TaskSearcher getDefaultSearcher() {
-		return DEFAULT_SEARCHER.clone();
+	public static NoteSearcher getDefaultNoteSearcher() {
+		return DEFAULT_NOTE_SEARCHER.clone();
+	}
+	
+	public static TaskSorter getDefaultTaskSorter() {
+		return DEFAULT_TASK_SORTER.clone();
+	}
+	
+	public static TaskSearcher getDefaultTaskSearcher() {
+		return DEFAULT_TASK_SEARCHER.clone();
 	}
 	
 	public static void initialize() {
@@ -102,17 +117,27 @@ public final class Constants {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				DEFAULT_SORTER = new TaskSorter();
+				DEFAULT_NOTE_SORTER = new NoteSorter();
 				
-				DEFAULT_SORTER.addElement(new TaskSorterElement(
+				DEFAULT_NOTE_SEARCHER = new NoteSearcher(
+						NoteSearcherType.DEFAULT,
+						0,
+						Translations.getString("searcherlist.general.all"),
+						Images.getResourceFile("note.png"),
+						new NoteFilter(),
+						DEFAULT_NOTE_SORTER.clone());
+				
+				DEFAULT_TASK_SORTER = new TaskSorter();
+				
+				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
 						1,
 						TaskColumn.DUE_DATE,
 						SortOrder.ASCENDING));
-				DEFAULT_SORTER.addElement(new TaskSorterElement(
+				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
 						2,
 						TaskColumn.PRIORITY,
 						SortOrder.DESCENDING));
-				DEFAULT_SORTER.addElement(new TaskSorterElement(
+				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
 						3,
 						TaskColumn.TITLE,
 						SortOrder.ASCENDING));
@@ -124,19 +149,19 @@ public final class Constants {
 						InputStream input = IOUtils.toInputStream(
 								value,
 								"UTF-8");
-						DEFAULT_SORTER = new TaskSorterXMLCoder().decode(input);
+						DEFAULT_TASK_SORTER = new TaskSorterXMLCoder().decode(input);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				
-				DEFAULT_SEARCHER = new TaskSearcher(
+				DEFAULT_TASK_SEARCHER = new TaskSearcher(
 						TaskSearcherType.DEFAULT,
 						0,
 						Translations.getString("searcherlist.general.all"),
-						Images.getResourceFile("document.png"),
+						Images.getResourceFile("task.png"),
 						new TaskFilter(),
-						DEFAULT_SORTER.clone());
+						DEFAULT_TASK_SORTER.clone());
 			}
 			
 		});

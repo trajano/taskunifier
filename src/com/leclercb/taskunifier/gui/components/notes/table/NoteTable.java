@@ -62,13 +62,13 @@ import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.NoteView;
@@ -78,6 +78,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitl
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlightPredicate;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTooltipHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.table.menu.NoteTableMenu;
+import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
@@ -86,8 +87,6 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 public class NoteTable extends JXTable implements NoteView {
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
-	
-	private NoteRowFilter filter;
 	
 	private NoteTableMenu noteTableMenu;
 	
@@ -181,24 +180,18 @@ public class NoteTable extends JXTable implements NoteView {
 		this.getRowSorter().allRowsChanged();
 	}
 	
-	@Override
-	public String getTitleFilter() {
-		return this.filter.getTitleFilter();
+	public NoteSearcher getNoteSearcher() {
+		return NoteRowComparator.getInstance().getSearcher();
 	}
 	
-	@Override
-	public void setTitleFilter(String titleFilter) {
-		this.filter.setTitleFilter(titleFilter);
-		this.refreshNotes();
-	}
-	
-	public void setTaskSearcher(TaskSearcher searcher) {
-		if (searcher != null && searcher.getType() == TaskSearcherType.FOLDER) {
-			this.filter.setFilter(searcher.getFilter());
-		} else {
-			this.filter.setFilter(null);
-		}
+	public void setNoteSearcher(NoteSearcher searcher) {
+		CheckUtils.isNotNull(searcher, "Note searcher cannot be null");
 		
+		NoteRowComparator.getInstance().setSearcher(searcher);
+		
+		this.setSortOrder(NoteColumn.MODEL, SortOrder.ASCENDING);
+		this.getSortController().setRowFilter(
+				new NoteRowFilter(searcher.getFilter()));
 		this.refreshNotes();
 	}
 	
@@ -239,10 +232,10 @@ public class NoteTable extends JXTable implements NoteView {
 	}
 	
 	@Override
-	public void taskSearcherSelectionChange(
-			TaskSearcherSelectionChangeEvent event) {
-		if (event.getSelectedTaskSearcher() != null)
-			this.setTaskSearcher(event.getSelectedTaskSearcher());
+	public void noteSearcherSelectionChange(
+			NoteSearcherSelectionChangeEvent event) {
+		if (event.getSelectedNoteSearcher() != null)
+			this.setNoteSearcher(event.getSelectedNoteSearcher());
 	}
 	
 	private void initialize() {
@@ -262,11 +255,7 @@ public class NoteTable extends JXTable implements NoteView {
 		this.setSortable(true);
 		this.setSortsOnUpdates(true);
 		this.setSortOrderCycle(SortOrder.ASCENDING);
-		this.setSortOrder(NoteColumn.MODEL, SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
-		
-		this.filter = new NoteRowFilter(null, null);
-		this.getSortController().setRowFilter(this.filter);
 		
 		this.initializeDeleteNote();
 		this.initializeNoteTableMenu();

@@ -123,18 +123,18 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	@Override
-	public void selectTaskSearcher(TaskSearcher searcher) {
-		this.searcherView.selectTaskSearcher(searcher);
+	public boolean selectTaskSearcher(TaskSearcher searcher) {
+		return this.searcherView.selectTaskSearcher(searcher);
 	}
 	
 	@Override
-	public void selectModel(Model model) {
-		this.searcherView.selectModel(model);
+	public boolean selectModel(Model model) {
+		return this.searcherView.selectModel(model);
 	}
 	
 	@Override
-	public void selectTag(String tag) {
-		this.searcherView.selectTag(tag);
+	public boolean selectTag(String tag) {
+		return this.searcherView.selectTag(tag);
 	}
 	
 	@Override
@@ -364,9 +364,9 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void initializeSelectedSearcher() {
 		try {
-			String value = Main.SETTINGS.getStringProperty("searcher.selected.value");
+			String value = Main.SETTINGS.getStringProperty("searcher.task.selected.value");
 			TaskSearcherType type = Main.SETTINGS.getEnumProperty(
-					"searcher.selected.type",
+					"searcher.task.selected.type",
 					TaskSearcherType.class);
 			
 			if (value != null && type != null) {
@@ -383,30 +383,37 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					}
 					
 					if (searcher != null) {
-						this.searcherView.selectTaskSearcher(searcher);
+						if (this.searcherView.selectTaskSearcher(searcher))
+							return;
+					}
+				}
+				
+				if (type == TaskSearcherType.TAG) {
+					if (this.searcherView.selectTag(value))
 						return;
+				}
+				
+				if (type == TaskSearcherType.CONTEXT
+						|| type == TaskSearcherType.FOLDER
+						|| type == TaskSearcherType.GOAL
+						|| type == TaskSearcherType.LOCATION) {
+					ModelId id = new ModelIdSettingsCoder().decode(value);
+					Model model = null;
+					
+					if (type == TaskSearcherType.CONTEXT) {
+						model = ContextFactory.getInstance().get(id);
+					} else if (type == TaskSearcherType.FOLDER) {
+						model = FolderFactory.getInstance().get(id);
+					} else if (type == TaskSearcherType.GOAL) {
+						model = GoalFactory.getInstance().get(id);
+					} else if (type == TaskSearcherType.LOCATION) {
+						model = LocationFactory.getInstance().get(id);
 					}
 					
-					this.selectDefaultTaskSearcher();
-					return;
-				}
-				
-				ModelId id = new ModelIdSettingsCoder().decode(value);
-				Model model = null;
-				
-				if (type == TaskSearcherType.CONTEXT) {
-					model = ContextFactory.getInstance().get(id);
-				} else if (type == TaskSearcherType.FOLDER) {
-					model = FolderFactory.getInstance().get(id);
-				} else if (type == TaskSearcherType.GOAL) {
-					model = GoalFactory.getInstance().get(id);
-				} else if (type == TaskSearcherType.LOCATION) {
-					model = LocationFactory.getInstance().get(id);
-				}
-				
-				if (model != null) {
-					this.searcherView.selectModel(model);
-					return;
+					if (model != null) {
+						if (this.searcherView.selectModel(model))
+							return;
+					}
 				}
 				
 				this.selectDefaultTaskSearcher();
@@ -428,30 +435,46 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			
 			Main.SETTINGS.setEnumProperty(
-					"searcher.selected.type",
+					"searcher.task.selected.type",
 					TaskSearcherType.class,
 					searcher.getType());
 			
 			if (searcher.getType() == TaskSearcherType.GENERAL
 					|| searcher.getType() == TaskSearcherType.PERSONAL) {
 				Main.SETTINGS.setStringProperty(
-						"searcher.selected.value",
+						"searcher.task.selected.value",
 						searcher.getTitle());
 				return;
 			}
 			
-			if (this.searcherView.getSelectedModel() != null) {
-				ModelId id = this.searcherView.getSelectedModel().getModelId();
-				Main.SETTINGS.setStringProperty(
-						"searcher.selected.value",
-						new ModelIdSettingsCoder().encode(id));
+			if (searcher.getType() == TaskSearcherType.TAG) {
+				if (this.searcherView.getSelectedTag() != null) {
+					Main.SETTINGS.setStringProperty(
+							"searcher.task.selected.value",
+							this.searcherView.getSelectedTag());
+				}
+				
+				return;
+			}
+			
+			if (searcher.getType() == TaskSearcherType.CONTEXT
+					|| searcher.getType() == TaskSearcherType.FOLDER
+					|| searcher.getType() == TaskSearcherType.GOAL
+					|| searcher.getType() == TaskSearcherType.LOCATION) {
+				if (this.searcherView.getSelectedModel() != null) {
+					ModelId id = this.searcherView.getSelectedModel().getModelId();
+					Main.SETTINGS.setStringProperty(
+							"searcher.task.selected.value",
+							new ModelIdSettingsCoder().encode(id));
+				}
+				
 				return;
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
 		
-		Main.SETTINGS.setStringProperty("searcher.selected.value", null);
+		Main.SETTINGS.setStringProperty("searcher.task.selected.value", null);
 	}
 	
 }

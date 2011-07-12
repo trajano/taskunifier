@@ -30,28 +30,50 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.commons.events;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import com.leclercb.commons.api.event.ListenerList;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class NoteSearcherSelectionChangeSupport implements NoteSearcherSelectionChangeSupported {
 	
-	public abstract void setTitleFilter(String title);
+	private ListenerList<NoteSearcherSelectionListener> listeners;
 	
-	public abstract void selectDefaultTaskSearcher();
+	private Object source;
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
+	public NoteSearcherSelectionChangeSupport(Object source) {
+		CheckUtils.isNotNull(source, "Source cannot be null");
+		
+		this.listeners = new ListenerList<NoteSearcherSelectionListener>();
+		this.source = source;
+	}
 	
-	public abstract boolean selectModel(Model model);
+	@Override
+	public void addNoteSearcherSelectionChangeListener(
+			NoteSearcherSelectionListener listener) {
+		this.listeners.addListener(listener);
+	}
 	
-	public abstract boolean selectTag(String tag);
+	@Override
+	public void removeNoteSearcherSelectionChangeListener(
+			NoteSearcherSelectionListener listener) {
+		this.listeners.removeListener(listener);
+	}
 	
-	public abstract TaskSearcher getSelectedTaskSearcher();
+	public void fireNoteSearcherSelectionChange(
+			NoteSearcherSelectionChangeEvent event) {
+		for (NoteSearcherSelectionListener listener : this.listeners)
+			listener.noteSearcherSelectionChange(event);
+	}
 	
-	public abstract void refreshTaskSearcher();
+	public void fireNoteSearcherSelectionChange(
+			NoteSearcher selectedNoteSearcher) {
+		this.fireNoteSearcherSelectionChange(new NoteSearcherSelectionChangeEvent(
+				this.source,
+				selectedNoteSearcher));
+	}
 	
 }

@@ -33,11 +33,16 @@
 package com.leclercb.taskunifier.gui.components.notes.table.sorter;
 
 import java.util.Comparator;
+import java.util.List;
+
+import javax.swing.SortOrder;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorterElement;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
@@ -53,29 +58,37 @@ public class NoteRowComparator implements Comparator<Note> {
 		return INSTANCE;
 	}
 	
+	private NoteSearcher searcher;
+	
 	private NoteRowComparator() {
-
+		this.searcher = null;
+	}
+	
+	public NoteSearcher getSearcher() {
+		return this.searcher;
+	}
+	
+	public void setSearcher(NoteSearcher searcher) {
+		this.searcher = searcher;
 	}
 	
 	@Override
 	public int compare(Note note1, Note note2) {
-		int result = 0;
+		if (this.searcher == null)
+			return 0;
 		
-		NoteColumn[] noteColumns = new NoteColumn[] {
-				NoteColumn.FOLDER,
-				NoteColumn.TITLE };
+		List<NoteSorterElement> sortElements = this.searcher.getSorter().getElements();
 		
-		for (NoteColumn noteColumn : noteColumns) {
-			Object o1 = noteColumn.getProperty(note1);
-			Object o2 = noteColumn.getProperty(note2);
+		for (NoteSorterElement element : sortElements) {
+			int result = this.compare(element.getProperty(), note1, note2);
 			
-			result = this.compare(noteColumn, o1, o2);
+			result *= (element.getSortOrder().equals(SortOrder.ASCENDING) ? 1 : -1);
 			
 			if (result != 0)
 				return result;
 		}
 		
-		return result;
+		return this.compare(NoteColumn.MODEL, note1, note2);
 	}
 	
 	private int compare(NoteColumn column, Object o1, Object o2) {

@@ -30,40 +30,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes.table.sorter;
+package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 
-import javax.swing.RowFilter;
-import javax.swing.table.TableModel;
-
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
-import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
-import com.leclercb.taskunifier.gui.utils.NoteUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class NoteRowFilter extends RowFilter<TableModel, Integer> {
+public interface NoteSearcherProvider {
 	
-	private NoteFilter filter;
-	
-	public NoteRowFilter(NoteFilter filter) {
-		this.setFilter(filter);
-	}
-	
-	public NoteFilter getFilter() {
-		return this.filter;
-	}
-	
-	public void setFilter(NoteFilter filter) {
-		this.filter = filter;
-	}
-	
-	@Override
-	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-		NoteTableModel noteTableModel = (NoteTableModel) entry.getModel();
-		Note note = noteTableModel.getNote(entry.getIdentifier());
-		
-		return NoteUtils.showNote(note, this.filter);
-	}
+	public abstract NoteSearcher getNoteSearcher();
 	
 }

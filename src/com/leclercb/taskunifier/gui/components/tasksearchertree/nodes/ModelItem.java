@@ -134,7 +134,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				title,
 				null,
 				filter,
-				Constants.getDefaultSorter(),
+				Constants.getDefaultTaskSorter(),
 				template);
 		
 		if (model != null) {

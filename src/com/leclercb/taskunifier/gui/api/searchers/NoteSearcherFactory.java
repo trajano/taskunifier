@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.templates;
+package com.leclercb.taskunifier.gui.api.searchers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,19 +45,18 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
-	public static final String PROP_DEFAULT_TASK_TEMPLATE = "defaultTaskTemplate";
+	private static NoteSearcherFactory FACTORY;
 	
-	private static TaskTemplateFactory FACTORY;
-	
-	public static TaskTemplateFactory getInstance() {
+	public static NoteSearcherFactory getInstance() {
 		if (FACTORY == null)
-			FACTORY = new TaskTemplateFactory();
+			FACTORY = new NoteSearcherFactory();
 		
 		return FACTORY;
 	}
@@ -65,28 +64,13 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private TaskTemplate defaultTemplate;
-	private List<TaskTemplate> templates;
+	private List<NoteSearcher> searchers;
 	
-	private TaskTemplateFactory() {
+	private NoteSearcherFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.defaultTemplate = null;
-		this.templates = new ArrayList<TaskTemplate>();
-	}
-	
-	public TaskTemplate getDefaultTemplate() {
-		return this.defaultTemplate;
-	}
-	
-	public void setDefaultTemplate(TaskTemplate defaultTemplate) {
-		TaskTemplate oldDefaultTemplate = this.defaultTemplate;
-		this.defaultTemplate = defaultTemplate;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_DEFAULT_TASK_TEMPLATE,
-				oldDefaultTemplate,
-				defaultTemplate);
+		this.searchers = new ArrayList<NoteSearcher>();
 	}
 	
 	public boolean contains(String id) {
@@ -94,99 +78,155 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public int size() {
-		return this.templates.size();
+		return this.searchers.size();
 	}
 	
-	public List<TaskTemplate> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskTemplate>(
-				this.templates));
+	public List<NoteSearcher> getList() {
+		return Collections.unmodifiableList(new ArrayList<NoteSearcher>(
+				this.searchers));
 	}
 	
-	public TaskTemplate get(int index) {
-		return this.templates.get(index);
+	public NoteSearcher get(int index) {
+		return this.searchers.get(index);
 	}
 	
-	public TaskTemplate get(String id) {
-		for (TaskTemplate template : this.templates)
-			if (template.getId().equals(id))
-				return template;
+	public NoteSearcher get(String id) {
+		for (NoteSearcher searcher : this.searchers)
+			if (searcher.getId().equals(id))
+				return searcher;
 		
 		return null;
 	}
 	
-	public int getIndexOf(TaskTemplate template) {
-		return this.templates.indexOf(template);
+	/**
+	 * Returns the index of the given searcher. Returns -1 if the searcher does
+	 * not exist.
+	 * 
+	 * @param searcher
+	 *            searcher to find
+	 * @return the index of the given searcher or -1 if no searcher has been
+	 *         found
+	 */
+	public int getIndexOf(NoteSearcher searcher) {
+		return this.searchers.indexOf(searcher);
 	}
 	
-	public void delete(TaskTemplate template) {
-		this.unregister(template);
+	public void delete(NoteSearcher searcher) {
+		this.unregister(searcher);
 	}
 	
 	public void deleteAll() {
-		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
-				this.templates);
-		for (TaskTemplate template : templates)
-			this.unregister(template);
+		List<NoteSearcher> searchers = new ArrayList<NoteSearcher>(
+				this.searchers);
+		for (NoteSearcher searcher : searchers)
+			this.unregister(searcher);
 	}
 	
-	public void register(TaskTemplate template) {
-		CheckUtils.isNotNull(template, "Template cannot be null");
+	public void register(NoteSearcher searcher) {
+		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 		
-		if (this.contains(template.getId()))
+		if (this.contains(searcher.getId()))
 			throw new IllegalArgumentException("ID already exists in factory");
 		
-		this.templates.add(template);
-		template.addPropertyChangeListener(this);
-		int index = this.templates.indexOf(template);
+		this.searchers.add(searcher);
+		searcher.addPropertyChangeListener(this);
+		int index = this.searchers.indexOf(searcher);
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
 				index,
-				template);
+				searcher);
 	}
 	
-	public void unregister(TaskTemplate template) {
-		CheckUtils.isNotNull(template, "Template cannot be null");
+	public void unregister(NoteSearcher searcher) {
+		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
 		
-		int index = this.templates.indexOf(template);
-		if (this.templates.remove(template)) {
-			if (EqualsUtils.equals(this.defaultTemplate, template))
-				this.setDefaultTemplate(null);
-			
-			template.removePropertyChangeListener(this);
+		int index = this.searchers.indexOf(searcher);
+		if (this.searchers.remove(searcher)) {
+			searcher.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
 					index,
-					template);
+					searcher);
 		}
 	}
 	
-	public TaskTemplate create(String title) {
-		TaskTemplate template = new TaskTemplate(title);
-		this.register(template);
-		return template;
+	public NoteSearcher create(
+			NoteSearcherType type,
+			int order,
+			String title,
+			NoteFilter filter,
+			NoteSorter sorter) {
+		NoteSearcher searcher = new NoteSearcher(
+				type,
+				order,
+				title,
+				filter,
+				sorter);
+		this.register(searcher);
+		return searcher;
 	}
 	
-	public TaskTemplate create(String id, String title) {
-		TaskTemplate template = new TaskTemplate(id, title);
-		this.register(template);
-		return template;
+	public NoteSearcher create(
+			NoteSearcherType type,
+			int order,
+			String title,
+			String icon,
+			NoteFilter filter,
+			NoteSorter sorter) {
+		NoteSearcher searcher = new NoteSearcher(
+				type,
+				order,
+				title,
+				icon,
+				filter,
+				sorter);
+		this.register(searcher);
+		return searcher;
 	}
 	
+	/**
+	 * The listener will be notified when a new searcher is added to the factory
+	 * or when a searcher is removed from the factory.
+	 * 
+	 * @param listener
+	 *            the listener to notify
+	 */
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
 		this.listChangeSupport.addListChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the listener from the list change listener list.
+	 * 
+	 * @param listener
+	 *            listener to remove
+	 */
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
 		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
+	/**
+	 * The listener will be notified when a searcher is updated.
+	 * 
+	 * @param listener
+	 *            the listener to notify
+	 */
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
+	/**
+	 * The listener will be notified when a searcher is updated
+	 * for the specified property name.
+	 * 
+	 * @param propertyName
+	 *            the property name to listen to
+	 * @param listener
+	 *            the listener to notify
+	 */
 	@Override
 	public void addPropertyChangeListener(
 			String propertyName,
@@ -196,11 +236,23 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 				listener);
 	}
 	
+	/**
+	 * Removes the listener from the property change listener list.
+	 * 
+	 * @param listener
+	 *            listener to remove
+	 */
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	/**
+	 * Called when a searcher is updated. Shouldn't be called manually.
+	 * 
+	 * @param evt
+	 *            event of the model
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.propertyChangeSupport.firePropertyChange(event);

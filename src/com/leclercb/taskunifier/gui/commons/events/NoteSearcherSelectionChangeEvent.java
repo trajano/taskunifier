@@ -30,28 +30,33 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.commons.events;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class NoteSearcherSelectionChangeEvent {
 	
-	public abstract void setTitleFilter(String title);
+	private Object source;
+	private NoteSearcher selectedNoteSearcher;
 	
-	public abstract void selectDefaultTaskSearcher();
+	public NoteSearcherSelectionChangeEvent(
+			Object source,
+			NoteSearcher selectedNoteSearcher) {
+		CheckUtils.isNotNull(source, "Source cannot be null");
+		
+		this.source = source;
+		this.selectedNoteSearcher = selectedNoteSearcher;
+	}
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
+	public Object getSource() {
+		return this.source;
+	}
 	
-	public abstract boolean selectModel(Model model);
-	
-	public abstract boolean selectTag(String tag);
-	
-	public abstract TaskSearcher getSelectedTaskSearcher();
-	
-	public abstract void refreshTaskSearcher();
+	public NoteSearcher getSelectedNoteSearcher() {
+		return this.selectedNoteSearcher;
+	}
 	
 }

@@ -30,28 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.commons.transfer;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import java.io.Serializable;
+
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class NoteSearcherTransferData implements Serializable {
 	
-	public abstract void setTitleFilter(String title);
+	private String id;
 	
-	public abstract void selectDefaultTaskSearcher();
+	public NoteSearcherTransferData(NoteSearcher searcher) {
+		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		this.id = searcher.getId();
+	}
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
-	
-	public abstract boolean selectModel(Model model);
-	
-	public abstract boolean selectTag(String tag);
-	
-	public abstract TaskSearcher getSelectedTaskSearcher();
-	
-	public abstract void refreshTaskSearcher();
+	public NoteSearcher getNoteSearcher() {
+		return NoteSearcherFactory.getInstance().get(this.id);
+	}
 	
 }

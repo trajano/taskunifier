@@ -30,28 +30,36 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.components.notesearchertree;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import javax.swing.tree.DefaultTreeSelectionModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class NoteSearcherTreeSelectionModel extends DefaultTreeSelectionModel {
 	
-	public abstract void setTitleFilter(String title);
+	public NoteSearcherTreeSelectionModel() {
+		this.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+	}
 	
-	public abstract void selectDefaultTaskSearcher();
+	private boolean canSelect(TreePath path) {
+		return !(path.getLastPathComponent() instanceof SearcherCategory);
+	}
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
+	@Override
+	public void setSelectionPath(TreePath path) {
+		if (this.canSelect(path))
+			super.setSelectionPath(path);
+	}
 	
-	public abstract boolean selectModel(Model model);
-	
-	public abstract boolean selectTag(String tag);
-	
-	public abstract TaskSearcher getSelectedTaskSearcher();
-	
-	public abstract void refreshTaskSearcher();
+	@Override
+	public void setSelectionPaths(TreePath[] paths) {
+		if (this.canSelect(paths[0]))
+			super.setSelectionPaths(paths);
+	}
 	
 }

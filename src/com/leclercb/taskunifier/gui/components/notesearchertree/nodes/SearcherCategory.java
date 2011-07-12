@@ -30,28 +30,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearchertree;
+package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
+public class SearcherCategory extends DefaultMutableTreeNode {
 	
-	public abstract void setTitleFilter(String title);
+	private String expandedPropetyName;
 	
-	public abstract void selectDefaultTaskSearcher();
+	public SearcherCategory(NoteSearcherType type, String expandedPropetyName) {
+		super(type);
+		
+		CheckUtils.isNotNull(type, "Type cannot be null");
+		
+		this.expandedPropetyName = expandedPropetyName;
+	}
 	
-	public abstract boolean selectTaskSearcher(TaskSearcher searcher);
+	public NoteSearcherType getType() {
+		return (NoteSearcherType) this.getUserObject();
+	}
 	
-	public abstract boolean selectModel(Model model);
+	public String getTitle() {
+		return this.getType().getLabel();
+	}
 	
-	public abstract boolean selectTag(String tag);
+	public String getExpandedPropetyName() {
+		return this.expandedPropetyName;
+	}
 	
-	public abstract TaskSearcher getSelectedTaskSearcher();
-	
-	public abstract void refreshTaskSearcher();
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
 	
 }
