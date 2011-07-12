@@ -106,6 +106,10 @@ public class DefaultToolBar extends JToolBar {
 			
 			{
 				this.putValue(
+						SHORT_DESCRIPTION,
+						Translations.getString("action.add_template_task"));
+				
+				this.putValue(
 						SMALL_ICON,
 						Images.getResourceImage("duplicate.png", 24, 24));
 			}
