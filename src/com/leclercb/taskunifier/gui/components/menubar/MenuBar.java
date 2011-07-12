@@ -112,8 +112,8 @@ public class MenuBar extends JMenuBar {
 		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
 		
 		importMenu.add(new ActionImportModels(16, 16));
-		importMenu.add(new ActionImportTaskSearchers(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
+		importMenu.add(new ActionImportTaskSearchers(16, 16));
 		importMenu.add(new ActionImportTaskTemplates(16, 16));
 		fileMenu.add(importMenu);
 		
@@ -121,8 +121,8 @@ public class MenuBar extends JMenuBar {
 		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
 		
 		exportMenu.add(new ActionExportModels(16, 16));
-		exportMenu.add(new ActionExportTaskSearchers(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
+		exportMenu.add(new ActionExportTaskSearchers(16, 16));
 		exportMenu.add(new ActionExportTaskTemplates(16, 16));
 		fileMenu.add(exportMenu);
 		

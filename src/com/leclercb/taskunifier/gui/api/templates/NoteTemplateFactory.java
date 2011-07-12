@@ -86,7 +86,7 @@ public class NoteTemplateFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public void setDefaultTemplate(NoteTemplate defaultTemplate) {
-		if (!this.contains(defaultTemplate))
+		if (defaultTemplate != null && !this.contains(defaultTemplate))
 			this.register(defaultTemplate);
 		
 		NoteTemplate oldDefaultTemplate = this.defaultTemplate;

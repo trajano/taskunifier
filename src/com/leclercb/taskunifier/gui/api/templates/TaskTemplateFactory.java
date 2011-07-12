@@ -86,7 +86,7 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public void setDefaultTemplate(TaskTemplate defaultTemplate) {
-		if (!this.contains(defaultTemplate))
+		if (defaultTemplate != null && !this.contains(defaultTemplate))
 			this.register(defaultTemplate);
 		
 		TaskTemplate oldDefaultTemplate = this.defaultTemplate;

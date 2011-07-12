@@ -63,13 +63,13 @@ import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 abstract class AbstractImportDialog extends JDialog {
 	
 	private JFileField fileField;
-	private JCheckBox replaceValues;
+	private JCheckBox deleteExistingValues;
 	private String fileExtention;
 	private String fileExtentionDescription;
 	
 	public AbstractImportDialog(
 			String title,
-			boolean showReplaceValues,
+			boolean showDeleteExistingValues,
 			String fileExtention,
 			String fileExtentionDescription) {
 		super(MainFrame.getInstance().getFrame());
@@ -82,10 +82,10 @@ abstract class AbstractImportDialog extends JDialog {
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;
 		
-		this.initialize(title, showReplaceValues);
+		this.initialize(title, showDeleteExistingValues);
 	}
 	
-	private void initialize(String title, boolean showReplaceValues) {
+	private void initialize(String title, boolean showDeleteExistingValues) {
 		this.setModal(true);
 		this.setTitle(title);
 		this.setSize(500, 150);
@@ -101,7 +101,7 @@ abstract class AbstractImportDialog extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				AbstractImportDialog.this.fileField.setFile(null);
-				AbstractImportDialog.this.replaceValues.setSelected(false);
+				AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 				AbstractImportDialog.this.setVisible(false);
 			}
 			
@@ -143,14 +143,14 @@ abstract class AbstractImportDialog extends JDialog {
 		
 		builder.appendI15d("import.file_to_import", true, this.fileField);
 		
-		// Replace values
-		if (showReplaceValues) {
-			this.replaceValues = new JCheckBox();
+		// Delete existing values
+		if (showDeleteExistingValues) {
+			this.deleteExistingValues = new JCheckBox();
 			
 			builder.appendI15d(
 					"import.delete_existing_values",
 					true,
-					this.replaceValues);
+					this.deleteExistingValues);
 		}
 		
 		// Lay out the panel
@@ -166,14 +166,14 @@ abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("IMPORT")) {
 					try {
-						if (AbstractImportDialog.this.replaceValues != null
-								&& AbstractImportDialog.this.replaceValues.isSelected())
+						if (AbstractImportDialog.this.deleteExistingValues != null
+								&& AbstractImportDialog.this.deleteExistingValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.fileField.getFile());
 						
 						AbstractImportDialog.this.fileField.setFile(null);
-						AbstractImportDialog.this.replaceValues.setSelected(false);
+						AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
@@ -193,7 +193,7 @@ abstract class AbstractImportDialog extends JDialog {
 				
 				if (event.getActionCommand().equals("CANCEL")) {
 					AbstractImportDialog.this.fileField.setFile(null);
-					AbstractImportDialog.this.replaceValues.setSelected(false);
+					AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 					AbstractImportDialog.this.setVisible(false);
 				}
 			}
