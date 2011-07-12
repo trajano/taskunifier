@@ -181,13 +181,13 @@ public class NoteTable extends JXTable implements NoteView {
 	}
 	
 	public NoteSearcher getNoteSearcher() {
-		return NoteRowComparator.getInstance().getSearcher();
+		return NoteRowComparator.getInstance().getNoteSearcher();
 	}
 	
 	public void setNoteSearcher(NoteSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Note searcher cannot be null");
 		
-		NoteRowComparator.getInstance().setSearcher(searcher);
+		NoteRowComparator.getInstance().setNoteSearcher(searcher);
 		
 		this.setSortOrder(NoteColumn.MODEL, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(

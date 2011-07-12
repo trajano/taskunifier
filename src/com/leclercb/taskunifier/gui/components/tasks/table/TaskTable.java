@@ -193,13 +193,13 @@ public class TaskTable extends JXTable implements TaskView {
 	}
 	
 	public TaskSearcher getTaskSearcher() {
-		return TaskRowComparator.getInstance().getSearcher();
+		return TaskRowComparator.getInstance().getTaskSearcher();
 	}
 	
 	public void setTaskSearcher(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Task searcher cannot be null");
 		
-		TaskRowComparator.getInstance().setSearcher(searcher);
+		TaskRowComparator.getInstance().setTaskSearcher(searcher);
 		
 		this.setSortOrder(TaskColumn.MODEL, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(
