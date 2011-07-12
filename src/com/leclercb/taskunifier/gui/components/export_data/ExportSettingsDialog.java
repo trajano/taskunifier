@@ -52,7 +52,7 @@ public class ExportSettingsDialog extends AbstractExportDialog {
 	
 	private ExportSettingsDialog() {
 		super(
-				Translations.getString("general.export_settings"),
+				Translations.getString("action.export_settings"),
 				"properties",
 				Translations.getString("general.properties_files"));
 	}

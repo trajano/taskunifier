@@ -62,7 +62,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 	
 	private ExportModelsDialog() {
 		super(
-				Translations.getString("general.export_models"),
+				Translations.getString("action.export_models"),
 				"zip",
 				Translations.getString("general.zip_files"));
 	}

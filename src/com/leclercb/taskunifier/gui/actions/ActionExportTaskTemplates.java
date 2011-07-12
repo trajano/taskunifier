@@ -36,35 +36,35 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.import_data.ImportTemplatesDialog;
+import com.leclercb.taskunifier.gui.components.export_data.ExportTaskTemplatesDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionImportTemplates extends AbstractAction {
+public class ActionExportTaskTemplates extends AbstractAction {
 	
-	public ActionImportTemplates() {
+	public ActionExportTaskTemplates() {
 		this(32, 32);
 	}
 	
-	public ActionImportTemplates(int width, int height) {
+	public ActionExportTaskTemplates(int width, int height) {
 		super(
-				Translations.getString("action.import_templates"),
-				Images.getResourceImage("download.png", width, height));
+				Translations.getString("action.export_task_templates"),
+				Images.getResourceImage("upload.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.import_templates"));
+				Translations.getString("action.export_task_templates"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionImportTemplates.importTemplates();
+		ActionExportTaskTemplates.exportTaskTemplates();
 	}
 	
-	public static void importTemplates() {
-		ImportTemplatesDialog.getInstance().setVisible(true);
+	public static void exportTaskTemplates() {
+		ExportTaskTemplatesDialog.getInstance().setVisible(true);
 	}
 	
 }

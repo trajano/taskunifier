@@ -54,10 +54,10 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTemplateTitle;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
@@ -95,10 +95,10 @@ abstract class TemplateList extends JPanel {
 		this.templateList.setModel(model);
 		this.templateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.templateList.setCellRenderer(new DefaultListRenderer(
-				StringValueTemplateTitle.INSTANCE));
+				StringValueTaskTemplateTitle.INSTANCE));
 		
 		this.templateList.setAutoCreateRowSorter(true);
-		this.templateList.setComparator(new TemplateComparator());
+		this.templateList.setComparator(new TaskTemplateComparator());
 		this.templateList.setSortOrder(SortOrder.ASCENDING);
 		this.templateList.setSortsOnUpdates(true);
 		

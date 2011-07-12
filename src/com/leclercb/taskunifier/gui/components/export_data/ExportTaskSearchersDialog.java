@@ -30,42 +30,37 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.export_data;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import java.io.FileOutputStream;
 
-import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class StringValueTemplateTitle implements StringValue {
+public class ExportTaskSearchersDialog extends AbstractExportDialog {
 	
-	public static final StringValueTemplateTitle INSTANCE = new StringValueTemplateTitle();
+	private static ExportTaskSearchersDialog INSTANCE;
 	
-	private StringValueTemplateTitle() {
-
+	public static ExportTaskSearchersDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportTaskSearchersDialog();
+		
+		return INSTANCE;
+	}
+	
+	private ExportTaskSearchersDialog() {
+		super(
+				Translations.getString("action.export_task_searchers"),
+				"xml",
+				Translations.getString("general.xml_files"));
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof TaskTemplate))
-			return " ";
-		
-		TaskTemplate template = (TaskTemplate) value;
-		
-		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)
-			if (EqualsUtils.equals(
-					template.getId(),
-					TaskTemplateFactory.getInstance().getDefaultTemplate().getId()))
-				return String.format(
-						"%1s (%2s)",
-						template.getTitle(),
-						Translations.getString("general.default"));
-		
-		return template.getTitle();
+	protected void exportToFile(String file) throws Exception {
+		FileOutputStream output = new FileOutputStream(file);
+		new TaskSearcherFactoryXMLCoder().encode(output);
 	}
 	
 }

@@ -35,14 +35,11 @@ package com.leclercb.taskunifier.gui.api.templates;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.UUID;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsBuilder;
-import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -52,13 +49,17 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.api.templates.converters.TaskTemplateConverter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @Reviewed
-public class TaskTemplate implements Serializable, Comparable<TaskTemplate>, Cloneable, PropertyChangeSupported {
+@XStreamConverter(TaskTemplateConverter.class)
+public class TaskTemplate implements Cloneable, Serializable, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
-	
 	public static final String PROP_TASK_TITLE = "taskTitle";
 	public static final String PROP_TASK_TAGS = "taskTags";
 	public static final String PROP_TASK_FOLDER = "taskFolder";
@@ -80,44 +81,80 @@ public class TaskTemplate implements Serializable, Comparable<TaskTemplate>, Clo
 	public static final String PROP_TASK_STAR = "taskStar";
 	public static final String PROP_TASK_NOTE = "taskNote";
 	
+	@XStreamOmitField
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private String id;
+	@XStreamAlias("title")
 	private String title;
 	
+	@XStreamAlias("tasktitle")
 	private String taskTitle;
+	
+	@XStreamAlias("tasktags")
 	private String taskTags;
+	
+	@XStreamAlias("taskfolder")
 	private ModelId taskFolder;
+	
+	@XStreamAlias("taskcontext")
 	private ModelId taskContext;
+	
+	@XStreamAlias("taskgoal")
 	private ModelId taskGoal;
+	
+	@XStreamAlias("tasklocation")
 	private ModelId taskLocation;
+	
+	@XStreamAlias("taskprogress")
 	private Double taskProgress;
+	
+	@XStreamAlias("taskcompleted")
 	private Boolean taskCompleted;
+	
+	@XStreamAlias("taskduedate")
 	private Integer taskDueDate;
+	
+	@XStreamAlias("taskduetime")
 	private Integer taskDueTime;
+	
+	@XStreamAlias("taskstartdate")
 	private Integer taskStartDate;
+	
+	@XStreamAlias("taskstarttime")
 	private Integer taskStartTime;
+	
+	@XStreamAlias("taskreminder")
 	private Integer taskReminder;
+	
+	@XStreamAlias("taskrepeat")
 	private String taskRepeat;
+	
+	@XStreamAlias("taskrepeatfrom")
 	private TaskRepeatFrom taskRepeatFrom;
+	
+	@XStreamAlias("taskstatus")
 	private TaskStatus taskStatus;
+	
+	@XStreamAlias("tasklength")
 	private Integer taskLength;
+	
+	@XStreamAlias("taskpriority")
 	private TaskPriority taskPriority;
+	
+	@XStreamAlias("taskstar")
 	private Boolean taskStar;
+	
+	@XStreamAlias("tasknote")
 	private String taskNote;
 	
-	public TaskTemplate(String title) {
-		this(UUID.randomUUID().toString(), title);
+	public TaskTemplate() {
+		this("");
 	}
 	
-	public TaskTemplate(String id, String title) {
-		CheckUtils.isNotNull(id, "Id cannot be null");
-		
+	public TaskTemplate(String title) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.setId(id);
 		this.setTitle(title);
-		
 		this.setTaskTitle(null);
 		this.setTaskTags(null);
 		this.setTaskFolder(null);
@@ -256,15 +293,6 @@ public class TaskTemplate implements Serializable, Comparable<TaskTemplate>, Clo
 		template.setTaskNote(this.taskNote);
 		
 		return template;
-	}
-	
-	public String getId() {
-		return this.id;
-	}
-	
-	private void setId(String id) {
-		CheckUtils.isNotNull(id, "ID cannot be null");
-		this.id = id;
 	}
 	
 	public String getTitle() {
@@ -544,37 +572,6 @@ public class TaskTemplate implements Serializable, Comparable<TaskTemplate>, Clo
 	@Override
 	public String toString() {
 		return this.title;
-	}
-	
-	@Override
-	public final boolean equals(Object o) {
-		if (o == this) {
-			return true;
-		}
-		
-		if (o instanceof TaskTemplate) {
-			TaskTemplate template = (TaskTemplate) o;
-			
-			return new EqualsBuilder().append(this.id, template.id).isEqual();
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public final int hashCode() {
-		HashCodeBuilder hashCode = new HashCodeBuilder();
-		hashCode.append(this.id);
-		
-		return hashCode.toHashCode();
-	}
-	
-	@Override
-	public int compareTo(TaskTemplate template) {
-		if (template == null)
-			return 1;
-		
-		return this.id.compareTo(template.id);
 	}
 	
 	@Override

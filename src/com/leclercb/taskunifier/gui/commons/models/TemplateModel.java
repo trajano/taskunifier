@@ -41,14 +41,14 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.commons.comparators.TemplateComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
 public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
 	public TemplateModel(boolean firstNull) {
-		super(new TemplateComparator());
+		super(new TaskTemplateComparator());
 		this.initialize(firstNull);
 	}
 	

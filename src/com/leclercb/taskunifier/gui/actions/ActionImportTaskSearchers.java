@@ -30,32 +30,41 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.export_data;
+package com.leclercb.taskunifier.gui.actions;
 
-import java.io.FileOutputStream;
+import java.awt.event.ActionEvent;
 
-import com.leclercb.commons.api.coder.FactoryCoder;
-import com.leclercb.commons.api.utils.CheckUtils;
+import javax.swing.AbstractAction;
+
+import com.leclercb.taskunifier.gui.components.import_data.ImportTaskSearchersDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-class DefaultExportDialog extends AbstractExportDialog {
+public class ActionImportTaskSearchers extends AbstractAction {
 	
-	private FactoryCoder coder;
+	public ActionImportTaskSearchers() {
+		this(32, 32);
+	}
 	
-	public DefaultExportDialog(FactoryCoder coder, String title) {
-		super(title, "xml", Translations.getString("general.xml_files"));
+	public ActionImportTaskSearchers(int width, int height) {
+		super(
+				Translations.getString("action.import_task_searchers"),
+				Images.getResourceImage("download.png", width, height));
 		
-		CheckUtils.isNotNull(coder, "Coder cannot be null");
-		
-		this.coder = coder;
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.import_task_searchers"));
 	}
 	
 	@Override
-	protected void exportToFile(String file) throws Exception {
-		FileOutputStream output = new FileOutputStream(file);
-		this.coder.encode(output);
+	public void actionPerformed(ActionEvent event) {
+		ActionImportTaskSearchers.importTaskSearchers();
+	}
+	
+	public static void importTaskSearchers() {
+		ImportTaskSearchersDialog.getInstance().setVisible(true);
 	}
 	
 }

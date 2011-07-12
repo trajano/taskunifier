@@ -32,32 +32,41 @@
  */
 package com.leclercb.taskunifier.gui.components.import_data;
 
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
+import java.io.FileInputStream;
+
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ImportSearchersDialog extends DefaultImportDialog {
+public class ImportTaskTemplatesDialog extends AbstractImportDialog {
 	
-	private static ImportSearchersDialog INSTANCE;
+	private static ImportTaskTemplatesDialog INSTANCE;
 	
-	public static ImportSearchersDialog getInstance() {
+	public static ImportTaskTemplatesDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new ImportSearchersDialog();
+			INSTANCE = new ImportTaskTemplatesDialog();
 		
 		return INSTANCE;
 	}
 	
-	private ImportSearchersDialog() {
+	private ImportTaskTemplatesDialog() {
 		super(
-				new TaskSearcherFactoryXMLCoder(),
-				Translations.getString("general.import_searchers"));
+				Translations.getString("action.import_task_templates"),
+				true,
+				"xml",
+				Translations.getString("general.xml_files"));
 	}
 	
 	@Override
 	public void deleteExistingValue() {
-		TaskSearcherFactory.getInstance().deleteAll();
+		TaskTemplateFactory.getInstance().deleteAll();
+	}
+	
+	@Override
+	protected void importFromFile(String file) throws Exception {
+		FileInputStream input = new FileInputStream(file);
+		TaskTemplateFactory.getInstance().decodeFromXML(input);
 	}
 	
 }

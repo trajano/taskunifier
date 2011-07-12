@@ -36,14 +36,14 @@ import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTask;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionExportModels;
-import com.leclercb.taskunifier.gui.actions.ActionExportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
-import com.leclercb.taskunifier.gui.actions.ActionExportTemplates;
+import com.leclercb.taskunifier.gui.actions.ActionExportTaskSearchers;
+import com.leclercb.taskunifier.gui.actions.ActionExportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportModels;
-import com.leclercb.taskunifier.gui.actions.ActionImportSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
-import com.leclercb.taskunifier.gui.actions.ActionImportTemplates;
+import com.leclercb.taskunifier.gui.actions.ActionImportTaskSearchers;
+import com.leclercb.taskunifier.gui.actions.ActionImportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionLogBug;
 import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
@@ -112,18 +112,18 @@ public class MenuBar extends JMenuBar {
 		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
 		
 		importMenu.add(new ActionImportModels(16, 16));
-		importMenu.add(new ActionImportSearchers(16, 16));
+		importMenu.add(new ActionImportTaskSearchers(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
-		importMenu.add(new ActionImportTemplates(16, 16));
+		importMenu.add(new ActionImportTaskTemplates(16, 16));
 		fileMenu.add(importMenu);
 		
 		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
 		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
 		
 		exportMenu.add(new ActionExportModels(16, 16));
-		exportMenu.add(new ActionExportSearchers(16, 16));
+		exportMenu.add(new ActionExportTaskSearchers(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
-		exportMenu.add(new ActionExportTemplates(16, 16));
+		exportMenu.add(new ActionExportTaskTemplates(16, 16));
 		fileMenu.add(exportMenu);
 		
 		fileMenu.addSeparator();

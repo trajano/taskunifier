@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.api.templates;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +49,9 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @Reviewed
 public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
@@ -81,6 +86,9 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public void setDefaultTemplate(TaskTemplate defaultTemplate) {
+		if (!this.contains(defaultTemplate))
+			this.register(defaultTemplate);
+		
 		TaskTemplate oldDefaultTemplate = this.defaultTemplate;
 		this.defaultTemplate = defaultTemplate;
 		this.propertyChangeSupport.firePropertyChange(
@@ -89,8 +97,8 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 				defaultTemplate);
 	}
 	
-	public boolean contains(String id) {
-		return (this.get(id) != null);
+	public boolean contains(TaskTemplate template) {
+		return this.templates.contains(template);
 	}
 	
 	public int size() {
@@ -104,14 +112,6 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	
 	public TaskTemplate get(int index) {
 		return this.templates.get(index);
-	}
-	
-	public TaskTemplate get(String id) {
-		for (TaskTemplate template : this.templates)
-			if (template.getId().equals(id))
-				return template;
-		
-		return null;
 	}
 	
 	public int getIndexOf(TaskTemplate template) {
@@ -132,8 +132,8 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	public void register(TaskTemplate template) {
 		CheckUtils.isNotNull(template, "Template cannot be null");
 		
-		if (this.contains(template.getId()))
-			throw new IllegalArgumentException("ID already exists in factory");
+		if (this.contains(template))
+			return;
 		
 		this.templates.add(template);
 		template.addPropertyChangeListener(this);
@@ -162,12 +162,6 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	
 	public TaskTemplate create(String title) {
 		TaskTemplate template = new TaskTemplate(title);
-		this.register(template);
-		return template;
-	}
-	
-	public TaskTemplate create(String id, String title) {
-		TaskTemplate template = new TaskTemplate(id, title);
 		this.register(template);
 		return template;
 	}
@@ -204,6 +198,33 @@ public class TaskTemplateFactory implements PropertyChangeListener, ListChangeSu
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.propertyChangeSupport.firePropertyChange(event);
+	}
+	
+	public void decodeFromXML(InputStream input) {
+		XStream xstream = new XStream(
+				new PureJavaReflectionProvider(),
+				new DomDriver("UTF-8"));
+		xstream.setMode(XStream.NO_REFERENCES);
+		xstream.alias("templates", TaskTemplate[].class);
+		xstream.alias("template", TaskTemplate.class);
+		xstream.processAnnotations(TaskTemplate.class);
+		
+		TaskTemplate[] templates = (TaskTemplate[]) xstream.fromXML(input);
+		for (TaskTemplate template : templates) {
+			this.register(template);
+		}
+	}
+	
+	public void encodeToXML(OutputStream output) {
+		XStream xstream = new XStream(
+				new PureJavaReflectionProvider(),
+				new DomDriver("UTF-8"));
+		xstream.setMode(XStream.NO_REFERENCES);
+		xstream.alias("templates", TaskTemplate[].class);
+		xstream.alias("template", TaskTemplate.class);
+		xstream.processAnnotations(TaskTemplate.class);
+		
+		xstream.toXML(this.templates.toArray(new TaskTemplate[0]), output);
 	}
 	
 }

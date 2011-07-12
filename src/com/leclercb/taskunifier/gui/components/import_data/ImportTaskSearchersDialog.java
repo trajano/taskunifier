@@ -30,41 +30,44 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.event.ActionEvent;
+import java.io.FileInputStream;
 
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.export_data.ExportSearchersDialog;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionExportSearchers extends AbstractAction {
+public class ImportTaskSearchersDialog extends AbstractImportDialog {
 	
-	public ActionExportSearchers() {
-		this(32, 32);
+	private static ImportTaskSearchersDialog INSTANCE;
+	
+	public static ImportTaskSearchersDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportTaskSearchersDialog();
+		
+		return INSTANCE;
 	}
 	
-	public ActionExportSearchers(int width, int height) {
+	private ImportTaskSearchersDialog() {
 		super(
-				Translations.getString("action.export_searchers"),
-				Images.getResourceImage("upload.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.export_searchers"));
+				Translations.getString("action.import_task_searchers"),
+				true,
+				"xml",
+				Translations.getString("general.xml_files"));
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionExportSearchers.exportSearchers();
+	public void deleteExistingValue() {
+		TaskSearcherFactory.getInstance().deleteAll();
 	}
 	
-	public static void exportSearchers() {
-		ExportSearchersDialog.getInstance().setVisible(true);
+	@Override
+	protected void importFromFile(String file) throws Exception {
+		FileInputStream input = new FileInputStream(file);
+		new TaskSearcherFactoryXMLCoder().decode(input);
 	}
 	
 }

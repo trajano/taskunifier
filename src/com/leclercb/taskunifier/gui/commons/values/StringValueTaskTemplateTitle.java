@@ -30,28 +30,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.export_data;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import com.leclercb.taskunifier.gui.api.templates.coders.TaskTemplateFactoryXMLCoder;
+import org.jdesktop.swingx.renderer.StringValue;
+
+import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ExportTemplatesDialog extends DefaultExportDialog {
+public class StringValueTaskTemplateTitle implements StringValue {
 	
-	private static ExportTemplatesDialog INSTANCE;
+	public static final StringValueTaskTemplateTitle INSTANCE = new StringValueTaskTemplateTitle();
 	
-	public static ExportTemplatesDialog getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new ExportTemplatesDialog();
-		
-		return INSTANCE;
+	private StringValueTaskTemplateTitle() {
+
 	}
 	
-	private ExportTemplatesDialog() {
-		super(
-				new TaskTemplateFactoryXMLCoder(true),
-				Translations.getString("general.export_templates"));
+	@Override
+	public String getString(Object value) {
+		if (value == null || !(value instanceof TaskTemplate))
+			return " ";
+		
+		TaskTemplate template = (TaskTemplate) value;
+		
+		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)
+			if (EqualsUtils.equals(
+					template,
+					TaskTemplateFactory.getInstance().getDefaultTemplate()))
+				return String.format(
+						"%1s (%2s)",
+						template.getTitle(),
+						Translations.getString("general.default"));
+		
+		return template.getTitle();
 	}
 	
 }

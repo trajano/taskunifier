@@ -30,41 +30,37 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
 
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.import_data.ImportSearchersDialog;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionImportSearchers extends AbstractAction {
+public class ExportTaskTemplatesDialog extends AbstractExportDialog {
 	
-	public ActionImportSearchers() {
-		this(32, 32);
+	private static ExportTaskTemplatesDialog INSTANCE;
+	
+	public static ExportTaskTemplatesDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportTaskTemplatesDialog();
+		
+		return INSTANCE;
 	}
 	
-	public ActionImportSearchers(int width, int height) {
+	private ExportTaskTemplatesDialog() {
 		super(
-				Translations.getString("action.import_searchers"),
-				Images.getResourceImage("download.png", width, height));
-		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.import_searchers"));
+				Translations.getString("action.export_task_templates"),
+				"xml",
+				Translations.getString("general.xml_files"));
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionImportSearchers.importSearchers();
-	}
-	
-	public static void importSearchers() {
-		ImportSearchersDialog.getInstance().setVisible(true);
+	protected void exportToFile(String file) throws Exception {
+		FileOutputStream output = new FileOutputStream(file);
+		TaskTemplateFactory.getInstance().encodeToXML(output);
 	}
 	
 }

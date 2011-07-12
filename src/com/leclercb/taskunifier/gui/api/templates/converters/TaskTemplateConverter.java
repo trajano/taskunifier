@@ -30,28 +30,59 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.comparators;
+package com.leclercb.taskunifier.gui.api.templates.converters;
 
-import java.util.Comparator;
-
-import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
+import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
-@Reviewed
-public class TemplateComparator implements Comparator<TaskTemplate> {
+public class TaskTemplateConverter extends ReflectionConverter {
+	
+	public TaskTemplateConverter(
+			Mapper mapper,
+			ReflectionProvider reflectionProvider) {
+		super(mapper, reflectionProvider);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean canConvert(Class type) {
+		return TaskTemplate.class.isAssignableFrom(type);
+	}
 	
 	@Override
-	public int compare(TaskTemplate t1, TaskTemplate t2) {
-		String s1 = t1 == null ? null : t1.getTitle().toLowerCase();
-		String s2 = t2 == null ? null : t2.getTitle().toLowerCase();
+	public Object unmarshal(
+			HierarchicalStreamReader reader,
+			UnmarshallingContext context) {
+		TaskTemplate template = (TaskTemplate) super.unmarshal(reader, context);
 		
-		int result = CompareUtils.compare(s1, s2);
+		boolean def = Boolean.parseBoolean(reader.getAttribute("default"));
+		if (def)
+			TaskTemplateFactory.getInstance().setDefaultTemplate(template);
 		
-		if (result != 0)
-			return result;
+		return template;
+	}
+	
+	@Override
+	public void marshal(
+			Object source,
+			HierarchicalStreamWriter writer,
+			MarshallingContext context) {
+		TaskTemplate template = (TaskTemplate) source;
 		
-		return CompareUtils.compare(t1, t2);
+		boolean def = EqualsUtils.equals(
+				template,
+				TaskTemplateFactory.getInstance().getDefaultTemplate());
+		
+		writer.addAttribute("default", def + "");
+		super.marshal(source, writer, context);
 	}
 	
 }

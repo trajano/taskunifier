@@ -30,34 +30,23 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.import_data;
+package com.leclercb.taskunifier.gui.commons.comparators;
 
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.api.templates.coders.TaskTemplateFactoryXMLCoder;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import java.util.Comparator;
+
+import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ImportTemplatesDialog extends DefaultImportDialog {
-	
-	private static ImportTemplatesDialog INSTANCE;
-	
-	public static ImportTemplatesDialog getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new ImportTemplatesDialog();
-		
-		return INSTANCE;
-	}
-	
-	private ImportTemplatesDialog() {
-		super(
-				new TaskTemplateFactoryXMLCoder(true),
-				Translations.getString("general.import_templates"));
-	}
+public class TaskTemplateComparator implements Comparator<TaskTemplate> {
 	
 	@Override
-	public void deleteExistingValue() {
-		TaskTemplateFactory.getInstance().deleteAll();
+	public int compare(TaskTemplate t1, TaskTemplate t2) {
+		String s1 = t1 == null ? null : t1.getTitle().toLowerCase();
+		String s2 = t2 == null ? null : t2.getTitle().toLowerCase();
+		
+		return CompareUtils.compare(s1, s2);
 	}
 	
 }

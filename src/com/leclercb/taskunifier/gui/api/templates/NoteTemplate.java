@@ -34,48 +34,51 @@ package com.leclercb.taskunifier.gui.api.templates;
 
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.UUID;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsBuilder;
-import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.gui.api.templates.converters.NoteTemplateConverter;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @Reviewed
-public class NoteTemplate implements Serializable, Comparable<NoteTemplate>, Cloneable, PropertyChangeSupported {
+@XStreamConverter(NoteTemplateConverter.class)
+public class NoteTemplate implements Cloneable, Serializable, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
-	
 	public static final String PROP_NOTE_TITLE = "noteTitle";
 	public static final String PROP_NOTE_FOLDER = "noteFolder";
 	public static final String PROP_NOTE_NOTE = "noteNote";
 	
+	@XStreamOmitField
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private String id;
+	@XStreamAlias("title")
 	private String title;
 	
+	@XStreamAlias("notetitle")
 	private String noteTitle;
+	
+	@XStreamAlias("notefolder")
 	private ModelId noteFolder;
+	
+	@XStreamAlias("notenote")
 	private String noteNote;
 	
-	public NoteTemplate(String title) {
-		this(UUID.randomUUID().toString(), title);
+	public NoteTemplate() {
+		this("");
 	}
 	
-	public NoteTemplate(String id, String title) {
-		CheckUtils.isNotNull(id, "Id cannot be null");
-		
+	public NoteTemplate(String title) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.setId(id);
 		this.setTitle(title);
-		
 		this.setNoteTitle(null);
 		this.setNoteFolder(null);
 		this.setNoteNote(null);
@@ -104,15 +107,6 @@ public class NoteTemplate implements Serializable, Comparable<NoteTemplate>, Clo
 		template.setNoteNote(this.noteNote);
 		
 		return template;
-	}
-	
-	public String getId() {
-		return this.id;
-	}
-	
-	private void setId(String id) {
-		CheckUtils.isNotNull(id, "ID cannot be null");
-		this.id = id;
 	}
 	
 	public String getTitle() {
@@ -171,37 +165,6 @@ public class NoteTemplate implements Serializable, Comparable<NoteTemplate>, Clo
 	@Override
 	public String toString() {
 		return this.title;
-	}
-	
-	@Override
-	public final boolean equals(Object o) {
-		if (o == this) {
-			return true;
-		}
-		
-		if (o instanceof NoteTemplate) {
-			NoteTemplate template = (NoteTemplate) o;
-			
-			return new EqualsBuilder().append(this.id, template.id).isEqual();
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public final int hashCode() {
-		HashCodeBuilder hashCode = new HashCodeBuilder();
-		hashCode.append(this.id);
-		
-		return hashCode.toHashCode();
-	}
-	
-	@Override
-	public int compareTo(NoteTemplate template) {
-		if (template == null)
-			return 1;
-		
-		return this.id.compareTo(template.id);
 	}
 	
 	@Override
