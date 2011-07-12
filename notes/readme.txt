@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 1.0.0
+	- Searcher list specific to notes
 
 Version 0.9.9b
 	- Major:
