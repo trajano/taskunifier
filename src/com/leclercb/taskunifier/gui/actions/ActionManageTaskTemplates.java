@@ -36,35 +36,35 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.templates.TemplateConfigurationDialog;
+import com.leclercb.taskunifier.gui.components.tasktemplates.TaskTemplateConfigurationDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionManageTemplates extends AbstractAction {
+public class ActionManageTaskTemplates extends AbstractAction {
 	
-	public ActionManageTemplates() {
+	public ActionManageTaskTemplates() {
 		this(32, 32);
 	}
 	
-	public ActionManageTemplates(int width, int height) {
+	public ActionManageTaskTemplates(int width, int height) {
 		super(
-				Translations.getString("action.manage_templates"),
+				Translations.getString("action.manage_task_templates"),
 				Images.getResourceImage("properties.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.manage_templates"));
+				Translations.getString("action.manage_task_templates"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionManageTemplates.manageTemplates();
+		ActionManageTaskTemplates.manageTemplates();
 	}
 	
 	public static void manageTemplates() {
-		TemplateConfigurationDialog.getInstance().setVisible(true);
+		TaskTemplateConfigurationDialog.getInstance().setVisible(true);
 	}
 	
 }

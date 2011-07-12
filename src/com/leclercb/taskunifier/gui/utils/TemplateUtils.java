@@ -40,7 +40,7 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
-import com.leclercb.taskunifier.gui.actions.ActionManageTemplates;
+import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
@@ -74,12 +74,12 @@ public final class TemplateUtils {
 		
 		if (menu != null) {
 			menu.addSeparator();
-			menu.add(new ActionManageTemplates(16, 16));
+			menu.add(new ActionManageTaskTemplates(16, 16));
 		}
 		
 		if (popupMenu != null) {
 			popupMenu.addSeparator();
-			popupMenu.add(new ActionManageTemplates(16, 16));
+			popupMenu.add(new ActionManageTaskTemplates(16, 16));
 		}
 	}
 	

@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.templates;
+package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -49,18 +49,18 @@ import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateConfigurationDialog extends JDialog {
+public class TaskTemplateConfigurationDialog extends JDialog {
 	
-	private static TemplateConfigurationDialog INSTANCE = null;
+	private static TaskTemplateConfigurationDialog INSTANCE = null;
 	
-	public static TemplateConfigurationDialog getInstance() {
+	public static TaskTemplateConfigurationDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new TemplateConfigurationDialog();
+			INSTANCE = new TaskTemplateConfigurationDialog();
 		
 		return INSTANCE;
 	}
 	
-	private TemplateConfigurationDialog() {
+	private TaskTemplateConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame());
 		
 		this.initialize();
@@ -68,7 +68,7 @@ public class TemplateConfigurationDialog extends JDialog {
 	
 	private void initialize() {
 		this.setModal(true);
-		this.setTitle(Translations.getString("general.manage_templates"));
+		this.setTitle(Translations.getString("general.manage_task_templates"));
 		this.setSize(600, 450);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
@@ -78,12 +78,12 @@ public class TemplateConfigurationDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
-		header.setTitle(Translations.getString("header.title.manage_templates"));
-		header.setDescription(Translations.getString("header.description.manage_templates"));
+		header.setTitle(Translations.getString("header.title.manage_task_templates"));
+		header.setDescription(Translations.getString("header.description.manage_task_templates"));
 		header.setIcon(Images.getResourceImage("properties.png", 32, 32));
 		
 		this.add(header, BorderLayout.NORTH);
-		this.add(new TemplateConfigurationPanel(), BorderLayout.CENTER);
+		this.add(new TaskTemplateConfigurationPanel(), BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}
@@ -94,7 +94,7 @@ public class TemplateConfigurationDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					TemplateConfigurationDialog.this.setVisible(false);
+					TaskTemplateConfigurationDialog.this.setVisible(false);
 				}
 			}
 			

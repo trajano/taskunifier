@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
-import com.leclercb.taskunifier.gui.actions.ActionEditSearcher;
+import com.leclercb.taskunifier.gui.actions.ActionEditTaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
@@ -325,7 +325,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		TaskSearcher searcher = TaskSearcherPanel.this.searcherView.getSelectedTaskSearcher();
 		
 		if (searcher != null && searcher.getType().isEditable()) {
-			ActionEditSearcher.editSearcher(searcher);
+			ActionEditTaskSearcher.editTaskSearcher(searcher);
 			this.searcherView.updateBadges();
 		}
 	}

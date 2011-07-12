@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.templates;
+package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.awt.BorderLayout;
 import java.util.Date;
@@ -90,9 +90,9 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateConfigurationPanel extends JSplitPane {
+public class TaskTemplateConfigurationPanel extends JSplitPane {
 	
-	public TemplateConfigurationPanel() {
+	public TaskTemplateConfigurationPanel() {
 		this.initialize();
 	}
 	
@@ -148,7 +148,7 @@ public class TemplateConfigurationPanel extends JSplitPane {
 		templateTaskNote.setEnabled(false);
 		
 		// Initialize Model List
-		final TemplateList modelList = new TemplateList(templateTitle) {
+		final TaskTemplateList modelList = new TaskTemplateList(templateTitle) {
 			
 			private BeanAdapter<TaskTemplate> adapter;
 			

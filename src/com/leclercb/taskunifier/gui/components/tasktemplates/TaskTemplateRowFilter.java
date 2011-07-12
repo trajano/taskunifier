@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.templates;
+package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.beans.PropertyChangeListener;
 
@@ -11,7 +11,7 @@ import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class TemplateRowFilter extends RowFilter<ListModel, Integer> implements PropertyChangeSupported {
+public class TaskTemplateRowFilter extends RowFilter<ListModel, Integer> implements PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";
 	
@@ -19,7 +19,7 @@ public class TemplateRowFilter extends RowFilter<ListModel, Integer> implements 
 	
 	private String title;
 	
-	public TemplateRowFilter() {
+	public TaskTemplateRowFilter() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	

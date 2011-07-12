@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.templates;
+package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -65,20 +65,20 @@ import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-abstract class TemplateList extends JPanel {
+abstract class TaskTemplateList extends JPanel {
 	
 	private JTextField titleField;
 	
 	private JXSearchField searchField;
 	
 	private JXList templateList;
-	private TemplateRowFilter rowFilter;
+	private TaskTemplateRowFilter rowFilter;
 	
 	private JButton addButton;
 	private JButton removeButton;
 	private JButton defaultButton;
 	
-	public TemplateList(JTextField titleField) {
+	public TaskTemplateList(JTextField titleField) {
 		CheckUtils.isNotNull(titleField, "Title field cannot be null");
 		this.titleField = titleField;
 		
@@ -102,7 +102,7 @@ abstract class TemplateList extends JPanel {
 		this.templateList.setSortOrder(SortOrder.ASCENDING);
 		this.templateList.setSortsOnUpdates(true);
 		
-		this.rowFilter = new TemplateRowFilter();
+		this.rowFilter = new TaskTemplateRowFilter();
 		this.templateList.setRowFilter(this.rowFilter);
 		
 		this.templateList.setHighlighters(new AlternateHighlighter());
@@ -114,14 +114,14 @@ abstract class TemplateList extends JPanel {
 				if (event.getValueIsAdjusting())
 					return;
 				
-				if (TemplateList.this.templateList.getSelectedValue() == null) {
-					TemplateList.this.templateSelected(null);
-					TemplateList.this.removeButton.setEnabled(false);
-					TemplateList.this.defaultButton.setEnabled(false);
+				if (TaskTemplateList.this.templateList.getSelectedValue() == null) {
+					TaskTemplateList.this.templateSelected(null);
+					TaskTemplateList.this.removeButton.setEnabled(false);
+					TaskTemplateList.this.defaultButton.setEnabled(false);
 				} else {
-					TemplateList.this.templateSelected((TaskTemplate) TemplateList.this.templateList.getSelectedValue());
-					TemplateList.this.removeButton.setEnabled(true);
-					TemplateList.this.defaultButton.setEnabled(true);
+					TaskTemplateList.this.templateSelected((TaskTemplate) TaskTemplateList.this.templateList.getSelectedValue());
+					TaskTemplateList.this.removeButton.setEnabled(true);
+					TaskTemplateList.this.defaultButton.setEnabled(true);
 				}
 			}
 			
@@ -137,19 +137,19 @@ abstract class TemplateList extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TemplateList.this.rowFilter.setTitle(e.getActionCommand());
+				TaskTemplateList.this.rowFilter.setTitle(e.getActionCommand());
 			}
 			
 		});
 		
 		this.rowFilter.addPropertyChangeListener(
-				TemplateRowFilter.PROP_TITLE,
+				TaskTemplateRowFilter.PROP_TITLE,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						TemplateList.this.searchField.setText((String) evt.getNewValue());
-						TemplateList.this.templateList.setRowFilter((TemplateRowFilter) evt.getSource());
+						TaskTemplateList.this.searchField.setText((String) evt.getNewValue());
+						TaskTemplateList.this.templateList.setRowFilter((TaskTemplateRowFilter) evt.getSource());
 					}
 					
 				});
@@ -165,16 +165,16 @@ abstract class TemplateList extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
-					TemplateList.this.rowFilter.setTitle(null);
+					TaskTemplateList.this.rowFilter.setTitle(null);
 					TaskTemplate template = TaskTemplateFactory.getInstance().create(
 							Translations.getString("template.default.title"));
-					TemplateList.this.setSelectedTemplate(template);
-					ComponentUtils.focusAndSelectTextInTextField(TemplateList.this.titleField);
+					TaskTemplateList.this.setSelectedTemplate(template);
+					ComponentUtils.focusAndSelectTextInTextField(TaskTemplateList.this.titleField);
 				} else if (event.getActionCommand().equals("REMOVE")) {
-					TaskTemplate template = TemplateList.this.getSelectedTemplate();
+					TaskTemplate template = TaskTemplateList.this.getSelectedTemplate();
 					TaskTemplateFactory.getInstance().unregister(template);
 				} else {
-					TaskTemplate template = TemplateList.this.getSelectedTemplate();
+					TaskTemplate template = TaskTemplateList.this.getSelectedTemplate();
 					TaskTemplateFactory.getInstance().setDefaultTemplate(
 							template);
 				}

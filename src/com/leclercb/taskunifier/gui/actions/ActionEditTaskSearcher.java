@@ -47,32 +47,32 @@ import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
 @Reviewed
-public class ActionEditSearcher extends AbstractAction {
+public class ActionEditTaskSearcher extends AbstractAction {
 	
-	public ActionEditSearcher() {
+	public ActionEditTaskSearcher() {
 		this(32, 32);
 	}
 	
-	public ActionEditSearcher(int width, int height) {
+	public ActionEditTaskSearcher(int width, int height) {
 		super(
-				Translations.getString("action.edit_searcher"),
+				Translations.getString("action.edit_task_searcher"),
 				Images.getResourceImage("search.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.edit_searcher"));
+				Translations.getString("action.edit_task_searcher"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditSearcher.editSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
+		ActionEditTaskSearcher.editTaskSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
 	}
 	
-	public static void editSearcher(TaskSearcher searcher) {
+	public static void editTaskSearcher(TaskSearcher searcher) {
 		if (searcher == null) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					Translations.getString("error.select_searcher"),
+					Translations.getString("error.select_task_searcher"),
 					null,
 					null,
 					null,
