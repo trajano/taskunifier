@@ -43,8 +43,8 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
@@ -123,10 +123,10 @@ public class ActionAddSubTask extends AbstractAction {
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
-			template.applyToTask(task);
+			template.applyTo(task);
 		
 		if (searcherTemplate != null)
-			searcherTemplate.applyToTask(task);
+			searcherTemplate.applyTo(task);
 		
 		task.setParent(parent);
 		task.setContext(parent.getContext());

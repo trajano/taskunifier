@@ -41,8 +41,8 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
@@ -89,10 +89,10 @@ public class ActionAddTask extends AbstractAction {
 		Task task = TaskFactory.getInstance().create("");
 		
 		if (template != null)
-			template.applyToTask(task);
+			template.applyTo(task);
 		
 		if (searcherTemplate != null)
-			searcherTemplate.applyToTask(task);
+			searcherTemplate.applyTo(task);
 		
 		if (title != null)
 			task.setTitle(title);

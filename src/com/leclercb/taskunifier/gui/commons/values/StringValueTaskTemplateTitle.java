@@ -35,8 +35,8 @@ package com.leclercb.taskunifier.gui.commons.values;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 

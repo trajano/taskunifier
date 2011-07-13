@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.components.export_data;
 
 import java.io.FileOutputStream;
 
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 

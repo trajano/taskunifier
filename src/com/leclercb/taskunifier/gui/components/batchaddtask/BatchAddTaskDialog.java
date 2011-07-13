@@ -49,8 +49,8 @@ import javax.swing.UIManager;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.main.MainFrame;

@@ -201,7 +201,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			
 			for (ModelId id : data.getIds()) {
 				Task task = TaskFactory.getInstance().get(id);
-				node.getTaskSearcher().getTemplate().applyToTask(task);
+				node.getTaskSearcher().getTemplate().applyTo(task);
 			}
 			
 			return true;

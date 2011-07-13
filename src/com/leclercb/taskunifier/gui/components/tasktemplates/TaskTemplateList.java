@@ -52,8 +52,8 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TemplateModel;

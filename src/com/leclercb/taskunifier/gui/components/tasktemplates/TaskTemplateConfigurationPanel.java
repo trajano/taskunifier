@@ -64,7 +64,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;

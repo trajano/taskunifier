@@ -39,8 +39,8 @@ import java.util.List;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.api.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 

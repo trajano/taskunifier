@@ -137,7 +137,7 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 			
 			for (ModelId id : data.getIds()) {
 				Note note = NoteFactory.getInstance().get(id);
-				node.getNoteSearcher().getTemplate().applyToNote(note);
+				node.getNoteSearcher().getTemplate().applyTo(note);
 			}
 			
 			return true;
