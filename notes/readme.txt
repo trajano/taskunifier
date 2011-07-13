@@ -3,6 +3,7 @@ HISTORY
 
 Version 1.0.0
 	- Searcher list specific to notes
+	- New day conditions (using time)
 
 Version 0.9.9b
 	- Major:
