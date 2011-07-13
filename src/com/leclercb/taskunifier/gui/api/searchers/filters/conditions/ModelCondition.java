@@ -40,7 +40,7 @@ public enum ModelCondition implements Condition<Model, Model> {
 	NOT_EQUALS;
 	
 	private ModelCondition() {
-
+		
 	}
 	
 	@Override
@@ -55,12 +55,12 @@ public enum ModelCondition implements Condition<Model, Model> {
 	
 	@Override
 	public boolean include(Model value, Model taskValue) {
-		if (this == EQUALS) {
-			return taskValue.equals(value);
-		}
-		
-		if (this == NOT_EQUALS) {
-			return !(taskValue.equals(value));
+		switch (this) {
+			case EQUALS:
+				return taskValue.equals(value);
+			case NOT_EQUALS:
+				return !(taskValue.equals(value));
+				
 		}
 		
 		return false;

@@ -33,12 +33,12 @@
 package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 public enum StringCondition implements Condition<String, Object> {
-	
-	EQUALS,
+
 	CONTAINS,
-	STARTS_WITH,
 	ENDS_WITH,
-	NOT_EQUALS;
+	EQUALS,
+	NOT_EQUALS,
+	STARTS_WITH;
 	
 	private StringCondition() {
 
@@ -56,27 +56,20 @@ public enum StringCondition implements Condition<String, Object> {
 	
 	@Override
 	public boolean include(String value, Object taskValue) {
-		if (this == EQUALS) {
-			return taskValue.toString().equalsIgnoreCase(value);
-		}
+		String string = value.toLowerCase();
+		String taskString = taskValue.toString().toLowerCase();
 		
-		if (this == CONTAINS) {
-			return taskValue.toString().toLowerCase().contains(
-					value.toLowerCase());
-		}
-		
-		if (this == STARTS_WITH) {
-			return taskValue.toString().toLowerCase().startsWith(
-					value.toLowerCase());
-		}
-		
-		if (this == ENDS_WITH) {
-			return taskValue.toString().toLowerCase().endsWith(
-					value.toLowerCase());
-		}
-		
-		if (this == NOT_EQUALS) {
-			return !(taskValue.toString().equalsIgnoreCase(value));
+		switch (this) {
+			case CONTAINS:
+				return taskString.contains(string);
+			case ENDS_WITH:
+				return taskString.endsWith(string);
+			case EQUALS:
+				return taskString.equals(string);
+			case NOT_EQUALS:
+				return !(taskString.equals(string));
+			case STARTS_WITH:
+				return taskString.startsWith(string);
 		}
 		
 		return false;

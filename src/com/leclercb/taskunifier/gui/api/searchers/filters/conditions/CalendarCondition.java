@@ -56,16 +56,13 @@ public enum CalendarCondition implements Condition<Calendar, Calendar> {
 	
 	@Override
 	public boolean include(Calendar value, Calendar taskValue) {
-		if (this == AFTER) {
-			return taskValue.compareTo(value) > 0;
-		}
-		
-		if (this == BEFORE) {
-			return taskValue.compareTo(value) < 0;
-		}
-		
-		if (this == EQUALS) {
-			return taskValue.equals(value);
+		switch (this) {
+			case AFTER:
+				return taskValue.compareTo(value) > 0;
+			case BEFORE:
+				return taskValue.compareTo(value) < 0;
+			case EQUALS:
+				return taskValue.equals(value);
 		}
 		
 		return false;

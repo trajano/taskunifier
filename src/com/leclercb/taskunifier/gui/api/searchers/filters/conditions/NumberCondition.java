@@ -34,15 +34,15 @@ package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 public enum NumberCondition implements Condition<Number, Number> {
 	
+	EQUALS,
 	GREATER_THAN,
 	GREATER_THAN_OR_EQUALS,
 	LESS_THAN,
 	LESS_THAN_OR_EQUALS,
-	EQUALS,
 	NOT_EQUALS;
 	
 	private NumberCondition() {
-
+		
 	}
 	
 	@Override
@@ -57,28 +57,19 @@ public enum NumberCondition implements Condition<Number, Number> {
 	
 	@Override
 	public boolean include(Number value, Number taskValue) {
-		if (this == GREATER_THAN) {
-			return taskValue.doubleValue() > value.doubleValue();
-		}
-		
-		if (this == GREATER_THAN_OR_EQUALS) {
-			return taskValue.doubleValue() >= value.doubleValue();
-		}
-		
-		if (this == LESS_THAN) {
-			return taskValue.doubleValue() < value.doubleValue();
-		}
-		
-		if (this == LESS_THAN_OR_EQUALS) {
-			return taskValue.doubleValue() <= value.doubleValue();
-		}
-		
-		if (this == EQUALS) {
-			return taskValue.doubleValue() == value.doubleValue();
-		}
-		
-		if (this == NOT_EQUALS) {
-			return taskValue.doubleValue() != value.doubleValue();
+		switch (this) {
+			case EQUALS:
+				return taskValue.doubleValue() == value.doubleValue();
+			case GREATER_THAN:
+				return taskValue.doubleValue() > value.doubleValue();
+			case GREATER_THAN_OR_EQUALS:
+				return taskValue.doubleValue() >= value.doubleValue();
+			case LESS_THAN:
+				return taskValue.doubleValue() < value.doubleValue();
+			case LESS_THAN_OR_EQUALS:
+				return taskValue.doubleValue() <= value.doubleValue();
+			case NOT_EQUALS:
+				return taskValue.doubleValue() != value.doubleValue();
 		}
 		
 		return false;
