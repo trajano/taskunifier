@@ -30,16 +30,50 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.models.properties;
+package com.leclercb.taskunifier.gui.commons.events;
 
-import com.leclercb.taskunifier.api.models.Model;
+import java.lang.ref.WeakReference;
 
-public interface ModelProperties<M extends Model> {
+import com.leclercb.taskunifier.gui.utils.review.Reviewed;
+
+@Reviewed
+public class WeakNoteSearcherSelectionListener implements NoteSearcherSelectionListener {
 	
-	public abstract Object getProperty(M model);
+	private NoteSearcherSelectionChangeSupport support;
+	private WeakReference<NoteSearcherSelectionListener> reference;
 	
-	public abstract void setProperty(M model, Object value);
+	public WeakNoteSearcherSelectionListener(
+			NoteSearcherSelectionChangeSupport support,
+			NoteSearcherSelectionListener listener) {
+		this.support = support;
+		this.reference = new WeakReference<NoteSearcherSelectionListener>(
+				listener);
+	}
 	
-	public abstract Class<?> getType();
+	@Override
+	public void noteSearcherSelectionChange(NoteSearcherSelectionChangeEvent evt) {
+		NoteSearcherSelectionListener listener = this.reference.get();
+		
+		if (listener == null)
+			this.support.removeNoteSearcherSelectionChangeListener(this);
+		else
+			listener.noteSearcherSelectionChange(evt);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this.reference != null)
+			return this.reference.equals(obj);
+		
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		if (this.reference != null)
+			return this.reference.hashCode();
+		
+		return super.hashCode();
+	}
 	
 }
