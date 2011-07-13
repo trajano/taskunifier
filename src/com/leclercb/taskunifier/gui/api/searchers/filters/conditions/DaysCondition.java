@@ -38,11 +38,13 @@ import com.leclercb.commons.api.utils.DateUtils;
 
 public enum DaysCondition implements Condition<Integer, Calendar> {
 	
+	EQUALS,
 	GREATER_THAN,
 	GREATER_THAN_OR_EQUALS,
+	GREATER_THAN_USING_TIME,
 	LESS_THAN,
 	LESS_THAN_OR_EQUALS,
-	EQUALS;
+	LESS_THAN_USING_TIME;
 	
 	private DaysCondition() {
 
@@ -63,45 +65,46 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 		Calendar conditionValue = Calendar.getInstance();
 		taskValue = DateUtils.cloneCalendar(taskValue);
 		
-		conditionValue.set(
-				conditionValue.get(Calendar.YEAR),
-				conditionValue.get(Calendar.MONTH),
-				conditionValue.get(Calendar.DAY_OF_MONTH),
-				0,
-				0,
-				0);
-		
-		taskValue.set(
-				taskValue.get(Calendar.YEAR),
-				taskValue.get(Calendar.MONTH),
-				taskValue.get(Calendar.DAY_OF_MONTH),
-				0,
-				0,
-				0);
-		
 		long milliSeconds1 = taskValue.getTimeInMillis();
 		long milliSeconds2 = conditionValue.getTimeInMillis();
 		long diff = milliSeconds1 - milliSeconds2;
-		long diffDays = Math.round(diff / (24 * 60 * 60 * 1000.0));
+		double diffDays;
 		
-		if (this == GREATER_THAN) {
-			return diffDays > value;
+		if (this != GREATER_THAN_USING_TIME && this != LESS_THAN_USING_TIME) {
+			conditionValue.set(
+					conditionValue.get(Calendar.YEAR),
+					conditionValue.get(Calendar.MONTH),
+					conditionValue.get(Calendar.DAY_OF_MONTH),
+					0,
+					0,
+					0);
+			
+			taskValue.set(
+					taskValue.get(Calendar.YEAR),
+					taskValue.get(Calendar.MONTH),
+					taskValue.get(Calendar.DAY_OF_MONTH),
+					0,
+					0,
+					0);
+			
+			diffDays = Math.round(diff / (24 * 60 * 60 * 1000.0));
+		} else {
+			diffDays = diff / (24 * 60 * 60 * 1000.0);
 		}
 		
-		if (this == GREATER_THAN_OR_EQUALS) {
-			return diffDays >= value;
-		}
-		
-		if (this == LESS_THAN) {
-			return diffDays < value;
-		}
-		
-		if (this == LESS_THAN_OR_EQUALS) {
-			return diffDays <= value;
-		}
-		
-		if (this == EQUALS) {
-			return diffDays == value;
+		switch (this) {
+			case EQUALS:
+				return diffDays == value;
+			case GREATER_THAN:
+				return diffDays > value;
+			case GREATER_THAN_OR_EQUALS:
+			case GREATER_THAN_USING_TIME:
+				return diffDays >= value;
+			case LESS_THAN:
+				return diffDays < value;
+			case LESS_THAN_OR_EQUALS:
+			case LESS_THAN_USING_TIME:
+				return diffDays <= value;
 		}
 		
 		return false;

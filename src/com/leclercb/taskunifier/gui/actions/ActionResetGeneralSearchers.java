@@ -107,16 +107,31 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				filter,
 				sorter.clone());
 		
-		// Overdue
+		// Due Today
 		filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.DUE_DATE,
-				DaysCondition.LESS_THAN_OR_EQUALS,
+				DaysCondition.EQUALS,
 				0));
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
 				2,
+				Translations.getString("searcherlist.general.due_today"),
+				Images.getResourceFile("calendar.png"),
+				filter,
+				sorter.clone());
+		
+		// Overdue
+		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.DUE_DATE,
+				DaysCondition.LESS_THAN_USING_TIME,
+				0));
+		
+		TaskSearcherFactory.getInstance().create(
+				TaskSearcherType.GENERAL,
+				3,
 				Translations.getString("searcherlist.general.overdue"),
 				Images.getResourceFile("warning.gif"),
 				filter,
@@ -135,7 +150,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
-				3,
+				4,
 				Translations.getString("searcherlist.general.hot_list"),
 				Images.getResourceFile("hot_pepper.png"),
 				filter,
@@ -153,7 +168,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
-				4,
+				5,
 				Translations.getString("searcherlist.general.importance"),
 				Images.getResourceFile("importance.png"),
 				filter,
@@ -168,7 +183,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
-				5,
+				6,
 				Translations.getString("searcherlist.general.starred"),
 				Images.getResourceFile("star.png"),
 				filter,
@@ -183,7 +198,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
-				6,
+				7,
 				Translations.getString("searcherlist.general.next_action"),
 				Images.getResourceFile("next.png"),
 				filter,
@@ -198,7 +213,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
-				7,
+				8,
 				Translations.getString("searcherlist.general.completed"),
 				Images.getResourceFile("check.png"),
 				filter,

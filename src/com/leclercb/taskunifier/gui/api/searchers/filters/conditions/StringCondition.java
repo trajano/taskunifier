@@ -33,7 +33,7 @@
 package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 public enum StringCondition implements Condition<String, Object> {
-
+	
 	CONTAINS,
 	ENDS_WITH,
 	EQUALS,
