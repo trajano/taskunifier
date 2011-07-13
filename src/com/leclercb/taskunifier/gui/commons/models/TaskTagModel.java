@@ -44,11 +44,11 @@ public class TaskTagModel extends DefaultComboBoxModel implements ListChangeList
 	public TaskTagModel(boolean firstNull) {
 		String[] tags = TaskTagList.getInstance().getTags();
 		
-		this.addElement(null);
+		if (firstNull)
+			this.addElement(null);
 		
-		for (String tag : tags) {
+		for (String tag : tags)
 			this.addElement(IgnoreCaseString.as(tag));
-		}
 		
 		TaskTagList.getInstance().addListChangeListener(this);
 	}

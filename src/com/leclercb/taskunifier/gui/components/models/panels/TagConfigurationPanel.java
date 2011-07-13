@@ -128,7 +128,7 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 			
 		});
 		
-		builder.appendI15d(" ", true, tagSave);
+		builder.append("", tagSave);
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
