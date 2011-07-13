@@ -36,18 +36,19 @@ import java.io.Serializable;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 
 public class TaskSearcherTransferData implements Serializable {
 	
-	private TaskSearcher searcher;
+	private String searcher;
 	
 	public TaskSearcherTransferData(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
-		this.searcher = searcher;
+		this.searcher = searcher.getId();
 	}
 	
 	public TaskSearcher getTaskSearcher() {
-		return this.searcher;
+		return TaskSearcherFactory.getInstance().get(this.searcher);
 	}
 	
 }

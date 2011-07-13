@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.api.searchers.sorters;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +51,7 @@ import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE extends SorterElement<M, MP>> implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable {
+public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE extends SorterElement<M, MP>> implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;

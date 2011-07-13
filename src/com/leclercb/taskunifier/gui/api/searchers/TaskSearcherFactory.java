@@ -75,6 +75,14 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 		return this.searchers.contains(searcher);
 	}
 	
+	public boolean contains(String id) {
+		for (TaskSearcher searcher : this.searchers)
+			if (searcher.getId().equals(id))
+				return true;
+		
+		return false;
+	}
+	
 	public int size() {
 		return this.searchers.size();
 	}
@@ -86,6 +94,14 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	
 	public TaskSearcher get(int index) {
 		return this.searchers.get(index);
+	}
+	
+	public TaskSearcher get(String id) {
+		for (TaskSearcher searcher : this.searchers)
+			if (searcher.getId().equals(id))
+				return searcher;
+		
+		return null;
 	}
 	
 	/**

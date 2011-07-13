@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.api.searchers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.Serializable;
+import java.util.UUID;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorterElement;
 
-public class NoteSearcher implements Cloneable, Serializable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
+public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
 	
 	public static final String PROP_TYPE = "type";
 	public static final String PROP_ORDER = "order";
@@ -59,6 +59,7 @@ public class NoteSearcher implements Cloneable, Serializable, PropertyChangeSupp
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
+	private String id;
 	private NoteSearcherType type;
 	private int order;
 	private String title;
@@ -96,6 +97,7 @@ public class NoteSearcher implements Cloneable, Serializable, PropertyChangeSupp
 			NoteTemplate template) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
+		this.setId(UUID.randomUUID().toString());
 		this.setType(type);
 		this.setOrder(order);
 		this.setTitle(title);
@@ -115,6 +117,15 @@ public class NoteSearcher implements Cloneable, Serializable, PropertyChangeSupp
 				this.filter.clone(),
 				this.sorter.clone(),
 				(this.template == null ? null : this.template.clone()));
+	}
+	
+	public String getId() {
+		return this.id;
+	}
+	
+	private void setId(String id) {
+		CheckUtils.isNotNull(id, "ID cannot be null");
+		this.id = id;
 	}
 	
 	public NoteSearcherType getType() {
