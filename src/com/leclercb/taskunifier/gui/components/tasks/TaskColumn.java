@@ -52,9 +52,7 @@ import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public enum TaskColumn implements ModelProperties<Task> {
 	
 	MODEL(Task.class, Translations.getString("general.id"), false),

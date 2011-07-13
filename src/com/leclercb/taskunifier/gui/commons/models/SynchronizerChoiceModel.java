@@ -39,9 +39,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SynchronizerChoiceModel extends DefaultComboBoxModel {
 	
 	public SynchronizerChoiceModel() {

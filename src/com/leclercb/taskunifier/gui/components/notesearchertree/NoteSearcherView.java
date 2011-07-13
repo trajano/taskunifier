@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.components.notesearchertree;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupported;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface NoteSearcherView extends NoteSearcherSelectionChangeSupported {
 	
 	public abstract void setTitleFilter(String title);

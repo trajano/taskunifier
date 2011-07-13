@@ -44,9 +44,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionDuplicateTasks extends AbstractAction {
 	
 	public ActionDuplicateTasks() {

@@ -36,9 +36,7 @@ import java.awt.Color;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ColorEvenFieldType extends ConfigurationFieldTypeExt.ColorChooser {
 	
 	public ColorEvenFieldType() {

@@ -62,9 +62,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherCa
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TaskSearcherProvider;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePropertiesListener {
 	
 	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;

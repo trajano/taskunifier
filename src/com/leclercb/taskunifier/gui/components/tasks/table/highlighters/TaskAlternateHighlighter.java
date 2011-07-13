@@ -47,9 +47,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskAlternateHighlighter extends AbstractHighlighter {
 	
 	private boolean byImportance;

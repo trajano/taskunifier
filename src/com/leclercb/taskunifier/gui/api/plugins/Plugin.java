@@ -39,9 +39,7 @@ import javax.swing.ImageIcon;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class Plugin implements PropertyChangeSupported {
 	
 	public static final String PROP_STATUS = "status";

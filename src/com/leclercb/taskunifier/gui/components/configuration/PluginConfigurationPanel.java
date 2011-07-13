@@ -41,9 +41,7 @@ import javax.swing.SwingConstants;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	
 	private ConfigurationPanel configPanel;

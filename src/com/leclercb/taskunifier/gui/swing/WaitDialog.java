@@ -47,9 +47,7 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class WaitDialog extends JDialog {
 	
 	private Runnable runnable;

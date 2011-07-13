@@ -36,9 +36,7 @@ import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class StringValueSynchronizerChoice implements StringValue {
 	
 	public static final StringValueSynchronizerChoice INSTANCE = new StringValueSynchronizerChoice();

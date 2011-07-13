@@ -37,9 +37,7 @@ import java.util.Date;
 
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskLengthConverter extends AbstractConverter {
 	
 	public TaskLengthConverter(ValueModel subject) {

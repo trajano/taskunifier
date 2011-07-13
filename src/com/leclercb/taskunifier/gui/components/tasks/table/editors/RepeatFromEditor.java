@@ -39,9 +39,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class RepeatFromEditor extends ComboBoxCellEditor {
 	
 	public RepeatFromEditor() {

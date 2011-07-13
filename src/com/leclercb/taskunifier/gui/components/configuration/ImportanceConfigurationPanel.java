@@ -41,9 +41,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.components.configuration.fields.importance.ColorImportanceFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ImportanceConfigurationPanel() {

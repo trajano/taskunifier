@@ -39,9 +39,7 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
 	
 	public static final String PROP_REMAINING_SLEEP_TIME = "remainingSleepTime";

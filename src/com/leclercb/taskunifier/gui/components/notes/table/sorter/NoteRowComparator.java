@@ -37,9 +37,7 @@ import java.util.Comparator;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.commons.comparators.NoteComparator;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteRowComparator implements Comparator<Note> {
 	
 	private static NoteRowComparator INSTANCE;

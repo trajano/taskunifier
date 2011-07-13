@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface TaskSearcherProvider {
 	
 	public abstract TaskSearcher getTaskSearcher();

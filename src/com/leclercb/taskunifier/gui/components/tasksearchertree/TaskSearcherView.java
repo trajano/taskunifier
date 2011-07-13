@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.components.tasksearchertree;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
 	
 	public abstract void setTitleFilter(String title);

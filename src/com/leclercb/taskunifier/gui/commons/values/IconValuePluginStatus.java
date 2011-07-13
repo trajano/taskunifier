@@ -40,9 +40,7 @@ import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class IconValuePluginStatus implements IconValue {
 	
 	public static final IconValuePluginStatus INSTANCE = new IconValuePluginStatus();

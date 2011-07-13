@@ -42,9 +42,7 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.Synchronizati
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizeModelsProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public abstract class ProgressMessageListener implements ListChangeListener {
 	
 	public abstract void showMessage(ProgressMessage message, String content);

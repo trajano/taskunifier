@@ -51,9 +51,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F extends Filter<M, MP, F, FE>, FE extends FilterElement<M, MP, F>> implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported, Serializable {
 	
 	public static final String PROP_LINK = "link";

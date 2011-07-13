@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import javax.swing.ListModel;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public interface ModelListModel extends ListModel {
 
 }

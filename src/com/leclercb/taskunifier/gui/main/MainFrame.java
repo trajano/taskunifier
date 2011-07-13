@@ -86,9 +86,7 @@ import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
 	private static MainView INSTANCE;

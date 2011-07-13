@@ -40,9 +40,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueSimpleDateFormat;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class DateFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	public DateFormatFieldType() {

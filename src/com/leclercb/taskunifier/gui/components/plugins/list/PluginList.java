@@ -38,9 +38,7 @@ import org.jdesktop.swingx.JXList;
 
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PluginList extends JXList {
 	
 	public PluginList() {

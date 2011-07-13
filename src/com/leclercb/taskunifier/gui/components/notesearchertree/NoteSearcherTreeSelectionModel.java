@@ -37,9 +37,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTreeSelectionModel extends DefaultTreeSelectionModel {
 	
 	public NoteSearcherTreeSelectionModel() {

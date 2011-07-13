@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.components.models.lists;
 
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface IModelList {
 	
 	public abstract Model getSelectedModel();

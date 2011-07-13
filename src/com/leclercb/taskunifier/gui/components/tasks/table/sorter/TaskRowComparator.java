@@ -37,9 +37,7 @@ import java.util.Comparator;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskComparator;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskRowComparator implements Comparator<Task> {
 	
 	private static TaskRowComparator INSTANCE;

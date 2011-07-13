@@ -34,9 +34,7 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ShowWindowEditOnAddFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
 	public ShowWindowEditOnAddFieldType() {

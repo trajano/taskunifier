@@ -36,9 +36,7 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class LocationModel extends AbstractModelSortedModel {
 	
 	public LocationModel(boolean firstNull) {

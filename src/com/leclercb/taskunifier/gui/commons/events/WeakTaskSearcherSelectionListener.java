@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.commons.events;
 
 import java.lang.ref.WeakReference;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class WeakTaskSearcherSelectionListener implements TaskSearcherSelectionListener {
 	
 	private TaskSearcherSelectionChangeSupport support;

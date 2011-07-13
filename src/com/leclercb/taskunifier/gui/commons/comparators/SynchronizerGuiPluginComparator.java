@@ -36,9 +36,7 @@ import java.util.Comparator;
 
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SynchronizerGuiPluginComparator implements Comparator<SynchronizerGuiPlugin> {
 	
 	@Override

@@ -39,9 +39,7 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTableModel;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 	
 	private NoteFilter filter;

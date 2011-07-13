@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.components.notes;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface NoteView extends ModelSelectionChangeSupported, NoteSearcherSelectionListener {
 	
 	public abstract Note[] getSelectedNotes();

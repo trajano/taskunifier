@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.commons.events;
 import com.leclercb.commons.api.event.ListenerList;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ModelSelectionChangeSupport implements ModelSelectionChangeSupported {
 	
 	private ListenerList<ModelSelectionListener> listeners;

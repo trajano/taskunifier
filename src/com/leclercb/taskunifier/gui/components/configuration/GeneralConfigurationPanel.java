@@ -46,9 +46,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseD
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseStartTimeFieldType;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private boolean languageOnly;

@@ -45,9 +45,6 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private JSpinner timeSpinner;

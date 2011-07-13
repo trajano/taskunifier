@@ -51,9 +51,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.NumberCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public abstract class FilterElement<M extends Model, MP extends ModelProperties<M>, F extends Filter<M, MP, F, ? extends FilterElement<M, MP, F>>> implements PropertyChangeSupported {
 	
 	public static final String PROP_PROPERTY = "property";

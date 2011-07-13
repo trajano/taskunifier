@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.utils;
 
 import javax.swing.JTextField;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public final class ComponentUtils {
 	
 	private ComponentUtils() {

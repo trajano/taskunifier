@@ -37,11 +37,9 @@ import java.awt.Color;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.FolderBean;
 import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-@Reviewed
 public class GuiFolderBean extends FolderBean implements GuiModelBean {
 	
 	@XStreamAlias("color")

@@ -48,9 +48,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
 	private boolean showAfterRestart;

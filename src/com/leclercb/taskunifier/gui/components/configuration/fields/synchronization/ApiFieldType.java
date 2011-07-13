@@ -43,9 +43,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueSynchronizerGuiPlu
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ApiFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	public ApiFieldType() {

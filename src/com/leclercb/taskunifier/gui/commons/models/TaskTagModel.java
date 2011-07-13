@@ -38,9 +38,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskTagModel extends DefaultComboBoxModel implements ListChangeListener {
 	
 	public TaskTagModel(boolean firstNull) {

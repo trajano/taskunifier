@@ -61,9 +61,7 @@ import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.NoteSearch
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePropertiesListener {
 	
 	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;

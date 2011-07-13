@@ -42,9 +42,6 @@ import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class ProgressEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private JSpinner progressSpinner;

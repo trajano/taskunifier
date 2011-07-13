@@ -39,9 +39,6 @@ import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class NoteTitleHighlighter extends AbstractHighlighter {
 	
 	public NoteTitleHighlighter(HighlightPredicate predicate) {

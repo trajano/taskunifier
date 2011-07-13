@@ -64,9 +64,7 @@ import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherIt
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChangeListener, PropertyChangeListener {
 	
 	private TreeSelectionModel treeSelectionModel;

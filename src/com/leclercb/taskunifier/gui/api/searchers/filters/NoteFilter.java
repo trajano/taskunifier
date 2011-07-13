@@ -34,9 +34,7 @@ package com.leclercb.taskunifier.gui.api.searchers.filters;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteFilter extends Filter<Note, NoteColumn, NoteFilter, NoteFilterElement> implements Cloneable {
 	
 	public NoteFilter() {

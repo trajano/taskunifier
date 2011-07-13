@@ -36,9 +36,7 @@ import java.io.FileOutputStream;
 
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ExportTaskTemplatesDialog extends AbstractExportDialog {
 	
 	private static ExportTaskTemplatesDialog INSTANCE;

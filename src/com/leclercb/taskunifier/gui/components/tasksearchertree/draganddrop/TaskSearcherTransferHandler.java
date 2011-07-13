@@ -60,9 +60,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherTree
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherNode;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override

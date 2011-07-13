@@ -36,9 +36,7 @@ import java.io.FileOutputStream;
 
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ExportSettingsDialog extends AbstractExportDialog {
 	
 	private static ExportSettingsDialog INSTANCE;

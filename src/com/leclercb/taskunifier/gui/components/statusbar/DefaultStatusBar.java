@@ -39,9 +39,7 @@ import org.jdesktop.swingx.JXStatusBar.Constraint.ResizeBehavior;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	
 	private ScheduledSyncThread thread;

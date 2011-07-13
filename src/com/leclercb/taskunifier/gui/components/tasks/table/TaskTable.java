@@ -93,9 +93,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowCompara
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskTable extends JXTable implements TaskView {
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;

@@ -38,9 +38,7 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.ContextBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContextBean;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;

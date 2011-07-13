@@ -35,9 +35,6 @@ package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 import javax.swing.Icon;
 import javax.swing.tree.MutableTreeNode;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public interface SearcherNode extends NoteSearcherProvider, MutableTreeNode {
 	
 	public abstract Icon getIcon();

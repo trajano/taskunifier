@@ -39,9 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.import_data.ImportTaskTemplatesDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionImportTaskTemplates extends AbstractAction {
 	
 	public ActionImportTaskTemplates() {

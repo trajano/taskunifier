@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.api.plugins.exc;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PluginException extends Exception {
 	
 	public static enum PluginExceptionType {

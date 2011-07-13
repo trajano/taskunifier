@@ -36,9 +36,7 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ContextEditor extends ComboBoxCellEditor {
 	
 	public ContextEditor() {

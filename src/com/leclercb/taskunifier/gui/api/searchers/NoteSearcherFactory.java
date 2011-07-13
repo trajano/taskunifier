@@ -47,9 +47,7 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	private static NoteSearcherFactory FACTORY;

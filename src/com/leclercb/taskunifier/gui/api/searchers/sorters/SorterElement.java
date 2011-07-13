@@ -42,11 +42,9 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-@Reviewed
 public class SorterElement<M extends Model, MP extends ModelProperties<M>> implements Comparable<SorterElement<M, MP>>, PropertyChangeSupported {
 	
 	public static final String PROP_ORDER = "order";

@@ -38,9 +38,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class StringValueTaskTemplateTitle implements StringValue {
 	
 	public static final StringValueTaskTemplateTitle INSTANCE = new StringValueTaskTemplateTitle();

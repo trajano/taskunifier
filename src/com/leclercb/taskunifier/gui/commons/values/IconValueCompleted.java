@@ -37,9 +37,7 @@ import javax.swing.Icon;
 import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class IconValueCompleted implements IconValue {
 	
 	public static final IconValueCompleted INSTANCE = new IconValueCompleted();

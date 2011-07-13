@@ -44,9 +44,7 @@ import javax.swing.table.TableCellEditor;
 
 import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private JComboBox comboBox;

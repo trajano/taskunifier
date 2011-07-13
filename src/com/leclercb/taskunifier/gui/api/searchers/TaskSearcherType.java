@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.api.searchers;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public enum TaskSearcherType {
 	
 	DEFAULT(false, false, ""),

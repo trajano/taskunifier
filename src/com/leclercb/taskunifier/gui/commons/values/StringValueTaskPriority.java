@@ -36,9 +36,7 @@ import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class StringValueTaskPriority implements StringValue {
 	
 	public static final StringValueTaskPriority INSTANCE = new StringValueTaskPriority();

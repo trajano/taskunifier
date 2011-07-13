@@ -36,9 +36,7 @@ import javax.swing.SortOrder;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSorterElement extends SorterElement<Note, NoteColumn> implements Cloneable {
 	
 	public NoteSorterElement(int order, NoteColumn property, SortOrder sortOrder) {

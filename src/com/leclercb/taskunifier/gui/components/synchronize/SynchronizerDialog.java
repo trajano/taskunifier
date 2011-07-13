@@ -38,9 +38,7 @@ import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SynchronizerDialog extends WaitDialog {
 	
 	public SynchronizerDialog() {

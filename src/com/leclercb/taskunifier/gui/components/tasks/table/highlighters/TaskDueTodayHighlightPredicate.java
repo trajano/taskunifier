@@ -40,9 +40,7 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskDueTodayHighlightPredicate implements HighlightPredicate {
 	
 	@Override

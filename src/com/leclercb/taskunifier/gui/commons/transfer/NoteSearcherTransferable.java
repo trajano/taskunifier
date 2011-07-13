@@ -40,9 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTransferable implements Transferable {
 	
 	public static final DataFlavor NOTE_SEARCHER_FLAVOR = new DataFlavor(

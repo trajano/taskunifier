@@ -40,9 +40,7 @@ import com.explodingpixels.macwidgets.BottomBarSize;
 import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class MacStatusBar extends BottomBar implements StatusBar {
 	
 	private ScheduledSyncThread thread;

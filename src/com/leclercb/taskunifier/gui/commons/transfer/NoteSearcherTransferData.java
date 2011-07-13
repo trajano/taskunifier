@@ -36,9 +36,7 @@ import java.io.Serializable;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTransferData implements Serializable {
 	
 	private NoteSearcher searcher;

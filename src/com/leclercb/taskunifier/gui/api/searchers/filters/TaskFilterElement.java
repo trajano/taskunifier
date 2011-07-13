@@ -39,9 +39,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilter> implements Cloneable {
 	
 	public TaskFilterElement(

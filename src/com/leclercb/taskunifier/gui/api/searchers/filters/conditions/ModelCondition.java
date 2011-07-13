@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public enum ModelCondition implements Condition<Model, Model> {
 	
 	EQUALS,

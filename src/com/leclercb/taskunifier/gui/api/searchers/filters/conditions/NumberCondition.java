@@ -32,9 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public enum NumberCondition implements Condition<Number, Number> {
 	
 	GREATER_THAN,

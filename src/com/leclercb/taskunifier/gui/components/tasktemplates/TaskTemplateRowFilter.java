@@ -40,9 +40,7 @@ import javax.swing.RowFilter;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskTemplateRowFilter extends RowFilter<ListModel, Integer> implements PropertyChangeSupported {
 	
 	public static final String PROP_TITLE = "title";

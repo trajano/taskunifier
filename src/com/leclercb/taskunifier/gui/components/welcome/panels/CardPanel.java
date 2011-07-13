@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.components.welcome.panels;
 
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public abstract class CardPanel extends JPanel {
 	
 	public abstract void applyChanges();

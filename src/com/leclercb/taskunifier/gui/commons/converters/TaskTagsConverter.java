@@ -36,9 +36,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskTagsConverter extends AbstractConverter {
 	
 	public TaskTagsConverter(ValueModel subject) {

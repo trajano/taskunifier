@@ -42,9 +42,7 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionQuit extends AbstractAction {
 	
 	public ActionQuit() {

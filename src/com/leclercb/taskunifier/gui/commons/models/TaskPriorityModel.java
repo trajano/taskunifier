@@ -40,9 +40,7 @@ import javax.swing.DefaultComboBoxModel;
 import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyChangeListener {
 	
 	public TaskPriorityModel(boolean firstNull) {

@@ -36,9 +36,7 @@ import java.io.FileOutputStream;
 
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ExportTaskSearchersDialog extends AbstractExportDialog {
 	
 	private static ExportTaskSearchersDialog INSTANCE;

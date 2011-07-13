@@ -41,9 +41,7 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public enum NoteColumn implements ModelProperties<Note> {
 	
 	MODEL(Note.class, Translations.getString("general.id"), false),

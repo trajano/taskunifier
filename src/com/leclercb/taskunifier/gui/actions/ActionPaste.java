@@ -44,9 +44,7 @@ import javax.swing.TransferHandler;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionPaste extends AbstractAction {
 	
 	public ActionPaste() {

@@ -32,9 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.threads.reminder;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class ReminderThread extends Thread {
 	
 	public ReminderThread() {

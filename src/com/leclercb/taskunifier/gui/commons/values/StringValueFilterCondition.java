@@ -36,9 +36,7 @@ import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class StringValueFilterCondition implements StringValue {
 	
 	public static final StringValueFilterCondition INSTANCE = new StringValueFilterCondition();

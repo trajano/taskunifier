@@ -56,9 +56,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
 	
 	public static class Panel implements ConfigurationFieldType<JPanel, Void> {

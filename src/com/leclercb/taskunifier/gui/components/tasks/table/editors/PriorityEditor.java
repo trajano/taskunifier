@@ -40,9 +40,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PriorityEditor extends ComboBoxCellEditor {
 	
 	public PriorityEditor() {

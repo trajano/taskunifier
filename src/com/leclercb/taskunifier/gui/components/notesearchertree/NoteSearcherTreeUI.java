@@ -63,9 +63,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTreeUI extends BasicTreeUI {
 	
 	private Font categoryFont = UIManager.getFont("Label.font").deriveFont(

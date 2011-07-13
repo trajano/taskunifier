@@ -33,9 +33,7 @@
 package com.leclercb.taskunifier.gui.api.synchronizer.exc;
 
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SynchronizerLicenseException extends SynchronizerException {
 	
 	public SynchronizerLicenseException(String message) {

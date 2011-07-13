@@ -42,9 +42,7 @@ import java.util.ResourceBundle;
 
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public final class Translations {
 	
 	private Translations() {

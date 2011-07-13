@@ -46,9 +46,7 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.NoteUndoableEdit;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
 	public NoteTableModel() {

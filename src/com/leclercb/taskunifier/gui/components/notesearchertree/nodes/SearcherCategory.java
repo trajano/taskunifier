@@ -36,9 +36,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SearcherCategory extends DefaultMutableTreeNode {
 	
 	private String expandedPropetyName;

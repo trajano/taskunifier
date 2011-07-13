@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.text.SimpleDateFormat;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public final class DateTimeFormatUtils {
 	
 	private DateTimeFormatUtils() {

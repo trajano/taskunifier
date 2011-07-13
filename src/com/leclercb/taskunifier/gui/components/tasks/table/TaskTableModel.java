@@ -48,9 +48,7 @@ import com.leclercb.taskunifier.gui.commons.undoableedit.TaskUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
 	public TaskTableModel() {

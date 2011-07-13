@@ -41,9 +41,7 @@ import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionGetSerial extends AbstractAction {
 	
 	private String url;

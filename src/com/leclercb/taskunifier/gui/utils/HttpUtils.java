@@ -36,9 +36,7 @@ import java.net.URI;
 
 import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class HttpUtils {
 	
 	public static HttpResponse getHttpGetResponse(URI uri) throws Exception {

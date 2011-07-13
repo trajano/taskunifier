@@ -43,9 +43,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.priority.Col
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PriorityConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public PriorityConfigurationPanel() {

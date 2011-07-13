@@ -34,10 +34,8 @@ package com.leclercb.taskunifier.gui.api.models.beans;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@Reviewed
 public class GuiTaskBean extends TaskBean {
 	
 	@XStreamAlias("showchildren")

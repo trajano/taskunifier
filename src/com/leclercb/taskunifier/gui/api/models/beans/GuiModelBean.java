@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.api.models.beans;
 import java.awt.Color;
 
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public interface GuiModelBean extends ModelBean {
 	
 	public abstract Color getColor();

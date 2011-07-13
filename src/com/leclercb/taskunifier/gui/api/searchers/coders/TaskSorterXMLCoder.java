@@ -44,9 +44,7 @@ import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 	
 	public TaskSorterXMLCoder() {

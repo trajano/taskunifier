@@ -45,9 +45,7 @@ import javax.swing.WindowConstants;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class LanguageDialog extends JDialog {
 	
 	private GeneralConfigurationPanel generalConfiruationPanel;

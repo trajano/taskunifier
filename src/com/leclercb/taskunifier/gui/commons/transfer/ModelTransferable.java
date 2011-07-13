@@ -39,9 +39,7 @@ import java.io.IOException;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
 import com.leclercb.commons.api.utils.ArrayUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ModelTransferable extends BasicTransferable {
 	
 	public static final DataFlavor MODEL_FLAVOR = new DataFlavor(

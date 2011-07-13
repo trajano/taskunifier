@@ -37,9 +37,7 @@ import java.io.FileInputStream;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ImportTaskSearchersDialog extends AbstractImportDialog {
 	
 	private static ImportTaskSearchersDialog INSTANCE;

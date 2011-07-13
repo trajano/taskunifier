@@ -39,9 +39,7 @@ import javax.swing.JList;
 
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PluginListRenderer extends DefaultListCellRenderer {
 	
 	@Override

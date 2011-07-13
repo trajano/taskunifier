@@ -39,9 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.export_data.ExportTaskSearchersDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ActionExportTaskSearchers extends AbstractAction {
 	
 	public ActionExportTaskSearchers() {

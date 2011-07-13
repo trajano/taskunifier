@@ -37,9 +37,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultTaskSorterFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public SearcherConfigurationPanel() {

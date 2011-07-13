@@ -50,9 +50,7 @@ import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherTree;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherTransferHandler extends TransferHandler {
 	
 	@Override

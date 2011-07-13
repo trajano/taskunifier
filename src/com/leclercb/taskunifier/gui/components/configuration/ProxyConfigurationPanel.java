@@ -48,9 +48,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyP
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.UseSystemProxiesFieldType;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ProxyConfigurationPanel() {

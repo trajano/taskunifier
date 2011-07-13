@@ -37,9 +37,7 @@ import javax.swing.SpinnerNumberModel;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SchedulerSleepTimeFieldType extends ConfigurationFieldTypeExt.Spinner {
 	
 	public SchedulerSleepTimeFieldType() {

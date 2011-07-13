@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 import java.util.Calendar;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public enum CalendarCondition implements Condition<Calendar, Calendar> {
 	
 	AFTER,

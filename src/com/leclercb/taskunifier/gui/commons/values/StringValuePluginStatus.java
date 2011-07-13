@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.commons.values;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class StringValuePluginStatus implements StringValue {
 	
 	public static final StringValuePluginStatus INSTANCE = new StringValuePluginStatus();

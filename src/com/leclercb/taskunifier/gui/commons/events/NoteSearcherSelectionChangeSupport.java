@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.commons.events;
 import com.leclercb.commons.api.event.ListenerList;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class NoteSearcherSelectionChangeSupport implements NoteSearcherSelectionChangeSupported {
 	
 	private ListenerList<NoteSearcherSelectionListener> listeners;

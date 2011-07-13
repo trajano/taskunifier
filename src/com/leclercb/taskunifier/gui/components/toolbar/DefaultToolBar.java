@@ -57,9 +57,7 @@ import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class DefaultToolBar extends JToolBar {
 	
 	public DefaultToolBar(MainView mainView, TaskView taskView) {

@@ -39,9 +39,7 @@ import javax.swing.JTextArea;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class HTMLInsertContentAction extends AbstractAction {
 	
 	private JTextArea textArea;

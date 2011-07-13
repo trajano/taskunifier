@@ -35,9 +35,7 @@ package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 import java.util.Calendar;
 
 import com.leclercb.commons.api.utils.DateUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public enum DaysCondition implements Condition<Integer, Calendar> {
 	
 	GREATER_THAN,

@@ -36,9 +36,6 @@ import java.util.Locale;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public class StringValueLocale implements StringValue {
 	
 	public static final StringValueLocale INSTANCE = new StringValueLocale();

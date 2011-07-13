@@ -40,9 +40,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueLocale;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
 	
 	private boolean languageOnly;

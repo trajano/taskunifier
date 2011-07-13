@@ -44,9 +44,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	private BadgeCount badgeCount;

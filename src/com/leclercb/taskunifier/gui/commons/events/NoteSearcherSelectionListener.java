@@ -32,9 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.commons.events;
 
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
-
-@Reviewed
 public interface NoteSearcherSelectionListener {
 	
 	public abstract void noteSearcherSelectionChange(

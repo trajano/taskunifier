@@ -41,9 +41,7 @@ import javax.swing.JOptionPane;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	private static ImportSettingsDialog INSTANCE;

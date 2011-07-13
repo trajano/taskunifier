@@ -39,9 +39,7 @@ import org.jdesktop.swingx.renderer.IconValue;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class IconValueModel implements IconValue {
 	
 	public static final IconValueModel INSTANCE = new IconValueModel();

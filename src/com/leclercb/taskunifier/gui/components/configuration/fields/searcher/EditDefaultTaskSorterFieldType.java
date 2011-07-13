@@ -41,9 +41,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class EditDefaultTaskSorterFieldType extends ConfigurationFieldTypeExt.Panel {
 	
 	private TaskSorter sorter;

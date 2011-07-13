@@ -57,9 +57,7 @@ import com.leclercb.taskunifier.gui.swing.JFileField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 abstract class AbstractImportDialog extends JDialog {
 	
 	private JFileField fileField;

@@ -39,9 +39,7 @@ import javax.swing.AbstractListModel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
-import com.leclercb.taskunifier.gui.utils.review.Reviewed;
 
-@Reviewed
 public class PluginListModel extends AbstractListModel implements PropertyChangeListener {
 	
 	private Plugin[] plugins;
