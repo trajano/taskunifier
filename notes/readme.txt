@@ -2,8 +2,10 @@ HISTORY
 -------
 
 Version 1.0.0
-	- Searcher list specific to notes
-	- New day conditions (using time)
+	- Major:
+		- Searcher list specific to notes
+		- New day conditions (using time)
+		- FR 3200750: Batch edit tasks
 
 Version 0.9.9b
 	- Major:

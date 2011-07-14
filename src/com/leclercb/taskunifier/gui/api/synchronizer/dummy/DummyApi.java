@@ -65,6 +65,7 @@ public class DummyApi extends SynchronizerApi {
 	@Override
 	public String[] getDefaultRepeatValues() {
 		return new String[] {
+				" ",
 				"Daily",
 				"Weekly",
 				"Biweekly",
