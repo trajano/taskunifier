@@ -316,7 +316,7 @@ public class TaskEditPanel extends JPanel {
 		
 		JPanel notePanel = new JPanel(new BorderLayout());
 		notePanel.add(
-				new JLabel(Translations.getString("general.task.note")),
+				new JLabel(Translations.getString("general.task.note") + ":"),
 				BorderLayout.NORTH);
 		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
