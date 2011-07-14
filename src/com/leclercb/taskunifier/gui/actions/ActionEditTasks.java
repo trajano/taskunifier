@@ -40,57 +40,48 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
 import com.leclercb.taskunifier.gui.components.taskedit.TaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionEditTask extends AbstractAction {
+public class ActionEditTasks extends AbstractAction {
 	
-	public ActionEditTask(TaskView taskView) {
+	public ActionEditTasks(TaskView taskView) {
 		this(taskView, 32, 32);
 	}
 	
-	public ActionEditTask(TaskView taskView, int width, int height) {
+	public ActionEditTasks(TaskView taskView, int width, int height) {
 		super(
-				Translations.getString("action.edit_task"),
+				Translations.getString("action.edit_tasks"),
 				Images.getResourceImage("edit.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.edit_task"));
+				Translations.getString("action.edit_tasks"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		taskView.addModelSelectionChangeListener(new ModelSelectionListener() {
-			
-			@Override
-			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				ActionEditTask.this.setEnabled(event.getSelectedModels().length == 1);
-			}
-			
-		});
-		
-		this.setEnabled(taskView.getSelectedTasks().length == 1);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionEditTask.editTask();
+		ActionEditTasks.editTasks();
 	}
 	
-	public static void editTask() {
+	public static void editTasks() {
 		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 		
-		if (tasks.length != 1)
-			return;
-		
-		editTask(tasks[0], false);
+		if (tasks.length == 1) {
+			editTask(tasks[0], false);
+		} else {
+			BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
+			dialog.setTasks(tasks);
+			dialog.setVisible(true);
+		}
 	}
 	
 	public static boolean editTask(Task task, boolean showCancelButton) {

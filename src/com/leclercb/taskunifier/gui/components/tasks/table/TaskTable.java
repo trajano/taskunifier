@@ -333,7 +333,17 @@ public class TaskTable extends JXTable implements TaskView {
 					
 					TaskTable.this.commitChanges();
 					
-					TaskTable.this.setSelectedTasks(new Task[] { task });
+					boolean found = false;
+					Task[] selectedTasks = TaskTable.this.getSelectedTasks();
+					for (Task selectedTask : selectedTasks) {
+						if (selectedTask.equals(task)) {
+							found = true;
+							break;
+						}
+					}
+					
+					if (!found)
+						TaskTable.this.setSelectedTasks(new Task[] { task });
 					
 					TaskTable.this.taskTableMenu.show(
 							event.getComponent(),

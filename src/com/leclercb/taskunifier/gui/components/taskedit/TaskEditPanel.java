@@ -315,9 +315,8 @@ public class TaskEditPanel extends JPanel {
 		this.taskNote.setWrapStyleWord(true);
 		
 		JPanel notePanel = new JPanel(new BorderLayout());
-		notePanel.add(
-				new JLabel(Translations.getString("general.task.note") + ":"),
-				BorderLayout.NORTH);
+		notePanel.add(new JLabel(Translations.getString("general.task.note")
+				+ ":"), BorderLayout.NORTH);
 		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
 		
 		// Lay out the panel
