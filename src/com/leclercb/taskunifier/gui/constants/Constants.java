@@ -52,8 +52,10 @@ import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -115,7 +117,18 @@ public final class Constants {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				// NOTE
 				DEFAULT_NOTE_SORTER = new NoteSorter();
+				
+				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
+						1,
+						NoteColumn.FOLDER,
+						SortOrder.ASCENDING));
+				
+				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
+						2,
+						NoteColumn.TITLE,
+						SortOrder.ASCENDING));
 				
 				DEFAULT_NOTE_SEARCHER = new NoteSearcher(
 						NoteSearcherType.DEFAULT,
@@ -125,6 +138,7 @@ public final class Constants {
 						new NoteFilter(),
 						DEFAULT_NOTE_SORTER.clone());
 				
+				// TASK
 				DEFAULT_TASK_SORTER = new TaskSorter();
 				
 				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(

@@ -304,7 +304,17 @@ public class NoteTable extends JXTable implements NoteView {
 					
 					NoteTable.this.commitChanges();
 					
-					NoteTable.this.setSelectedNotes(new Note[] { note });
+					boolean found = false;
+					Note[] selectedNotes = NoteTable.this.getSelectedNotes();
+					for (Note selectedNote : selectedNotes) {
+						if (selectedNote.equals(note)) {
+							found = true;
+							break;
+						}
+					}
+					
+					if (!found)
+						NoteTable.this.setSelectedNotes(new Note[] { note });
 					
 					NoteTable.this.noteTableMenu.show(
 							event.getComponent(),

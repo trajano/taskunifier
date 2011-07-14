@@ -200,6 +200,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			this.initializeSystemTray();
 			
+			this.noteSearcherPanel.refreshNoteSearcher();
 			this.taskSearcherPanel.refreshTaskSearcher();
 		}
 	}

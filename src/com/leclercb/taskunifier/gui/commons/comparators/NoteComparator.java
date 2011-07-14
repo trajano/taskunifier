@@ -69,7 +69,10 @@ public class NoteComparator implements Comparator<Note> {
 		List<NoteSorterElement> sortElements = this.sorter.getElements();
 		
 		for (NoteSorterElement element : sortElements) {
-			int result = this.compare(element.getProperty(), note1, note2);
+			Object o1 = element.getProperty().getProperty(note1);
+			Object o2 = element.getProperty().getProperty(note2);
+			
+			int result = this.compare(element.getProperty(), o1, o2);
 			
 			result *= (element.getSortOrder().equals(SortOrder.ASCENDING) ? 1 : -1);
 			
