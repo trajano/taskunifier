@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class SettingsVersion {
 	
@@ -533,6 +534,8 @@ public final class SettingsVersion {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		SynchronizerUtils.resetSynchronizer();
 		
 		return "1.0.0";
 	}
