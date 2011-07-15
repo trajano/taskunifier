@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.0.1
+	- Major:
+		- Bug fixed: Import 0.9.9b settings
+
 Version 1.0.0
 	- Major:
 		- Searcher list specific to notes
