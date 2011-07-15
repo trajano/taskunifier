@@ -199,17 +199,19 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					public void propertyChange(PropertyChangeEvent evt) {
 						SynchronizationConfigurationPanel.this.disableFields();
 						
+						String apiName = SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName();
+						
+						JButton managePluginsButton = (JButton) SynchronizationConfigurationPanel.this.getField(
+								"MANAGE_PLUGINS").getType().getFieldComponent();
+						
+						managePluginsButton.setText(apiName);
+						
 						if (!SynchronizationConfigurationPanel.this.welcome) {
-							JButton managePluginsButton = (JButton) SynchronizationConfigurationPanel.this.getField(
-									"MANAGE_PLUGINS").getType().getFieldComponent();
 							JLabel synchronizeAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
+							
 							JLabel resetAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"RESET_ALL_LABEL").getType().getFieldComponent();
-							
-							String apiName = SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName();
-							
-							managePluginsButton.setText(apiName);
 							
 							synchronizeAllLabel.setText(Translations.getString(
 									"configuration.synchronization.synchronize_all",
