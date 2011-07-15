@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.UIManager;
 
@@ -521,8 +520,8 @@ public final class SettingsVersion {
 					+ "templates.xml"), new File(Main.DATA_FOLDER
 					+ File.separator
 					+ "task_templates.xml"));
-		} catch (IOException exc) {
-			exc.printStackTrace();
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 		
 		try {
@@ -531,11 +530,22 @@ public final class SettingsVersion {
 					+ "searchers.xml"), new File(Main.DATA_FOLDER
 					+ File.separator
 					+ "task_searchers.xml"));
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 		
-		SynchronizerUtils.resetSynchronizer();
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SynchronizerUtils.resetSynchronizer();
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
+			}
+			
+		});
 		
 		return "1.0.0";
 	}
