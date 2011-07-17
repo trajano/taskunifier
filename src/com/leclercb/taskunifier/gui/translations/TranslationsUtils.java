@@ -286,6 +286,8 @@ public final class TranslationsUtils {
 			switch ((StringCondition) condition) {
 				case CONTAINS:
 					return Translations.getString("task_filter_condition.contains");
+				case DOES_NOT_CONTAIN:
+					return Translations.getString("task_filter_condition.does_not_contain");
 				case EQUALS:
 					return Translations.getString("task_filter_condition.equals");
 				case ENDS_WITH:

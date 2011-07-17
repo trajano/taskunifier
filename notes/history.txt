@@ -1,3 +1,7 @@
+Version 1.0.2
+	- Minor:
+		- FR 3368049: Does not contain condition
+
 Version 1.0.1
 	- Major:
 		- Bug fixed: Import 0.9.9b settings

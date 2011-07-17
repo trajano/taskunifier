@@ -187,7 +187,8 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	
 	@Override
 	public void refreshNoteSearcher() {
-
+		this.updateBadges();
+		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
 	}
 	
 	public void updateBadges() {

@@ -36,59 +36,89 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionEditTaskSearcher extends AbstractAction {
-	
-	public ActionEditTaskSearcher() {
-		this(32, 32);
+
+	private TaskSearcherView taskSearcherView;
+
+	public ActionEditTaskSearcher(TaskSearcherView taskSearcherView) {
+		this(taskSearcherView, 32, 32);
 	}
-	
-	public ActionEditTaskSearcher(int width, int height) {
+
+	public ActionEditTaskSearcher(TaskSearcherView taskSearcherView, int width, int height) {
 		super(
 				Translations.getString("action.edit_task_searcher"),
 				Images.getResourceImage("search.png", width, height));
-		
+
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.edit_task_searcher"));
+
+		CheckUtils.isNotNull(taskSearcherView, "Task searcher view cannot be null");
+
+		this.taskSearcherView = taskSearcherView;
+
+		this.taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
+
+			@Override
+			public void taskSearcherSelectionChange(
+					TaskSearcherSelectionChangeEvent event) {
+				TaskSearcher searcher = event.getSelectedTaskSearcher();
+				ActionEditTaskSearcher.this.setEnabled(searcher);
+			}
+
+		});
+
+		this.setEnabled(this.taskSearcherView.getSelectedTaskSearcher());
 	}
-	
+
+	private void setEnabled(TaskSearcher searcher) {
+		boolean enabled = false;
+
+		if (searcher != null) {
+			boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
+					searcher);
+
+			if (foundInFactory && searcher.getType().isEditable())
+				enabled = true;
+		}
+
+		this.setEnabled(enabled);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditTaskSearcher.editTaskSearcher(MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher());
+		ActionEditTaskSearcher.editTaskSearcher();
 	}
-	
-	public static void editTaskSearcher(TaskSearcher searcher) {
-		if (searcher == null) {
-			ErrorInfo info = new ErrorInfo(
-					Translations.getString("general.error"),
-					Translations.getString("error.select_task_searcher"),
-					null,
-					null,
-					null,
-					null,
-					null);
-			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
-			
+
+	public static void editTaskSearcher() {
+		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher();
+
+		if (searcher == null)
 			return;
-		}
-		
-		SearcherEditDialog dialog = new SearcherEditDialog(
-				MainFrame.getInstance().getFrame(),
+
+		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
 				searcher);
-		
-		dialog.setVisible(true);
-		
-		MainFrame.getInstance().getSearcherView().refreshTaskSearcher();
+
+		if (foundInFactory && searcher.getType().isEditable()) {
+			SearcherEditDialog dialog = new SearcherEditDialog(
+					MainFrame.getInstance().getFrame(),
+					searcher);
+
+			dialog.setVisible(true);
+
+			MainFrame.getInstance().getTaskSearcherView().refreshTaskSearcher();
+		}
 	}
-	
+
 }

@@ -32,78 +32,67 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.List;
-
 import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
+import javax.swing.SortOrder;
 
-import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddNote extends AbstractAction {
+public class ActionAddTaskSearcher extends AbstractAction {
 	
-	public ActionAddNote() {
+	public ActionAddTaskSearcher() {
 		this(32, 32);
 	}
 	
-	public ActionAddNote(int width, int height) {
+	public ActionAddTaskSearcher(int width, int height) {
 		super(
-				Translations.getString("action.add_note"),
-				Images.getResourceImage("note.png", width, height));
+				Translations.getString("action.add_task_searcher"),
+				Images.getResourceImage("add.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.add_note"));
-		
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_N,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+				Translations.getString("action.add_task_searcher"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddNote.addNote(null);
+		ActionAddTaskSearcher.addTaskSearcher();
 	}
 	
-	public static Note addNote(String title) {
-		MainFrame.getInstance().setSelectedView(View.NOTES);
+	public static void addTaskSearcher() {
+		TaskSorter sorter = new TaskSorter();
+		sorter.addElement(new TaskSorterElement(
+				1,
+				TaskColumn.COMPLETED,
+				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(
+				2,
+				TaskColumn.DUE_DATE,
+				SortOrder.ASCENDING));
+		sorter.addElement(new TaskSorterElement(
+				3,
+				TaskColumn.PRIORITY,
+				SortOrder.DESCENDING));
+		sorter.addElement(new TaskSorterElement(
+				4,
+				TaskColumn.TITLE,
+				SortOrder.ASCENDING));
 		
-		Folder folder = null;
-		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher();
-		if (searcher != null && searcher.getType() == TaskSearcherType.FOLDER) {
-			List<TaskFilterElement> elements = searcher.getFilter().getElements();
-			for (TaskFilterElement e : elements) {
-				if (e.getProperty() == TaskColumn.FOLDER) {
-					folder = (Folder) e.getValue();
-					break;
-				}
-			}
-		}
+		TaskSearcherFactory.getInstance().create(
+				TaskSearcherType.PERSONAL,
+				Integer.MAX_VALUE,
+				Translations.getString("searcher.default.title"),
+				new TaskFilter(),
+				sorter);
 		
-		Note note = NoteFactory.getInstance().create("");
-		
-		if (title != null)
-			note.setTitle(title);
-		
-		if (folder != null)
-			note.setFolder(folder);
-		
-		MainFrame.getInstance().getNoteView().refreshNotes();
-		MainFrame.getInstance().getNoteView().setSelectedNoteAndStartEdit(note);
-		
-		return note;
+		ActionEditTaskSearcher.editTaskSearcher();
 	}
 	
 }

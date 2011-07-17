@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 public enum StringCondition implements Condition<String, Object> {
 	
 	CONTAINS,
+	DOES_NOT_CONTAIN,
 	ENDS_WITH,
 	EQUALS,
 	NOT_EQUALS,
@@ -62,6 +63,8 @@ public enum StringCondition implements Condition<String, Object> {
 		switch (this) {
 			case CONTAINS:
 				return taskString.contains(string);
+			case DOES_NOT_CONTAIN:
+				return !(taskString.contains(string));
 			case ENDS_WITH:
 				return taskString.endsWith(string);
 			case EQUALS:

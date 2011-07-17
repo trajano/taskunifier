@@ -54,8 +54,6 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
@@ -64,20 +62,15 @@ import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class NoteSearcherPanel extends JPanel implements SavePropertiesListener, NoteSearcherView, PropertyChangeSupported, NoteSearcherSelectionListener {
+public class NoteSearcherPanel extends JPanel implements SavePropertiesListener, NoteSearcherView, PropertyChangeSupported {
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
-	
-	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;
 	
 	private NoteSearcherTree searcherView;
 	
 	private String titleFilter;
 	
 	public NoteSearcherPanel() {
-		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
-				this);
-		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		this.initialize();
@@ -146,7 +139,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	@Override
 	public void refreshNoteSearcher() {
-		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
+		this.searcherView.refreshNoteSearcher();
 	}
 	
 	private void initialize() {
@@ -157,8 +150,6 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 		this.add(
 				ComponentFactory.createJScrollPane(this.searcherView, false),
 				BorderLayout.CENTER);
-		
-		this.searcherView.addNoteSearcherSelectionChangeListener(this);
 		
 		this.searcherView.addMouseListener(new MouseAdapter() {
 			
@@ -195,26 +186,13 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	@Override
 	public void addNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.noteSearcherSelectionChangeSupport.addNoteSearcherSelectionChangeListener(listener);
+		this.searcherView.addNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	@Override
 	public void removeNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.noteSearcherSelectionChangeSupport.removeNoteSearcherSelectionChangeListener(listener);
-	}
-	
-	@Override
-	public void noteSearcherSelectionChange(
-			NoteSearcherSelectionChangeEvent event) {
-		NoteSearcher searcher = event.getSelectedNoteSearcher();
-		
-		if (searcher == null)
-			return;
-		
-		this.setTitleFilter(null);
-		
-		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
+		this.searcherView.removeNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	private void initializeSelectedSearcher() {

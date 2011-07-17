@@ -122,7 +122,7 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 						TagConfigurationPanel.this.tagList.getSelectedTag().toString(),
 						tagTitle.getText());
 				
-				MainFrame.getInstance().getSearcherView().selectTag(
+				MainFrame.getInstance().getTaskSearcherView().selectTag(
 						tagTitle.getText());
 			}
 			

@@ -71,7 +71,7 @@ public class ActionConfiguration extends AbstractAction {
 		ConfigurationDialog.getInstance().setSelectedConfigurationPanel(panel);
 		ConfigurationDialog.getInstance().setVisible(true);
 		
-		MainFrame.getInstance().getSearcherView().refreshTaskSearcher();
+		MainFrame.getInstance().getTaskSearcherView().refreshTaskSearcher();
 	}
 	
 }

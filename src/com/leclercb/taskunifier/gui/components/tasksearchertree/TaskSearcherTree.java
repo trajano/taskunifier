@@ -211,7 +211,8 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	
 	@Override
 	public void refreshTaskSearcher() {
-
+		this.updateBadges();
+		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
 	public void updateBadges() {

@@ -79,10 +79,10 @@ public class ActionAddTask extends AbstractAction {
 	public static Task addTask(TaskTemplate template, String title) {
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
-		TaskTemplate searcherTemplate = MainFrame.getInstance().getSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
-			MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+			MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create("");
 		

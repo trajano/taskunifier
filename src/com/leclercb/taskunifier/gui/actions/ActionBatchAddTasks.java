@@ -80,7 +80,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 	}
 	
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
-		MainFrame.getInstance().getSearcherView().selectDefaultTaskSearcher();
+		MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
 		
 		Synchronizing.setSynchronizing(true);
 		
