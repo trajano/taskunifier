@@ -4,6 +4,7 @@ HISTORY
 Version 1.0.2
 	- Minor:
 		- FR 3368049: Does not contain condition
+		- Tip of the day
 
 Version 1.0.1
 	- Major:
