@@ -197,6 +197,11 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		return ((TaskSearcherProvider) node).getTaskSearcher();
 	}
 	
+	@Override
+	public TaskSearcher getSelectedOriginalTaskSearcher() {
+		return this.getSelectedTaskSearcher();
+	}
+	
 	public String getSelectedTag() {
 		if (this.getSelectionPath() == null)
 			return null;

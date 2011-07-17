@@ -138,6 +138,11 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	@Override
+	public NoteSearcher getSelectedOriginalNoteSearcher() {
+		return this.searcherView.getSelectedOriginalNoteSearcher();
+	}
+	
+	@Override
 	public void refreshNoteSearcher() {
 		this.searcherView.refreshNoteSearcher();
 	}

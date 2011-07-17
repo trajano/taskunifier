@@ -166,6 +166,11 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 
 		return searcher;
 	}
+	
+	@Override
+	public TaskSearcher getSelectedOriginalTaskSearcher() {
+		return this.searcherView.getSelectedOriginalTaskSearcher();
+	}
 
 	@Override
 	public void refreshTaskSearcher() {
@@ -211,6 +216,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 
 	private void initializeButtons() {
 		JPanel panel = ComponentFactory.createButtonsPanel(
+				true,
 				new JButton(new ActionAddTaskSearcher(16, 16)),
 				new JButton(new ActionEditTaskSearcher(this, 16, 16)),
 				new JButton(new ActionDeleteTaskSearcher(this, 16, 16)));

@@ -61,66 +61,74 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class ComponentFactory {
-	
+
 	private ComponentFactory() {
 
 	}
-	
+
 	public static JPanel createButtonsPanel(JButton... buttons) {
+		return createButtonsPanel(false, buttons);
+	}
+
+	public static JPanel createButtonsPanel(boolean removeText, JButton... buttons) {
 		CheckUtils.isNotNull(buttons, "Buttons cannot be null");
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
+
 		for (JButton button : buttons) {
-			if (button != null)
+			if (button != null) {
+				if (removeText)
+					button.setText("");
+				
 				panel.add(button);
+			}
 		}
-		
+
 		return panel;
 	}
-	
+
 	public static JButton createButtonOk(ActionListener listener) {
 		JButton button = new JButton(Translations.getString("general.ok"));
 		button.setActionCommand("OK");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static JButton createButtonCancel(ActionListener listener) {
 		JButton button = new JButton(Translations.getString("general.cancel"));
 		button.setActionCommand("CANCEL");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static JButton createButtonApply(ActionListener listener) {
 		JButton button = new JButton(Translations.getString("general.apply"));
 		button.setActionCommand("APPLY");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static JButton createButtonClose(ActionListener listener) {
 		JButton button = new JButton(Translations.getString("general.close"));
 		button.setActionCommand("CLOSE");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static JButton createButtonAdd(ActionListener listener) {
 		JButton button = new JButton(Images.getResourceImage("add.png", 16, 16));
 		button.setActionCommand("ADD");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static JButton createButtonRemove(ActionListener listener) {
 		JButton button = new JButton(Images.getResourceImage(
 				"remove.png",
@@ -128,34 +136,34 @@ public final class ComponentFactory {
 				16));
 		button.setActionCommand("REMOVE");
 		button.addActionListener(listener);
-		
+
 		return button;
 	}
-	
+
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {
 		CheckUtils.isNotNull(repeatComboBox, "Repeat combobox cannot be null");
-		
+
 		repeatComboBox.setEditable(true);
-		
+
 		final JTextField repeatTextField = (JTextField) repeatComboBox.getEditor().getEditorComponent();
 		repeatTextField.getDocument().addDocumentListener(
 				new DocumentListener() {
-					
+
 					@Override
 					public void removeUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					@Override
 					public void insertUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					@Override
 					public void changedUpdate(DocumentEvent arg0) {
 						this.update();
 					}
-					
+
 					private void update() {
 						if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
 								repeatTextField.getText()))
@@ -163,39 +171,39 @@ public final class ComponentFactory {
 						else
 							repeatTextField.setForeground(Color.RED);
 					}
-					
+
 				});
 	}
-	
+
 	public static JXComboBox createModelComboBox(ComboBoxModel model) {
 		JXComboBox comboBox = new JXComboBox();
-		
+
 		if (model != null)
 			comboBox.setModel(model);
-		
+
 		comboBox.setRenderer(new DefaultListRenderer(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
-		
+
 		return comboBox;
 	}
-	
+
 	public static JScrollPane createJScrollPane(
 			JComponent component,
 			boolean border) {
 		JScrollPane scrollPane = new JScrollPane(component);
-		
+
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
 			IAppWidgetFactory.makeIAppScrollPane(scrollPane);
-		
+
 		if (border)
 			scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		else
 			scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		return scrollPane;
 	}
-	
+
 	public static JSplitPane createThinJSplitPane(int orientation) {
 		JSplitPane splitPane = new JSplitPane(orientation);
 		splitPane.setContinuousLayout(true);
@@ -205,5 +213,5 @@ public final class ComponentFactory {
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		return splitPane;
 	}
-	
+
 }

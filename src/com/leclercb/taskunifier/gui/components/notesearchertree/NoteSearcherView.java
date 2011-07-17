@@ -48,6 +48,8 @@ public interface NoteSearcherView extends NoteSearcherSelectionChangeSupported {
 	
 	public abstract NoteSearcher getSelectedNoteSearcher();
 	
+	public abstract NoteSearcher getSelectedOriginalNoteSearcher();
+	
 	public abstract void refreshNoteSearcher();
 	
 }

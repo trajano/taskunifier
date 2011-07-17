@@ -50,6 +50,8 @@ public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
 	
 	public abstract TaskSearcher getSelectedTaskSearcher();
 	
+	public abstract TaskSearcher getSelectedOriginalTaskSearcher();
+	
 	public abstract void refreshTaskSearcher();
 	
 }

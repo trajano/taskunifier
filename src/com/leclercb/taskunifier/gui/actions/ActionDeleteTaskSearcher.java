@@ -73,16 +73,17 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
-				TaskSearcher searcher = event.getSelectedTaskSearcher();
-				ActionDeleteTaskSearcher.this.setEnabled(searcher);
+				ActionDeleteTaskSearcher.this.setEnabled();
 			}
 			
 		});
 		
-		this.setEnabled(this.taskSearcherView.getSelectedTaskSearcher());
+		this.setEnabled();
 	}
 	
-	private void setEnabled(TaskSearcher searcher) {
+	private void setEnabled() {
+		TaskSearcher searcher = this.taskSearcherView.getSelectedOriginalTaskSearcher();
+		
 		boolean enabled = false;
 		
 		if (searcher != null) {
@@ -102,7 +103,7 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 	}
 
 	public static void deleteTaskSearcher() {
-		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher();
+		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
 
 		if (searcher == null)
 			return;

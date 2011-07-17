@@ -58,7 +58,7 @@ public class ActionEditTaskSearcher extends AbstractAction {
 	public ActionEditTaskSearcher(TaskSearcherView taskSearcherView, int width, int height) {
 		super(
 				Translations.getString("action.edit_task_searcher"),
-				Images.getResourceImage("search.png", width, height));
+				Images.getResourceImage("edit.png", width, height));
 
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -73,16 +73,17 @@ public class ActionEditTaskSearcher extends AbstractAction {
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
-				TaskSearcher searcher = event.getSelectedTaskSearcher();
-				ActionEditTaskSearcher.this.setEnabled(searcher);
+				ActionEditTaskSearcher.this.setEnabled();
 			}
 
 		});
 
-		this.setEnabled(this.taskSearcherView.getSelectedTaskSearcher());
+		this.setEnabled();
 	}
 
-	private void setEnabled(TaskSearcher searcher) {
+	private void setEnabled() {
+		TaskSearcher searcher = this.taskSearcherView.getSelectedOriginalTaskSearcher();
+		
 		boolean enabled = false;
 
 		if (searcher != null) {
@@ -102,7 +103,7 @@ public class ActionEditTaskSearcher extends AbstractAction {
 	}
 
 	public static void editTaskSearcher() {
-		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher();
+		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
 
 		if (searcher == null)
 			return;
