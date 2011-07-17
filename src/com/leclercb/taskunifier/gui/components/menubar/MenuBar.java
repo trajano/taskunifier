@@ -91,6 +91,7 @@ import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
+import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
@@ -302,6 +303,7 @@ public class MenuBar extends JMenuBar {
 		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
+		helpMenu.add(new ActionShowTips(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionLogBug());

@@ -567,6 +567,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.1 to 1.0.2");
 		
+		Main.SETTINGS.setStringProperty("tips.show_on_startup", "true");
+		
 		return "1.0.2";
 	}
 	

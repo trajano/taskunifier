@@ -96,6 +96,7 @@ import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLC
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -234,6 +235,8 @@ public class Main {
 				
 				if (finalOutdatedPlugins)
 					ActionManagePlugins.managePlugins();
+				
+				TipsDialog.getInstance().showTipsDialog(true);
 				
 				Boolean syncStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
 				if (syncStart != null && syncStart)

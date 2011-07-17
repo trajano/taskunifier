@@ -37,15 +37,13 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-
+import java.util.Properties;
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class Translations {
+public final class Tips {
 	
-	private Translations() {
+	private Tips() {
 
 	}
 	
@@ -53,7 +51,7 @@ public final class Translations {
 			+ File.separator
 			+ "translations";
 	
-	private static final String bundleName = "Translations";
+	private static final String bundleName = "Tips";
 	
 	private static final String defaultBundle = bundleFolder
 			+ File.separator
@@ -61,8 +59,8 @@ public final class Translations {
 			+ ".properties";
 	
 	private static Map<Locale, File> locales;
-	private static ResourceBundle defaultMessages;
-	private static ResourceBundle messages;
+	private static Properties defaultProperties;
+	private static Properties properties;
 	
 	static {
 		try {
@@ -74,55 +72,36 @@ public final class Translations {
 		}
 		
 		try {
-			defaultMessages = new PropertyResourceBundle(new FileInputStream(
-					defaultBundle));
+			defaultProperties = new Properties();
+			defaultProperties.load(new FileInputStream(defaultBundle));
 		} catch (Exception e) {
 			e.printStackTrace();
-			defaultMessages = null;
+			defaultProperties = null;
 		}
 	}
 	
-	public static Locale[] getAvailableLocales() {
-		return locales.keySet().toArray(new Locale[0]);
-	}
-	
-	public static Locale getLocale() {
-		return Locale.getDefault();
-	}
-	
-	public static void setLocale(Locale locale) {
-		Locale.setDefault(locale);
-		
+	protected static void setLocale(Locale locale) {
 		File file = locales.get(locale);
 		
 		if (file == null) {
-			messages = null;
+			properties = null;
 			return;
 		}
 		
 		try {
-			messages = new PropertyResourceBundle(new FileInputStream(file));
+			properties = new Properties();
+			properties.load(new FileInputStream(file));
 		} catch (Exception e) {
 			e.printStackTrace();
-			messages = null;
+			properties = null;
 		}
-		
-		Tips.setLocale(locale);
 	}
 	
-	public static String getString(String key) {
-		if (messages != null && messages.containsKey(key))
-			return messages.getString(key);
+	public static Properties getProperties() {
+		if (properties != null)
+			return properties;
 		
-		if (defaultMessages != null && defaultMessages.containsKey(key))
-			return defaultMessages.getString(key);
-		
-		return "#" + key + "#";
-	}
-	
-	public static String getString(String key, Object... args) {
-		String value = getString(key);
-		return String.format(value, args);
+		return defaultProperties;
 	}
 	
 }
