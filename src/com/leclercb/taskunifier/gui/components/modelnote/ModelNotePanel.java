@@ -67,6 +67,8 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
 	
+	private boolean documentListenerEnabled;
+	
 	private JXEditorPane htmlNote;
 	private JTextArea textNote;
 	private Action editAction;
@@ -80,6 +82,13 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	public String getModelNote() {
 		return this.textNote.getText();
+	}
+	
+	private void setModelNote(String note) {
+		this.documentListenerEnabled = false;
+		this.textNote.setText(note);
+		this.textNote.setCaretPosition(0);
+		this.documentListenerEnabled = true;
 	}
 	
 	private void initialize() {
@@ -121,8 +130,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 				if (ModelNotePanel.this.previousSelectedModel != null) {
 					if (ModelNotePanel.this.htmlNote.isEnabled()) {
 						String note = ModelNotePanel.this.previousSelectedModel.getNote();
-						ModelNotePanel.this.textNote.setText(note);
-						ModelNotePanel.this.textNote.setCaretPosition(0);
+						ModelNotePanel.this.setModelNote(note);
 						((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
 					}
 				}
@@ -139,6 +147,8 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		htmlPanel.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				BorderLayout.CENTER);
+		
+		this.documentListenerEnabled = true;
 		
 		this.textNote = new JTextArea();
 		
@@ -163,8 +173,10 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			}
 			
 			private void updateNote() {
-				if (ModelNotePanel.this.previousSelectedModel != null) {
-					ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
+				if (ModelNotePanel.this.documentListenerEnabled) {
+					if (ModelNotePanel.this.previousSelectedModel != null) {
+						ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
+					}
 				}
 			}
 			
@@ -334,8 +346,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		
 		this.htmlNote.setText(this.convertTextNoteToHtml(note));
 		
-		this.textNote.setText(note);
-		this.textNote.setCaretPosition(0);
+		this.setModelNote(note);
 	}
 	
 }

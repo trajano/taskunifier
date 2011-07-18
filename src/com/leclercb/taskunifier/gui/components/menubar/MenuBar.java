@@ -104,23 +104,28 @@ import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MenuBar extends JMenuBar {
-
+	
 	private MainView mainView;
 	private TaskView taskView;
 	private TaskSearcherView taskSearcherView;
-
-	public MenuBar(MainView mainView, TaskView taskView, TaskSearcherView taskSearcherView) {
+	
+	public MenuBar(
+			MainView mainView,
+			TaskView taskView,
+			TaskSearcherView taskSearcherView) {
 		CheckUtils.isNotNull(mainView, "Main view cannot be null");
 		CheckUtils.isNotNull(taskView, "Task view cannot be null");
-		CheckUtils.isNotNull(taskSearcherView, "Task searcher view cannot be null");
-
+		CheckUtils.isNotNull(
+				taskSearcherView,
+				"Task searcher view cannot be null");
+		
 		this.mainView = mainView;
 		this.taskView = taskView;
 		this.taskSearcherView = taskSearcherView;
-
+		
 		this.initialize();
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	private void initialize() {
 		if (SystemUtils.IS_OS_MAC) {
@@ -129,7 +134,7 @@ public class MenuBar extends JMenuBar {
 			application.setEnabledPreferencesMenu(true);
 			application.addApplicationListener(adapter);
 		}
-
+		
 		this.initializeFileMenu();
 		this.initializeEditMenu();
 		this.initializeViewMenu();
@@ -138,32 +143,32 @@ public class MenuBar extends JMenuBar {
 		this.initializeSynchronizeMenu();
 		this.initializeHelpMenu();
 	}
-
+	
 	private void initializeFileMenu() {
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.add(fileMenu);
-
+		
 		fileMenu.add(new ActionChangeDataFolderLocation(16, 16));
 		fileMenu.addSeparator();
-
+		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.setIcon(Images.getResourceImage("download.png", 16, 16));
-
+		
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
 		importMenu.add(new ActionImportTaskSearchers(16, 16));
 		importMenu.add(new ActionImportTaskTemplates(16, 16));
 		fileMenu.add(importMenu);
-
+		
 		JMenu exportMenu = new JMenu(Translations.getString("general.export"));
 		exportMenu.setIcon(Images.getResourceImage("upload.png", 16, 16));
-
+		
 		exportMenu.add(new ActionExportModels(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
 		exportMenu.add(new ActionExportTaskSearchers(16, 16));
 		exportMenu.add(new ActionExportTaskTemplates(16, 16));
 		fileMenu.add(exportMenu);
-
+		
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionConfiguration(16, 16));
 		fileMenu.add(new ActionManagePlugins(16, 16));
@@ -174,11 +179,11 @@ public class MenuBar extends JMenuBar {
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
 	}
-
+	
 	private void initializeEditMenu() {
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		this.add(editMenu);
-
+		
 		editMenu.add(new ActionUndo(16, 16));
 		editMenu.add(new ActionRedo(16, 16));
 		editMenu.addSeparator();
@@ -186,119 +191,122 @@ public class MenuBar extends JMenuBar {
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));
 	}
-
+	
 	private void initializeViewMenu() {
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		this.add(viewMenu);
-
+		
 		viewMenu.add(new ActionChangeView(this.mainView, 16, 16));
 		viewMenu.addSeparator();
-
+		
 		ButtonGroup viewGroup = new ButtonGroup();
-
+		
 		for (View view : View.values()) {
 			final View v = view;
 			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
 					v.getLabel());
 			viewGroup.add(item);
 			viewMenu.add(item);
-
+			
 			if (this.mainView.getSelectedView() == view)
 				item.setSelected(true);
-
+			
 			item.addItemListener(new ItemListener() {
-
+				
 				@Override
 				public void itemStateChanged(ItemEvent evt) {
 					MenuBar.this.mainView.setSelectedView(v);
 				}
-
+				
 			});
-
+			
 			this.mainView.addPropertyChangeListener(
 					MainView.PROP_SELECTED_VIEW,
 					new PropertyChangeListener() {
-
+						
 						@Override
 						public void propertyChange(PropertyChangeEvent evt) {
 							if (EqualsUtils.equals(evt.getNewValue(), v))
 								item.setSelected(true);
 						}
-
+						
 					});
 		}
 	}
-
+	
 	private void initializeNoteMenu() {
 		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
 		this.add(notesMenu);
-
+		
 		notesMenu.add(new ActionAddNote(16, 16));
 		notesMenu.add(new ActionDuplicateNotes(16, 16));
 		notesMenu.add(new ActionDelete(16, 16));
 	}
-
+	
 	private void initializeTaskMenu() {
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
 		this.add(tasksMenu);
-
+		
 		tasksMenu.add(new ActionAddTask(16, 16));
 		tasksMenu.add(new ActionAddSubTask(this.taskView, 16, 16));
-
+		
 		this.initializeTemplateMenu(tasksMenu);
-
+		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionEditTasks(this.taskView, 16, 16));
 		tasksMenu.add(new ActionDuplicateTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
-
+		
 		tasksMenu.addSeparator();
-
+		
 		tasksMenu.add(new ActionCollapseAll());
 		tasksMenu.add(new ActionExpandAll());
-
+		
 		tasksMenu.addSeparator();
-
+		
 		tasksMenu.add(new ActionAddTaskSearcher(16, 16));
 		tasksMenu.add(new ActionEditTaskSearcher(this.taskSearcherView, 16, 16));
-		tasksMenu.add(new ActionDeleteTaskSearcher(this.taskSearcherView, 16, 16));
+		tasksMenu.add(new ActionDeleteTaskSearcher(
+				this.taskSearcherView,
+				16,
+				16));
 	}
-
+	
 	private void initializeSynchronizeMenu() {
 		JMenu synchronizeMenu = new JMenu(
 				Translations.getString("menu.synchronize"));
 		this.add(synchronizeMenu);
-
+		
 		synchronizeMenu.add(new ActionSynchronize(false, 16, 16));
 		synchronizeMenu.add(new ActionScheduledSync(16, 16));
 	}
-
+	
 	private void initializeTemplateMenu(JMenu tasksMenu) {
 		final JMenu templatesMenu = new JMenu(
 				Translations.getString("action.add_template_task"));
-
+		
 		templatesMenu.setToolTipText(Translations.getString("action.add_template_task"));
-
+		
 		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
 		tasksMenu.add(templatesMenu);
-
+		
 		TemplateUtils.updateTemplateList(templatesMenu, null);
-
+		
 		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
-
+					
 					@Override
 					public void listChange(ListChangeEvent event) {
 						TemplateUtils.updateTemplateList(templatesMenu, null);
 					}
-
+					
 				});
 	}
-
+	
 	private void initializeHelpMenu() {
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		this.add(helpMenu);
-
+		
 		helpMenu.add(new ActionCheckVersion(false, 16, 16));
 		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
 		helpMenu.addSeparator();
@@ -312,5 +320,5 @@ public class MenuBar extends JMenuBar {
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));
 	}
-
+	
 }

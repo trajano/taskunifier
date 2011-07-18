@@ -17,27 +17,30 @@ public class TipsDialog extends JXTipOfTheDay {
 		
 		return INSTANCE;
 	}
-
+	
 	public TipsDialog() {
 		super(TipLoader.load(Tips.getProperties()));
 	}
 	
 	public void showTipsDialog(boolean startup) {
 		this.showDialog(
-				MainFrame.getInstance().getFrame(), 
+				MainFrame.getInstance().getFrame(),
 				new ShowOnStartupChoice() {
-			
-			@Override
-			public void setShowingOnStartup(boolean showOnStartup) {
-				Main.SETTINGS.setBooleanProperty("tips.show_on_startup", showOnStartup);
-			}
-			
-			@Override
-			public boolean isShowingOnStartup() {
-				return Main.SETTINGS.getBooleanProperty("tips.show_on_startup");
-			}
-			
-		}, !startup);
+					
+					@Override
+					public void setShowingOnStartup(boolean showOnStartup) {
+						Main.SETTINGS.setBooleanProperty(
+								"tips.show_on_startup",
+								showOnStartup);
+					}
+					
+					@Override
+					public boolean isShowingOnStartup() {
+						return Main.SETTINGS.getBooleanProperty("tips.show_on_startup");
+					}
+					
+				},
+				!startup);
 	}
 	
 }

@@ -41,21 +41,21 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 
 public interface MainView extends PropertyChangeSupported {
-
+	
 	public static final String PROP_SELECTED_VIEW = "selectedView";
-
+	
 	public abstract Frame getFrame();
-
+	
 	public abstract NoteSearcherView getNoteSearcherView();
-
+	
 	public abstract TaskSearcherView getTaskSearcherView();
-
+	
 	public abstract View getSelectedView();
-
+	
 	public abstract void setSelectedView(View view);
-
+	
 	public abstract NoteView getNoteView();
-
+	
 	public abstract TaskView getTaskView();
-
+	
 }

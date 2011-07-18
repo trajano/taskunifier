@@ -48,78 +48,83 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionEditTaskSearcher extends AbstractAction {
-
+	
 	private TaskSearcherView taskSearcherView;
-
+	
 	public ActionEditTaskSearcher(TaskSearcherView taskSearcherView) {
 		this(taskSearcherView, 32, 32);
 	}
-
-	public ActionEditTaskSearcher(TaskSearcherView taskSearcherView, int width, int height) {
+	
+	public ActionEditTaskSearcher(
+			TaskSearcherView taskSearcherView,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.edit_task_searcher"),
 				Images.getResourceImage("edit.png", width, height));
-
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.edit_task_searcher"));
-
-		CheckUtils.isNotNull(taskSearcherView, "Task searcher view cannot be null");
-
+		
+		CheckUtils.isNotNull(
+				taskSearcherView,
+				"Task searcher view cannot be null");
+		
 		this.taskSearcherView = taskSearcherView;
-
+		
 		this.taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
-
+			
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
 				ActionEditTaskSearcher.this.setEnabled();
 			}
-
+			
 		});
-
+		
 		this.setEnabled();
 	}
-
+	
 	private void setEnabled() {
 		TaskSearcher searcher = this.taskSearcherView.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
-
+		
 		if (searcher != null) {
 			boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
 					searcher);
-
+			
 			if (foundInFactory && searcher.getType().isEditable())
 				enabled = true;
 		}
-
+		
 		this.setEnabled(enabled);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		ActionEditTaskSearcher.editTaskSearcher();
 	}
-
+	
 	public static void editTaskSearcher() {
 		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
-
+		
 		if (searcher == null)
 			return;
-
+		
 		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
 				searcher);
-
+		
 		if (foundInFactory && searcher.getType().isEditable()) {
 			SearcherEditDialog dialog = new SearcherEditDialog(
 					MainFrame.getInstance().getFrame(),
 					searcher);
-
+			
 			dialog.setVisible(true);
-
+			
 			MainFrame.getInstance().getTaskSearcherView().refreshTaskSearcher();
 		}
 	}
-
+	
 }

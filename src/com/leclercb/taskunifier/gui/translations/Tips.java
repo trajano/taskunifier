@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 

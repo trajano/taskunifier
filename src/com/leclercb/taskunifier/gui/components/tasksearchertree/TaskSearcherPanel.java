@@ -76,65 +76,65 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskSearcherPanel extends JPanel implements SavePropertiesListener, TaskSearcherView, PropertyChangeSupported {
-
+	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
-
+	
 	private TaskSearcherTree searcherView;
-
+	
 	private String titleFilter;
-
+	
 	public TaskSearcherPanel() {
 		Main.SETTINGS.addSavePropertiesListener(this);
-
+		
 		this.initialize();
 	}
-
+	
 	@Override
 	public void setTitleFilter(String titleFilter) {
 		if (EqualsUtils.equals(this.titleFilter, titleFilter))
 			return;
-
+		
 		String oldTitleFilter = this.titleFilter;
 		this.titleFilter = titleFilter;
-
+		
 		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
 	}
-
+	
 	@Override
 	public void selectDefaultTaskSearcher() {
 		this.searcherView.selectDefaultTaskSearcher();
 	}
-
+	
 	@Override
 	public boolean selectTaskSearcher(TaskSearcher searcher) {
 		return this.searcherView.selectTaskSearcher(searcher);
 	}
-
+	
 	@Override
 	public boolean selectModel(Model model) {
 		return this.searcherView.selectModel(model);
 	}
-
+	
 	@Override
 	public boolean selectTag(String tag) {
 		return this.searcherView.selectTag(tag);
 	}
-
+	
 	@Override
 	public TaskSearcher getSelectedTaskSearcher() {
 		TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
-
+		
 		if (searcher == null)
 			return null;
-
+		
 		searcher = searcher.clone();
-
+		
 		if (this.titleFilter != null && this.titleFilter.length() != 0) {
 			TaskFilter originalFilter = searcher.getFilter();
-
+			
 			TaskFilter newFilter = new TaskFilter();
 			newFilter.setLink(FilterLink.AND);
-
+			
 			TaskFilter searchFilter = new TaskFilter();
 			searchFilter.setLink(FilterLink.OR);
 			searchFilter.addElement(new TaskFilterElement(
@@ -149,13 +149,13 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					TaskColumn.NOTE,
 					StringCondition.CONTAINS,
 					this.titleFilter));
-
+			
 			newFilter.addFilter(searchFilter);
 			newFilter.addFilter(originalFilter);
-
+			
 			searcher.setFilter(newFilter);
 		}
-
+		
 		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end")) {
 			searcher.getSorter().addElement(
 					new TaskSorterElement(
@@ -163,7 +163,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 							TaskColumn.COMPLETED,
 							SortOrder.ASCENDING));
 		}
-
+		
 		return searcher;
 	}
 	
@@ -171,97 +171,96 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	public TaskSearcher getSelectedOriginalTaskSearcher() {
 		return this.searcherView.getSelectedOriginalTaskSearcher();
 	}
-
+	
 	@Override
 	public void refreshTaskSearcher() {
 		this.searcherView.refreshTaskSearcher();
 	}
-
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-
+		
 		this.searcherView = new TaskSearcherTree();
-
+		
 		this.add(
 				ComponentFactory.createJScrollPane(this.searcherView, false),
 				BorderLayout.CENTER);
-
+		
 		this.searcherView.addMouseListener(new MouseAdapter() {
-
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					TreePath path = TaskSearcherPanel.this.searcherView.getPathForLocation(
 							e.getX(),
 							e.getY());
-
+					
 					Object node = path.getLastPathComponent();
-
+					
 					if (node instanceof ModelItem)
 						TaskSearcherPanel.this.openManageModels((ModelItem) node);
-
+					
 					if (node instanceof TagItem)
 						TaskSearcherPanel.this.openManageTags((TagItem) node);
-
+					
 					ActionEditTaskSearcher.editTaskSearcher();
 				}
 			}
-
+			
 		});
-
+		
 		this.initializeButtons();
-
+		
 		this.initializeSelectedSearcher();
 	}
-
+	
 	private void initializeButtons() {
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				true,
-				new JButton(new ActionAddTaskSearcher(16, 16)),
-				new JButton(new ActionEditTaskSearcher(this, 16, 16)),
-				new JButton(new ActionDeleteTaskSearcher(this, 16, 16)));
+		JPanel panel = ComponentFactory.createButtonsPanel(true, new JButton(
+				new ActionAddTaskSearcher(16, 16)), new JButton(
+				new ActionEditTaskSearcher(this, 16, 16)), new JButton(
+				new ActionDeleteTaskSearcher(this, 16, 16)));
 		panel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
-
+		
 		this.add(panel, BorderLayout.SOUTH);
 	}
-
+	
 	private void openManageModels(ModelItem item) {
 		if (item.getModel() == null) {
 			ActionConfiguration.configuration(ConfigurationPanel.SEARCHER);
 			return;
 		}
-
+		
 		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedModel(item.getModelType(), item.getModel());
 		dialog.setVisible(true);
 	}
-
+	
 	private void openManageTags(TagItem item) {
 		ModelConfigurationDialog dialog = ModelConfigurationDialog.getInstance();
 		dialog.setSelectedTag(item.getTag());
 		dialog.setVisible(true);
 	}
-
+	
 	@Override
 	public void addTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
 		this.searcherView.addTaskSearcherSelectionChangeListener(listener);
 	}
-
+	
 	@Override
 	public void removeTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
 		this.searcherView.removeTaskSearcherSelectionChangeListener(listener);
 	}
-
+	
 	private void initializeSelectedSearcher() {
 		try {
 			String value = Main.SETTINGS.getStringProperty("searcher.task.selected.value");
 			TaskSearcherType type = Main.SETTINGS.getEnumProperty(
 					"searcher.task.selected.type",
 					TaskSearcherType.class);
-
+			
 			if (value != null && type != null) {
 				if (type == TaskSearcherType.GENERAL
 						|| type == TaskSearcherType.PERSONAL) {
@@ -274,25 +273,25 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 							break;
 						}
 					}
-
+					
 					if (searcher != null) {
 						if (this.searcherView.selectTaskSearcher(searcher))
 							return;
 					}
 				}
-
+				
 				if (type == TaskSearcherType.TAG) {
 					if (this.searcherView.selectTag(value))
 						return;
 				}
-
+				
 				if (type == TaskSearcherType.CONTEXT
 						|| type == TaskSearcherType.FOLDER
 						|| type == TaskSearcherType.GOAL
 						|| type == TaskSearcherType.LOCATION) {
 					ModelId id = new ModelIdSettingsCoder().decode(value);
 					Model model = null;
-
+					
 					if (type == TaskSearcherType.CONTEXT) {
 						model = ContextFactory.getInstance().get(id);
 					} else if (type == TaskSearcherType.FOLDER) {
@@ -302,36 +301,36 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					} else if (type == TaskSearcherType.LOCATION) {
 						model = LocationFactory.getInstance().get(id);
 					}
-
+					
 					if (model != null) {
 						if (this.searcherView.selectModel(model))
 							return;
 					}
 				}
-
+				
 				this.selectDefaultTaskSearcher();
 				return;
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-
+		
 		this.selectDefaultTaskSearcher();
 	}
-
+	
 	@Override
 	public void saveProperties() {
 		try {
 			TaskSearcher searcher = this.searcherView.getSelectedTaskSearcher();
-
+			
 			if (searcher == null)
 				return;
-
+			
 			Main.SETTINGS.setEnumProperty(
 					"searcher.task.selected.type",
 					TaskSearcherType.class,
 					searcher.getType());
-
+			
 			if (searcher.getType() == TaskSearcherType.GENERAL
 					|| searcher.getType() == TaskSearcherType.PERSONAL) {
 				Main.SETTINGS.setStringProperty(
@@ -339,17 +338,17 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 						searcher.getTitle());
 				return;
 			}
-
+			
 			if (searcher.getType() == TaskSearcherType.TAG) {
 				if (this.searcherView.getSelectedTag() != null) {
 					Main.SETTINGS.setStringProperty(
 							"searcher.task.selected.value",
 							this.searcherView.getSelectedTag());
 				}
-
+				
 				return;
 			}
-
+			
 			if (searcher.getType() == TaskSearcherType.CONTEXT
 					|| searcher.getType() == TaskSearcherType.FOLDER
 					|| searcher.getType() == TaskSearcherType.GOAL
@@ -360,14 +359,14 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 							"searcher.task.selected.value",
 							new ModelIdSettingsCoder().encode(id));
 				}
-
+				
 				return;
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-
+		
 		Main.SETTINGS.setStringProperty("searcher.task.selected.value", null);
 	}
-
+	
 }

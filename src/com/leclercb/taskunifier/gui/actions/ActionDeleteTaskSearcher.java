@@ -47,24 +47,28 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionDeleteTaskSearcher extends AbstractAction {
-
+	
 	private TaskSearcherView taskSearcherView;
 	
 	public ActionDeleteTaskSearcher(TaskSearcherView taskSearcherView) {
 		this(taskSearcherView, 32, 32);
 	}
-
-	public ActionDeleteTaskSearcher(TaskSearcherView taskSearcherView, int width, int height) {
-		super(Translations.getString("action.delete_task_searcher"), Images.getResourceImage(
-				"remove.png",
-				width,
-				height));
-
+	
+	public ActionDeleteTaskSearcher(
+			TaskSearcherView taskSearcherView,
+			int width,
+			int height) {
+		super(
+				Translations.getString("action.delete_task_searcher"),
+				Images.getResourceImage("remove.png", width, height));
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
 		
-		CheckUtils.isNotNull(taskSearcherView, "Task searcher view cannot be null");
+		CheckUtils.isNotNull(
+				taskSearcherView,
+				"Task searcher view cannot be null");
 		
 		this.taskSearcherView = taskSearcherView;
 		
@@ -89,31 +93,31 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 		if (searcher != null) {
 			boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
 					searcher);
-		
+			
 			if (foundInFactory && searcher.getType().isDeletable())
 				enabled = true;
 		}
 		
 		this.setEnabled(enabled);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ActionDeleteTaskSearcher.deleteTaskSearcher();
 	}
-
+	
 	public static void deleteTaskSearcher() {
 		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
-
+		
 		if (searcher == null)
 			return;
-
+		
 		boolean foundInFactory = TaskSearcherFactory.getInstance().contains(
 				searcher);
-
+		
 		if (foundInFactory && searcher.getType().isDeletable()) {
 			TaskSearcherFactory.getInstance().unregister(searcher);
 		}
 	}
-
+	
 }

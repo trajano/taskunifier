@@ -41,27 +41,28 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionShowTips extends AbstractAction {
-
+	
 	public ActionShowTips() {
 		this(32, 32);
 	}
-
+	
 	public ActionShowTips(int width, int height) {
-		super(Translations.getString("action.show_tips"), Images.getResourceImage(
-				"information.png",
-				width,
-				height));
-
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.show_tips"));
+		super(
+				Translations.getString("action.show_tips"),
+				Images.getResourceImage("information.png", width, height));
+		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.show_tips"));
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		ActionShowTips.showTips();
 	}
-
+	
 	public static void showTips() {
 		TipsDialog.getInstance().showTipsDialog(false);
 	}
-
+	
 }
