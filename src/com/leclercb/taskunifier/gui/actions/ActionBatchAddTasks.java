@@ -42,7 +42,6 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -80,21 +79,26 @@ public class ActionBatchAddTasks extends AbstractAction {
 	}
 	
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
-		MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
-		
 		Synchronizing.setSynchronizing(true);
 		
+		Task previousParentTask = null;
 		List<Task> tasks = new ArrayList<Task>();
 		for (String title : titles) {
+			boolean isSubTask = title.startsWith("\t");
+			
 			title = title.trim();
 			
 			if (title.length() == 0)
 				continue;
 			
-			Task task = TaskFactory.getInstance().create("");
+			Task task = null;
 			
-			if (template != null)
-				template.applyTo(task);
+			if (isSubTask && previousParentTask != null) {
+				task = ActionAddSubTask.addSubTask(previousParentTask, false);
+			} else {
+				task = ActionAddTask.addTask(title, false);
+				previousParentTask = task;
+			}
 			
 			task.setTitle(title);
 			

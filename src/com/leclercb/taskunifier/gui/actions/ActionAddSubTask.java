@@ -101,11 +101,21 @@ public class ActionAddSubTask extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		if (this.taskView.getSelectedTasks().length == 1)
 			ActionAddSubTask.addSubTask(
-					TaskTemplateFactory.getInstance().getDefaultTemplate(),
-					this.taskView.getSelectedTasks()[0]);
+					this.taskView.getSelectedTasks()[0],
+					true);
 	}
 	
-	public static Task addSubTask(TaskTemplate template, Task parent) {
+	public static Task addSubTask(Task parent, boolean edit) {
+		return addSubTask(
+				TaskTemplateFactory.getInstance().getDefaultTemplate(),
+				parent,
+				edit);
+	}
+	
+	public static Task addSubTask(
+			TaskTemplate template,
+			Task parent,
+			boolean edit) {
 		CheckUtils.isNotNull(parent, "Parent cannot be null");
 		
 		if (parent.getParent() != null)
@@ -134,12 +144,14 @@ public class ActionAddSubTask extends AbstractAction {
 		
 		MainFrame.getInstance().getTaskView().refreshTasks();
 		
-		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
-			if (!ActionEditTasks.editTask(task, true))
-				TaskFactory.getInstance().markDeleted(task);
-		} else {
-			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
-					task);
+		if (edit) {
+			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+				if (!ActionEditTasks.editTask(task, true))
+					TaskFactory.getInstance().markDeleted(task);
+			} else {
+				MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
+						task);
+			}
 		}
 		
 		return task;

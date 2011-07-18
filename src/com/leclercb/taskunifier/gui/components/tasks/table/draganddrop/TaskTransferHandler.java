@@ -48,7 +48,6 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
@@ -216,9 +215,7 @@ public class TaskTransferHandler extends TransferHandler {
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
 						String title = IOUtils.toString(reader);
-						ActionAddTask.addTask(
-								TaskTemplateFactory.getInstance().getDefaultTemplate(),
-								title);
+						ActionAddTask.addTask(title, false);
 						return true;
 					}
 				}

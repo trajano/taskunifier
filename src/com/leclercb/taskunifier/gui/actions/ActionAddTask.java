@@ -71,12 +71,17 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(
-				TaskTemplateFactory.getInstance().getDefaultTemplate(),
-				null);
+		ActionAddTask.addTask(null, true);
 	}
 	
-	public static Task addTask(TaskTemplate template, String title) {
+	public static Task addTask(String title, boolean edit) {
+		return addTask(
+				TaskTemplateFactory.getInstance().getDefaultTemplate(),
+				null,
+				edit);
+	}
+	
+	public static Task addTask(TaskTemplate template, String title, boolean edit) {
 		MainFrame.getInstance().setSelectedView(View.TASKS);
 		
 		TaskTemplate searcherTemplate = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
@@ -97,12 +102,14 @@ public class ActionAddTask extends AbstractAction {
 		
 		MainFrame.getInstance().getTaskView().refreshTasks();
 		
-		if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
-			if (!ActionEditTasks.editTask(task, true))
-				TaskFactory.getInstance().markDeleted(task);
-		} else {
-			MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
-					task);
+		if (edit) {
+			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+				if (!ActionEditTasks.editTask(task, true))
+					TaskFactory.getInstance().markDeleted(task);
+			} else {
+				MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
+						task);
+			}
 		}
 		
 		return task;
