@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 1.0.2
+	- Major:
+		- Support of OpenJDK
 	- Minor:
 		- FR 3368049: Does not contain condition
 		- FR 3312944: Add batch tasks with subtasks
