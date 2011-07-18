@@ -3,6 +3,7 @@ Version 1.0.2
 		- FR 3368049: Does not contain condition
 		- Tip of the day
 		- Add/edit/remove task searcher in menu
+		- Cancel button in task edit window
 		- BG 3368683: Task edit note field not correctly saved
 
 Version 1.0.1

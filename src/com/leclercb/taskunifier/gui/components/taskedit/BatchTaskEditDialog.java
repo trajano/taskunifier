@@ -62,7 +62,9 @@ public class BatchTaskEditDialog extends JDialog {
 		return INSTANCE;
 	}
 	
+	private JXHeader header;
 	private BatchTaskEditPanel batchTaskEditPanel;
+	private boolean cancelled;
 	
 	private BatchTaskEditDialog() {
 		super(MainFrame.getInstance().getFrame());
@@ -74,12 +76,27 @@ public class BatchTaskEditDialog extends JDialog {
 	}
 	
 	public void setTasks(Task[] tasks) {
+		if (tasks != null && tasks.length == 1) {
+			this.header.setTitle(Translations.getString("header.title.edit_task"));
+			this.header.setDescription(Translations.getString("header.description.edit_task"));
+		} else {
+			this.header.setTitle(Translations.getString("header.title.batch_edit_task"));
+			this.header.setDescription(Translations.getString("header.description.batch_edit_task"));
+		}
+		
 		this.batchTaskEditPanel.setTasks(tasks);
 	}
 	
 	@Override
 	public void setVisible(boolean b) {
+		if (b)
+			this.cancelled = false;
+		
 		super.setVisible(b);
+	}
+	
+	public boolean isCancelled() {
+		return this.cancelled;
 	}
 	
 	private void initialize() {
@@ -93,15 +110,16 @@ public class BatchTaskEditDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		JXHeader header = new JXHeader();
-		header.setTitle(Translations.getString("header.title.batch_edit_task"));
-		header.setDescription(Translations.getString("header.description.batch_edit_task"));
-		header.setIcon(Images.getResourceImage("edit.png", 32, 32));
+		this.header = new JXHeader();
+		this.header.setTitle(Translations.getString("header.title.batch_edit_task"));
+		this.header.setDescription(Translations.getString("header.description.batch_edit_task"));
+		this.header.setIcon(Images.getResourceImage("edit.png", 32, 32));
 		
 		this.addWindowListener(new WindowAdapter() {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
+				BatchTaskEditDialog.this.cancelled = true;
 				BatchTaskEditDialog.this.setTasks(null);
 				BatchTaskEditDialog.this.setVisible(false);
 			}
@@ -115,7 +133,7 @@ public class BatchTaskEditDialog extends JDialog {
 				0,
 				10));
 		
-		this.add(header, BorderLayout.NORTH);
+		this.add(this.header, BorderLayout.NORTH);
 		this.add(this.batchTaskEditPanel, BorderLayout.CENTER);
 		this.initializeButtonsPanel();
 	}
@@ -126,12 +144,14 @@ public class BatchTaskEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
+					BatchTaskEditDialog.this.cancelled = false;
 					BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
 					BatchTaskEditDialog.this.setTasks(null);
 					BatchTaskEditDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
+					BatchTaskEditDialog.this.cancelled = true;
 					BatchTaskEditDialog.this.setTasks(null);
 					BatchTaskEditDialog.this.setVisible(false);
 				}

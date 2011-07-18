@@ -45,7 +45,7 @@ public class TaskTagsConverter extends AbstractConverter {
 	
 	@Override
 	public void setValue(Object tags) {
-		this.subject.setValue(((String) tags).split(","));
+		this.subject.setValue(tags.toString().split(","));
 	}
 	
 	@Override

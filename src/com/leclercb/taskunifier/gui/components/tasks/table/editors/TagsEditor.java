@@ -37,13 +37,10 @@ import java.awt.Component;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	
@@ -55,8 +52,7 @@ public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private void initialize() {
 		this.comboBox = new JComboBox(new TaskTagModel(true));
-		this.comboBox.setEditable(true);
-		this.comboBox.setEditor(new ComboBoxEditor());
+		ComponentFactory.createTagsComboBox(this.comboBox);
 	}
 	
 	@Override
@@ -73,43 +69,6 @@ public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	@Override
 	public Object getCellEditorValue() {
 		return this.comboBox.getSelectedItem().toString();
-	}
-	
-	private class ComboBoxEditor extends BasicComboBoxEditor {
-		
-		public ComboBoxEditor() {
-			this.editor.getDocument().addDocumentListener(
-					new DocumentListener() {
-						
-						@Override
-						public void removeUpdate(DocumentEvent e) {
-							TagsEditor.this.comboBox.setSelectedItem(ComboBoxEditor.this.editor.getText());
-						}
-						
-						@Override
-						public void insertUpdate(DocumentEvent e) {
-							TagsEditor.this.comboBox.setSelectedItem(ComboBoxEditor.this.editor.getText());
-						}
-						
-						@Override
-						public void changedUpdate(DocumentEvent e) {
-							TagsEditor.this.comboBox.setSelectedItem(ComboBoxEditor.this.editor.getText());
-						}
-						
-					});
-		}
-		
-		@Override
-		public void setItem(Object anObject) {
-			if (anObject instanceof IgnoreCaseString) {
-				String s = (this.editor.getText().length() == 0 ? "" : ", ");
-				this.editor.setText(this.editor.getText() + s + anObject);
-				TagsEditor.this.comboBox.setSelectedItem(this.editor.getText());
-			} else {
-				super.setItem(anObject);
-			}
-		}
-		
 	}
 	
 }

@@ -51,6 +51,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.Context;
@@ -70,6 +71,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
+import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
@@ -111,7 +113,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskNoteCheckBox;
 	
 	private JTextField taskTitle;
-	private JTextField taskTags;
+	private JComboBox taskTags;
 	private JComboBox taskFolder;
 	private JComboBox taskContext;
 	private JComboBox taskGoal;
@@ -134,7 +136,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.tasks = null;
 		
 		this.initialize();
-		this.reinitializeFields();
+		this.reinitializeFields(null);
 	}
 	
 	public void editTasks() {
@@ -153,7 +155,9 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			if (this.taskTagsCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setTags(this.taskTags.getText().split(","));
+					Object item = this.taskTags.getSelectedItem();
+					task.setTags((item == null ? new String[0] : item.toString().split(
+							",")));
 				}
 			}
 			
@@ -229,7 +233,8 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			if (this.taskRepeatCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setRepeat(this.taskRepeat.getSelectedItem().toString());
+					Object item = this.taskRepeat.getSelectedItem();
+					task.setRepeat((item == null ? "" : item.toString()));
 				}
 			}
 			
@@ -287,6 +292,11 @@ public class BatchTaskEditPanel extends JPanel {
 	
 	public void setTasks(Task[] tasks) {
 		this.tasks = tasks;
+		
+		if (tasks != null && tasks.length == 1)
+			this.reinitializeFields(tasks[0]);
+		else
+			this.reinitializeFields(null);
 	}
 	
 	private void initialize() {
@@ -345,7 +355,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskNoteCheckBox = new JCheckBox("", true);
 		
 		this.taskTitle = new JTextField();
-		this.taskTags = new JTextField();
+		this.taskTags = new JComboBox();
 		this.taskFolder = ComponentFactory.createModelComboBox(null);
 		this.taskContext = ComponentFactory.createModelComboBox(null);
 		this.taskGoal = ComponentFactory.createModelComboBox(null);
@@ -433,6 +443,9 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskTitle);
 		
 		// Task Tags
+		this.taskTags.setModel(new TaskTagModel(true));
+		ComponentFactory.createTagsComboBox(this.taskTags);
+		
 		builder.appendI15d("general.task.tags", true, this.taskTagsCheckBox);
 		builder.append(this.taskTags);
 		
@@ -608,49 +621,104 @@ public class BatchTaskEditPanel extends JPanel {
 		this.add(notePanel, BorderLayout.CENTER);
 	}
 	
-	public void reinitializeFields() {
+	public void reinitializeFields(Task task) {
+		boolean visible = true;
+		boolean selected = false;
 		Calendar length = Calendar.getInstance();
-		length.set(0, 0, 0, 0, 0, 0);
 		
-		this.taskTitle.setText("");
-		this.taskTags.setText("");
-		this.taskFolder.setSelectedItem(null);
-		this.taskContext.setSelectedItem(null);
-		this.taskGoal.setSelectedItem(null);
-		this.taskLocation.setSelectedItem(null);
-		this.taskParent.setSelectedItem(null);
-		this.taskProgress.setValue(0.0);
-		this.taskCompleted.setSelected(false);
-		this.taskStartDate.setCalendar(null);
-		this.taskDueDate.setCalendar(null);
-		this.taskReminder.setSelectedItem(0);
-		this.taskRepeat.setSelectedItem("");
-		this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
-		this.taskStatus.setSelectedItem(TaskStatus.NONE);
-		this.taskLength.setValue(length.getTime());
-		this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
-		this.taskStar.setSelected(false);
-		this.taskNote.setText("");
+		if (task == null) {
+			visible = true;
+			selected = false;
+			length.set(0, 0, 0, 0, 0, 0);
+			
+			this.taskTitle.setText("");
+			this.taskTags.setSelectedItem("");
+			this.taskFolder.setSelectedItem(null);
+			this.taskContext.setSelectedItem(null);
+			this.taskGoal.setSelectedItem(null);
+			this.taskLocation.setSelectedItem(null);
+			this.taskParent.setSelectedItem(null);
+			this.taskProgress.setValue(0.0);
+			this.taskCompleted.setSelected(false);
+			this.taskStartDate.setCalendar(null);
+			this.taskDueDate.setCalendar(null);
+			this.taskReminder.setSelectedItem(0);
+			this.taskRepeat.setSelectedItem("");
+			this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
+			this.taskStatus.setSelectedItem(TaskStatus.NONE);
+			this.taskLength.setValue(length.getTime());
+			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
+			this.taskStar.setSelected(false);
+			this.taskNote.setText("");
+		} else {
+			visible = false;
+			selected = true;
+			
+			int hour = task.getLength() / 60;
+			int minute = task.getLength() % 60;
+			
+			length.set(0, 0, 0, hour, minute, 0);
+			
+			this.taskTitle.setText(task.getTitle());
+			this.taskTags.setSelectedItem(StringUtils.join(task.getTags(), ", "));
+			this.taskFolder.setSelectedItem(task.getFolder());
+			this.taskContext.setSelectedItem(task.getContext());
+			this.taskGoal.setSelectedItem(task.getGoal());
+			this.taskLocation.setSelectedItem(task.getLocation());
+			this.taskParent.setSelectedItem(task.getParent());
+			this.taskProgress.setValue(task.getProgress());
+			this.taskCompleted.setSelected(task.isCompleted());
+			this.taskStartDate.setCalendar(task.getStartDate());
+			this.taskDueDate.setCalendar(task.getDueDate());
+			this.taskReminder.setSelectedItem(task.getReminder());
+			this.taskRepeat.setSelectedItem(task.getRepeat());
+			this.taskRepeatFrom.setSelectedItem(task.getRepeatFrom());
+			this.taskStatus.setSelectedItem(task.getStatus());
+			this.taskLength.setValue(length.getTime());
+			this.taskPriority.setSelectedItem(task.getPriority());
+			this.taskStar.setSelected(task.isStar());
+			this.taskNote.setText(task.getNote());
+		}
 		
-		this.taskTitleCheckBox.setSelected(false);
-		this.taskTagsCheckBox.setSelected(false);
-		this.taskFolderCheckBox.setSelected(false);
-		this.taskContextCheckBox.setSelected(false);
-		this.taskGoalCheckBox.setSelected(false);
-		this.taskLocationCheckBox.setSelected(false);
-		this.taskParentCheckBox.setSelected(false);
-		this.taskProgressCheckBox.setSelected(false);
-		this.taskCompletedCheckBox.setSelected(false);
-		this.taskStartDateCheckBox.setSelected(false);
-		this.taskDueDateCheckBox.setSelected(false);
-		this.taskReminderCheckBox.setSelected(false);
-		this.taskRepeatCheckBox.setSelected(false);
-		this.taskRepeatFromCheckBox.setSelected(false);
-		this.taskStatusCheckBox.setSelected(false);
-		this.taskLengthCheckBox.setSelected(false);
-		this.taskPriorityCheckBox.setSelected(false);
-		this.taskStarCheckBox.setSelected(false);
-		this.taskNoteCheckBox.setSelected(false);
+		this.taskTitleCheckBox.setSelected(selected);
+		this.taskTagsCheckBox.setSelected(selected);
+		this.taskFolderCheckBox.setSelected(selected);
+		this.taskContextCheckBox.setSelected(selected);
+		this.taskGoalCheckBox.setSelected(selected);
+		this.taskLocationCheckBox.setSelected(selected);
+		this.taskParentCheckBox.setSelected(selected);
+		this.taskProgressCheckBox.setSelected(selected);
+		this.taskCompletedCheckBox.setSelected(selected);
+		this.taskStartDateCheckBox.setSelected(selected);
+		this.taskDueDateCheckBox.setSelected(selected);
+		this.taskReminderCheckBox.setSelected(selected);
+		this.taskRepeatCheckBox.setSelected(selected);
+		this.taskRepeatFromCheckBox.setSelected(selected);
+		this.taskStatusCheckBox.setSelected(selected);
+		this.taskLengthCheckBox.setSelected(selected);
+		this.taskPriorityCheckBox.setSelected(selected);
+		this.taskStarCheckBox.setSelected(selected);
+		this.taskNoteCheckBox.setSelected(selected);
+		
+		this.taskTitleCheckBox.setVisible(visible);
+		this.taskTagsCheckBox.setVisible(visible);
+		this.taskFolderCheckBox.setVisible(visible);
+		this.taskContextCheckBox.setVisible(visible);
+		this.taskGoalCheckBox.setVisible(visible);
+		this.taskLocationCheckBox.setVisible(visible);
+		this.taskParentCheckBox.setVisible(visible);
+		this.taskProgressCheckBox.setVisible(visible);
+		this.taskCompletedCheckBox.setVisible(visible);
+		this.taskStartDateCheckBox.setVisible(visible);
+		this.taskDueDateCheckBox.setVisible(visible);
+		this.taskReminderCheckBox.setVisible(visible);
+		this.taskRepeatCheckBox.setVisible(visible);
+		this.taskRepeatFromCheckBox.setVisible(visible);
+		this.taskStatusCheckBox.setVisible(visible);
+		this.taskLengthCheckBox.setVisible(visible);
+		this.taskPriorityCheckBox.setVisible(visible);
+		this.taskStarCheckBox.setVisible(visible);
+		this.taskNoteCheckBox.setVisible(visible);
 	}
 	
 	private static class EnabledActionListener implements ItemListener {

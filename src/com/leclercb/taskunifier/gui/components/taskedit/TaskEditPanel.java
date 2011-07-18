@@ -75,6 +75,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
+import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
@@ -91,13 +92,14 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+@Deprecated
 public class TaskEditPanel extends JPanel {
 	
 	private Task task;
 	private BeanAdapter<Task> adapter;
 	
 	private JTextField taskTitle;
-	private JTextField taskTags;
+	private JComboBox taskTags;
 	private JComboBox taskFolder;
 	private JComboBox taskContext;
 	private JComboBox taskGoal;
@@ -180,7 +182,7 @@ public class TaskEditPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		this.taskTitle = new JTextField();
-		this.taskTags = new JTextField();
+		this.taskTags = new JComboBox();
 		this.taskFolder = ComponentFactory.createModelComboBox(null);
 		this.taskContext = ComponentFactory.createModelComboBox(null);
 		this.taskGoal = ComponentFactory.createModelComboBox(null);
@@ -330,7 +332,8 @@ public class TaskEditPanel extends JPanel {
 		
 		ValueModel taskTagsModel = new TaskTagsConverter(
 				this.adapter.getValueModel(Task.PROP_TAGS));
-		Bindings.bind(this.taskTags, taskTagsModel);
+		this.taskTags.setModel(new ComboBoxAdapter<String>(new TaskTagModel(
+				true), taskTagsModel));
 		
 		ValueModel taskFolderModel = this.adapter.getValueModel(Task.PROP_FOLDER);
 		this.taskFolder.setModel(new ComboBoxAdapter<Folder>(new FolderModel(
