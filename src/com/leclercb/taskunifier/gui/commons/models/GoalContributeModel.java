@@ -38,7 +38,6 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
 public class GoalContributeModel extends AbstractModelSortedModel {
@@ -62,9 +61,7 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if ((!((Model) event.getSource()).getModelStatus().equals(
-				ModelStatus.LOADED) && !((Model) event.getSource()).getModelStatus().equals(
-				ModelStatus.TO_UPDATE))
+		if (!((Model) event.getSource()).getModelStatus().isEndUser()
 				|| !((Goal) event.getSource()).getLevel().equals(
 						GoalLevel.LIFE_TIME)) {
 			this.removeElement(event.getSource());

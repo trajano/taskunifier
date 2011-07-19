@@ -266,7 +266,8 @@ public class NoteTable extends JXTable implements NoteView {
 					
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						NoteTable.this.noteSelectionChangeSupport.fireModelSelectionChange(NoteTable.this.getSelectedNotes());
+						if (!e.getValueIsAdjusting())
+							NoteTable.this.noteSelectionChangeSupport.fireModelSelectionChange(NoteTable.this.getSelectedNotes());
 					}
 					
 				});

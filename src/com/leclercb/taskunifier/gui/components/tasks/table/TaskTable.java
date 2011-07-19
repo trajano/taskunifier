@@ -295,7 +295,10 @@ public class TaskTable extends JXTable implements TaskView {
 					
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						TaskTable.this.modelSelectionChangeSupport.fireModelSelectionChange(TaskTable.this.getSelectedTasks());
+						if (!e.getValueIsAdjusting()) {
+							System.out.println("taskTable selection");
+							TaskTable.this.modelSelectionChangeSupport.fireModelSelectionChange(TaskTable.this.getSelectedTasks());
+						}
 					}
 					
 				});

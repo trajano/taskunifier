@@ -41,6 +41,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
@@ -139,8 +140,13 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		if (Synchronizing.isSynchronizing())
 			return;
 		
-		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)
-				|| event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
+		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
+			ModelStatus newStatus = (ModelStatus) event.getNewValue();
+			
+			if (oldStatus.isEndUser() != newStatus.isEndUser())
+				this.fireTableDataChanged();
+		} else if (event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
 				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
 			this.fireTableDataChanged();
 		} else {

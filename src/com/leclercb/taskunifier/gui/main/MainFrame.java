@@ -61,8 +61,6 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
@@ -107,6 +105,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private JPanel searcherPane;
 	private JPanel middlePane;
+	private JPanel notePane;
 	
 	private JXSearchField searchField;
 	private JCheckBox showCompletedTasksCheckBox;
@@ -117,7 +116,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private NoteTable noteTable;
 	private TaskTable taskTable;
 	
-	private ModelNotePanel modelNote;
+	private ModelNotePanel noteNote;
+	private ModelNotePanel taskNote;
 	
 	private View selectedView;
 	
@@ -241,14 +241,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		layout = (CardLayout) this.middlePane.getLayout();
 		layout.show(this.middlePane, view.name());
 		
-		if (view == View.NOTES)
-			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
-					this,
-					this.noteTable.getSelectedNotes()));
-		else if (view == View.TASKS)
-			this.modelNote.modelSelectionChange(new ModelSelectionChangeEvent(
-					this,
-					this.taskTable.getSelectedTasks()));
+		layout = (CardLayout) this.notePane.getLayout();
+		layout.show(this.notePane, view.name());
 		
 		View oldSelectedView = this.selectedView;
 		this.selectedView = view;
@@ -492,33 +486,18 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeModelNote(JSplitPane verticalSplitPane) {
-		JPanel panel = new JPanel(new BorderLayout());
+		this.notePane = new JPanel(new CardLayout());
 		
-		this.modelNote = new ModelNotePanel();
+		this.noteNote = new ModelNotePanel();
+		this.taskNote = new ModelNotePanel();
 		
-		this.noteTable.addModelSelectionChangeListener(new ModelSelectionListener() {
-			
-			@Override
-			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				if (MainFrame.this.getSelectedView() == View.NOTES)
-					MainFrame.this.modelNote.modelSelectionChange(event);
-			}
-			
-		});
+		this.noteTable.addModelSelectionChangeListener(this.noteNote);
+		this.taskTable.addModelSelectionChangeListener(this.taskNote);
 		
-		this.taskTable.addModelSelectionChangeListener(new ModelSelectionListener() {
-			
-			@Override
-			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				if (MainFrame.this.getSelectedView() == View.TASKS)
-					MainFrame.this.modelNote.modelSelectionChange(event);
-			}
-			
-		});
+		this.notePane.add(this.noteNote, View.NOTES.name());
+		this.notePane.add(this.taskNote, View.TASKS.name());
 		
-		panel.add(this.modelNote, BorderLayout.CENTER);
-		
-		verticalSplitPane.setBottomComponent(panel);
+		verticalSplitPane.setBottomComponent(this.notePane);
 	}
 	
 	private void initializeReminderThread() {

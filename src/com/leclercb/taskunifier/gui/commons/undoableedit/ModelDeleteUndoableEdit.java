@@ -89,8 +89,7 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 		if (model == null)
 			return;
 		
-		if (model.getModelStatus() != ModelStatus.LOADED
-				&& model.getModelStatus() != ModelStatus.TO_UPDATE)
+		if (!model.getModelStatus().isEndUser())
 			return;
 		
 		ModelFactoryUtils.getFactory(this.type).markToDelete(this.id);

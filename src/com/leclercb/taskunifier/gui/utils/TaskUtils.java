@@ -39,7 +39,6 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
@@ -279,8 +278,7 @@ public final class TaskUtils {
 			TaskFilter filter,
 			boolean containsCompletedTrue,
 			boolean skipParentCheck) {
-		if (!task.getModelStatus().equals(ModelStatus.LOADED)
-				&& !task.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+		if (!task.getModelStatus().isEndUser()) {
 			return false;
 		}
 		

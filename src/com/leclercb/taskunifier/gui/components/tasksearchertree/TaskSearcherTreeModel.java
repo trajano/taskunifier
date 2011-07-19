@@ -56,7 +56,6 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -170,8 +169,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(contexts, new ModelComparator());
 		
 		for (Context context : contexts)
-			if (context.getModelStatus().equals(ModelStatus.LOADED)
-					|| context.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (context.getModelStatus().isEndUser())
 				this.contextCategory.add(new ModelItem(
 						ModelType.CONTEXT,
 						context));
@@ -193,8 +191,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(folders, new ModelComparator());
 		
 		for (Folder folder : folders)
-			if (folder.getModelStatus().equals(ModelStatus.LOADED)
-					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (folder.getModelStatus().isEndUser())
 				this.folderCategory.add(new ModelItem(ModelType.FOLDER, folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
@@ -214,8 +211,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(goals, new ModelComparator());
 		
 		for (Goal goal : goals)
-			if (goal.getModelStatus().equals(ModelStatus.LOADED)
-					|| goal.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (goal.getModelStatus().isEndUser())
 				this.goalCategory.add(new ModelItem(ModelType.GOAL, goal));
 		
 		GoalFactory.getInstance().addListChangeListener(this);
@@ -235,8 +231,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(locations, new ModelComparator());
 		
 		for (Location location : locations)
-			if (location.getModelStatus().equals(ModelStatus.LOADED)
-					|| location.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (location.getModelStatus().isEndUser())
 				this.locationCategory.add(new ModelItem(
 						ModelType.LOCATION,
 						location));
@@ -445,10 +440,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 			Model model = (Model) event.getSource();
 			ModelItem item = this.findItemFromModel(model);
 			
-			if (!((Model) event.getSource()).getModelStatus().equals(
-					ModelStatus.LOADED)
-					&& !((Model) event.getSource()).getModelStatus().equals(
-							ModelStatus.TO_UPDATE)) {
+			if (!((Model) event.getSource()).getModelStatus().isEndUser()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
 				

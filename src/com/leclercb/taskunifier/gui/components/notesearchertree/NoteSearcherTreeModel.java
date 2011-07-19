@@ -50,7 +50,6 @@ import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
@@ -114,8 +113,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(folders, new ModelComparator());
 		
 		for (Folder folder : folders)
-			if (folder.getModelStatus().equals(ModelStatus.LOADED)
-					|| folder.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (folder.getModelStatus().isEndUser())
 				this.folderCategory.add(new FolderItem(folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
@@ -231,10 +229,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 			Folder folder = (Folder) event.getSource();
 			FolderItem item = this.findItemFromFolder(folder);
 			
-			if (!((Model) event.getSource()).getModelStatus().equals(
-					ModelStatus.LOADED)
-					&& !((Model) event.getSource()).getModelStatus().equals(
-							ModelStatus.TO_UPDATE)) {
+			if (!((Model) event.getSource()).getModelStatus().isEndUser()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
 				

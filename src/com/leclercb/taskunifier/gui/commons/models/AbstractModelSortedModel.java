@@ -39,7 +39,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 
 abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
@@ -52,8 +51,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	public void addElement(Object element) {
 		if (element != null) {
 			Model model = (Model) element;
-			if (!model.getModelStatus().equals(ModelStatus.LOADED)
-					&& !model.getModelStatus().equals(ModelStatus.TO_UPDATE))
+			if (!model.getModelStatus().isEndUser())
 				return;
 		}
 		
@@ -71,10 +69,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().equals(
-				ModelStatus.LOADED)
-				&& !((Model) event.getSource()).getModelStatus().equals(
-						ModelStatus.TO_UPDATE)) {
+		if (!((Model) event.getSource()).getModelStatus().isEndUser()) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());

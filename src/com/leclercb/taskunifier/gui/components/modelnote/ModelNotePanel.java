@@ -33,46 +33,23 @@
 package com.leclercb.taskunifier.gui.components.modelnote;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
-import org.jdesktop.swingx.JXEditorPane;
+import org.apache.commons.lang.StringUtils;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
 	
-	private boolean documentListenerEnabled;
-	
-	private JXEditorPane htmlNote;
-	private JTextArea textNote;
-	private Action editAction;
-	
+	private HTMLEditorPane htmlEditorPane;
 	private ModelNote previousSelectedModel;
 	
 	public ModelNotePanel() {
@@ -80,162 +57,32 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		this.initialize();
 	}
 	
-	public String getModelNote() {
-		return this.textNote.getText();
-	}
-	
-	private void setModelNote(String note) {
-		this.documentListenerEnabled = false;
-		this.textNote.setText(note);
-		this.textNote.setCaretPosition(this.textNote.getText().length());
-		this.documentListenerEnabled = true;
-	}
-	
 	private void initialize() {
-		this.setLayout(new CardLayout());
+		this.setLayout(new BorderLayout());
 		
-		JToolBar toolBar = null;
-		
-		this.htmlNote = new JXEditorPane();
-		
-		this.htmlNote.setEnabled(false);
-		this.htmlNote.setEditable(false);
-		this.htmlNote.setContentType("text/html");
-		this.htmlNote.setFont(UIManager.getFont("Label.font"));
-		this.htmlNote.setText(Translations.getString("error.select_one_row"));
-		
-		this.htmlNote.addHyperlinkListener(new HyperlinkListener() {
+		this.htmlEditorPane = new HTMLEditorPane(
+				Translations.getString("error.select_one_row"),
+				false) {
 			
 			@Override
-			public void hyperlinkUpdate(HyperlinkEvent evt) {
-				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					try {
-						BrowserUtils.openDefaultBrowser(evt.getURL().toString());
-					} catch (Exception exc) {}
-				}
-			}
-			
-		});
-		
-		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
-		toolBar.setFloatable(false);
-		
-		this.editAction = new AbstractAction("", Images.getResourceImage(
-				"edit.png",
-				16,
-				16)) {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				if (ModelNotePanel.this.previousSelectedModel != null) {
-					if (ModelNotePanel.this.htmlNote.isEnabled()) {
-						String note = ModelNotePanel.this.previousSelectedModel.getNote();
-						ModelNotePanel.this.setModelNote(note);
-						((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
-						ModelNotePanel.this.textNote.requestFocus();
-					}
-				}
+			public void textChanged(String text) {
+				System.out.println("textChanged: " + text);
+				if (ModelNotePanel.this.previousSelectedModel != null)
+					;
+				ModelNotePanel.this.previousSelectedModel.setNote(text);
 			}
 			
 		};
 		
-		this.editAction.setEnabled(false);
-		
-		toolBar.add(this.editAction);
-		
-		JPanel htmlPanel = new JPanel(new BorderLayout());
-		htmlPanel.add(toolBar, BorderLayout.NORTH);
-		htmlPanel.add(
-				ComponentFactory.createJScrollPane(this.htmlNote, false),
-				BorderLayout.CENTER);
-		
-		this.documentListenerEnabled = true;
-		
-		this.textNote = new JTextArea();
-		
-		this.textNote.setLineWrap(true);
-		this.textNote.setWrapStyleWord(true);
-		this.textNote.setBorder(BorderFactory.createEmptyBorder());
-		this.textNote.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				this.updateNote();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				this.updateNote();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				this.updateNote();
-			}
-			
-			private void updateNote() {
-				if (ModelNotePanel.this.documentListenerEnabled) {
-					if (ModelNotePanel.this.previousSelectedModel != null) {
-						ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.getModelNote());
-					}
-				}
-			}
-			
-		});
-		
-		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
-		toolBar.setFloatable(false);
-		
-		toolBar.add(new AbstractAction("", Images.getResourceImage(
-				"previous.png",
-				16,
-				16)) {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				((CardLayout) ModelNotePanel.this.getLayout()).first(ModelNotePanel.this);
-				ModelNotePanel.this.htmlNote.setText(ModelNotePanel.this.convertTextNoteToHtml(ModelNotePanel.this.getModelNote()));
-			}
-			
-		});
-		
-		toolBar.add(new HTMLInsertContentAction(
-				this.textNote,
-				"html_b.png",
-				"<b>|</b>"));
-		toolBar.add(new HTMLInsertContentAction(
-				this.textNote,
-				"html_i.png",
-				"<i>|</i>"));
-		toolBar.add(new HTMLInsertContentAction(
-				this.textNote,
-				"html_ul.png",
-				"\n<ul>\n<li>|</li>\n</ul>"));
-		toolBar.add(new HTMLInsertContentAction(
-				this.textNote,
-				"html_ol.png",
-				"\n<ol>\n<li>|</li>\n</ol>"));
-		toolBar.add(new HTMLInsertContentAction(
-				this.textNote,
-				"html_li.png",
-				"\n<li>|</li>"));
-		
-		JPanel textPanel = new JPanel(new BorderLayout());
-		textPanel.add(toolBar, BorderLayout.NORTH);
-		textPanel.add(
-				ComponentFactory.createJScrollPane(this.textNote, false),
-				BorderLayout.CENTER);
-		
-		this.add(htmlPanel, "" + 0);
-		this.add(textPanel, "" + 1);
-		
-		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
+		this.add(this.htmlEditorPane, BorderLayout.CENTER);
 	}
 	
 	@Override
 	public synchronized void modelSelectionChange(
 			ModelSelectionChangeEvent event) {
 		Model[] models = event.getSelectedModels();
+		System.out.println("modelSelectionChange:"
+				+ StringUtils.join(event.getSelectedModels(), ","));
 		
 		if (models.length == 1 && models[0] instanceof ModelNote) {
 			if (EqualsUtils.equals(models[0], this.previousSelectedModel))
@@ -248,11 +95,9 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 		
 		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
 			this.previousSelectedModel = null;
-			
-			this.htmlNote.setText(Translations.getString("error.select_one_row"));
-			
-			this.htmlNote.setEnabled(false);
-			this.editAction.setEnabled(false);
+			this.htmlEditorPane.setText(
+					Translations.getString("error.select_one_row"),
+					false);
 		} else {
 			this.previousSelectedModel = (ModelNote) models[0];
 			this.previousSelectedModel.addPropertyChangeListener(
@@ -261,93 +106,18 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			String note = this.previousSelectedModel.getNote();
 			
-			this.htmlNote.setText(this.convertTextNoteToHtml(note));
-			
-			this.htmlNote.setEnabled(true);
-			this.editAction.setEnabled(true);
+			this.htmlEditorPane.setText(note, true);
 		}
-		
-		((CardLayout) this.getLayout()).first(ModelNotePanel.this);
-	}
-	
-	private String convertTextNoteToHtml(String note) {
-		if (note == null || note.length() == 0)
-			return " ";
-		
-		note = this.convertNlToBr(note);
-		note = this.convertToHtmlUrl(note);
-		
-		return note;
-	}
-	
-	private String convertToHtmlUrl(String note) {
-		StringBuffer buffer = new StringBuffer(note);
-		
-		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+\\-=\\\\.&]*)");
-		Matcher m = null;
-		int position = 0;
-		
-		while (true) {
-			m = p.matcher(buffer.toString());
-			
-			if (!m.find(position))
-				break;
-			
-			position = m.end();
-			String firstGroup = m.group(1);
-			
-			if (firstGroup == null)
-				firstGroup = "";
-			
-			if (firstGroup.contains("href"))
-				continue;
-			
-			String url = firstGroup
-					+ "<a href=\""
-					+ m.group(2)
-					+ "\">"
-					+ m.group(2)
-					+ "</a>";
-			
-			buffer.replace(m.start(), m.end(), url);
-			
-			position = m.start() + url.length() - 1;
-		}
-		
-		return buffer.toString();
-	}
-	
-	private String convertNlToBr(String note) {
-		StringBuffer buffer = new StringBuffer();
-		
-		note = note.replace("\n", "\n ");
-		String[] lines = note.split("\n");
-		
-		for (int i = 0; i < lines.length; i++) {
-			String line = lines[i];
-			
-			line = line.trim();
-			buffer.append(line);
-			if (line.startsWith("<"))
-				if (i + 1 < lines.length && lines[i + 1].trim().startsWith("<"))
-					continue;
-			
-			buffer.append("<br />");
-		}
-		
-		return buffer.toString();
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		String note = this.previousSelectedModel.getNote();
+		String note = (String) evt.getNewValue();
 		
-		if (EqualsUtils.equals(this.textNote.getText(), note))
+		if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
 			return;
-		
-		this.htmlNote.setText(this.convertTextNoteToHtml(note));
-		
-		this.setModelNote(note);
+		System.out.println("propertyChange");
+		this.htmlEditorPane.setText(note, true);
 	}
 	
 }
