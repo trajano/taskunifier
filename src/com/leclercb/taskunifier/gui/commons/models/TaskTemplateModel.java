@@ -43,9 +43,9 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 
-public class TemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
+public class TaskTemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
-	public TemplateModel(boolean firstNull) {
+	public TaskTemplateModel(boolean firstNull) {
 		super(new TaskTemplateComparator());
 		this.initialize(firstNull);
 	}
@@ -75,7 +75,7 @@ public class TemplateModel extends DefaultSortedComboBoxModel implements ListCha
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof TaskTemplateFactory) {
 			if (event.getPropertyName().equals(
-					TaskTemplateFactory.PROP_DEFAULT_TASK_TEMPLATE))
+					TaskTemplateFactory.PROP_DEFAULT_TEMPLATE))
 				this.fireContentsChanged(
 						this,
 						0,

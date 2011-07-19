@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
-import com.leclercb.taskunifier.gui.commons.models.TemplateModel;
+import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -87,7 +87,7 @@ abstract class TaskTemplateList extends JPanel {
 		this.setLayout(new BorderLayout(0, 3));
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		TemplateModel model = new TemplateModel(false);
+		TaskTemplateModel model = new TaskTemplateModel(false);
 		
 		this.templateList = new JXList();
 		this.templateList.setModel(model);
