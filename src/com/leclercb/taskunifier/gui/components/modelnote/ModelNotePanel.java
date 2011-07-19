@@ -340,7 +340,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		String note = (String) evt.getNewValue();
+		String note = this.previousSelectedModel.getNote();
 		
 		if (EqualsUtils.equals(this.textNote.getText(), note))
 			return;
