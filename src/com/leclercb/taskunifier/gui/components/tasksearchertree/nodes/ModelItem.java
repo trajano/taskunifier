@@ -99,26 +99,23 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 			case FOLDER:
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
-				if (model != null)
-					template.setTaskFolder(
-							(model == null ? null : model.getModelId()),
-							true);
+				template.setTaskFolder(
+						(model == null ? null : model.getModelId()),
+						true);
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
 				type = TaskSearcherType.GOAL;
-				if (model != null)
-					template.setTaskGoal(
-							(model == null ? null : model.getModelId()),
-							true);
+				template.setTaskGoal(
+						(model == null ? null : model.getModelId()),
+						true);
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
 				type = TaskSearcherType.LOCATION;
-				if (model != null)
-					template.setTaskLocation(
-							(model == null ? null : model.getModelId()),
-							true);
+				template.setTaskLocation(
+						(model == null ? null : model.getModelId()),
+						true);
 				break;
 		}
 		
