@@ -61,7 +61,7 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().isEndUser()
+		if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()
 				|| !((Goal) event.getSource()).getLevel().equals(
 						GoalLevel.LIFE_TIME)) {
 			this.removeElement(event.getSource());

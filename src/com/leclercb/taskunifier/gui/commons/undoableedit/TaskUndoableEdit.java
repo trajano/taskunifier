@@ -77,7 +77,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 		if (task == null)
 			return;
 		
-		if (!task.getModelStatus().isEndUser())
+		if (!task.getModelStatus().isEndUserStatus())
 			return;
 		
 		this.column.setProperty(task, this.oldValue);
@@ -92,7 +92,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 		if (task == null)
 			return;
 		
-		if (!task.getModelStatus().isEndUser())
+		if (!task.getModelStatus().isEndUserStatus())
 			return;
 		
 		this.column.setProperty(task, this.newValue);

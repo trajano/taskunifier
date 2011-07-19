@@ -44,7 +44,6 @@ public abstract class HTMLEditorPane extends JPanel {
 	public void setText(String text, boolean canEdit) {
 		this.htmlNote.setText(this.convertTextNoteToHtml(text));
 		this.htmlNote.setEnabled(canEdit);
-		
 		this.editAction.setEnabled(canEdit);
 		
 		this.textNote.setText(text);

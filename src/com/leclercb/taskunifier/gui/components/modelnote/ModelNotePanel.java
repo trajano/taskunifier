@@ -38,8 +38,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
@@ -66,10 +64,8 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			@Override
 			public void textChanged(String text) {
-				System.out.println("textChanged: " + text);
 				if (ModelNotePanel.this.previousSelectedModel != null)
-					;
-				ModelNotePanel.this.previousSelectedModel.setNote(text);
+					ModelNotePanel.this.previousSelectedModel.setNote(text);
 			}
 			
 		};
@@ -81,8 +77,6 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	public synchronized void modelSelectionChange(
 			ModelSelectionChangeEvent event) {
 		Model[] models = event.getSelectedModels();
-		System.out.println("modelSelectionChange:"
-				+ StringUtils.join(event.getSelectedModels(), ","));
 		
 		if (models.length == 1 && models[0] instanceof ModelNote) {
 			if (EqualsUtils.equals(models[0], this.previousSelectedModel))
@@ -112,11 +106,11 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		String note = (String) evt.getNewValue();
+		String note = this.previousSelectedModel.getNote();
 		
 		if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
 			return;
-		System.out.println("propertyChange");
+		
 		this.htmlEditorPane.setText(note, true);
 	}
 	

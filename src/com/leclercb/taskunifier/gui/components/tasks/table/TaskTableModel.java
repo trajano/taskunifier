@@ -144,7 +144,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
 			ModelStatus newStatus = (ModelStatus) event.getNewValue();
 			
-			if (oldStatus.isEndUser() != newStatus.isEndUser())
+			if (oldStatus.isEndUserStatus() != newStatus.isEndUserStatus())
 				this.fireTableDataChanged();
 		} else if (event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
 				|| event.getPropertyName().equals(Task.PROP_PARENT)) {

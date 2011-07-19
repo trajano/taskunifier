@@ -278,7 +278,7 @@ public final class TaskUtils {
 			TaskFilter filter,
 			boolean containsCompletedTrue,
 			boolean skipParentCheck) {
-		if (!task.getModelStatus().isEndUser()) {
+		if (!task.getModelStatus().isEndUserStatus()) {
 			return false;
 		}
 		

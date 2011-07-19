@@ -51,7 +51,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	public void addElement(Object element) {
 		if (element != null) {
 			Model model = (Model) element;
-			if (!model.getModelStatus().isEndUser())
+			if (!model.getModelStatus().isEndUserStatus())
 				return;
 		}
 		
@@ -69,7 +69,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().isEndUser()) {
+		if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());

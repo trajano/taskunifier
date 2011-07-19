@@ -42,7 +42,7 @@ public final class NoteUtils {
 	}
 	
 	public static boolean showNote(Note note, NoteFilter filter) {
-		if (!note.getModelStatus().isEndUser()) {
+		if (!note.getModelStatus().isEndUserStatus()) {
 			return false;
 		}
 		

@@ -169,7 +169,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(contexts, new ModelComparator());
 		
 		for (Context context : contexts)
-			if (context.getModelStatus().isEndUser())
+			if (context.getModelStatus().isEndUserStatus())
 				this.contextCategory.add(new ModelItem(
 						ModelType.CONTEXT,
 						context));
@@ -191,7 +191,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(folders, new ModelComparator());
 		
 		for (Folder folder : folders)
-			if (folder.getModelStatus().isEndUser())
+			if (folder.getModelStatus().isEndUserStatus())
 				this.folderCategory.add(new ModelItem(ModelType.FOLDER, folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
@@ -211,7 +211,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(goals, new ModelComparator());
 		
 		for (Goal goal : goals)
-			if (goal.getModelStatus().isEndUser())
+			if (goal.getModelStatus().isEndUserStatus())
 				this.goalCategory.add(new ModelItem(ModelType.GOAL, goal));
 		
 		GoalFactory.getInstance().addListChangeListener(this);
@@ -231,7 +231,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		Collections.sort(locations, new ModelComparator());
 		
 		for (Location location : locations)
-			if (location.getModelStatus().isEndUser())
+			if (location.getModelStatus().isEndUserStatus())
 				this.locationCategory.add(new ModelItem(
 						ModelType.LOCATION,
 						location));
@@ -440,7 +440,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 			Model model = (Model) event.getSource();
 			ModelItem item = this.findItemFromModel(model);
 			
-			if (!((Model) event.getSource()).getModelStatus().isEndUser()) {
+			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
 				

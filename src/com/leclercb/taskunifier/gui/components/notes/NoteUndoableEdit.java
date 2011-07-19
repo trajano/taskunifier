@@ -76,7 +76,7 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 		if (note == null)
 			return;
 		
-		if (!note.getModelStatus().isEndUser())
+		if (!note.getModelStatus().isEndUserStatus())
 			return;
 		
 		this.column.setProperty(note, this.oldValue);
@@ -91,7 +91,7 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 		if (note == null)
 			return;
 		
-		if (!note.getModelStatus().isEndUser())
+		if (!note.getModelStatus().isEndUserStatus())
 			return;
 		
 		this.column.setProperty(note, this.newValue);

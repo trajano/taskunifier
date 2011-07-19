@@ -74,7 +74,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				if (this.notifiedTasks.contains(task.getModelId()))
 					continue;
 				
-				if (task.getModelStatus().isEndUser()) {
+				if (task.getModelStatus().isEndUserStatus()) {
 					if (task.getDueDate() != null && !task.isCompleted()) {
 						Calendar dueDate = task.getDueDate();
 						
