@@ -3,15 +3,14 @@ HISTORY
 
 Version 1.0.2
 	- Major:
-		- Support of OpenJDK
+		- BF 3368683: Task edit note field not correctly saved
+		- BF 3370345: Task edit note field not correctly saved
 	- Minor:
 		- FR 3368049: Does not contain condition
 		- FR 3312944: Add batch tasks with subtasks
 		- Tip of the day
 		- Add/edit/remove task searcher in menu
 		- Cancel button in task edit window
-		- BF 3368683: Task edit note field not correctly saved
-		- BF 3370345: Task edit note field not correctly saved
 		- Updated jGoodies libraries
 
 Version 1.0.1
