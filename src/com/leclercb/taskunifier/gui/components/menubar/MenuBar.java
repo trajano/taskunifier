@@ -264,6 +264,10 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.addSeparator();
 		
+		tasksMenu.add(new ActionManageTaskTemplates(16, 16));
+		
+		tasksMenu.addSeparator();
+		
 		tasksMenu.add(new ActionAddTaskSearcher(16, 16));
 		tasksMenu.add(new ActionEditTaskSearcher(this.taskSearcherView, 16, 16));
 		tasksMenu.add(new ActionDeleteTaskSearcher(
