@@ -12,6 +12,7 @@ Version 1.0.2
 		- Add/edit/remove task searcher in menu
 		- Cancel button in task edit window
 		- Updated jGoodies libraries
+		- Support of OpenJDK
 
 Version 1.0.1
 	- Major:
