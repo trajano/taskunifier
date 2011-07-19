@@ -92,26 +92,33 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
 				type = TaskSearcherType.CONTEXT;
-				if (model != null)
-					template.setTaskContext(model.getModelId());
+				template.setTaskContext(
+						(model == null ? null : model.getModelId()),
+						true);
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
 				if (model != null)
-					template.setTaskFolder(model.getModelId());
+					template.setTaskFolder(
+							(model == null ? null : model.getModelId()),
+							true);
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
 				type = TaskSearcherType.GOAL;
 				if (model != null)
-					template.setTaskGoal(model.getModelId());
+					template.setTaskGoal(
+							(model == null ? null : model.getModelId()),
+							true);
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
 				type = TaskSearcherType.LOCATION;
 				if (model != null)
-					template.setTaskLocation(model.getModelId());
+					template.setTaskLocation(
+							(model == null ? null : model.getModelId()),
+							true);
 				break;
 		}
 		
@@ -143,16 +150,20 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
 						switch (ModelItem.this.modelType) {
 							case CONTEXT:
-								template.setTaskContext(model.getModelId());
+								template.setTaskContext(
+										model.getModelId(),
+										true);
 								break;
 							case FOLDER:
-								template.setTaskFolder(model.getModelId());
+								template.setTaskFolder(model.getModelId(), true);
 								break;
 							case GOAL:
-								template.setTaskGoal(model.getModelId());
+								template.setTaskGoal(model.getModelId(), true);
 								break;
 							case LOCATION:
-								template.setTaskLocation(model.getModelId());
+								template.setTaskLocation(
+										model.getModelId(),
+										true);
 								break;
 						}
 						

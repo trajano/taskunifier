@@ -77,8 +77,9 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 		final Folder folder = this.getFolder();
 		final NoteTemplate template = new NoteTemplate("ModelTemplate");
 		
-		if (folder != null)
-			template.setNoteFolder(folder.getModelId());
+		template.setNoteFolder(
+				(folder == null ? null : folder.getModelId()),
+				true);
 		
 		NoteFilter filter = new NoteFilter();
 		filter.addElement(new NoteFilterElement(
@@ -106,7 +107,7 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 				@Override
 				public void propertyChange(PropertyChangeEvent event) {
 					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
-						template.setNoteFolder(folder.getModelId());
+						template.setNoteFolder(folder.getModelId(), true);
 						return;
 					}
 					
