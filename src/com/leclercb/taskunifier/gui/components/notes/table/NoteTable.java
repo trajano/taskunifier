@@ -132,7 +132,7 @@ public class NoteTable extends JXTable implements NoteView {
 					int index = this.getRowSorter().convertRowIndexToView(i);
 					
 					if (index != -1) {
-						this.getSelectionModel().setSelectionInterval(
+						this.getSelectionModel().addSelectionInterval(
 								index,
 								index);
 						

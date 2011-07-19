@@ -71,22 +71,21 @@ public class ActionEditTasks extends AbstractAction {
 		ActionEditTasks.editTasks();
 	}
 	
-	public static void editTasks() {
+	public static boolean editTasks() {
 		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
-		
+		return editTasks(tasks);
+	}
+	
+	public static boolean editTasks(Task[] tasks) {
 		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
 		dialog.setTasks(tasks);
 		dialog.setVisible(true);
-	}
-	
-	public static boolean editTask(Task task, boolean showCancelButton) {
-		if (task == null)
-			return true;
+		boolean cancelled = !dialog.isCancelled();
 		
-		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
-		dialog.setTasks(new Task[] { task });
-		dialog.setVisible(true);
-		return !dialog.isCancelled();
+		MainFrame.getInstance().getTaskView().refreshTasks();
+		MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
+		
+		return cancelled;
 	}
 	
 }

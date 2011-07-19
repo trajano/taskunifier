@@ -144,7 +144,7 @@ public class TaskTable extends JXTable implements TaskView {
 					int index = this.getRowSorter().convertRowIndexToView(i);
 					
 					if (index != -1) {
-						this.getSelectionModel().setSelectionInterval(
+						this.getSelectionModel().addSelectionInterval(
 								index,
 								index);
 						
