@@ -87,7 +87,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	private void setModelNote(String note) {
 		this.documentListenerEnabled = false;
 		this.textNote.setText(note);
-		this.textNote.setCaretPosition(0);
+		this.textNote.setCaretPosition(this.textNote.getText().length());
 		this.documentListenerEnabled = true;
 	}
 	
@@ -132,6 +132,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 						String note = ModelNotePanel.this.previousSelectedModel.getNote();
 						ModelNotePanel.this.setModelNote(note);
 						((CardLayout) ModelNotePanel.this.getLayout()).last(ModelNotePanel.this);
+						ModelNotePanel.this.textNote.requestFocus();
 					}
 				}
 			}
