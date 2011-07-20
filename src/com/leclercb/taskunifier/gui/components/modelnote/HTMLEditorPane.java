@@ -5,8 +5,6 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -22,6 +20,7 @@ import javax.swing.event.HyperlinkListener;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
+import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -42,7 +41,7 @@ public abstract class HTMLEditorPane extends JPanel {
 	}
 	
 	public void setText(String text, boolean canEdit) {
-		this.htmlNote.setText(this.convertTextNoteToHtml(text));
+		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
@@ -63,7 +62,7 @@ public abstract class HTMLEditorPane extends JPanel {
 	
 	public void view() {
 		((CardLayout) this.getLayout()).first(this);
-		this.htmlNote.setText(this.convertTextNoteToHtml(this.getText()));
+		this.htmlNote.setText(Text2HTML.convert(this.getText()));
 	}
 	
 	private void initialize(String text, boolean canEdit) {
@@ -173,74 +172,6 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.add(textPanel, "" + 1);
 		
 		this.setText(text, canEdit);
-	}
-	
-	private String convertTextNoteToHtml(String note) {
-		if (note == null || note.length() == 0)
-			return " ";
-		
-		note = this.convertNlToBr(note);
-		note = this.convertToHtmlUrl(note);
-		
-		return note;
-	}
-	
-	private String convertToHtmlUrl(String note) {
-		StringBuffer buffer = new StringBuffer(note);
-		
-		Pattern p = Pattern.compile("(href=['\"]{1})?((https?|ftp|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+\\-=\\\\.&]*)");
-		Matcher m = null;
-		int position = 0;
-		
-		while (true) {
-			m = p.matcher(buffer.toString());
-			
-			if (!m.find(position))
-				break;
-			
-			position = m.end();
-			String firstGroup = m.group(1);
-			
-			if (firstGroup == null)
-				firstGroup = "";
-			
-			if (firstGroup.contains("href"))
-				continue;
-			
-			String url = firstGroup
-					+ "<a href=\""
-					+ m.group(2)
-					+ "\">"
-					+ m.group(2)
-					+ "</a>";
-			
-			buffer.replace(m.start(), m.end(), url);
-			
-			position = m.start() + url.length() - 1;
-		}
-		
-		return buffer.toString();
-	}
-	
-	private String convertNlToBr(String note) {
-		StringBuffer buffer = new StringBuffer();
-		
-		note = note.replace("\n", "\n ");
-		String[] lines = note.split("\n");
-		
-		for (int i = 0; i < lines.length; i++) {
-			String line = lines[i];
-			
-			line = line.trim();
-			buffer.append(line);
-			if (line.startsWith("<"))
-				if (i + 1 < lines.length && lines[i + 1].trim().startsWith("<"))
-					continue;
-			
-			buffer.append("<br />");
-		}
-		
-		return buffer.toString();
 	}
 	
 }
