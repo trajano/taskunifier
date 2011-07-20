@@ -65,7 +65,7 @@ public class GuiFolder extends Folder implements GuiModel {
 		this.checkBeforeSet();
 		Color oldColor = this.color;
 		this.color = color;
-		this.updateProperty(PROP_COLOR, oldColor, color);
+		this.updateProperty(PROP_COLOR, oldColor, color, false);
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ Version 1.0.2
 		- BF 3368683: Task edit note field not correctly saved
 		- BF 3370345: Task edit note field not correctly saved
 	- Minor:
+		- BF 3372100: Collapse/expand all forces sync of all tasks
 		- FR 3368049: Does not contain condition
 		- FR 3312944: Add batch tasks with subtasks
 		- Tip of the day

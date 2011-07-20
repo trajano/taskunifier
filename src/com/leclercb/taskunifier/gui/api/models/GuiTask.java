@@ -63,7 +63,11 @@ public class GuiTask extends Task {
 		this.checkBeforeSet();
 		boolean oldShowChildren = this.showChildren;
 		this.showChildren = showChildren;
-		this.updateProperty(PROP_SHOW_CHILDREN, oldShowChildren, showChildren);
+		this.updateProperty(
+				PROP_SHOW_CHILDREN,
+				oldShowChildren,
+				showChildren,
+				false);
 	}
 	
 	@Override
