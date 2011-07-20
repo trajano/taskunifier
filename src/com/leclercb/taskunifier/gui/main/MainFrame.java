@@ -60,6 +60,9 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.ModelNote;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
@@ -493,6 +496,13 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.noteTable.addModelSelectionChangeListener(this.noteNote);
 		this.taskTable.addModelSelectionChangeListener(this.taskNote);
+		
+		NoteFactory.getInstance().addPropertyChangeListener(
+				ModelNote.PROP_NOTE,
+				this.noteNote);
+		TaskFactory.getInstance().addPropertyChangeListener(
+				ModelNote.PROP_NOTE,
+				this.taskNote);
 		
 		this.notePane.add(this.noteNote, View.NOTES.name());
 		this.notePane.add(this.taskNote, View.TASKS.name());

@@ -124,6 +124,7 @@ public class NoteTable extends JXTable implements NoteView {
 		NoteTableModel model = (NoteTableModel) this.getModel();
 		
 		this.getSelectionModel().setValueIsAdjusting(true);
+		this.getSelectionModel().clearSelection();
 		
 		int firstRowIndex = -1;
 		for (Note note : notes) {

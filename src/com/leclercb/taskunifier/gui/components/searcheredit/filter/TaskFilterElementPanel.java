@@ -170,9 +170,9 @@ public class TaskFilterElementPanel extends JPanel {
 		this.elementCondition.setEnabled(column != null);
 		this.elementValue.setEnabled(column != null);
 		
-		this.elementColumn.removeAllItems();
-		this.elementCondition.removeAllItems();
-		this.elementValue.removeAllItems();
+		this.elementColumn.setModel(new DefaultComboBoxModel());
+		this.elementCondition.setModel(new DefaultComboBoxModel());
+		this.elementValue.setModel(new DefaultComboBoxModel());
 		
 		if (column == null) {
 			return;

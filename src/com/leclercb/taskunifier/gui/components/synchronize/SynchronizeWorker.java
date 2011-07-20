@@ -139,6 +139,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 				
 				@Override
 				public void run() {
+					e.printStackTrace();
+					
 					ErrorInfo info = new ErrorInfo(
 							Translations.getString("general.error"),
 							e.getMessage(),
@@ -164,6 +166,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 					
 					@Override
 					public void run() {
+						t.printStackTrace();
+						
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),
 								t.getMessage(),

@@ -64,8 +64,10 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			
 			@Override
 			public void textChanged(String text) {
-				if (ModelNotePanel.this.previousSelectedModel != null)
-					ModelNotePanel.this.previousSelectedModel.setNote(text);
+				synchronized (ModelNotePanel.this) {
+					if (ModelNotePanel.this.previousSelectedModel != null)
+						ModelNotePanel.this.previousSelectedModel.setNote(text);
+				}
 			}
 			
 		};
@@ -74,44 +76,45 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	}
 	
 	@Override
-	public synchronized void modelSelectionChange(
-			ModelSelectionChangeEvent event) {
-		Model[] models = event.getSelectedModels();
-		
-		if (models.length == 1 && models[0] instanceof ModelNote) {
-			if (EqualsUtils.equals(models[0], this.previousSelectedModel))
-				return;
-		}
-		
-		if (this.previousSelectedModel != null) {
-			this.previousSelectedModel.removePropertyChangeListener(this);
-		}
-		
-		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
-			this.previousSelectedModel = null;
-			this.htmlEditorPane.setText(
-					Translations.getString("error.select_one_row"),
-					false);
-		} else {
-			this.previousSelectedModel = (ModelNote) models[0];
-			this.previousSelectedModel.addPropertyChangeListener(
-					ModelNote.PROP_NOTE,
-					this);
+	public void modelSelectionChange(ModelSelectionChangeEvent event) {
+		synchronized (this) {
+			Model[] models = event.getSelectedModels();
 			
-			String note = this.previousSelectedModel.getNote();
+			if (models.length == 1 && models[0] instanceof ModelNote) {
+				if (EqualsUtils.equals(models[0], this.previousSelectedModel))
+					return;
+			}
 			
-			this.htmlEditorPane.setText(note, true);
+			if (models.length != 1 || !(models[0] instanceof ModelNote)) {
+				this.previousSelectedModel = null;
+				this.htmlEditorPane.setText(
+						Translations.getString("error.select_one_row"),
+						false);
+			} else {
+				this.previousSelectedModel = (ModelNote) models[0];
+				this.htmlEditorPane.setText(
+						this.previousSelectedModel.getNote(),
+						true);
+			}
 		}
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		String note = this.previousSelectedModel.getNote();
-		
-		if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
-			return;
-		
-		this.htmlEditorPane.setText(note, true);
+		synchronized (this) {
+			if (!EqualsUtils.equals(this.previousSelectedModel, evt.getSource()))
+				return;
+			
+			if (!EqualsUtils.equals(ModelNote.PROP_NOTE, evt.getPropertyName()))
+				return;
+			
+			String note = this.previousSelectedModel.getNote();
+			
+			if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
+				return;
+			
+			this.htmlEditorPane.setText(note, true);
+		}
 	}
 	
 }

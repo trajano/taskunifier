@@ -136,6 +136,7 @@ public class TaskTable extends JXTable implements TaskView {
 		TaskTableModel model = (TaskTableModel) this.getModel();
 		
 		this.getSelectionModel().setValueIsAdjusting(true);
+		this.getSelectionModel().clearSelection();
 		
 		int firstRowIndex = -1;
 		for (Task task : tasks) {
