@@ -26,8 +26,11 @@ import com.leclercb.taskunifier.gui.swing.JFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public abstract class HTMLEditorPane extends JPanel {
+	
+	private UndoSupport undoSupport;
 	
 	private JXEditorPane htmlNote;
 	private JTextArea textNote;
@@ -43,16 +46,17 @@ public abstract class HTMLEditorPane extends JPanel {
 		return this.textNote.getText();
 	}
 	
-	public void setText(String text, boolean canEdit, boolean changeView) {
+	public void setText(String text, boolean canEdit, boolean resetView) {
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
 		this.textNote.setText(text);
 		
-		if (!changeView) {
+		if (resetView) {
 			this.textNote.setCaretPosition(this.textNote.getText().length());
 			((CardLayout) this.getLayout()).first(this);
+			// this.undoSupport.getUndoManager().discardAllEdits();
 		}
 	}
 	
@@ -72,6 +76,8 @@ public abstract class HTMLEditorPane extends JPanel {
 	
 	private void initialize(String text, boolean canEdit) {
 		this.setLayout(new CardLayout());
+		
+		this.undoSupport = new UndoSupport();
 		
 		JToolBar toolBar = null;
 		
@@ -123,6 +129,8 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.textNote.setLineWrap(true);
 		this.textNote.setWrapStyleWord(true);
 		this.textNote.setBorder(BorderFactory.createEmptyBorder());
+		this.textNote.getDocument().addUndoableEditListener(this.undoSupport);
+		this.undoSupport.initializeMaps(this.textNote);
 		
 		this.textNote.addFocusListener(new FocusAdapter() {
 			
@@ -147,6 +155,10 @@ public abstract class HTMLEditorPane extends JPanel {
 			}
 			
 		});
+		
+		toolBar.add(this.undoSupport.getUndoAction());
+		
+		toolBar.add(this.undoSupport.getRedoAction());
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,

@@ -32,6 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.KeyStroke;
+
 import com.leclercb.taskunifier.gui.constants.Constants;
 
 public class ActionRedoAction extends ActionRedo {
@@ -46,6 +52,11 @@ public class ActionRedoAction extends ActionRedo {
 				Constants.UNDO_EDIT_SUPPORT,
 				width,
 				height);
+		
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_Y,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+						| InputEvent.SHIFT_DOWN_MASK));
 	}
 	
 }

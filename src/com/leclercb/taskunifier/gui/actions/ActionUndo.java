@@ -46,7 +46,6 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.undo.IRedoListener;
 import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
-import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -92,7 +91,7 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Constants.UNDO_MANAGER.undo();
+		this.undoManager.undo();
 	}
 	
 	@Override
@@ -111,8 +110,8 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	}
 	
 	private void updateAction() {
-		this.setEnabled(Constants.UNDO_MANAGER.canUndo());
-		this.putValue(NAME, Constants.UNDO_MANAGER.getRedoPresentationName());
+		this.setEnabled(this.undoManager.canUndo());
+		this.putValue(NAME, this.undoManager.getUndoPresentationName());
 	}
 	
 }
