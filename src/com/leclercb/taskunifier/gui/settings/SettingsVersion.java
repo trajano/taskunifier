@@ -156,6 +156,9 @@ public final class SettingsVersion {
 		if (version.equals("1.0.1"))
 			version = updateSettings_1_0_1_to_1_0_2();
 		
+		if (version.equals("1.0.2"))
+			version = updateSettings_1_0_2_to_1_0_3();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -570,6 +573,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("tips.show_on_startup", "true");
 		
 		return "1.0.2";
+	}
+	
+	private static String updateSettings_1_0_2_to_1_0_3() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.0.2 to 1.0.3");
+		
+		return "1.0.3";
 	}
 	
 }
