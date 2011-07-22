@@ -4,6 +4,7 @@ HISTORY
 Version 1.0.3
 	- Minor:
 		- FR 3373954: Add insert link button in note editor
+		- Undo/redo buttons in note editor
 
 Version 1.0.2
 	- Major:
