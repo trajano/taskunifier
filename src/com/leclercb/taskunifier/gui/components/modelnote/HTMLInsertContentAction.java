@@ -58,6 +58,15 @@ public class HTMLInsertContentAction extends AbstractAction {
 		this.putValue(SMALL_ICON, Images.getResourceImage(image, 16, 16));
 	}
 	
+	public String getContent() {
+		return this.content;
+	}
+	
+	public void setContent(String content) {
+		CheckUtils.isNotNull(content, "Content cannot be null");
+		this.content = content;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		int caret = this.textArea.getCaretPosition();

@@ -89,11 +89,13 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 				this.previousSelectedModel = null;
 				this.htmlEditorPane.setText(
 						Translations.getString("error.select_one_row"),
-						false);
+						false,
+						true);
 			} else {
 				this.previousSelectedModel = (ModelNote) models[0];
 				this.htmlEditorPane.setText(
 						this.previousSelectedModel.getNote(),
+						true,
 						true);
 			}
 		}
@@ -113,7 +115,7 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 			if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
 				return;
 			
-			this.htmlEditorPane.setText(note, true);
+			this.htmlEditorPane.setText(note, true, false);
 		}
 	}
 	

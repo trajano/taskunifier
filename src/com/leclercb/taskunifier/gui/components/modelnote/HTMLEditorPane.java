@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -21,6 +22,8 @@ import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
+import com.leclercb.taskunifier.gui.swing.JFileDialog;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -40,15 +43,17 @@ public abstract class HTMLEditorPane extends JPanel {
 		return this.textNote.getText();
 	}
 	
-	public void setText(String text, boolean canEdit) {
+	public void setText(String text, boolean canEdit, boolean changeView) {
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
 		this.textNote.setText(text);
-		this.textNote.setCaretPosition(this.textNote.getText().length());
 		
-		((CardLayout) this.getLayout()).first(this);
+		if (!changeView) {
+			this.textNote.setCaretPosition(this.textNote.getText().length());
+			((CardLayout) this.getLayout()).first(this);
+		}
 	}
 	
 	public boolean edit() {
@@ -81,8 +86,10 @@ public abstract class HTMLEditorPane extends JPanel {
 			public void hyperlinkUpdate(HyperlinkEvent evt) {
 				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 					try {
-						BrowserUtils.openDefaultBrowser(evt.getURL().toString());
-					} catch (Exception exc) {}
+						BrowserUtils.openDefaultBrowser(evt.getURL().toExternalForm());
+					} catch (Exception exc) {
+
+					}
 				}
 			}
 			
@@ -145,22 +152,59 @@ public abstract class HTMLEditorPane extends JPanel {
 				this.textNote,
 				"html_b.png",
 				"<b>|</b>"));
+		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_i.png",
 				"<i>|</i>"));
+		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_ul.png",
 				"\n<ul>\n<li>|</li>\n</ul>"));
+		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_ol.png",
 				"\n<ol>\n<li>|</li>\n</ol>"));
+		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_li.png",
 				"\n<li>|</li>"));
+		
+		toolBar.add(new HTMLInsertContentAction(
+				this.textNote,
+				"html_a.png",
+				"<a href=\"\">|</a>") {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFileDialog dialog = new JFileDialog(
+						Translations.getString("general.link"));
+				dialog.setFile("http://");
+				dialog.setVisible(true);
+				
+				if (dialog.isCancelled()) {
+					HTMLEditorPane.this.textNote.requestFocus();
+					return;
+				}
+				
+				String url = dialog.getFile();
+				
+				try {
+					File file = new File(url);
+					if (file.exists())
+						url = file.toURI().toURL().toExternalForm();
+				} catch (Throwable t) {
+
+				}
+				
+				this.setContent("<a href=\"" + url + "\">|</a>");
+				super.actionPerformed(event);
+			}
+			
+		});
 		
 		JPanel textPanel = new JPanel(new BorderLayout());
 		textPanel.add(toolBar, BorderLayout.NORTH);
@@ -171,7 +215,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.add(htmlPanel, "" + 0);
 		this.add(textPanel, "" + 1);
 		
-		this.setText(text, canEdit);
+		this.setText(text, canEdit, true);
 	}
 	
 }
