@@ -68,4 +68,8 @@ public class UndoSupport implements UndoableEditListener {
 		this.editSupport.postEdit(e.getEdit());
 	}
 	
+	public void discardAllEdits() {
+		this.undoManager.discardAllEdits();
+	}
+	
 }

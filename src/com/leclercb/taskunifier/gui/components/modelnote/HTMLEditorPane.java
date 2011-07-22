@@ -56,7 +56,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		if (resetView) {
 			this.textNote.setCaretPosition(this.textNote.getText().length());
 			((CardLayout) this.getLayout()).first(this);
-			// this.undoSupport.getUndoManager().discardAllEdits();
+			this.undoSupport.discardAllEdits();
 		}
 	}
 	

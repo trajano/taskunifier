@@ -78,8 +78,8 @@ public class JFileDialog extends JDialog {
 	private void initialize(String title) {
 		this.setModal(true);
 		this.setTitle(title);
-		this.setSize(300, 100);
-		this.setResizable(false);
+		this.setSize(400, 150);
+		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
@@ -92,7 +92,7 @@ public class JFileDialog extends JDialog {
 				null,
 				null);
 		this.fileField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-		this.add(this.fileField, BorderLayout.CENTER);
+		this.add(this.fileField, BorderLayout.NORTH);
 		
 		this.initializeButtonsPanel();
 	}
