@@ -632,6 +632,17 @@ public class Main {
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		
 		try {
+			ContextFactory.getInstance().cleanFactory();
+			FolderFactory.getInstance().cleanFactory();
+			GoalFactory.getInstance().cleanFactory();
+			LocationFactory.getInstance().cleanFactory();
+			NoteFactory.getInstance().cleanFactory();
+			TaskFactory.getInstance().cleanFactory();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			try {
 				ContextFactory.getInstance().encodeToXML(
 						new FileOutputStream(DATA_FOLDER
