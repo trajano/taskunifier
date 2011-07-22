@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.0.3
+	- Minor:
+		- FR 3373954: Add insert link button in note editor
+
 Version 1.0.2
 	- Major:
 		- BF 3368683: Task edit note field not correctly saved
