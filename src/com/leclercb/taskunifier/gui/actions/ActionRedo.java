@@ -40,24 +40,42 @@ import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEditSupport;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.undo.IRedoListener;
 import com.leclercb.commons.gui.swing.undo.IUndoListener;
+import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 	
-	public ActionRedo() {
-		this(32, 32);
+	private UndoFireManager undoManager;
+	private UndoableEditSupport editSupport;
+	
+	public ActionRedo(
+			UndoFireManager undoManager,
+			UndoableEditSupport editSupport) {
+		this(undoManager, editSupport, 32, 32);
 	}
 	
-	public ActionRedo(int width, int height) {
+	public ActionRedo(
+			UndoFireManager undoManager,
+			UndoableEditSupport editSupport,
+			int width,
+			int height) {
 		super(Translations.getString("action.redo"), Images.getResourceImage(
 				"redo.png",
 				width,
 				height));
+		
+		CheckUtils.isNotNull(undoManager, "Undo manager cannot be null");
+		CheckUtils.isNotNull(editSupport, "Edit support cannot be null");
+		
+		this.undoManager = undoManager;
+		this.editSupport = editSupport;
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.redo"));
 		
@@ -67,9 +85,9 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 		
 		this.updateAction();
 		
-		Constants.UNDO_MANAGER.addUndoListener(this);
-		Constants.UNDO_MANAGER.addRedoListener(this);
-		Constants.UNDO_EDIT_SUPPORT.addUndoableEditListener(this);
+		this.undoManager.addUndoListener(this);
+		this.undoManager.addRedoListener(this);
+		this.editSupport.addUndoableEditListener(this);
 	}
 	
 	@Override
