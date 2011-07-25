@@ -58,200 +58,200 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class TaskUtils {
-	
+
 	private TaskUtils() {
 
 	}
-	
+
 	public static String toHtml(Task[] tasks, TaskColumn[] columns) {
 		String[][] data = toStringData(tasks, columns);
 		StringBuffer buffer = new StringBuffer();
-		
+
 		if (data == null)
 			return null;
-		
+
 		buffer.append("<table>");
-		
+
 		int i = 0;
 		for (String[] row : data) {
 			if (i == 0)
 				buffer.append("<tr style=\"font-weight:bold;\">");
 			else
 				buffer.append("<tr>");
-			
+
 			for (String col : row)
 				buffer.append("<td>"
 						+ StringEscapeUtils.escapeHtml(col)
 						+ "</td>");
-			buffer.append("</tr>");
-			
-			i++;
+					buffer.append("</tr>");
+
+					i++;
 		}
-		
+
 		buffer.append("</table>");
-		
+
 		return buffer.toString();
 	}
-	
+
 	public static String[][] toStringData(Task[] tasks, TaskColumn[] columns) {
 		CheckUtils.isNotNull(tasks, "Tasks cannot be null");
 		CheckUtils.isNotNull(columns, "Columns cannot be null");
-		
+
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
-		
+
 		int colCount = 0;
 		List<String[]> data = new ArrayList<String[]>();
-		
+
 		for (TaskColumn column : columns) {
 			if (column == null)
 				continue;
-			
+
 			colCount++;
 		}
-		
+
 		if (colCount == 0)
 			return null;
-		
+
 		int i = 0;
 		String[] row = new String[colCount];
-		
+
 		for (TaskColumn column : columns) {
 			if (column == null)
 				continue;
-			
+
 			row[i++] = column.getLabel();
 		}
-		
+
 		data.add(row);
-		
+
 		for (Task task : tasks) {
 			if (task == null)
 				continue;
-			
+
 			i = 0;
 			row = new String[colCount];
-			
+
 			for (TaskColumn column : columns) {
 				if (column == null)
 					continue;
-				
+
 				String content = null;
 				Object value = column.getProperty(task);
-				
+
 				switch (column) {
-					case COMPLETED:
-						content = StringValueBoolean.INSTANCE.getString(value);
-						break;
-					case COMPLETED_ON:
+				case COMPLETED:
+					content = StringValueBoolean.INSTANCE.getString(value);
+					break;
+				case COMPLETED_ON:
+					content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+					break;
+				case CONTEXT:
+				case FOLDER:
+				case GOAL:
+				case LOCATION:
+				case PARENT:
+					content = StringValueModel.INSTANCE.getString(value);
+					break;
+				case DUE_DATE:
+					if (useDueTime)
 						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
-						break;
-					case CONTEXT:
-					case FOLDER:
-					case GOAL:
-					case LOCATION:
-					case PARENT:
-						content = StringValueModel.INSTANCE.getString(value);
-						break;
-					case DUE_DATE:
-						if (useDueTime)
-							content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
-						else
-							content = StringValueCalendar.INSTANCE_DATE.getString(value);
-						break;
-					case IMPORTANCE:
-						content = (value == null ? null : value.toString());
-						break;
-					case LENGTH:
-						content = StringValueTaskLength.INSTANCE.getString(value);
-						break;
-					case MODEL:
-						content = StringValueModelId.INSTANCE.getString(value);
-						break;
-					case NOTE:
-						content = (value == null ? null : value.toString());
-						break;
-					case PRIORITY:
-						content = StringValueTaskPriority.INSTANCE.getString(value);
-						break;
-					case PROGRESS:
-						content = StringValueTaskProgress.INSTANCE.getString(value);
-						break;
-					case REMINDER:
-						content = StringValueTaskReminder.INSTANCE.getString(value);
-						break;
-					case REPEAT:
-						content = StringValueTaskRepeat.INSTANCE.getString(value);
-						break;
-					case REPEAT_FROM:
-						content = StringValueTaskRepeatFrom.INSTANCE.getString(value);
-						break;
-					case SHOW_CHILDREN:
-						content = StringValueBoolean.INSTANCE.getString(value);
-						break;
-					case STAR:
-						content = StringValueBoolean.INSTANCE.getString(value);
-						break;
-					case START_DATE:
-						if (useStartTime)
-							content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
-						else
-							content = StringValueCalendar.INSTANCE_DATE.getString(value);
-						break;
-					case STATUS:
-						content = StringValueTaskStatus.INSTANCE.getString(value);
-						break;
-					case TAGS:
-						content = (value == null ? null : value.toString());
-						break;
-					case TITLE:
-						content = (value == null ? null : value.toString());
-						break;
+					else
+						content = StringValueCalendar.INSTANCE_DATE.getString(value);
+					break;
+				case IMPORTANCE:
+					content = (value == null ? null : value.toString());
+					break;
+				case LENGTH:
+					content = StringValueTaskLength.INSTANCE.getString(value);
+					break;
+				case MODEL:
+					content = StringValueModelId.INSTANCE.getString(value);
+					break;
+				case NOTE:
+					content = (value == null ? null : value.toString());
+					break;
+				case PRIORITY:
+					content = StringValueTaskPriority.INSTANCE.getString(value);
+					break;
+				case PROGRESS:
+					content = StringValueTaskProgress.INSTANCE.getString(value);
+					break;
+				case REMINDER:
+					content = StringValueTaskReminder.INSTANCE.getString(value);
+					break;
+				case REPEAT:
+					content = StringValueTaskRepeat.INSTANCE.getString(value);
+					break;
+				case REPEAT_FROM:
+					content = StringValueTaskRepeatFrom.INSTANCE.getString(value);
+					break;
+				case SHOW_CHILDREN:
+					content = StringValueBoolean.INSTANCE.getString(value);
+					break;
+				case STAR:
+					content = StringValueBoolean.INSTANCE.getString(value);
+					break;
+				case START_DATE:
+					if (useStartTime)
+						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+					else
+						content = StringValueCalendar.INSTANCE_DATE.getString(value);
+					break;
+				case STATUS:
+					content = StringValueTaskStatus.INSTANCE.getString(value);
+					break;
+				case TAGS:
+					content = (value == null ? null : value.toString());
+					break;
+				case TITLE:
+					content = (value == null ? null : value.toString());
+					break;
 				}
-				
+
 				if (content == null)
 					content = "";
-				
+
 				row[i++] = content;
 			}
-			
+
 			data.add(row);
 		}
-		
+
 		return data.toArray(new String[0][]);
 	}
-	
+
 	public static int getImportance(Task task) {
 		CheckUtils.isNotNull(task, "Task cannot be null");
-		
+
 		int importance = 2;
-		
+
 		switch (task.getPriority()) {
-			case NEGATIVE:
-				importance += -1;
-				break;
-			case LOW:
-				importance += 0;
-				break;
-			case MEDIUM:
-				importance += 1;
-				break;
-			case HIGH:
-				importance += 2;
-				break;
-			case TOP:
-				importance += 3;
-				break;
+		case NEGATIVE:
+			importance += -1;
+			break;
+		case LOW:
+			importance += 0;
+			break;
+		case MEDIUM:
+			importance += 1;
+			break;
+		case HIGH:
+			importance += 2;
+			break;
+		case TOP:
+			importance += 3;
+			break;
 		}
-		
+
 		importance += (task.isStar() ? 1 : 0);
-		
+
 		if (task.getDueDate() != null) {
 			long milliSeconds1 = task.getDueDate().getTimeInMillis();
 			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
 			long diff = milliSeconds1 - milliSeconds2;
 			double diffDays = diff / (24 * 60 * 60 * 1000.0);
-			
+
 			if (diffDays > 14)
 				importance += 0;
 			else if (diffDays >= 7)
@@ -265,75 +265,82 @@ public final class TaskUtils {
 			else
 				importance += 6;
 		}
-		
+
 		return importance;
+	}
+
+	public static boolean badgeTask(Task task, TaskFilter filter) {
+		return showTask(task, filter, containsCompletedTrue(filter), false, true);
 	}
 	
 	public static boolean showTask(Task task, TaskFilter filter) {
-		return showTask(task, filter, containsCompletedTrue(filter), false);
+		return showTask(task, filter, containsCompletedTrue(filter), false, false);
 	}
-	
+
 	private static boolean showTask(
 			Task task,
 			TaskFilter filter,
 			boolean containsCompletedTrue,
-			boolean skipParentCheck) {
+			boolean skipParentCheck,
+			boolean skipShowChildren) {
 		if (!task.getModelStatus().isEndUserStatus()) {
 			return false;
 		}
-		
+
 		// If a filtered parent task has non filtered children,
 		// it must be displayed
 		if (!skipParentCheck) {
 			if (task.getParent() == null) {
 				Task[] children = task.getChildren();
 				for (Task child : children)
-					if (showTask(child, filter, containsCompletedTrue, false))
+					if (showTask(child, filter, containsCompletedTrue, false, skipShowChildren))
 						return true;
 			}
 		}
-		
-		if (task.getParent() != null) {
-			if (!((GuiTask) task.getParent()).isShowChildren())
-				return false;
+
+		if (!skipShowChildren) {
+			if (task.getParent() != null) {
+				if (!((GuiTask) task.getParent()).isShowChildren())
+					return false;
+			}
 		}
-		
+
 		if (!Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks")) {
 			if (task.isCompleted() && !containsCompletedTrue)
 				return false;
 		}
-		
+
 		if (task.getParent() != null) {
-			if (showTask(task.getParent(), filter, containsCompletedTrue, true))
+			if (showTask(task.getParent(), filter, containsCompletedTrue, true, skipShowChildren))
 				return true;
 		}
-		
+
 		if (filter == null)
 			return true;
-		
+
 		return filter.include(task);
 	}
-	
+
 	private static boolean containsCompletedTrue(TaskFilter filter) {
 		if (filter == null)
 			return false;
-		
+
 		List<TaskFilterElement> elements = filter.getElements();
 		List<TaskFilter> filters = filter.getFilters();
-		
+
 		for (TaskFilterElement e : elements) {
 			if (e.getProperty() == TaskColumn.COMPLETED) {
 				if (e.getValue().toString().equals("true"))
 					return true;
 			}
 		}
-		
+
 		for (TaskFilter f : filters) {
 			if (containsCompletedTrue(f))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 }
