@@ -50,9 +50,9 @@ public class JFileDialog extends JDialog {
 	private JFileField fileField;
 	private boolean cancelled;
 	
-	public JFileDialog(String title) {
+	public JFileDialog(boolean open, String title) {
 		super(MainFrame.getInstance().getFrame());
-		this.initialize(title);
+		this.initialize(open, title);
 	}
 	
 	public String getFile() {
@@ -75,7 +75,7 @@ public class JFileDialog extends JDialog {
 		return this.cancelled;
 	}
 	
-	private void initialize(String title) {
+	private void initialize(boolean open, String title) {
 		this.setModal(true);
 		this.setTitle(title);
 		this.setSize(400, 150);
@@ -87,6 +87,7 @@ public class JFileDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		this.fileField = new JFileField(
+				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,
 				null,

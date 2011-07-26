@@ -134,6 +134,7 @@ abstract class AbstractImportDialog extends JDialog {
 		};
 		
 		this.fileField = new JFileField(
+				true,
 				null,
 				JFileChooser.FILES_ONLY,
 				fileFilter,

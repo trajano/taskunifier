@@ -115,6 +115,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		
 		// Import file
 		this.fileField = new JFileField(
+				true,
 				null,
 				JFileChooser.DIRECTORIES_ONLY,
 				null,

@@ -3,6 +3,7 @@ Version 1.0.3
 		- FR 3373954: Add insert link button in note editor
 		- Undo/redo buttons in note editor
 		- BF 3376602: Incorrect badge count with hidden subtasks
+		- BF 3376593: Wrong file chooser dialog for export
 
 Version 1.0.2
 	- Major:

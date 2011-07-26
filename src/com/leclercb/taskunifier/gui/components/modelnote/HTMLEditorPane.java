@@ -193,6 +193,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				JFileDialog dialog = new JFileDialog(
+						true,
 						Translations.getString("general.link"));
 				dialog.setFile("http://");
 				dialog.setVisible(true);
