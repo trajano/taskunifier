@@ -168,6 +168,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 						JSplitPane.HORIZONTAL_SPLIT);
 			}
 			
+			this.horizontalSplitPane.setOneTouchExpandable(true);
+			
 			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.verticalSplitPane.setOneTouchExpandable(true);
 			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
