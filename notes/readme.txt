@@ -4,6 +4,9 @@ HISTORY
 Version 1.0.3
 	- Minor:
 		- FR 3373954: Add insert link button in note editor
+		- FR 3382541: Enter in task table = edit task
+		- FR 3381495: Delete subtasks question popup
+		- FR 3381078: Added repeat values
 		- Undo/redo buttons in note editor
 		- BF 3376602: Incorrect badge count with hidden subtasks
 		- BF 3376593: Wrong file chooser dialog for export

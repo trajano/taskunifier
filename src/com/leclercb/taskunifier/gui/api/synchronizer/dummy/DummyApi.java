@@ -67,6 +67,8 @@ public class DummyApi extends SynchronizerApi {
 		return new String[] {
 				" ",
 				"Daily",
+				"Every 2 days",
+				"Every 3 days",
 				"Weekly",
 				"Biweekly",
 				"Monthly",

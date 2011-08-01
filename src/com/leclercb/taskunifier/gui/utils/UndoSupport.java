@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEdit;
 import javax.swing.undo.UndoableEditSupport;
 
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
@@ -61,6 +62,10 @@ public class UndoSupport implements UndoableEditListener {
 		imap.put(KeyStroke.getKeyStroke(
 				KeyEvent.VK_Y,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redo");
+	}
+	
+	public void postEdit(UndoableEdit e) {
+		this.editSupport.postEdit(e);
 	}
 	
 	@Override

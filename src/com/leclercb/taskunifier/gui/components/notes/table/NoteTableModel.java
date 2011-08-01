@@ -39,17 +39,23 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.commons.undoableedit.NoteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class NoteTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	public NoteTableModel() {
+	private UndoSupport undoSupport;
+	
+	public NoteTableModel(UndoSupport undoSupport) {
+		CheckUtils.isNotNull(undoSupport, "Undo support cannot be null");
+		this.undoSupport = undoSupport;
+		
 		NoteFactory.getInstance().addListChangeListener(this);
 		NoteFactory.getInstance().addPropertyChangeListener(this);
 	}
@@ -102,7 +108,7 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setProperty(note, value);
-			Constants.UNDO_EDIT_SUPPORT.postEdit(new NoteUndoableEdit(
+			this.undoSupport.postEdit(new NoteUndoableEdit(
 					note.getModelId(),
 					column,
 					value,

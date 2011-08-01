@@ -81,14 +81,18 @@ import com.leclercb.taskunifier.gui.components.notes.table.menu.NoteTableMenu;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class NoteTable extends JXTable implements NoteView {
+	
+	private UndoSupport undoSupport;
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
 	private NoteTableMenu noteTableMenu;
 	
 	public NoteTable() {
+		this.undoSupport = new UndoSupport();
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
@@ -241,7 +245,7 @@ public class NoteTable extends JXTable implements NoteView {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		NoteTableColumnModel columnModel = new NoteTableColumnModel();
-		NoteTableModel tableModel = new NoteTableModel();
+		NoteTableModel tableModel = new NoteTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);
 		this.setColumnModel(columnModel);
@@ -259,6 +263,7 @@ public class NoteTable extends JXTable implements NoteView {
 		this.initializeDeleteNote();
 		this.initializeNoteTableMenu();
 		this.initializeDragAndDrop();
+		this.initializeUndoRedo();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
 		
@@ -331,6 +336,10 @@ public class NoteTable extends JXTable implements NoteView {
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new NoteTransferHandler());
+	}
+	
+	private void initializeUndoRedo() {
+		this.undoSupport.initializeMaps(this);
 	}
 	
 	private void initializeCopyAndPaste() {

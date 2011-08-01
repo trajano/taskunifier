@@ -68,6 +68,7 @@ import org.jdesktop.swingx.JXTable;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
@@ -93,14 +94,18 @@ import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowCompara
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class TaskTable extends JXTable implements TaskView {
+	
+	private UndoSupport undoSupport;
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
 	private TaskTableMenu taskTableMenu;
 	
 	public TaskTable() {
+		this.undoSupport = new UndoSupport();
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
@@ -259,7 +264,7 @@ public class TaskTable extends JXTable implements TaskView {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		TaskTableColumnModel columnModel = new TaskTableColumnModel();
-		TaskTableModel tableModel = new TaskTableModel();
+		TaskTableModel tableModel = new TaskTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);
 		this.setColumnModel(columnModel);
@@ -277,6 +282,8 @@ public class TaskTable extends JXTable implements TaskView {
 		this.initializeDeleteTask();
 		this.initializeTaskTableMenu();
 		this.initializeDragAndDrop();
+		this.initializeEnter();
+		this.initializeUndoRedo();
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
 		
@@ -361,6 +368,18 @@ public class TaskTable extends JXTable implements TaskView {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new TaskTransferHandler());
 		this.setDropMode(DropMode.ON_OR_INSERT_ROWS);
+	}
+	
+	private void initializeEnter() {
+		ActionMap amap = this.getActionMap();
+		amap.put("editTask", new ActionEditTasks(this));
+		
+		InputMap imap = this.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "editTask");
+	}
+	
+	private void initializeUndoRedo() {
+		this.undoSupport.initializeMaps(this);
 	}
 	
 	private void initializeCopyAndPaste() {

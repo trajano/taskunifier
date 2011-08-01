@@ -88,12 +88,10 @@ import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.actions.ActionRedoAction;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.actions.ActionUndoAction;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.tasks.TaskView;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
@@ -184,9 +182,6 @@ public class MenuBar extends JMenuBar {
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		this.add(editMenu);
 		
-		editMenu.add(new ActionUndoAction(16, 16));
-		editMenu.add(new ActionRedoAction(16, 16));
-		editMenu.addSeparator();
 		editMenu.add(new ActionCut(16, 16));
 		editMenu.add(new ActionCopy(16, 16));
 		editMenu.add(new ActionPaste(16, 16));

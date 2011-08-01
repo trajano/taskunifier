@@ -37,16 +37,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -82,30 +80,66 @@ public class ActionDelete extends AbstractAction {
 		if (MainFrame.getInstance().getSelectedView() == View.TASKS) {
 			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
 			
+			boolean hasSubTasks = false;
+			
+			for (Task task : tasks) {
+				if (task.getChildren().length != 0) {
+					hasSubTasks = true;
+					break;
+				}
+			}
+			
+			int deleteSubTasks = hasSubTasks ? askDeleteSubTasks() : JOptionPane.NO_OPTION;
+			
+			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
+				return;
+			
 			Synchronizing.setSynchronizing(true);
 			
-			Constants.UNDO_EDIT_SUPPORT.beginUpdate();
 			for (Task task : tasks) {
-				TaskFactory.getInstance().markToDelete(task);
-				Constants.UNDO_EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-						ModelType.TASK,
-						task.getModelId()));
+				if (task.getModelStatus().isEndUserStatus()) {
+					if (deleteSubTasks == JOptionPane.YES_OPTION) {
+						Task[] children = task.getChildren();
+						for (Task child : children) {
+							if (child.getModelStatus().isEndUserStatus()) {
+								TaskFactory.getInstance().markToDelete(child);
+							}
+						}
+					}
+					
+					TaskFactory.getInstance().markToDelete(task);
+				}
 			}
-			Constants.UNDO_EDIT_SUPPORT.endUpdate();
 			
 			Synchronizing.setSynchronizing(false);
 		} else {
 			Note[] notes = MainFrame.getInstance().getNoteView().getSelectedNotes();
 			
-			Constants.UNDO_EDIT_SUPPORT.beginUpdate();
 			for (Note note : notes) {
-				NoteFactory.getInstance().markToDelete(note);
-				Constants.UNDO_EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-						ModelType.NOTE,
-						note.getModelId()));
+				if (note.getModelStatus().isEndUserStatus()) {
+					NoteFactory.getInstance().markToDelete(note);
+				}
 			}
-			Constants.UNDO_EDIT_SUPPORT.endUpdate();
 		}
+	}
+	
+	private static int askDeleteSubTasks() {
+		String[] options = new String[] {
+				Translations.getString("general.yes"),
+				Translations.getString("general.no"),
+				Translations.getString("general.cancel") };
+		
+		int result = JOptionPane.showOptionDialog(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("action.delete.delete_subtasks"),
+				Translations.getString("general.question"),
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]);
+		
+		return result;
 	}
 	
 }

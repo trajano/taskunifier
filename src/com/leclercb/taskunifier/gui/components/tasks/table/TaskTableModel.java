@@ -39,6 +39,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
@@ -48,11 +49,16 @@ import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.commons.undoableedit.TaskUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class TaskTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	public TaskTableModel() {
+	private UndoSupport undoSupport;
+	
+	public TaskTableModel(UndoSupport undoSupport) {
+		CheckUtils.isNotNull(undoSupport, "Undo support cannot be null");
+		this.undoSupport = undoSupport;
+		
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 		
@@ -115,7 +121,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setProperty(task, value);
-			Constants.UNDO_EDIT_SUPPORT.postEdit(new TaskUndoableEdit(
+			this.undoSupport.postEdit(new TaskUndoableEdit(
 					task.getModelId(),
 					column,
 					value,
