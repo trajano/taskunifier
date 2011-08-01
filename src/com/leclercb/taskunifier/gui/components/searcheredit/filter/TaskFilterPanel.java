@@ -43,10 +43,14 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -56,6 +60,7 @@ public class TaskFilterPanel extends JPanel {
 	private TaskFilter filter;
 	private TaskFilterTree tree;
 	
+	private JButton autoFillButton;
 	private JButton addElementButton;
 	private JButton addFilterButton;
 	private JButton removeButton;
@@ -128,7 +133,20 @@ public class TaskFilterPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().startsWith("ADD")) {
+				if (event.getActionCommand().equals("AUTO_FILL")) {
+					TaskFilterPanel.this.filter.clearElement();
+					TaskFilterPanel.this.filter.clearFilters();
+					
+					TaskFilterPanel.this.filter.setLink(FilterLink.OR);
+					
+					Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+					for (Task task : tasks) {
+						TaskFilterPanel.this.filter.addElement(new TaskFilterElement(
+								TaskColumn.MODEL,
+								ModelCondition.EQUALS,
+								task));
+					}
+				} else if (event.getActionCommand().startsWith("ADD")) {
 					TreeNode node = (TreeNode) TaskFilterPanel.this.tree.getLastSelectedPathComponent();
 					
 					if (node == null || !(node instanceof TaskFilterTreeNode))
@@ -149,7 +167,7 @@ public class TaskFilterPanel extends JPanel {
 					
 					for (int i = 0; i < TaskFilterPanel.this.tree.getRowCount(); i++)
 						TaskFilterPanel.this.tree.expandRow(i);
-				} else {
+				} else if (event.getActionCommand().equals("REMOVE")) {
 					TreeNode node = (TreeNode) TaskFilterPanel.this.tree.getLastSelectedPathComponent();
 					
 					if (node == null)
@@ -191,6 +209,17 @@ public class TaskFilterPanel extends JPanel {
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
 		buttonsPanel.add(this.removeButton);
+		
+		this.autoFillButton = new JButton(
+				Translations.getString("searcheredit.clear_and_auto_fill_with_selected_tasks"),
+				Images.getResourceImage("synchronize.png", 16, 16));
+		this.autoFillButton.setActionCommand("AUTO_FILL");
+		this.autoFillButton.addActionListener(listener);
+		this.autoFillButton.setEnabled(true);
+		buttonsPanel.add(this.autoFillButton);
+		
+		// Do not show the auto fill button
+		this.autoFillButton.setVisible(false);
 	}
 	
 }

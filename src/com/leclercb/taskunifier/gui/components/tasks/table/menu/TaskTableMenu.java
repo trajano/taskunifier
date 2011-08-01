@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.components.tasks.table.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -46,6 +48,7 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -70,12 +73,69 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new ActionEditTasks(this.taskTable, 16, 16));
 		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
+		this.initializePostponeMenu();
+		this.addSeparator();
 		this.add(new ActionDelete(16, 16));
 		this.addSeparator();
 		this.initializeItemSortTasks();
 		this.addSeparator();
 		this.add(new JMenuItem(new ActionCollapseAll()));
 		this.add(new JMenuItem(new ActionExpandAll()));
+	}
+	
+	private void initializePostponeMenu() {
+		final JMenu postponeMenu = new JMenu(
+				Translations.getString("action.postpone_tasks"));
+		
+		postponeMenu.setToolTipText(Translations.getString("action.postpone_tasks"));
+		
+		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_day"),
+				Calendar.DAY_OF_MONTH,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				2), Calendar.DAY_OF_MONTH, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				3), Calendar.DAY_OF_MONTH, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_week"),
+				Calendar.WEEK_OF_YEAR,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				2), Calendar.WEEK_OF_YEAR, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				3), Calendar.WEEK_OF_YEAR, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_month"),
+				Calendar.MONTH,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				2), Calendar.MONTH, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				3), Calendar.MONTH, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_year"),
+				Calendar.YEAR,
+				1));
+		
+		this.add(postponeMenu);
 	}
 	
 	private void initializeItemSortTasks() {

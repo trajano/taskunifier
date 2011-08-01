@@ -141,6 +141,13 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		}
 	}
 	
+	public void clearElement() {
+		List<FE> elements = new ArrayList<FE>(this.elements);
+		for (FE element : elements) {
+			this.removeElement(element);
+		}
+	}
+	
 	public int getIndexOf(F filter) {
 		return this.filters.indexOf(filter);
 	}
@@ -191,6 +198,13 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		}
 	}
 	
+	public void clearFilters() {
+		List<F> filters = new ArrayList<F>(this.filters);
+		for (F filter : filters) {
+			this.removeFilter(filter);
+		}
+	}
+	
 	public boolean include(M model) {
 		if (this.link == FilterLink.AND) {
 			for (FE element : this.elements) {
@@ -205,6 +219,9 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 			
 			return true;
 		} else {
+			if (this.getElementCount() == 0 && this.getFilterCount() == 0)
+				return true;
+			
 			for (FE element : this.elements) {
 				if (element.include(model))
 					return true;

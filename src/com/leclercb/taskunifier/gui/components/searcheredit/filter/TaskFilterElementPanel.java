@@ -93,7 +93,6 @@ public class TaskFilterElementPanel extends JPanel {
 			Object value = null;
 			
 			switch ((TaskColumn) this.elementColumn.getSelectedItem()) {
-				case MODEL:
 				case SHOW_CHILDREN:
 					value = null;
 					break;
@@ -180,7 +179,6 @@ public class TaskFilterElementPanel extends JPanel {
 		
 		DefaultComboBoxModel taskColumnsModel = new DefaultComboBoxModel(
 				TaskColumn.values());
-		taskColumnsModel.removeElement(TaskColumn.MODEL);
 		taskColumnsModel.removeElement(TaskColumn.SHOW_CHILDREN);
 		
 		this.elementColumn.setModel(taskColumnsModel);
@@ -189,6 +187,16 @@ public class TaskFilterElementPanel extends JPanel {
 		this.elementValue.setRenderer(new DefaultListCellRenderer());
 		
 		switch (column) {
+			case MODEL:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValue.setModel(new TaskModel(true));
+				this.elementValue.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValue.setSelectedItem(value);
+				this.elementValue.setEditable(false);
+				break;
 			case TITLE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						StringCondition.values()));

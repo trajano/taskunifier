@@ -196,7 +196,10 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								if (newId == null)
 									newId = false;
 								
-								if (column.equals(TaskColumn.CONTEXT))
+								if (column.equals(TaskColumn.MODEL))
+									value = TaskFactory.getInstance().get(
+											new ModelId(newId, valueStr));
+								else if (column.equals(TaskColumn.CONTEXT))
 									value = ContextFactory.getInstance().get(
 											new ModelId(newId, valueStr));
 								else if (column.equals(TaskColumn.FOLDER))

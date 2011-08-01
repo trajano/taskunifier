@@ -36,6 +36,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Calendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
@@ -54,6 +55,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
+import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcherSelectedTasks;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionChangeDataFolderLocation;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
@@ -86,6 +88,7 @@ import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -254,6 +257,10 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.addSeparator();
 		
+		this.initializePostponeMenu(tasksMenu);
+		
+		tasksMenu.addSeparator();
+		
 		tasksMenu.add(new ActionCollapseAll());
 		tasksMenu.add(new ActionExpandAll());
 		
@@ -264,6 +271,7 @@ public class MenuBar extends JMenuBar {
 		tasksMenu.addSeparator();
 		
 		tasksMenu.add(new ActionAddTaskSearcher(16, 16));
+		tasksMenu.add(new ActionAddTaskSearcherSelectedTasks(16, 16));
 		tasksMenu.add(new ActionEditTaskSearcher(this.taskSearcherView, 16, 16));
 		tasksMenu.add(new ActionDeleteTaskSearcher(
 				this.taskSearcherView,
@@ -300,6 +308,61 @@ public class MenuBar extends JMenuBar {
 					}
 					
 				});
+	}
+	
+	private void initializePostponeMenu(JMenu tasksMenu) {
+		final JMenu postponeMenu = new JMenu(
+				Translations.getString("action.postpone_tasks"));
+		
+		postponeMenu.setToolTipText(Translations.getString("action.postpone_tasks"));
+		
+		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_day"),
+				Calendar.DAY_OF_MONTH,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				2), Calendar.DAY_OF_MONTH, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				3), Calendar.DAY_OF_MONTH, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_week"),
+				Calendar.WEEK_OF_YEAR,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				2), Calendar.WEEK_OF_YEAR, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				3), Calendar.WEEK_OF_YEAR, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_month"),
+				Calendar.MONTH,
+				1));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				2), Calendar.MONTH, 2));
+		
+		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				3), Calendar.MONTH, 3));
+		
+		postponeMenu.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_year"),
+				Calendar.YEAR,
+				1));
+		
+		tasksMenu.add(postponeMenu);
 	}
 	
 	private void initializeHelpMenu() {
