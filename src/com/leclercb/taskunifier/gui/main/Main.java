@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.SimpleFormatter;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -140,11 +141,11 @@ public class Main {
 		
 		try {
 			loadDebugMode();
-			loadLoggers();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
 			loadPluginsFolder();
+			loadLoggers();
 			loadSettings();
 			loadProxies();
 			loadLocale();
@@ -243,8 +244,8 @@ public class Main {
 	private static void checkSingleInstance() {
 		if (!SingleInstanceUtils.isSingleInstance()) {
 			String message = "There is another instance of "
-				+ Constants.TITLE
-				+ " running.";
+					+ Constants.TITLE
+					+ " running.";
 			JOptionPane.showMessageDialog(null, message);
 			throw new RuntimeException(message);
 		}
@@ -253,68 +254,6 @@ public class Main {
 	private static void loadDebugMode() {
 		String p = System.getProperty("com.leclercb.taskunifier.debug_mode");
 		DEBUG_MODE = EqualsUtils.equals(p, "true");
-	}
-	
-	private static void loadLoggers() {
-		Level apiLogLevel = Level.ALL;
-		Level guiLogLevel = Level.ALL;
-		Level pluginLogLevel = Level.ALL;
-		
-		String apiLogFile = DATA_FOLDER + File.separator + "taskunifier_api.log";
-		String guiLogFile = DATA_FOLDER + File.separator + "taskunifier_gui.log";
-		String pluginLogFile = DATA_FOLDER + File.separator + "taskunifier_plugin.log";
-		
-		apiLogFile = apiLogFile.replace("%", "%%");
-		guiLogFile = guiLogFile.replace("%", "%%");
-		pluginLogFile = pluginLogFile.replace("%", "%%");
-		
-		try {
-			FileHandler handler = new FileHandler(
-					apiLogFile, 
-					50000, 
-					1, 
-					true);
-			
-			handler.setLevel(apiLogLevel);
-			
-			ApiLogger.getLogger().addHandler(handler);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			FileHandler handler = new FileHandler(
-					guiLogFile, 
-					50000, 
-					1, 
-					true);
-			
-			handler.setLevel(guiLogLevel);
-			
-			GuiLogger.getLogger().addHandler(handler);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			FileHandler handler = new FileHandler(
-					pluginLogFile, 
-					50000, 
-					1, 
-					true);
-			
-			handler.setLevel(pluginLogLevel);
-			
-			PluginLogger.getLogger().addHandler(handler);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	private static void loadResourceFolder() throws Exception {
@@ -336,7 +275,7 @@ public class Main {
 		try {
 			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -375,6 +314,65 @@ public class Main {
 	
 	private static void loadPluginsFolder() {
 		PLUGINS_FOLDER = DATA_FOLDER + File.separator + "plugins";
+	}
+	
+	private static void loadLoggers() {
+		Level apiLogLevel = Level.ALL;
+		Level guiLogLevel = Level.ALL;
+		Level pluginLogLevel = Level.ALL;
+		
+		String apiLogFile = DATA_FOLDER
+				+ File.separator
+				+ "taskunifier_api.log";
+		String guiLogFile = DATA_FOLDER
+				+ File.separator
+				+ "taskunifier_gui.log";
+		String pluginLogFile = DATA_FOLDER
+				+ File.separator
+				+ "taskunifier_plugin.log";
+		
+		apiLogFile = apiLogFile.replace("%", "%%");
+		guiLogFile = guiLogFile.replace("%", "%%");
+		pluginLogFile = pluginLogFile.replace("%", "%%");
+		
+		try {
+			FileHandler handler = new FileHandler(apiLogFile, 50000, 1, true);
+			
+			handler.setLevel(apiLogLevel);
+			handler.setFormatter(new SimpleFormatter());
+			
+			ApiLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			FileHandler handler = new FileHandler(guiLogFile, 50000, 1, true);
+			
+			handler.setLevel(guiLogLevel);
+			handler.setFormatter(new SimpleFormatter());
+			
+			GuiLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			FileHandler handler = new FileHandler(pluginLogFile, 50000, 1, true);
+			
+			handler.setLevel(pluginLogLevel);
+			handler.setFormatter(new SimpleFormatter());
+			
+			PluginLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static void loadSettings() throws Exception {
@@ -447,7 +445,7 @@ public class Main {
 							+ File.separator
 							+ "contexts.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -463,7 +461,7 @@ public class Main {
 							+ File.separator
 							+ "folders.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -479,7 +477,7 @@ public class Main {
 							+ File.separator
 							+ "goals.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -495,7 +493,7 @@ public class Main {
 							+ File.separator
 							+ "locations.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -511,7 +509,7 @@ public class Main {
 							+ File.separator
 							+ "notes.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -527,7 +525,7 @@ public class Main {
 							+ File.separator
 							+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -543,7 +541,7 @@ public class Main {
 							+ File.separator
 							+ "task_templates.xml"));
 		} catch (FileNotFoundException e) {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -821,7 +819,7 @@ public class Main {
 	}
 	
 	private static void saveInitSettings() throws FileNotFoundException,
-	IOException {
+			IOException {
 		INIT_SETTINGS.store(
 				new FileOutputStream(getInitSettingsFile()),
 				Constants.TITLE + " Init Settings");
