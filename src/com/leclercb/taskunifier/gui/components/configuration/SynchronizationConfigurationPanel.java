@@ -151,9 +151,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						@Override
 						public void actionPerformed(ActionEvent event) {
 							ConfigurationDialog.getInstance().saveAndApplyConfig();
-							
 							SynchronizerUtils.resetSynchronizer();
-							
 							super.actionPerformed(event);
 						}
 						
@@ -177,15 +175,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
-							try {
-								ConfigurationDialog.getInstance().saveAndApplyConfig();
-								
-								SynchronizerUtils.resetSynchronizerAndDeleteModels();
-								
-								super.actionPerformed(event);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							ConfigurationDialog.getInstance().saveAndApplyConfig();
+							SynchronizerUtils.resetSynchronizerAndDeleteModels();
+							super.actionPerformed(event);
 						}
 						
 					})));

@@ -108,8 +108,6 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
 	
-	public static boolean DEBUG_MODE;
-	
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	public static PropertiesConfiguration INIT_SETTINGS;
 	public static PropertiesConfiguration SETTINGS;
@@ -140,7 +138,6 @@ public class Main {
 		boolean outdatedPlugins;
 		
 		try {
-			loadDebugMode();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
@@ -158,7 +155,7 @@ public class Main {
 			
 			AFTER_START.fireActionPerformed(0, "AFTER_START");
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(Level.SEVERE, e.getMessage(), e);
 			
 			JOptionPane.showMessageDialog(
 					null,
@@ -197,7 +194,10 @@ public class Main {
 						}
 					}
 				} catch (Throwable t) {
-					t.printStackTrace();
+					GuiLogger.getLogger().log(
+							Level.WARNING,
+							"Error while setting look and feel",
+							t);
 					
 					ErrorInfo info = new ErrorInfo(
 							Translations.getString("general.error"),
@@ -251,11 +251,6 @@ public class Main {
 		}
 	}
 	
-	private static void loadDebugMode() {
-		String p = System.getProperty("com.leclercb.taskunifier.debug_mode");
-		DEBUG_MODE = EqualsUtils.equals(p, "true");
-	}
-	
 	private static void loadResourceFolder() throws Exception {
 		RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
 		
@@ -275,7 +270,10 @@ public class Main {
 		try {
 			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading init settings",
+					e);
 		}
 	}
 	
@@ -300,7 +298,10 @@ public class Main {
 				file.setReadable(true, true);
 				file.setWritable(true, true);
 			} catch (Throwable t) {
-				t.printStackTrace();
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot change permissions of data folder",
+						t);
 			}
 			
 			FIRST_EXECUTION = true;
@@ -447,7 +448,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading contexts",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -463,7 +468,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading folders",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -479,7 +488,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading goals",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -495,7 +508,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading locations",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -511,7 +528,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading notes",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -527,7 +548,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading tasks",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -543,7 +568,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading task templates",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -557,7 +586,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading task searchers",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -602,7 +635,10 @@ public class Main {
 				pluginsFolder.setReadable(true, true);
 				pluginsFolder.setWritable(true, true);
 			} catch (Throwable t) {
-				t.printStackTrace();
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot change plugin folder permissions",
+						t);
 			}
 		}
 		
@@ -619,8 +655,10 @@ public class Main {
 					
 					GuiLogger.getLogger().warning(e.getMessage());
 				} catch (Throwable t) {
-					GuiLogger.getLogger().warning("Plugin unknown exception");
-					t.printStackTrace();
+					GuiLogger.getLogger().log(
+							Level.WARNING,
+							"Unknown plugin error",
+							t);
 				}
 			}
 		}
@@ -680,7 +718,10 @@ public class Main {
 			NoteFactory.getInstance().cleanFactory();
 			TaskFactory.getInstance().cleanFactory();
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while cleaning factories",
+					e);
 		}
 		
 		try {
@@ -689,7 +730,11 @@ public class Main {
 							+ File.separator
 							+ "contexts.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving contexts",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -703,7 +748,11 @@ public class Main {
 							+ File.separator
 							+ "folders.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving folders",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -717,7 +766,11 @@ public class Main {
 							+ File.separator
 							+ "goals.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving goals",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -731,7 +784,11 @@ public class Main {
 							+ File.separator
 							+ "locations.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving locations",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -745,7 +802,11 @@ public class Main {
 							+ File.separator
 							+ "notes.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving notes",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -759,7 +820,11 @@ public class Main {
 							+ File.separator
 							+ "tasks.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving tasks",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -773,7 +838,11 @@ public class Main {
 							+ File.separator
 							+ "task_templates.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving task templates",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -785,7 +854,11 @@ public class Main {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "task_searchers.xml"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving task searchers",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),
@@ -796,16 +869,23 @@ public class Main {
 		try {
 			File f = new File(getInitSettingsFile());
 			
-			if (!DEBUG_MODE && f.canWrite())
+			if (f.canWrite())
 				saveInitSettings();
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving init settings",
+					e);
 		}
 		
 		try {
 			saveSettings();
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving settings",
+					e);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					e.getMessage(),

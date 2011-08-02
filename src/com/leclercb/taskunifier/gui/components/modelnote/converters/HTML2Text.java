@@ -5,11 +5,14 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
+
+import com.leclercb.commons.gui.logger.GuiLogger;
 
 public class HTML2Text extends HTMLEditorKit.ParserCallback {
 	
@@ -67,7 +70,10 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 		try {
 			parser.parse(in);
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while parsing html to text",
+					e);
 		} finally {
 			try {
 				in.close();

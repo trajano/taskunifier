@@ -36,6 +36,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -312,7 +314,10 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while initializing selected task searcher",
+					t);
 		}
 		
 		this.selectDefaultTaskSearcher();
@@ -363,7 +368,10 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while saving selected task searcher",
+					t);
 		}
 		
 		Main.SETTINGS.setStringProperty("searcher.task.selected.value", null);

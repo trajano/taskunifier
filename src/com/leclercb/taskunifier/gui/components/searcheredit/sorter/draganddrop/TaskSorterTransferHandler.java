@@ -36,11 +36,13 @@ import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskSorterElementComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferData;
@@ -86,7 +88,8 @@ public class TaskSorterTransferHandler extends TransferHandler {
 		try {
 			data = (TaskSorterTransferData) t.getTransferData(TaskSorterTransferable.SORTER_FLAVOR);
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(Level.SEVERE, "Transfer data error", e);
+			
 			return false;
 		}
 		

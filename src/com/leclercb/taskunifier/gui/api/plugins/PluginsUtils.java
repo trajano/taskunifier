@@ -39,6 +39,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
@@ -64,6 +65,7 @@ import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -168,9 +170,13 @@ public class PluginsUtils {
 		} catch (PluginException e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			PluginLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot install plugin",
+					t);
+			
 			throw new PluginException(
-					PluginExceptionType.ERROR_LOADING_PLUGIN,
+					PluginExceptionType.ERROR_INSTALL_PLUGIN,
 					t);
 		}
 	}
@@ -251,7 +257,12 @@ public class PluginsUtils {
 			throw e;
 		} catch (Exception e) {
 			file.delete();
-			e.printStackTrace();
+			
+			PluginLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot install plugin",
+					e);
+			
 			throw e;
 		}
 	}
@@ -463,7 +474,11 @@ public class PluginsUtils {
 			
 			return plugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
-			e.printStackTrace();
+			PluginLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot load plugin database",
+					e);
+			
 			throw new PluginException(
 					PluginExceptionType.ERROR_LOADING_PLUGIN_DB,
 					e);

@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.notesearchertree;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
 
 import javax.swing.JPanel;
 import javax.swing.tree.TreePath;
@@ -42,6 +43,7 @@ import javax.swing.tree.TreePath;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -222,7 +224,10 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while initializing selected note searcher",
+					t);
 		}
 		
 		this.selectDefaultNoteSearcher();
@@ -252,7 +257,10 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while saving selected note searcher",
+					t);
 		}
 		
 		Main.SETTINGS.setStringProperty("searcher.note.selected.value", null);

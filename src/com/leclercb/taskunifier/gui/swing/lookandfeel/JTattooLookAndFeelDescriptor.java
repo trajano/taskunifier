@@ -34,10 +34,12 @@ package com.leclercb.taskunifier.gui.swing.lookandfeel;
 
 import java.awt.Window;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -76,7 +78,13 @@ public class JTattooLookAndFeelDescriptor extends LookAndFeelDescriptor {
 				window.pack();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Error while setting look and feel \""
+							+ this.getName()
+							+ "\"",
+					e);
+			
 			throw new LookAndFeelException(
 					"Error while setting look and feel \""
 							+ this.getName()

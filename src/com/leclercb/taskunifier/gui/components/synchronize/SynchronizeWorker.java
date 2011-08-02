@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.util.Calendar;
+import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -49,6 +50,7 @@ import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -139,7 +141,10 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 				
 				@Override
 				public void run() {
-					e.printStackTrace();
+					PluginLogger.getLogger().log(
+							(e.isExpected() ? Level.INFO : Level.WARNING),
+							e.getMessage(),
+							e);
 					
 					ErrorInfo info = new ErrorInfo(
 							Translations.getString("general.error"),
@@ -166,7 +171,10 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 					
 					@Override
 					public void run() {
-						t.printStackTrace();
+						PluginLogger.getLogger().log(
+								Level.WARNING,
+								t.getMessage(),
+								t);
 						
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),

@@ -35,12 +35,14 @@ package com.leclercb.taskunifier.gui.constants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
+import java.util.logging.Level;
 
 import javax.swing.SortOrder;
 
 import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.undo.TransferActionListener;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
@@ -156,7 +158,10 @@ public final class Constants {
 								"UTF-8");
 						DEFAULT_TASK_SORTER = new TaskSorterXMLCoder().decode(input);
 					} catch (Exception e) {
-						e.printStackTrace();
+						GuiLogger.getLogger().log(
+								Level.SEVERE,
+								"Error while loading default task sorter",
+								e);
 					}
 				}
 				

@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.logging.Level;
 
 import javax.swing.UIManager;
 
@@ -530,7 +531,10 @@ public final class SettingsVersion {
 					+ File.separator
 					+ "task_templates.xml"));
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while moving templates.xml",
+					t);
 		}
 		
 		try {
@@ -540,7 +544,10 @@ public final class SettingsVersion {
 					+ File.separator
 					+ "task_searchers.xml"));
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while moving searchers.xml",
+					t);
 		}
 		
 		Main.AFTER_START.addActionListener(new ActionListener() {
@@ -550,7 +557,7 @@ public final class SettingsVersion {
 				try {
 					SynchronizerUtils.resetSynchronizer();
 				} catch (Throwable t) {
-					t.printStackTrace();
+
 				}
 			}
 			

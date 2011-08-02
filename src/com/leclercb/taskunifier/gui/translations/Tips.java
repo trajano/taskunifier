@@ -38,8 +38,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class Tips {
@@ -68,7 +70,11 @@ public final class Tips {
 			locales = ResourceBundleUtils.getAvailableLocales(new File(
 					bundleFolder), bundleName);
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Cannot load available locales",
+					e);
+			
 			locales = new HashMap<Locale, File>();
 		}
 		
@@ -76,7 +82,11 @@ public final class Tips {
 			defaultProperties = new Properties();
 			defaultProperties.load(new FileInputStream(defaultBundle));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Cannot load default locale",
+					e);
+			
 			defaultProperties = null;
 		}
 	}
@@ -93,7 +103,8 @@ public final class Tips {
 			properties = new Properties();
 			properties.load(new FileInputStream(file));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(Level.SEVERE, "Cannot load locale", e);
+			
 			properties = null;
 		}
 	}

@@ -39,8 +39,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class Translations {
@@ -69,7 +71,11 @@ public final class Translations {
 			locales = ResourceBundleUtils.getAvailableLocales(new File(
 					bundleFolder), bundleName);
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Cannot load available locales",
+					e);
+			
 			locales = new HashMap<Locale, File>();
 		}
 		
@@ -77,7 +83,11 @@ public final class Translations {
 			defaultMessages = new PropertyResourceBundle(new FileInputStream(
 					defaultBundle));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Cannot load default locale",
+					e);
+			
 			defaultMessages = null;
 		}
 	}
@@ -103,7 +113,8 @@ public final class Translations {
 		try {
 			messages = new PropertyResourceBundle(new FileInputStream(file));
 		} catch (Exception e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(Level.SEVERE, "Cannot load locale", e);
+			
 			messages = null;
 		}
 		

@@ -39,7 +39,7 @@ public class PluginException extends Exception {
 	public static enum PluginExceptionType {
 		
 		ERROR_LOADING_PLUGIN_DB(Translations.getString("error.cannot_load_plugin_database")),
-		ERROR_LOADING_PLUGIN(Translations.getString("error.cannot_install_plugin")),
+		ERROR_INSTALL_PLUGIN(Translations.getString("error.cannot_install_plugin")),
 		NO_VALID_PLUGIN(Translations.getString("error.no_valid_plugin")),
 		MORE_THAN_ONE_PLUGIN(Translations.getString("error.more_than_one_plugin")),
 		OUTDATED_PLUGIN(Translations.getString("error.plugin_not_up_to_date")),

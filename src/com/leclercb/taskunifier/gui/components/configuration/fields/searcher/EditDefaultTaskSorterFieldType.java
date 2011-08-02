@@ -33,8 +33,10 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.searcher;
 
 import java.io.ByteArrayOutputStream;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
@@ -63,7 +65,10 @@ public class EditDefaultTaskSorterFieldType extends ConfigurationFieldTypeExt.Pa
 			this.coder.encode(output, this.sorter);
 			value = new String(output.toByteArray());
 		} catch (FactoryCoderException e) {
-			e.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving default task sorter",
+					e);
 		}
 		
 		Main.SETTINGS.setStringProperty("searcher.default_sorter", value);

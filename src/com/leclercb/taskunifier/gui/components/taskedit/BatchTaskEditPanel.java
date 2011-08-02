@@ -37,6 +37,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
@@ -54,6 +55,7 @@ import javax.swing.SpinnerNumberModel;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -280,7 +282,10 @@ public class BatchTaskEditPanel extends JPanel {
 				}
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while setting task field value",
+					t);
 		} finally {
 			Synchronizing.setSynchronizing(false);
 		}

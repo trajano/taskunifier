@@ -37,12 +37,14 @@ import java.awt.datatransfer.Transferable;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
 import org.apache.commons.io.IOUtils;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
@@ -66,7 +68,11 @@ public class NoteTransferHandler extends TransferHandler {
 				if (!data.getType().equals(ModelType.NOTE))
 					return false;
 			} catch (Exception e) {
-				e.printStackTrace();
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Transfer data error",
+						e);
+				
 				return false;
 			}
 			
