@@ -410,27 +410,30 @@ public class Main {
 	}
 	
 	private static void loadLoggerLevels() {
-		Level apiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.api.level"));
-		Level guiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.gui.level"));
-		Level pluginLogLevel = Level.parse(SETTINGS.getStringProperty("logger.plugin.level"));
-		
-		Handler[] handlers;
-		
-		handlers = ApiLogger.getLogger().getHandlers();
-		for (Handler handler : handlers)
-			handler.setLevel(apiLogLevel);
-		
-		handlers = GuiLogger.getLogger().getHandlers();
-		for (Handler handler : handlers)
-			handler.setLevel(guiLogLevel);
-		
-		handlers = PluginLogger.getLogger().getHandlers();
-		for (Handler handler : handlers)
-			handler.setLevel(pluginLogLevel);
-		
-		System.out.println(apiLogLevel);
-		System.out.println(guiLogLevel);
-		System.out.println(pluginLogLevel);
+		try {
+			Level apiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.api.level"));
+			Level guiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.gui.level"));
+			Level pluginLogLevel = Level.parse(SETTINGS.getStringProperty("logger.plugin.level"));
+			
+			Handler[] handlers;
+			
+			handlers = ApiLogger.getLogger().getHandlers();
+			for (Handler handler : handlers)
+				handler.setLevel(apiLogLevel);
+			
+			handlers = GuiLogger.getLogger().getHandlers();
+			for (Handler handler : handlers)
+				handler.setLevel(guiLogLevel);
+			
+			handlers = PluginLogger.getLogger().getHandlers();
+			for (Handler handler : handlers)
+				handler.setLevel(pluginLogLevel);
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading logger levels",
+					t);
+		}
 	}
 	
 	private static void loadProxies() {
