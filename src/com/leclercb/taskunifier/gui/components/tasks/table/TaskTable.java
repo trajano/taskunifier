@@ -288,7 +288,7 @@ public class TaskTable extends JXTable implements TaskView {
 		this.initializeHighlighters();
 		
 		Main.SETTINGS.addPropertyChangeListener(
-				"searcher.show_completed_tasks",
+				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					
 					@Override

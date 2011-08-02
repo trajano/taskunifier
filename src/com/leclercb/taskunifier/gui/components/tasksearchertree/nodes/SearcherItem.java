@@ -77,8 +77,9 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	
 	@Override
 	public void updateBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges")) {
+		if (!Main.SETTINGS.getBooleanProperty("tasksearcher.show_badges")) {
 			this.badgeCount = null;
+			return;
 		}
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();

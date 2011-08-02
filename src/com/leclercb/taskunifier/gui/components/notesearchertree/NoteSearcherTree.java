@@ -242,7 +242,7 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	
 	private void initializeExpandedState() {
 		Main.SETTINGS.addPropertyChangeListener(
-				"searcher.category",
+				"notesearcher.category",
 				new PropertyChangeListener() {
 					
 					@Override

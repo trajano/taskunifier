@@ -30,26 +30,26 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.fields.general;
+package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ShowCompletedTasksAtTheEndFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ShowNoteBadgesFieldType extends ConfigurationFieldTypeExt.CheckBox {
 	
-	public ShowCompletedTasksAtTheEndFieldType() {
-		super(Main.SETTINGS, "tasksearcher.show_completed_tasks_at_the_end");
+	public ShowNoteBadgesFieldType() {
+		super(Main.SETTINGS, "notesearcher.show_badges");
 	}
 	
 	@Override
 	public Boolean getPropertyValue() {
-		return Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks_at_the_end");
+		return Main.SETTINGS.getBooleanProperty("notesearcher.show_badges");
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
 		Main.SETTINGS.setBooleanProperty(
-				"tasksearcher.show_completed_tasks_at_the_end",
+				"notesearcher.show_badges",
 				this.getFieldValue());
 	}
 	

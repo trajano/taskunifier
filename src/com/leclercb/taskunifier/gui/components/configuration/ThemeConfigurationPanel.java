@@ -50,7 +50,8 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorT
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsByImportanceEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAndFeelFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowBadgesFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowNoteBadgesFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowTaskBadgesFieldType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -102,9 +103,14 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 						Translations.getString("configuration.theme.show_badges_performance"))));
 		
 		this.addField(new ConfigurationField(
-				"SHOW_BADGES",
-				Translations.getString("configuration.theme.show_badges"),
-				new ShowBadgesFieldType()));
+				"SHOW_NOTE_BADGES",
+				Translations.getString("configuration.theme.show_note_badges"),
+				new ShowNoteBadgesFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"SHOW_TASK_BADGES",
+				Translations.getString("configuration.theme.show_task_badges"),
+				new ShowTaskBadgesFieldType()));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",

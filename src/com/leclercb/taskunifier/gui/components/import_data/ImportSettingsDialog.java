@@ -72,11 +72,12 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				"date",
 				"general.locale",
 				"notecolumn",
+				"notesearcher",
 				"proxy",
-				"searcher",
 				"synchronizer",
 				"task.show_edit_window_on_add",
 				"taskcolumn",
+				"tasksearcher",
 				"theme" };
 		
 		Properties properties = new Properties();

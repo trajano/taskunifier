@@ -77,8 +77,9 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	
 	@Override
 	public void updateBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("searcher.show_badges")) {
+		if (!Main.SETTINGS.getBooleanProperty("notesearcher.show_badges")) {
 			this.badgeCount = null;
+			return;
 		}
 		
 		List<Note> notes = NoteFactory.getInstance().getList();

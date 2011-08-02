@@ -586,6 +586,42 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.2 to 1.0.3");
 		
+		Main.SETTINGS.setStringProperty("notesearcher.show_badges", "true");
+		Main.SETTINGS.setStringProperty(
+				"notesearcher.category.folder.expanded",
+				"true");
+		
+		Main.SETTINGS.replaceKey(
+				"searcher.show_badges",
+				"tasksearcher.show_badges");
+		Main.SETTINGS.replaceKey(
+				"searcher.show_completed_tasks",
+				"tasksearcher.show_completed_tasks");
+		Main.SETTINGS.replaceKey(
+				"searcher.show_completed_tasks_at_the_end",
+				"tasksearcher.show_completed_tasks_at_the_end");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.general.expanded",
+				"tasksearcher.category.general.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.context.expanded",
+				"tasksearcher.category.context.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.folder.expanded",
+				"tasksearcher.category.folder.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.goal.expanded",
+				"tasksearcher.category.goal.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.location.expanded",
+				"tasksearcher.category.location.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.tag.expanded",
+				"tasksearcher.category.tag.expanded");
+		Main.SETTINGS.replaceKey(
+				"searcher.category.personal.expanded",
+				"tasksearcher.category.personal.expanded");
+		
 		Main.SETTINGS.setStringProperty("logger.api.level", "INFO");
 		Main.SETTINGS.setStringProperty("logger.gui.level", "INFO");
 		Main.SETTINGS.setStringProperty("logger.plugin.level", "INFO");

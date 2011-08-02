@@ -158,7 +158,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 			searcher.setFilter(newFilter);
 		}
 		
-		if (Main.SETTINGS.getBooleanProperty("searcher.show_completed_tasks_at_the_end")) {
+		if (Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks_at_the_end")) {
 			searcher.getSorter().addElement(
 					new TaskSorterElement(
 							0,

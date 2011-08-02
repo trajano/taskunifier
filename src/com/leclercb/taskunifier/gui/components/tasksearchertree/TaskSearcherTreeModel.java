@@ -109,7 +109,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		TaskSearcherFactory.getInstance().addPropertyChangeListener(this);
 		
 		Main.SETTINGS.addPropertyChangeListener(
-				"searcher.show_completed_tasks",
+				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					
 					@Override
@@ -144,7 +144,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeGeneralCategory() {
 		this.generalCategory = new SearcherCategory(
 				TaskSearcherType.GENERAL,
-				"searcher.category.general.expanded");
+				"tasksearcher.category.general.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.generalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
@@ -159,7 +159,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeContextCategory() {
 		this.contextCategory = new SearcherCategory(
 				TaskSearcherType.CONTEXT,
-				"searcher.category.context.expanded");
+				"tasksearcher.category.context.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.contextCategory);
 		
 		this.contextCategory.add(new ModelItem(ModelType.CONTEXT, null));
@@ -181,7 +181,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeFolderCategory() {
 		this.folderCategory = new SearcherCategory(
 				TaskSearcherType.FOLDER,
-				"searcher.category.folder.expanded");
+				"tasksearcher.category.folder.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.folderCategory);
 		
 		this.folderCategory.add(new ModelItem(ModelType.FOLDER, null));
@@ -201,7 +201,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeGoalCategory() {
 		this.goalCategory = new SearcherCategory(
 				TaskSearcherType.GOAL,
-				"searcher.category.goal.expanded");
+				"tasksearcher.category.goal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.goalCategory);
 		
 		this.goalCategory.add(new ModelItem(ModelType.GOAL, null));
@@ -221,7 +221,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeLocationCategory() {
 		this.locationCategory = new SearcherCategory(
 				TaskSearcherType.LOCATION,
-				"searcher.category.location.expanded");
+				"tasksearcher.category.location.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.locationCategory);
 		
 		this.locationCategory.add(new ModelItem(ModelType.LOCATION, null));
@@ -243,7 +243,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeTagCategory() {
 		this.tagCategory = new SearcherCategory(
 				TaskSearcherType.TAG,
-				"searcher.category.tag.expanded");
+				"tasksearcher.category.tag.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.tagCategory);
 		
 		String[] tags = TaskTagList.getInstance().getTags();
@@ -257,7 +257,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializePersonalCategory() {
 		this.personalCategory = new SearcherCategory(
 				TaskSearcherType.PERSONAL,
-				"searcher.category.personal.expanded");
+				"tasksearcher.category.personal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.personalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(

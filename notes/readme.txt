@@ -11,6 +11,7 @@ Version 1.0.3
 		- FR 3381059: Postpone tasks
 		- BF 3376602: Incorrect badge count with hidden subtasks
 		- BF 3376593: Wrong file chooser dialog for export
+		- BF 3384625: Show badges setting
 
 Version 1.0.2
 	- Major:
