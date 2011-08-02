@@ -586,6 +586,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.2 to 1.0.3");
 		
+		Main.SETTINGS.setStringProperty("logger.api.level", "INFO");
+		Main.SETTINGS.setStringProperty("logger.gui.level", "INFO");
+		Main.SETTINGS.setStringProperty("logger.plugin.level", "INFO");
+		
 		return "1.0.3";
 	}
 	

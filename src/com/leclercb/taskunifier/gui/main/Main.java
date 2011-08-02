@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 
@@ -144,6 +145,7 @@ public class Main {
 			loadPluginsFolder();
 			loadLoggers();
 			loadSettings();
+			loadLoggerLevels();
 			loadProxies();
 			loadLocale();
 			loadModels();
@@ -318,9 +320,9 @@ public class Main {
 	}
 	
 	private static void loadLoggers() {
-		Level apiLogLevel = Level.ALL;
-		Level guiLogLevel = Level.ALL;
-		Level pluginLogLevel = Level.ALL;
+		Level apiLogLevel = Level.INFO;
+		Level guiLogLevel = Level.INFO;
+		Level pluginLogLevel = Level.INFO;
 		
 		String apiLogFile = DATA_FOLDER
 				+ File.separator
@@ -405,6 +407,30 @@ public class Main {
 			
 			FIRST_EXECUTION = true;
 		}
+	}
+	
+	private static void loadLoggerLevels() {
+		Level apiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.api.level"));
+		Level guiLogLevel = Level.parse(SETTINGS.getStringProperty("logger.gui.level"));
+		Level pluginLogLevel = Level.parse(SETTINGS.getStringProperty("logger.plugin.level"));
+		
+		Handler[] handlers;
+		
+		handlers = ApiLogger.getLogger().getHandlers();
+		for (Handler handler : handlers)
+			handler.setLevel(apiLogLevel);
+		
+		handlers = GuiLogger.getLogger().getHandlers();
+		for (Handler handler : handlers)
+			handler.setLevel(guiLogLevel);
+		
+		handlers = PluginLogger.getLogger().getHandlers();
+		for (Handler handler : handlers)
+			handler.setLevel(pluginLogLevel);
+		
+		System.out.println(apiLogLevel);
+		System.out.println(guiLogLevel);
+		System.out.println(pluginLogLevel);
 	}
 	
 	private static void loadProxies() {
