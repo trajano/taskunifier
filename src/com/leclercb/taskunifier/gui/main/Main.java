@@ -39,16 +39,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.SystemUtils;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -56,9 +54,9 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
-import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.SingleInstanceUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -100,6 +98,7 @@ import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
@@ -121,11 +120,6 @@ public class Main {
 	public static ActionSupport AFTER_START;
 	public static ActionSupport BEFORE_EXIT;
 	
-	private static PrintStream ORIGINAL_OUT_STREAM;
-	private static PrintStream ORIGINAL_ERR_STREAM;
-	private static OutputStream LOG_STREAM;
-	private static PrintStream NEW_STREAM;
-	
 	public static String getInitSettingsFile() {
 		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
 	}
@@ -146,7 +140,7 @@ public class Main {
 		
 		try {
 			loadDebugMode();
-			loadStreamRedirection();
+			loadLoggers();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
@@ -249,8 +243,8 @@ public class Main {
 	private static void checkSingleInstance() {
 		if (!SingleInstanceUtils.isSingleInstance()) {
 			String message = "There is another instance of "
-					+ Constants.TITLE
-					+ " running.";
+				+ Constants.TITLE
+				+ " running.";
 			JOptionPane.showMessageDialog(null, message);
 			throw new RuntimeException(message);
 		}
@@ -261,16 +255,65 @@ public class Main {
 		DEBUG_MODE = EqualsUtils.equals(p, "true");
 	}
 	
-	private static void loadStreamRedirection() {
-		if (!DEBUG_MODE) {
-			ORIGINAL_OUT_STREAM = System.out;
-			ORIGINAL_ERR_STREAM = System.err;
+	private static void loadLoggers() {
+		Level apiLogLevel = Level.ALL;
+		Level guiLogLevel = Level.ALL;
+		Level pluginLogLevel = Level.ALL;
+		
+		String apiLogFile = DATA_FOLDER + File.separator + "taskunifier_api.log";
+		String guiLogFile = DATA_FOLDER + File.separator + "taskunifier_gui.log";
+		String pluginLogFile = DATA_FOLDER + File.separator + "taskunifier_plugin.log";
+		
+		apiLogFile = apiLogFile.replace("%", "%%");
+		guiLogFile = guiLogFile.replace("%", "%%");
+		pluginLogFile = pluginLogFile.replace("%", "%%");
+		
+		try {
+			FileHandler handler = new FileHandler(
+					apiLogFile, 
+					50000, 
+					1, 
+					true);
 			
-			LOG_STREAM = new ByteArrayOutputStream();
-			NEW_STREAM = new PrintStream(LOG_STREAM, true);
+			handler.setLevel(apiLogLevel);
 			
-			System.setOut(NEW_STREAM);
-			System.setErr(NEW_STREAM);
+			ApiLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			FileHandler handler = new FileHandler(
+					guiLogFile, 
+					50000, 
+					1, 
+					true);
+			
+			handler.setLevel(guiLogLevel);
+			
+			GuiLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			FileHandler handler = new FileHandler(
+					pluginLogFile, 
+					50000, 
+					1, 
+					true);
+			
+			handler.setLevel(pluginLogLevel);
+			
+			PluginLogger.getLogger().addHandler(handler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -293,7 +336,7 @@ public class Main {
 		try {
 			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
 		} catch (Exception e) {
-
+			
 		}
 	}
 	
@@ -404,7 +447,7 @@ public class Main {
 							+ File.separator
 							+ "contexts.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -420,7 +463,7 @@ public class Main {
 							+ File.separator
 							+ "folders.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -436,7 +479,7 @@ public class Main {
 							+ File.separator
 							+ "goals.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -452,7 +495,7 @@ public class Main {
 							+ File.separator
 							+ "locations.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -468,7 +511,7 @@ public class Main {
 							+ File.separator
 							+ "notes.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -484,7 +527,7 @@ public class Main {
 							+ File.separator
 							+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -500,7 +543,7 @@ public class Main {
 							+ File.separator
 							+ "task_templates.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -643,176 +686,142 @@ public class Main {
 		}
 		
 		try {
-			try {
-				ContextFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "contexts.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				FolderFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "folders.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				GoalFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "goals.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				LocationFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "locations.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				NoteFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "notes.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				TaskFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "tasks.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				TaskTemplateFactory.getInstance().encodeToXML(
-						new FileOutputStream(DATA_FOLDER
-								+ File.separator
-								+ "task_templates.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-						DATA_FOLDER + File.separator + "task_searchers.xml"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			try {
-				File f = new File(getInitSettingsFile());
-				
-				if (!DEBUG_MODE && f.canWrite())
-					saveInitSettings();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				saveSettings();
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						null,
-						e.getMessage(),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			
-			MainFrame.getInstance().getFrame().dispose();
-		} finally {
-			try {
-				if (ORIGINAL_OUT_STREAM != null) {
-					System.setOut(ORIGINAL_OUT_STREAM);
-					System.setErr(ORIGINAL_ERR_STREAM);
-					
-					NEW_STREAM.close();
-					LOG_STREAM.close();
-					
-					File logFile = new File(DATA_FOLDER
+			ContextFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
 							+ File.separator
-							+ "taskunifier.log");
-					
-					if (!logFile.exists())
-						logFile.createNewFile();
-					
-					String logFileContent = FileUtils.readFileToString(
-							logFile,
-							"UTF-8");
-					
-					String log = LOG_STREAM.toString();
-					log = "\n\n\n---------- "
-							+ DateUtils.getDateAsString("dd/MM/yyyy HH:mm:ss")
-							+ " ----------\n\n"
-							+ log;
-					
-					FileUtils.writeStringToFile(logFile, logFileContent + log);
-				}
-			} catch (Exception e) {
-				GuiLogger.getLogger().severe(
-						"Could not copy log information into log file");
-			}
+							+ "contexts.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
 		}
+		
+		try {
+			FolderFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "folders.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			GoalFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "goals.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			LocationFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "locations.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			NoteFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "notes.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			TaskFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "tasks.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			TaskTemplateFactory.getInstance().encodeToXML(
+					new FileOutputStream(DATA_FOLDER
+							+ File.separator
+							+ "task_templates.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
+					DATA_FOLDER + File.separator + "task_searchers.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		try {
+			File f = new File(getInitSettingsFile());
+			
+			if (!DEBUG_MODE && f.canWrite())
+				saveInitSettings();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			saveSettings();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		MainFrame.getInstance().getFrame().dispose();
 		
 		System.exit(0);
 	}
 	
 	private static void saveInitSettings() throws FileNotFoundException,
-			IOException {
+	IOException {
 		INIT_SETTINGS.store(
 				new FileOutputStream(getInitSettingsFile()),
 				Constants.TITLE + " Init Settings");
