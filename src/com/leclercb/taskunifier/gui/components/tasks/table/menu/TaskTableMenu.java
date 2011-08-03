@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.tasks.table.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -91,49 +90,12 @@ public class TaskTableMenu extends JPopupMenu {
 		
 		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
-		postponeMenu.add(new ActionPostponeTasks(
-				Translations.getString("postpone.1_day"),
-				Calendar.DAY_OF_MONTH,
-				1));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_days",
-				2), Calendar.DAY_OF_MONTH, 2));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_days",
-				3), Calendar.DAY_OF_MONTH, 3));
-		
-		postponeMenu.add(new ActionPostponeTasks(
-				Translations.getString("postpone.1_week"),
-				Calendar.WEEK_OF_YEAR,
-				1));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_weeks",
-				2), Calendar.WEEK_OF_YEAR, 2));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_weeks",
-				3), Calendar.WEEK_OF_YEAR, 3));
-		
-		postponeMenu.add(new ActionPostponeTasks(
-				Translations.getString("postpone.1_month"),
-				Calendar.MONTH,
-				1));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_months",
-				2), Calendar.MONTH, 2));
-		
-		postponeMenu.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_months",
-				3), Calendar.MONTH, 3));
-		
-		postponeMenu.add(new ActionPostponeTasks(
-				Translations.getString("postpone.1_year"),
-				Calendar.YEAR,
-				1));
+		ActionPostponeTasks[] actions = ActionPostponeTasks.createDefaultActions(
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeMenu.add(action);
+		}
 		
 		this.add(postponeMenu);
 	}

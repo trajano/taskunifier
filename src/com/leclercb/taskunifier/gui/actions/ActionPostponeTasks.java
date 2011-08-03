@@ -1,12 +1,15 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionPostponeTasks extends AbstractAction {
@@ -50,6 +53,66 @@ public class ActionPostponeTasks extends AbstractAction {
 			dueDate.add(field, amount);
 			task.setDueDate(dueDate);
 		}
+	}
+	
+	public static ActionPostponeTasks[] createDefaultActions(
+			int width,
+			int height) {
+		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
+		
+		actions.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_day"),
+				Calendar.DAY_OF_MONTH,
+				1,
+				width,
+				height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				2), Calendar.DAY_OF_MONTH, 2, width, height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_days",
+				3), Calendar.DAY_OF_MONTH, 3, width, height));
+		
+		actions.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_week"),
+				Calendar.WEEK_OF_YEAR,
+				1,
+				width,
+				height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				2), Calendar.WEEK_OF_YEAR, 2, width, height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_weeks",
+				3), Calendar.WEEK_OF_YEAR, 3, width, height));
+		
+		actions.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_month"),
+				Calendar.MONTH,
+				1,
+				width,
+				height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				2), Calendar.MONTH, 2, width, height));
+		
+		actions.add(new ActionPostponeTasks(Translations.getString(
+				"postpone.x_months",
+				3), Calendar.MONTH, 3, width, height));
+		
+		actions.add(new ActionPostponeTasks(
+				Translations.getString("postpone.1_year"),
+				Calendar.YEAR,
+				1,
+				width,
+				height));
+		
+		return actions.toArray(new ActionPostponeTasks[0]);
 	}
 	
 }
