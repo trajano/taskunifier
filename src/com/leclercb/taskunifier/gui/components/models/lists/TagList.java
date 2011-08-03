@@ -49,7 +49,7 @@ import javax.swing.event.ListSelectionListener;
 import org.jdesktop.swingx.JXList;
 import org.jdesktop.swingx.JXSearchField;
 
-import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTagComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
@@ -143,7 +143,7 @@ public abstract class TagList extends JPanel implements ITagList {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("REMOVE")) {
-					IgnoreCaseString tag = TagList.this.getSelectedTag();
+					Tag tag = TagList.this.getSelectedTag();
 					TagList.this.removeTag(tag);
 				}
 			}
@@ -159,17 +159,17 @@ public abstract class TagList extends JPanel implements ITagList {
 	}
 	
 	@Override
-	public IgnoreCaseString getSelectedTag() {
-		return (IgnoreCaseString) this.tagList.getSelectedValue();
+	public Tag getSelectedTag() {
+		return (Tag) this.tagList.getSelectedValue();
 	}
 	
 	@Override
-	public void setSelectedTag(IgnoreCaseString tag) {
+	public void setSelectedTag(Tag tag) {
 		this.tagList.setSelectedValue(tag, true);
 	}
 	
-	public abstract void removeTag(IgnoreCaseString tag);
+	public abstract void removeTag(Tag tag);
 	
-	public abstract void tagSelected(IgnoreCaseString tag);
+	public abstract void tagSelected(Tag tag);
 	
 }

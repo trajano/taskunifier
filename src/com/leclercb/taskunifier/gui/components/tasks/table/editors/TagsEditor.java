@@ -35,24 +35,21 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 import java.awt.Component;
 
 import javax.swing.AbstractCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 
 public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	
-	private JComboBox comboBox;
+	private JTaskTagList taskTags;
 	
 	public TagsEditor() {
 		this.initialize();
 	}
 	
 	private void initialize() {
-		this.comboBox = new JComboBox(new TaskTagModel(true));
-		ComponentFactory.createTagsComboBox(this.comboBox);
+		this.taskTags = new JTaskTagList();
 	}
 	
 	@Override
@@ -62,13 +59,13 @@ public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 			boolean isSelected,
 			int row,
 			int column) {
-		this.comboBox.setSelectedItem(value.toString());
-		return this.comboBox;
+		this.taskTags.setTags(value.toString());
+		return this.taskTags;
 	}
 	
 	@Override
 	public Object getCellEditorValue() {
-		return this.comboBox.getSelectedItem().toString();
+		return this.taskTags.getTags().toString();
 	}
 	
 }

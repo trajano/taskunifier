@@ -42,7 +42,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
@@ -61,12 +61,12 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 	}
 	
 	@Override
-	public IgnoreCaseString getSelectedTag() {
+	public Tag getSelectedTag() {
 		return this.tagList.getSelectedTag();
 	}
 	
 	@Override
-	public void setSelectedTag(IgnoreCaseString tag) {
+	public void setSelectedTag(Tag tag) {
 		this.tagList.setSelectedTag(tag);
 	}
 	
@@ -85,12 +85,12 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 		this.tagList = new TagList(new TaskTagModel(false)) {
 			
 			@Override
-			public void removeTag(IgnoreCaseString tag) {
-				TaskTagList.getInstance().removeTag(tag.toString());
+			public void removeTag(Tag tag) {
+				TaskTagList.getInstance().removeTag(tag);
 			}
 			
 			@Override
-			public void tagSelected(IgnoreCaseString tag) {
+			public void tagSelected(Tag tag) {
 				tagTitle.setText(tag != null ? tag.toString() : null);
 				tagTitle.setEnabled(tag != null);
 				tagSave.setEnabled(tag != null);
@@ -119,11 +119,11 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				TaskTagList.getInstance().editTag(
-						TagConfigurationPanel.this.tagList.getSelectedTag().toString(),
-						tagTitle.getText());
+						TagConfigurationPanel.this.tagList.getSelectedTag(),
+						new Tag(tagTitle.getText()));
 				
 				MainFrame.getInstance().getTaskSearcherView().selectTag(
-						tagTitle.getText());
+						new Tag(tagTitle.getText()));
 			}
 			
 		});

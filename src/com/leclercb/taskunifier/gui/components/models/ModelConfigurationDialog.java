@@ -43,9 +43,9 @@ import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
 import com.leclercb.taskunifier.gui.components.models.panels.ContextConfigurationPanel;
@@ -105,11 +105,11 @@ public class ModelConfigurationDialog extends JDialog {
 		}
 	}
 	
-	public void setSelectedTag(String tag) {
+	public void setSelectedTag(Tag tag) {
 		this.tabbedPane.setSelectedIndex(4);
 		
 		ITagList list = (ITagList) this.tabbedPane.getSelectedComponent();
-		list.setSelectedTag(IgnoreCaseString.as(tag));
+		list.setSelectedTag(tag);
 	}
 	
 	private void initialize() {

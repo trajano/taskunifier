@@ -52,6 +52,7 @@ import javax.swing.tree.TreeNode;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
@@ -156,7 +157,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	@Override
-	public boolean selectTag(String tag) {
+	public boolean selectTag(Tag tag) {
 		TreeNode node = this.getSearcherModel().findItemFromTag(tag);
 		
 		if (node == null)
@@ -202,7 +203,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		return this.getSelectedTaskSearcher();
 	}
 	
-	public String getSelectedTag() {
+	public Tag getSelectedTag() {
 		if (this.getSelectionPath() == null)
 			return null;
 		

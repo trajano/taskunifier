@@ -57,6 +57,8 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Tag;
+import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
@@ -246,9 +248,9 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				"tasksearcher.category.tag.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.tagCategory);
 		
-		String[] tags = TaskTagList.getInstance().getTags();
+		TagList tags = TaskTagList.getInstance().getTags();
 		
-		for (String tag : tags)
+		for (Tag tag : tags)
 			this.tagCategory.add(new TagItem(tag));
 		
 		TaskTagList.getInstance().addListChangeListener(this);
@@ -307,11 +309,11 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		return null;
 	}
 	
-	public TagItem findItemFromTag(String tag) {
+	public TagItem findItemFromTag(Tag tag) {
 		for (int i = 0; i < this.tagCategory.getChildCount(); i++) {
 			TreeNode node = this.tagCategory.getChildAt(i);
 			if (node instanceof TagItem) {
-				if (((TagItem) node).getTag().equalsIgnoreCase(tag)) {
+				if (((TagItem) node).getTag().equals(tag)) {
 					return (TagItem) node;
 				}
 			}
@@ -411,7 +413,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		// Tag
 		if (event.getValue() instanceof String) {
-			String tag = (String) event.getValue();
+			Tag tag = (Tag) event.getValue();
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				TagItem item = new TagItem(tag);

@@ -47,7 +47,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.jdesktop.swingx.JXComboBox;
@@ -56,7 +55,6 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.IgnoreCaseString;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
@@ -142,51 +140,6 @@ public final class ComponentFactory {
 		button.addActionListener(listener);
 		
 		return button;
-	}
-	
-	public static void createTagsComboBox(JComboBox tagsComboBox) {
-		tagsComboBox.setEditable(true);
-		tagsComboBox.setEditor(new TagsComboBoxEditor(tagsComboBox));
-	}
-	
-	private static class TagsComboBoxEditor extends BasicComboBoxEditor {
-		
-		private JComboBox comboBox;
-		
-		public TagsComboBoxEditor(final JComboBox comboBox) {
-			this.comboBox = comboBox;
-			this.editor.getDocument().addDocumentListener(
-					new DocumentListener() {
-						
-						@Override
-						public void removeUpdate(DocumentEvent e) {
-							comboBox.setSelectedItem(TagsComboBoxEditor.this.editor.getText());
-						}
-						
-						@Override
-						public void insertUpdate(DocumentEvent e) {
-							comboBox.setSelectedItem(TagsComboBoxEditor.this.editor.getText());
-						}
-						
-						@Override
-						public void changedUpdate(DocumentEvent e) {
-							comboBox.setSelectedItem(TagsComboBoxEditor.this.editor.getText());
-						}
-						
-					});
-		}
-		
-		@Override
-		public void setItem(Object anObject) {
-			if (anObject instanceof IgnoreCaseString) {
-				String s = (this.editor.getText().length() == 0 ? "" : ", ");
-				this.editor.setText(this.editor.getText() + s + anObject);
-				this.comboBox.setSelectedItem(this.editor.getText());
-			} else {
-				super.setItem(anObject);
-			}
-		}
-		
 	}
 	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {

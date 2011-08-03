@@ -55,6 +55,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -118,7 +119,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	@Override
-	public boolean selectTag(String tag) {
+	public boolean selectTag(Tag tag) {
 		return this.searcherView.selectTag(tag);
 	}
 	
@@ -283,7 +284,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 				}
 				
 				if (type == TaskSearcherType.TAG) {
-					if (this.searcherView.selectTag(value))
+					if (this.searcherView.selectTag(new Tag(value)))
 						return;
 				}
 				
@@ -348,7 +349,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 				if (this.searcherView.getSelectedTag() != null) {
 					Main.SETTINGS.setStringProperty(
 							"searcher.task.selected.value",
-							this.searcherView.getSelectedTag());
+							this.searcherView.getSelectedTag().toString());
 				}
 				
 				return;

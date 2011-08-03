@@ -38,6 +38,7 @@ import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
@@ -57,7 +58,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	private TaskSearcher searcher;
 	private BadgeCount badgeCount;
 	
-	public TagItem(String tag) {
+	public TagItem(Tag tag) {
 		super(tag);
 		
 		CheckUtils.isNotNull(tag, "Tag cannot be null");
@@ -66,24 +67,24 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 		this.updateBadgeCount();
 	}
 	
-	public String getTag() {
-		return (String) this.getUserObject();
+	public Tag getTag() {
+		return (Tag) this.getUserObject();
 	}
 	
 	private void initializeTaskSearcher() {
 		final TaskTemplate template = new TaskTemplate("TagTemplate");
-		template.setTaskTags(this.getTag());
+		template.setTaskTags(this.getTag().toString());
 		
 		TaskFilter filter = new TaskFilter();
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.TAGS,
 				StringCondition.CONTAINS,
-				this.getTag()));
+				this.getTag().toString()));
 		
 		this.searcher = new TaskSearcher(
 				TaskSearcherType.TAG,
 				0,
-				this.getTag(),
+				this.getTag().toString(),
 				null,
 				filter,
 				Constants.getDefaultTaskSorter(),
@@ -102,7 +103,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public String getText() {
-		return this.getTag();
+		return this.getTag().toString();
 	}
 	
 	@Override

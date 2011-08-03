@@ -42,6 +42,7 @@ import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXEditorPane;
 
+import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -73,6 +74,9 @@ public class AboutPanel extends JPanel {
 		
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
+		
+		JTaskTagList list = new JTaskTagList();
+		this.add(list, BorderLayout.SOUTH);
 		
 		JXEditorPane aboutMessage = new JXEditorPane();
 		aboutMessage.setContentType("text/html");

@@ -52,7 +52,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -73,13 +72,13 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -115,7 +114,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskNoteCheckBox;
 	
 	private JTextField taskTitle;
-	private JComboBox taskTags;
+	private JTaskTagList taskTags;
 	private JComboBox taskFolder;
 	private JComboBox taskContext;
 	private JComboBox taskGoal;
@@ -157,9 +156,7 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			if (this.taskTagsCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					Object item = this.taskTags.getSelectedItem();
-					task.setTags((item == null ? new String[0] : item.toString().split(
-							",")));
+					task.setTags(this.taskTags.getTags());
 				}
 			}
 			
@@ -360,7 +357,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskNoteCheckBox = new JCheckBox("", true);
 		
 		this.taskTitle = new JTextField();
-		this.taskTags = new JComboBox();
+		this.taskTags = new JTaskTagList();
 		this.taskFolder = ComponentFactory.createModelComboBox(null);
 		this.taskContext = ComponentFactory.createModelComboBox(null);
 		this.taskGoal = ComponentFactory.createModelComboBox(null);
@@ -448,9 +445,6 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskTitle);
 		
 		// Task Tags
-		this.taskTags.setModel(new TaskTagModel(true));
-		ComponentFactory.createTagsComboBox(this.taskTags);
-		
 		builder.appendI15d("general.task.tags", true, this.taskTagsCheckBox);
 		builder.append(this.taskTags);
 		
@@ -637,7 +631,7 @@ public class BatchTaskEditPanel extends JPanel {
 			length.set(0, 0, 0, 0, 0, 0);
 			
 			this.taskTitle.setText("");
-			this.taskTags.setSelectedItem("");
+			this.taskTags.setTags("");
 			this.taskFolder.setSelectedItem(null);
 			this.taskContext.setSelectedItem(null);
 			this.taskGoal.setSelectedItem(null);
@@ -665,7 +659,7 @@ public class BatchTaskEditPanel extends JPanel {
 			length.set(0, 0, 0, hour, minute, 0);
 			
 			this.taskTitle.setText(task.getTitle());
-			this.taskTags.setSelectedItem(StringUtils.join(task.getTags(), ", "));
+			this.taskTags.setTags(task.getTags());
 			this.taskFolder.setSelectedItem(task.getFolder());
 			this.taskContext.setSelectedItem(task.getContext());
 			this.taskGoal.setSelectedItem(task.getGoal());

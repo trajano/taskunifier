@@ -32,12 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.components.models.lists;
 
-import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.Tag;
 
 public interface ITagList {
 	
-	public abstract IgnoreCaseString getSelectedTag();
+	public abstract Tag getSelectedTag();
 	
-	public abstract void setSelectedTag(IgnoreCaseString tag);
+	public abstract void setSelectedTag(Tag tag);
 	
 }

@@ -36,31 +36,32 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.utils.IgnoreCaseString;
+import com.leclercb.taskunifier.api.models.Tag;
+import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 
 public class TaskTagModel extends DefaultComboBoxModel implements ListChangeListener {
 	
 	public TaskTagModel(boolean firstNull) {
-		String[] tags = TaskTagList.getInstance().getTags();
+		TagList tags = TaskTagList.getInstance().getTags();
 		
 		if (firstNull)
 			this.addElement(null);
 		
-		for (String tag : tags)
-			this.addElement(IgnoreCaseString.as(tag));
+		for (Tag tag : tags)
+			this.addElement(tag);
 		
 		TaskTagList.getInstance().addListChangeListener(this);
 	}
 	
 	@Override
 	public void listChange(ListChangeEvent evt) {
-		String tag = (String) evt.getValue();
+		Tag tag = (Tag) evt.getValue();
 		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(IgnoreCaseString.as(tag));
+			this.addElement(tag);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(IgnoreCaseString.as(tag));
+			this.removeElement(tag);
 	}
 	
 }
