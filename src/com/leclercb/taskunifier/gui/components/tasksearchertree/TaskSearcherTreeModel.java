@@ -411,8 +411,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 			return;
 		}
 		
-		// Tag
-		if (event.getValue() instanceof String) {
+		if (event.getValue() instanceof Tag) {
 			Tag tag = (Tag) event.getValue();
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {

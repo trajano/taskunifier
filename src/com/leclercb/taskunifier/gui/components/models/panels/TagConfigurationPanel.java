@@ -118,12 +118,17 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				TaskTagList.getInstance().editTag(
-						TagConfigurationPanel.this.tagList.getSelectedTag(),
-						new Tag(tagTitle.getText()));
-				
-				MainFrame.getInstance().getTaskSearcherView().selectTag(
-						new Tag(tagTitle.getText()));
+				try {
+					Tag tag = new Tag(tagTitle.getText());
+					
+					TaskTagList.getInstance().editTag(
+							TagConfigurationPanel.this.tagList.getSelectedTag(),
+							tag);
+					
+					MainFrame.getInstance().getTaskSearcherView().selectTag(tag);
+				} catch (Exception e) {
+
+				}
 			}
 			
 		});

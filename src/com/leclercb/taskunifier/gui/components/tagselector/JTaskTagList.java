@@ -1,30 +1,28 @@
 package com.leclercb.taskunifier.gui.components.tagselector;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.JCheckBoxList;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public class JTaskTagList extends JPanel {
 	
 	private JTextField text;
 	private JButton button;
-	private JDialog popup;
+	private JPopupMenu popup;
 	private JCheckBoxList list;
 	private TaskTagListModel model;
 	
@@ -37,13 +35,10 @@ public class JTaskTagList extends JPanel {
 	}
 	
 	public void setTags(String tags) {
-		this.popup.setVisible(false);
 		this.text.setText(tags);
 	}
 	
 	public void setTags(TagList tags) {
-		this.popup.setVisible(false);
-		
 		if (tags == null)
 			this.text.setText("");
 		else
@@ -53,32 +48,33 @@ public class JTaskTagList extends JPanel {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
+		this.popup = new JPopupMenu();
+		
 		this.text = new JTextField();
 		
-		this.initializePopupWindow();
-		
-		this.button = new JButton("X");
-		this.button.addActionListener(new ActionListener() {
+		this.button = new JButton(Images.getResourceImage("edit.png", 16, 16));
+		this.button.addMouseListener(new MouseAdapter() {
 			
 			@Override
-			public void actionPerformed(ActionEvent event) {
-				JDialog popup = JTaskTagList.this.popup;
-				if (!popup.isVisible()) {
-					String text = JTaskTagList.this.text.getText();
-					String[] tags = text.split(",");
-					for (int i = 0; i < tags.length; i++) {
-						tags[i] = tags[i].trim();
-					}
-					
-					JTaskTagList.this.model.updateCheckBoxStates(tags);
-					
-					popup.setLocationRelativeTo(JTaskTagList.this.button);
-					popup.setVisible(true);
-					popup.requestFocus();
+			public void mouseClicked(MouseEvent e) {
+				String text = JTaskTagList.this.text.getText();
+				String[] tags = text.split(",");
+				for (int i = 0; i < tags.length; i++) {
+					tags[i] = tags[i].trim();
 				}
+				
+				JTaskTagList.this.model.updateCheckBoxStates(tags);
+				
+				JTaskTagList.this.popup.show(
+						JTaskTagList.this.button,
+						e.getX(),
+						e.getY());
 			}
 			
 		});
+		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.list = new JCheckBoxList();
 		this.model = new TaskTagListModel();
@@ -102,37 +98,12 @@ public class JTaskTagList extends JPanel {
 			
 		});
 		
-		this.popup.add(
-				ComponentFactory.createJScrollPane(this.list, false),
-				BorderLayout.CENTER);
+		panel.add(ComponentFactory.createJScrollPane(this.list, false));
+		
+		this.popup.add(panel);
 		
 		this.add(this.text, BorderLayout.CENTER);
 		this.add(this.button, BorderLayout.EAST);
-	}
-	
-	private void initializePopupWindow() {
-		this.popup = new JDialog(MainFrame.getInstance().getFrame());
-		this.popup.setAlwaysOnTop(true);
-		this.popup.setModal(true);
-		this.popup.setUndecorated(true);
-		this.popup.setSize(150, 200);
-		this.popup.setResizable(false);
-		this.popup.setLayout(new BorderLayout());
-		this.popup.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-		
-		this.popup.addWindowFocusListener(new WindowFocusListener() {
-			
-			@Override
-			public void windowGainedFocus(WindowEvent e) {
-
-			}
-			
-			@Override
-			public void windowLostFocus(WindowEvent e) {
-				JTaskTagList.this.popup.setVisible(false);
-			}
-			
-		});
 	}
 	
 }
