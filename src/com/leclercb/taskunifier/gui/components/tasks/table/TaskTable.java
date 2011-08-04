@@ -372,7 +372,19 @@ public class TaskTable extends JXTable implements TaskView {
 	
 	private void initializeEnter() {
 		ActionMap amap = this.getActionMap();
-		amap.put("editTask", new ActionEditTasks(this));
+		amap.put("editTask", new ActionEditTasks(this) {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (TaskTable.this.isEditing()) {
+					TaskTable.this.commitChanges();
+					return;
+				}
+				
+				super.actionPerformed(e);
+			}
+			
+		});
 		
 		InputMap imap = this.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "editTask");
