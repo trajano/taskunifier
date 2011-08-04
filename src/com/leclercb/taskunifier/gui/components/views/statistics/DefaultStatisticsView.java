@@ -4,20 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.components.statistics.ModelCountStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerStatusStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class DefaultStatisticsView extends JPanel implements StatisticsView {
+	
+	private JCheckBox showCompletedTasksCheckBox;
 	
 	private ModelCountStatistics modelStatistics;
 	private TasksPerStatusStatistics tasksPerStatusStatistics;
@@ -37,6 +43,12 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 		return this;
 	}
 	
+	private void updateStatistics() {
+		DefaultStatisticsView.this.modelStatistics.updateStatistics();
+		DefaultStatisticsView.this.tasksPerStatusStatistics.updateStatistics();
+		DefaultStatisticsView.this.tasksPerTagStatistics.updateStatistics();
+	}
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
@@ -54,17 +66,19 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 		
 		this.add(panel, BorderLayout.CENTER);
 		
-		this.initializeButtonsPanel();
+		JPanel topPanel = new JPanel(new BorderLayout());
+		this.add(topPanel, BorderLayout.NORTH);
+		
+		this.initializeShowCompletedTasksCheckBox(topPanel);
+		this.initializeButtonsPanel(topPanel);
 	}
 	
-	private void initializeButtonsPanel() {
+	private void initializeButtonsPanel(JPanel topPanel) {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultStatisticsView.this.modelStatistics.updateStatistics();
-				DefaultStatisticsView.this.tasksPerStatusStatistics.updateStatistics();
-				DefaultStatisticsView.this.tasksPerTagStatistics.updateStatistics();
+				DefaultStatisticsView.this.updateStatistics();
 			}
 			
 		};
@@ -76,6 +90,39 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(udpateButton);
 		
-		this.add(panel, BorderLayout.NORTH);
+		topPanel.add(panel, BorderLayout.EAST);
+	}
+	
+	private void initializeShowCompletedTasksCheckBox(JPanel topPanel) {
+		this.showCompletedTasksCheckBox = new JCheckBox(
+				Translations.getString("configuration.general.show_completed_tasks"));
+		
+		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"tasksearcher.show_completed_tasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+						DefaultStatisticsView.this.showCompletedTasksCheckBox.setSelected(selected);
+						DefaultStatisticsView.this.updateStatistics();
+					}
+					
+				});
+		
+		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.SETTINGS.setBooleanProperty(
+						"tasksearcher.show_completed_tasks",
+						DefaultStatisticsView.this.showCompletedTasksCheckBox.isSelected());
+			}
+			
+		});
+		
+		topPanel.add(this.showCompletedTasksCheckBox, BorderLayout.WEST);
 	}
 }

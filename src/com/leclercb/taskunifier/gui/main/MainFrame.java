@@ -221,7 +221,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainFrame.this.firePropertyChange(
-						PROP_SELECTED_VIEW,
+						PROP_MAIN_SEARCH,
 						null,
 						e.getActionCommand());
 			}

@@ -19,6 +19,7 @@ import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TasksPerTagStatistics extends JPanel implements Statistics {
@@ -56,13 +57,16 @@ public class TasksPerTagStatistics extends JPanel implements Statistics {
 	public void updateStatistics() {
 		this.dataset.clear();
 		
+		boolean showCompleted = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		
 		for (Tag tag : TaskTagList.getInstance().getTags()) {
 			int count = 0;
 			List<Task> tasks = TaskFactory.getInstance().getList();
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus())
 					if (task.getTags().containsTag(tag))
-						count++;
+						if (showCompleted || !task.isCompleted())
+							count++;
 			}
 			
 			this.dataset.setValue(tag, count);

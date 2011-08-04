@@ -39,7 +39,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public interface MainView extends PropertyChangeSupported {
 	
-	public static final String PROP_SEARCH = "search";
+	public static final String PROP_MAIN_SEARCH = "mainSearch";
 	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
 	public abstract Frame getFrame();

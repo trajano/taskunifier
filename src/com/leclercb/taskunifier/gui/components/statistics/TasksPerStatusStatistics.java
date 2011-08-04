@@ -18,6 +18,7 @@ import org.jfree.util.Rotation;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
@@ -56,13 +57,16 @@ public class TasksPerStatusStatistics extends JPanel implements Statistics {
 	public void updateStatistics() {
 		this.dataset.clear();
 		
+		boolean showCompleted = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		
 		for (TaskStatus status : TaskStatus.values()) {
 			int count = 0;
 			List<Task> tasks = TaskFactory.getInstance().getList();
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus())
 					if (task.getStatus() == status)
-						count++;
+						if (showCompleted || !task.isCompleted())
+							count++;
 			}
 			
 			this.dataset.setValue(

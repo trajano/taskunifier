@@ -142,7 +142,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 		this.searchField.setColumns(15);
 		
 		this.mainView.addPropertyChangeListener(
-				MainView.PROP_SEARCH,
+				MainView.PROP_MAIN_SEARCH,
 				new PropertyChangeListener() {
 					
 					@Override

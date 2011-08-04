@@ -145,7 +145,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		this.searchField.setColumns(15);
 		
 		this.mainView.addPropertyChangeListener(
-				MainView.PROP_SEARCH,
+				MainView.PROP_MAIN_SEARCH,
 				new PropertyChangeListener() {
 					
 					@Override
@@ -175,6 +175,18 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 				10.0f));
 		
 		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"tasksearcher.show_completed_tasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+						DefaultTaskView.this.showCompletedTasksCheckBox.setSelected(selected);
+					}
+					
+				});
 		
 		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
 			

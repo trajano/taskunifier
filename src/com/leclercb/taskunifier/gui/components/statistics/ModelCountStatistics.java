@@ -17,7 +17,9 @@ import org.jfree.util.Rotation;
 
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
@@ -57,12 +59,17 @@ public class ModelCountStatistics extends JPanel implements Statistics {
 	public void updateStatistics() {
 		this.dataset.clear();
 		
+		boolean showCompleted = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		
 		for (ModelType type : ModelType.values()) {
 			int count = 0;
 			List models = ModelFactoryUtils.getFactory(type).getList();
 			for (Object model : models) {
 				if (((Model) model).getModelStatus().isEndUserStatus())
-					count++;
+					if (!(model instanceof Task)
+							|| showCompleted
+							|| !((Task) model).isCompleted())
+						count++;
 			}
 			
 			this.dataset.setValue(
