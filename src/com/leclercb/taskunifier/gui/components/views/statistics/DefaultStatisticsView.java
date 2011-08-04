@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.statistics.ModelCountStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerStatusStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
@@ -23,6 +24,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class DefaultStatisticsView extends JPanel implements StatisticsView {
 	
+	private MainView mainView;
+	
 	private JCheckBox showCompletedTasksCheckBox;
 	
 	private ModelCountStatistics modelStatistics;
@@ -30,6 +33,9 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 	private TasksPerTagStatistics tasksPerTagStatistics;
 	
 	public DefaultStatisticsView(MainView mainView) {
+		CheckUtils.isNotNull(mainView, "Main view cannot be null");
+		this.mainView = mainView;
+		
 		this.initialize();
 	}
 	
@@ -71,6 +77,18 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 		
 		this.initializeShowCompletedTasksCheckBox(topPanel);
 		this.initializeButtonsPanel(topPanel);
+		
+		this.mainView.addPropertyChangeListener(
+				MainView.PROP_SELECTED_VIEW,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (DefaultStatisticsView.this.mainView.getSelectedViewType() == DefaultStatisticsView.this.getViewType())
+							DefaultStatisticsView.this.updateStatistics();
+					}
+					
+				});
 	}
 	
 	private void initializeButtonsPanel(JPanel topPanel) {
