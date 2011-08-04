@@ -51,8 +51,9 @@ import org.jdesktop.swingx.renderer.JRendererLabel;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -72,7 +73,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						TaskTitleHighlighter.this.resetColors();
-						MainFrame.getInstance().getTaskView().refreshTasks();
+						((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
 					}
 					
 				});

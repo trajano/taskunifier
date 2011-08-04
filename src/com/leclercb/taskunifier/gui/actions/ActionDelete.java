@@ -45,8 +45,10 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.NoteView;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -77,8 +79,8 @@ public class ActionDelete extends AbstractAction {
 	}
 	
 	public static void delete() {
-		if (MainFrame.getInstance().getSelectedView() == View.TASKS) {
-			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+		if (MainFrame.getInstance().getSelectedViewType() == ViewType.TASKS) {
+			Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
 			
 			boolean hasSubTasks = false;
 			
@@ -113,7 +115,7 @@ public class ActionDelete extends AbstractAction {
 			
 			Synchronizing.setSynchronizing(false);
 		} else {
-			Note[] notes = MainFrame.getInstance().getNoteView().getSelectedNotes();
+			Note[] notes = ((NoteView) ViewType.TASKS.getView()).getNoteTableView().getSelectedNotes();
 			
 			for (Note note : notes) {
 				if (note.getModelStatus().isEndUserStatus()) {

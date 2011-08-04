@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -60,11 +60,11 @@ import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class DefaultToolBar extends JToolBar {
 	
-	public DefaultToolBar(MainView mainView, TaskView taskView) {
+	public DefaultToolBar(MainView mainView, TaskTableView taskView) {
 		this.initialize(mainView, taskView);
 	}
 	
-	private void initialize(MainView mainView, TaskView taskView) {
+	private void initialize(MainView mainView, TaskTableView taskView) {
 		this.setFloatable(false);
 		this.setRollover(true);
 		

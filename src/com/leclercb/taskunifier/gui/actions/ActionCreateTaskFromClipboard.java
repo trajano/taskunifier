@@ -37,19 +37,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionCreateTaskFromClipboard extends AbstractAction {
 	
-	private TaskView view;
+	private TaskTableView view;
 	
-	public ActionCreateTaskFromClipboard(TaskView view) {
+	public ActionCreateTaskFromClipboard(TaskTableView view) {
 		this(view, 32, 32);
 	}
 	
-	public ActionCreateTaskFromClipboard(TaskView view, int width, int height) {
+	public ActionCreateTaskFromClipboard(
+			TaskTableView view,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.create_task_from_clipboard"),
 				Images.getResourceImage("information.png", width, height));

@@ -614,7 +614,7 @@ public class Main {
 					DATA_FOLDER + File.separator + "task_searchers.xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"Error while loading task searchers",

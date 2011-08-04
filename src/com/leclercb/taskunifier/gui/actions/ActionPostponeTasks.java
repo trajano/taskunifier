@@ -8,7 +8,8 @@ import java.util.List;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -38,7 +39,7 @@ public class ActionPostponeTasks extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		postponeTasks(
-				MainFrame.getInstance().getTaskView().getSelectedTasks(),
+				((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks(),
 				this.field,
 				this.amount);
 	}

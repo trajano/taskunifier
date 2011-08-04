@@ -43,9 +43,10 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -82,12 +83,12 @@ public class ActionAddTask extends AbstractAction {
 	}
 	
 	public static Task addTask(TaskTemplate template, String title, boolean edit) {
-		MainFrame.getInstance().setSelectedView(View.TASKS);
+		MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 		
-		TaskTemplate searcherTemplate = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
-			MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
+			((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create("");
 		
@@ -100,14 +101,14 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		MainFrame.getInstance().getTaskView().refreshTasks();
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
 		
 		if (edit) {
 			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 				if (!ActionEditTasks.editTasks(new Task[] { task }))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
+				((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}

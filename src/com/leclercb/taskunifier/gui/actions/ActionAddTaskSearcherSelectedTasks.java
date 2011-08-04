@@ -47,7 +47,8 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -94,7 +95,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractAction {
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		
-		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+		Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
 		for (Task task : tasks) {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.MODEL,

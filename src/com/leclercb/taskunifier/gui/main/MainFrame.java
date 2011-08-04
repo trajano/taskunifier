@@ -42,51 +42,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXStatusBar;
 
-import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.ModelNote;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
-import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
-import com.leclercb.taskunifier.gui.components.notes.NoteView;
-import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
-import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherPanel;
-import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.NoteView;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
@@ -100,29 +82,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		return INSTANCE;
 	}
 	
+	private ViewType selectedViewType;
+	
+	private JPanel mainPane;
+	
 	private ReminderThread reminderThread;
 	private ScheduledSyncThread scheduledSyncThread;
 	
-	private JSplitPane horizontalSplitPane;
-	private JSplitPane verticalSplitPane;
-	
-	private JPanel searcherPane;
-	private JPanel middlePane;
-	private JPanel notePane;
-	
 	private JXSearchField searchField;
-	private JCheckBox showCompletedTasksCheckBox;
-	
-	private NoteSearcherPanel noteSearcherPanel;
-	private TaskSearcherPanel taskSearcherPanel;
-	
-	private NoteTable noteTable;
-	private TaskTable taskTable;
-	
-	private ModelNotePanel noteNote;
-	private ModelNotePanel taskNote;
-	
-	private View selectedView;
 	
 	private MainFrame() {
 		this.initialize();
@@ -154,61 +121,28 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 		});
 		
-		{
-			JPanel panel = new JPanel();
-			panel.setLayout(new BorderLayout());
-			
-			if (SystemUtils.IS_OS_MAC
-					&& LookAndFeelUtils.isCurrentLafSystemLaf()) {
-				this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-			} else {
-				panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-				
-				this.horizontalSplitPane = new JSplitPane(
-						JSplitPane.HORIZONTAL_SPLIT);
-			}
-			
-			this.horizontalSplitPane.setOneTouchExpandable(true);
-			
-			this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			this.verticalSplitPane.setOneTouchExpandable(true);
-			this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
-			
-			this.middlePane = new JPanel();
-			this.middlePane.setLayout(new CardLayout());
-			this.verticalSplitPane.setTopComponent(this.middlePane);
-			
-			this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
-			
-			panel.add(this.horizontalSplitPane, BorderLayout.CENTER);
-			
-			this.add(panel, BorderLayout.CENTER);
-			
-			this.loadSplitPaneSettings();
+		this.mainPane = new JPanel(new CardLayout());
+		this.add(this.mainPane, BorderLayout.CENTER);
+		
+		this.intializeSearchField();
+		
+		ViewType.initialize(this);
+		for (ViewType viewType : ViewType.values()) {
+			this.mainPane.add(
+					viewType.getView().getViewContent(),
+					viewType.name());
 		}
 		
-		{
-			this.initializeSearchField();
-			this.initializeShowCompletedTasksCheckBox();
-			this.initializeSearcherList(this.horizontalSplitPane);
-			this.initializeNoteTable(this.middlePane);
-			this.initializeTaskTable(this.middlePane);
-			this.initializeModelNote(this.verticalSplitPane);
-			
-			this.setSelectedView(View.TASKS);
-			
-			this.initializeReminderThread();
-			this.initializeScheduledSyncThread();
-			
-			this.initializeMenuBar();
-			this.initializeToolBar();
-			this.initializeStatusBar();
-			
-			this.initializeSystemTray();
-			
-			this.noteSearcherPanel.refreshNoteSearcher();
-			this.taskSearcherPanel.refreshTaskSearcher();
-		}
+		this.setSelectedViewType(ViewType.TASKS);
+		
+		this.initializeReminderThread();
+		this.initializeScheduledSyncThread();
+		
+		this.initializeMenuBar();
+		this.initializeToolBar();
+		this.initializeStatusBar();
+		
+		this.initializeSystemTray();
 	}
 	
 	@Override
@@ -217,52 +151,37 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	@Override
-	public NoteSearcherView getNoteSearcherView() {
-		return this.noteSearcherPanel;
+	public ViewType getSelectedViewType() {
+		return this.selectedViewType;
 	}
 	
 	@Override
-	public TaskSearcherView getTaskSearcherView() {
-		return this.taskSearcherPanel;
+	public String getSearch() {
+		return this.searchField.getText();
 	}
 	
 	@Override
-	public View getSelectedView() {
-		return this.selectedView;
+	public void setSearch(String search) {
+		this.searchField.setText(search);
 	}
 	
 	@Override
-	public void setSelectedView(View view) {
-		CheckUtils.isNotNull(view, "View cannot be null");
+	public void setSelectedViewType(ViewType viewType) {
+		CheckUtils.isNotNull(viewType, "View cannot be null");
 		
-		if (this.selectedView == view)
+		if (this.selectedViewType == viewType)
 			return;
 		
-		CardLayout layout = null;
+		CardLayout layout = (CardLayout) this.mainPane.getLayout();
+		layout.show(this.mainPane, viewType.name());
 		
-		layout = (CardLayout) this.searcherPane.getLayout();
-		layout.show(this.searcherPane, view.name());
+		ViewType oldSelectedViewType = this.selectedViewType;
+		this.selectedViewType = viewType;
 		
-		layout = (CardLayout) this.middlePane.getLayout();
-		layout.show(this.middlePane, view.name());
-		
-		layout = (CardLayout) this.notePane.getLayout();
-		layout.show(this.notePane, view.name());
-		
-		View oldSelectedView = this.selectedView;
-		this.selectedView = view;
-		
-		this.firePropertyChange(PROP_SELECTED_VIEW, oldSelectedView, view);
-	}
-	
-	@Override
-	public NoteView getNoteView() {
-		return this.noteTable;
-	}
-	
-	@Override
-	public TaskView getTaskView() {
-		return this.taskTable;
+		this.firePropertyChange(
+				PROP_SELECTED_VIEW,
+				oldSelectedViewType,
+				viewType);
 	}
 	
 	private void loadWindowSizeSettings() {
@@ -275,14 +194,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
 		this.setLocation(locationX, locationY);
-	}
-	
-	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
-		int vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
-		
-		this.horizontalSplitPane.setDividerLocation(hSplit);
-		this.verticalSplitPane.setDividerLocation(vSplit);
 	}
 	
 	@Override
@@ -298,30 +209,46 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		Main.SETTINGS.setIntegerProperty(
 				"window.location_y",
 				(int) this.getLocationOnScreen().getY());
+	}
+	
+	private void intializeSearchField() {
+		this.searchField = new JXSearchField(
+				Translations.getString("general.search"));
+		this.searchField.setColumns(15);
 		
-		Main.SETTINGS.setIntegerProperty(
-				"window.horizontal_split",
-				this.horizontalSplitPane.getDividerLocation());
-		Main.SETTINGS.setIntegerProperty(
-				"window.vertical_split",
-				this.verticalSplitPane.getDividerLocation());
+		this.searchField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.this.firePropertyChange(
+						PROP_SELECTED_VIEW,
+						null,
+						e.getActionCommand());
+			}
+			
+		});
 	}
 	
 	private void initializeMenuBar() {
 		this.setJMenuBar(new MenuBar(
 				this,
-				this.taskTable,
-				this.taskSearcherPanel));
+				((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
+				((TaskView) ViewType.TASKS.getView()).getTaskSearcherView()));
 	}
 	
 	private void initializeToolBar() {
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			this.add(
-					new MacToolBar(this, this.taskTable, this.searchField).getComponent(),
+					new MacToolBar(
+							this,
+							((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
+							this.searchField).getComponent(),
 					BorderLayout.NORTH);
 		} else {
 			this.add(
-					new DefaultToolBar(this, this.taskTable),
+					new DefaultToolBar(
+							this,
+							((TaskView) ViewType.TASKS.getView()).getTaskTableView()),
 					BorderLayout.NORTH);
 		}
 	}
@@ -338,178 +265,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());
 		else
 			this.add(statusBar.getStatusBar(), BorderLayout.SOUTH);
-	}
-	
-	private void initializeSearchField() {
-		this.searchField = new JXSearchField(
-				Translations.getString("general.search"));
-		this.searchField.setColumns(15);
-		
-		this.searchField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.noteSearcherPanel.setTitleFilter(e.getActionCommand());
-				MainFrame.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
-			}
-			
-		});
-	}
-	
-	private void initializeShowCompletedTasksCheckBox() {
-		this.showCompletedTasksCheckBox = new JCheckBox(
-				Translations.getString("configuration.general.show_completed_tasks"));
-		
-		this.showCompletedTasksCheckBox.setOpaque(false);
-		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
-				10.0f));
-		
-		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
-		
-		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
-						"tasksearcher.show_completed_tasks",
-						MainFrame.this.showCompletedTasksCheckBox.isSelected());
-			}
-			
-		});
-	}
-	
-	private void initializeSearcherList(JSplitPane horizontalSplitPane) {
-		JPanel panel = new JPanel(new BorderLayout(0, 10));
-		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
-		
-		JPanel northPanel = new JPanel(new BorderLayout());
-		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
-		
-		panel.add(northPanel, BorderLayout.NORTH);
-		
-		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			northPanel.add(this.searchField, BorderLayout.NORTH);
-		}
-		
-		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
-		
-		this.searcherPane = new JPanel(new CardLayout());
-		panel.add(this.searcherPane, BorderLayout.CENTER);
-		
-		this.initializeNoteSearcherList();
-		this.initializeTaskSearcherList();
-		
-		horizontalSplitPane.setLeftComponent(panel);
-	}
-	
-	private void initializeNoteSearcherList() {
-		this.noteSearcherPanel = new NoteSearcherPanel();
-		
-		this.noteSearcherPanel.addPropertyChangeListener(
-				NoteSearcherPanel.PROP_TITLE_FILTER,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						String filter = (String) evt.getNewValue();
-						if (!MainFrame.this.searchField.getText().equals(filter))
-							MainFrame.this.searchField.setText(filter);
-					}
-					
-				});
-		
-		this.searcherPane.add(this.noteSearcherPanel, View.NOTES.name());
-	}
-	
-	private void initializeTaskSearcherList() {
-		this.taskSearcherPanel = new TaskSearcherPanel();
-		
-		this.taskSearcherPanel.addPropertyChangeListener(
-				TaskSearcherPanel.PROP_TITLE_FILTER,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						String filter = (String) evt.getNewValue();
-						if (!MainFrame.this.searchField.getText().equals(filter))
-							MainFrame.this.searchField.setText(filter);
-					}
-					
-				});
-		
-		this.searcherPane.add(this.taskSearcherPanel, View.TASKS.name());
-	}
-	
-	private void initializeNoteTable(JPanel middlePane) {
-		this.noteTable = new NoteTable();
-		
-		JPanel notePanel = new JPanel(new BorderLayout());
-		notePanel.add(
-				ComponentFactory.createJScrollPane(this.noteTable, false),
-				BorderLayout.CENTER);
-		
-		this.noteSearcherPanel.addNoteSearcherSelectionChangeListener(this.noteTable);
-		this.noteSearcherPanel.addPropertyChangeListener(
-				NoteSearcherPanel.PROP_TITLE_FILTER,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						MainFrame.this.noteTable.noteSearcherSelectionChange(new NoteSearcherSelectionChangeEvent(
-								evt.getSource(),
-								MainFrame.this.noteSearcherPanel.getSelectedNoteSearcher()));
-					}
-					
-				});
-		
-		middlePane.add(notePanel, View.NOTES.name());
-	}
-	
-	private void initializeTaskTable(JPanel middlePane) {
-		this.taskTable = new TaskTable();
-		
-		JPanel taskPanel = new JPanel(new BorderLayout());
-		taskPanel.add(
-				ComponentFactory.createJScrollPane(this.taskTable, false),
-				BorderLayout.CENTER);
-		
-		this.taskSearcherPanel.addTaskSearcherSelectionChangeListener(this.taskTable);
-		this.taskSearcherPanel.addPropertyChangeListener(
-				TaskSearcherPanel.PROP_TITLE_FILTER,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						MainFrame.this.taskTable.taskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
-								evt.getSource(),
-								MainFrame.this.taskSearcherPanel.getSelectedTaskSearcher()));
-					}
-					
-				});
-		
-		middlePane.add(taskPanel, View.TASKS.name());
-	}
-	
-	private void initializeModelNote(JSplitPane verticalSplitPane) {
-		this.notePane = new JPanel(new CardLayout());
-		
-		this.noteNote = new ModelNotePanel();
-		this.taskNote = new ModelNotePanel();
-		
-		this.noteTable.addModelSelectionChangeListener(this.noteNote);
-		this.taskTable.addModelSelectionChangeListener(this.taskNote);
-		
-		NoteFactory.getInstance().addPropertyChangeListener(
-				ModelNote.PROP_NOTE,
-				this.noteNote);
-		TaskFactory.getInstance().addPropertyChangeListener(
-				ModelNote.PROP_NOTE,
-				this.taskNote);
-		
-		this.notePane.add(this.noteNote, View.NOTES.name());
-		this.notePane.add(this.taskNote, View.TASKS.name());
-		
-		verticalSplitPane.setBottomComponent(this.notePane);
 	}
 	
 	private void initializeReminderThread() {
@@ -543,8 +298,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			trayIcon.setPopupMenu(new TrayPopup(
 					this,
-					this.taskTable,
-					this.noteTable));
+					((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
+					((NoteView) ViewType.NOTES.getView()).getNoteTableView()));
 			
 			try {
 				tray.add(trayIcon);

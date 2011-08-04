@@ -41,9 +41,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -89,8 +89,8 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	private void updateIcon() {
-		View view = this.view.getSelectedView();
-		switch (view) {
+		ViewType viewType = this.view.getSelectedViewType();
+		switch (viewType) {
 			case NOTES:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
 						"change_view_note.png",
@@ -112,9 +112,10 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public static void changeView() {
-		int nextView = MainFrame.getInstance().getSelectedView().ordinal();
-		nextView = (nextView + 1) % View.values().length;
-		MainFrame.getInstance().setSelectedView(View.values()[nextView]);
+		int nextViewType = MainFrame.getInstance().getSelectedViewType().ordinal();
+		nextViewType = (nextViewType + 1) % ViewType.values().length;
+		MainFrame.getInstance().setSelectedViewType(
+				ViewType.values()[nextViewType]);
 	}
 	
 }

@@ -49,7 +49,8 @@ import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -109,7 +110,7 @@ public class TaskTableMenu extends JPopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				MainFrame.getInstance().getTaskView().refreshTasks();
+				((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
 			}
 			
 		});

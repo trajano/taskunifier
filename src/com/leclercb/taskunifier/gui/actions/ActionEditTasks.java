@@ -41,18 +41,19 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionEditTasks extends AbstractAction {
 	
-	public ActionEditTasks(TaskView taskView) {
+	public ActionEditTasks(TaskTableView taskView) {
 		this(taskView, 32, 32);
 	}
 	
-	public ActionEditTasks(TaskView taskView, int width, int height) {
+	public ActionEditTasks(TaskTableView taskView, int width, int height) {
 		super(
 				Translations.getString("action.edit_tasks"),
 				Images.getResourceImage("edit.png", width, height));
@@ -72,7 +73,7 @@ public class ActionEditTasks extends AbstractAction {
 	}
 	
 	public static boolean editTasks() {
-		Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+		Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
 		return editTasks(tasks);
 	}
 	
@@ -82,8 +83,9 @@ public class ActionEditTasks extends AbstractAction {
 		dialog.setVisible(true);
 		boolean cancelled = !dialog.isCancelled();
 		
-		MainFrame.getInstance().getTaskView().refreshTasks();
-		MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
+				tasks);
 		
 		return cancelled;
 	}

@@ -40,7 +40,8 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.NoteView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -62,7 +63,7 @@ public class ActionDuplicateNotes extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateNotes.duplicateNotes(MainFrame.getInstance().getNoteView().getSelectedNotes());
+		ActionDuplicateNotes.duplicateNotes(((NoteView) ViewType.NOTES.getView()).getNoteTableView().getSelectedNotes());
 	}
 	
 	public static void duplicateNotes(Note[] notes) {
@@ -71,8 +72,8 @@ public class ActionDuplicateNotes extends AbstractAction {
 		for (Note note : notes)
 			newNotes.add(NoteFactory.getInstance().create(note));
 		
-		MainFrame.getInstance().getNoteView().refreshNotes();
-		MainFrame.getInstance().getNoteView().setSelectedNotes(
+		((NoteView) ViewType.NOTES.getView()).getNoteTableView().refreshNotes();
+		((NoteView) ViewType.NOTES.getView()).getNoteTableView().setSelectedNotes(
 				newNotes.toArray(new Note[0]));
 	}
 	

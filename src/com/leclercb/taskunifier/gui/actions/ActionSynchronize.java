@@ -44,7 +44,9 @@ import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.NoteView;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -86,18 +88,19 @@ public class ActionSynchronize extends AbstractAction {
 			return;
 		}
 		
-		MainFrame.getInstance().getNoteView().commitChanges();
-		MainFrame.getInstance().getTaskView().commitChanges();
+		((NoteView) ViewType.NOTES.getView()).getNoteTableView().commitChanges();
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().commitChanges();
 		
 		if (background) {
 			BackgroundSynchronizer.synchronize();
 		} else {
-			Task[] tasks = MainFrame.getInstance().getTaskView().getSelectedTasks();
+			Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
 			
 			SynchronizerDialog dialog = new SynchronizerDialog();
 			dialog.setVisible(true);
 			
-			MainFrame.getInstance().getTaskView().setSelectedTasks(tasks);
+			((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
+					tasks);
 		}
 	}
 	

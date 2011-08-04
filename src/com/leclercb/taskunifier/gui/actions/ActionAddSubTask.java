@@ -47,22 +47,23 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionAddSubTask extends AbstractAction {
 	
-	private TaskView taskView;
+	private TaskTableView taskView;
 	
-	public ActionAddSubTask(TaskView taskView) {
+	public ActionAddSubTask(TaskTableView taskView) {
 		this(taskView, 32, 32);
 	}
 	
-	public ActionAddSubTask(TaskView taskView, int width, int height) {
+	public ActionAddSubTask(TaskTableView taskView, int width, int height) {
 		super(
 				Translations.getString("action.add_subtask"),
 				Images.getResourceImage("subtask.png", width, height));
@@ -121,12 +122,12 @@ public class ActionAddSubTask extends AbstractAction {
 		if (parent.getParent() != null)
 			return null;
 		
-		MainFrame.getInstance().setSelectedView(View.TASKS);
+		MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 		
-		TaskTemplate searcherTemplate = MainFrame.getInstance().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
-			MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
+			((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create("");
 		
@@ -142,14 +143,14 @@ public class ActionAddSubTask extends AbstractAction {
 		task.setGoal(parent.getGoal());
 		task.setLocation(parent.getLocation());
 		
-		MainFrame.getInstance().getTaskView().refreshTasks();
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
 		
 		if (edit) {
 			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 				if (!ActionEditTasks.editTasks(new Task[] { task }))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				MainFrame.getInstance().getTaskView().setSelectedTaskAndStartEdit(
+				((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}

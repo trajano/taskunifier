@@ -47,7 +47,8 @@ import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
 import com.leclercb.taskunifier.gui.components.models.lists.TagList;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -125,7 +126,8 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 							TagConfigurationPanel.this.tagList.getSelectedTag(),
 							tag);
 					
-					MainFrame.getInstance().getTaskSearcherView().selectTag(tag);
+					((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().selectTag(
+							tag);
 				} catch (Exception e) {
 
 				}

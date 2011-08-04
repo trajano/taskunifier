@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -66,7 +66,7 @@ public class MacToolBar extends UnifiedToolBar {
 	
 	public MacToolBar(
 			MainView mainView,
-			TaskView taskView,
+			TaskTableView taskView,
 			JXSearchField searchField) {
 		CheckUtils.isNotNull(searchField, "Search field cannot be null");
 		
@@ -74,7 +74,7 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToRight(searchField);
 	}
 	
-	private void initialize(MainView mainView, TaskView taskView) {
+	private void initialize(MainView mainView, TaskTableView taskView) {
 		this.addComponentToLeft(this.createButton(new ActionChangeView(
 				mainView,
 				24,

@@ -95,10 +95,10 @@ import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainView;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
@@ -106,12 +106,12 @@ import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 public class MenuBar extends JMenuBar {
 	
 	private MainView mainView;
-	private TaskView taskView;
+	private TaskTableView taskView;
 	private TaskSearcherView taskSearcherView;
 	
 	public MenuBar(
 			MainView mainView,
-			TaskView taskView,
+			TaskTableView taskView,
 			TaskSearcherView taskSearcherView) {
 		CheckUtils.isNotNull(mainView, "Main view cannot be null");
 		CheckUtils.isNotNull(taskView, "Task view cannot be null");
@@ -198,21 +198,21 @@ public class MenuBar extends JMenuBar {
 		
 		ButtonGroup viewGroup = new ButtonGroup();
 		
-		for (View view : View.values()) {
-			final View v = view;
+		for (ViewType view : ViewType.values()) {
+			final ViewType v = view;
 			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
 					v.getLabel());
 			viewGroup.add(item);
 			viewMenu.add(item);
 			
-			if (this.mainView.getSelectedView() == view)
+			if (this.mainView.getSelectedViewType() == view)
 				item.setSelected(true);
 			
 			item.addItemListener(new ItemListener() {
 				
 				@Override
 				public void itemStateChanged(ItemEvent evt) {
-					MenuBar.this.mainView.setSelectedView(v);
+					MenuBar.this.mainView.setSelectedViewType(v);
 				}
 				
 			});

@@ -42,7 +42,8 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -107,7 +108,7 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 	}
 	
 	public static void deleteTaskSearcher() {
-		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;

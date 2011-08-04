@@ -43,6 +43,8 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -108,7 +110,7 @@ public class ActionEditTaskSearcher extends AbstractAction {
 	}
 	
 	public static void editTaskSearcher() {
-		TaskSearcher searcher = MainFrame.getInstance().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;
@@ -123,7 +125,7 @@ public class ActionEditTaskSearcher extends AbstractAction {
 			
 			dialog.setVisible(true);
 			
-			MainFrame.getInstance().getTaskSearcherView().refreshTaskSearcher();
+			((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().refreshTaskSearcher();
 		}
 	}
 	

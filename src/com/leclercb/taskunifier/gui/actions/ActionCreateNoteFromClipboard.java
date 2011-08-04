@@ -37,19 +37,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.notes.NoteView;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionCreateNoteFromClipboard extends AbstractAction {
 	
-	private NoteView view;
+	private NoteTableView view;
 	
-	public ActionCreateNoteFromClipboard(NoteView view) {
+	public ActionCreateNoteFromClipboard(NoteTableView view) {
 		this(view, 32, 32);
 	}
 	
-	public ActionCreateNoteFromClipboard(NoteView view, int width, int height) {
+	public ActionCreateNoteFromClipboard(
+			NoteTableView view,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.create_note_from_clipboard"),
 				Images.getResourceImage("information.png", width, height));

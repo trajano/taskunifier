@@ -35,27 +35,21 @@ package com.leclercb.taskunifier.gui.main;
 import java.awt.Frame;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.gui.components.notes.NoteView;
-import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
-import com.leclercb.taskunifier.gui.components.tasks.TaskView;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public interface MainView extends PropertyChangeSupported {
 	
+	public static final String PROP_SEARCH = "search";
 	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
 	public abstract Frame getFrame();
 	
-	public abstract NoteSearcherView getNoteSearcherView();
+	public abstract ViewType getSelectedViewType();
 	
-	public abstract TaskSearcherView getTaskSearcherView();
+	public abstract void setSelectedViewType(ViewType view);
 	
-	public abstract View getSelectedView();
+	public abstract String getSearch();
 	
-	public abstract void setSelectedView(View view);
-	
-	public abstract NoteView getNoteView();
-	
-	public abstract TaskView getTaskView();
+	public abstract void setSearch(String search);
 	
 }

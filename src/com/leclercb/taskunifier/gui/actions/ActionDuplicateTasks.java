@@ -41,7 +41,8 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -63,7 +64,7 @@ public class ActionDuplicateTasks extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateTasks.duplicateTasks(MainFrame.getInstance().getTaskView().getSelectedTasks());
+		ActionDuplicateTasks.duplicateTasks(((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks());
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
@@ -76,8 +77,8 @@ public class ActionDuplicateTasks extends AbstractAction {
 		
 		Synchronizing.setSynchronizing(false);
 		
-		MainFrame.getInstance().getTaskView().refreshTasks();
-		MainFrame.getInstance().getTaskView().setSelectedTasks(
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+		((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
 				newTasks.toArray(new Task[0]));
 	}
 	

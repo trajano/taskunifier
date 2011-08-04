@@ -44,9 +44,10 @@ import javax.swing.JOptionPane;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.View;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 class ReminderRunnable implements Runnable, PropertyChangeListener {
@@ -120,10 +121,13 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 											options[0]);
 									
 									if (n == JOptionPane.YES_OPTION) {
-										MainFrame.getInstance().setSelectedView(
-												View.TASKS);
-										MainFrame.getInstance().getTaskSearcherView().selectDefaultTaskSearcher();
-										MainFrame.getInstance().getTaskView().setSelectedTasks(
+										MainFrame.getInstance().setSelectedViewType(
+												ViewType.TASKS);
+										
+										TaskView view = (TaskView) ViewType.TASKS.getView();
+										
+										view.getTaskSearcherView().selectDefaultTaskSearcher();
+										view.getTaskTableView().setSelectedTasks(
 												new Task[] { task });
 									}
 								}
