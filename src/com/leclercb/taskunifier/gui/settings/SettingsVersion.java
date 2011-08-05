@@ -622,6 +622,23 @@ public final class SettingsVersion {
 				"searcher.category.personal.expanded",
 				"tasksearcher.category.personal.expanded");
 		
+		Main.SETTINGS.setStringProperty(
+				"view.notes.window.horizontal_split",
+				Main.SETTINGS.getProperty("window.horizontal_split"));
+		Main.SETTINGS.setStringProperty(
+				"view.notes.window.vertical_split",
+				Main.SETTINGS.getProperty("window.vertical_split"));
+		
+		Main.SETTINGS.setStringProperty(
+				"view.tasks.window.horizontal_split",
+				Main.SETTINGS.getProperty("window.horizontal_split"));
+		Main.SETTINGS.setStringProperty(
+				"view.tasks.window.vertical_split",
+				Main.SETTINGS.getProperty("window.vertical_split"));
+		
+		Main.SETTINGS.remove("window.horizontal_split");
+		Main.SETTINGS.remove("window.vertical_split");
+		
 		Main.SETTINGS.setStringProperty("logger.api.level", "INFO");
 		Main.SETTINGS.setStringProperty("logger.gui.level", "INFO");
 		Main.SETTINGS.setStringProperty("logger.plugin.level", "INFO");

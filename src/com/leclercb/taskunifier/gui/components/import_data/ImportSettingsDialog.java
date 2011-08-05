@@ -78,7 +78,8 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				"task.show_edit_window_on_add",
 				"taskcolumn",
 				"tasksearcher",
-				"theme" };
+				"theme",
+				"view" };
 		
 		Properties properties = new Properties();
 		properties.load(new FileInputStream(file));

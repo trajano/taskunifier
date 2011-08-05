@@ -38,8 +38,13 @@ public class TasksCalendar extends NamedCalendar {
 			if (task.getDueDate() == null)
 				continue;
 			
+			int length = task.getLength();
+			
+			if (length < 60)
+				length = 60;
+			
 			Calendar start = task.getDueDate();
-			start.add(Calendar.MINUTE, -task.getLength());
+			start.add(Calendar.MINUTE, -length);
 			
 			Event event = new Event();
 			event.setEditable(false);

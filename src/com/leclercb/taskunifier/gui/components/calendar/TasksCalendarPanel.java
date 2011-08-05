@@ -71,7 +71,10 @@ public class TasksCalendarPanel extends JPanel {
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
 		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		
+		this.calendarPanel.showView(this.weekViewPanel.getViewName());
+		
 		this.tasksCalendar = new TasksCalendar();
+		this.tasksCalendar.setSelected(true);
 		
 		this.calendarPanel.addNamedCalendar(this.tasksCalendar);
 		
@@ -94,8 +97,6 @@ public class TasksCalendarPanel extends JPanel {
 			}
 			
 		});
-		
-		this.calendarPanel.setSelectedCalendar(this.tasksCalendar);
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}

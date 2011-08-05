@@ -119,8 +119,8 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	}
 	
 	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("window.horizontal_split");
-		int vSplit = Main.SETTINGS.getIntegerProperty("window.vertical_split");
+		int hSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.horizontal_split");
+		int vSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.vertical_split");
 		
 		this.horizontalSplitPane.setDividerLocation(hSplit);
 		this.verticalSplitPane.setDividerLocation(vSplit);
@@ -129,10 +129,10 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	@Override
 	public void saveProperties() {
 		Main.SETTINGS.setIntegerProperty(
-				"window.horizontal_split",
+				"view.notes.window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
 		Main.SETTINGS.setIntegerProperty(
-				"window.vertical_split",
+				"view.notes.window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}
 	
