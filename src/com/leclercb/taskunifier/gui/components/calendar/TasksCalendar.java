@@ -47,9 +47,11 @@ public class TasksCalendar extends NamedCalendar {
 			start.add(Calendar.MINUTE, -length);
 			
 			Event event = new Event();
+			event.setId(this.hashCode() + "_" + task.getModelId().getId());
 			event.setEditable(false);
-			event.setSelectable(true);
+			event.setSelectable(false);
 			event.setDescription(task.getTitle());
+			event.setToolTip(task.getTitle());
 			event.setStart(start.getTime());
 			event.setEnd(task.getDueDate().getTime());
 			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."

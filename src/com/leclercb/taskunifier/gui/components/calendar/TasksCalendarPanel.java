@@ -74,7 +74,6 @@ public class TasksCalendarPanel extends JPanel {
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
 		this.tasksCalendar = new TasksCalendar();
-		this.tasksCalendar.setSelected(true);
 		
 		this.calendarPanel.addNamedCalendar(this.tasksCalendar);
 		
@@ -98,6 +97,8 @@ public class TasksCalendarPanel extends JPanel {
 			
 		});
 		
+		this.calendarPanel.setSelectedCalendar(this.tasksCalendar);
+		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
@@ -108,7 +109,7 @@ public class TasksCalendarPanel extends JPanel {
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
 		for (NamedCalendar nc : this.calendarPanel.getCalendars()) {
-			if (nc.isActive() || nc.isSelected())
+			if (nc.isActive())
 				allActiveEvents.addAll(nc.getEvents(null, null));
 		}
 		

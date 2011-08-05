@@ -150,7 +150,10 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						DefaultTaskView.this.searchField.setText((String) evt.getNewValue());
+						if (evt.getPropertyName().equals(
+								MainView.PROP_MAIN_SEARCH))
+							if (evt.getNewValue() instanceof String)
+								DefaultTaskView.this.searchField.setText((String) evt.getNewValue());
 					}
 					
 				});
