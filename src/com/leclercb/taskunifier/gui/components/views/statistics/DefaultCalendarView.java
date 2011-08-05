@@ -20,7 +20,7 @@ public class DefaultCalendarView extends JPanel implements CalendarView {
 	
 	private MainView mainView;
 	
-	private TasksCalendarPanel calendarView;
+	private TasksCalendarPanel calendarPanel;
 	
 	public DefaultCalendarView(MainView mainView) {
 		CheckUtils.isNotNull(mainView, "Main view cannot be null");
@@ -40,15 +40,15 @@ public class DefaultCalendarView extends JPanel implements CalendarView {
 	}
 	
 	private void updateCalendar() {
-
+		this.calendarPanel.updateEventsForActiveCalendars();
 	}
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		this.calendarView = new TasksCalendarPanel(this.mainView);
+		this.calendarPanel = new TasksCalendarPanel(this.mainView);
 		
-		this.add(this.calendarView, BorderLayout.CENTER);
+		this.add(this.calendarPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 		

@@ -1,7 +1,6 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +32,8 @@ public class TasksCalendarPanel extends JPanel {
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
 	private MonthViewPanel monthViewPanel;
+	
+	private TasksCalendar tasksCalendar;
 	
 	private CalendarPanel calendarPanel;
 	
@@ -70,18 +71,9 @@ public class TasksCalendarPanel extends JPanel {
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
 		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		
-		this.calendarPanel.addNamedCalendar(new TestNamedCalendar(
-				"Peter",
-				"dem Peter seiner",
-				Color.RED));
-		this.calendarPanel.addNamedCalendar(new TestNamedCalendar(
-				"Max",
-				"dem Max seiner",
-				Color.BLUE));
-		this.calendarPanel.addNamedCalendar(new TestNamedCalendar(
-				"Office",
-				"allen ihrer",
-				Color.GRAY));
+		this.tasksCalendar = new TasksCalendar();
+		
+		this.calendarPanel.addNamedCalendar(this.tasksCalendar);
 		
 		this.calendarPanel.addNamedCalendarListener(new NamedCalendarListener() {
 			
@@ -103,11 +95,15 @@ public class TasksCalendarPanel extends JPanel {
 			
 		});
 		
+		this.calendarPanel.setSelectedCalendar(this.tasksCalendar);
+		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private synchronized void updateEventsForActiveCalendars() {
+	public synchronized void updateEventsForActiveCalendars() {
+		this.tasksCalendar.updateEvents();
+		
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
 		for (NamedCalendar nc : this.calendarPanel.getCalendars()) {
@@ -254,47 +250,6 @@ public class TasksCalendarPanel extends JPanel {
 		@Override
 		public void showEvent(Object id, Event event) throws Exception {
 
-		}
-		
-	}
-	
-	class TestNamedCalendar extends NamedCalendar {
-		
-		private List<Event> calendarEvents = new ArrayList<Event>();
-		
-		public TestNamedCalendar(String name, String description, Color color) {
-			super(name, description, color);
-			
-			this.setId(this.hashCode());
-		}
-		
-		@Override
-		public List<Event> getEvents(Date from, Date to) {
-			return this.calendarEvents;
-		}
-		
-		@Override
-		public void deleteEvent(String clientId, Event event) {
-			this.calendarEvents.remove(event);
-			TasksCalendarPanel.this.eventDataList.remove(event);
-		}
-		
-		@Override
-		public List<Event> addEvent(String clientId, Event event) {
-			event.set(Event.CALENDAR_ID, this.getId());
-			event.setColor(this.getColor());
-			
-			TasksCalendarPanel.this.eventDataList.add(event);
-			this.calendarEvents.add(event);
-			return null;
-		}
-		
-		@Override
-		public List<Event> saveEvent(
-				String clientId,
-				Event event,
-				boolean userInteraction) {
-			return null;
 		}
 		
 	}
