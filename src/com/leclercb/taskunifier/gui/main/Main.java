@@ -109,6 +109,8 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
 	
+	public static boolean DEVELOPER_MODE;
+	
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	public static PropertiesConfiguration INIT_SETTINGS;
 	public static PropertiesConfiguration SETTINGS;
@@ -139,6 +141,7 @@ public class Main {
 		boolean outdatedPlugins;
 		
 		try {
+			loadDeveloperMode();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
@@ -251,6 +254,12 @@ public class Main {
 			JOptionPane.showMessageDialog(null, message);
 			throw new RuntimeException(message);
 		}
+	}
+	
+	private static void loadDeveloperMode() {
+		String developerMode = System.getProperty("com.leclercb.taskunifier.developer_mode");
+		DEVELOPER_MODE = "true".equals(developerMode);
+		GuiLogger.getLogger().severe("DEVELOPER MODE");
 	}
 	
 	private static void loadResourceFolder() throws Exception {
@@ -898,7 +907,7 @@ public class Main {
 		try {
 			File f = new File(getInitSettingsFile());
 			
-			if (f.canWrite())
+			if (!DEVELOPER_MODE && f.canWrite())
 				saveInitSettings();
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
