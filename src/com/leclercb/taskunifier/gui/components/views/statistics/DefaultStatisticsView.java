@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.statistics.ModelCountStatistics;
+import com.leclercb.taskunifier.gui.components.statistics.Statistics;
+import com.leclercb.taskunifier.gui.components.statistics.TasksPerFolderStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerStatusStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
@@ -28,9 +30,11 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 	
 	private JCheckBox showCompletedTasksCheckBox;
 	
-	private ModelCountStatistics modelStatistics;
-	private TasksPerStatusStatistics tasksPerStatusStatistics;
-	private TasksPerTagStatistics tasksPerTagStatistics;
+	private Statistics[] statistics = {
+			new ModelCountStatistics(),
+			new TasksPerStatusStatistics(),
+			new TasksPerTagStatistics(),
+			new TasksPerFolderStatistics() };
 	
 	public DefaultStatisticsView(MainView mainView) {
 		CheckUtils.isNotNull(mainView, "Main view cannot be null");
@@ -50,25 +54,19 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 	}
 	
 	private void updateStatistics() {
-		DefaultStatisticsView.this.modelStatistics.updateStatistics();
-		DefaultStatisticsView.this.tasksPerStatusStatistics.updateStatistics();
-		DefaultStatisticsView.this.tasksPerTagStatistics.updateStatistics();
+		for (Statistics s : this.statistics)
+			s.updateStatistics();
 	}
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0, 2, 10, 10));
+		panel.setLayout(new GridLayout(0, 3, 10, 10));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
-		this.modelStatistics = new ModelCountStatistics();
-		this.tasksPerStatusStatistics = new TasksPerStatusStatistics();
-		this.tasksPerTagStatistics = new TasksPerTagStatistics();
-		
-		panel.add(this.modelStatistics);
-		panel.add(this.tasksPerStatusStatistics);
-		panel.add(this.tasksPerTagStatistics);
+		for (Statistics s : this.statistics)
+			panel.add(s.getComponent());
 		
 		this.add(panel, BorderLayout.CENTER);
 		

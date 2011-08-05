@@ -2,9 +2,11 @@ package com.leclercb.taskunifier.gui.components.statistics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -46,11 +48,18 @@ public class TasksPerTagStatistics extends JPanel implements Statistics {
 		plot.setStartAngle(290);
 		plot.setDirection(Rotation.CLOCKWISE);
 		plot.setForegroundAlpha(0.5f);
+		plot.setLabelFont(new Font(null, Font.PLAIN, 10));
+		plot.setIgnoreZeroValues(true);
 		
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.add(chartPanel, BorderLayout.CENTER);
+	}
+	
+	@Override
+	public JComponent getComponent() {
+		return this;
 	}
 	
 	@Override

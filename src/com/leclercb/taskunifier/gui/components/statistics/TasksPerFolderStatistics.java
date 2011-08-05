@@ -17,19 +17,18 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.Rotation;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
-public class ModelCountStatistics extends JPanel implements Statistics {
+public class TasksPerFolderStatistics extends JPanel implements Statistics {
 	
 	private DefaultPieDataset dataset;
 	
-	public ModelCountStatistics() {
+	public TasksPerFolderStatistics() {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
@@ -38,7 +37,7 @@ public class ModelCountStatistics extends JPanel implements Statistics {
 		this.updateStatistics();
 		
 		JFreeChart chart = ChartFactory.createPieChart(
-				Translations.getString("statistics.model_count"),
+				Translations.getString("statistics.tasks_per_folder"),
 				this.dataset,
 				true,
 				true,
@@ -64,26 +63,23 @@ public class ModelCountStatistics extends JPanel implements Statistics {
 	}
 	
 	@Override
-	@SuppressWarnings("rawtypes")
 	public void updateStatistics() {
 		this.dataset.clear();
 		
 		boolean showCompleted = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
 		
-		for (ModelType type : ModelType.values()) {
+		List<Folder> folders = FolderFactory.getInstance().getList();
+		for (Folder folder : folders) {
 			int count = 0;
-			List models = ModelFactoryUtils.getFactory(type).getList();
-			for (Object model : models) {
-				if (((Model) model).getModelStatus().isEndUserStatus())
-					if (!(model instanceof Task)
-							|| showCompleted
-							|| !((Task) model).isCompleted())
-						count++;
+			List<Task> tasks = TaskFactory.getInstance().getList();
+			for (Task task : tasks) {
+				if (task.getModelStatus().isEndUserStatus())
+					if (folder.equals(task.getFolder()))
+						if (showCompleted || !task.isCompleted())
+							count++;
 			}
 			
-			this.dataset.setValue(
-					TranslationsUtils.translateModelType(type, true),
-					count);
+			this.dataset.setValue(folder, count);
 		}
 	}
 	
