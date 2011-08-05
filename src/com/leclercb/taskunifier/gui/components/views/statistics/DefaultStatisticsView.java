@@ -141,4 +141,5 @@ public class DefaultStatisticsView extends JPanel implements StatisticsView {
 		
 		topPanel.add(this.showCompletedTasksCheckBox, BorderLayout.WEST);
 	}
+	
 }

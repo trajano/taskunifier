@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.components.views;
 
+import com.leclercb.taskunifier.gui.components.views.statistics.DefaultCalendarView;
 import com.leclercb.taskunifier.gui.components.views.statistics.DefaultNoteView;
 import com.leclercb.taskunifier.gui.components.views.statistics.DefaultStatisticsView;
 import com.leclercb.taskunifier.gui.components.views.statistics.DefaultTaskView;
@@ -9,8 +10,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public enum ViewType {
 	
 	NOTES(Translations.getString("general.notes")),
-	STATISTICS(Translations.getString("general.statistics")),
-	TASKS(Translations.getString("general.tasks"));
+	TASKS(Translations.getString("general.tasks")),
+	CALENDAR(Translations.getString("general.calendar")),
+	STATISTICS(Translations.getString("general.statistics")), ;
 	
 	private View view;
 	private String label;
@@ -38,8 +40,9 @@ public enum ViewType {
 	
 	public static void initialize(MainView mainView) {
 		NOTES.setView(new DefaultNoteView(mainView));
-		STATISTICS.setView(new DefaultStatisticsView(mainView));
 		TASKS.setView(new DefaultTaskView(mainView));
+		CALENDAR.setView(new DefaultCalendarView(mainView));
+		STATISTICS.setView(new DefaultStatisticsView(mainView));
 	}
 	
 }
