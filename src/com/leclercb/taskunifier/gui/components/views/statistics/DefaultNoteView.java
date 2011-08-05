@@ -147,7 +147,10 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						DefaultNoteView.this.searchField.setText((String) evt.getNewValue());
+						if (evt.getPropertyName().equals(
+								MainView.PROP_MAIN_SEARCH))
+							if (evt.getNewValue() instanceof String)
+								DefaultNoteView.this.searchField.setText((String) evt.getNewValue());
 					}
 					
 				});

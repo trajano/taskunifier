@@ -1,9 +1,11 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -16,6 +18,10 @@ import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
 import lu.tudor.santec.bizcal.views.MonthViewPanel;
 import bizcal.common.Event;
+import bizcal.swing.CalendarListener;
+import bizcal.swing.DayView.Layout;
+import bizcal.swing.util.FrameArea;
+import bizcal.util.DateInterval;
 
 import com.leclercb.taskunifier.gui.main.MainView;
 
@@ -47,9 +53,19 @@ public class TasksCalendarPanel extends JPanel {
 				this.eventDataList,
 				EventModel.TYPE_MONTH);
 		
-		this.dayViewPanel = new DayViewPanel(dayModel);
-		this.weekViewPanel = new DayViewPanel(weekModel);
+		this.dayViewPanel = new DayViewPanel(
+				dayModel,
+				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
+		this.weekViewPanel = new DayViewPanel(
+				weekModel,
+				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
 		this.monthViewPanel = new MonthViewPanel(monthModel);
+		
+		TasksCalendarListener calListener = new TasksCalendarListener();
+		
+		this.dayViewPanel.addCalendarListener(calListener);
+		this.weekViewPanel.addCalendarListener(calListener);
+		this.monthViewPanel.addCalendarListener(calListener);
 		
 		this.calendarPanel.addCalendarView(this.dayViewPanel);
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
@@ -101,6 +117,143 @@ public class TasksCalendarPanel extends JPanel {
 		
 		this.eventDataList.clear();
 		this.eventDataList.addAll(allActiveEvents);
+	}
+	
+	class TasksCalendarListener implements CalendarListener {
+		
+		@Override
+		public void closeCalendar(Object calId) throws Exception {
+
+		}
+		
+		@Override
+		public void copy(List<Event> list) throws Exception {
+
+		}
+		
+		@Override
+		public void dateChanged(Date date) throws Exception {
+
+		}
+		
+		@Override
+		public void dateSelected(Date date) throws Exception {
+
+		}
+		
+		@Override
+		public void deleteEvent(Event event) throws Exception {
+
+		}
+		
+		@Override
+		public void deleteEvents(List<Event> events) {
+
+		}
+		
+		@Override
+		public void eventClicked(
+				Object id,
+				Event _event,
+				FrameArea area,
+				MouseEvent e) {
+
+		}
+		
+		@Override
+		public void eventDoubleClick(
+				Object id,
+				Event event,
+				MouseEvent mouseEvent) {
+
+		}
+		
+		@Override
+		public void eventSelected(Object id, Event event) throws Exception {
+			if (TasksCalendarPanel.this.calendarPanel.getCalendars() == null)
+				return;
+			
+			for (NamedCalendar nc : TasksCalendarPanel.this.calendarPanel.getCalendars()) {
+				if (nc.getId().equals(event.get(Event.CALENDAR_ID))) {
+					TasksCalendarPanel.this.calendarPanel.setSelectedCalendar(nc);
+					return;
+				}
+			}
+		}
+		
+		@Override
+		public void eventsSelected(List<Event> list) throws Exception {
+
+		}
+		
+		@Override
+		public void moved(
+				Event event,
+				Object orgCalId,
+				Date orgDate,
+				Object newCalId,
+				Date newDate) throws Exception {
+			event.move(newDate);
+			TasksCalendarPanel.this.eventDataList.trigger();
+		}
+		
+		@Override
+		public void newCalendar() throws Exception {
+
+		}
+		
+		@Override
+		public void newEvent(Object id, Date date) throws Exception {
+			DateInterval interval = new DateInterval(date, new Date(
+					date.getTime() + 900000));
+			this.newEvent(id, interval);
+		}
+		
+		@Override
+		public void newEvent(Object id, DateInterval interval) throws Exception {
+			NamedCalendar nc = TasksCalendarPanel.this.calendarPanel.getSelectedCalendar();
+			
+			if (nc == null)
+				return;
+			
+			Event event = new Event();
+			event.setStart(interval.getStartDate());
+			event.setEnd(interval.getEndDate());
+			event.setId(id);
+			
+			nc.addEvent("clientXXX", event);
+		}
+		
+		@Override
+		public void paste(Object calId, Date date) throws Exception {
+
+		}
+		
+		@Override
+		public void resized(
+				Event event,
+				Object orgCalId,
+				Date orgEndDate,
+				Date newEndDate) throws Exception {
+			NamedCalendar nc = TasksCalendarPanel.this.calendarPanel.getSelectedCalendar();
+			
+			if (nc == null)
+				return;
+			
+			event.setEnd(newEndDate);
+			nc.saveEvent("clientXXX", event, false);
+		}
+		
+		@Override
+		public void selectionReset() throws Exception {
+
+		}
+		
+		@Override
+		public void showEvent(Object id, Event event) throws Exception {
+
+		}
+		
 	}
 	
 }
