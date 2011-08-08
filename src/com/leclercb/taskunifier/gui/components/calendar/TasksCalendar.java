@@ -17,12 +17,14 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TasksCalendar extends NamedCalendar {
 	
+	public static final int ID = 0;
+	
 	private List<Event> events;
 	
 	public TasksCalendar() {
 		super("All Tasks", "All Tasks", Color.RED);
 		this.events = new ArrayList<Event>();
-		this.setId(this.hashCode());
+		this.setId(ID);
 		
 		this.updateEvents();
 	}
@@ -47,9 +49,9 @@ public class TasksCalendar extends NamedCalendar {
 			start.add(Calendar.MINUTE, -length);
 			
 			Event event = new Event();
-			event.setId(this.hashCode() + "_" + task.getModelId().getId());
-			event.setEditable(false);
-			event.setSelectable(false);
+			event.setId(task.getModelId());
+			event.setEditable(true);
+			event.setSelectable(true);
 			event.setDescription(task.getTitle());
 			event.setToolTip(task.getTitle());
 			event.setStart(start.getTime());

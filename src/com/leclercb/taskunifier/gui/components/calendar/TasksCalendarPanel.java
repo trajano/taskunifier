@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.components.calendar;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -20,12 +21,16 @@ import lu.tudor.santec.bizcal.views.ListViewPanel;
 import lu.tudor.santec.bizcal.views.MonthViewPanel;
 import bizcal.common.DayViewConfig;
 import bizcal.common.Event;
-import bizcal.swing.CalendarListener;
+import bizcal.swing.CalendarListener.CalendarAdapter;
 import bizcal.swing.DayView.Layout;
-import bizcal.swing.util.FrameArea;
-import bizcal.util.DateInterval;
 import bizcal.util.TimeOfDay;
 
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 
 public class TasksCalendarPanel extends JPanel {
@@ -139,63 +144,17 @@ public class TasksCalendarPanel extends JPanel {
 		this.eventDataList.addAll(allActiveEvents);
 	}
 	
-	class TasksCalendarListener implements CalendarListener {
-		
-		@Override
-		public void closeCalendar(Object calId) throws Exception {
-
-		}
-		
-		@Override
-		public void copy(List<Event> list) throws Exception {
-
-		}
-		
-		@Override
-		public void dateChanged(Date date) throws Exception {
-
-		}
-		
-		@Override
-		public void dateSelected(Date date) throws Exception {
-
-		}
-		
-		@Override
-		public void deleteEvent(Event event) throws Exception {
-
-		}
-		
-		@Override
-		public void deleteEvents(List<Event> events) {
-
-		}
-		
-		@Override
-		public void eventClicked(
-				Object id,
-				Event _event,
-				FrameArea area,
-				MouseEvent e) {
-
-		}
+	private class TasksCalendarListener extends CalendarAdapter {
 		
 		@Override
 		public void eventDoubleClick(
 				Object id,
 				Event event,
 				MouseEvent mouseEvent) {
-
-		}
-		
-		@Override
-		public void eventSelected(Object id, Event event) throws Exception {
-
-		}
-		
-		@Override
-		public void eventsSelected(List<Event> list) throws Exception {
-
+			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+			Task[] tasks = new Task[] { this.getTask(event) };
+			((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
+					tasks);
 		}
 		
 		@Override
@@ -205,46 +164,24 @@ public class TasksCalendarPanel extends JPanel {
 				Date orgDate,
 				Object newCalId,
 				Date newDate) throws Exception {
-
+			Task task = this.getTask(event);
+			
+			int length = task.getLength();
+			
+			if (length < 60)
+				length = 60;
+			
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.setTime(newDate);
+			dueDate.add(Calendar.MINUTE, length);
+			
+			task.setDueDate(dueDate);
+			
+			TasksCalendarPanel.this.updateEventsForActiveCalendars();
 		}
 		
-		@Override
-		public void newCalendar() throws Exception {
-
-		}
-		
-		@Override
-		public void newEvent(Object id, Date date) throws Exception {
-
-		}
-		
-		@Override
-		public void newEvent(Object id, DateInterval interval) throws Exception {
-
-		}
-		
-		@Override
-		public void paste(Object calId, Date date) throws Exception {
-
-		}
-		
-		@Override
-		public void resized(
-				Event event,
-				Object orgCalId,
-				Date orgEndDate,
-				Date newEndDate) throws Exception {
-
-		}
-		
-		@Override
-		public void selectionReset() throws Exception {
-
-		}
-		
-		@Override
-		public void showEvent(Object id, Event event) throws Exception {
-
+		public Task getTask(Event event) {
+			return TaskFactory.getInstance().get((ModelId) event.getId());
 		}
 		
 	}
