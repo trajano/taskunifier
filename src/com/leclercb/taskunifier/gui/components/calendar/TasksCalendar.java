@@ -1,87 +1,34 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import lu.tudor.santec.bizcal.NamedCalendar;
 import bizcal.common.Event;
+import bizcal.util.DateInterval;
 
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.TaskUtils;
-
-public class TasksCalendar extends NamedCalendar {
+public abstract class TasksCalendar extends NamedCalendar {
 	
-	public static final int ID = 0;
-	
-	private List<Event> events;
-	
-	public TasksCalendar() {
-		super("All Tasks", "All Tasks", Color.RED);
-		this.events = new ArrayList<Event>();
-		
-		this.setId(ID);
-		
-		this.updateEvents();
+	public TasksCalendar(String name, String description, Color color) {
+		super(name, description, color);
 	}
 	
-	public void updateEvents() {
-		this.events.clear();
-		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		for (Task task : tasks) {
-			if (!task.getModelStatus().isEndUserStatus())
-				continue;
-			
-			if (task.getDueDate() == null)
-				continue;
-			
-			int length = task.getLength();
-			
-			Calendar start = task.getDueDate();
-			start.add(Calendar.MINUTE, -length);
-			
-			Event event = new Event();
-			event.setId(task.getModelId());
-			event.setEditable(true);
-			event.setSelectable(true);
-			event.setDescription(task.getTitle());
-			event.setToolTip(task.getTitle());
-			event.setStart(start.getTime());
-			event.setEnd(task.getDueDate().getTime());
-			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
-					+ TaskUtils.getImportance(task)));
-			
-			if (task.isOverDue(false))
-				event.setIcon(Images.getResourceImage("warning.gif"));
-			
-			this.events.add(event);
-		}
+	public TasksCalendar(String name, String description) {
+		super(name, description);
 	}
 	
-	@Override
-	public List<Event> getEvents(Date from, Date to) {
-		return this.events;
+	public TasksCalendar(String name) {
+		super(name);
 	}
 	
-	@Override
-	public List<Event> addEvent(String arg0, Event arg1) {
-		return null;
-	}
+	public abstract void updateEvents();
 	
-	@Override
-	public void deleteEvent(String arg0, Event arg1) {
-
-	}
+	public abstract void newEvent(DateInterval interval) throws Exception;
 	
-	@Override
-	public List<Event> saveEvent(String arg0, Event arg1, boolean arg2) {
-		return null;
-	}
+	public abstract void moved(Event event, Date orgDate, Date newDate)
+			throws Exception;
+	
+	public abstract void resized(Event event, Date orgEndDate, Date newEndDate)
+			throws Exception;
 	
 }

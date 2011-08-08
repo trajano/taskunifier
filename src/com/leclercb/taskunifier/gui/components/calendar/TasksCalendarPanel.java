@@ -3,7 +3,6 @@ package com.leclercb.taskunifier.gui.components.calendar;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -28,7 +27,6 @@ import bizcal.util.TimeOfDay;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -43,7 +41,9 @@ public class TasksCalendarPanel extends JPanel {
 	private MonthViewPanel monthViewPanel;
 	private ListViewPanel listViewPanel;
 	
-	private TasksCalendar tasksCalendar;
+	private TasksCalendar[] tasksCalendars = new TasksCalendar[] {
+			new TasksDueDateCalendar(),
+			new TasksStartDateCalendar() };
 	
 	private CalendarPanel calendarPanel;
 	
@@ -91,9 +91,8 @@ public class TasksCalendarPanel extends JPanel {
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
-		this.tasksCalendar = new TasksCalendar();
-		
-		this.calendarPanel.addNamedCalendar(this.tasksCalendar);
+		for (TasksCalendar calendar : this.tasksCalendars)
+			this.calendarPanel.addNamedCalendar(calendar);
 		
 		this.calendarPanel.addNamedCalendarListener(new NamedCalendarListener() {
 			
@@ -117,14 +116,15 @@ public class TasksCalendarPanel extends JPanel {
 		
 		// this.calendarPanel.getFunctionsButtonPanel().add();
 		
-		this.calendarPanel.setSelectedCalendar(this.tasksCalendar);
+		this.calendarPanel.setSelectedCalendar(this.tasksCalendars[0]);
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public synchronized void updateEventsForActiveCalendars() {
-		this.tasksCalendar.updateEvents();
+		for (TasksCalendar calendar : this.tasksCalendars)
+			calendar.updateEvents();
 		
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
@@ -142,22 +142,6 @@ public class TasksCalendarPanel extends JPanel {
 	private class TasksCalendarListener extends CalendarAdapter {
 		
 		@Override
-		public void newEvent(Object id, DateInterval interval) throws Exception {
-			Task task = ActionAddTask.addTask(null, false, false);
-			
-			long diff = interval.getDuration();
-			diff = diff / (60 * 1000);
-			
-			Calendar dueDate = Calendar.getInstance();
-			dueDate.setTime(interval.getEndDate());
-			
-			task.setLength((int) diff);
-			task.setDueDate(dueDate);
-			
-			TasksCalendarPanel.this.updateEventsForActiveCalendars();
-		}
-		
-		@Override
 		public void eventDoubleClick(
 				Object id,
 				Event event,
@@ -169,21 +153,24 @@ public class TasksCalendarPanel extends JPanel {
 		}
 		
 		@Override
+		public void newEvent(Object id, DateInterval interval) throws Exception {
+			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
+				if (calendar.isSelected())
+					calendar.newEvent(interval);
+			
+			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+		}
+		
+		@Override
 		public void moved(
 				Event event,
 				Object orgCalId,
 				Date orgDate,
 				Object newCalId,
 				Date newDate) throws Exception {
-			Task task = this.getTask(event);
-			
-			int length = task.getLength();
-			
-			Calendar dueDate = Calendar.getInstance();
-			dueDate.setTime(newDate);
-			dueDate.add(Calendar.MINUTE, length);
-			
-			task.setDueDate(dueDate);
+			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
+				if (calendar.getId().equals(newCalId))
+					calendar.moved(event, orgDate, newDate);
 			
 			TasksCalendarPanel.this.updateEventsForActiveCalendars();
 		}
@@ -194,16 +181,9 @@ public class TasksCalendarPanel extends JPanel {
 				Object orgCalId,
 				Date orgEndDate,
 				Date newEndDate) throws Exception {
-			Task task = this.getTask(event);
-			
-			long diff = orgEndDate.getTime() - newEndDate.getTime();
-			diff = diff / (60 * 1000);
-			
-			Calendar dueDate = Calendar.getInstance();
-			dueDate.setTime(newEndDate);
-			
-			task.setLength(task.getLength() - (int) diff);
-			task.setDueDate(dueDate);
+			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
+				if (calendar.getId().equals(orgCalId))
+					calendar.resized(event, orgEndDate, newEndDate);
 			
 			TasksCalendarPanel.this.updateEventsForActiveCalendars();
 		}
