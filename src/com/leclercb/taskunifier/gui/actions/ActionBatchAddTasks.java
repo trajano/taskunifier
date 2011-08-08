@@ -97,7 +97,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 			if (isSubTask && previousParentTask != null) {
 				task = ActionAddSubTask.addSubTask(previousParentTask, false);
 			} else {
-				task = ActionAddTask.addTask(title, false);
+				task = ActionAddTask.addTask(title, true, false);
 				previousParentTask = task;
 			}
 			

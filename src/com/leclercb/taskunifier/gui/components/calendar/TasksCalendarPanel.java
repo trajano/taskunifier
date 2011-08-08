@@ -22,12 +22,13 @@ import lu.tudor.santec.bizcal.views.MonthViewPanel;
 import bizcal.common.DayViewConfig;
 import bizcal.common.Event;
 import bizcal.swing.CalendarListener.CalendarAdapter;
-import bizcal.swing.DayView.Layout;
+import bizcal.util.DateInterval;
 import bizcal.util.TimeOfDay;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -71,14 +72,8 @@ public class TasksCalendarPanel extends JPanel {
 				this.eventDataList,
 				EventModel.TYPE_MONTH);
 		
-		this.dayViewPanel = new DayViewPanel(
-				dayModel,
-				config,
-				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
-		this.weekViewPanel = new DayViewPanel(
-				weekModel,
-				config,
-				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
+		this.dayViewPanel = new DayViewPanel(dayModel, config);
+		this.weekViewPanel = new DayViewPanel(weekModel, config);
 		this.monthViewPanel = new MonthViewPanel(monthModel);
 		this.listViewPanel = new ListViewPanel(listModel);
 		
@@ -147,6 +142,22 @@ public class TasksCalendarPanel extends JPanel {
 	private class TasksCalendarListener extends CalendarAdapter {
 		
 		@Override
+		public void newEvent(Object id, DateInterval interval) throws Exception {
+			Task task = ActionAddTask.addTask(null, false, false);
+			
+			long diff = interval.getDuration();
+			diff = diff / (60 * 1000);
+			
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.setTime(interval.getEndDate());
+			
+			task.setLength((int) diff);
+			task.setDueDate(dueDate);
+			
+			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+		}
+		
+		@Override
 		public void eventDoubleClick(
 				Object id,
 				Event event,
@@ -168,13 +179,30 @@ public class TasksCalendarPanel extends JPanel {
 			
 			int length = task.getLength();
 			
-			if (length < 60)
-				length = 60;
-			
 			Calendar dueDate = Calendar.getInstance();
 			dueDate.setTime(newDate);
 			dueDate.add(Calendar.MINUTE, length);
 			
+			task.setDueDate(dueDate);
+			
+			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+		}
+		
+		@Override
+		public void resized(
+				Event event,
+				Object orgCalId,
+				Date orgEndDate,
+				Date newEndDate) throws Exception {
+			Task task = this.getTask(event);
+			
+			long diff = orgEndDate.getTime() - newEndDate.getTime();
+			diff = diff / (60 * 1000);
+			
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.setTime(newEndDate);
+			
+			task.setLength(task.getLength() - (int) diff);
 			task.setDueDate(dueDate);
 			
 			TasksCalendarPanel.this.updateEventsForActiveCalendars();

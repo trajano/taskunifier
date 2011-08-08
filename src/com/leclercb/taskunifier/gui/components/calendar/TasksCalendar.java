@@ -24,6 +24,7 @@ public class TasksCalendar extends NamedCalendar {
 	public TasksCalendar() {
 		super("All Tasks", "All Tasks", Color.RED);
 		this.events = new ArrayList<Event>();
+		
 		this.setId(ID);
 		
 		this.updateEvents();
@@ -41,9 +42,6 @@ public class TasksCalendar extends NamedCalendar {
 				continue;
 			
 			int length = task.getLength();
-			
-			if (length < 60)
-				length = 60;
 			
 			Calendar start = task.getDueDate();
 			start.add(Calendar.MINUTE, -length);

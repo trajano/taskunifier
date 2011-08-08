@@ -72,18 +72,24 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(null, true);
+		ActionAddTask.addTask(null, true, true);
 	}
 	
-	public static Task addTask(String title, boolean edit) {
+	public static Task addTask(String title, boolean changeView, boolean edit) {
 		return addTask(
 				TaskTemplateFactory.getInstance().getDefaultTemplate(),
 				null,
+				changeView,
 				edit);
 	}
 	
-	public static Task addTask(TaskTemplate template, String title, boolean edit) {
-		MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+	public static Task addTask(
+			TaskTemplate template,
+			String title,
+			boolean changeView,
+			boolean edit) {
+		if (changeView)
+			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 		
 		TaskTemplate searcherTemplate = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
 		
