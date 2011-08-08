@@ -1,9 +1,5 @@
 package com.leclercb.taskunifier.gui.components.views;
 
-import com.leclercb.taskunifier.gui.components.views.statistics.DefaultCalendarView;
-import com.leclercb.taskunifier.gui.components.views.statistics.DefaultNoteView;
-import com.leclercb.taskunifier.gui.components.views.statistics.DefaultStatisticsView;
-import com.leclercb.taskunifier.gui.components.views.statistics.DefaultTaskView;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 

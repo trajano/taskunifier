@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.views.statistics;
+package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -18,13 +18,12 @@ import com.leclercb.taskunifier.gui.components.statistics.Statistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerFolderStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerStatusStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class DefaultStatisticsView extends JPanel implements StatisticsView {
+class DefaultStatisticsView extends JPanel implements StatisticsView {
 	
 	private MainView mainView;
 	

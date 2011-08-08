@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.views.statistics;
+package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -18,33 +19,33 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.ModelNote;
-import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
-import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
-import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
-import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherPanel;
-import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener {
+class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener {
 	
 	private MainView mainView;
 	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
 	
-	private NoteSearcherPanel noteSearcherPanel;
-	private NoteTable noteTable;
-	private ModelNotePanel noteNote;
-	
 	private JXSearchField searchField;
+	private JCheckBox showCompletedTasksCheckBox;
 	
-	public DefaultNoteView(MainView mainView) {
+	private TaskSearcherPanel taskSearcherPanel;
+	private TaskTable taskTable;
+	private ModelNotePanel taskNote;
+	
+	public DefaultTaskView(MainView mainView) {
 		CheckUtils.isNotNull(mainView, "Main view cannot be null");
 		this.mainView = mainView;
 		
@@ -53,7 +54,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	
 	@Override
 	public ViewType getViewType() {
-		return ViewType.NOTES;
+		return ViewType.TASKS;
 	}
 	
 	@Override
@@ -62,13 +63,13 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	}
 	
 	@Override
-	public NoteSearcherView getNoteSearcherView() {
-		return this.noteSearcherPanel;
+	public TaskSearcherView getTaskSearcherView() {
+		return this.taskSearcherPanel;
 	}
 	
 	@Override
-	public NoteTableView getNoteTableView() {
-		return this.noteTable;
+	public TaskTableView getTaskTableView() {
+		return this.taskTable;
 	}
 	
 	private void initialize() {
@@ -111,16 +112,17 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 		this.loadSplitPaneSettings();
 		
 		this.initializeSearchField();
+		this.initializeShowCompletedTasksCheckBox();
 		this.initializeSearcherList(searcherPane);
-		this.initializeNoteTable(middlePane);
+		this.initializeTaskTable(middlePane);
 		this.initializeModelNote(notePane);
 		
-		this.noteSearcherPanel.refreshNoteSearcher();
+		this.taskSearcherPanel.refreshTaskSearcher();
 	}
 	
 	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.horizontal_split");
-		int vSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.vertical_split");
+		int hSplit = Main.SETTINGS.getIntegerProperty("view.tasks.window.horizontal_split");
+		int vSplit = Main.SETTINGS.getIntegerProperty("view.tasks.window.vertical_split");
 		
 		this.horizontalSplitPane.setDividerLocation(hSplit);
 		this.verticalSplitPane.setDividerLocation(vSplit);
@@ -129,10 +131,10 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	@Override
 	public void saveProperties() {
 		Main.SETTINGS.setIntegerProperty(
-				"view.notes.window.horizontal_split",
+				"view.tasks.window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
 		Main.SETTINGS.setIntegerProperty(
-				"view.notes.window.vertical_split",
+				"view.tasks.window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}
 	
@@ -150,7 +152,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 						if (evt.getPropertyName().equals(
 								MainView.PROP_MAIN_SEARCH))
 							if (evt.getNewValue() instanceof String)
-								DefaultNoteView.this.searchField.setText((String) evt.getNewValue());
+								DefaultTaskView.this.searchField.setText((String) evt.getNewValue());
 					}
 					
 				});
@@ -159,8 +161,42 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultNoteView.this.mainView.setSearch(e.getActionCommand());
-				DefaultNoteView.this.noteSearcherPanel.setTitleFilter(e.getActionCommand());
+				DefaultTaskView.this.mainView.setSearch(e.getActionCommand());
+				DefaultTaskView.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
+			}
+			
+		});
+	}
+	
+	private void initializeShowCompletedTasksCheckBox() {
+		this.showCompletedTasksCheckBox = new JCheckBox(
+				Translations.getString("configuration.general.show_completed_tasks"));
+		
+		this.showCompletedTasksCheckBox.setOpaque(false);
+		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
+				10.0f));
+		
+		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"tasksearcher.show_completed_tasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+						DefaultTaskView.this.showCompletedTasksCheckBox.setSelected(selected);
+					}
+					
+				});
+		
+		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.SETTINGS.setBooleanProperty(
+						"tasksearcher.show_completed_tasks",
+						DefaultTaskView.this.showCompletedTasksCheckBox.isSelected());
 			}
 			
 		});
@@ -179,65 +215,67 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 			northPanel.add(this.searchField, BorderLayout.NORTH);
 		}
 		
+		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
+		
 		searcherPane.add(panel, BorderLayout.CENTER);
 		
-		this.initializeNoteSearcherList(panel);
+		this.initializeTaskSearcherList(panel);
 	}
 	
-	private void initializeNoteSearcherList(JPanel searcherPane) {
-		this.noteSearcherPanel = new NoteSearcherPanel();
+	private void initializeTaskSearcherList(JPanel searcherPane) {
+		this.taskSearcherPanel = new TaskSearcherPanel();
 		
-		this.noteSearcherPanel.addPropertyChangeListener(
-				NoteSearcherPanel.PROP_TITLE_FILTER,
+		this.taskSearcherPanel.addPropertyChangeListener(
+				TaskSearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						String filter = (String) evt.getNewValue();
-						if (!DefaultNoteView.this.searchField.getText().equals(
+						if (!DefaultTaskView.this.searchField.getText().equals(
 								filter))
-							DefaultNoteView.this.searchField.setText(filter);
+							DefaultTaskView.this.searchField.setText(filter);
 					}
 					
 				});
 		
-		searcherPane.add(this.noteSearcherPanel);
+		searcherPane.add(this.taskSearcherPanel);
 	}
 	
-	private void initializeNoteTable(JPanel middlePane) {
-		this.noteTable = new NoteTable();
+	private void initializeTaskTable(JPanel middlePane) {
+		this.taskTable = new TaskTable();
 		
-		JPanel notePanel = new JPanel(new BorderLayout());
-		notePanel.add(
-				ComponentFactory.createJScrollPane(this.noteTable, false),
+		JPanel taskPanel = new JPanel(new BorderLayout());
+		taskPanel.add(
+				ComponentFactory.createJScrollPane(this.taskTable, false),
 				BorderLayout.CENTER);
 		
-		this.noteSearcherPanel.addNoteSearcherSelectionChangeListener(this.noteTable);
-		this.noteSearcherPanel.addPropertyChangeListener(
-				NoteSearcherPanel.PROP_TITLE_FILTER,
+		this.taskSearcherPanel.addTaskSearcherSelectionChangeListener(this.taskTable);
+		this.taskSearcherPanel.addPropertyChangeListener(
+				TaskSearcherPanel.PROP_TITLE_FILTER,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						DefaultNoteView.this.noteTable.noteSearcherSelectionChange(new NoteSearcherSelectionChangeEvent(
+						DefaultTaskView.this.taskTable.taskSearcherSelectionChange(new TaskSearcherSelectionChangeEvent(
 								evt.getSource(),
-								DefaultNoteView.this.noteSearcherPanel.getSelectedNoteSearcher()));
+								DefaultTaskView.this.taskSearcherPanel.getSelectedTaskSearcher()));
 					}
 					
 				});
 		
-		middlePane.add(notePanel);
+		middlePane.add(taskPanel);
 	}
 	
 	private void initializeModelNote(JPanel notePane) {
-		this.noteNote = new ModelNotePanel();
-		this.noteTable.addModelSelectionChangeListener(this.noteNote);
+		this.taskNote = new ModelNotePanel();
+		this.taskTable.addModelSelectionChangeListener(this.taskNote);
 		
-		NoteFactory.getInstance().addPropertyChangeListener(
+		TaskFactory.getInstance().addPropertyChangeListener(
 				ModelNote.PROP_NOTE,
-				this.noteNote);
+				this.taskNote);
 		
-		notePane.add(this.noteNote);
+		notePane.add(this.taskNote);
 	}
 	
 }

@@ -43,8 +43,8 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.searcheredit.SearcherEditDialog;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;

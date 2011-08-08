@@ -42,8 +42,8 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 

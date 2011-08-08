@@ -42,9 +42,9 @@ import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.taskunifier.gui.components.views.NoteView;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.components.views.statistics.NoteView;
-import com.leclercb.taskunifier.gui.components.views.statistics.TaskView;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;

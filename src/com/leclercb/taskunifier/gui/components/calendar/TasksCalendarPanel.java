@@ -16,6 +16,7 @@ import lu.tudor.santec.bizcal.NamedCalendar;
 import lu.tudor.santec.bizcal.listeners.NamedCalendarListener;
 import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
+import lu.tudor.santec.bizcal.views.ListViewPanel;
 import lu.tudor.santec.bizcal.views.MonthViewPanel;
 import bizcal.common.Event;
 import bizcal.swing.CalendarListener;
@@ -32,6 +33,7 @@ public class TasksCalendarPanel extends JPanel {
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
 	private MonthViewPanel monthViewPanel;
+	private ListViewPanel listViewPanel;
 	
 	private TasksCalendar tasksCalendar;
 	
@@ -52,6 +54,9 @@ public class TasksCalendarPanel extends JPanel {
 		EventModel monthModel = new EventModel(
 				this.eventDataList,
 				EventModel.TYPE_MONTH);
+		EventModel listModel = new EventModel(
+				this.eventDataList,
+				EventModel.TYPE_MONTH);
 		
 		this.dayViewPanel = new DayViewPanel(
 				dayModel,
@@ -60,16 +65,19 @@ public class TasksCalendarPanel extends JPanel {
 				weekModel,
 				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
 		this.monthViewPanel = new MonthViewPanel(monthModel);
+		this.listViewPanel = new ListViewPanel(listModel);
 		
 		TasksCalendarListener calListener = new TasksCalendarListener();
 		
 		this.dayViewPanel.addCalendarListener(calListener);
 		this.weekViewPanel.addCalendarListener(calListener);
 		this.monthViewPanel.addCalendarListener(calListener);
+		this.listViewPanel.addCalendarListener(calListener);
 		
 		this.calendarPanel.addCalendarView(this.dayViewPanel);
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
 		this.calendarPanel.addCalendarView(this.monthViewPanel);
+		this.calendarPanel.addCalendarView(this.listViewPanel);
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
@@ -96,6 +104,8 @@ public class TasksCalendarPanel extends JPanel {
 			}
 			
 		});
+		
+		// this.calendarPanel.getFunctionsButtonPanel().add();
 		
 		this.calendarPanel.setSelectedCalendar(this.tasksCalendar);
 		
@@ -170,15 +180,7 @@ public class TasksCalendarPanel extends JPanel {
 		
 		@Override
 		public void eventSelected(Object id, Event event) throws Exception {
-			if (TasksCalendarPanel.this.calendarPanel.getCalendars() == null)
-				return;
-			
-			for (NamedCalendar nc : TasksCalendarPanel.this.calendarPanel.getCalendars()) {
-				if (nc.getId().equals(event.get(Event.CALENDAR_ID))) {
-					TasksCalendarPanel.this.calendarPanel.setSelectedCalendar(nc);
-					return;
-				}
-			}
+
 		}
 		
 		@Override
@@ -193,8 +195,7 @@ public class TasksCalendarPanel extends JPanel {
 				Date orgDate,
 				Object newCalId,
 				Date newDate) throws Exception {
-			event.move(newDate);
-			TasksCalendarPanel.this.eventDataList.trigger();
+
 		}
 		
 		@Override
@@ -204,24 +205,12 @@ public class TasksCalendarPanel extends JPanel {
 		
 		@Override
 		public void newEvent(Object id, Date date) throws Exception {
-			DateInterval interval = new DateInterval(date, new Date(
-					date.getTime() + 900000));
-			this.newEvent(id, interval);
+
 		}
 		
 		@Override
 		public void newEvent(Object id, DateInterval interval) throws Exception {
-			NamedCalendar nc = TasksCalendarPanel.this.calendarPanel.getSelectedCalendar();
-			
-			if (nc == null)
-				return;
-			
-			Event event = new Event();
-			event.setStart(interval.getStartDate());
-			event.setEnd(interval.getEndDate());
-			event.setId(id);
-			
-			nc.addEvent("clientXXX", event);
+
 		}
 		
 		@Override
@@ -235,13 +224,7 @@ public class TasksCalendarPanel extends JPanel {
 				Object orgCalId,
 				Date orgEndDate,
 				Date newEndDate) throws Exception {
-			NamedCalendar nc = TasksCalendarPanel.this.calendarPanel.getSelectedCalendar();
-			
-			if (nc == null)
-				return;
-			
-			event.setEnd(newEndDate);
-			nc.saveEvent("clientXXX", event, false);
+
 		}
 		
 		@Override

@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.views.statistics;
+package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -11,12 +11,11 @@ import javax.swing.JPanel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class DefaultCalendarView extends JPanel implements CalendarView {
+class DefaultCalendarView extends JPanel implements CalendarView {
 	
 	private MainView mainView;
 	
