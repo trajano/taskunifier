@@ -3,7 +3,6 @@
     <library name="TaskUnifierGui" systemlibrary="false">
         <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
         <archive path="/TaskUnifierGui/lib/forms-1.2.1.jar"/>
-        <archive path="/TaskUnifierGui/lib/jcalendar-1.3.3.jar"/>
         <archive path="/TaskUnifierGui/lib/jtattoo.jar"/>
         <archive path="/TaskUnifierGui/lib/mac_widgets.jar"/>
         <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/swingx-1.6.2-javadoc.zip!/" path="/TaskUnifierGui/lib/swingx-beaninfo-1.6.2.jar"/>
@@ -15,5 +14,6 @@
         <archive path="/TaskUnifierGui/lib/jcommon-1.0.16.jar"/>
         <archive javadoc="jar:file:/C:/Documents and Settings/IGK557/My Documents/Eclipse/TaskUnifierGui/doc/jfreechart-1.0.13.zip!/" path="/TaskUnifierGui/lib/jfreechart-1.0.13.jar"/>
         <archive path="/TaskUnifierGui/lib/bizcal-0.0.7.jar"/>
+        <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
     </library>
 </eclipse-userlibraries>
