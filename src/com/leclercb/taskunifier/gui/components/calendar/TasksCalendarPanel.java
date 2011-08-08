@@ -18,11 +18,13 @@ import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
 import lu.tudor.santec.bizcal.views.ListViewPanel;
 import lu.tudor.santec.bizcal.views.MonthViewPanel;
+import bizcal.common.DayViewConfig;
 import bizcal.common.Event;
 import bizcal.swing.CalendarListener;
 import bizcal.swing.DayView.Layout;
 import bizcal.swing.util.FrameArea;
 import bizcal.util.DateInterval;
+import bizcal.util.TimeOfDay;
 
 import com.leclercb.taskunifier.gui.main.MainView;
 
@@ -45,6 +47,12 @@ public class TasksCalendarPanel extends JPanel {
 		this.calendarPanel = new CalendarPanel();
 		this.eventDataList = new ObservableEventList();
 		
+		DayViewConfig config = new DayViewConfig();
+		config.setStartView(new TimeOfDay(0, 0));
+		config.setEndView(new TimeOfDay(24, 0));
+		config.setDefaultDayStartHour(0);
+		config.setDefaultDayEndHour(24);
+		
 		EventModel dayModel = new EventModel(
 				this.eventDataList,
 				EventModel.TYPE_DAY);
@@ -60,9 +68,11 @@ public class TasksCalendarPanel extends JPanel {
 		
 		this.dayViewPanel = new DayViewPanel(
 				dayModel,
+				config,
 				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
 		this.weekViewPanel = new DayViewPanel(
 				weekModel,
+				config,
 				Layout.DAY_COLUMN_SEPARATED_BY_CALENDAR);
 		this.monthViewPanel = new MonthViewPanel(monthModel);
 		this.listViewPanel = new ListViewPanel(listModel);
