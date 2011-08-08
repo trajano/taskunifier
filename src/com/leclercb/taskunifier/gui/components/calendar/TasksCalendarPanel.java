@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.components.calendar;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -154,6 +155,9 @@ public class TasksCalendarPanel extends JPanel {
 		
 		@Override
 		public void newEvent(Object id, DateInterval interval) throws Exception {
+			interval.setStartDate(this.roundMinutes(interval.getStartDate()));
+			interval.setEndDate(this.roundMinutes(interval.getEndDate()));
+			
 			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
 				if (calendar.isSelected())
 					calendar.newEvent(interval);
@@ -168,8 +172,11 @@ public class TasksCalendarPanel extends JPanel {
 				Date orgDate,
 				Object newCalId,
 				Date newDate) throws Exception {
+			newDate = this.roundMinutes(newDate);
+			
 			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
-				if (calendar.getId().equals(newCalId))
+				if (calendar.getId().equals(
+						event.get(NamedCalendar.CALENDAR_ID)))
 					calendar.moved(event, orgDate, newDate);
 			
 			TasksCalendarPanel.this.updateEventsForActiveCalendars();
@@ -181,8 +188,11 @@ public class TasksCalendarPanel extends JPanel {
 				Object orgCalId,
 				Date orgEndDate,
 				Date newEndDate) throws Exception {
+			newEndDate = this.roundMinutes(newEndDate);
+			
 			for (TasksCalendar calendar : TasksCalendarPanel.this.tasksCalendars)
-				if (calendar.getId().equals(orgCalId))
+				if (calendar.getId().equals(
+						event.get(NamedCalendar.CALENDAR_ID)))
 					calendar.resized(event, orgEndDate, newEndDate);
 			
 			TasksCalendarPanel.this.updateEventsForActiveCalendars();
@@ -190,6 +200,22 @@ public class TasksCalendarPanel extends JPanel {
 		
 		public Task getTask(Event event) {
 			return TaskFactory.getInstance().get((ModelId) event.getId());
+		}
+		
+		public Date roundMinutes(Date date) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			
+			int minutes = calendar.get(Calendar.MINUTE);
+			
+			int mod = minutes % 15;
+			if (mod < 7.5)
+				minutes -= mod;
+			else
+				minutes += 15 - mod;
+			
+			calendar.set(Calendar.MINUTE, minutes);
+			return calendar.getTime();
 		}
 		
 	}

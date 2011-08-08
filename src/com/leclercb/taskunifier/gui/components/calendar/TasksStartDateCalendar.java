@@ -49,6 +49,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			
 			Event event = new Event();
 			event.setId(task.getModelId());
+			event.set(CALENDAR_ID, this.getId());
 			event.setEditable(true);
 			event.setSelectable(true);
 			event.setDescription(task.getTitle());
@@ -109,7 +110,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		Calendar startDate = Calendar.getInstance();
 		startDate.setTime(newDate);
 		
-		task.setDueDate(startDate);
+		task.setStartDate(startDate);
 	}
 	
 	@Override
@@ -123,7 +124,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		Calendar dueDate = Calendar.getInstance();
 		dueDate.setTime(newEndDate);
 		
-		task.setLength(task.getLength() + (int) diff);
+		task.setLength(task.getLength() - (int) diff);
 	}
 	
 	public Task getTask(Event event) {

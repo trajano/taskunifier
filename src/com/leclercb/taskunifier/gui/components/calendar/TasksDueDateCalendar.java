@@ -49,6 +49,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			
 			Event event = new Event();
 			event.setId(task.getModelId());
+			event.set(CALENDAR_ID, this.getId());
 			event.setEditable(true);
 			event.setSelectable(true);
 			event.setDescription(task.getTitle());
