@@ -3,8 +3,8 @@ HISTORY
 
 Version 1.0.3
 	- Major:
-		- Calendar view (beta)
-		- Statistics view (beta)
+		- Calendar view
+		- Statistics view
 	- Minor:
 		- FR 3373954: Add insert link button in note editor
 		- FR 3382541: Enter in task table = edit task
