@@ -46,7 +46,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXFrame;
-import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
@@ -68,7 +67,6 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
@@ -88,8 +86,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private ReminderThread reminderThread;
 	private ScheduledSyncThread scheduledSyncThread;
-	
-	private JXSearchField searchField;
 	
 	private MainFrame() {
 		this.initialize();
@@ -124,8 +120,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.mainPane = new JPanel(new CardLayout());
 		this.add(this.mainPane, BorderLayout.CENTER);
 		
-		this.intializeSearchField();
-		
 		ViewType.initialize(this);
 		for (ViewType viewType : ViewType.values()) {
 			this.mainPane.add(
@@ -153,16 +147,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public ViewType getSelectedViewType() {
 		return this.selectedViewType;
-	}
-	
-	@Override
-	public String getSearch() {
-		return this.searchField.getText();
-	}
-	
-	@Override
-	public void setSearch(String search) {
-		this.searchField.setText(search);
 	}
 	
 	@Override
@@ -211,24 +195,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				(int) this.getLocationOnScreen().getY());
 	}
 	
-	private void intializeSearchField() {
-		this.searchField = new JXSearchField(
-				Translations.getString("general.search"));
-		this.searchField.setColumns(15);
-		
-		this.searchField.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.firePropertyChange(
-						PROP_MAIN_SEARCH,
-						null,
-						e.getActionCommand());
-			}
-			
-		});
-	}
-	
 	private void initializeMenuBar() {
 		this.setJMenuBar(new MenuBar(
 				this,
@@ -241,8 +207,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.add(
 					new MacToolBar(
 							this,
-							((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
-							this.searchField).getComponent(),
+							((TaskView) ViewType.TASKS.getView()).getTaskTableView()).getComponent(),
 					BorderLayout.NORTH);
 		} else {
 			this.add(

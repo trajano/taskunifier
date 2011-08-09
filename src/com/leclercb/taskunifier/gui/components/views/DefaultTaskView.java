@@ -16,7 +16,6 @@ import org.jdesktop.swingx.JXSearchField;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -34,8 +33,6 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener {
 	
-	private MainView mainView;
-	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
 	
@@ -47,9 +44,6 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private ModelNotePanel taskNote;
 	
 	public DefaultTaskView(MainView mainView) {
-		CheckUtils.isNotNull(mainView, "Main view cannot be null");
-		this.mainView = mainView;
-		
 		this.initialize();
 	}
 	
@@ -149,25 +143,10 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 				Translations.getString("general.search"));
 		this.searchField.setColumns(15);
 		
-		this.mainView.addPropertyChangeListener(
-				MainView.PROP_MAIN_SEARCH,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals(
-								MainView.PROP_MAIN_SEARCH))
-							if (evt.getNewValue() instanceof String)
-								DefaultTaskView.this.searchField.setText((String) evt.getNewValue());
-					}
-					
-				});
-		
 		this.searchField.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultTaskView.this.mainView.setSearch(e.getActionCommand());
 				DefaultTaskView.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
 			}
 			

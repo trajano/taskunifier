@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterEle
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	
@@ -64,7 +65,7 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		this.setLayout(new BorderLayout());
 		
 		this.add(
-				Help.getHelpButton(Help.getHelpFile("searcher.html")),
+				ComponentFactory.createButtonsPanel(Help.getHelpButton(Help.getHelpFile("searcher.html"))),
 				BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel(new BorderLayout());

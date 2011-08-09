@@ -33,15 +33,12 @@
 package com.leclercb.taskunifier.gui.components.help;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -115,23 +112,16 @@ public final class Help {
 		HelpDialog.getInstance().setVisible(true);
 	}
 	
-	public static Component getHelpButton(final String helpFile) {
+	public static JButton getHelpButton(final String helpFile) {
 		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		JButton button = new JButton(
+				Images.getResourceImage("help.png", 16, 16));
+		button.setBorderPainted(false);
+		button.setContentAreaFilled(false);
+		button.addActionListener(new HelpActionListener(helpFile));
 		
-		JButton component = new JButton(Images.getResourceImage(
-				"help.png",
-				16,
-				16));
-		component.setBorderPainted(false);
-		component.setContentAreaFilled(false);
-		component.addActionListener(new HelpActionListener(helpFile));
-		
-		panel.add(component);
-		
-		return panel;
+		return button;
 	}
 	
 	private static class HelpActionListener implements ActionListener {

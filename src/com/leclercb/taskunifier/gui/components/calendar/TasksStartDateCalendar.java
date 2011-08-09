@@ -2,6 +2,7 @@ package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,9 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -22,21 +25,32 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	private List<Event> events;
 	
 	public TasksStartDateCalendar() {
-		super("Tasks: Start date", "Tasks: Start date", Color.GREEN);
+		super(
+				Translations.getString("calendar.tasks_by_start_date"),
+				Translations.getString("calendar.tasks_by_start_date"),
+				Color.GREEN);
 		this.events = new ArrayList<Event>();
 		
 		this.setId("TasksStartDateCalendar");
-		
-		this.updateEvents();
 	}
 	
 	@Override
-	public void updateEvents() {
+	public void updateEvents(boolean showCompletedTasks) {
 		this.events.clear();
+		
+		List<TaskColumn> columns = new ArrayList<TaskColumn>(
+				Arrays.asList(TaskColumn.values()));
+		columns.remove(TaskColumn.MODEL);
+		columns.remove(TaskColumn.NOTE);
+		columns.remove(TaskColumn.SHOW_CHILDREN);
+		TaskColumn[] c = columns.toArray(new TaskColumn[0]);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks) {
 			if (!task.getModelStatus().isEndUserStatus())
+				continue;
+			
+			if (!showCompletedTasks && task.isCompleted())
 				continue;
 			
 			if (task.getStartDate() == null)
@@ -44,16 +58,30 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			
 			int length = task.getLength();
 			
+			if (length < 15)
+				length = 15;
+			
 			Calendar end = task.getStartDate();
 			end.add(Calendar.MINUTE, length);
+			
+			String title = task.getTitle();
+			
+			if (task.isCompleted())
+				title = Translations.getString("general.task.completed")
+						+ ": "
+						+ title;
 			
 			Event event = new Event();
 			event.setId(task.getModelId());
 			event.set(CALENDAR_ID, this.getId());
 			event.setEditable(true);
 			event.setSelectable(true);
-			event.setDescription(task.getTitle());
-			event.setToolTip(task.getTitle());
+			event.setDescription(title);
+			event.setToolTip("<html><i>"
+					+ Translations.getString("calendar.task_by_start_date")
+					+ "</i><br />"
+					+ TaskUtils.toText(new Task[] { task }, c, true)
+					+ "</html>");
 			event.setStart(task.getStartDate().getTime());
 			event.setEnd(end.getTime());
 			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."

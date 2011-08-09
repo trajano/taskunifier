@@ -42,6 +42,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SortOrder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
@@ -69,6 +71,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
@@ -82,11 +85,16 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
 	
+	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
+	
 	private TaskSearcherTree searcherView;
 	
 	private String titleFilter;
 	
 	public TaskSearcherPanel() {
+		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
+				this);
+		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		this.initialize();
@@ -178,6 +186,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	@Override
 	public void refreshTaskSearcher() {
 		this.searcherView.refreshTaskSearcher();
+		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
 	private void initialize() {
@@ -208,6 +217,15 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					
 					ActionEditTaskSearcher.editTaskSearcher();
 				}
+			}
+			
+		});
+		
+		this.searcherView.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent evt) {
+				TaskSearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(TaskSearcherPanel.this.getSelectedTaskSearcher());
 			}
 			
 		});
@@ -248,13 +266,13 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	@Override
 	public void addTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		this.searcherView.addTaskSearcherSelectionChangeListener(listener);
+		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
 	}
 	
 	@Override
 	public void removeTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		this.searcherView.removeTaskSearcherSelectionChangeListener(listener);
+		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
 	}
 	
 	private void initializeSelectedSearcher() {

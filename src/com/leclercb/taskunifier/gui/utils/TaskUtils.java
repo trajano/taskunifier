@@ -63,6 +63,52 @@ public final class TaskUtils {
 
 	}
 	
+	public static String toText(Task[] tasks, TaskColumn[] columns, boolean html) {
+		String[][] data = toStringData(tasks, columns);
+		StringBuffer buffer = new StringBuffer();
+		
+		if (data == null)
+			return null;
+		
+		if (html)
+			buffer.append("<html>");
+		
+		int i = 0;
+		for (String[] row : data) {
+			if (i == 0) {
+				i++;
+				continue;
+			}
+			
+			for (int j = 0; j < row.length; j++) {
+				if (!html) {
+					buffer.append(data[0][j] + ": ");
+					buffer.append(row[j]);
+				} else {
+					buffer.append("<b>" + data[0][j] + ":</b> ");
+					buffer.append(StringEscapeUtils.escapeHtml(row[j]));
+				}
+				
+				if (!html)
+					buffer.append(System.getProperty("line.separator"));
+				else
+					buffer.append("<br />");
+			}
+			
+			if (!html)
+				buffer.append(System.getProperty("line.separator"));
+			else
+				buffer.append("<br />");
+			
+			i++;
+		}
+		
+		if (html)
+			buffer.append("</html>");
+		
+		return buffer.toString();
+	}
+	
 	public static String toHtml(Task[] tasks, TaskColumn[] columns) {
 		String[][] data = toStringData(tasks, columns);
 		StringBuffer buffer = new StringBuffer();
@@ -70,6 +116,7 @@ public final class TaskUtils {
 		if (data == null)
 			return null;
 		
+		buffer.append("<html>");
 		buffer.append("<table>");
 		
 		int i = 0;
@@ -83,12 +130,14 @@ public final class TaskUtils {
 				buffer.append("<td>"
 						+ StringEscapeUtils.escapeHtml(col)
 						+ "</td>");
+			
 			buffer.append("</tr>");
 			
 			i++;
 		}
 		
 		buffer.append("</table>");
+		buffer.append("</html>");
 		
 		return buffer.toString();
 	}

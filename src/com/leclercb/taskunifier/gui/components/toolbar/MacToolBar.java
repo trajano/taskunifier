@@ -41,12 +41,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import org.jdesktop.swingx.JXSearchField;
-
 import com.explodingpixels.macwidgets.UnifiedToolBar;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
@@ -64,14 +61,8 @@ import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MacToolBar extends UnifiedToolBar {
 	
-	public MacToolBar(
-			MainView mainView,
-			TaskTableView taskView,
-			JXSearchField searchField) {
-		CheckUtils.isNotNull(searchField, "Search field cannot be null");
-		
+	public MacToolBar(MainView mainView, TaskTableView taskView) {
 		this.initialize(mainView, taskView);
-		this.addComponentToRight(searchField);
 	}
 	
 	private void initialize(MainView mainView, TaskTableView taskView) {

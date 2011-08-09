@@ -28,14 +28,14 @@ import bizcal.util.TimeOfDay;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.main.MainView;
 
 public class TasksCalendarPanel extends JPanel {
 	
 	private ObservableEventList eventDataList;
+	
+	private boolean showCompletedTasks;
 	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
@@ -122,10 +122,19 @@ public class TasksCalendarPanel extends JPanel {
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
+	public boolean isShowCompletedTasks() {
+		return this.showCompletedTasks;
+	}
+	
+	public void setShowCompletedTasks(boolean showCompletedTasks) {
+		this.showCompletedTasks = showCompletedTasks;
+		this.updateEventsForActiveCalendars();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public synchronized void updateEventsForActiveCalendars() {
 		for (TasksCalendar calendar : this.tasksCalendars)
-			calendar.updateEvents();
+			calendar.updateEvents(this.showCompletedTasks);
 		
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
@@ -147,10 +156,10 @@ public class TasksCalendarPanel extends JPanel {
 				Object id,
 				Event event,
 				MouseEvent mouseEvent) {
-			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 			Task[] tasks = new Task[] { this.getTask(event) };
-			((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
-					tasks);
+			ActionEditTasks.editTasks(tasks);
+			
+			TasksCalendarPanel.this.updateEventsForActiveCalendars();
 		}
 		
 		@Override

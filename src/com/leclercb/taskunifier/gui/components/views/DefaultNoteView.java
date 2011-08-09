@@ -15,7 +15,6 @@ import org.jdesktop.swingx.JXSearchField;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.NoteFactory;
@@ -33,8 +32,6 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener {
 	
-	private MainView mainView;
-	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
 	
@@ -45,9 +42,6 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	private JXSearchField searchField;
 	
 	public DefaultNoteView(MainView mainView) {
-		CheckUtils.isNotNull(mainView, "Main view cannot be null");
-		this.mainView = mainView;
-		
 		this.initialize();
 	}
 	
@@ -146,25 +140,10 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 				Translations.getString("general.search"));
 		this.searchField.setColumns(15);
 		
-		this.mainView.addPropertyChangeListener(
-				MainView.PROP_MAIN_SEARCH,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals(
-								MainView.PROP_MAIN_SEARCH))
-							if (evt.getNewValue() instanceof String)
-								DefaultNoteView.this.searchField.setText((String) evt.getNewValue());
-					}
-					
-				});
-		
 		this.searchField.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultNoteView.this.mainView.setSearch(e.getActionCommand());
 				DefaultNoteView.this.noteSearcherPanel.setTitleFilter(e.getActionCommand());
 			}
 			

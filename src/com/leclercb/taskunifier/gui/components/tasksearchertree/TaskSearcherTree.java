@@ -45,8 +45,6 @@ import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
@@ -54,7 +52,6 @@ import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.draganddrop.TaskSearcherTransferHandler;
@@ -66,12 +63,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePropertiesListener {
 	
-	private TaskSearcherSelectionChangeSupport taskSearcherSelectionChangeSupport;
-	
 	public TaskSearcherTree() {
-		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
-				this);
-		
 		this.initialize();
 	}
 	
@@ -102,15 +94,6 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 			}
 			
 		});
-		
-		this.addTreeSelectionListener(new TreeSelectionListener() {
-			
-			@Override
-			public void valueChanged(TreeSelectionEvent evt) {
-				TaskSearcherTree.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(TaskSearcherTree.this.getSelectedTaskSearcher());
-			}
-			
-		});
 	}
 	
 	public TaskSearcherTreeModel getSearcherModel() {
@@ -120,13 +103,13 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	@Override
 	public void addTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		this.taskSearcherSelectionChangeSupport.addTaskSearcherSelectionChangeListener(listener);
+
 	}
 	
 	@Override
 	public void removeTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		this.taskSearcherSelectionChangeSupport.removeTaskSearcherSelectionChangeListener(listener);
+
 	}
 	
 	@Override
@@ -218,7 +201,6 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	@Override
 	public void refreshTaskSearcher() {
 		this.updateBadges();
-		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
 	public void updateBadges() {

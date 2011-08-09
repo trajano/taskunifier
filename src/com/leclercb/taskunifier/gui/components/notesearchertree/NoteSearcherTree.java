@@ -45,15 +45,12 @@ import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.notesearchertree.draganddrop.NoteSearcherTransferHandler;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
@@ -64,12 +61,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePropertiesListener {
 	
-	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;
-	
 	public NoteSearcherTree() {
-		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
-				this);
-		
 		this.initialize();
 	}
 	
@@ -100,15 +92,6 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 			}
 			
 		});
-		
-		this.addTreeSelectionListener(new TreeSelectionListener() {
-			
-			@Override
-			public void valueChanged(TreeSelectionEvent evt) {
-				NoteSearcherTree.this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(NoteSearcherTree.this.getSelectedNoteSearcher());
-			}
-			
-		});
 	}
 	
 	public NoteSearcherTreeModel getSearcherModel() {
@@ -118,13 +101,13 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	@Override
 	public void addNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.noteSearcherSelectionChangeSupport.addNoteSearcherSelectionChangeListener(listener);
+
 	}
 	
 	@Override
 	public void removeNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.noteSearcherSelectionChangeSupport.removeNoteSearcherSelectionChangeListener(listener);
+
 	}
 	
 	@Override
@@ -193,7 +176,6 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	@Override
 	public void refreshNoteSearcher() {
 		this.updateBadges();
-		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
 	}
 	
 	public void updateBadges() {

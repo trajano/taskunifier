@@ -61,7 +61,7 @@ class DefaultStatisticsView extends JPanel implements StatisticsView {
 		this.setLayout(new BorderLayout());
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0, 3, 10, 10));
+		panel.setLayout(new GridLayout(0, 2, 10, 10));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		for (Statistics s : this.statistics)

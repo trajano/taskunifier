@@ -75,6 +75,25 @@ public class ModelTransferData implements Serializable {
 	}
 	
 	public String getPlainData() {
+		if (this.type == ModelType.TASK) {
+			List<Task> tasks = new ArrayList<Task>();
+			for (ModelId id : this.ids) {
+				Task task = TaskFactory.getInstance().get(id);
+				if (task != null)
+					tasks.add(task);
+			}
+			
+			List<TaskColumn> columns = new ArrayList<TaskColumn>(
+					Arrays.asList(TaskColumn.values()));
+			columns.remove(TaskColumn.NOTE);
+			columns.remove(TaskColumn.SHOW_CHILDREN);
+			
+			return TaskUtils.toText(
+					tasks.toArray(new Task[0]),
+					columns.toArray(new TaskColumn[0]),
+					false);
+		}
+		
 		return null;
 	}
 	

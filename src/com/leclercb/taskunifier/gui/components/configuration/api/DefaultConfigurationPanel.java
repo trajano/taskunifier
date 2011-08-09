@@ -47,6 +47,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
@@ -138,7 +139,9 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		Component component = null;
 		
 		if (this.helpFile != null) {
-			builder.append("", Help.getHelpButton(this.helpFile));
+			builder.append(
+					"",
+					ComponentFactory.createButtonsPanel(Help.getHelpButton(this.helpFile)));
 		}
 		
 		boolean afterRestartFound = false;

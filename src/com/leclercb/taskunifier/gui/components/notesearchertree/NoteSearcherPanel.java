@@ -38,6 +38,8 @@ import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 
 import javax.swing.JPanel;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
@@ -56,6 +58,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
+import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
@@ -68,11 +71,16 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	public static final String PROP_TITLE_FILTER = "titleFilter";
 	
+	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;
+	
 	private NoteSearcherTree searcherView;
 	
 	private String titleFilter;
 	
 	public NoteSearcherPanel() {
+		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
+				this);
+		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		this.initialize();
@@ -147,6 +155,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	@Override
 	public void refreshNoteSearcher() {
 		this.searcherView.refreshNoteSearcher();
+		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
 	}
 	
 	private void initialize() {
@@ -176,6 +185,15 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			
 		});
 		
+		this.searcherView.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent evt) {
+				NoteSearcherPanel.this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(NoteSearcherPanel.this.getSelectedNoteSearcher());
+			}
+			
+		});
+		
 		this.initializeSelectedSearcher();
 	}
 	
@@ -193,13 +211,13 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	@Override
 	public void addNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.searcherView.addNoteSearcherSelectionChangeListener(listener);
+		this.noteSearcherSelectionChangeSupport.addNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	@Override
 	public void removeNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		this.searcherView.removeNoteSearcherSelectionChangeListener(listener);
+		this.noteSearcherSelectionChangeSupport.removeNoteSearcherSelectionChangeListener(listener);
 	}
 	
 	private void initializeSelectedSearcher() {

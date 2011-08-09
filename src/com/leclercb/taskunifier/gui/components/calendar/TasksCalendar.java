@@ -21,7 +21,7 @@ public abstract class TasksCalendar extends NamedCalendar {
 		super(name);
 	}
 	
-	public abstract void updateEvents();
+	public abstract void updateEvents(boolean showCompletedTasks);
 	
 	public abstract void newEvent(DateInterval interval) throws Exception;
 	
