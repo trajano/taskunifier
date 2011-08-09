@@ -93,13 +93,17 @@ public class NoteComparator implements Comparator<Note> {
 						((Note) o2).getModelId());
 				break;
 			case TITLE:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case FOLDER:
 				result = this.compareModels(((Folder) o1), ((Folder) o2));
 				break;
 			case NOTE:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			default:
 				result = 0;

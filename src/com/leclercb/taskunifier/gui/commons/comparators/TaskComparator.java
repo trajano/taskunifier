@@ -149,10 +149,14 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case TITLE:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case TAGS:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case FOLDER:
 				result = this.compareModels(((Folder) o1), ((Folder) o2));
@@ -188,7 +192,9 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case REPEAT:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case REPEAT_FROM:
 				result = CompareUtils.compare(
@@ -210,7 +216,9 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case NOTE:
-				result = CompareUtils.compare((String) o1, (String) o2);
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case IMPORTANCE:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
