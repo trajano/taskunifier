@@ -217,11 +217,11 @@ public class TasksCalendarPanel extends JPanel {
 			
 			int minutes = calendar.get(Calendar.MINUTE);
 			
-			int mod = minutes % 15;
-			if (mod < 7.5)
+			int mod = minutes % 5;
+			if (mod < 2.5)
 				minutes -= mod;
 			else
-				minutes += 15 - mod;
+				minutes += 5 - mod;
 			
 			calendar.set(Calendar.MINUTE, minutes);
 			return calendar.getTime();
