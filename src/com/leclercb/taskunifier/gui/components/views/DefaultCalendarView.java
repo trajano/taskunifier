@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -63,6 +64,18 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (DefaultCalendarView.this.mainView.getSelectedViewType() == DefaultCalendarView.this.getViewType())
+							DefaultCalendarView.this.calendarPanel.updateEventsForActiveCalendars();
+					}
+					
+				});
+		
+		Synchronizing.addPropertyChangeListener(
+				Synchronizing.PROP_SYNCHRONIZING,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
 							DefaultCalendarView.this.calendarPanel.updateEventsForActiveCalendars();
 					}
 					

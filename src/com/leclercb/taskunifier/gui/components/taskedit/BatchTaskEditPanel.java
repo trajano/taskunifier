@@ -45,9 +45,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
@@ -77,6 +75,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -131,7 +130,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JSpinner taskLength;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
-	private JTextArea taskNote;
+	private HTMLEditorPane taskNote;
 	
 	public BatchTaskEditPanel() {
 		this.tasks = null;
@@ -394,7 +393,14 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskLength = new JSpinner();
 		this.taskPriority = new JComboBox();
 		this.taskStar = new JCheckBox();
-		this.taskNote = new JTextArea(5, 0);
+		this.taskNote = new HTMLEditorPane("", false) {
+			
+			@Override
+			public void textChanged(String text) {
+
+			}
+			
+		};
 		
 		this.taskTitleCheckBox.addItemListener(new EnabledActionListener(
 				this.taskTitle));
@@ -606,14 +612,11 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskPriority);
 		
 		// Task Note
-		this.taskNote.setLineWrap(true);
-		this.taskNote.setWrapStyleWord(true);
-		
 		JPanel notePanel = new JPanel(new BorderLayout());
 		notePanel.add(new JLabel(Translations.getString("general.task.note")
 				+ ":"), BorderLayout.NORTH);
 		notePanel.add(this.taskNoteCheckBox, BorderLayout.WEST);
-		notePanel.add(new JScrollPane(this.taskNote), BorderLayout.CENTER);
+		notePanel.add(this.taskNote, BorderLayout.CENTER);
 		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.NORTH);
@@ -648,7 +651,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskLength.setValue(length.getTime());
 			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
 			this.taskStar.setSelected(false);
-			this.taskNote.setText("");
+			this.taskNote.setText("", false, true);
 		} else {
 			visible = false;
 			selected = true;
@@ -676,7 +679,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskLength.setValue(length.getTime());
 			this.taskPriority.setSelectedItem(task.getPriority());
 			this.taskStar.setSelected(task.isStar());
-			this.taskNote.setText(task.getNote());
+			this.taskNote.setText(task.getNote(), true, true);
 		}
 		
 		this.taskTitleCheckBox.setSelected(selected);

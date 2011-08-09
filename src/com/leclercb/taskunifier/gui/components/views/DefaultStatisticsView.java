@@ -18,6 +18,7 @@ import com.leclercb.taskunifier.gui.components.statistics.Statistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerFolderStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerStatusStatistics;
 import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -82,6 +83,18 @@ class DefaultStatisticsView extends JPanel implements StatisticsView {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (DefaultStatisticsView.this.mainView.getSelectedViewType() == DefaultStatisticsView.this.getViewType())
+							DefaultStatisticsView.this.updateStatistics();
+					}
+					
+				});
+		
+		Synchronizing.addPropertyChangeListener(
+				Synchronizing.PROP_SYNCHRONIZING,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
 							DefaultStatisticsView.this.updateStatistics();
 					}
 					

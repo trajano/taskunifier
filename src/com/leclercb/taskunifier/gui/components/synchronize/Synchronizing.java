@@ -73,6 +73,12 @@ public class Synchronizing {
 		propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
+	public static void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+	}
+	
 	public static void removePropertyChangeListener(
 			PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
