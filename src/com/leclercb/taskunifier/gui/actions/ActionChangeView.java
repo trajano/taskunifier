@@ -112,10 +112,18 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public static void changeView() {
-		int nextViewType = MainFrame.getInstance().getSelectedViewType().ordinal();
-		nextViewType = (nextViewType + 1) % ViewType.values().length;
-		MainFrame.getInstance().setSelectedViewType(
-				ViewType.values()[nextViewType]);
+		ViewType[] views = ViewType.values();
+		
+		int nextView = MainFrame.getInstance().getSelectedViewType().ordinal();
+		while (true) {
+			nextView++;
+			nextView %= views.length;
+			
+			if (views[nextView].isQuickChangeView())
+				break;
+		}
+		
+		MainFrame.getInstance().setSelectedViewType(views[nextView]);
 	}
 	
 }

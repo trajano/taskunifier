@@ -5,16 +5,18 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum ViewType {
 	
-	NOTES(Translations.getString("general.notes")),
-	TASKS(Translations.getString("general.tasks")),
-	CALENDAR(Translations.getString("general.calendar")),
-	STATISTICS(Translations.getString("general.statistics")), ;
+	NOTES(Translations.getString("general.notes"), true),
+	TASKS(Translations.getString("general.tasks"), true),
+	CALENDAR(Translations.getString("general.calendar"), true),
+	STATISTICS(Translations.getString("general.statistics"), false), ;
 	
 	private View view;
 	private String label;
+	private boolean quickChangeView;
 	
-	private ViewType(String label) {
+	private ViewType(String label, boolean quickChangeView) {
 		this.label = label;
+		this.quickChangeView = quickChangeView;
 	}
 	
 	public View getView() {
@@ -27,6 +29,10 @@ public enum ViewType {
 	
 	public String getLabel() {
 		return this.label;
+	}
+	
+	public boolean isQuickChangeView() {
+		return this.quickChangeView;
 	}
 	
 	@Override

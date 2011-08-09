@@ -162,6 +162,12 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		ViewType oldSelectedViewType = this.selectedViewType;
 		this.selectedViewType = viewType;
 		
+		this.setTitle(Constants.TITLE
+				+ " - "
+				+ Constants.VERSION
+				+ " - "
+				+ this.selectedViewType.getLabel());
+		
 		this.firePropertyChange(
 				PROP_SELECTED_VIEW,
 				oldSelectedViewType,
