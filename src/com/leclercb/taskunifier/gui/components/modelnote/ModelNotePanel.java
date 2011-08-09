@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ModelNotePanel extends JPanel implements ModelSelectionListener, PropertyChangeListener {
+public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener, PropertyChangeListener {
 	
 	private HTMLEditorPane htmlEditorPane;
 	private ModelNote previousSelectedModel;
@@ -53,6 +53,16 @@ public class ModelNotePanel extends JPanel implements ModelSelectionListener, Pr
 	public ModelNotePanel() {
 		this.previousSelectedModel = null;
 		this.initialize();
+	}
+	
+	@Override
+	public boolean edit() {
+		return this.htmlEditorPane.edit();
+	}
+	
+	@Override
+	public void view() {
+		this.htmlEditorPane.view();
 	}
 	
 	private void initialize() {

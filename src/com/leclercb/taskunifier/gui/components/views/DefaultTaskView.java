@@ -22,6 +22,7 @@ import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
+import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
@@ -70,6 +71,11 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	@Override
 	public TaskTableView getTaskTableView() {
 		return this.taskTable;
+	}
+	
+	@Override
+	public ModelNoteView getModelNoteView() {
+		return this.taskNote;
 	}
 	
 	private void initialize() {

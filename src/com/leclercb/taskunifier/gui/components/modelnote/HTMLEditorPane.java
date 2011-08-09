@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
@@ -51,7 +52,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
-		this.textNote.setText(text);
+		this.textNote.setText(StringEscapeUtils.unescapeHtml(text));
 		
 		if (resetView) {
 			this.textNote.setCaretPosition(this.textNote.getText().length());

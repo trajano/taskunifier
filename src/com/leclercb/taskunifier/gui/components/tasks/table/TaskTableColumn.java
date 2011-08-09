@@ -43,12 +43,14 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
+import org.jdesktop.swingx.renderer.StringValues;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
@@ -89,15 +91,16 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer NOTE_RENDERER;
 	private static final TableCellRenderer PROGRESS_RENDERER;
 	private static final TableCellRenderer REMINDER_RENDERER;
 	private static final TableCellRenderer REPEAT_RENDERER;
 	private static final TableCellRenderer SHOW_CHILDREN_RENDERER;
 	private static final TableCellRenderer STAR_RENDERER;
 	private static final TableCellRenderer START_DATE_RENDERER;
-	private static final TableCellRenderer TASK_PRIORITY_RENDERER;
-	private static final TableCellRenderer TASK_REPEAT_FROM_RENDERER;
-	private static final TableCellRenderer TASK_STATUS_RENDERER;
+	private static final TableCellRenderer PRIORITY_RENDERER;
+	private static final TableCellRenderer REPEAT_FROM_RENDERER;
+	private static final TableCellRenderer STATUS_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
 	
 	private static final TableCellEditor BOOLEAN_EDITOR;
@@ -113,9 +116,9 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor REPEAT_EDITOR;
 	private static final TableCellEditor START_DATE_EDITOR;
 	private static final TableCellEditor TAGS_EDITOR;
-	private static final TableCellEditor TASK_PRIORITY_EDITOR;
-	private static final TableCellEditor TASK_REPEAT_FROM_EDITOR;
-	private static final TableCellEditor TASK_STATUS_EDITOR;
+	private static final TableCellEditor PRIORITY_EDITOR;
+	private static final TableCellEditor REPEAT_FROM_EDITOR;
+	private static final TableCellEditor STATUS_EDITOR;
 	
 	static {
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
@@ -139,6 +142,10 @@ public class TaskTableColumn extends TableColumnExt {
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
 		
+		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValues.EMPTY,
+				IconValueNote.INSTANCE));
+		
 		PROGRESS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskProgress.INSTANCE);
 		
@@ -158,15 +165,15 @@ public class TaskTableColumn extends TableColumnExt {
 		START_DATE_RENDERER = new DefaultTableRenderer(
 				(Main.SETTINGS.getBooleanProperty("date.use_start_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
 		
-		TASK_PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
+		PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskPriority.INSTANCE,
 				IconValueTaskPriority.INSTANCE,
 				null));
 		
-		TASK_REPEAT_FROM_RENDERER = new DefaultTableRenderer(
+		REPEAT_FROM_RENDERER = new DefaultTableRenderer(
 				StringValueTaskRepeatFrom.INSTANCE);
 		
-		TASK_STATUS_RENDERER = new DefaultTableRenderer(
+		STATUS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskStatus.INSTANCE);
 		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
@@ -187,9 +194,9 @@ public class TaskTableColumn extends TableColumnExt {
 		START_DATE_EDITOR = new DateEditor(
 				Main.SETTINGS.getBooleanProperty("date.use_start_time"));
 		TAGS_EDITOR = new TagsEditor();
-		TASK_PRIORITY_EDITOR = new PriorityEditor();
-		TASK_REPEAT_FROM_EDITOR = new RepeatFromEditor();
-		TASK_STATUS_EDITOR = new StatusEditor();
+		PRIORITY_EDITOR = new PriorityEditor();
+		REPEAT_FROM_EDITOR = new RepeatFromEditor();
+		STATUS_EDITOR = new StatusEditor();
 	}
 	
 	private TaskColumn taskColumn;
@@ -281,13 +288,15 @@ public class TaskTableColumn extends TableColumnExt {
 			case STAR:
 				return STAR_RENDERER;
 			case PRIORITY:
-				return TASK_PRIORITY_RENDERER;
+				return PRIORITY_RENDERER;
 			case REPEAT:
 				return REPEAT_RENDERER;
 			case REPEAT_FROM:
-				return TASK_REPEAT_FROM_RENDERER;
+				return REPEAT_FROM_RENDERER;
 			case STATUS:
-				return TASK_STATUS_RENDERER;
+				return STATUS_RENDERER;
+			case NOTE:
+				return NOTE_RENDERER;
 			default:
 				return super.getCellRenderer();
 		}
@@ -323,13 +332,13 @@ public class TaskTableColumn extends TableColumnExt {
 			case REMINDER:
 				return REMINDER_EDITOR;
 			case REPEAT_FROM:
-				return TASK_REPEAT_FROM_EDITOR;
+				return REPEAT_FROM_EDITOR;
 			case STATUS:
-				return TASK_STATUS_EDITOR;
+				return STATUS_EDITOR;
 			case LENGTH:
 				return LENGTH_EDITOR;
 			case PRIORITY:
-				return TASK_PRIORITY_EDITOR;
+				return PRIORITY_EDITOR;
 			case STAR:
 				return BOOLEAN_EDITOR;
 			default:

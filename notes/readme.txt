@@ -13,9 +13,11 @@ Version 1.0.3
 		- FR 3367271: Undo/redo buttons in note editor
 		- FR 3381059: Postpone tasks
 		- FR 3376638: Select tags window
+		- FR 3384629: Double click on note column to edit a note
 		- BF 3376602: Incorrect badge count with hidden subtasks
 		- BF 3376593: Wrong file chooser dialog for export
 		- BF 3384625: Show badges setting
+		- BF 3388372: HTML escaped chars in notes
 
 Version 1.0.2
 	- Major:

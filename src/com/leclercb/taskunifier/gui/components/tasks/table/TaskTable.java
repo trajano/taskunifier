@@ -92,6 +92,8 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
@@ -280,6 +282,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.setColumnControlVisible(true);
 		
 		this.initializeDeleteTask();
+		this.initializeEditNote();
 		this.initializeTaskTableMenu();
 		this.initializeDragAndDrop();
 		this.initializeEnter();
@@ -317,6 +320,39 @@ public class TaskTable extends JXTable implements TaskTableView {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
 					ActionDelete.delete();
+			}
+			
+		});
+	}
+	
+	private void initializeEditNote() {
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
+							TaskTable.this.rowAtPoint(event.getPoint()));
+					
+					int colIndex = TaskTable.this.columnAtPoint(event.getPoint());
+					
+					TaskColumn column = (TaskColumn) TaskTable.this.getColumn(
+							colIndex).getIdentifier();
+					
+					if (column == TaskColumn.NOTE) {
+						Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+						
+						if (task == null)
+							return;
+						
+						TaskTable.this.commitChanges();
+						
+						TaskTable.this.setSelectedTasks(new Task[] { task });
+						
+						((TaskView) ViewType.TASKS.getView()).getModelNoteView().edit();
+					}
+				}
 			}
 			
 		});

@@ -9,10 +9,44 @@ public class Text2HTML {
 		if (text == null || text.length() == 0)
 			return " ";
 		
+		text = convertTags(text);
 		text = convertNlToBr(text);
 		text = convertToHtmlUrl(text);
 		
 		return text;
+	}
+	
+	private static String convertTags(String text) {
+		StringBuffer buffer = new StringBuffer(text);
+		
+		int position = 0;
+		
+		while (true) {
+			int index = buffer.indexOf("<", position);
+			
+			if (index == -1)
+				break;
+			
+			String substring = buffer.substring(index);
+			
+			// Tags: <b>, <i>, <a>, <ul>, <ol>, <li>
+			if (!(substring.startsWith("<b>")
+					|| substring.startsWith("<i>")
+					|| substring.startsWith("<a ")
+					|| substring.startsWith("<ul>")
+					|| substring.startsWith("<ol>")
+					|| substring.startsWith("<li>")
+					|| substring.startsWith("</b>")
+					|| substring.startsWith("</i>")
+					|| substring.startsWith("</a>")
+					|| substring.startsWith("</ul>")
+					|| substring.startsWith("</ol>") || substring.startsWith("</li>")))
+				buffer.replace(index, index + 1, "&lt;");
+			
+			position = index + 1;
+		}
+		
+		return buffer.toString();
 	}
 	
 	private static String convertToHtmlUrl(String text) {

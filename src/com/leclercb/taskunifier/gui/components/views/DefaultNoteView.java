@@ -21,6 +21,7 @@ import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
+import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherPanel;
@@ -68,6 +69,11 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	@Override
 	public NoteTableView getNoteTableView() {
 		return this.noteTable;
+	}
+	
+	@Override
+	public ModelNoteView getModelNoteView() {
+		return this.noteNote;
 	}
 	
 	private void initialize() {
