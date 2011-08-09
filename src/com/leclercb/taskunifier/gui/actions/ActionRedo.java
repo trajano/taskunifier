@@ -84,7 +84,8 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.undoManager.redo();
+		if (this.undoManager.canRedo())
+			this.undoManager.redo();
 	}
 	
 	@Override

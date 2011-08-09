@@ -84,7 +84,8 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.undoManager.undo();
+		if (this.undoManager.canUndo())
+			this.undoManager.undo();
 	}
 	
 	@Override

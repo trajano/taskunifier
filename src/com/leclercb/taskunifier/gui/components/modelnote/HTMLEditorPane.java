@@ -47,18 +47,20 @@ public abstract class HTMLEditorPane extends JPanel {
 		return this.textNote.getText();
 	}
 	
-	public void setText(String text, boolean canEdit, boolean resetView) {
+	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
 		this.textNote.setText(StringEscapeUtils.unescapeHtml(text));
 		
-		if (resetView) {
+		if (discardAllEdits) {
 			this.textNote.setCaretPosition(this.textNote.getText().length());
-			((CardLayout) this.getLayout()).first(this);
 			this.undoSupport.discardAllEdits();
 		}
+		
+		if (!canEdit)
+			this.view();
 	}
 	
 	public boolean edit() {
@@ -157,9 +159,12 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 		});
 		
-		toolBar.add(this.undoSupport.getUndoAction());
+		toolBar.addSeparator();
 		
+		toolBar.add(this.undoSupport.getUndoAction());
 		toolBar.add(this.undoSupport.getRedoAction());
+		
+		toolBar.addSeparator();
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
@@ -230,6 +235,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.add(textPanel, "" + 1);
 		
 		this.setText(text, canEdit, true);
+		this.view();
 	}
 	
 }
