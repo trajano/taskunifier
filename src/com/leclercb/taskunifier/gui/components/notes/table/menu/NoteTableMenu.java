@@ -48,7 +48,7 @@ public class NoteTableMenu extends JPopupMenu {
 	public NoteTableMenu(NoteTableView noteTableView) {
 		super(Translations.getString("general.note"));
 		
-		CheckUtils.isNotNull(noteTableView, "Task table view cannot be null");
+		CheckUtils.isNotNull(noteTableView, "Note table view cannot be null");
 		this.noteTableView = noteTableView;
 		
 		this.initialize();

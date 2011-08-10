@@ -71,7 +71,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
 		
-		taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
+		this.taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
 			
 			@Override
 			public void taskSearcherSelectionChange(
