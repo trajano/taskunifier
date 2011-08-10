@@ -36,6 +36,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Note;
@@ -47,7 +48,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddNote extends AbstractViewAction {
+public class ActionAddNote extends AbstractAction {
 	
 	public ActionAddNote() {
 		this(32, 32);
@@ -56,8 +57,7 @@ public class ActionAddNote extends AbstractViewAction {
 	public ActionAddNote(int width, int height) {
 		super(
 				Translations.getString("action.add_note"),
-				Images.getResourceImage("note.png", width, height),
-				ViewType.NOTES);
+				Images.getResourceImage("note.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -66,8 +66,6 @@ public class ActionAddNote extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_N,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

@@ -33,12 +33,14 @@
 package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -612,6 +614,8 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskPriority);
 		
 		// Task Note
+		this.taskNote.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		JPanel notePanel = new JPanel(new BorderLayout());
 		notePanel.add(new JLabel(Translations.getString("general.task.note")
 				+ ":"), BorderLayout.NORTH);
