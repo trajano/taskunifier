@@ -36,7 +36,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
@@ -52,7 +51,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionDelete extends AbstractAction {
+public class ActionDelete extends AbstractViewAction {
 	
 	public ActionDelete() {
 		this(32, 32);
@@ -62,7 +61,7 @@ public class ActionDelete extends AbstractAction {
 		super(Translations.getString("action.delete"), Images.getResourceImage(
 				"remove.png",
 				width,
-				height));
+				height), ViewType.TASKS, ViewType.NOTES);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -71,6 +70,8 @@ public class ActionDelete extends AbstractAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_D,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -114,7 +115,7 @@ public class ActionDelete extends AbstractAction {
 			}
 			
 			Synchronizing.setSynchronizing(false);
-		} else {
+		} else if (MainFrame.getInstance().getSelectedViewType() == ViewType.NOTES) {
 			Note[] notes = ((NoteView) ViewType.TASKS.getView()).getNoteTableView().getSelectedNotes();
 			
 			for (Note note : notes) {

@@ -49,19 +49,15 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionChangeView extends AbstractAction {
 	
-	private MainView view;
-	
 	private int width;
 	private int height;
 	
-	public ActionChangeView(MainView view) {
-		this(view, 32, 32);
+	public ActionChangeView() {
+		this(32, 32);
 	}
 	
-	public ActionChangeView(MainView view, int width, int height) {
+	public ActionChangeView(int width, int height) {
 		super(Translations.getString("action.change_view"));
-		
-		this.view = view;
 		
 		this.width = width;
 		this.height = height;
@@ -76,7 +72,7 @@ public class ActionChangeView extends AbstractAction {
 		
 		this.updateIcon();
 		
-		view.addPropertyChangeListener(
+		MainFrame.getInstance().addPropertyChangeListener(
 				MainView.PROP_SELECTED_VIEW,
 				new PropertyChangeListener() {
 					
@@ -89,7 +85,7 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	private void updateIcon() {
-		ViewType viewType = this.view.getSelectedViewType();
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		switch (viewType) {
 			case NOTES:
 				this.putValue(SMALL_ICON, Images.getResourceImage(

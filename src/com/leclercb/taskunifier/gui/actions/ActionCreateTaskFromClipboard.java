@@ -34,14 +34,13 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionCreateTaskFromClipboard extends AbstractAction {
+public class ActionCreateTaskFromClipboard extends AbstractViewAction {
 	
 	private TaskTableView view;
 	
@@ -55,7 +54,8 @@ public class ActionCreateTaskFromClipboard extends AbstractAction {
 			int height) {
 		super(
 				Translations.getString("action.create_task_from_clipboard"),
-				Images.getResourceImage("information.png", width, height));
+				Images.getResourceImage("information.png", width, height),
+				ViewType.TASKS);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -63,6 +63,8 @@ public class ActionCreateTaskFromClipboard extends AbstractAction {
 		
 		CheckUtils.isNotNull(view, "View cannot be null");
 		this.view = view;
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

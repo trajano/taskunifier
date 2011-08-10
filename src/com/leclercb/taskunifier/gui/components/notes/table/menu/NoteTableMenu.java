@@ -34,22 +34,29 @@ package com.leclercb.taskunifier.gui.components.notes.table.menu;
 
 import javax.swing.JPopupMenu;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateNotes;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class NoteTableMenu extends JPopupMenu {
 	
-	public NoteTableMenu() {
+	private NoteTableView noteTableView;
+	
+	public NoteTableMenu(NoteTableView noteTableView) {
 		super(Translations.getString("general.note"));
+		
+		CheckUtils.isNotNull(noteTableView, "Task table view cannot be null");
+		this.noteTableView = noteTableView;
 		
 		this.initialize();
 	}
 	
 	private void initialize() {
 		this.add(new ActionAddNote(16, 16));
-		this.add(new ActionDuplicateNotes(16, 16));
+		this.add(new ActionDuplicateNotes(this.noteTableView, 16, 16));
 		this.addSeparator();
 		this.add(new ActionDelete(16, 16));
 	}

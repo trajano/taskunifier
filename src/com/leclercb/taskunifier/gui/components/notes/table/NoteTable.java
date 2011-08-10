@@ -292,7 +292,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 	}
 	
 	private void initializeNoteTableMenu() {
-		this.noteTableMenu = new NoteTableMenu();
+		this.noteTableMenu = new NoteTableMenu(this);
 		
 		this.addMouseListener(new MouseAdapter() {
 			

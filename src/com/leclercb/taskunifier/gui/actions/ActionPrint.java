@@ -36,7 +36,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -49,7 +48,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionPrint extends AbstractAction {
+public class ActionPrint extends AbstractViewAction {
 	
 	public ActionPrint() {
 		this(32, 32);
@@ -59,13 +58,15 @@ public class ActionPrint extends AbstractAction {
 		super(Translations.getString("action.print"), Images.getResourceImage(
 				"print.png",
 				width,
-				height));
+				height), ViewType.NOTES, ViewType.TASKS);
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.print"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_P,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

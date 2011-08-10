@@ -34,14 +34,13 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionCreateNoteFromClipboard extends AbstractAction {
+public class ActionCreateNoteFromClipboard extends AbstractViewAction {
 	
 	private NoteTableView view;
 	
@@ -55,7 +54,8 @@ public class ActionCreateNoteFromClipboard extends AbstractAction {
 			int height) {
 		super(
 				Translations.getString("action.create_note_from_clipboard"),
-				Images.getResourceImage("information.png", width, height));
+				Images.getResourceImage("information.png", width, height),
+				ViewType.NOTES);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -63,6 +63,8 @@ public class ActionCreateNoteFromClipboard extends AbstractAction {
 		
 		CheckUtils.isNotNull(view, "View cannot be null");
 		this.view = view;
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

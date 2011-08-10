@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.SortOrder;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
@@ -43,10 +42,11 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddTaskSearcher extends AbstractAction {
+public class ActionAddTaskSearcher extends AbstractViewAction {
 	
 	public ActionAddTaskSearcher() {
 		this(32, 32);
@@ -55,11 +55,14 @@ public class ActionAddTaskSearcher extends AbstractAction {
 	public ActionAddTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.add_task_searcher"),
-				Images.getResourceImage("add.png", width, height));
+				Images.getResourceImage("add.png", width, height),
+				ViewType.TASKS);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.add_task_searcher"));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

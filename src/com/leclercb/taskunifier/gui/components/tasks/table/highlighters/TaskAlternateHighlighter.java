@@ -44,8 +44,6 @@ import org.jdesktop.swingx.decorator.ComponentAdapter;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -69,7 +67,7 @@ public class TaskAlternateHighlighter extends AbstractHighlighter {
 						|| evt.getPropertyName().equals("theme.color.even")
 						|| evt.getPropertyName().equals("theme.color.odd")) {
 					TaskAlternateHighlighter.this.resetColors();
-					((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+					TaskAlternateHighlighter.this.fireStateChanged();
 				}
 			}
 			

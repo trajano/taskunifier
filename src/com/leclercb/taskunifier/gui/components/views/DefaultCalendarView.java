@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -44,6 +45,11 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 		return this;
 	}
 	
+	@Override
+	public TaskCalendarView getTaskCalendarView() {
+		return this.calendarPanel;
+	}
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
@@ -64,7 +70,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (DefaultCalendarView.this.mainView.getSelectedViewType() == DefaultCalendarView.this.getViewType())
-							DefaultCalendarView.this.calendarPanel.updateEventsForActiveCalendars();
+							DefaultCalendarView.this.calendarPanel.refreshTasks();
 					}
 					
 				});
@@ -76,7 +82,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (!(Boolean) evt.getNewValue())
-							DefaultCalendarView.this.calendarPanel.updateEventsForActiveCalendars();
+							DefaultCalendarView.this.calendarPanel.refreshTasks();
 					}
 					
 				});
@@ -90,7 +96,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultCalendarView.this.calendarPanel.updateEventsForActiveCalendars();
+				DefaultCalendarView.this.calendarPanel.refreshTasks();
 			}
 			
 		};

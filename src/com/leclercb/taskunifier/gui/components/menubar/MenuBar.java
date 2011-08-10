@@ -95,9 +95,11 @@ import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -105,22 +107,22 @@ import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MenuBar extends JMenuBar {
 	
-	private MainView mainView;
-	private TaskTableView taskView;
+	private NoteTableView noteTableView;
+	private TaskTableView taskTableView;
 	private TaskSearcherView taskSearcherView;
 	
 	public MenuBar(
-			MainView mainView,
-			TaskTableView taskView,
+			NoteTableView noteTableView,
+			TaskTableView taskTableView,
 			TaskSearcherView taskSearcherView) {
-		CheckUtils.isNotNull(mainView, "Main view cannot be null");
-		CheckUtils.isNotNull(taskView, "Task view cannot be null");
+		CheckUtils.isNotNull(noteTableView, "Note table view cannot be null");
+		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
 		CheckUtils.isNotNull(
 				taskSearcherView,
 				"Task searcher view cannot be null");
 		
-		this.mainView = mainView;
-		this.taskView = taskView;
+		this.noteTableView = noteTableView;
+		this.taskTableView = taskTableView;
 		this.taskSearcherView = taskSearcherView;
 		
 		this.initialize();
@@ -193,7 +195,7 @@ public class MenuBar extends JMenuBar {
 		JMenu viewMenu = new JMenu(Translations.getString("menu.view"));
 		this.add(viewMenu);
 		
-		viewMenu.add(new ActionChangeView(this.mainView, 16, 16));
+		viewMenu.add(new ActionChangeView(16, 16));
 		viewMenu.addSeparator();
 		
 		ButtonGroup viewGroup = new ButtonGroup();
@@ -205,19 +207,19 @@ public class MenuBar extends JMenuBar {
 			viewGroup.add(item);
 			viewMenu.add(item);
 			
-			if (this.mainView.getSelectedViewType() == view)
+			if (MainFrame.getInstance().getSelectedViewType() == view)
 				item.setSelected(true);
 			
 			item.addItemListener(new ItemListener() {
 				
 				@Override
 				public void itemStateChanged(ItemEvent evt) {
-					MenuBar.this.mainView.setSelectedViewType(v);
+					MainFrame.getInstance().setSelectedViewType(v);
 				}
 				
 			});
 			
-			this.mainView.addPropertyChangeListener(
+			MainFrame.getInstance().addPropertyChangeListener(
 					MainView.PROP_SELECTED_VIEW,
 					new PropertyChangeListener() {
 						
@@ -236,7 +238,7 @@ public class MenuBar extends JMenuBar {
 		this.add(notesMenu);
 		
 		notesMenu.add(new ActionAddNote(16, 16));
-		notesMenu.add(new ActionDuplicateNotes(16, 16));
+		notesMenu.add(new ActionDuplicateNotes(this.noteTableView, 16, 16));
 		notesMenu.add(new ActionDelete(16, 16));
 	}
 	
@@ -245,13 +247,13 @@ public class MenuBar extends JMenuBar {
 		this.add(tasksMenu);
 		
 		tasksMenu.add(new ActionAddTask(16, 16));
-		tasksMenu.add(new ActionAddSubTask(this.taskView, 16, 16));
+		tasksMenu.add(new ActionAddSubTask(this.taskTableView, 16, 16));
 		
 		this.initializeTemplateMenu(tasksMenu);
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
-		tasksMenu.add(new ActionEditTasks(this.taskView, 16, 16));
-		tasksMenu.add(new ActionDuplicateTasks(16, 16));
+		tasksMenu.add(new ActionEditTasks(16, 16));
+		tasksMenu.add(new ActionDuplicateTasks(this.taskTableView, 16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
 		tasksMenu.addSeparator();
@@ -318,6 +320,7 @@ public class MenuBar extends JMenuBar {
 		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
 		ActionPostponeTasks[] actions = ActionPostponeTasks.createDefaultActions(
+				this.taskTableView,
 				16,
 				16);
 		for (ActionPostponeTasks action : actions) {

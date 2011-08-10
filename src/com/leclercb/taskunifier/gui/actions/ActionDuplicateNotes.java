@@ -36,34 +36,45 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.views.NoteView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionDuplicateNotes extends AbstractAction {
+public class ActionDuplicateNotes extends AbstractViewAction {
 	
-	public ActionDuplicateNotes() {
-		this(32, 32);
+	private NoteTableView noteTableView;
+	
+	public ActionDuplicateNotes(NoteTableView noteTableView) {
+		this(noteTableView, 32, 32);
 	}
 	
-	public ActionDuplicateNotes(int width, int height) {
+	public ActionDuplicateNotes(
+			NoteTableView noteTableView,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.duplicate_notes"),
-				Images.getResourceImage("duplicate.png", width, height));
+				Images.getResourceImage("duplicate.png", width, height),
+				ViewType.NOTES);
+		
+		CheckUtils.isNotNull(noteTableView, "Note table view cannot be null");
+		this.noteTableView = noteTableView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.duplicate_notes"));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateNotes.duplicateNotes(((NoteView) ViewType.NOTES.getView()).getNoteTableView().getSelectedNotes());
+		ActionDuplicateNotes.duplicateNotes(this.noteTableView.getSelectedNotes());
 	}
 	
 	public static void duplicateNotes(Note[] notes) {

@@ -54,27 +54,23 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MacToolBar extends UnifiedToolBar {
 	
-	public MacToolBar(MainView mainView, TaskTableView taskView) {
-		this.initialize(mainView, taskView);
+	public MacToolBar(TaskTableView taskTableView) {
+		this.initialize(taskTableView);
 	}
 	
-	private void initialize(MainView mainView, TaskTableView taskView) {
-		this.addComponentToLeft(this.createButton(new ActionChangeView(
-				mainView,
-				24,
-				24)));
+	private void initialize(TaskTableView taskTableView) {
+		this.addComponentToLeft(this.createButton(new ActionChangeView(24, 24)));
 		this.addComponentToLeft(new JSeparator());
 		this.addComponentToLeft(this.createButton(new ActionAddNote(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddTask(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddSubTask(
-				taskView,
+				taskTableView,
 				24,
 				24)));
 		this.initializeTemplates();

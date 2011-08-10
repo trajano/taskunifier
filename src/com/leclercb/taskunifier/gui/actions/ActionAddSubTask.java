@@ -36,11 +36,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
@@ -55,20 +53,22 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddSubTask extends AbstractAction {
+public class ActionAddSubTask extends AbstractViewAction {
 	
-	private TaskTableView taskView;
+	private TaskTableView taskTableView;
 	
-	public ActionAddSubTask(TaskTableView taskView) {
-		this(taskView, 32, 32);
+	public ActionAddSubTask(TaskTableView taskTableView) {
+		this(taskTableView, 32, 32);
 	}
 	
-	public ActionAddSubTask(TaskTableView taskView, int width, int height) {
+	public ActionAddSubTask(TaskTableView taskTableView, int width, int height) {
 		super(
 				Translations.getString("action.add_subtask"),
-				Images.getResourceImage("subtask.png", width, height));
+				Images.getResourceImage("subtask.png", width, height),
+				ViewType.TASKS);
 		
-		this.taskView = taskView;
+		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
+		this.taskTableView = taskTableView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -78,31 +78,36 @@ public class ActionAddSubTask extends AbstractAction {
 				KeyEvent.VK_K,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		taskView.addModelSelectionChangeListener(new ModelSelectionListener() {
+		taskTableView.addModelSelectionChangeListener(new ModelSelectionListener() {
 			
 			@Override
 			public void modelSelectionChange(ModelSelectionChangeEvent event) {
-				ActionAddSubTask.this.setEnabled(event.getSelectedModels());
+				ActionAddSubTask.this.setEnabled(ActionAddSubTask.this.shouldBeEnabled());
 			}
 			
 		});
 		
-		this.setEnabled(this.taskView.getSelectedTasks());
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
-	private void setEnabled(Model[] tasks) {
-		if (tasks == null)
-			return;
+	@Override
+	protected boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
+			return false;
 		
-		this.setEnabled(tasks.length == 1
-				&& ((Task) tasks[0]).getParent() == null);
+		Task[] tasks = this.taskTableView.getSelectedTasks();
+		
+		if (tasks == null)
+			return false;
+		
+		return (tasks.length == 1 && (tasks[0]).getParent() == null);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (this.taskView.getSelectedTasks().length == 1)
+		if (this.taskTableView.getSelectedTasks().length == 1)
 			ActionAddSubTask.addSubTask(
-					this.taskView.getSelectedTasks()[0],
+					this.taskTableView.getSelectedTasks()[0],
 					true);
 	}
 	

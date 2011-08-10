@@ -35,25 +35,27 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionCollapseAll extends AbstractAction {
+public class ActionCollapseAll extends AbstractViewAction {
 	
 	public ActionCollapseAll() {
 		super(
 				Translations.getString("action.collapse_all"),
-				Images.getResourceImage("tree_expanded.png", 9, 9));
+				Images.getResourceImage("tree_expanded.png", 9, 9),
+				ViewType.TASKS);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.collapse_all"));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

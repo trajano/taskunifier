@@ -48,30 +48,28 @@ import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
-import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class TaskTableMenu extends JPopupMenu {
 	
-	private TaskTable taskTable;
+	private TaskTableView taskTableView;
 	
-	public TaskTableMenu(TaskTable taskTable) {
+	public TaskTableMenu(TaskTableView taskTableView) {
 		super(Translations.getString("general.task"));
 		
-		CheckUtils.isNotNull(taskTable, "Task table cannot be null");
-		this.taskTable = taskTable;
+		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
+		this.taskTableView = taskTableView;
 		
 		this.initialize();
 	}
 	
 	private void initialize() {
 		this.add(new ActionAddTask(16, 16));
-		this.add(new ActionAddSubTask(this.taskTable, 16, 16));
-		this.add(new ActionEditTasks(this.taskTable, 16, 16));
-		this.add(new ActionDuplicateTasks(16, 16));
+		this.add(new ActionAddSubTask(this.taskTableView, 16, 16));
+		this.add(new ActionEditTasks(16, 16));
+		this.add(new ActionDuplicateTasks(this.taskTableView, 16, 16));
 		this.addSeparator();
 		this.initializePostponeMenu();
 		this.addSeparator();
@@ -92,6 +90,7 @@ public class TaskTableMenu extends JPopupMenu {
 		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
 		ActionPostponeTasks[] actions = ActionPostponeTasks.createDefaultActions(
+				this.taskTableView,
 				16,
 				16);
 		for (ActionPostponeTasks action : actions) {
@@ -110,7 +109,7 @@ public class TaskTableMenu extends JPopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+				TaskTableMenu.this.taskTableView.refreshTasks();
 			}
 			
 		});

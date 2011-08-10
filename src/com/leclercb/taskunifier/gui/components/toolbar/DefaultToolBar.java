@@ -53,26 +53,25 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class DefaultToolBar extends JToolBar {
 	
-	public DefaultToolBar(MainView mainView, TaskTableView taskView) {
-		this.initialize(mainView, taskView);
+	public DefaultToolBar(TaskTableView taskTableView) {
+		this.initialize(taskTableView);
 	}
 	
-	private void initialize(MainView mainView, TaskTableView taskView) {
+	private void initialize(TaskTableView taskTableView) {
 		this.setFloatable(false);
 		this.setRollover(true);
 		
-		this.add(new ActionChangeView(mainView, 24, 24));
+		this.add(new ActionChangeView(24, 24));
 		this.addSeparator(new Dimension(20, 20));
 		this.add(new ActionAddNote(24, 24));
 		this.add(new ActionAddTask(24, 24));
-		this.add(new ActionAddSubTask(taskView, 24, 24));
+		this.add(new ActionAddSubTask(taskTableView, 24, 24));
 		this.initializeTemplates();
 		this.add(new ActionDelete(24, 24));
 		this.addSeparator(new Dimension(20, 20));

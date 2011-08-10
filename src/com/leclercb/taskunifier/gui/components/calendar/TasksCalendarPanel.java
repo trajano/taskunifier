@@ -31,7 +31,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.main.MainView;
 
-public class TasksCalendarPanel extends JPanel {
+public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
 	
 	private ObservableEventList eventDataList;
 	
@@ -105,12 +105,12 @@ public class TasksCalendarPanel extends JPanel {
 					return;
 				}
 				
-				TasksCalendarPanel.this.updateEventsForActiveCalendars();
+				TasksCalendarPanel.this.refreshTasks();
 			}
 			
 			@Override
 			public void selectedCalendarChanged(NamedCalendar selectedCalendar) {
-				TasksCalendarPanel.this.updateEventsForActiveCalendars();
+				TasksCalendarPanel.this.refreshTasks();
 			}
 			
 		});
@@ -128,11 +128,12 @@ public class TasksCalendarPanel extends JPanel {
 	
 	public void setShowCompletedTasks(boolean showCompletedTasks) {
 		this.showCompletedTasks = showCompletedTasks;
-		this.updateEventsForActiveCalendars();
+		this.refreshTasks();
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
-	public synchronized void updateEventsForActiveCalendars() {
+	public synchronized void refreshTasks() {
 		for (TasksCalendar calendar : this.tasksCalendars)
 			calendar.updateEvents(this.showCompletedTasks);
 		
@@ -159,7 +160,7 @@ public class TasksCalendarPanel extends JPanel {
 			Task[] tasks = new Task[] { this.getTask(event) };
 			ActionEditTasks.editTasks(tasks);
 			
-			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+			TasksCalendarPanel.this.refreshTasks();
 		}
 		
 		@Override
@@ -171,7 +172,7 @@ public class TasksCalendarPanel extends JPanel {
 				if (calendar.isSelected())
 					calendar.newEvent(interval);
 			
-			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+			TasksCalendarPanel.this.refreshTasks();
 		}
 		
 		@Override
@@ -188,7 +189,7 @@ public class TasksCalendarPanel extends JPanel {
 						event.get(NamedCalendar.CALENDAR_ID)))
 					calendar.moved(event, orgDate, newDate);
 			
-			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+			TasksCalendarPanel.this.refreshTasks();
 		}
 		
 		@Override
@@ -204,7 +205,7 @@ public class TasksCalendarPanel extends JPanel {
 						event.get(NamedCalendar.CALENDAR_ID)))
 					calendar.resized(event, orgEndDate, newEndDate);
 			
-			TasksCalendarPanel.this.updateEventsForActiveCalendars();
+			TasksCalendarPanel.this.refreshTasks();
 		}
 		
 		public Task getTask(Event event) {

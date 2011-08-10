@@ -36,27 +36,26 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionEditTasks extends AbstractAction {
+public class ActionEditTasks extends AbstractViewAction {
 	
-	public ActionEditTasks(TaskTableView taskView) {
-		this(taskView, 32, 32);
+	public ActionEditTasks() {
+		this(32, 32);
 	}
 	
-	public ActionEditTasks(TaskTableView taskView, int width, int height) {
+	public ActionEditTasks(int width, int height) {
 		super(
 				Translations.getString("action.edit_tasks"),
-				Images.getResourceImage("edit.png", width, height));
+				Images.getResourceImage("edit.png", width, height),
+				ViewType.TASKS);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -65,6 +64,8 @@ public class ActionEditTasks extends AbstractAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

@@ -1,5 +1,9 @@
 package com.leclercb.taskunifier.gui.components.views;
 
-public interface CalendarView extends View {
+import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 
+public interface CalendarView extends View {
+	
+	public abstract TaskCalendarView getTaskCalendarView();
+	
 }

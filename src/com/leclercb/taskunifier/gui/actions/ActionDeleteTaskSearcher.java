@@ -34,8 +34,6 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
@@ -47,7 +45,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionDeleteTaskSearcher extends AbstractAction {
+public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	
 	private TaskSearcherView taskSearcherView;
 	
@@ -61,32 +59,36 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 			int height) {
 		super(
 				Translations.getString("action.delete_task_searcher"),
-				Images.getResourceImage("remove.png", width, height));
+				Images.getResourceImage("remove.png", width, height),
+				ViewType.TASKS);
+		
+		CheckUtils.isNotNull(
+				taskSearcherView,
+				"Task searcher view cannot be null");
+		this.taskSearcherView = taskSearcherView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
 		
-		CheckUtils.isNotNull(
-				taskSearcherView,
-				"Task searcher view cannot be null");
-		
-		this.taskSearcherView = taskSearcherView;
-		
-		this.taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
+		taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
 			
 			@Override
 			public void taskSearcherSelectionChange(
 					TaskSearcherSelectionChangeEvent event) {
-				ActionDeleteTaskSearcher.this.setEnabled();
+				ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
 			}
 			
 		});
 		
-		this.setEnabled();
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
-	private void setEnabled() {
+	@Override
+	protected boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
+			return false;
+		
 		TaskSearcher searcher = this.taskSearcherView.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
@@ -99,7 +101,7 @@ public class ActionDeleteTaskSearcher extends AbstractAction {
 				enabled = true;
 		}
 		
-		this.setEnabled(enabled);
+		return enabled;
 	}
 	
 	@Override

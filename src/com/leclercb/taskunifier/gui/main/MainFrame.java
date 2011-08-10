@@ -71,11 +71,13 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
-	private static MainView INSTANCE;
+	private static MainFrame INSTANCE;
 	
 	public static MainView getInstance() {
-		if (INSTANCE == null)
+		if (INSTANCE == null) {
 			INSTANCE = new MainFrame();
+			INSTANCE.initialize();
+		}
 		
 		return INSTANCE;
 	}
@@ -88,7 +90,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private ScheduledSyncThread scheduledSyncThread;
 	
 	private MainFrame() {
-		this.initialize();
+
 	}
 	
 	@Override
@@ -203,7 +205,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeMenuBar() {
 		this.setJMenuBar(new MenuBar(
-				this,
+				((NoteView) ViewType.NOTES.getView()).getNoteTableView(),
 				((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
 				((TaskView) ViewType.TASKS.getView()).getTaskSearcherView()));
 	}
@@ -212,13 +214,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
 			this.add(
 					new MacToolBar(
-							this,
 							((TaskView) ViewType.TASKS.getView()).getTaskTableView()).getComponent(),
 					BorderLayout.NORTH);
 		} else {
 			this.add(
 					new DefaultToolBar(
-							this,
 							((TaskView) ViewType.TASKS.getView()).getTaskTableView()),
 					BorderLayout.NORTH);
 		}

@@ -36,35 +36,46 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionDuplicateTasks extends AbstractAction {
+public class ActionDuplicateTasks extends AbstractViewAction {
 	
-	public ActionDuplicateTasks() {
-		this(32, 32);
+	private TaskTableView taskTableView;
+	
+	public ActionDuplicateTasks(TaskTableView taskTableView) {
+		this(taskTableView, 32, 32);
 	}
 	
-	public ActionDuplicateTasks(int width, int height) {
+	public ActionDuplicateTasks(
+			TaskTableView taskTableView,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.duplicate_tasks"),
-				Images.getResourceImage("duplicate.png", width, height));
+				Images.getResourceImage("duplicate.png", width, height),
+				ViewType.TASKS);
+		
+		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
+		this.taskTableView = taskTableView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.duplicate_tasks"));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateTasks.duplicateTasks(((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks());
+		ActionDuplicateTasks.duplicateTasks(this.taskTableView.getSelectedTasks());
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
