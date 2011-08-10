@@ -36,35 +36,24 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionDuplicateTasks extends AbstractViewAction {
 	
-	private TaskTableView taskTableView;
-	
-	public ActionDuplicateTasks(TaskTableView taskTableView) {
-		this(taskTableView, 32, 32);
+	public ActionDuplicateTasks() {
+		this(32, 32);
 	}
 	
-	public ActionDuplicateTasks(
-			TaskTableView taskTableView,
-			int width,
-			int height) {
+	public ActionDuplicateTasks(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_tasks"),
 				Images.getResourceImage("duplicate.png", width, height),
 				ViewType.TASKS);
-		
-		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
-		this.taskTableView = taskTableView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -75,7 +64,7 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateTasks.duplicateTasks(this.taskTableView.getSelectedTasks());
+		ActionDuplicateTasks.duplicateTasks(ViewType.getTaskView().getTaskTableView().getSelectedTasks());
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
@@ -88,8 +77,8 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 		
 		Synchronizing.setSynchronizing(false);
 		
-		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
-		((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
+		ViewType.getTaskView().getTaskTableView().refreshTasks();
+		ViewType.getTaskView().getTaskTableView().setSelectedTasks(
 				newTasks.toArray(new Task[0]));
 	}
 	

@@ -238,8 +238,8 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	private void initializeButtons() {
 		JPanel panel = ComponentFactory.createButtonsPanel(true, new JButton(
 				new ActionAddTaskSearcher(16, 16)), new JButton(
-				new ActionEditTaskSearcher(this, 16, 16)), new JButton(
-				new ActionDeleteTaskSearcher(this, 16, 16)));
+				new ActionEditTaskSearcher(16, 16)), new JButton(
+				new ActionDeleteTaskSearcher(16, 16)));
 		panel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		

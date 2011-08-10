@@ -43,7 +43,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -91,10 +90,10 @@ public class ActionAddTask extends AbstractAction {
 		if (changeView)
 			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 		
-		TaskTemplate searcherTemplate = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = ViewType.getTaskView().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
-			((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().selectDefaultTaskSearcher();
+			ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create("");
 		
@@ -107,14 +106,14 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+		ViewType.getTaskView().getTaskTableView().refreshTasks();
 		
 		if (edit) {
 			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 				if (!ActionEditTasks.editTasks(new Task[] { task }))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTaskAndStartEdit(
+				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}

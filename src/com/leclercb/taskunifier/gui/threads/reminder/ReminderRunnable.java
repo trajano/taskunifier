@@ -44,7 +44,6 @@ import javax.swing.JOptionPane;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -124,10 +123,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 										MainFrame.getInstance().setSelectedViewType(
 												ViewType.TASKS);
 										
-										TaskView view = (TaskView) ViewType.TASKS.getView();
-										
-										view.getTaskSearcherView().selectDefaultTaskSearcher();
-										view.getTaskTableView().setSelectedTasks(
+										ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
+										ViewType.getTaskView().getTaskTableView().setSelectedTasks(
 												new Task[] { task });
 									}
 								}

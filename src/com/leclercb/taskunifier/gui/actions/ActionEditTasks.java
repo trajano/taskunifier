@@ -40,7 +40,6 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -74,7 +73,7 @@ public class ActionEditTasks extends AbstractViewAction {
 	}
 	
 	public static boolean editTasks() {
-		Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
+		Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
 		return editTasks(tasks);
 	}
 	
@@ -84,9 +83,8 @@ public class ActionEditTasks extends AbstractViewAction {
 		dialog.setVisible(true);
 		boolean cancelled = !dialog.isCancelled();
 		
-		((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
-		((TaskView) ViewType.TASKS.getView()).getTaskTableView().setSelectedTasks(
-				tasks);
+		ViewType.getTaskView().getTaskTableView().refreshTasks();
+		ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
 		
 		return cancelled;
 	}

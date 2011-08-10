@@ -61,8 +61,6 @@ import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
-import com.leclercb.taskunifier.gui.components.views.NoteView;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
@@ -204,23 +202,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeMenuBar() {
-		this.setJMenuBar(new MenuBar(
-				((NoteView) ViewType.NOTES.getView()).getNoteTableView(),
-				((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
-				((TaskView) ViewType.TASKS.getView()).getTaskSearcherView()));
+		this.setJMenuBar(new MenuBar());
 	}
 	
 	private void initializeToolBar() {
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
-			this.add(
-					new MacToolBar(
-							((TaskView) ViewType.TASKS.getView()).getTaskTableView()).getComponent(),
-					BorderLayout.NORTH);
+			this.add(new MacToolBar().getComponent(), BorderLayout.NORTH);
 		} else {
-			this.add(
-					new DefaultToolBar(
-							((TaskView) ViewType.TASKS.getView()).getTaskTableView()),
-					BorderLayout.NORTH);
+			this.add(new DefaultToolBar(), BorderLayout.NORTH);
 		}
 	}
 	
@@ -269,8 +258,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			trayIcon.setPopupMenu(new TrayPopup(
 					this,
-					((TaskView) ViewType.TASKS.getView()).getTaskTableView(),
-					((NoteView) ViewType.NOTES.getView()).getNoteTableView()));
+					ViewType.getTaskView().getTaskTableView(),
+					ViewType.getNoteView().getNoteTableView()));
 			
 			try {
 				tray.add(trayIcon);

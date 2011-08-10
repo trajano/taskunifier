@@ -44,7 +44,6 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -90,7 +89,7 @@ public class SearcherEditDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
 					SearcherEditDialog.this.searcherEditPanel.close();
-					((TaskView) ViewType.TASKS.getView()).getTaskTableView().refreshTasks();
+					ViewType.getTaskView().getTaskTableView().refreshTasks();
 					SearcherEditDialog.this.dispose();
 				}
 			}

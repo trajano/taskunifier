@@ -92,7 +92,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -350,7 +349,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 						
 						TaskTable.this.setSelectedTasks(new Task[] { task });
 						
-						((TaskView) ViewType.TASKS.getView()).getModelNoteView().edit();
+						ViewType.getTaskView().getModelNoteView().edit();
 					}
 				}
 			}

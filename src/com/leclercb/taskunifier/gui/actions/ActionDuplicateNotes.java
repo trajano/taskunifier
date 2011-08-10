@@ -36,34 +36,23 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
-import com.leclercb.taskunifier.gui.components.views.NoteView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionDuplicateNotes extends AbstractViewAction {
 	
-	private NoteTableView noteTableView;
-	
-	public ActionDuplicateNotes(NoteTableView noteTableView) {
-		this(noteTableView, 32, 32);
+	public ActionDuplicateNotes() {
+		this(32, 32);
 	}
 	
-	public ActionDuplicateNotes(
-			NoteTableView noteTableView,
-			int width,
-			int height) {
+	public ActionDuplicateNotes(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_notes"),
 				Images.getResourceImage("duplicate.png", width, height),
 				ViewType.NOTES);
-		
-		CheckUtils.isNotNull(noteTableView, "Note table view cannot be null");
-		this.noteTableView = noteTableView;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -74,7 +63,7 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateNotes.duplicateNotes(this.noteTableView.getSelectedNotes());
+		ActionDuplicateNotes.duplicateNotes(ViewType.getNoteView().getNoteTableView().getSelectedNotes());
 	}
 	
 	public static void duplicateNotes(Note[] notes) {
@@ -83,8 +72,8 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 		for (Note note : notes)
 			newNotes.add(NoteFactory.getInstance().create(note));
 		
-		((NoteView) ViewType.NOTES.getView()).getNoteTableView().refreshNotes();
-		((NoteView) ViewType.NOTES.getView()).getNoteTableView().setSelectedNotes(
+		ViewType.getNoteView().getNoteTableView().refreshNotes();
+		ViewType.getNoteView().getNoteTableView().setSelectedNotes(
 				newNotes.toArray(new Note[0]));
 	}
 	

@@ -33,55 +33,60 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	
-	private TaskSearcherView taskSearcherView;
-	
-	public ActionDeleteTaskSearcher(TaskSearcherView taskSearcherView) {
-		this(taskSearcherView, 32, 32);
+	public ActionDeleteTaskSearcher() {
+		this(32, 32);
 	}
 	
-	public ActionDeleteTaskSearcher(
-			TaskSearcherView taskSearcherView,
-			int width,
-			int height) {
+	public ActionDeleteTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_task_searcher"),
 				Images.getResourceImage("remove.png", width, height),
 				ViewType.TASKS);
 		
-		CheckUtils.isNotNull(
-				taskSearcherView,
-				"Task searcher view cannot be null");
-		this.taskSearcherView = taskSearcherView;
-		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
 		
-		this.taskSearcherView.addTaskSearcherSelectionChangeListener(new TaskSearcherSelectionListener() {
+		this.viewLoaded();
+		ViewType.TASKS.addActionListener(new ActionListener() {
 			
 			@Override
-			public void taskSearcherSelectionChange(
-					TaskSearcherSelectionChangeEvent event) {
-				ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
+			public void actionPerformed(ActionEvent event) {
+				ActionDeleteTaskSearcher.this.viewLoaded();
 			}
 			
 		});
 		
-		this.setEnabled(this.shouldBeEnabled());
+		this.setEnabled(false);
+	}
+	
+	private void viewLoaded() {
+		if (ViewType.TASKS.isLoaded()) {
+			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
+					new TaskSearcherSelectionListener() {
+						
+						@Override
+						public void taskSearcherSelectionChange(
+								TaskSearcherSelectionChangeEvent event) {
+							ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
 	}
 	
 	@Override
@@ -89,7 +94,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		TaskSearcher searcher = this.taskSearcherView.getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
 		
@@ -110,7 +115,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	}
 	
 	public static void deleteTaskSearcher() {
-		TaskSearcher searcher = ((TaskView) ViewType.TASKS.getView()).getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;

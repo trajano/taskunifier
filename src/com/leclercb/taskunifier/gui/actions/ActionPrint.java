@@ -41,8 +41,6 @@ import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.taskunifier.gui.components.views.NoteView;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -78,10 +76,10 @@ public class ActionPrint extends AbstractViewAction {
 		try {
 			switch (MainFrame.getInstance().getSelectedViewType()) {
 				case NOTES:
-					((NoteView) ViewType.NOTES.getView()).getNoteTableView().printNotes();
+					ViewType.getNoteView().getNoteTableView().printNotes();
 					break;
 				case TASKS:
-					((TaskView) ViewType.TASKS.getView()).getTaskTableView().printTasks();
+					ViewType.getTaskView().getTaskTableView().printTasks();
 					break;
 			}
 		} catch (Exception e) {

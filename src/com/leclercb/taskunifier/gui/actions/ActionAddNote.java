@@ -42,7 +42,6 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
-import com.leclercb.taskunifier.gui.components.views.NoteView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -76,10 +75,10 @@ public class ActionAddNote extends AbstractAction {
 	public static Note addNote(String title) {
 		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
 		
-		NoteTemplate searcherTemplate = ((NoteView) ViewType.NOTES.getView()).getNoteSearcherView().getSelectedNoteSearcher().getTemplate();
+		NoteTemplate searcherTemplate = ViewType.getNoteView().getNoteSearcherView().getSelectedNoteSearcher().getTemplate();
 		
 		if (searcherTemplate == null)
-			((NoteView) ViewType.NOTES.getView()).getNoteSearcherView().selectDefaultNoteSearcher();
+			ViewType.getNoteView().getNoteSearcherView().selectDefaultNoteSearcher();
 		
 		Note note = NoteFactory.getInstance().create("");
 		
@@ -89,8 +88,8 @@ public class ActionAddNote extends AbstractAction {
 		if (title != null)
 			note.setTitle(title);
 		
-		((NoteView) ViewType.NOTES.getView()).getNoteTableView().refreshNotes();
-		((NoteView) ViewType.NOTES.getView()).getNoteTableView().setSelectedNoteAndStartEdit(
+		ViewType.getNoteView().getNoteTableView().refreshNotes();
+		ViewType.getNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
 				note);
 		
 		return note;

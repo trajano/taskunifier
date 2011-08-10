@@ -46,7 +46,6 @@ import com.apple.eawt.Application;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
@@ -95,9 +94,6 @@ import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
-import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
-import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
@@ -107,24 +103,7 @@ import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MenuBar extends JMenuBar {
 	
-	private NoteTableView noteTableView;
-	private TaskTableView taskTableView;
-	private TaskSearcherView taskSearcherView;
-	
-	public MenuBar(
-			NoteTableView noteTableView,
-			TaskTableView taskTableView,
-			TaskSearcherView taskSearcherView) {
-		CheckUtils.isNotNull(noteTableView, "Note table view cannot be null");
-		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
-		CheckUtils.isNotNull(
-				taskSearcherView,
-				"Task searcher view cannot be null");
-		
-		this.noteTableView = noteTableView;
-		this.taskTableView = taskTableView;
-		this.taskSearcherView = taskSearcherView;
-		
+	public MenuBar() {
 		this.initialize();
 	}
 	
@@ -238,7 +217,7 @@ public class MenuBar extends JMenuBar {
 		this.add(notesMenu);
 		
 		notesMenu.add(new ActionAddNote(16, 16));
-		notesMenu.add(new ActionDuplicateNotes(this.noteTableView, 16, 16));
+		notesMenu.add(new ActionDuplicateNotes(16, 16));
 		notesMenu.add(new ActionDelete(16, 16));
 	}
 	
@@ -247,13 +226,13 @@ public class MenuBar extends JMenuBar {
 		this.add(tasksMenu);
 		
 		tasksMenu.add(new ActionAddTask(16, 16));
-		tasksMenu.add(new ActionAddSubTask(this.taskTableView, 16, 16));
+		tasksMenu.add(new ActionAddSubTask(16, 16));
 		
 		this.initializeTemplateMenu(tasksMenu);
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionEditTasks(16, 16));
-		tasksMenu.add(new ActionDuplicateTasks(this.taskTableView, 16, 16));
+		tasksMenu.add(new ActionDuplicateTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		
 		tasksMenu.addSeparator();
@@ -273,11 +252,8 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.add(new ActionAddTaskSearcher(16, 16));
 		tasksMenu.add(new ActionAddTaskSearcherSelectedTasks(16, 16));
-		tasksMenu.add(new ActionEditTaskSearcher(this.taskSearcherView, 16, 16));
-		tasksMenu.add(new ActionDeleteTaskSearcher(
-				this.taskSearcherView,
-				16,
-				16));
+		tasksMenu.add(new ActionEditTaskSearcher(16, 16));
+		tasksMenu.add(new ActionDeleteTaskSearcher(16, 16));
 	}
 	
 	private void initializeSynchronizeMenu() {
@@ -320,7 +296,6 @@ public class MenuBar extends JMenuBar {
 		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
 		ActionPostponeTasks[] actions = ActionPostponeTasks.createDefaultActions(
-				this.taskTableView,
 				16,
 				16);
 		for (ActionPostponeTasks action : actions) {

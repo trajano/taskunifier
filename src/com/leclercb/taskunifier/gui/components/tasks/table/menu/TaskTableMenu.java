@@ -67,9 +67,9 @@ public class TaskTableMenu extends JPopupMenu {
 	
 	private void initialize() {
 		this.add(new ActionAddTask(16, 16));
-		this.add(new ActionAddSubTask(this.taskTableView, 16, 16));
+		this.add(new ActionAddSubTask(16, 16));
 		this.add(new ActionEditTasks(16, 16));
-		this.add(new ActionDuplicateTasks(this.taskTableView, 16, 16));
+		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
 		this.initializePostponeMenu();
 		this.addSeparator();
@@ -90,7 +90,6 @@ public class TaskTableMenu extends JPopupMenu {
 		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
 		ActionPostponeTasks[] actions = ActionPostponeTasks.createDefaultActions(
-				this.taskTableView,
 				16,
 				16);
 		for (ActionPostponeTasks action : actions) {

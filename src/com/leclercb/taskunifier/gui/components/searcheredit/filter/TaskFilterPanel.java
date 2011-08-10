@@ -50,7 +50,6 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -140,7 +139,7 @@ public class TaskFilterPanel extends JPanel {
 					
 					TaskFilterPanel.this.filter.setLink(FilterLink.OR);
 					
-					Task[] tasks = ((TaskView) ViewType.TASKS.getView()).getTaskTableView().getSelectedTasks();
+					Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
 					for (Task task : tasks) {
 						TaskFilterPanel.this.filter.addElement(new TaskFilterElement(
 								TaskColumn.MODEL,
