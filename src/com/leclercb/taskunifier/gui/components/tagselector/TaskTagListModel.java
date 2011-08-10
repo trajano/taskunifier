@@ -36,14 +36,16 @@ public class TaskTagListModel extends DefaultListModel implements ListChangeSupp
 		for (int i = 0; i < this.size(); i++) {
 			JCheckBox checkBox = (JCheckBox) this.getElementAt(i);
 			
-			checkBox.setSelected(false);
+			boolean selected = false;
 			
 			for (String tag : tags) {
 				if (checkBox.getText().equalsIgnoreCase(tag)) {
-					checkBox.setSelected(true);
+					selected = true;
 					break;
 				}
 			}
+			
+			checkBox.setSelected(selected);
 		}
 		
 		this.fireContentsChanged(this, 0, this.size());
