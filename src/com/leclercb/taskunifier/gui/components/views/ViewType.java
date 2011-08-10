@@ -1,9 +1,11 @@
 package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -57,6 +59,12 @@ public enum ViewType implements ActionSupported {
 	}
 	
 	public View getView() {
+		if (!this.isLoaded())
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"View \"" + this.name() + "\" is not loaded yet",
+					new Throwable().getStackTrace());
+		
 		return this.view;
 	}
 	
