@@ -296,10 +296,13 @@ public class BatchTaskEditPanel extends JPanel {
 	public void setTasks(Task[] tasks) {
 		this.tasks = tasks;
 		
-		if (tasks != null && tasks.length == 1)
+		if (tasks != null && tasks.length == 1) {
 			this.reinitializeFields(tasks[0]);
-		else
+			this.taskTitle.requestFocus();
+			this.taskTitle.selectAll();
+		} else {
 			this.reinitializeFields(null);
+		}
 	}
 	
 	private void initialize() {

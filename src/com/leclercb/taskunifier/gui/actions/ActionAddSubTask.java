@@ -146,7 +146,8 @@ public class ActionAddSubTask extends AbstractViewAction {
 		if (searcherTemplate == null)
 			ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
 		
-		Task task = TaskFactory.getInstance().create("");
+		Task task = TaskFactory.getInstance().create(
+				Translations.getString("task.default.title"));
 		
 		if (template != null)
 			template.applyTo(task);

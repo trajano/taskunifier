@@ -59,6 +59,7 @@ import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -170,6 +171,9 @@ public class NoteTable extends JXTable implements NoteTableView {
 					if (this.editCellAt(row, col)) {
 						Component editor = this.getEditorComponent();
 						editor.requestFocusInWindow();
+						
+						if (editor instanceof JTextComponent)
+							((JTextComponent) editor).selectAll();
 					}
 				}
 				
