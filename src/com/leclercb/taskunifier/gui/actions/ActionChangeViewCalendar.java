@@ -33,99 +33,33 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionChangeView extends AbstractAction {
+public class ActionChangeViewCalendar extends AbstractAction {
 	
-	private int width;
-	private int height;
-	
-	public ActionChangeView() {
+	public ActionChangeViewCalendar() {
 		this(32, 32);
 	}
 	
-	public ActionChangeView(int width, int height) {
-		super(Translations.getString("action.change_view"));
-		
-		this.width = width;
-		this.height = height;
+	public ActionChangeViewCalendar(int width, int height) {
+		super(
+				Translations.getString("action.change_view"),
+				Images.getResourceImage("calendar.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.change_view"));
-		
-		this.putValue(
-				ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_MASK));
-		
-		this.updateIcon();
-		
-		MainFrame.getInstance().addPropertyChangeListener(
-				MainView.PROP_SELECTED_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ActionChangeView.this.updateIcon();
-					}
-					
-				});
-	}
-	
-	private void updateIcon() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		switch (viewType) {
-			case NOTES:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_note.png",
-						this.width,
-						this.height));
-				break;
-			case TASKS:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_task.png",
-						this.width,
-						this.height));
-				break;
-			default:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_task.png",
-						this.width,
-						this.height));
-				break;
-		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionChangeView.changeView();
-	}
-	
-	public static void changeView() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		switch (viewType) {
-			case NOTES:
-				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-				break;
-			case TASKS:
-				MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
-				break;
-			default:
-				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-				break;
-		}
+		MainFrame.getInstance().setSelectedViewType(ViewType.CALENDAR);
 	}
 	
 }
