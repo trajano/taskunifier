@@ -59,8 +59,8 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			
 			int length = task.getLength();
 			
-			if (length < 15)
-				length = 15;
+			if (length < 30)
+				length = 30;
 			
 			Calendar start = task.getDueDate();
 			start.add(Calendar.MINUTE, -length);

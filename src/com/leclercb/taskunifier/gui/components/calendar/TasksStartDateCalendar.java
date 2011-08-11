@@ -58,8 +58,8 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			
 			int length = task.getLength();
 			
-			if (length < 15)
-				length = 15;
+			if (length < 30)
+				length = 30;
 			
 			Calendar end = task.getStartDate();
 			end.add(Calendar.MINUTE, length);
