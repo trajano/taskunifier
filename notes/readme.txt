@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 1.0.4
+	
+
 Version 1.0.3
 	- Major:
 		- Calendar view

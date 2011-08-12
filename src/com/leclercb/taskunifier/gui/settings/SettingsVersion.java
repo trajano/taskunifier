@@ -160,6 +160,9 @@ public final class SettingsVersion {
 		if (version.equals("1.0.2"))
 			version = updateSettings_1_0_2_to_1_0_3();
 		
+		if (version.equals("1.0.3"))
+			version = updateSettings_1_0_3_to_1_0_4();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -644,6 +647,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("logger.plugin.level", "INFO");
 		
 		return "1.0.3";
+	}
+	
+	private static String updateSettings_1_0_3_to_1_0_4() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.0.3 to 1.0.4");
+		
+		return "1.0.4";
 	}
 	
 }
