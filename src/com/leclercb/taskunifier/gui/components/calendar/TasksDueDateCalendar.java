@@ -88,7 +88,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
 					+ TaskUtils.getImportance(task)));
 			
-			if (task.isOverDue(false))
+			if (!task.isCompleted() && task.isOverDue(false))
 				event.setIcon(Images.getResourceImage("warning.gif"));
 			
 			this.events.add(event);
