@@ -294,6 +294,17 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.initializeHighlighters();
 		
 		Main.SETTINGS.addPropertyChangeListener(
+				"task.indent_subtasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TaskTable.this.refreshTasks();
+					}
+					
+				});
+		
+		Main.SETTINGS.addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					

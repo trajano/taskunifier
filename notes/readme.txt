@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 1.0.4
+	- FR 3227784: Indent/unindent subtasks
 	- FR 3391354: Postpone from current/due date
 	- Bug fixed: Search field on Mac OS
 

@@ -39,6 +39,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTableModel;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskRowFilter extends RowFilter<TableModel, Integer> {
@@ -63,7 +64,12 @@ public class TaskRowFilter extends RowFilter<TableModel, Integer> {
 		TaskTableModel taskTableModel = (TaskTableModel) entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
 		
-		return TaskUtils.showTask(task, this.filter);
+		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+		
+		if (indentSubtasks)
+			return TaskUtils.showTask(task, this.filter);
+		else
+			return TaskUtils.showUnindentTask(task, this.filter);
 	}
 	
 }

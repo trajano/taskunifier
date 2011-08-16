@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -38,6 +39,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	
 	private JXSearchField searchField;
 	private JCheckBox showCompletedTasksCheckBox;
+	private JCheckBox indentSubtasksCheckBox;
 	
 	private TaskSearcherPanel taskSearcherPanel;
 	private TaskTable taskTable;
@@ -113,6 +115,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		
 		this.initializeSearchField();
 		this.initializeShowCompletedTasksCheckBox();
+		this.initializeIndentsubtasksCheckBox();
 		this.initializeSearcherList(searcherPane);
 		this.initializeTaskTable(middlePane);
 		this.initializeModelNote(notePane);
@@ -148,6 +151,40 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultTaskView.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
+			}
+			
+		});
+	}
+	
+	private void initializeIndentsubtasksCheckBox() {
+		this.indentSubtasksCheckBox = new JCheckBox(
+				Translations.getString("configuration.general.indent_subtasks"));
+		
+		this.indentSubtasksCheckBox.setOpaque(false);
+		this.indentSubtasksCheckBox.setFont(this.indentSubtasksCheckBox.getFont().deriveFont(
+				10.0f));
+		
+		this.indentSubtasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("task.indent_subtasks"));
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"task.indent_subtasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						boolean selected = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+						DefaultTaskView.this.indentSubtasksCheckBox.setSelected(selected);
+					}
+					
+				});
+		
+		this.indentSubtasksCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.SETTINGS.setBooleanProperty(
+						"task.indent_subtasks",
+						DefaultTaskView.this.indentSubtasksCheckBox.isSelected());
 			}
 			
 		});
@@ -191,13 +228,14 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		JPanel panel = new JPanel(new BorderLayout(0, 10));
 		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
-		JPanel northPanel = new JPanel(new BorderLayout());
+		JPanel northPanel = new JPanel(new GridLayout(0, 1, 3, 3));
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		panel.add(northPanel, BorderLayout.NORTH);
-		northPanel.add(this.searchField, BorderLayout.NORTH);
 		
-		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
+		northPanel.add(this.searchField);
+		northPanel.add(this.showCompletedTasksCheckBox);
+		northPanel.add(this.indentSubtasksCheckBox);
 		
 		searcherPane.add(panel, BorderLayout.CENTER);
 		

@@ -51,6 +51,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskComparator implements Comparator<Task> {
 	
@@ -90,6 +91,31 @@ public class TaskComparator implements Comparator<Task> {
 	}
 	
 	private int compare(
+			TaskColumn taskColumn,
+			SortOrder sortOrder,
+			Task task1,
+			Task task2) {
+		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+		
+		if (indentSubtasks)
+			return this.compareIndented(taskColumn, sortOrder, task1, task2);
+		else
+			return this.compareUnindented(taskColumn, sortOrder, task1, task2);
+	}
+	
+	private int compareUnindented(
+			TaskColumn taskColumn,
+			SortOrder sortOrder,
+			Task task1,
+			Task task2) {
+		Object o1 = taskColumn.getProperty(task1);
+		Object o2 = taskColumn.getProperty(task2);
+		
+		return (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+				* this.compare(taskColumn, o1, o2);
+	}
+	
+	private int compareIndented(
 			TaskColumn taskColumn,
 			SortOrder sortOrder,
 			Task task1,

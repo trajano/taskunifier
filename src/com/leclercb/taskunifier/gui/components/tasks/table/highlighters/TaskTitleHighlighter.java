@@ -75,6 +75,17 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 					}
 					
 				});
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"task.indent_subtasks",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TaskTitleHighlighter.this.fireStateChanged();
+					}
+					
+				});
 	}
 	
 	@Override
@@ -90,6 +101,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		final Task task = (Task) value;
 		
+		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		
 		String title = task.getTitle();
@@ -110,7 +122,11 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 			r.setText(title);
 		} else {
 			r.setFont(r.getFont().deriveFont(Font.PLAIN));
-			r.setText("          " + title);
+			
+			if (indentSubtasks)
+				r.setText("          " + title);
+			else
+				r.setText(title);
 		}
 		
 		// Set Icon

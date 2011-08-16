@@ -324,7 +324,8 @@ public final class TaskUtils {
 				filter,
 				containsCompletedTrue(filter),
 				false,
-				true);
+				true,
+				false);
 	}
 	
 	public static boolean showTask(Task task, TaskFilter filter) {
@@ -333,7 +334,18 @@ public final class TaskUtils {
 				filter,
 				containsCompletedTrue(filter),
 				false,
+				false,
 				false);
+	}
+	
+	public static boolean showUnindentTask(Task task, TaskFilter filter) {
+		return showTask(
+				task,
+				filter,
+				containsCompletedTrue(filter),
+				true,
+				true,
+				true);
 	}
 	
 	private static boolean showTask(
@@ -341,7 +353,8 @@ public final class TaskUtils {
 			TaskFilter filter,
 			boolean containsCompletedTrue,
 			boolean skipParentCheck,
-			boolean skipShowChildren) {
+			boolean skipShowChildren,
+			boolean skipShowIfParentShown) {
 		if (!task.getModelStatus().isEndUserStatus()) {
 			return false;
 		}
@@ -357,7 +370,8 @@ public final class TaskUtils {
 							filter,
 							containsCompletedTrue,
 							false,
-							skipShowChildren))
+							skipShowChildren,
+							skipShowIfParentShown))
 						return true;
 			}
 		}
@@ -374,13 +388,14 @@ public final class TaskUtils {
 				return false;
 		}
 		
-		if (task.getParent() != null) {
+		if (!skipShowIfParentShown && task.getParent() != null) {
 			if (showTask(
 					task.getParent(),
 					filter,
 					containsCompletedTrue,
 					true,
-					skipShowChildren))
+					skipShowChildren,
+					skipShowIfParentShown))
 				return true;
 		}
 		
