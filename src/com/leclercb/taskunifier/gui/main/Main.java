@@ -280,6 +280,8 @@ public class Main {
 		
 		try {
 			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
+		} catch (FileNotFoundException e) {
+
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,

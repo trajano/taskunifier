@@ -338,7 +338,7 @@ public class BatchTaskEditPanel extends JPanel {
 		final String finalDueDateMask = dueDateMask;
 		final String finalStartDateMask = startDateMask;
 		
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(5, 5));
 		
 		this.taskTitleCheckBox = new JCheckBox("", true);
 		this.taskTagsCheckBox = new JCheckBox("", true);
@@ -500,6 +500,31 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append("", new JLabel());
 		builder.append(new JLabel());
 		
+		// Task Status
+		this.taskStatus.setModel(new TaskStatusModel(false));
+		
+		this.taskStatus.setRenderer(new DefaultListRenderer(
+				StringValueTaskStatus.INSTANCE));
+		
+		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
+		builder.append(this.taskStatus);
+		
+		// Task Priority
+		this.taskPriority.setModel(new TaskPriorityModel(false));
+		
+		this.taskPriority.setRenderer(new DefaultListRenderer(
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
+		
+		builder.appendI15d(
+				"general.task.priority",
+				true,
+				this.taskPriorityCheckBox);
+		builder.append(this.taskPriority);
+		
+		// Separator
+		builder.getBuilder().appendSeparator();
+		
 		// Task Context
 		this.taskContext.setModel(new ContextModel(true));
 		
@@ -535,6 +560,9 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		builder.appendI15d("general.task.parent", true, this.taskParentCheckBox);
 		builder.getBuilder().append(this.taskParent, 7);
+		
+		// Separator
+		builder.getBuilder().appendSeparator();
 		
 		// Task Start Date
 		builder.appendI15d(
@@ -594,27 +622,8 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskRepeatFromCheckBox);
 		builder.append(this.taskRepeatFrom);
 		
-		// Task Status
-		this.taskStatus.setModel(new TaskStatusModel(false));
-		
-		this.taskStatus.setRenderer(new DefaultListRenderer(
-				StringValueTaskStatus.INSTANCE));
-		
-		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
-		builder.append(this.taskStatus);
-		
-		// Task Priority
-		this.taskPriority.setModel(new TaskPriorityModel(false));
-		
-		this.taskPriority.setRenderer(new DefaultListRenderer(
-				StringValueTaskPriority.INSTANCE,
-				IconValueTaskPriority.INSTANCE));
-		
-		builder.appendI15d(
-				"general.task.priority",
-				true,
-				this.taskPriorityCheckBox);
-		builder.append(this.taskPriority);
+		// Separator
+		builder.getBuilder().appendSeparator();
 		
 		// Task Note
 		this.taskNote.setBorder(BorderFactory.createLineBorder(Color.GRAY));
