@@ -2,7 +2,7 @@ HISTORY
 -------
 
 Version 1.0.4
-	
+	- Bug fixed: Search field on Mac OS
 
 Version 1.0.3
 	- Major:
