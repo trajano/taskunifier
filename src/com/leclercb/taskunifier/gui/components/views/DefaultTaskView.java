@@ -195,10 +195,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		panel.add(northPanel, BorderLayout.NORTH);
-		
-		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			northPanel.add(this.searchField, BorderLayout.NORTH);
-		}
+		northPanel.add(this.searchField, BorderLayout.NORTH);
 		
 		northPanel.add(this.showCompletedTasksCheckBox, BorderLayout.SOUTH);
 		

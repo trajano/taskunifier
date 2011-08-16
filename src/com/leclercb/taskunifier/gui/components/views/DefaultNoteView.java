@@ -158,10 +158,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		panel.add(northPanel, BorderLayout.NORTH);
-		
-		if (!(SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())) {
-			northPanel.add(this.searchField, BorderLayout.NORTH);
-		}
+		northPanel.add(this.searchField, BorderLayout.NORTH);
 		
 		searcherPane.add(panel, BorderLayout.CENTER);
 		
