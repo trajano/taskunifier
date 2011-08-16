@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.MinimizeToSystemTrayFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.PostponeTaskFromCurrentDateFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksAtTheEndFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowWindowEditOnAddFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
@@ -114,6 +115,11 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SEPARATOR_3",
 					null,
 					new ConfigurationFieldTypeExt.Separator()));
+			
+			this.addField(new ConfigurationField(
+					"POSTPONE_TASK_FROM_CURRENT_DATE",
+					Translations.getString("configuration.general.postpone_task_from_current_date"),
+					new PostponeTaskFromCurrentDateFieldType()));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_EDIT_WINDOW_ON_ADD",

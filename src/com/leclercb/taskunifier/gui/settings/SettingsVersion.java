@@ -653,6 +653,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.3 to 1.0.4");
 		
+		Main.SETTINGS.setStringProperty(
+				"task.postpone_from_current_date",
+				"false");
+		
 		return "1.0.4";
 	}
 	

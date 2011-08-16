@@ -49,12 +49,15 @@ public class ActionChangeViewCalendar extends AbstractAction {
 	
 	public ActionChangeViewCalendar(int width, int height) {
 		super(
-				Translations.getString("action.change_view"),
-				Images.getResourceImage("calendar.png", width, height));
+				Translations.getString("action.change_view_calendar"),
+				Images.getResourceImage(
+						"change_view_calendar.png",
+						width,
+						height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.change_view"));
+				Translations.getString("action.change_view_calendar"));
 	}
 	
 	@Override

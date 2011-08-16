@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -48,13 +49,24 @@ public class ActionPostponeTasks extends AbstractViewAction {
 	
 	public static void postponeTasks(Task[] tasks, int field, int amount) {
 		for (Task task : tasks) {
-			Calendar dueDate = task.getDueDate();
+			boolean fromCurrentDate = Main.SETTINGS.getBooleanProperty("task.postpone_from_current_date");
+			Calendar newDueDate = task.getDueDate();
 			
-			if (dueDate == null)
+			if (newDueDate == null)
 				continue;
 			
-			dueDate.add(field, amount);
-			task.setDueDate(dueDate);
+			if (fromCurrentDate
+					|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
+				Calendar now = Calendar.getInstance();
+				newDueDate.set(
+						now.get(Calendar.YEAR),
+						now.get(Calendar.MONTH),
+						now.get(Calendar.DAY_OF_MONTH));
+			}
+			
+			newDueDate.add(field, amount);
+			
+			task.setDueDate(newDueDate);
 		}
 	}
 	
@@ -62,6 +74,13 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			int width,
 			int height) {
 		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
+		
+		actions.add(new ActionPostponeTasks(
+				Translations.getString("postpone.today"),
+				Calendar.DAY_OF_MONTH,
+				0,
+				width,
+				height));
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.1_day"),
