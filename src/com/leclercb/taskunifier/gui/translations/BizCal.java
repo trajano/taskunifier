@@ -37,16 +37,17 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class Tips {
+public final class BizCal {
 	
-	private Tips() {
+	private BizCal() {
 
 	}
 	
@@ -54,7 +55,7 @@ public final class Tips {
 			+ File.separator
 			+ "translations";
 	
-	private static final String bundleName = "Tips";
+	private static final String bundleName = "BizCal";
 	
 	private static final String defaultBundle = bundleFolder
 			+ File.separator
@@ -62,8 +63,8 @@ public final class Tips {
 			+ ".properties";
 	
 	private static Map<Locale, File> locales;
-	private static Properties defaultProperties;
-	private static Properties properties;
+	private static ResourceBundle defaultMessages;
+	private static ResourceBundle messages;
 	
 	static {
 		try {
@@ -79,15 +80,15 @@ public final class Tips {
 		}
 		
 		try {
-			defaultProperties = new Properties();
-			defaultProperties.load(new FileInputStream(defaultBundle));
+			defaultMessages = new PropertyResourceBundle(new FileInputStream(
+					defaultBundle));
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"Cannot load default locale",
 					e);
 			
-			defaultProperties = null;
+			defaultMessages = null;
 		}
 	}
 	
@@ -99,25 +100,34 @@ public final class Tips {
 		File file = locales.get(locale);
 		
 		if (file == null) {
-			properties = null;
+			messages = null;
 			return;
 		}
 		
 		try {
-			properties = new Properties();
-			properties.load(new FileInputStream(file));
+			messages = new PropertyResourceBundle(new FileInputStream(file));
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, "Cannot load locale", e);
 			
-			properties = null;
+			messages = null;
 		}
+		
+		Tips.setLocale(locale);
 	}
 	
-	public static Properties getProperties() {
-		if (properties != null)
-			return properties;
+	public static String getString(String key) {
+		if (messages != null && messages.containsKey(key))
+			return messages.getString(key);
 		
-		return defaultProperties;
+		if (defaultMessages != null && defaultMessages.containsKey(key))
+			return defaultMessages.getString(key);
+		
+		return "#" + key + "#";
+	}
+	
+	public static String getString(String key, Object... args) {
+		String value = getString(key);
+		return String.format(value, args);
 	}
 	
 }
