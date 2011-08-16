@@ -118,7 +118,6 @@ public final class Translations {
 			messages = null;
 		}
 		
-		BizCalTranslations.setLocale(locale);
 		Tips.setLocale(locale);
 	}
 	
