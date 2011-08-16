@@ -281,7 +281,11 @@ public class Main {
 		try {
 			INIT_SETTINGS.load(new FileInputStream(getInitSettingsFile()));
 		} catch (FileNotFoundException e) {
+			try {
+				new File(getInitSettingsFile()).createNewFile();
+			} catch (Throwable t) {
 
+			}
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -909,7 +913,7 @@ public class Main {
 		try {
 			File f = new File(getInitSettingsFile());
 			
-			if (!DEVELOPER_MODE && f.canWrite())
+			if (!DEVELOPER_MODE && f.exists() && f.canWrite())
 				saveInitSettings();
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(

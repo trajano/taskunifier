@@ -62,7 +62,9 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 	}
 	
 	public static void changeDataFolderLocation() {
-		if (!new File(Main.getInitSettingsFile()).canWrite()) {
+		File f = new File(Main.getInitSettingsFile());
+		
+		if (!f.exists() || !f.canWrite()) {
 			JOptionPane.showMessageDialog(
 					null,
 					Translations.getString("general.cannot_write", new File(
