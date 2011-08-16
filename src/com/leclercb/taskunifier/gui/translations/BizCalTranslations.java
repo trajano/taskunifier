@@ -45,9 +45,9 @@ import com.leclercb.commons.api.utils.ResourceBundleUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class BizCal {
+public final class BizCalTranslations {
 	
-	private BizCal() {
+	private BizCalTranslations() {
 
 	}
 	
@@ -94,6 +94,10 @@ public final class BizCal {
 	
 	public static Locale[] getAvailableLocales() {
 		return locales.keySet().toArray(new Locale[0]);
+	}
+	
+	public static Locale getLocale() {
+		return Locale.getDefault();
 	}
 	
 	protected static void setLocale(Locale locale) {

@@ -95,6 +95,10 @@ public final class Tips {
 		return locales.keySet().toArray(new Locale[0]);
 	}
 	
+	public static Locale getLocale() {
+		return Locale.getDefault();
+	}
+	
 	protected static void setLocale(Locale locale) {
 		File file = locales.get(locale);
 		
