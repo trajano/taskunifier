@@ -155,6 +155,7 @@ public class TaskTransferHandler extends TransferHandler {
 		}
 		
 		Transferable t = support.getTransferable();
+		TaskTable table = (TaskTable) support.getComponent();
 		
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			// Get Drag Task
@@ -174,7 +175,6 @@ public class TaskTransferHandler extends TransferHandler {
 			
 			if (support.isDrop()) {
 				// Get Objects
-				TaskTable table = (TaskTable) support.getComponent();
 				JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
 				
 				// Import : If insert row
@@ -217,7 +217,11 @@ public class TaskTransferHandler extends TransferHandler {
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
 						String title = IOUtils.toString(reader);
-						ActionAddTask.addTask(title, true, false);
+						Task task = ActionAddTask.addTask(title, true, false);
+						
+						table.refreshTasks();
+						table.setSelectedTasks(new Task[] { task });
+						
 						return true;
 					}
 				}

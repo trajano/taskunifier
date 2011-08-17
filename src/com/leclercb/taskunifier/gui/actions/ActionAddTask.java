@@ -77,7 +77,7 @@ public class ActionAddTask extends AbstractAction {
 	public static Task addTask(String title, boolean changeView, boolean edit) {
 		return addTask(
 				TaskTemplateFactory.getInstance().getDefaultTemplate(),
-				null,
+				title,
 				changeView,
 				edit);
 	}
