@@ -62,6 +62,7 @@ import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExcept
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -199,6 +200,9 @@ public class PluginsUtils {
 	
 	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
 			throws Exception {
+		if (!Synchronizing.setSynchronizing(true))
+			return;
+		
 		File file = null;
 		
 		try {
@@ -264,6 +268,8 @@ public class PluginsUtils {
 					e);
 			
 			throw e;
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 	}
 	
@@ -285,31 +291,38 @@ public class PluginsUtils {
 	}
 	
 	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
-		if (monitor != null)
-			monitor.addMessage(new DefaultProgressMessage(
-					Translations.getString("manage_plugins.progress.start_plugin_deletion")));
+		if (!Synchronizing.setSynchronizing(true))
+			return;
 		
-		List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
-				Main.API_PLUGINS.getPlugins());
-		for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
-			if (existingPlugin.getId().equals(plugin.getId())) {
-				File file = Main.API_PLUGINS.getFile(existingPlugin);
-				file.delete();
-				Main.API_PLUGINS.removePlugin(existingPlugin);
-				
-				GuiLogger.getLogger().info(
-						"Plugin deleted: "
-								+ plugin.getName()
-								+ " - "
-								+ plugin.getVersion());
-				
-				plugin.setStatus(PluginStatus.DELETED);
+		try {
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						Translations.getString("manage_plugins.progress.start_plugin_deletion")));
+			
+			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
+					Main.API_PLUGINS.getPlugins());
+			for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
+				if (existingPlugin.getId().equals(plugin.getId())) {
+					File file = Main.API_PLUGINS.getFile(existingPlugin);
+					file.delete();
+					Main.API_PLUGINS.removePlugin(existingPlugin);
+					
+					GuiLogger.getLogger().info(
+							"Plugin deleted: "
+									+ plugin.getName()
+									+ " - "
+									+ plugin.getVersion());
+					
+					plugin.setStatus(PluginStatus.DELETED);
+				}
 			}
+			
+			if (monitor != null)
+				monitor.addMessage(new DefaultProgressMessage(
+						Translations.getString("manage_plugins.progress.plugin_deleted")));
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		if (monitor != null)
-			monitor.addMessage(new DefaultProgressMessage(
-					Translations.getString("manage_plugins.progress.plugin_deleted")));
 	}
 	
 	private static Plugin[] loadPluginsFromXML(
