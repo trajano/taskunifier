@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -68,18 +68,27 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
-		List<Task> newTasks = new ArrayList<Task>();
+		Map<Task, Task> newTasks = new HashMap<Task, Task>();
 		
 		Synchronizing.setSynchronizing(true);
 		
-		for (Task task : tasks)
-			newTasks.add(TaskFactory.getInstance().create(task));
+		for (Task task : tasks) {
+			Task newTask = TaskFactory.getInstance().create(task);
+			newTasks.put(task, newTask);
+		}
+		
+		for (Task newTask : newTasks.values()) {
+			if (newTask.getParent() != null) {
+				if (newTasks.containsKey(newTask.getParent()))
+					newTask.setParent(newTasks.get(newTask.getParent()));
+			}
+		}
 		
 		Synchronizing.setSynchronizing(false);
 		
 		ViewType.getTaskView().getTaskTableView().refreshTasks();
 		ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-				newTasks.toArray(new Task[0]));
+				newTasks.values().toArray(new Task[0]));
 	}
 	
 }
