@@ -323,8 +323,6 @@ public class ConfigurationDialog extends JDialog {
 			this.importanceConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
-			Main.saveSettings();
-			
 			this.refreshSynchronizationPanels();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(

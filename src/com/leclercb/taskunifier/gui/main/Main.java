@@ -213,13 +213,12 @@ public class Main {
 							null,
 							null);
 					
-					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
-							info);
+					JXErrorPane.showDialog(null, info);
 				}
 				
 				if (FIRST_EXECUTION) {
 					new LanguageDialog(null).setVisible(true);
+					MainFrame.getInstance();
 					new WelcomeDialog(null).setVisible(true);
 				}
 				
