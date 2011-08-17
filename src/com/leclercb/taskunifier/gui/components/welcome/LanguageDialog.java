@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class LanguageDialog extends JDialog {
 	
-	private GeneralConfigurationPanel generalConfiruationPanel;
+	private GeneralConfigurationPanel generalConfigurationPanel;
 	
 	public LanguageDialog(Frame frame) {
 		super(frame);
@@ -67,10 +67,10 @@ public class LanguageDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		this.generalConfiruationPanel = new GeneralConfigurationPanel(
+		this.generalConfigurationPanel = new GeneralConfigurationPanel(
 				true,
 				false);
-		this.add(this.generalConfiruationPanel, BorderLayout.CENTER);
+		this.add(this.generalConfigurationPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}
@@ -80,7 +80,7 @@ public class LanguageDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				LanguageDialog.this.generalConfiruationPanel.saveAndApplyConfig();
+				LanguageDialog.this.generalConfigurationPanel.saveAndApplyConfig();
 				LanguageDialog.this.dispose();
 			}
 			
