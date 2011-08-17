@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -86,11 +87,13 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			SynchronizerUtils.initializeProxy();
 			
-			if (SynchronizerUtils.getPlugin().needsLicense()) {
+			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
+			
+			if (plugin.needsLicense()) {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("synchronizer.checking_license")));
 				
-				if (!SynchronizerUtils.getPlugin().checkLicense()) {
+				if (!plugin.checkLicense()) {
 					monitor.addMessage(new DefaultProgressMessage(
 							Translations.getString(
 									"synchronizer.wait_no_license",
@@ -99,7 +102,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 					monitor.addMessage(new DefaultProgressMessage(
 							Translations.getString(
 									"general.go_to_serial",
-									SynchronizerUtils.getPlugin().getName())));
+									plugin.getName())));
 					
 					Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
 				}
@@ -108,16 +111,16 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString(
 							"synchronizer.connecting",
-							SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName())));
+							plugin.getSynchronizerApi().getApiName())));
 			
-			connection = SynchronizerUtils.getPlugin().getSynchronizerApi().getConnection(
+			connection = plugin.getSynchronizerApi().getConnection(
 					Main.SETTINGS);
 			
 			connection.loadParameters(Main.SETTINGS);
 			connection.connect();
 			connection.saveParameters(Main.SETTINGS);
 			
-			synchronizer = SynchronizerUtils.getPlugin().getSynchronizerApi().getSynchronizer(
+			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
 					Main.SETTINGS,
 					connection);
 			
