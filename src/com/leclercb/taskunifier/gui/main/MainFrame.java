@@ -188,17 +188,19 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.setIntegerProperty(
-				"window.extended_state",
-				this.getExtendedState());
-		Main.SETTINGS.setIntegerProperty("window.width", this.getWidth());
-		Main.SETTINGS.setIntegerProperty("window.height", this.getHeight());
-		Main.SETTINGS.setIntegerProperty(
-				"window.location_x",
-				(int) this.getLocationOnScreen().getX());
-		Main.SETTINGS.setIntegerProperty(
-				"window.location_y",
-				(int) this.getLocationOnScreen().getY());
+		if (this.isVisible()) {
+			Main.SETTINGS.setIntegerProperty(
+					"window.extended_state",
+					this.getExtendedState());
+			Main.SETTINGS.setIntegerProperty("window.width", this.getWidth());
+			Main.SETTINGS.setIntegerProperty("window.height", this.getHeight());
+			Main.SETTINGS.setIntegerProperty(
+					"window.location_x",
+					(int) this.getLocationOnScreen().getX());
+			Main.SETTINGS.setIntegerProperty(
+					"window.location_y",
+					(int) this.getLocationOnScreen().getY());
+		}
 	}
 	
 	private void initializeMenuBar() {

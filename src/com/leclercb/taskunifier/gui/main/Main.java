@@ -216,7 +216,7 @@ public class Main {
 					JXErrorPane.showDialog(null, info);
 				}
 				
-				if (FIRST_EXECUTION) {
+				if (!FIRST_EXECUTION) {
 					new LanguageDialog(null).setVisible(true);
 					MainFrame.getInstance();
 					new WelcomeDialog(null).setVisible(true);
