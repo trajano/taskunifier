@@ -469,7 +469,13 @@ public class Main {
 	}
 	
 	private static void loadLocale() throws Exception {
-		Translations.setLocale(SETTINGS.getLocaleProperty("general.locale"));
+		try {
+			Translations.setLocale(SETTINGS.getLocaleProperty("general.locale"));
+		} catch (Throwable t) {
+			SETTINGS.remove("general.locale");
+			Translations.setLocale(Translations.DEFAULT_LOCALE);
+		}
+		
 		SETTINGS.setLocaleProperty("general.locale", Translations.getLocale());
 	}
 	

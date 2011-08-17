@@ -51,16 +51,18 @@ public final class Translations {
 
 	}
 	
-	private static final String bundleFolder = Main.RESOURCES_FOLDER
+	private static final String BUNDLE_FOLDER = Main.RESOURCES_FOLDER
 			+ File.separator
 			+ "translations";
 	
-	private static final String bundleName = "Translations";
+	private static final String BUNDLE_NAME = "Translations";
 	
-	private static final String defaultBundle = bundleFolder
+	private static final String DEFAULT_BUNDLE = BUNDLE_FOLDER
 			+ File.separator
-			+ bundleName
+			+ BUNDLE_NAME
 			+ ".properties";
+	
+	public static final Locale DEFAULT_LOCALE = new Locale("en", "US");
 	
 	private static Map<Locale, File> locales;
 	private static ResourceBundle defaultMessages;
@@ -69,7 +71,7 @@ public final class Translations {
 	static {
 		try {
 			locales = ResourceBundleUtils.getAvailableLocales(new File(
-					bundleFolder), bundleName);
+					BUNDLE_FOLDER), BUNDLE_NAME);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -81,7 +83,7 @@ public final class Translations {
 		
 		try {
 			defaultMessages = new PropertyResourceBundle(new FileInputStream(
-					defaultBundle));
+					DEFAULT_BUNDLE));
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -101,21 +103,18 @@ public final class Translations {
 	}
 	
 	public static void setLocale(Locale locale) {
-		Locale.setDefault(locale);
-		
-		File file = locales.get(locale);
-		
-		if (file == null) {
-			messages = null;
-			return;
-		}
-		
 		try {
+			File file = locales.get(locale);
+			
+			if (file == null)
+				throw new Exception();
+			
 			messages = new PropertyResourceBundle(new FileInputStream(file));
+			Locale.setDefault(locale);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, "Cannot load locale", e);
-			
 			messages = null;
+			Locale.setDefault(DEFAULT_LOCALE);
 		}
 		
 		Tips.setLocale(locale);
