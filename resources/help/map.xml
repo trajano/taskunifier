@@ -7,7 +7,7 @@
 	<mapID target="configuration_general" url="pages/configuration_general.html" />
 	<mapID target="configuration_proxy" url="pages/configuration_proxy.html" />
 	<mapID target="configuration_synchronization" url="pages/configuration_synchronization.html" />
-	<mapID target="manage_templates" url="pages/manage_templates.html" />
+	<mapID target="manage_task_templates" url="pages/manage_task_templates.html" />
 	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />
 	<mapID target="task_repeat" url="pages/task_repeat.html" />
 	<mapID target="task_searcher" url="pages/task_searcher.html" />

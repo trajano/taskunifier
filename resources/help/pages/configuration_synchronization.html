@@ -1,35 +1,46 @@
 <html>
 	<head>
 		<title>Synchronization</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
 	<body>
 	
+		<h1>Synchronization</h1>
+	
 		<dl>
-			<dt>Service:</dt>
+			<dt>Synchronize with:</dt>
 			<dd>
-				TaskUnifier can synchronize your tasks will different web services like Toodledo.<br />
-				Changing the service provider will remove all the data from TaskUnifier!
+				TaskUnifier can synchronize your tasks with different service providers.
+				Click on this button to select the service provider you want to use.
 			</dd>
 			<dt>Conflict choice:</dt>
 			<dd>
-				When a task has been edited in Toodledo and in TaskUnifier since the last time you synchronized TaskUnifier,
-				TaskUnifier has to make a choice, keep the Toodledo version of the task, keep the TaskUnifier version of the task
-				or keep the last updated one (recommended).
+				Define the action to execute in case of conflict.
 			</dd>
 			<dt>Keep completed tasks for X days</dt>
 			<dd>
-				Only the tasks that are completed for less than X days will be kept in TaskUnifier.
-				The other tasks will of course still be present on Toodledo's website.
+				Only the tasks that are completed for less than X days will be shown in TaskUnifier.
 			</dd>
-			<dt>Synchronize all data with Toodledo:</dt>
+			<dt>Scheduler delay:</dt>
 			<dd>
-				The contexts, folders, goals, locations and tasks you updated will be sent to Toodledo.
-				Then all the contexts, folders, goals, locations and tasks will be reloaded from Toodledo.
+				Here you can define the delay between each scheduled synchronization.<br />
+				Ex: 300 means that TaskUnifier will schedule your data every 5 minutes.
 			</dd>
-			<dt>Remove all the data from the application and replace them with Toodledo's:</dt>
+			<dt>Synchronize on startup:</dt>
 			<dd>
-				Remove all the contexts, folders, goals, locations and tasks from TaskUnifier.
-				Then all the contexts, folders, goals, locations and tasks will be reloaded from Toodledo.
+				Synchronize your data when you start TaskUnifier.
+			</dd>
+			<dt>Synchronize on close:</dt>
+			<dd>
+				Synchronize your data when you exit TaskUnifier.
+			</dd>
+			<dt>Synchronize all data:</dt>
+			<dd>
+				All the data from TaskUnifier will be synchronized (force mode).
+			</dd>
+			<dt>Remove all data and synchronize all data:</dt>
+			<dd>
+				Remove all the data from TaskUnifier and replace them by the data of the service provider.
 			</dd>
 		</dl>
 		

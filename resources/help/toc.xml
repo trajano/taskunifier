@@ -11,8 +11,18 @@
 			<tocitem text="Synchronization" target="configuration_synchronization" />
 		
 		</tocitem>
+
+		<tocitem text="Scheduled Synchronization" target="scheduled_sync" />
+
+		<tocitem text="Calendar" target="view_calendar" />
+
+		<tocitem text="Tasks" target="view_tasks">
 		
-		<tocitem text="Manage templates" target="manage_templates" />
+			<tocitem text="Manage Task Templates" target="manage_task_templates" />
+			<tocitem text="Task Repeat" target="task_repeat" />
+			<tocitem text="Task Searcher" target="task_searcher" />
+		
+		</tocitem>
 		
 	</tocitem>
 
