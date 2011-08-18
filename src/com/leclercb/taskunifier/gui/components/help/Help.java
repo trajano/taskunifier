@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.help;
 
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
@@ -46,14 +47,7 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public final class Help {
 	
-	private static Help INSTANCE;
-	
-	private static Help getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new Help();
-		
-		return INSTANCE;
-	}
+	public static final Help DEFAULT_HELP = new Help();
 	
 	private HelpSet helpSet;
 	private HelpBroker helpBroker;
@@ -68,7 +62,16 @@ public final class Help {
 			this.helpSet = new HelpSet(null, file.toURI().toURL());
 			this.helpBroker = this.helpSet.createHelpBroker();
 		} catch (Exception e) {
-			GuiLogger.getLogger().warning("Cannot load help set");
+			GuiLogger.getLogger().warning("Cannot load default help set");
+		}
+	}
+	
+	public Help(URL url) {
+		try {
+			this.helpSet = new HelpSet(null, url);
+			this.helpBroker = this.helpSet.createHelpBroker();
+		} catch (Exception e) {
+			GuiLogger.getLogger().warning("Cannot load help set: " + url);
 		}
 	}
 	
@@ -97,13 +100,13 @@ public final class Help {
 	}
 	
 	public static JButton getHelpButton(String id) {
-		return getHelpButton(getInstance().getHelpBroker(), id);
+		return getHelpButton(DEFAULT_HELP.getHelpBroker(), id);
 	}
 	
 	public static JButton getHelpButton(HelpBroker hb, String id) {
 		JButton button = getHelpButton();
 		
-		if (getInstance().getHelpBroker() != null) {
+		if (hb != null) {
 			CSH.setHelpIDString(button, id);
 			ActionListener listener = null;
 			listener = new CSH.DisplayHelpFromSource(hb);
