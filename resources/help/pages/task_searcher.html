@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>TaskUnifier: Searcher</title>
+		
+		<style type="text/css">
+		dt {
+    		font-weight:bold;
+    		margin-top:15px;
+		}
+		
+		div.back_button {
+			width:100%;
+    		margin-top:10px;
+    		text-align:center;
+		}
+		</style>
+	</head>
+	<body>
+		<dl>
+			<dt>Icon:</dt>
+			<dd>
+				You can select an image file on your computer.<br />
+				The icon will be displayed in the list next to the title.
+			</dd>
+			<dt>Title:</dt>
+			<dd>
+				The title of you search.
+			</dd>
+			<dt>Sort columns:</dt>
+			<dd>
+				The table on the left allows you to order the tasks.<br />
+				Order: the order of the column sorts<br />
+				Column: the column you want to sort<br />
+				Sort order: ascending or descending sort
+			</dd>
+			<dt>Filters:</dt>
+			<dd>
+				The tree on the right allows you to filter the tasks.<br />
+				The filter are composed of sub-filters (branches) and conditions.<br /><br />
+				You can right click on a branch to choose AND or OR.<br />
+				You can click on a condition and edit the values at the bottom of the screen.
+			</dd>
+			<dt>Column:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines on which column the condition will be executed.
+			</dd>
+			<dt>Condition:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines what type of condition will be executed.
+			</dd>
+			<dt>Value:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines the value that will be checked.<br />
+				Depending on the selected column, you will be able to choose one of the values in the list or to enter a value manually.
+				<br /><br />
+				These are the columns that require a "manual" value:
+				<dl>
+					<dt>Title, tags, repeat, note</dt>
+					<dd>
+						Anything you want...
+					</dd>
+					<dt>Completed on, due date, start date</dt>
+					<dd>
+						You have to enter a number (of days).<br />
+						The date used in the condition will be : now + number of days.<br />
+						Note: if you enter nothing, it always means "EQUALS NO DATE"
+					</dd>
+					<dt>Reminder, length</dt>
+					<dd>
+						You have to enter a number (of minutes).
+					</dd>
+				</dl>
+				<u>Attention point:</u><br />
+				When you have filled in the value, press enter the confirm.
+			</dd>
+		</dl>
+		<div class="back_button"><a href="file:///{help_folder}/index.html">Back to index</a></div>
+	</body>
+</html>

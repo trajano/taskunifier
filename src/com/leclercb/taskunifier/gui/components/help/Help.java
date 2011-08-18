@@ -34,11 +34,13 @@ package com.leclercb.taskunifier.gui.components.help;
 
 import java.io.File;
 
+import javax.help.CSH;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.swing.JButton;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public final class Help {
@@ -57,7 +59,11 @@ public final class Help {
 	
 	private Help() {
 		try {
-			File file = new File("help/help.xml");
+			File file = new File(Main.RESOURCES_FOLDER
+					+ File.separator
+					+ "help"
+					+ File.separator
+					+ "help.xml");
 			this.helpSet = new HelpSet(null, file.toURI().toURL());
 			this.helpBroker = this.helpSet.createHelpBroker();
 		} catch (Exception e) {
@@ -76,6 +82,8 @@ public final class Help {
 	public static void showHelpDialog(String id) {
 		if (id == null)
 			id = "taskunifier";
+		
+		// TODO help dialog
 	}
 	
 	public static JButton getHelpButton(String id) {
@@ -83,6 +91,12 @@ public final class Help {
 				Images.getResourceImage("help.png", 16, 16));
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
+		
+		if (getInstance().getHelpBroker() != null) {
+			CSH.setHelpIDString(button, "taskunifier");
+			button.addActionListener(new CSH.DisplayHelpFromSource(
+					getInstance().getHelpBroker()));
+		}
 		
 		return button;
 	}
