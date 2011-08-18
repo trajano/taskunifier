@@ -32,185 +32,59 @@
  */
 package com.leclercb.taskunifier.gui.components.help;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
-import org.apache.commons.io.FileUtils;
-import org.jdesktop.swingx.JXEditorPane;
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.utils.Images;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public final class Help {
 	
+	private static Help INSTANCE;
+	
+	public static Help getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new Help();
+		
+		return INSTANCE;
+	}
+	
+	private HelpSet helpSet;
+	private HelpBroker helpBroker;
+	
 	private Help() {
-
-	}
-	
-	public static final String HELP_FILES_FOLDER = Main.RESOURCES_FOLDER
-			+ File.separator
-			+ "help";
-	
-	public static String getHelpFile(String fileName) {
-		return HELP_FILES_FOLDER + File.separator + fileName;
-	}
-	
-	public static String getContent(String helpFile) {
-		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-		
-		String content = "";
-		
 		try {
-			File file = new File(helpFile);
-			
-			if (file.getName().equals("task_repeat.html")) {
-				if (SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpFile() != null) {
-					file = new File(
-							SynchronizerUtils.getPlugin().getSynchronizerApi().getRepeatHelpFile());
-					
-					content = FileUtils.readFileToString(file);
-				}
-			} else {
-				content = FileUtils.readFileToString(file);
-			}
-			
-			// Replace parameters
-			content = content.replace(
-					"{plugin_name}",
-					SynchronizerUtils.getPlugin().getName());
-			
-			content = content.replace("{resources_folder}", new File(
-					Main.RESOURCES_FOLDER).getAbsolutePath());
-			
-			content = content.replace("{help_folder}", new File(
-					HELP_FILES_FOLDER).getAbsolutePath());
-		} catch (Throwable t) {
-
+			File file = new File("help/help.xml");
+			this.helpSet = new HelpSet(null, file.toURI().toURL());
+			this.helpBroker = this.helpSet.createHelpBroker();
+		} catch (Exception e) {
+			GuiLogger.getLogger().warning("Cannot load help set");
 		}
-		
-		return content;
 	}
 	
-	public static void showHelpDialog(final String helpFile) {
-		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-		
-		HelpDialog.getInstance().setText(getContent(helpFile));
-		HelpDialog.getInstance().setVisible(true);
+	public HelpSet getHelpSet() {
+		return this.helpSet;
 	}
 	
-	public static JButton getHelpButton(final String helpFile) {
-		CheckUtils.isNotNull(helpFile, "Help file cannot be null");
-		
+	public HelpBroker getHelpBroker() {
+		return this.helpBroker;
+	}
+	
+	public static void showHelpDialog(String id) {
+		if (id == null)
+			id = "taskunifier";
+	}
+	
+	public static JButton getHelpButton(String id) {
 		JButton button = new JButton(
 				Images.getResourceImage("help.png", 16, 16));
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
-		button.addActionListener(new HelpActionListener(helpFile));
 		
 		return button;
-	}
-	
-	private static class HelpActionListener implements ActionListener {
-		
-		private String helpFile;
-		
-		public HelpActionListener(String helpFile) {
-			this.helpFile = helpFile;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			HelpDialog.getInstance().setText(getContent(this.helpFile));
-			HelpDialog.getInstance().setVisible(true);
-		}
-		
-	}
-	
-	private static class HelpDialog extends JDialog {
-		
-		private static HelpDialog INSTANCE;
-		
-		public static HelpDialog getInstance() {
-			if (INSTANCE == null)
-				INSTANCE = new HelpDialog();
-			
-			return INSTANCE;
-		}
-		
-		private JXEditorPane helpEditorPane;
-		
-		private HelpDialog() {
-			super(MainFrame.getInstance().getFrame());
-			
-			this.initialize();
-		}
-		
-		public void setText(String text) {
-			this.helpEditorPane.setText(text);
-			this.helpEditorPane.setCaretPosition(0);
-		}
-		
-		private void initialize() {
-			this.setModal(true);
-			this.setTitle(Translations.getString("general.help"));
-			this.setSize(600, 600);
-			this.setResizable(true);
-			this.setLayout(new BorderLayout());
-			this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-			
-			if (this.getOwner() != null)
-				this.setLocationRelativeTo(this.getOwner());
-			
-			this.helpEditorPane = new JXEditorPane();
-			this.helpEditorPane.setContentType("text/html");
-			this.helpEditorPane.setEditable(false);
-			this.helpEditorPane.setCaretPosition(0);
-			this.helpEditorPane.addHyperlinkListener(new HyperlinkListener() {
-				
-				@Override
-				public void hyperlinkUpdate(HyperlinkEvent evt) {
-					if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-						try {
-							HelpDialog.this.helpEditorPane.setText(getContent(evt.getURL().getFile()));
-							HelpDialog.this.helpEditorPane.setCaretPosition(0);
-						} catch (Exception e) {
-							ErrorInfo info = new ErrorInfo(
-									Translations.getString("general.error"),
-									Translations.getString("error.help_file_not_found"),
-									null,
-									null,
-									e,
-									null,
-									null);
-							
-							JXErrorPane.showDialog(
-									MainFrame.getInstance().getFrame(),
-									info);
-						}
-					}
-				}
-				
-			});
-			
-			this.add(ComponentFactory.createJScrollPane(
-					this.helpEditorPane,
-					false), BorderLayout.CENTER);
-		}
-		
 	}
 	
 }

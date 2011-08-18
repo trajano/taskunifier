@@ -61,7 +61,7 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, ValueType> extends ConfigurationFieldType<ComponentType, ValueType> {
+public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, ValueType> {
 	
 	public static class Panel implements ConfigurationFieldTypeExt<JPanel, Void> {
 		
@@ -653,6 +653,12 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		public abstract void saveAndApplyConfig();
 		
 	}
+	
+	public abstract void initializeFieldComponent();
+	
+	public abstract ComponentType getFieldComponent();
+	
+	public abstract ValueType getFieldValue();
 	
 	public abstract ValueType getPropertyValue();
 	

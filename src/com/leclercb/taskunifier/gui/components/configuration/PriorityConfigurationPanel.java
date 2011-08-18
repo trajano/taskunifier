@@ -37,7 +37,7 @@ import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.priority.ColorPriorityFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -64,7 +64,7 @@ public class PriorityConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"RESET_COLORS",
 				null,
-				new ConfigurationFieldType.Button(
+				new ConfigurationFieldTypeExt.Button(
 						Translations.getString("general.reset_colors"),
 						new ActionListener() {
 							

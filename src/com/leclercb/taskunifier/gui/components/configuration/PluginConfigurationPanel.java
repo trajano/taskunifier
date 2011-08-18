@@ -39,12 +39,11 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 
 public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	
-	private ConfigurationPanel configPanel;
+	private ConfigurationPanelExt configPanel;
 	
 	public PluginConfigurationPanel(
 			boolean welcome,
@@ -77,7 +76,7 @@ public class PluginConfigurationPanel extends ConfigurationPanelExt {
 	@Override
 	public void cancelConfig() {
 		if (this.configPanel instanceof ConfigurationPanelExt)
-			((ConfigurationPanelExt) this.configPanel).cancelConfig();
+			(this.configPanel).cancelConfig();
 	}
 	
 }

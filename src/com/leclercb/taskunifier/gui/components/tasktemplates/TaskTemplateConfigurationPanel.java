@@ -321,7 +321,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Help
 		rightPanel.add(
-				ComponentFactory.createButtonsPanel(Help.getHelpButton(Help.getHelpFile("manage_templates.html"))),
+				ComponentFactory.createButtonsPanel(Help.getHelpButton("manage_templates")),
 				BorderLayout.NORTH);
 		
 		// Template Title

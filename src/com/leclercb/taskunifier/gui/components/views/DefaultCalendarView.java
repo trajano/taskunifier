@@ -106,7 +106,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 		udpateButton.setActionCommand("UPDATE");
 		udpateButton.addActionListener(listener);
 		
-		JButton helpButton = Help.getHelpButton(Help.getHelpFile("calendar.html"));
+		JButton helpButton = Help.getHelpButton("view_calendar");
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(
 				udpateButton,

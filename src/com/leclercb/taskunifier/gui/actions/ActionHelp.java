@@ -57,11 +57,11 @@ public class ActionHelp extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionHelp.help();
+		ActionHelp.help(null);
 	}
 	
-	public static void help() {
-		Help.showHelpDialog(Help.getHelpFile("index.html"));
+	public static void help(String id) {
+		Help.showHelpDialog(id);
 	}
 	
 }

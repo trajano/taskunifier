@@ -65,7 +65,7 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		this.setLayout(new BorderLayout());
 		
 		this.add(
-				ComponentFactory.createButtonsPanel(Help.getHelpButton(Help.getHelpFile("searcher.html"))),
+				ComponentFactory.createButtonsPanel(Help.getHelpButton("task_searcher.html")),
 				BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel(new BorderLayout());

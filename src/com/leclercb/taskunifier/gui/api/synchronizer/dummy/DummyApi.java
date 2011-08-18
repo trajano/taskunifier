@@ -39,7 +39,6 @@ import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DummyApi extends SynchronizerApi {
@@ -55,11 +54,6 @@ public class DummyApi extends SynchronizerApi {
 	
 	protected DummyApi() {
 		super("DUMMY", "No Synchronization", "http://www.taskunifier.net");
-	}
-	
-	@Override
-	public String getRepeatHelpFile() {
-		return Help.getHelpFile("task_repeat.html");
 	}
 	
 	@Override

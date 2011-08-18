@@ -46,13 +46,12 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyL
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPasswordFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPortFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.UseSystemProxiesFieldType;
-import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ProxyConfigurationPanel() {
-		super(Help.getHelpFile("configuration_proxy.html"));
+		super("configuration_proxy");
 		this.initialize();
 		this.pack();
 		this.disableFields();

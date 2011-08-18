@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.utils.FormBuilder;
 public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	
 	private boolean showAfterRestart;
-	private String helpFile;
+	private String helpId;
 	private List<ConfigurationField> fields;
 	
 	public DefaultConfigurationPanel() {
@@ -64,13 +64,13 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		this(showAfterRestart, null);
 	}
 	
-	public DefaultConfigurationPanel(String helpFile) {
-		this(true, helpFile);
+	public DefaultConfigurationPanel(String helpId) {
+		this(true, helpId);
 	}
 	
-	public DefaultConfigurationPanel(boolean showAfterRestart, String helpFile) {
+	public DefaultConfigurationPanel(boolean showAfterRestart, String helpId) {
 		this.showAfterRestart = showAfterRestart;
-		this.helpFile = helpFile;
+		this.helpId = helpId;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
 	
@@ -138,10 +138,10 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 		JLabel label = null;
 		Component component = null;
 		
-		if (this.helpFile != null) {
+		if (this.helpId != null) {
 			builder.append(
 					"",
-					ComponentFactory.createButtonsPanel(Help.getHelpButton(this.helpFile)));
+					ComponentFactory.createButtonsPanel(Help.getHelpButton(this.helpId)));
 		}
 		
 		boolean afterRestartFound = false;
@@ -179,9 +179,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	@Override
 	public void saveAndApplyConfig() {
 		for (ConfigurationField field : this.fields) {
-			if (field.getType() instanceof ConfigurationFieldTypeExt) {
-				((ConfigurationFieldTypeExt<?, ?>) field.getType()).saveAndApplyConfig();
-			}
+			((ConfigurationFieldTypeExt<?, ?>) field.getType()).saveAndApplyConfig();
 		}
 	}
 	

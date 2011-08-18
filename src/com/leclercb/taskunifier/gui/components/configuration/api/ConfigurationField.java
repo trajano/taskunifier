@@ -39,12 +39,12 @@ public class ConfigurationField {
 	private String id;
 	private String label;
 	private boolean afterRestart;
-	private ConfigurationFieldType<?, ?> type;
+	private ConfigurationFieldTypeExt<?, ?> type;
 	
 	public ConfigurationField(
 			String id,
 			String label,
-			ConfigurationFieldType<?, ?> type) {
+			ConfigurationFieldTypeExt<?, ?> type) {
 		this(id, label, false, type);
 	}
 	
@@ -52,7 +52,7 @@ public class ConfigurationField {
 			String id,
 			String label,
 			boolean afterRestart,
-			ConfigurationFieldType<?, ?> type) {
+			ConfigurationFieldTypeExt<?, ?> type) {
 		this.setId(id);
 		this.setLabel(label);
 		this.setAfterRestart(afterRestart);
@@ -84,11 +84,11 @@ public class ConfigurationField {
 		this.afterRestart = afterRestart;
 	}
 	
-	public ConfigurationFieldType<?, ?> getType() {
+	public ConfigurationFieldTypeExt<?, ?> getType() {
 		return this.type;
 	}
 	
-	private void setType(ConfigurationFieldType<?, ?> type) {
+	private void setType(ConfigurationFieldTypeExt<?, ?> type) {
 		CheckUtils.isNotNull(type, "Type cannot be null");
 		this.type = type;
 	}

@@ -45,7 +45,6 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.general.Show
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseDueTimeFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseStartTimeFieldType;
-import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
@@ -56,7 +55,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	public GeneralConfigurationPanel(boolean languageOnly, boolean welcome) {
 		super(
 				!languageOnly && !welcome,
-				languageOnly ? null : Help.getHelpFile("configuration_general.html"));
+				languageOnly ? null : "configuration_general");
 		this.languageOnly = languageOnly;
 		this.welcome = welcome;
 		this.initialize();

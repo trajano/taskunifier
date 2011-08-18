@@ -51,7 +51,6 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.synchronizat
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SchedulerSleepTimeFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SyncAtExitFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SyncAtStartFieldType;
-import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -61,7 +60,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	private boolean welcome;
 	
 	public SynchronizationConfigurationPanel(boolean welcome) {
-		super(Help.getHelpFile("configuration_synchronization.html"));
+		super("configuration_synchronization");
 		
 		this.welcome = welcome;
 		

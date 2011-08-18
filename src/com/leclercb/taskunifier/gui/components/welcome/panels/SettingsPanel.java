@@ -39,19 +39,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class SettingsPanel extends CardPanel {
 	
 	private String title;
-	private ConfigurationPanel panel;
+	private ConfigurationPanelExt panel;
 	
-	public SettingsPanel(String title, ConfigurationPanel panel) {
+	public SettingsPanel(String title, ConfigurationPanelExt panel) {
 		this.reset(title, panel);
 	}
 	
-	public void reset(String title, ConfigurationPanel panel) {
+	public void reset(String title, ConfigurationPanelExt panel) {
 		CheckUtils.isNotNull(title, "Title cannot be null");
 		CheckUtils.isNotNull(panel, "Panel cannot be null");
 		
