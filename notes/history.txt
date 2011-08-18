@@ -1,3 +1,6 @@
+Version 1.0.5
+	- Improved help
+
 Version 1.0.4
 	- FR 3227784: Indent/unindent subtasks
 	- FR 3391354: Postpone from current/due date
