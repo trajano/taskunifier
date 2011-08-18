@@ -35,10 +35,10 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.importance;
 import java.awt.Color;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorImportanceFieldType extends ConfigurationFieldTypeExt.ColorChooser {
+public class ColorImportanceFieldType extends ConfigurationFieldType.ColorChooser {
 	
 	private String key;
 	

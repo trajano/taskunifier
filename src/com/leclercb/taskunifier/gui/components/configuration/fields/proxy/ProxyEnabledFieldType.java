@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ProxyEnabledFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ProxyEnabledFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ProxyEnabledFieldType() {
 		super(Main.SETTINGS, "proxy.enabled");

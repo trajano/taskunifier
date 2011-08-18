@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ShowCompletedTasksAtTheEndFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ShowCompletedTasksAtTheEndFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ShowCompletedTasksAtTheEndFieldType() {
 		super(Main.SETTINGS, "tasksearcher.show_completed_tasks_at_the_end");

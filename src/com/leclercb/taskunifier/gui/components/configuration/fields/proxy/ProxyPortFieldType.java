@@ -33,10 +33,10 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 
 import com.leclercb.commons.gui.utils.FormatterUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ProxyPortFieldType extends ConfigurationFieldTypeExt.FormattedTextField {
+public class ProxyPortFieldType extends ConfigurationFieldType.FormattedTextField {
 	
 	public ProxyPortFieldType() {
 		super(

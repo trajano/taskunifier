@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ShowTaskBadgesFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ShowTaskBadgesFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ShowTaskBadgesFieldType() {
 		super(Main.SETTINGS, "tasksearcher.show_badges");

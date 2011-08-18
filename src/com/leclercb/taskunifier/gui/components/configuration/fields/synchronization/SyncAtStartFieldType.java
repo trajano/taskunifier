@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class SyncAtStartFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class SyncAtStartFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public SyncAtStartFieldType() {
 		super(Main.SETTINGS, "synchronizer.sync_start");

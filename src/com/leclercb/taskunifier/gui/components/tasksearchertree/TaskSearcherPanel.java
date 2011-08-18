@@ -73,7 +73,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondi
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
@@ -248,7 +248,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void openManageModels(ModelItem item) {
 		if (item.getModel() == null) {
-			ActionConfiguration.configuration(ConfigurationPanel.SEARCHER);
+			ActionConfiguration.configuration(ConfigurationTab.SEARCHER);
 			return;
 		}
 		

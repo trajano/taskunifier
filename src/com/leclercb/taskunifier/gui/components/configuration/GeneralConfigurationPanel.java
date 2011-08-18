@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
@@ -73,7 +73,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SEPARATOR_1",
 					null,
-					new ConfigurationFieldTypeExt.Separator()));
+					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
 					"DATE_FORMAT",
@@ -102,7 +102,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
 					null,
-					new ConfigurationFieldTypeExt.Separator()));
+					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",
@@ -113,7 +113,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
 					null,
-					new ConfigurationFieldTypeExt.Separator()));
+					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
 					"POSTPONE_TASK_FROM_CURRENT_DATE",
@@ -128,7 +128,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SEPARATOR_4",
 					null,
-					new ConfigurationFieldTypeExt.Separator()));
+					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
@@ -139,7 +139,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				this.addField(new ConfigurationField(
 						"RESET_GENERAL_SEARCHERS",
 						null,
-						new ConfigurationFieldTypeExt.Button(
+						new ConfigurationFieldType.Button(
 								new ActionResetGeneralSearchers(22, 22))));
 			}
 		}

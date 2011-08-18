@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ShowNoteBadgesFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ShowNoteBadgesFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ShowNoteBadgesFieldType() {
 		super(Main.SETTINGS, "notesearcher.show_badges");

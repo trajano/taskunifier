@@ -49,7 +49,7 @@ import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -68,7 +68,7 @@ public class ConfigurationDialog extends JDialog {
 		return INSTANCE;
 	}
 	
-	public static enum ConfigurationPanel {
+	public static enum ConfigurationTab {
 		
 		GENERAL,
 		PROXY,
@@ -84,15 +84,15 @@ public class ConfigurationDialog extends JDialog {
 	
 	private JTabbedPane tabbedPane;
 	
-	private ConfigurationPanelExt generalConfigurationPanel;
-	private ConfigurationPanelExt proxyConfigurationPanel;
-	private ConfigurationPanelExt columnsConfigurationPanel;
-	private ConfigurationPanelExt searcherConfigurationPanel;
-	private ConfigurationPanelExt themeConfigurationPanel;
-	private ConfigurationPanelExt priorityConfigurationPanel;
-	private ConfigurationPanelExt importanceConfigurationPanel;
-	private ConfigurationPanelExt synchronizationConfigurationPanel;
-	private ConfigurationPanelExt pluginConfigurationPanel;
+	private ConfigurationPanel generalConfigurationPanel;
+	private ConfigurationPanel proxyConfigurationPanel;
+	private ConfigurationPanel columnsConfigurationPanel;
+	private ConfigurationPanel searcherConfigurationPanel;
+	private ConfigurationPanel themeConfigurationPanel;
+	private ConfigurationPanel priorityConfigurationPanel;
+	private ConfigurationPanel importanceConfigurationPanel;
+	private ConfigurationPanel synchronizationConfigurationPanel;
+	private ConfigurationPanel pluginConfigurationPanel;
 	
 	private ConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame(), true);
@@ -100,10 +100,10 @@ public class ConfigurationDialog extends JDialog {
 		this.initialize();
 	}
 	
-	public void setSelectedConfigurationPanel(ConfigurationPanel panel) {
-		CheckUtils.isNotNull(panel, "Configuration panel cannot be null");
+	public void setSelectedConfigurationTab(ConfigurationTab tab) {
+		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
 		
-		switch (panel) {
+		switch (tab) {
 			case GENERAL:
 				this.tabbedPane.setSelectedIndex(0);
 				break;

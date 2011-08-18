@@ -35,10 +35,10 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.synchroniza
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class SchedulerSleepTimeFieldType extends ConfigurationFieldTypeExt.Spinner {
+public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner {
 	
 	public SchedulerSleepTimeFieldType() {
 		super(Main.SETTINGS, "synchronizer.scheduler_sleep_time");

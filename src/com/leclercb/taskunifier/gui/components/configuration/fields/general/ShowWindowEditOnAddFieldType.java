@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ShowWindowEditOnAddFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ShowWindowEditOnAddFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ShowWindowEditOnAddFieldType() {
 		super(Main.SETTINGS, "task.show_edit_window_on_add");

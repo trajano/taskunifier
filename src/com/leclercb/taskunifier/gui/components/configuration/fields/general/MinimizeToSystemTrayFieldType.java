@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class MinimizeToSystemTrayFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class MinimizeToSystemTrayFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public MinimizeToSystemTrayFieldType() {
 		super(Main.SETTINGS, "window.minimize_to_system_tray");

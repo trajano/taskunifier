@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ProxyPasswordFieldType extends ConfigurationFieldTypeExt.PasswordField {
+public class ProxyPasswordFieldType extends ConfigurationFieldType.PasswordField {
 	
 	public ProxyPasswordFieldType() {
 		super(Main.SETTINGS, "proxy.password");

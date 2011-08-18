@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
@@ -199,7 +199,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void openManageFolders(FolderItem item) {
 		if (item.getFolder() == null) {
-			ActionConfiguration.configuration(ConfigurationPanel.SEARCHER);
+			ActionConfiguration.configuration(ConfigurationTab.SEARCHER);
 			return;
 		}
 		

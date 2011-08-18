@@ -37,10 +37,10 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.commons.models.SynchronizerChoiceModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueSynchronizerChoice;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ChoiceFieldType extends ConfigurationFieldTypeExt.ComboBox {
+public class ChoiceFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public ChoiceFieldType() {
 		super(

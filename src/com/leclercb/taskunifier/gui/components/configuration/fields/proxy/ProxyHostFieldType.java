@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ProxyHostFieldType extends ConfigurationFieldTypeExt.TextField {
+public class ProxyHostFieldType extends ConfigurationFieldType.TextField {
 	
 	public ProxyHostFieldType() {
 		super(Main.SETTINGS, "proxy.host");

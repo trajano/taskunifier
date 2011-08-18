@@ -37,11 +37,11 @@ import java.util.Locale;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.commons.values.StringValueLocale;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class LocaleFieldType extends ConfigurationFieldTypeExt.ComboBox {
+public class LocaleFieldType extends ConfigurationFieldType.ComboBox {
 	
 	private boolean languageOnly;
 	

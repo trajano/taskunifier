@@ -37,11 +37,11 @@ import java.text.SimpleDateFormat;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.commons.values.StringValueSimpleDateFormat;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 
-public class DateFormatFieldType extends ConfigurationFieldTypeExt.ComboBox {
+public class DateFormatFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public DateFormatFieldType() {
 		super(

@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorsByImportanceEnabledFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class ColorsByImportanceEnabledFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public ColorsByImportanceEnabledFieldType() {
 		super(Main.SETTINGS, "theme.color.importance.enabled");

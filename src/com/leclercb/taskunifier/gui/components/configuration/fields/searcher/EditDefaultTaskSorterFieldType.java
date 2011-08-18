@@ -39,12 +39,12 @@ import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class EditDefaultTaskSorterFieldType extends ConfigurationFieldTypeExt.Panel {
+public class EditDefaultTaskSorterFieldType extends ConfigurationFieldType.Panel {
 	
 	private TaskSorter sorter;
 	private TaskSorterXMLCoder coder;

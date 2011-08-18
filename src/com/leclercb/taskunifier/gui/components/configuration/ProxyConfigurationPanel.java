@@ -38,7 +38,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyHostFieldType;
@@ -63,7 +63,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.proxy.use_system_proxies"),
 				new UseSystemProxiesFieldType()));
 		
-		final JCheckBox useSystemProxiesField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+		final JCheckBox useSystemProxiesField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM").getType()).getFieldComponent();
 		
 		this.addField(new ConfigurationField(
@@ -71,7 +71,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.proxy.enabled"),
 				new ProxyEnabledFieldType()));
 		
-		final JCheckBox proxyEnabledField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();
 		
 		this.addField(new ConfigurationField(
@@ -114,10 +114,10 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void disableFields() {
-		JCheckBox useSystemProxiesField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+		JCheckBox useSystemProxiesField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM").getType()).getFieldComponent();
 		
-		JCheckBox proxyEnabledField = ((ConfigurationFieldTypeExt.CheckBox) this.getField(
+		JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();
 		
 		this.setEnabled("ENABLED", !useSystemProxiesField.isSelected());

@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanelExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 
 public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
@@ -70,7 +70,7 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	}
 	
 	@Override
-	public ConfigurationPanelExt getConfigurationPanel(boolean welcome) {
+	public ConfigurationPanel getConfigurationPanel(boolean welcome) {
 		return new DummyConfigurationPanel(welcome);
 	}
 	

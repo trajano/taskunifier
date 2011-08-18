@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.ChoiceFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.KeepTasksForFieldType;
@@ -73,7 +73,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"MANAGE_PLUGINS",
 				Translations.getString("configuration.synchronization.synchronize_with"),
-				new ConfigurationFieldTypeExt.Button(
+				new ConfigurationFieldType.Button(
 						SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
 						new ActionListener() {
 							
@@ -88,7 +88,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"CHOICE",
@@ -103,7 +103,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"SCHEDULER_SLEEP_TIME",
@@ -113,7 +113,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"SYNC_START",
@@ -129,12 +129,12 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"SEPARATOR_4",
 					null,
-					new ConfigurationFieldTypeExt.Separator()));
+					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL_LABEL",
 					null,
-					new ConfigurationFieldTypeExt.Label(
+					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.synchronize_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
@@ -142,7 +142,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
 					null,
-					new ConfigurationFieldTypeExt.Button(new ActionSynchronize(
+					new ConfigurationFieldType.Button(new ActionSynchronize(
 							false,
 							22,
 							22) {
@@ -159,7 +159,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"RESET_ALL_LABEL",
 					null,
-					new ConfigurationFieldTypeExt.Label(
+					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.reset_all",
 									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
@@ -167,7 +167,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
 					null,
-					new ConfigurationFieldTypeExt.Button(new ActionSynchronize(
+					new ConfigurationFieldType.Button(new ActionSynchronize(
 							false,
 							22,
 							22) {

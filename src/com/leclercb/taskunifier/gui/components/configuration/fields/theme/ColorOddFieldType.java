@@ -34,10 +34,10 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
 import java.awt.Color;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorOddFieldType extends ConfigurationFieldTypeExt.ColorChooser {
+public class ColorOddFieldType extends ConfigurationFieldType.ColorChooser {
 	
 	public ColorOddFieldType() {
 		super(Main.SETTINGS, "theme.color.odd");

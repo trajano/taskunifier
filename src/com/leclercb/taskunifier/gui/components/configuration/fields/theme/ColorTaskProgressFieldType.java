@@ -34,10 +34,10 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
 import java.awt.Color;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorTaskProgressFieldType extends ConfigurationFieldTypeExt.ColorChooser {
+public class ColorTaskProgressFieldType extends ConfigurationFieldType.ColorChooser {
 	
 	public ColorTaskProgressFieldType() {
 		super(Main.SETTINGS, "theme.color.progress");

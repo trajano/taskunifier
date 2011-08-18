@@ -34,10 +34,10 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.theme;
 
 import java.awt.Color;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorEvenFieldType extends ConfigurationFieldTypeExt.ColorChooser {
+public class ColorEvenFieldType extends ConfigurationFieldType.ColorChooser {
 	
 	public ColorEvenFieldType() {
 		super(Main.SETTINGS, "theme.color.even");

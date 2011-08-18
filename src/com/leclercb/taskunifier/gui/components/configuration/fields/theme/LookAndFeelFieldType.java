@@ -41,10 +41,10 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class LookAndFeelFieldType extends ConfigurationFieldTypeExt.ComboBox {
+public class LookAndFeelFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public LookAndFeelFieldType() {
 		super(createModel(), Main.SETTINGS, "theme.lookandfeel");

@@ -50,7 +50,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
-public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
+public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	
 	private boolean showAfterRestart;
 	private String helpId;
@@ -179,7 +179,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanelExt {
 	@Override
 	public void saveAndApplyConfig() {
 		for (ConfigurationField field : this.fields) {
-			((ConfigurationFieldTypeExt<?, ?>) field.getType()).saveAndApplyConfig();
+			((ConfigurationFieldType<?, ?>) field.getType()).saveAndApplyConfig();
 		}
 	}
 	

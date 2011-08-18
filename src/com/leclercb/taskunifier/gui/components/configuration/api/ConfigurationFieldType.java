@@ -61,9 +61,9 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, ValueType> {
+public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
 	
-	public static class Panel implements ConfigurationFieldTypeExt<JPanel, Void> {
+	public static class Panel implements ConfigurationFieldType<JPanel, Void> {
 		
 		private JPanel panel;
 		
@@ -98,7 +98,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static class Separator extends JSeparator implements ConfigurationFieldTypeExt<JSeparator, Void> {
+	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 		
 		public Separator() {
 
@@ -131,7 +131,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static class Label extends JLabel implements ConfigurationFieldTypeExt<JLabel, Void> {
+	public static class Label extends JLabel implements ConfigurationFieldType<JLabel, Void> {
 		
 		public Label(String label) {
 			super(label);
@@ -165,7 +165,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static class Button extends JButton implements ConfigurationFieldTypeExt<JButton, Void> {
+	public static class Button extends JButton implements ConfigurationFieldType<JButton, Void> {
 		
 		public Button(Action action) {
 			super(action);
@@ -208,7 +208,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class CheckBox extends JCheckBox implements ConfigurationFieldTypeExt<JCheckBox, Boolean> {
+	public static abstract class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -258,7 +258,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class Spinner extends JSpinner implements ConfigurationFieldTypeExt<JSpinner, Object> {
+	public static abstract class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -322,7 +322,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldTypeExt<JComboBox, Object> {
+	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -384,7 +384,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class TextArea extends JTextArea implements ConfigurationFieldTypeExt<JTextArea, String> {
+	public static abstract class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -438,7 +438,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class TextField extends JTextField implements ConfigurationFieldTypeExt<JTextField, String> {
+	public static abstract class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -488,7 +488,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldTypeExt<JFormattedTextField, String> {
+	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -543,7 +543,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class PasswordField extends JPasswordField implements ConfigurationFieldTypeExt<JPasswordField, String> {
+	public static abstract class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
 		
 		private boolean first;
 		private PropertiesConfiguration properties;
@@ -595,7 +595,7 @@ public interface ConfigurationFieldTypeExt<ComponentType extends JComponent, Val
 		
 	}
 	
-	public static abstract class ColorChooser implements ConfigurationFieldTypeExt<JXColorSelectionButton, Color> {
+	public static abstract class ColorChooser implements ConfigurationFieldType<JXColorSelectionButton, Color> {
 		
 		private JXColorSelectionButton component;
 		

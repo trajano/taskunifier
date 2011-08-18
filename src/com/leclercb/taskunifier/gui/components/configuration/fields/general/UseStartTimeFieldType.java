@@ -32,10 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class UseStartTimeFieldType extends ConfigurationFieldTypeExt.CheckBox {
+public class UseStartTimeFieldType extends ConfigurationFieldType.CheckBox {
 	
 	public UseStartTimeFieldType() {
 		super(Main.SETTINGS, "date.use_start_time");

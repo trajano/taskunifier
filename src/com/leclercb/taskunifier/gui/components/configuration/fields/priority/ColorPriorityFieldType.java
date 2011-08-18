@@ -36,10 +36,10 @@ import java.awt.Color;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ColorPriorityFieldType extends ConfigurationFieldTypeExt.ColorChooser {
+public class ColorPriorityFieldType extends ConfigurationFieldType.ColorChooser {
 	
 	private String key;
 	

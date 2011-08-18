@@ -34,11 +34,11 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.synchroniza
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.FormatterUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class KeepTasksForFieldType extends ConfigurationFieldTypeExt.FormattedTextField {
+public class KeepTasksForFieldType extends ConfigurationFieldType.FormattedTextField {
 	
 	public KeepTasksForFieldType() {
 		super(

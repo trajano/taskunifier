@@ -42,7 +42,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldTypeExt;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorEvenFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorOddFieldType;
@@ -74,7 +74,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"APPLY_THEME",
 				null,
-				new ConfigurationFieldTypeExt.Button(
+				new ConfigurationFieldType.Button(
 						Translations.getString("general.apply"),
 						new ActionListener() {
 							
@@ -88,18 +88,18 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"LOOK_AND_FEEL_PREVIEW",
 				null,
-				new ConfigurationFieldTypeExt.Label(
+				new ConfigurationFieldType.Label(
 						Translations.getString("configuration.theme.look_and_feel_preview"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_BADGES_PERFORMANCE",
 				null,
-				new ConfigurationFieldTypeExt.Label(
+				new ConfigurationFieldType.Label(
 						Translations.getString("configuration.theme.show_badges_performance"))));
 		
 		this.addField(new ConfigurationField(
@@ -115,7 +115,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"COLORS_IMPORTANCE_ENABLED",
@@ -130,7 +130,7 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
 				null,
-				new ConfigurationFieldTypeExt.Separator()));
+				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",
