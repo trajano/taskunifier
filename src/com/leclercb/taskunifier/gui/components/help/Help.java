@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.help;
 
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.help.CSH;
@@ -47,7 +48,7 @@ public final class Help {
 	
 	private static Help INSTANCE;
 	
-	public static Help getInstance() {
+	private static Help getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new Help();
 		
@@ -86,16 +87,27 @@ public final class Help {
 		// TODO help dialog
 	}
 	
-	public static JButton getHelpButton(String id) {
+	private static JButton getHelpButton() {
 		JButton button = new JButton(
 				Images.getResourceImage("help.png", 16, 16));
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
 		
+		return button;
+	}
+	
+	public static JButton getHelpButton(String id) {
+		return getHelpButton(getInstance().getHelpBroker(), id);
+	}
+	
+	public static JButton getHelpButton(HelpBroker hb, String id) {
+		JButton button = getHelpButton();
+		
 		if (getInstance().getHelpBroker() != null) {
-			CSH.setHelpIDString(button, "taskunifier");
-			button.addActionListener(new CSH.DisplayHelpFromSource(
-					getInstance().getHelpBroker()));
+			CSH.setHelpIDString(button, id);
+			ActionListener listener = null;
+			listener = new CSH.DisplayHelpFromSource(hb);
+			button.addActionListener(listener);
 		}
 		
 		return button;

@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
@@ -53,15 +54,15 @@ import com.leclercb.taskunifier.gui.utils.FormBuilder;
 public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	
 	private boolean showAfterRestart;
-	private String helpId;
+	private JButton helpButton;
 	private List<ConfigurationField> fields;
 	
 	public DefaultConfigurationPanel() {
-		this(true, null);
+		this(true, (JButton) null);
 	}
 	
 	public DefaultConfigurationPanel(boolean showAfterRestart) {
-		this(showAfterRestart, null);
+		this(showAfterRestart, (JButton) null);
 	}
 	
 	public DefaultConfigurationPanel(String helpId) {
@@ -69,8 +70,14 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	}
 	
 	public DefaultConfigurationPanel(boolean showAfterRestart, String helpId) {
+		this(showAfterRestart, Help.getHelpButton(helpId));
+	}
+	
+	public DefaultConfigurationPanel(
+			boolean showAfterRestart,
+			JButton helpButton) {
 		this.showAfterRestart = showAfterRestart;
-		this.helpId = helpId;
+		this.helpButton = helpButton;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
 	
@@ -138,10 +145,10 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		JLabel label = null;
 		Component component = null;
 		
-		if (this.helpId != null) {
+		if (this.helpButton != null) {
 			builder.append(
 					"",
-					ComponentFactory.createButtonsPanel(Help.getHelpButton(this.helpId)));
+					ComponentFactory.createButtonsPanel(this.helpButton));
 		}
 		
 		boolean afterRestartFound = false;
