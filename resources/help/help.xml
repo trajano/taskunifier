@@ -30,8 +30,8 @@
 
 	<presentation default="true" displayviewimages="false">
 		<name>main</name>
-		<size width="900" height="400" />
-		<location x="100" y="100" />
+		<size width="900" height="600" />
+		<location x="50" y="50" />
 		<title>TaskUnifier Help</title>
 		<toolbar>
 			<helpaction>javax.help.BackAction</helpaction>

@@ -8,6 +8,8 @@
 		
 			<tocitem text="General" target="configuration_general" />
 			<tocitem text="Proxy" target="configuration_proxy" />
+			<tocitem text="Columns" target="configuration_columns" />
+			<tocitem text="Searcher" target="configuration_searcher" />
 			<tocitem text="Synchronization" target="configuration_synchronization" />
 		
 		</tocitem>

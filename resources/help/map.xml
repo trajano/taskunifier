@@ -4,8 +4,10 @@
 
 	<mapID target="taskunifier" url="pages/taskunifier.html" />
 
+	<mapID target="configuration_columns" url="pages/configuration_columns.html" />
 	<mapID target="configuration_general" url="pages/configuration_general.html" />
 	<mapID target="configuration_proxy" url="pages/configuration_proxy.html" />
+	<mapID target="configuration_searcher" url="pages/configuration_searcher.html" />
 	<mapID target="configuration_synchronization" url="pages/configuration_synchronization.html" />
 	<mapID target="manage_task_templates" url="pages/manage_task_templates.html" />
 	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />

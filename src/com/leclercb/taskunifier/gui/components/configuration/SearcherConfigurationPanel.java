@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public SearcherConfigurationPanel() {
+		super("configuration_searcher");
 		this.initialize();
 		this.pack();
 	}

@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ColumnsConfigurationPanel() {
+		super("configuration_columns");
 		this.initialize();
 		this.pack();
 	}
