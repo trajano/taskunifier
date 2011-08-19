@@ -50,7 +50,7 @@ public class SynchronizerDialog extends WaitDialog {
 	
 	@Override
 	public void setVisible(boolean visible) {
-		if (Synchronizing.isSynchronizing())
+		if (visible && Synchronizing.isSynchronizing())
 			return;
 		
 		super.setVisible(visible);
