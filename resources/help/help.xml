@@ -20,13 +20,6 @@
 	</view>
 
 	<view>
-		<name>index</name>
-		<label>Index</label>
-		<type>javax.help.IndexView</type>
-		<data>index.xml</data>
-	</view>
-
-	<view>
 		<name>search</name>
 		<label>Search</label>
 		<type>javax.help.SearchView</type>
