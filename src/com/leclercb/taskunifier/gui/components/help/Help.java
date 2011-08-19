@@ -84,10 +84,14 @@ public final class Help {
 	}
 	
 	public static void showHelpDialog(String id) {
+		showHelpDialog(DEFAULT_HELP.getHelpBroker(), id);
+	}
+	
+	public static void showHelpDialog(HelpBroker hb, String id) {
 		if (id == null)
 			id = "taskunifier";
 		
-		// TODO help dialog
+		hb.setDisplayed(true);
 	}
 	
 	private static JButton getHelpButton() {
