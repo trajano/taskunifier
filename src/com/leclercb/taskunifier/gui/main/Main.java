@@ -258,7 +258,9 @@ public class Main {
 	private static void loadDeveloperMode() {
 		String developerMode = System.getProperty("com.leclercb.taskunifier.developer_mode");
 		DEVELOPER_MODE = "true".equals(developerMode);
-		GuiLogger.getLogger().severe("DEVELOPER MODE");
+		
+		if (DEVELOPER_MODE)
+			GuiLogger.getLogger().severe("DEVELOPER MODE");
 	}
 	
 	private static void loadResourceFolder() throws Exception {
