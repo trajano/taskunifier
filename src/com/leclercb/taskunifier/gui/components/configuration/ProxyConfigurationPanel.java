@@ -45,6 +45,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyH
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyLoginFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPasswordFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPortFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyTestConnectionFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.UseSystemProxiesFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -93,6 +94,16 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				"PASSWORD",
 				Translations.getString("configuration.proxy.password"),
 				new ProxyPasswordFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"TEST_CONNECTION",
+				null,
+				new ProxyTestConnectionFieldType(this)));
 		
 		useSystemProxiesField.addActionListener(new ActionListener() {
 			

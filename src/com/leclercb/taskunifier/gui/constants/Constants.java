@@ -80,6 +80,7 @@ public final class Constants {
 	public static final String REVIEW_URL = "http://sourceforge.net/projects/taskunifier/reviews/";
 	public static final String BUG_URL = "http://sourceforge.net/tracker/?group_id=380204";
 	public static final String FEATURE_REQUEST_URL = "http://sourceforge.net/tracker/?group_id=380204";
+	public static final String TEST_CONNECTION = "http://www.google.com";
 	
 	private static NoteSorter DEFAULT_NOTE_SORTER;
 	private static NoteSearcher DEFAULT_NOTE_SEARCHER;
