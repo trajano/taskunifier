@@ -1,6 +1,8 @@
 HISTORY
 -------
 
+Version 1.0.6
+
 Version 1.0.5
 	- Improved help
 	- Bug fixed: Synchronization window blocked
