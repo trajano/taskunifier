@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -13,15 +14,29 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionPostponeTasks extends AbstractViewAction {
 	
+	public static enum PostponeType {
+		
+		START_DATE,
+		DUE_DATE,
+		BOTH;
+		
+	}
+	
+	private PostponeType type;
 	private int field;
 	private int amount;
 	
-	public ActionPostponeTasks(String title, int field, int amount) {
-		this(title, field, amount, 32, 32);
+	public ActionPostponeTasks(
+			String title,
+			PostponeType type,
+			int field,
+			int amount) {
+		this(title, type, field, amount, 32, 32);
 	}
 	
 	public ActionPostponeTasks(
 			String title,
+			PostponeType type,
 			int field,
 			int amount,
 			int width,
@@ -33,6 +48,9 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		
+		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		
+		this.type = type;
 		this.field = field;
 		this.amount = amount;
 		
@@ -43,40 +61,80 @@ public class ActionPostponeTasks extends AbstractViewAction {
 	public void actionPerformed(ActionEvent e) {
 		postponeTasks(
 				ViewType.getTaskView().getTaskTableView().getSelectedTasks(),
+				this.type,
 				this.field,
 				this.amount);
 	}
 	
-	public static void postponeTasks(Task[] tasks, int field, int amount) {
-		for (Task task : tasks) {
-			boolean fromCurrentDate = Main.SETTINGS.getBooleanProperty("task.postpone_from_current_date");
-			Calendar newDueDate = task.getDueDate();
-			
-			if (newDueDate == null)
-				continue;
-			
-			if (fromCurrentDate
-					|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
-				Calendar now = Calendar.getInstance();
-				newDueDate.set(
-						now.get(Calendar.YEAR),
-						now.get(Calendar.MONTH),
-						now.get(Calendar.DAY_OF_MONTH));
+	public static void postponeTasks(
+			Task[] tasks,
+			PostponeType type,
+			int field,
+			int amount) {
+		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		
+		if (tasks == null)
+			return;
+		
+		boolean fromCurrentDate = Main.SETTINGS.getBooleanProperty("task.postpone_from_current_date");
+		
+		if (type == PostponeType.BOTH)
+			fromCurrentDate = false;
+		
+		if (type == PostponeType.START_DATE || type == PostponeType.BOTH) {
+			for (Task task : tasks) {
+				Calendar newStartDate = task.getStartDate();
+				
+				if (newStartDate == null)
+					continue;
+				
+				if (fromCurrentDate
+						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
+					Calendar now = Calendar.getInstance();
+					newStartDate.set(
+							now.get(Calendar.YEAR),
+							now.get(Calendar.MONTH),
+							now.get(Calendar.DAY_OF_MONTH));
+				}
+				
+				newStartDate.add(field, amount);
+				
+				task.setStartDate(newStartDate);
 			}
-			
-			newDueDate.add(field, amount);
-			
-			task.setDueDate(newDueDate);
+		}
+		
+		if (type == PostponeType.DUE_DATE || type == PostponeType.BOTH) {
+			for (Task task : tasks) {
+				Calendar newDueDate = task.getDueDate();
+				
+				if (newDueDate == null)
+					continue;
+				
+				if (fromCurrentDate
+						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
+					Calendar now = Calendar.getInstance();
+					newDueDate.set(
+							now.get(Calendar.YEAR),
+							now.get(Calendar.MONTH),
+							now.get(Calendar.DAY_OF_MONTH));
+				}
+				
+				newDueDate.add(field, amount);
+				
+				task.setDueDate(newDueDate);
+			}
 		}
 	}
 	
 	public static ActionPostponeTasks[] createDefaultActions(
+			PostponeType type,
 			int width,
 			int height) {
 		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.today"),
+				type,
 				Calendar.DAY_OF_MONTH,
 				0,
 				width,
@@ -84,6 +142,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.1_day"),
+				type,
 				Calendar.DAY_OF_MONTH,
 				1,
 				width,
@@ -91,14 +150,15 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_days",
-				2), Calendar.DAY_OF_MONTH, 2, width, height));
+				2), type, Calendar.DAY_OF_MONTH, 2, width, height));
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_days",
-				3), Calendar.DAY_OF_MONTH, 3, width, height));
+				3), type, Calendar.DAY_OF_MONTH, 3, width, height));
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.1_week"),
+				type,
 				Calendar.WEEK_OF_YEAR,
 				1,
 				width,
@@ -106,14 +166,15 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_weeks",
-				2), Calendar.WEEK_OF_YEAR, 2, width, height));
+				2), type, Calendar.WEEK_OF_YEAR, 2, width, height));
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_weeks",
-				3), Calendar.WEEK_OF_YEAR, 3, width, height));
+				3), type, Calendar.WEEK_OF_YEAR, 3, width, height));
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.1_month"),
+				type,
 				Calendar.MONTH,
 				1,
 				width,
@@ -121,14 +182,15 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_months",
-				2), Calendar.MONTH, 2, width, height));
+				2), type, Calendar.MONTH, 2, width, height));
 		
 		actions.add(new ActionPostponeTasks(Translations.getString(
 				"postpone.x_months",
-				3), Calendar.MONTH, 3, width, height));
+				3), type, Calendar.MONTH, 3, width, height));
 		
 		actions.add(new ActionPostponeTasks(
 				Translations.getString("postpone.1_year"),
+				type,
 				Calendar.YEAR,
 				1,
 				width,

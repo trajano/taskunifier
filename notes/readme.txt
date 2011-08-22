@@ -4,6 +4,7 @@ HISTORY
 Version 1.0.6
 	- Spanish translations
 	- Test proxy connection button
+	- FR 3393644: Postpone start date
 
 Version 1.0.5
 	- Improved help
