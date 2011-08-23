@@ -108,6 +108,9 @@ public final class Help {
 	}
 	
 	public static JButton getHelpButton(HelpBroker hb, String id) {
+		if (id == null)
+			return null;
+		
 		JButton button = getHelpButton();
 		
 		if (hb != null) {
