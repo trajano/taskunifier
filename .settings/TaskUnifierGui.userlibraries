@@ -15,5 +15,6 @@
         <archive javadoc="jar:file:/C:/Documents and Settings/IGK557/My Documents/Eclipse/TaskUnifierGui/doc/jfreechart-1.0.13.zip!/" path="/TaskUnifierGui/lib/jfreechart-1.0.13.jar"/>
         <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
         <archive path="/TaskUnifierGui/lib/jhall.jar"/>
+        <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
     </library>
 </eclipse-userlibraries>
