@@ -34,8 +34,6 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.SortOrder;
-
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
@@ -43,10 +41,9 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -75,24 +72,6 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	}
 	
 	public static void addTaskSearcher() {
-		TaskSorter sorter = new TaskSorter();
-		sorter.addElement(new TaskSorterElement(
-				1,
-				TaskColumn.COMPLETED,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				2,
-				TaskColumn.DUE_DATE,
-				SortOrder.ASCENDING));
-		sorter.addElement(new TaskSorterElement(
-				3,
-				TaskColumn.PRIORITY,
-				SortOrder.DESCENDING));
-		sorter.addElement(new TaskSorterElement(
-				4,
-				TaskColumn.TITLE,
-				SortOrder.ASCENDING));
-		
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		
@@ -109,7 +88,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 				Integer.MAX_VALUE,
 				Translations.getString("searcher.default.title"),
 				filter,
-				sorter);
+				Constants.getDefaultTaskSorter());
 		
 		ActionEditTaskSearcher.editTaskSearcher();
 	}

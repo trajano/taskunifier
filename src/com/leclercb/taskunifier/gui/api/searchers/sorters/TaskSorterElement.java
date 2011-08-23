@@ -39,16 +39,13 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskSorterElement extends SorterElement<Task, TaskColumn> implements Cloneable {
 	
-	public TaskSorterElement(int order, TaskColumn property, SortOrder sortOrder) {
-		super(order, property, sortOrder);
+	public TaskSorterElement(TaskColumn property, SortOrder sortOrder) {
+		super(property, sortOrder);
 	}
 	
 	@Override
 	public TaskSorterElement clone() {
-		return new TaskSorterElement(
-				this.getOrder(),
-				this.getProperty(),
-				this.getSortOrder());
+		return new TaskSorterElement(this.getProperty(), this.getSortOrder());
 	}
 	
 }

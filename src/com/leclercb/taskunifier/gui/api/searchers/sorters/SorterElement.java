@@ -45,17 +45,13 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class SorterElement<M extends Model, MP extends ModelProperties<M>> implements Comparable<SorterElement<M, MP>>, PropertyChangeSupported {
+public class SorterElement<M extends Model, MP extends ModelProperties<M>> implements PropertyChangeSupported {
 	
-	public static final String PROP_ORDER = "order";
 	public static final String PROP_PROPERTY = "property";
 	public static final String PROP_SORT_ORDER = "sortOrder";
 	
 	@XStreamOmitField
-	private PropertyChangeSupport propertyChangeSupport;
-	
-	@XStreamAlias("order")
-	private int order;
+	private transient PropertyChangeSupport propertyChangeSupport;
 	
 	@XStreamAlias("column")
 	private MP property;
@@ -63,25 +59,11 @@ public class SorterElement<M extends Model, MP extends ModelProperties<M>> imple
 	@XStreamAlias("sortorder")
 	private SortOrder sortOrder;
 	
-	public SorterElement(int order, MP property, SortOrder sortOrder) {
+	public SorterElement(MP property, SortOrder sortOrder) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.setOrder(order);
 		this.setProperty(property);
 		this.setSortOrder(sortOrder);
-	}
-	
-	public int getOrder() {
-		return this.order;
-	}
-	
-	public void setOrder(int order) {
-		int oldOrder = this.order;
-		this.order = order;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_ORDER,
-				oldOrder,
-				order);
 	}
 	
 	public MP getProperty() {
@@ -118,14 +100,6 @@ public class SorterElement<M extends Model, MP extends ModelProperties<M>> imple
 				+ " ("
 				+ TranslationsUtils.translateSortOrder(this.sortOrder)
 				+ ")";
-	}
-	
-	@Override
-	public int compareTo(SorterElement<M, MP> element) {
-		if (element == null)
-			return 1;
-		
-		return new Integer(this.order).compareTo(element.order);
 	}
 	
 	@Override

@@ -84,15 +84,12 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		sorter = new TaskSorter();
 		
 		sorter.addElement(new TaskSorterElement(
-				1,
 				TaskColumn.DUE_DATE,
 				SortOrder.ASCENDING));
 		sorter.addElement(new TaskSorterElement(
-				2,
 				TaskColumn.PRIORITY,
 				SortOrder.DESCENDING));
 		sorter.addElement(new TaskSorterElement(
-				3,
 				TaskColumn.TITLE,
 				SortOrder.ASCENDING));
 		
@@ -162,7 +159,6 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		TaskSorter importanceSorter = new TaskSorter();
 		
 		importanceSorter.addElement(new TaskSorterElement(
-				1,
 				TaskColumn.IMPORTANCE,
 				SortOrder.DESCENDING));
 		

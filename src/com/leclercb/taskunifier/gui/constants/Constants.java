@@ -117,12 +117,10 @@ public final class Constants {
 				DEFAULT_NOTE_SORTER = new NoteSorter();
 				
 				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
-						1,
 						NoteColumn.FOLDER,
 						SortOrder.ASCENDING));
 				
 				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
-						2,
 						NoteColumn.TITLE,
 						SortOrder.ASCENDING));
 				
@@ -138,15 +136,12 @@ public final class Constants {
 				DEFAULT_TASK_SORTER = new TaskSorter();
 				
 				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						1,
 						TaskColumn.DUE_DATE,
 						SortOrder.ASCENDING));
 				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						2,
 						TaskColumn.PRIORITY,
 						SortOrder.DESCENDING));
 				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						3,
 						TaskColumn.TITLE,
 						SortOrder.ASCENDING));
 				

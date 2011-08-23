@@ -65,7 +65,7 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 2;
 	}
 	
 	@Override
@@ -80,10 +80,8 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	public String getColumnName(int col) {
 		switch (col) {
 			case 0:
-				return Translations.getString("task_sorter.order");
-			case 1:
 				return Translations.getString("task_sorter.column");
-			case 2:
+			case 1:
 				return Translations.getString("task_sorter.sort_order");
 			default:
 				return null;
@@ -94,10 +92,8 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	public Class<?> getColumnClass(int col) {
 		switch (col) {
 			case 0:
-				return String.class;
-			case 1:
 				return TaskColumn.class;
-			case 2:
+			case 1:
 				return SortOrder.class;
 			default:
 				return null;
@@ -108,10 +104,8 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 			case 0:
-				return this.sorter.getElement(row).getOrder() + "";
-			case 1:
 				return this.sorter.getElement(row).getProperty();
-			case 2:
+			case 1:
 				return this.sorter.getElement(row).getSortOrder();
 			default:
 				return null;
@@ -120,9 +114,6 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		if (col == 0)
-			return false;
-		
 		return true;
 	}
 	
@@ -130,13 +121,9 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	public void setValueAt(Object value, int row, int col) {
 		switch (col) {
 			case 0:
-				this.sorter.getElement(row).setOrder(
-						Integer.parseInt((String) value));
-				break;
-			case 1:
 				this.sorter.getElement(row).setProperty((TaskColumn) value);
 				break;
-			case 2:
+			case 1:
 				this.sorter.getElement(row).setSortOrder((SortOrder) value);
 				break;
 		}

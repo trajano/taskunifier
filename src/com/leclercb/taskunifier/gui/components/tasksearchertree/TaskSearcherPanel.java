@@ -168,11 +168,11 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		}
 		
 		if (Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks_at_the_end")) {
-			searcher.getSorter().addElement(
+			searcher.getSorter().insertElement(
 					new TaskSorterElement(
-							0,
 							TaskColumn.COMPLETED,
-							SortOrder.ASCENDING));
+							SortOrder.ASCENDING),
+					0);
 		}
 		
 		return searcher;

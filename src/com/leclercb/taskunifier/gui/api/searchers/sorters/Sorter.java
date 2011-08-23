@@ -79,11 +79,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public List<SE> getElements() {
-		List<SE> sortElements = new ArrayList<SE>(this.elements);
-		
-		Collections.sort(sortElements);
-		
-		return Collections.unmodifiableList(sortElements);
+		return Collections.unmodifiableList(this.elements);
 	}
 	
 	public void addElement(SE element) {
@@ -97,8 +93,18 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 				element);
 	}
 	
+	public void insertElement(SE element, int index) {
+		CheckUtils.isNotNull(element, "Element cannot be null");
+		this.elements.add(index, element);
+		element.addPropertyChangeListener(this);
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_ADDED,
+				index,
+				element);
+	}
+	
 	public void removeElement(SE element) {
-		CheckUtils.isNotNull(element, "Searcher cannot be null");
+		CheckUtils.isNotNull(element, "Element cannot be null");
 		
 		int index = this.elements.indexOf(element);
 		if (this.elements.remove(element)) {

@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.searcheredit.sorter.draganddrop;
 
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -43,8 +42,8 @@ import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
-import com.leclercb.taskunifier.gui.commons.comparators.TaskSorterElementComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferable;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterTable;
@@ -99,27 +98,21 @@ public class TaskSorterTransferHandler extends TransferHandler {
 			
 			// Import : If insert row
 			if (dl.isInsertRow()) {
+				TaskSorter sorter = table.getTaskSorter();
+				
 				List<TaskSorterElement> dragElements = new ArrayList<TaskSorterElement>();
-				for (int i : data.getElementIndexes()) {
-					dragElements.add(table.getTaskSorter().getElement(i));
-				}
+				for (int i : data.getElementIndexes())
+					dragElements.add(sorter.getElement(i));
 				
 				TaskSorterElement dropElement = table.getTaskSorterElement(table.rowAtPoint(dl.getDropPoint()));
 				
-				List<TaskSorterElement> elements = new ArrayList<TaskSorterElement>(
-						table.getTaskSorter().getElements());
-				Collections.sort(elements, new TaskSorterElementComparator());
+				for (TaskSorterElement element : dragElements)
+					sorter.removeElement(element);
 				
-				int index = elements.indexOf(dropElement);
+				int index = sorter.getIndexOf(dropElement);
 				
-				elements.removeAll(dragElements);
-				
-				elements.addAll(index, dragElements);
-				
-				int order = 1;
-				for (TaskSorterElement element : elements) {
-					element.setOrder(order++);
-				}
+				for (TaskSorterElement element : dragElements)
+					sorter.insertElement(element, index++);
 			}
 			
 			return true;

@@ -5,6 +5,7 @@ Version 1.0.6
 	- Spanish translations
 	- Test proxy connection button
 	- FR 3393644: Postpone start date
+	- FR 3306562: Sort with column header
 
 Version 1.0.5
 	- Improved help

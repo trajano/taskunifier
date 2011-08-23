@@ -61,15 +61,10 @@ public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 				if (nSorter.item(i).getNodeName().equals("element")) {
 					NodeList nElement = nSorter.item(i).getChildNodes();
 					
-					int order = 0;
 					TaskColumn column = null;
 					SortOrder sortOrder = null;
 					
 					for (int j = 0; j < nElement.getLength(); j++) {
-						if (nElement.item(j).getNodeName().equals("order")) {
-							order = Integer.parseInt(nElement.item(j).getTextContent());
-						}
-						
 						if (nElement.item(j).getNodeName().equals("column")) {
 							column = TaskColumn.valueOf(nElement.item(j).getTextContent());
 						}
@@ -79,10 +74,7 @@ public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 						}
 					}
 					
-					sorter.addElement(new TaskSorterElement(
-							order,
-							column,
-							sortOrder));
+					sorter.addElement(new TaskSorterElement(column, sortOrder));
 				}
 			}
 			
@@ -97,10 +89,6 @@ public class TaskSorterXMLCoder extends AbstractXMLCoder<TaskSorter> {
 		for (TaskSorterElement e : sorter.getElements()) {
 			Element element = document.createElement("element");
 			root.appendChild(element);
-			
-			Element order = document.createElement("order");
-			order.setTextContent(e.getOrder() + "");
-			element.appendChild(order);
 			
 			Element column = document.createElement("column");
 			column.setTextContent(e.getProperty().name());

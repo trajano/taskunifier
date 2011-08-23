@@ -39,16 +39,13 @@ import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 
 public class NoteSorterElement extends SorterElement<Note, NoteColumn> implements Cloneable {
 	
-	public NoteSorterElement(int order, NoteColumn property, SortOrder sortOrder) {
-		super(order, property, sortOrder);
+	public NoteSorterElement(NoteColumn property, SortOrder sortOrder) {
+		super(property, sortOrder);
 	}
 	
 	@Override
 	public NoteSorterElement clone() {
-		return new NoteSorterElement(
-				this.getOrder(),
-				this.getProperty(),
-				this.getSortOrder());
+		return new NoteSorterElement(this.getProperty(), this.getSortOrder());
 	}
 	
 }

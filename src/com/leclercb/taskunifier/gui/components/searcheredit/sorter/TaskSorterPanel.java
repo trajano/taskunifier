@@ -37,9 +37,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -50,7 +47,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
-import com.leclercb.taskunifier.gui.commons.comparators.TaskSorterElementComparator;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -116,7 +112,6 @@ public class TaskSorterPanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("ADD")) {
 					TaskSorterElement element = new TaskSorterElement(
-							TaskSorterPanel.this.sorter.getElementCount() + 1,
 							TaskColumn.TITLE,
 							SortOrder.ASCENDING);
 					
@@ -125,30 +120,12 @@ public class TaskSorterPanel extends JPanel {
 					if (TaskSorterPanel.this.table.getCellEditor() != null)
 						TaskSorterPanel.this.table.getCellEditor().stopCellEditing();
 					
-					List<TaskSorterElement> elements = null;
-					
 					int[] selectedRows = TaskSorterPanel.this.table.getSelectedRows();
-					elements = new ArrayList<TaskSorterElement>();
 					
 					for (int selectedRow : selectedRows) {
 						TaskSorterElement element = TaskSorterPanel.this.table.getTaskSorterElement(selectedRow);
 						if (element != null)
-							elements.add(element);
-					}
-					
-					for (TaskSorterElement element : elements) {
-						TaskSorterPanel.this.sorter.removeElement(element);
-					}
-					
-					elements = new ArrayList<TaskSorterElement>(
-							TaskSorterPanel.this.sorter.getElements());
-					Collections.sort(
-							elements,
-							new TaskSorterElementComparator());
-					
-					int order = 1;
-					for (TaskSorterElement element : elements) {
-						element.setOrder(order++);
+							TaskSorterPanel.this.sorter.removeElement(element);
 					}
 				}
 			}

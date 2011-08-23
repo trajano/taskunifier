@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
@@ -41,12 +40,10 @@ import javax.swing.DropMode;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
@@ -95,8 +92,7 @@ public class TaskSorterTable extends JTable {
 	
 	public TaskSorterElement getTaskSorterElement(int row) {
 		try {
-			int index = this.getRowSorter().convertRowIndexToModel(row);
-			return ((TaskSorterTableModel) this.getModel()).getTaskSorterElement(index);
+			return ((TaskSorterTableModel) this.getModel()).getTaskSorterElement(row);
 		} catch (IndexOutOfBoundsException exc) {
 			return null;
 		}
@@ -127,23 +123,12 @@ public class TaskSorterTable extends JTable {
 		this.getTableHeader().setReorderingAllowed(false);
 		
 		this.initializeDragAndDrop();
-		this.initiliazeTableSorter();
 	}
 	
 	private void initializeDragAndDrop() {
 		this.setDragEnabled(true);
 		this.setTransferHandler(new TaskSorterTransferHandler());
 		this.setDropMode(DropMode.INSERT_ROWS);
-	}
-	
-	private void initiliazeTableSorter() {
-		TableRowSorter<TaskSorterTableModel> sorter = new TableRowSorter<TaskSorterTableModel>(
-				(TaskSorterTableModel) this.getModel());
-		sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(
-				0,
-				SortOrder.ASCENDING)));
-		
-		this.setRowSorter(sorter);
 	}
 	
 	@Override
