@@ -89,7 +89,12 @@ public class TasksDueDateCalendar extends TasksCalendar {
 					+ TaskUtils.getImportance(task)));
 			
 			if (!task.isCompleted() && task.isOverDue(false))
-				event.setIcon(Images.getResourceImage("warning.gif"));
+				event.setIcon(Images.getResourceImage("warning_red.png", 16, 16));
+			else
+				event.setIcon(Images.getResourceImage(
+						"warning_green.png",
+						16,
+						16));
 			
 			this.events.add(event);
 		}

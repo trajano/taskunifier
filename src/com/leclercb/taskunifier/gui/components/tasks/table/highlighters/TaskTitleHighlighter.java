@@ -131,9 +131,9 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue(!useDueTime))
-			r.setIcon(Images.getResourceImage("warning.gif"));
+			r.setIcon(Images.getResourceImage("warning.png", 16, 16));
 		else
-			r.setIcon(Images.getResourceImage("transparent.png"));
+			r.setIcon(Images.getResourceImage("transparent.png", 16, 16));
 		
 		// Set Progress
 		r.setPainter(new Painter<JLabel>() {

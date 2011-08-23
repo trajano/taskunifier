@@ -130,7 +130,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				3,
 				Translations.getString("searcherlist.general.overdue"),
-				Images.getResourceFile("warning.gif"),
+				Images.getResourceFile("warning.png"),
 				filter,
 				sorter.clone());
 		

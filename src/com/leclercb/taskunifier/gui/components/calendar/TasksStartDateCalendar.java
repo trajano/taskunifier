@@ -87,8 +87,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
 					+ TaskUtils.getImportance(task)));
 			
-			if (!task.isCompleted() && task.isOverDue(false))
-				event.setIcon(Images.getResourceImage("warning.gif"));
+			event.setIcon(Images.getResourceImage("warning_blue.png", 16, 16));
 			
 			this.events.add(event);
 		}
