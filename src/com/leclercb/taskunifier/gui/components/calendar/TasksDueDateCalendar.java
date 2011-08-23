@@ -32,7 +32,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 				Color.RED);
 		this.events = new ArrayList<Event>();
 		
-		this.setId("TasksDueDateCalendar");
+		this.setId("tasksduedatecalendar");
 	}
 	
 	@Override

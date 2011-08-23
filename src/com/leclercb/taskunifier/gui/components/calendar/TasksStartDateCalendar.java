@@ -14,6 +14,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -31,7 +32,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 				Color.GREEN);
 		this.events = new ArrayList<Event>();
 		
-		this.setId("TasksStartDateCalendar");
+		this.setId("tasksstartdatecalendar");
 	}
 	
 	@Override
@@ -128,6 +129,9 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		
 		task.setLength((int) diff);
 		task.setStartDate(startDate);
+		
+		if (!ActionEditTasks.editTasks(new Task[] { task }))
+			TaskFactory.getInstance().markDeleted(task);
 	}
 	
 	@Override

@@ -23,13 +23,16 @@ import bizcal.swing.CalendarListener.CalendarAdapter;
 import bizcal.util.DateInterval;
 import bizcal.util.TimeOfDay;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 
-public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
+public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
 	
 	private ObservableEventList eventDataList;
 	
@@ -39,12 +42,14 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
 	private DayViewPanel weekViewPanel;
 	
 	private TasksCalendar[] tasksCalendars = new TasksCalendar[] {
-			new TasksDueDateCalendar(),
-			new TasksStartDateCalendar() };
+			new TasksStartDateCalendar(),
+			new TasksDueDateCalendar() };
 	
 	private CalendarPanel calendarPanel;
 	
 	public TasksCalendarPanel(MainView mainView) {
+		Main.SETTINGS.addSavePropertiesListener(this);
+		
 		this.setLayout(new BorderLayout());
 		
 		this.calendarPanel = new CalendarPanel();
@@ -76,8 +81,32 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
-		for (TasksCalendar calendar : this.tasksCalendars)
+		boolean foundSelected = false;
+		String selectedCalendar = Main.SETTINGS.getStringProperty("calendar.selected");
+		
+		for (TasksCalendar calendar : this.tasksCalendars) {
+			try {
+				boolean active = Main.SETTINGS.getBooleanProperty("calendar."
+						+ calendar.getId().toString()
+						+ ".active");
+				
+				calendar.setActive(active);
+			} catch (Throwable t) {
+
+			}
+			
 			this.calendarPanel.addNamedCalendar(calendar);
+			
+			if (EqualsUtils.equals(
+					selectedCalendar,
+					calendar.getId().toString())) {
+				foundSelected = true;
+				this.calendarPanel.setSelectedCalendar(calendar);
+			}
+		}
+		
+		if (!foundSelected)
+			this.calendarPanel.setSelectedCalendar(this.tasksCalendars[1]);
 		
 		this.calendarPanel.addNamedCalendarListener(new NamedCalendarListener() {
 			
@@ -100,8 +129,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
 		});
 		
 		// this.calendarPanel.getFunctionsButtonPanel().add();
-		
-		this.calendarPanel.setSelectedCalendar(this.tasksCalendars[0]);
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
@@ -212,6 +239,22 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView {
 			return calendar.getTime();
 		}
 		
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.SETTINGS.remove("calendar.selected");
+		
+		for (TasksCalendar calendar : this.tasksCalendars) {
+			Main.SETTINGS.setBooleanProperty("calendar."
+					+ calendar.getId().toString()
+					+ ".active", calendar.isActive());
+			
+			if (calendar.isSelected())
+				Main.SETTINGS.setStringProperty(
+						"calendar.selected",
+						calendar.getId().toString());
+		}
 	}
 	
 }
