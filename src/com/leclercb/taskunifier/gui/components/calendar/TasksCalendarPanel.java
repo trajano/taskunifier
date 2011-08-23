@@ -87,7 +87,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		for (TasksCalendar calendar : this.tasksCalendars) {
 			try {
 				boolean active = Main.SETTINGS.getBooleanProperty("calendar."
-						+ calendar.getId().toString()
+						+ calendar.getId()
 						+ ".active");
 				
 				calendar.setActive(active);
@@ -247,7 +247,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		for (TasksCalendar calendar : this.tasksCalendars) {
 			Main.SETTINGS.setBooleanProperty("calendar."
-					+ calendar.getId().toString()
+					+ calendar.getId()
 					+ ".active", calendar.isActive());
 			
 			if (calendar.isSelected())
