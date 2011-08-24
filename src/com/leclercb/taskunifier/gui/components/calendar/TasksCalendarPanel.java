@@ -192,6 +192,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				Task task = this.getTask(event);
 				TaskFactory.getInstance().markToDelete(task);
 			}
+			
+			TasksCalendarPanel.this.refreshTasks();
 		}
 		
 		@Override
