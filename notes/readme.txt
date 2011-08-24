@@ -7,6 +7,7 @@ Version 1.0.6
 	- FR 3393644: Postpone start date
 	- FR 3306562: Sort with column header
 	- FR 3396573: Distinction between due/start date calendars
+	- FR 3397425: Add subtask improvement
 
 Version 1.0.5
 	- Improved help

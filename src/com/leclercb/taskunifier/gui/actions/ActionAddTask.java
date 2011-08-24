@@ -106,10 +106,7 @@ public class ActionAddTask extends AbstractViewAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		if (viewType == ViewType.TASKS)
-			ViewType.getTaskView().getTaskTableView().refreshTasks();
-		else if (viewType == ViewType.CALENDAR)
-			ViewType.getCalendarView().getTaskCalendarView().refreshTasks();
+		ViewType.refreshTasks();
 		
 		if (edit) {
 			if (viewType == ViewType.CALENDAR

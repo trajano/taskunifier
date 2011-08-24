@@ -1,7 +1,9 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lu.tudor.santec.bizcal.NamedCalendar;
 import bizcal.common.Event;
@@ -37,6 +39,21 @@ public abstract class TasksCalendar extends NamedCalendar {
 	
 	public static Task getTask(Event event) {
 		return TaskFactory.getInstance().get((ModelId) event.getId());
+	}
+	
+	public static Task[] getTasks(List<Event> events) {
+		List<Task> tasks = new ArrayList<Task>();
+		
+		for (Event event : events) {
+			Task task = getTask(event);
+			
+			if (tasks.contains(task))
+				continue;
+			
+			tasks.add(task);
+		}
+		
+		return tasks.toArray(new Task[0]);
 	}
 	
 }

@@ -78,6 +78,7 @@ public enum ViewType implements ActionSupported {
 	private ViewType(String label) {
 		this.actionSupport = new ActionSupport(this);
 		
+		this.view = null;
 		this.label = label;
 	}
 	

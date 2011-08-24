@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.components.calendar;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,10 +29,14 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
+	
+	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
 	private ObservableEventList eventDataList;
 	
@@ -47,6 +52,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	private CalendarPanel calendarPanel;
 	
 	public TasksCalendarPanel(MainView mainView) {
+		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
+		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
 		this.setLayout(new BorderLayout());
@@ -144,19 +151,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	@Override
 	public Task[] getSelectedTasks() {
 		Event[] events = this.calendarPanel.getCurrentView().getView().getSelectedEvents();
-		
-		List<Task> tasks = new ArrayList<Task>();
-		
-		for (Event event : events) {
-			Task task = TasksCalendar.getTask(event);
-			
-			if (tasks.contains(task))
-				continue;
-			
-			tasks.add(task);
-		}
-		
-		return tasks.toArray(new Task[0]);
+		return TasksCalendar.getTasks(Arrays.asList(events));
 	}
 	
 	@Override
@@ -179,6 +174,16 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	}
 	
 	private class TasksCalendarListener extends CalendarAdapter {
+		
+		@Override
+		public void eventSelected(Object id, Event event) throws Exception {
+			this.eventsSelected(Arrays.asList(event));
+		}
+		
+		@Override
+		public void eventsSelected(List<Event> events) throws Exception {
+			TasksCalendarPanel.this.modelSelectionChangeSupport.fireModelSelectionChange(TasksCalendar.getTasks(events));
+		}
 		
 		@Override
 		public void eventDoubleClick(
@@ -205,17 +210,9 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		@Override
 		public void deleteEvents(List<Event> events) {
-			List<Task> tasks = new ArrayList<Task>();
-			
-			for (Event event : events) {
-				Task task = TasksCalendar.getTask(event);
-				
-				if (tasks.contains(task))
-					continue;
-				
+			Task[] tasks = TasksCalendar.getTasks(events);
+			for (Task task : tasks) {
 				TaskFactory.getInstance().markToDelete(task);
-				
-				tasks.add(task);
 			}
 			
 			TasksCalendarPanel.this.refreshTasks();
@@ -286,6 +283,17 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 						"calendar.selected",
 						calendar.getId().toString());
 		}
+	}
+	
+	@Override
+	public void addModelSelectionChangeListener(ModelSelectionListener listener) {
+		this.modelSelectionChangeSupport.addModelSelectionChangeListener(listener);
+	}
+	
+	@Override
+	public void removeModelSelectionChangeListener(
+			ModelSelectionListener listener) {
+		this.modelSelectionChangeSupport.removeModelSelectionChangeListener(listener);
 	}
 	
 }
