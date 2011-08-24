@@ -187,6 +187,14 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		}
 		
 		@Override
+		public void deleteEvents(List<Event> events) {
+			for (Event event : events) {
+				Task task = this.getTask(event);
+				TaskFactory.getInstance().markToDelete(task);
+			}
+		}
+		
+		@Override
 		public void moved(
 				Event event,
 				Object orgCalId,
