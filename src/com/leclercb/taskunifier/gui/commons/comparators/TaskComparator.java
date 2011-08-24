@@ -280,6 +280,12 @@ public class TaskComparator implements Comparator<Task> {
 		if (calendar2 == null)
 			return -1;
 		
+		calendar1.set(Calendar.SECOND, 0);
+		calendar1.set(Calendar.MILLISECOND, 0);
+		
+		calendar2.set(Calendar.SECOND, 0);
+		calendar2.set(Calendar.MILLISECOND, 0);
+		
 		return calendar1.compareTo(calendar2);
 	}
 	

@@ -47,7 +47,7 @@ public abstract class TasksCalendar extends NamedCalendar {
 		for (Event event : events) {
 			Task task = getTask(event);
 			
-			if (tasks.contains(task))
+			if (task == null || tasks.contains(task))
 				continue;
 			
 			tasks.add(task);
