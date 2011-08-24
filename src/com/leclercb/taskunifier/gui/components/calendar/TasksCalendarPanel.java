@@ -28,6 +28,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
@@ -188,10 +189,36 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		@Override
 		public void deleteEvents(List<Event> events) {
+			List<Task> tasks = new ArrayList<Task>();
+			
 			for (Event event : events) {
 				Task task = this.getTask(event);
+				
+				if (tasks.contains(task))
+					continue;
+				
 				TaskFactory.getInstance().markToDelete(task);
+				
+				tasks.add(task);
 			}
+			
+			TasksCalendarPanel.this.refreshTasks();
+		}
+		
+		@Override
+		public void completeEvents(List<Event> events) {
+			List<Task> tasks = new ArrayList<Task>();
+			
+			for (Event event : events) {
+				Task task = this.getTask(event);
+				
+				if (tasks.contains(task))
+					continue;
+				
+				tasks.add(task);
+			}
+			
+			ActionCompleteTasks.completeTasks(tasks.toArray(new Task[0]));
 			
 			TasksCalendarPanel.this.refreshTasks();
 		}

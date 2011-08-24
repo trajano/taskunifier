@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCollapseAll;
+import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
@@ -233,6 +234,7 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionEditTasks(16, 16));
+		tasksMenu.add(new ActionCompleteTasks(16, 16));
 		tasksMenu.add(new ActionDuplicateTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
 		

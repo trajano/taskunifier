@@ -291,7 +291,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.setColumnControlVisible(true);
 		
 		this.initializeHeaderListener();
-		this.initializeDeleteTask();
+		this.initializeDeleteTasks();
 		this.initializeEditNote();
 		this.initializeTaskTableMenu();
 		this.initializeDragAndDrop();
@@ -387,7 +387,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		});
 	}
 	
-	private void initializeDeleteTask() {
+	private void initializeDeleteTasks() {
 		this.addKeyListener(new KeyAdapter() {
 			
 			@Override
