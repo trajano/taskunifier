@@ -92,25 +92,9 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 	}
 	
 	private void initializeButtonsPanel(JPanel topPanel) {
-		ActionListener listener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DefaultCalendarView.this.calendarPanel.refreshTasks();
-			}
-			
-		};
-		
-		JButton udpateButton = new JButton(
-				Translations.getString("general.update"));
-		udpateButton.setActionCommand("UPDATE");
-		udpateButton.addActionListener(listener);
-		
 		JButton helpButton = Help.getHelpButton("view_calendar");
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				udpateButton,
-				helpButton);
+		JPanel panel = ComponentFactory.createButtonsPanel(helpButton);
 		
 		topPanel.add(panel, BorderLayout.EAST);
 	}

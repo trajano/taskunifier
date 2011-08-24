@@ -59,7 +59,7 @@ public class ActionDelete extends AbstractViewAction {
 		super(Translations.getString("action.delete"), Images.getResourceImage(
 				"remove.png",
 				width,
-				height), ViewType.TASKS, ViewType.NOTES);
+				height), ViewType.TASKS, ViewType.NOTES, ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -78,8 +78,10 @@ public class ActionDelete extends AbstractViewAction {
 	}
 	
 	public static void delete() {
-		if (MainFrame.getInstance().getSelectedViewType() == ViewType.TASKS) {
-			Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
+			Task[] tasks = ViewType.getSelectedTasks();
 			
 			boolean hasSubTasks = false;
 			
@@ -113,7 +115,7 @@ public class ActionDelete extends AbstractViewAction {
 			}
 			
 			Synchronizing.setSynchronizing(false);
-		} else if (MainFrame.getInstance().getSelectedViewType() == ViewType.NOTES) {
+		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
 			
 			for (Note note : notes) {

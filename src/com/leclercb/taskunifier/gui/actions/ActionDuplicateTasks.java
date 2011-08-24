@@ -53,7 +53,8 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 		super(
 				Translations.getString("action.duplicate_tasks"),
 				Images.getResourceImage("duplicate.png", width, height),
-				ViewType.TASKS);
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -64,7 +65,7 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateTasks.duplicateTasks(ViewType.getTaskView().getTaskTableView().getSelectedTasks());
+		ActionDuplicateTasks.duplicateTasks(ViewType.getSelectedTasks());
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
@@ -86,9 +87,8 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 		
 		Synchronizing.setSynchronizing(false);
 		
-		ViewType.getTaskView().getTaskTableView().refreshTasks();
-		ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-				newTasks.values().toArray(new Task[0]));
+		ViewType.refreshTasks();
+		ViewType.setSelectedTasks(newTasks.values().toArray(new Task[0]));
 	}
 	
 }

@@ -217,7 +217,7 @@ public class TaskTransferHandler extends TransferHandler {
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
 						String title = IOUtils.toString(reader);
-						Task task = ActionAddTask.addTask(title, true, false);
+						Task task = ActionAddTask.addTask(title, false);
 						
 						table.refreshTasks();
 						table.setSelectedTasks(new Task[] { task });

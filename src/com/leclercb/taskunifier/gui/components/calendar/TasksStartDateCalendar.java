@@ -10,7 +10,6 @@ import java.util.List;
 import bizcal.common.Event;
 import bizcal.util.DateInterval;
 
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -119,7 +118,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	
 	@Override
 	public void newEvent(DateInterval interval) throws Exception {
-		Task task = ActionAddTask.addTask(null, false, false);
+		Task task = ActionAddTask.addTask(null, false);
 		
 		long diff = interval.getDuration();
 		diff = diff / (60 * 1000);
@@ -136,7 +135,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	
 	@Override
 	public void moved(Event event, Date orgDate, Date newDate) throws Exception {
-		Task task = this.getTask(event);
+		Task task = TasksCalendar.getTask(event);
 		
 		Calendar startDate = Calendar.getInstance();
 		startDate.setTime(newDate);
@@ -147,7 +146,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	@Override
 	public void resized(Event event, Date orgEndDate, Date newEndDate)
 			throws Exception {
-		Task task = this.getTask(event);
+		Task task = TasksCalendar.getTask(event);
 		
 		long diff = orgEndDate.getTime() - newEndDate.getTime();
 		diff = diff / (60 * 1000);
@@ -156,10 +155,6 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		dueDate.setTime(newEndDate);
 		
 		task.setLength(task.getLength() - (int) diff);
-	}
-	
-	public Task getTask(Event event) {
-		return TaskFactory.getInstance().get((ModelId) event.getId());
 	}
 	
 }

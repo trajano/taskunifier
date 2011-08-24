@@ -44,7 +44,8 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		super(
 				title,
 				Images.getResourceImage("calendar.png", width, height),
-				ViewType.TASKS);
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		
@@ -60,7 +61,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		postponeTasks(
-				ViewType.getTaskView().getTaskTableView().getSelectedTasks(),
+				ViewType.getSelectedTasks(),
 				this.type,
 				this.field,
 				this.amount);
@@ -124,6 +125,8 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				task.setDueDate(newDueDate);
 			}
 		}
+		
+		ViewType.refreshTasks();
 	}
 	
 	public static ActionPostponeTasks[] createDefaultActions(

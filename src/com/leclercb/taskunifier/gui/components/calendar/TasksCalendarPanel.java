@@ -25,10 +25,8 @@ import bizcal.util.TimeOfDay;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
@@ -144,6 +142,24 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	}
 	
 	@Override
+	public Task[] getSelectedTasks() {
+		Event[] events = this.calendarPanel.getCurrentView().getView().getSelectedEvents();
+		
+		List<Task> tasks = new ArrayList<Task>();
+		
+		for (Event event : events) {
+			Task task = TasksCalendar.getTask(event);
+			
+			if (tasks.contains(task))
+				continue;
+			
+			tasks.add(task);
+		}
+		
+		return tasks.toArray(new Task[0]);
+	}
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized void refreshTasks() {
 		for (TasksCalendar calendar : this.tasksCalendars)
@@ -169,7 +185,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				Object id,
 				Event event,
 				MouseEvent mouseEvent) {
-			Task[] tasks = new Task[] { this.getTask(event) };
+			Task[] tasks = new Task[] { TasksCalendar.getTask(event) };
 			ActionEditTasks.editTasks(tasks);
 			
 			TasksCalendarPanel.this.refreshTasks();
@@ -192,7 +208,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 			List<Task> tasks = new ArrayList<Task>();
 			
 			for (Event event : events) {
-				Task task = this.getTask(event);
+				Task task = TasksCalendar.getTask(event);
 				
 				if (tasks.contains(task))
 					continue;
@@ -201,24 +217,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				
 				tasks.add(task);
 			}
-			
-			TasksCalendarPanel.this.refreshTasks();
-		}
-		
-		@Override
-		public void completeEvents(List<Event> events) {
-			List<Task> tasks = new ArrayList<Task>();
-			
-			for (Event event : events) {
-				Task task = this.getTask(event);
-				
-				if (tasks.contains(task))
-					continue;
-				
-				tasks.add(task);
-			}
-			
-			ActionCompleteTasks.completeTasks(tasks.toArray(new Task[0]));
 			
 			TasksCalendarPanel.this.refreshTasks();
 		}
@@ -254,10 +252,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					calendar.resized(event, orgEndDate, newEndDate);
 			
 			TasksCalendarPanel.this.refreshTasks();
-		}
-		
-		public Task getTask(Event event) {
-			return TaskFactory.getInstance().get((ModelId) event.getId());
 		}
 		
 		public Date roundMinutes(Date date) {

@@ -54,7 +54,8 @@ public class ActionEditTasks extends AbstractViewAction {
 		super(
 				Translations.getString("action.edit_tasks"),
 				Images.getResourceImage("edit.png", width, height),
-				ViewType.TASKS);
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -73,7 +74,7 @@ public class ActionEditTasks extends AbstractViewAction {
 	}
 	
 	public static boolean editTasks() {
-		Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
+		Task[] tasks = ViewType.getSelectedTasks();
 		return editTasks(tasks);
 	}
 	
@@ -83,8 +84,8 @@ public class ActionEditTasks extends AbstractViewAction {
 		dialog.setVisible(true);
 		boolean cancelled = !dialog.isCancelled();
 		
-		ViewType.getTaskView().getTaskTableView().refreshTasks();
-		ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
+		ViewType.refreshTasks();
+		ViewType.setSelectedTasks(tasks);
 		
 		return cancelled;
 	}

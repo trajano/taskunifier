@@ -36,13 +36,12 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.AbstractAction;
-
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddTemplateTask extends AbstractAction {
+public class ActionAddTemplateTask extends AbstractViewAction {
 	
 	private TaskTemplate template;
 	
@@ -54,7 +53,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 		super(template.getTitle(), Images.getResourceImage(
 				"duplicate.png",
 				width,
-				height));
+				height), ViewType.TASKS, ViewType.CALENDAR);
 		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());
 		
@@ -82,7 +81,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(this.template, null, true, true);
+		ActionAddTask.addTask(this.template, null, true);
 	}
 	
 }

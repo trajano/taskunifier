@@ -38,7 +38,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
@@ -49,7 +48,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionBatchAddTasks extends AbstractAction {
+public class ActionBatchAddTasks extends AbstractViewAction {
 	
 	public ActionBatchAddTasks() {
 		this(32, 32);
@@ -58,7 +57,9 @@ public class ActionBatchAddTasks extends AbstractAction {
 	public ActionBatchAddTasks(int width, int height) {
 		super(
 				Translations.getString("action.batch_add_tasks"),
-				Images.getResourceImage("duplicate.png", width, height));
+				Images.getResourceImage("duplicate.png", width, height),
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -96,7 +97,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 			if (isSubTask && previousParentTask != null) {
 				task = ActionAddSubTask.addSubTask(previousParentTask, false);
 			} else {
-				task = ActionAddTask.addTask(title, true, false);
+				task = ActionAddTask.addTask(title, false);
 				previousParentTask = task;
 			}
 			
@@ -107,8 +108,7 @@ public class ActionBatchAddTasks extends AbstractAction {
 		
 		Synchronizing.setSynchronizing(false);
 		
-		ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-				tasks.toArray(new Task[0]));
+		ViewType.setSelectedTasks(tasks.toArray(new Task[0]));
 	}
 	
 }

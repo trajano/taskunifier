@@ -36,7 +36,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
@@ -49,7 +48,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddTask extends AbstractAction {
+public class ActionAddTask extends AbstractViewAction {
 	
 	public ActionAddTask() {
 		this(32, 32);
@@ -58,7 +57,9 @@ public class ActionAddTask extends AbstractAction {
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),
-				Images.getResourceImage("task.png", width, height));
+				Images.getResourceImage("task.png", width, height),
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -71,29 +72,27 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(null, true, true);
+		ActionAddTask.addTask(null, true);
 	}
 	
-	public static Task addTask(String title, boolean changeView, boolean edit) {
+	public static Task addTask(String title, boolean edit) {
 		return addTask(
 				TaskTemplateFactory.getInstance().getDefaultTemplate(),
 				title,
-				changeView,
 				edit);
 	}
 	
-	public static Task addTask(
-			TaskTemplate template,
-			String title,
-			boolean changeView,
-			boolean edit) {
-		if (changeView)
-			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+	public static Task addTask(TaskTemplate template, String title, boolean edit) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
-		TaskTemplate searcherTemplate = ViewType.getTaskView().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+		TaskTemplate searcherTemplate = null;
 		
-		if (searcherTemplate == null)
-			ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
+		if (viewType == ViewType.TASKS) {
+			searcherTemplate = ViewType.getTaskView().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+			
+			if (searcherTemplate == null)
+				ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
+		}
 		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
@@ -107,10 +106,14 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		ViewType.getTaskView().getTaskTableView().refreshTasks();
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskTableView().refreshTasks();
+		else if (viewType == ViewType.CALENDAR)
+			ViewType.getCalendarView().getTaskCalendarView().refreshTasks();
 		
 		if (edit) {
-			if (Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+			if (viewType == ViewType.CALENDAR
+					|| Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
 				if (!ActionEditTasks.editTasks(new Task[] { task }))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {

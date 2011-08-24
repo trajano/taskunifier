@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -39,6 +41,33 @@ public enum ViewType implements ActionSupported {
 	
 	public static StatisticsView getStatisticsView() {
 		return (StatisticsView) STATISTICS.getView();
+	}
+	
+	public static Task[] getSelectedTasks() {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			return ViewType.getTaskView().getTaskTableView().getSelectedTasks();
+		else if (viewType == ViewType.CALENDAR)
+			return ViewType.getCalendarView().getTaskCalendarView().getSelectedTasks();
+		
+		return null;
+	}
+	
+	public static void setSelectedTasks(Task[] tasks) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
+	}
+	
+	public static void refreshTasks() {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskTableView().refreshTasks();
+		else if (viewType == ViewType.CALENDAR)
+			ViewType.getCalendarView().getTaskCalendarView().refreshTasks();
 	}
 	
 	private ActionSupport actionSupport;

@@ -7,6 +7,10 @@ import lu.tudor.santec.bizcal.NamedCalendar;
 import bizcal.common.Event;
 import bizcal.util.DateInterval;
 
+import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+
 public abstract class TasksCalendar extends NamedCalendar {
 	
 	public TasksCalendar(String name, String description, Color color) {
@@ -30,5 +34,9 @@ public abstract class TasksCalendar extends NamedCalendar {
 	
 	public abstract void resized(Event event, Date orgEndDate, Date newEndDate)
 			throws Exception;
+	
+	public static Task getTask(Event event) {
+		return TaskFactory.getInstance().get((ModelId) event.getId());
+	}
 	
 }

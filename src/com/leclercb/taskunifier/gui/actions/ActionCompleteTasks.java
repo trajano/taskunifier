@@ -53,7 +53,8 @@ public class ActionCompleteTasks extends AbstractViewAction {
 		super(
 				Translations.getString("action.complete_tasks"),
 				Images.getResourceImage("check.png", width, height),
-				ViewType.TASKS);
+				ViewType.TASKS,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -68,7 +69,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionCompleteTasks.completeTasks(ViewType.getTaskView().getTaskTableView().getSelectedTasks());
+		ActionCompleteTasks.completeTasks(ViewType.getSelectedTasks());
 	}
 	
 	public static void completeTasks(Task[] tasks) {
@@ -96,8 +97,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 			task.setCompleted(completed);
 		}
 		
-		ViewType.getTaskView().getTaskTableView().refreshTasks();
-		ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
+		ViewType.refreshTasks();
 	}
 	
 }
