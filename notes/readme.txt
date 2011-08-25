@@ -2,6 +2,7 @@ HISTORY
 -------
 
 Version 1.0.7
+	- BF 3397935: Sort order issue
 
 Version 1.0.6
 	- Spanish translations

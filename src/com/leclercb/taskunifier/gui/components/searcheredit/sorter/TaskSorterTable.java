@@ -56,7 +56,6 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskSorterTable extends JTable {
 	
-	private static final DefaultTableCellRenderer ORDER_RENDERER;
 	private static final DefaultTableCellRenderer COLUMN_RENDERER;
 	private static final DefaultTableCellRenderer SORT_ORDER_RENDERER;
 	
@@ -65,7 +64,6 @@ public class TaskSorterTable extends JTable {
 	
 	static {
 		// RENDERERS
-		ORDER_RENDERER = new DefaultTableCellRenderer();
 		COLUMN_RENDERER = new DefaultTableCellRenderer();
 		SORT_ORDER_RENDERER = new TaskSorterSortOrderRenderer();
 		
@@ -134,9 +132,9 @@ public class TaskSorterTable extends JTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		switch (col) {
-			case 1:
+			case 0:
 				return COLUMN_EDITOR;
-			case 2:
+			case 1:
 				return SORT_ORDER_EDITOR;
 			default:
 				return super.getCellEditor(row, col);
@@ -147,10 +145,8 @@ public class TaskSorterTable extends JTable {
 	public TableCellRenderer getCellRenderer(int row, int col) {
 		switch (col) {
 			case 0:
-				return ORDER_RENDERER;
-			case 1:
 				return COLUMN_RENDERER;
-			case 2:
+			case 1:
 				return SORT_ORDER_RENDERER;
 			default:
 				return super.getCellRenderer(row, col);
