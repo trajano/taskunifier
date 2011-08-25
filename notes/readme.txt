@@ -1,6 +1,8 @@
 HISTORY
 -------
 
+Version 1.0.7
+
 Version 1.0.6
 	- Spanish translations
 	- Test proxy connection button
