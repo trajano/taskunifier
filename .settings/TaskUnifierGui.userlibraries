@@ -16,5 +16,6 @@
         <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
         <archive path="/TaskUnifierGui/lib/jhall.jar"/>
         <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgroups-2.12.1.jar"/>
     </library>
 </eclipse-userlibraries>
