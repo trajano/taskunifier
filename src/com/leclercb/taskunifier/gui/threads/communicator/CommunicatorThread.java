@@ -37,13 +37,14 @@ public class CommunicatorThread extends Thread {
 		
 		while (true) {
 			try {
+				@SuppressWarnings("deprecation")
 				Object message = this.channel.receive(0);
 				
 				if (message instanceof Message) {
 					Message m = (Message) message;
-					
+					System.out.println(m.getObject().getClass().getName());
 					if (m.getObject() instanceof AddTaskMessage) {
-						AddTaskMessageExecutor.execute((AddTaskMessage) message);
+						AddTaskMessageExecutor.execute((AddTaskMessage) m.getObject());
 					}
 				}
 			} catch (ChannelClosedException e) {
