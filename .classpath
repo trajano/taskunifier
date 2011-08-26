@@ -5,6 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/BizCal"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Commons"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/TaskUnifierApi"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TaskUnifierCommunicator"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Commons"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TaskUnifierGui"/>
 	<classpathentry kind="output" path="bin"/>

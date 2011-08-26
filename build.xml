@@ -6,6 +6,7 @@
 	<property name="directory.bizcal" value="../BizCal"/>
 	<property name="directory.commons" value="../Commons"/>
 	<property name="directory.api" value="../TaskUnifierApi"/>
+	<property name="directory.communicator" value="../TaskUnifierCommunicator"/>
 	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
     <property name="java.debuglevel" value="source,lines,vars"/>
     <property name="java.target" value="1.6"/>
@@ -42,6 +43,7 @@
 		<copy file="${directory.bizcal}/dist/bizcal-0.0.7.jar" tofile="lib/bizcal-0.0.7.jar"/>
 		<copy file="${directory.commons}/dist/commons.jar" tofile="lib/commons.jar"/>
 		<copy file="${directory.api}/dist/taskunifierapi.jar" tofile="lib/taskunifierapi.jar"/>
+		<copy file="${directory.communicator}/dist/taskunifiercommunicator.jar" tofile="lib/taskunifiercommunicator.jar"/>
 	</target>
 	
     <target depends="copy-jars" name="init">
