@@ -42,7 +42,7 @@ public class CommunicatorThread extends Thread {
 				
 				if (message instanceof Message) {
 					Message m = (Message) message;
-					System.out.println(m.getObject().getClass().getName());
+					
 					if (m.getObject() instanceof AddTaskMessage) {
 						AddTaskMessageExecutor.execute((AddTaskMessage) m.getObject());
 					}
