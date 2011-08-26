@@ -49,11 +49,11 @@ public abstract class AbstractViewAction extends AbstractAction {
 	
 	protected boolean shouldBeEnabled() {
 		if (this.enabledViews != null) {
-			for (ViewType view : this.enabledViews) {
-				if (view.equals(MainFrame.getInstance().getSelectedViewType())) {
+			for (ViewType view : this.enabledViews)
+				if (view.equals(MainFrame.getInstance().getSelectedViewType()))
 					return true;
-				}
-			}
+		} else {
+			return true;
 		}
 		
 		return false;
