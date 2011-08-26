@@ -106,13 +106,16 @@ public class TaskSorterTransferHandler extends TransferHandler {
 				
 				TaskSorterElement dropElement = table.getTaskSorterElement(table.rowAtPoint(dl.getDropPoint()));
 				
+				if (dropElement == null)
+					dropElement = sorter.getElement(sorter.getElementCount() - 1);
+				
 				for (TaskSorterElement element : dragElements)
 					sorter.removeElement(element);
 				
 				int index = sorter.getIndexOf(dropElement);
 				
 				for (TaskSorterElement element : dragElements)
-					sorter.insertElement(element, index++);
+					sorter.insertElement(element, ++index);
 			}
 			
 			return true;

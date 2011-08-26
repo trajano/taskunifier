@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 1.0.8
+	- Improved sort order drag & drop
+
 Version 1.0.7
 	- BF 3397935: Sort order issue
 

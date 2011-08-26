@@ -37,6 +37,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -122,10 +124,15 @@ public class TaskSorterPanel extends JPanel {
 					
 					int[] selectedRows = TaskSorterPanel.this.table.getSelectedRows();
 					
+					List<TaskSorterElement> elements = new ArrayList<TaskSorterElement>();
 					for (int selectedRow : selectedRows) {
 						TaskSorterElement element = TaskSorterPanel.this.table.getTaskSorterElement(selectedRow);
 						if (element != null)
-							TaskSorterPanel.this.sorter.removeElement(element);
+							elements.add(element);
+					}
+					
+					for (TaskSorterElement element : elements) {
+						TaskSorterPanel.this.sorter.removeElement(element);
 					}
 				}
 			}
