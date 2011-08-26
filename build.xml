@@ -43,7 +43,6 @@
 		<copy file="${directory.bizcal}/dist/bizcal-0.0.7.jar" tofile="lib/bizcal-0.0.7.jar"/>
 		<copy file="${directory.commons}/dist/commons.jar" tofile="lib/commons.jar"/>
 		<copy file="${directory.api}/dist/taskunifierapi.jar" tofile="lib/taskunifierapi.jar"/>
-		<copy file="${directory.communicator}/dist/taskunifiercommunicator.jar" tofile="lib/taskunifiercommunicator.jar"/>
 	</target>
 	
     <target depends="copy-jars" name="init">
