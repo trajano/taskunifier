@@ -36,6 +36,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
@@ -48,7 +49,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionAddTask extends AbstractViewAction {
+public class ActionAddTask extends AbstractAction {
 	
 	public ActionAddTask() {
 		this(32, 32);
@@ -57,9 +58,7 @@ public class ActionAddTask extends AbstractViewAction {
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),
-				Images.getResourceImage("task.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				Images.getResourceImage("task.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -84,6 +83,11 @@ public class ActionAddTask extends AbstractViewAction {
 	
 	public static Task addTask(TaskTemplate template, String title, boolean edit) {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
+			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+			viewType = MainFrame.getInstance().getSelectedViewType();
+		}
 		
 		TaskTemplate searcherTemplate = null;
 		
