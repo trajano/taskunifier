@@ -6,7 +6,6 @@
 	<property name="directory.bizcal" value="../BizCal"/>
 	<property name="directory.commons" value="../Commons"/>
 	<property name="directory.api" value="../TaskUnifierApi"/>
-	<property name="directory.communicator" value="../TaskUnifierCommunicator"/>
 	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
     <property name="java.debuglevel" value="source,lines,vars"/>
     <property name="java.target" value="1.6"/>
