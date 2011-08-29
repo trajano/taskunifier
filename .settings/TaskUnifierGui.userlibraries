@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="MacRoman" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <eclipse-userlibraries version="2">
     <library name="TaskUnifierGui" systemlibrary="false">
         <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
@@ -16,5 +16,6 @@
         <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
         <archive path="/TaskUnifierGui/lib/jhall.jar"/>
         <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgroups-2.12.1.jar"/>
     </library>
 </eclipse-userlibraries>
