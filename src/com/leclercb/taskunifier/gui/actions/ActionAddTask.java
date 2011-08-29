@@ -41,6 +41,7 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
@@ -71,7 +72,7 @@ public class ActionAddTask extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(null, true);
+		ActionAddTask.addTask((String) null, true);
 	}
 	
 	public static Task addTask(String title, boolean edit) {
@@ -109,6 +110,36 @@ public class ActionAddTask extends AbstractAction {
 		
 		if (title != null)
 			task.setTitle(title);
+		
+		ViewType.refreshTasks();
+		
+		if (edit) {
+			if (viewType == ViewType.CALENDAR
+					|| Main.SETTINGS.getBooleanProperty("task.show_edit_window_on_add")) {
+				if (!ActionEditTasks.editTasks(new Task[] { task }))
+					TaskFactory.getInstance().markDeleted(task);
+			} else {
+				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
+						task);
+			}
+		}
+		
+		return task;
+	}
+	
+	public static Task addTask(TaskBean taskBean, boolean edit) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
+			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+			viewType = MainFrame.getInstance().getSelectedViewType();
+		}
+		
+		Task task = TaskFactory.getInstance().create(
+				Translations.getString("task.default.title"));
+		
+		if (taskBean != null)
+			task.loadBean(taskBean);
 		
 		ViewType.refreshTasks();
 		

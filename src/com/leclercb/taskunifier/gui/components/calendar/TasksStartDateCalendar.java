@@ -118,7 +118,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	
 	@Override
 	public void newEvent(DateInterval interval) throws Exception {
-		Task task = ActionAddTask.addTask(null, false);
+		Task task = ActionAddTask.addTask((String) null, false);
 		
 		long diff = interval.getDuration();
 		diff = diff / (60 * 1000);

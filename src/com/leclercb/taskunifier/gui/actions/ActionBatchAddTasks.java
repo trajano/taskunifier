@@ -68,6 +68,8 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_B,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
