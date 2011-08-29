@@ -1,5 +1,6 @@
 Version 1.0.8
 	- Improved sort order drag & drop
+	- FR 3399572: Edit mode for note in task edit window
 
 Version 1.0.7
 	- BF 3397935: Sort order issue

@@ -670,6 +670,7 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			this.taskNote.view();
 			this.taskNote.setText("", true, true);
+			this.taskNote.view();
 		} else {
 			visible = false;
 			selected = true;
@@ -700,6 +701,7 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			this.taskNote.view();
 			this.taskNote.setText(task.getNote(), true, true);
+			this.taskNote.edit();
 		}
 		
 		this.taskTitleCheckBox.setSelected(selected);
