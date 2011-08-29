@@ -39,12 +39,15 @@ public class Communicator extends ReceiverAdapter implements Receiver {
 			
 			this.channel.connect(GROUP);
 			this.started = true;
+			
+			GuiLogger.getLogger().info(
+					"Communicator \"" + GROUP + "\" group connected");
 		} catch (ChannelException e) {
 			this.started = false;
 			this.channel = null;
 			
 			GuiLogger.getLogger().warning(
-					"Communicator \"" + GROUP + "\": " + e.getMessage());
+					"Communicator \"" + GROUP + "\" group: " + e.getMessage());
 		}
 	}
 	
@@ -63,11 +66,20 @@ public class Communicator extends ReceiverAdapter implements Receiver {
 		
 		this.started = false;
 		this.channel = null;
+		
+		GuiLogger.getLogger().info(
+				"Communicator \"" + GROUP + "\" group disconnected");
 	}
 	
 	@Override
 	public void receive(Message msg) {
 		Object o = msg.getObject();
+		
+		GuiLogger.getLogger().fine(
+				"Received message from \""
+						+ msg.getSrc()
+						+ "\": "
+						+ msg.getObject());
 		
 		if (o instanceof Executor)
 			((Executor) o).execute();
