@@ -7,6 +7,7 @@ import org.jgroups.Receiver;
 import org.jgroups.ReceiverAdapter;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.communicator.messages.Executor;
 
 public class Communicator extends ReceiverAdapter implements Receiver {
 	
@@ -18,6 +19,10 @@ public class Communicator extends ReceiverAdapter implements Receiver {
 	public Communicator() {
 		this.started = false;
 		this.channel = null;
+	}
+	
+	protected JChannel getChannel() {
+		return this.channel;
 	}
 	
 	public boolean isStarted() {
@@ -44,11 +49,17 @@ public class Communicator extends ReceiverAdapter implements Receiver {
 	}
 	
 	public void stop() {
+		this.stop(true);
+	}
+	
+	protected void stop(boolean closeChannel) {
 		if (!this.started)
 			return;
 		
 		this.channel.disconnect();
-		this.channel.close();
+		
+		if (closeChannel)
+			this.channel.close();
 		
 		this.started = false;
 		this.channel = null;
@@ -56,10 +67,10 @@ public class Communicator extends ReceiverAdapter implements Receiver {
 	
 	@Override
 	public void receive(Message msg) {
-		System.out.println("received msg from "
-				+ msg.getSrc()
-				+ ": "
-				+ msg.getObject());
+		Object o = msg.getObject();
+		
+		if (o instanceof Executor)
+			((Executor) o).execute();
 	}
 	
 }
