@@ -3,8 +3,8 @@ package com.leclercb.taskunifier.gui.communicator.messages;
 import java.io.Serializable;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 
 public class AddTaskMessage implements Executor, Serializable {
 	
@@ -25,7 +25,7 @@ public class AddTaskMessage implements Executor, Serializable {
 	
 	@Override
 	public void execute() {
-		TaskFactory.getInstance().create(this.task);
+		ActionAddTask.addTask(this.task, false);
 	}
 	
 }
