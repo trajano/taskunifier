@@ -1,14 +1,31 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.ContextFactory;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.GoalFactory;
+import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.LocationFactory;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
+import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionAddQuickTask extends AbstractAction {
@@ -36,7 +53,7 @@ public class ActionAddQuickTask extends AbstractAction {
 	public static Task addQuickTask(String task, boolean edit) {
 		TaskBean taskBean = new TaskBean();
 		
-		Pattern pattern = Pattern.compile("[^&@*]+");
+		Pattern pattern = Pattern.compile("[^&@*<>]+");
 		Matcher matcher = pattern.matcher(task);
 		
 		if (!matcher.find())
@@ -44,30 +61,159 @@ public class ActionAddQuickTask extends AbstractAction {
 		
 		taskBean.setTitle(matcher.group().trim());
 		
-		pattern = Pattern.compile("[&@*][^&@*]+");
+		pattern = Pattern.compile("[&@*<>][^&@*<>]+");
 		matcher = pattern.matcher(task);
 		
 		while (matcher.find()) {
 			String s = matcher.group().trim();
 			char c = s.charAt(0);
-			s = s.substring(1);
+			s = s.substring(1).trim();
 			
 			if (c == '&') { // Tag
 				taskBean.getTags().addTag(s);
 			} else if (c == '@') { // Context, Folder, Goal, Location
-			
+				findModel(s, taskBean);
 			} else if (c == '*') { // Priority, Status
-			
+				findStatusPriority(s, taskBean);
+			} else if (c == '>') { // Start Date
+				findStartDate(s, taskBean);
+			} else if (c == '<') { // Due Date
+				findDueDate(s, taskBean);
 			}
 		}
 		
 		return ActionAddTask.addTask(taskBean, edit);
 	}
 	
-	public static void main(String[] args) {
-		addQuickTask(
-				"task title &tag1 &tag2 @Work @Accenture @Goal @Bruxelles *basse *active",
-				false);
+	private static void findModel(String title, TaskBean taskBean) {
+		Model model = null;
+		
+		if (taskBean.getContext() == null) {
+			List<Context> contexts = ContextFactory.getInstance().getList();
+			for (Context context : contexts) {
+				if (context.getTitle().equalsIgnoreCase(title)) {
+					taskBean.setContext(context.getModelId());
+					return;
+				}
+				
+				if (model == null
+						&& context.getTitle().toLowerCase().startsWith(
+								title.toLowerCase())) {
+					model = context;
+					break;
+				}
+			}
+		}
+		
+		if (taskBean.getFolder() == null) {
+			List<Folder> folders = FolderFactory.getInstance().getList();
+			for (Folder folder : folders) {
+				if (folder.getTitle().equalsIgnoreCase(title)) {
+					taskBean.setFolder(folder.getModelId());
+					return;
+				}
+				
+				if (model == null
+						&& folder.getTitle().toLowerCase().startsWith(
+								title.toLowerCase())) {
+					model = folder;
+					break;
+				}
+			}
+		}
+		
+		if (taskBean.getGoal() == null) {
+			List<Goal> goals = GoalFactory.getInstance().getList();
+			for (Goal goal : goals) {
+				if (goal.getTitle().equalsIgnoreCase(title)) {
+					taskBean.setGoal(goal.getModelId());
+					return;
+				}
+				
+				if (model == null
+						&& goal.getTitle().toLowerCase().startsWith(
+								title.toLowerCase())) {
+					model = goal;
+					break;
+				}
+			}
+		}
+		
+		if (taskBean.getLocation() == null) {
+			List<Location> locations = LocationFactory.getInstance().getList();
+			for (Location location : locations) {
+				if (location.getTitle().equalsIgnoreCase(title)) {
+					taskBean.setLocation(location.getModelId());
+					return;
+				}
+				
+				if (model == null
+						&& location.getTitle().toLowerCase().startsWith(
+								title.toLowerCase())) {
+					model = location;
+					break;
+				}
+			}
+		}
+		
+		if (model instanceof Context)
+			taskBean.setContext(((Context) model).getModelId());
+		else if (model instanceof Folder)
+			taskBean.setFolder(((Folder) model).getModelId());
+		else if (model instanceof Goal)
+			taskBean.setGoal(((Goal) model).getModelId());
+		else if (model instanceof Location)
+			taskBean.setLocation(((Location) model).getModelId());
+	}
+	
+	private static void findStatusPriority(String title, TaskBean taskBean) {
+		for (TaskStatus status : TaskStatus.values()) {
+			String s = TranslationsUtils.translateTaskStatus(status);
+			
+			if (s.toLowerCase().startsWith(title.toLowerCase())) {
+				taskBean.setStatus(status);
+				return;
+			}
+		}
+		
+		for (TaskPriority priority : TaskPriority.values()) {
+			String p = TranslationsUtils.translateTaskPriority(priority);
+			
+			if (p.toLowerCase().startsWith(title.toLowerCase())) {
+				taskBean.setPriority(priority);
+				return;
+			}
+		}
+	}
+	
+	private static void findStartDate(String title, TaskBean taskBean) {
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		
+		SimpleDateFormat format = new SimpleDateFormat(dateFormat + timeFormat);
+		
+		try {
+			Calendar startDate = Calendar.getInstance();
+			startDate.setTime(format.parse(title));
+			taskBean.setStartDate(startDate);
+		} catch (ParseException e) {
+
+		}
+	}
+	
+	private static void findDueDate(String title, TaskBean taskBean) {
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		
+		SimpleDateFormat format = new SimpleDateFormat(dateFormat + timeFormat);
+		
+		try {
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.setTime(format.parse(title));
+			taskBean.setDueDate(dueDate);
+		} catch (ParseException e) {
+
+		}
 	}
 	
 }

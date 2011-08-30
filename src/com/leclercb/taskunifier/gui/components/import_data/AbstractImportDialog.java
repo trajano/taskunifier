@@ -143,9 +143,9 @@ abstract class AbstractImportDialog extends JDialog {
 		builder.appendI15d("import.file_to_import", true, this.fileField);
 		
 		// Delete existing values
+		this.deleteExistingValues = new JCheckBox();
+		
 		if (showDeleteExistingValues) {
-			this.deleteExistingValues = new JCheckBox();
-			
 			builder.appendI15d(
 					"import.delete_existing_values",
 					true,
@@ -165,8 +165,7 @@ abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("IMPORT")) {
 					try {
-						if (AbstractImportDialog.this.deleteExistingValues != null
-								&& AbstractImportDialog.this.deleteExistingValues.isSelected())
+						if (AbstractImportDialog.this.deleteExistingValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.fileField.getFile());

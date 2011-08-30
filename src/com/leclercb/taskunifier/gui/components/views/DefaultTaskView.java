@@ -23,6 +23,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
+import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
@@ -42,6 +43,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private JCheckBox indentSubtasksCheckBox;
 	
 	private TaskSearcherPanel taskSearcherPanel;
+	private QuickAddTaskPanel quickAddTaskPanel;
 	private TaskTable taskTable;
 	private ModelNotePanel taskNote;
 	
@@ -98,7 +100,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		searcherPane.setLayout(new BorderLayout());
 		
 		JPanel middlePane = new JPanel();
-		middlePane.setLayout(new BorderLayout());
+		middlePane.setLayout(new BorderLayout(5, 5));
 		
 		JPanel notePane = new JPanel();
 		notePane.setLayout(new BorderLayout());
@@ -117,6 +119,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.initializeShowCompletedTasksCheckBox();
 		this.initializeIndentsubtasksCheckBox();
 		this.initializeSearcherList(searcherPane);
+		this.initializeQuickAddTask(middlePane);
 		this.initializeTaskTable(middlePane);
 		this.initializeModelNote(notePane);
 		
@@ -262,6 +265,11 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		searcherPane.add(this.taskSearcherPanel);
 	}
 	
+	private void initializeQuickAddTask(JPanel middlePane) {
+		this.quickAddTaskPanel = new QuickAddTaskPanel();
+		middlePane.add(this.quickAddTaskPanel, BorderLayout.NORTH);
+	}
+	
 	private void initializeTaskTable(JPanel middlePane) {
 		this.taskTable = new TaskTable();
 		
@@ -284,7 +292,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 					
 				});
 		
-		middlePane.add(taskPanel);
+		middlePane.add(taskPanel, BorderLayout.CENTER);
 	}
 	
 	private void initializeModelNote(JPanel notePane) {
