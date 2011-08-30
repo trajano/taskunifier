@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>Task Quick Creation</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+	</head>
+	<body>
+	
+		<h1>Task Quick Creation</h1>
+	
+		<p>The quick add task bar works like this:<br />
+		<br />
+		<i>"Task Title &Tag1 &Tag2 @Context @Folder @Goal @Location *Status *Priority &gt;Start Date &lt;Due Date"</i><br />
+		<br />
+		The first part is the task title.<br />
+		Then you can define the field values of your task, each value must start with &, @, *, &gt; or &lt;.<br />
+		All the fields (except the title) are optional and can be defined in any order.
+		<br />
+		
+		<ul>
+			<li>& xyz: add a tag xyz</li>
+			<li>@ xyz: look for a context, folder, goal or location starting with xyz</li>
+			<li>* xyz: look for a status or a priority starting with xyz</li>
+			<li>&gt; xyz: define the start date of the task (using your selected date/time format)</li>
+			<li>&lt; xyz: define the due date of the task (using your selected date/time format)</li>
+		</ul>
+		
+		<br />
+		Example: My new task &gt;20/08/2011 &lt;25/08/2011 &MyTag @Work @New York *M<br />
+		The task will contain:<br />
+		<ul>
+			<li>Title: My new task</li>
+			<li>Start date: 20/08/2011</li>
+			<li>Due date: 25/08/2011</li>
+			<li>Tags: MyTag</li>
+			<li>Context: Work (assuming the context exists)</li>
+			<li>Location: New York (assuming the location exists)</li>
+			<li>Status: Medium</li>
+		</ul>
+		</p>
+		
+	</body>
+</html>

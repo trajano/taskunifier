@@ -21,6 +21,7 @@ import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
@@ -267,7 +268,12 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	
 	private void initializeQuickAddTask(JPanel middlePane) {
 		this.quickAddTaskPanel = new QuickAddTaskPanel();
-		middlePane.add(this.quickAddTaskPanel, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel(new BorderLayout(3, 3));
+		panel.add(this.quickAddTaskPanel, BorderLayout.CENTER);
+		panel.add(Help.getHelpButton("task_quick_add"), BorderLayout.EAST);
+		
+		middlePane.add(panel, BorderLayout.NORTH);
 	}
 	
 	private void initializeTaskTable(JPanel middlePane) {

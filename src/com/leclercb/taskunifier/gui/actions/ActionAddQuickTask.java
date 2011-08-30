@@ -53,6 +53,8 @@ public class ActionAddQuickTask extends AbstractAction {
 	public static Task addQuickTask(String task, boolean edit) {
 		TaskBean taskBean = new TaskBean();
 		
+		task = task.trim();
+		
 		Pattern pattern = Pattern.compile("[^&@*<>]+");
 		Matcher matcher = pattern.matcher(task);
 		
@@ -76,9 +78,9 @@ public class ActionAddQuickTask extends AbstractAction {
 			} else if (c == '*') { // Priority, Status
 				findStatusPriority(s, taskBean);
 			} else if (c == '>') { // Start Date
-				findStartDate(s, taskBean);
+				findDate(s, true, taskBean);
 			} else if (c == '<') { // Due Date
-				findDueDate(s, taskBean);
+				findDate(s, false, taskBean);
 			}
 		}
 		
@@ -186,33 +188,31 @@ public class ActionAddQuickTask extends AbstractAction {
 		}
 	}
 	
-	private static void findStartDate(String title, TaskBean taskBean) {
+	private static void findDate(
+			String title,
+			boolean startDate,
+			TaskBean taskBean) {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		
-		SimpleDateFormat format = new SimpleDateFormat(dateFormat + timeFormat);
+		SimpleDateFormat[] formats = {
+				new SimpleDateFormat(dateFormat + timeFormat),
+				new SimpleDateFormat(dateFormat) };
 		
-		try {
-			Calendar startDate = Calendar.getInstance();
-			startDate.setTime(format.parse(title));
-			taskBean.setStartDate(startDate);
-		} catch (ParseException e) {
+		for (SimpleDateFormat format : formats) {
+			try {
+				Calendar date = Calendar.getInstance();
+				date.setTime(format.parse(title));
+				
+				if (startDate)
+					taskBean.setStartDate(date);
+				else
+					taskBean.setDueDate(date);
+				
+				return;
+			} catch (ParseException e) {
 
-		}
-	}
-	
-	private static void findDueDate(String title, TaskBean taskBean) {
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
-		
-		SimpleDateFormat format = new SimpleDateFormat(dateFormat + timeFormat);
-		
-		try {
-			Calendar dueDate = Calendar.getInstance();
-			dueDate.setTime(format.parse(title));
-			taskBean.setDueDate(dueDate);
-		} catch (ParseException e) {
-
+			}
 		}
 	}
 	
