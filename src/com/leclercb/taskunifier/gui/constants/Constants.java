@@ -68,7 +68,7 @@ public final class Constants {
 	}
 	
 	public static final String TITLE = "TaskUnifier";
-	public static final String VERSION = "1.0.8";
+	public static final String VERSION = "1.1.0";
 	
 	public static final int PLUGIN_API_VERSION = 8;
 	public static final int WAIT_NO_LICENSE_TIME = 30;

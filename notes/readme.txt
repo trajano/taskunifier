@@ -1,7 +1,7 @@
 HISTORY
 -------
 
-Version 1.0.8
+Version 1.1.0
 	- Improved sort order drag & drop
 	- Quick add task
 	- Show note/task count in status bar
