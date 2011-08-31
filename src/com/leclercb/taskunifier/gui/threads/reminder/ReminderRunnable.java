@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.threads.reminder;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -102,6 +103,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 								
 								@Override
 								public void run() {
+									Toolkit.getDefaultToolkit().beep();
+									
 									Object[] options = {
 											Translations.getString("general.show"),
 											Translations.getString("general.cancel") };
