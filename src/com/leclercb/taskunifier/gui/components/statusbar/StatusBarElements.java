@@ -225,6 +225,9 @@ final class StatusBarElements {
 						+ " "
 						+ Translations.getString("general.tasks"));
 				break;
+			default:
+				element.setText("");
+				break;
 		}
 	}
 	

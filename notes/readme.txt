@@ -4,6 +4,7 @@ HISTORY
 Version 1.0.8
 	- Improved sort order drag & drop
 	- Quick add task
+	- Show note/task count in status bar
 	- FR 3399572: Edit mode for note in task edit window
 	- BF 3400215: Import not working
 
