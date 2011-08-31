@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -290,8 +289,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.setColumnModel(columnModel);
 		this.setRowHeight(24);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		this.setShowGrid(false);
-		this.setIntercellSpacing(new Dimension(0, 5));
+		this.setShowGrid(true, false);
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
