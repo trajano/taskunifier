@@ -136,31 +136,37 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 			r.setIcon(Images.getResourceImage("transparent.png", 16, 16));
 		
 		// Set Progress
-		r.setPainter(new Painter<JLabel>() {
-			
-			@Override
-			public void paint(Graphics2D g, JLabel object, int width, int height) {
-				FontMetrics metrics = g.getFontMetrics(r.getFont());
+		if (!adapter.isSelected() && task.getProgress() != 0) {
+			r.setPainter(new Painter<JLabel>() {
 				
-				int x = 18;
-				int y = 3;
+				@Override
+				public void paint(
+						Graphics2D g,
+						JLabel object,
+						int width,
+						int height) {
+					FontMetrics metrics = g.getFontMetrics(r.getFont());
+					
+					int x = 18;
+					int y = 3;
+					
+					if (task.getParent() != null)
+						x += metrics.stringWidth("          ");
+					
+					width = (int) ((width - (x + 3)) * task.getProgress());
+					height = height - (y + y);
+					
+					Color c = g.getColor();
+					g.setRenderingHint(
+							RenderingHints.KEY_ANTIALIASING,
+							RenderingHints.VALUE_ANTIALIAS_ON);
+					g.setColor(TaskTitleHighlighter.this.progressColor);
+					g.fillRoundRect(x, y, width, height, 10, 10);
+					g.setColor(c);
+				}
 				
-				if (task.getParent() != null)
-					x += metrics.stringWidth("          ");
-				
-				width = (int) ((width - (x + 3)) * task.getProgress());
-				height = height - (y + y);
-				
-				Color c = g.getColor();
-				g.setRenderingHint(
-						RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				g.setColor(TaskTitleHighlighter.this.progressColor);
-				g.fillRoundRect(x, y, width, height, 10, 10);
-				g.setColor(c);
-			}
-			
-		});
+			});
+		}
 		
 		return renderer;
 	}
