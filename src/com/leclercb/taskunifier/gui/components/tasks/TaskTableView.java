@@ -32,11 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 
-public interface TaskTableView extends ModelSelectionChangeSupported, TaskSearcherSelectionListener {
+public interface TaskTableView extends ModelSelectionChangeSupported, PropertyChangeSupported, TaskSearcherSelectionListener {
+	
+	public static final String PROP_TASK_COUNT = "taskCount";
+	
+	public abstract int getTaskCount();
 	
 	public abstract Task[] getSelectedTasks();
 	

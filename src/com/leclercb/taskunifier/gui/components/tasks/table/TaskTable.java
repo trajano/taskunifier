@@ -63,6 +63,8 @@ import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
@@ -116,6 +118,11 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.undoSupport = new UndoSupport();
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
+	}
+	
+	@Override
+	public int getTaskCount() {
+		return this.getRowCount();
 	}
 	
 	public Task getTask(int row) {
@@ -205,6 +212,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 	@Override
 	public void refreshTasks() {
 		this.getRowSorter().allRowsChanged();
+		this.firePropertyChange(PROP_TASK_COUNT, null, this.getTaskCount());
 	}
 	
 	public TaskSearcher getTaskSearcher() {
@@ -233,7 +241,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 				new MessageFormat(Constants.TITLE
 						+ " - "
 						+ this.getTaskSearcher().getTitle()),
-				new MessageFormat(this.getRowCount() + " tasks | Page - {0}"),
+				new MessageFormat(this.getTaskCount() + " tasks | Page - {0}"),
 				true,
 				attributes,
 				true);
@@ -332,6 +340,18 @@ public class TaskTable extends JXTable implements TaskTableView {
 					}
 					
 				});
+		
+		this.getModel().addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent evt) {
+				TaskTable.this.firePropertyChange(
+						PROP_TASK_COUNT,
+						null,
+						TaskTable.this.getTaskCount());
+			}
+			
+		});
 	}
 	
 	private void initializeHeaderListener() {

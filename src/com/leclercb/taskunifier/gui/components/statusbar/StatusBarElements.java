@@ -39,9 +39,14 @@ import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
+import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -163,6 +168,64 @@ final class StatusBarElements {
 		}
 		
 		element.setText(text);
+	}
+	
+	public static final JLabel createRowCount() {
+		final JLabel element = new JLabel();
+		
+		updateRowCount(element);
+		
+		MainFrame.getInstance().addPropertyChangeListener(
+				MainView.PROP_SELECTED_VIEW,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						updateRowCount(element);
+					}
+					
+				});
+		
+		ViewType.getNoteView().getNoteTableView().addPropertyChangeListener(
+				NoteTableView.PROP_NOTE_COUNT,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						updateRowCount(element);
+					}
+					
+				});
+		
+		ViewType.getTaskView().getTaskTableView().addPropertyChangeListener(
+				TaskTableView.PROP_TASK_COUNT,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						updateRowCount(element);
+					}
+					
+				});
+		
+		return element;
+	}
+	
+	private static final void updateRowCount(JLabel element) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		switch (viewType) {
+			case NOTES:
+				element.setText(ViewType.getNoteView().getNoteTableView().getNoteCount()
+						+ " "
+						+ Translations.getString("general.notes"));
+				break;
+			case TASKS:
+				element.setText(ViewType.getTaskView().getTaskTableView().getTaskCount()
+						+ " "
+						+ Translations.getString("general.tasks"));
+				break;
+		}
 	}
 	
 }

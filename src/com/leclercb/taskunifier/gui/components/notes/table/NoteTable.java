@@ -59,6 +59,8 @@ import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
@@ -96,6 +98,11 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.undoSupport = new UndoSupport();
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
+	}
+	
+	@Override
+	public int getNoteCount() {
+		return this.getRowCount();
 	}
 	
 	public Note getNote(int row) {
@@ -185,6 +192,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 	@Override
 	public void refreshNotes() {
 		this.getRowSorter().allRowsChanged();
+		this.firePropertyChange(PROP_NOTE_COUNT, null, this.getNoteCount());
 	}
 	
 	public NoteSearcher getNoteSearcher() {
@@ -209,7 +217,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		attributes.add(OrientationRequested.LANDSCAPE);
 		
 		this.print(PrintMode.FIT_WIDTH, new MessageFormat(Constants.TITLE
-				+ " - Notes"), new MessageFormat(this.getRowCount()
+				+ " - Notes"), new MessageFormat(this.getNoteCount()
 				+ " notes | Page - {0}"), true, attributes, true);
 	}
 	
@@ -281,6 +289,18 @@ public class NoteTable extends JXTable implements NoteTableView {
 					}
 					
 				});
+		
+		this.getModel().addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent evt) {
+				NoteTable.this.firePropertyChange(
+						PROP_NOTE_COUNT,
+						null,
+						NoteTable.this.getNoteCount());
+			}
+			
+		});
 	}
 	
 	private void initializeDeleteNote() {
