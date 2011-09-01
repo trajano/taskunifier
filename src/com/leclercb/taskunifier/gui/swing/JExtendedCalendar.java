@@ -136,6 +136,19 @@ public class JExtendedCalendar extends JCalendar {
 					Calendar calendar = Calendar.getInstance();
 					calendar.add(field, amount);
 					
+					Calendar currentCalendar = JExtendedCalendar.this.getCalendar();
+					if (currentCalendar != null) {
+						calendar.set(
+								Calendar.HOUR_OF_DAY,
+								currentCalendar.get(Calendar.HOUR_OF_DAY));
+						calendar.set(
+								Calendar.MINUTE,
+								currentCalendar.get(Calendar.MINUTE));
+						calendar.set(
+								Calendar.SECOND,
+								currentCalendar.get(Calendar.SECOND));
+					}
+					
 					JExtendedCalendar.this.setCalendar(calendar);
 				}
 				

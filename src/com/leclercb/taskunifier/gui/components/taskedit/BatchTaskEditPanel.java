@@ -81,6 +81,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -369,28 +370,30 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskParent = ComponentFactory.createModelComboBox(null, false);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
-		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
-				startDateFormat,
+		this.taskStartDate = new JDateChooser(
+				new JExtendedCalendar(),
 				null,
-				'_') {
-			
-			@Override
-			public String createMaskFromDatePattern(String datePattern) {
-				return finalStartDateMask;
-			}
-			
-		});
-		this.taskDueDate = new JDateChooser(new JTextFieldDateEditor(
-				dueDateFormat,
 				null,
-				'_') {
-			
-			@Override
-			public String createMaskFromDatePattern(String datePattern) {
-				return finalDueDateMask;
-			}
-			
-		});
+				new JTextFieldDateEditor(startDateFormat, null, '_') {
+					
+					@Override
+					public String createMaskFromDatePattern(String datePattern) {
+						return finalStartDateMask;
+					}
+					
+				});
+		this.taskDueDate = new JDateChooser(
+				new JExtendedCalendar(),
+				null,
+				null,
+				new JTextFieldDateEditor(dueDateFormat, null, '_') {
+					
+					@Override
+					public String createMaskFromDatePattern(String datePattern) {
+						return finalDueDateMask;
+					}
+					
+				});
 		this.taskReminder = new JComboBox();
 		this.taskRepeat = new JComboBox();
 		this.taskRepeatFrom = ComponentFactory.createTaskRepeatFromComboBox(
