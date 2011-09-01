@@ -6,6 +6,7 @@ Version 1.1.1
 	- FR 3380556: Auto-fill for contexts, folders...
 	- FR 3299263: Creation date & update date fields
 	- FR 3397857: Postpone button in edit task window
+	- BF 3401837: Bug in date filter condition
 
 Version 1.1.0
 	- Improved sort order drag & drop

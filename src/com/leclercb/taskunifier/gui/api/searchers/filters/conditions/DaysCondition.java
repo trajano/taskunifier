@@ -65,11 +65,6 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 		Calendar conditionValue = Calendar.getInstance();
 		taskValue = DateUtils.cloneCalendar(taskValue);
 		
-		long milliSeconds1 = taskValue.getTimeInMillis();
-		long milliSeconds2 = conditionValue.getTimeInMillis();
-		long diff = milliSeconds1 - milliSeconds2;
-		double diffDays;
-		
 		if (this != GREATER_THAN_USING_TIME && this != LESS_THAN_USING_TIME) {
 			conditionValue.set(
 					conditionValue.get(Calendar.YEAR),
@@ -86,7 +81,14 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 					0,
 					0,
 					0);
-			
+		}
+		
+		long milliSeconds1 = taskValue.getTimeInMillis();
+		long milliSeconds2 = conditionValue.getTimeInMillis();
+		long diff = milliSeconds1 - milliSeconds2;
+		double diffDays;
+		
+		if (this != GREATER_THAN_USING_TIME && this != LESS_THAN_USING_TIME) {
 			diffDays = Math.round(diff / (24 * 60 * 60 * 1000.0));
 		} else {
 			diffDays = diff / (24 * 60 * 60 * 1000.0);
