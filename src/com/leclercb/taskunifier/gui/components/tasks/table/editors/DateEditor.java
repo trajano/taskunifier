@@ -49,6 +49,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.toedter.calendar.JDateChooser;
@@ -91,7 +92,11 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 			
 		};
 		
-		this.dateChooser = new JDateChooser(this.dateEditor);
+		this.dateChooser = new JDateChooser(
+				new JExtendedCalendar(),
+				null,
+				null,
+				this.dateEditor);
 		
 		this.buttonRemove = new JButton(Images.getResourceImage(
 				"remove.png",

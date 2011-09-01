@@ -1,6 +1,9 @@
 HISTORY
 -------
 
+Version 1.1.1
+	- FR 3354596: Add today, tomorrow... buttons in calendar
+
 Version 1.1.0
 	- Improved sort order drag & drop
 	- Quick add task
