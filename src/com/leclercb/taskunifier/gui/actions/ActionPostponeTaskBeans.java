@@ -1,53 +1,56 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionPostponeTasks extends AbstractViewAction {
+public class ActionPostponeTaskBeans extends AbstractAction {
+	
+	private ActionListener listener;
 	
 	private PostponeType type;
 	private int field;
 	private int amount;
 	
-	public ActionPostponeTasks(
+	public ActionPostponeTaskBeans(
+			ActionListener listener,
 			String title,
 			PostponeType type,
 			int field,
 			int amount) {
-		this(title, type, field, amount, 32, 32);
+		this(listener, title, type, field, amount, 32, 32);
 	}
 	
-	public ActionPostponeTasks(
+	public ActionPostponeTaskBeans(
+			ActionListener listener,
 			String title,
 			PostponeType type,
 			int field,
 			int amount,
 			int width,
 			int height) {
-		super(
-				title,
-				Images.getResourceImage("calendar.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+		super(title, Images.getResourceImage("calendar.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		
+		CheckUtils.isNotNull(listener, "Listener cannot be null");
 		CheckUtils.isNotNull(type, "Postpone type cannot be null");
 		
+		this.listener = listener;
 		this.type = type;
 		this.field = field;
 		this.amount = amount;
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	public PostponeType getType() {
@@ -62,17 +65,18 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		return this.amount;
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		postponeTasks(
-				ViewType.getSelectedTasks(),
-				this.type,
-				this.field,
-				this.amount);
+	public void postponeTaskBeans(TaskBean[] tasks) {
+		postponeTaskBeans(tasks, this.type, this.field, this.amount);
 	}
 	
-	public static void postponeTasks(
-			Task[] tasks,
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		e.setSource(this);
+		this.listener.actionPerformed(e);
+	}
+	
+	public static void postponeTaskBeans(
+			TaskBean[] tasks,
 			PostponeType type,
 			int field,
 			int amount) {
@@ -87,7 +91,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			fromCurrentDate = false;
 		
 		if (type == PostponeType.START_DATE || type == PostponeType.BOTH) {
-			for (Task task : tasks) {
+			for (TaskBean task : tasks) {
 				Calendar newStartDate = task.getStartDate();
 				
 				if (newStartDate == null)
@@ -109,7 +113,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		}
 		
 		if (type == PostponeType.DUE_DATE || type == PostponeType.BOTH) {
-			for (Task task : tasks) {
+			for (TaskBean task : tasks) {
 				Calendar newDueDate = task.getDueDate();
 				
 				if (newDueDate == null)
@@ -133,13 +137,15 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		ViewType.refreshTasks();
 	}
 	
-	public static ActionPostponeTasks[] createDefaultActions(
+	public static ActionPostponeTaskBeans[] createDefaultActions(
+			ActionListener listener,
 			PostponeType type,
 			int width,
 			int height) {
-		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
+		List<ActionPostponeTaskBeans> actions = new ArrayList<ActionPostponeTaskBeans>();
 		
-		actions.add(new ActionPostponeTasks(
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
 				Translations.getString("postpone.today"),
 				type,
 				Calendar.DAY_OF_MONTH,
@@ -147,7 +153,8 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height));
 		
-		actions.add(new ActionPostponeTasks(
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
 				Translations.getString("postpone.1_day"),
 				type,
 				Calendar.DAY_OF_MONTH,
@@ -155,15 +162,26 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_days",
-				2), type, Calendar.DAY_OF_MONTH, 2, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_days", 2),
+				type,
+				Calendar.DAY_OF_MONTH,
+				2,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_days",
-				3), type, Calendar.DAY_OF_MONTH, 3, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_days", 3),
+				type,
+				Calendar.DAY_OF_MONTH,
+				3,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
 				Translations.getString("postpone.1_week"),
 				type,
 				Calendar.WEEK_OF_YEAR,
@@ -171,15 +189,26 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_weeks",
-				2), type, Calendar.WEEK_OF_YEAR, 2, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_weeks", 2),
+				type,
+				Calendar.WEEK_OF_YEAR,
+				2,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_weeks",
-				3), type, Calendar.WEEK_OF_YEAR, 3, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_weeks", 3),
+				type,
+				Calendar.WEEK_OF_YEAR,
+				3,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
 				Translations.getString("postpone.1_month"),
 				type,
 				Calendar.MONTH,
@@ -187,15 +216,26 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_months",
-				2), type, Calendar.MONTH, 2, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_months", 2),
+				type,
+				Calendar.MONTH,
+				2,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(Translations.getString(
-				"postpone.x_months",
-				3), type, Calendar.MONTH, 3, width, height));
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
+				Translations.getString("postpone.x_months", 3),
+				type,
+				Calendar.MONTH,
+				3,
+				width,
+				height));
 		
-		actions.add(new ActionPostponeTasks(
+		actions.add(new ActionPostponeTaskBeans(
+				listener,
 				Translations.getString("postpone.1_year"),
 				type,
 				Calendar.YEAR,
@@ -203,7 +243,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height));
 		
-		return actions.toArray(new ActionPostponeTasks[0]);
+		return actions.toArray(new ActionPostponeTaskBeans[0]);
 	}
 	
 }

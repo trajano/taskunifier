@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -41,7 +42,9 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -59,6 +62,9 @@ import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
+import com.leclercb.taskunifier.gui.actions.PostponeType;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
@@ -321,6 +327,142 @@ public final class ComponentFactory {
 				BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(0xa5a5a5)));
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		return splitPane;
+	}
+	
+	public static JMenu createPostponeMenu() {
+		final JMenu postponeMenu = new JMenu(
+				Translations.getString("action.postpone_tasks"));
+		final JMenu postponeStartDateMenu = new JMenu(
+				Translations.getString("general.task.start_date"));
+		final JMenu postponeDueDateMenu = new JMenu(
+				Translations.getString("general.task.due_date"));
+		final JMenu postponeBothMenu = new JMenu(
+				Translations.getString("action.postpone_tasks.both"));
+		
+		postponeMenu.setToolTipText(Translations.getString("action.postpone_tasks"));
+		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
+		postponeStartDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
+		postponeDueDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
+		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		ActionPostponeTasks[] actions = null;
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.START_DATE,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeStartDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.DUE_DATE,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeDueDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.BOTH,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeBothMenu.add(action);
+		}
+		
+		postponeMenu.add(postponeStartDateMenu);
+		postponeMenu.add(postponeDueDateMenu);
+		postponeMenu.add(postponeBothMenu);
+		
+		return postponeMenu;
+	}
+	
+	public static JButton createPostponeButton(ActionListener listener) {
+		final JButton button = new JButton();
+		
+		button.setToolTipText(Translations.getString("action.postpone_tasks"));
+		button.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		final JPopupMenu postponeMenu = new JPopupMenu();
+		
+		final JMenu postponeStartDateMenu = new JMenu(
+				Translations.getString("general.task.start_date"));
+		final JMenu postponeDueDateMenu = new JMenu(
+				Translations.getString("general.task.due_date"));
+		final JMenu postponeBothMenu = new JMenu(
+				Translations.getString("action.postpone_tasks.both"));
+		
+		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
+		postponeStartDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
+		postponeDueDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
+		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		ActionPostponeTaskBeans[] actions = null;
+		
+		actions = ActionPostponeTaskBeans.createDefaultActions(
+				listener,
+				PostponeType.START_DATE,
+				16,
+				16);
+		for (ActionPostponeTaskBeans action : actions) {
+			postponeStartDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTaskBeans.createDefaultActions(
+				listener,
+				PostponeType.DUE_DATE,
+				16,
+				16);
+		for (ActionPostponeTaskBeans action : actions) {
+			postponeDueDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTaskBeans.createDefaultActions(
+				listener,
+				PostponeType.BOTH,
+				16,
+				16);
+		for (ActionPostponeTaskBeans action : actions) {
+			postponeBothMenu.add(action);
+		}
+		
+		postponeMenu.add(postponeStartDateMenu);
+		postponeMenu.add(postponeDueDateMenu);
+		postponeMenu.add(postponeBothMenu);
+		
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				postponeMenu.show(button, 0, 0);
+			}
+			
+		});
+		
+		return button;
 	}
 	
 }

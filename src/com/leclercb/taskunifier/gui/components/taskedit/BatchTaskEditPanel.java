@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Calendar;
@@ -60,9 +62,11 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -557,19 +561,53 @@ public class BatchTaskEditPanel extends JPanel {
 		// Separator
 		builder.getBuilder().appendSeparator();
 		
+		// Task Start/Due Date Listener
+		ActionListener postponeListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				if (!(evt.getSource() instanceof ActionPostponeTaskBeans))
+					return;
+				
+				ActionPostponeTaskBeans action = (ActionPostponeTaskBeans) evt.getSource();
+				
+				TaskBean bean = new TaskBean();
+				bean.setStartDate(BatchTaskEditPanel.this.taskStartDate.getCalendar());
+				bean.setDueDate(BatchTaskEditPanel.this.taskDueDate.getCalendar());
+				
+				action.postponeTaskBeans(new TaskBean[] { bean });
+				
+				BatchTaskEditPanel.this.taskStartDate.setCalendar(bean.getStartDate());
+				BatchTaskEditPanel.this.taskDueDate.setCalendar(bean.getDueDate());
+			}
+			
+		};
+		
 		// Task Start Date
+		JPanel startDatePanel = new JPanel(new BorderLayout());
+		startDatePanel.add(this.taskStartDate, BorderLayout.CENTER);
+		startDatePanel.add(
+				ComponentFactory.createPostponeButton(postponeListener),
+				BorderLayout.EAST);
+		
 		builder.appendI15d(
 				"general.task.start_date",
 				true,
 				this.taskStartDateCheckBox);
-		builder.append(this.taskStartDate);
+		builder.append(startDatePanel);
 		
 		// Task Due Date
+		JPanel dueDatePanel = new JPanel(new BorderLayout());
+		dueDatePanel.add(this.taskDueDate, BorderLayout.CENTER);
+		dueDatePanel.add(
+				ComponentFactory.createPostponeButton(postponeListener),
+				BorderLayout.EAST);
+		
 		builder.appendI15d(
 				"general.task.due_date",
 				true,
 				this.taskDueDateCheckBox);
-		builder.append(this.taskDueDate);
+		builder.append(dueDatePanel);
 		
 		// Task Reminder
 		this.taskReminder.setModel(new TaskReminderModel());
