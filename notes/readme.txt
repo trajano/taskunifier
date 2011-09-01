@@ -4,6 +4,7 @@ HISTORY
 Version 1.1.1
 	- FR 3354596: Add today, tomorrow... buttons in calendar
 	- FR 3380556: Auto-fill for contexts, folders...
+	- FR 3299263: Creation date & update date fields
 
 Version 1.1.0
 	- Improved sort order drag & drop
