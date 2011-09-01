@@ -175,6 +175,9 @@ public final class SettingsVersion {
 		if (version.equals("1.0.7"))
 			version = updateSettings_1_0_7_to_1_1_0();
 		
+		if (version.equals("1.1.0"))
+			version = updateSettings_1_1_0_to_1_1_1();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -700,6 +703,32 @@ public final class SettingsVersion {
 				"Update settings from version 1.0.7 to 1.1.0");
 		
 		return "1.1.0";
+	}
+	
+	private static String updateSettings_1_1_0_to_1_1_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.1.0 to 1.1.1");
+		
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_creation_date.order",
+				"24");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_creation_date.visible",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_creation_date.width",
+				"100");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_update_date.order",
+				"25");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_update_date.visible",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.model_update_date.width",
+				"100");
+		
+		return "1.1.1";
 	}
 	
 }

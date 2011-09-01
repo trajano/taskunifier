@@ -55,6 +55,8 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 public enum TaskColumn implements ModelProperties<Task> {
 	
 	MODEL(Task.class, Translations.getString("general.id"), false),
+	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
+	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
 	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
@@ -239,6 +241,10 @@ public enum TaskColumn implements ModelProperties<Task> {
 		switch (this) {
 			case MODEL:
 				return task;
+			case MODEL_CREATION_DATE:
+				return task.getModelCreationDate();
+			case MODEL_UPDATE_DATE:
+				return task.getModelUpdateDate();
 			case SHOW_CHILDREN:
 				return ((GuiTask) task).isShowChildren();
 			case TITLE:
@@ -295,6 +301,10 @@ public enum TaskColumn implements ModelProperties<Task> {
 		
 		switch (this) {
 			case MODEL:
+				break;
+			case MODEL_CREATION_DATE:
+				break;
+			case MODEL_UPDATE_DATE:
 				break;
 			case SHOW_CHILDREN:
 				((GuiTask) task).setShowChildren((Boolean) value);

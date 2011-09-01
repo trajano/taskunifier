@@ -91,6 +91,8 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
+	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
 	private static final TableCellRenderer NOTE_RENDERER;
 	private static final TableCellRenderer PROGRESS_RENDERER;
 	private static final TableCellRenderer REMINDER_RENDERER;
@@ -141,6 +143,12 @@ public class TaskTableColumn extends TableColumnExt {
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		MODEL_CREATION_DATE_RENDERER = new DefaultTableRenderer(
+				StringValueCalendar.INSTANCE_DATE_TIME);
+		
+		MODEL_UPDATE_DATE_RENDERER = new DefaultTableRenderer(
+				StringValueCalendar.INSTANCE_DATE_TIME);
 		
 		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValues.EMPTY,
@@ -262,6 +270,10 @@ public class TaskTableColumn extends TableColumnExt {
 		switch (this.taskColumn) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
+			case MODEL_CREATION_DATE:
+				return MODEL_CREATION_DATE_RENDERER;
+			case MODEL_UPDATE_DATE:
+				return MODEL_UPDATE_DATE_RENDERER;
 			case SHOW_CHILDREN:
 				return SHOW_CHILDREN_RENDERER;
 			case TITLE:

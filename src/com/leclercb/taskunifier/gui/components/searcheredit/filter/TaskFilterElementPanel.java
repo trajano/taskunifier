@@ -102,6 +102,8 @@ public class TaskFilterElementPanel extends JPanel {
 				case REPEAT:
 					value = this.elementValue.getSelectedItem().toString();
 					break;
+				case MODEL_CREATION_DATE:
+				case MODEL_UPDATE_DATE:
 				case COMPLETED_ON:
 				case DUE_DATE:
 				case START_DATE:
@@ -196,6 +198,20 @@ public class TaskFilterElementPanel extends JPanel {
 						IconValueModel.INSTANCE));
 				this.elementValue.setSelectedItem(value);
 				this.elementValue.setEditable(false);
+				break;
+			case MODEL_CREATION_DATE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						DaysCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case MODEL_UPDATE_DATE:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						DaysCondition.values()));
+				this.elementValue.addItem(value == null ? "" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
 				break;
 			case TITLE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
