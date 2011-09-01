@@ -41,7 +41,7 @@ public class StringValueModelId implements StringValue {
 	public static final StringValueModelId INSTANCE = new StringValueModelId();
 	
 	private StringValueModelId() {
-
+		
 	}
 	
 	@Override

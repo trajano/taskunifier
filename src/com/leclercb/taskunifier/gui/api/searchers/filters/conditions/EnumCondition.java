@@ -42,7 +42,7 @@ public enum EnumCondition implements Condition<Enum<?>, Enum<?>> {
 	NOT_EQUALS;
 	
 	private EnumCondition() {
-
+		
 	}
 	
 	@Override

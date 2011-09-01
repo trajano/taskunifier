@@ -285,7 +285,7 @@ public class Main {
 			try {
 				new File(getInitSettingsFile()).createNewFile();
 			} catch (Throwable t) {
-
+				
 			}
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
@@ -497,7 +497,7 @@ public class Main {
 							+ File.separator
 							+ "contexts.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -517,7 +517,7 @@ public class Main {
 							+ File.separator
 							+ "folders.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -537,7 +537,7 @@ public class Main {
 							+ File.separator
 							+ "goals.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -557,7 +557,7 @@ public class Main {
 							+ File.separator
 							+ "locations.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -577,7 +577,7 @@ public class Main {
 							+ File.separator
 							+ "notes.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -597,7 +597,7 @@ public class Main {
 							+ File.separator
 							+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -617,7 +617,7 @@ public class Main {
 							+ File.separator
 							+ "task_templates.xml"));
 		} catch (FileNotFoundException e) {
-
+			
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,

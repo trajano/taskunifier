@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 public class TaskFilter extends Filter<Task, TaskColumn, TaskFilter, TaskFilterElement> implements Cloneable {
 	
 	public TaskFilter() {
-
+		
 	}
 	
 	@Override

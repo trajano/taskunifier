@@ -64,7 +64,7 @@ import com.leclercb.taskunifier.gui.utils.Images;
 public final class Constants {
 	
 	private Constants() {
-
+		
 	}
 	
 	public static final String TITLE = "TaskUnifier";

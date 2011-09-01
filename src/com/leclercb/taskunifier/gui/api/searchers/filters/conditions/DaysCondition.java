@@ -47,7 +47,7 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	LESS_THAN_USING_TIME;
 	
 	private DaysCondition() {
-
+		
 	}
 	
 	@Override

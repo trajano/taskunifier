@@ -42,7 +42,7 @@ public class StringValueSynchronizerChoice implements StringValue {
 	public static final StringValueSynchronizerChoice INSTANCE = new StringValueSynchronizerChoice();
 	
 	private StringValueSynchronizerChoice() {
-
+		
 	}
 	
 	@Override

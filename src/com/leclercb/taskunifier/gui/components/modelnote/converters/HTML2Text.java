@@ -78,7 +78,7 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 			try {
 				in.close();
 			} catch (IOException ioe) {
-
+				
 			}
 		}
 		

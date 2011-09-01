@@ -41,7 +41,7 @@ public class StringValueModel implements StringValue {
 	public static final StringValueModel INSTANCE = new StringValueModel();
 	
 	private StringValueModel() {
-
+		
 	}
 	
 	@Override

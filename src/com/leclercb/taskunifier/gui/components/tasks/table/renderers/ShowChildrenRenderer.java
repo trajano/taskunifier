@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.utils.Images;
 public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 	
 	public ShowChildrenRenderer() {
-
+		
 	}
 	
 	@Override

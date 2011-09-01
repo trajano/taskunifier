@@ -42,7 +42,7 @@ public class StringValueSimpleDateFormat implements StringValue {
 	public static final StringValueSimpleDateFormat INSTANCE = new StringValueSimpleDateFormat();
 	
 	private StringValueSimpleDateFormat() {
-
+		
 	}
 	
 	@Override

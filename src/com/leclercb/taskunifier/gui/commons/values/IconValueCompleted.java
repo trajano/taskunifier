@@ -43,7 +43,7 @@ public class IconValueCompleted implements IconValue {
 	public static final IconValueCompleted INSTANCE = new IconValueCompleted();
 	
 	private IconValueCompleted() {
-
+		
 	}
 	
 	@Override

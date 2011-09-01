@@ -39,7 +39,7 @@ import com.apple.eawt.ApplicationEvent;
 public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	public MacApplicationAdapter() {
-
+		
 	}
 	
 	@Override

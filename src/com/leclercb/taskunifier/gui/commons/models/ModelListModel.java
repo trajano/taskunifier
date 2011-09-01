@@ -35,5 +35,5 @@ package com.leclercb.taskunifier.gui.commons.models;
 import javax.swing.ListModel;
 
 public interface ModelListModel extends ListModel {
-
+	
 }

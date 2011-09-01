@@ -127,7 +127,7 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 					
 					ViewType.getTaskView().getTaskSearcherView().selectTag(tag);
 				} catch (Exception e) {
-
+					
 				}
 			}
 			

@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class SettingsUtils {
 	
 	private SettingsUtils() {
-
+		
 	}
 	
 	public static void resetImportanceColors() {

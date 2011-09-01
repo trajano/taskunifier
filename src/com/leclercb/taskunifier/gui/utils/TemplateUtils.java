@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 public final class TemplateUtils {
 	
 	private TemplateUtils() {
-
+		
 	}
 	
 	public static void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {

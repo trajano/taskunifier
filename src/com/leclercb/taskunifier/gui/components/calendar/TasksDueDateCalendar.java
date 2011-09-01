@@ -111,7 +111,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 	
 	@Override
 	public void deleteEvent(String clientId, Event event) {
-
+		
 	}
 	
 	@Override

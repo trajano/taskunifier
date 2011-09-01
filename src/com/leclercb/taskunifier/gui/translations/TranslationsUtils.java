@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public final class TranslationsUtils {
 	
 	private TranslationsUtils() {
-
+		
 	}
 	
 	public static String translateModelType(ModelType type, boolean plurial) {

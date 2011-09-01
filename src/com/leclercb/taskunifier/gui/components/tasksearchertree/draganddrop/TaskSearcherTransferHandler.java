@@ -296,7 +296,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
-
+		
 	}
 	
 	private SearcherNode getSearcherNodeForLocation(TransferSupport support) {

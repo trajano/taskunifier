@@ -41,7 +41,7 @@ public class StringValueSynchronizerGuiPlugin implements StringValue {
 	public static final StringValueSynchronizerGuiPlugin INSTANCE = new StringValueSynchronizerGuiPlugin();
 	
 	private StringValueSynchronizerGuiPlugin() {
-
+		
 	}
 	
 	@Override

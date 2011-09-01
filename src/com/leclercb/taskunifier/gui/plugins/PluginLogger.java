@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public final class PluginLogger {
 	
 	private PluginLogger() {
-
+		
 	}
 	
 	private static final Logger LOGGER;

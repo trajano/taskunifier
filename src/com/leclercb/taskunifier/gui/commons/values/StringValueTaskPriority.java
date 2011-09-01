@@ -42,7 +42,7 @@ public class StringValueTaskPriority implements StringValue {
 	public static final StringValueTaskPriority INSTANCE = new StringValueTaskPriority();
 	
 	private StringValueTaskPriority() {
-
+		
 	}
 	
 	@Override

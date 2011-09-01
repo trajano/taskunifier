@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 final class StatusBarElements {
 	
 	private StatusBarElements() {
-
+		
 	}
 	
 	public static final JLabel createSynchronizerStatus() {

@@ -126,7 +126,7 @@ public class TaskSorterTransferHandler extends TransferHandler {
 	
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
-
+		
 	}
 	
 }

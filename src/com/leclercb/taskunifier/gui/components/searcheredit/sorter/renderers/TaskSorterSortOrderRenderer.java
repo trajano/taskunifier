@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 public class TaskSorterSortOrderRenderer extends DefaultTableCellRenderer {
 	
 	public TaskSorterSortOrderRenderer() {
-
+		
 	}
 	
 	@Override

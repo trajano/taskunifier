@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 public class TaskSorter extends Sorter<Task, TaskColumn, TaskSorterElement> implements Cloneable {
 	
 	public TaskSorter() {
-
+		
 	}
 	
 	@Override

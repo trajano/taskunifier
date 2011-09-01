@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 public class NoteSorter extends Sorter<Note, NoteColumn, NoteSorterElement> implements Cloneable {
 	
 	public NoteSorter() {
-
+		
 	}
 	
 	@Override

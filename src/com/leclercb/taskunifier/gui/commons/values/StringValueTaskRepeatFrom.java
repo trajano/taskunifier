@@ -42,7 +42,7 @@ public class StringValueTaskRepeatFrom implements StringValue {
 	public static final StringValueTaskRepeatFrom INSTANCE = new StringValueTaskRepeatFrom();
 	
 	private StringValueTaskRepeatFrom() {
-
+		
 	}
 	
 	@Override

@@ -41,7 +41,7 @@ public enum CalendarCondition implements Condition<Calendar, Calendar> {
 	EQUALS;
 	
 	private CalendarCondition() {
-
+		
 	}
 	
 	@Override

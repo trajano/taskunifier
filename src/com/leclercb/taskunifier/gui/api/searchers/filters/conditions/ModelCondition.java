@@ -40,7 +40,7 @@ public enum ModelCondition implements Condition<Model, Model> {
 	NOT_EQUALS;
 	
 	private ModelCondition() {
-
+		
 	}
 	
 	@Override

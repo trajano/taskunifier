@@ -168,7 +168,7 @@ public class NoteTransferHandler extends TransferHandler {
 	
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
-
+		
 	}
 	
 }

@@ -67,7 +67,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 			try {
 				Thread.sleep(SLEEP_TIME);
 			} catch (InterruptedException e) {
-
+				
 			}
 			
 			List<Task> list = TaskFactory.getInstance().getList();

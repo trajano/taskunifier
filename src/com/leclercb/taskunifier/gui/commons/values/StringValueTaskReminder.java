@@ -41,7 +41,7 @@ public class StringValueTaskReminder implements StringValue {
 	public static final StringValueTaskReminder INSTANCE = new StringValueTaskReminder();
 	
 	private StringValueTaskReminder() {
-
+		
 	}
 	
 	@Override

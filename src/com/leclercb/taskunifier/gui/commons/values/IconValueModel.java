@@ -45,7 +45,7 @@ public class IconValueModel implements IconValue {
 	public static final IconValueModel INSTANCE = new IconValueModel();
 	
 	private IconValueModel() {
-
+		
 	}
 	
 	@Override

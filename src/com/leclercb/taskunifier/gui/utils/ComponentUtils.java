@@ -37,7 +37,7 @@ import javax.swing.JTextField;
 public final class ComponentUtils {
 	
 	private ComponentUtils() {
-
+		
 	}
 	
 	public static void focusAndSelectTextInTextField(JTextField textField) {

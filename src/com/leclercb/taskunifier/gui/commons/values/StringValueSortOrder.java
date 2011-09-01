@@ -43,7 +43,7 @@ public class StringValueSortOrder implements StringValue {
 	public static final StringValueSortOrder INSTANCE = new StringValueSortOrder();
 	
 	private StringValueSortOrder() {
-
+		
 	}
 	
 	@Override

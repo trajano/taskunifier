@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class TaskUtils {
 	
 	private TaskUtils() {
-
+		
 	}
 	
 	public static String toText(Task[] tasks, TaskColumn[] columns, boolean html) {

@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class Translations {
 	
 	private Translations() {
-
+		
 	}
 	
 	private static final String BUNDLE_FOLDER = Main.RESOURCES_FOLDER

@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public final class SettingsVersion {
 	
 	private SettingsVersion() {
-
+		
 	}
 	
 	public static void updateSettings() {
@@ -575,7 +575,7 @@ public final class SettingsVersion {
 				try {
 					SynchronizerUtils.resetSynchronizer();
 				} catch (Throwable t) {
-
+					
 				}
 			}
 			

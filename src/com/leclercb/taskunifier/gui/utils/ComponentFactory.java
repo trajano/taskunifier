@@ -70,7 +70,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public final class ComponentFactory {
 	
 	private ComponentFactory() {
-
+		
 	}
 	
 	public static JPanel createButtonsPanel(JButton... buttons) {

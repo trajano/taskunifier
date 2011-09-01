@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 public class NoteFilter extends Filter<Note, NoteColumn, NoteFilter, NoteFilterElement> implements Cloneable {
 	
 	public NoteFilter() {
-
+		
 	}
 	
 	@Override

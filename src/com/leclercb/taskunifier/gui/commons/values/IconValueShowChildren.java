@@ -43,7 +43,7 @@ public class IconValueShowChildren implements IconValue {
 	public static final IconValueShowChildren INSTANCE = new IconValueShowChildren();
 	
 	private IconValueShowChildren() {
-
+		
 	}
 	
 	@Override

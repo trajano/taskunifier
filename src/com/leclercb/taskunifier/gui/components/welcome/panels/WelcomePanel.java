@@ -68,7 +68,7 @@ public class WelcomePanel extends CardPanel {
 	
 	@Override
 	public void applyChanges() {
-
+		
 	}
 	
 }

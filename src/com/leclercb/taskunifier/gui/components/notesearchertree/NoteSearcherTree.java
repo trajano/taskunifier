@@ -101,13 +101,13 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	@Override
 	public void addNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-
+		
 	}
 	
 	@Override
 	public void removeNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-
+		
 	}
 	
 	@Override

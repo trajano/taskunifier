@@ -105,7 +105,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	
 	@Override
 	public void deleteEvent(String clientId, Event event) {
-
+		
 	}
 	
 	@Override

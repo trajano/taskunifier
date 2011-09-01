@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 public final class NoteUtils {
 	
 	private NoteUtils() {
-
+		
 	}
 	
 	public static boolean showNote(Note note, NoteFilter filter) {

@@ -44,7 +44,7 @@ public class StringValueTaskTemplateTitle implements StringValue {
 	public static final StringValueTaskTemplateTitle INSTANCE = new StringValueTaskTemplateTitle();
 	
 	private StringValueTaskTemplateTitle() {
-
+		
 	}
 	
 	@Override

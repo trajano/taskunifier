@@ -51,12 +51,12 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	private static String VERSION = "1.0";
 	
 	private DummyGuiPlugin() {
-
+		
 	}
 	
 	@Override
 	public void installPlugin() {
-
+		
 	}
 	
 	@Override

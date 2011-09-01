@@ -42,7 +42,7 @@ public class StringValueFilterCondition implements StringValue {
 	public static final StringValueFilterCondition INSTANCE = new StringValueFilterCondition();
 	
 	private StringValueFilterCondition() {
-
+		
 	}
 	
 	@Override

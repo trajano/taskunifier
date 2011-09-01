@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class Images {
 	
 	private Images() {
-
+		
 	}
 	
 	private static class ImageInfo {

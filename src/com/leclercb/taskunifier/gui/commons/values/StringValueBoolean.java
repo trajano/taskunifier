@@ -41,7 +41,7 @@ public class StringValueBoolean implements StringValue {
 	public static final StringValueBoolean INSTANCE = new StringValueBoolean();
 	
 	private StringValueBoolean() {
-
+		
 	}
 	
 	@Override

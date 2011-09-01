@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class Tips {
 	
 	private Tips() {
-
+		
 	}
 	
 	private static final String BUNDLE_FOLDER = Main.RESOURCES_FOLDER

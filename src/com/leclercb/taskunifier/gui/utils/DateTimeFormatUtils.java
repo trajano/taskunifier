@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 public final class DateTimeFormatUtils {
 	
 	private DateTimeFormatUtils() {
-
+		
 	}
 	
 	private static DateTimeFormatInfo[] dateFormats = new DateTimeFormatInfo[] {

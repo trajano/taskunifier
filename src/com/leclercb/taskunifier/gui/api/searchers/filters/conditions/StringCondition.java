@@ -42,7 +42,7 @@ public enum StringCondition implements Condition<String, Object> {
 	STARTS_WITH;
 	
 	private StringCondition() {
-
+		
 	}
 	
 	@Override

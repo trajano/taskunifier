@@ -211,7 +211,7 @@ public class ActionAddQuickTask extends AbstractAction {
 				
 				return;
 			} catch (ParseException e) {
-
+				
 			}
 		}
 	}

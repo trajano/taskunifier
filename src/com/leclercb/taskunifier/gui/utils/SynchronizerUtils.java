@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public final class SynchronizerUtils {
 	
 	private SynchronizerUtils() {
-
+		
 	}
 	
 	private static boolean TASK_REPEAT_ENABLED = false;

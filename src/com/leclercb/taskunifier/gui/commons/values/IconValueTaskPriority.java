@@ -47,7 +47,7 @@ public class IconValueTaskPriority implements IconValue {
 	public static final IconValueTaskPriority INSTANCE = new IconValueTaskPriority();
 	
 	private IconValueTaskPriority() {
-
+		
 	}
 	
 	@Override

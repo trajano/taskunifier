@@ -186,7 +186,7 @@ public class BatchTaskEditPanel extends JPanel {
 					try {
 						task.setParent((Task) this.taskParent.getSelectedItem());
 					} catch (IllegalArgumentException exc) {
-
+						
 					}
 				}
 			}
@@ -223,7 +223,7 @@ public class BatchTaskEditPanel extends JPanel {
 						task.setReminder(reminder);
 					}
 				} catch (NumberFormatException exc) {
-
+					
 				}
 			}
 			
@@ -402,7 +402,7 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			@Override
 			public void textChanged(String text) {
-
+				
 			}
 			
 		};

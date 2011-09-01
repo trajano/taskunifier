@@ -42,7 +42,7 @@ public enum NumberCondition implements Condition<Number, Number> {
 	NOT_EQUALS;
 	
 	private NumberCondition() {
-
+		
 	}
 	
 	@Override

@@ -63,7 +63,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void deleteExistingValue() {
-
+		
 	}
 	
 	@Override

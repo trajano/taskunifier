@@ -40,7 +40,7 @@ public class DummyPlugin implements SynchronizerPlugin {
 	private static String VERSION = "1.0";
 	
 	public DummyPlugin() {
-
+		
 	}
 	
 	@Override

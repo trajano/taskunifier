@@ -41,7 +41,7 @@ public class StringValuePluginStatus implements StringValue {
 	public static final StringValuePluginStatus INSTANCE = new StringValuePluginStatus();
 	
 	private StringValuePluginStatus() {
-
+		
 	}
 	
 	@Override

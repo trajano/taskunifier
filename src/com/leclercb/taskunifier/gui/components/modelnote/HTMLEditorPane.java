@@ -97,7 +97,7 @@ public abstract class HTMLEditorPane extends JPanel {
 					try {
 						BrowserUtils.openDefaultBrowser(evt.getURL().toExternalForm());
 					} catch (Exception exc) {
-
+						
 					}
 				}
 			}
@@ -216,7 +216,7 @@ public abstract class HTMLEditorPane extends JPanel {
 					if (file.exists())
 						url = file.toURI().toURL().toExternalForm();
 				} catch (Throwable t) {
-
+					
 				}
 				
 				this.setContent("<a href=\"" + url + "\">|</a>");

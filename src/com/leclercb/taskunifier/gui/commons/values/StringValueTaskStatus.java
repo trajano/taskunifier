@@ -42,7 +42,7 @@ public class StringValueTaskStatus implements StringValue {
 	public static final StringValueTaskStatus INSTANCE = new StringValueTaskStatus();
 	
 	private StringValueTaskStatus() {
-
+		
 	}
 	
 	@Override

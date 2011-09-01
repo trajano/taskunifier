@@ -352,7 +352,7 @@ public class ConfigurationDialog extends JDialog {
 		try {
 			this.tabbedPane.setSelectedIndex(selectedTab);
 		} catch (IndexOutOfBoundsException e) {
-
+			
 		}
 	}
 	

@@ -43,7 +43,7 @@ public class IconValueNote implements IconValue {
 	public static final IconValueNote INSTANCE = new IconValueNote();
 	
 	private IconValueNote() {
-
+		
 	}
 	
 	@Override

@@ -88,7 +88,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private ScheduledSyncThread scheduledSyncThread;
 	
 	private MainFrame() {
-
+		
 	}
 	
 	@Override
@@ -266,7 +266,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			try {
 				tray.add(trayIcon);
 			} catch (AWTException e) {
-
+				
 			}
 			
 			this.addWindowListener(new WindowAdapter() {

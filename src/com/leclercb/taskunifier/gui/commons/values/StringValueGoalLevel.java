@@ -42,7 +42,7 @@ public class StringValueGoalLevel implements StringValue {
 	public static final StringValueGoalLevel INSTANCE = new StringValueGoalLevel();
 	
 	private StringValueGoalLevel() {
-
+		
 	}
 	
 	@Override

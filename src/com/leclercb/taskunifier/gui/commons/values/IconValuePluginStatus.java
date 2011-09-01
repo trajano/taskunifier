@@ -46,7 +46,7 @@ public class IconValuePluginStatus implements IconValue {
 	public static final IconValuePluginStatus INSTANCE = new IconValuePluginStatus();
 	
 	private IconValuePluginStatus() {
-
+		
 	}
 	
 	@Override

@@ -41,7 +41,7 @@ public class StringValueLocale implements StringValue {
 	public static final StringValueLocale INSTANCE = new StringValueLocale();
 	
 	private StringValueLocale() {
-
+		
 	}
 	
 	@Override

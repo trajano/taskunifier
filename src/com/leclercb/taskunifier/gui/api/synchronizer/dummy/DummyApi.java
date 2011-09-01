@@ -99,12 +99,12 @@ public class DummyApi extends SynchronizerApi {
 	
 	@Override
 	public void resetConnectionParameters(Properties properties) {
-
+		
 	}
 	
 	@Override
 	public void resetSynchronizerParameters(Properties properties) {
-
+		
 	}
 	
 }

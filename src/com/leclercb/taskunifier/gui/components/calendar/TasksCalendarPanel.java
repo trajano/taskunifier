@@ -98,7 +98,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				
 				calendar.setActive(active);
 			} catch (Throwable t) {
-
+				
 			}
 			
 			this.calendarPanel.addNamedCalendar(calendar);

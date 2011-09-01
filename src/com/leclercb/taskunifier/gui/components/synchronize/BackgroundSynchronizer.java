@@ -39,7 +39,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 public final class BackgroundSynchronizer {
 	
 	private BackgroundSynchronizer() {
-
+		
 	}
 	
 	public static void synchronize() {

@@ -80,7 +80,7 @@ public class NoteSearcherTreeUI extends BasicTreeUI {
 	private FocusStatePainter selectionBackgroundPainter;
 	
 	public NoteSearcherTreeUI() {
-
+		
 	}
 	
 	@Override
@@ -232,7 +232,7 @@ public class NoteSearcherTreeUI extends BasicTreeUI {
 			int y,
 			int left,
 			int right) {
-
+		
 	}
 	
 	@Override
@@ -241,7 +241,7 @@ public class NoteSearcherTreeUI extends BasicTreeUI {
 			Rectangle clipBounds,
 			Insets insets,
 			TreePath path) {
-
+		
 	}
 	
 	private class SearcherTreeCellRenderer implements TreeCellRenderer {
@@ -284,7 +284,7 @@ public class NoteSearcherTreeUI extends BasicTreeUI {
 				NoteSearcherTreeUI.this.colorScheme.getCategoryTextShadowColor());
 		
 		private CategoryTreeCellRenderer() {
-
+			
 		}
 		
 		@Override

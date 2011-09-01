@@ -73,7 +73,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void initializeFieldComponent() {
-
+			
 		}
 		
 		@Override
@@ -93,7 +93,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void saveAndApplyConfig() {
-
+			
 		}
 		
 	}
@@ -101,12 +101,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	public static class Separator extends JSeparator implements ConfigurationFieldType<JSeparator, Void> {
 		
 		public Separator() {
-
+			
 		}
 		
 		@Override
 		public void initializeFieldComponent() {
-
+			
 		}
 		
 		@Override
@@ -126,7 +126,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void saveAndApplyConfig() {
-
+			
 		}
 		
 	}
@@ -140,7 +140,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void initializeFieldComponent() {
-
+			
 		}
 		
 		@Override
@@ -160,7 +160,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void saveAndApplyConfig() {
-
+			
 		}
 		
 	}
@@ -183,7 +183,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void initializeFieldComponent() {
-
+			
 		}
 		
 		@Override
@@ -203,7 +203,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void saveAndApplyConfig() {
-
+			
 		}
 		
 	}
