@@ -40,7 +40,10 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 public class ContextEditor extends ComboBoxCellEditor {
 	
 	public ContextEditor() {
-		super(ComponentFactory.createModelComboBox(new ContextModel(true)));
+		super(
+				ComponentFactory.createModelComboBox(
+						new ContextModel(true),
+						true));
 	}
 	
 }

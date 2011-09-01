@@ -76,11 +76,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
-import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -183,11 +179,11 @@ public class TaskEditPanel extends JPanel {
 		
 		this.taskTitle = new JTextField();
 		this.taskTags = new JComboBox();
-		this.taskFolder = ComponentFactory.createModelComboBox(null);
-		this.taskContext = ComponentFactory.createModelComboBox(null);
-		this.taskGoal = ComponentFactory.createModelComboBox(null);
-		this.taskLocation = ComponentFactory.createModelComboBox(null);
-		this.taskParent = ComponentFactory.createModelComboBox(null);
+		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
+		this.taskContext = ComponentFactory.createModelComboBox(null, true);
+		this.taskGoal = ComponentFactory.createModelComboBox(null, true);
+		this.taskLocation = ComponentFactory.createModelComboBox(null, true);
+		this.taskParent = ComponentFactory.createModelComboBox(null, false);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JDateChooser(new JTextFieldDateEditor(
@@ -214,10 +210,14 @@ public class TaskEditPanel extends JPanel {
 		});
 		this.taskReminder = new JComboBox();
 		this.taskRepeat = new JComboBox();
-		this.taskRepeatFrom = new JComboBox();
-		this.taskStatus = new JComboBox();
+		this.taskRepeatFrom = ComponentFactory.createTaskRepeatFromComboBox(
+				null,
+				true);
+		this.taskStatus = ComponentFactory.createTaskStatusComboBox(null, true);
 		this.taskLength = new JSpinner();
-		this.taskPriority = new JComboBox();
+		this.taskPriority = ComponentFactory.createTaskPriorityComboBox(
+				null,
+				true);
 		this.taskStar = new JCheckBox();
 		this.taskNote = new JTextArea(5, 0);
 		
@@ -296,21 +296,11 @@ public class TaskEditPanel extends JPanel {
 				true,
 				this.taskRepeatFrom);
 		
-		this.taskRepeatFrom.setRenderer(new DefaultListRenderer(
-				StringValueTaskRepeatFrom.INSTANCE));
-		
 		// Task Status
 		builder.appendI15d("general.task.status", true, this.taskStatus);
 		
-		this.taskStatus.setRenderer(new DefaultListRenderer(
-				StringValueTaskStatus.INSTANCE));
-		
 		// Task Priority
 		builder.appendI15d("general.task.priority", true, this.taskPriority);
-		
-		this.taskPriority.setRenderer(new DefaultListRenderer(
-				StringValueTaskPriority.INSTANCE,
-				IconValueTaskPriority.INSTANCE));
 		
 		// Task Note
 		this.taskNote.setLineWrap(true);

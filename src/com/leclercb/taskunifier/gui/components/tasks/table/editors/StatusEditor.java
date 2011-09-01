@@ -32,24 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
-import javax.swing.JComboBox;
-
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
-import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class StatusEditor extends ComboBoxCellEditor {
 	
 	public StatusEditor() {
-		super(new JComboBox());
-		
-		JComboBox comboBox = (JComboBox) this.getComponent();
-		
-		comboBox.setModel(new TaskStatusModel(false));
-		comboBox.setRenderer(new DefaultListRenderer(
-				StringValueTaskStatus.INSTANCE));
+		super(ComponentFactory.createTaskStatusComboBox(new TaskStatusModel(
+				false), true));
 	}
 	
 }

@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 public class FolderEditor extends ComboBoxCellEditor {
 	
 	public FolderEditor() {
-		super(ComponentFactory.createModelComboBox(new FolderModel(true)));
+		super(ComponentFactory.createModelComboBox(new FolderModel(true), true));
 	}
 	
 }

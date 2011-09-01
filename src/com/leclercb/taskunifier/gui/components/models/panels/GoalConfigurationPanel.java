@@ -95,7 +95,9 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		// Initialize Fields
 		final JTextField goalTitle = new JTextField();
 		final JComboBox goalLevel = new JComboBox();
-		final JComboBox goalContributes = ComponentFactory.createModelComboBox(null);
+		final JComboBox goalContributes = ComponentFactory.createModelComboBox(
+				null,
+				true);
 		final JXColorSelectionButton goalColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
 		

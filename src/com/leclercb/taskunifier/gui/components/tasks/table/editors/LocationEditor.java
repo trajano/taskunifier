@@ -40,7 +40,9 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 public class LocationEditor extends ComboBoxCellEditor {
 	
 	public LocationEditor() {
-		super(ComponentFactory.createModelComboBox(new LocationModel(true)));
+		super(ComponentFactory.createModelComboBox(
+				new LocationModel(true),
+				true));
 	}
 	
 }

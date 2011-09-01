@@ -50,14 +50,21 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.jdesktop.swingx.JXComboBox;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class ComponentFactory {
@@ -177,7 +184,9 @@ public final class ComponentFactory {
 				});
 	}
 	
-	public static JXComboBox createModelComboBox(ComboBoxModel model) {
+	public static JXComboBox createModelComboBox(
+			ComboBoxModel model,
+			boolean autoComplete) {
 		JXComboBox comboBox = new JXComboBox();
 		
 		if (model != null)
@@ -186,6 +195,104 @@ public final class ComponentFactory {
 		comboBox.setRenderer(new DefaultListRenderer(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		if (autoComplete) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+						
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							if (item == null)
+								return null;
+							
+							return ((Model) item).getTitle();
+						}
+						
+					});
+		}
+		
+		return comboBox;
+	}
+	
+	public static JXComboBox createTaskPriorityComboBox(
+			ComboBoxModel model,
+			boolean autoComplete) {
+		JXComboBox comboBox = new JXComboBox();
+		
+		if (model != null)
+			comboBox.setModel(model);
+		
+		comboBox.setRenderer(new DefaultListRenderer(
+				StringValueTaskPriority.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
+		
+		if (autoComplete) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+						
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							return StringValueTaskPriority.INSTANCE.getString(item);
+						}
+						
+					});
+		}
+		
+		return comboBox;
+	}
+	
+	public static JXComboBox createTaskRepeatFromComboBox(
+			ComboBoxModel model,
+			boolean autoComplete) {
+		JXComboBox comboBox = new JXComboBox();
+		
+		if (model != null)
+			comboBox.setModel(model);
+		
+		comboBox.setRenderer(new DefaultListRenderer(
+				StringValueTaskRepeatFrom.INSTANCE));
+		
+		if (autoComplete) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+						
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							return StringValueTaskRepeatFrom.INSTANCE.getString(item);
+						}
+						
+					});
+		}
+		
+		return comboBox;
+	}
+	
+	public static JXComboBox createTaskStatusComboBox(
+			ComboBoxModel model,
+			boolean autoComplete) {
+		JXComboBox comboBox = new JXComboBox();
+		
+		if (model != null)
+			comboBox.setModel(model);
+		
+		comboBox.setRenderer(new DefaultListRenderer(
+				StringValueTaskStatus.INSTANCE));
+		
+		if (autoComplete) {
+			AutoCompleteDecorator.decorate(
+					comboBox,
+					new ObjectToStringConverter() {
+						
+						@Override
+						public String getPreferredStringForItem(Object item) {
+							return StringValueTaskStatus.INSTANCE.getString(item);
+						}
+						
+					});
+		}
 		
 		return comboBox;
 	}

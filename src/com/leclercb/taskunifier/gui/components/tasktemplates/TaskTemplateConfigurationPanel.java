@@ -76,11 +76,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
-import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -101,10 +97,18 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		final JTextField templateTitle = new JTextField();
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
-		final JComboBox templateTaskFolder = ComponentFactory.createModelComboBox(null);
-		final JComboBox templateTaskContext = ComponentFactory.createModelComboBox(null);
-		final JComboBox templateTaskGoal = ComponentFactory.createModelComboBox(null);
-		final JComboBox templateTaskLocation = ComponentFactory.createModelComboBox(null);
+		final JComboBox templateTaskFolder = ComponentFactory.createModelComboBox(
+				null,
+				true);
+		final JComboBox templateTaskContext = ComponentFactory.createModelComboBox(
+				null,
+				true);
+		final JComboBox templateTaskGoal = ComponentFactory.createModelComboBox(
+				null,
+				true);
+		final JComboBox templateTaskLocation = ComponentFactory.createModelComboBox(
+				null,
+				true);
 		final JSpinner templateTaskProgress = new JSpinner();
 		final JCheckBox templateTaskCompleted = new JCheckBox();
 		final JFormattedTextField templateTaskDueDate = new JFormattedTextField(
@@ -115,10 +119,16 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		final JSpinner templateTaskStartTime = new JSpinner();
 		final JComboBox templateTaskReminder = new JComboBox();
 		final JComboBox templateTaskRepeat = new JComboBox();
-		final JComboBox templateTaskRepeatFrom = new JComboBox();
-		final JComboBox templateTaskStatus = new JComboBox();
+		final JComboBox templateTaskRepeatFrom = ComponentFactory.createTaskRepeatFromComboBox(
+				null,
+				true);
+		final JComboBox templateTaskStatus = ComponentFactory.createTaskStatusComboBox(
+				null,
+				true);
 		final JSpinner templateTaskLength = new JSpinner();
-		final JComboBox templateTaskPriority = new JComboBox();
+		final JComboBox templateTaskPriority = ComponentFactory.createTaskPriorityComboBox(
+				null,
+				true);
 		final JCheckBox templateTaskStar = new JCheckBox();
 		final JTextArea templateTaskNote = new JTextArea(5, 5);
 		
@@ -391,24 +401,14 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				true,
 				templateTaskRepeatFrom);
 		
-		templateTaskRepeatFrom.setRenderer(new DefaultListRenderer(
-				StringValueTaskRepeatFrom.INSTANCE));
-		
 		// Template Task Status
 		builder.appendI15d("general.task.status", true, templateTaskStatus);
-		
-		templateTaskStatus.setRenderer(new DefaultListRenderer(
-				StringValueTaskStatus.INSTANCE));
 		
 		// Template Task Length
 		builder.appendI15d("general.task.length", true, templateTaskLength);
 		
 		// Template Task Priority
 		builder.appendI15d("general.task.priority", true, templateTaskPriority);
-		
-		templateTaskPriority.setRenderer(new DefaultListRenderer(
-				StringValueTaskPriority.INSTANCE,
-				IconValueTaskPriority.INSTANCE));
 		
 		// Template Task Star
 		builder.appendI15d("general.task.star", true, templateTaskStar);
