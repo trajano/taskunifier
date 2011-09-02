@@ -184,7 +184,8 @@ public final class NoteUtils {
 						content = StringValueModelId.INSTANCE.getString(value);
 						break;
 					case NOTE:
-						content = (value == null ? null : value.toString());
+						content = (value == null ? null : "\n"
+								+ value.toString());
 						break;
 					case TITLE:
 						content = (value == null ? null : value.toString());
