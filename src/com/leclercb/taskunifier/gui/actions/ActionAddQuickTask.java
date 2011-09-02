@@ -19,6 +19,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -72,7 +73,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			s = s.substring(1).trim();
 			
 			if (c == '&') { // Tag
-				taskBean.getTags().addTag(s);
+				taskBean.getTags().addTags(TagList.fromString(s));
 			} else if (c == '@') { // Context, Folder, Goal, Location
 				findModel(s, taskBean);
 			} else if (c == '*') { // Priority, Status
@@ -194,6 +195,56 @@ public class ActionAddQuickTask extends AbstractAction {
 			TaskBean taskBean) {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		
+		Pattern pattern = Pattern.compile("([+-]?)([0-9]+)([dwmy])(.*)");
+		Matcher matcher = pattern.matcher(title);
+		
+		if (matcher.find()) {
+			int num = 0;
+			char type = 'd';
+			
+			num = Integer.parseInt(matcher.group(2));
+			type = matcher.group(3).charAt(0);
+			
+			if (matcher.group(1).equals("-"))
+				num *= -1;
+			
+			Calendar date = Calendar.getInstance();
+			switch (type) {
+				case 'd':
+					date.add(Calendar.DAY_OF_MONTH, num);
+					break;
+				case 'w':
+					date.add(Calendar.WEEK_OF_YEAR, num);
+					break;
+				case 'm':
+					date.add(Calendar.MONTH, num);
+					break;
+				case 'y':
+					date.add(Calendar.YEAR, num);
+					break;
+			}
+			
+			title = matcher.group(4).trim();
+			
+			try {
+				SimpleDateFormat format = new SimpleDateFormat(timeFormat);
+				Calendar time = Calendar.getInstance();
+				time.setTime(format.parse(title));
+				
+				date.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+				date.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+			} catch (ParseException e) {
+				
+			}
+			
+			if (startDate)
+				taskBean.setStartDate(date);
+			else
+				taskBean.setDueDate(date);
+			
+			return;
+		}
 		
 		SimpleDateFormat[] formats = {
 				new SimpleDateFormat(dateFormat + timeFormat),
