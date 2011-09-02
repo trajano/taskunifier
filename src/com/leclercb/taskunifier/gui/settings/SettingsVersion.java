@@ -728,6 +728,10 @@ public final class SettingsVersion {
 				"taskcolumn.model_update_date.width",
 				"100");
 		
+		Main.SETTINGS.setStringProperty("notecolumn.note.order", "3");
+		Main.SETTINGS.setStringProperty("notecolumn.note.visible", "true");
+		Main.SETTINGS.setStringProperty("notecolumn.note.width", "100");
+		
 		return "1.1.1";
 	}
 	

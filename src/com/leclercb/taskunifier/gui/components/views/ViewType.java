@@ -44,6 +44,14 @@ public enum ViewType implements ActionSupported {
 		return (StatisticsView) STATISTICS.getView();
 	}
 	
+	public static void commitAll() {
+		ViewType.getNoteView().getNoteTableView().commitChanges();
+		ViewType.getNoteView().getModelNoteView().view();
+		
+		ViewType.getTaskView().getTaskTableView().commitChanges();
+		ViewType.getTaskView().getModelNoteView().view();
+	}
+	
 	public static Note[] getSelectedNotes() {
 		return ViewType.getNoteView().getNoteTableView().getSelectedNotes();
 	}
