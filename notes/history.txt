@@ -5,6 +5,7 @@ Version 1.1.1
 	- FR 3397857: Postpone button in edit task window
 	- FR 3402403: Quick add task date shortcuts
 	- FR 3208888: Copy paste to HTML/Word/Excel/...
+	- FR 3389911: Print selected task/note as text
 	- BF 3401837: Bug in date filter condition
 
 Version 1.1.0

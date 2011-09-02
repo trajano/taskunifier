@@ -83,6 +83,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTool
 import com.leclercb.taskunifier.gui.components.notes.table.menu.NoteTableMenu;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
@@ -273,6 +274,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.setColumnControlVisible(true);
 		
 		this.initializeDeleteNote();
+		this.initializeEditNote();
 		this.initializeNoteTableMenu();
 		this.initializeDragAndDrop();
 		this.initializeUndoRedo();
@@ -310,6 +312,39 @@ public class NoteTable extends JXTable implements NoteTableView {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
 					ActionDelete.delete();
+			}
+			
+		});
+	}
+	
+	private void initializeEditNote() {
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					int rowIndex = NoteTable.this.getRowSorter().convertRowIndexToModel(
+							NoteTable.this.rowAtPoint(event.getPoint()));
+					
+					int colIndex = NoteTable.this.columnAtPoint(event.getPoint());
+					
+					NoteColumn column = (NoteColumn) NoteTable.this.getColumn(
+							colIndex).getIdentifier();
+					
+					if (column == NoteColumn.NOTE) {
+						Note note = ((NoteTableModel) NoteTable.this.getModel()).getNote(rowIndex);
+						
+						if (note == null)
+							return;
+						
+						NoteTable.this.commitChanges();
+						
+						NoteTable.this.setSelectedNotes(new Note[] { note });
+						
+						ViewType.getNoteView().getModelNoteView().edit();
+					}
+				}
 			}
 			
 		});

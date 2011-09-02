@@ -42,10 +42,12 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
+import org.jdesktop.swingx.renderer.StringValues;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
@@ -58,6 +60,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer NOTE_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
 	
 	private static final TableCellEditor FOLDER_EDITOR;
@@ -70,6 +73,10 @@ public class NoteTableColumn extends TableColumnExt {
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValues.EMPTY,
+				IconValueNote.INSTANCE));
 		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
 				Translations.getString("note.default.title")));
@@ -144,6 +151,8 @@ public class NoteTableColumn extends TableColumnExt {
 				return TITLE_RENDERER;
 			case FOLDER:
 				return MODEL_RENDERER;
+			case NOTE:
+				return NOTE_RENDERER;
 			default:
 				return super.getCellRenderer();
 		}

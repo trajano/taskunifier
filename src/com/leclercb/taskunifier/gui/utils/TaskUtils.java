@@ -228,7 +228,8 @@ public final class TaskUtils {
 						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
 						break;
 					case NOTE:
-						content = (value == null ? null : value.toString());
+						content = (value == null ? null : "\n"
+								+ value.toString());
 						break;
 					case PRIORITY:
 						content = StringValueTaskPriority.INSTANCE.getString(value);

@@ -59,12 +59,13 @@ public class ActionPrintSelectedModels extends AbstractAction {
 	}
 	
 	public ActionPrintSelectedModels(int width, int height) {
-		super(Translations.getString("action.print"), Images.getResourceImage(
-				"print.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.print_selection"),
+				Images.getResourceImage("print.png", width, height));
 		
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.print"));
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.print_selection"));
 	}
 	
 	@Override
