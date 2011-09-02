@@ -32,13 +32,175 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 
 public final class NoteUtils {
 	
 	private NoteUtils() {
 		
+	}
+	
+	public static String toText(Note[] notes, NoteColumn[] columns, boolean html) {
+		String[][] data = toStringData(notes, columns);
+		StringBuffer buffer = new StringBuffer();
+		
+		if (data == null)
+			return null;
+		
+		if (html)
+			buffer.append("<html>");
+		
+		int i = 0;
+		for (String[] row : data) {
+			if (i == 0) {
+				i++;
+				continue;
+			}
+			
+			for (int j = 0; j < row.length; j++) {
+				if (!html) {
+					buffer.append(data[0][j] + ": ");
+					buffer.append(row[j]);
+				} else {
+					buffer.append("<b>" + data[0][j] + ":</b> ");
+					
+					String text = row[j];
+					
+					if (columns[j] == NoteColumn.NOTE)
+						text = Text2HTML.convert(text);
+					else
+						text = StringEscapeUtils.escapeHtml(text);
+					
+					buffer.append(text);
+				}
+				
+				if (!html)
+					buffer.append(System.getProperty("line.separator"));
+				else
+					buffer.append("<br />");
+			}
+			
+			if (!html)
+				buffer.append(System.getProperty("line.separator"));
+			else
+				buffer.append("<br />");
+			
+			i++;
+		}
+		
+		if (html)
+			buffer.append("</html>");
+		
+		return buffer.toString();
+	}
+	
+	public static String toHtml(Note[] notes, NoteColumn[] columns) {
+		String[][] data = toStringData(notes, columns);
+		StringBuffer buffer = new StringBuffer();
+		
+		if (data == null)
+			return null;
+		
+		buffer.append("<html>");
+		buffer.append("<table>");
+		
+		int i = 0;
+		for (String[] row : data) {
+			if (i == 0)
+				buffer.append("<tr style=\"font-weight:bold;\">");
+			else
+				buffer.append("<tr>");
+			
+			for (int j = 0; j < row.length; j++) {
+				String text = row[j];
+				
+				if (columns[j] == NoteColumn.NOTE)
+					text = Text2HTML.convert(text);
+				else
+					text = StringEscapeUtils.escapeHtml(text);
+				
+				buffer.append("<td>" + text + "</td>");
+			}
+			
+			buffer.append("</tr>");
+			
+			i++;
+		}
+		
+		buffer.append("</table>");
+		buffer.append("</html>");
+		
+		return buffer.toString();
+	}
+	
+	public static String[][] toStringData(Note[] notes, NoteColumn[] columns) {
+		CheckUtils.isNotNull(notes, "Notes cannot be null");
+		CheckUtils.isNotNull(columns, "Columns cannot be null");
+		
+		List<String[]> data = new ArrayList<String[]>();
+		
+		int i = 0;
+		String[] row = new String[columns.length];
+		
+		for (NoteColumn column : columns) {
+			if (column == null)
+				continue;
+			
+			row[i++] = column.getLabel();
+		}
+		
+		data.add(row);
+		
+		for (Note note : notes) {
+			if (note == null)
+				continue;
+			
+			i = 0;
+			row = new String[columns.length];
+			
+			for (NoteColumn column : columns) {
+				if (column == null)
+					continue;
+				
+				String content = null;
+				Object value = column.getProperty(note);
+				
+				switch (column) {
+					case FOLDER:
+						content = StringValueModel.INSTANCE.getString(value);
+						break;
+					case MODEL:
+						content = StringValueModelId.INSTANCE.getString(value);
+						break;
+					case NOTE:
+						content = (value == null ? null : value.toString());
+						break;
+					case TITLE:
+						content = (value == null ? null : value.toString());
+						break;
+				}
+				
+				if (content == null)
+					content = "";
+				
+				row[i++] = content;
+			}
+			
+			data.add(row);
+		}
+		
+		return data.toArray(new String[0][]);
 	}
 	
 	public static boolean showNote(Note note, NoteFilter filter) {

@@ -116,7 +116,7 @@ public class ActionDelete extends AbstractViewAction {
 			
 			Synchronizing.setSynchronizing(false);
 		} else if (viewType == ViewType.NOTES) {
-			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
+			Note[] notes = ViewType.getSelectedNotes();
 			
 			for (Note note : notes) {
 				if (note.getModelStatus().isEndUserStatus()) {

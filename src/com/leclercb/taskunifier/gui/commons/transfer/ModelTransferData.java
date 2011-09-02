@@ -40,9 +40,13 @@ import java.util.List;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.utils.NoteUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ModelTransferData implements Serializable {
@@ -75,26 +79,7 @@ public class ModelTransferData implements Serializable {
 	}
 	
 	public String getPlainData() {
-		if (this.type == ModelType.TASK) {
-			List<Task> tasks = new ArrayList<Task>();
-			for (ModelId id : this.ids) {
-				Task task = TaskFactory.getInstance().get(id);
-				if (task != null)
-					tasks.add(task);
-			}
-			
-			List<TaskColumn> columns = new ArrayList<TaskColumn>(
-					Arrays.asList(TaskColumn.values()));
-			columns.remove(TaskColumn.NOTE);
-			columns.remove(TaskColumn.SHOW_CHILDREN);
-			
-			return TaskUtils.toText(
-					tasks.toArray(new Task[0]),
-					columns.toArray(new TaskColumn[0]),
-					false);
-		}
-		
-		return null;
+		return this.getTextDate(false);
 	}
 	
 	public String getHtmlData() {
@@ -106,9 +91,75 @@ public class ModelTransferData implements Serializable {
 					tasks.add(task);
 			}
 			
+			if (tasks.size() == 1)
+				return this.getTextDate(true);
+			
 			return TaskUtils.toHtml(
 					tasks.toArray(new Task[0]),
 					TaskColumn.values());
+		}
+		
+		if (this.type == ModelType.NOTE) {
+			List<Note> notes = new ArrayList<Note>();
+			for (ModelId id : this.ids) {
+				Note note = NoteFactory.getInstance().get(id);
+				if (note != null)
+					notes.add(note);
+			}
+			
+			if (notes.size() == 1)
+				return this.getTextDate(true);
+			
+			return NoteUtils.toHtml(
+					notes.toArray(new Note[0]),
+					NoteColumn.values());
+		}
+		
+		return null;
+	}
+	
+	public String getTextDate(boolean html) {
+		if (this.type == ModelType.TASK) {
+			List<Task> tasks = new ArrayList<Task>();
+			for (ModelId id : this.ids) {
+				Task task = TaskFactory.getInstance().get(id);
+				if (task != null)
+					tasks.add(task);
+			}
+			
+			List<TaskColumn> columns = new ArrayList<TaskColumn>(
+					Arrays.asList(TaskColumn.getVisibleTaskColumns()));
+			columns.remove(TaskColumn.SHOW_CHILDREN);
+			
+			if (!columns.contains(TaskColumn.NOTE)) {
+				columns.add(TaskColumn.NOTE);
+			}
+			
+			return TaskUtils.toText(
+					tasks.toArray(new Task[0]),
+					columns.toArray(new TaskColumn[0]),
+					html);
+		}
+		
+		if (this.type == ModelType.NOTE) {
+			List<Note> notes = new ArrayList<Note>();
+			for (ModelId id : this.ids) {
+				Note note = NoteFactory.getInstance().get(id);
+				if (note != null)
+					notes.add(note);
+			}
+			
+			List<NoteColumn> columns = new ArrayList<NoteColumn>(
+					Arrays.asList(NoteColumn.getVisibleNoteColumns()));
+			
+			if (!columns.contains(NoteColumn.NOTE)) {
+				columns.add(NoteColumn.NOTE);
+			}
+			
+			return NoteUtils.toText(
+					notes.toArray(new Note[0]),
+					columns.toArray(new NoteColumn[0]),
+					html);
 		}
 		
 		return null;

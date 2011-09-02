@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
@@ -41,6 +42,10 @@ public enum ViewType implements ActionSupported {
 	
 	public static StatisticsView getStatisticsView() {
 		return (StatisticsView) STATISTICS.getView();
+	}
+	
+	public static Note[] getSelectedNotes() {
+		return ViewType.getNoteView().getNoteTableView().getSelectedNotes();
 	}
 	
 	public static Task[] getSelectedTasks() {

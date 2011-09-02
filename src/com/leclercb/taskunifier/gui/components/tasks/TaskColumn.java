@@ -34,7 +34,10 @@ package com.leclercb.taskunifier.gui.components.tasks;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.taskunifier.api.models.Context;
@@ -83,6 +86,19 @@ public enum TaskColumn implements ModelProperties<Task> {
 	public static final String PROP_ORDER = "order";
 	public static final String PROP_WIDTH = "width";
 	public static final String PROP_VISIBLE = "visible";
+	
+	public static TaskColumn[] getVisibleTaskColumns() {
+		List<TaskColumn> columns = new ArrayList<TaskColumn>(
+				Arrays.asList(TaskColumn.values()));
+		
+		for (TaskColumn column : TaskColumn.values()) {
+			if (!column.isVisible()) {
+				columns.remove(column);
+			}
+		}
+		
+		return columns.toArray(new TaskColumn[0]);
+	}
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	

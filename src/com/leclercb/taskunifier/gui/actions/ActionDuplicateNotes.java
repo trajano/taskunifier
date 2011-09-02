@@ -63,7 +63,7 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateNotes.duplicateNotes(ViewType.getNoteView().getNoteTableView().getSelectedNotes());
+		ActionDuplicateNotes.duplicateNotes(ViewType.getSelectedNotes());
 	}
 	
 	public static void duplicateNotes(Note[] notes) {

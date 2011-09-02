@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -86,7 +87,15 @@ public final class TaskUtils {
 					buffer.append(row[j]);
 				} else {
 					buffer.append("<b>" + data[0][j] + ":</b> ");
-					buffer.append(StringEscapeUtils.escapeHtml(row[j]));
+					
+					String text = row[j];
+					
+					if (columns[j] == TaskColumn.NOTE)
+						text = Text2HTML.convert(text);
+					else
+						text = StringEscapeUtils.escapeHtml(text);
+					
+					buffer.append(text);
 				}
 				
 				if (!html)
@@ -126,10 +135,16 @@ public final class TaskUtils {
 			else
 				buffer.append("<tr>");
 			
-			for (String col : row)
-				buffer.append("<td>"
-						+ StringEscapeUtils.escapeHtml(col)
-						+ "</td>");
+			for (int j = 0; j < row.length; j++) {
+				String text = row[j];
+				
+				if (columns[j] == TaskColumn.NOTE)
+					text = Text2HTML.convert(text);
+				else
+					text = StringEscapeUtils.escapeHtml(text);
+				
+				buffer.append("<td>" + text + "</td>");
+			}
 			
 			buffer.append("</tr>");
 			
@@ -149,21 +164,10 @@ public final class TaskUtils {
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
 		
-		int colCount = 0;
 		List<String[]> data = new ArrayList<String[]>();
 		
-		for (TaskColumn column : columns) {
-			if (column == null)
-				continue;
-			
-			colCount++;
-		}
-		
-		if (colCount == 0)
-			return null;
-		
 		int i = 0;
-		String[] row = new String[colCount];
+		String[] row = new String[columns.length];
 		
 		for (TaskColumn column : columns) {
 			if (column == null)
@@ -179,7 +183,7 @@ public final class TaskUtils {
 				continue;
 			
 			i = 0;
-			row = new String[colCount];
+			row = new String[columns.length];
 			
 			for (TaskColumn column : columns) {
 				if (column == null)
