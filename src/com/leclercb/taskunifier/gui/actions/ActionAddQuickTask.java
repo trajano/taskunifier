@@ -195,6 +195,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			TaskBean taskBean) {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		dateFormat = dateFormat.replace("yyyy", "yy");
 		
 		Pattern pattern = Pattern.compile("([+-]?)([0-9]+)([dwmy])(.*)");
 		Matcher matcher = pattern.matcher(title);

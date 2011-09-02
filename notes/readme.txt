@@ -10,6 +10,7 @@ Version 1.1.1
 	- FR 3208888: Copy paste to HTML/Word/Excel/...
 	- FR 3389911: Print selected task/note as text
 	- BF 3401837: Bug in date filter condition
+	- BF 3403186: Century in short date in quick add task
 
 Version 1.1.0
 	- Improved sort order drag & drop
