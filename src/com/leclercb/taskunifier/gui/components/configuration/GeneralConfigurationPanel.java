@@ -33,9 +33,9 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
@@ -48,7 +48,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	private boolean welcome;
 	
 	public GeneralConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean languageOnly,
 			boolean welcome) {
 		super(

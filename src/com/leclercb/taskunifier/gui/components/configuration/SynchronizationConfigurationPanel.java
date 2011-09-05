@@ -43,9 +43,9 @@ import javax.swing.JLabel;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.ChoiceFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.KeepTasksForFieldType;
@@ -59,7 +59,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	private boolean welcome;
 	
 	public SynchronizationConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean welcome) {
 		super(configuration, "configuration_synchronization");
 		
@@ -80,8 +80,8 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								if (SynchronizationConfigurationPanel.this.getConfiguration() != null) {
-									SynchronizationConfigurationPanel.this.getConfiguration().saveAndApplyConfig();
+								if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
+									SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 								}
 								
 								ActionManagePlugins.managePlugins();
@@ -153,8 +153,8 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
-							if (SynchronizationConfigurationPanel.this.getConfiguration() != null) {
-								SynchronizationConfigurationPanel.this.getConfiguration().saveAndApplyConfig();
+							if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
+								SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 							}
 							
 							SynchronizerUtils.resetSynchronizer();
@@ -181,8 +181,8 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
-							if (SynchronizationConfigurationPanel.this.getConfiguration() != null) {
-								SynchronizationConfigurationPanel.this.getConfiguration().saveAndApplyConfig();
+							if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
+								SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 							}
 							
 							SynchronizerUtils.resetSynchronizerAndDeleteModels();

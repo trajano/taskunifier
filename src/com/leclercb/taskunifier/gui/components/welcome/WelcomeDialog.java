@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.components.configuration.GeneralConfiguratio
 import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
@@ -61,7 +61,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class WelcomeDialog extends JDialog implements Configuration {
+public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 	
 	private CardPanel[] panels = new CardPanel[] {
 			new WelcomePanel(),

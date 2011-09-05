@@ -39,16 +39,16 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 
 public class PluginConfigurationPanel extends ConfigurationPanel {
 	
-	private Configuration configuration;
+	private ConfigurationGroup configuration;
 	private ConfigurationPanel configPanel;
 	
 	public PluginConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean welcome,
 			SynchronizerGuiPlugin plugin) {
 		this.configuration = configuration;

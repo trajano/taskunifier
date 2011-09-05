@@ -43,11 +43,11 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class LanguageDialog extends JDialog implements Configuration {
+public class LanguageDialog extends JDialog implements ConfigurationGroup {
 	
 	private GeneralConfigurationPanel generalConfigurationPanel;
 	

@@ -36,9 +36,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.utils.SettingsUtils;
 
 public class PriorityConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public PriorityConfigurationPanel(Configuration configuration) {
+	public PriorityConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration);
 		
 		this.initialize();

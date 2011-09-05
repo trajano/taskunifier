@@ -49,7 +49,7 @@ import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ConfigurationDialog extends JDialog implements Configuration {
+public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	
 	private static ConfigurationDialog INSTANCE;
 	

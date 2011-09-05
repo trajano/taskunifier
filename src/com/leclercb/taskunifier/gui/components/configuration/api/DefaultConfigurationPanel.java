@@ -53,45 +53,47 @@ import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	
-	private Configuration configuration;
+	private ConfigurationGroup configurationGroup;
 	
 	private boolean showAfterRestart;
 	private JButton helpButton;
 	private List<ConfigurationField> fields;
 	
-	public DefaultConfigurationPanel(Configuration configuration) {
+	public DefaultConfigurationPanel(ConfigurationGroup configuration) {
 		this(configuration, true, (JButton) null);
 	}
 	
 	public DefaultConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean showAfterRestart) {
 		this(configuration, showAfterRestart, (JButton) null);
 	}
 	
-	public DefaultConfigurationPanel(Configuration configuration, String helpId) {
+	public DefaultConfigurationPanel(
+			ConfigurationGroup configuration,
+			String helpId) {
 		this(configuration, true, helpId);
 	}
 	
 	public DefaultConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean showAfterRestart,
 			String helpId) {
 		this(configuration, showAfterRestart, Help.getHelpButton(helpId));
 	}
 	
 	public DefaultConfigurationPanel(
-			Configuration configuration,
+			ConfigurationGroup configuration,
 			boolean showAfterRestart,
 			JButton helpButton) {
-		this.configuration = configuration;
+		this.configurationGroup = configuration;
 		this.showAfterRestart = showAfterRestart;
 		this.helpButton = helpButton;
 		this.fields = new ArrayList<ConfigurationField>();
 	}
 	
-	public Configuration getConfiguration() {
-		return this.configuration;
+	public ConfigurationGroup getConfigurationGroup() {
+		return this.configurationGroup;
 	}
 	
 	public boolean containsId(String id) {

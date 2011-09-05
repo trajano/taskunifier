@@ -32,15 +32,17 @@
  */
 package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public DummyConfigurationPanel(Configuration configuration, boolean welcome) {
+	public DummyConfigurationPanel(
+			ConfigurationGroup configuration,
+			boolean welcome) {
 		super(configuration);
 		
 		this.initialize(welcome);
