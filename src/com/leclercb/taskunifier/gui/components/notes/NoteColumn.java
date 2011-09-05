@@ -86,6 +86,18 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.setLabel(label);
 		this.setEditable(editable);
 		
+		this.setOrder(Main.SETTINGS.getIntegerProperty("notecolumn."
+				+ NoteColumn.this.name().toLowerCase()
+				+ ".order", 0));
+		
+		this.setWidth(Main.SETTINGS.getIntegerProperty("notecolumn."
+				+ NoteColumn.this.name().toLowerCase()
+				+ ".width", 100));
+		
+		this.setVisible(Main.SETTINGS.getBooleanProperty("notecolumn."
+				+ NoteColumn.this.name().toLowerCase()
+				+ ".visible", true));
+		
 		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override

@@ -117,6 +117,18 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.setLabel(label);
 		this.setEditable(editable);
 		
+		this.setOrder(Main.SETTINGS.getIntegerProperty("taskcolumn."
+				+ TaskColumn.this.name().toLowerCase()
+				+ ".order", 0));
+		
+		this.setWidth(Main.SETTINGS.getIntegerProperty("taskcolumn."
+				+ TaskColumn.this.name().toLowerCase()
+				+ ".width", 100));
+		
+		this.setVisible(Main.SETTINGS.getBooleanProperty("taskcolumn."
+				+ TaskColumn.this.name().toLowerCase()
+				+ ".visible", true));
+		
 		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
