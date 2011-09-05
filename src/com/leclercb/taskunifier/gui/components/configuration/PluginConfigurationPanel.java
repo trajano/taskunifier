@@ -39,22 +39,28 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 
 public class PluginConfigurationPanel extends ConfigurationPanel {
 	
+	private Configuration configuration;
 	private ConfigurationPanel configPanel;
 	
 	public PluginConfigurationPanel(
+			Configuration configuration,
 			boolean welcome,
 			SynchronizerGuiPlugin plugin) {
+		this.configuration = configuration;
 		this.initialize(welcome, plugin);
 	}
 	
 	private void initialize(boolean welcome, SynchronizerGuiPlugin plugin) {
 		this.setLayout(new BorderLayout());
 		
-		this.configPanel = plugin.getConfigurationPanel(welcome);
+		this.configPanel = plugin.getConfigurationPanel(
+				this.configuration,
+				welcome);
 		
 		String info = plugin.getName()
 				+ " - "

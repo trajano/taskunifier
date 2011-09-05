@@ -41,6 +41,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
@@ -52,7 +53,9 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private Window[] windows;
 	
-	public ThemeConfigurationPanel(Window[] windows) {
+	public ThemeConfigurationPanel(Configuration configuration, Window[] windows) {
+		super(configuration);
+		
 		this.windows = windows;
 		this.initialize();
 		this.pack();

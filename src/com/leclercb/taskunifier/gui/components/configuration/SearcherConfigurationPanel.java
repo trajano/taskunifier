@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
@@ -40,8 +41,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public SearcherConfigurationPanel() {
-		super("configuration_searcher");
+	public SearcherConfigurationPanel(Configuration configuration) {
+		super(configuration, "configuration_searcher");
 		this.initialize();
 		this.pack();
 	}

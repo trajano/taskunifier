@@ -43,10 +43,11 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class LanguageDialog extends JDialog {
+public class LanguageDialog extends JDialog implements Configuration {
 	
 	private GeneralConfigurationPanel generalConfigurationPanel;
 	
@@ -68,6 +69,7 @@ public class LanguageDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		this.generalConfigurationPanel = new GeneralConfigurationPanel(
+				this,
 				true,
 				false);
 		this.add(this.generalConfigurationPanel, BorderLayout.CENTER);
@@ -91,6 +93,16 @@ public class LanguageDialog extends JDialog {
 		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
+	}
+	
+	@Override
+	public void saveAndApplyConfig() {
+		this.generalConfigurationPanel.saveAndApplyConfig();
+	}
+	
+	@Override
+	public void cancelConfig() {
+		this.generalConfigurationPanel.cancelConfig();
 	}
 	
 }

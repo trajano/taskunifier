@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
@@ -46,8 +47,12 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 	private boolean languageOnly;
 	private boolean welcome;
 	
-	public GeneralConfigurationPanel(boolean languageOnly, boolean welcome) {
+	public GeneralConfigurationPanel(
+			Configuration configuration,
+			boolean languageOnly,
+			boolean welcome) {
 		super(
+				configuration,
 				!languageOnly && !welcome,
 				languageOnly ? null : "configuration_general");
 		this.languageOnly = languageOnly;

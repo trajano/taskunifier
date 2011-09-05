@@ -49,6 +49,7 @@ import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -57,7 +58,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ConfigurationDialog extends JDialog {
+public class ConfigurationDialog extends JDialog implements Configuration {
 	
 	private static ConfigurationDialog INSTANCE;
 	
@@ -188,18 +189,7 @@ public class ConfigurationDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
-					
-					ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
-					
-					ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.searcherConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.priorityConfigurationPanel.cancelConfig();
-					ConfigurationDialog.this.importanceConfigurationPanel.cancelConfig();
-					
+					ConfigurationDialog.this.cancelConfig();
 					ConfigurationDialog.this.setVisible(false);
 				}
 				
@@ -225,6 +215,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initializeGeneralPanel() {
 		this.generalConfigurationPanel = new GeneralConfigurationPanel(
+				this,
 				false,
 				false);
 		this.tabbedPane.addTab(
@@ -235,7 +226,7 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeProxyPanel() {
-		this.proxyConfigurationPanel = new ProxyConfigurationPanel();
+		this.proxyConfigurationPanel = new ProxyConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.proxy"),
 				ComponentFactory.createJScrollPane(
@@ -244,7 +235,7 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeColumnsPanel() {
-		this.columnsConfigurationPanel = new ColumnsConfigurationPanel();
+		this.columnsConfigurationPanel = new ColumnsConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.columns"),
 				ComponentFactory.createJScrollPane(
@@ -253,7 +244,7 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeSearcherPanel() {
-		this.searcherConfigurationPanel = new SearcherConfigurationPanel();
+		this.searcherConfigurationPanel = new SearcherConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.searcher"),
 				ComponentFactory.createJScrollPane(
@@ -263,6 +254,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initializeThemePanel() {
 		this.themeConfigurationPanel = new ThemeConfigurationPanel(
+				this,
 				new Window[] { this, this.getOwner() });
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.theme"),
@@ -272,7 +264,7 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializePriorityPanel() {
-		this.priorityConfigurationPanel = new PriorityConfigurationPanel();
+		this.priorityConfigurationPanel = new PriorityConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.priority"),
 				ComponentFactory.createJScrollPane(
@@ -281,7 +273,8 @@ public class ConfigurationDialog extends JDialog {
 	}
 	
 	private void initializeImportancePanel() {
-		this.importanceConfigurationPanel = new ImportanceConfigurationPanel();
+		this.importanceConfigurationPanel = new ImportanceConfigurationPanel(
+				this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.importance"),
 				ComponentFactory.createJScrollPane(
@@ -291,6 +284,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
+				this,
 				false);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.synchronization"),
@@ -301,6 +295,7 @@ public class ConfigurationDialog extends JDialog {
 	
 	private void initializePluginPanel() {
 		this.pluginConfigurationPanel = new PluginConfigurationPanel(
+				this,
 				false,
 				SynchronizerUtils.getPlugin());
 		this.tabbedPane.addTab(
@@ -310,6 +305,7 @@ public class ConfigurationDialog extends JDialog {
 						false));
 	}
 	
+	@Override
 	public void saveAndApplyConfig() {
 		try {
 			this.pluginConfigurationPanel.saveAndApplyConfig();
@@ -326,6 +322,36 @@ public class ConfigurationDialog extends JDialog {
 			Main.saveSettings();
 			
 			this.refreshSynchronizationPanels();
+		} catch (Exception e) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					Translations.getString("error.save_settings"),
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
+			return;
+		}
+	}
+	
+	@Override
+	public void cancelConfig() {
+		try {
+			ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
+			
+			ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
+			
+			ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.searcherConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.priorityConfigurationPanel.cancelConfig();
+			ConfigurationDialog.this.importanceConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),

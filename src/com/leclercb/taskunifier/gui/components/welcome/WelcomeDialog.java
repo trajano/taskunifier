@@ -51,6 +51,8 @@ import com.leclercb.taskunifier.gui.components.configuration.GeneralConfiguratio
 import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.api.Configuration;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
@@ -59,22 +61,23 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class WelcomeDialog extends JDialog {
+public class WelcomeDialog extends JDialog implements Configuration {
 	
 	private CardPanel[] panels = new CardPanel[] {
 			new WelcomePanel(),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.general"),
-					new GeneralConfigurationPanel(false, true)),
+					new GeneralConfigurationPanel(this, false, true)),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.proxy"),
-					new ProxyConfigurationPanel()),
+					new ProxyConfigurationPanel(this)),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.synchronization"),
-					new SynchronizationConfigurationPanel(true)),
+					new SynchronizationConfigurationPanel(this, true)),
 			new SettingsPanel(
 					SynchronizerUtils.getPlugin().getName(),
 					new PluginConfigurationPanel(
+							this,
 							false,
 							SynchronizerUtils.getPlugin())) };
 	
@@ -96,6 +99,7 @@ public class WelcomeDialog extends JDialog {
 						servicePanel.reset(
 								SynchronizerUtils.getPlugin().getName(),
 								new PluginConfigurationPanel(
+										WelcomeDialog.this,
 										false,
 										SynchronizerUtils.getPlugin()));
 						
@@ -190,6 +194,26 @@ public class WelcomeDialog extends JDialog {
 				nextButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
+	}
+	
+	@Override
+	public void saveAndApplyConfig() {
+		for (CardPanel panel : this.panels) {
+			if (panel instanceof SettingsPanel) {
+				ConfigurationPanel configPanel = ((SettingsPanel) panel).getConfigurationPanel();
+				configPanel.saveAndApplyConfig();
+			}
+		}
+	}
+	
+	@Override
+	public void cancelConfig() {
+		for (CardPanel panel : this.panels) {
+			if (panel instanceof SettingsPanel) {
+				ConfigurationPanel configPanel = ((SettingsPanel) panel).getConfigurationPanel();
+				configPanel.cancelConfig();
+			}
+		}
 	}
 	
 }
