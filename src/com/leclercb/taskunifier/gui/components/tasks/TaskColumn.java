@@ -106,6 +106,10 @@ public enum TaskColumn implements ModelProperties<Task> {
 	private String label;
 	private boolean editable;
 	
+	private int order;
+	private int width;
+	private boolean visible;
+	
 	private TaskColumn(Class<?> type, String label, boolean editable) {
 		this.propertyChangeSupport = new PropertyChangeSupport(TaskColumn.class);
 		
@@ -117,7 +121,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().startsWith("taskcolumn")) {
+				if (evt.getPropertyName().startsWith(
+						"taskcolumn." + TaskColumn.this.name().toLowerCase())) {
 					if (evt.getNewValue() == null)
 						return;
 					
@@ -154,14 +159,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	}
 	
 	public int getOrder() {
-		Integer order = Main.SETTINGS.getIntegerProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".order");
-		
-		if (order == null)
-			return 0;
-		
-		return order;
+		return this.order;
 	}
 	
 	public void setOrder(int order) {
@@ -169,6 +167,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 			return;
 		
 		int oldOrder = this.getOrder();
+		this.order = order;
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".order", order);
@@ -187,14 +186,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	}
 	
 	public int getWidth() {
-		Integer width = Main.SETTINGS.getIntegerProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".width");
-		
-		if (width == null)
-			return 100;
-		
-		return width;
+		return this.width;
 	}
 	
 	public void setWidth(int width) {
@@ -202,6 +194,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 			return;
 		
 		int oldWidth = this.getWidth();
+		this.width = width;
 		Main.SETTINGS.setIntegerProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".width", width);
@@ -220,14 +213,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	}
 	
 	public boolean isVisible() {
-		Boolean visible = Main.SETTINGS.getBooleanProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".visible");
-		
-		if (visible == null)
-			return true;
-		
-		return visible;
+		return this.visible;
 	}
 	
 	public void setVisible(boolean visible) {
@@ -235,6 +221,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 			return;
 		
 		boolean oldVisible = this.isVisible();
+		this.visible = visible;
 		Main.SETTINGS.setBooleanProperty("taskcolumn."
 				+ this.name().toLowerCase()
 				+ ".visible", visible);

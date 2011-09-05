@@ -75,6 +75,10 @@ public enum NoteColumn implements ModelProperties<Note> {
 	private String label;
 	private boolean editable;
 	
+	private int order;
+	private int width;
+	private boolean visible;
+	
 	private NoteColumn(Class<?> type, String label, boolean editable) {
 		this.propertyChangeSupport = new PropertyChangeSupport(NoteColumn.class);
 		
@@ -86,7 +90,8 @@ public enum NoteColumn implements ModelProperties<Note> {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().startsWith("notecolumn")) {
+				if (evt.getPropertyName().startsWith(
+						"notecolumn." + NoteColumn.this.name().toLowerCase())) {
 					if (evt.getNewValue() == null)
 						return;
 					
@@ -123,14 +128,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 	}
 	
 	public int getOrder() {
-		Integer order = Main.SETTINGS.getIntegerProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".order");
-		
-		if (order == null)
-			return 0;
-		
-		return order;
+		return this.order;
 	}
 	
 	public void setOrder(int order) {
@@ -138,6 +136,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 			return;
 		
 		int oldOrder = this.getOrder();
+		this.order = order;
 		Main.SETTINGS.setIntegerProperty("notecolumn."
 				+ this.name().toLowerCase()
 				+ ".order", order);
@@ -156,14 +155,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 	}
 	
 	public int getWidth() {
-		Integer width = Main.SETTINGS.getIntegerProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".width");
-		
-		if (width == null)
-			return 100;
-		
-		return width;
+		return this.width;
 	}
 	
 	public void setWidth(int width) {
@@ -171,6 +163,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 			return;
 		
 		int oldWidth = this.getWidth();
+		this.width = width;
 		Main.SETTINGS.setIntegerProperty("notecolumn."
 				+ this.name().toLowerCase()
 				+ ".width", width);
@@ -189,14 +182,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 	}
 	
 	public boolean isVisible() {
-		Boolean visible = Main.SETTINGS.getBooleanProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".visible");
-		
-		if (visible == null)
-			return true;
-		
-		return visible;
+		return this.visible;
 	}
 	
 	public void setVisible(boolean visible) {
@@ -204,6 +190,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 			return;
 		
 		boolean oldVisible = this.isVisible();
+		this.visible = visible;
 		Main.SETTINGS.setBooleanProperty("notecolumn."
 				+ this.name().toLowerCase()
 				+ ".visible", visible);
