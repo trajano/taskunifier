@@ -112,9 +112,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"POSTPONE_TASK_FROM_CURRENT_DATE",
-					Translations.getString("configuration.general.postpone_task_from_current_date"),
-					new ConfigurationFieldType.CheckBox(
-							"task.postpone_from_current_date")));
+					Translations.getString("configuration.general.postpone_task"),
+					new ConfigurationFieldType.RadioButton(
+							"task.postpone_from_current_date",
+							new String[] {
+									Translations.getString("configuration.general.postpone_task.from_current_date"),
+									Translations.getString("configuration.general.postpone_task.from_start_due_date") },
+							new String[] { "true", "false" })));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_EDIT_WINDOW_ON_ADD",
