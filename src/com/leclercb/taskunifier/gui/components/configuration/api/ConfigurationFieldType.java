@@ -34,12 +34,17 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
+import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
@@ -51,6 +56,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -58,6 +64,8 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
 
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -204,6 +212,89 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		@Override
 		public void saveAndApplyConfig() {
 			
+		}
+		
+	}
+	
+	public static class RadioButton extends JPanel implements ConfigurationFieldType<JPanel, String> {
+		
+		private boolean first;
+		private ButtonGroup group;
+		private String propertyName;
+		
+		public RadioButton(String propertyName, String[] labels, String[] values) {
+			this.first = true;
+			this.propertyName = propertyName;
+			
+			CheckUtils.isNotNull(labels, "Labels cannot be null");
+			CheckUtils.isNotNull(values, "Values cannot be null");
+			
+			if (labels.length != values.length)
+				throw new IllegalArgumentException();
+			
+			this.setLayout(new GridLayout(0, 1));
+			
+			group = new ButtonGroup();
+			
+			for (int i = 0; i < labels.length; i++) {
+				JRadioButton radioButton = new JRadioButton(labels[i]);
+				radioButton.setActionCommand(values[i]);
+				
+				this.add(radioButton);
+				group.add(radioButton);
+			}
+		}
+		
+		@Override
+		public void initializeFieldComponent() {
+			this.setSelectedButton(this.getPropertyValue());
+			
+			if (this.first) {
+				this.first = false;
+				
+				Main.SETTINGS.addPropertyChangeListener(
+						propertyName,
+						new PropertyChangeListener() {
+							
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								RadioButton.this.setSelectedButton(getPropertyValue());
+							}
+							
+						});
+			}
+		}
+		
+		@Override
+		public JPanel getFieldComponent() {
+			return this;
+		}
+		
+		@Override
+		public String getFieldValue() {
+			return group.getSelection().getActionCommand();
+		}
+		
+		@Override
+		public String getPropertyValue() {
+			return Main.SETTINGS.getStringProperty(this.propertyName);
+		}
+		
+		@Override
+		public void saveAndApplyConfig() {
+			Main.SETTINGS.setStringProperty(
+					this.propertyName,
+					this.getFieldValue());
+		}
+		
+		private void setSelectedButton(String value) {
+			List<AbstractButton> buttons = Collections.list(group.getElements());
+			for (AbstractButton button : buttons) {
+				if (EqualsUtils.equals(button.getActionCommand(), value)) {
+					group.setSelected(button.getModel(), true);
+					break;
+				}
+			}
 		}
 		
 	}
