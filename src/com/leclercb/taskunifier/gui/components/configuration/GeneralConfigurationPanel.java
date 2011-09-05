@@ -38,13 +38,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.MinimizeToSystemTrayFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.PostponeTaskFromCurrentDateFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowCompletedTasksAtTheEndFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShowWindowEditOnAddFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseDueTimeFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.UseStartTimeFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
@@ -91,13 +85,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"USE_DUE_TIME",
 					Translations.getString("configuration.general.use_due_time"),
 					true,
-					new UseDueTimeFieldType()));
+					new ConfigurationFieldType.CheckBox("date.use_due_time")));
 			
 			this.addField(new ConfigurationField(
 					"USE_START_TIME",
 					Translations.getString("configuration.general.use_start_time"),
 					true,
-					new UseStartTimeFieldType()));
+					new ConfigurationFieldType.CheckBox("date.use_start_time")));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
@@ -108,7 +102,8 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"MINIMIZE_TO_SYSTEM_TRAY",
 					Translations.getString("configuration.general.minimize_to_system_tray"),
 					true,
-					new MinimizeToSystemTrayFieldType()));
+					new ConfigurationFieldType.CheckBox(
+							"window.minimize_to_system_tray")));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
@@ -118,12 +113,14 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"POSTPONE_TASK_FROM_CURRENT_DATE",
 					Translations.getString("configuration.general.postpone_task_from_current_date"),
-					new PostponeTaskFromCurrentDateFieldType()));
+					new ConfigurationFieldType.CheckBox(
+							"task.postpone_from_current_date")));
 			
 			this.addField(new ConfigurationField(
 					"SHOW_EDIT_WINDOW_ON_ADD",
 					Translations.getString("configuration.general.show_edit_window_on_add"),
-					new ShowWindowEditOnAddFieldType()));
+					new ConfigurationFieldType.CheckBox(
+							"task.show_edit_window_on_add")));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_4",
@@ -133,7 +130,8 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
-					new ShowCompletedTasksAtTheEndFieldType()));
+					new ConfigurationFieldType.CheckBox(
+							"tasksearcher.show_completed_tasks_at_the_end")));
 			
 			if (!this.welcome) {
 				this.addField(new ConfigurationField(

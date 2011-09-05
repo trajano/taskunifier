@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ProxyLoginFieldType extends ConfigurationFieldType.TextField {
 	
 	public ProxyLoginFieldType() {
-		super(Main.SETTINGS, "proxy.login");
+		super("proxy.login");
 	}
 	
 	@Override

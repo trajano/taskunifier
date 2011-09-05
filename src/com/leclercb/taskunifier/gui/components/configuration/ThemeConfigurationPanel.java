@@ -44,14 +44,7 @@ import com.leclercb.commons.gui.swing.lookandfeel.exc.LookAndFeelException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorEvenFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorOddFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorTaskProgressFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsByImportanceEnabledFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ColorsEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAndFeelFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowNoteBadgesFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.theme.ShowTaskBadgesFieldType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -105,12 +98,12 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SHOW_NOTE_BADGES",
 				Translations.getString("configuration.theme.show_note_badges"),
-				new ShowNoteBadgesFieldType()));
+				new ConfigurationFieldType.CheckBox("notesearcher.show_badges")));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_TASK_BADGES",
 				Translations.getString("configuration.theme.show_task_badges"),
-				new ShowTaskBadgesFieldType()));
+				new ConfigurationFieldType.CheckBox("tasksearcher.show_badges")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -120,12 +113,13 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
-				new ColorsByImportanceEnabledFieldType()));
+				new ConfigurationFieldType.CheckBox(
+						"theme.color.importance.enabled")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_TASK_PROGRESS",
 				Translations.getString("configuration.theme.color_task_progress"),
-				new ColorTaskProgressFieldType()));
+				new ConfigurationFieldType.ColorChooser("theme.color.progress")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
@@ -135,17 +129,17 @@ public class ThemeConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",
 				Translations.getString("configuration.theme.colors_enabled"),
-				new ColorsEnabledFieldType()));
+				new ConfigurationFieldType.CheckBox("theme.color.enabled")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_EVEN",
 				Translations.getString("configuration.theme.color_even"),
-				new ColorEvenFieldType()));
+				new ConfigurationFieldType.ColorChooser("theme.color.even")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
-				new ColorOddFieldType()));
+				new ConfigurationFieldType.ColorChooser("theme.color.odd")));
 	}
 	
 	private void applyTheme() {

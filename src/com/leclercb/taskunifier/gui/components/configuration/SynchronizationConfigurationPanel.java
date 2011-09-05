@@ -49,8 +49,6 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.ChoiceFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.KeepTasksForFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SchedulerSleepTimeFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SyncAtExitFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SyncAtStartFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -118,12 +116,12 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"SYNC_START",
 				Translations.getString("configuration.synchronization.sync_start"),
-				new SyncAtStartFieldType()));
+				new ConfigurationFieldType.CheckBox("synchronizer.sync_start")));
 		
 		this.addField(new ConfigurationField(
 				"SYNC_EXIT",
 				Translations.getString("configuration.synchronization.sync_exit"),
-				new SyncAtExitFieldType()));
+				new ConfigurationFieldType.CheckBox("synchronizer.sync_exit")));
 		
 		if (!this.welcome) {
 			this.addField(new ConfigurationField(

@@ -46,10 +46,7 @@ public class LocaleFieldType extends ConfigurationFieldType.ComboBox {
 	private boolean languageOnly;
 	
 	public LocaleFieldType(boolean languageOnly) {
-		super(
-				Translations.getAvailableLocales(),
-				Main.SETTINGS,
-				"general.locale");
+		super(Translations.getAvailableLocales(), "general.locale");
 		
 		this.languageOnly = languageOnly;
 		

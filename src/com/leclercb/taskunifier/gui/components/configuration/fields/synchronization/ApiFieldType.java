@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public class ApiFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public ApiFieldType() {
-		super(new SynchronizerGuiPluginModel(), Main.SETTINGS, "api.id");
+		super(new SynchronizerGuiPluginModel(), "api.id");
 		
 		this.setRenderer(new DefaultListRenderer(
 				StringValueSynchronizerGuiPlugin.INSTANCE));

@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner {
 	
 	public SchedulerSleepTimeFieldType() {
-		super(Main.SETTINGS, "synchronizer.scheduler_sleep_time");
+		super("synchronizer.scheduler_sleep_time");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),

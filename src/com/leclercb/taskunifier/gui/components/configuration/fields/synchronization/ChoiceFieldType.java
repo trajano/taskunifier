@@ -43,10 +43,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ChoiceFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public ChoiceFieldType() {
-		super(
-				new SynchronizerChoiceModel(),
-				Main.SETTINGS,
-				"synchronizer.choice");
+		super(new SynchronizerChoiceModel(), "synchronizer.choice");
 		
 		this.setRenderer(new DefaultListRenderer(
 				StringValueSynchronizerChoice.INSTANCE));

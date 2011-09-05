@@ -43,7 +43,6 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.FormattedTextF
 	public KeepTasksForFieldType() {
 		super(
 				FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"),
-				Main.SETTINGS,
 				"synchronizer.keep_tasks_completed_for_x_days");
 	}
 	

@@ -40,13 +40,11 @@ import javax.swing.JCheckBox;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyEnabledFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyHostFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyLoginFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPasswordFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPortFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyTestConnectionFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.UseSystemProxiesFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
@@ -62,7 +60,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"USE_SYSTEM",
 				Translations.getString("configuration.proxy.use_system_proxies"),
-				new UseSystemProxiesFieldType()));
+				new ConfigurationFieldType.CheckBox("proxy.use_system_proxies")));
 		
 		final JCheckBox useSystemProxiesField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM").getType()).getFieldComponent();
@@ -70,7 +68,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
-				new ProxyEnabledFieldType()));
+				new ConfigurationFieldType.CheckBox("proxy.enabled")));
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();

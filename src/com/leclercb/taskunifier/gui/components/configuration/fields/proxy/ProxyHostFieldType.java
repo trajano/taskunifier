@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ProxyHostFieldType extends ConfigurationFieldType.TextField {
 	
 	public ProxyHostFieldType() {
-		super(Main.SETTINGS, "proxy.host");
+		super("proxy.host");
 	}
 	
 	@Override

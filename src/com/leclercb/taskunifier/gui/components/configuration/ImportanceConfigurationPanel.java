@@ -38,7 +38,6 @@ import java.awt.event.ActionListener;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.importance.ColorImportanceFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
 
@@ -54,7 +53,8 @@ public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					"IMPORTANCE_" + i,
 					Translations.getString("general.task.importance") + " " + i,
-					new ColorImportanceFieldType(i)));
+					new ConfigurationFieldType.ColorChooser(
+							"theme.color.importance." + i)));
 		}
 		
 		this.addField(new ConfigurationField(

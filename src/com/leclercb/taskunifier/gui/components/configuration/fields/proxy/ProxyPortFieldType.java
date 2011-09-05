@@ -39,10 +39,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ProxyPortFieldType extends ConfigurationFieldType.FormattedTextField {
 	
 	public ProxyPortFieldType() {
-		super(
-				FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"),
-				Main.SETTINGS,
-				"proxy.port");
+		super(FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"), "proxy.port");
 	}
 	
 	@Override
