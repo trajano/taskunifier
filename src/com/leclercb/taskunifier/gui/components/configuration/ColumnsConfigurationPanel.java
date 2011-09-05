@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.columns.ColumnFieldType;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
@@ -50,7 +50,9 @@ public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
 			this.addField(new ConfigurationField(
 					taskColumn.name(),
 					taskColumn.getLabel(),
-					new ColumnFieldType(taskColumn)));
+					new ConfigurationFieldType.CheckBox("taskcolumn."
+							+ taskColumn.name().toLowerCase()
+							+ ".visible")));
 		}
 	}
 	
