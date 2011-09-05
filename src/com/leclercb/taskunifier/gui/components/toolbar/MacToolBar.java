@@ -37,13 +37,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.explodingpixels.macwidgets.UnifiedToolBar;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
@@ -54,8 +57,10 @@ import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class MacToolBar extends UnifiedToolBar {
@@ -87,6 +92,20 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToLeft(this.createButton(new ActionConfiguration(
 				24,
 				24)));
+		
+		final JLabel accountLabel = MacWidgetFactory.createEmphasizedLabel("");
+		accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+		
+		Main.SETTINGS.addSavePropertiesListener(new SavePropertiesListener() {
+			
+			@Override
+			public void saveProperties() {
+				accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+			}
+			
+		});
+		
+		this.addComponentToRight(accountLabel);
 	}
 	
 	private void initializeTemplates() {
@@ -110,10 +129,6 @@ public class MacToolBar extends UnifiedToolBar {
 		Action actionAddTemplateTask = new AbstractAction() {
 			
 			{
-				this.putValue(
-						NAME,
-						Translations.getString("action.add_template_task"));
-				
 				this.putValue(
 						SHORT_DESCRIPTION,
 						Translations.getString("action.add_template_task"));
@@ -146,10 +161,10 @@ public class MacToolBar extends UnifiedToolBar {
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		
-		String text = button.getText() == null ? "" : button.getText();
-		text = text.length() > 30 ? text.substring(0, 30 - 2) + "..." : text;
+		// String text = button.getText() == null ? "" : button.getText();
+		// text = text.length() > 30 ? text.substring(0, 30 - 2) + "..." : text;
 		
-		button.setText(text);
+		button.setText("");
 		
 		return button;
 	}
