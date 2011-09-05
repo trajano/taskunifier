@@ -232,7 +232,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		JPanel panel = new JPanel(new BorderLayout(0, 10));
 		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
-		JPanel northPanel = new JPanel(new GridLayout(0, 1, 3, 3));
+		JPanel northPanel = new JPanel(new GridLayout(0, 1));
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		panel.add(northPanel, BorderLayout.NORTH);
