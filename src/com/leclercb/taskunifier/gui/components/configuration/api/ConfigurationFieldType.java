@@ -59,6 +59,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.JXColorSelectionButton;
 
 import com.leclercb.commons.api.properties.PropertiesConfiguration;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
@@ -211,12 +212,10 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	public static abstract class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
 		
 		private boolean first;
-		private PropertiesConfiguration properties;
 		private String propertyName;
 		
-		public CheckBox(PropertiesConfiguration properties, String propertyName) {
+		public CheckBox(String propertyName) {
 			this.first = true;
-			this.properties = properties;
 			this.propertyName = propertyName;
 		}
 		
@@ -227,7 +226,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				properties.addPropertyChangeListener(
+				Main.SETTINGS.addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -251,10 +250,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
-		public abstract Boolean getPropertyValue();
+		public Boolean getPropertyValue() {
+			return Main.SETTINGS.getBooleanProperty(propertyName);
+		}
 		
 		@Override
-		public abstract void saveAndApplyConfig();
+		public void saveAndApplyConfig() {
+			Main.SETTINGS.setBooleanProperty(propertyName, this.getFieldValue());
+		}
 		
 	}
 	
@@ -308,10 +311,8 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	
 	public static abstract class StarCheckBox extends CheckBox {
 		
-		public StarCheckBox(
-				PropertiesConfiguration properties,
-				String propertyName) {
-			super(properties, propertyName);
+		public StarCheckBox(String propertyName) {
+			super(propertyName);
 			
 			this.setIcon(Images.getResourceImage("checkbox_star.png", 18, 18));
 			this.setSelectedIcon(Images.getResourceImage(
