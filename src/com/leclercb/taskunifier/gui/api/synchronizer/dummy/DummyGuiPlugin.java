@@ -56,6 +56,11 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	}
 	
 	@Override
+	public String getAccountLabel() {
+		return null;
+	}
+	
+	@Override
 	public void installPlugin() {
 		
 	}
