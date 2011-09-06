@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.components.toolbar;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -104,6 +106,17 @@ public class MacToolBar extends UnifiedToolBar {
 			}
 			
 		});
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"api.id",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+					}
+					
+				});
 		
 		this.addComponentToRight(accountLabel);
 	}

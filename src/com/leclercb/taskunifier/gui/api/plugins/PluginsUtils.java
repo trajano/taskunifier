@@ -529,7 +529,7 @@ public class PluginsUtils {
 		}
 		
 		if (plugins == null)
-			return new Plugin[0];
+			plugins = new Plugin[] { DUMMY_PLUGIN };
 		
 		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin p : loadedPlugins) {
