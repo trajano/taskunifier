@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import lu.tudor.santec.bizcal.CalendarPanel;
@@ -28,11 +31,17 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
+import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
+import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
 	
@@ -134,9 +143,28 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 			
 		});
 		
-		// this.calendarPanel.getFunctionsButtonPanel().add();
+		this.calendarPanel.getFunctionsButtonPanel().setContentLayout(
+				new GridLayout(0, 3));
+		
+		this.addFunctionButton(new ActionAddTask(24, 24));
+		this.addFunctionButton(ComponentFactory.createAddTemplateTaskButton());
+		this.addFunctionButton(new ActionBatchAddTasks(24, 24));
+		this.addFunctionButton(new ActionEditTasks(24, 24));
+		this.addFunctionButton(ComponentFactory.createPostponeButton());
+		this.addFunctionButton(new ActionCompleteTasks(24, 24));
+		this.addFunctionButton(new ActionDuplicateTasks(24, 24));
+		this.addFunctionButton(new ActionDelete(24, 24));
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
+	}
+	
+	private void addFunctionButton(AbstractAction action) {
+		this.addFunctionButton(new JButton(action));
+	}
+	
+	private void addFunctionButton(JButton button) {
+		button.setText("");
+		this.calendarPanel.getFunctionsButtonPanel().addButton(button);
 	}
 	
 	public boolean isShowCompletedTasks() {

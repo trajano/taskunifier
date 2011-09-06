@@ -235,13 +235,10 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
 		tasksMenu.add(new ActionEditTasks(16, 16));
+		tasksMenu.add(ComponentFactory.createPostponeMenu());
 		tasksMenu.add(new ActionCompleteTasks(16, 16));
 		tasksMenu.add(new ActionDuplicateTasks(16, 16));
 		tasksMenu.add(new ActionDelete(16, 16));
-		
-		tasksMenu.addSeparator();
-		
-		tasksMenu.add(ComponentFactory.createPostponeMenu());
 		
 		tasksMenu.addSeparator();
 		

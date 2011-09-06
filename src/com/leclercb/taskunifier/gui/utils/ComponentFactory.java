@@ -36,7 +36,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
@@ -59,9 +63,12 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
 import com.leclercb.taskunifier.gui.actions.PostponeType;
@@ -393,6 +400,7 @@ public final class ComponentFactory {
 	public static JButton createPostponeButton(ActionListener listener) {
 		final JButton button = new JButton();
 		
+		button.setText(Translations.getString("action.postpone_tasks"));
 		button.setToolTipText(Translations.getString("action.postpone_tasks"));
 		button.setIcon(Images.getResourceImage("calendar.png", 16, 16));
 		
@@ -463,6 +471,134 @@ public final class ComponentFactory {
 		});
 		
 		return button;
+	}
+	
+	public static JButton createPostponeButton() {
+		final JButton button = new JButton();
+		
+		button.setText(Translations.getString("action.postpone_tasks"));
+		button.setToolTipText(Translations.getString("action.postpone_tasks"));
+		button.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		final JPopupMenu postponeMenu = new JPopupMenu();
+		
+		final JMenu postponeStartDateMenu = new JMenu(
+				Translations.getString("general.task.start_date"));
+		final JMenu postponeDueDateMenu = new JMenu(
+				Translations.getString("general.task.due_date"));
+		final JMenu postponeBothMenu = new JMenu(
+				Translations.getString("action.postpone_tasks.both"));
+		
+		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
+		postponeStartDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
+		postponeDueDateMenu.setIcon(Images.getResourceImage(
+				"calendar.png",
+				16,
+				16));
+		
+		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
+		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		
+		ActionPostponeTasks[] actions = null;
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.START_DATE,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeStartDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.DUE_DATE,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeDueDateMenu.add(action);
+		}
+		
+		actions = ActionPostponeTasks.createDefaultActions(
+				PostponeType.BOTH,
+				16,
+				16);
+		for (ActionPostponeTasks action : actions) {
+			postponeBothMenu.add(action);
+		}
+		
+		postponeMenu.add(postponeStartDateMenu);
+		postponeMenu.add(postponeDueDateMenu);
+		postponeMenu.add(postponeBothMenu);
+		
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				postponeMenu.show(button, 0, 0);
+			}
+			
+		});
+		
+		return button;
+	}
+	
+	public static JButton createAddTemplateTaskButton() {
+		final JPopupMenu popupMenu = new JPopupMenu(
+				Translations.getString("action.add_template_task"));
+		
+		TemplateUtils.updateTemplateList(null, popupMenu);
+		
+		TaskTemplateFactory.getInstance().addListChangeListener(
+				new ListChangeListener() {
+					
+					@Override
+					public void listChange(ListChangeEvent event) {
+						TemplateUtils.updateTemplateList(null, popupMenu);
+					}
+					
+				});
+		
+		final JButton addTemplateTaskButton = new JButton();
+		
+		Action actionAddTemplateTask = new AbstractAction() {
+			
+			{
+				this.putValue(
+						NAME,
+						Translations.getString("action.add_template_task"));
+				
+				this.putValue(
+						SHORT_DESCRIPTION,
+						Translations.getString("action.add_template_task"));
+				
+				this.putValue(
+						SMALL_ICON,
+						Images.getResourceImage("duplicate.png", 24, 24));
+			}
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				
+			}
+			
+		};
+		
+		addTemplateTaskButton.setAction(actionAddTemplateTask);
+		
+		addTemplateTaskButton.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseReleased(MouseEvent evt) {
+				popupMenu.show(addTemplateTaskButton, evt.getX(), evt.getY());
+			}
+			
+		});
+		
+		return addTemplateTaskButton;
 	}
 	
 }

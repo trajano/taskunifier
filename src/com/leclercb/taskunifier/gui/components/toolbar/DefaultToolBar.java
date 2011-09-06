@@ -33,22 +33,15 @@
 package com.leclercb.taskunifier.gui.components.toolbar;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -59,10 +52,8 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
-import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class DefaultToolBar extends JToolBar {
 	
@@ -80,7 +71,11 @@ public class DefaultToolBar extends JToolBar {
 		this.add(new ActionAddNote(24, 24));
 		this.add(new ActionAddTask(24, 24));
 		this.add(new ActionAddSubTask(24, 24));
-		this.initializeTemplates();
+		
+		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton();
+		addTemplateTaskButton.setText("");
+		this.add(addTemplateTaskButton);
+		
 		this.add(new ActionDelete(24, 24));
 		this.addSeparator(new Dimension(20, 20));
 		this.add(new ActionSynchronize(false, 24, 24));
@@ -116,51 +111,6 @@ public class DefaultToolBar extends JToolBar {
 		this.add(accountLabel);
 		
 		this.add(Box.createHorizontalStrut(10));
-	}
-	
-	private void initializeTemplates() {
-		final JPopupMenu popupMenu = new JPopupMenu(
-				Translations.getString("action.add_template_task"));
-		
-		TemplateUtils.updateTemplateList(null, popupMenu);
-		
-		TaskTemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(null, popupMenu);
-					}
-					
-				});
-		
-		final JButton addTemplateTaskButton = new JButton();
-		
-		Action actionAddTemplateTask = new AbstractAction() {
-			
-			{
-				this.putValue(
-						SHORT_DESCRIPTION,
-						Translations.getString("action.add_template_task"));
-				
-				this.putValue(
-						SMALL_ICON,
-						Images.getResourceImage("duplicate.png", 24, 24));
-			}
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				popupMenu.show(
-						addTemplateTaskButton,
-						addTemplateTaskButton.getX(),
-						addTemplateTaskButton.getY());
-			}
-			
-		};
-		
-		addTemplateTaskButton.setAction(actionAddTemplateTask);
-		
-		this.add(addTemplateTaskButton);
 	}
 	
 }

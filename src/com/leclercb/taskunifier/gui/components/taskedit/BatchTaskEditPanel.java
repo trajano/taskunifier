@@ -44,6 +44,7 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -589,9 +590,9 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Start Date
 		JPanel startDatePanel = new JPanel(new BorderLayout());
 		startDatePanel.add(this.taskStartDate, BorderLayout.CENTER);
-		startDatePanel.add(
-				ComponentFactory.createPostponeButton(postponeListener),
-				BorderLayout.EAST);
+		JButton startDatePostponeButton = ComponentFactory.createPostponeButton(postponeListener);
+		startDatePostponeButton.setText("");
+		startDatePanel.add(startDatePostponeButton, BorderLayout.EAST);
 		
 		builder.appendI15d(
 				"general.task.start_date",
@@ -602,9 +603,9 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Due Date
 		JPanel dueDatePanel = new JPanel(new BorderLayout());
 		dueDatePanel.add(this.taskDueDate, BorderLayout.CENTER);
-		dueDatePanel.add(
-				ComponentFactory.createPostponeButton(postponeListener),
-				BorderLayout.EAST);
+		JButton dueDatePostponeButton = ComponentFactory.createPostponeButton(postponeListener);
+		dueDatePostponeButton.setText("");
+		dueDatePanel.add(dueDatePostponeButton, BorderLayout.EAST);
 		
 		builder.appendI15d(
 				"general.task.due_date",
