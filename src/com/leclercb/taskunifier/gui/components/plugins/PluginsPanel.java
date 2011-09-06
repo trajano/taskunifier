@@ -88,30 +88,19 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (plugin == null)
 			return;
 		
-		if (plugin.getStatus() == PluginStatus.TO_INSTALL) {
+		if (plugin.getStatus() == PluginStatus.TO_INSTALL
+				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
 			PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("general.manage_plugins")) {
 				
 				@Override
 				public Void doActions(ProgressMonitor monitor) throws Throwable {
-					PluginsUtils.installPlugin(plugin, monitor);
-					return null;
-				}
-				
-			};
-			
-			dialog.setVisible(true);
-		}
-		
-		if (plugin.getStatus() == PluginStatus.TO_UPDATE) {
-			PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.manage_plugins")) {
-				
-				@Override
-				public Void doActions(ProgressMonitor monitor) throws Throwable {
-					PluginsUtils.updatePlugin(plugin, monitor);
+					if (plugin.getStatus() == PluginStatus.TO_INSTALL)
+						PluginsUtils.installPlugin(plugin, monitor);
+					else if (plugin.getStatus() == PluginStatus.TO_UPDATE)
+						PluginsUtils.updatePlugin(plugin, monitor);
+					
 					return null;
 				}
 				

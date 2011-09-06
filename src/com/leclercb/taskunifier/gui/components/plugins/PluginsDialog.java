@@ -109,20 +109,24 @@ public class PluginsDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("CLOSE")) {
+				if (event.getActionCommand().equals("OK")) {
 					PluginsDialog.this.pluginsPanel.installSelectedPlugin();
-					PluginsDialog.this.setVisible(false);
 				}
+				
+				PluginsDialog.this.setVisible(false);
 			}
 			
 		};
 		
-		JButton closeButton = ComponentFactory.createButtonClose(listener);
+		JButton okButton = ComponentFactory.createButtonOk(listener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(closeButton);
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				okButton,
+				cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
-		this.getRootPane().setDefaultButton(closeButton);
+		this.getRootPane().setDefaultButton(okButton);
 	}
 	
 }
