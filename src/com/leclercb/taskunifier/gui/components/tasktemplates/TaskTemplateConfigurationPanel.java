@@ -275,7 +275,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				templateTaskLength.setModel(taskLengthSpinnerModel);
 				templateTaskLength.setEditor(new JSpinner.DateEditor(
 						templateTaskLength,
-						Main.SETTINGS.getStringProperty("date.time_format")));
+						"HH:mm"));
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PRIORITY);
 				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(
