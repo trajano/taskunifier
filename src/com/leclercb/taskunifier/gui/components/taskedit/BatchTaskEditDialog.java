@@ -35,16 +35,20 @@ package com.leclercb.taskunifier.gui.components.taskedit;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXHeader;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -143,18 +147,17 @@ public class BatchTaskEditDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("OK")) {
+				if (EqualsUtils.equals(event.getActionCommand(), "OK")) {
 					BatchTaskEditDialog.this.cancelled = false;
 					BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
 					BatchTaskEditDialog.this.setTasks(null);
 					BatchTaskEditDialog.this.setVisible(false);
+					return;
 				}
 				
-				if (event.getActionCommand().equals("CANCEL")) {
-					BatchTaskEditDialog.this.cancelled = true;
-					BatchTaskEditDialog.this.setTasks(null);
-					BatchTaskEditDialog.this.setVisible(false);
-				}
+				BatchTaskEditDialog.this.cancelled = true;
+				BatchTaskEditDialog.this.setTasks(null);
+				BatchTaskEditDialog.this.setVisible(false);
 			}
 			
 		};
@@ -168,6 +171,11 @@ public class BatchTaskEditDialog extends JDialog {
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
+		
+		this.getRootPane().registerKeyboardAction(
+				listener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 	
 }
