@@ -528,8 +528,12 @@ public class PluginsUtils {
 			plugins = dialog.getResult();
 		}
 		
-		if (plugins == null)
+		if (plugins == null) {
+			if (!includeDummy)
+				return new Plugin[0];
+			
 			plugins = new Plugin[] { DUMMY_PLUGIN };
+		}
 		
 		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
 		for (SynchronizerGuiPlugin p : loadedPlugins) {
