@@ -1,4 +1,5 @@
 Version 1.2.0
+	- FR 3197331: Timer field
 	- FR 3354596: Add today, tomorrow... buttons in calendar
 	- FR 3380556: Auto-fill for contexts, folders...
 	- FR 3299263: Creation date & update date fields
