@@ -1,15 +1,17 @@
 Version 1.2.0
-	- FR 3197331: Timer field
-	- FR 3354596: Add today, tomorrow... buttons in calendar
-	- FR 3380556: Auto-fill for contexts, folders...
-	- FR 3299263: Creation date & update date fields
-	- FR 3397857: Postpone button in edit task window
-	- FR 3402403: Quick add task date shortcuts
-	- FR 3208888: Copy paste to HTML/Word/Excel/...
-	- FR 3389911: Print selected task/note as text
-	- FR 3401856: Task length format
-	- BF 3401837: Bug in date filter condition
-	- BF 3403186: Century in short date in quick add task
+	- Major:
+		- FR 3197331: Timer field
+		- FR 3354596: Add today, tomorrow... buttons in calendar
+		- FR 3380556: Auto-fill for contexts, folders...
+	- Minor:
+		- FR 3299263: Creation date & update date fields
+		- FR 3397857: Postpone button in edit task window
+		- FR 3402403: Quick add task date shortcuts
+		- FR 3208888: Copy paste to HTML/Word/Excel/...
+		- FR 3389911: Print selected task/note as text
+		- FR 3401856: Task length format
+		- BF 3401837: Bug in date filter condition
+		- BF 3403186: Century in short date in quick add task
 
 Version 1.1.0
 	- Improved sort order drag & drop
