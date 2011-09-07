@@ -93,6 +93,7 @@ public class TaskFilterElementPanel extends JPanel {
 			Object value = null;
 			
 			switch ((TaskColumn) this.elementColumn.getSelectedItem()) {
+				case TIMER:
 				case SHOW_CHILDREN:
 					value = null;
 					break;
@@ -181,6 +182,7 @@ public class TaskFilterElementPanel extends JPanel {
 		
 		DefaultComboBoxModel taskColumnsModel = new DefaultComboBoxModel(
 				TaskColumn.values());
+		taskColumnsModel.removeElement(TaskColumn.TIMER);
 		taskColumnsModel.removeElement(TaskColumn.SHOW_CHILDREN);
 		
 		this.elementColumn.setModel(taskColumnsModel);

@@ -34,22 +34,24 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-public class StringValueTaskLength implements StringValue {
+import com.leclercb.taskunifier.api.models.Timer;
+
+public class StringValueTimer implements StringValue {
 	
-	public static final StringValueTaskLength INSTANCE = new StringValueTaskLength();
+	public static final StringValueTimer INSTANCE = new StringValueTimer();
 	
-	private StringValueTaskLength() {
+	private StringValueTimer() {
 		
 	}
 	
 	@Override
 	public String getString(Object value) {
-		if (value == null || !(value instanceof Number))
+		if (value == null || !(value instanceof Timer))
 			return "00:00";
 		
-		int time = ((Number) value).intValue();
-		int hour = time / 60;
-		int minute = time % 60;
+		long time = ((Timer) value).getTimerValue() / 60;
+		long hour = time / 60;
+		long minute = time % 60;
 		
 		return (hour < 10 ? "0" : "")
 				+ hour

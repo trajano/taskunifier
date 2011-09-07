@@ -21,7 +21,7 @@ public class SpinnerTimeEditor extends JSpinner.DefaultEditor {
 			throw new IllegalArgumentException();
 		}
 		
-		final Pattern pattern = Pattern.compile("([0-9]{1,2}):([0-5]?[0-9])");
+		final Pattern pattern = Pattern.compile("([0-9]+):([0-5]?[0-9])");
 		DefaultFormatter formatter = new DefaultFormatter() {
 			
 			@Override

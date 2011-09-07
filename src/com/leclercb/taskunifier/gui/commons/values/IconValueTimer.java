@@ -32,30 +32,30 @@
  */
 package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import javax.swing.Icon;
 
-public class StringValueTaskLength implements StringValue {
+import org.jdesktop.swingx.renderer.IconValue;
+
+import com.leclercb.taskunifier.api.models.Timer;
+import com.leclercb.taskunifier.gui.utils.Images;
+
+public class IconValueTimer implements IconValue {
 	
-	public static final StringValueTaskLength INSTANCE = new StringValueTaskLength();
+	public static final IconValueTimer INSTANCE = new IconValueTimer();
 	
-	private StringValueTaskLength() {
+	private IconValueTimer() {
 		
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Number))
-			return "00:00";
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof Timer))
+			return Images.getResourceImage("pause.png", 16, 16);
 		
-		int time = ((Number) value).intValue();
-		int hour = time / 60;
-		int minute = time % 60;
-		
-		return (hour < 10 ? "0" : "")
-				+ hour
-				+ ":"
-				+ (minute < 10 ? "0" : "")
-				+ minute;
+		if (((Timer) value).isStarted())
+			return Images.getResourceImage("play.png", 16, 16);
+		else
+			return Images.getResourceImage("pause.png", 16, 16);
 	}
 	
 }

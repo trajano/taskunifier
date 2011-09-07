@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -263,6 +264,9 @@ public final class TaskUtils {
 						break;
 					case TAGS:
 						content = (value == null ? null : value.toString());
+						break;
+					case TIMER:
+						content = StringValueTimer.INSTANCE.getString(value);
 						break;
 					case TITLE:
 						content = (value == null ? null : value.toString());

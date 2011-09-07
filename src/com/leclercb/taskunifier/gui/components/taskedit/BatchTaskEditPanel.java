@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -82,6 +83,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
 import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.swing.SpinnerTimeModel;
+import com.leclercb.taskunifier.gui.swing.TimerField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -111,6 +113,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskRepeatFromCheckBox;
 	private JCheckBox taskStatusCheckBox;
 	private JCheckBox taskLengthCheckBox;
+	private JCheckBox taskTimerCheckBox;
 	private JCheckBox taskPriorityCheckBox;
 	private JCheckBox taskStarCheckBox;
 	private JCheckBox taskNoteCheckBox;
@@ -131,6 +134,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
 	private JSpinner taskLength;
+	private TimerField taskTimer;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
 	private HTMLEditorPane taskNote;
@@ -257,6 +261,12 @@ public class BatchTaskEditPanel extends JPanel {
 				}
 			}
 			
+			if (this.taskTimerCheckBox.isSelected()) {
+				for (Task task : this.tasks) {
+					task.setTimer(this.taskTimer.getTimer());
+				}
+			}
+			
 			if (this.taskPriorityCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
 					task.setPriority((TaskPriority) this.taskPriority.getSelectedItem());
@@ -351,6 +361,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskRepeatFromCheckBox = new JCheckBox("", true);
 		this.taskStatusCheckBox = new JCheckBox("", true);
 		this.taskLengthCheckBox = new JCheckBox("", true);
+		this.taskTimerCheckBox = new JCheckBox("", true);
 		this.taskPriorityCheckBox = new JCheckBox("", true);
 		this.taskStarCheckBox = new JCheckBox("", true);
 		this.taskNoteCheckBox = new JCheckBox("", true);
@@ -395,6 +406,7 @@ public class BatchTaskEditPanel extends JPanel {
 				true);
 		this.taskStatus = ComponentFactory.createTaskStatusComboBox(null, true);
 		this.taskLength = new JSpinner();
+		this.taskTimer = new TimerField(true);
 		this.taskPriority = ComponentFactory.createTaskPriorityComboBox(
 				null,
 				true);
@@ -440,6 +452,8 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskStatus));
 		this.taskLengthCheckBox.addItemListener(new EnabledActionListener(
 				this.taskLength));
+		this.taskTimerCheckBox.addItemListener(new EnabledActionListener(
+				this.taskTimer));
 		this.taskPriorityCheckBox.addItemListener(new EnabledActionListener(
 				this.taskPriority));
 		this.taskStarCheckBox.addItemListener(new EnabledActionListener(
@@ -463,12 +477,12 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Star
 		this.taskStar.setIcon(Images.getResourceImage(
 				"checkbox_star.png",
-				18,
-				18));
+				16,
+				16));
 		this.taskStar.setSelectedIcon(Images.getResourceImage(
 				"checkbox_star_selected.png",
-				18,
-				18));
+				16,
+				16));
 		
 		builder.appendI15d("general.task.star", true, this.taskStarCheckBox);
 		builder.append(this.taskStar);
@@ -606,6 +620,17 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskDueDateCheckBox);
 		builder.append(dueDatePanel);
 		
+		// Task Length
+		this.taskLength.setModel(new SpinnerTimeModel());
+		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
+		
+		builder.appendI15d("general.task.length", true, this.taskLengthCheckBox);
+		builder.append(this.taskLength);
+		
+		// Task Timer
+		builder.appendI15d("general.task.timer", true, this.taskTimerCheckBox);
+		builder.append(this.taskTimer);
+		
 		// Task Reminder
 		this.taskReminder.setModel(new TaskReminderModel());
 		
@@ -620,12 +645,9 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskReminderCheckBox);
 		builder.append(this.taskReminder);
 		
-		// Task Length
-		this.taskLength.setModel(new SpinnerTimeModel());
-		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
-		
-		builder.appendI15d("general.task.length", true, this.taskLengthCheckBox);
-		builder.append(this.taskLength);
+		// Empty
+		builder.append("", new JLabel());
+		builder.append(new JLabel());
 		
 		// Task Repeat
 		this.taskRepeat.setModel(new DefaultComboBoxModel(
@@ -686,6 +708,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
 			this.taskStatus.setSelectedItem(TaskStatus.NONE);
 			this.taskLength.setValue(0);
+			this.taskTimer.setTimer(new Timer());
 			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
 			this.taskStar.setSelected(false);
 			
@@ -712,6 +735,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskRepeatFrom.setSelectedItem(task.getRepeatFrom());
 			this.taskStatus.setSelectedItem(task.getStatus());
 			this.taskLength.setValue(task.getLength());
+			this.taskTimer.setTimer(task.getTimer());
 			this.taskPriority.setSelectedItem(task.getPriority());
 			this.taskStar.setSelected(task.isStar());
 			
@@ -736,6 +760,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskRepeatFromCheckBox.setSelected(selected);
 		this.taskStatusCheckBox.setSelected(selected);
 		this.taskLengthCheckBox.setSelected(selected);
+		this.taskTimerCheckBox.setSelected(selected);
 		this.taskPriorityCheckBox.setSelected(selected);
 		this.taskStarCheckBox.setSelected(selected);
 		this.taskNoteCheckBox.setSelected(selected);
@@ -756,6 +781,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskRepeatFromCheckBox.setVisible(visible);
 		this.taskStatusCheckBox.setVisible(visible);
 		this.taskLengthCheckBox.setVisible(visible);
+		this.taskTimerCheckBox.setVisible(visible);
 		this.taskPriorityCheckBox.setVisible(visible);
 		this.taskStarCheckBox.setVisible(visible);
 		this.taskNoteCheckBox.setVisible(visible);

@@ -709,6 +709,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.1.0 to 1.2.0");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.timer.order", "19");
+		Main.SETTINGS.setStringProperty("taskcolumn.timer.visible", "true");
+		Main.SETTINGS.setStringProperty("taskcolumn.timer.width", "50");
 		Main.SETTINGS.setStringProperty(
 				"taskcolumn.model_creation_date.order",
 				"24");
@@ -731,6 +734,19 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("notecolumn.note.order", "3");
 		Main.SETTINGS.setStringProperty("notecolumn.note.visible", "true");
 		Main.SETTINGS.setStringProperty("notecolumn.note.width", "100");
+		
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SynchronizerUtils.resetSynchronizer();
+				} catch (Throwable t) {
+					
+				}
+			}
+			
+		});
 		
 		return "1.2.0";
 	}

@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
@@ -63,6 +64,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
@@ -78,6 +80,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.TimerEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -103,6 +106,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer PRIORITY_RENDERER;
 	private static final TableCellRenderer REPEAT_FROM_RENDERER;
 	private static final TableCellRenderer STATUS_RENDERER;
+	private static final TableCellRenderer TIMER_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
 	
 	private static final TableCellEditor BOOLEAN_EDITOR;
@@ -121,6 +125,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor PRIORITY_EDITOR;
 	private static final TableCellEditor REPEAT_FROM_EDITOR;
 	private static final TableCellEditor STATUS_EDITOR;
+	private static final TableCellEditor TIMER_EDITOR;
 	
 	static {
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
@@ -184,6 +189,10 @@ public class TaskTableColumn extends TableColumnExt {
 		STATUS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskStatus.INSTANCE);
 		
+		TIMER_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValueTimer.INSTANCE,
+				IconValueTimer.INSTANCE));
+		
 		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
 				Translations.getString("task.default.title")));
 		
@@ -205,6 +214,7 @@ public class TaskTableColumn extends TableColumnExt {
 		PRIORITY_EDITOR = new PriorityEditor();
 		REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		STATUS_EDITOR = new StatusEditor();
+		TIMER_EDITOR = new TimerEditor();
 	}
 	
 	private TaskColumn taskColumn;
@@ -297,6 +307,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return REMINDER_RENDERER;
 			case LENGTH:
 				return LENGTH_RENDERER;
+			case TIMER:
+				return TIMER_RENDERER;
 			case STAR:
 				return STAR_RENDERER;
 			case PRIORITY:
@@ -349,6 +361,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return STATUS_EDITOR;
 			case LENGTH:
 				return LENGTH_EDITOR;
+			case TIMER:
+				return TIMER_EDITOR;
 			case PRIORITY:
 				return PRIORITY_EDITOR;
 			case STAR:

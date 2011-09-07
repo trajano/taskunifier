@@ -45,6 +45,7 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -238,6 +239,9 @@ public class TaskComparator implements Comparator<Task> {
 				break;
 			case LENGTH:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
+				break;
+			case TIMER:
+				result = CompareUtils.compare(((Timer) o1), ((Timer) o2));
 				break;
 			case PRIORITY:
 				result = CompareUtils.compare(

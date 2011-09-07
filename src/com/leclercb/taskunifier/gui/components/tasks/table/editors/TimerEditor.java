@@ -30,32 +30,49 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import java.awt.Component;
 
-public class StringValueTaskLength implements StringValue {
+import javax.swing.JTable;
+
+import org.jdesktop.swingx.JXTable;
+
+import com.leclercb.taskunifier.api.models.Timer;
+
+public class TimerEditor extends JXTable.BooleanEditor {
 	
-	public static final StringValueTaskLength INSTANCE = new StringValueTaskLength();
+	private Timer timer;
 	
-	private StringValueTaskLength() {
+	public TimerEditor() {
 		
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Number))
-			return "00:00";
+	public Component getTableCellEditorComponent(
+			JTable table,
+			Object value,
+			boolean isSelected,
+			int row,
+			int col) {
+		this.timer = (Timer) value;
+		return super.getTableCellEditorComponent(
+				table,
+				this.timer.isStarted(),
+				isSelected,
+				row,
+				col);
+	}
+	
+	@Override
+	public Object getCellEditorValue() {
+		boolean started = (Boolean) super.getCellEditorValue();
+		if (started)
+			this.timer.start();
+		else
+			this.timer.stop();
 		
-		int time = ((Number) value).intValue();
-		int hour = time / 60;
-		int minute = time % 60;
-		
-		return (hour < 10 ? "0" : "")
-				+ hour
-				+ ":"
-				+ (minute < 10 ? "0" : "")
-				+ minute;
+		return this.timer;
 	}
 	
 }

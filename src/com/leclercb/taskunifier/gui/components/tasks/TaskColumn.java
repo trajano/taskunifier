@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -78,6 +79,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	REPEAT_FROM(TaskRepeatFrom.class, Translations.getString("general.task.repeat_from"), true),
 	STATUS(TaskStatus.class, Translations.getString("general.task.status"), true),
 	LENGTH(Integer.class, Translations.getString("general.task.length"), true),
+	TIMER(Timer.class, Translations.getString("general.task.timer"), true),
 	PRIORITY(TaskPriority.class, Translations.getString("general.task.priority"), true),
 	STAR(Boolean.class, Translations.getString("general.task.star"), true),
 	NOTE(String.class, Translations.getString("general.task.note"), false),
@@ -296,6 +298,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 				return task.getStatus();
 			case LENGTH:
 				return task.getLength();
+			case TIMER:
+				return task.getTimer();
 			case PRIORITY:
 				return task.getPriority();
 			case STAR:
@@ -380,6 +384,9 @@ public enum TaskColumn implements ModelProperties<Task> {
 					task.setLength(0);
 				else
 					task.setLength((Integer) value);
+				break;
+			case TIMER:
+				task.setTimer((Timer) value);
 				break;
 			case PRIORITY:
 				task.setPriority((TaskPriority) value);
