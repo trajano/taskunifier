@@ -32,39 +32,30 @@
  */
 package com.leclercb.taskunifier.gui.commons.values;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import org.jdesktop.swingx.renderer.StringValue;
 
 public class StringValueTaskLength implements StringValue {
 	
 	public static final StringValueTaskLength INSTANCE = new StringValueTaskLength();
 	
-	private DateFormat formatter;
-	
 	private StringValueTaskLength() {
-		this.formatter = new SimpleDateFormat("HH:mm");
+		
 	}
 	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Integer))
-			return " ";
+			return "00:00";
 		
-		int hour = 0;
-		int minute = 0;
+		int time = (Integer) value;
+		int hour = time / 60;
+		int minute = time % 60;
 		
-		if (value != null) {
-			hour = ((Integer) value) / 60;
-			minute = ((Integer) value) % 60;
-		}
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(0, 0, 0, hour, minute, 0);
-		
-		return this.formatter.format(calendar.getTime());
+		return (hour < 10 ? "0" : "")
+				+ hour
+				+ ":"
+				+ (minute < 10 ? "0" : "")
+				+ minute;
 	}
 	
 }

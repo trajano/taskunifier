@@ -66,7 +66,6 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
-import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
@@ -79,6 +78,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -266,16 +266,17 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 						new TaskStatusModel(true),
 						taskStatusModel));
 				
-				TaskLengthConverter taskLengthModel = new TaskLengthConverter(
-						this.adapter.getValueModel(TaskTemplate.PROP_TASK_LENGTH));
-				SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
+				ValueModel taskLengthModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LENGTH);
+				SpinnerNumberModel taskLengthSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
 						taskLengthModel,
-						(Date) taskLengthModel.convertFromSubject(0));
+						0,
+						0,
+						5760,
+						1);
 				
 				templateTaskLength.setModel(taskLengthSpinnerModel);
-				templateTaskLength.setEditor(new JSpinner.DateEditor(
-						templateTaskLength,
-						"HH:mm"));
+				templateTaskLength.setEditor(new SpinnerTimeEditor(
+						templateTaskLength));
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PRIORITY);
 				templateTaskPriority.setModel(new ComboBoxAdapter<TaskPriority>(

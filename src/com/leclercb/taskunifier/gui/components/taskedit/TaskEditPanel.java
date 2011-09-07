@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
-import java.util.Calendar;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -43,7 +42,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -64,7 +62,6 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.commons.converters.CalendarConverter;
-import com.leclercb.taskunifier.gui.commons.converters.TaskLengthConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TaskTagsConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
@@ -78,6 +75,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
@@ -394,16 +392,16 @@ public class TaskEditPanel extends JPanel {
 				new TaskStatusModel(false),
 				taskStatusModel));
 		
-		TaskLengthConverter taskLengthModel = new TaskLengthConverter(
-				this.adapter.getValueModel(Task.PROP_LENGTH));
-		SpinnerDateModel taskLengthSpinnerModel = SpinnerAdapterFactory.createDateAdapter(
+		ValueModel taskLengthModel = this.adapter.getValueModel(Task.PROP_LENGTH);
+		SpinnerNumberModel taskLengthSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
 				taskLengthModel,
-				Calendar.getInstance().getTime());
+				0,
+				0,
+				5760,
+				1);
 		
 		this.taskLength.setModel(taskLengthSpinnerModel);
-		this.taskLength.setEditor(new JSpinner.DateEditor(
-				this.taskLength,
-				Main.SETTINGS.getStringProperty("date.time_format")));
+		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
 		
 		ValueModel taskPriorityModel = this.adapter.getValueModel(Task.PROP_PRIORITY);
 		this.taskPriority.setModel(new ComboBoxAdapter<TaskPriority>(

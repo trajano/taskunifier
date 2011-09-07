@@ -38,8 +38,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
@@ -52,7 +50,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -83,6 +80,8 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
+import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
+import com.leclercb.taskunifier.gui.swing.SpinnerTimeModel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -253,14 +252,8 @@ public class BatchTaskEditPanel extends JPanel {
 			}
 			
 			if (this.taskLengthCheckBox.isSelected()) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime((Date) this.taskLength.getValue());
-				
-				int length = (calendar.get(Calendar.HOUR_OF_DAY) * 60)
-						+ calendar.get(Calendar.MINUTE);
-				
 				for (Task task : this.tasks) {
-					task.setLength(length);
+					task.setLength((Integer) this.taskLength.getValue());
 				}
 			}
 			
@@ -628,10 +621,8 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskReminder);
 		
 		// Task Length
-		this.taskLength.setModel(new SpinnerDateModel());
-		this.taskLength.setEditor(new JSpinner.DateEditor(
-				this.taskLength,
-				Main.SETTINGS.getStringProperty("date.time_format")));
+		this.taskLength.setModel(new SpinnerTimeModel());
+		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
 		
 		builder.appendI15d("general.task.length", true, this.taskLengthCheckBox);
 		builder.append(this.taskLength);
@@ -674,12 +665,10 @@ public class BatchTaskEditPanel extends JPanel {
 	public void reinitializeFields(Task task) {
 		boolean visible = true;
 		boolean selected = false;
-		Calendar length = Calendar.getInstance();
 		
 		if (task == null) {
 			visible = true;
 			selected = false;
-			length.set(0, 0, 0, 0, 0, 0);
 			
 			this.taskTitle.setText("");
 			this.taskTags.setTags("");
@@ -696,7 +685,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskRepeat.setSelectedItem("");
 			this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
 			this.taskStatus.setSelectedItem(TaskStatus.NONE);
-			this.taskLength.setValue(length.getTime());
+			this.taskLength.setValue(0);
 			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
 			this.taskStar.setSelected(false);
 			
@@ -706,11 +695,6 @@ public class BatchTaskEditPanel extends JPanel {
 		} else {
 			visible = false;
 			selected = true;
-			
-			int hour = task.getLength() / 60;
-			int minute = task.getLength() % 60;
-			
-			length.set(0, 0, 0, hour, minute, 0);
 			
 			this.taskTitle.setText(task.getTitle());
 			this.taskTags.setTags(task.getTags());
@@ -727,7 +711,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskRepeat.setSelectedItem(task.getRepeat());
 			this.taskRepeatFrom.setSelectedItem(task.getRepeatFrom());
 			this.taskStatus.setSelectedItem(task.getStatus());
-			this.taskLength.setValue(length.getTime());
+			this.taskLength.setValue(task.getLength());
 			this.taskPriority.setSelectedItem(task.getPriority());
 			this.taskStar.setSelected(task.isStar());
 			
