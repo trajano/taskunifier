@@ -19,6 +19,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
@@ -53,6 +54,7 @@ public class ActionAddQuickTask extends AbstractAction {
 	
 	public static Task addQuickTask(String task, boolean edit) {
 		TaskBean taskBean = new TaskBean();
+		taskBean.setModelStatus(ModelStatus.TO_UPDATE);
 		
 		task = task.trim();
 		
