@@ -74,7 +74,7 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToLeft(this.createButton(new ActionAddSubTask(24, 24)));
 		
 		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton();
-		addTemplateTaskButton.setText("");
+		this.formatButton(addTemplateTaskButton);
 		this.addComponentToLeft(addTemplateTaskButton);
 		
 		this.addComponentToLeft(this.createButton(new ActionDelete(24, 24)));
@@ -117,9 +117,7 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToRight(accountLabel);
 	}
 	
-	private JButton createButton(Action action) {
-		JButton button = new JButton(action);
-		
+	private void formatButton(JButton button) {
 		button.setOpaque(false);
 		button.setBorderPainted(false);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -129,7 +127,11 @@ public class MacToolBar extends UnifiedToolBar {
 		// text = text.length() > 30 ? text.substring(0, 30 - 2) + "..." : text;
 		
 		button.setText("");
-		
+	}
+	
+	private JButton createButton(Action action) {
+		JButton button = new JButton(action);
+		this.formatButton(button);
 		return button;
 	}
 	
