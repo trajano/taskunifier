@@ -34,8 +34,6 @@ package com.leclercb.taskunifier.gui.components.tasks.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -75,16 +73,6 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 					}
 					
 				});
-		
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			
-			@Override
-			public void run() {
-				TaskTableModel.this.fireTableDataChanged();
-			}
-			
-		}, 30 * 1000, 30 * 1000);
 	}
 	
 	public Task getTask(int row) {
