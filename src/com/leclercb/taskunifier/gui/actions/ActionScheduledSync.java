@@ -77,12 +77,13 @@ public class ActionScheduledSync extends AbstractAction {
 	
 	private void updateIcon() {
 		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"))
-			this.putValue(
-					SMALL_ICON,
-					Images.getResourceImage("play.png", this.width, this.height));
+			this.putValue(SMALL_ICON, Images.getResourceImage(
+					"synchronize_play.png",
+					this.width,
+					this.height));
 		else
 			this.putValue(SMALL_ICON, Images.getResourceImage(
-					"pause.png",
+					"synchronize_pause.png",
 					this.width,
 					this.height));
 	}
