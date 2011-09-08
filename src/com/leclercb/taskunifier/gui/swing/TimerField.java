@@ -49,7 +49,7 @@ public class TimerField extends JPanel {
 		CheckUtils.isNotNull(timer, "Timer cannot be null");
 		this.timer = timer;
 		
-		this.timeSpinner.setValue(this.timer.getTimerValue() / 60);
+		this.timeSpinner.setValue((int) (this.timer.getTimerValue() / 60));
 		this.button.setSelected(this.timer.isStarted());
 	}
 	
