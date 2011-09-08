@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.2.1
+	- Major:
+		- BF 3405989: Edit task window with OpenJDK
+
 Version 1.2.0
 	- Major:
 		- FR 3197331: Timer field
