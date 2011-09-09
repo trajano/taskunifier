@@ -264,6 +264,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.setColumnModel(columnModel);
 		this.setRowHeight(24);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.setShowGrid(true, false);
 		
 		this.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.FALSE);
