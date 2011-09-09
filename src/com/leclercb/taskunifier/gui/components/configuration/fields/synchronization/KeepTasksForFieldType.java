@@ -32,23 +32,31 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
 
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class KeepTasksForFieldType extends ConfigurationFieldType.FormattedTextField {
+public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	
 	public KeepTasksForFieldType() {
-		super(
-				FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"),
-				"synchronizer.keep_tasks_completed_for_x_days");
+		super("synchronizer.keep_tasks_completed_for_x_days");
+		
+		this.setModel(new SpinnerNumberModel(
+				(Number) this.getPropertyValue(),
+				1,
+				10 * 365,
+				1));
+		
+		this.setEditor(new JSpinner.NumberEditor(this));
 	}
 	
 	@Override
-	public String getPropertyValue() {
-		return Main.SETTINGS.getStringProperty("synchronizer.keep_tasks_completed_for_x_days");
+	public Object getPropertyValue() {
+		return Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
 	}
 	
 	@Override
@@ -58,9 +66,9 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.FormattedTextF
 				this.getFieldValue()))
 			SynchronizerUtils.resetSynchronizer();
 		
-		Main.SETTINGS.setStringProperty(
+		Main.SETTINGS.setIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",
-				this.getFieldValue());
+				(Integer) this.getFieldValue());
 	}
 	
 }
