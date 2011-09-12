@@ -37,11 +37,11 @@ import java.awt.event.ItemListener;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.models.SynchronizerGuiPluginModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueSynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.plugins.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ApiFieldType extends ConfigurationFieldType.ComboBox {

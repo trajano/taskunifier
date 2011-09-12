@@ -30,18 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.synchronizer.exc;
+package com.leclercb.taskunifier.gui.plugins.synchronizer.dummy;
 
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SynchronizerLicenseException extends SynchronizerException {
+public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public SynchronizerLicenseException(String message) {
-		this(message, null);
+	public DummyConfigurationPanel(
+			ConfigurationGroup configuration,
+			boolean welcome) {
+		super(configuration);
+		
+		this.initialize(welcome);
+		this.pack();
 	}
 	
-	public SynchronizerLicenseException(String message, Throwable throwable) {
-		super(true, message, throwable);
+	private void initialize(boolean welcome) {
+		this.addField(new ConfigurationField(
+				"NO_CONFIG",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("general.no_configuration_values"))));
 	}
 	
 }

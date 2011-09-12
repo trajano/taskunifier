@@ -45,10 +45,10 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.plugins.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.plugins.synchronizer.dummy.DummyGuiPlugin;
 
 public final class SynchronizerUtils {
 	
@@ -100,6 +100,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void initializeProxy() {
+		SynchronizerGuiPlugin plugin = getPlugin();
+		
 		if (!Main.SETTINGS.getBooleanProperty("proxy.use_system_proxies")
 				&& Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
 			String host = Main.SETTINGS.getStringProperty("proxy.host");
@@ -107,20 +109,22 @@ public final class SynchronizerUtils {
 			String login = Main.SETTINGS.getStringProperty("proxy.login");
 			String password = Main.SETTINGS.getStringProperty("proxy.password");
 			
-			getPlugin().getSynchronizerApi().setProxyHost(host);
-			getPlugin().getSynchronizerApi().setProxyPort(port);
-			getPlugin().getSynchronizerApi().setProxyUsername(login);
-			getPlugin().getSynchronizerApi().setProxyPassword(password);
+			plugin.getSynchronizerApi().setProxyHost(host);
+			plugin.getSynchronizerApi().setProxyPort(port);
+			plugin.getSynchronizerApi().setProxyUsername(login);
+			plugin.getSynchronizerApi().setProxyPassword(password);
 		} else {
 			removeProxy();
 		}
 	}
 	
 	public static void removeProxy() {
-		getPlugin().getSynchronizerApi().setProxyHost(null);
-		getPlugin().getSynchronizerApi().setProxyPort(0);
-		getPlugin().getSynchronizerApi().setProxyUsername(null);
-		getPlugin().getSynchronizerApi().setProxyPassword(null);
+		SynchronizerGuiPlugin plugin = getPlugin();
+		
+		plugin.getSynchronizerApi().setProxyHost(null);
+		plugin.getSynchronizerApi().setProxyPort(0);
+		plugin.getSynchronizerApi().setProxyUsername(null);
+		plugin.getSynchronizerApi().setProxyPassword(null);
 	}
 	
 	public static void removeOldCompletedTasks() {
