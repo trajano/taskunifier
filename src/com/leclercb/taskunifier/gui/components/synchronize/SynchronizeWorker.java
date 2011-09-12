@@ -82,6 +82,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			if (!Synchronizing.setSynchronizing(true))
 				return null;
 			
+			SynchronizerUtils.setTaskRepeatEnabled(false);
+			
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString("synchronizer.set_proxy")));
 			
@@ -210,6 +212,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	protected void done() {
 		Constants.PROGRESS_MONITOR.clear();
 		SynchronizerUtils.removeOldCompletedTasks();
+		SynchronizerUtils.setTaskRepeatEnabled(true);
 		Synchronizing.setSynchronizing(false);
 	}
 	

@@ -246,18 +246,22 @@ public class Main {
 	}
 	
 	private static void checkSingleInstance() {
+		boolean singleInstance = true;
+		
 		try {
-			if (!SingleInstanceUtils.isSingleInstance()) {
-				String message = "There is another instance of "
-						+ Constants.TITLE
-						+ " running.";
-				JOptionPane.showMessageDialog(null, message);
-				throw new RuntimeException(message);
-			}
+			singleInstance = SingleInstanceUtils.isSingleInstance();
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"Cannot check single instance");
+		}
+		
+		if (!singleInstance) {
+			String message = "There is another instance of "
+					+ Constants.TITLE
+					+ " running.";
+			JOptionPane.showMessageDialog(null, message);
+			throw new RuntimeException(message);
 		}
 	}
 	
