@@ -406,7 +406,7 @@ public class Main {
 			defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
 			SETTINGS = new PropertiesConfiguration(new Properties(
-					defaultProperties));
+					defaultProperties), defaultProperties);
 			
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
