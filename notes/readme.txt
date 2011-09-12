@@ -4,6 +4,7 @@ HISTORY
 Version 1.2.2
 	- Major:
 		- BF 3407645: Check single instance with OpenJDK
+		- Bug fixed: Duplicate repeat tasks
 	- Minor:
 		- Improved settings error handler
 
