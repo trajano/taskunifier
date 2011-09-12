@@ -45,10 +45,10 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.dummy.DummyGuiPlugin;
 
 public final class SynchronizerUtils {
 	

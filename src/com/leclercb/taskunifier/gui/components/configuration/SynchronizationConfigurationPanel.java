@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -50,7 +51,6 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.synchronizat
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.KeepTasksForFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.synchronization.SchedulerSleepTimeFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 

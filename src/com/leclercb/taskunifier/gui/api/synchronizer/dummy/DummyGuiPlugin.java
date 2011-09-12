@@ -30,27 +30,66 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.plugins.synchronizer;
+package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.exc.SynchronizerLicenseException;
+import com.leclercb.taskunifier.gui.constants.Constants;
 
-public interface SynchronizerGuiPlugin extends SynchronizerPlugin {
+public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
 	
-	public abstract String getAccountLabel();
+	private static DummyGuiPlugin INSTANCE;
 	
-	public abstract void installPlugin();
+	public static DummyGuiPlugin getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new DummyGuiPlugin();
+		
+		return INSTANCE;
+	}
 	
-	public abstract int getPluginApiVersion();
+	private static String VERSION = "1.0";
 	
-	public abstract ConfigurationPanel getConfigurationPanel(
+	private DummyGuiPlugin() {
+		
+	}
+	
+	@Override
+	public String getAccountLabel() {
+		return null;
+	}
+	
+	@Override
+	public void installPlugin() {
+		
+	}
+	
+	@Override
+	public int getPluginApiVersion() {
+		return Constants.PLUGIN_API_VERSION;
+	}
+	
+	@Override
+	public String getVersion() {
+		return VERSION;
+	}
+	
+	@Override
+	public ConfigurationPanel getConfigurationPanel(
 			ConfigurationGroup configuration,
-			boolean welcome);
+			boolean welcome) {
+		return new DummyConfigurationPanel(configuration, welcome);
+	}
 	
-	public abstract boolean needsLicense();
+	@Override
+	public boolean needsLicense() {
+		return false;
+	}
 	
-	public abstract boolean checkLicense() throws SynchronizerLicenseException;
+	@Override
+	public boolean checkLicense() throws SynchronizerLicenseException {
+		return true;
+	}
 	
 }

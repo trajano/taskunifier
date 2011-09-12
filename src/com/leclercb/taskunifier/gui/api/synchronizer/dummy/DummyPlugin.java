@@ -30,81 +30,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.plugins.synchronizer.dummy;
+package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import java.util.Properties;
-
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.synchronizer.Connection;
-import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
-import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
 
-public class DummyApi extends SynchronizerApi {
+public class DummyPlugin implements SynchronizerPlugin {
 	
-	private static DummyApi INSTANCE;
+	private static String VERSION = "1.0";
 	
-	public static final DummyApi getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new DummyApi();
-		
-		return INSTANCE;
-	}
-	
-	protected DummyApi() {
-		super("DUMMY", "No Synchronization", "http://www.taskunifier.net");
-	}
-	
-	@Override
-	public String[] getDefaultRepeatValues() {
-		return new String[] {
-				" ",
-				"Daily",
-				"Every 2 days",
-				"Every 3 days",
-				"Weekly",
-				"Biweekly",
-				"Monthly",
-				"Bimonthly",
-				"Quarterly",
-				"Semiannually",
-				"Yearly" };
-	}
-	
-	@Override
-	public boolean isValidRepeatValue(String repeat) {
-		return RepeatUtils.isValidRepeatValue(repeat);
-	}
-	
-	@Override
-	public void createRepeatTask(Task task) {
-		RepeatUtils.createRepeatTask(task);
-	}
-	
-	@Override
-	public Connection getConnection(Properties properties)
-			throws SynchronizerException {
-		throw new SynchronizerException(
-				true,
-				Translations.getString("synchronizer.select_an_api"));
-	}
-	
-	@Override
-	public Synchronizer getSynchronizer(
-			Properties properties,
-			Connection connection) {
-		return null;
-	}
-	
-	@Override
-	public void resetConnectionParameters(Properties properties) {
+	public DummyPlugin() {
 		
 	}
 	
 	@Override
-	public void resetSynchronizerParameters(Properties properties) {
-		
+	public String getId() {
+		return "0";
+	}
+	
+	@Override
+	public String getName() {
+		return "No Synchronization Plugin";
+	}
+	
+	@Override
+	public String getAuthor() {
+		return "Benjamin Leclerc";
+	}
+	
+	@Override
+	public String getVersion() {
+		return VERSION;
+	}
+	
+	@Override
+	public SynchronizerApi getSynchronizerApi() {
+		return DummyApi.getInstance();
 	}
 	
 }

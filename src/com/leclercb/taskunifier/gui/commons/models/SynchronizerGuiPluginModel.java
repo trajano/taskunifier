@@ -37,9 +37,9 @@ import java.util.List;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.comparators.SynchronizerGuiPluginComparator;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.SynchronizerGuiPlugin;
 
 public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel implements ListChangeListener {
 	

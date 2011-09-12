@@ -30,66 +30,81 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.plugins.synchronizer.dummy;
+package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.plugins.synchronizer.exc.SynchronizerLicenseException;
+import java.util.Properties;
 
-public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin {
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.synchronizer.Connection;
+import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.translations.Translations;
+
+public class DummyApi extends SynchronizerApi {
 	
-	private static DummyGuiPlugin INSTANCE;
+	private static DummyApi INSTANCE;
 	
-	public static DummyGuiPlugin getInstance() {
+	public static final DummyApi getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new DummyGuiPlugin();
+			INSTANCE = new DummyApi();
 		
 		return INSTANCE;
 	}
 	
-	private static String VERSION = "1.0";
-	
-	private DummyGuiPlugin() {
-		
+	protected DummyApi() {
+		super("DUMMY", "No Synchronization", "http://www.taskunifier.net");
 	}
 	
 	@Override
-	public String getAccountLabel() {
+	public String[] getDefaultRepeatValues() {
+		return new String[] {
+				" ",
+				"Daily",
+				"Every 2 days",
+				"Every 3 days",
+				"Weekly",
+				"Biweekly",
+				"Monthly",
+				"Bimonthly",
+				"Quarterly",
+				"Semiannually",
+				"Yearly" };
+	}
+	
+	@Override
+	public boolean isValidRepeatValue(String repeat) {
+		return RepeatUtils.isValidRepeatValue(repeat);
+	}
+	
+	@Override
+	public void createRepeatTask(Task task) {
+		RepeatUtils.createRepeatTask(task);
+	}
+	
+	@Override
+	public Connection getConnection(Properties properties)
+			throws SynchronizerException {
+		throw new SynchronizerException(
+				true,
+				Translations.getString("synchronizer.select_an_api"));
+	}
+	
+	@Override
+	public Synchronizer getSynchronizer(
+			Properties properties,
+			Connection connection) {
 		return null;
 	}
 	
 	@Override
-	public void installPlugin() {
+	public void resetConnectionParameters(Properties properties) {
 		
 	}
 	
 	@Override
-	public int getPluginApiVersion() {
-		return Constants.PLUGIN_API_VERSION;
-	}
-	
-	@Override
-	public String getVersion() {
-		return VERSION;
-	}
-	
-	@Override
-	public ConfigurationPanel getConfigurationPanel(
-			ConfigurationGroup configuration,
-			boolean welcome) {
-		return new DummyConfigurationPanel(configuration, welcome);
-	}
-	
-	@Override
-	public boolean needsLicense() {
-		return false;
-	}
-	
-	@Override
-	public boolean checkLicense() throws SynchronizerLicenseException {
-		return true;
+	public void resetSynchronizerParameters(Properties properties) {
+		
 	}
 	
 }

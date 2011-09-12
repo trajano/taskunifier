@@ -30,42 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.plugins.synchronizer.dummy;
+package com.leclercb.taskunifier.gui.api.synchronizer;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 
-public class DummyPlugin implements SynchronizerPlugin {
+public interface SynchronizerGuiPlugin extends SynchronizerPlugin {
 	
-	private static String VERSION = "1.0";
+	public abstract String getAccountLabel();
 	
-	public DummyPlugin() {
-		
-	}
+	public abstract void installPlugin();
 	
-	@Override
-	public String getId() {
-		return "0";
-	}
+	public abstract int getPluginApiVersion();
 	
-	@Override
-	public String getName() {
-		return "No Synchronization Plugin";
-	}
+	public abstract ConfigurationPanel getConfigurationPanel(
+			ConfigurationGroup configuration,
+			boolean welcome);
 	
-	@Override
-	public String getAuthor() {
-		return "Benjamin Leclerc";
-	}
+	public abstract boolean needsLicense();
 	
-	@Override
-	public String getVersion() {
-		return VERSION;
-	}
-	
-	@Override
-	public SynchronizerApi getSynchronizerApi() {
-		return DummyApi.getInstance();
-	}
+	public abstract boolean checkLicense() throws SynchronizerLicenseException;
 	
 }
