@@ -1,6 +1,12 @@
 HISTORY
 -------
 
+Version 1.2.2
+	- Major:
+		- BF 3407645: Check single instance with OpenJDK
+	- Minor:
+		- Improved settings error handler
+
 Version 1.2.1
 	- Major:
 		- BF 3405989: Edit task window with OpenJDK
