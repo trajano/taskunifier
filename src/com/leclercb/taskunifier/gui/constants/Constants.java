@@ -70,7 +70,7 @@ public final class Constants {
 	public static final String TITLE = "TaskUnifier";
 	public static final String VERSION = "1.2.2";
 	
-	public static final int PLUGIN_API_VERSION = 9;
+	public static final int PLUGIN_API_VERSION = 10;
 	public static final int WAIT_NO_LICENSE_TIME = 30;
 	
 	public static final String PLUGINS_FILE = "http://www.taskunifier.com/plugins/plugins.xml";
