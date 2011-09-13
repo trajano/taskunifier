@@ -48,6 +48,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
@@ -60,6 +61,8 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
+	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
 	private static final TableCellRenderer NOTE_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
 	
@@ -73,6 +76,12 @@ public class NoteTableColumn extends TableColumnExt {
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		MODEL_CREATION_DATE_RENDERER = new DefaultTableRenderer(
+				StringValueCalendar.INSTANCE_DATE_TIME);
+		
+		MODEL_UPDATE_DATE_RENDERER = new DefaultTableRenderer(
+				StringValueCalendar.INSTANCE_DATE_TIME);
 		
 		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValues.EMPTY,
@@ -147,6 +156,10 @@ public class NoteTableColumn extends TableColumnExt {
 		switch (this.noteColumn) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
+			case MODEL_CREATION_DATE:
+				return MODEL_CREATION_DATE_RENDERER;
+			case MODEL_UPDATE_DATE:
+				return MODEL_UPDATE_DATE_RENDERER;
 			case TITLE:
 				return TITLE_RENDERER;
 			case FOLDER:

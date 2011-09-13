@@ -129,6 +129,7 @@ public class ModelTransferData implements Serializable {
 			
 			List<TaskColumn> columns = new ArrayList<TaskColumn>(
 					Arrays.asList(TaskColumn.getVisibleTaskColumns()));
+			columns.remove(TaskColumn.MODEL_EDIT);
 			columns.remove(TaskColumn.SHOW_CHILDREN);
 			
 			if (!columns.contains(TaskColumn.NOTE)) {

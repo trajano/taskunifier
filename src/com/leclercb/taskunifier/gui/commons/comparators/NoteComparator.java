@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.commons.comparators;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -92,6 +93,12 @@ public class NoteComparator implements Comparator<Note> {
 						((Note) o1).getModelId(),
 						((Note) o2).getModelId());
 				break;
+			case MODEL_CREATION_DATE:
+				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				break;
+			case MODEL_UPDATE_DATE:
+				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				break;
 			case TITLE:
 				result = CompareUtils.compareIngoreCase(
 						(String) o1,
@@ -124,6 +131,25 @@ public class NoteComparator implements Comparator<Note> {
 			return -1;
 		
 		return model1.getTitle().compareTo(model2.getTitle());
+	}
+	
+	private int compareCalendars(Calendar calendar1, Calendar calendar2) {
+		if (calendar1 == null && calendar2 == null)
+			return 0;
+		
+		if (calendar1 == null)
+			return 1;
+		
+		if (calendar2 == null)
+			return -1;
+		
+		calendar1.set(Calendar.SECOND, 0);
+		calendar1.set(Calendar.MILLISECOND, 0);
+		
+		calendar2.set(Calendar.SECOND, 0);
+		calendar2.set(Calendar.MILLISECOND, 0);
+		
+		return calendar1.compareTo(calendar2);
 	}
 	
 }

@@ -80,6 +80,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		return INSTANCE;
 	}
 	
+	private boolean minimizeToSystemTray;
+	
 	private ViewType selectedViewType;
 	
 	private JPanel mainPane;
@@ -112,7 +114,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
-				ActionQuit.quit();
+				if (MainFrame.this.minimizeToSystemTray) {
+					MainFrame.this.setVisible(false);
+				} else {
+					ActionQuit.quit();
+				}
 			}
 			
 		});
@@ -240,50 +246,55 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeSystemTray() {
-		if (SystemTray.isSupported()
-				&& Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray")) {
-			final SystemTray tray = SystemTray.getSystemTray();
-			final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
-					"logo.png",
-					(int) tray.getTrayIconSize().getWidth(),
-					(int) tray.getTrayIconSize().getHeight()).getImage());
+		if (!SystemTray.isSupported()
+				|| !Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray")) {
+			this.minimizeToSystemTray = false;
+			return;
+		}
+		
+		this.minimizeToSystemTray = true;
+		
+		final SystemTray tray = SystemTray.getSystemTray();
+		final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
+				"logo.png",
+				(int) tray.getTrayIconSize().getWidth(),
+				(int) tray.getTrayIconSize().getHeight()).getImage());
+		
+		trayIcon.addActionListener(new ActionListener() {
 			
-			trayIcon.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MainFrame.this.setVisible(true);
-					MainFrame.this.setState(Frame.NORMAL);
-				}
-				
-			});
-			
-			trayIcon.setPopupMenu(new TrayPopup(
-					this,
-					ViewType.getTaskView().getTaskTableView(),
-					ViewType.getNoteView().getNoteTableView()));
-			
-			try {
-				tray.add(trayIcon);
-			} catch (AWTException e) {
-				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.this.setVisible(true);
+				MainFrame.this.setState(Frame.NORMAL);
 			}
 			
-			this.addWindowListener(new WindowAdapter() {
-				
-				@Override
-				public void windowIconified(WindowEvent event) {
-					MainFrame.this.setVisible(false);
-				}
-				
-				@Override
-				public void windowDeiconified(WindowEvent event) {
-					MainFrame.this.setVisible(true);
-					MainFrame.this.setState(Frame.NORMAL);
-				}
-				
-			});
+		});
+		
+		trayIcon.setPopupMenu(new TrayPopup(
+				this,
+				ViewType.getTaskView().getTaskTableView(),
+				ViewType.getNoteView().getNoteTableView()));
+		
+		try {
+			tray.add(trayIcon);
+		} catch (AWTException e) {
+			
 		}
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowIconified(WindowEvent event) {
+				MainFrame.this.setVisible(false);
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent event) {
+				MainFrame.this.setVisible(true);
+				MainFrame.this.setState(Frame.NORMAL);
+			}
+			
+		});
 	}
 	
 	@Override

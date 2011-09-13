@@ -435,17 +435,23 @@ public class TaskTable extends JXTable implements TaskTableView {
 					TaskColumn column = (TaskColumn) TaskTable.this.getColumn(
 							colIndex).getIdentifier();
 					
-					if (column == TaskColumn.NOTE) {
+					if (column == TaskColumn.NOTE
+							|| column == TaskColumn.MODEL_EDIT) {
 						Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
 						
 						if (task == null)
 							return;
 						
 						TaskTable.this.commitChanges();
-						
 						TaskTable.this.setSelectedTasks(new Task[] { task });
 						
-						ViewType.getTaskView().getModelNoteView().edit();
+						if (column == TaskColumn.NOTE) {
+							ViewType.getTaskView().getModelNoteView().edit();
+						}
+						
+						if (column == TaskColumn.MODEL_EDIT) {
+							ActionEditTasks.editTasks(new Task[] { task });
+						}
 					}
 				}
 			}

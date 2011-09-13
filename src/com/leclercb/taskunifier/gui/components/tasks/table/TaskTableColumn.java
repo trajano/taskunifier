@@ -49,6 +49,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
+import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
@@ -81,6 +82,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.RepeatFromEdi
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TimerEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -94,6 +96,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer MODEL_EDIT_RENDERER;
 	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
 	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
 	private static final TableCellRenderer NOTE_RENDERER;
@@ -113,7 +116,6 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor CONTEXT_EDITOR;
 	private static final TableCellEditor DUE_DATE_EDITOR;
 	private static final TableCellEditor FOLDER_EDITOR;
-	private static final TableCellEditor GENERIC_EDITOR;
 	private static final TableCellEditor GOAL_EDITOR;
 	private static final TableCellEditor LENGTH_EDITOR;
 	private static final TableCellEditor LOCATION_EDITOR;
@@ -126,6 +128,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor REPEAT_FROM_EDITOR;
 	private static final TableCellEditor STATUS_EDITOR;
 	private static final TableCellEditor TIMER_EDITOR;
+	private static final TableCellEditor TITLE_EDITOR;
 	
 	static {
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
@@ -148,6 +151,10 @@ public class TaskTableColumn extends TableColumnExt {
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		MODEL_EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValues.EMPTY,
+				IconValueEdit.INSTANCE));
 		
 		MODEL_CREATION_DATE_RENDERER = new DefaultTableRenderer(
 				StringValueCalendar.INSTANCE_DATE_TIME);
@@ -201,7 +208,6 @@ public class TaskTableColumn extends TableColumnExt {
 		DUE_DATE_EDITOR = new DateEditor(
 				Main.SETTINGS.getBooleanProperty("date.use_due_time"));
 		FOLDER_EDITOR = new FolderEditor();
-		GENERIC_EDITOR = new JXTable.GenericEditor();
 		GOAL_EDITOR = new GoalEditor();
 		LENGTH_EDITOR = new LengthEditor();
 		LOCATION_EDITOR = new LocationEditor();
@@ -215,6 +221,7 @@ public class TaskTableColumn extends TableColumnExt {
 		REPEAT_FROM_EDITOR = new RepeatFromEditor();
 		STATUS_EDITOR = new StatusEditor();
 		TIMER_EDITOR = new TimerEditor();
+		TITLE_EDITOR = new TitleEditor();
 	}
 	
 	private TaskColumn taskColumn;
@@ -280,6 +287,8 @@ public class TaskTableColumn extends TableColumnExt {
 		switch (this.taskColumn) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
+			case MODEL_EDIT:
+				return MODEL_EDIT_RENDERER;
 			case MODEL_CREATION_DATE:
 				return MODEL_CREATION_DATE_RENDERER;
 			case MODEL_UPDATE_DATE:
@@ -332,7 +341,7 @@ public class TaskTableColumn extends TableColumnExt {
 			case SHOW_CHILDREN:
 				return BOOLEAN_EDITOR;
 			case TITLE:
-				return GENERIC_EDITOR;
+				return TITLE_EDITOR;
 			case TAGS:
 				return TAGS_EDITOR;
 			case FOLDER:

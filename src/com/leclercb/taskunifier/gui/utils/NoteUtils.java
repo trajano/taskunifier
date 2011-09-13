@@ -40,6 +40,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
@@ -182,6 +183,12 @@ public final class NoteUtils {
 						break;
 					case MODEL:
 						content = StringValueModelId.INSTANCE.getString(value);
+						break;
+					case MODEL_CREATION_DATE:
+						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+						break;
+					case MODEL_UPDATE_DATE:
+						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
 						break;
 					case NOTE:
 						content = (value == null ? null : "\n"

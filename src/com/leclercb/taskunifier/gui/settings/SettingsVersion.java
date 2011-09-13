@@ -768,6 +768,42 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.2.1 to 1.2.2");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.order", "5");
+		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.visible", "true");
+		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.width", "50");
+		
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_creation_date.order",
+				"5");
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_creation_date.visible",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_creation_date.width",
+				"100");
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_update_date.order",
+				"6");
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_update_date.visible",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"notecolumn.model_update_date.width",
+				"100");
+		
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SynchronizerUtils.resetSynchronizer();
+				} catch (Throwable t) {
+					
+				}
+			}
+			
+		});
+		
 		return "1.2.2";
 	}
 	

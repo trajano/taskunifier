@@ -222,6 +222,9 @@ public final class TaskUtils {
 					case MODEL:
 						content = StringValueModelId.INSTANCE.getString(value);
 						break;
+					case MODEL_EDIT:
+						content = null;
+						break;
 					case MODEL_CREATION_DATE:
 						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
 						break;

@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
@@ -48,6 +49,8 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public enum NoteColumn implements ModelProperties<Note> {
 	
 	MODEL(Note.class, Translations.getString("general.id"), false),
+	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
+	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
 	TITLE(String.class, Translations.getString("general.note.title"), true),
 	FOLDER(Folder.class, Translations.getString("general.note.folder"), true),
 	NOTE(String.class, Translations.getString("general.note.note"), false);
@@ -225,6 +228,10 @@ public enum NoteColumn implements ModelProperties<Note> {
 		switch (this) {
 			case MODEL:
 				return note;
+			case MODEL_CREATION_DATE:
+				return note.getModelCreationDate();
+			case MODEL_UPDATE_DATE:
+				return note.getModelUpdateDate();
 			case TITLE:
 				return note.getTitle();
 			case FOLDER:
@@ -243,6 +250,10 @@ public enum NoteColumn implements ModelProperties<Note> {
 		
 		switch (this) {
 			case MODEL:
+				break;
+			case MODEL_CREATION_DATE:
+				break;
+			case MODEL_UPDATE_DATE:
 				break;
 			case TITLE:
 				note.setTitle((String) value);

@@ -172,6 +172,9 @@ public class TaskComparator implements Comparator<Task> {
 						((Task) o1).getModelId(),
 						((Task) o2).getModelId());
 				break;
+			case MODEL_EDIT:
+				result = 0;
+				break;
 			case MODEL_CREATION_DATE:
 				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
 				break;

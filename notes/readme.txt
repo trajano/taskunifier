@@ -7,6 +7,8 @@ Version 1.2.2
 		- Bug fixed: Duplicate repeat tasks
 	- Minor:
 		- Improved settings error handler
+		- If minimize to system tray, close will minimize
+		- Edit column: double click to edit
 
 Version 1.2.1
 	- Major:

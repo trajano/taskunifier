@@ -40,6 +40,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		
 		List<TaskColumn> columns = new ArrayList<TaskColumn>(
 				Arrays.asList(TaskColumn.getVisibleTaskColumns()));
+		columns.remove(TaskColumn.MODEL_EDIT);
 		columns.remove(TaskColumn.NOTE);
 		columns.remove(TaskColumn.SHOW_CHILDREN);
 		TaskColumn[] c = columns.toArray(new TaskColumn[0]);
