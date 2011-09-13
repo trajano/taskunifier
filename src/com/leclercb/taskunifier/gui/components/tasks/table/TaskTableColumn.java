@@ -156,6 +156,9 @@ public class TaskTableColumn extends TableColumnExt {
 				StringValues.EMPTY,
 				IconValueEdit.INSTANCE));
 		
+		((DefaultTableRenderer) MODEL_EDIT_RENDERER).getComponentProvider().setHorizontalAlignment(
+				SwingConstants.CENTER);
+		
 		MODEL_CREATION_DATE_RENDERER = new DefaultTableRenderer(
 				StringValueCalendar.INSTANCE_DATE_TIME);
 		
@@ -165,6 +168,9 @@ public class TaskTableColumn extends TableColumnExt {
 		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValues.EMPTY,
 				IconValueNote.INSTANCE));
+		
+		((DefaultTableRenderer) NOTE_RENDERER).getComponentProvider().setHorizontalAlignment(
+				SwingConstants.CENTER);
 		
 		PROGRESS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskProgress.INSTANCE);
