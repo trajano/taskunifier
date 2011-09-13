@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -14,61 +15,76 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.leclercb.commons.api.event.action.ActionSupport;
+import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.toedter.calendar.JCalendar;
 
-public class JExtendedCalendar extends JCalendar {
+public class JExtendedCalendar extends JCalendar implements ActionSupported {
 	
-	public JExtendedCalendar() {
+	public static final String NO_DATE_COMMAND = "NO_DATE";
+	
+	private ActionSupport actionSupport;
+	
+	public JExtendedCalendar(boolean showNoDateButton) {
 		super();
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean monthSpinner) {
+	public JExtendedCalendar(boolean showNoDateButton, boolean monthSpinner) {
 		super(monthSpinner);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(Calendar calendar) {
+	public JExtendedCalendar(boolean showNoDateButton, Calendar calendar) {
 		super(calendar);
-		this.initialize();
-	}
-	
-	public JExtendedCalendar(Date date, boolean monthSpinner) {
-		super(date, monthSpinner);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
 	public JExtendedCalendar(
+			boolean showNoDateButton,
+			Date date,
+			boolean monthSpinner) {
+		super(date, monthSpinner);
+		this.initialize(showNoDateButton);
+	}
+	
+	public JExtendedCalendar(
+			boolean showNoDateButton,
 			Date date,
 			Locale locale,
 			boolean monthSpinner,
 			boolean weekOfYearVisible) {
 		super(date, locale, monthSpinner, weekOfYearVisible);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(Date date, Locale locale) {
+	public JExtendedCalendar(boolean showNoDateButton, Date date, Locale locale) {
 		super(date, locale);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(Date date) {
+	public JExtendedCalendar(boolean showNoDateButton, Date date) {
 		super(date);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(Locale locale, boolean monthSpinner) {
+	public JExtendedCalendar(
+			boolean showNoDateButton,
+			Locale locale,
+			boolean monthSpinner) {
 		super(locale, monthSpinner);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(Locale locale) {
+	public JExtendedCalendar(boolean showNoDateButton, Locale locale) {
 		super(locale);
-		this.initialize();
+		this.initialize(showNoDateButton);
 	}
 	
-	private void initialize() {
+	private void initialize(boolean showNoDateButton) {
+		this.actionSupport = new ActionSupport(this);
+		
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout(3, 3));
 		main.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -115,6 +131,25 @@ public class JExtendedCalendar extends JCalendar {
 				"postpone.in",
 				Translations.getString("postpone.1_year")), Calendar.YEAR, 1));
 		
+		if (showNoDateButton) {
+			JButton noDateButton = new JButton(
+					Translations.getString("postpone.no_date"));
+			noDateButton.setForeground(Color.RED);
+			noDateButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+					JExtendedCalendar.this.setCalendar(Calendar.getInstance());
+					JExtendedCalendar.this.actionSupport.fireActionPerformed(
+							0,
+							NO_DATE_COMMAND);
+				}
+				
+			});
+			
+			panel.add(noDateButton);
+		}
+		
 		main.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
 		main.add(panel, BorderLayout.CENTER);
 		
@@ -155,6 +190,16 @@ public class JExtendedCalendar extends JCalendar {
 			});
 		}
 		
+	}
+	
+	@Override
+	public void addActionListener(ActionListener listener) {
+		this.actionSupport.addActionListener(listener);
+	}
+	
+	@Override
+	public void removeActionListener(ActionListener listener) {
+		this.actionSupport.removeActionListener(listener);
 	}
 	
 }

@@ -427,31 +427,35 @@ public class TaskTable extends JXTable implements TaskTableView {
 			public void mouseClicked(MouseEvent event) {
 				if (event.getButton() == MouseEvent.BUTTON1
 						&& event.getClickCount() == 2) {
-					int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
-							TaskTable.this.rowAtPoint(event.getPoint()));
-					
-					int colIndex = TaskTable.this.columnAtPoint(event.getPoint());
-					
-					TaskColumn column = (TaskColumn) TaskTable.this.getColumn(
-							colIndex).getIdentifier();
-					
-					if (column == TaskColumn.NOTE
-							|| column == TaskColumn.MODEL_EDIT) {
-						Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+					try {
+						int rowIndex = TaskTable.this.getRowSorter().convertRowIndexToModel(
+								TaskTable.this.rowAtPoint(event.getPoint()));
 						
-						if (task == null)
-							return;
+						int colIndex = TaskTable.this.columnAtPoint(event.getPoint());
 						
-						TaskTable.this.commitChanges();
-						TaskTable.this.setSelectedTasks(new Task[] { task });
+						TaskColumn column = (TaskColumn) TaskTable.this.getColumn(
+								colIndex).getIdentifier();
 						
-						if (column == TaskColumn.NOTE) {
-							ViewType.getTaskView().getModelNoteView().edit();
+						if (column == TaskColumn.NOTE
+								|| column == TaskColumn.MODEL_EDIT) {
+							Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
+							
+							if (task == null)
+								return;
+							
+							TaskTable.this.commitChanges();
+							TaskTable.this.setSelectedTasks(new Task[] { task });
+							
+							if (column == TaskColumn.NOTE) {
+								ViewType.getTaskView().getModelNoteView().edit();
+							}
+							
+							if (column == TaskColumn.MODEL_EDIT) {
+								ActionEditTasks.editTasks(new Task[] { task });
+							}
 						}
+					} catch (Exception e) {
 						
-						if (column == TaskColumn.MODEL_EDIT) {
-							ActionEditTasks.editTasks(new Task[] { task });
-						}
 					}
 				}
 			}

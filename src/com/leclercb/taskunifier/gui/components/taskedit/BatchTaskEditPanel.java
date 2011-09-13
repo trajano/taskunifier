@@ -376,7 +376,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JDateChooser(
-				new JExtendedCalendar(),
+				new JExtendedCalendar(false),
 				null,
 				null,
 				new JTextFieldDateEditor(startDateFormat, null, '_') {
@@ -388,7 +388,7 @@ public class BatchTaskEditPanel extends JPanel {
 					
 				});
 		this.taskDueDate = new JDateChooser(
-				new JExtendedCalendar(),
+				new JExtendedCalendar(false),
 				null,
 				null,
 				new JTextFieldDateEditor(dueDateFormat, null, '_') {
