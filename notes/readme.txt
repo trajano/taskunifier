@@ -9,6 +9,7 @@ Version 1.2.2
 		- Improved settings error handler
 		- If minimize to system tray, close will minimize
 		- Edit column: double click to edit
+		- Confirm deletion of multiple notes/tasks
 
 Version 1.2.1
 	- Major:

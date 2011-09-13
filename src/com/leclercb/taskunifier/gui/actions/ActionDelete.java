@@ -83,6 +83,13 @@ public class ActionDelete extends AbstractViewAction {
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
 			Task[] tasks = ViewType.getSelectedTasks();
 			
+			if (tasks.length > 1) {
+				int deleteTasks = askDeleteTasks(tasks.length);
+				
+				if (deleteTasks == JOptionPane.NO_OPTION)
+					return;
+			}
+			
 			boolean hasSubTasks = false;
 			
 			for (Task task : tasks) {
@@ -118,12 +125,55 @@ public class ActionDelete extends AbstractViewAction {
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getSelectedNotes();
 			
+			if (notes.length > 1) {
+				int deleteNotes = askDeleteNotes(notes.length);
+				
+				if (deleteNotes == JOptionPane.NO_OPTION)
+					return;
+			}
+			
 			for (Note note : notes) {
 				if (note.getModelStatus().isEndUserStatus()) {
 					NoteFactory.getInstance().markToDelete(note);
 				}
 			}
 		}
+	}
+	
+	private static int askDeleteNotes(int number) {
+		String[] options = new String[] {
+				Translations.getString("general.yes"),
+				Translations.getString("general.no") };
+		
+		int result = JOptionPane.showOptionDialog(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("action.delete.delete_notes", number),
+				Translations.getString("general.question"),
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]);
+		
+		return result;
+	}
+	
+	private static int askDeleteTasks(int number) {
+		String[] options = new String[] {
+				Translations.getString("general.yes"),
+				Translations.getString("general.no") };
+		
+		int result = JOptionPane.showOptionDialog(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("action.delete.delete_tasks", number),
+				Translations.getString("general.question"),
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]);
+		
+		return result;
 	}
 	
 	private static int askDeleteSubTasks() {
