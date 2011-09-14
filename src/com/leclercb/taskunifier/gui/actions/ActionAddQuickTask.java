@@ -199,34 +199,37 @@ public class ActionAddQuickTask extends AbstractAction {
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		dateFormat = dateFormat.replace("yyyy", "yy");
 		
-		Pattern pattern = Pattern.compile("([+-]?)([0-9]+)([dwmy])(.*)");
+		Pattern pattern = Pattern.compile("([+-]?)([0-9]*)(d|w|m|y|tt|t)(.*)");
 		Matcher matcher = pattern.matcher(title);
 		
 		if (matcher.find()) {
 			int num = 0;
-			char type = 'd';
+			String type = "d";
 			
-			num = Integer.parseInt(matcher.group(2));
-			type = matcher.group(3).charAt(0);
+			try {
+				num = Integer.parseInt(matcher.group(2));
+			} catch (NumberFormatException e) {
+				
+			}
+			
+			type = matcher.group(3);
 			
 			if (matcher.group(1).equals("-"))
 				num *= -1;
 			
 			Calendar date = Calendar.getInstance();
-			switch (type) {
-				case 'd':
-					date.add(Calendar.DAY_OF_MONTH, num);
-					break;
-				case 'w':
-					date.add(Calendar.WEEK_OF_YEAR, num);
-					break;
-				case 'm':
-					date.add(Calendar.MONTH, num);
-					break;
-				case 'y':
-					date.add(Calendar.YEAR, num);
-					break;
-			}
+			if ("d".equals(type))
+				date.add(Calendar.DAY_OF_MONTH, num);
+			else if ("w".equals(type))
+				date.add(Calendar.WEEK_OF_YEAR, num);
+			else if ("m".equals(type))
+				date.add(Calendar.MONTH, num);
+			else if ("y".equals(type))
+				date.add(Calendar.YEAR, num);
+			else if ("t".equals(type))
+				date.add(Calendar.DAY_OF_MONTH, 0);
+			else if ("tt".equals(type))
+				date.add(Calendar.DAY_OF_MONTH, 1);
 			
 			title = matcher.group(4).trim();
 			

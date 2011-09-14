@@ -10,6 +10,7 @@ Version 1.2.2
 		- If minimize to system tray, close will minimize
 		- Edit column: double click to edit
 		- Confirm deletion of multiple notes/tasks
+		- FR 3409266: Quick add task: new shortcuts
 
 Version 1.2.1
 	- Major:
