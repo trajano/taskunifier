@@ -32,8 +32,11 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Frame;
+
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 
 @SuppressWarnings("deprecation")
 public class MacApplicationAdapter extends ApplicationAdapter {
@@ -44,6 +47,7 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	@Override
 	public void handleQuit(ApplicationEvent e) {
+		e.setHandled(true);
 		ActionQuit.quit();
 	}
 	
@@ -55,7 +59,21 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
+		e.setHandled(true);
 		ActionConfiguration.configuration();
+	}
+	
+	@Override
+	public void handlePrintFile(ApplicationEvent e) {
+		e.setHandled(true);
+		ActionPrint.print();
+	}
+	
+	@Override
+	public void handleReOpenApplication(ApplicationEvent e) {
+		e.setHandled(true);
+		MainFrame.getInstance().getFrame().setVisible(true);
+		MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
 	}
 	
 }
