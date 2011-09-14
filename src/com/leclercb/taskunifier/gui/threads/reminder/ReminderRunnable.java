@@ -42,9 +42,12 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang.SystemUtils;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -103,7 +106,10 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 								
 								@Override
 								public void run() {
-									Toolkit.getDefaultToolkit().beep();
+									if (SystemUtils.IS_OS_MAC)
+										MacApplicationAdapter.requestUserAttention();
+									else
+										Toolkit.getDefaultToolkit().beep();
 									
 									Object[] options = {
 											Translations.getString("general.show"),

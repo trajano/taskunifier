@@ -167,4 +167,16 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 		}
 	}
 	
+	public static void requestUserAttention() {
+		if (!SystemUtils.IS_OS_MAC)
+			return;
+		
+		try {
+			Application application = Application.getApplication();
+			application.requestUserAttention(true);
+		} catch (Throwable t) {
+			
+		}
+	}
+	
 }
