@@ -34,8 +34,10 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Frame;
 
+import com.apple.eawt.Application;
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
+import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 
 @SuppressWarnings("deprecation")
@@ -74,6 +76,35 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 		e.setHandled(true);
 		MainFrame.getInstance().getFrame().setVisible(true);
 		MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+	}
+	
+	public static void initializeApplicationAdapter() {
+		if (!SystemUtils.IS_OS_MAC)
+			return;
+		
+		try {
+			Application application = Application.getApplication();
+			MacApplicationAdapter adapter = new MacApplicationAdapter();
+			application.setEnabledPreferencesMenu(true);
+			application.addApplicationListener(adapter);
+		} catch (Throwable t) {
+			
+		}
+	}
+	
+	public static void setDockIconBadge(Object badge) {
+		if (!SystemUtils.IS_OS_MAC)
+			return;
+		
+		try {
+			if (badge == null)
+				badge = "";
+			
+			Application application = Application.getApplication();
+			application.setDockIconBadge(badge.toString());
+		} catch (Throwable t) {
+			
+		}
 	}
 	
 }

@@ -40,6 +40,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
@@ -63,6 +64,26 @@ public final class TaskUtils {
 	
 	private TaskUtils() {
 		
+	}
+	
+	public static int getOverdueTaskCount() {
+		int count = 0;
+		
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		for (Task task : tasks) {
+			if (!task.getModelStatus().isEndUserStatus())
+				continue;
+			
+			if (task.isCompleted())
+				continue;
+			
+			if (task.isOverDue(false))
+				continue;
+			
+			count++;
+		}
+		
+		return count;
 	}
 	
 	public static String toText(Task[] tasks, TaskColumn[] columns, boolean html) {

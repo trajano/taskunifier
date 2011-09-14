@@ -42,8 +42,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
 
-import com.apple.eawt.Application;
-import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
@@ -109,14 +107,8 @@ public class MenuBar extends JMenuBar {
 		this.initialize();
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void initialize() {
-		if (SystemUtils.IS_OS_MAC) {
-			Application application = Application.getApplication();
-			MacApplicationAdapter adapter = new MacApplicationAdapter();
-			application.setEnabledPreferencesMenu(true);
-			application.addApplicationListener(adapter);
-		}
+		MacApplicationAdapter.initializeApplicationAdapter();
 		
 		this.initializeFileMenu();
 		this.initializeEditMenu();
