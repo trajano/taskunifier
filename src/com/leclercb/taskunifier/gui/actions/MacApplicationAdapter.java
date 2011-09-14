@@ -33,12 +33,22 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Frame;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import org.apache.commons.lang.SystemUtils;
 
 import com.apple.eawt.Application;
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
-import com.jgoodies.common.base.SystemUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 @SuppressWarnings("deprecation")
 public class MacApplicationAdapter extends ApplicationAdapter {
@@ -90,18 +100,68 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 		} catch (Throwable t) {
 			
 		}
+		
+		initializeDockIconBadge();
 	}
 	
-	public static void setDockIconBadge(Object badge) {
+	private static void initializeDockIconBadge() {
+		Synchronizing.addPropertyChangeListener(
+				Synchronizing.PROP_SYNCHRONIZING,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
+							updateDockIconBadge();
+					}
+					
+				});
+		
+		TaskFactory.getInstance().addListChangeListener(
+				new ListChangeListener() {
+					
+					@Override
+					public void listChange(ListChangeEvent event) {
+						if (Synchronizing.isSynchronizing())
+							return;
+						
+						updateDockIconBadge();
+					}
+					
+				});
+		
+		TaskFactory.getInstance().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						if (Synchronizing.isSynchronizing())
+							return;
+						
+						if (event.getPropertyName().equals(
+								Model.PROP_MODEL_STATUS)
+								|| event.getPropertyName().equals(
+										Task.PROP_COMPLETED)
+								|| event.getPropertyName().equals(
+										Task.PROP_DUE_DATE))
+							updateDockIconBadge();
+					}
+					
+				});
+	}
+	
+	private static void updateDockIconBadge() {
 		if (!SystemUtils.IS_OS_MAC)
 			return;
 		
 		try {
-			if (badge == null)
+			String badge = TaskUtils.getOverdueTaskCount() + "";
+			
+			if (badge.equals("0"))
 				badge = "";
 			
 			Application application = Application.getApplication();
-			application.setDockIconBadge(badge.toString());
+			application.setDockIconBadge(badge);
 		} catch (Throwable t) {
 			
 		}

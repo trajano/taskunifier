@@ -77,7 +77,7 @@ public final class TaskUtils {
 			if (task.isCompleted())
 				continue;
 			
-			if (task.isOverDue(false))
+			if (!task.isOverDue(false))
 				continue;
 			
 			count++;
