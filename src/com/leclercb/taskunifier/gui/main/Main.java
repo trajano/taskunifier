@@ -246,17 +246,7 @@ public class Main {
 	}
 	
 	private static void checkSingleInstance() {
-		boolean singleInstance = true;
-		
-		try {
-			singleInstance = SingleInstanceUtils.isSingleInstance();
-		} catch (Throwable t) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Cannot check single instance");
-		}
-		
-		if (!singleInstance) {
+		if (!SingleInstanceUtils.isSingleInstance()) {
 			String message = "There is another instance of "
 					+ Constants.TITLE
 					+ " running.";

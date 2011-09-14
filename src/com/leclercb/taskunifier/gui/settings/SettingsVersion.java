@@ -791,19 +791,6 @@ public final class SettingsVersion {
 				"notecolumn.model_update_date.width",
 				"100");
 		
-		Main.AFTER_START.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					SynchronizerUtils.resetSynchronizer();
-				} catch (Throwable t) {
-					
-				}
-			}
-			
-		});
-		
 		return "1.2.2";
 	}
 	
