@@ -801,6 +801,30 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.2.2 to 1.3.0");
 		
+		Main.SETTINGS.remove("taskcolumn.reminder.order");
+		Main.SETTINGS.remove("taskcolumn.reminder.visible");
+		Main.SETTINGS.remove("taskcolumn.reminder.width");
+		
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.start_date_reminder.order",
+				"18");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.start_date_reminder.visible",
+				"true");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.start_date_reminder.width",
+				"100");
+		
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.due_date_reminder.order",
+				"19");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.due_date_reminder.visible",
+				"true");
+		Main.SETTINGS.setStringProperty(
+				"taskcolumn.due_date_reminder.width",
+				"100");
+		
 		return "1.3.0";
 	}
 	
