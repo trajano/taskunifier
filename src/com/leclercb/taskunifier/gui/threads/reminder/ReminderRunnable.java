@@ -105,7 +105,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				|| evt.getPropertyName().equals(Task.PROP_DUE_DATE_REMINDER)
 				|| evt.getPropertyName().equals(Task.PROP_START_DATE)
 				|| evt.getPropertyName().equals(Task.PROP_START_DATE_REMINDER)
-				|| evt.getPropertyName().equals(Task.PROP_COMPLETED)) {
+				|| evt.getPropertyName().equals(Task.PROP_COMPLETED)
+				|| !((Task) evt.getSource()).getModelStatus().isEndUserStatus()) {
 			ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
 					(Task) evt.getSource());
 			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());

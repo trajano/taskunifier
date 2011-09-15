@@ -51,7 +51,8 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskDescription;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelRowFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -77,7 +78,8 @@ public class ReminderList extends JPanel {
 		this.modelList.setModel(new DefaultListModel());
 		this.modelList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.modelList.setCellRenderer(new DefaultListRenderer(
-				StringValueModel.INSTANCE));
+				StringValueTaskDescription.INSTANCE,
+				IconValueTaskPriority.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
 		this.modelList.setComparator(new ReminderComparator());

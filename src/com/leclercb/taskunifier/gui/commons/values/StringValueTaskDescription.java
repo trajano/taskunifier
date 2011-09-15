@@ -32,47 +32,41 @@
  */
 package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Color;
-
-import javax.swing.Icon;
-
-import org.jdesktop.swingx.renderer.IconValue;
+import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.enums.TaskPriority;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public class IconValueTaskPriority implements IconValue {
+public class StringValueTaskDescription implements StringValue {
 	
-	public static final IconValueTaskPriority INSTANCE = new IconValueTaskPriority();
+	public static final StringValueTaskDescription INSTANCE = new StringValueTaskDescription();
 	
-	private IconValueTaskPriority() {
+	private StringValueTaskDescription() {
 		
 	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null)
-			return null;
+	public String getString(Object value) {
+		if (value == null || !(value instanceof Task))
+			return " ";
 		
-		TaskPriority priority = null;
+		Task task = (Task) value;
 		
-		if (value instanceof Task)
-			priority = ((Task) value).getPriority();
+		StringBuffer description = new StringBuffer();
 		
-		if (value instanceof TaskPriority)
-			priority = (TaskPriority) value;
+		if (TaskUtils.isInDueDateReminderZone(task)) {
+			description.append("Due by ");
+			description.append(StringValueCalendar.INSTANCE_DATE_TIME.getString(task.getDueDate()));
+			description.append(" - ");
+		} else if (TaskUtils.isInStartDateReminderZone(task)) {
+			description.append("Starts on ");
+			description.append(StringValueCalendar.INSTANCE_DATE_TIME.getString(task.getStartDate()));
+			description.append(" - ");
+		}
 		
-		if (priority == null)
-			return null;
+		description.append(task.getTitle());
 		
-		Color color = Main.SETTINGS.getColorProperty("theme.color.priority."
-				+ priority.name().toLowerCase());
-		
-		Icon icon = new ColorBadgeIcon(color, 12, 12);
-		
-		return icon;
+		return description.toString();
 	}
 	
 }

@@ -37,8 +37,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -57,32 +59,32 @@ public class ReminderPanel extends JPanel {
 		return this.reminderList;
 	}
 	
-	public void snooze(Task[] tasks) {
+	public void snooze(Task[] tasks, int minutes) {
 		for (Task task : tasks) {
 			if (TaskUtils.isInDueDateReminderZone(task)) {
 				Calendar c = task.getDueDate();
-				c.add(Calendar.MINUTE, 5);
+				c.add(Calendar.MINUTE, minutes);
 				
 				task.setDueDate(c);
 			}
 			
 			if (TaskUtils.isInStartDateReminderZone(task)) {
 				Calendar c = task.getStartDate();
-				c.add(Calendar.MINUTE, 5);
+				c.add(Calendar.MINUTE, minutes);
 				
 				task.setStartDate(c);
 			}
 		}
 	}
 	
-	public void snooze() {
-		Task[] tasks = this.reminderList.getTasks();
-		this.snooze(tasks);
+	public void snooze(int minutes) {
+		Task[] tasks = this.reminderList.getSelectedTasks();
+		this.snooze(tasks, minutes);
 	}
 	
-	public void snoozeAll() {
+	public void snoozeAll(int minutes) {
 		Task[] tasks = this.reminderList.getTasks();
-		this.snooze(tasks);
+		this.snooze(tasks, minutes);
 	}
 	
 	private void dismiss(Task[] tasks) {
@@ -111,17 +113,41 @@ public class ReminderPanel extends JPanel {
 	}
 	
 	private void initializeButtonsPanel() {
+		final JPopupMenu snoozePopup = new JPopupMenu();
+		snoozePopup.add(new SnoozeAction(5));
+		snoozePopup.add(new SnoozeAction(10));
+		snoozePopup.add(new SnoozeAction(15));
+		snoozePopup.add(new SnoozeAction(20));
+		snoozePopup.add(new SnoozeAction(30));
+		snoozePopup.add(new SnoozeAction(60));
+		
+		final JPopupMenu snoozeAllPopup = new JPopupMenu();
+		snoozeAllPopup.add(new SnoozeAllAction(5));
+		snoozeAllPopup.add(new SnoozeAllAction(10));
+		snoozeAllPopup.add(new SnoozeAllAction(15));
+		snoozeAllPopup.add(new SnoozeAllAction(20));
+		snoozeAllPopup.add(new SnoozeAllAction(30));
+		snoozeAllPopup.add(new SnoozeAllAction(60));
+		
+		final JButton snoozeButton = new JButton(
+				Translations.getString("general.snooze"));
+		snoozeButton.setActionCommand("SNOOZE");
+		
+		final JButton snoozeAllButton = new JButton(
+				Translations.getString("general.snooze_all"));
+		snoozeAllButton.setActionCommand("SNOOZE_ALL");
+		
 		ActionListener listener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("SNOOZE")) {
-					ReminderPanel.this.snooze();
+					snoozePopup.show(snoozeButton, 0, 0);
 					return;
 				}
 				
 				if (event.getActionCommand().equals("SNOOZE_ALL")) {
-					ReminderPanel.this.snoozeAll();
+					snoozeAllPopup.show(snoozeButton, 0, 0);
 					return;
 				}
 				
@@ -138,14 +164,7 @@ public class ReminderPanel extends JPanel {
 			
 		};
 		
-		JButton snoozeButton = new JButton(
-				Translations.getString("general.snooze"));
-		snoozeButton.setActionCommand("SNOOZE");
 		snoozeButton.addActionListener(listener);
-		
-		JButton snoozeAllButton = new JButton(
-				Translations.getString("general.snooze_all"));
-		snoozeAllButton.setActionCommand("SNOOZE_ALL");
 		snoozeAllButton.addActionListener(listener);
 		
 		JButton dismissButton = new JButton(
@@ -165,6 +184,42 @@ public class ReminderPanel extends JPanel {
 				dismissAllButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
+	}
+	
+	private class SnoozeAction extends AbstractAction {
+		
+		private int minutes;
+		
+		public SnoozeAction(int minutes) {
+			super(Translations.getString(
+					"general.task.reminder.x_minutes",
+					minutes));
+			this.minutes = minutes;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			ReminderPanel.this.snooze(this.minutes);
+		}
+		
+	}
+	
+	private class SnoozeAllAction extends AbstractAction {
+		
+		private int minutes;
+		
+		public SnoozeAllAction(int minutes) {
+			super(Translations.getString(
+					"general.task.reminder.x_minutes",
+					minutes));
+			this.minutes = minutes;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			ReminderPanel.this.snoozeAll(this.minutes);
+		}
+		
 	}
 	
 }
