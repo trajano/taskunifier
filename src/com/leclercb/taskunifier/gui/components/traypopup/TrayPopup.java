@@ -42,6 +42,7 @@ import javax.swing.Action;
 
 import com.leclercb.taskunifier.gui.actions.ActionCreateNoteFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionCreateTaskFromClipboard;
+import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -79,6 +80,13 @@ public class TrayPopup extends PopupMenu {
 		this.add(item);
 		
 		action = new ActionCreateNoteFromClipboard(noteView);
+		item = new MenuItem((String) action.getValue(Action.NAME));
+		item.addActionListener(action);
+		this.add(item);
+		
+		this.addSeparator();
+		
+		action = new ActionQuit();
 		item = new MenuItem((String) action.getValue(Action.NAME));
 		item.addActionListener(action);
 		this.add(item);

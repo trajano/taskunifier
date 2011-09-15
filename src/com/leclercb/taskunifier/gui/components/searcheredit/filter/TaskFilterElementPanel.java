@@ -118,7 +118,8 @@ public class TaskFilterElementPanel extends JPanel {
 						value = 0;
 					}
 					break;
-				case REMINDER:
+				case DUE_DATE_REMINDER:
+				case START_DATE_REMINDER:
 				case LENGTH:
 				case IMPORTANCE:
 					try {
@@ -320,7 +321,14 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValue.setSelectedIndex(0);
 				this.elementValue.setEditable(true);
 				break;
-			case REMINDER:
+			case DUE_DATE_REMINDER:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						NumberCondition.values()));
+				this.elementValue.addItem(value == null ? "0" : value);
+				this.elementValue.setSelectedIndex(0);
+				this.elementValue.setEditable(true);
+				break;
+			case START_DATE_REMINDER:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						NumberCondition.values()));
 				this.elementValue.addItem(value == null ? "0" : value);

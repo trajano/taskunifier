@@ -108,7 +108,8 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskCompletedCheckBox;
 	private JCheckBox taskStartDateCheckBox;
 	private JCheckBox taskDueDateCheckBox;
-	private JCheckBox taskReminderCheckBox;
+	private JCheckBox taskStartDateReminderCheckBox;
+	private JCheckBox taskDueDateReminderCheckBox;
 	private JCheckBox taskRepeatCheckBox;
 	private JCheckBox taskRepeatFromCheckBox;
 	private JCheckBox taskStatusCheckBox;
@@ -129,7 +130,8 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskCompleted;
 	private JDateChooser taskStartDate;
 	private JDateChooser taskDueDate;
-	private JComboBox taskReminder;
+	private JComboBox taskStartDateReminder;
+	private JComboBox taskDueDateReminder;
 	private JComboBox taskRepeat;
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
@@ -224,12 +226,24 @@ public class BatchTaskEditPanel extends JPanel {
 				}
 			}
 			
-			if (this.taskReminderCheckBox.isSelected()) {
+			if (this.taskStartDateReminderCheckBox.isSelected()) {
 				try {
-					int reminder = Integer.parseInt(this.taskReminder.getSelectedItem().toString());
+					int reminder = Integer.parseInt(this.taskStartDateReminder.getSelectedItem().toString());
 					
 					for (Task task : this.tasks) {
-						task.setReminder(reminder);
+						task.setStartDateReminder(reminder);
+					}
+				} catch (NumberFormatException exc) {
+					
+				}
+			}
+			
+			if (this.taskDueDateReminderCheckBox.isSelected()) {
+				try {
+					int reminder = Integer.parseInt(this.taskDueDateReminder.getSelectedItem().toString());
+					
+					for (Task task : this.tasks) {
+						task.setDueDateReminder(reminder);
 					}
 				} catch (NumberFormatException exc) {
 					
@@ -356,7 +370,8 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskCompletedCheckBox = new JCheckBox("", true);
 		this.taskStartDateCheckBox = new JCheckBox("", true);
 		this.taskDueDateCheckBox = new JCheckBox("", true);
-		this.taskReminderCheckBox = new JCheckBox("", true);
+		this.taskStartDateReminderCheckBox = new JCheckBox("", true);
+		this.taskDueDateReminderCheckBox = new JCheckBox("", true);
 		this.taskRepeatCheckBox = new JCheckBox("", true);
 		this.taskRepeatFromCheckBox = new JCheckBox("", true);
 		this.taskStatusCheckBox = new JCheckBox("", true);
@@ -399,7 +414,8 @@ public class BatchTaskEditPanel extends JPanel {
 					}
 					
 				});
-		this.taskReminder = new JComboBox();
+		this.taskStartDateReminder = new JComboBox();
+		this.taskDueDateReminder = new JComboBox();
 		this.taskRepeat = new JComboBox();
 		this.taskRepeatFrom = ComponentFactory.createTaskRepeatFromComboBox(
 				null,
@@ -442,8 +458,10 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskStartDate));
 		this.taskDueDateCheckBox.addItemListener(new EnabledActionListener(
 				this.taskDueDate));
-		this.taskReminderCheckBox.addItemListener(new EnabledActionListener(
-				this.taskReminder));
+		this.taskStartDateReminderCheckBox.addItemListener(new EnabledActionListener(
+				this.taskStartDateReminder));
+		this.taskDueDateReminderCheckBox.addItemListener(new EnabledActionListener(
+				this.taskDueDateReminder));
 		this.taskRepeatCheckBox.addItemListener(new EnabledActionListener(
 				this.taskRepeat));
 		this.taskRepeatFromCheckBox.addItemListener(new EnabledActionListener(
@@ -620,6 +638,34 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskDueDateCheckBox);
 		builder.append(dueDatePanel);
 		
+		// Task Start Date Reminder
+		this.taskStartDateReminder.setModel(new TaskReminderModel());
+		
+		this.taskStartDateReminder.setRenderer(new DefaultListRenderer(
+				StringValueTaskReminder.INSTANCE));
+		
+		this.taskStartDateReminder.setEditable(true);
+		
+		builder.appendI15d(
+				"general.task.start_date_reminder",
+				true,
+				this.taskStartDateReminderCheckBox);
+		builder.append(this.taskStartDateReminder);
+		
+		// Task Due Date Reminder
+		this.taskDueDateReminder.setModel(new TaskReminderModel());
+		
+		this.taskDueDateReminder.setRenderer(new DefaultListRenderer(
+				StringValueTaskReminder.INSTANCE));
+		
+		this.taskDueDateReminder.setEditable(true);
+		
+		builder.appendI15d(
+				"general.task.due_date_reminder",
+				true,
+				this.taskDueDateReminderCheckBox);
+		builder.append(this.taskDueDateReminder);
+		
 		// Task Length
 		this.taskLength.setModel(new SpinnerTimeModel());
 		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
@@ -630,24 +676,6 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Timer
 		builder.appendI15d("general.task.timer", true, this.taskTimerCheckBox);
 		builder.append(this.taskTimer);
-		
-		// Task Reminder
-		this.taskReminder.setModel(new TaskReminderModel());
-		
-		this.taskReminder.setRenderer(new DefaultListRenderer(
-				StringValueTaskReminder.INSTANCE));
-		
-		this.taskReminder.setEditable(true);
-		
-		builder.appendI15d(
-				"general.task.reminder",
-				true,
-				this.taskReminderCheckBox);
-		builder.append(this.taskReminder);
-		
-		// Empty
-		builder.append("", new JLabel());
-		builder.append(new JLabel());
 		
 		// Task Repeat
 		this.taskRepeat.setModel(new DefaultComboBoxModel(
@@ -703,7 +731,8 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskCompleted.setSelected(false);
 			this.taskStartDate.setCalendar(null);
 			this.taskDueDate.setCalendar(null);
-			this.taskReminder.setSelectedItem(0);
+			this.taskStartDateReminder.setSelectedItem(0);
+			this.taskDueDateReminder.setSelectedItem(0);
 			this.taskRepeat.setSelectedItem("");
 			this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
 			this.taskStatus.setSelectedItem(TaskStatus.NONE);
@@ -730,7 +759,8 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskCompleted.setSelected(task.isCompleted());
 			this.taskStartDate.setCalendar(task.getStartDate());
 			this.taskDueDate.setCalendar(task.getDueDate());
-			this.taskReminder.setSelectedItem(task.getReminder());
+			this.taskStartDateReminder.setSelectedItem(task.getStartDateReminder());
+			this.taskDueDateReminder.setSelectedItem(task.getDueDateReminder());
 			this.taskRepeat.setSelectedItem(task.getRepeat());
 			this.taskRepeatFrom.setSelectedItem(task.getRepeatFrom());
 			this.taskStatus.setSelectedItem(task.getStatus());
@@ -755,7 +785,8 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskCompletedCheckBox.setSelected(selected);
 		this.taskStartDateCheckBox.setSelected(selected);
 		this.taskDueDateCheckBox.setSelected(selected);
-		this.taskReminderCheckBox.setSelected(selected);
+		this.taskStartDateReminderCheckBox.setSelected(selected);
+		this.taskDueDateReminderCheckBox.setSelected(selected);
 		this.taskRepeatCheckBox.setSelected(selected);
 		this.taskRepeatFromCheckBox.setSelected(selected);
 		this.taskStatusCheckBox.setSelected(selected);
@@ -776,7 +807,8 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskCompletedCheckBox.setVisible(visible);
 		this.taskStartDateCheckBox.setVisible(visible);
 		this.taskDueDateCheckBox.setVisible(visible);
-		this.taskReminderCheckBox.setVisible(visible);
+		this.taskStartDateReminderCheckBox.setVisible(visible);
+		this.taskDueDateReminderCheckBox.setVisible(visible);
 		this.taskRepeatCheckBox.setVisible(visible);
 		this.taskRepeatFromCheckBox.setVisible(visible);
 		this.taskStatusCheckBox.setVisible(visible);

@@ -262,7 +262,10 @@ public final class TaskUtils {
 					case PROGRESS:
 						content = StringValueTaskProgress.INSTANCE.getString(value);
 						break;
-					case REMINDER:
+					case START_DATE_REMINDER:
+						content = StringValueTaskReminder.INSTANCE.getString(value);
+						break;
+					case DUE_DATE_REMINDER:
 						content = StringValueTaskReminder.INSTANCE.getString(value);
 						break;
 					case REPEAT:

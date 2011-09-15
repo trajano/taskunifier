@@ -75,7 +75,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 	COMPLETED_ON(Calendar.class, Translations.getString("general.task.completed_on"), false),
 	DUE_DATE(Calendar.class, Translations.getString("general.task.due_date"), true),
 	START_DATE(Calendar.class, Translations.getString("general.task.start_date"), true),
-	REMINDER(Integer.class, Translations.getString("general.task.reminder"), true),
+	DUE_DATE_REMINDER(Integer.class, Translations.getString("general.task.due_date_reminder"), true),
+	START_DATE_REMINDER(Integer.class, Translations.getString("general.task.start_date_reminder"), true),
 	REPEAT(String.class, Translations.getString("general.task.repeat"), true),
 	REPEAT_FROM(TaskRepeatFrom.class, Translations.getString("general.task.repeat_from"), true),
 	STATUS(TaskStatus.class, Translations.getString("general.task.status"), true),
@@ -291,8 +292,10 @@ public enum TaskColumn implements ModelProperties<Task> {
 				return task.getDueDate();
 			case START_DATE:
 				return task.getStartDate();
-			case REMINDER:
-				return task.getReminder();
+			case DUE_DATE_REMINDER:
+				return task.getDueDateReminder();
+			case START_DATE_REMINDER:
+				return task.getStartDateReminder();
 			case REPEAT:
 				return task.getRepeat();
 			case REPEAT_FROM:
@@ -369,11 +372,17 @@ public enum TaskColumn implements ModelProperties<Task> {
 			case START_DATE:
 				task.setStartDate((Calendar) value);
 				break;
-			case REMINDER:
+			case DUE_DATE_REMINDER:
 				if (value == null || !(value instanceof Integer))
-					task.setReminder(0);
+					task.setDueDateReminder(0);
 				else
-					task.setReminder((Integer) value);
+					task.setDueDateReminder((Integer) value);
+				break;
+			case START_DATE_REMINDER:
+				if (value == null || !(value instanceof Integer))
+					task.setStartDateReminder(0);
+				else
+					task.setStartDateReminder((Integer) value);
 				break;
 			case REPEAT:
 				task.setRepeat((String) value);

@@ -318,7 +318,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return DUE_DATE_RENDERER;
 			case START_DATE:
 				return START_DATE_RENDERER;
-			case REMINDER:
+			case DUE_DATE_REMINDER:
+			case START_DATE_REMINDER:
 				return REMINDER_RENDERER;
 			case LENGTH:
 				return LENGTH_RENDERER;
@@ -368,7 +369,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return START_DATE_EDITOR;
 			case REPEAT:
 				return REPEAT_EDITOR;
-			case REMINDER:
+			case DUE_DATE_REMINDER:
+			case START_DATE_REMINDER:
 				return REMINDER_EDITOR;
 			case REPEAT_FROM:
 				return REPEAT_FROM_EDITOR;

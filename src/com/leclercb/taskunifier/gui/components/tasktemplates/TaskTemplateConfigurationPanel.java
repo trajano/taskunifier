@@ -117,7 +117,8 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		final JFormattedTextField templateTaskStartDate = new JFormattedTextField(
 				FormatterUtils.getIntegerFormatter());
 		final JSpinner templateTaskStartTime = new JSpinner();
-		final JComboBox templateTaskReminder = new JComboBox();
+		final JComboBox templateTaskDueDateReminder = new JComboBox();
+		final JComboBox templateTaskStartDateReminder = new JComboBox();
 		final JComboBox templateTaskRepeat = new JComboBox();
 		final JComboBox templateTaskRepeatFrom = ComponentFactory.createTaskRepeatFromComboBox(
 				null,
@@ -146,7 +147,8 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		templateTaskDueTime.setEnabled(false);
 		templateTaskStartDate.setEnabled(false);
 		templateTaskStartTime.setEnabled(false);
-		templateTaskReminder.setEnabled(false);
+		templateTaskDueDateReminder.setEnabled(false);
+		templateTaskStartDateReminder.setEnabled(false);
 		templateTaskRepeat.setEnabled(false);
 		templateTaskRepeatFrom.setEnabled(false);
 		templateTaskStatus.setEnabled(false);
@@ -246,10 +248,15 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 						templateTaskStartTime,
 						Main.SETTINGS.getStringProperty("date.time_format")));
 				
-				ValueModel taskReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REMINDER);
-				templateTaskReminder.setModel(new ComboBoxAdapter<Integer>(
+				ValueModel taskDueDateReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_DUE_DATE_REMINDER);
+				templateTaskDueDateReminder.setModel(new ComboBoxAdapter<Integer>(
 						new TaskReminderModel(),
-						taskReminderModel));
+						taskDueDateReminderModel));
+				
+				ValueModel taskStartDateReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_START_DATE_REMINDER);
+				templateTaskStartDateReminder.setModel(new ComboBoxAdapter<Integer>(
+						new TaskReminderModel(),
+						taskStartDateReminderModel));
 				
 				ValueModel taskRepeatModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT);
 				templateTaskRepeat.setModel(new ComboBoxAdapter<String>(
@@ -306,7 +313,8 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				templateTaskDueTime.setEnabled(template != null);
 				templateTaskStartDate.setEnabled(template != null);
 				templateTaskStartTime.setEnabled(template != null);
-				templateTaskReminder.setEnabled(template != null);
+				templateTaskDueDateReminder.setEnabled(template != null);
+				templateTaskStartDateReminder.setEnabled(template != null);
 				templateTaskRepeat.setEnabled(template != null);
 				templateTaskRepeatFrom.setEnabled(template != null);
 				templateTaskStatus.setEnabled(template != null);
@@ -384,12 +392,25 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		taskStartDatePanel.add(templateTaskStartDate, BorderLayout.CENTER);
 		taskStartDatePanel.add(templateTaskStartTime, BorderLayout.EAST);
 		
-		// Template Task Reminder
-		builder.appendI15d("general.task.reminder", true, templateTaskReminder);
+		// Template Task Due Date Reminder
+		builder.appendI15d(
+				"general.task.due_date_reminder",
+				true,
+				templateTaskDueDateReminder);
 		
-		templateTaskReminder.setRenderer(new DefaultListRenderer(
+		templateTaskDueDateReminder.setRenderer(new DefaultListRenderer(
 				StringValueTaskReminder.INSTANCE));
-		templateTaskReminder.setEditable(true);
+		templateTaskDueDateReminder.setEditable(true);
+		
+		// Template Task Start Date Reminder
+		builder.appendI15d(
+				"general.task.start_date_reminder",
+				true,
+				templateTaskStartDateReminder);
+		
+		templateTaskStartDateReminder.setRenderer(new DefaultListRenderer(
+				StringValueTaskReminder.INSTANCE));
+		templateTaskStartDateReminder.setEditable(true);
 		
 		// Template Task Repeat
 		builder.appendI15d("general.task.repeat", true, templateTaskRepeat);

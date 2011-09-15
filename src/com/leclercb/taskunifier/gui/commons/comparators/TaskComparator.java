@@ -224,7 +224,10 @@ public class TaskComparator implements Comparator<Task> {
 			case START_DATE:
 				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
 				break;
-			case REMINDER:
+			case DUE_DATE_REMINDER:
+				result = CompareUtils.compare((Integer) o1, (Integer) o2);
+				break;
+			case START_DATE_REMINDER:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case REPEAT:

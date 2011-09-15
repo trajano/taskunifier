@@ -90,7 +90,11 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 					
 					for (int j = 0; j < nElement.getLength(); j++) {
 						if (nElement.item(j).getNodeName().equals("column")) {
-							column = TaskColumn.valueOf(nElement.item(j).getTextContent());
+							try {
+								column = TaskColumn.valueOf(nElement.item(j).getTextContent());
+							} catch (Throwable t) {
+								
+							}
 						}
 						
 						if (nElement.item(j).getNodeName().equals("condition")) {
@@ -109,7 +113,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 						}
 					}
 					
-					if (conditionClass.equals("CalendarCondition")) {
+					if (column != null
+							&& conditionClass.equals("CalendarCondition")) {
 						CalendarCondition condition = CalendarCondition.valueOf(enumName);
 						Calendar value = null;
 						
@@ -122,7 +127,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								column,
 								condition,
 								value);
-					} else if (conditionClass.equals("DaysCondition")) {
+					} else if (column != null
+							&& conditionClass.equals("DaysCondition")) {
 						DaysCondition condition = DaysCondition.valueOf(enumName);
 						Integer value = null;
 						
@@ -134,7 +140,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								column,
 								condition,
 								value);
-					} else if (conditionClass.equals("StringCondition")) {
+					} else if (column != null
+							&& conditionClass.equals("StringCondition")) {
 						StringCondition condition = StringCondition.valueOf(enumName);
 						String value = null;
 						
@@ -146,7 +153,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								column,
 								condition,
 								value);
-					} else if (conditionClass.equals("NumberCondition")) {
+					} else if (column != null
+							&& conditionClass.equals("NumberCondition")) {
 						NumberCondition condition = NumberCondition.valueOf(enumName);
 						Number value = null;
 						
@@ -158,7 +166,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								column,
 								condition,
 								value);
-					} else if (conditionClass.equals("EnumCondition")) {
+					} else if (column != null
+							&& conditionClass.equals("EnumCondition")) {
 						EnumCondition condition = EnumCondition.valueOf(enumName);
 						Enum<?> value = null;
 						
@@ -183,7 +192,8 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								column,
 								condition,
 								value);
-					} else if (conditionClass.equals("ModelCondition")) {
+					} else if (column != null
+							&& conditionClass.equals("ModelCondition")) {
 						ModelCondition condition = ModelCondition.valueOf(enumName);
 						Model value = null;
 						

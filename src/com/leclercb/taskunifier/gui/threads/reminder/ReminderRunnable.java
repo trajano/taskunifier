@@ -98,7 +98,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 						final double diffMinutes = diff / (60 * 1000.0);
 						
 						if (diffMinutes >= 0
-								&& diffMinutes <= task.getReminder()) {
+								&& diffMinutes <= task.getDueDateReminder()) {
 							this.notifiedTasks.remove(task.getModelId());
 							this.notifiedTasks.add(task.getModelId());
 							
@@ -149,7 +149,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
-				|| evt.getPropertyName().equals(Task.PROP_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_START_DATE_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_DUE_DATE_REMINDER)
 				|| evt.getPropertyName().equals(Task.PROP_COMPLETED))
 			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
 	}
