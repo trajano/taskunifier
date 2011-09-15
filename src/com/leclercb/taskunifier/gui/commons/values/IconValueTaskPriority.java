@@ -38,9 +38,11 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class IconValueTaskPriority implements IconValue {
 	
@@ -52,10 +54,19 @@ public class IconValueTaskPriority implements IconValue {
 	
 	@Override
 	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof TaskPriority))
+		if (value == null)
 			return null;
 		
-		TaskPriority priority = (TaskPriority) value;
+		TaskPriority priority = null;
+		
+		if (value instanceof Task)
+			priority = ((Task) value).getPriority();
+		
+		if (value instanceof TaskPriority)
+			priority = (TaskPriority) value;
+		
+		if (priority == null)
+			return null;
 		
 		Color color = Main.SETTINGS.getColorProperty("theme.color.priority."
 				+ priority.name().toLowerCase());
