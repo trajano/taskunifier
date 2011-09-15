@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.3.0
+	- FR 3409738: Exit option in system tray menu
+	- FR 3368353: Start date reminder
+
 Version 1.2.2
 	- Major:
 		- BF 3407645: Check single instance with OpenJDK
