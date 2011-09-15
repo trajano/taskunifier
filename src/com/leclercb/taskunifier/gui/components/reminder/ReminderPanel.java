@@ -1,0 +1,170 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.leclercb.taskunifier.gui.components.reminder;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
+
+public class ReminderPanel extends JPanel {
+	
+	private ReminderList reminderList;
+	
+	public ReminderPanel() {
+		this.initialize();
+	}
+	
+	public ReminderList getReminderList() {
+		return this.reminderList;
+	}
+	
+	public void snooze(Task[] tasks) {
+		for (Task task : tasks) {
+			if (TaskUtils.isInDueDateReminderZone(task)) {
+				Calendar c = task.getDueDate();
+				c.add(Calendar.MINUTE, 5);
+				
+				task.setDueDate(c);
+			}
+			
+			if (TaskUtils.isInStartDateReminderZone(task)) {
+				Calendar c = task.getStartDate();
+				c.add(Calendar.MINUTE, 5);
+				
+				task.setStartDate(c);
+			}
+		}
+	}
+	
+	public void snooze() {
+		Task[] tasks = this.reminderList.getTasks();
+		this.snooze(tasks);
+	}
+	
+	public void snoozeAll() {
+		Task[] tasks = this.reminderList.getTasks();
+		this.snooze(tasks);
+	}
+	
+	private void dismiss(Task[] tasks) {
+		for (Task task : tasks) {
+			this.reminderList.removeTask(task);
+		}
+	}
+	
+	public void dismiss() {
+		Task[] tasks = this.reminderList.getSelectedTasks();
+		this.dismiss(tasks);
+	}
+	
+	public void dismissAll() {
+		Task[] tasks = this.reminderList.getTasks();
+		this.dismiss(tasks);
+	}
+	
+	private void initialize() {
+		this.setLayout(new BorderLayout(0, 10));
+		
+		this.reminderList = new ReminderList();
+		this.add(this.reminderList, BorderLayout.CENTER);
+		
+		this.initializeButtonsPanel();
+	}
+	
+	private void initializeButtonsPanel() {
+		ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if (event.getActionCommand().equals("SNOOZE")) {
+					ReminderPanel.this.snooze();
+					return;
+				}
+				
+				if (event.getActionCommand().equals("SNOOZE_ALL")) {
+					ReminderPanel.this.snoozeAll();
+					return;
+				}
+				
+				if (event.getActionCommand().equals("DISMISS")) {
+					ReminderPanel.this.dismiss();
+					return;
+				}
+				
+				if (event.getActionCommand().equals("DISMISS_ALL")) {
+					ReminderPanel.this.dismissAll();
+					return;
+				}
+			}
+			
+		};
+		
+		JButton snoozeButton = new JButton(
+				Translations.getString("general.snooze"));
+		snoozeButton.setActionCommand("SNOOZE");
+		snoozeButton.addActionListener(listener);
+		
+		JButton snoozeAllButton = new JButton(
+				Translations.getString("general.snooze_all"));
+		snoozeAllButton.setActionCommand("SNOOZE_ALL");
+		snoozeAllButton.addActionListener(listener);
+		
+		JButton dismissButton = new JButton(
+				Translations.getString("general.dismiss"));
+		dismissButton.setActionCommand("DISMISS");
+		dismissButton.addActionListener(listener);
+		
+		JButton dismissAllButton = new JButton(
+				Translations.getString("general.dismiss_all"));
+		dismissAllButton.setActionCommand("DISMISS_ALL");
+		dismissAllButton.addActionListener(listener);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				snoozeButton,
+				snoozeAllButton,
+				dismissButton,
+				dismissAllButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
+	}
+	
+}

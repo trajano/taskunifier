@@ -33,25 +33,17 @@
 package com.leclercb.taskunifier.gui.threads.reminder;
 
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import org.apache.commons.lang.SystemUtils;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
+import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
@@ -73,75 +65,36 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				
 			}
 			
+			boolean reminders = false;
 			List<Task> list = TaskFactory.getInstance().getList();
 			for (final Task task : list) {
 				if (this.notifiedTasks.contains(task.getModelId()))
 					continue;
 				
-				if (task.getModelStatus().isEndUserStatus()) {
-					if (task.getDueDate() != null && !task.isCompleted()) {
-						Calendar dueDate = task.getDueDate();
-						
-						if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
-							dueDate.set(
-									dueDate.get(Calendar.YEAR),
-									dueDate.get(Calendar.MONTH),
-									dueDate.get(Calendar.DAY_OF_MONTH),
-									0,
-									0,
-									0);
-						}
-						
-						long milliSeconds1 = dueDate.getTimeInMillis();
-						long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-						long diff = milliSeconds1 - milliSeconds2;
-						final double diffMinutes = diff / (60 * 1000.0);
-						
-						if (diffMinutes >= 0
-								&& diffMinutes <= task.getDueDateReminder()) {
-							this.notifiedTasks.remove(task.getModelId());
-							this.notifiedTasks.add(task.getModelId());
-							
-							EventQueue.invokeLater(new Runnable() {
-								
-								@Override
-								public void run() {
-									if (SystemUtils.IS_OS_MAC)
-										MacApplicationAdapter.requestUserAttention();
-									else
-										Toolkit.getDefaultToolkit().beep();
-									
-									Object[] options = {
-											Translations.getString("general.show"),
-											Translations.getString("general.cancel") };
-									
-									int n = JOptionPane.showOptionDialog(
-											MainFrame.getInstance().getFrame(),
-											Translations.getString(
-													"reminder.message",
-													task.getTitle(),
-													(int) diffMinutes),
-											"Reminder",
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.INFORMATION_MESSAGE,
-											null,
-											options,
-											options[0]);
-									
-									if (n == JOptionPane.YES_OPTION) {
-										MainFrame.getInstance().setSelectedViewType(
-												ViewType.TASKS);
-										
-										ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
-										ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-												new Task[] { task });
-									}
-								}
-								
-							});
-						}
-					}
+				if (!task.getModelStatus().isEndUserStatus())
+					continue;
+				
+				if (TaskUtils.isInStartDateReminderZone(task)
+						|| TaskUtils.isInDueDateReminderZone(task)) {
+					this.notifiedTasks.remove(task.getModelId());
+					this.notifiedTasks.add(task.getModelId());
+					
+					ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
+							task);
+					
+					reminders = true;
 				}
+			}
+			
+			if (reminders) {
+				EventQueue.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						ActionTaskReminders.taskReminders();
+					}
+					
+				});
 			}
 		}
 	}
@@ -149,10 +102,14 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
-				|| evt.getPropertyName().equals(Task.PROP_START_DATE_REMINDER)
 				|| evt.getPropertyName().equals(Task.PROP_DUE_DATE_REMINDER)
-				|| evt.getPropertyName().equals(Task.PROP_COMPLETED))
+				|| evt.getPropertyName().equals(Task.PROP_START_DATE)
+				|| evt.getPropertyName().equals(Task.PROP_START_DATE_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_COMPLETED)) {
+			ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
+					(Task) evt.getSource());
 			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
+		}
 	}
 	
 }
