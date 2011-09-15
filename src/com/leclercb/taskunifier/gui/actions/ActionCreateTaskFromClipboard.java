@@ -34,42 +34,31 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import javax.swing.AbstractAction;
+
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionCreateTaskFromClipboard extends AbstractViewAction {
+public class ActionCreateTaskFromClipboard extends AbstractAction {
 	
-	private TaskTableView view;
-	
-	public ActionCreateTaskFromClipboard(TaskTableView view) {
-		this(view, 32, 32);
+	public ActionCreateTaskFromClipboard() {
+		this(32, 32);
 	}
 	
-	public ActionCreateTaskFromClipboard(
-			TaskTableView view,
-			int width,
-			int height) {
+	public ActionCreateTaskFromClipboard(int width, int height) {
 		super(
 				Translations.getString("action.create_task_from_clipboard"),
-				Images.getResourceImage("information.png", width, height),
-				ViewType.TASKS);
+				Images.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.create_task_from_clipboard"));
-		
-		CheckUtils.isNotNull(view, "View cannot be null");
-		this.view = view;
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.view.pasteTask();
+		ViewType.getTaskView().getTaskTableView().pasteTask();
 	}
 	
 }

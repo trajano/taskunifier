@@ -43,20 +43,16 @@ import javax.swing.Action;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNoteFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionCreateTaskFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TrayPopup extends PopupMenu {
 	
-	public TrayPopup(Frame frame, TaskTableView taskView, NoteTableView noteView) {
-		this.initialize(frame, taskView, noteView);
+	public TrayPopup() {
+		this.initialize();
 	}
 	
-	private void initialize(
-			final Frame frame,
-			final TaskTableView taskView,
-			final NoteTableView noteView) {
+	private void initialize() {
 		Action action = null;
 		MenuItem item = null;
 		
@@ -65,8 +61,8 @@ public class TrayPopup extends PopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				frame.setVisible(true);
-				frame.setState(Frame.NORMAL);
+				MainFrame.getInstance().getFrame().setVisible(true);
+				MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
 			}
 			
 		});
@@ -74,12 +70,12 @@ public class TrayPopup extends PopupMenu {
 		
 		this.addSeparator();
 		
-		action = new ActionCreateTaskFromClipboard(taskView);
+		action = new ActionCreateTaskFromClipboard();
 		item = new MenuItem((String) action.getValue(Action.NAME));
 		item.addActionListener(action);
 		this.add(item);
 		
-		action = new ActionCreateNoteFromClipboard(noteView);
+		action = new ActionCreateNoteFromClipboard();
 		item = new MenuItem((String) action.getValue(Action.NAME));
 		item.addActionListener(action);
 		this.add(item);

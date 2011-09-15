@@ -34,42 +34,31 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
+import javax.swing.AbstractAction;
+
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionCreateNoteFromClipboard extends AbstractViewAction {
+public class ActionCreateNoteFromClipboard extends AbstractAction {
 	
-	private NoteTableView view;
-	
-	public ActionCreateNoteFromClipboard(NoteTableView view) {
-		this(view, 32, 32);
+	public ActionCreateNoteFromClipboard() {
+		this(32, 32);
 	}
 	
-	public ActionCreateNoteFromClipboard(
-			NoteTableView view,
-			int width,
-			int height) {
+	public ActionCreateNoteFromClipboard(int width, int height) {
 		super(
 				Translations.getString("action.create_note_from_clipboard"),
-				Images.getResourceImage("information.png", width, height),
-				ViewType.NOTES);
+				Images.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.create_note_from_clipboard"));
-		
-		CheckUtils.isNotNull(view, "View cannot be null");
-		this.view = view;
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		this.view.pasteNote();
+		ViewType.getNoteView().getNoteTableView().pasteNote();
 	}
 	
 }

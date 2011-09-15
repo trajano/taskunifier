@@ -270,10 +270,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 		});
 		
-		trayIcon.setPopupMenu(new TrayPopup(
-				this,
-				ViewType.getTaskView().getTaskTableView(),
-				ViewType.getNoteView().getNoteTableView()));
+		trayIcon.setPopupMenu(new TrayPopup());
 		
 		try {
 			tray.add(trayIcon);
