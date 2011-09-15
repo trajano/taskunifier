@@ -66,6 +66,12 @@ public class ReminderComparator implements Comparator<Task> {
 		if (!inZone1 && inZone2)
 			return 1;
 		
+		int importance1 = TaskUtils.getImportance(t1);
+		int importance2 = TaskUtils.getImportance(t2);
+		
+		if (importance1 != importance2)
+			return new Integer(importance1).compareTo(importance2);
+		
 		return this.modelComparator.compare(t1, t2);
 	}
 	
