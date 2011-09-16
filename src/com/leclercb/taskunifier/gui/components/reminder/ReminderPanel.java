@@ -41,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -48,9 +49,16 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ReminderPanel extends JPanel {
 	
+	public static final String ACTION_SNOOZE = "ACTION_SNOOZE";
+	public static final String ACTION_DISMISS = "ACTION_DISMISS";
+	
+	private ActionSupport actionSupport;
+	
 	private ReminderList reminderList;
 	
 	public ReminderPanel() {
+		this.actionSupport = new ActionSupport(this);
+		
 		this.initialize();
 	}
 	
@@ -58,7 +66,15 @@ public class ReminderPanel extends JPanel {
 		return this.reminderList;
 	}
 	
-	public void snooze(Task[] tasks, int minutes) {
+	public void addActionListener(ActionListener listener) {
+		this.actionSupport.addActionListener(listener);
+	}
+	
+	public void removeActionListener(ActionListener listener) {
+		this.actionSupport.removeActionListener(listener);
+	}
+	
+	private void snooze(Task[] tasks, int minutes) {
 		for (Task task : tasks) {
 			if (TaskUtils.isInDueDateReminderZone(task)) {
 				task.setDueDateReminder(minutes);
@@ -68,6 +84,8 @@ public class ReminderPanel extends JPanel {
 				task.setStartDateReminder(minutes);
 			}
 		}
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_SNOOZE);
 	}
 	
 	public void snooze(int minutes) {
@@ -84,6 +102,8 @@ public class ReminderPanel extends JPanel {
 		for (Task task : tasks) {
 			this.reminderList.removeTask(task);
 		}
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_DISMISS);
 	}
 	
 	public void dismiss() {

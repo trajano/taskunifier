@@ -110,10 +110,21 @@ public class ReminderDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals(ReminderPanel.ACTION_SNOOZE)
+						|| e.getActionCommand().equals(
+								ReminderPanel.ACTION_DISMISS)) {
+					if (ReminderDialog.this.reminderPanel.getReminderList().getTasks().length == 0)
+						ReminderDialog.this.setVisible(false);
+					
+					return;
+				}
+				
 				ReminderDialog.this.setVisible(false);
 			}
 			
 		};
+		
+		this.reminderPanel.addActionListener(listener);
 		
 		JButton closeButton = ComponentFactory.createButtonClose(listener);
 		
