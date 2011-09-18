@@ -106,7 +106,7 @@ public class BatchTaskEditDialog extends JDialog {
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("batch_task_edit"));
-		this.setSize(750, 600);
+		this.setSize(900, 700);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
