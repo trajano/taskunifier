@@ -49,7 +49,7 @@ public class ActionManageTaskTemplates extends AbstractAction {
 	public ActionManageTaskTemplates(int width, int height) {
 		super(
 				Translations.getString("action.manage_task_templates"),
-				Images.getResourceImage("properties.png", width, height));
+				Images.getResourceImage("template.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

@@ -147,14 +147,16 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.calendarPanel.getFunctionsButtonPanel().setContentLayout(
 				new GridLayout(0, 3));
 		
-		this.addFunctionButton(new ActionAddTask(24, 24));
-		this.addFunctionButton(ComponentFactory.createAddTemplateTaskButton());
-		this.addFunctionButton(new ActionBatchAddTasks(24, 24));
-		this.addFunctionButton(new ActionEditTasks(24, 24));
-		this.addFunctionButton(ComponentFactory.createPostponeButton());
-		this.addFunctionButton(new ActionCompleteTasks(24, 24));
-		this.addFunctionButton(new ActionDuplicateTasks(24, 24));
-		this.addFunctionButton(new ActionDelete(24, 24));
+		this.addFunctionButton(new ActionAddTask(32, 32));
+		this.addFunctionButton(ComponentFactory.createAddTemplateTaskButton(
+				32,
+				32));
+		this.addFunctionButton(new ActionBatchAddTasks(32, 32));
+		this.addFunctionButton(new ActionEditTasks(32, 32));
+		this.addFunctionButton(ComponentFactory.createPostponeButton(32, 32));
+		this.addFunctionButton(new ActionCompleteTasks(32, 32));
+		this.addFunctionButton(new ActionDuplicateTasks(32, 32));
+		this.addFunctionButton(new ActionDelete(32, 32));
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}

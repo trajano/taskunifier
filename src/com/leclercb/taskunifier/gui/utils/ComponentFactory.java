@@ -36,8 +36,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -397,12 +395,15 @@ public final class ComponentFactory {
 		return postponeMenu;
 	}
 	
-	public static JButton createPostponeButton(ActionListener listener) {
+	public static JButton createPostponeButton(
+			final int width,
+			final int height,
+			ActionListener listener) {
 		final JButton button = new JButton();
 		
 		button.setText(Translations.getString("action.postpone_tasks"));
 		button.setToolTipText(Translations.getString("action.postpone_tasks"));
-		button.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		button.setIcon(Images.getResourceImage("calendar.png", width, height));
 		
 		final JPopupMenu postponeMenu = new JPopupMenu();
 		
@@ -473,12 +474,12 @@ public final class ComponentFactory {
 		return button;
 	}
 	
-	public static JButton createPostponeButton() {
+	public static JButton createPostponeButton(final int width, final int height) {
 		final JButton button = new JButton();
 		
 		button.setText(Translations.getString("action.postpone_tasks"));
 		button.setToolTipText(Translations.getString("action.postpone_tasks"));
-		button.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		button.setIcon(Images.getResourceImage("calendar.png", width, height));
 		
 		final JPopupMenu postponeMenu = new JPopupMenu();
 		
@@ -546,7 +547,9 @@ public final class ComponentFactory {
 		return button;
 	}
 	
-	public static JButton createAddTemplateTaskButton() {
+	public static JButton createAddTemplateTaskButton(
+			final int width,
+			final int height) {
 		final JPopupMenu popupMenu = new JPopupMenu(
 				Translations.getString("action.add_template_task"));
 		
@@ -577,26 +580,17 @@ public final class ComponentFactory {
 				
 				this.putValue(
 						SMALL_ICON,
-						Images.getResourceImage("duplicate.png", 24, 24));
+						Images.getResourceImage("template.png", width, height));
 			}
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				
+				popupMenu.show(addTemplateTaskButton, 0, 0);
 			}
 			
 		};
 		
 		addTemplateTaskButton.setAction(actionAddTemplateTask);
-		
-		addTemplateTaskButton.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseReleased(MouseEvent evt) {
-				popupMenu.show(addTemplateTaskButton, evt.getX(), evt.getY());
-			}
-			
-		});
 		
 		return addTemplateTaskButton;
 	}

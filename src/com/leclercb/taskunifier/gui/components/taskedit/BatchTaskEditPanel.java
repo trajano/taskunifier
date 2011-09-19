@@ -615,7 +615,10 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Start Date
 		JPanel startDatePanel = new JPanel(new BorderLayout());
 		startDatePanel.add(this.taskStartDate, BorderLayout.CENTER);
-		JButton startDatePostponeButton = ComponentFactory.createPostponeButton(postponeListener);
+		JButton startDatePostponeButton = ComponentFactory.createPostponeButton(
+				16,
+				16,
+				postponeListener);
 		startDatePostponeButton.setText("");
 		startDatePanel.add(startDatePostponeButton, BorderLayout.EAST);
 		
@@ -628,7 +631,10 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Due Date
 		JPanel dueDatePanel = new JPanel(new BorderLayout());
 		dueDatePanel.add(this.taskDueDate, BorderLayout.CENTER);
-		JButton dueDatePostponeButton = ComponentFactory.createPostponeButton(postponeListener);
+		JButton dueDatePostponeButton = ComponentFactory.createPostponeButton(
+				16,
+				16,
+				postponeListener);
 		dueDatePostponeButton.setText("");
 		dueDatePanel.add(dueDatePostponeButton, BorderLayout.EAST);
 		

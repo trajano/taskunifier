@@ -78,7 +78,7 @@ public class TaskTemplateConfigurationDialog extends JDialog {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_task_templates"));
 		header.setDescription(Translations.getString("header.description.manage_task_templates"));
-		header.setIcon(Images.getResourceImage("properties.png", 32, 32));
+		header.setIcon(Images.getResourceImage("template.png", 32, 32));
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(new TaskTemplateConfigurationPanel(), BorderLayout.CENTER);

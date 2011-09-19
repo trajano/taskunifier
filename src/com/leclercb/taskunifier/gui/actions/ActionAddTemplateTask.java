@@ -52,7 +52,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 	
 	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
 		super(template.getTitle(), Images.getResourceImage(
-				"duplicate.png",
+				"template.png",
 				width,
 				height));
 		

@@ -73,7 +73,9 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToLeft(this.createButton(new ActionAddTask(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddSubTask(24, 24)));
 		
-		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton();
+		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton(
+				24,
+				24);
 		this.formatButton(addTemplateTaskButton);
 		this.addComponentToLeft(addTemplateTaskButton);
 		

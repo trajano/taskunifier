@@ -72,7 +72,9 @@ public class DefaultToolBar extends JToolBar {
 		this.add(new ActionAddTask(24, 24));
 		this.add(new ActionAddSubTask(24, 24));
 		
-		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton();
+		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton(
+				24,
+				24);
 		addTemplateTaskButton.setText("");
 		this.add(addTemplateTaskButton);
 		

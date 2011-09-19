@@ -269,7 +269,7 @@ public class MenuBar extends JMenuBar {
 		
 		templatesMenu.setToolTipText(Translations.getString("action.add_template_task"));
 		
-		templatesMenu.setIcon(Images.getResourceImage("duplicate.png", 16, 16));
+		templatesMenu.setIcon(Images.getResourceImage("template.png", 16, 16));
 		tasksMenu.add(templatesMenu);
 		
 		TemplateUtils.updateTemplateList(templatesMenu, null);

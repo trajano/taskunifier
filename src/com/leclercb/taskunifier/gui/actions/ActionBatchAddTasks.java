@@ -57,7 +57,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	public ActionBatchAddTasks(int width, int height) {
 		super(
 				Translations.getString("action.batch_add_tasks"),
-				Images.getResourceImage("duplicate.png", width, height),
+				Images.getResourceImage("batch.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		
