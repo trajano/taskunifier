@@ -69,8 +69,9 @@ public class ReminderComparator implements Comparator<Task> {
 		int importance1 = TaskUtils.getImportance(t1);
 		int importance2 = TaskUtils.getImportance(t2);
 		
+		// Sort descending !
 		if (importance1 != importance2)
-			return new Integer(importance1).compareTo(importance2);
+			return new Integer(importance2).compareTo(importance1);
 		
 		return this.modelComparator.compare(t1, t2);
 	}
