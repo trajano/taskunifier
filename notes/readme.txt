@@ -7,6 +7,7 @@ Version 1.3.0
 	- Minor:
 		- FR 3409738: Exit option in system tray menu
 		- FR 3368353: Start date reminder
+		- BF 3410679: Afternoon hours in calendar view
 
 Version 1.2.2
 	- Major:

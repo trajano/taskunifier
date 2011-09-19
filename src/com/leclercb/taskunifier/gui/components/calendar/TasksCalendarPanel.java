@@ -74,6 +74,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		config.setStartView(new TimeOfDay(0, 0));
 		config.setEndView(new TimeOfDay(24, 0));
 		config.setDefaultDayStartHour(0);
+		config.setDayBreak(12);
 		config.setDefaultDayEndHour(24);
 		
 		EventModel dayModel = new EventModel(
