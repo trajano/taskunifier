@@ -373,6 +373,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public void initializeFieldComponent() {
+			try {
+				this.setValue(Spinner.this.getPropertyValue());
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+			
 			if (this.first) {
 				this.first = false;
 				
@@ -382,7 +388,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 							
 							@Override
 							public void propertyChange(PropertyChangeEvent evt) {
-								Spinner.this.setValue(Spinner.this.getPropertyValue());
+								try {
+									Spinner.this.setValue(Spinner.this.getPropertyValue());
+								} catch (Throwable t) {
+									t.printStackTrace();
+								}
 							}
 							
 						});
