@@ -54,7 +54,12 @@ public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner 
 	
 	@Override
 	public Object getPropertyValue() {
-		return (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
+		Integer value = (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
+		
+		if (value == null || value < 10 || value > 5 * 3600)
+			value = 600;
+		
+		return value;
 	}
 	
 	@Override

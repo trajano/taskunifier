@@ -82,6 +82,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			if (!Synchronizing.setSynchronizing(true))
 				return null;
 			
+			Main.saveAll();
+			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
 			monitor.addMessage(new DefaultProgressMessage(

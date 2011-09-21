@@ -48,6 +48,7 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.JFileField;
@@ -134,16 +135,16 @@ public class ChangeDataFolderDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				boolean stop = false;
+				boolean quit = false;
 				
 				if (event.getActionCommand().equals("RESET")) {
-					stop = true;
+					quit = true;
 					
 					Main.INIT_SETTINGS.remove("com.leclercb.taskunifier.data_folder");
 				}
 				
 				if (event.getActionCommand().equals("CHANGE")) {
-					stop = true;
+					quit = true;
 					
 					try {
 						String path = ChangeDataFolderDialog.this.fileField.getFile();
@@ -180,8 +181,8 @@ public class ChangeDataFolderDialog extends JDialog {
 				ChangeDataFolderDialog.this.fileField.setFile(null);
 				ChangeDataFolderDialog.this.setVisible(false);
 				
-				if (stop)
-					Main.stop();
+				if (quit)
+					ActionQuit.quit();
 			}
 			
 		};

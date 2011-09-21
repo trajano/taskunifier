@@ -71,7 +71,7 @@ public class ActionQuit extends AbstractAction {
 	public static void quit() {
 		ViewType.commitAll();
 		
-		Main.stop();
+		Main.quit();
 	}
 	
 }

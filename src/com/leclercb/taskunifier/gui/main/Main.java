@@ -109,6 +109,8 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
 	
+	private static boolean QUIT;
+	
 	public static boolean DEVELOPER_MODE;
 	
 	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
@@ -155,6 +157,7 @@ public class Main {
 			loadLookAndFeel();
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
+			loadShutdownHook();
 			
 			Constants.initialize();
 			
@@ -671,7 +674,7 @@ public class Main {
 					key.toString()));
 	}
 	
-	public static boolean loadApiPlugins() {
+	private static boolean loadApiPlugins() {
 		API_PLUGINS = new PluginLoader<SynchronizerGuiPlugin>(
 				SynchronizerGuiPlugin.class);
 		
@@ -744,7 +747,20 @@ public class Main {
 		SynchronizerUtils.setTaskRepeatEnabled(true);
 	}
 	
-	public static void stop() {
+	private static void loadShutdownHook() {
+		QUIT = false;
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			
+			@Override
+			public void run() {
+				quit();
+			}
+			
+		});
+	}
+	
+	public static void quit() {
 		if (Synchronizing.isSynchronizing()) {
 			JOptionPane.showMessageDialog(
 					null,
@@ -754,14 +770,77 @@ public class Main {
 			return;
 		}
 		
+		synchronized (Main.class) {
+			if (QUIT)
+				return;
+			
+			QUIT = true;
+		}
+		
 		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
 			ActionSynchronize.synchronize(false);
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
+		saveAll();
+		
+		MainFrame.getInstance().getFrame().dispose();
+		
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		
+		System.exit(0);
+	}
+	
+	public static void saveAll() {
+		saveModels();
+		saveTaskTemplates();
+		saveTaskSearchers();
+		saveInitSettings();
+		saveSettings();
+	}
+	
+	public static void saveInitSettings() {
+		try {
+			File f = new File(getInitSettingsFile());
+			
+			if (!DEVELOPER_MODE && f.exists() && f.canWrite()) {
+				INIT_SETTINGS.store(
+						new FileOutputStream(getInitSettingsFile()),
+						Constants.TITLE + " Init Settings");
+				
+				GuiLogger.getLogger().log(Level.INFO, "Saving init settings");
+			}
+		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving init settings",
+					e);
+		}
+	}
+	
+	public static void saveSettings() {
+		try {
+			SETTINGS.store(
+					new FileOutputStream(getSettingsFile()),
+					Constants.TITLE + " Settings");
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving settings");
+		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving settings",
+					e);
+			
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void saveModels() {
 		try {
 			ContextFactory.getInstance().cleanFactory();
 			FolderFactory.getInstance().cleanFactory();
@@ -781,6 +860,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "contexts.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving contexts");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -799,6 +880,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "folders.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving folders");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -817,6 +900,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "goals.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving goals");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -835,6 +920,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "locations.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving locations");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -853,6 +940,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "notes.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving notes");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -871,6 +960,8 @@ public class Main {
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "tasks.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving tasks");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -883,12 +974,16 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
+	}
+	
+	public static void saveTaskTemplates() {
 		try {
 			TaskTemplateFactory.getInstance().encodeToXML(
 					new FileOutputStream(DATA_FOLDER
 							+ File.separator
 							+ "task_templates.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving task templates");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -901,10 +996,14 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
+	}
+	
+	public static void saveTaskSearchers() {
 		try {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
 					DATA_FOLDER + File.separator + "task_searchers.xml"));
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving task searchers");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -917,49 +1016,6 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
-		try {
-			File f = new File(getInitSettingsFile());
-			
-			if (!DEVELOPER_MODE && f.exists() && f.canWrite())
-				saveInitSettings();
-		} catch (Exception e) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while saving init settings",
-					e);
-		}
-		
-		try {
-			saveSettings();
-		} catch (Exception e) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while saving settings",
-					e);
-			
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-		}
-		
-		MainFrame.getInstance().getFrame().dispose();
-		
-		System.exit(0);
-	}
-	
-	private static void saveInitSettings() throws FileNotFoundException,
-			IOException {
-		INIT_SETTINGS.store(
-				new FileOutputStream(getInitSettingsFile()),
-				Constants.TITLE + " Init Settings");
-	}
-	
-	public static void saveSettings() throws FileNotFoundException, IOException {
-		SETTINGS.store(new FileOutputStream(getSettingsFile()), Constants.TITLE
-				+ " Settings");
 	}
 	
 }
