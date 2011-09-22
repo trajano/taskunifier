@@ -69,9 +69,19 @@ public final class TaskUtils {
 		
 	}
 	
-	public static void updateOrder(int newOrder, Task[] tasksToOrder) {
+	public static void updateOrder(
+			int index,
+			Task[] tasksToOrder,
+			Task[] displayedTasks) {
 		if (!Synchronizing.setSynchronizing(true))
 			return;
+		
+		int newOrder = 0;
+		
+		if (index > 0 && index <= displayedTasks.length)
+			newOrder = displayedTasks[index - 1].getOrder() + 1;
+		
+		System.out.println(newOrder);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		main: for (Task task : tasks) {
@@ -82,7 +92,21 @@ public final class TaskUtils {
 				if (EqualsUtils.equals(task, t))
 					continue main;
 			
+			for (Task t : displayedTasks)
+				if (EqualsUtils.equals(task, t))
+					continue main;
+			
 			if (task.getOrder() >= newOrder)
+				task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
+		}
+		
+		for (int i = 0; i < displayedTasks.length; i++) {
+			Task task = displayedTasks[i];
+			
+			if (task == null)
+				continue;
+			
+			if (i >= index)
 				task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
 		}
 		

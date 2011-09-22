@@ -185,11 +185,10 @@ public class TaskTransferHandler extends TransferHandler {
 				// Import : If insert row
 				if (dl.isInsertRow()) {
 					if (this.isSortByOrder()) {
-						Task prevTask = table.getTask(dl.getRow() - 1);
-						
 						TaskUtils.updateOrder(
-								(prevTask == null ? 0 : prevTask.getOrder() + 1),
-								dragTasks.toArray(new Task[0]));
+								dl.getRow(),
+								dragTasks.toArray(new Task[0]),
+								this.getDisplayedTasks(table));
 						
 						for (Task dragTask : dragTasks)
 							if (!EqualsUtils.equals(
