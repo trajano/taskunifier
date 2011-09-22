@@ -39,6 +39,7 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
@@ -65,6 +66,30 @@ public final class TaskUtils {
 	
 	private TaskUtils() {
 		
+	}
+	
+	public static void updateOrder(int newOrder, Task[] tasksToOrder) {
+		List<Task> tasks = TaskFactory.getInstance().getList();
+		main: for (Task task : tasks) {
+			if (!task.getModelStatus().isEndUserStatus())
+				continue;
+			
+			for (Task t : tasksToOrder)
+				if (EqualsUtils.equals(task, t))
+					continue main;
+			
+			if (task.getOrder() >= newOrder)
+				task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
+		}
+		
+		for (int i = 0; i < tasksToOrder.length; i++) {
+			Task task = tasksToOrder[i];
+			
+			if (task == null)
+				continue;
+			
+			task.setOrder(newOrder + i);
+		}
 	}
 	
 	public static boolean isInStartDateReminderZone(Task task) {

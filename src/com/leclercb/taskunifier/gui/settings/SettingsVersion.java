@@ -825,6 +825,10 @@ public final class SettingsVersion {
 				"taskcolumn.due_date_reminder.width",
 				"100");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.order.order", "27");
+		Main.SETTINGS.setStringProperty("taskcolumn.order.visible", "false");
+		Main.SETTINGS.setStringProperty("taskcolumn.order.width", "50");
+		
 		return "1.3.0";
 	}
 	

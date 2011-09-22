@@ -45,6 +45,7 @@ import javax.swing.TransferHandler;
 
 import org.apache.commons.io.IOUtils;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
@@ -52,9 +53,13 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskTransferHandler extends TransferHandler {
 	
@@ -88,15 +93,14 @@ public class TaskTransferHandler extends TransferHandler {
 				TaskTable table = (TaskTable) support.getComponent();
 				JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
 				
+				// True : If insert row
+				if (((JTable.DropLocation) support.getDropLocation()).isInsertRow())
+					return true;
+				
 				// False : If drag task has at least one child
 				for (Task dragTask : dragTasks)
 					if (dragTask.getChildren().length != 0)
 						return false;
-				
-				// True : If insert row
-				if (((JTable.DropLocation) support.getDropLocation()).isInsertRow()) {
-					return true;
-				}
 				
 				// Get Drop Task
 				Task dropTask = table.getTask(dl.getRow());
@@ -179,8 +183,22 @@ public class TaskTransferHandler extends TransferHandler {
 				
 				// Import : If insert row
 				if (dl.isInsertRow()) {
-					for (Task dragTask : dragTasks)
-						dragTask.setParent(null);
+					if (this.isSortByOrder()) {
+						Task prevTask = table.getTask(dl.getRow() - 1);
+						
+						TaskUtils.updateOrder(
+								(prevTask == null ? 0 : prevTask.getOrder() + 1),
+								dragTasks.toArray(new Task[0]));
+						
+						for (Task dragTask : dragTasks)
+							if (!EqualsUtils.equals(
+									dragTask.getParent(),
+									this.getParent(table, dl.getRow())))
+								dragTask.setParent(null);
+					} else {
+						for (Task dragTask : dragTasks)
+							dragTask.setParent(null);
+					}
 					
 					table.refreshTasks();
 					return true;
@@ -236,6 +254,49 @@ public class TaskTransferHandler extends TransferHandler {
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
 		
+	}
+	
+	private boolean isSortByOrder() {
+		boolean isSortByOrder = false;
+		TaskSorter sorter = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher().getSorter();
+		if (sorter.getElementCount() >= 1)
+			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER)
+				isSortByOrder = true;
+		
+		return isSortByOrder;
+	}
+	
+	private Task getParent(TaskTable table, int index) {
+		Task[] tasks = this.getDisplayedTasks(table);
+		
+		if (tasks.length < index)
+			return null;
+		
+		for (int i = index; i > 0; i--) {
+			Task task = tasks[i];
+			
+			if (task.getParent() == null)
+				if (i == index)
+					return null;
+				else
+					return task;
+		}
+		
+		return null;
+	}
+	
+	private Task[] getDisplayedTasks(TaskTable table) {
+		List<Task> tasks = new ArrayList<Task>();
+		for (int i = 0; i < table.getTaskCount(); i++) {
+			Task task = table.getTask(i);
+			
+			if (task == null)
+				continue;
+			
+			tasks.add(task);
+		}
+		
+		return tasks.toArray(new Task[0]);
 	}
 	
 }
