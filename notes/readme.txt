@@ -3,6 +3,7 @@ HISTORY
 
 Version 1.3.0
 	- Major:
+		- FR 3299328: Manually sort tasks
 		- Reminder window with snooze & dismiss options
 	- Minor:
 		- FR 3409738: Exit option in system tray menu
