@@ -41,6 +41,7 @@ import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 
 import org.apache.commons.io.IOUtils;
@@ -260,7 +261,8 @@ public class TaskTransferHandler extends TransferHandler {
 		boolean isSortByOrder = false;
 		TaskSorter sorter = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher().getSorter();
 		if (sorter.getElementCount() >= 1)
-			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER)
+			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER
+					&& sorter.getElement(0).getSortOrder() == SortOrder.ASCENDING)
 				isSortByOrder = true;
 		
 		return isSortByOrder;
