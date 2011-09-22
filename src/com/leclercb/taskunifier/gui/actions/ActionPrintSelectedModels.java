@@ -95,6 +95,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 						Arrays.asList(TaskColumn.getVisibleTaskColumns()));
 				columns.remove(TaskColumn.MODEL_EDIT);
 				columns.remove(TaskColumn.SHOW_CHILDREN);
+				columns.remove(TaskColumn.ORDER);
 				
 				if (!columns.contains(TaskColumn.NOTE)) {
 					columns.add(TaskColumn.NOTE);

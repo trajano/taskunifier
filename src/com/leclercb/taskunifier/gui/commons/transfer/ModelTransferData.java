@@ -79,7 +79,7 @@ public class ModelTransferData implements Serializable {
 	}
 	
 	public String getPlainData() {
-		return this.getTextDate(false);
+		return this.getTextData(false);
 	}
 	
 	public String getHtmlData() {
@@ -92,7 +92,7 @@ public class ModelTransferData implements Serializable {
 			}
 			
 			if (tasks.size() == 1)
-				return this.getTextDate(true);
+				return this.getTextData(true);
 			
 			return TaskUtils.toHtml(
 					tasks.toArray(new Task[0]),
@@ -108,7 +108,7 @@ public class ModelTransferData implements Serializable {
 			}
 			
 			if (notes.size() == 1)
-				return this.getTextDate(true);
+				return this.getTextData(true);
 			
 			return NoteUtils.toHtml(
 					notes.toArray(new Note[0]),
@@ -118,7 +118,7 @@ public class ModelTransferData implements Serializable {
 		return null;
 	}
 	
-	public String getTextDate(boolean html) {
+	public String getTextData(boolean html) {
 		if (this.type == ModelType.TASK) {
 			List<Task> tasks = new ArrayList<Task>();
 			for (ModelId id : this.ids) {
@@ -131,6 +131,7 @@ public class ModelTransferData implements Serializable {
 					Arrays.asList(TaskColumn.getVisibleTaskColumns()));
 			columns.remove(TaskColumn.MODEL_EDIT);
 			columns.remove(TaskColumn.SHOW_CHILDREN);
+			columns.remove(TaskColumn.ORDER);
 			
 			if (!columns.contains(TaskColumn.NOTE)) {
 				columns.add(TaskColumn.NOTE);

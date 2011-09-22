@@ -64,6 +64,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
 	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true),
 	TITLE(String.class, Translations.getString("general.task.title"), true),
+	ORDER(Integer.class, Translations.getString("general.task.order"), false),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
 	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
 	CONTEXT(Context.class, Translations.getString("general.task.context"), true),
@@ -270,6 +271,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 				return ((GuiTask) task).isShowChildren();
 			case TITLE:
 				return task.getTitle();
+			case ORDER:
+				return task.getOrder();
 			case TAGS:
 				return task.getTags().toString();
 			case FOLDER:
@@ -338,6 +341,9 @@ public enum TaskColumn implements ModelProperties<Task> {
 				break;
 			case TITLE:
 				task.setTitle((String) value);
+				break;
+			case ORDER:
+				task.setOrder((Integer) value);
 				break;
 			case TAGS:
 				task.setTags(TagList.fromString((String) value));

@@ -58,6 +58,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelOrder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskProgress;
@@ -100,6 +101,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
 	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
 	private static final TableCellRenderer NOTE_RENDERER;
+	private static final TableCellRenderer ORDER_RENDERER;
 	private static final TableCellRenderer PROGRESS_RENDERER;
 	private static final TableCellRenderer REMINDER_RENDERER;
 	private static final TableCellRenderer REPEAT_RENDERER;
@@ -171,6 +173,9 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		((DefaultTableRenderer) NOTE_RENDERER).getComponentProvider().setHorizontalAlignment(
 				SwingConstants.CENTER);
+		
+		ORDER_RENDERER = new DefaultTableRenderer(
+				StringValueModelOrder.INSTANCE);
 		
 		PROGRESS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskProgress.INSTANCE);
@@ -303,6 +308,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return SHOW_CHILDREN_RENDERER;
 			case TITLE:
 				return TITLE_RENDERER;
+			case ORDER:
+				return ORDER_RENDERER;
 			case PROGRESS:
 				return PROGRESS_RENDERER;
 			case COMPLETED:

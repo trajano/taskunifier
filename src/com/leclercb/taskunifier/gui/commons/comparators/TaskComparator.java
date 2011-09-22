@@ -189,6 +189,9 @@ public class TaskComparator implements Comparator<Task> {
 						(String) o1,
 						(String) o2);
 				break;
+			case ORDER:
+				result = CompareUtils.compare((Integer) o1, (Integer) o2);
+				break;
 			case TAGS:
 				result = CompareUtils.compareIngoreCase(
 						(String) o1,

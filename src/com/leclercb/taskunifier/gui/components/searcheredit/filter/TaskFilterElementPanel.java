@@ -96,6 +96,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case MODEL_EDIT:
 				case TIMER:
 				case SHOW_CHILDREN:
+				case ORDER:
 					value = null;
 					break;
 				case TITLE:
@@ -187,6 +188,7 @@ public class TaskFilterElementPanel extends JPanel {
 		taskColumnsModel.removeElement(TaskColumn.MODEL_EDIT);
 		taskColumnsModel.removeElement(TaskColumn.TIMER);
 		taskColumnsModel.removeElement(TaskColumn.SHOW_CHILDREN);
+		taskColumnsModel.removeElement(TaskColumn.ORDER);
 		
 		this.elementColumn.setModel(taskColumnsModel);
 		this.elementColumn.setSelectedItem(column);

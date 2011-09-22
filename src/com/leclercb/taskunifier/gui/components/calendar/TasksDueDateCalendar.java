@@ -43,6 +43,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 		columns.remove(TaskColumn.MODEL_EDIT);
 		columns.remove(TaskColumn.NOTE);
 		columns.remove(TaskColumn.SHOW_CHILDREN);
+		columns.remove(TaskColumn.ORDER);
 		TaskColumn[] c = columns.toArray(new TaskColumn[0]);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();

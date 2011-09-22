@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelOrder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskProgress;
@@ -307,6 +308,9 @@ public final class TaskUtils {
 					case NOTE:
 						content = (value == null ? null : "\n"
 								+ value.toString());
+						break;
+					case ORDER:
+						content = StringValueModelOrder.INSTANCE.getString(value);
 						break;
 					case PRIORITY:
 						content = StringValueTaskPriority.INSTANCE.getString(value);
