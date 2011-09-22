@@ -59,6 +59,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -69,6 +70,9 @@ public final class TaskUtils {
 	}
 	
 	public static void updateOrder(int newOrder, Task[] tasksToOrder) {
+		if (!Synchronizing.setSynchronizing(true))
+			return;
+		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		main: for (Task task : tasks) {
 			if (!task.getModelStatus().isEndUserStatus())
@@ -90,6 +94,8 @@ public final class TaskUtils {
 			
 			task.setOrder(newOrder + i);
 		}
+		
+		Synchronizing.setSynchronizing(false);
 	}
 	
 	public static boolean isInStartDateReminderZone(Task task) {

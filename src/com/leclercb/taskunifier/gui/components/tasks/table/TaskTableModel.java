@@ -148,9 +148,6 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		if (Synchronizing.isSynchronizing())
 			return;
 		
-		if (event.getPropertyName().equals(Model.PROP_ORDER))
-			return;
-		
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
 			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
 			ModelStatus newStatus = (ModelStatus) event.getNewValue();
@@ -158,7 +155,8 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 			if (oldStatus.isEndUserStatus() != newStatus.isEndUserStatus())
 				this.fireTableDataChanged();
 		} else if (event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
-				|| event.getPropertyName().equals(Task.PROP_PARENT)) {
+				|| event.getPropertyName().equals(Task.PROP_PARENT)
+				|| event.getPropertyName().equals(Model.PROP_ORDER)) {
 			this.fireTableDataChanged();
 		} else {
 			int index = TaskFactory.getInstance().getIndexOf(
