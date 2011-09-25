@@ -66,7 +66,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	private ImportModelsDialog() {
 		super(
-				Translations.getString("general.import_models"),
+				Translations.getString("action.import_models"),
 				true,
 				"zip",
 				Translations.getString("general.zip_files"));
@@ -81,7 +81,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	protected void importFromFile(final String file) throws Exception {
 		final WaitDialog dialog = new WaitDialog(
 				MainFrame.getInstance().getFrame(),
-				"general.import_models");
+				"action.import_models");
 		
 		dialog.setRunnable(new Runnable() {
 			
@@ -100,7 +100,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 							return null;
 						}
 						
-						dialog.appendToProgressStatus(Translations.getString("general.import_models"));
+						dialog.appendToProgressStatus(Translations.getString("action.import_models"));
 						
 						SynchronizerUtils.setTaskRepeatEnabled(false);
 						

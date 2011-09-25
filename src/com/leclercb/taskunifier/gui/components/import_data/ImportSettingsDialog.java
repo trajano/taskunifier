@@ -55,7 +55,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	
 	private ImportSettingsDialog() {
 		super(
-				Translations.getString("general.import_settings"),
+				Translations.getString("action.import_settings"),
 				false,
 				"properties",
 				Translations.getString("general.properties_files"));
