@@ -76,6 +76,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		COLUMNS,
 		SEARCHER,
 		THEME,
+		TOOLBAR,
 		PRIORITY,
 		IMPORTANCE,
 		SYNCHRONIZATION,
@@ -90,6 +91,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel searcherConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
+	private ConfigurationPanel toolbarConfigurationPanel;
 	private ConfigurationPanel priorityConfigurationPanel;
 	private ConfigurationPanel importanceConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
@@ -120,17 +122,20 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			case THEME:
 				this.tabbedPane.setSelectedIndex(4);
 				break;
-			case PRIORITY:
+			case TOOLBAR:
 				this.tabbedPane.setSelectedIndex(5);
 				break;
-			case IMPORTANCE:
+			case PRIORITY:
 				this.tabbedPane.setSelectedIndex(6);
 				break;
-			case SYNCHRONIZATION:
+			case IMPORTANCE:
 				this.tabbedPane.setSelectedIndex(7);
 				break;
-			case PLUGIN:
+			case SYNCHRONIZATION:
 				this.tabbedPane.setSelectedIndex(8);
+				break;
+			case PLUGIN:
+				this.tabbedPane.setSelectedIndex(9);
 				break;
 		}
 	}
@@ -161,6 +166,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeColumnsPanel();
 		this.initializeSearcherPanel();
 		this.initializeThemePanel();
+		this.initializeToolbarPanel();
 		this.initializePriorityPanel();
 		this.initializeImportancePanel();
 		this.initializeSynchronizationPanel();
@@ -263,6 +269,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 						false));
 	}
 	
+	private void initializeToolbarPanel() {
+		this.toolbarConfigurationPanel = new ToolBarConfigurationPanel(this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.toolbar"),
+				ComponentFactory.createJScrollPane(
+						this.toolbarConfigurationPanel,
+						false));
+	}
+	
 	private void initializePriorityPanel() {
 		this.priorityConfigurationPanel = new PriorityConfigurationPanel(this);
 		this.tabbedPane.addTab(
@@ -315,6 +330,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.searcherConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
+			this.toolbarConfigurationPanel.saveAndApplyConfig();
 			this.priorityConfigurationPanel.saveAndApplyConfig();
 			this.importanceConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
@@ -341,17 +357,18 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	@Override
 	public void cancelConfig() {
 		try {
-			ConfigurationDialog.this.generalConfigurationPanel.cancelConfig();
+			this.generalConfigurationPanel.cancelConfig();
 			
-			ConfigurationDialog.this.synchronizationConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.pluginConfigurationPanel.cancelConfig();
+			this.synchronizationConfigurationPanel.cancelConfig();
+			this.pluginConfigurationPanel.cancelConfig();
 			
-			ConfigurationDialog.this.proxyConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.columnsConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.searcherConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.themeConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.priorityConfigurationPanel.cancelConfig();
-			ConfigurationDialog.this.importanceConfigurationPanel.cancelConfig();
+			this.proxyConfigurationPanel.cancelConfig();
+			this.columnsConfigurationPanel.cancelConfig();
+			this.searcherConfigurationPanel.cancelConfig();
+			this.themeConfigurationPanel.cancelConfig();
+			this.toolbarConfigurationPanel.cancelConfig();
+			this.priorityConfigurationPanel.cancelConfig();
+			this.importanceConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),

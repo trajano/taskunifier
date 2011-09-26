@@ -48,10 +48,10 @@ public class PluginConfigurationPanel extends ConfigurationPanel {
 	private ConfigurationPanel configPanel;
 	
 	public PluginConfigurationPanel(
-			ConfigurationGroup configuration,
+			ConfigurationGroup configurationGroup,
 			boolean welcome,
 			SynchronizerGuiPlugin plugin) {
-		this.configuration = configuration;
+		super(configurationGroup);
 		this.initialize(welcome, plugin);
 	}
 	

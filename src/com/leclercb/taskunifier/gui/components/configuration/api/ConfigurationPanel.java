@@ -36,4 +36,14 @@ import javax.swing.JPanel;
 
 public abstract class ConfigurationPanel extends JPanel implements ConfigurationGroup {
 	
+	private ConfigurationGroup configurationGroup;
+	
+	public ConfigurationPanel(ConfigurationGroup configurationGroup) {
+		this.configurationGroup = configurationGroup;
+	}
+	
+	public ConfigurationGroup getConfigurationGroup() {
+		return this.configurationGroup;
+	}
+	
 }
