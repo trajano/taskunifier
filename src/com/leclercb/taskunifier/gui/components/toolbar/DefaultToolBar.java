@@ -36,11 +36,15 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -49,6 +53,7 @@ import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionChangeViewCalendar;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
+import com.leclercb.taskunifier.gui.actions.ActionList;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -64,19 +69,7 @@ public class DefaultToolBar extends JToolBar {
 		this.setFloatable(false);
 		this.setRollover(true);
 		
-		this.add(new ActionChangeView(24, 24));
-		this.add(new ActionChangeViewCalendar(24, 24));
-		this.addSeparator(new Dimension(20, 20));
-		this.add(new ActionAddNote(24, 24));
-		this.add(new ActionAddTask(24, 24));
-		this.add(new ActionAddSubTask(24, 24));
-		this.add(new ActionAddTemplateTaskMenu(24, 24));
-		this.add(new ActionDelete(24, 24));
-		this.addSeparator(new Dimension(20, 20));
-		this.add(new ActionSynchronize(false, 24, 24));
-		this.add(new ActionScheduledSync(24, 24));
-		this.addSeparator(new Dimension(20, 20));
-		this.add(new ActionConfiguration(24, 24));
+		this.initializeActions();
 		
 		this.add(Box.createHorizontalGlue());
 		
@@ -106,6 +99,48 @@ public class DefaultToolBar extends JToolBar {
 		this.add(accountLabel);
 		
 		this.add(Box.createHorizontalStrut(10));
+	}
+	
+	private void initializeActions() {
+		try {
+			boolean added = false;
+			String value = Main.SETTINGS.getStringProperty("general.toolbar");
+			String[] actions = StringUtils.split(value, ';');
+			for (String action : actions) {
+				action = action.trim();
+				
+				if ("SEPARATOR".equalsIgnoreCase(action)) {
+					this.addSeparator(new Dimension(20, 20));
+					continue;
+				}
+				
+				try {
+					Action a = ActionList.valueOf(action).newInstance(24, 24);
+					this.add(a);
+					added = true;
+				} catch (Throwable t) {
+					GuiLogger.getLogger().warning(
+							"Cannot add action \"" + action + "\" to toolbar");
+				}
+			}
+			
+			if (!added)
+				throw new Exception();
+		} catch (Throwable t) {
+			this.add(new ActionChangeView(24, 24));
+			this.add(new ActionChangeViewCalendar(24, 24));
+			this.addSeparator(new Dimension(20, 20));
+			this.add(new ActionAddNote(24, 24));
+			this.add(new ActionAddTask(24, 24));
+			this.add(new ActionAddSubTask(24, 24));
+			this.add(new ActionAddTemplateTaskMenu(24, 24));
+			this.add(new ActionDelete(24, 24));
+			this.addSeparator(new Dimension(20, 20));
+			this.add(new ActionSynchronize(false, 24, 24));
+			this.add(new ActionScheduledSync(24, 24));
+			this.addSeparator(new Dimension(20, 20));
+			this.add(new ActionConfiguration(24, 24));
+		}
 	}
 	
 }
