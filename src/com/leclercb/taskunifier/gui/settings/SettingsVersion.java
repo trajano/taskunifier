@@ -839,6 +839,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.3.0 to 1.3.1");
 		
+		Main.SETTINGS.setStringProperty(
+				"general.toolbar",
+				"CHANGE_VIEW;CHANGE_VIEW_CALENDAR;SEPARATOR;ADD_NOTE;ADD_TASK;ADD_SUBTASK;ADD_TEMPLATE_TASK_MENU;DELETE;SEPARATOR;SYNCHRONIZE;SCHEDULED_SYNC;SEPARATOR;CONFIGURATION");
+		
 		return "1.3.1";
 	}
 	
