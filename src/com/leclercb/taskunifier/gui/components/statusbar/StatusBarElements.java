@@ -238,7 +238,9 @@ final class StatusBarElements {
 		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
 		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
 		
-		final SimpleDateFormat format = new SimpleDateFormat(dateFormat + " " + timeFormat);
+		final SimpleDateFormat format = new SimpleDateFormat(dateFormat
+				+ " "
+				+ timeFormat);
 		final JLabel element = new JLabel();
 		
 		updateCurrentDateTime(element, format);
@@ -259,7 +261,7 @@ final class StatusBarElements {
 	}
 	
 	private static final void updateCurrentDateTime(
-			JLabel element, 
+			JLabel element,
 			SimpleDateFormat format) {
 		element.setText(format.format(Calendar.getInstance().getTime()));
 	}
