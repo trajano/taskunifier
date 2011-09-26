@@ -48,6 +48,9 @@ public final class DateTimeFormatUtils {
 					new SimpleDateFormat("MM-dd-yyyy"),
 					"##-##-####"),
 			new DateTimeFormatInfo(
+					new SimpleDateFormat("MM.dd.yyyy"),
+					"##.##.####"),
+			new DateTimeFormatInfo(
 					new SimpleDateFormat("dd/MM/yyyy"),
 					"##/##/####"),
 			new DateTimeFormatInfo(
