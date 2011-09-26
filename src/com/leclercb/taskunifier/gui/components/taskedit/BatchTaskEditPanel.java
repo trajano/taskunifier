@@ -512,6 +512,21 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskCompletedCheckBox);
 		builder.append(this.taskCompleted);
 		
+		// Task Status
+		this.taskStatus.setModel(new TaskStatusModel(false));
+		
+		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
+		builder.append(this.taskStatus);
+		
+		// Task Priority
+		this.taskPriority.setModel(new TaskPriorityModel(false));
+		
+		builder.appendI15d(
+				"general.task.priority",
+				true,
+				this.taskPriorityCheckBox);
+		builder.append(this.taskPriority);
+		
 		// Task Progress
 		this.taskProgress.setModel(new SpinnerNumberModel(
 				new Double(0.00),
@@ -533,32 +548,14 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append("", new JLabel());
 		builder.append(new JLabel());
 		
-		// Task Status
-		this.taskStatus.setModel(new TaskStatusModel(false));
-		
-		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
-		builder.append(this.taskStatus);
-		
-		// Task Priority
-		this.taskPriority.setModel(new TaskPriorityModel(false));
-		
-		builder.appendI15d(
-				"general.task.priority",
-				true,
-				this.taskPriorityCheckBox);
-		builder.append(this.taskPriority);
-		
 		// Separator
 		builder.getBuilder().appendSeparator();
 		
-		// Task Context
-		this.taskContext.setModel(new ContextModel(true));
+		// Task Parent
+		this.taskParent.setModel(new TaskModel(true));
 		
-		builder.appendI15d(
-				"general.task.context",
-				true,
-				this.taskContextCheckBox);
-		builder.append(this.taskContext);
+		builder.appendI15d("general.task.parent", true, this.taskParentCheckBox);
+		builder.getBuilder().append(this.taskParent, 7);
 		
 		// Task Folder
 		this.taskFolder.setModel(new FolderModel(true));
@@ -572,6 +569,15 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
 		builder.append(this.taskGoal);
 		
+		// Task Context
+		this.taskContext.setModel(new ContextModel(true));
+		
+		builder.appendI15d(
+				"general.task.context",
+				true,
+				this.taskContextCheckBox);
+		builder.append(this.taskContext);
+		
 		// Task Location
 		this.taskLocation.setModel(new LocationModel(true));
 		
@@ -580,12 +586,6 @@ public class BatchTaskEditPanel extends JPanel {
 				true,
 				this.taskLocationCheckBox);
 		builder.append(this.taskLocation);
-		
-		// Task Parent
-		this.taskParent.setModel(new TaskModel(true));
-		
-		builder.appendI15d("general.task.parent", true, this.taskParentCheckBox);
-		builder.getBuilder().append(this.taskParent, 7);
 		
 		// Separator
 		builder.getBuilder().appendSeparator();
