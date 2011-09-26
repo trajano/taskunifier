@@ -118,6 +118,9 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
+		if (!((Note) event.getValue()).getModelStatus().isEndUserStatus())
+			return;
+		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			this.fireTableRowsInserted(event.getIndex(), event.getIndex());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
