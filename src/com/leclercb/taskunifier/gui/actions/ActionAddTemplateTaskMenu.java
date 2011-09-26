@@ -35,17 +35,17 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
-public class ActionAddTemplateTaskMenu extends AbstractViewAction {
+public class ActionAddTemplateTaskMenu extends AbstractAction {
 	
 	private JPopupMenu popupMenu;
 	
@@ -54,12 +54,13 @@ public class ActionAddTemplateTaskMenu extends AbstractViewAction {
 	}
 	
 	public ActionAddTemplateTaskMenu(int width, int height) {
-		super("action.add_template_task", Images.getResourceImage(
-				"template.png",
-				width,
-				height), ViewType.TASKS, ViewType.CALENDAR);
+		super(
+				Translations.getString("action.add_template_task"),
+				Images.getResourceImage("template.png", width, height));
 		
-		this.putValue(SHORT_DESCRIPTION, "action.add_template_task");
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.add_template_task"));
 		
 		this.popupMenu = new JPopupMenu(
 				Translations.getString("action.add_template_task"));
@@ -75,8 +76,6 @@ public class ActionAddTemplateTaskMenu extends AbstractViewAction {
 					}
 					
 				});
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

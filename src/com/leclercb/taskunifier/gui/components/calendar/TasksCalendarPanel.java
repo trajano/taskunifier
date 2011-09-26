@@ -38,11 +38,11 @@ import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTasksMenu;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
 	
@@ -152,7 +152,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.addFunctionButton(new ActionAddTemplateTaskMenu(32, 32));
 		this.addFunctionButton(new ActionBatchAddTasks(32, 32));
 		this.addFunctionButton(new ActionEditTasks(32, 32));
-		this.addFunctionButton(ComponentFactory.createPostponeButton(32, 32));
+		this.addFunctionButton(new ActionPostponeTasksMenu(32, 32));
 		this.addFunctionButton(new ActionCompleteTasks(32, 32));
 		this.addFunctionButton(new ActionDuplicateTasks(32, 32));
 		this.addFunctionButton(new ActionDelete(32, 32));
