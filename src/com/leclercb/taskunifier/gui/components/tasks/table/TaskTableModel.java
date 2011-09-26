@@ -136,9 +136,6 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		if (Synchronizing.isSynchronizing())
 			return;
 		
-		if (!((Task) event.getValue()).getModelStatus().isEndUserStatus())
-			return;
-		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			this.fireTableRowsInserted(event.getIndex(), event.getIndex());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
