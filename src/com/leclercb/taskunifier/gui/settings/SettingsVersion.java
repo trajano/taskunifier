@@ -188,7 +188,7 @@ public final class SettingsVersion {
 			version = updateSettings_1_2_2_to_1_3_0();
 		
 		if (version.equals("1.3.0"))
-			version = updateSettings_1_3_0_to_1_3_1();
+			version = updateSettings_1_3_0_to_1_4_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -835,15 +835,15 @@ public final class SettingsVersion {
 		return "1.3.0";
 	}
 	
-	private static String updateSettings_1_3_0_to_1_3_1() {
+	private static String updateSettings_1_3_0_to_1_4_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 1.3.0 to 1.3.1");
+				"Update settings from version 1.3.0 to 1.4.0");
 		
 		Main.SETTINGS.setStringProperty(
 				"general.toolbar",
 				"CHANGE_VIEW;CHANGE_VIEW_CALENDAR;SEPARATOR;ADD_NOTE;ADD_TASK;ADD_SUBTASK;ADD_TEMPLATE_TASK_MENU;DELETE;SEPARATOR;SYNCHRONIZE;SCHEDULED_SYNC;SEPARATOR;CONFIGURATION");
 		
-		return "1.3.1";
+		return "1.4.0";
 	}
 	
 }

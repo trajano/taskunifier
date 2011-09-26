@@ -115,7 +115,16 @@ public class DefaultToolBar extends JToolBar {
 				}
 				
 				try {
-					Action a = ActionList.valueOf(action).newInstance(24, 24);
+					ActionList l = ActionList.valueOf(action);
+					
+					if (!l.isFitToolBar())
+						continue;
+					
+					Action a = l.newInstance(24, 24);
+					
+					if (a == null)
+						continue;
+					
 					this.add(a);
 					added = true;
 				} catch (Throwable t) {

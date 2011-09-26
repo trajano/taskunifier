@@ -1,9 +1,9 @@
 HISTORY
 -------
 
-Version 1.3.1
+Version 1.4.0
 	- Major:
-		- Customize toolbar buttons
+		- FR 3413981: Customize toolbar buttons
 	- Minor:
 		- Select parent tasks action
 		- FR 3413942: Size of task template window
