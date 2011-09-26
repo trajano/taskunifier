@@ -82,12 +82,14 @@ public class ActionEditTasks extends AbstractViewAction {
 		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
 		dialog.setTasks(tasks);
 		dialog.setVisible(true);
-		boolean cancelled = !dialog.isCancelled();
+		boolean edited = !dialog.isCancelled();
 		
 		ViewType.refreshTasks();
-		ViewType.setSelectedTasks(tasks);
 		
-		return cancelled;
+		if (edited)
+			ViewType.setSelectedTasks(tasks);
+		
+		return edited;
 	}
 	
 }

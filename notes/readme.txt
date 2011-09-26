@@ -5,6 +5,7 @@ Version 1.3.1
 	- Minor:
 		- FR 3413942: Size of task template window
 		- FR 3413936: Date & Time in status bar
+		- BF 3413808: Scroll when "add task" is cancelled
 
 Version 1.3.0
 	- Major:
