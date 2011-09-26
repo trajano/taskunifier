@@ -274,14 +274,14 @@ public class MenuBar extends JMenuBar {
 		templatesMenu.setIcon(Images.getResourceImage("template.png", 16, 16));
 		tasksMenu.add(templatesMenu);
 		
-		TemplateUtils.updateTemplateList(templatesMenu, null);
+		TemplateUtils.updateTemplateList(templatesMenu);
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(templatesMenu, null);
+						TemplateUtils.updateTemplateList(templatesMenu);
 					}
 					
 				});

@@ -37,8 +37,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
@@ -61,12 +59,9 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.explodingpixels.macwidgets.IAppWidgetFactory;
 import com.jgoodies.common.base.SystemUtils;
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTasks;
 import com.leclercb.taskunifier.gui.actions.PostponeType;
@@ -545,54 +540,6 @@ public final class ComponentFactory {
 		});
 		
 		return button;
-	}
-	
-	public static JButton createAddTemplateTaskButton(
-			final int width,
-			final int height) {
-		final JPopupMenu popupMenu = new JPopupMenu(
-				Translations.getString("action.add_template_task"));
-		
-		TemplateUtils.updateTemplateList(null, popupMenu);
-		
-		TaskTemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(null, popupMenu);
-					}
-					
-				});
-		
-		final JButton addTemplateTaskButton = new JButton();
-		
-		Action actionAddTemplateTask = new AbstractAction() {
-			
-			{
-				this.putValue(
-						NAME,
-						Translations.getString("action.add_template_task"));
-				
-				this.putValue(
-						SHORT_DESCRIPTION,
-						Translations.getString("action.add_template_task"));
-				
-				this.putValue(
-						SMALL_ICON,
-						Images.getResourceImage("template.png", width, height));
-			}
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				popupMenu.show(addTemplateTaskButton, 0, 0);
-			}
-			
-		};
-		
-		addTemplateTaskButton.setAction(actionAddTemplateTask);
-		
-		return addTemplateTaskButton;
 	}
 	
 }

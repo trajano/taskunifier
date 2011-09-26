@@ -47,6 +47,7 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionChangeViewCalendar;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -54,7 +55,6 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class MacToolBar extends UnifiedToolBar {
@@ -72,13 +72,9 @@ public class MacToolBar extends UnifiedToolBar {
 		this.addComponentToLeft(this.createButton(new ActionAddNote(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddTask(24, 24)));
 		this.addComponentToLeft(this.createButton(new ActionAddSubTask(24, 24)));
-		
-		JButton addTemplateTaskButton = ComponentFactory.createAddTemplateTaskButton(
+		this.addComponentToLeft(this.createButton(new ActionAddTemplateTaskMenu(
 				24,
-				24);
-		this.formatButton(addTemplateTaskButton);
-		this.addComponentToLeft(addTemplateTaskButton);
-		
+				24)));
 		this.addComponentToLeft(this.createButton(new ActionDelete(24, 24)));
 		this.addComponentToLeft(new JSeparator());
 		this.addComponentToLeft(this.createButton(new ActionSynchronize(

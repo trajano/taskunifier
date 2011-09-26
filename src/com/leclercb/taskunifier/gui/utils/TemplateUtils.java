@@ -51,7 +51,15 @@ public final class TemplateUtils {
 		
 	}
 	
-	public static void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
+	public static void updateTemplateList(JMenu menu) {
+		updateTemplateList(menu, null);
+	}
+	
+	public static void updateTemplateList(JPopupMenu popupMenu) {
+		updateTemplateList(null, popupMenu);
+	}
+	
+	private static void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
 		if (menu != null)
 			menu.removeAll();
 		

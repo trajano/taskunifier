@@ -32,6 +32,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -148,9 +149,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				new GridLayout(0, 3));
 		
 		this.addFunctionButton(new ActionAddTask(32, 32));
-		this.addFunctionButton(ComponentFactory.createAddTemplateTaskButton(
-				32,
-				32));
+		this.addFunctionButton(new ActionAddTemplateTaskMenu(32, 32));
 		this.addFunctionButton(new ActionBatchAddTasks(32, 32));
 		this.addFunctionButton(new ActionEditTasks(32, 32));
 		this.addFunctionButton(ComponentFactory.createPostponeButton(32, 32));
