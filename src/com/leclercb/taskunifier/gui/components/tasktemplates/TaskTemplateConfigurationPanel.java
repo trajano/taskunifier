@@ -412,6 +412,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				StringValueTaskReminder.INSTANCE));
 		templateTaskStartDateReminder.setEditable(true);
 		
+		// Template Task Length
+		builder.appendI15d("general.task.length", true, templateTaskLength);
+		
 		// Template Task Repeat
 		builder.appendI15d("general.task.repeat", true, templateTaskRepeat);
 		
@@ -425,9 +428,6 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Template Task Status
 		builder.appendI15d("general.task.status", true, templateTaskStatus);
-		
-		// Template Task Length
-		builder.appendI15d("general.task.length", true, templateTaskLength);
 		
 		// Template Task Priority
 		builder.appendI15d("general.task.priority", true, templateTaskPriority);

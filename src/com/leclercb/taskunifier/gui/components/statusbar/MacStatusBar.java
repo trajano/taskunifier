@@ -49,6 +49,7 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 	private JLabel lastSynchronizationDate;
 	private JLabel scheduledSyncStatus;
 	private JLabel rowCount;
+	private JLabel currentDateTime;
 	
 	public MacStatusBar(ScheduledSyncThread thread) {
 		super(BottomBarSize.LARGE);
@@ -70,11 +71,15 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 		
 		this.lastSynchronizationDate = StatusBarElements.createLastSynchronizationDate();
 		MacWidgetFactory.makeEmphasizedLabel(this.lastSynchronizationDate);
-		this.addComponentToRight(this.lastSynchronizationDate);
+		this.addComponentToCenter(this.lastSynchronizationDate, 20);
 		
 		this.rowCount = StatusBarElements.createRowCount();
 		MacWidgetFactory.makeEmphasizedLabel(this.rowCount);
-		this.addComponentToRight(this.rowCount, 80);
+		this.addComponentToRight(this.rowCount);
+		
+		this.currentDateTime = StatusBarElements.createCurrentDateTime();
+		MacWidgetFactory.makeEmphasizedLabel(this.currentDateTime);
+		this.addComponentToRight(this.currentDateTime, 20);
 	}
 	
 	@Override

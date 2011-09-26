@@ -187,6 +187,9 @@ public final class SettingsVersion {
 		if (version.equals("1.2.2"))
 			version = updateSettings_1_2_2_to_1_3_0();
 		
+		if (version.equals("1.3.0"))
+			version = updateSettings_1_3_0_to_1_3_1();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -830,6 +833,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("taskcolumn.order.width", "50");
 		
 		return "1.3.0";
+	}
+	
+	private static String updateSettings_1_3_0_to_1_3_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.3.0 to 1.3.1");
+		
+		return "1.3.1";
 	}
 	
 }

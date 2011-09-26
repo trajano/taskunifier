@@ -48,6 +48,7 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	private JLabel lastSynchronizationDate;
 	private JLabel scheduledSyncStatus;
 	private JLabel rowCount;
+	private JLabel currentDateTime;
 	
 	public DefaultStatusBar(ScheduledSyncThread thread) {
 		CheckUtils.isNotNull(thread, "Thread cannot be null");
@@ -63,17 +64,21 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 		this.synchronizerStatus = StatusBarElements.createSynchronizerStatus();
 		this.add(this.synchronizerStatus, c);
 		
-		c = new JXStatusBar.Constraint(300);
+		c = new JXStatusBar.Constraint(220);
 		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus(this.thread);
 		this.add(this.scheduledSyncStatus, c);
 		
-		c = new JXStatusBar.Constraint(300);
+		c = new JXStatusBar.Constraint(320);
 		this.lastSynchronizationDate = StatusBarElements.createLastSynchronizationDate();
 		this.add(this.lastSynchronizationDate, c);
 		
-		c = new JXStatusBar.Constraint(300);
+		c = new JXStatusBar.Constraint(100);
 		this.rowCount = StatusBarElements.createRowCount();
 		this.add(this.rowCount, c);
+		
+		c = new JXStatusBar.Constraint(150);
+		this.currentDateTime = StatusBarElements.createCurrentDateTime();
+		this.add(this.currentDateTime, c);
 	}
 	
 	@Override

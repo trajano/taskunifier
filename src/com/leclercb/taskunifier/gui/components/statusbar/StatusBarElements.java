@@ -35,6 +35,9 @@ package com.leclercb.taskunifier.gui.components.statusbar;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
@@ -229,6 +232,36 @@ final class StatusBarElements {
 				element.setText("");
 				break;
 		}
+	}
+	
+	public static final JLabel createCurrentDateTime() {
+		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
+		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		
+		final SimpleDateFormat format = new SimpleDateFormat(dateFormat + " " + timeFormat);
+		final JLabel element = new JLabel();
+		
+		updateCurrentDateTime(element, format);
+		
+		TimerTask timerTask = new TimerTask() {
+			
+			@Override
+			public void run() {
+				updateCurrentDateTime(element, format);
+			}
+			
+		};
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 10000, 10000);
+		
+		return element;
+	}
+	
+	private static final void updateCurrentDateTime(
+			JLabel element, 
+			SimpleDateFormat format) {
+		element.setText(format.format(Calendar.getInstance().getTime()));
 	}
 	
 }
