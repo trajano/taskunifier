@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Frame;
+import java.awt.PopupMenu;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -174,6 +175,15 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 		try {
 			Application application = Application.getApplication();
 			application.requestUserAttention(true);
+		} catch (Throwable t) {
+			
+		}
+	}
+	
+	public static void setDockMenu(PopupMenu popupMenu) {
+		try {
+			Application application = Application.getApplication();
+			application.setDockMenu(popupMenu);
 		} catch (Throwable t) {
 			
 		}

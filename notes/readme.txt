@@ -5,6 +5,7 @@ Version 1.4.0
 	- Major:
 		- FR 3413981: Customize toolbar buttons
 	- Minor:
+		- Mac OS: Custom dock menu
 		- Select parent tasks action
 		- FR 3413942: Size of task template window
 		- FR 3413936: Date & Time in status bar
