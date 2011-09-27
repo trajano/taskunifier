@@ -122,6 +122,7 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	@Override
 	public Object getCellEditorValue() {
+		this.dateEditor.focusLost(null);
 		return this.dateChooser.getCalendar();
 	}
 	
