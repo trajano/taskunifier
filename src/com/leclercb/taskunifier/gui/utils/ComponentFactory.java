@@ -287,8 +287,6 @@ public final class ComponentFactory {
 		comboBox.setRenderer(new DefaultListRenderer(
 				StringValueTaskStatus.INSTANCE));
 		
-		comboBox.setSelectedIndex(0);
-		
 		if (autoComplete) {
 			AutoCompleteDecorator.decorate(
 					comboBox,
