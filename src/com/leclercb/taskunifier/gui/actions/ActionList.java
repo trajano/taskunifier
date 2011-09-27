@@ -8,6 +8,7 @@ import com.leclercb.taskunifier.gui.utils.Images;
 
 public enum ActionList {
 	
+	OBJECT("", null, false),
 	ABOUT(Translations.getString("action.about"), "information.png", true),
 	ADD_NOTE(Translations.getString("action.add_note"), "note.png", true),
 	ADD_QUICK_TASK(Translations.getString("action.add_task"), "task.png", false),
