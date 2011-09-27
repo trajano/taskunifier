@@ -300,6 +300,10 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		this.rightModel.removeAllElements();
 		
 		String value = Main.SETTINGS.getStringProperty("general.toolbar");
+		
+		if (value == null)
+			return;
+		
 		String[] actions = StringUtils.split(value, ';');
 		for (String action : actions) {
 			action = action.trim();

@@ -105,6 +105,10 @@ public class DefaultToolBar extends JToolBar {
 		try {
 			boolean added = false;
 			String value = Main.SETTINGS.getStringProperty("general.toolbar");
+			
+			if (value == null)
+				throw new Exception();
+			
 			String[] actions = StringUtils.split(value, ';');
 			for (String action : actions) {
 				action = action.trim();
