@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SortOrder;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXList;
@@ -66,6 +68,10 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(5, 5));
 		
+		panel.add(
+				new JLabel(Translations.getString("general.actions")),
+				BorderLayout.NORTH);
+		
 		this.leftList = new JXList();
 		
 		this.leftModel = new DefaultListModel<ActionList>();
@@ -82,6 +88,18 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 				StringValueAction.INSTANCE,
 				IconValueAction.INSTANCE,
 				null)));
+		
+		this.leftList.setAutoCreateRowSorter(true);
+		this.leftList.setComparator(new Comparator<ActionList>() {
+			
+			@Override
+			public int compare(ActionList a1, ActionList a2) {
+				return a1.getTitle().compareToIgnoreCase(a2.getTitle());
+			}
+			
+		});
+		this.leftList.setSortOrder(SortOrder.ASCENDING);
+		this.leftList.setSortsOnUpdates(true);
 		
 		panel.add(
 				ComponentFactory.createJScrollPane(this.leftList, true),
@@ -137,6 +155,10 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(5, 5));
 		
+		panel.add(
+				new JLabel(Translations.getString("configuration.tab.toolbar")),
+				BorderLayout.NORTH);
+		
 		this.rightList = new JXList();
 		
 		this.rightModel = new DefaultListModel<ActionList>();
@@ -173,6 +195,12 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 							indices[0] - 1,
 							action);
 				}
+				
+				for (int i = 0; i < indices.length; i++) {
+					indices[i]--;
+				}
+				
+				ToolBarConfigurationPanel.this.rightList.setSelectedIndices(indices);
 			}
 			
 		});
@@ -196,11 +224,17 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 					ToolBarConfigurationPanel.this.rightModel.remove(indices[i]);
 				}
 				
-				for (ActionList action : actions) {
+				for (int i = actions.length - 1; i >= 0; i--) {
 					ToolBarConfigurationPanel.this.rightModel.add(
-							indices[indices.length - 1] + 1,
-							action);
+							indices[0] + 1,
+							actions[i]);
 				}
+				
+				for (int i = 0; i < indices.length; i++) {
+					indices[i]++;
+				}
+				
+				ToolBarConfigurationPanel.this.rightList.setSelectedIndices(indices);
 			}
 			
 		});
