@@ -91,7 +91,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 					
 					@Override
 					public void run() {
-						ActionTaskReminders.taskReminders();
+						ActionTaskReminders.taskReminders(true);
 					}
 					
 				});

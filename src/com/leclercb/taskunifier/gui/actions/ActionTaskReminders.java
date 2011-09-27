@@ -32,9 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
+import org.apache.commons.lang.SystemUtils;
 
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -58,10 +61,17 @@ public class ActionTaskReminders extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionTaskReminders.taskReminders();
+		ActionTaskReminders.taskReminders(false);
 	}
 	
-	public static void taskReminders() {
+	public static void taskReminders(boolean requestUserAttention) {
+		if (requestUserAttention) {
+			if (SystemUtils.IS_OS_MAC)
+				MacApplicationAdapter.requestUserAttention();
+			else
+				Toolkit.getDefaultToolkit().beep();
+		}
+		
 		ReminderDialog.getInstance().setVisible(true);
 	}
 	

@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.reminder;
 
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -42,9 +41,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import org.apache.commons.lang.SystemUtils;
-
-import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -65,18 +61,6 @@ public class ReminderDialog extends JDialog {
 	private ReminderDialog() {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize();
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		if (visible) {
-			if (SystemUtils.IS_OS_MAC)
-				MacApplicationAdapter.requestUserAttention();
-			else
-				Toolkit.getDefaultToolkit().beep();
-		}
-		
-		super.setVisible(visible);
 	}
 	
 	public ReminderPanel getReminderPanel() {
