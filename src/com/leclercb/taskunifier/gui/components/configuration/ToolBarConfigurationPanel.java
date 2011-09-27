@@ -39,8 +39,8 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 	private JXList leftList;
 	private JXList rightList;
 	
-	private DefaultListModel<ActionList> leftModel;
-	private DefaultListModel<ActionList> rightModel;
+	private DefaultListModel leftModel;
+	private DefaultListModel rightModel;
 	
 	public ToolBarConfigurationPanel(ConfigurationGroup configurationGroup) {
 		super(configurationGroup);
@@ -74,7 +74,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		
 		this.leftList = new JXList();
 		
-		this.leftModel = new DefaultListModel<ActionList>();
+		this.leftModel = new DefaultListModel();
 		
 		this.leftModel.addElement(ActionList.OBJECT);
 		
@@ -161,7 +161,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		
 		this.rightList = new JXList();
 		
-		this.rightModel = new DefaultListModel<ActionList>();
+		this.rightModel = new DefaultListModel();
 		
 		this.rightList.setModel(this.rightModel);
 		this.rightList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -280,7 +280,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		StringBuffer buffer = new StringBuffer();
 		
 		for (int i = 0; i < this.rightModel.getSize(); i++) {
-			ActionList action = this.rightModel.getElementAt(i);
+			ActionList action = (ActionList) this.rightModel.getElementAt(i);
 			
 			if (action.equals(ActionList.OBJECT))
 				buffer.append("SEPARATOR" + ";");
