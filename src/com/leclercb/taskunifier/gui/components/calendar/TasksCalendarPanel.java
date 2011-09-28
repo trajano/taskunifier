@@ -159,9 +159,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 			
 		});
 		
-		this.showCompletedTasksCheckBox.setOpaque(false);
 		JPanel checkBoxPanel = new JPanel(new BorderLayout());
-		checkBoxPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		checkBoxPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		checkBoxPanel.add(this.showCompletedTasksCheckBox);
 		checkBoxPanel.setOpaque(true);
 		checkBoxPanel.setBackground(new Color(-2695707));
@@ -186,6 +185,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	private void initializeShowCompletedTasksCheckBox() {
 		this.showCompletedTasksCheckBox = new JCheckBox(
 				Translations.getString("configuration.general.show_completed_tasks"));
+		
+		this.showCompletedTasksCheckBox.setOpaque(false);
+		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
+				10.0f));
 		
 		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
 		
