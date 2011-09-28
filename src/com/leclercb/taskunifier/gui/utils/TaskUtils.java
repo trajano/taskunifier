@@ -81,8 +81,6 @@ public final class TaskUtils {
 		if (index > 0 && index <= displayedTasks.length)
 			newOrder = displayedTasks[index - 1].getOrder() + 1;
 		
-		System.out.println(newOrder);
-		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		main: for (Task task : tasks) {
 			if (!task.getModelStatus().isEndUserStatus())
@@ -149,7 +147,7 @@ public final class TaskUtils {
 		long diff = milliSeconds1 - milliSeconds2;
 		final double diffMinutes = diff / (60 * 1000.0);
 		
-		if (diffMinutes <= task.getStartDateReminder())
+		if (diffMinutes >= 0 && diffMinutes <= task.getStartDateReminder())
 			return true;
 		
 		return false;
@@ -182,7 +180,7 @@ public final class TaskUtils {
 		long diff = milliSeconds1 - milliSeconds2;
 		final double diffMinutes = diff / (60 * 1000.0);
 		
-		if (diffMinutes <= task.getDueDateReminder())
+		if (diffMinutes >= 0 && diffMinutes <= task.getDueDateReminder())
 			return true;
 		
 		return false;

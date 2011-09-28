@@ -39,12 +39,8 @@ import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 
 public class GuiTask extends Task {
 	
-	public static final String PROP_START_DATE_REMINDED = "startDateReminded";
-	public static final String PROP_DUE_DATE_REMINDED = "dueDateReminded";
 	public static final String PROP_SHOW_CHILDREN = "showChildren";
 	
-	private boolean startDateReminded = false;
-	private boolean dueDateReminded = false;
 	private boolean showChildren = true;
 	
 	public GuiTask(TaskBean bean) {
@@ -57,36 +53,6 @@ public class GuiTask extends Task {
 	
 	public GuiTask(ModelId modelId, String title) {
 		super(modelId, title);
-	}
-	
-	public boolean isStartDateReminded() {
-		return this.startDateReminded;
-	}
-	
-	public void setStartDateReminded(boolean startDateReminded) {
-		this.checkBeforeSet();
-		boolean oldStartDateReminded = this.startDateReminded;
-		this.startDateReminded = startDateReminded;
-		this.updateProperty(
-				PROP_START_DATE_REMINDED,
-				oldStartDateReminded,
-				startDateReminded,
-				false);
-	}
-	
-	public boolean isDueDateReminded() {
-		return this.dueDateReminded;
-	}
-	
-	public void setDueDateReminded(boolean dueDateReminded) {
-		this.checkBeforeSet();
-		boolean oldDueDateReminded = this.dueDateReminded;
-		this.dueDateReminded = dueDateReminded;
-		this.updateProperty(
-				PROP_DUE_DATE_REMINDED,
-				oldDueDateReminded,
-				dueDateReminded,
-				false);
 	}
 	
 	public boolean isShowChildren() {
@@ -106,26 +72,16 @@ public class GuiTask extends Task {
 	
 	@Override
 	public void loadBean(TaskBean bean) {
-		if (bean instanceof GuiTaskBean) {
-			GuiTaskBean guiBean = (GuiTaskBean) bean;
-			
-			this.setStartDateReminded(guiBean.isStartDateReminded());
-			this.setDueDateReminded(guiBean.isDueDateReminded());
-			this.setShowChildren(guiBean.isShowChildren());
-		}
+		if (bean instanceof GuiTaskBean)
+			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
 		
 		super.loadBean(bean);
 	}
 	
 	@Override
 	public void toBean(TaskBean bean) {
-		if (bean instanceof GuiTaskBean) {
-			GuiTaskBean guiBean = (GuiTaskBean) bean;
-			
-			guiBean.setStartDateReminded(this.isStartDateReminded());
-			guiBean.setDueDateReminded(this.isDueDateReminded());
-			guiBean.setShowChildren(this.isShowChildren());
-		}
+		if (bean instanceof GuiTaskBean)
+			((GuiTaskBean) bean).setShowChildren(this.isShowChildren());
 		
 		super.toBean(bean);
 	}

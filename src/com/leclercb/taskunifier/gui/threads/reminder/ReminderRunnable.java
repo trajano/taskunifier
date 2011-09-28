@@ -35,13 +35,13 @@ package com.leclercb.taskunifier.gui.threads.reminder;
 import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
-import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -50,7 +50,10 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	private static final long SLEEP_TIME = 10000;
 	
+	private List<ModelId> notifiedTasks;
+	
 	public ReminderRunnable() {
+		this.notifiedTasks = new ArrayList<ModelId>();
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
@@ -68,21 +71,20 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 			
 			boolean reminders = false;
 			List<Task> list = TaskFactory.getInstance().getList();
-			for (Task task : list) {
-				GuiTask gTask = (GuiTask) task;
+			for (final Task task : list) {
+				if (this.notifiedTasks.contains(task.getModelId()))
+					continue;
 				
 				if (!task.getModelStatus().isEndUserStatus())
 					continue;
 				
-				boolean inSD = (!gTask.isStartDateReminded() && TaskUtils.isInStartDateReminderZone(task));
-				boolean inDD = (!gTask.isDueDateReminded() && TaskUtils.isInDueDateReminderZone(task));
-				
-				if (inSD || inDD) {
-					if (inSD)
-						gTask.setStartDateReminded(true);
+				if (TaskUtils.isInStartDateReminderZone(task)
+						|| TaskUtils.isInDueDateReminderZone(task)) {
+					this.notifiedTasks.remove(task.getModelId());
+					this.notifiedTasks.add(task.getModelId());
 					
-					if (inDD)
-						gTask.setDueDateReminded(true);
+					ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
+							task);
 					
 					reminders = true;
 				}
@@ -103,21 +105,15 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		Task task = (Task) evt.getSource();
-		
-		if (!task.getModelStatus().isEndUserStatus()) {
+		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
+				|| evt.getPropertyName().equals(Task.PROP_DUE_DATE_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_START_DATE)
+				|| evt.getPropertyName().equals(Task.PROP_START_DATE_REMINDER)
+				|| evt.getPropertyName().equals(Task.PROP_COMPLETED)
+				|| !((Task) evt.getSource()).getModelStatus().isEndUserStatus()) {
 			ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
-					task);
-		}
-		
-		if (evt.getPropertyName().equals(GuiTask.PROP_START_DATE_REMINDED)
-				|| evt.getPropertyName().equals(GuiTask.PROP_DUE_DATE_REMINDED)) {
-			if (EqualsUtils.equals(evt.getNewValue(), Boolean.TRUE))
-				ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
-						task);
-			else
-				ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
-						(Task) evt.getSource());
+					(Task) evt.getSource());
+			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
 		}
 	}
 	

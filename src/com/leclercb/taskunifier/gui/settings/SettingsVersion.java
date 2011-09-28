@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.UIManager;
@@ -44,10 +43,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
-import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
@@ -846,23 +842,6 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty(
 				"general.toolbar",
 				"CHANGE_VIEW;CHANGE_VIEW_CALENDAR;SEPARATOR;ADD_NOTE;ADD_TASK;ADD_SUBTASK;ADD_TEMPLATE_TASK_MENU;DELETE;SEPARATOR;SYNCHRONIZE;SCHEDULED_SYNC;SEPARATOR;CONFIGURATION");
-		
-		Main.AFTER_START.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					List<Task> tasks = TaskFactory.getInstance().getList();
-					for (Task task : tasks) {
-						((GuiTask) task).setStartDateReminded(true);
-						((GuiTask) task).setDueDateReminded(true);
-					}
-				} catch (Throwable t) {
-					
-				}
-			}
-			
-		});
 		
 		return "1.4.0";
 	}
