@@ -39,6 +39,7 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -142,13 +143,20 @@ public final class TaskUtils {
 					0);
 		}
 		
-		long milliSeconds1 = startDate.getTimeInMillis();
-		long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-		long diff = milliSeconds1 - milliSeconds2;
-		final double diffMinutes = diff / (60 * 1000.0);
+		Calendar now = Calendar.getInstance();
+		Calendar startDateReminder = DateUtils.cloneCalendar(startDate);
+		startDateReminder.add(Calendar.MINUTE, -task.getStartDateReminder());
 		
-		if (diffMinutes >= 0 && diffMinutes <= task.getStartDateReminder())
+		if (now.compareTo(startDateReminder) >= 0
+				&& now.compareTo(startDate) <= 0)
 			return true;
+		
+		Calendar exitDate = Main.SETTINGS.getCalendarProperty("general.last_exit_date");
+		
+		if (exitDate != null)
+			if (now.compareTo(startDateReminder) >= 0
+					&& exitDate.compareTo(startDateReminder) <= 0)
+				return true;
 		
 		return false;
 	}
@@ -175,13 +183,19 @@ public final class TaskUtils {
 					0);
 		}
 		
-		long milliSeconds1 = dueDate.getTimeInMillis();
-		long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-		long diff = milliSeconds1 - milliSeconds2;
-		final double diffMinutes = diff / (60 * 1000.0);
+		Calendar now = Calendar.getInstance();
+		Calendar dueDateReminder = DateUtils.cloneCalendar(dueDate);
+		dueDateReminder.add(Calendar.MINUTE, -task.getDueDateReminder());
 		
-		if (diffMinutes >= 0 && diffMinutes <= task.getDueDateReminder())
+		if (now.compareTo(dueDateReminder) >= 0 && now.compareTo(dueDate) <= 0)
 			return true;
+		
+		Calendar exitDate = Main.SETTINGS.getCalendarProperty("general.last_exit_date");
+		
+		if (exitDate != null)
+			if (now.compareTo(dueDateReminder) >= 0
+					&& exitDate.compareTo(dueDateReminder) <= 0)
+				return true;
 		
 		return false;
 	}
