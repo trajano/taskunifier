@@ -47,11 +47,12 @@ public class GuiGoalBean extends GoalBean implements GuiModelBean {
 	private Color color;
 	
 	public GuiGoalBean() {
-		super();
+		this(null);
 	}
 	
 	public GuiGoalBean(ModelId modelId) {
 		super(modelId);
+		this.setColor(null);
 	}
 	
 	@Override

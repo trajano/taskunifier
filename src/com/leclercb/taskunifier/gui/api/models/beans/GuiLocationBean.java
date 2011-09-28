@@ -47,11 +47,12 @@ public class GuiLocationBean extends LocationBean implements GuiModelBean {
 	private Color color;
 	
 	public GuiLocationBean() {
-		super();
+		this(null);
 	}
 	
 	public GuiLocationBean(ModelId modelId) {
 		super(modelId);
+		this.setColor(null);
 	}
 	
 	@Override

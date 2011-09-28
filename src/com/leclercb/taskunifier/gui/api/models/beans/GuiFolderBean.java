@@ -47,11 +47,12 @@ public class GuiFolderBean extends FolderBean implements GuiModelBean {
 	private Color color;
 	
 	public GuiFolderBean() {
-		super();
+		this(null);
 	}
 	
 	public GuiFolderBean(ModelId modelId) {
 		super(modelId);
+		this.setColor(null);
 	}
 	
 	@Override

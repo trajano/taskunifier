@@ -47,11 +47,12 @@ public class GuiContextBean extends ContextBean implements GuiModelBean {
 	private Color color;
 	
 	public GuiContextBean() {
-		super();
+		this(null);
 	}
 	
 	public GuiContextBean(ModelId modelId) {
 		super(modelId);
+		this.setColor(null);
 	}
 	
 	@Override

@@ -38,15 +38,40 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class GuiTaskBean extends TaskBean {
 	
+	@XStreamAlias("startdatereminded")
+	private boolean startDateReminded;
+	
+	@XStreamAlias("duedatereminded")
+	private boolean dueDateReminded;
+	
 	@XStreamAlias("showchildren")
 	private boolean showChildren;
 	
 	public GuiTaskBean() {
-		super();
+		this(null);
 	}
 	
 	public GuiTaskBean(ModelId modelId) {
 		super(modelId);
+		this.setStartDateReminded(false);
+		this.setDueDateReminded(false);
+		this.setShowChildren(false);
+	}
+	
+	public boolean isStartDateReminded() {
+		return this.startDateReminded;
+	}
+	
+	public void setStartDateReminded(boolean startDateReminded) {
+		this.startDateReminded = startDateReminded;
+	}
+	
+	public boolean isDueDateReminded() {
+		return this.dueDateReminded;
+	}
+	
+	public void setDueDateReminded(boolean dueDateReminded) {
+		this.dueDateReminded = dueDateReminded;
 	}
 	
 	public boolean isShowChildren() {
