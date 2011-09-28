@@ -60,8 +60,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	private JCheckBox showCompletedTasksCheckBox;
 	
-	private boolean showCompletedTasks;
-	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
 	
@@ -78,8 +76,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.initializeShowCompletedTasksCheckBox();
 		this.initialize();
 		
-		boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
-		this.setShowCompletedTasks(selected);
+		this.refreshTasks();
 	}
 	
 	private void initialize() {
@@ -200,7 +197,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					public void propertyChange(PropertyChangeEvent evt) {
 						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
 						TasksCalendarPanel.this.showCompletedTasksCheckBox.setSelected(selected);
-						TasksCalendarPanel.this.setShowCompletedTasks(selected);
+						TasksCalendarPanel.this.refreshTasks();
 					}
 					
 				});
@@ -213,7 +210,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				Main.SETTINGS.setBooleanProperty(
 						"tasksearcher.show_completed_tasks",
 						selected);
-				TasksCalendarPanel.this.setShowCompletedTasks(selected);
+				TasksCalendarPanel.this.refreshTasks();
 			}
 			
 		});
@@ -228,15 +225,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.calendarPanel.getFunctionsButtonPanel().addButton(button);
 	}
 	
-	private boolean isShowCompletedTasks() {
-		return this.showCompletedTasks;
-	}
-	
-	private void setShowCompletedTasks(boolean showCompletedTasks) {
-		this.showCompletedTasks = showCompletedTasks;
-		this.refreshTasks();
-	}
-	
 	@Override
 	public Task[] getSelectedTasks() {
 		Event[] events = this.calendarPanel.getCurrentView().getView().getSelectedEvents();
@@ -246,8 +234,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized void refreshTasks() {
+		boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		
 		for (TasksCalendar calendar : this.tasksCalendars)
-			calendar.updateEvents(this.showCompletedTasks);
+			calendar.updateEvents(selected);
 		
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
