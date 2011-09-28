@@ -1,6 +1,7 @@
 Version 1.4.0
 	- Major:
 		- FR 3413981: Customize toolbar buttons
+		- FR 3414743: Improved reminders
 	- Minor:
 		- Mac OS: Custom dock menu
 		- Select parent tasks action

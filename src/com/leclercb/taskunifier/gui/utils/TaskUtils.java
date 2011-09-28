@@ -123,53 +123,67 @@ public final class TaskUtils {
 	}
 	
 	public static boolean isInStartDateReminderZone(Task task) {
-		if (task.getStartDate() != null && !task.isCompleted()) {
-			Calendar startDate = task.getStartDate();
-			
-			if (!Main.SETTINGS.getBooleanProperty("date.use_start_time")) {
-				startDate.set(
-						startDate.get(Calendar.YEAR),
-						startDate.get(Calendar.MONTH),
-						startDate.get(Calendar.DAY_OF_MONTH),
-						0,
-						0,
-						0);
-			}
-			
-			long milliSeconds1 = startDate.getTimeInMillis();
-			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-			long diff = milliSeconds1 - milliSeconds2;
-			final double diffMinutes = diff / (60 * 1000.0);
-			
-			if (diffMinutes >= 0 && diffMinutes <= task.getStartDateReminder())
-				return true;
+		if (task.getStartDate() == null)
+			return false;
+		
+		if (task.isCompleted())
+			return false;
+		
+		if (task.getStartDateReminder() == 0)
+			return false;
+		
+		Calendar startDate = task.getStartDate();
+		
+		if (!Main.SETTINGS.getBooleanProperty("date.use_start_time")) {
+			startDate.set(
+					startDate.get(Calendar.YEAR),
+					startDate.get(Calendar.MONTH),
+					startDate.get(Calendar.DAY_OF_MONTH),
+					0,
+					0,
+					0);
 		}
+		
+		long milliSeconds1 = startDate.getTimeInMillis();
+		long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
+		long diff = milliSeconds1 - milliSeconds2;
+		final double diffMinutes = diff / (60 * 1000.0);
+		
+		if (diffMinutes <= task.getStartDateReminder())
+			return true;
 		
 		return false;
 	}
 	
 	public static boolean isInDueDateReminderZone(Task task) {
-		if (task.getDueDate() != null && !task.isCompleted()) {
-			Calendar dueDate = task.getDueDate();
-			
-			if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
-				dueDate.set(
-						dueDate.get(Calendar.YEAR),
-						dueDate.get(Calendar.MONTH),
-						dueDate.get(Calendar.DAY_OF_MONTH),
-						0,
-						0,
-						0);
-			}
-			
-			long milliSeconds1 = dueDate.getTimeInMillis();
-			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-			long diff = milliSeconds1 - milliSeconds2;
-			final double diffMinutes = diff / (60 * 1000.0);
-			
-			if (diffMinutes >= 0 && diffMinutes <= task.getDueDateReminder())
-				return true;
+		if (task.getDueDate() == null)
+			return false;
+		
+		if (task.isCompleted())
+			return false;
+		
+		if (task.getDueDateReminder() == 0)
+			return false;
+		
+		Calendar dueDate = task.getDueDate();
+		
+		if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
+			dueDate.set(
+					dueDate.get(Calendar.YEAR),
+					dueDate.get(Calendar.MONTH),
+					dueDate.get(Calendar.DAY_OF_MONTH),
+					0,
+					0,
+					0);
 		}
+		
+		long milliSeconds1 = dueDate.getTimeInMillis();
+		long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
+		long diff = milliSeconds1 - milliSeconds2;
+		final double diffMinutes = diff / (60 * 1000.0);
+		
+		if (diffMinutes <= task.getDueDateReminder())
+			return true;
 		
 		return false;
 	}
