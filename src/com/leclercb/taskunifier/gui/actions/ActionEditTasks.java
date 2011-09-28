@@ -79,6 +79,9 @@ public class ActionEditTasks extends AbstractViewAction {
 	}
 	
 	public static boolean editTasks(Task[] tasks) {
+		if (tasks == null || tasks.length == 0)
+			return false;
+		
 		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
 		dialog.setTasks(tasks);
 		dialog.setVisible(true);

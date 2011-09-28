@@ -7,6 +7,7 @@ Version 1.4.0
 		- Select parent tasks action
 		- FR 3413942: Size of task template window
 		- FR 3413936: Date & Time in status bar
+		- FR 3414476: Improve calendar design
 		- BF 3413808: Scroll when "add task" is cancelled
 		- BF 3414376: Time edit in task table
 
