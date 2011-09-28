@@ -39,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -782,6 +783,10 @@ public class Main {
 			ActionSynchronize.synchronize(false);
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
+		
+		Main.SETTINGS.setCalendarProperty(
+				"general.last_exit_date",
+				Calendar.getInstance());
 		
 		saveAll();
 		
