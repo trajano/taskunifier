@@ -13,6 +13,7 @@ Version 1.4.0
 		- FR 3414476: Improve calendar design
 		- BF 3413808: Scroll when "add task" is cancelled
 		- BF 3414376: Time edit in task table
+		- BF 3415102: Wrong template in batch add tasks
 
 Version 1.3.0
 	- Major:
