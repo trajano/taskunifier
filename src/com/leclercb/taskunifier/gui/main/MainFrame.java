@@ -213,7 +213,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeAppMenu() {
 		if (SystemUtils.IS_OS_MAC) {
-			TrayPopup popupMenu = new TrayPopup();
+			TrayPopup popupMenu = new TrayPopup(false);
 			MacApplicationAdapter.setDockMenu(popupMenu);
 		}
 	}

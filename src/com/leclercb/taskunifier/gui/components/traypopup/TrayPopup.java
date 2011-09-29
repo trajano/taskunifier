@@ -49,10 +49,14 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class TrayPopup extends PopupMenu {
 	
 	public TrayPopup() {
-		this.initialize();
+		this(true);
 	}
 	
-	private void initialize() {
+	public TrayPopup(boolean showQuitAction) {
+		this.initialize(showQuitAction);
+	}
+	
+	private void initialize(boolean showQuitAction) {
 		Action action = null;
 		MenuItem item = null;
 		
