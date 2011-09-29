@@ -97,9 +97,12 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 			Task task = null;
 			
 			if (isSubTask && previousParentTask != null) {
-				task = ActionAddSubTask.addSubTask(previousParentTask, false);
+				task = ActionAddSubTask.addSubTask(
+						template,
+						previousParentTask,
+						false);
 			} else {
-				task = ActionAddTask.addTask(title, false);
+				task = ActionAddTask.addTask(template, title, false);
 				previousParentTask = task;
 			}
 			
