@@ -84,12 +84,14 @@ public class TrayPopup extends PopupMenu {
 		item.addActionListener(action);
 		this.add(item);
 		
-		this.addSeparator();
-		
-		action = new ActionQuit();
-		item = new MenuItem((String) action.getValue(Action.NAME));
-		item.addActionListener(action);
-		this.add(item);
+		if (showQuitAction) {
+			this.addSeparator();
+			
+			action = new ActionQuit();
+			item = new MenuItem((String) action.getValue(Action.NAME));
+			item.addActionListener(action);
+			this.add(item);
+		}
 	}
 	
 }
