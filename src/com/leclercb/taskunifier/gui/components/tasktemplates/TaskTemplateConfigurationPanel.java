@@ -366,14 +366,6 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		// Template Task Progress
 		builder.appendI15d("general.task.progress", true, templateTaskProgress);
 		
-		// Template Task Due Date
-		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));
-		
-		builder.appendI15d("general.task.due_date", true, taskDueDatePanel);
-		
-		taskDueDatePanel.add(templateTaskDueDate, BorderLayout.CENTER);
-		taskDueDatePanel.add(templateTaskDueTime, BorderLayout.EAST);
-		
 		// Template Task Start Date
 		JPanel taskStartDatePanel = new JPanel(new BorderLayout(10, 0));
 		
@@ -382,15 +374,13 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		taskStartDatePanel.add(templateTaskStartDate, BorderLayout.CENTER);
 		taskStartDatePanel.add(templateTaskStartTime, BorderLayout.EAST);
 		
-		// Template Task Due Date Reminder
-		builder.appendI15d(
-				"general.task.due_date_reminder",
-				true,
-				templateTaskDueDateReminder);
+		// Template Task Due Date
+		JPanel taskDueDatePanel = new JPanel(new BorderLayout(10, 0));
 		
-		templateTaskDueDateReminder.setRenderer(new DefaultListRenderer(
-				StringValueTaskReminder.INSTANCE));
-		templateTaskDueDateReminder.setEditable(true);
+		builder.appendI15d("general.task.due_date", true, taskDueDatePanel);
+		
+		taskDueDatePanel.add(templateTaskDueDate, BorderLayout.CENTER);
+		taskDueDatePanel.add(templateTaskDueTime, BorderLayout.EAST);
 		
 		// Template Task Start Date Reminder
 		builder.appendI15d(
@@ -401,6 +391,16 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		templateTaskStartDateReminder.setRenderer(new DefaultListRenderer(
 				StringValueTaskReminder.INSTANCE));
 		templateTaskStartDateReminder.setEditable(true);
+		
+		// Template Task Due Date Reminder
+		builder.appendI15d(
+				"general.task.due_date_reminder",
+				true,
+				templateTaskDueDateReminder);
+		
+		templateTaskDueDateReminder.setRenderer(new DefaultListRenderer(
+				StringValueTaskReminder.INSTANCE));
+		templateTaskDueDateReminder.setEditable(true);
 		
 		// Template Task Length
 		builder.appendI15d("general.task.length", true, templateTaskLength);

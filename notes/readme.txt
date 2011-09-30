@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.5.0
+	- Minor:
+		- Improved templates
+
 Version 1.4.0
 	- Major:
 		- FR 3413981: Customize toolbar buttons
