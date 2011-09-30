@@ -45,6 +45,13 @@ public class JTaskTagList extends JPanel {
 			this.text.setText(tags.toString());
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		this.text.setEnabled(enabled);
+		this.button.setEnabled(enabled);
+	}
+	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		

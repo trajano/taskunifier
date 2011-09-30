@@ -85,6 +85,13 @@ public class TimerField extends JPanel {
 		this.button.setSelected(this.timer.isStarted());
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		this.timeSpinner.setEnabled(enabled);
+		this.button.setEnabled(enabled);
+	}
+	
 	private void initialize() {
 		this.timeSpinner = new JSpinner();
 		this.timeSpinner.setModel(new SpinnerTimeModel());
