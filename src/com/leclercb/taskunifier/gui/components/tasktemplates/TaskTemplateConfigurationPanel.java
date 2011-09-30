@@ -60,12 +60,10 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
-import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.commons.converters.ModelConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
@@ -176,30 +174,22 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				ValueModel taskTagsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_TAGS);
 				Bindings.bind(templateTaskTags, taskTagsModel);
 				
-				ValueModel taskFolderModel = new ModelConverter(
-						ModelType.FOLDER,
-						this.adapter.getValueModel(TaskTemplate.PROP_TASK_FOLDER));
+				ValueModel taskFolderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_FOLDER);
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
 						new FolderModel(true),
 						taskFolderModel));
 				
-				ValueModel taskContextModel = new ModelConverter(
-						ModelType.CONTEXT,
-						this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXT));
+				ValueModel taskContextModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXT);
 				templateTaskContext.setModel(new ComboBoxAdapter<Context>(
 						new ContextModel(true),
 						taskContextModel));
 				
-				ValueModel taskGoalModel = new ModelConverter(
-						ModelType.GOAL,
-						this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOAL));
+				ValueModel taskGoalModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOAL);
 				templateTaskGoal.setModel(new ComboBoxAdapter<Goal>(
 						new GoalModel(true),
 						taskGoalModel));
 				
-				ValueModel taskLocationModel = new ModelConverter(
-						ModelType.LOCATION,
-						this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATION));
+				ValueModel taskLocationModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATION);
 				templateTaskLocation.setModel(new ComboBoxAdapter<Location>(
 						new LocationModel(true),
 						taskLocationModel));

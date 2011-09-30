@@ -40,6 +40,10 @@ import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
@@ -92,30 +96,22 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
 				type = TaskSearcherType.CONTEXT;
-				template.setTaskContext(
-						(model == null ? null : model.getModelId()),
-						true);
+				template.setTaskContext((Context) model, true);
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
-				template.setTaskFolder(
-						(model == null ? null : model.getModelId()),
-						true);
+				template.setTaskFolder((Folder) model, true);
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
 				type = TaskSearcherType.GOAL;
-				template.setTaskGoal(
-						(model == null ? null : model.getModelId()),
-						true);
+				template.setTaskGoal((Goal) model, true);
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
 				type = TaskSearcherType.LOCATION;
-				template.setTaskLocation(
-						(model == null ? null : model.getModelId()),
-						true);
+				template.setTaskLocation((Location) model, true);
 				break;
 		}
 		
@@ -147,20 +143,16 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
 						switch (ModelItem.this.modelType) {
 							case CONTEXT:
-								template.setTaskContext(
-										model.getModelId(),
-										true);
+								template.setTaskContext((Context) model, true);
 								break;
 							case FOLDER:
-								template.setTaskFolder(model.getModelId(), true);
+								template.setTaskFolder((Folder) model, true);
 								break;
 							case GOAL:
-								template.setTaskGoal(model.getModelId(), true);
+								template.setTaskGoal((Goal) model, true);
 								break;
 							case LOCATION:
-								template.setTaskLocation(
-										model.getModelId(),
-										true);
+								template.setTaskLocation((Location) model, true);
 								break;
 						}
 						
