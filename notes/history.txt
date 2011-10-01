@@ -3,6 +3,7 @@ Version 1.5.0
 		- Improved templates
 		- FR 3415965: Improved copy paste from other softwares
 		- FR 3416832: Escape to close windows
+		- Bug fixed: Configuration synchronization tab
 
 Version 1.4.0
 	- Major:

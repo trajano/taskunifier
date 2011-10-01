@@ -719,15 +719,15 @@ public class Main {
 			}
 		}
 		
+		Main.SETTINGS.setStringProperty(
+				"api.id",
+				SynchronizerUtils.getPlugin().getId());
+		
 		API_PLUGINS.addListChangeListener(new ListChangeListener() {
 			
 			@Override
 			public void listChange(ListChangeEvent evt) {
 				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
-				
-				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					Main.SETTINGS.setStringProperty("api.id", plugin.getId());
-				}
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					if (EqualsUtils.equals(
