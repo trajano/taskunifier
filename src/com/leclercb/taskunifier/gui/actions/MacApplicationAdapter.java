@@ -106,6 +106,8 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	}
 	
 	private static void initializeDockIconBadge() {
+		updateDockIconBadge();
+		
 		Synchronizing.addPropertyChangeListener(
 				Synchronizing.PROP_SYNCHRONIZING,
 				new PropertyChangeListener() {
