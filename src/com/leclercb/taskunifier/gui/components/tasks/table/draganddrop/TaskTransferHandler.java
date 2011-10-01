@@ -45,7 +45,9 @@ import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
+import com.ctc.wstx.util.StringUtil;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -234,8 +236,21 @@ public class TaskTransferHandler extends TransferHandler {
 							&& flavor.getHumanPresentableName().equals(
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
-						String title = IOUtils.toString(reader);
+						String data = IOUtils.toString(reader);
+						
+						String[] lines = data.split("\n");
+						
+						String title = "";
+						String note = "";
+						
+						if (lines.length >= 1)
+							title = lines[0];
+						
+						for (int i=1; i<lines.length; i++)
+							note += lines[i] + "\n";
+						
 						Task task = ActionAddTask.addTask(title, false);
+						task.setNote(note);
 						
 						table.refreshTasks();
 						table.setSelectedTasks(new Task[] { task });

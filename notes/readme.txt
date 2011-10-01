@@ -4,6 +4,8 @@ HISTORY
 Version 1.5.0
 	- Minor:
 		- Improved templates
+		- FR 3415965: Improved copy paste from other softwares
+		- FR 3416832: Escape to close windows
 
 Version 1.4.0
 	- Major:
