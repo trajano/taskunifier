@@ -6,6 +6,7 @@ Version 1.5.0
 		- Improved templates
 		- FR 3415965: Improved copy paste from other softwares
 		- FR 3416832: Escape to close windows
+		- FR 3416035: Shortcut to save task edit window
 		- Bug fixed: Configuration synchronization tab
 
 Version 1.4.0

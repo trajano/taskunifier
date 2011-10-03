@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.taskedit;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -48,7 +49,6 @@ import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -143,18 +143,22 @@ public class BatchTaskEditDialog extends JDialog {
 	}
 	
 	private void initializeButtonsPanel() {
-		ActionListener listener = new ActionListener() {
+		ActionListener okListener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (EqualsUtils.equals(event.getActionCommand(), "OK")) {
-					BatchTaskEditDialog.this.cancelled = false;
-					BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
-					BatchTaskEditDialog.this.setTasks(null);
-					BatchTaskEditDialog.this.setVisible(false);
-					return;
-				}
-				
+				BatchTaskEditDialog.this.cancelled = false;
+				BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
+				BatchTaskEditDialog.this.setTasks(null);
+				BatchTaskEditDialog.this.setVisible(false);
+			}
+			
+		};
+		
+		ActionListener cancelListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
 				BatchTaskEditDialog.this.cancelled = true;
 				BatchTaskEditDialog.this.setTasks(null);
 				BatchTaskEditDialog.this.setVisible(false);
@@ -162,8 +166,8 @@ public class BatchTaskEditDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(listener);
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton okButton = ComponentFactory.createButtonOk(okListener);
+		JButton cancelButton = ComponentFactory.createButtonCancel(cancelListener);
 		
 		JPanel panel = ComponentFactory.createButtonsPanel(
 				okButton,
@@ -173,7 +177,14 @@ public class BatchTaskEditDialog extends JDialog {
 		this.getRootPane().setDefaultButton(okButton);
 		
 		this.getRootPane().registerKeyboardAction(
-				listener,
+				okListener,
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_S,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		
+		this.getRootPane().registerKeyboardAction(
+				cancelListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
