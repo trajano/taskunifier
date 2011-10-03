@@ -64,13 +64,27 @@ public class ActionAddQuickTask extends AbstractAction {
 		if (!matcher.find())
 			return null;
 		
-		taskBean.setTitle(matcher.group().trim());
+		String title = matcher.group();
+		
+		taskBean.setTitle(title.trim());
+		
+		char lastChar = title.charAt(title.length() - 1);
 		
 		pattern = Pattern.compile("[&@*<>][^&@*<>]+");
 		matcher = pattern.matcher(task);
 		
 		while (matcher.find()) {
-			String s = matcher.group().trim();
+			String s = matcher.group();
+			
+			if (lastChar != ' ') {
+				lastChar = s.charAt(s.length() - 1);
+				taskBean.setTitle(taskBean.getTitle() + s.trim());
+				continue;
+			}
+			
+			lastChar = s.charAt(s.length() - 1);
+			s = s.trim();
+			
 			char c = s.charAt(0);
 			s = s.substring(1).trim();
 			
