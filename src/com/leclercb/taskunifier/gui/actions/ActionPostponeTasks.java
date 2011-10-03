@@ -91,7 +91,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				Calendar newStartDate = task.getStartDate();
 				
 				if (newStartDate == null)
-					continue;
+					newStartDate = Calendar.getInstance();
 				
 				if (fromCurrentDate
 						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
@@ -113,7 +113,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				Calendar newDueDate = task.getDueDate();
 				
 				if (newDueDate == null)
-					continue;
+					newDueDate = Calendar.getInstance();
 				
 				if (fromCurrentDate
 						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {

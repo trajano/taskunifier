@@ -212,6 +212,14 @@ public class TaskTable extends JXTable implements TaskTableView {
 	@Override
 	public void refreshTasks() {
 		this.getRowSorter().allRowsChanged();
+		
+		try {
+			if (this.getSelectedRow() != -1)
+				this.scrollRowToVisible(this.getSelectedRow());
+		} catch (Throwable t) {
+			
+		}
+		
 		this.firePropertyChange(PROP_TASK_COUNT, null, this.getTaskCount());
 	}
 	

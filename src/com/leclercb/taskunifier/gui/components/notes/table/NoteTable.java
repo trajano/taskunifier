@@ -193,6 +193,14 @@ public class NoteTable extends JXTable implements NoteTableView {
 	@Override
 	public void refreshNotes() {
 		this.getRowSorter().allRowsChanged();
+		
+		try {
+			if (this.getSelectedRow() != -1)
+				this.scrollRowToVisible(this.getSelectedRow());
+		} catch (Throwable t) {
+			
+		}
+		
 		this.firePropertyChange(PROP_NOTE_COUNT, null, this.getNoteCount());
 	}
 	
