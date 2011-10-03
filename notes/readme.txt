@@ -8,6 +8,7 @@ Version 1.5.0
 		- FR 3416832: Escape to close windows
 		- FR 3416035: Shortcut to save task edit window
 		- Bug fixed: Configuration synchronization tab
+		- BF 3417932: Quick add task special chars
 
 Version 1.4.0
 	- Major:
