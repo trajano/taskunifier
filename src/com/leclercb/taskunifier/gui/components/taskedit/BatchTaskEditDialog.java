@@ -114,6 +114,8 @@ public class BatchTaskEditDialog extends TUDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		this.loadWindowSettings("window.task_edit");
+		
 		this.header = new JXHeader();
 		this.header.setTitle(Translations.getString("header.title.batch_edit_task"));
 		this.header.setDescription(Translations.getString("header.description.batch_edit_task"));
@@ -140,8 +142,6 @@ public class BatchTaskEditDialog extends TUDialog {
 		this.add(this.header, BorderLayout.NORTH);
 		this.add(this.batchTaskEditPanel, BorderLayout.CENTER);
 		this.initializeButtonsPanel();
-		
-		this.loadWindowSettings("window.task_edit");
 	}
 	
 	private void initializeButtonsPanel() {
