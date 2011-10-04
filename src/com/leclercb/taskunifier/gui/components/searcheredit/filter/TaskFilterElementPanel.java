@@ -38,10 +38,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
@@ -77,7 +79,8 @@ public class TaskFilterElementPanel extends JPanel {
 	
 	private JComboBox elementColumn;
 	private JComboBox elementCondition;
-	private JComboBox elementValue;
+	private JComboBox elementValueCb;
+	private JTextField elementValueTf;
 	
 	public TaskFilterElementPanel() {
 		this.initialize();
@@ -90,6 +93,13 @@ public class TaskFilterElementPanel extends JPanel {
 	
 	public void saveElement() {
 		if (this.element != null) {
+			Object elementValue = null;
+			
+			if (this.elementValueCb.isVisible())
+				elementValue = this.elementValueCb.getSelectedItem();
+			else
+				elementValue = this.elementValueTf.getText();
+			
 			Object value = null;
 			
 			switch ((TaskColumn) this.elementColumn.getSelectedItem()) {
@@ -103,7 +113,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case TAGS:
 				case NOTE:
 				case REPEAT:
-					value = this.elementValue.getSelectedItem().toString();
+					value = elementValue.toString();
 					break;
 				case MODEL_CREATION_DATE:
 				case MODEL_UPDATE_DATE:
@@ -111,10 +121,10 @@ public class TaskFilterElementPanel extends JPanel {
 				case DUE_DATE:
 				case START_DATE:
 					try {
-						if (this.elementValue.getSelectedItem().toString().length() == 0)
+						if (elementValue.toString().length() == 0)
 							value = null;
 						else
-							value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
+							value = Integer.parseInt(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
@@ -124,24 +134,24 @@ public class TaskFilterElementPanel extends JPanel {
 				case LENGTH:
 				case IMPORTANCE:
 					try {
-						value = Integer.parseInt(this.elementValue.getSelectedItem().toString());
+						value = Integer.parseInt(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
 					break;
 				case COMPLETED:
 				case STAR:
-					value = this.elementValue.getSelectedItem().toString();
+					value = elementValue.toString();
 					break;
 				case PROGRESS:
 					try {
-						value = Double.parseDouble(this.elementValue.getSelectedItem().toString());
+						value = Double.parseDouble(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0.0;
 					}
 					break;
 				default:
-					value = this.elementValue.getSelectedItem();
+					value = elementValue;
 					break;
 			}
 			
@@ -171,13 +181,18 @@ public class TaskFilterElementPanel extends JPanel {
 		TaskFilterElement currentElement = this.element;
 		this.element = null;
 		
+		this.elementValueCb.setVisible(false);
+		this.elementValueTf.setVisible(false);
+		
 		this.elementColumn.setEnabled(column != null);
 		this.elementCondition.setEnabled(column != null);
-		this.elementValue.setEnabled(column != null);
+		this.elementValueCb.setEnabled(column != null);
+		this.elementValueTf.setEnabled(column != null);
 		
 		this.elementColumn.setModel(new DefaultComboBoxModel());
 		this.elementCondition.setModel(new DefaultComboBoxModel());
-		this.elementValue.setModel(new DefaultComboBoxModel());
+		this.elementValueCb.setModel(new DefaultComboBoxModel());
+		this.elementValueTf.setText("");
 		
 		if (column == null) {
 			return;
@@ -193,219 +208,156 @@ public class TaskFilterElementPanel extends JPanel {
 		this.elementColumn.setModel(taskColumnsModel);
 		this.elementColumn.setSelectedItem(column);
 		
-		this.elementValue.setRenderer(new DefaultListCellRenderer());
+		this.elementValueCb.setRenderer(new DefaultListCellRenderer());
 		
 		switch (column) {
-			case MODEL:
+			case TITLE:
+			case NOTE:
+			case TAGS:
+			case REPEAT:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new TaskModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
+						StringCondition.values()));
+				this.elementValueTf.setText(value == null ? "" : value.toString());
+				this.elementValueTf.setVisible(true);
 				break;
+			case COMPLETED_ON:
+			case DUE_DATE:
+			case START_DATE:
 			case MODEL_CREATION_DATE:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
 			case MODEL_UPDATE_DATE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
+				this.elementValueTf.setText(value == null ? "" : value.toString());
+				this.elementValueTf.setVisible(true);
 				break;
-			case TITLE:
+			case DUE_DATE_REMINDER:
+			case START_DATE_REMINDER:
+			case LENGTH:
+			case IMPORTANCE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
-						StringCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case TAGS:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						StringCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case FOLDER:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new FolderModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
-				break;
-			case CONTEXT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new ContextModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
-				break;
-			case GOAL:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new GoalModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
-				break;
-			case LOCATION:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new LocationModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
-				break;
-			case PARENT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValue.setModel(new TaskModel(true));
-				this.elementValue.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValue.setSelectedItem(value);
-				this.elementValue.setEditable(false);
+						NumberCondition.values()));
+				this.elementValueTf.setText(value == null ? "0" : value.toString());
+				this.elementValueTf.setVisible(true);
 				break;
 			case PROGRESS:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						NumberCondition.values()));
-				this.elementValue.addItem(value == null ? "0.0" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
+				this.elementValueTf.setText(value == null ? "0.0" : value.toString());
+				this.elementValueTf.setVisible(true);
+				break;
+			case MODEL:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new TaskModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
+				break;
+			case FOLDER:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new FolderModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
+				break;
+			case CONTEXT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new ContextModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
+				break;
+			case GOAL:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new GoalModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
+				break;
+			case LOCATION:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new LocationModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
+				break;
+			case PARENT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						ModelCondition.values()));
+				this.elementValueCb.setModel(new TaskModel(true));
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
+						StringValueModel.INSTANCE,
+						IconValueModel.INSTANCE));
+				this.elementValueCb.setSelectedItem(value);
+				this.elementValueCb.setVisible(true);
 				break;
 			case COMPLETED:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						new Object[] { StringCondition.EQUALS }));
-				this.elementValue.setModel(new DefaultComboBoxModel(
+				this.elementValueCb.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
-				this.elementValue.setRenderer(new DefaultListRenderer(
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueBoolean.INSTANCE));
-				this.elementValue.setSelectedIndex(value != null
+				this.elementValueCb.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
-				this.elementValue.setEditable(false);
-				break;
-			case COMPLETED_ON:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case DUE_DATE:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case START_DATE:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						DaysCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case DUE_DATE_REMINDER:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						NumberCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case START_DATE_REMINDER:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						NumberCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case REPEAT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						StringCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
+				this.elementValueCb.setVisible(true);
 				break;
 			case REPEAT_FROM:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						EnumCondition.values()));
-				this.elementValue.setModel(new DefaultComboBoxModel(
+				this.elementValueCb.setModel(new DefaultComboBoxModel(
 						TaskRepeatFrom.values()));
-				this.elementValue.setRenderer(new DefaultListRenderer(
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueTaskRepeatFrom.INSTANCE));
-				this.elementValue.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE : value);
-				this.elementValue.setEditable(false);
+				this.elementValueCb.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE : value);
+				this.elementValueCb.setVisible(true);
 				break;
 			case STATUS:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						EnumCondition.values()));
-				this.elementValue.setModel(new DefaultComboBoxModel(
+				this.elementValueCb.setModel(new DefaultComboBoxModel(
 						TaskStatus.values()));
-				this.elementValue.setRenderer(new DefaultListRenderer(
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueTaskStatus.INSTANCE));
-				this.elementValue.setSelectedItem(value == null ? TaskStatus.NONE : value);
-				this.elementValue.setEditable(false);
-				break;
-			case LENGTH:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						NumberCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
+				this.elementValueCb.setSelectedItem(value == null ? TaskStatus.NONE : value);
+				this.elementValueCb.setVisible(true);
 				break;
 			case PRIORITY:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						EnumCondition.values()));
-				this.elementValue.setModel(new DefaultComboBoxModel(
+				this.elementValueCb.setModel(new DefaultComboBoxModel(
 						TaskPriority.values()));
-				this.elementValue.setRenderer(new DefaultListRenderer(
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueTaskPriority.INSTANCE,
 						IconValueTaskPriority.INSTANCE));
-				this.elementValue.setSelectedItem(value == null ? TaskPriority.LOW : value);
-				this.elementValue.setEditable(false);
+				this.elementValueCb.setSelectedItem(value == null ? TaskPriority.LOW : value);
+				this.elementValueCb.setVisible(true);
 				break;
 			case STAR:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						new Object[] { StringCondition.EQUALS }));
-				this.elementValue.setModel(new DefaultComboBoxModel(
+				this.elementValueCb.setModel(new DefaultComboBoxModel(
 						new Object[] { true, false }));
-				this.elementValue.setRenderer(new DefaultListRenderer(
+				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueBoolean.INSTANCE));
-				this.elementValue.setSelectedIndex(value != null
+				this.elementValueCb.setSelectedIndex(value != null
 						&& Boolean.parseBoolean(value.toString()) ? 0 : 1);
-				this.elementValue.setEditable(false);
+				this.elementValueCb.setVisible(true);
 				break;
-			case NOTE:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						StringCondition.values()));
-				this.elementValue.addItem(value == null ? "" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
-				break;
-			case IMPORTANCE:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						NumberCondition.values()));
-				this.elementValue.addItem(value == null ? "0" : value);
-				this.elementValue.setSelectedIndex(0);
-				this.elementValue.setEditable(true);
 		}
 		
 		if (condition == null)
@@ -460,10 +412,18 @@ public class TaskFilterElementPanel extends JPanel {
 		builder.append(this.elementCondition);
 		
 		// Value
-		this.elementValue = new JComboBox(TaskColumn.values());
-		this.elementValue.setEnabled(false);
+		this.elementValueCb = new JComboBox();
+		this.elementValueCb.setEnabled(false);
 		
-		builder.append(this.elementValue);
+		this.elementValueTf = new JTextField();
+		this.elementValueTf.setEnabled(false);
+		
+		JPanel valuePanel = new JPanel();
+		valuePanel.setLayout(new BoxLayout(valuePanel, BoxLayout.Y_AXIS));
+		valuePanel.add(this.elementValueCb);
+		valuePanel.add(this.elementValueTf);
+		
+		builder.append(valuePanel);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);

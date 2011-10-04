@@ -37,6 +37,7 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
@@ -52,16 +53,21 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	
+	private TaskSearcher searcher;
+	
 	private TaskSearcherPanel searcherPanel;
 	private TaskFilterElementPanel elementPanel;
 	private TaskSorterPanel sorterPanel;
 	private TaskFilterPanel filterPanel;
+	private JTextArea searcherInfo;
 	
 	public SearcherEditPanel(TaskSearcher searcher) {
-		this.initialize(searcher);
+		this.searcher = searcher;
+		
+		this.initialize();
 	}
 	
-	private void initialize(TaskSearcher searcher) {
+	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
 		this.add(
@@ -72,7 +78,16 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.CENTER);
 		
-		this.searcherPanel = new TaskSearcherPanel(searcher);
+		JPanel searcherInfoPanel = new JPanel(new BorderLayout());
+		searcherInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		this.searcherInfo = new JTextArea();
+		this.searcherInfo.setEditable(false);
+		
+		searcherInfoPanel.add(this.searcherInfo);
+		this.add(searcherInfoPanel, BorderLayout.SOUTH);
+		
+		this.searcherPanel = new TaskSearcherPanel(this.searcher);
 		panel.add(this.searcherPanel, BorderLayout.NORTH);
 		
 		this.elementPanel = new TaskFilterElementPanel();
@@ -82,18 +97,21 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		splitPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		panel.add(splitPane, BorderLayout.CENTER);
 		
-		this.sorterPanel = new TaskSorterPanel(searcher.getSorter());
+		this.sorterPanel = new TaskSorterPanel(this.searcher.getSorter());
 		splitPane.setLeftComponent(this.sorterPanel);
 		
-		this.filterPanel = new TaskFilterPanel(searcher.getFilter());
+		this.filterPanel = new TaskFilterPanel(this.searcher.getFilter());
 		this.filterPanel.getTree().addTreeSelectionListener(this);
 		splitPane.setRightComponent(this.filterPanel);
 		
 		splitPane.setDividerLocation(300);
+		
+		this.searcherInfo.setText(this.searcher.getFilter().toString());
 	}
 	
 	public void close() {
 		this.elementPanel.saveElement();
+		this.searcherInfo.setText(this.searcher.getFilter().toString());
 	}
 	
 	@Override
@@ -110,6 +128,8 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		}
 		
 		this.elementPanel.setElement(null);
+		
+		this.searcherInfo.setText(this.searcher.getFilter().toString());
 	}
 	
 }

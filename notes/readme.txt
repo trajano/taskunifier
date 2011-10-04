@@ -4,6 +4,7 @@ HISTORY
 Version 1.5.0
 	- Minor:
 		- Improved templates
+		- Improved edit task searcher window
 		- FR 3415965: Improved copy paste from other softwares
 		- FR 3416832: Escape to close windows
 		- FR 3416035: Shortcut to save task edit window
