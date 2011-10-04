@@ -109,7 +109,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
-		this.loadWindowSizeSettings();
+		this.loadWindowSettings();
 		
 		this.addWindowListener(new WindowAdapter() {
 			
@@ -182,7 +182,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				viewType);
 	}
 	
-	private void loadWindowSizeSettings() {
+	private void loadWindowSettings() {
 		int extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
 		int width = Main.SETTINGS.getIntegerProperty("window.width");
 		int height = Main.SETTINGS.getIntegerProperty("window.height");

@@ -43,7 +43,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -51,11 +50,12 @@ import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.TUDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class BatchTaskEditDialog extends JDialog {
+public class BatchTaskEditDialog extends TUDialog {
 	
 	private static BatchTaskEditDialog INSTANCE;
 	
@@ -140,6 +140,8 @@ public class BatchTaskEditDialog extends JDialog {
 		this.add(this.header, BorderLayout.NORTH);
 		this.add(this.batchTaskEditPanel, BorderLayout.CENTER);
 		this.initializeButtonsPanel();
+		
+		this.loadWindowSettings("window.task_edit");
 	}
 	
 	private void initializeButtonsPanel() {

@@ -853,6 +853,11 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.4.0 to 1.5.0");
 		
+		Main.SETTINGS.setStringProperty("window.task_edit.height", "700");
+		Main.SETTINGS.setStringProperty("window.task_edit.location_x", "0");
+		Main.SETTINGS.setStringProperty("window.task_edit.location_y", "0");
+		Main.SETTINGS.setStringProperty("window.task_edit.width", "900");
+		
 		return "1.5.0";
 	}
 	
