@@ -124,7 +124,7 @@ public class TaskFilterElementPanel extends JPanel {
 						if (elementValue.toString().length() == 0)
 							value = null;
 						else
-							value = Integer.parseInt(elementValue.toString());
+							value = Double.parseDouble(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
@@ -134,7 +134,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case LENGTH:
 				case IMPORTANCE:
 					try {
-						value = Integer.parseInt(elementValue.toString());
+						value = Double.parseDouble(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
@@ -195,6 +195,7 @@ public class TaskFilterElementPanel extends JPanel {
 		this.elementValueTf.setText("");
 		
 		if (column == null) {
+			this.elementValueTf.setVisible(true);
 			return;
 		}
 		
