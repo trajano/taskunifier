@@ -5,6 +5,7 @@ Version 1.5.0
 		- FR 3415965: Improved copy paste from other softwares
 		- FR 3416832: Escape to close windows
 		- FR 3416035: Shortcut to save task edit window
+		- FR 3416782: Remember task edit window size & location
 		- Bug fixed: Configuration synchronization tab
 		- BF 3417932: Quick add task special chars
 
