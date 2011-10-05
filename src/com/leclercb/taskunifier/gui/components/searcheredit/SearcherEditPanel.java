@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterEle
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	
@@ -75,10 +76,14 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 		JPanel searcherInfoPanel = new JPanel(new BorderLayout());
 		searcherInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.searcherInfo = new JTextArea();
+		this.searcherInfo = new JTextArea(3, 0);
 		this.searcherInfo.setEditable(false);
+		this.searcherInfo.setLineWrap(true);
+		this.searcherInfo.setWrapStyleWord(true);
 		
-		searcherInfoPanel.add(this.searcherInfo);
+		searcherInfoPanel.add(ComponentFactory.createJScrollPane(
+				this.searcherInfo,
+				true));
 		this.add(searcherInfoPanel, BorderLayout.SOUTH);
 		
 		this.searcherPanel = new TaskSearcherPanel(this.searcher);
@@ -117,6 +122,7 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 			
 			if (node instanceof TaskFilterElementTreeNode) {
 				this.elementPanel.setElement(((TaskFilterElementTreeNode) node).getElement());
+				this.searcherInfo.setText(this.searcher.getFilter().toString());
 				return;
 			}
 		}
