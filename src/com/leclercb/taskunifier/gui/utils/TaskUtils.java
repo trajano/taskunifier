@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.SortOrder;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -46,6 +48,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
@@ -68,6 +71,15 @@ public final class TaskUtils {
 	
 	private TaskUtils() {
 		
+	}
+	
+	public static boolean isSortByOrder(TaskSorter sorter) {
+		if (sorter.getElementCount() >= 1)
+			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER
+					&& sorter.getElement(0).getSortOrder() == SortOrder.ASCENDING)
+				return true;
+		
+		return false;
 	}
 	
 	public static void updateOrder(

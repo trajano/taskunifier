@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.searcheredit.filter;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -121,14 +120,10 @@ public class TaskFilterPanel extends JPanel {
 		
 		this.add(treePanel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtons();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtons() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -191,7 +186,6 @@ public class TaskFilterPanel extends JPanel {
 		this.addElementButton.setActionCommand("ADD_ELEMENT");
 		this.addElementButton.addActionListener(listener);
 		this.addElementButton.setEnabled(false);
-		buttonsPanel.add(this.addElementButton);
 		
 		this.addFilterButton = new JButton(
 				Translations.getString("searcheredit.add_filter"),
@@ -199,7 +193,6 @@ public class TaskFilterPanel extends JPanel {
 		this.addFilterButton.setActionCommand("ADD_FILTER");
 		this.addFilterButton.addActionListener(listener);
 		this.addFilterButton.setEnabled(false);
-		buttonsPanel.add(this.addFilterButton);
 		
 		this.removeButton = new JButton(Images.getResourceImage(
 				"remove.png",
@@ -208,7 +201,6 @@ public class TaskFilterPanel extends JPanel {
 		this.removeButton.setActionCommand("REMOVE");
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
-		buttonsPanel.add(this.removeButton);
 		
 		this.autoFillButton = new JButton(
 				Translations.getString("searcheredit.clear_and_auto_fill_with_selected_tasks"),
@@ -216,10 +208,17 @@ public class TaskFilterPanel extends JPanel {
 		this.autoFillButton.setActionCommand("AUTO_FILL");
 		this.autoFillButton.addActionListener(listener);
 		this.autoFillButton.setEnabled(true);
-		buttonsPanel.add(this.autoFillButton);
 		
 		// Do not show the auto fill button
 		this.autoFillButton.setVisible(false);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				this.addElementButton,
+				this.addFilterButton,
+				this.removeButton,
+				this.autoFillButton);
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 }

@@ -34,23 +34,30 @@ package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SortOrder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskSorterPanel extends JPanel {
 	
@@ -59,6 +66,7 @@ public class TaskSorterPanel extends JPanel {
 	
 	private JButton addButton;
 	private JButton removeButton;
+	private JCheckBox allowManualOrdering;
 	
 	public TaskSorterPanel(TaskSorter sorter) {
 		this.sorter = sorter;
@@ -100,14 +108,10 @@ public class TaskSorterPanel extends JPanel {
 		
 		this.add(tablePanel, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.initializeButtons(buttonsPanel);
+		this.initializeButtons();
 	}
 	
-	private void initializeButtons(JPanel buttonsPanel) {
+	private void initializeButtons() {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -142,7 +146,6 @@ public class TaskSorterPanel extends JPanel {
 		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
 		this.addButton.setActionCommand("ADD");
 		this.addButton.addActionListener(listener);
-		buttonsPanel.add(this.addButton);
 		
 		this.removeButton = new JButton(Images.getResourceImage(
 				"remove.png",
@@ -151,7 +154,61 @@ public class TaskSorterPanel extends JPanel {
 		this.removeButton.setActionCommand("REMOVE");
 		this.removeButton.addActionListener(listener);
 		this.removeButton.setEnabled(false);
-		buttonsPanel.add(this.removeButton);
+		
+		this.allowManualOrdering = new JCheckBox(
+				Translations.getString("searcheredit.allow_manual_ordering"));
+		this.allowManualOrdering.setSelected(TaskUtils.isSortByOrder(this.sorter));
+		this.allowManualOrdering.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if (TaskSorterPanel.this.allowManualOrdering.isSelected()) {
+					if (TaskUtils.isSortByOrder(TaskSorterPanel.this.sorter))
+						return;
+					
+					TaskSorterPanel.this.sorter.insertElement(
+							new TaskSorterElement(
+									TaskColumn.ORDER,
+									SortOrder.ASCENDING),
+							0);
+				} else {
+					if (!TaskUtils.isSortByOrder(TaskSorterPanel.this.sorter))
+						return;
+					
+					TaskSorterPanel.this.sorter.removeElement(TaskSorterPanel.this.sorter.getElement(0));
+				}
+			}
+			
+		});
+		
+		this.sorter.addListChangeListener(new ListChangeListener() {
+			
+			@Override
+			public void listChange(ListChangeEvent event) {
+				TaskSorterPanel.this.allowManualOrdering.setSelected(TaskUtils.isSortByOrder(TaskSorterPanel.this.sorter));
+			}
+			
+		});
+		
+		this.sorter.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				TaskSorterPanel.this.allowManualOrdering.setSelected(TaskUtils.isSortByOrder(TaskSorterPanel.this.sorter));
+			}
+			
+		});
+		
+		JPanel buttonsPanel = new JPanel(new BorderLayout(3, 3));
+		buttonsPanel.add(this.allowManualOrdering, BorderLayout.NORTH);
+		
+		JPanel panel = ComponentFactory.createButtonsPanel(
+				this.addButton,
+				this.removeButton);
+		
+		buttonsPanel.add(panel, BorderLayout.CENTER);
+		
+		this.add(buttonsPanel, BorderLayout.SOUTH);
 	}
 	
 }

@@ -41,7 +41,6 @@ import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
-import javax.swing.SortOrder;
 import javax.swing.TransferHandler;
 
 import org.apache.commons.io.IOUtils;
@@ -54,10 +53,8 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -184,7 +181,7 @@ public class TaskTransferHandler extends TransferHandler {
 				
 				// Import : If insert row
 				if (dl.isInsertRow()) {
-					if (this.isSortByOrder()) {
+					if (TaskUtils.isSortByOrder(ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher().getSorter())) {
 						TaskUtils.updateOrder(
 								dl.getRow(),
 								dragTasks.toArray(new Task[0]),
@@ -267,17 +264,6 @@ public class TaskTransferHandler extends TransferHandler {
 	@Override
 	protected void exportDone(JComponent source, Transferable data, int action) {
 		
-	}
-	
-	private boolean isSortByOrder() {
-		boolean isSortByOrder = false;
-		TaskSorter sorter = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher().getSorter();
-		if (sorter.getElementCount() >= 1)
-			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER
-					&& sorter.getElement(0).getSortOrder() == SortOrder.ASCENDING)
-				isSortByOrder = true;
-		
-		return isSortByOrder;
 	}
 	
 	private Task getParent(TaskTable table, int index) {
