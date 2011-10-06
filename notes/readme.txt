@@ -1,6 +1,11 @@
 HISTORY
 -------
 
+Version 1.5.1
+	- Minor:
+		- BF 3419399: Unable to edit searches with due date
+		- FR 3419064: Improved task edit window
+
 Version 1.5.0
 	- Minor:
 		- Improved templates

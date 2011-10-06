@@ -124,7 +124,7 @@ public class TaskFilterElementPanel extends JPanel {
 						if (elementValue.toString().length() == 0)
 							value = null;
 						else
-							value = Double.parseDouble(elementValue.toString());
+							value = Integer.parseInt(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
@@ -134,7 +134,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case LENGTH:
 				case IMPORTANCE:
 					try {
-						value = Double.parseDouble(elementValue.toString());
+						value = Integer.parseInt(elementValue.toString());
 					} catch (NumberFormatException e) {
 						value = 0;
 					}
@@ -228,7 +228,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case MODEL_UPDATE_DATE:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						DaysCondition.values()));
-				this.elementValueTf.setText(value == null ? "" : value.toString());
+				this.elementValueTf.setText(value == null ? "0" : value.toString());
 				this.elementValueTf.setVisible(true);
 				break;
 			case DUE_DATE_REMINDER:

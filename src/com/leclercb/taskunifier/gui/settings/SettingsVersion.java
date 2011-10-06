@@ -193,6 +193,9 @@ public final class SettingsVersion {
 		if (version.equals("1.4.0"))
 			version = updateSettings_1_4_0_to_1_5_0();
 		
+		if (version.equals("1.5.0"))
+			version = updateSettings_1_5_0_to_1_5_1();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -859,6 +862,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("window.task_edit.width", "900");
 		
 		return "1.5.0";
+	}
+	
+	private static String updateSettings_1_5_0_to_1_5_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.5.0 to 1.5.1");
+		
+		return "1.5.1";
 	}
 	
 }
