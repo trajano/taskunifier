@@ -57,6 +57,8 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	
+	private static int SYNCHRONIZE_COUNT = 0;
+	
 	private boolean silent;
 	private ProgressMessageListener handler;
 	
@@ -98,17 +100,21 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 						Translations.getString("synchronizer.checking_license")));
 				
 				if (!plugin.checkLicense()) {
+					int waitTime = Constants.WAIT_NO_LICENSE_TIME;
+					waitTime += SYNCHRONIZE_COUNT
+							* Constants.WAIT_NO_LICENSE_ADDED_TIME;
+					
 					monitor.addMessage(new DefaultProgressMessage(
 							Translations.getString(
 									"synchronizer.wait_no_license",
-									Constants.WAIT_NO_LICENSE_TIME)));
+									waitTime)));
 					
 					monitor.addMessage(new DefaultProgressMessage(
 							Translations.getString(
 									"general.go_to_serial",
 									plugin.getName())));
 					
-					Thread.sleep(Constants.WAIT_NO_LICENSE_TIME * 1000);
+					Thread.sleep(waitTime * 1000);
 				}
 			}
 			
@@ -141,6 +147,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			Main.SETTINGS.setCalendarProperty(
 					"synchronizer.last_synchronization_date",
 					Calendar.getInstance());
+			
+			SYNCHRONIZE_COUNT++;
 		} catch (final SynchronizerException e) {
 			monitor.addMessage(new DefaultProgressMessage(e.getMessage()));
 			
