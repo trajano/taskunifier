@@ -67,4 +67,8 @@ public class PluginApi {
 		return Translations.getString(key, args);
 	}
 	
+	public static void resetSynchronizerAndDeleteModels() {
+		SynchronizerUtils.resetSynchronizerAndDeleteModels();
+	}
+	
 }
