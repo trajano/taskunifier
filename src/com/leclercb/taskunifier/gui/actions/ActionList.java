@@ -218,6 +218,8 @@ public enum ActionList {
 				return new ActionResetGeneralSearchers(width, height);
 			case REVIEW:
 				return new ActionReview(width, height);
+			case SAVE:
+				return new ActionSave(width, height);
 			case SCHEDULED_SYNC:
 				return new ActionScheduledSync(width, height);
 			case SELECT_PARENT_TASKS:
