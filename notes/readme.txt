@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.6.0
+	- Minor:
+		- Bug fixed: Update plugin problem
+
 Version 1.5.1
 	- Minor:
 		- BF 3419399: Unable to edit searches with due date

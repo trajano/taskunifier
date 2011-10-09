@@ -729,6 +729,10 @@ public class Main {
 			public void listChange(ListChangeEvent evt) {
 				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
 				
+				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+					Main.SETTINGS.setStringProperty("api.id", plugin.getId());
+				}
+				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					if (EqualsUtils.equals(
 							Main.SETTINGS.getStringProperty("api.id"),
