@@ -65,6 +65,7 @@ public enum ActionList {
 	REDO(Translations.getString("action.redo"), "redo.png", false),
 	RESET_GENERAL_SEARCHERS(Translations.getString("action.reset_general_searchers"), "undo.png", false),
 	REVIEW(Translations.getString("action.review"), "information.png", true),
+	SAVE(Translations.getString("action.save"), "save.png", true),
 	SCHEDULED_SYNC(Translations.getString("action.scheduled_sync"), "synchronize_play.png", true),
 	SELECT_PARENT_TASKS(Translations.getString("action.select_parent_tasks"), "task.png", true),
 	SHOW_TIPS(Translations.getString("action.show_tips"), "information.png", true),

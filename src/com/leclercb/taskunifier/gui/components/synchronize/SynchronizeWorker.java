@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.actions.ActionSave;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -84,7 +85,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			if (!Synchronizing.setSynchronizing(true))
 				return null;
 			
-			Main.saveAll();
+			ActionSave.save();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
