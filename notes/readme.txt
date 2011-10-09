@@ -8,6 +8,7 @@ Version 1.6.0
 		- FR 3420895: Task priorities order
 		- FR 3419764: Save action
 		- FR 3419064: Improved task edit window
+		- FR 3420896: Improved progress field
 		- Bug fixed: Update plugin problem
 		- Bug fixed: Auto commit progress value
 
