@@ -1,6 +1,12 @@
 Version 1.6.0
 	- Minor:
+		- Remove auto completion
+		- FR 3420894: Icon for repeating task
+		- FR 3420895: Task priorities order
+		- FR 3419764: Save action
+		- FR 3419064: Improved task edit window
 		- Bug fixed: Update plugin problem
+		- Bug fixed: Auto commit progress value
 
 Version 1.5.1
 	- Minor:

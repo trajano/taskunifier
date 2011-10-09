@@ -508,16 +508,31 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskCompletedCheckBox);
 		builder.append(this.taskCompleted);
 		
+		// Task Priority
+		this.taskPriority.setModel(new TaskPriorityModel(false));
+		
+		builder.appendI15d(
+				"general.task.priority",
+				true,
+				this.taskPriorityCheckBox);
+		builder.append(this.taskPriority);
+		
 		// Task Tags
 		builder.appendI15d("general.task.tags", true, this.taskTagsCheckBox);
 		builder.append(this.taskTags);
+		
+		// Task Status
+		this.taskStatus.setModel(new TaskStatusModel(false));
+		
+		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
+		builder.append(this.taskStatus);
 		
 		// Task Progress
 		this.taskProgress.setModel(new SpinnerNumberModel(
 				new Double(0.00),
 				new Double(0.00),
 				new Double(1.00),
-				new Double(0.01)));
+				new Double(0.10)));
 		
 		this.taskProgress.setEditor(new JSpinner.NumberEditor(
 				this.taskProgress,
@@ -528,21 +543,6 @@ public class BatchTaskEditPanel extends JPanel {
 				true,
 				this.taskProgressCheckBox);
 		builder.append(this.taskProgress);
-		
-		// Task Status
-		this.taskStatus.setModel(new TaskStatusModel(false));
-		
-		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
-		builder.append(this.taskStatus);
-		
-		// Task Priority
-		this.taskPriority.setModel(new TaskPriorityModel(false));
-		
-		builder.appendI15d(
-				"general.task.priority",
-				true,
-				this.taskPriorityCheckBox);
-		builder.append(this.taskPriority);
 		
 		// Separator
 		builder.getBuilder().appendSeparator();

@@ -30,68 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.editors;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.text.ParseException;
-import java.util.EventObject;
+import javax.swing.Icon;
 
-import javax.swing.AbstractCellEditor;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.table.TableCellEditor;
+import org.jdesktop.swingx.renderer.IconValue;
 
-public class ProgressEditor extends AbstractCellEditor implements TableCellEditor {
+import com.leclercb.taskunifier.gui.utils.Images;
+
+public class IconValueRepeat implements IconValue {
 	
-	private JSpinner progressSpinner;
+	public static final IconValueRepeat INSTANCE = new IconValueRepeat();
 	
-	public ProgressEditor() {
-		this.progressSpinner = new JSpinner();
-		this.progressSpinner.setModel(new SpinnerNumberModel(
-				0.00,
-				0.00,
-				1.00,
-				0.10));
-		this.progressSpinner.setEditor(new JSpinner.NumberEditor(
-				this.progressSpinner,
-				"##0.00%"));
+	private IconValueRepeat() {
+		
 	}
 	
 	@Override
-	public Component getTableCellEditorComponent(
-			JTable table,
-			Object value,
-			boolean isSelected,
-			int row,
-			int col) {
-		this.progressSpinner.setValue(value);
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof String))
+			return null;
 		
-		return this.progressSpinner;
-	}
-	
-	@Override
-	public Object getCellEditorValue() {
-		try {
-			this.progressSpinner.commitEdit();
-		} catch (ParseException e) {
-			
-		}
-		
-		return this.progressSpinner.getValue();
-	}
-	
-	@Override
-	public boolean isCellEditable(EventObject anEvent) {
-		if (anEvent instanceof MouseEvent) {
-			MouseEvent event = (MouseEvent) anEvent;
-			
-			if (event.getClickCount() != 1)
-				return false;
-		}
-		
-		return super.isCellEditable(anEvent);
+		if (((String) value).trim().length() == 0)
+			return null;
+		else
+			return Images.getResourceImage("repeat.png", 16, 16);
 	}
 	
 }

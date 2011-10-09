@@ -44,10 +44,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyChangeListener {
 	
 	public TaskPriorityModel(boolean firstNull) {
-		super(
-				ArrayUtils.concat(
-						(firstNull ? new TaskPriority[] { null } : new TaskPriority[0]),
-						TaskPriority.values()));
+		super(generateArray(firstNull));
 		
 		Main.SETTINGS.addPropertyChangeListener(this);
 	}
@@ -57,6 +54,16 @@ public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyC
 		if (evt.getPropertyName().startsWith("theme.color.priority")) {
 			this.fireContentsChanged(this, 0, this.getSize() - 1);
 		}
+	}
+	
+	private static TaskPriority[] generateArray(boolean firstNull) {
+		TaskPriority[] array = ArrayUtils.concat(
+				(firstNull ? new TaskPriority[] { null } : new TaskPriority[0]),
+				TaskPriority.values());
+		
+		org.apache.commons.lang.ArrayUtils.reverse(array);
+		
+		return array;
 	}
 	
 }

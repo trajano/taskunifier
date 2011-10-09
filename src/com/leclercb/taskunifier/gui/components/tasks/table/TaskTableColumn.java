@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
+import com.leclercb.taskunifier.gui.commons.values.IconValueRepeat;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
@@ -183,8 +184,10 @@ public class TaskTableColumn extends TableColumnExt {
 		REMINDER_RENDERER = new DefaultTableRenderer(
 				StringValueTaskReminder.INSTANCE);
 		
-		REPEAT_RENDERER = new DefaultTableRenderer(
-				StringValueTaskRepeat.INSTANCE);
+		REPEAT_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValueTaskRepeat.INSTANCE,
+				IconValueRepeat.INSTANCE,
+				null));
 		
 		SHOW_CHILDREN_RENDERER = new ShowChildrenRenderer();
 		

@@ -200,7 +200,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 						new Double(0.00),
 						new Double(0.00),
 						new Double(1.00),
-						new Double(0.01));
+						new Double(0.10));
 				
 				templateTaskProgress.setModel(taskProgressSpinnerModel);
 				templateTaskProgress.setEditor(new JSpinner.NumberEditor(

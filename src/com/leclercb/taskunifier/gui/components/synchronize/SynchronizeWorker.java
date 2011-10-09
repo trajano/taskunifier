@@ -82,10 +82,10 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			monitor.addListChangeListener(this.handler);
 		
 		try {
+			ActionSave.save();
+			
 			if (!Synchronizing.setSynchronizing(true))
 				return null;
-			
-			ActionSave.save();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			

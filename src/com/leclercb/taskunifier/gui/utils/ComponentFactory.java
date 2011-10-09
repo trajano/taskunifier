@@ -202,7 +202,7 @@ public final class ComponentFactory {
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
 		
-		if (autoComplete) {
+		if (false) {
 			AutoCompleteDecorator.decorate(
 					comboBox,
 					new ObjectToStringConverter() {
@@ -233,7 +233,7 @@ public final class ComponentFactory {
 				StringValueTaskPriority.INSTANCE,
 				IconValueTaskPriority.INSTANCE));
 		
-		if (autoComplete) {
+		if (false) {
 			AutoCompleteDecorator.decorate(
 					comboBox,
 					new ObjectToStringConverter() {
@@ -260,7 +260,7 @@ public final class ComponentFactory {
 		comboBox.setRenderer(new DefaultListRenderer(
 				StringValueTaskRepeatFrom.INSTANCE));
 		
-		if (autoComplete) {
+		if (false) {
 			AutoCompleteDecorator.decorate(
 					comboBox,
 					new ObjectToStringConverter() {
@@ -287,7 +287,7 @@ public final class ComponentFactory {
 		comboBox.setRenderer(new DefaultListRenderer(
 				StringValueTaskStatus.INSTANCE));
 		
-		if (autoComplete) {
+		if (false) {
 			AutoCompleteDecorator.decorate(
 					comboBox,
 					new ObjectToStringConverter() {
