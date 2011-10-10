@@ -4,6 +4,7 @@ HISTORY
 Version 1.6.1
 	- Minor:
 		- FR 3421063: Tooltip for repeat field
+		- BF 3421156: Rotate tips
 
 Version 1.6.0
 	- Minor:
