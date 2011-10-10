@@ -32,13 +32,26 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+import java.awt.Component;
 
-public class TaskTooltipHighlighter extends ToolTipHighlighter {
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+
+public class TaskTooltipHighlightPredicate implements HighlightPredicate {
 	
-	public TaskTooltipHighlighter(HighlightPredicate predicate) {
-		super(predicate);
+	@Override
+	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
+		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
+		
+		switch (column) {
+			case TITLE:
+			case REPEAT:
+				return true;
+		}
+		
+		return false;
 	}
 	
 }
