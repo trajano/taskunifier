@@ -51,11 +51,10 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
+import com.leclercb.taskunifier.gui.commons.values.StringValueNoteTitle;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class NoteTableColumn extends TableColumnExt {
 	
@@ -87,8 +86,7 @@ public class NoteTableColumn extends TableColumnExt {
 				StringValues.EMPTY,
 				IconValueNote.INSTANCE));
 		
-		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
-				Translations.getString("note.default.title")));
+		TITLE_RENDERER = new DefaultTableRenderer(StringValueNoteTitle.INSTANCE);
 		FOLDER_EDITOR = new FolderEditor();
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}

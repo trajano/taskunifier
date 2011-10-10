@@ -30,23 +30,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Component;
-
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-
-public class TaskTooltipHighlightPredicate implements HighlightPredicate {
+public class StringValueTaskTitle extends StringValueTitle {
 	
-	@Override
-	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
-		if (adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column)) != TaskColumn.TITLE)
-			return false;
-		
-		return true;
+	public static final StringValueTaskTitle INSTANCE = new StringValueTaskTitle(
+			"task.default.title");
+	
+	public StringValueTaskTitle(String defaultTitle) {
+		super(defaultTitle);
 	}
 	
 }

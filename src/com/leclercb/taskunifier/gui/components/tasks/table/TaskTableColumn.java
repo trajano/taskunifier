@@ -67,8 +67,8 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTitle;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
@@ -88,7 +88,6 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskTableColumn extends TableColumnExt {
 	
@@ -214,8 +213,7 @@ public class TaskTableColumn extends TableColumnExt {
 				StringValueTimer.INSTANCE,
 				IconValueTimer.INSTANCE));
 		
-		TITLE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
-				Translations.getString("task.default.title")));
+		TITLE_RENDERER = new DefaultTableRenderer(StringValueTaskTitle.INSTANCE);
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();

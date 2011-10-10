@@ -30,39 +30,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Component;
-
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.ToolTipHighlighter;
-
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeat;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTitle;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-
-public class TaskTooltipHighlighter extends ToolTipHighlighter {
+public class StringValueNoteTitle extends StringValueTitle {
 	
-	public TaskTooltipHighlighter() {
-		super();
-	}
+	public static final StringValueNoteTitle INSTANCE = new StringValueNoteTitle(
+			"note.default.title");
 	
-	@Override
-	public Component highlight(Component component, ComponentAdapter adapter) {
-		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
-		
-		switch (column) {
-			case TITLE:
-				this.setToolTipValue(StringValueTaskTitle.INSTANCE);
-				break;
-			case REPEAT:
-				this.setToolTipValue(StringValueTaskRepeat.INSTANCE);
-				break;
-			default:
-				return component;
-		}
-		
-		return super.highlight(component, adapter);
+	public StringValueNoteTitle(String defaultTitle) {
+		super(defaultTitle);
 	}
 	
 }
