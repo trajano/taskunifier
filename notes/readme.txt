@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.6.1
+	- Minor:
+		- FR 3421063: Tooltip for repeat field
+
 Version 1.6.0
 	- Minor:
 		- Remove auto completion
