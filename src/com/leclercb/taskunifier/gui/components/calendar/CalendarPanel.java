@@ -25,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -42,13 +43,18 @@ import org.jdesktop.swingx.JXSearchField;
 import bizcal.swing.DayView;
 
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
+import com.jgoodies.common.base.SystemUtils;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class CalendarPanel extends JPanel {
+public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	
 	private LinkedHashMap<String, AbstractCalendarView> calendarViews = new LinkedHashMap<String, AbstractCalendarView>();
 	private JXMonthView dayChooser;
@@ -66,18 +72,50 @@ public class CalendarPanel extends JPanel {
 	private NamedCalendar lastShowingCalendarBeforeShowAll = null;
 	private ButtonGroup calendarButtonGroup = new ButtonGroup();
 	
+	private JSplitPane horizontalSplitPane;
+	
 	private JXSearchField searchField;
 	private JCheckBox showCompletedTasksCheckBox;
 	private TaskSearcherPanel taskSearcherPanel;
 	
 	public CalendarPanel() {
+		Main.SETTINGS.addSavePropertiesListener(this);
+		
 		this.setLayout(new BorderLayout(3, 3));
+		
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+			this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		} else {
+			this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+			
+			this.horizontalSplitPane = new JSplitPane(
+					JSplitPane.HORIZONTAL_SPLIT);
+		}
+		
+		this.horizontalSplitPane.setOneTouchExpandable(true);
+		
+		this.add(this.horizontalSplitPane, BorderLayout.CENTER);
+		
 		this.createMainPanel();
 		this.createMenuPanel();
+		
+		this.loadSplitPaneSettings();
 	}
 	
 	public TaskSearcherPanel getTaskSearcherPanel() {
 		return this.taskSearcherPanel;
+	}
+	
+	private void loadSplitPaneSettings() {
+		int hSplit = Main.SETTINGS.getIntegerProperty("view.calendar.window.horizontal_split");
+		this.horizontalSplitPane.setDividerLocation(hSplit);
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.SETTINGS.setIntegerProperty(
+				"view.calendar.window.horizontal_split",
+				this.horizontalSplitPane.getDividerLocation());
 	}
 	
 	private void createMainPanel() {
@@ -106,7 +144,7 @@ public class CalendarPanel extends JPanel {
 		mainPanel.add(quickAddTaskPanel, BorderLayout.NORTH);
 		mainPanel.add(this.viewsPanel, BorderLayout.CENTER);
 		
-		this.add(mainPanel, BorderLayout.CENTER);
+		this.horizontalSplitPane.setRightComponent(mainPanel);
 	}
 	
 	private void createMenuPanel() {
@@ -203,7 +241,7 @@ public class CalendarPanel extends JPanel {
 		
 		searcherPane.add(bottomPanel, BorderLayout.SOUTH);
 		
-		this.add(searcherPane, BorderLayout.WEST);
+		this.horizontalSplitPane.setLeftComponent(searcherPane);
 	}
 	
 	private void initializeSearchField() {
