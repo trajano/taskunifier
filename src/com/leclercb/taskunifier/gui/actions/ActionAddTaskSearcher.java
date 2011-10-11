@@ -52,6 +52,7 @@ public class ActionAddTaskSearcher extends AbstractViewAction {
 		super(
 				Translations.getString("action.add_task_searcher"),
 				Images.getResourceImage("add.png", width, height),
+				ViewType.CALENDAR,
 				ViewType.TASKS);
 		
 		this.putValue(

@@ -10,6 +10,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.MainView;
 
 class DefaultCalendarView extends JPanel implements CalendarView {
@@ -33,6 +34,11 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 	@Override
 	public JPanel getViewContent() {
 		return this;
+	}
+	
+	@Override
+	public TaskSearcherView getTaskSearcherView() {
+		return this.calendarPanel.getTaskSearcherView();
 	}
 	
 	@Override

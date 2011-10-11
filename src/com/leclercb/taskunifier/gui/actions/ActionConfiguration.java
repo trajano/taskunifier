@@ -71,7 +71,7 @@ public class ActionConfiguration extends AbstractAction {
 		ConfigurationDialog.getInstance().setSelectedConfigurationTab(tab);
 		ConfigurationDialog.getInstance().setVisible(true);
 		
-		ViewType.getTaskView().getTaskSearcherView().refreshTaskSearcher();
+		ViewType.refreshTaskSearcher();
 	}
 	
 }

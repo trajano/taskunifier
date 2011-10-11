@@ -1,6 +1,5 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -14,6 +13,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -28,14 +28,14 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		super(
 				Translations.getString("calendar.tasks_by_start_date"),
 				Translations.getString("calendar.tasks_by_start_date"),
-				Color.GREEN);
+				null);
 		this.events = new ArrayList<Event>();
 		
 		this.setId("tasksstartdatecalendar");
 	}
 	
 	@Override
-	public void updateEvents(boolean showCompletedTasks) {
+	public void updateEvents(boolean showCompletedTasks, TaskSearcher searcher) {
 		this.events.clear();
 		
 		List<TaskColumn> columns = new ArrayList<TaskColumn>(
@@ -55,6 +55,10 @@ public class TasksStartDateCalendar extends TasksCalendar {
 				continue;
 			
 			if (task.getStartDate() == null)
+				continue;
+			
+			if (searcher != null
+					&& !TaskUtils.showUnindentTask(task, searcher.getFilter()))
 				continue;
 			
 			int length = task.getLength();

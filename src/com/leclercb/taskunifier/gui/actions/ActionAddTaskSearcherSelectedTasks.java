@@ -57,6 +57,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 		super(
 				Translations.getString("action.add_task_searcher_selected_tasks"),
 				Images.getResourceImage("add.png", width, height),
+				ViewType.CALENDAR,
 				ViewType.TASKS);
 		
 		this.putValue(
@@ -75,7 +76,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		
-		Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
+		Task[] tasks = ViewType.getSelectedTasks();
 		for (Task task : tasks) {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.MODEL,

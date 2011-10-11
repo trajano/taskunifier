@@ -12,6 +12,7 @@ import bizcal.util.DateInterval;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 
 public abstract class TasksCalendar extends NamedCalendar {
 	
@@ -27,7 +28,9 @@ public abstract class TasksCalendar extends NamedCalendar {
 		super(name);
 	}
 	
-	public abstract void updateEvents(boolean showCompletedTasks);
+	public abstract void updateEvents(
+			boolean showCompletedTasks,
+			TaskSearcher searcher);
 	
 	public abstract void newEvent(DateInterval interval) throws Exception;
 	

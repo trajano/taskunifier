@@ -55,6 +55,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 		super(
 				Translations.getString("action.edit_task_searcher"),
 				Images.getResourceImage("edit.png", width, height),
+				ViewType.CALENDAR,
 				ViewType.TASKS);
 		
 		this.putValue(
@@ -62,6 +63,16 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 				Translations.getString("action.edit_task_searcher"));
 		
 		this.viewLoaded();
+		
+		ViewType.CALENDAR.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionEditTaskSearcher.this.viewLoaded();
+			}
+			
+		});
+		
 		ViewType.TASKS.addActionListener(new ActionListener() {
 			
 			@Override
@@ -75,6 +86,21 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 	}
 	
 	private void viewLoaded() {
+		if (ViewType.CALENDAR.isLoaded()) {
+			ViewType.getCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
+					new TaskSearcherSelectionListener() {
+						
+						@Override
+						public void taskSearcherSelectionChange(
+								TaskSearcherSelectionChangeEvent event) {
+							ActionEditTaskSearcher.this.setEnabled(ActionEditTaskSearcher.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
+		
 		if (ViewType.TASKS.isLoaded()) {
 			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 					new TaskSearcherSelectionListener() {
@@ -96,7 +122,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
 		
@@ -117,7 +143,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 	}
 	
 	public static void editTaskSearcher() {
-		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;
@@ -132,7 +158,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 			
 			dialog.setVisible(true);
 			
-			ViewType.getTaskView().getTaskSearcherView().refreshTaskSearcher();
+			ViewType.refreshTaskSearcher();
 		}
 	}
 	

@@ -31,6 +31,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPane
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -119,7 +120,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		
 		this.initializeSearchField();
 		this.showCompletedTasksCheckBox = new TUShowCompletedTasksCheckBox();
-		this.initializeIndentsubtasksCheckBox();
+		this.indentSubtasksCheckBox = new TUIndentSubtasksCheckBox();
 		this.initializeSearcherList(searcherPane);
 		this.initializeQuickAddTask(middlePane);
 		this.initializeTaskTable(middlePane);
@@ -156,40 +157,6 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DefaultTaskView.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
-			}
-			
-		});
-	}
-	
-	private void initializeIndentsubtasksCheckBox() {
-		this.indentSubtasksCheckBox = new JCheckBox(
-				Translations.getString("configuration.general.indent_subtasks"));
-		
-		this.indentSubtasksCheckBox.setOpaque(false);
-		this.indentSubtasksCheckBox.setFont(this.indentSubtasksCheckBox.getFont().deriveFont(
-				10.0f));
-		
-		this.indentSubtasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("task.indent_subtasks"));
-		
-		Main.SETTINGS.addPropertyChangeListener(
-				"task.indent_subtasks",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
-						DefaultTaskView.this.indentSubtasksCheckBox.setSelected(selected);
-					}
-					
-				});
-		
-		this.indentSubtasksCheckBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
-						"task.indent_subtasks",
-						DefaultTaskView.this.indentSubtasksCheckBox.isSelected());
 			}
 			
 		});

@@ -53,6 +53,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 		super(
 				Translations.getString("action.delete_task_searcher"),
 				Images.getResourceImage("remove.png", width, height),
+				ViewType.CALENDAR,
 				ViewType.TASKS);
 		
 		this.putValue(
@@ -60,6 +61,16 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 				Translations.getString("action.delete_task_searcher"));
 		
 		this.viewLoaded();
+		
+		ViewType.CALENDAR.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionDeleteTaskSearcher.this.viewLoaded();
+			}
+			
+		});
+		
 		ViewType.TASKS.addActionListener(new ActionListener() {
 			
 			@Override
@@ -73,6 +84,21 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	}
 	
 	private void viewLoaded() {
+		if (ViewType.CALENDAR.isLoaded()) {
+			ViewType.getCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
+					new TaskSearcherSelectionListener() {
+						
+						@Override
+						public void taskSearcherSelectionChange(
+								TaskSearcherSelectionChangeEvent event) {
+							ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
+		
 		if (ViewType.TASKS.isLoaded()) {
 			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 					new TaskSearcherSelectionListener() {
@@ -94,7 +120,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
 		
@@ -115,7 +141,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	}
 	
 	public static void deleteTaskSearcher() {
-		TaskSearcher searcher = ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;

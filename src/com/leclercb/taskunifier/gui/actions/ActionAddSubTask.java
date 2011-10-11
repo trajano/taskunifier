@@ -176,11 +176,11 @@ public class ActionAddSubTask extends AbstractViewAction {
 		
 		TaskTemplate searcherTemplate = null;
 		
-		if (viewType == ViewType.TASKS) {
-			searcherTemplate = ViewType.getTaskView().getTaskSearcherView().getSelectedTaskSearcher().getTemplate();
+		if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
+			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
 			
 			if (searcherTemplate == null)
-				ViewType.getTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
+				ViewType.selectDefaultTaskSearcher();
 		}
 		
 		Task task = TaskFactory.getInstance().create(

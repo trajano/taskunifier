@@ -10,11 +10,10 @@ import javax.swing.JCheckBox;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TUShowCompletedTasksCheckBox extends JCheckBox {
+public class TUIndentSubtasksCheckBox extends JCheckBox {
 	
-	public TUShowCompletedTasksCheckBox() {
-		super(
-				Translations.getString("configuration.general.show_completed_tasks"));
+	public TUIndentSubtasksCheckBox() {
+		super(Translations.getString("configuration.general.indent_subtasks"));
 		this.initialize();
 	}
 	
@@ -22,16 +21,16 @@ public class TUShowCompletedTasksCheckBox extends JCheckBox {
 		this.setOpaque(false);
 		this.setFont(this.getFont().deriveFont(10.0f));
 		
-		this.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		this.setSelected(Main.SETTINGS.getBooleanProperty("task.indent_subtasks"));
 		
 		Main.SETTINGS.addPropertyChangeListener(
-				"tasksearcher.show_completed_tasks",
+				"task.indent_subtasks",
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
-						TUShowCompletedTasksCheckBox.this.setSelected(selected);
+						boolean selected = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+						TUIndentSubtasksCheckBox.this.setSelected(selected);
 					}
 					
 				});
@@ -41,8 +40,8 @@ public class TUShowCompletedTasksCheckBox extends JCheckBox {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Main.SETTINGS.setBooleanProperty(
-						"tasksearcher.show_completed_tasks",
-						TUShowCompletedTasksCheckBox.this.isSelected());
+						"task.indent_subtasks",
+						TUIndentSubtasksCheckBox.this.isSelected());
 			}
 			
 		});

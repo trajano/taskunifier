@@ -1,10 +1,6 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,13 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import lu.tudor.santec.bizcal.CalendarPanel;
 import lu.tudor.santec.bizcal.EventModel;
 import lu.tudor.santec.bizcal.NamedCalendar;
 import lu.tudor.santec.bizcal.listeners.NamedCalendarListener;
@@ -38,27 +29,22 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.actions.ActionAddTask;
-import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
-import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
-import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
-import com.leclercb.taskunifier.gui.actions.ActionDelete;
-import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
-import com.leclercb.taskunifier.gui.actions.ActionPostponeTasksMenu;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
 	private ObservableEventList eventDataList;
-	
-	private JCheckBox showCompletedTasksCheckBox;
 	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
@@ -73,10 +59,14 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
-		this.initializeShowCompletedTasksCheckBox();
 		this.initialize();
 		
 		this.refreshTasks();
+	}
+	
+	@Override
+	public TaskSearcherView getTaskSearcherView() {
+		return this.calendarPanel.getTaskSearcherPanel();
 	}
 	
 	private void initialize() {
@@ -159,38 +149,27 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 			
 		});
 		
-		JPanel checkBoxPanel = new JPanel(new BorderLayout());
-		checkBoxPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-		checkBoxPanel.add(this.showCompletedTasksCheckBox);
-		checkBoxPanel.setOpaque(true);
-		checkBoxPanel.setBackground(new Color(-2695707));
+		this.calendarPanel.getTaskSearcherPanel().addTaskSearcherSelectionChangeListener(
+				new TaskSearcherSelectionListener() {
+					
+					@Override
+					public void taskSearcherSelectionChange(
+							TaskSearcherSelectionChangeEvent event) {
+						TasksCalendarPanel.this.refreshTasks();
+					}
+					
+				});
 		
-		this.calendarPanel.setTopLeftPanel(checkBoxPanel);
-		
-		this.calendarPanel.getFunctionsButtonPanel().setContentLayout(
-				new GridLayout(0, 3, 5, 5));
-		
-		this.addFunctionButton(new ActionAddTask(32, 32));
-		this.addFunctionButton(new ActionAddTemplateTaskMenu(32, 32));
-		this.addFunctionButton(new ActionBatchAddTasks(32, 32));
-		this.addFunctionButton(new ActionEditTasks(32, 32));
-		this.addFunctionButton(new ActionPostponeTasksMenu(32, 32));
-		this.addFunctionButton(new ActionCompleteTasks(32, 32));
-		this.addFunctionButton(new ActionDuplicateTasks(32, 32));
-		this.addFunctionButton(new ActionDelete(32, 32));
-		
-		this.add(this.calendarPanel, BorderLayout.CENTER);
-	}
-	
-	private void initializeShowCompletedTasksCheckBox() {
-		this.showCompletedTasksCheckBox = new JCheckBox(
-				Translations.getString("configuration.general.show_completed_tasks"));
-		
-		this.showCompletedTasksCheckBox.setOpaque(false);
-		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
-				10.0f));
-		
-		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		this.calendarPanel.getTaskSearcherPanel().addPropertyChangeListener(
+				TaskSearcherPanel.PROP_TITLE_FILTER,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TasksCalendarPanel.this.refreshTasks();
+					}
+					
+				});
 		
 		Main.SETTINGS.addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
@@ -198,34 +177,12 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
-						TasksCalendarPanel.this.showCompletedTasksCheckBox.setSelected(selected);
 						TasksCalendarPanel.this.refreshTasks();
 					}
 					
 				});
 		
-		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean selected = TasksCalendarPanel.this.showCompletedTasksCheckBox.isSelected();
-				Main.SETTINGS.setBooleanProperty(
-						"tasksearcher.show_completed_tasks",
-						selected);
-				TasksCalendarPanel.this.refreshTasks();
-			}
-			
-		});
-	}
-	
-	private void addFunctionButton(AbstractAction action) {
-		this.addFunctionButton(new JButton(action));
-	}
-	
-	private void addFunctionButton(JButton button) {
-		button.setText("");
-		this.calendarPanel.getFunctionsButtonPanel().addButton(button);
+		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
 	@Override
@@ -238,9 +195,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	@SuppressWarnings("unchecked")
 	public synchronized void refreshTasks() {
 		boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		TaskSearcher searcher = this.calendarPanel.getTaskSearcherPanel().getSelectedTaskSearcher();
 		
 		for (TasksCalendar calendar : this.tasksCalendars)
-			calendar.updateEvents(selected);
+			calendar.updateEvents(selected, searcher);
 		
 		List<Event> allActiveEvents = new ArrayList<Event>();
 		
