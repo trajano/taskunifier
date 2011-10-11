@@ -32,6 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.general;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Locale;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
@@ -46,7 +48,7 @@ public class LocaleFieldType extends ConfigurationFieldType.ComboBox {
 	private boolean languageOnly;
 	
 	public LocaleFieldType(boolean languageOnly) {
-		super(Translations.getAvailableLocales(), "general.locale");
+		super(getAvailableLocales(), "general.locale");
 		
 		this.languageOnly = languageOnly;
 		
@@ -67,6 +69,20 @@ public class LocaleFieldType extends ConfigurationFieldType.ComboBox {
 		if (this.languageOnly) {
 			Translations.setLocale(Main.SETTINGS.getLocaleProperty("general.locale"));
 		}
+	}
+	
+	private static Locale[] getAvailableLocales() {
+		Locale[] locales = Translations.getAvailableLocales();
+		Arrays.sort(locales, new Comparator<Locale>() {
+			
+			@Override
+			public int compare(Locale l1, Locale l2) {
+				return l1.getDisplayName().compareTo(l2.getDisplayName());
+			}
+			
+		});
+		
+		return locales;
 	}
 	
 }
