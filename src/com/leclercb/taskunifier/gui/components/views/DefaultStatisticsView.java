@@ -21,6 +21,7 @@ import com.leclercb.taskunifier.gui.components.statistics.TasksPerTagStatistics;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -122,10 +123,7 @@ class DefaultStatisticsView extends JPanel implements StatisticsView {
 	}
 	
 	private void initializeShowCompletedTasksCheckBox(JPanel topPanel) {
-		this.showCompletedTasksCheckBox = new JCheckBox(
-				Translations.getString("configuration.general.show_completed_tasks"));
-		
-		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		this.showCompletedTasksCheckBox = new TUShowCompletedTasksCheckBox();
 		
 		Main.SETTINGS.addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
@@ -133,23 +131,10 @@ class DefaultStatisticsView extends JPanel implements StatisticsView {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
-						DefaultStatisticsView.this.showCompletedTasksCheckBox.setSelected(selected);
 						DefaultStatisticsView.this.updateStatistics();
 					}
 					
 				});
-		
-		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
-						"tasksearcher.show_completed_tasks",
-						DefaultStatisticsView.this.showCompletedTasksCheckBox.isSelected());
-			}
-			
-		});
 		
 		topPanel.add(this.showCompletedTasksCheckBox, BorderLayout.WEST);
 	}

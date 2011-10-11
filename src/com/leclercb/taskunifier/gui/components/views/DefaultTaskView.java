@@ -31,6 +31,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPane
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -117,7 +118,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.loadSplitPaneSettings();
 		
 		this.initializeSearchField();
-		this.initializeShowCompletedTasksCheckBox();
+		this.showCompletedTasksCheckBox = new TUShowCompletedTasksCheckBox();
 		this.initializeIndentsubtasksCheckBox();
 		this.initializeSearcherList(searcherPane);
 		this.initializeQuickAddTask(middlePane);
@@ -189,40 +190,6 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 				Main.SETTINGS.setBooleanProperty(
 						"task.indent_subtasks",
 						DefaultTaskView.this.indentSubtasksCheckBox.isSelected());
-			}
-			
-		});
-	}
-	
-	private void initializeShowCompletedTasksCheckBox() {
-		this.showCompletedTasksCheckBox = new JCheckBox(
-				Translations.getString("configuration.general.show_completed_tasks"));
-		
-		this.showCompletedTasksCheckBox.setOpaque(false);
-		this.showCompletedTasksCheckBox.setFont(this.showCompletedTasksCheckBox.getFont().deriveFont(
-				10.0f));
-		
-		this.showCompletedTasksCheckBox.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
-		
-		Main.SETTINGS.addPropertyChangeListener(
-				"tasksearcher.show_completed_tasks",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
-						DefaultTaskView.this.showCompletedTasksCheckBox.setSelected(selected);
-					}
-					
-				});
-		
-		this.showCompletedTasksCheckBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
-						"tasksearcher.show_completed_tasks",
-						DefaultTaskView.this.showCompletedTasksCheckBox.isSelected());
 			}
 			
 		});
