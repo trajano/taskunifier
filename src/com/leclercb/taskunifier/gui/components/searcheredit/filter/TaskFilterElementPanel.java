@@ -36,6 +36,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -211,6 +214,14 @@ public class TaskFilterElementPanel extends JPanel {
 		
 		this.elementValueCb.setRenderer(new DefaultListCellRenderer());
 		
+		List<Condition<?, ?>> modelConditionList = new ArrayList<Condition<?, ?>>();
+		modelConditionList.addAll(Arrays.asList(ModelCondition.values()));
+		modelConditionList.addAll(Arrays.asList(StringCondition.values()));
+		modelConditionList.remove(StringCondition.EQUALS);
+		modelConditionList.remove(StringCondition.NOT_EQUALS);
+		
+		Object[] modelConditions = modelConditionList.toArray();
+		
 		switch (column) {
 			case TITLE:
 			case NOTE:
@@ -256,55 +267,65 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValueCb.setSelectedItem(value);
 				this.elementValueCb.setVisible(true);
 				break;
-			case FOLDER:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValueCb.setModel(new FolderModel(true));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValueCb.setSelectedItem(value);
-				this.elementValueCb.setVisible(true);
-				break;
 			case CONTEXT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValueCb.setModel(new ContextModel(true));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValueCb.setSelectedItem(value);
-				this.elementValueCb.setVisible(true);
+				if (condition instanceof ModelCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueCb.setModel(new ContextModel(true));
+					this.elementValueCb.setRenderer(new DefaultListRenderer(
+							StringValueModel.INSTANCE,
+							IconValueModel.INSTANCE));
+					this.elementValueCb.setSelectedItem(value);
+					this.elementValueCb.setVisible(true);
+				}
+				break;
+			case FOLDER:
+				if (condition instanceof ModelCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueCb.setModel(new FolderModel(true));
+					this.elementValueCb.setRenderer(new DefaultListRenderer(
+							StringValueModel.INSTANCE,
+							IconValueModel.INSTANCE));
+					this.elementValueCb.setSelectedItem(value);
+					this.elementValueCb.setVisible(true);
+				}
 				break;
 			case GOAL:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValueCb.setModel(new GoalModel(true));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValueCb.setSelectedItem(value);
-				this.elementValueCb.setVisible(true);
+				if (condition instanceof ModelCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueCb.setModel(new GoalModel(true));
+					this.elementValueCb.setRenderer(new DefaultListRenderer(
+							StringValueModel.INSTANCE,
+							IconValueModel.INSTANCE));
+					this.elementValueCb.setSelectedItem(value);
+					this.elementValueCb.setVisible(true);
+				}
 				break;
 			case LOCATION:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValueCb.setModel(new LocationModel(true));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValueCb.setSelectedItem(value);
-				this.elementValueCb.setVisible(true);
+				if (condition instanceof ModelCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueCb.setModel(new LocationModel(true));
+					this.elementValueCb.setRenderer(new DefaultListRenderer(
+							StringValueModel.INSTANCE,
+							IconValueModel.INSTANCE));
+					this.elementValueCb.setSelectedItem(value);
+					this.elementValueCb.setVisible(true);
+				}
 				break;
 			case PARENT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						ModelCondition.values()));
-				this.elementValueCb.setModel(new TaskModel(true));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
-						IconValueModel.INSTANCE));
-				this.elementValueCb.setSelectedItem(value);
-				this.elementValueCb.setVisible(true);
+				if (condition instanceof ModelCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueCb.setModel(new TaskModel(true));
+					this.elementValueCb.setRenderer(new DefaultListRenderer(
+							StringValueModel.INSTANCE,
+							IconValueModel.INSTANCE));
+					this.elementValueCb.setSelectedItem(value);
+					this.elementValueCb.setVisible(true);
+				}
 				break;
 			case COMPLETED:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
@@ -361,6 +382,21 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 		}
 		
+		switch (column) {
+			case CONTEXT:
+			case FOLDER:
+			case GOAL:
+			case LOCATION:
+			case PARENT:
+				if (condition instanceof StringCondition) {
+					this.elementCondition.setModel(new DefaultComboBoxModel(
+							modelConditions));
+					this.elementValueTf.setText(value == null ? "" : value.toString());
+					this.elementValueTf.setVisible(true);
+				}
+				break;
+		}
+		
 		if (condition == null)
 			this.elementCondition.setSelectedIndex(0);
 		else
@@ -409,6 +445,33 @@ public class TaskFilterElementPanel extends JPanel {
 		this.elementCondition.setRenderer(new DefaultListRenderer(
 				StringValueFilterCondition.INSTANCE));
 		this.elementCondition.setEnabled(false);
+		this.elementCondition.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				if (TaskFilterElementPanel.this.element == null)
+					return;
+				
+				TaskColumn column = (TaskColumn) TaskFilterElementPanel.this.elementColumn.getSelectedItem();
+				
+				switch (column) {
+					case CONTEXT:
+					case FOLDER:
+					case GOAL:
+					case LOCATION:
+					case PARENT:
+						break;
+					default:
+						return;
+				}
+				
+				TaskFilterElementPanel.this.resetFields(
+						(TaskColumn) TaskFilterElementPanel.this.elementColumn.getSelectedItem(),
+						(Condition<?, ?>) TaskFilterElementPanel.this.elementCondition.getSelectedItem(),
+						null);
+			}
+			
+		});
 		
 		builder.append(this.elementCondition);
 		

@@ -137,6 +137,10 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 					NoteColumn.NOTE,
 					StringCondition.CONTAINS,
 					this.titleFilter));
+			searchFilter.addElement(new NoteFilterElement(
+					NoteColumn.FOLDER,
+					StringCondition.CONTAINS,
+					this.titleFilter));
 			
 			newFilter.addFilter(searchFilter);
 			newFilter.addFilter(originalFilter);

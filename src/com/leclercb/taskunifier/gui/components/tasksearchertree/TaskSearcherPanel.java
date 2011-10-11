@@ -160,6 +160,22 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					TaskColumn.NOTE,
 					StringCondition.CONTAINS,
 					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.CONTEXT,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.FOLDER,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.GOAL,
+					StringCondition.CONTAINS,
+					this.titleFilter));
+			searchFilter.addElement(new TaskFilterElement(
+					TaskColumn.LOCATION,
+					StringCondition.CONTAINS,
+					this.titleFilter));
 			
 			newFilter.addFilter(searchFilter);
 			newFilter.addFilter(originalFilter);
