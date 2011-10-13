@@ -100,7 +100,7 @@ public class ActionAddNote extends AbstractAction {
 		return note;
 	}
 	
-	public static Note addNote(NoteBean noteBean, boolean edit) {
+	public static synchronized Note addNote(NoteBean noteBean, boolean edit) {
 		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
 		
 		Note note = NoteFactory.getInstance().create(
