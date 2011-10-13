@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import org.apache.commons.io.IOUtils;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
@@ -38,17 +39,12 @@ public class CommunicatorClient extends Thread {
 			String data = null;
 			StringBuffer buffer = new StringBuffer();
 			while ((data = this.reader.readLine()) != null) {
+				if (data.trim().startsWith("<?xml")) {
+					this.handleMessage(buffer.toString());
+					buffer = new StringBuffer();
+				}
+				
 				buffer.append(data.trim() + "\n");
-				
-				if (data.trim().endsWith("</task>")) {
-					this.handleTaskMessage(buffer.toString());
-					buffer = new StringBuffer();
-				}
-				
-				if (data.trim().endsWith("</note>")) {
-					this.handleNoteMessage(buffer.toString());
-					buffer = new StringBuffer();
-				}
 			}
 		} catch (IOException e) {
 			
@@ -58,26 +54,30 @@ public class CommunicatorClient extends Thread {
 		}
 	}
 	
-	private void handleTaskMessage(String message) {
+	private void handleMessage(String message) {
+		System.out.println(message);
+		
 		try {
 			ComTaskBean bean = ComTaskBean.decodeFromXML(IOUtils.toInputStream(
 					message,
 					"UTF-8"));
 			ActionAddTask.addTask(bean, false);
+			return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
-	}
-	
-	private void handleNoteMessage(String message) {
+		
 		try {
 			ComNoteBean bean = ComNoteBean.decodeFromXML(IOUtils.toInputStream(
 					message,
 					"UTF-8"));
 			ActionAddNote.addNote(bean, false);
+			return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
+		
+		GuiLogger.getLogger().warning("Unknown message format:\n" + message);
 	}
 	
 }
