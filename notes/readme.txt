@@ -4,6 +4,7 @@ HISTORY
 Version 1.7.0
 	- Major:
 		- FR 3421137: Improve calendar view
+		- Communication with other applications
 	- Minor:
 		- FR 3421063: Tooltip for repeat field
 		- BF 3421156: Rotate tips
