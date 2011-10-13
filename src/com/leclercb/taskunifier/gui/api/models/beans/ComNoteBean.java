@@ -1,7 +1,10 @@
 package com.leclercb.taskunifier.gui.api.models.beans;
 
 import java.io.InputStream;
+import java.util.List;
 
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
 import com.thoughtworks.xstream.XStream;
@@ -29,6 +32,20 @@ public class ComNoteBean extends NoteBean {
 	
 	public void setFolderTitle(String folderTitle) {
 		this.folderTitle = folderTitle;
+	}
+	
+	public void setModels() {
+		if (this.getFolder() == null) {
+			if (this.getFolderTitle() != null) {
+				List<Folder> models = FolderFactory.getInstance().getList();
+				for (Folder model : models) {
+					if (model.getTitle().equalsIgnoreCase(this.getFolderTitle())) {
+						this.setFolder(model.getModelId());
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	public static ComNoteBean decodeFromXML(InputStream input) {

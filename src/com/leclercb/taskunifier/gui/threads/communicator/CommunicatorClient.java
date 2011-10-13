@@ -61,13 +61,19 @@ public class CommunicatorClient extends Thread {
 					message,
 					"UTF-8"));
 			
-			if (bean.getNotes() != null)
-				for (ComNoteBean note : bean.getNotes())
+			if (bean.getNotes() != null) {
+				for (ComNoteBean note : bean.getNotes()) {
+					note.setModels();
 					ActionAddNote.addNote(note, false);
+				}
+			}
 			
-			if (bean.getTasks() != null)
-				for (ComTaskBean task : bean.getTasks())
+			if (bean.getTasks() != null) {
+				for (ComTaskBean task : bean.getTasks()) {
+					task.setModels();
 					ActionAddTask.addTask(task, false);
+				}
+			}
 			
 			return;
 		} catch (Exception e) {
