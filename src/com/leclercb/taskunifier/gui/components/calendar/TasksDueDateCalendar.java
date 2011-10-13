@@ -134,10 +134,15 @@ public class TasksDueDateCalendar extends TasksCalendar {
 		long diff = interval.getDuration();
 		diff = diff / (60 * 1000);
 		
+		int length = (int) diff;
+		
+		if (length < 30)
+			length = 30;
+		
 		Calendar dueDate = Calendar.getInstance();
 		dueDate.setTime(interval.getEndDate());
 		
-		task.setLength((int) diff);
+		task.setLength(length);
 		task.setDueDate(dueDate);
 		
 		if (!ActionEditTasks.editTasks(new Task[] { task }))
@@ -165,10 +170,15 @@ public class TasksDueDateCalendar extends TasksCalendar {
 		long diff = orgEndDate.getTime() - newEndDate.getTime();
 		diff = diff / (60 * 1000);
 		
+		int length = task.getLength() - (int) diff;
+		
+		if (length < 30)
+			length = 30;
+		
 		Calendar dueDate = Calendar.getInstance();
 		dueDate.setTime(newEndDate);
 		
-		task.setLength(task.getLength() - (int) diff);
+		task.setLength(length);
 		task.setDueDate(dueDate);
 	}
 	
