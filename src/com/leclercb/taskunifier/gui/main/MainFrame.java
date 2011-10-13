@@ -64,6 +64,7 @@ import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.threads.communicator.CommunicatorThread;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -87,6 +88,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private JPanel mainPane;
 	
+	private CommunicatorThread communicatorThread;
 	private ReminderThread reminderThread;
 	private ScheduledSyncThread scheduledSyncThread;
 	
@@ -136,6 +138,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.setSelectedViewType(ViewType.TASKS);
 		
+		this.initializeCommunicatorThread();
 		this.initializeReminderThread();
 		this.initializeScheduledSyncThread();
 		
@@ -244,6 +247,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.add(statusBar.getStatusBar(), BorderLayout.SOUTH);
 	}
 	
+	private void initializeCommunicatorThread() {
+		this.communicatorThread = new CommunicatorThread();
+		this.communicatorThread.start();
+	}
+	
 	private void initializeReminderThread() {
 		this.reminderThread = new ReminderThread();
 		this.reminderThread.start();
@@ -305,6 +313,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	@Override
 	public void dispose() {
+		this.communicatorThread.interrupt();
 		this.reminderThread.interrupt();
 		this.scheduledSyncThread.interrupt();
 		super.dispose();

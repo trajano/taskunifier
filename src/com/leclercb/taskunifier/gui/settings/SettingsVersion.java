@@ -888,6 +888,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.6.0 to 1.7.0");
 		
+		Main.SETTINGS.setStringProperty("general.communicator.port", "4566");
+		
 		Main.SETTINGS.setStringProperty(
 				"view.calendar.window.horizontal_split",
 				"300");
