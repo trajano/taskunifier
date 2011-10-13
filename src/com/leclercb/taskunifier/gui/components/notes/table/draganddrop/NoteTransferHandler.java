@@ -154,7 +154,7 @@ public class NoteTransferHandler extends TransferHandler {
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
 						String title = IOUtils.toString(reader);
-						ActionAddNote.addNote(title);
+						ActionAddNote.addNote(title, false);
 						return true;
 					}
 				}
