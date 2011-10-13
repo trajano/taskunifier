@@ -20,6 +20,9 @@ public class CommunicatorThread extends Thread {
 			int port = Main.SETTINGS.getIntegerProperty("general.communicator.port");
 			serverSocket = new ServerSocket(port);
 			
+			GuiLogger.getLogger().info(
+					"Communicator initialized on port " + port);
+			
 			while (true)
 				new CommunicatorClient(serverSocket.accept()).start();
 		} catch (Exception e) {
