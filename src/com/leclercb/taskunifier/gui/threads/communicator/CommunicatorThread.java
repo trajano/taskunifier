@@ -14,10 +14,10 @@ public class CommunicatorThread extends Thread {
 	
 	@Override
 	public void run() {
+		int port = Main.SETTINGS.getIntegerProperty("general.communicator.port");
 		ServerSocket serverSocket = null;
 		
 		try {
-			int port = Main.SETTINGS.getIntegerProperty("general.communicator.port");
 			serverSocket = new ServerSocket(port);
 			
 			GuiLogger.getLogger().info(
@@ -26,12 +26,14 @@ public class CommunicatorThread extends Thread {
 			while (true)
 				new CommunicatorClient(serverSocket.accept()).start();
 		} catch (Exception e) {
-			GuiLogger.getLogger().warning("Cannot initialize communicator");
+			GuiLogger.getLogger().warning(
+					"Cannot initialize communicator on port " + port);
 		} finally {
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
-				GuiLogger.getLogger().warning("Cannot close communicator");
+				GuiLogger.getLogger().warning(
+						"Cannot close communicator on port " + port);
 			}
 		}
 	}
