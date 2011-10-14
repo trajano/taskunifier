@@ -50,7 +50,6 @@ import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
-import com.leclercb.taskunifier.gui.actions.ActionChangeViewCalendar;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionList;
@@ -141,7 +140,6 @@ public class DefaultToolBar extends JToolBar {
 				throw new Exception();
 		} catch (Throwable t) {
 			this.add(new ActionChangeView(24, 24));
-			this.add(new ActionChangeViewCalendar(24, 24));
 			this.addSeparator(new Dimension(20, 20));
 			this.add(new ActionAddNote(24, 24));
 			this.add(new ActionAddTask(24, 24));

@@ -87,21 +87,27 @@ public class ActionChangeView extends AbstractAction {
 	private void updateIcon() {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		switch (viewType) {
+			case CALENDAR:
+				this.putValue(SMALL_ICON, Images.getResourceImage(
+						"change_view_calendar.png",
+						this.width,
+						this.height));
+				break;
 			case NOTES:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_note.png",
+						"change_view_notes.png",
 						this.width,
 						this.height));
 				break;
 			case TASKS:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_task.png",
+						"change_view_tasks.png",
 						this.width,
 						this.height));
 				break;
 			default:
 				this.putValue(SMALL_ICON, Images.getResourceImage(
-						"change_view_task.png",
+						"change_view_tasks.png",
 						this.width,
 						this.height));
 				break;
@@ -116,8 +122,11 @@ public class ActionChangeView extends AbstractAction {
 	public static void changeView() {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		switch (viewType) {
-			case NOTES:
+			case CALENDAR:
 				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+				break;
+			case NOTES:
+				MainFrame.getInstance().setSelectedViewType(ViewType.CALENDAR);
 				break;
 			case TASKS:
 				MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
