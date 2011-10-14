@@ -10,6 +10,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @XStreamAlias("com")
 public class ComBean {
 	
+	@XStreamAlias("applicationname")
+	private String applicationName;
+	
 	@XStreamAlias("notes")
 	private ComNoteBean[] notes;
 	
@@ -17,7 +20,17 @@ public class ComBean {
 	private ComTaskBean[] tasks;
 	
 	public ComBean() {
-		
+		this.setApplicationName(null);
+		this.setNotes(null);
+		this.setTasks(null);
+	}
+	
+	public String getApplicationName() {
+		return this.applicationName;
+	}
+	
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
 	}
 	
 	public ComNoteBean[] getNotes() {

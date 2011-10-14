@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
+import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
@@ -18,6 +19,8 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class CommunicatorClient extends Thread {
 	
@@ -73,6 +76,12 @@ public class CommunicatorClient extends Thread {
 					notes.add(ActionAddNote.addNote(note, false));
 				}
 				
+				Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
+						Translations.getString(
+								"communicator.message.add_note",
+								notes.size(),
+								bean.getApplicationName())));
+				
 				ViewType.getNoteView().getNoteTableView().setSelectedNotes(
 						notes.toArray(new Note[0]));
 			}
@@ -83,6 +92,12 @@ public class CommunicatorClient extends Thread {
 					task.setModels();
 					tasks.add(ActionAddTask.addTask(task, false));
 				}
+				
+				Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
+						Translations.getString(
+								"communicator.message.add_task",
+								tasks.size(),
+								bean.getApplicationName())));
 				
 				ViewType.getTaskView().getTaskTableView().setSelectedTasks(
 						tasks.toArray(new Task[0]));
