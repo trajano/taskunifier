@@ -4,15 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public class CommunicatorClient extends Thread {
 	
@@ -62,17 +67,25 @@ public class CommunicatorClient extends Thread {
 					"UTF-8"));
 			
 			if (bean.getNotes() != null) {
+				List<Note> notes = new ArrayList<Note>();
 				for (ComNoteBean note : bean.getNotes()) {
 					note.setModels();
-					ActionAddNote.addNote(note, false);
+					notes.add(ActionAddNote.addNote(note, false));
 				}
+				
+				ViewType.getNoteView().getNoteTableView().setSelectedNotes(
+						notes.toArray(new Note[0]));
 			}
 			
 			if (bean.getTasks() != null) {
+				List<Task> tasks = new ArrayList<Task>();
 				for (ComTaskBean task : bean.getTasks()) {
 					task.setModels();
-					ActionAddTask.addTask(task, false);
+					tasks.add(ActionAddTask.addTask(task, false));
 				}
+				
+				ViewType.getTaskView().getTaskTableView().setSelectedTasks(
+						tasks.toArray(new Task[0]));
 			}
 			
 			return;

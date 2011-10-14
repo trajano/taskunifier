@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.notes.table;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -61,6 +62,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
@@ -69,6 +72,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
@@ -282,6 +286,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 		
+		this.initializeHeaderListener();
 		this.initializeDeleteNote();
 		this.initializeEditNote();
 		this.initializeNoteTableMenu();
@@ -309,6 +314,59 @@ public class NoteTable extends JXTable implements NoteTableView {
 						PROP_NOTE_COUNT,
 						null,
 						NoteTable.this.getNoteCount());
+			}
+			
+		});
+	}
+	
+	private void initializeHeaderListener() {
+		this.getTableHeader().addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+				JTable table = ((JTableHeader) evt.getSource()).getTable();
+				TableColumnModel colModel = table.getColumnModel();
+				
+				int colIndex = colModel.getColumnIndexAtX(evt.getX());
+				
+				if (colIndex == -1) {
+					return;
+				}
+				
+				Rectangle headerRect = table.getTableHeader().getHeaderRect(
+						colIndex);
+				if (headerRect.contains(evt.getX(), evt.getY())) {
+					NoteColumn column = (NoteColumn) colModel.getColumn(
+							colIndex).getIdentifier();
+					
+					if (column == NoteColumn.MODEL)
+						return;
+					
+					NoteSearcher searcher = NoteTable.this.getNoteSearcher().clone();
+					
+					if (searcher.getSorter().getElementCount() != 0
+							&& searcher.getSorter().getElement(0).getProperty() == column) {
+						NoteSorterElement element = searcher.getSorter().getElement(
+								0);
+						
+						SortOrder order = element.getSortOrder();
+						
+						if (order == SortOrder.ASCENDING)
+							order = SortOrder.DESCENDING;
+						else
+							order = SortOrder.ASCENDING;
+						
+						element.setSortOrder(order);
+					} else {
+						NoteSorterElement element = new NoteSorterElement(
+								column,
+								SortOrder.ASCENDING);
+						
+						searcher.getSorter().insertElement(element, 0);
+					}
+					
+					NoteTable.this.setNoteSearcher(searcher);
+				}
 			}
 			
 		});
