@@ -890,6 +890,8 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.setStringProperty("general.communicator.port", "4576");
 		
+		Main.SETTINGS.setStringProperty("date.show_day_of_week", "false");
+		
 		Main.SETTINGS.setStringProperty(
 				"view.calendar.window.horizontal_split",
 				"300");

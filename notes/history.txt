@@ -3,6 +3,7 @@ Version 1.7.0
 		- FR 3421137: Improve calendar view
 		- Communication with other applications
 	- Minor:
+		- FR 3423142: Show day of week in dates
 		- FR 3421063: Tooltip for repeat field
 		- BF 3421156: Rotate tips
 

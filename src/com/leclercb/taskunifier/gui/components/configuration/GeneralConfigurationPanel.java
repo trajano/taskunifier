@@ -99,6 +99,12 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.CheckBox("date.use_start_time")));
 			
 			this.addField(new ConfigurationField(
+					"SHOW_DAY_OF_WEEK",
+					Translations.getString("configuration.general.show_day_of_week"),
+					true,
+					new ConfigurationFieldType.CheckBox("date.show_day_of_week")));
+			
+			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
 					null,
 					new ConfigurationFieldType.Separator()));
