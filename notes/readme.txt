@@ -9,6 +9,7 @@ Version 1.7.0
 		- FR 3423142: Show day of week in dates
 		- FR 3421063: Tooltip for repeat field
 		- BF 3421156: Rotate tips
+		- BF 3424085: Import toolbar settings
 
 Version 1.6.0
 	- Minor:
