@@ -71,6 +71,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 		String[] toImport = new String[] {
 				"date",
 				"general.locale",
+				"general.toolbar",
 				"notecolumn",
 				"notesearcher",
 				"proxy",

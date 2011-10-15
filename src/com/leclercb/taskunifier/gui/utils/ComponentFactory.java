@@ -190,6 +190,7 @@ public final class ComponentFactory {
 				});
 	}
 	
+	@SuppressWarnings("unused")
 	public static JXComboBox createModelComboBox(
 			ComboBoxModel model,
 			boolean autoComplete) {
@@ -221,6 +222,7 @@ public final class ComponentFactory {
 		return comboBox;
 	}
 	
+	@SuppressWarnings("unused")
 	public static JXComboBox createTaskPriorityComboBox(
 			ComboBoxModel model,
 			boolean autoComplete) {
@@ -249,6 +251,7 @@ public final class ComponentFactory {
 		return comboBox;
 	}
 	
+	@SuppressWarnings("unused")
 	public static JXComboBox createTaskRepeatFromComboBox(
 			ComboBoxModel model,
 			boolean autoComplete) {
@@ -276,6 +279,7 @@ public final class ComponentFactory {
 		return comboBox;
 	}
 	
+	@SuppressWarnings("unused")
 	public static JXComboBox createTaskStatusComboBox(
 			ComboBoxModel model,
 			boolean autoComplete) {

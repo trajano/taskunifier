@@ -180,6 +180,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		
 		this.dayChooser.addActionListener(new ActionListener() {
 			
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				CalendarPanel.this.date = CalendarPanel.this.dayChooser.getSelection().first();
@@ -309,6 +310,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		return this.dayChooser;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void showView(String panelName) {
 		if (panelName == null)
 			return;
@@ -391,6 +393,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 			
 			calendarToggler.addActionListener(new ActionListener() {
 				
+				@SuppressWarnings("rawtypes")
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (namedCalendar.isActive() != calendarToggler.isActive()) {
@@ -424,6 +427,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void triggerUpdate() {
 		for (Iterator iter = this.calendarListeners.iterator(); iter.hasNext();) {
 			NamedCalendarListener listener = (NamedCalendarListener) iter.next();
@@ -532,6 +536,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		return activeCalendars;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private void informListeners() {
 		for (Iterator iter = this.calendarListeners.iterator(); iter.hasNext();) {
 			NamedCalendarListener listener = (NamedCalendarListener) iter.next();
