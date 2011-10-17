@@ -15,10 +15,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum ViewType implements ActionSupported {
 	
-	NOTES(Translations.getString("general.notes")),
 	TASKS(Translations.getString("general.tasks")),
-	CALENDAR(Translations.getString("general.calendar")),
-	STATISTICS(Translations.getString("general.statistics")), ;
+	NOTES(Translations.getString("general.notes")),
+	CALENDAR(Translations.getString("general.calendar"));
 	
 	private static final String ACTION_VIEW_LOADED = "loaded";
 	
@@ -26,7 +25,6 @@ public enum ViewType implements ActionSupported {
 		NOTES.setView(new DefaultNoteView(mainView));
 		TASKS.setView(new DefaultTaskView(mainView));
 		CALENDAR.setView(new DefaultCalendarView(mainView));
-		STATISTICS.setView(new DefaultStatisticsView(mainView));
 	}
 	
 	public static NoteView getNoteView() {
@@ -39,10 +37,6 @@ public enum ViewType implements ActionSupported {
 	
 	public static CalendarView getCalendarView() {
 		return (CalendarView) CALENDAR.getView();
-	}
-	
-	public static StatisticsView getStatisticsView() {
-		return (StatisticsView) STATISTICS.getView();
 	}
 	
 	public static void commitAll() {

@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -85,6 +86,9 @@ public class NoteTableColumn extends TableColumnExt {
 		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValues.EMPTY,
 				IconValueNote.INSTANCE));
+		
+		((DefaultTableRenderer) NOTE_RENDERER).getComponentProvider().setHorizontalAlignment(
+				SwingConstants.CENTER);
 		
 		TITLE_RENDERER = new DefaultTableRenderer(StringValueNoteTitle.INSTANCE);
 		FOLDER_EDITOR = new FolderEditor();

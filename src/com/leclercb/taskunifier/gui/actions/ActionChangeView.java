@@ -122,14 +122,14 @@ public class ActionChangeView extends AbstractAction {
 	public static void changeView() {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		switch (viewType) {
-			case CALENDAR:
-				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+			case TASKS:
+				MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
 				break;
 			case NOTES:
 				MainFrame.getInstance().setSelectedViewType(ViewType.CALENDAR);
 				break;
-			case TASKS:
-				MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
+			case CALENDAR:
+				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 				break;
 			default:
 				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);

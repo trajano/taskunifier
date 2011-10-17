@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.main;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -43,7 +42,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXStatusBar;
@@ -86,7 +85,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private ViewType selectedViewType;
 	
-	private JPanel mainPane;
+	private JTabbedPane mainTabbedPane;
 	
 	private CommunicatorThread communicatorThread;
 	private ReminderThread reminderThread;
@@ -126,14 +125,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 		});
 		
-		this.mainPane = new JPanel(new CardLayout());
-		this.add(this.mainPane, BorderLayout.CENTER);
+		this.mainTabbedPane = new JTabbedPane();
+		this.add(this.mainTabbedPane, BorderLayout.CENTER);
 		
 		ViewType.initialize(this);
 		for (ViewType viewType : ViewType.values()) {
-			this.mainPane.add(
-					viewType.getView().getViewContent(),
-					viewType.name());
+			this.mainTabbedPane.add(
+					viewType.getLabel(),
+					viewType.getView().getViewContent());
 		}
 		
 		this.setSelectedViewType(ViewType.TASKS);
@@ -167,8 +166,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		if (this.selectedViewType == viewType)
 			return;
 		
-		CardLayout layout = (CardLayout) this.mainPane.getLayout();
-		layout.show(this.mainPane, viewType.name());
+		this.mainTabbedPane.setSelectedIndex(viewType.ordinal());
 		
 		ViewType oldSelectedViewType = this.selectedViewType;
 		this.selectedViewType = viewType;

@@ -12,7 +12,6 @@
         <archive path="/TaskUnifierGui/lib/jgoodies-common-1.2.0.jar"/>
         <archive path="/TaskUnifierGui/lib/jgoodies-forms-1.4.1.jar"/>
         <archive path="/TaskUnifierGui/lib/jcommon-1.0.16.jar"/>
-        <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/jfreechart-1.0.13.zip!/" path="/TaskUnifierGui/lib/jfreechart-1.0.13.jar"/>
         <archive path="/TaskUnifierGui/lib/jhall.jar"/>
         <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
         <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/miglayout-4.0-javadoc.jar!/" path="/TaskUnifierGui/lib/miglayout-4.0-swing.jar"/>
