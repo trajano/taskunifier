@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.BorderLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -77,8 +76,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		SEARCHER,
 		THEME,
 		TOOLBAR,
-		PRIORITY,
-		IMPORTANCE,
 		SYNCHRONIZATION,
 		PLUGIN;
 		
@@ -92,8 +89,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel searcherConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	private ConfigurationPanel toolbarConfigurationPanel;
-	private ConfigurationPanel priorityConfigurationPanel;
-	private ConfigurationPanel importanceConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	private ConfigurationPanel pluginConfigurationPanel;
 	
@@ -125,17 +120,11 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			case TOOLBAR:
 				this.tabbedPane.setSelectedIndex(5);
 				break;
-			case PRIORITY:
+			case SYNCHRONIZATION:
 				this.tabbedPane.setSelectedIndex(6);
 				break;
-			case IMPORTANCE:
-				this.tabbedPane.setSelectedIndex(7);
-				break;
-			case SYNCHRONIZATION:
-				this.tabbedPane.setSelectedIndex(8);
-				break;
 			case PLUGIN:
-				this.tabbedPane.setSelectedIndex(9);
+				this.tabbedPane.setSelectedIndex(7);
 				break;
 		}
 	}
@@ -167,8 +156,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeSearcherPanel();
 		this.initializeThemePanel();
 		this.initializeToolbarPanel();
-		this.initializePriorityPanel();
-		this.initializeImportancePanel();
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
@@ -259,9 +246,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	}
 	
 	private void initializeThemePanel() {
-		this.themeConfigurationPanel = new ThemeConfigurationPanel(
-				this,
-				new Window[] { this, this.getOwner() });
+		this.themeConfigurationPanel = new ThemeConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.theme"),
 				ComponentFactory.createJScrollPane(
@@ -275,25 +260,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 				Translations.getString("configuration.tab.toolbar"),
 				ComponentFactory.createJScrollPane(
 						this.toolbarConfigurationPanel,
-						false));
-	}
-	
-	private void initializePriorityPanel() {
-		this.priorityConfigurationPanel = new PriorityConfigurationPanel(this);
-		this.tabbedPane.addTab(
-				Translations.getString("configuration.tab.priority"),
-				ComponentFactory.createJScrollPane(
-						this.priorityConfigurationPanel,
-						false));
-	}
-	
-	private void initializeImportancePanel() {
-		this.importanceConfigurationPanel = new ImportanceConfigurationPanel(
-				this);
-		this.tabbedPane.addTab(
-				Translations.getString("configuration.tab.importance"),
-				ComponentFactory.createJScrollPane(
-						this.importanceConfigurationPanel,
 						false));
 	}
 	
@@ -331,8 +297,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.searcherConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.toolbarConfigurationPanel.saveAndApplyConfig();
-			this.priorityConfigurationPanel.saveAndApplyConfig();
-			this.importanceConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
@@ -367,8 +331,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.searcherConfigurationPanel.cancelConfig();
 			this.themeConfigurationPanel.cancelConfig();
 			this.toolbarConfigurationPanel.cancelConfig();
-			this.priorityConfigurationPanel.cancelConfig();
-			this.importanceConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),

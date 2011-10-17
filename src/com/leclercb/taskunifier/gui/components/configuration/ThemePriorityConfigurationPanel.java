@@ -35,16 +35,18 @@ package com.leclercb.taskunifier.gui.components.configuration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
 
-public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
+public class ThemePriorityConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public ImportanceConfigurationPanel(ConfigurationGroup configuration) {
+	public ThemePriorityConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration);
 		
 		this.initialize();
@@ -52,12 +54,15 @@ public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		for (int i = 0; i <= 12; i++) {
+		TaskPriority[] priorities = TaskPriority.values();
+		
+		for (TaskPriority priority : priorities) {
 			this.addField(new ConfigurationField(
-					"IMPORTANCE_" + i,
-					Translations.getString("general.task.importance") + " " + i,
+					priority.name(),
+					TranslationsUtils.translateTaskPriority(priority),
 					new ConfigurationFieldType.ColorChooser(
-							"theme.color.importance." + i)));
+							"theme.color.priority."
+									+ priority.name().toLowerCase())));
 		}
 		
 		this.addField(new ConfigurationField(
@@ -69,7 +74,7 @@ public class ImportanceConfigurationPanel extends DefaultConfigurationPanel {
 							
 							@Override
 							public void actionPerformed(ActionEvent evt) {
-								SettingsUtils.resetImportanceColors();
+								SettingsUtils.resetPriorityColors();
 							}
 							
 						})));
