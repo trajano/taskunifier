@@ -110,6 +110,7 @@ public class CommunicatorClient extends Thread {
 		
 		Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
 				Translations.getString("error.unknown_message_format")));
+		
 		GuiLogger.getLogger().warning("Unknown message format");
 	}
 	
