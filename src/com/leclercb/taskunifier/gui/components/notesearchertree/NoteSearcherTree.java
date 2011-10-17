@@ -247,7 +247,9 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 			if (category.getExpandedPropetyName() != null) {
 				this.setExpandedState(
 						TreeUtils.getPath(category),
-						Main.SETTINGS.getBooleanProperty(category.getExpandedPropetyName()));
+						Main.SETTINGS.getBooleanProperty(
+								category.getExpandedPropetyName(),
+								false));
 			}
 		}
 	}
