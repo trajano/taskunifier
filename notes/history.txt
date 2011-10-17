@@ -2,6 +2,7 @@ Version 1.7.0
 	- Major:
 		- FR 3421137: Improve calendar view
 		- Communication with other applications
+		(http://www.taskunifier.com/index.php?page=addons)
 	- Minor:
 		- FR 3423142: Show day of week in dates
 		- FR 3421063: Tooltip for repeat field
