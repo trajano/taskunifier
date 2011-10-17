@@ -896,6 +896,57 @@ public final class SettingsVersion {
 				"view.calendar.window.horizontal_split",
 				"300");
 		
+		Main.SETTINGS.replaceKey(
+				"searcher.default_sorter",
+				"tasksearcher.default_sorter");
+		
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.general.expanded",
+				"true");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.context.expanded",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.folder.expanded",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.goal.expanded",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.location.expanded",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.tag.expanded",
+				"false");
+		Main.SETTINGS.setStringProperty(
+				"tasksearcher.calendar.category.personal.expanded",
+				"true");
+		
+		Main.SETTINGS.replaceKey(
+				"notesearcher.category.folder.expanded",
+				"notesearcher.notes.category.folder.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.general.expanded",
+				"tasksearcher.tasks.category.general.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.context.expanded",
+				"tasksearcher.tasks.category.context.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.folder.expanded",
+				"tasksearcher.tasks.category.folder.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.goal.expanded",
+				"tasksearcher.tasks.category.goal.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.location.expanded",
+				"tasksearcher.tasks.category.location.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.tag.expanded",
+				"tasksearcher.tasks.category.tag.expanded");
+		Main.SETTINGS.replaceKey(
+				"tasksearcher.category.personal.expanded",
+				"tasksearcher.tasks.category.personal.expanded");
+		
 		return "1.7.0";
 	}
 	

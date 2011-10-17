@@ -146,7 +146,7 @@ public final class Constants {
 						TaskColumn.TITLE,
 						SortOrder.ASCENDING));
 				
-				String value = Main.SETTINGS.getStringProperty("searcher.default_sorter");
+				String value = Main.SETTINGS.getStringProperty("tasksearcher.default_sorter");
 				
 				if (value != null && value.length() != 0) {
 					try {

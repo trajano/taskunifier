@@ -68,11 +68,17 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	
 	private TreeSelectionModel treeSelectionModel;
 	
+	private String settingsPrefix;
+	
 	private SearcherItem defaultSearcher;
 	private SearcherCategory folderCategory;
 	
-	public NoteSearcherTreeModel(TreeSelectionModel treeSelectionModel) {
+	public NoteSearcherTreeModel(
+			String settingsPrefix,
+			TreeSelectionModel treeSelectionModel) {
 		super(new SearcherCategory(NoteSearcherType.DEFAULT, null));
+		
+		this.settingsPrefix = settingsPrefix;
 		
 		this.treeSelectionModel = treeSelectionModel;
 		
@@ -103,7 +109,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeFolderCategory() {
 		this.folderCategory = new SearcherCategory(
 				NoteSearcherType.FOLDER,
-				"notesearcher.category.folder.expanded");
+				this.settingsPrefix + ".category.folder.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.folderCategory);
 		
 		this.folderCategory.add(new FolderItem(null));

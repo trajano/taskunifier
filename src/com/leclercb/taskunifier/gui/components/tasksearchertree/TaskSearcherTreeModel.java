@@ -81,6 +81,8 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	
 	private TreeSelectionModel treeSelectionModel;
 	
+	private String settingsPrefix;
+	
 	private SearcherItem defaultSearcher;
 	private SearcherCategory generalCategory;
 	private SearcherCategory contextCategory;
@@ -90,8 +92,12 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private SearcherCategory tagCategory;
 	private SearcherCategory personalCategory;
 	
-	public TaskSearcherTreeModel(TreeSelectionModel treeSelectionModel) {
+	public TaskSearcherTreeModel(
+			String settingsPrefix,
+			TreeSelectionModel treeSelectionModel) {
 		super(new SearcherCategory(TaskSearcherType.DEFAULT, null));
+		
+		this.settingsPrefix = settingsPrefix;
 		
 		this.treeSelectionModel = treeSelectionModel;
 		
@@ -146,7 +152,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeGeneralCategory() {
 		this.generalCategory = new SearcherCategory(
 				TaskSearcherType.GENERAL,
-				"tasksearcher.category.general.expanded");
+				this.settingsPrefix + ".category.general.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.generalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
@@ -161,7 +167,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeContextCategory() {
 		this.contextCategory = new SearcherCategory(
 				TaskSearcherType.CONTEXT,
-				"tasksearcher.category.context.expanded");
+				this.settingsPrefix + ".category.context.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.contextCategory);
 		
 		this.contextCategory.add(new ModelItem(ModelType.CONTEXT, null));
@@ -183,7 +189,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeFolderCategory() {
 		this.folderCategory = new SearcherCategory(
 				TaskSearcherType.FOLDER,
-				"tasksearcher.category.folder.expanded");
+				this.settingsPrefix + ".category.folder.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.folderCategory);
 		
 		this.folderCategory.add(new ModelItem(ModelType.FOLDER, null));
@@ -203,7 +209,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeGoalCategory() {
 		this.goalCategory = new SearcherCategory(
 				TaskSearcherType.GOAL,
-				"tasksearcher.category.goal.expanded");
+				this.settingsPrefix + ".category.goal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.goalCategory);
 		
 		this.goalCategory.add(new ModelItem(ModelType.GOAL, null));
@@ -223,7 +229,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeLocationCategory() {
 		this.locationCategory = new SearcherCategory(
 				TaskSearcherType.LOCATION,
-				"tasksearcher.category.location.expanded");
+				this.settingsPrefix + ".category.location.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.locationCategory);
 		
 		this.locationCategory.add(new ModelItem(ModelType.LOCATION, null));
@@ -245,7 +251,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializeTagCategory() {
 		this.tagCategory = new SearcherCategory(
 				TaskSearcherType.TAG,
-				"tasksearcher.category.tag.expanded");
+				this.settingsPrefix + ".category.tag.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.tagCategory);
 		
 		TagList tags = TaskTagList.getInstance().getTags();
@@ -259,7 +265,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	private void initializePersonalCategory() {
 		this.personalCategory = new SearcherCategory(
 				TaskSearcherType.PERSONAL,
-				"tasksearcher.category.personal.expanded");
+				this.settingsPrefix + ".category.personal.expanded");
 		((DefaultMutableTreeNode) this.getRoot()).add(this.personalCategory);
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(

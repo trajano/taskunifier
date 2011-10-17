@@ -287,7 +287,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	}
 	
 	private void initializeTaskSearcherList(JPanel searcherPane) {
-		this.taskSearcherPanel = new TaskSearcherPanel();
+		this.taskSearcherPanel = new TaskSearcherPanel("tasksearcher.calendar");
 		
 		this.taskSearcherPanel.addPropertyChangeListener(
 				TaskSearcherPanel.PROP_TITLE_FILTER,

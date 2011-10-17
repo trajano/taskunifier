@@ -73,13 +73,17 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private NoteSearcherSelectionChangeSupport noteSearcherSelectionChangeSupport;
 	
+	private String settingsPrefix;
+	
 	private NoteSearcherTree searcherView;
 	
 	private String titleFilter;
 	
-	public NoteSearcherPanel() {
+	public NoteSearcherPanel(String settingsPrefix) {
 		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
 				this);
+		
+		this.settingsPrefix = settingsPrefix;
 		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
@@ -165,7 +169,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		this.searcherView = new NoteSearcherTree();
+		this.searcherView = new NoteSearcherTree(this.settingsPrefix);
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.searcherView, false),
@@ -226,9 +230,10 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void initializeSelectedSearcher() {
 		try {
-			String value = Main.SETTINGS.getStringProperty("searcher.note.selected.value");
+			String value = Main.SETTINGS.getStringProperty(this.settingsPrefix
+					+ ".selected.value");
 			NoteSearcherType type = Main.SETTINGS.getEnumProperty(
-					"searcher.note.selected.type",
+					this.settingsPrefix + ".selected.type",
 					NoteSearcherType.class);
 			
 			if (value != null && type != null) {
@@ -264,7 +269,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 				return;
 			
 			Main.SETTINGS.setEnumProperty(
-					"searcher.note.selected.type",
+					this.settingsPrefix + ".selected.type",
 					NoteSearcherType.class,
 					searcher.getType());
 			
@@ -272,7 +277,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 				if (this.searcherView.getSelectedFolder() != null) {
 					ModelId id = this.searcherView.getSelectedFolder().getModelId();
 					Main.SETTINGS.setStringProperty(
-							"searcher.note.selected.value",
+							this.settingsPrefix + ".selected.value",
 							new ModelIdSettingsCoder().encode(id));
 				}
 				
@@ -285,7 +290,9 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 					t);
 		}
 		
-		Main.SETTINGS.setStringProperty("searcher.note.selected.value", null);
+		Main.SETTINGS.setStringProperty(
+				this.settingsPrefix + ".selected.value",
+				null);
 	}
 	
 }

@@ -61,7 +61,10 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePropertiesListener {
 	
-	public NoteSearcherTree() {
+	private String settingsPrefix;
+	
+	public NoteSearcherTree(String settingsPrefix) {
+		this.settingsPrefix = settingsPrefix;
 		this.initialize();
 	}
 	
@@ -75,7 +78,9 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 		this.setRowHeight(20);
 		
 		this.setSelectionModel(new NoteSearcherTreeSelectionModel());
-		this.setModel(new NoteSearcherTreeModel(this.getSelectionModel()));
+		this.setModel(new NoteSearcherTreeModel(
+				this.settingsPrefix,
+				this.getSelectionModel()));
 		this.setUI(new NoteSearcherTreeUI());
 		
 		this.initializeToolTipText();
@@ -223,16 +228,15 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	}
 	
 	private void initializeExpandedState() {
-		Main.SETTINGS.addPropertyChangeListener(
-				"notesearcher.category",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						NoteSearcherTree.this.updateExpandedState();
-					}
-					
-				});
+		Main.SETTINGS.addPropertyChangeListener(this.settingsPrefix
+				+ ".category", new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				NoteSearcherTree.this.updateExpandedState();
+			}
+			
+		});
 		
 		this.updateExpandedState();
 	}

@@ -63,7 +63,10 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePropertiesListener {
 	
-	public TaskSearcherTree() {
+	private String settingsPrefix;
+	
+	public TaskSearcherTree(String settingsPrefix) {
+		this.settingsPrefix = settingsPrefix;
 		this.initialize();
 	}
 	
@@ -77,7 +80,9 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		this.setRowHeight(20);
 		
 		this.setSelectionModel(new TaskSearcherTreeSelectionModel());
-		this.setModel(new TaskSearcherTreeModel(this.getSelectionModel()));
+		this.setModel(new TaskSearcherTreeModel(
+				this.settingsPrefix,
+				this.getSelectionModel()));
 		this.setUI(new TaskSearcherTreeUI());
 		
 		this.initializeToolTipText();
@@ -248,16 +253,15 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	private void initializeExpandedState() {
-		Main.SETTINGS.addPropertyChangeListener(
-				"tasksearcher.category",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						TaskSearcherTree.this.updateExpandedState();
-					}
-					
-				});
+		Main.SETTINGS.addPropertyChangeListener(this.settingsPrefix
+				+ ".category", new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				TaskSearcherTree.this.updateExpandedState();
+			}
+			
+		});
 		
 		this.updateExpandedState();
 	}
