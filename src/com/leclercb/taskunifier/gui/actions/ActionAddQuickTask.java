@@ -101,7 +101,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		return ActionAddTask.addTask(taskBean, edit);
+		return ActionAddTask.addTask(taskBean, false, edit);
 	}
 	
 	private static void findModel(String title, TaskBean taskBean) {

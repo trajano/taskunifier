@@ -100,8 +100,14 @@ public class ActionAddNote extends AbstractAction {
 		return note;
 	}
 	
-	public static synchronized Note addNote(NoteBean noteBean, boolean edit) {
+	public static synchronized Note addNote(
+			NoteBean noteBean,
+			boolean selectDefaultSearcher,
+			boolean edit) {
 		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
+		
+		if (selectDefaultSearcher)
+			ViewType.getNoteView().getNoteSearcherView().selectDefaultNoteSearcher();
 		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));

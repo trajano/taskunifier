@@ -127,13 +127,19 @@ public class ActionAddTask extends AbstractAction {
 		return task;
 	}
 	
-	public static synchronized Task addTask(TaskBean taskBean, boolean edit) {
+	public static synchronized Task addTask(
+			TaskBean taskBean,
+			boolean selectDefaultSearcher,
+			boolean edit) {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
 		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
 			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
 			viewType = MainFrame.getInstance().getSelectedViewType();
 		}
+		
+		if (selectDefaultSearcher)
+			ViewType.selectDefaultTaskSearcher();
 		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
