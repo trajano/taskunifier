@@ -132,7 +132,9 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 		
 		int i = 0;
 		for (CardPanel cp : this.panels)
-			this.cardPanel.add(cp, "" + i++);
+			this.cardPanel.add(
+					ComponentFactory.createJScrollPane(cp, false),
+					"" + i++);
 		
 		this.initializeButtonsPanel();
 	}
