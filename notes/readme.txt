@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.7.1
+	- Major:
+		- Bug fixed: problem with new tabs
+
 Version 1.7.0
 	- Major:
 		- FR 3421137: Improve calendar view
