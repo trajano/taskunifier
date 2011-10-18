@@ -43,6 +43,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXStatusBar;
@@ -130,12 +132,22 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		ViewType.initialize(this);
 		for (ViewType viewType : ViewType.values()) {
-			this.mainTabbedPane.add(
+			this.mainTabbedPane.addTab(
 					viewType.getLabel(),
+					viewType.getIcon(),
 					viewType.getView().getViewContent());
 		}
 		
 		this.setSelectedViewType(ViewType.TASKS);
+		
+		this.mainTabbedPane.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				MainFrame.this.setSelectedViewType(ViewType.values()[MainFrame.this.mainTabbedPane.getSelectedIndex()]);
+			}
+			
+		});
 		
 		this.initializeCommunicatorThread();
 		this.initializeReminderThread();

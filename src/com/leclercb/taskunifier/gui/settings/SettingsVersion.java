@@ -202,6 +202,9 @@ public final class SettingsVersion {
 		if (version.equals("1.6.0"))
 			version = updateSettings_1_6_0_to_1_7_0();
 		
+		if (version.equals("1.7.0"))
+			version = updateSettings_1_7_0_to_1_7_1();
+		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
 	
@@ -948,6 +951,13 @@ public final class SettingsVersion {
 				"tasksearcher.tasks.category.personal.expanded");
 		
 		return "1.7.0";
+	}
+	
+	private static String updateSettings_1_7_0_to_1_7_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.7.0 to 1.7.1");
+		
+		return "1.7.1";
 	}
 	
 }

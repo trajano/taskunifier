@@ -3,6 +3,8 @@ package com.leclercb.taskunifier.gui.components.views;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
+import javax.swing.Icon;
+
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -12,12 +14,22 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.Images;
 
 public enum ViewType implements ActionSupported {
 	
-	TASKS(Translations.getString("general.tasks")),
-	NOTES(Translations.getString("general.notes")),
-	CALENDAR(Translations.getString("general.calendar"));
+	TASKS(Translations.getString("general.tasks"), Images.getResourceImage(
+			"task.png",
+			16,
+			16)),
+	NOTES(Translations.getString("general.notes"), Images.getResourceImage(
+			"note.png",
+			16,
+			16)),
+	CALENDAR(Translations.getString("general.calendar"), Images.getResourceImage(
+			"calendar.png",
+			16,
+			16));
 	
 	private static final String ACTION_VIEW_LOADED = "loaded";
 	
@@ -122,12 +134,14 @@ public enum ViewType implements ActionSupported {
 	
 	private View view;
 	private String label;
+	private Icon icon;
 	
-	private ViewType(String label) {
+	private ViewType(String label, Icon icon) {
 		this.actionSupport = new ActionSupport(this);
 		
 		this.view = null;
 		this.label = label;
+		this.icon = icon;
 	}
 	
 	public boolean isLoaded() {
@@ -154,6 +168,10 @@ public enum ViewType implements ActionSupported {
 	
 	public String getLabel() {
 		return this.label;
+	}
+	
+	public Icon getIcon() {
+		return this.icon;
 	}
 	
 	@Override

@@ -60,13 +60,14 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
 		
-		this.viewLoaded();
+		this.viewCalendarLoaded();
+		this.viewTasksLoaded();
 		
 		ViewType.CALENDAR.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				ActionDeleteTaskSearcher.this.viewLoaded();
+				ActionDeleteTaskSearcher.this.viewCalendarLoaded();
 			}
 			
 		});
@@ -75,7 +76,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				ActionDeleteTaskSearcher.this.viewLoaded();
+				ActionDeleteTaskSearcher.this.viewTasksLoaded();
 			}
 			
 		});
@@ -83,7 +84,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 		this.setEnabled(false);
 	}
 	
-	private void viewLoaded() {
+	private void viewCalendarLoaded() {
 		if (ViewType.CALENDAR.isLoaded()) {
 			ViewType.getCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 					new TaskSearcherSelectionListener() {
@@ -98,7 +99,9 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 			
 			this.setEnabled(this.shouldBeEnabled());
 		}
-		
+	}
+	
+	private void viewTasksLoaded() {
 		if (ViewType.TASKS.isLoaded()) {
 			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 					new TaskSearcherSelectionListener() {
