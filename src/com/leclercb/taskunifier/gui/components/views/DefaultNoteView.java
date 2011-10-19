@@ -86,7 +86,8 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 		
 		this.horizontalSplitPane.setOneTouchExpandable(true);
 		
-		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		this.verticalSplitPane = new JSplitPane(
+				Main.SETTINGS.getIntegerProperty("view.notes.window.split"));
 		this.verticalSplitPane.setOneTouchExpandable(true);
 		this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		

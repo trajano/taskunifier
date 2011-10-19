@@ -81,6 +81,22 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
+				"NOTES_SPLIT",
+				Translations.getString("configuration.theme.notes_split"),
+				true,
+				new ConfigurationFieldType.RadioButton(
+						"view.notes.window.split",
+						new String[] {
+								Translations.getString("configuration.theme.notes_split.vertical"),
+								Translations.getString("configuration.theme.notes_split.horizontal") },
+						new String[] { "0", "1" })));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_3",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ConfigurationFieldType.CheckBox(
@@ -92,7 +108,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.ColorChooser("theme.color.progress")));
 		
 		this.addField(new ConfigurationField(
-				"SEPARATOR_3",
+				"SEPARATOR_4",
 				null,
 				new ConfigurationFieldType.Separator()));
 		

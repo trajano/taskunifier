@@ -967,6 +967,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.7.1 to 1.7.2");
 		
+		Main.SETTINGS.setStringProperty("view.notes.window.split", "0");
+		
 		return "1.7.2";
 	}
 	
