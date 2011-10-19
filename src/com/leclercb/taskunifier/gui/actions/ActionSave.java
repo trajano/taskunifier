@@ -66,7 +66,7 @@ public class ActionSave extends AbstractAction {
 			if (!Synchronizing.setSynchronizing(true))
 				return;
 			
-			Main.saveAll();
+			Main.saveAll(Main.DATA_FOLDER);
 		} finally {
 			Synchronizing.setSynchronizing(false);
 		}

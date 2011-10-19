@@ -441,14 +441,14 @@ public class Main {
 			handlers = ApiLogger.getLogger().getHandlers();
 			for (Handler handler : handlers)
 				handler.setLevel(apiLogLevel);
-			
-			handlers = GuiLogger.getLogger().getHandlers();
-			for (Handler handler : handlers)
-				handler.setLevel(guiLogLevel);
-			
-			handlers = PluginLogger.getLogger().getHandlers();
-			for (Handler handler : handlers)
-				handler.setLevel(pluginLogLevel);
+					
+					handlers = GuiLogger.getLogger().getHandlers();
+					for (Handler handler : handlers)
+						handler.setLevel(guiLogLevel);
+							
+							handlers = PluginLogger.getLogger().getHandlers();
+							for (Handler handler : handlers)
+								handler.setLevel(pluginLogLevel);
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -496,9 +496,19 @@ public class Main {
 				GuiLocationBean.class);
 		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
+		loadAll(DATA_FOLDER);
+	}
+	
+	public static void loadAll(String folder) {
+		loadModels(folder);
+		loadTaskTemplates(folder);
+		loadTaskSearchers(folder);
+	}
+	
+	public static void loadModels(String folder) {
 		try {
 			ContextFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "contexts.xml"));
 		} catch (FileNotFoundException e) {
@@ -518,7 +528,7 @@ public class Main {
 		
 		try {
 			FolderFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "folders.xml"));
 		} catch (FileNotFoundException e) {
@@ -538,7 +548,7 @@ public class Main {
 		
 		try {
 			GoalFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "goals.xml"));
 		} catch (FileNotFoundException e) {
@@ -558,7 +568,7 @@ public class Main {
 		
 		try {
 			LocationFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "locations.xml"));
 		} catch (FileNotFoundException e) {
@@ -578,7 +588,7 @@ public class Main {
 		
 		try {
 			NoteFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "notes.xml"));
 		} catch (FileNotFoundException e) {
@@ -598,7 +608,7 @@ public class Main {
 		
 		try {
 			TaskFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "tasks.xml"));
 		} catch (FileNotFoundException e) {
@@ -615,10 +625,12 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
+	}
+	
+	public static void loadTaskTemplates(String folder) {
 		try {
 			TaskTemplateFactory.getInstance().decodeFromXML(
-					new FileInputStream(DATA_FOLDER
+					new FileInputStream(folder
 							+ File.separator
 							+ "task_templates.xml"));
 		} catch (FileNotFoundException e) {
@@ -635,7 +647,9 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
+	}
+	
+	public static void loadTaskSearchers(String folder) {
 		try {
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
 					DATA_FOLDER + File.separator + "task_searchers.xml"));
@@ -664,15 +678,15 @@ public class Main {
 			LookAndFeelUtils.addLookAndFeel(new DefaultLookAndFeelDescriptor(
 					"jGoodies - " + jgoodies.getProperty(key.toString()),
 					key.toString()));
-		
-		// jTattoo
-		Properties jtattoo = new Properties();
-		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
-		
-		for (Object key : jtattoo.keySet())
-			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
-					"jTattoo - " + jtattoo.getProperty(key.toString()),
-					key.toString()));
+				
+				// jTattoo
+				Properties jtattoo = new Properties();
+				jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
+				
+				for (Object key : jtattoo.keySet())
+					LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
+							"jTattoo - " + jtattoo.getProperty(key.toString()),
+							key.toString()));
 	}
 	
 	private static boolean loadApiPlugins() {
@@ -792,7 +806,7 @@ public class Main {
 				"general.last_exit_date",
 				Calendar.getInstance());
 		
-		saveAll();
+		saveAll(DATA_FOLDER);
 		
 		MainFrame.getInstance().getFrame().dispose();
 		
@@ -801,10 +815,10 @@ public class Main {
 		System.exit(0);
 	}
 	
-	public static void saveAll() {
-		saveModels();
-		saveTaskTemplates();
-		saveTaskSearchers();
+	public static void saveAll(String folder) {
+		saveModels(folder);
+		saveTaskTemplates(folder);
+		saveTaskSearchers(folder);
 		saveInitSettings();
 		saveSettings();
 	}
@@ -849,7 +863,7 @@ public class Main {
 		}
 	}
 	
-	public static void saveModels() {
+	public static void saveModels(String folder) {
 		try {
 			ContextFactory.getInstance().cleanFactory();
 			FolderFactory.getInstance().cleanFactory();
@@ -866,7 +880,7 @@ public class Main {
 		
 		try {
 			ContextFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "contexts.xml"));
 			
@@ -886,7 +900,7 @@ public class Main {
 		
 		try {
 			FolderFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "folders.xml"));
 			
@@ -906,7 +920,7 @@ public class Main {
 		
 		try {
 			GoalFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "goals.xml"));
 			
@@ -926,7 +940,7 @@ public class Main {
 		
 		try {
 			LocationFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "locations.xml"));
 			
@@ -946,7 +960,7 @@ public class Main {
 		
 		try {
 			NoteFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "notes.xml"));
 			
@@ -966,7 +980,7 @@ public class Main {
 		
 		try {
 			TaskFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "tasks.xml"));
 			
@@ -985,10 +999,10 @@ public class Main {
 		}
 	}
 	
-	public static void saveTaskTemplates() {
+	public static void saveTaskTemplates(String folder) {
 		try {
 			TaskTemplateFactory.getInstance().encodeToXML(
-					new FileOutputStream(DATA_FOLDER
+					new FileOutputStream(folder
 							+ File.separator
 							+ "task_templates.xml"));
 			
@@ -1007,10 +1021,10 @@ public class Main {
 		}
 	}
 	
-	public static void saveTaskSearchers() {
+	public static void saveTaskSearchers(String folder) {
 		try {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					DATA_FOLDER + File.separator + "task_searchers.xml"));
+					folder + File.separator + "task_searchers.xml"));
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving task searchers");
 		} catch (Exception e) {
