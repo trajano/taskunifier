@@ -216,6 +216,11 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 		
 		Thread.sleep(1000);
 		
+		Main.SETTINGS.setStringProperty(
+				"synchronizer.scheduler_sleep_time",
+				Main.SETTINGS.getStringProperty("synchronizer.scheduler_sleep_time"),
+				true);
+		
 		return null;
 	}
 	
