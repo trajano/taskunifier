@@ -44,30 +44,29 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class ActionBackup extends AbstractAction {
+public class ActionCreateNewBackup extends AbstractAction {
 	
-	public ActionBackup() {
+	public ActionCreateNewBackup() {
 		this(32, 32);
 	}
 	
-	public ActionBackup(int width, int height) {
-		super(Translations.getString("action.backup"), Images.getResourceImage(
-				"save.png",
-				width,
-				height));
+	public ActionCreateNewBackup(int width, int height) {
+		super(
+				Translations.getString("action.create_new_backup"),
+				Images.getResourceImage("save.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.backup"));
+				Translations.getString("action.create_new_backup"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionBackup.backup();
+		ActionCreateNewBackup.createNewBackup();
 	}
 	
-	public static void backup() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_hhmmss");
+	public static void createNewBackup() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
 		String folder = format.format(Calendar.getInstance().getTime());
 		folder = Main.BACKUP_FOLDER + File.separator + folder;
 		
