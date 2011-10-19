@@ -93,6 +93,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
@@ -507,6 +508,8 @@ public class Main {
 	
 	public static void loadModels(String folder) {
 		try {
+			ContextFactory.getInstance().deleteAll();
+			
 			ContextFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -527,6 +530,8 @@ public class Main {
 		}
 		
 		try {
+			FolderFactory.getInstance().deleteAll();
+			
 			FolderFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -547,6 +552,8 @@ public class Main {
 		}
 		
 		try {
+			GoalFactory.getInstance().deleteAll();
+			
 			GoalFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -567,6 +574,8 @@ public class Main {
 		}
 		
 		try {
+			LocationFactory.getInstance().deleteAll();
+			
 			LocationFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -587,6 +596,8 @@ public class Main {
 		}
 		
 		try {
+			NoteFactory.getInstance().deleteAll();
+			
 			NoteFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -607,6 +618,8 @@ public class Main {
 		}
 		
 		try {
+			TaskFactory.getInstance().deleteAll();
+			
 			TaskFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -629,6 +642,8 @@ public class Main {
 	
 	public static void loadTaskTemplates(String folder) {
 		try {
+			TaskTemplateFactory.getInstance().deleteAll();
+			
 			TaskTemplateFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
@@ -651,8 +666,10 @@ public class Main {
 	
 	public static void loadTaskSearchers(String folder) {
 		try {
+			TaskSearcherFactory.getInstance().deleteAll();
+			
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
-					DATA_FOLDER + File.separator + "task_searchers.xml"));
+					folder + File.separator + "task_searchers.xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Throwable e) {
