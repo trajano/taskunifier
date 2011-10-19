@@ -4,6 +4,7 @@ HISTORY
 Version 1.7.2
 	- Minor:
 		- FR 3425373: Reset scheduled sync after manual sync
+		- FR 3422906: Length editor accepts more formats
 
 Version 1.7.1
 	- Major:
