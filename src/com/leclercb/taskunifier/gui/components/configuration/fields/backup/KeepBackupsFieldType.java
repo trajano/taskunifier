@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
+package com.leclercb.taskunifier.gui.components.configuration.fields.backup;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -38,35 +38,35 @@ import javax.swing.SpinnerNumberModel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner {
+public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
-	public SchedulerSleepTimeFieldType() {
-		super("synchronizer.scheduler_sleep_time");
+	public KeepBackupsFieldType() {
+		super("general.keep_backups");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
-				10,
-				24 * 3600,
-				60));
+				1,
+				1000,
+				1));
 		
 		this.setEditor(new JSpinner.NumberEditor(this));
 	}
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
+		Integer value = Main.SETTINGS.getIntegerProperty("general.keep_backups");
 		
-		if (value == null || value < 10 || value > 24 * 3600)
-			value = 600;
+		if (value == null || value < 1 || value > 1000)
+			value = 10;
 		
 		return value;
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setLongProperty(
-				"synchronizer.scheduler_sleep_time",
-				((Integer) this.getFieldValue()) * 1000l);
+		Main.SETTINGS.setIntegerProperty(
+				"general.keep_backups",
+				(Integer) this.getFieldValue());
 	}
 	
 }

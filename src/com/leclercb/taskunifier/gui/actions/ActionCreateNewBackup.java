@@ -34,11 +34,17 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileFilter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+
+import org.apache.commons.io.FileUtils;
 
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -92,6 +98,58 @@ public class ActionCreateNewBackup extends AbstractAction {
 		}
 		
 		Main.saveAll(folder);
+	}
+	
+	public static List<String> getBackupList() {
+		File folder = new File(Main.BACKUP_FOLDER);
+		File[] backups = folder.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if (!pathname.isDirectory())
+					return false;
+				
+				if (!pathname.getName().matches("[0-9]{8}_[0-9]{6}"))
+					return false;
+				
+				return true;
+			}
+		});
+		
+		List<String> list = new ArrayList<String>();
+		for (File file : backups) {
+			list.add(file.getName());
+		}
+		
+		Collections.sort(list);
+		return list;
+	}
+	
+	public static void removeBackup(String folder) {
+		folder = Main.BACKUP_FOLDER + File.separator + folder;
+		
+		try {
+			FileUtils.deleteDirectory(new File(folder));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+	}
+	
+	public static void cleanBackups(int nbToKeep) {
+		List<String> list = getBackupList();
+		
+		if (nbToKeep < 1)
+			throw new IllegalArgumentException();
+		
+		while (list.size() > nbToKeep) {
+			removeBackup(list.get(0));
+			list.remove(0);
+		}
 	}
 	
 }

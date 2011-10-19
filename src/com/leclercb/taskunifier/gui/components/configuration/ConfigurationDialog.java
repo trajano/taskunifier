@@ -71,6 +71,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	public static enum ConfigurationTab {
 		
 		GENERAL,
+		BACKUP,
 		PROXY,
 		COLUMNS,
 		SEARCHER,
@@ -84,6 +85,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
+	private ConfigurationPanel backupConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
 	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel searcherConfigurationPanel;
@@ -100,33 +102,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	
 	public void setSelectedConfigurationTab(ConfigurationTab tab) {
 		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
-		
-		switch (tab) {
-			case GENERAL:
-				this.tabbedPane.setSelectedIndex(0);
-				break;
-			case PROXY:
-				this.tabbedPane.setSelectedIndex(1);
-				break;
-			case COLUMNS:
-				this.tabbedPane.setSelectedIndex(2);
-				break;
-			case SEARCHER:
-				this.tabbedPane.setSelectedIndex(3);
-				break;
-			case THEME:
-				this.tabbedPane.setSelectedIndex(4);
-				break;
-			case TOOLBAR:
-				this.tabbedPane.setSelectedIndex(5);
-				break;
-			case SYNCHRONIZATION:
-				this.tabbedPane.setSelectedIndex(6);
-				break;
-			case PLUGIN:
-				this.tabbedPane.setSelectedIndex(7);
-				break;
-		}
+		this.tabbedPane.setSelectedIndex(tab.ordinal());
 	}
 	
 	private void initialize() {
@@ -150,7 +126,9 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
+		
 		this.initializeGeneralPanel();
+		this.initializeBackupPanel();
 		this.initializeProxyPanel();
 		this.initializeColumnsPanel();
 		this.initializeSearcherPanel();
@@ -215,6 +193,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 				Translations.getString("configuration.tab.general"),
 				ComponentFactory.createJScrollPane(
 						this.generalConfigurationPanel,
+						false));
+	}
+	
+	private void initializeBackupPanel() {
+		this.backupConfigurationPanel = new BackupConfigurationPanel(this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.backup"),
+				ComponentFactory.createJScrollPane(
+						this.backupConfigurationPanel,
 						false));
 	}
 	
@@ -292,6 +279,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.pluginConfigurationPanel.saveAndApplyConfig();
 			
 			this.generalConfigurationPanel.saveAndApplyConfig();
+			this.backupConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.searcherConfigurationPanel.saveAndApplyConfig();
@@ -326,6 +314,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.synchronizationConfigurationPanel.cancelConfig();
 			this.pluginConfigurationPanel.cancelConfig();
 			
+			this.backupConfigurationPanel.cancelConfig();
 			this.proxyConfigurationPanel.cancelConfig();
 			this.columnsConfigurationPanel.cancelConfig();
 			this.searcherConfigurationPanel.cancelConfig();

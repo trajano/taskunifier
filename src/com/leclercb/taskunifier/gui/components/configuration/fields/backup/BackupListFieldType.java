@@ -30,43 +30,30 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.fields.synchronization;
+package com.leclercb.taskunifier.gui.components.configuration.fields.backup;
 
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
+import com.leclercb.taskunifier.gui.commons.values.StringValueBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.main.Main;
 
-public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner {
+public class BackupListFieldType extends ConfigurationFieldType.ComboBox {
 	
-	public SchedulerSleepTimeFieldType() {
-		super("synchronizer.scheduler_sleep_time");
+	public BackupListFieldType() {
+		super(ActionCreateNewBackup.getBackupList().toArray());
 		
-		this.setModel(new SpinnerNumberModel(
-				(Number) this.getPropertyValue(),
-				10,
-				24 * 3600,
-				60));
-		
-		this.setEditor(new JSpinner.NumberEditor(this));
+		this.setRenderer(new DefaultListRenderer(StringValueBackup.INSTANCE));
 	}
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = (int) (Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time") / 1000);
-		
-		if (value == null || value < 10 || value > 24 * 3600)
-			value = 600;
-		
-		return value;
+		return null;
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setLongProperty(
-				"synchronizer.scheduler_sleep_time",
-				((Integer) this.getFieldValue()) * 1000l);
+		
 	}
 	
 }

@@ -436,6 +436,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		private boolean first;
 		private String propertyName;
 		
+		public ComboBox(Object[] items) {
+			this(items, null);
+		}
+		
+		public ComboBox(ComboBoxModel model) {
+			this(model, null);
+		}
+		
 		public ComboBox(Object[] items, String propertyName) {
 			this(new DefaultComboBoxModel(items), propertyName);
 		}
@@ -454,16 +462,19 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
-						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
-							}
-							
-						});
+				if (this.propertyName != null) {
+					Main.SETTINGS.addPropertyChangeListener(
+							propertyName,
+							new PropertyChangeListener() {
+								
+								@Override
+								public void propertyChange(
+										PropertyChangeEvent evt) {
+									ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
+								}
+								
+							});
+				}
 			}
 		}
 		

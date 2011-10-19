@@ -76,6 +76,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -162,6 +163,7 @@ public class Main {
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
 			loadShutdownHook();
+			cleanBackups();
 			
 			Constants.initialize();
 			
@@ -822,6 +824,11 @@ public class Main {
 			}
 			
 		});
+	}
+	
+	private static void cleanBackups() {
+		int nbToKeep = SETTINGS.getIntegerProperty("general.keep_backups");
+		ActionCreateNewBackup.cleanBackups(nbToKeep);
 	}
 	
 	public static void quit() {
