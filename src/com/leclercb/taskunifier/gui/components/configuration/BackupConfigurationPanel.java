@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JComboBox;
 
@@ -81,8 +82,13 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								if (backupList.getSelectedItem() != null)
-									Main.loadAll((String) backupList.getSelectedItem());
+								if (backupList.getSelectedItem() != null) {
+									String folder = (String) backupList.getSelectedItem();
+									folder = Main.BACKUP_FOLDER
+											+ File.separator
+											+ folder;
+									Main.loadAll(folder);
+								}
 							}
 							
 						})));

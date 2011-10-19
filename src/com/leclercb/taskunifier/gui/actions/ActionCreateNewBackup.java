@@ -46,6 +46,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FileUtils;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -126,10 +127,10 @@ public class ActionCreateNewBackup extends AbstractAction {
 	}
 	
 	public static void removeBackup(String folder) {
-		folder = Main.BACKUP_FOLDER + File.separator + folder;
+		String path = Main.BACKUP_FOLDER + File.separator + folder;
 		
 		try {
-			FileUtils.deleteDirectory(new File(folder));
+			FileUtils.deleteDirectory(new File(path));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null,
@@ -138,6 +139,8 @@ public class ActionCreateNewBackup extends AbstractAction {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+		
+		GuiLogger.getLogger().info("Backup removed: " + folder);
 	}
 	
 	public static void cleanBackups(int nbToKeep) {
