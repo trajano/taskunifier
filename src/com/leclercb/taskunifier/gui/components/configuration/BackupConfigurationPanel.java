@@ -38,6 +38,7 @@ import java.io.File;
 
 import javax.swing.JComboBox;
 
+import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -58,7 +59,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 	private void initialize() {
 		this.addField(new ConfigurationField(
 				"KEEP_BACKUPS",
-				Translations.getString("a"),
+				Translations.getString("configuration.backup.keep_backups"),
 				new KeepBackupsFieldType()));
 		
 		this.addField(new ConfigurationField(
@@ -68,7 +69,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"BACKUP_LIST",
-				Translations.getString("b"),
+				Translations.getString("configuration.backup.backup_list"),
 				new BackupListFieldType()));
 		
 		final JComboBox backupList = (JComboBox) this.getField("BACKUP_LIST").getType().getFieldComponent();
@@ -77,16 +78,19 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 				"RESTORE_BACKUP",
 				null,
 				new ConfigurationFieldType.Button(
-						Translations.getString("c"),
+						Translations.getString("configuration.backup.restore_backup"),
 						new ActionListener() {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								if (backupList.getSelectedItem() != null) {
+									ActionCreateNewBackup.createNewBackup();
+									
 									String folder = (String) backupList.getSelectedItem();
 									folder = Main.BACKUP_FOLDER
 											+ File.separator
 											+ folder;
+									
 									Main.loadAll(folder);
 								}
 							}
