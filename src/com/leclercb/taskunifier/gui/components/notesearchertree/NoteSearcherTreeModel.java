@@ -126,6 +126,21 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		FolderFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
+	public int findNewIndexInFolderCategory(Folder folder) {
+		List<Folder> folders = new ArrayList<Folder>();
+		for (int i = 0; i < this.folderCategory.getChildCount(); i++) {
+			TreeNode node = this.folderCategory.getChildAt(i);
+			if (node instanceof FolderItem) {
+				folders.add(((FolderItem) node).getFolder());
+			}
+		}
+		
+		folders.add(folder);
+		Collections.sort(folders, new ModelComparator());
+		
+		return folders.indexOf(folder);
+	}
+	
 	public FolderItem findItemFromFolder(Folder folder) {
 		for (int i = 0; i < this.folderCategory.getChildCount(); i++) {
 			TreeNode node = this.folderCategory.getChildAt(i);
@@ -184,10 +199,22 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		if (event.getValue() instanceof Folder) {
 			Folder folder = (Folder) event.getValue();
+			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+				if (!folder.getModelStatus().isEndUserStatus())
+					return;
+				
 				FolderItem item = new FolderItem(folder);
 				
-				this.insertNodeInto(item, this.folderCategory, 0);
+				try {
+					this.insertNodeInto(
+							item,
+							this.folderCategory,
+							this.findNewIndexInFolderCategory(folder));
+				} catch (Exception e) {
+					this.insertNodeInto(item, this.folderCategory, 0);
+				}
+				
 				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				FolderItem item = this.findItemFromFolder(folder);
@@ -241,8 +268,20 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				
 				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			} else {
-				if (event.getPropertyName().equals(Model.PROP_TITLE)
-						|| event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
+				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+					this.removeNodeFromParent(item);
+					
+					try {
+						this.insertNodeInto(
+								item,
+								this.folderCategory,
+								this.findNewIndexInFolderCategory(folder));
+					} catch (Exception e) {
+						this.insertNodeInto(item, this.folderCategory, 0);
+					}
+				}
+				
+				if (event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
 					this.nodeChanged(item);
 				}
 			}
