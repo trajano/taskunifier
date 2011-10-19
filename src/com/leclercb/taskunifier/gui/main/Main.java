@@ -121,6 +121,7 @@ public class Main {
 	public static boolean FIRST_EXECUTION;
 	public static String RESOURCES_FOLDER;
 	public static String DATA_FOLDER;
+	public static String BACKUP_FOLDER;
 	public static String PLUGINS_FOLDER;
 	
 	public static ActionSupport AFTER_START;
@@ -149,6 +150,7 @@ public class Main {
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
+			loadBackupFolder();
 			loadPluginsFolder();
 			loadLoggers();
 			loadSettings();
@@ -336,8 +338,58 @@ public class Main {
 		}
 	}
 	
-	private static void loadPluginsFolder() {
+	private static void loadBackupFolder() throws Exception {
+		BACKUP_FOLDER = DATA_FOLDER + File.separator + "backup";
+		
+		File backupFolder = new File(BACKUP_FOLDER);
+		if (!backupFolder.exists()) {
+			if (!backupFolder.mkdir())
+				throw new Exception(String.format(
+						"Error while creating backup folder \"%1s\"",
+						BACKUP_FOLDER));
+			
+			try {
+				backupFolder.setExecutable(true, true);
+				backupFolder.setReadable(true, true);
+				backupFolder.setWritable(true, true);
+			} catch (Throwable t) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot change backup folder permissions",
+						t);
+			}
+		} else if (!backupFolder.isDirectory()) {
+			throw new Exception(String.format(
+					"\"%1s\" is not a folder",
+					BACKUP_FOLDER));
+		}
+	}
+	
+	private static void loadPluginsFolder() throws Exception {
 		PLUGINS_FOLDER = DATA_FOLDER + File.separator + "plugins";
+		
+		File pluginsFolder = new File(PLUGINS_FOLDER);
+		if (!pluginsFolder.exists()) {
+			if (!pluginsFolder.mkdir())
+				throw new Exception(String.format(
+						"Error while creating plugins folder \"%1s\"",
+						PLUGINS_FOLDER));
+			
+			try {
+				pluginsFolder.setExecutable(true, true);
+				pluginsFolder.setReadable(true, true);
+				pluginsFolder.setWritable(true, true);
+			} catch (Throwable t) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot change plugins folder permissions",
+						t);
+			}
+		} else if (!pluginsFolder.isDirectory()) {
+			throw new Exception(String.format(
+					"\"%1s\" is not a folder",
+					PLUGINS_FOLDER));
+		}
 	}
 	
 	private static void loadLoggers() {
@@ -442,14 +494,14 @@ public class Main {
 			handlers = ApiLogger.getLogger().getHandlers();
 			for (Handler handler : handlers)
 				handler.setLevel(apiLogLevel);
-					
-					handlers = GuiLogger.getLogger().getHandlers();
-					for (Handler handler : handlers)
-						handler.setLevel(guiLogLevel);
-							
-							handlers = PluginLogger.getLogger().getHandlers();
-							for (Handler handler : handlers)
-								handler.setLevel(pluginLogLevel);
+			
+			handlers = GuiLogger.getLogger().getHandlers();
+			for (Handler handler : handlers)
+				handler.setLevel(guiLogLevel);
+			
+			handlers = PluginLogger.getLogger().getHandlers();
+			for (Handler handler : handlers)
+				handler.setLevel(pluginLogLevel);
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -533,9 +585,7 @@ public class Main {
 			FolderFactory.getInstance().deleteAll();
 			
 			FolderFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder
-							+ File.separator
-							+ "folders.xml"));
+					new FileInputStream(folder + File.separator + "folders.xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -555,9 +605,7 @@ public class Main {
 			GoalFactory.getInstance().deleteAll();
 			
 			GoalFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder
-							+ File.separator
-							+ "goals.xml"));
+					new FileInputStream(folder + File.separator + "goals.xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -599,9 +647,7 @@ public class Main {
 			NoteFactory.getInstance().deleteAll();
 			
 			NoteFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder
-							+ File.separator
-							+ "notes.xml"));
+					new FileInputStream(folder + File.separator + "notes.xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -621,9 +667,7 @@ public class Main {
 			TaskFactory.getInstance().deleteAll();
 			
 			TaskFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder
-							+ File.separator
-							+ "tasks.xml"));
+					new FileInputStream(folder + File.separator + "tasks.xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -668,8 +712,9 @@ public class Main {
 		try {
 			TaskSearcherFactory.getInstance().deleteAll();
 			
-			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(
-					folder + File.separator + "task_searchers.xml"));
+			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(folder
+					+ File.separator
+					+ "task_searchers.xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Throwable e) {
@@ -695,15 +740,15 @@ public class Main {
 			LookAndFeelUtils.addLookAndFeel(new DefaultLookAndFeelDescriptor(
 					"jGoodies - " + jgoodies.getProperty(key.toString()),
 					key.toString()));
-				
-				// jTattoo
-				Properties jtattoo = new Properties();
-				jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
-				
-				for (Object key : jtattoo.keySet())
-					LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
-							"jTattoo - " + jtattoo.getProperty(key.toString()),
-							key.toString()));
+		
+		// jTattoo
+		Properties jtattoo = new Properties();
+		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
+		
+		for (Object key : jtattoo.keySet())
+			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
+					"jTattoo - " + jtattoo.getProperty(key.toString()),
+					key.toString()));
 	}
 	
 	private static boolean loadApiPlugins() {
@@ -714,39 +759,22 @@ public class Main {
 		
 		File pluginsFolder = new File(PLUGINS_FOLDER);
 		
-		if (!pluginsFolder.exists()) {
-			pluginsFolder.mkdir();
-			
+		boolean outdatedPlugins = false;
+		File[] pluginFiles = pluginsFolder.listFiles();
+		
+		for (File file : pluginFiles) {
 			try {
-				pluginsFolder.setExecutable(true, true);
-				pluginsFolder.setReadable(true, true);
-				pluginsFolder.setWritable(true, true);
+				PluginsUtils.loadPlugin(file);
+			} catch (PluginException e) {
+				if (e.getType() == PluginExceptionType.OUTDATED_PLUGIN)
+					outdatedPlugins = true;
+				
+				GuiLogger.getLogger().warning(e.getMessage());
 			} catch (Throwable t) {
 				GuiLogger.getLogger().log(
-						Level.SEVERE,
-						"Cannot change plugin folder permissions",
+						Level.WARNING,
+						"Unknown plugin error",
 						t);
-			}
-		}
-		
-		boolean outdatedPlugins = false;
-		if (pluginsFolder.exists() && pluginsFolder.isDirectory()) {
-			File[] pluginFiles = pluginsFolder.listFiles();
-			
-			for (File file : pluginFiles) {
-				try {
-					PluginsUtils.loadPlugin(file);
-				} catch (PluginException e) {
-					if (e.getType() == PluginExceptionType.OUTDATED_PLUGIN)
-						outdatedPlugins = true;
-					
-					GuiLogger.getLogger().warning(e.getMessage());
-				} catch (Throwable t) {
-					GuiLogger.getLogger().log(
-							Level.WARNING,
-							"Unknown plugin error",
-							t);
-				}
 			}
 		}
 		
@@ -937,9 +965,7 @@ public class Main {
 		
 		try {
 			GoalFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder
-							+ File.separator
-							+ "goals.xml"));
+					new FileOutputStream(folder + File.separator + "goals.xml"));
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving goals");
 		} catch (Exception e) {
@@ -977,9 +1003,7 @@ public class Main {
 		
 		try {
 			NoteFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder
-							+ File.separator
-							+ "notes.xml"));
+					new FileOutputStream(folder + File.separator + "notes.xml"));
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving notes");
 		} catch (Exception e) {
@@ -997,9 +1021,7 @@ public class Main {
 		
 		try {
 			TaskFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder
-							+ File.separator
-							+ "tasks.xml"));
+					new FileOutputStream(folder + File.separator + "tasks.xml"));
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving tasks");
 		} catch (Exception e) {
