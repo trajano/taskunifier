@@ -1,7 +1,9 @@
 HISTORY
 -------
 
-Version 1.7.2
+Version 1.8.0
+	- Major:
+		- FR 3425408: Backup system
 	- Minor:
 		- FR 3425373: Reset scheduled sync after manual sync
 		- FR 3422906: Length editor accepts more formats

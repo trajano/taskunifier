@@ -206,7 +206,7 @@ public final class SettingsVersion {
 			version = updateSettings_1_7_0_to_1_7_1();
 		
 		if (version.equals("1.7.1"))
-			version = updateSettings_1_7_1_to_1_7_2();
+			version = updateSettings_1_7_1_to_1_8_0();
 		
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -963,13 +963,13 @@ public final class SettingsVersion {
 		return "1.7.1";
 	}
 	
-	private static String updateSettings_1_7_1_to_1_7_2() {
+	private static String updateSettings_1_7_1_to_1_8_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 1.7.1 to 1.7.2");
+				"Update settings from version 1.7.1 to 1.8.0");
 		
 		Main.SETTINGS.setStringProperty("view.notes.window.split", "0");
 		
-		return "1.7.2";
+		return "1.8.0";
 	}
 	
 }
