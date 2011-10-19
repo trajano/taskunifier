@@ -104,7 +104,8 @@ public class ActionDelete extends AbstractViewAction {
 			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
 				return;
 			
-			Synchronizing.setSynchronizing(true);
+			if (!Synchronizing.setSynchronizing(true))
+				return;
 			
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {

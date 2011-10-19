@@ -46,9 +46,9 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.MonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -154,7 +154,7 @@ public class ActionCheckPluginVersion extends AbstractAction {
 							if (result == 0) {
 								final Plugin pluginToUpdate = plugin;
 								
-								PluginWaitDialog<Void> dialog = new PluginWaitDialog<Void>(
+								MonitorWaitDialog<Void> dialog = new MonitorWaitDialog<Void>(
 										MainFrame.getInstance().getFrame(),
 										Translations.getString("general.manage_plugins")) {
 									

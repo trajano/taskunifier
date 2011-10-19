@@ -61,12 +61,12 @@ import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.components.plugins.PluginWaitDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
+import com.leclercb.taskunifier.gui.swing.MonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -510,7 +510,7 @@ public class PluginsUtils {
 				GuiLogger.getLogger().warning("Cannot load plugins from XML");
 			}
 		} else {
-			PluginWaitDialog<Plugin[]> dialog = new PluginWaitDialog<Plugin[]>(
+			MonitorWaitDialog<Plugin[]> dialog = new MonitorWaitDialog<Plugin[]>(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("general.manage_plugins")) {
 				

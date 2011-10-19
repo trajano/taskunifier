@@ -47,6 +47,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FileUtils;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -99,6 +100,16 @@ public class ActionCreateNewBackup extends AbstractAction {
 		}
 		
 		Main.saveAll(folder);
+	}
+	
+	public static void restoreBackup(String folder) {
+		if (!Synchronizing.setSynchronizing(true))
+			return;
+		
+		folder = Main.BACKUP_FOLDER + File.separator + folder;
+		Main.loadAll(folder);
+		
+		Synchronizing.setSynchronizing(false);
 	}
 	
 	public static List<String> getBackupList() {

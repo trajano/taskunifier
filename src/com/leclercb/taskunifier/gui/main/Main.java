@@ -936,7 +936,9 @@ public class Main {
 							+ File.separator
 							+ "contexts.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving contexts");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving contexts (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -956,7 +958,9 @@ public class Main {
 							+ File.separator
 							+ "folders.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving folders");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving folders (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -974,7 +978,9 @@ public class Main {
 			GoalFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder + File.separator + "goals.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving goals");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving goals (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -994,7 +1000,9 @@ public class Main {
 							+ File.separator
 							+ "locations.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving locations");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving locations (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1012,7 +1020,9 @@ public class Main {
 			NoteFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder + File.separator + "notes.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving notes");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving notes (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1030,7 +1040,9 @@ public class Main {
 			TaskFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder + File.separator + "tasks.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving tasks");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving tasks (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1052,7 +1064,9 @@ public class Main {
 							+ File.separator
 							+ "task_templates.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving task templates");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving task templates (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1072,7 +1086,9 @@ public class Main {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
 					folder + File.separator + "task_searchers.xml"));
 			
-			GuiLogger.getLogger().log(Level.INFO, "Saving task searchers");
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving task searchers (" + folder + ")");
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,

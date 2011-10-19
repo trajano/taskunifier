@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.plugins;
+package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -45,19 +45,17 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.WaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
+public abstract class MonitorWaitDialog<ResultType> extends WaitDialog {
 	
 	private ResultType result;
 	private ProgressMonitor monitor;
 	
-	public PluginWaitDialog(Frame frame, String title) {
+	public MonitorWaitDialog(Frame frame, String title) {
 		super(frame, title);
-		this.setRunnable(new PluginRunnable());
+		this.setRunnable(new MonitorWaitRunnable());
 		
 		this.result = null;
 		
@@ -68,7 +66,7 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 			public void listChange(ListChangeEvent event) {
 				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 					ProgressMessage message = (ProgressMessage) event.getValue();
-					PluginWaitDialog.this.appendToProgressStatus(message.toString()
+					MonitorWaitDialog.this.appendToProgressStatus(message.toString()
 							+ "\n");
 				}
 			}
@@ -79,7 +77,7 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 		return this.result;
 	}
 	
-	public class PluginRunnable implements Runnable {
+	public class MonitorWaitRunnable implements Runnable {
 		
 		@Override
 		public void run() {
@@ -87,32 +85,10 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					PluginWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					MonitorWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 					
 					try {
-						PluginWaitDialog.this.result = PluginWaitDialog.this.doActions(PluginWaitDialog.this.monitor);
-					} catch (final PluginException e) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								ErrorInfo info = new ErrorInfo(
-										Translations.getString("general.error"),
-										e.getMessage(),
-										null,
-										null,
-										e,
-										null,
-										null);
-								
-								JXErrorPane.showDialog(
-										MainFrame.getInstance().getFrame(),
-										info);
-							}
-							
-						});
-						
-						return null;
+						MonitorWaitDialog.this.result = MonitorWaitDialog.this.doActions(MonitorWaitDialog.this.monitor);
 					} catch (final Throwable e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
@@ -144,8 +120,8 @@ public abstract class PluginWaitDialog<ResultType> extends WaitDialog {
 				
 				@Override
 				protected void done() {
-					PluginWaitDialog.this.setCursor(null);
-					PluginWaitDialog.this.dispose();
+					MonitorWaitDialog.this.setCursor(null);
+					MonitorWaitDialog.this.dispose();
 				}
 				
 			};
