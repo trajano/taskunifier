@@ -32,13 +32,121 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
+import java.awt.Component;
+
+import javax.swing.JComponent;
+
+import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.ToolTipHighlighter;
+
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.Timer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskTooltipHighlighter extends ToolTipHighlighter {
 	
 	public TaskTooltipHighlighter(HighlightPredicate predicate) {
 		super(predicate);
+	}
+	
+	@Override
+	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
+		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
+		
+		switch (column) {
+			case LENGTH:
+				return this.doHighlightLength(renderer, adapter);
+			case TIMER:
+				return this.doHighlightTimer(renderer, adapter);
+			default:
+				return super.doHighlight(renderer, adapter);
+		}
+	}
+	
+	protected Component doHighlightLength(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		boolean atLeastOneChild = false;
+		int length = task.getLength();
+		for (Task child : task.getChildren()) {
+			if (!child.getModelStatus().isEndUserStatus())
+				continue;
+			
+			if (child.isCompleted())
+				continue;
+			
+			atLeastOneChild = true;
+			length += child.getLength();
+		}
+		
+		String tooltip = null;
+		
+		if (atLeastOneChild)
+			tooltip = String.format(
+					"%1s (%2s: %3s)",
+					StringValueTaskLength.INSTANCE.getString(task.getLength()),
+					Translations.getString("general.total"),
+					StringValueTaskLength.INSTANCE.getString(length));
+		else
+			tooltip = StringValueTaskLength.INSTANCE.getString(task.getLength());
+		
+		((JComponent) renderer).setToolTipText(tooltip);
+		
+		return renderer;
+	}
+	
+	protected Component doHighlightTimer(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		boolean atLeastOneChild = false;
+		long timer = task.getTimer().getTimerValue();
+		for (Task child : task.getChildren()) {
+			if (!child.getModelStatus().isEndUserStatus())
+				continue;
+			
+			if (child.isCompleted())
+				continue;
+			
+			atLeastOneChild = true;
+			timer += child.getTimer().getTimerValue();
+		}
+		
+		String tooltip = null;
+		
+		if (atLeastOneChild)
+			tooltip = String.format(
+					"%1s (%2s: %3s)",
+					StringValueTimer.INSTANCE.getString(task.getTimer()),
+					Translations.getString("general.total"),
+					StringValueTimer.INSTANCE.getString(new Timer(timer)));
+		else
+			tooltip = StringValueTimer.INSTANCE.getString(task.getTimer());
+		
+		((JComponent) renderer).setToolTipText(tooltip);
+		
+		return renderer;
 	}
 	
 }

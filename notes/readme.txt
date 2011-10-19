@@ -6,6 +6,7 @@ Version 1.7.2
 		- FR 3425373: Reset scheduled sync after manual sync
 		- FR 3422906: Length editor accepts more formats
 		- FR 3425146: Choose notes location on the screen
+		- FR 3406671: Tooltip total length and total timer
 
 Version 1.7.1
 	- Major:

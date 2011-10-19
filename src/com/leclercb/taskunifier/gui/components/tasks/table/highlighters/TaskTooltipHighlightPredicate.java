@@ -47,6 +47,8 @@ public class TaskTooltipHighlightPredicate implements HighlightPredicate {
 		
 		switch (column) {
 			case TITLE:
+			case LENGTH:
+			case TIMER:
 			case REPEAT:
 				return true;
 		}
