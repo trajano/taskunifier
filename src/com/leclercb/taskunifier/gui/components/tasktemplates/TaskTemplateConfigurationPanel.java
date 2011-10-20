@@ -76,7 +76,8 @@ import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
+import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -272,7 +273,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 						1);
 				
 				templateTaskLength.setModel(taskLengthSpinnerModel);
-				templateTaskLength.setEditor(new SpinnerTimeEditor(
+				templateTaskLength.setEditor(new TUSpinnerTimeEditor(
 						templateTaskLength));
 				
 				ValueModel taskPriorityModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PRIORITY);
@@ -330,7 +331,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Help
 		rightPanel.add(
-				ComponentFactory.createButtonsPanel(Help.getHelpButton("manage_task_templates")),
+				new TUButtonsPanel(Help.getHelpButton("manage_task_templates")),
 				BorderLayout.NORTH);
 		
 		// Template Title

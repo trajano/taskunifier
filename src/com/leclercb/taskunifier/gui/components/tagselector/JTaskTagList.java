@@ -14,7 +14,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
-import com.leclercb.taskunifier.gui.swing.JCheckBoxList;
+import com.leclercb.taskunifier.gui.swing.TUCheckBoxList;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
@@ -23,7 +23,7 @@ public class JTaskTagList extends JPanel {
 	private JTextField text;
 	private JButton button;
 	private JPopupMenu popup;
-	private JCheckBoxList list;
+	private TUCheckBoxList list;
 	private TaskTagListModel model;
 	
 	public JTaskTagList() {
@@ -83,7 +83,7 @@ public class JTaskTagList extends JPanel {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.list = new JCheckBoxList();
+		this.list = new TUCheckBoxList();
 		this.model = new TaskTagListModel();
 		this.list.setModel(this.model);
 		

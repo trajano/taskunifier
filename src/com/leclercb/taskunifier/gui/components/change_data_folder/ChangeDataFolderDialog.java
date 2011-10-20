@@ -51,9 +51,10 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.JFileField;
+import com.leclercb.taskunifier.gui.swing.TUFileField;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public class ChangeDataFolderDialog extends JDialog {
@@ -67,7 +68,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		return INSTANCE;
 	}
 	
-	private JFileField fileField;
+	private TUFileField fileField;
 	
 	private ChangeDataFolderDialog() {
 		super(MainFrame.getInstance().getFrame());
@@ -115,7 +116,7 @@ public class ChangeDataFolderDialog extends JDialog {
 				"right:pref, 4dlu, fill:default:grow");
 		
 		// Import file
-		this.fileField = new JFileField(
+		this.fileField = new TUFileField(
 				true,
 				null,
 				JFileChooser.DIRECTORIES_ONLY,
@@ -197,9 +198,9 @@ public class ChangeDataFolderDialog extends JDialog {
 		importButton.setActionCommand("CHANGE");
 		importButton.addActionListener(listener);
 		
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
+		JPanel panel = new TUButtonsPanel(
 				resetButton,
 				importButton,
 				cancelButton);

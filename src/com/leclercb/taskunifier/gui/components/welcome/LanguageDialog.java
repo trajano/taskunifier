@@ -44,8 +44,9 @@ import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class LanguageDialog extends JDialog implements ConfigurationGroup {
 	
@@ -88,9 +89,8 @@ public class LanguageDialog extends JDialog implements ConfigurationGroup {
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(listener);
-		
-		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		JButton okButton = new TUOkButton(listener);
+		JPanel panel = new TUButtonsPanel(okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}

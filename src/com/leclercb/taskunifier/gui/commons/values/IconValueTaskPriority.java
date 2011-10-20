@@ -41,7 +41,7 @@ import org.jdesktop.swingx.renderer.IconValue;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 
 public class IconValueTaskPriority implements IconValue {
 	
@@ -70,7 +70,7 @@ public class IconValueTaskPriority implements IconValue {
 		Color color = Main.SETTINGS.getColorProperty("theme.color.priority."
 				+ priority.name().toLowerCase());
 		
-		Icon icon = new ColorBadgeIcon(color, 12, 12);
+		Icon icon = new TUColorBadgeIcon(color, 12, 12);
 		
 		return icon;
 	}

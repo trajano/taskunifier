@@ -47,8 +47,8 @@ import javax.swing.JLabel;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
@@ -155,9 +155,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		Component component = null;
 		
 		if (this.helpButton != null) {
-			builder.append(
-					"",
-					ComponentFactory.createButtonsPanel(this.helpButton));
+			builder.append("", new TUButtonsPanel(this.helpButton));
 		}
 		
 		boolean afterRestartFound = false;

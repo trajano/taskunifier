@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -212,7 +213,7 @@ public class TaskFilterPanel extends JPanel {
 		// Do not show the auto fill button
 		this.autoFillButton.setVisible(false);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
+		JPanel panel = new TUButtonsPanel(
 				this.addElementButton,
 				this.addFilterButton,
 				this.removeButton,

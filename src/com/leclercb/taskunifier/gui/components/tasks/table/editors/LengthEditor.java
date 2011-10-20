@@ -42,8 +42,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
-import com.leclercb.taskunifier.gui.swing.SpinnerTimeModel;
+import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
+import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeModel;
 
 public class LengthEditor extends AbstractCellEditor implements TableCellEditor {
 	
@@ -51,8 +51,8 @@ public class LengthEditor extends AbstractCellEditor implements TableCellEditor 
 	
 	public LengthEditor() {
 		this.timeSpinner = new JSpinner();
-		this.timeSpinner.setModel(new SpinnerTimeModel());
-		this.timeSpinner.setEditor(new SpinnerTimeEditor(this.timeSpinner));
+		this.timeSpinner.setModel(new TUSpinnerTimeModel());
+		this.timeSpinner.setEditor(new TUSpinnerTimeEditor(this.timeSpinner));
 	}
 	
 	@Override

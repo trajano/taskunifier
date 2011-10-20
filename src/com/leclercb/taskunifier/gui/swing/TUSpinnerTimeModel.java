@@ -32,55 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.swing;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.SpinnerNumberModel;
 
-import javax.swing.Icon;
-
-public class ColorBadgeIcon implements Icon {
+public class TUSpinnerTimeModel extends SpinnerNumberModel {
 	
-	private Color color;
-	private int width;
-	private int height;
-	
-	public ColorBadgeIcon(Color color, int width, int height) {
-		this.color = color;
-		this.width = width;
-		this.height = height;
+	public TUSpinnerTimeModel() {
+		this(0);
 	}
 	
-	public Color getColor() {
-		return this.color;
-	}
-	
-	@Override
-	public int getIconHeight() {
-		return this.height;
-	}
-	
-	@Override
-	public int getIconWidth() {
-		return this.width;
-	}
-	
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		if (this.color == null)
-			return;
-		
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(
-				RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		g2.setColor(this.color);
-		g2.fillOval(x, y, this.width, this.height);
-		
-		g2.setColor(Color.GRAY);
-		g2.drawOval(x, y, this.width, this.height);
+	public TUSpinnerTimeModel(int value) {
+		super(value, 0, 5760, 1);
 	}
 	
 }

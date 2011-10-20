@@ -43,8 +43,8 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ReminderPanel extends JPanel {
@@ -190,7 +190,7 @@ public class ReminderPanel extends JPanel {
 		dismissAllButton.setActionCommand("DISMISS_ALL");
 		dismissAllButton.addActionListener(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
+		JPanel panel = new TUButtonsPanel(
 				snoozeButton,
 				snoozeAllButton,
 				dismissButton,

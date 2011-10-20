@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
 
@@ -127,12 +127,12 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 	@Override
 	public Icon getIcon() {
 		if (this.getFolder() != null && this.getFolder() instanceof GuiModel)
-			return new ColorBadgeIcon(
+			return new TUColorBadgeIcon(
 					((GuiModel) this.getFolder()).getColor(),
 					12,
 					12);
 		else
-			return new ColorBadgeIcon(null, 12, 12);
+			return new TUColorBadgeIcon(null, 12, 12);
 	}
 	
 	@Override

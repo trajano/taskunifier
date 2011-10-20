@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.WaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -79,7 +79,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(final String file) throws Exception {
-		final WaitDialog dialog = new WaitDialog(
+		final TUWaitDialog dialog = new TUWaitDialog(
 				MainFrame.getInstance().getFrame(),
 				"action.import_models");
 		

@@ -32,56 +32,55 @@
  */
 package com.leclercb.taskunifier.gui.swing;
 
-import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
-
-public class SpinnerTimeEditor extends JSpinner.DefaultEditor {
+public class TUColorBadgeIcon implements Icon {
 	
-	public SpinnerTimeEditor(JSpinner spinner) {
-		super(spinner);
+	private Color color;
+	private int width;
+	private int height;
+	
+	public TUColorBadgeIcon(Color color, int width, int height) {
+		this.color = color;
+		this.width = width;
+		this.height = height;
+	}
+	
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public int getIconHeight() {
+		return this.height;
+	}
+	
+	@Override
+	public int getIconWidth() {
+		return this.width;
+	}
+	
+	@Override
+	public void paintIcon(Component c, Graphics g, int x, int y) {
+		if (this.color == null)
+			return;
 		
-		if (!(spinner.getModel() instanceof SpinnerNumberModel)) {
-			throw new IllegalArgumentException();
-		}
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(
+				RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		final Pattern pattern = Pattern.compile("([0-9]+)(:|.|h)([0-5]?[0-9])");
-		DefaultFormatter formatter = new DefaultFormatter() {
-			
-			@Override
-			public String valueToString(Object value) throws ParseException {
-				return StringValueTaskLength.INSTANCE.getString(value);
-			}
-			
-			@Override
-			public Object stringToValue(String text) throws ParseException {
-				Matcher matcher = pattern.matcher(text);
-				
-				if (!matcher.find()) {
-					throw new ParseException("Pattern did not match", 0);
-				}
-				
-				int hour = Integer.parseInt(matcher.group(1));
-				int minute = Integer.parseInt(matcher.group(3));
-				
-				return (hour * 60) + minute;
-			}
-			
-		};
+		g2.setColor(this.color);
+		g2.fillOval(x, y, this.width, this.height);
 		
-		DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
-		
-		JFormattedTextField ftf = this.getTextField();
-		ftf.setEditable(true);
-		ftf.setFormatterFactory(factory);
+		g2.setColor(Color.GRAY);
+		g2.drawOval(x, y, this.width, this.height);
 	}
 	
 }

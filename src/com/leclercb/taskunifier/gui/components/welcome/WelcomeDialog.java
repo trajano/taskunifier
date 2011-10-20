@@ -57,6 +57,7 @@ import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -191,9 +192,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 		nextButton.setActionCommand("NEXT");
 		nextButton.addActionListener(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				previousButton,
-				nextButton);
+		JPanel panel = new TUButtonsPanel(previousButton, nextButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}

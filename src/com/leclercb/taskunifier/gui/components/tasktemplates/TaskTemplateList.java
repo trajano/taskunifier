@@ -58,6 +58,9 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
+import com.leclercb.taskunifier.gui.swing.buttons.TUAddButton;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
@@ -180,9 +183,9 @@ abstract class TaskTemplateList extends JPanel {
 			
 		};
 		
-		this.addButton = ComponentFactory.createButtonAdd(listener);
+		this.addButton = new TUAddButton(listener);
 		
-		this.removeButton = ComponentFactory.createButtonRemove(listener);
+		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
 		this.defaultButton = new JButton(Images.getResourceImage(
@@ -194,7 +197,7 @@ abstract class TaskTemplateList extends JPanel {
 		this.defaultButton.addActionListener(listener);
 		this.defaultButton.setEnabled(false);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
+		JPanel panel = new TUButtonsPanel(
 				this.addButton,
 				this.removeButton,
 				this.defaultButton);

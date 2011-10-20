@@ -45,14 +45,14 @@ import javax.swing.filechooser.FileFilter;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class JFileField extends JPanel {
+public class TUFileField extends JPanel {
 	
 	private JFileChooser fileChooser;
 	private JTextField fileTextField;
 	private JButton selectFile;
 	private String appendFileExtention;
 	
-	public JFileField(
+	public TUFileField(
 			boolean open,
 			String file,
 			int fileSelectionMode,
@@ -89,25 +89,25 @@ public class JFileField extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileField.this.fileChooser.setCurrentDirectory(new File(
-						JFileField.this.getFile()));
+				TUFileField.this.fileChooser.setCurrentDirectory(new File(
+						TUFileField.this.getFile()));
 				
 				int result;
 				
 				if (open)
-					result = JFileField.this.fileChooser.showOpenDialog(JFileField.this);
+					result = TUFileField.this.fileChooser.showOpenDialog(TUFileField.this);
 				else
-					result = JFileField.this.fileChooser.showSaveDialog(JFileField.this);
+					result = TUFileField.this.fileChooser.showSaveDialog(TUFileField.this);
 				
 				if (result == JFileChooser.APPROVE_OPTION) {
-					String file = JFileField.this.fileChooser.getSelectedFile().getAbsolutePath();
-					JFileField.this.fileTextField.setText(file);
+					String file = TUFileField.this.fileChooser.getSelectedFile().getAbsolutePath();
+					TUFileField.this.fileTextField.setText(file);
 					
-					if (JFileField.this.appendFileExtention != null) {
+					if (TUFileField.this.appendFileExtention != null) {
 						if (!file.endsWith("."
-								+ JFileField.this.appendFileExtention)) {
-							file += "." + JFileField.this.appendFileExtention;
-							JFileField.this.fileTextField.setText(file);
+								+ TUFileField.this.appendFileExtention)) {
+							file += "." + TUFileField.this.appendFileExtention;
+							TUFileField.this.fileTextField.setText(file);
 						}
 					}
 				}

@@ -80,10 +80,10 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
-import com.leclercb.taskunifier.gui.swing.SpinnerTimeEditor;
-import com.leclercb.taskunifier.gui.swing.SpinnerTimeModel;
-import com.leclercb.taskunifier.gui.swing.TimerField;
+import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
+import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
+import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeModel;
+import com.leclercb.taskunifier.gui.swing.TUTimerField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
@@ -136,7 +136,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JComboBox taskRepeatFrom;
 	private JComboBox taskStatus;
 	private JSpinner taskLength;
-	private TimerField taskTimer;
+	private TUTimerField taskTimer;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
 	private HTMLEditorPane taskNote;
@@ -391,7 +391,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JDateChooser(
-				new JExtendedCalendar(false),
+				new TUPostponeCalendar(false),
 				null,
 				null,
 				new JTextFieldDateEditor(startDateFormat, null, '_') {
@@ -403,7 +403,7 @@ public class BatchTaskEditPanel extends JPanel {
 					
 				});
 		this.taskDueDate = new JDateChooser(
-				new JExtendedCalendar(false),
+				new TUPostponeCalendar(false),
 				null,
 				null,
 				new JTextFieldDateEditor(dueDateFormat, null, '_') {
@@ -422,7 +422,7 @@ public class BatchTaskEditPanel extends JPanel {
 				true);
 		this.taskStatus = ComponentFactory.createTaskStatusComboBox(null, true);
 		this.taskLength = new JSpinner();
-		this.taskTimer = new TimerField(true);
+		this.taskTimer = new TUTimerField(true);
 		this.taskPriority = ComponentFactory.createTaskPriorityComboBox(
 				null,
 				true);
@@ -669,8 +669,8 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskDueDateReminder);
 		
 		// Task Length
-		this.taskLength.setModel(new SpinnerTimeModel());
-		this.taskLength.setEditor(new SpinnerTimeEditor(this.taskLength));
+		this.taskLength.setModel(new TUSpinnerTimeModel());
+		this.taskLength.setEditor(new TUSpinnerTimeEditor(this.taskLength));
 		
 		builder.appendI15d("general.task.length", true, this.taskLengthCheckBox);
 		builder.append(this.taskLength);

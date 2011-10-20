@@ -53,6 +53,8 @@ import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskTagComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TaskTagModel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -150,10 +152,10 @@ public abstract class TagList extends JPanel implements ITagList {
 			
 		};
 		
-		this.removeButton = ComponentFactory.createButtonRemove(listener);
+		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(this.removeButton);
+		JPanel panel = new TUButtonsPanel(this.removeButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}

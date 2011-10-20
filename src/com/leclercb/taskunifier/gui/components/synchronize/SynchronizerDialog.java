@@ -36,10 +36,10 @@ import java.awt.Cursor;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.WaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SynchronizerDialog extends WaitDialog {
+public class SynchronizerDialog extends TUWaitDialog {
 	
 	public SynchronizerDialog() {
 		super(

@@ -47,7 +47,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.gui.utils.Images;
 
-public class TimerField extends JPanel {
+public class TUTimerField extends JPanel {
 	
 	private boolean showButton;
 	private Timer timer;
@@ -55,11 +55,11 @@ public class TimerField extends JPanel {
 	private JSpinner timeSpinner;
 	private JToggleButton button;
 	
-	public TimerField(boolean showButton) {
+	public TUTimerField(boolean showButton) {
 		this(showButton, new Timer());
 	}
 	
-	public TimerField(boolean showButton, Timer timer) {
+	public TUTimerField(boolean showButton, Timer timer) {
 		this.showButton = showButton;
 		this.initialize();
 		this.setTimer(timer);
@@ -94,8 +94,8 @@ public class TimerField extends JPanel {
 	
 	private void initialize() {
 		this.timeSpinner = new JSpinner();
-		this.timeSpinner.setModel(new SpinnerTimeModel());
-		this.timeSpinner.setEditor(new SpinnerTimeEditor(this.timeSpinner));
+		this.timeSpinner.setModel(new TUSpinnerTimeModel());
+		this.timeSpinner.setEditor(new TUSpinnerTimeEditor(this.timeSpinner));
 		
 		this.button = new JToggleButton();
 		this.button.setIcon(Images.getResourceImage("pause.png", 16, 16));
@@ -114,7 +114,7 @@ public class TimerField extends JPanel {
 			
 			@Override
 			public void stateChanged(ChangeEvent evt) {
-				TimerField.this.timer.setValue(((Number) TimerField.this.timeSpinner.getValue()).longValue() * 60);
+				TUTimerField.this.timer.setValue(((Number) TUTimerField.this.timeSpinner.getValue()).longValue() * 60);
 			}
 			
 		});
@@ -123,10 +123,10 @@ public class TimerField extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				if (TimerField.this.button.isSelected())
-					TimerField.this.timer.start();
+				if (TUTimerField.this.button.isSelected())
+					TUTimerField.this.timer.start();
 				else
-					TimerField.this.timer.stop();
+					TUTimerField.this.timer.stop();
 			}
 			
 		});

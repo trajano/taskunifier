@@ -45,7 +45,7 @@ import javax.swing.table.TableCellEditor;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.JExtendedCalendar;
+import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -82,13 +82,13 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 			
 		};
 		
-		JExtendedCalendar calendar = new JExtendedCalendar(true);
+		TUPostponeCalendar calendar = new TUPostponeCalendar(true);
 		calendar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				if (EqualsUtils.equals(
-						JExtendedCalendar.NO_DATE_COMMAND,
+						TUPostponeCalendar.NO_DATE_COMMAND,
 						evt.getActionCommand())) {
 					DateEditor.this.dateChooser.setCalendar(null);
 					DateEditor.this.fireEditingStopped();

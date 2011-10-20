@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -177,12 +177,12 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	@Override
 	public Icon getIcon() {
 		if (this.getModel() != null && this.getModel() instanceof GuiModel)
-			return new ColorBadgeIcon(
+			return new TUColorBadgeIcon(
 					((GuiModel) this.getModel()).getColor(),
 					12,
 					12);
 		else
-			return new ColorBadgeIcon(null, 12, 12);
+			return new TUColorBadgeIcon(null, 12, 12);
 	}
 	
 	@Override

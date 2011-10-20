@@ -42,8 +42,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ReviewDialog extends JDialog {
 	
@@ -89,9 +90,8 @@ public class ReviewDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(listener);
-		
-		JPanel panel = ComponentFactory.createButtonsPanel(okButton);
+		JButton okButton = new TUOkButton(listener);
+		JPanel panel = new TUButtonsPanel(okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

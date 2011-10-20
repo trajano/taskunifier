@@ -48,12 +48,12 @@ import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public abstract class MonitorWaitDialog<ResultType> extends WaitDialog {
+public abstract class TUMonitorWaitDialog<ResultType> extends TUWaitDialog {
 	
 	private ResultType result;
 	private ProgressMonitor monitor;
 	
-	public MonitorWaitDialog(Frame frame, String title) {
+	public TUMonitorWaitDialog(Frame frame, String title) {
 		super(frame, title);
 		this.setRunnable(new MonitorWaitRunnable());
 		
@@ -66,7 +66,7 @@ public abstract class MonitorWaitDialog<ResultType> extends WaitDialog {
 			public void listChange(ListChangeEvent event) {
 				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 					ProgressMessage message = (ProgressMessage) event.getValue();
-					MonitorWaitDialog.this.appendToProgressStatus(message.toString()
+					TUMonitorWaitDialog.this.appendToProgressStatus(message.toString()
 							+ "\n");
 				}
 			}
@@ -85,10 +85,10 @@ public abstract class MonitorWaitDialog<ResultType> extends WaitDialog {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					MonitorWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					TUMonitorWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 					
 					try {
-						MonitorWaitDialog.this.result = MonitorWaitDialog.this.doActions(MonitorWaitDialog.this.monitor);
+						TUMonitorWaitDialog.this.result = TUMonitorWaitDialog.this.doActions(TUMonitorWaitDialog.this.monitor);
 					} catch (final Throwable e) {
 						SwingUtilities.invokeLater(new Runnable() {
 							
@@ -120,8 +120,8 @@ public abstract class MonitorWaitDialog<ResultType> extends WaitDialog {
 				
 				@Override
 				protected void done() {
-					MonitorWaitDialog.this.setCursor(null);
-					MonitorWaitDialog.this.dispose();
+					TUMonitorWaitDialog.this.setCursor(null);
+					TUMonitorWaitDialog.this.dispose();
 				}
 				
 			};

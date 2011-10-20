@@ -48,13 +48,13 @@ import javax.swing.SwingConstants;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class WaitDialog extends JDialog {
+public class TUWaitDialog extends JDialog {
 	
 	private Runnable runnable;
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
 	
-	public WaitDialog(Frame frame, String title) {
+	public TUWaitDialog(Frame frame, String title) {
 		super(frame);
 		this.initialize(title);
 	}

@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,7 +42,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -77,82 +75,6 @@ public final class ComponentFactory {
 	
 	private ComponentFactory() {
 		
-	}
-	
-	public static JPanel createButtonsPanel(JButton... buttons) {
-		return createButtonsPanel(false, buttons);
-	}
-	
-	public static JPanel createButtonsPanel(
-			boolean removeText,
-			JButton... buttons) {
-		CheckUtils.isNotNull(buttons, "Buttons cannot be null");
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
-		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
-		for (JButton button : buttons) {
-			if (button != null) {
-				if (removeText)
-					button.setText("");
-				
-				panel.add(button);
-			}
-		}
-		
-		return panel;
-	}
-	
-	public static JButton createButtonOk(ActionListener listener) {
-		JButton button = new JButton(Translations.getString("general.ok"));
-		button.setActionCommand("OK");
-		button.addActionListener(listener);
-		
-		return button;
-	}
-	
-	public static JButton createButtonCancel(ActionListener listener) {
-		JButton button = new JButton(Translations.getString("general.cancel"));
-		button.setActionCommand("CANCEL");
-		button.addActionListener(listener);
-		
-		return button;
-	}
-	
-	public static JButton createButtonApply(ActionListener listener) {
-		JButton button = new JButton(Translations.getString("general.apply"));
-		button.setActionCommand("APPLY");
-		button.addActionListener(listener);
-		
-		return button;
-	}
-	
-	public static JButton createButtonClose(ActionListener listener) {
-		JButton button = new JButton(Translations.getString("general.close"));
-		button.setActionCommand("CLOSE");
-		button.addActionListener(listener);
-		
-		return button;
-	}
-	
-	public static JButton createButtonAdd(ActionListener listener) {
-		JButton button = new JButton(Images.getResourceImage("add.png", 16, 16));
-		button.setActionCommand("ADD");
-		button.addActionListener(listener);
-		
-		return button;
-	}
-	
-	public static JButton createButtonRemove(ActionListener listener) {
-		JButton button = new JButton(Images.getResourceImage(
-				"remove.png",
-				16,
-				16));
-		button.setActionCommand("REMOVE");
-		button.addActionListener(listener);
-		
-		return button;
 	}
 	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {

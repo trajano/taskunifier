@@ -54,8 +54,8 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -202,9 +202,7 @@ public class TaskSorterPanel extends JPanel {
 		JPanel buttonsPanel = new JPanel(new BorderLayout(3, 3));
 		buttonsPanel.add(this.allowManualOrdering, BorderLayout.NORTH);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				this.addButton,
-				this.removeButton);
+		JPanel panel = new TUButtonsPanel(this.addButton, this.removeButton);
 		
 		buttonsPanel.add(panel, BorderLayout.CENTER);
 		

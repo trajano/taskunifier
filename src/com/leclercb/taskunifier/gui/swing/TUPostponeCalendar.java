@@ -52,28 +52,28 @@ import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.toedter.calendar.JCalendar;
 
-public class JExtendedCalendar extends JCalendar implements ActionSupported {
+public class TUPostponeCalendar extends JCalendar implements ActionSupported {
 	
 	public static final String NO_DATE_COMMAND = "NO_DATE";
 	
 	private ActionSupport actionSupport;
 	
-	public JExtendedCalendar(boolean showNoDateButton) {
+	public TUPostponeCalendar(boolean showNoDateButton) {
 		super();
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean showNoDateButton, boolean monthSpinner) {
+	public TUPostponeCalendar(boolean showNoDateButton, boolean monthSpinner) {
 		super(monthSpinner);
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean showNoDateButton, Calendar calendar) {
+	public TUPostponeCalendar(boolean showNoDateButton, Calendar calendar) {
 		super(calendar);
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(
+	public TUPostponeCalendar(
 			boolean showNoDateButton,
 			Date date,
 			boolean monthSpinner) {
@@ -81,7 +81,7 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(
+	public TUPostponeCalendar(
 			boolean showNoDateButton,
 			Date date,
 			Locale locale,
@@ -91,17 +91,17 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean showNoDateButton, Date date, Locale locale) {
+	public TUPostponeCalendar(boolean showNoDateButton, Date date, Locale locale) {
 		super(date, locale);
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean showNoDateButton, Date date) {
+	public TUPostponeCalendar(boolean showNoDateButton, Date date) {
 		super(date);
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(
+	public TUPostponeCalendar(
 			boolean showNoDateButton,
 			Locale locale,
 			boolean monthSpinner) {
@@ -109,7 +109,7 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 		this.initialize(showNoDateButton);
 	}
 	
-	public JExtendedCalendar(boolean showNoDateButton, Locale locale) {
+	public TUPostponeCalendar(boolean showNoDateButton, Locale locale) {
 		super(locale);
 		this.initialize(showNoDateButton);
 	}
@@ -171,8 +171,8 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 				
 				@Override
 				public void actionPerformed(ActionEvent evt) {
-					JExtendedCalendar.this.setCalendar(Calendar.getInstance());
-					JExtendedCalendar.this.actionSupport.fireActionPerformed(
+					TUPostponeCalendar.this.setCalendar(Calendar.getInstance());
+					TUPostponeCalendar.this.actionSupport.fireActionPerformed(
 							0,
 							NO_DATE_COMMAND);
 				}
@@ -203,7 +203,7 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 					Calendar calendar = Calendar.getInstance();
 					calendar.add(field, amount);
 					
-					Calendar currentCalendar = JExtendedCalendar.this.getCalendar();
+					Calendar currentCalendar = TUPostponeCalendar.this.getCalendar();
 					if (currentCalendar != null) {
 						calendar.set(
 								Calendar.HOUR_OF_DAY,
@@ -216,7 +216,7 @@ public class JExtendedCalendar extends JCalendar implements ActionSupported {
 								currentCalendar.get(Calendar.SECOND));
 					}
 					
-					JExtendedCalendar.this.setCalendar(calendar);
+					TUPostponeCalendar.this.setCalendar(calendar);
 				}
 				
 			});

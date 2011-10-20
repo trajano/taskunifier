@@ -39,7 +39,7 @@ import javax.swing.Icon;
 import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
-import com.leclercb.taskunifier.gui.swing.ColorBadgeIcon;
+import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 
 public class IconValuePluginStatus implements IconValue {
 	
@@ -58,13 +58,13 @@ public class IconValuePluginStatus implements IconValue {
 		
 		switch (status) {
 			case DELETED:
-				return new ColorBadgeIcon(Color.RED, 10, 10);
+				return new TUColorBadgeIcon(Color.RED, 10, 10);
 			case INSTALLED:
-				return new ColorBadgeIcon(Color.GREEN, 10, 10);
+				return new TUColorBadgeIcon(Color.GREEN, 10, 10);
 			case TO_INSTALL:
-				return new ColorBadgeIcon(Color.BLUE, 10, 10);
+				return new TUColorBadgeIcon(Color.BLUE, 10, 10);
 			case TO_UPDATE:
-				return new ColorBadgeIcon(Color.ORANGE, 10, 10);
+				return new TUColorBadgeIcon(Color.ORANGE, 10, 10);
 		}
 		
 		return null;

@@ -79,6 +79,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TaskSearcherPanel extends JPanel implements SavePropertiesListener, TaskSearcherView, PropertyChangeSupported {
@@ -256,7 +257,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	private void initializeButtons() {
-		JPanel panel = ComponentFactory.createButtonsPanel(true, new JButton(
+		JPanel panel = new TUButtonsPanel(true, new JButton(
 				new ActionAddTaskSearcher(16, 16)), new JButton(
 				new ActionEditTaskSearcher(16, 16)), new JButton(
 				new ActionDeleteTaskSearcher(16, 16)));

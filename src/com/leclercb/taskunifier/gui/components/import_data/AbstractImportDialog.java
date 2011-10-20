@@ -53,14 +53,15 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.JFileField;
+import com.leclercb.taskunifier.gui.swing.TUFileField;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 abstract class AbstractImportDialog extends JDialog {
 	
-	private JFileField fileField;
+	private TUFileField fileField;
 	private JCheckBox deleteExistingValues;
 	private String fileExtention;
 	private String fileExtentionDescription;
@@ -133,7 +134,7 @@ abstract class AbstractImportDialog extends JDialog {
 			
 		};
 		
-		this.fileField = new JFileField(
+		this.fileField = new TUFileField(
 				true,
 				null,
 				JFileChooser.FILES_ONLY,
@@ -203,11 +204,9 @@ abstract class AbstractImportDialog extends JDialog {
 		importButton.setActionCommand("IMPORT");
 		importButton.addActionListener(listener);
 		
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				importButton,
-				cancelButton);
+		JPanel panel = new TUButtonsPanel(importButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(importButton);

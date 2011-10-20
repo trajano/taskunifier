@@ -12,7 +12,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.WaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 
@@ -37,7 +37,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 		public void actionPerformed(ActionEvent evt) {
 			this.panel.saveAndApplyConfig();
 			
-			final WaitDialog dialog = new WaitDialog(
+			final TUWaitDialog dialog = new TUWaitDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("configuration.proxy.test_connection"));
 			

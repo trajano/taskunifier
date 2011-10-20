@@ -58,6 +58,9 @@ import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ModelListModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUAddButton;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
@@ -170,14 +173,12 @@ public abstract class ModelList extends JPanel implements IModelList {
 			
 		};
 		
-		this.addButton = ComponentFactory.createButtonAdd(listener);
+		this.addButton = new TUAddButton(listener);
 		
-		this.removeButton = ComponentFactory.createButtonRemove(listener);
+		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				this.addButton,
-				this.removeButton);
+		JPanel panel = new TUButtonsPanel(this.addButton, this.removeButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}

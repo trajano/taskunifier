@@ -52,14 +52,15 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.JFileField;
+import com.leclercb.taskunifier.gui.swing.TUFileField;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 abstract class AbstractExportDialog extends JDialog {
 	
-	private JFileField fileField;
+	private TUFileField fileField;
 	private String fileExtention;
 	private String fileExtentionDescription;
 	
@@ -129,7 +130,7 @@ abstract class AbstractExportDialog extends JDialog {
 			
 		};
 		
-		this.fileField = new JFileField(
+		this.fileField = new TUFileField(
 				false,
 				null,
 				JFileChooser.FILES_ONLY,
@@ -183,11 +184,9 @@ abstract class AbstractExportDialog extends JDialog {
 		exportButton.setActionCommand("EXPORT");
 		exportButton.addActionListener(listener);
 		
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				exportButton,
-				cancelButton);
+		JPanel panel = new TUButtonsPanel(exportButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(exportButton);

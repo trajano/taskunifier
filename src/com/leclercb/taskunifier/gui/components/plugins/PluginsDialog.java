@@ -44,8 +44,10 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
+import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class PluginsDialog extends JDialog {
@@ -118,12 +120,10 @@ public class PluginsDialog extends JDialog {
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(listener);
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton okButton = new TUOkButton(listener);
+		JButton cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				okButton,
-				cancelButton);
+		JPanel panel = new TUButtonsPanel(okButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

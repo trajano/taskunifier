@@ -43,14 +43,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
+import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 
-public class JFileDialog extends JDialog {
+public class TUFileDialog extends JDialog {
 	
-	private JFileField fileField;
+	private TUFileField fileField;
 	private boolean cancelled;
 	
-	public JFileDialog(boolean open, String title) {
+	public TUFileDialog(boolean open, String title) {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize(open, title);
 	}
@@ -86,7 +88,7 @@ public class JFileDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		this.fileField = new JFileField(
+		this.fileField = new TUFileField(
 				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,
@@ -104,24 +106,22 @@ public class JFileDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					JFileDialog.this.cancelled = false;
-					JFileDialog.this.setVisible(false);
+					TUFileDialog.this.cancelled = false;
+					TUFileDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					JFileDialog.this.cancelled = true;
-					JFileDialog.this.setVisible(false);
+					TUFileDialog.this.cancelled = true;
+					TUFileDialog.this.setVisible(false);
 				}
 			}
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(listener);
-		JButton cancelButton = ComponentFactory.createButtonCancel(listener);
+		JButton okButton = new TUOkButton(listener);
+		JButton cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				okButton,
-				cancelButton);
+		JPanel panel = new TUButtonsPanel(okButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

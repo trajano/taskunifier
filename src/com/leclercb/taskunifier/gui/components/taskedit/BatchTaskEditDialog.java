@@ -51,8 +51,10 @@ import org.jdesktop.swingx.JXHeader;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUDialog;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
+import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
+import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class BatchTaskEditDialog extends TUDialog {
@@ -168,12 +170,10 @@ public class BatchTaskEditDialog extends TUDialog {
 			
 		};
 		
-		JButton okButton = ComponentFactory.createButtonOk(okListener);
-		JButton cancelButton = ComponentFactory.createButtonCancel(cancelListener);
+		JButton okButton = new TUOkButton(okListener);
+		JButton cancelButton = new TUCancelButton(cancelListener);
 		
-		JPanel panel = ComponentFactory.createButtonsPanel(
-				okButton,
-				cancelButton);
+		JPanel panel = new TUButtonsPanel(okButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

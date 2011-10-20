@@ -23,7 +23,7 @@ import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
-import com.leclercb.taskunifier.gui.swing.JFileDialog;
+import com.leclercb.taskunifier.gui.swing.TUFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.Images;
@@ -198,7 +198,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				JFileDialog dialog = new JFileDialog(
+				TUFileDialog dialog = new TUFileDialog(
 						true,
 						Translations.getString("general.link"));
 				dialog.setFile("http://");
