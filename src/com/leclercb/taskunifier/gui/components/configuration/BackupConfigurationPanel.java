@@ -37,7 +37,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
-import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
@@ -45,8 +44,6 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGr
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.MonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class BackupConfigurationPanel extends DefaultConfigurationPanel {
@@ -85,22 +82,8 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								if (backupList.getSelectedItem() != null) {
-									final MonitorWaitDialog<Void> dialog = new MonitorWaitDialog<Void>(
-											MainFrame.getInstance().getFrame(),
-											Translations.getString("general.backup")) {
-										
-										@Override
-										public Void doActions(
-												ProgressMonitor monitor)
-												throws Throwable {
-											ActionCreateNewBackup.createNewBackup();
-											ActionCreateNewBackup.restoreBackup((String) backupList.getSelectedItem());
-											return null;
-										}
-										
-									};
-									
-									dialog.setVisible(true);
+									ActionCreateNewBackup.createNewBackup();
+									ActionCreateNewBackup.restoreBackup((String) backupList.getSelectedItem());
 								}
 							}
 							
