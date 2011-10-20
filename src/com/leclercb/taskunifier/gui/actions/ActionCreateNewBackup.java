@@ -76,6 +76,15 @@ public class ActionCreateNewBackup extends AbstractAction {
 	public static void createNewBackup() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
 		String folder = format.format(Calendar.getInstance().getTime());
+		
+		if (!checkBackupFolder(folder))
+			return;
+		
+		folder = Main.BACKUP_FOLDER + File.separator + folder;
+		Main.saveAll(folder);
+	}
+	
+	public static boolean checkBackupFolder(String folder) {
 		folder = Main.BACKUP_FOLDER + File.separator + folder;
 		
 		File file = new File(folder);
@@ -88,7 +97,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 								folder),
 						Translations.getString("general.error"),
 						JOptionPane.ERROR_MESSAGE);
-				return;
+				return false;
 			}
 		} else if (!file.isDirectory()) {
 			JOptionPane.showMessageDialog(
@@ -96,13 +105,16 @@ public class ActionCreateNewBackup extends AbstractAction {
 					Translations.getString("error.folder_not_a_folder", folder),
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
-			return;
+			return false;
 		}
 		
-		Main.saveAll(folder);
+		return true;
 	}
 	
 	public static void restoreBackup(String folder) {
+		if (!checkBackupFolder(folder))
+			return;
+		
 		if (!Synchronizing.setSynchronizing(true))
 			return;
 		
@@ -138,6 +150,9 @@ public class ActionCreateNewBackup extends AbstractAction {
 	}
 	
 	public static void removeBackup(String folder) {
+		if (!checkBackupFolder(folder))
+			return;
+		
 		String path = Main.BACKUP_FOLDER + File.separator + folder;
 		
 		try {
