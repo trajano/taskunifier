@@ -31,6 +31,7 @@ public enum ActionList {
 	CONFIGURATION(Translations.getString("action.configuration"), "settings.png", true),
 	COPY(Translations.getString("action.copy"), "copy.png", false),
 	CREATE_ACCOUNT(Translations.getString("action.create_account"), "user.png", false),
+	CREATE_NEW_BACKUP(Translations.getString("action.create_new_backup"), "save.png", true),
 	CREATE_NOTE_FROM_CLIPBOARD(Translations.getString("action.create_note_from_clipboard"), "information.png", true),
 	CREATE_TASK_FROM_CLIPBOARD(Translations.getString("action.create_task_from_clipboard"), "information.png", true),
 	CUT(Translations.getString("action.cut"), "cut.png", false),
@@ -148,6 +149,8 @@ public enum ActionList {
 				return new ActionCopy(width, height);
 			case CREATE_ACCOUNT:
 				return null;
+			case CREATE_NEW_BACKUP:
+				return new ActionCreateNewBackup(width, height);
 			case CREATE_NOTE_FROM_CLIPBOARD:
 				return new ActionCreateNoteFromClipboard(width, height);
 			case CREATE_TASK_FROM_CLIPBOARD:
