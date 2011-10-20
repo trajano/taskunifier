@@ -32,13 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.api.models;
 
-import java.util.Calendar;
-
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
-import com.leclercb.taskunifier.gui.main.Main;
 
 public class GuiTask extends Task {
 	
@@ -56,48 +53,6 @@ public class GuiTask extends Task {
 	
 	public GuiTask(ModelId modelId, String title) {
 		super(modelId, title);
-	}
-	
-	@Override
-	public Calendar getStartDate() {
-		if (Main.SETTINGS.getBooleanProperty("date.use_start_time"))
-			return super.getStartDate();
-		
-		Calendar startDate = super.getStartDate();
-		
-		if (startDate == null)
-			return startDate;
-		
-		startDate.set(
-				startDate.get(Calendar.YEAR),
-				startDate.get(Calendar.MONTH),
-				startDate.get(Calendar.DAY_OF_MONTH),
-				23,
-				59,
-				59);
-		
-		return startDate;
-	}
-	
-	@Override
-	public Calendar getDueDate() {
-		if (Main.SETTINGS.getBooleanProperty("date.use_due_time"))
-			return super.getDueDate();
-		
-		Calendar dueDate = super.getDueDate();
-		
-		if (dueDate == null)
-			return dueDate;
-		
-		dueDate.set(
-				dueDate.get(Calendar.YEAR),
-				dueDate.get(Calendar.MONTH),
-				dueDate.get(Calendar.DAY_OF_MONTH),
-				23,
-				59,
-				59);
-		
-		return dueDate;
 	}
 	
 	public boolean isShowChildren() {
