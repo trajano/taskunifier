@@ -72,9 +72,9 @@ public class GuiTask extends Task {
 				startDate.get(Calendar.YEAR),
 				startDate.get(Calendar.MONTH),
 				startDate.get(Calendar.DAY_OF_MONTH),
-				0,
-				0,
-				0);
+				23,
+				59,
+				59);
 		
 		return startDate;
 	}
@@ -93,9 +93,9 @@ public class GuiTask extends Task {
 				dueDate.get(Calendar.YEAR),
 				dueDate.get(Calendar.MONTH),
 				dueDate.get(Calendar.DAY_OF_MONTH),
-				0,
-				0,
-				0);
+				23,
+				59,
+				59);
 		
 		return dueDate;
 	}

@@ -10,7 +10,8 @@ Version 1.8.0
 		- FR 3425146: Choose notes location on the screen
 		- FR 3406671: Tooltip total length and total timer
 		- FR 3416765: Immediate sorting of searcher categories
-		- BF 3425016: Time must be 0:00 if not time used
+		- BF 3425016: Time must be 23:59 if no time used
+		- BF 3426213: Time must be 23:59 if no time used
 
 Version 1.7.1
 	- Major:
