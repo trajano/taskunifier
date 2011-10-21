@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -50,12 +51,24 @@ import com.leclercb.taskunifier.gui.utils.BackupUtils;
 public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public BackupConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration, "configuration_proxy");
+		super(configuration);
 		this.initialize();
 		this.pack();
 	}
 	
 	private void initialize() {
+		this.addField(new ConfigurationField(
+				"CREATE_NEW_BACKUP",
+				null,
+				new ConfigurationFieldType.Button(new ActionCreateNewBackup(
+						22,
+						22))));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
 		this.addField(new ConfigurationField(
 				"AUTO_BACKUP",
 				Translations.getString("configuration.backup.auto_backup_every"),
@@ -67,7 +80,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 				new KeepBackupsFieldType()));
 		
 		this.addField(new ConfigurationField(
-				"SEPARATOR_1",
+				"SEPARATOR_2",
 				null,
 				new ConfigurationFieldType.Separator()));
 		
