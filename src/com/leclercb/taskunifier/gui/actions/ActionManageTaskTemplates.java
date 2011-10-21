@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.tasktemplates.TaskTemplateConfigurationDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageTaskTemplates extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionManageTaskTemplates extends AbstractAction {
 	public ActionManageTaskTemplates(int width, int height) {
 		super(
 				Translations.getString("action.manage_task_templates"),
-				Images.getResourceImage("template.png", width, height));
+				ImageUtils.getResourceImage("template.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

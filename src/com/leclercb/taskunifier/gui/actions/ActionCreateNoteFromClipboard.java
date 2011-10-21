@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCreateNoteFromClipboard extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionCreateNoteFromClipboard extends AbstractAction {
 	public ActionCreateNoteFromClipboard(int width, int height) {
 		super(
 				Translations.getString("action.create_note_from_clipboard"),
-				Images.getResourceImage("information.png", width, height));
+				ImageUtils.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

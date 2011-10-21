@@ -49,7 +49,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskFilterTree extends JTree {
 	
@@ -67,9 +67,9 @@ public class TaskFilterTree extends JTree {
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-		renderer.setLeafIcon(Images.getResourceImage("tree_leaf.png"));
-		renderer.setOpenIcon(Images.getResourceImage("tree_open.png"));
-		renderer.setClosedIcon(Images.getResourceImage("tree_closed.png"));
+		renderer.setLeafIcon(ImageUtils.getResourceImage("tree_leaf.png"));
+		renderer.setOpenIcon(ImageUtils.getResourceImage("tree_open.png"));
+		renderer.setClosedIcon(ImageUtils.getResourceImage("tree_closed.png"));
 		this.setCellRenderer(renderer);
 		
 		this.initializePopupMenu();

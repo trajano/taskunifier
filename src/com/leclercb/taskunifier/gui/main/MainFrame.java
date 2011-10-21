@@ -68,7 +68,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.communicator.CommunicatorThread;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
@@ -110,7 +110,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setIconImage(Images.getResourceImage("logo.png", 16, 16).getImage());
+		this.setIconImage(ImageUtils.getResourceImage("logo.png", 16, 16).getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSettings();
 		
@@ -282,7 +282,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.minimizeToSystemTray = true;
 		
 		final SystemTray tray = SystemTray.getSystemTray();
-		final TrayIcon trayIcon = new TrayIcon(Images.getResourceImage(
+		final TrayIcon trayIcon = new TrayIcon(ImageUtils.getResourceImage(
 				"logo.png",
 				(int) tray.getTrayIconSize().getWidth(),
 				(int) tray.getTrayIconSize().getHeight()).getImage());

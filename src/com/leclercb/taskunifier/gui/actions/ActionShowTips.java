@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionShowTips extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionShowTips extends AbstractAction {
 	public ActionShowTips(int width, int height) {
 		super(
 				Translations.getString("action.show_tips"),
-				Images.getResourceImage("information.png", width, height));
+				ImageUtils.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

@@ -43,7 +43,7 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPaste extends AbstractAction {
 	
@@ -52,10 +52,9 @@ public class ActionPaste extends AbstractAction {
 	}
 	
 	public ActionPaste(int width, int height) {
-		super(Translations.getString("action.paste"), Images.getResourceImage(
-				"paste.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.paste"),
+				ImageUtils.getResourceImage("paste.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.paste"));
 		

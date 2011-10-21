@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class SettingsPanel extends CardPanel {
 	
@@ -74,7 +74,7 @@ public class SettingsPanel extends CardPanel {
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		panel.add(
-				new JLabel(Images.getResourceImage("settings.png", 48, 48)),
+				new JLabel(ImageUtils.getResourceImage("settings.png", 48, 48)),
 				BorderLayout.WEST);
 		panel.add(new JLabel(this.title));
 		

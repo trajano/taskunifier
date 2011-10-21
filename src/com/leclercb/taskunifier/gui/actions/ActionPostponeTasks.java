@@ -10,7 +10,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPostponeTasks extends AbstractViewAction {
 	
@@ -35,7 +35,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			int height) {
 		super(
 				title,
-				Images.getResourceImage("calendar.png", width, height),
+				ImageUtils.getResourceImage("calendar.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

@@ -41,7 +41,7 @@ import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDonate extends AbstractAction {
 	
@@ -50,10 +50,9 @@ public class ActionDonate extends AbstractAction {
 	}
 	
 	public ActionDonate(int width, int height) {
-		super(Translations.getString("action.donate"), Images.getResourceImage(
-				"dollar.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.donate"),
+				ImageUtils.getResourceImage("dollar.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

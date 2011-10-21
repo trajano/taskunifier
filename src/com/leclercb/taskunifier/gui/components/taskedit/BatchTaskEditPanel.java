@@ -88,7 +88,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -489,11 +489,11 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.getBuilder().append(this.taskTitle, 7);
 		
 		// Task Star
-		this.taskStar.setIcon(Images.getResourceImage(
+		this.taskStar.setIcon(ImageUtils.getResourceImage(
 				"checkbox_star.png",
 				16,
 				16));
-		this.taskStar.setSelectedIcon(Images.getResourceImage(
+		this.taskStar.setSelectedIcon(ImageUtils.getResourceImage(
 				"checkbox_star_selected.png",
 				16,
 				16));

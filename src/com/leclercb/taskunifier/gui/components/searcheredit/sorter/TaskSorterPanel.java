@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskSorterPanel extends JPanel {
@@ -143,11 +143,14 @@ public class TaskSorterPanel extends JPanel {
 			
 		};
 		
-		this.addButton = new JButton(Images.getResourceImage("add.png", 16, 16));
+		this.addButton = new JButton(ImageUtils.getResourceImage(
+				"add.png",
+				16,
+				16));
 		this.addButton.setActionCommand("ADD");
 		this.addButton.addActionListener(listener);
 		
-		this.removeButton = new JButton(Images.getResourceImage(
+		this.removeButton = new JButton(ImageUtils.getResourceImage(
 				"remove.png",
 				16,
 				16));

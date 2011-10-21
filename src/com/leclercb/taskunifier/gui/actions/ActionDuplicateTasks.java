@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDuplicateTasks extends AbstractViewAction {
 	
@@ -52,7 +52,7 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	public ActionDuplicateTasks(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_tasks"),
-				Images.getResourceImage("duplicate.png", width, height),
+				ImageUtils.getResourceImage("duplicate.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

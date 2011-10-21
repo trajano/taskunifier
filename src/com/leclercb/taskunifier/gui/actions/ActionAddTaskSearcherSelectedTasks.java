@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	
@@ -56,7 +56,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	public ActionAddTaskSearcherSelectedTasks(int width, int height) {
 		super(
 				Translations.getString("action.add_task_searcher_selected_tasks"),
-				Images.getResourceImage("add.png", width, height),
+				ImageUtils.getResourceImage("add.png", width, height),
 				ViewType.CALENDAR,
 				ViewType.TASKS);
 		

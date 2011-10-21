@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.export_data.ExportModelsDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionExportModels extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionExportModels extends AbstractAction {
 	public ActionExportModels(int width, int height) {
 		super(
 				Translations.getString("action.export_models"),
-				Images.getResourceImage("upload.png", width, height));
+				ImageUtils.getResourceImage("upload.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class PluginsDialog extends JDialog {
 	
@@ -92,7 +92,7 @@ public class PluginsDialog extends JDialog {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_plugins"));
 		header.setDescription(Translations.getString("header.description.manage_plugins"));
-		header.setIcon(Images.getResourceImage("settings.png", 32, 32));
+		header.setIcon(ImageUtils.getResourceImage("settings.png", 32, 32));
 		this.add(header, BorderLayout.NORTH);
 		
 		this.pluginsPanel = new PluginsPanel();

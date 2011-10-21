@@ -40,7 +40,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 	
@@ -75,9 +75,15 @@ public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 		
 		if (task.getChildren().length != 0)
 			if (task.isShowChildren())
-				this.setIcon(Images.getResourceImage("tree_expanded.png", 9, 9));
+				this.setIcon(ImageUtils.getResourceImage(
+						"tree_expanded.png",
+						9,
+						9));
 			else
-				this.setIcon(Images.getResourceImage("tree_collapsed.png", 9, 9));
+				this.setIcon(ImageUtils.getResourceImage(
+						"tree_collapsed.png",
+						9,
+						9));
 		
 		return component;
 	}

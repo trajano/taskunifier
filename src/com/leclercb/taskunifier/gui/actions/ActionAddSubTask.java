@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddSubTask extends AbstractViewAction {
 	
@@ -64,7 +64,7 @@ public class ActionAddSubTask extends AbstractViewAction {
 	public ActionAddSubTask(int width, int height) {
 		super(
 				Translations.getString("action.add_subtask"),
-				Images.getResourceImage("subtask.png", width, height),
+				ImageUtils.getResourceImage("subtask.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

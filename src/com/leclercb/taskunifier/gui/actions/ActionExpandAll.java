@@ -41,14 +41,14 @@ import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionExpandAll extends AbstractViewAction {
 	
 	public ActionExpandAll() {
 		super(
 				Translations.getString("action.expand_all"),
-				Images.getResourceImage("tree_collapsed.png", 9, 9),
+				ImageUtils.getResourceImage("tree_collapsed.png", 9, 9),
 				ViewType.TASKS);
 		
 		this.putValue(

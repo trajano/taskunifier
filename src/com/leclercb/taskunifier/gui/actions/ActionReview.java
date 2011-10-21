@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.review.ReviewDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionReview extends AbstractAction {
 	
@@ -47,10 +47,9 @@ public class ActionReview extends AbstractAction {
 	}
 	
 	public ActionReview(int width, int height) {
-		super(Translations.getString("action.review"), Images.getResourceImage(
-				"information.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.review"),
+				ImageUtils.getResourceImage("information.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

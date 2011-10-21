@@ -40,7 +40,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTemplateTask extends AbstractAction {
 	
@@ -51,7 +51,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 	}
 	
 	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
-		super(template.getTitle(), Images.getResourceImage(
+		super(template.getTitle(), ImageUtils.getResourceImage(
 				"template.png",
 				width,
 				height));

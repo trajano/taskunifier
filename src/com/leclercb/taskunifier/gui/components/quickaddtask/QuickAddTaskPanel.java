@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.leclercb.taskunifier.gui.actions.ActionAddQuickTask;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class QuickAddTaskPanel extends JPanel {
 	
@@ -35,7 +35,10 @@ public class QuickAddTaskPanel extends JPanel {
 			
 		});
 		
-		this.button = new JButton(Images.getResourceImage("task.png", 16, 16));
+		this.button = new JButton(ImageUtils.getResourceImage(
+				"task.png",
+				16,
+				16));
 		this.button.addActionListener(new ActionListener() {
 			
 			@Override

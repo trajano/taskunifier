@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskSearcherPanel extends JPanel implements PropertyChangeListener {
 	
@@ -117,10 +117,10 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		
 		this.searcherIcon = new JButton();
 		iconPanel.add(this.searcherIcon, BorderLayout.CENTER);
-		this.searcherIcon.setIcon(this.searcher.getIcon() == null ? Images.getResourceImage(
+		this.searcherIcon.setIcon(this.searcher.getIcon() == null ? ImageUtils.getResourceImage(
 				"remove.png",
 				24,
-				24) : Images.getImage(this.searcher.getIcon(), 24, 24));
+				24) : ImageUtils.getImage(this.searcher.getIcon(), 24, 24));
 		this.searcherIcon.setText(this.searcher.getIcon() == null ? Translations.getString("searcheredit.searcher.no_icon") : this.searcher.getIcon());
 		this.searcherIcon.addActionListener(new ActionListener() {
 			
@@ -174,10 +174,8 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			
 		});
 		
-		final JButton searcherRemoveIcon = new JButton(Images.getResourceImage(
-				"remove.png",
-				16,
-				16));
+		final JButton searcherRemoveIcon = new JButton(
+				ImageUtils.getResourceImage("remove.png", 16, 16));
 		iconPanel.add(searcherRemoveIcon, BorderLayout.EAST);
 		searcherRemoveIcon.addActionListener(new ActionListener() {
 			
@@ -232,10 +230,10 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 			if (!EqualsUtils.equals(
 					this.searcherTitle.getText(),
 					evt.getNewValue())) {
-				this.searcherIcon.setIcon((String) evt.getNewValue() == null ? Images.getResourceImage(
+				this.searcherIcon.setIcon((String) evt.getNewValue() == null ? ImageUtils.getResourceImage(
 						"remove.png",
 						24,
-						24) : Images.getImage(
+						24) : ImageUtils.getImage(
 						(String) evt.getNewValue(),
 						24,
 						24));

@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ReviewPanel extends JPanel {
 	
@@ -68,7 +68,7 @@ public class ReviewPanel extends JPanel {
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JLabel icon = new JLabel(Constants.TITLE, Images.getResourceImage(
+		JLabel icon = new JLabel(Constants.TITLE, ImageUtils.getResourceImage(
 				"logo.png",
 				48,
 				48), SwingConstants.CENTER);

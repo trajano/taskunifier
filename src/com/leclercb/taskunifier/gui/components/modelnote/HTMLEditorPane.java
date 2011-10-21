@@ -26,7 +26,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public abstract class HTMLEditorPane extends JPanel {
@@ -107,7 +107,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
-		this.editAction = new AbstractAction("", Images.getResourceImage(
+		this.editAction = new AbstractAction("", ImageUtils.getResourceImage(
 				"edit.png",
 				16,
 				16)) {
@@ -147,7 +147,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
-		toolBar.add(new AbstractAction("", Images.getResourceImage(
+		toolBar.add(new AbstractAction("", ImageUtils.getResourceImage(
 				"previous.png",
 				16,
 				16)) {

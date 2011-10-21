@@ -67,7 +67,7 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public interface ConfigurationFieldType<ComponentType extends JComponent, ValueType> {
 	
@@ -422,8 +422,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		public StarCheckBox(String propertyName) {
 			super(propertyName);
 			
-			this.setIcon(Images.getResourceImage("checkbox_star.png", 18, 18));
-			this.setSelectedIcon(Images.getResourceImage(
+			this.setIcon(ImageUtils.getResourceImage(
+					"checkbox_star.png",
+					18,
+					18));
+			this.setSelectedIcon(ImageUtils.getResourceImage(
 					"checkbox_star_selected.png",
 					18,
 					18));

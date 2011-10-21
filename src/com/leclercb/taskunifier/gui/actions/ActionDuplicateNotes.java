@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDuplicateNotes extends AbstractViewAction {
 	
@@ -51,7 +51,7 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 	public ActionDuplicateNotes(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_notes"),
-				Images.getResourceImage("duplicate.png", width, height),
+				ImageUtils.getResourceImage("duplicate.png", width, height),
 				ViewType.NOTES);
 		
 		this.putValue(

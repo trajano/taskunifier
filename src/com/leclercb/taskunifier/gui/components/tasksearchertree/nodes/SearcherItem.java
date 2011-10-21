@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
@@ -65,9 +65,9 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	@Override
 	public Icon getIcon() {
 		if (this.getTaskSearcher().getIcon() == null)
-			return Images.getResourceImage("transparent.png", 16, 16);
+			return ImageUtils.getResourceImage("transparent.png", 16, 16);
 		else
-			return Images.getImage(this.getTaskSearcher().getIcon(), 16, 16);
+			return ImageUtils.getImage(this.getTaskSearcher().getIcon(), 16, 16);
 	}
 	
 	@Override

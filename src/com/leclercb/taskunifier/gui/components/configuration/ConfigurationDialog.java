@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
@@ -122,7 +122,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.configuration"));
 		header.setDescription(Translations.getString("header.description.configuration"));
-		header.setIcon(Images.getResourceImage("settings.png", 32, 32));
+		header.setIcon(ImageUtils.getResourceImage("settings.png", 32, 32));
 		
 		this.tabbedPane = new JTabbedPane();
 		

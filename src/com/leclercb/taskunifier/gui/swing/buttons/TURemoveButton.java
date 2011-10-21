@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TURemoveButton extends JButton {
 	
@@ -13,7 +13,7 @@ public class TURemoveButton extends JButton {
 	}
 	
 	public TURemoveButton(ActionListener listener) {
-		super(Images.getResourceImage("remove.png", 16, 16));
+		super(ImageUtils.getResourceImage("remove.png", 16, 16));
 		
 		this.setActionCommand("REMOVE");
 		

@@ -40,7 +40,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionScheduledSync extends AbstractAction {
 	
@@ -77,12 +77,12 @@ public class ActionScheduledSync extends AbstractAction {
 	
 	private void updateIcon() {
 		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"))
-			this.putValue(SMALL_ICON, Images.getResourceImage(
+			this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 					"synchronize_play.png",
 					this.width,
 					this.height));
 		else
-			this.putValue(SMALL_ICON, Images.getResourceImage(
+			this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 					"synchronize_pause.png",
 					this.width,
 					this.height));

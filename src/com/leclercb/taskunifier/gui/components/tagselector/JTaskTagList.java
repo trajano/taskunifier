@@ -16,7 +16,7 @@ import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.gui.swing.TUCheckBoxList;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class JTaskTagList extends JPanel {
 	
@@ -59,7 +59,10 @@ public class JTaskTagList extends JPanel {
 		
 		this.text = new JTextField();
 		
-		this.button = new JButton(Images.getResourceImage("edit.png", 16, 16));
+		this.button = new JButton(ImageUtils.getResourceImage(
+				"edit.png",
+				16,
+				16));
 		this.button.addMouseListener(new MouseAdapter() {
 			
 			@Override

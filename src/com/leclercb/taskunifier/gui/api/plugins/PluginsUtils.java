@@ -69,7 +69,7 @@ import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class PluginsUtils {
 	
@@ -82,7 +82,7 @@ public class PluginsUtils {
 			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
 			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
 			"Version " + DummyGuiPlugin.getInstance().getVersion(),
-			Images.getResourceImage("do_not_synchronize.png"),
+			ImageUtils.getResourceImage("do_not_synchronize.png"),
 			null);
 	
 	public static SynchronizerGuiPlugin loadPlugin(File file)

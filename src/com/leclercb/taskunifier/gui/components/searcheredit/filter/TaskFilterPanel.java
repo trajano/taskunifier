@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskFilterPanel extends JPanel {
 	
@@ -183,19 +183,19 @@ public class TaskFilterPanel extends JPanel {
 		
 		this.addElementButton = new JButton(
 				Translations.getString("searcheredit.add_element"),
-				Images.getResourceImage("add.png", 16, 16));
+				ImageUtils.getResourceImage("add.png", 16, 16));
 		this.addElementButton.setActionCommand("ADD_ELEMENT");
 		this.addElementButton.addActionListener(listener);
 		this.addElementButton.setEnabled(false);
 		
 		this.addFilterButton = new JButton(
 				Translations.getString("searcheredit.add_filter"),
-				Images.getResourceImage("add.png", 16, 16));
+				ImageUtils.getResourceImage("add.png", 16, 16));
 		this.addFilterButton.setActionCommand("ADD_FILTER");
 		this.addFilterButton.addActionListener(listener);
 		this.addFilterButton.setEnabled(false);
 		
-		this.removeButton = new JButton(Images.getResourceImage(
+		this.removeButton = new JButton(ImageUtils.getResourceImage(
 				"remove.png",
 				16,
 				16));
@@ -205,7 +205,7 @@ public class TaskFilterPanel extends JPanel {
 		
 		this.autoFillButton = new JButton(
 				Translations.getString("searcheredit.clear_and_auto_fill_with_selected_tasks"),
-				Images.getResourceImage("synchronize.png", 16, 16));
+				ImageUtils.getResourceImage("synchronize.png", 16, 16));
 		this.autoFillButton.setActionCommand("AUTO_FILL");
 		this.autoFillButton.addActionListener(listener);
 		this.autoFillButton.setEnabled(true);

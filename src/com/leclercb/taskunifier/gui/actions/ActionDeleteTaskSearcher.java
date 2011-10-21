@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEv
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	
@@ -52,7 +52,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	public ActionDeleteTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_task_searcher"),
-				Images.getResourceImage("remove.png", width, height),
+				ImageUtils.getResourceImage("remove.png", width, height),
 				ViewType.CALENDAR,
 				ViewType.TASKS);
 		

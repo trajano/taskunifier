@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTask extends AbstractAction {
 	
@@ -59,7 +59,7 @@ public class ActionAddTask extends AbstractAction {
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),
-				Images.getResourceImage("task.png", width, height));
+				ImageUtils.getResourceImage("task.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

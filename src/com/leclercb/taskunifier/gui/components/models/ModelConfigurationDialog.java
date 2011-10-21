@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ModelConfigurationDialog extends JDialog {
 	
@@ -130,7 +130,7 @@ public class ModelConfigurationDialog extends JDialog {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_models"));
 		header.setDescription(Translations.getString("header.description.manage_models"));
-		header.setIcon(Images.getResourceImage("folder.png", 32, 32));
+		header.setIcon(ImageUtils.getResourceImage("folder.png", 32, 32));
 		
 		this.tabbedPane = new JTabbedPane();
 		

@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.about.AboutDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAbout extends AbstractAction {
 	
@@ -47,10 +47,9 @@ public class ActionAbout extends AbstractAction {
 	}
 	
 	public ActionAbout(int width, int height) {
-		super(Translations.getString("action.about"), Images.getResourceImage(
-				"information.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.about"),
+				ImageUtils.getResourceImage("information.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.about"));
 	}

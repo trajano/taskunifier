@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionGetSerial extends AbstractAction {
 	
@@ -53,7 +53,7 @@ public class ActionGetSerial extends AbstractAction {
 	public ActionGetSerial(String url, int width, int height) {
 		super(
 				Translations.getString("action.get_serial"),
-				Images.getResourceImage("key.png", width, height));
+				ImageUtils.getResourceImage("key.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

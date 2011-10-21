@@ -40,7 +40,7 @@ import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionConfiguration extends AbstractAction {
 	
@@ -51,7 +51,7 @@ public class ActionConfiguration extends AbstractAction {
 	public ActionConfiguration(int width, int height) {
 		super(
 				Translations.getString("action.configuration"),
-				Images.getResourceImage("settings.png", width, height));
+				ImageUtils.getResourceImage("settings.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

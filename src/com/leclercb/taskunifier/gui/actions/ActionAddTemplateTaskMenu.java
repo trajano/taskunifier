@@ -42,7 +42,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
 public class ActionAddTemplateTaskMenu extends AbstractAction {
@@ -56,7 +56,7 @@ public class ActionAddTemplateTaskMenu extends AbstractAction {
 	public ActionAddTemplateTaskMenu(int width, int height) {
 		super(
 				Translations.getString("action.add_template_task"),
-				Images.getResourceImage("template.png", width, height));
+				ImageUtils.getResourceImage("template.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

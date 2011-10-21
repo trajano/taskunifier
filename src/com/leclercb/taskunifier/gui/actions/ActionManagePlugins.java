@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.plugins.PluginsDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManagePlugins extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionManagePlugins extends AbstractAction {
 	public ActionManagePlugins(int width, int height) {
 		super(
 				Translations.getString("action.manage_plugins"),
-				Images.getResourceImage("download.png", width, height));
+				ImageUtils.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

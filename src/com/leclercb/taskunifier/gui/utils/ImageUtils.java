@@ -44,9 +44,9 @@ import com.leclercb.commons.api.utils.EqualsBuilder;
 import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class Images {
+public final class ImageUtils {
 	
-	private Images() {
+	private ImageUtils() {
 		
 	}
 	
@@ -92,7 +92,7 @@ public final class Images {
 		
 	}
 	
-	private static Map<ImageInfo, ImageIcon> images = new HashMap<Images.ImageInfo, ImageIcon>();
+	private static Map<ImageInfo, ImageIcon> images = new HashMap<ImageUtils.ImageInfo, ImageIcon>();
 	
 	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER
 			+ File.separator

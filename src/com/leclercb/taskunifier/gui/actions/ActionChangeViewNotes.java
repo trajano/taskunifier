@@ -39,7 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionChangeViewNotes extends AbstractAction {
 	
@@ -50,7 +50,10 @@ public class ActionChangeViewNotes extends AbstractAction {
 	public ActionChangeViewNotes(int width, int height) {
 		super(
 				Translations.getString("action.change_view_notes"),
-				Images.getResourceImage("change_view_notes.png", width, height));
+				ImageUtils.getResourceImage(
+						"change_view_notes.png",
+						width,
+						height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

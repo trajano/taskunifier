@@ -41,7 +41,7 @@ import org.apache.commons.lang.SystemUtils;
 
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionTaskReminders extends AbstractAction {
 	
@@ -52,7 +52,7 @@ public class ActionTaskReminders extends AbstractAction {
 	public ActionTaskReminders(int width, int height) {
 		super(
 				Translations.getString("action.task_reminders"),
-				Images.getResourceImage("clock.png", width, height));
+				ImageUtils.getResourceImage("clock.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

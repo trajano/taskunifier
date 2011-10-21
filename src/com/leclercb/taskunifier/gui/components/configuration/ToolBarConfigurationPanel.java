@@ -32,7 +32,7 @@ import com.leclercb.taskunifier.gui.components.configuration.toolbar.StringValue
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ToolBarConfigurationPanel extends ConfigurationPanel {
 	
@@ -105,7 +105,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 				ComponentFactory.createJScrollPane(this.leftList, true),
 				BorderLayout.CENTER);
 		
-		JButton rightButton = new JButton(Images.getResourceImage(
+		JButton rightButton = new JButton(ImageUtils.getResourceImage(
 				"right.png",
 				16,
 				16));
@@ -121,7 +121,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 			
 		});
 		
-		JButton leftButton = new JButton(Images.getResourceImage(
+		JButton leftButton = new JButton(ImageUtils.getResourceImage(
 				"left.png",
 				16,
 				16));
@@ -174,8 +174,10 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 				ComponentFactory.createJScrollPane(this.rightList, true),
 				BorderLayout.CENTER);
 		
-		JButton upButton = new JButton(
-				Images.getResourceImage("up.png", 16, 16));
+		JButton upButton = new JButton(ImageUtils.getResourceImage(
+				"up.png",
+				16,
+				16));
 		upButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -205,7 +207,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 			
 		});
 		
-		JButton downButton = new JButton(Images.getResourceImage(
+		JButton downButton = new JButton(ImageUtils.getResourceImage(
 				"down.png",
 				16,
 				16));

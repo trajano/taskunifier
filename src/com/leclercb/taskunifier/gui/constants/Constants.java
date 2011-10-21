@@ -59,7 +59,7 @@ import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public final class Constants {
 	
@@ -129,7 +129,7 @@ public final class Constants {
 						NoteSearcherType.DEFAULT,
 						0,
 						Translations.getString("searcherlist.general.all"),
-						Images.getResourceFile("note.png"),
+						ImageUtils.getResourceFile("note.png"),
 						new NoteFilter(),
 						DEFAULT_NOTE_SORTER.clone());
 				
@@ -166,7 +166,7 @@ public final class Constants {
 						TaskSearcherType.DEFAULT,
 						0,
 						Translations.getString("searcherlist.general.all"),
-						Images.getResourceFile("task.png"),
+						ImageUtils.getResourceFile("task.png"),
 						new TaskFilter(),
 						DEFAULT_TASK_SORTER.clone());
 			}

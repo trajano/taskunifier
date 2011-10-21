@@ -36,7 +36,7 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueShowChildren implements IconValue {
 	
@@ -52,9 +52,9 @@ public class IconValueShowChildren implements IconValue {
 			return null;
 		
 		if ((Boolean) value)
-			return Images.getResourceImage("tree_expanded.png", 9, 9);
+			return ImageUtils.getResourceImage("tree_expanded.png", 9, 9);
 		else
-			return Images.getResourceImage("tree_collapsed.png", 9, 9);
+			return ImageUtils.getResourceImage("tree_collapsed.png", 9, 9);
 	}
 	
 }

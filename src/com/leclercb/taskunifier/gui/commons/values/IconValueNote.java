@@ -36,7 +36,7 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueNote implements IconValue {
 	
@@ -54,7 +54,7 @@ public class IconValueNote implements IconValue {
 		if (((String) value).trim().length() == 0)
 			return null;
 		else
-			return Images.getResourceImage("document.png", 16, 16);
+			return ImageUtils.getResourceImage("document.png", 16, 16);
 	}
 	
 }

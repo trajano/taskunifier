@@ -8,7 +8,7 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPostponeTasksMenu extends AbstractViewAction {
 	
@@ -21,7 +21,7 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 	public ActionPostponeTasksMenu(int width, int height) {
 		super(
 				Translations.getString("action.postpone_tasks"),
-				Images.getResourceImage("calendar.png", width, height),
+				ImageUtils.getResourceImage("calendar.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		
@@ -39,19 +39,22 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 				Translations.getString("action.postpone_tasks.both"));
 		
 		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
-		postponeStartDateMenu.setIcon(Images.getResourceImage(
+		postponeStartDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
-		postponeDueDateMenu.setIcon(Images.getResourceImage(
+		postponeDueDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
-		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		postponeBothMenu.setIcon(ImageUtils.getResourceImage(
+				"calendar.png",
+				16,
+				16));
 		
 		ActionPostponeTasks[] actions = null;
 		

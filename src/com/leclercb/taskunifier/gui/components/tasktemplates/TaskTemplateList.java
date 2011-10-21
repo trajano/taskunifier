@@ -64,7 +64,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ComponentUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 abstract class TaskTemplateList extends JPanel {
 	
@@ -188,7 +188,7 @@ abstract class TaskTemplateList extends JPanel {
 		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
-		this.defaultButton = new JButton(Images.getResourceImage(
+		this.defaultButton = new JButton(ImageUtils.getResourceImage(
 				"properties.png",
 				16,
 				16));

@@ -43,7 +43,7 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCut extends AbstractAction {
 	
@@ -52,10 +52,9 @@ public class ActionCut extends AbstractAction {
 	}
 	
 	public ActionCut(int width, int height) {
-		super(Translations.getString("action.cut"), Images.getResourceImage(
-				"cut.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.cut"),
+				ImageUtils.getResourceImage("cut.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.cut"));
 		

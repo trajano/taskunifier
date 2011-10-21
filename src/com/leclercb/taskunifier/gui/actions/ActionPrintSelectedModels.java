@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -61,7 +61,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 	public ActionPrintSelectedModels(int width, int height) {
 		super(
 				Translations.getString("action.print_selection"),
-				Images.getResourceImage("print.png", width, height));
+				ImageUtils.getResourceImage("print.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

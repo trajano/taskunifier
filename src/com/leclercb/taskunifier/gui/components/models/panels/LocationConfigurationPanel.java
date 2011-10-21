@@ -65,7 +65,7 @@ import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class LocationConfigurationPanel extends JSplitPane implements IModelList {
 	
@@ -193,7 +193,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 		locationColor.setPreferredSize(new Dimension(24, 24));
 		locationColor.setBorder(BorderFactory.createEmptyBorder());
 		
-		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
+		removeColor.setIcon(ImageUtils.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
 			
 			@Override

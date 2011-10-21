@@ -55,7 +55,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class BatchTaskEditDialog extends TUDialog {
 	
@@ -121,7 +121,7 @@ public class BatchTaskEditDialog extends TUDialog {
 		this.header = new JXHeader();
 		this.header.setTitle(Translations.getString("header.title.batch_edit_task"));
 		this.header.setDescription(Translations.getString("header.description.batch_edit_task"));
-		this.header.setIcon(Images.getResourceImage("edit.png", 32, 32));
+		this.header.setIcon(ImageUtils.getResourceImage("edit.png", 32, 32));
 		
 		this.addWindowListener(new WindowAdapter() {
 			

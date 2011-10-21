@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TUAddButton extends JButton {
 	
@@ -13,7 +13,7 @@ public class TUAddButton extends JButton {
 	}
 	
 	public TUAddButton(ActionListener listener) {
-		super(Images.getResourceImage("add.png", 16, 16));
+		super(ImageUtils.getResourceImage("add.png", 16, 16));
 		
 		this.setActionCommand("ADD");
 		

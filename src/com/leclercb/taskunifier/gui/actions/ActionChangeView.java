@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionChangeView extends AbstractAction {
 	
@@ -88,25 +88,25 @@ public class ActionChangeView extends AbstractAction {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		switch (viewType) {
 			case CALENDAR:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
+				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 						"change_view_calendar.png",
 						this.width,
 						this.height));
 				break;
 			case NOTES:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
+				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 						"change_view_notes.png",
 						this.width,
 						this.height));
 				break;
 			case TASKS:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
+				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 						"change_view_tasks.png",
 						this.width,
 						this.height));
 				break;
 			default:
-				this.putValue(SMALL_ICON, Images.getResourceImage(
+				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 						"change_view_tasks.png",
 						this.width,
 						this.height));

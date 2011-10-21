@@ -37,7 +37,7 @@ import javax.swing.Icon;
 import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.api.models.Timer;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueTimer implements IconValue {
 	
@@ -50,12 +50,12 @@ public class IconValueTimer implements IconValue {
 	@Override
 	public Icon getIcon(Object value) {
 		if (value == null || !(value instanceof Timer))
-			return Images.getResourceImage("pause.png", 16, 16);
+			return ImageUtils.getResourceImage("pause.png", 16, 16);
 		
 		if (((Timer) value).isStarted())
-			return Images.getResourceImage("play.png", 16, 16);
+			return ImageUtils.getResourceImage("play.png", 16, 16);
 		else
-			return Images.getResourceImage("pause.png", 16, 16);
+			return ImageUtils.getResourceImage("pause.png", 16, 16);
 	}
 	
 }

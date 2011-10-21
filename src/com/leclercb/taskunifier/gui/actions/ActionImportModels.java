@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.import_data.ImportModelsDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportModels extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionImportModels extends AbstractAction {
 	public ActionImportModels(int width, int height) {
 		super(
 				Translations.getString("action.import_models"),
-				Images.getResourceImage("download.png", width, height));
+				ImageUtils.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

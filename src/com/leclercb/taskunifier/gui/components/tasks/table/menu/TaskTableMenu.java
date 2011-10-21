@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskTableMenu extends JPopupMenu {
 	
@@ -88,7 +88,7 @@ public class TaskTableMenu extends JPopupMenu {
 	private void initializeItemSortTasks() {
 		JMenuItem itemSortTasks = new JMenuItem(
 				Translations.getString("general.sort"),
-				Images.getResourceImage("synchronize.png", 16, 16));
+				ImageUtils.getResourceImage("synchronize.png", 16, 16));
 		
 		itemSortTasks.addActionListener(new ActionListener() {
 			

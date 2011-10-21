@@ -4,7 +4,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public enum ActionList {
 	
@@ -86,7 +86,7 @@ public enum ActionList {
 		if (icon == null)
 			this.icon = null;
 		else
-			this.icon = Images.getResourceImage(icon, 16, 16);
+			this.icon = ImageUtils.getResourceImage(icon, 16, 16);
 		
 		this.fitToolBar = fitToolBar;
 	}

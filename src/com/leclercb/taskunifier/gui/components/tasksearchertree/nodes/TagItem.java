@@ -50,7 +50,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondi
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
@@ -98,7 +98,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public Icon getIcon() {
-		return Images.getResourceImage("transparent.png", 16, 16);
+		return ImageUtils.getResourceImage("transparent.png", 16, 16);
 	}
 	
 	@Override

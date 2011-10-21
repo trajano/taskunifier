@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
 
 public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode {
@@ -65,9 +65,9 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	@Override
 	public Icon getIcon() {
 		if (this.getNoteSearcher().getIcon() == null)
-			return Images.getResourceImage("transparent.png", 16, 16);
+			return ImageUtils.getResourceImage("transparent.png", 16, 16);
 		else
-			return Images.getImage(this.getNoteSearcher().getIcon(), 16, 16);
+			return ImageUtils.getImage(this.getNoteSearcher().getIcon(), 16, 16);
 	}
 	
 	@Override

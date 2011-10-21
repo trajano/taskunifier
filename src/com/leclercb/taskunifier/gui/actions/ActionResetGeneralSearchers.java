@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionResetGeneralSearchers extends AbstractAction {
 	
@@ -63,7 +63,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 	public ActionResetGeneralSearchers(int width, int height) {
 		super(
 				Translations.getString("action.reset_general_searchers"),
-				Images.getResourceImage("undo.png", width, height));
+				ImageUtils.getResourceImage("undo.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -100,7 +100,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				1,
 				Translations.getString("searcherlist.general.not_completed"),
-				Images.getResourceFile("check.png"),
+				ImageUtils.getResourceFile("check.png"),
 				filter,
 				sorter.clone());
 		
@@ -115,7 +115,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				2,
 				Translations.getString("searcherlist.general.due_today"),
-				Images.getResourceFile("calendar.png"),
+				ImageUtils.getResourceFile("calendar.png"),
 				filter,
 				sorter.clone());
 		
@@ -130,7 +130,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				3,
 				Translations.getString("searcherlist.general.overdue"),
-				Images.getResourceFile("warning.png"),
+				ImageUtils.getResourceFile("warning.png"),
 				filter,
 				sorter.clone());
 		
@@ -149,7 +149,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				4,
 				Translations.getString("searcherlist.general.hot_list"),
-				Images.getResourceFile("hot_pepper.png"),
+				ImageUtils.getResourceFile("hot_pepper.png"),
 				filter,
 				sorter.clone());
 		
@@ -166,7 +166,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				5,
 				Translations.getString("searcherlist.general.importance"),
-				Images.getResourceFile("importance.png"),
+				ImageUtils.getResourceFile("importance.png"),
 				filter,
 				importanceSorter);
 		
@@ -181,7 +181,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				6,
 				Translations.getString("searcherlist.general.starred"),
-				Images.getResourceFile("star.png"),
+				ImageUtils.getResourceFile("star.png"),
 				filter,
 				sorter.clone());
 		
@@ -196,7 +196,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				7,
 				Translations.getString("searcherlist.general.next_action"),
-				Images.getResourceFile("next.png"),
+				ImageUtils.getResourceFile("next.png"),
 				filter,
 				sorter.clone());
 		
@@ -211,7 +211,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 				TaskSearcherType.GENERAL,
 				8,
 				Translations.getString("searcherlist.general.completed"),
-				Images.getResourceFile("check.png"),
+				ImageUtils.getResourceFile("check.png"),
 				filter,
 				sorter.clone());
 		

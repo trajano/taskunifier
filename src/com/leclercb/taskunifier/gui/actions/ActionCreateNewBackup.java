@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCreateNewBackup extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 	public ActionCreateNewBackup(int width, int height) {
 		super(
 				Translations.getString("action.create_new_backup"),
-				Images.getResourceImage("save.png", width, height));
+				ImageUtils.getResourceImage("save.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

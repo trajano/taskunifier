@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddNote extends AbstractAction {
 	
@@ -57,7 +57,7 @@ public class ActionAddNote extends AbstractAction {
 	public ActionAddNote(int width, int height) {
 		super(
 				Translations.getString("action.add_note"),
-				Images.getResourceImage("note.png", width, height));
+				ImageUtils.getResourceImage("note.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

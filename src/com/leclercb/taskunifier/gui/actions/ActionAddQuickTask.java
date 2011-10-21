@@ -28,7 +28,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddQuickTask extends AbstractAction {
 	
@@ -39,7 +39,7 @@ public class ActionAddQuickTask extends AbstractAction {
 	public ActionAddQuickTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),
-				Images.getResourceImage("task.png", width, height));
+				ImageUtils.getResourceImage("task.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

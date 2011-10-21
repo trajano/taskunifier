@@ -80,7 +80,7 @@ import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class TaskTemplateConfigurationPanel extends JSplitPane {
@@ -426,11 +426,11 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		// Template Task Star
 		builder.appendI15d("general.task.star", true, templateTaskStar);
 		
-		templateTaskStar.setIcon(Images.getResourceImage(
+		templateTaskStar.setIcon(ImageUtils.getResourceImage(
 				"checkbox_star.png",
 				18,
 				18));
-		templateTaskStar.setSelectedIcon(Images.getResourceImage(
+		templateTaskStar.setSelectedIcon(ImageUtils.getResourceImage(
 				"checkbox_star_selected.png",
 				18,
 				18));

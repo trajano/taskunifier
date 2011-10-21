@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.import_data.ImportTaskSearchersDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportTaskSearchers extends AbstractAction {
 	
@@ -49,7 +49,7 @@ public class ActionImportTaskSearchers extends AbstractAction {
 	public ActionImportTaskSearchers(int width, int height) {
 		super(
 				Translations.getString("action.import_task_searchers"),
-				Images.getResourceImage("download.png", width, height));
+				ImageUtils.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

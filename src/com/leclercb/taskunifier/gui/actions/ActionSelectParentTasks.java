@@ -39,7 +39,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionSelectParentTasks extends AbstractViewAction {
 	
@@ -50,7 +50,7 @@ public class ActionSelectParentTasks extends AbstractViewAction {
 	public ActionSelectParentTasks(int width, int height) {
 		super(
 				Translations.getString("action.select_parent_tasks"),
-				Images.getResourceImage("task.png", width, height),
+				ImageUtils.getResourceImage("task.png", width, height),
 				ViewType.TASKS);
 		
 		this.putValue(

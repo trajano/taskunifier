@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskTitleHighlighter extends AbstractHighlighter {
 	
@@ -131,9 +131,9 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue(!useDueTime))
-			r.setIcon(Images.getResourceImage("warning.png", 16, 16));
+			r.setIcon(ImageUtils.getResourceImage("warning.png", 16, 16));
 		else
-			r.setIcon(Images.getResourceImage("transparent.png", 16, 16));
+			r.setIcon(ImageUtils.getResourceImage("transparent.png", 16, 16));
 		
 		// Set Progress
 		if (!adapter.isSelected() && task.getProgress() != 0) {

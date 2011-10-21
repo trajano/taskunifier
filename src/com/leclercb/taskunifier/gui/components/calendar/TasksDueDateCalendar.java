@@ -17,7 +17,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TasksDueDateCalendar extends TasksCalendar {
@@ -93,9 +93,12 @@ public class TasksDueDateCalendar extends TasksCalendar {
 					+ TaskUtils.getImportance(task)));
 			
 			if (!task.isCompleted() && task.isOverDue(false))
-				event.setIcon(Images.getResourceImage("warning_red.png", 16, 16));
+				event.setIcon(ImageUtils.getResourceImage(
+						"warning_red.png",
+						16,
+						16));
 			else
-				event.setIcon(Images.getResourceImage(
+				event.setIcon(ImageUtils.getResourceImage(
 						"warning_green.png",
 						16,
 						16));

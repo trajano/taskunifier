@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskTemplateConfigurationDialog extends JDialog {
 	
@@ -82,7 +82,7 @@ public class TaskTemplateConfigurationDialog extends JDialog {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_task_templates"));
 		header.setDescription(Translations.getString("header.description.manage_task_templates"));
-		header.setIcon(Images.getResourceImage("template.png", 32, 32));
+		header.setIcon(ImageUtils.getResourceImage("template.png", 32, 32));
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(new TaskTemplateConfigurationPanel(), BorderLayout.CENTER);

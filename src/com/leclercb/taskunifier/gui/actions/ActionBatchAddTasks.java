@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionBatchAddTasks extends AbstractViewAction {
 	
@@ -57,7 +57,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	public ActionBatchAddTasks(int width, int height) {
 		super(
 				Translations.getString("action.batch_add_tasks"),
-				Images.getResourceImage("batch.png", width, height),
+				ImageUtils.getResourceImage("batch.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

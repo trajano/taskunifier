@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public abstract class ActionCreateAccount extends AbstractAction {
 	
@@ -48,7 +48,7 @@ public abstract class ActionCreateAccount extends AbstractAction {
 	public ActionCreateAccount(int width, int height) {
 		super(
 				Translations.getString("action.create_account"),
-				Images.getResourceImage("user.png", width, height));
+				ImageUtils.getResourceImage("user.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

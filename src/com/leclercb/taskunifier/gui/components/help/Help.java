@@ -43,7 +43,7 @@ import javax.swing.JButton;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public final class Help {
 	
@@ -95,8 +95,10 @@ public final class Help {
 	}
 	
 	private static JButton getHelpButton() {
-		JButton button = new JButton(
-				Images.getResourceImage("help.png", 16, 16));
+		JButton button = new JButton(ImageUtils.getResourceImage(
+				"help.png",
+				16,
+				16));
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
 		

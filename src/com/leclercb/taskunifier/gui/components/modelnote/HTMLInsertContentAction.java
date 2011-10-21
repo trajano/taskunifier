@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JTextArea;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class HTMLInsertContentAction extends AbstractAction {
 	
@@ -55,7 +55,7 @@ public class HTMLInsertContentAction extends AbstractAction {
 		
 		this.textArea = textArea;
 		this.content = content;
-		this.putValue(SMALL_ICON, Images.getResourceImage(image, 16, 16));
+		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(image, 16, 16));
 	}
 	
 	public String getContent() {

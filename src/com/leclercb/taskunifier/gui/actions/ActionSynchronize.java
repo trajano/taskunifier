@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronize
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionSynchronize extends AbstractAction {
@@ -61,7 +61,7 @@ public class ActionSynchronize extends AbstractAction {
 	public ActionSynchronize(boolean background, int width, int height) {
 		super(
 				Translations.getString("action.synchronize"),
-				Images.getResourceImage("synchronize.png", width, height));
+				ImageUtils.getResourceImage("synchronize.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

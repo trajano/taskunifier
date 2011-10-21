@@ -44,7 +44,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPrint extends AbstractViewAction {
 	
@@ -53,10 +53,11 @@ public class ActionPrint extends AbstractViewAction {
 	}
 	
 	public ActionPrint(int width, int height) {
-		super(Translations.getString("action.print"), Images.getResourceImage(
-				"print.png",
-				width,
-				height), ViewType.NOTES, ViewType.TASKS);
+		super(
+				Translations.getString("action.print"),
+				ImageUtils.getResourceImage("print.png", width, height),
+				ViewType.NOTES,
+				ViewType.TASKS);
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.print"));
 		

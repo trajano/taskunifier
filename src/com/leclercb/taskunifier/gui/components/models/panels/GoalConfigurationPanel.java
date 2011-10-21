@@ -69,7 +69,7 @@ import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 	
@@ -209,7 +209,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 		goalColor.setPreferredSize(new Dimension(24, 24));
 		goalColor.setBorder(BorderFactory.createEmptyBorder());
 		
-		removeColor.setIcon(Images.getResourceImage("remove.png", 16, 16));
+		removeColor.setIcon(ImageUtils.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
 			
 			@Override

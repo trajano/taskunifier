@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionHelp extends AbstractAction {
 	
@@ -47,10 +47,9 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public ActionHelp(int width, int height) {
-		super(Translations.getString("action.help"), Images.getResourceImage(
-				"help.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.help"),
+				ImageUtils.getResourceImage("help.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.help"));
 	}

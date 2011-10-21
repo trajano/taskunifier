@@ -266,22 +266,25 @@ public final class ComponentFactory {
 				Translations.getString("action.postpone_tasks.both"));
 		
 		postponeMenu.setToolTipText(Translations.getString("action.postpone_tasks"));
-		postponeMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		postponeMenu.setIcon(ImageUtils.getResourceImage("calendar.png", 16, 16));
 		
 		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
-		postponeStartDateMenu.setIcon(Images.getResourceImage(
+		postponeStartDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
-		postponeDueDateMenu.setIcon(Images.getResourceImage(
+		postponeDueDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
-		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		postponeBothMenu.setIcon(ImageUtils.getResourceImage(
+				"calendar.png",
+				16,
+				16));
 		
 		ActionPostponeTasks[] actions = null;
 		
@@ -324,7 +327,10 @@ public final class ComponentFactory {
 		
 		button.setText(Translations.getString("action.postpone_tasks"));
 		button.setToolTipText(Translations.getString("action.postpone_tasks"));
-		button.setIcon(Images.getResourceImage("calendar.png", width, height));
+		button.setIcon(ImageUtils.getResourceImage(
+				"calendar.png",
+				width,
+				height));
 		
 		final JPopupMenu postponeMenu = new JPopupMenu();
 		
@@ -336,19 +342,22 @@ public final class ComponentFactory {
 				Translations.getString("action.postpone_tasks.both"));
 		
 		postponeStartDateMenu.setToolTipText(Translations.getString("general.task.start_date"));
-		postponeStartDateMenu.setIcon(Images.getResourceImage(
+		postponeStartDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeDueDateMenu.setToolTipText(Translations.getString("general.task.due_date"));
-		postponeDueDateMenu.setIcon(Images.getResourceImage(
+		postponeDueDateMenu.setIcon(ImageUtils.getResourceImage(
 				"calendar.png",
 				16,
 				16));
 		
 		postponeBothMenu.setToolTipText(Translations.getString("action.postpone_tasks.both"));
-		postponeBothMenu.setIcon(Images.getResourceImage("calendar.png", 16, 16));
+		postponeBothMenu.setIcon(ImageUtils.getResourceImage(
+				"calendar.png",
+				16,
+				16));
 		
 		ActionPostponeTaskBeans[] actions = null;
 		

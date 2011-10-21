@@ -43,7 +43,7 @@ import javax.swing.TransferHandler;
 
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCopy extends AbstractAction {
 	
@@ -52,10 +52,9 @@ public class ActionCopy extends AbstractAction {
 	}
 	
 	public ActionCopy(int width, int height) {
-		super(Translations.getString("action.copy"), Images.getResourceImage(
-				"copy.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.copy"),
+				ImageUtils.getResourceImage("copy.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.copy"));
 		

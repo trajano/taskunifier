@@ -45,7 +45,7 @@ import org.jdesktop.swingx.JXEditorPane;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class AboutPanel extends JPanel {
 	
@@ -64,7 +64,7 @@ public class AboutPanel extends JPanel {
 		
 		JLabel icon = new JLabel(
 				Constants.TITLE + " - " + Constants.VERSION,
-				Images.getResourceImage("logo.png", 48, 48),
+				ImageUtils.getResourceImage("logo.png", 48, 48),
 				SwingConstants.CENTER);
 		
 		panel.add(icon, BorderLayout.CENTER);

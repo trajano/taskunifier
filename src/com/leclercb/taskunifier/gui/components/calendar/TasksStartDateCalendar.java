@@ -17,7 +17,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TasksStartDateCalendar extends TasksCalendar {
@@ -92,7 +92,10 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
 					+ TaskUtils.getImportance(task)));
 			
-			event.setIcon(Images.getResourceImage("warning_blue.png", 16, 16));
+			event.setIcon(ImageUtils.getResourceImage(
+					"warning_blue.png",
+					16,
+					16));
 			
 			this.events.add(event);
 		}

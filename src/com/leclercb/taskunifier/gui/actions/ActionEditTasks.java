@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionEditTasks extends AbstractViewAction {
 	
@@ -53,7 +53,7 @@ public class ActionEditTasks extends AbstractViewAction {
 	public ActionEditTasks(int width, int height) {
 		super(
 				Translations.getString("action.edit_tasks"),
-				Images.getResourceImage("edit.png", width, height),
+				ImageUtils.getResourceImage("edit.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

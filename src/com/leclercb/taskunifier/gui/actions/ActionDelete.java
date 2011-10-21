@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDelete extends AbstractViewAction {
 	
@@ -56,10 +56,12 @@ public class ActionDelete extends AbstractViewAction {
 	}
 	
 	public ActionDelete(int width, int height) {
-		super(Translations.getString("action.delete"), Images.getResourceImage(
-				"remove.png",
-				width,
-				height), ViewType.TASKS, ViewType.NOTES, ViewType.CALENDAR);
+		super(
+				Translations.getString("action.delete"),
+				ImageUtils.getResourceImage("remove.png", width, height),
+				ViewType.TASKS,
+				ViewType.NOTES,
+				ViewType.CALENDAR);
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

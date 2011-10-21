@@ -41,7 +41,7 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCompleteTasks extends AbstractViewAction {
 	
@@ -52,7 +52,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 	public ActionCompleteTasks(int width, int height) {
 		super(
 				Translations.getString("action.complete_tasks"),
-				Images.getResourceImage("check.png", width, height),
+				ImageUtils.getResourceImage("check.png", width, height),
 				ViewType.TASKS,
 				ViewType.CALENDAR);
 		

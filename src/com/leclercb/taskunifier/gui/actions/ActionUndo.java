@@ -44,7 +44,7 @@ import com.leclercb.commons.gui.swing.undo.IRedoListener;
 import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
 	
@@ -62,10 +62,9 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 			UndoableEditSupport editSupport,
 			int width,
 			int height) {
-		super(Translations.getString("action.undo"), Images.getResourceImage(
-				"undo.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.undo"),
+				ImageUtils.getResourceImage("undo.png", width, height));
 		
 		CheckUtils.isNotNull(undoManager, "Undo manager cannot be null");
 		CheckUtils.isNotNull(editSupport, "Edit support cannot be null");

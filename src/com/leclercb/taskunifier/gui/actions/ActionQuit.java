@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionQuit extends AbstractAction {
 	
@@ -51,10 +51,9 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 	public ActionQuit(int width, int height) {
-		super(Translations.getString("action.quit"), Images.getResourceImage(
-				"exit.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.quit"),
+				ImageUtils.getResourceImage("exit.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.quit"));
 		

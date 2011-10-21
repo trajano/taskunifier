@@ -39,7 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionChangeViewCalendar extends AbstractAction {
 	
@@ -50,7 +50,7 @@ public class ActionChangeViewCalendar extends AbstractAction {
 	public ActionChangeViewCalendar(int width, int height) {
 		super(
 				Translations.getString("action.change_view_calendar"),
-				Images.getResourceImage(
+				ImageUtils.getResourceImage(
 						"change_view_calendar.png",
 						width,
 						height));

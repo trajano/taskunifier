@@ -50,7 +50,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {
@@ -64,7 +64,7 @@ public class ActionCheckVersion extends AbstractAction {
 	public ActionCheckVersion(boolean silent, int width, int height) {
 		super(
 				Translations.getString("action.check_version"),
-				Images.getResourceImage("download.png", width, height));
+				ImageUtils.getResourceImage("download.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,

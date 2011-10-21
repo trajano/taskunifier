@@ -39,7 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionSave extends AbstractAction {
 	
@@ -48,10 +48,9 @@ public class ActionSave extends AbstractAction {
 	}
 	
 	public ActionSave(int width, int height) {
-		super(Translations.getString("action.save"), Images.getResourceImage(
-				"save.png",
-				width,
-				height));
+		super(
+				Translations.getString("action.save"),
+				ImageUtils.getResourceImage("save.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.save"));
 	}

@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class SearcherEditDialog extends JDialog {
 	
@@ -74,7 +74,7 @@ public class SearcherEditDialog extends JDialog {
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.edit_searcher"));
 		header.setDescription(Translations.getString("header.description.edit_searcher"));
-		header.setIcon(Images.getResourceImage("search.png", 32, 32));
+		header.setIcon(ImageUtils.getResourceImage("search.png", 32, 32));
 		
 		this.searcherEditPanel = new SearcherEditPanel(searcher);
 		

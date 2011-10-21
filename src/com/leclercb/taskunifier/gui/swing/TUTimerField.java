@@ -45,7 +45,7 @@ import javax.swing.event.ChangeListener;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Timer;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TUTimerField extends JPanel {
 	
@@ -98,8 +98,11 @@ public class TUTimerField extends JPanel {
 		this.timeSpinner.setEditor(new TUSpinnerTimeEditor(this.timeSpinner));
 		
 		this.button = new JToggleButton();
-		this.button.setIcon(Images.getResourceImage("pause.png", 16, 16));
-		this.button.setSelectedIcon(Images.getResourceImage("play.png", 16, 16));
+		this.button.setIcon(ImageUtils.getResourceImage("pause.png", 16, 16));
+		this.button.setSelectedIcon(ImageUtils.getResourceImage(
+				"play.png",
+				16,
+				16));
 		
 		this.button.setBorderPainted(false);
 		this.button.setContentAreaFilled(false);

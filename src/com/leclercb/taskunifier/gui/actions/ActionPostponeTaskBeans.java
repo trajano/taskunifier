@@ -13,7 +13,7 @@ import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPostponeTaskBeans extends AbstractAction {
 	
@@ -40,7 +40,7 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 			int amount,
 			int width,
 			int height) {
-		super(title, Images.getResourceImage("calendar.png", width, height));
+		super(title, ImageUtils.getResourceImage("calendar.png", width, height));
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		

@@ -36,7 +36,7 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueEdit implements IconValue {
 	
@@ -48,7 +48,7 @@ public class IconValueEdit implements IconValue {
 	
 	@Override
 	public Icon getIcon(Object value) {
-		return Images.getResourceImage("edit.png", 16, 16);
+		return ImageUtils.getResourceImage("edit.png", 16, 16);
 	}
 	
 }

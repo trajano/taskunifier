@@ -14,19 +14,19 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.Images;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public enum ViewType implements ActionSupported {
 	
-	TASKS(Translations.getString("general.tasks"), Images.getResourceImage(
+	TASKS(Translations.getString("general.tasks"), ImageUtils.getResourceImage(
 			"task.png",
 			16,
 			16)),
-	NOTES(Translations.getString("general.notes"), Images.getResourceImage(
+	NOTES(Translations.getString("general.notes"), ImageUtils.getResourceImage(
 			"note.png",
 			16,
 			16)),
-	CALENDAR(Translations.getString("general.calendar"), Images.getResourceImage(
+	CALENDAR(Translations.getString("general.calendar"), ImageUtils.getResourceImage(
 			"calendar.png",
 			16,
 			16));
