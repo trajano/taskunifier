@@ -70,6 +70,12 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.Separator()));
 		
 		this.addField(new ConfigurationField(
+				"BACKUP_BEFORE_SYNC",
+				Translations.getString("configuration.backup.backup_before_sync"),
+				new ConfigurationFieldType.CheckBox(
+						"general.backup.backup_before_sync")));
+		
+		this.addField(new ConfigurationField(
 				"AUTO_BACKUP",
 				Translations.getString("configuration.backup.auto_backup_every"),
 				new AutoBackupEveryFieldType()));

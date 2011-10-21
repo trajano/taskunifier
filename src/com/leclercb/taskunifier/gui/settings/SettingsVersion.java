@@ -969,6 +969,9 @@ public final class SettingsVersion {
 		
 		Main.SETTINGS.setStringProperty("view.notes.window.split", "0");
 		Main.SETTINGS.setStringProperty("general.backup.auto_backup_every", "7");
+		Main.SETTINGS.setStringProperty(
+				"general.backup.backup_before_sync",
+				"false");
 		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "10");
 		
 		return "1.8.0";

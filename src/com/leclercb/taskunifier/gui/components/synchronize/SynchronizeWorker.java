@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizeWorker extends SwingWorker<Void, Void> {
@@ -82,6 +83,9 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			monitor.addListChangeListener(this.handler);
 		
 		try {
+			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
+				BackupUtils.createNewBackup();
+			
 			ActionSave.save();
 			
 			if (!Synchronizing.setSynchronizing(true))
