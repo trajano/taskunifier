@@ -34,14 +34,14 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.backup;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.commons.values.StringValueBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
 public class BackupListFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public BackupListFieldType() {
-		super(ActionCreateNewBackup.getBackupList().toArray());
+		super(BackupUtils.getBackupList().toArray());
 		
 		this.setRenderer(new DefaultListRenderer(StringValueBackup.INSTANCE));
 	}

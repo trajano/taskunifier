@@ -33,23 +33,11 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileFilter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
-import org.apache.commons.io.FileUtils;
-
-import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.Images;
 
 public class ActionCreateNewBackup extends AbstractAction {
@@ -70,139 +58,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionCreateNewBackup.createNewBackup();
-	}
-	
-	public static void autoBackup(int nbDays) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
-		List<String> list = getBackupList();
-		
-		if (list.size() == 0) {
-			createNewBackup();
-			return;
-		}
-		
-		try {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(format.parse(list.get(list.size() - 1)));
-			
-			Calendar past = Calendar.getInstance();
-			past.add(Calendar.DAY_OF_MONTH, -nbDays);
-			
-			if (calendar.compareTo(past) <= 0)
-				createNewBackup();
-		} catch (Exception e) {
-			
-		}
-	}
-	
-	public static void createNewBackup() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
-		String folder = format.format(Calendar.getInstance().getTime());
-		
-		if (!checkBackupFolder(folder))
-			return;
-		
-		folder = Main.BACKUP_FOLDER + File.separator + folder;
-		Main.saveAll(folder);
-		GuiLogger.getLogger().info("Backup created: " + folder);
-	}
-	
-	public static boolean checkBackupFolder(String folder) {
-		folder = Main.BACKUP_FOLDER + File.separator + folder;
-		
-		File file = new File(folder);
-		if (!file.exists()) {
-			if (!file.mkdir()) {
-				JOptionPane.showMessageDialog(
-						null,
-						Translations.getString(
-								"error.folder_not_a_folder",
-								folder),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		} else if (!file.isDirectory()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("error.folder_not_a_folder", folder),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public static void restoreBackup(String folder) {
-		if (!checkBackupFolder(folder))
-			return;
-		
-		if (!Synchronizing.setSynchronizing(true))
-			return;
-		
-		folder = Main.BACKUP_FOLDER + File.separator + folder;
-		Main.loadAll(folder);
-		
-		Synchronizing.setSynchronizing(false);
-	}
-	
-	public static List<String> getBackupList() {
-		File folder = new File(Main.BACKUP_FOLDER);
-		File[] backups = folder.listFiles(new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				if (!pathname.isDirectory())
-					return false;
-				
-				if (!pathname.getName().matches("[0-9]{8}_[0-9]{6}"))
-					return false;
-				
-				return true;
-			}
-		});
-		
-		List<String> list = new ArrayList<String>();
-		for (File file : backups) {
-			list.add(file.getName());
-		}
-		
-		Collections.sort(list);
-		return list;
-	}
-	
-	public static void removeBackup(String folder) {
-		if (!checkBackupFolder(folder))
-			return;
-		
-		String path = Main.BACKUP_FOLDER + File.separator + folder;
-		
-		try {
-			FileUtils.deleteDirectory(new File(path));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		
-		GuiLogger.getLogger().info("Backup removed: " + folder);
-	}
-	
-	public static void cleanBackups(int nbToKeep) {
-		List<String> list = getBackupList();
-		
-		if (nbToKeep < 1)
-			throw new IllegalArgumentException();
-		
-		while (list.size() > nbToKeep) {
-			removeBackup(list.get(0));
-			list.remove(0);
-		}
+		BackupUtils.createNewBackup();
 	}
 	
 }

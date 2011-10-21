@@ -76,7 +76,6 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
-import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -108,6 +107,7 @@ import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
@@ -553,10 +553,10 @@ public class Main {
 				GuiLocationBean.class);
 		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
-		loadAll(DATA_FOLDER);
+		loadAllData(DATA_FOLDER);
 	}
 	
-	public static void loadAll(String folder) {
+	public static void loadAllData(String folder) {
 		loadModels(folder);
 		loadTaskTemplates(folder);
 		loadTaskSearchers(folder);
@@ -830,12 +830,12 @@ public class Main {
 	
 	private static void autoBackup() {
 		int nbDays = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
-		ActionCreateNewBackup.autoBackup(nbDays);
+		BackupUtils.autoBackup(nbDays);
 	}
 	
 	private static void cleanBackups() {
 		int nbToKeep = SETTINGS.getIntegerProperty("general.backup.keep_backups");
-		ActionCreateNewBackup.cleanBackups(nbToKeep);
+		BackupUtils.cleanBackups(nbToKeep);
 	}
 	
 	public static void quit() {
@@ -865,7 +865,7 @@ public class Main {
 				"general.last_exit_date",
 				Calendar.getInstance());
 		
-		saveAll(DATA_FOLDER);
+		saveAllData(DATA_FOLDER);
 		
 		MainFrame.getInstance().getFrame().dispose();
 		
@@ -874,7 +874,7 @@ public class Main {
 		System.exit(0);
 	}
 	
-	public static void saveAll(String folder) {
+	public static void saveAllData(String folder) {
 		saveModels(folder);
 		saveTaskTemplates(folder);
 		saveTaskSearchers(folder);
