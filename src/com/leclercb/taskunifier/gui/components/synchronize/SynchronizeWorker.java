@@ -84,7 +84,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 		
 		try {
 			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
-				BackupUtils.createNewBackup();
+				BackupUtils.getInstance().createNewBackup();
 			
 			ActionSave.save();
 			

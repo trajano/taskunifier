@@ -830,12 +830,12 @@ public class Main {
 	
 	private static void autoBackup() {
 		int nbDays = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
-		BackupUtils.autoBackup(nbDays);
+		BackupUtils.getInstance().autoBackup(nbDays);
 	}
 	
 	private static void cleanBackups() {
 		int nbToKeep = SETTINGS.getIntegerProperty("general.backup.keep_backups");
-		BackupUtils.cleanBackups(nbToKeep);
+		BackupUtils.getInstance().cleanBackups(nbToKeep);
 	}
 	
 	public static void quit() {

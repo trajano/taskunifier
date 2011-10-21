@@ -30,35 +30,38 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.commons.models;
 
-import java.awt.event.ActionEvent;
+import java.util.List;
 
-import javax.swing.AbstractAction;
+import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionCreateNewBackup extends AbstractAction {
+public class BackupModel extends DefaultComboBoxModel implements ListChangeListener {
 	
-	public ActionCreateNewBackup() {
-		this(32, 32);
-	}
-	
-	public ActionCreateNewBackup(int width, int height) {
-		super(
-				Translations.getString("action.create_new_backup"),
-				ImageUtils.getResourceImage("save.png", width, height));
+	public BackupModel(boolean firstNull) {
+		List<String> backups = BackupUtils.getInstance().getBackupList();
 		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.create_new_backup"));
+		if (firstNull)
+			this.addElement(null);
+		
+		for (String backup : backups)
+			this.addElement(backup);
+		
+		BackupUtils.getInstance().addListChangeListener(this);
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		BackupUtils.getInstance().createNewBackup();
+	public void listChange(ListChangeEvent evt) {
+		String backup = (String) evt.getValue();
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.addElement(backup);
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.removeElement(backup);
 	}
 	
 }

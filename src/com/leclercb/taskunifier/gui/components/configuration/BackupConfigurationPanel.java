@@ -107,8 +107,9 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								if (backupList.getSelectedItem() != null) {
-									BackupUtils.createNewBackup();
-									BackupUtils.restoreBackup((String) backupList.getSelectedItem());
+									BackupUtils.getInstance().createNewBackup();
+									BackupUtils.getInstance().restoreBackup(
+											(String) backupList.getSelectedItem());
 								}
 							}
 							
