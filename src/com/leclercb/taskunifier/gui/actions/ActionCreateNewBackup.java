@@ -73,6 +73,29 @@ public class ActionCreateNewBackup extends AbstractAction {
 		ActionCreateNewBackup.createNewBackup();
 	}
 	
+	public static void autoBackup(int nbDays) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+		List<String> list = getBackupList();
+		
+		if (list.size() == 0) {
+			createNewBackup();
+			return;
+		}
+		
+		try {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(format.parse(list.get(list.size() - 1)));
+			
+			Calendar past = Calendar.getInstance();
+			past.add(Calendar.DAY_OF_MONTH, -nbDays);
+			
+			if (calendar.compareTo(past) <= 0)
+				createNewBackup();
+		} catch (Exception e) {
+			
+		}
+	}
+	
 	public static void createNewBackup() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
 		String folder = format.format(Calendar.getInstance().getTime());
@@ -82,6 +105,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 		
 		folder = Main.BACKUP_FOLDER + File.separator + folder;
 		Main.saveAll(folder);
+		GuiLogger.getLogger().info("Backup created: " + folder);
 	}
 	
 	public static boolean checkBackupFolder(String folder) {

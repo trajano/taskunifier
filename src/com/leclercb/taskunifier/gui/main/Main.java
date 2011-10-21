@@ -163,6 +163,8 @@ public class Main {
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
 			loadShutdownHook();
+			
+			autoBackup();
 			cleanBackups();
 			
 			Constants.initialize();
@@ -826,8 +828,13 @@ public class Main {
 		});
 	}
 	
+	private static void autoBackup() {
+		int nbDays = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+		ActionCreateNewBackup.autoBackup(nbDays);
+	}
+	
 	private static void cleanBackups() {
-		int nbToKeep = SETTINGS.getIntegerProperty("general.keep_backups");
+		int nbToKeep = SETTINGS.getIntegerProperty("general.backup.keep_backups");
 		ActionCreateNewBackup.cleanBackups(nbToKeep);
 	}
 	

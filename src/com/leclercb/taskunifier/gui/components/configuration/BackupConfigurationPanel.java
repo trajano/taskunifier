@@ -42,6 +42,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.fields.backup.AutoBackupEveryFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -55,6 +56,11 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
+		this.addField(new ConfigurationField(
+				"AUTO_BACKUP",
+				Translations.getString("configuration.backup.auto_backup_every"),
+				new AutoBackupEveryFieldType()));
+		
 		this.addField(new ConfigurationField(
 				"KEEP_BACKUPS",
 				Translations.getString("configuration.backup.keep_backups"),

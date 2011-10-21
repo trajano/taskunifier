@@ -38,15 +38,15 @@ import javax.swing.SpinnerNumberModel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
+public class AutoBackupEveryFieldType extends ConfigurationFieldType.Spinner {
 	
-	public KeepBackupsFieldType() {
-		super("general.backup.keep_backups");
+	public AutoBackupEveryFieldType() {
+		super("general.backup.auto_backup_every");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
 				1,
-				1000,
+				365,
 				1));
 		
 		this.setEditor(new JSpinner.NumberEditor(this));
@@ -54,10 +54,10 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = Main.SETTINGS.getIntegerProperty("general.backup.keep_backups");
+		Integer value = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
 		
-		if (value == null || value < 1 || value > 1000)
-			value = 10;
+		if (value == null || value < 1 || value > 365)
+			value = 7;
 		
 		return value;
 	}
@@ -65,7 +65,7 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	@Override
 	public void saveAndApplyConfig() {
 		Main.SETTINGS.setIntegerProperty(
-				"general.backup.keep_backups",
+				"general.backup.auto_backup_every",
 				(Integer) this.getFieldValue());
 	}
 	
