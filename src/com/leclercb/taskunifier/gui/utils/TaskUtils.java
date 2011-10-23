@@ -513,7 +513,7 @@ public final class TaskUtils {
 		return showTask(
 				task,
 				filter,
-				containsCompletedTrue(filter),
+				containsCompleted(filter),
 				false,
 				true,
 				false);
@@ -523,7 +523,7 @@ public final class TaskUtils {
 		return showTask(
 				task,
 				filter,
-				containsCompletedTrue(filter),
+				containsCompleted(filter),
 				false,
 				false,
 				false);
@@ -533,7 +533,7 @@ public final class TaskUtils {
 		return showTask(
 				task,
 				filter,
-				containsCompletedTrue(filter),
+				containsCompleted(filter),
 				true,
 				true,
 				true);
@@ -542,7 +542,7 @@ public final class TaskUtils {
 	private static boolean showTask(
 			Task task,
 			TaskFilter filter,
-			boolean containsCompletedTrue,
+			boolean containsCompleted,
 			boolean skipParentCheck,
 			boolean skipShowChildren,
 			boolean skipShowIfParentShown) {
@@ -559,7 +559,7 @@ public final class TaskUtils {
 					if (showTask(
 							child,
 							filter,
-							containsCompletedTrue,
+							containsCompleted,
 							false,
 							skipShowChildren,
 							skipShowIfParentShown))
@@ -575,7 +575,7 @@ public final class TaskUtils {
 		}
 		
 		if (!Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks")) {
-			if (task.isCompleted() && !containsCompletedTrue)
+			if (task.isCompleted() && !containsCompleted)
 				return false;
 		}
 		
@@ -583,7 +583,7 @@ public final class TaskUtils {
 			if (showTask(
 					task.getParent(),
 					filter,
-					containsCompletedTrue,
+					containsCompleted,
 					true,
 					skipShowChildren,
 					skipShowIfParentShown))
@@ -596,7 +596,7 @@ public final class TaskUtils {
 		return filter.include(task);
 	}
 	
-	private static boolean containsCompletedTrue(TaskFilter filter) {
+	private static boolean containsCompleted(TaskFilter filter) {
 		if (filter == null)
 			return false;
 		
@@ -605,13 +605,12 @@ public final class TaskUtils {
 		
 		for (TaskFilterElement e : elements) {
 			if (e.getProperty() == TaskColumn.COMPLETED) {
-				if (e.getValue().toString().equals("true"))
-					return true;
+				return true;
 			}
 		}
 		
 		for (TaskFilter f : filters) {
-			if (containsCompletedTrue(f))
+			if (containsCompleted(f))
 				return true;
 		}
 		

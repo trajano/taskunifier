@@ -95,6 +95,10 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		
 		// Not Completed
 		filter = new TaskFilter();
+		filter.addElement(new TaskFilterElement(
+				TaskColumn.COMPLETED,
+				StringCondition.EQUALS,
+				"false"));
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
