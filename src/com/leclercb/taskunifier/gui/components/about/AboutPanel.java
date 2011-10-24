@@ -32,13 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.components.about;
 
-import java.awt.BorderLayout;
 import java.util.Properties;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXEditorPane;
 
@@ -54,25 +53,11 @@ public class AboutPanel extends JPanel {
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
-		
-		JPanel panel = null;
-		
-		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.setLayout(new MigLayout());
 		
 		JLabel icon = new JLabel(
-				Constants.TITLE + " - " + Constants.VERSION,
-				ImageUtils.getResourceImage("logo.png", 48, 48),
-				SwingConstants.CENTER);
-		
-		panel.add(icon, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.NORTH);
-		
-		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+				ImageUtils.getResourceImage("logo.png", 48, 48));
+		JLabel title = new JLabel(Constants.TITLE + " - " + Constants.VERSION);
 		
 		JXEditorPane aboutMessage = new JXEditorPane();
 		aboutMessage.setContentType("text/html");
@@ -80,11 +65,9 @@ public class AboutPanel extends JPanel {
 		aboutMessage.setText(this.getAboutMessage());
 		aboutMessage.setCaretPosition(0);
 		
-		panel.add(
-				ComponentFactory.createJScrollPane(aboutMessage, true),
-				BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.CENTER);
+		this.add(icon, "gap 0px 20px");
+		this.add(title, "wrap 20px");
+		this.add(ComponentFactory.createJScrollPane(aboutMessage, true), "span");
 	}
 	
 	private String getAboutMessage() {
