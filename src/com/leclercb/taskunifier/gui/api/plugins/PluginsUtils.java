@@ -93,7 +93,13 @@ public class PluginsUtils {
 		
 		try {
 			File tmpFile = File.createTempFile("taskunifier_plugin_", ".jar");
-			tmpFile.deleteOnExit();
+			
+			try {
+				tmpFile.deleteOnExit();
+			} catch (Throwable t) {
+				
+			}
+			
 			org.apache.commons.io.FileUtils.copyFile(file, tmpFile);
 			
 			List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(
