@@ -39,26 +39,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
 
-import org.jdesktop.swingx.renderer.DefaultListRenderer;
+import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
-import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
-import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
-import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class BatchAddTaskDialog extends JDialog {
 	
@@ -70,9 +57,6 @@ public class BatchAddTaskDialog extends JDialog {
 		
 		return INSTANCE;
 	}
-	
-	private JTextArea answerTextArea;
-	private JComboBox templateComboBox;
 	
 	private BatchAddTaskDialog() {
 		super(MainFrame.getInstance().getFrame());
@@ -90,91 +74,36 @@ public class BatchAddTaskDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JXHeader header = new JXHeader();
+		header.setTitle(Translations.getString("general.batch_add_tasks"));
+		header.setDescription(Translations.getString("batch_add_tasks.insert_task_titles"));
+		header.setIcon(ImageUtils.getResourceImage("batch.png", 32, 32));
+		
+		final BatchAddTaskPanel batchPanel = new BatchAddTaskPanel();
+		batchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		
+		this.add(header, BorderLayout.NORTH);
+		this.add(batchPanel, BorderLayout.CENTER);
+		
 		this.addWindowListener(new WindowAdapter() {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				BatchAddTaskDialog.this.answerTextArea.setText(null);
-				BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
-				
+				batchPanel.actionCancel();
+			}
+			
+		});
+		
+		batchPanel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				BatchAddTaskDialog.this.setVisible(false);
 			}
 			
 		});
 		
-		JPanel panel = null;
-		
-		panel = new JPanel(new BorderLayout(20, 0));
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
-		this.add(panel, BorderLayout.NORTH);
-		
-		JLabel icon = new JLabel(UIManager.getIcon("OptionPane.questionIcon"));
-		panel.add(icon, BorderLayout.WEST);
-		
-		JLabel question = new JLabel(
-				Translations.getString("batch_add_tasks.insert_task_titles"));
-		panel.add(question, BorderLayout.CENTER);
-		
-		panel = new JPanel(new BorderLayout(0, 5));
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
-		
-		this.answerTextArea = new JTextArea();
-		this.answerTextArea.setEditable(true);
-		
-		JPanel templatePanel = new JPanel();
-		templatePanel.setLayout(new BorderLayout());
-		
-		this.templateComboBox = new JComboBox();
-		this.templateComboBox.setModel(new TaskTemplateModel(true));
-		this.templateComboBox.setRenderer(new DefaultListRenderer(
-				StringValueTaskTemplateTitle.INSTANCE));
-		
-		templatePanel.add(new JLabel(Translations.getString("general.template")
-				+ ": "), BorderLayout.WEST);
-		templatePanel.add(this.templateComboBox, BorderLayout.CENTER);
-		
-		panel.add(
-				ComponentFactory.createJScrollPane(this.answerTextArea, true),
-				BorderLayout.CENTER);
-		panel.add(templatePanel, BorderLayout.SOUTH);
-		
-		this.add(panel, BorderLayout.CENTER);
-		
-		this.initializeButtonsPanel();
-	}
-	
-	private void initializeButtonsPanel() {
-		ActionListener listener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				if (event.getActionCommand().equals("OK")) {
-					String answer = BatchAddTaskDialog.this.answerTextArea.getText();
-					TaskTemplate template = (TaskTemplate) BatchAddTaskDialog.this.templateComboBox.getSelectedItem();
-					
-					if (answer == null)
-						return;
-					
-					String[] titles = answer.split("\n");
-					
-					ActionBatchAddTasks.batchAddTasks(template, titles);
-				}
-				
-				BatchAddTaskDialog.this.answerTextArea.setText(null);
-				BatchAddTaskDialog.this.templateComboBox.setSelectedItem(null);
-				
-				BatchAddTaskDialog.this.setVisible(false);
-			}
-			
-		};
-		
-		JButton okButton = new TUOkButton(listener);
-		JButton cancelButton = new TUCancelButton(listener);
-		
-		JPanel panel = new TUButtonsPanel(okButton, cancelButton);
-		
-		this.add(panel, BorderLayout.SOUTH);
-		this.getRootPane().setDefaultButton(okButton);
+		this.getRootPane().setDefaultButton(batchPanel.getOkButton());
 	}
 	
 }
