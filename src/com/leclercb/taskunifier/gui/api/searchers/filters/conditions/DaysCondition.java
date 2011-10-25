@@ -62,37 +62,11 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	
 	@Override
 	public boolean include(Integer value, Calendar taskValue) {
-		Calendar conditionValue = Calendar.getInstance();
-		taskValue = DateUtils.cloneCalendar(taskValue);
-		
-		if (this != GREATER_THAN_USING_TIME && this != LESS_THAN_USING_TIME) {
-			conditionValue.set(
-					conditionValue.get(Calendar.YEAR),
-					conditionValue.get(Calendar.MONTH),
-					conditionValue.get(Calendar.DAY_OF_MONTH),
-					0,
-					0,
-					0);
-			
-			taskValue.set(
-					taskValue.get(Calendar.YEAR),
-					taskValue.get(Calendar.MONTH),
-					taskValue.get(Calendar.DAY_OF_MONTH),
-					0,
-					0,
-					0);
-		}
-		
-		long milliSeconds1 = taskValue.getTimeInMillis();
-		long milliSeconds2 = conditionValue.getTimeInMillis();
-		long diff = milliSeconds1 - milliSeconds2;
-		double diffDays;
-		
-		if (this != GREATER_THAN_USING_TIME && this != LESS_THAN_USING_TIME) {
-			diffDays = Math.round(diff / (24 * 60 * 60 * 1000.0));
-		} else {
-			diffDays = diff / (24 * 60 * 60 * 1000.0);
-		}
+		boolean useTime = (this == GREATER_THAN_USING_TIME || this == LESS_THAN_USING_TIME);
+		double diffDays = DateUtils.getDiffInDays(
+				Calendar.getInstance(),
+				taskValue,
+				useTime);
 		
 		switch (this) {
 			case EQUALS:
