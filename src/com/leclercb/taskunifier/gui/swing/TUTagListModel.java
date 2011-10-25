@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.tagselector;
+package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -14,11 +14,11 @@ import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 
-public class TaskTagListModel extends DefaultListModel implements ListChangeSupported, ListChangeListener, ItemListener {
+public class TUTagListModel extends DefaultListModel implements ListChangeSupported, ListChangeListener, ItemListener {
 	
 	private ListChangeSupport listChangeSupport;
 	
-	public TaskTagListModel() {
+	public TUTagListModel() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		
 		TagList tags = TaskTagList.getInstance().getTags();

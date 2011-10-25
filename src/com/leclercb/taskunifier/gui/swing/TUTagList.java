@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.components.tagselector;
+package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -14,19 +14,18 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
-import com.leclercb.taskunifier.gui.swing.TUCheckBoxList;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class JTaskTagList extends JPanel {
+public class TUTagList extends JPanel {
 	
 	private JTextField text;
 	private JButton button;
 	private JPopupMenu popup;
 	private TUCheckBoxList list;
-	private TaskTagListModel model;
+	private TUTagListModel model;
 	
-	public JTaskTagList() {
+	public TUTagList() {
 		this.initialize();
 	}
 	
@@ -67,27 +66,27 @@ public class JTaskTagList extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String text = JTaskTagList.this.text.getText();
+				String text = TUTagList.this.text.getText();
 				String[] tags = text.split(",");
 				for (int i = 0; i < tags.length; i++) {
 					tags[i] = tags[i].trim();
 				}
 				
-				JTaskTagList.this.model.updateCheckBoxStates(tags);
+				TUTagList.this.model.updateCheckBoxStates(tags);
 				
-				JTaskTagList.this.popup.show(
-						JTaskTagList.this.button,
+				TUTagList.this.popup.show(
+						TUTagList.this.button,
 						e.getX(),
 						e.getY());
 			}
 			
 		});
 		
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		JPanel popupPanel = new JPanel(new BorderLayout());
+		popupPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.list = new TUCheckBoxList();
-		this.model = new TaskTagListModel();
+		this.model = new TUTagListModel();
 		this.list.setModel(this.model);
 		
 		this.model.addListChangeListener(new ListChangeListener() {
@@ -95,7 +94,7 @@ public class JTaskTagList extends JPanel {
 			@Override
 			public void listChange(ListChangeEvent event) {
 				Tag tag = (Tag) event.getValue();
-				TagList tags = TagList.fromString(JTaskTagList.this.text.getText());
+				TagList tags = TagList.fromString(TUTagList.this.text.getText());
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 					tags.addTag(tag);
@@ -103,14 +102,14 @@ public class JTaskTagList extends JPanel {
 					tags.removeTag(tag);
 				}
 				
-				JTaskTagList.this.text.setText(tags.toString());
+				TUTagList.this.text.setText(tags.toString());
 			}
 			
 		});
 		
-		panel.add(ComponentFactory.createJScrollPane(this.list, false));
+		popupPanel.add(ComponentFactory.createJScrollPane(this.list, false));
 		
-		this.popup.add(panel);
+		this.popup.add(popupPanel);
 		
 		this.add(this.text, BorderLayout.CENTER);
 		this.add(this.button, BorderLayout.EAST);

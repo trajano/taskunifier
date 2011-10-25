@@ -38,18 +38,18 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
+import com.leclercb.taskunifier.gui.swing.TUTagList;
 
 public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	
-	private JTaskTagList taskTags;
+	private TUTagList taskTags;
 	
 	public TagsEditor() {
 		this.initialize();
 	}
 	
 	private void initialize() {
-		this.taskTags = new JTaskTagList();
+		this.taskTags = new TUTagList();
 	}
 	
 	@Override

@@ -78,11 +78,11 @@ import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.tagselector.JTaskTagList;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeModel;
+import com.leclercb.taskunifier.gui.swing.TUTagList;
 import com.leclercb.taskunifier.gui.swing.TUTimerField;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -120,7 +120,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private JCheckBox taskNoteCheckBox;
 	
 	private JTextField taskTitle;
-	private JTaskTagList taskTags;
+	private TUTagList taskTags;
 	private JComboBox taskFolder;
 	private JComboBox taskContext;
 	private JComboBox taskGoal;
@@ -382,7 +382,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskNoteCheckBox = new JCheckBox("", true);
 		
 		this.taskTitle = new JTextField();
-		this.taskTags = new JTaskTagList();
+		this.taskTags = new TUTagList();
 		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
 		this.taskContext = ComponentFactory.createModelComboBox(null, true);
 		this.taskGoal = ComponentFactory.createModelComboBox(null, true);
