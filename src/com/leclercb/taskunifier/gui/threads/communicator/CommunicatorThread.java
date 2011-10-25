@@ -2,8 +2,6 @@ package com.leclercb.taskunifier.gui.threads.communicator;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -11,22 +9,21 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class CommunicatorThread extends Thread {
 	
 	private int port;
-	private List<CommunicatorClient> clients;
+	private ThreadGroup group;
 	
 	public CommunicatorThread() {
+		super("CommunicatorThread");
+		
 		this.port = Main.SETTINGS.getIntegerProperty("general.communicator.port");
-		this.clients = new ArrayList<CommunicatorClient>();
+		this.group = new ThreadGroup("CommunicatorGroup");
 	}
 	
 	@Override
 	public void interrupt() {
-		for (CommunicatorClient client : this.clients) {
-			try {
-				if (!client.isInterrupted())
-					client.interrupt();
-			} catch (Throwable t) {
-				
-			}
+		try {
+			this.group.interrupt();
+		} catch (Throwable t) {
+			
 		}
 		
 		GuiLogger.getLogger().info("Communicator closed on port " + this.port);
@@ -46,8 +43,9 @@ public class CommunicatorThread extends Thread {
 			
 			while (true) {
 				CommunicatorClient client = new CommunicatorClient(
+						this.group,
 						serverSocket.accept());
-				this.clients.add(client);
+				
 				client.start();
 			}
 		} catch (Exception e) {

@@ -51,6 +51,8 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	private boolean paused;
 	
 	public ScheduledSyncThread() {
+		super("ScheduledSyncThread");
+		
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");

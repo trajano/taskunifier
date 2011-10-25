@@ -27,7 +27,9 @@ public class CommunicatorClient extends Thread {
 	private Socket socket;
 	private BufferedReader reader;
 	
-	public CommunicatorClient(Socket socket) {
+	public CommunicatorClient(ThreadGroup group, Socket socket) {
+		super(group, "CommunicatorClient");
+		
 		try {
 			this.socket = socket;
 			this.reader = new BufferedReader(new InputStreamReader(
