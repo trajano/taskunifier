@@ -32,17 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.components.review;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXEditorPane;
 
@@ -60,25 +59,12 @@ public class ReviewPanel extends JPanel {
 	}
 	
 	private void initialize() {
-		this.setLayout(new BorderLayout());
-		
-		JPanel panel = null;
-		
-		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.setLayout(new MigLayout());
 		
 		JLabel icon = new JLabel(Constants.TITLE, ImageUtils.getResourceImage(
 				"logo.png",
 				48,
 				48), SwingConstants.CENTER);
-		
-		panel.add(icon, BorderLayout.CENTER);
-		
-		this.add(panel, BorderLayout.NORTH);
-		
-		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
 		
 		JXEditorPane pane = new JXEditorPane();
 		pane.setContentType("text/html");
@@ -88,6 +74,7 @@ public class ReviewPanel extends JPanel {
 		
 		JButton reviewButton = new JButton(
 				Translations.getString("review.link"));
+		
 		reviewButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -107,17 +94,11 @@ public class ReviewPanel extends JPanel {
 			
 		});
 		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		buttonsPanel.add(reviewButton);
-		
-		panel.add(
+		this.add(icon, "center, wrap 15px");
+		this.add(
 				ComponentFactory.createJScrollPane(pane, true),
-				BorderLayout.CENTER);
-		panel.add(buttonsPanel, BorderLayout.SOUTH);
-		
-		this.add(panel, BorderLayout.CENTER);
+				"grow, push, wrap");
+		this.add(reviewButton, "center");
 	}
 	
 }

@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public class ReminderComparator implements Comparator<Task> {
+class ReminderComparator implements Comparator<Task> {
 	
 	private ModelComparator modelComparator;
 	
