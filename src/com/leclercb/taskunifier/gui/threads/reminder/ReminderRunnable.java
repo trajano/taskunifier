@@ -32,11 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.threads.reminder;
 
-import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
@@ -91,7 +92,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 			}
 			
 			if (reminders) {
-				EventQueue.invokeLater(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {
