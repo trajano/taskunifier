@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public enum TaskColumn implements ModelProperties<Task> {
 	
-	MODEL(Task.class, Translations.getString("general.id"), false),
+	MODEL(Task.class, Translations.getString("general.task.id"), false),
 	MODEL_EDIT(Void.class, Translations.getString("general.edit"), false),
 	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
 	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),

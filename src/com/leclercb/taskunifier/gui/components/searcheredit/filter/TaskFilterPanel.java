@@ -78,9 +78,6 @@ public class TaskFilterPanel extends JPanel {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		JPanel treePanel = new JPanel();
-		treePanel.setLayout(new BorderLayout());
-		
 		this.tree = new TaskFilterTree(this.filter);
 		this.tree.getSelectionModel().addTreeSelectionListener(
 				new TreeSelectionListener() {
@@ -115,11 +112,9 @@ public class TaskFilterPanel extends JPanel {
 					
 				});
 		
-		treePanel.add(
+		this.add(
 				ComponentFactory.createJScrollPane(this.tree, true),
 				BorderLayout.CENTER);
-		
-		this.add(treePanel, BorderLayout.CENTER);
 		
 		this.initializeButtons();
 	}

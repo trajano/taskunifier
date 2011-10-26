@@ -48,7 +48,6 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F extends Filter<M, MP, F, FE>, FE extends FilterElement<M, MP, F>> implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
@@ -280,18 +279,27 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		if (this.elements.size() == 0 && this.filters.size() == 0)
 			return "";
 		
-		StringBuffer buffer = new StringBuffer(
-				Translations.getString("general.filter") + ": ((");
+		StringBuffer buffer = new StringBuffer();
 		
-		List<Object> list = new ArrayList<Object>();
-		list.addAll(this.elements);
-		list.addAll(this.filters);
+		if (this.elements.size() != 0) {
+			buffer.append(ListUtils.listToString(this.elements, " "
+					+ TranslationsUtils.translateFilterLink(this.link)
+					+ " "));
+		}
 		
-		buffer.append(ListUtils.listToString(
-				list,
-				") " + TranslationsUtils.translateFilterLink(this.link) + " ("));
+		if (this.elements.size() != 0 && this.filters.size() != 0) {
+			buffer.append(" "
+					+ TranslationsUtils.translateFilterLink(this.link)
+					+ " ");
+		}
 		
-		buffer.append("))");
+		if (this.filters.size() != 0) {
+			buffer.append("(");
+			buffer.append(ListUtils.listToString(this.filters, " "
+					+ TranslationsUtils.translateFilterLink(this.link)
+					+ " "));
+			buffer.append(")");
+		}
 		
 		return buffer.toString();
 	}

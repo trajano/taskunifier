@@ -63,6 +63,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherNode;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskSearcherTreeUI extends BasicTreeUI {
 	
@@ -387,8 +388,12 @@ public class TaskSearcherTreeUI extends BasicTreeUI {
 					"<html>"
 							+ node.getTaskSearcher().getTitle()
 							+ "<br />"
+							+ Translations.getString("general.sort")
+							+ ": "
 							+ node.getTaskSearcher().getSorter()
 							+ "<br />"
+							+ Translations.getString("general.filter")
+							+ ": "
 							+ node.getTaskSearcher().getFilter()
 							+ "</html>");
 			

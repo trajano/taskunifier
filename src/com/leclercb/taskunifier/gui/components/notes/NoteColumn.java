@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum NoteColumn implements ModelProperties<Note> {
 	
-	MODEL(Note.class, Translations.getString("general.id"), false),
+	MODEL(Note.class, Translations.getString("general.note.id"), false),
 	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
 	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
 	TITLE(String.class, Translations.getString("general.note.title"), true),

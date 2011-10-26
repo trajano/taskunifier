@@ -36,8 +36,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
+import javax.swing.JTabbedPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
@@ -48,7 +47,7 @@ import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterEle
 import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	
@@ -58,7 +57,6 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	private TaskFilterElementPanel elementPanel;
 	private TaskSorterPanel sorterPanel;
 	private TaskFilterPanel filterPanel;
-	private JTextArea searcherInfo;
 	
 	public SearcherEditPanel(TaskSearcher searcher) {
 		this.searcher = searcher;
@@ -69,48 +67,41 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		this.add(panel, BorderLayout.CENTER);
-		
-		JPanel searcherInfoPanel = new JPanel(new BorderLayout());
-		searcherInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		this.searcherInfo = new JTextArea(3, 0);
-		this.searcherInfo.setEditable(false);
-		this.searcherInfo.setLineWrap(true);
-		this.searcherInfo.setWrapStyleWord(true);
-		
-		searcherInfoPanel.add(ComponentFactory.createJScrollPane(
-				this.searcherInfo,
-				true));
-		this.add(searcherInfoPanel, BorderLayout.SOUTH);
-		
 		this.searcherPanel = new TaskSearcherPanel(this.searcher);
-		panel.add(this.searcherPanel, BorderLayout.NORTH);
-		
 		this.elementPanel = new TaskFilterElementPanel();
-		panel.add(this.elementPanel, BorderLayout.SOUTH);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-		panel.add(splitPane, BorderLayout.CENTER);
-		
 		this.sorterPanel = new TaskSorterPanel(this.searcher.getSorter());
-		splitPane.setLeftComponent(this.sorterPanel);
 		
 		this.filterPanel = new TaskFilterPanel(this.searcher.getFilter());
 		this.filterPanel.getTree().addTreeSelectionListener(this);
-		splitPane.setRightComponent(this.filterPanel);
 		
-		splitPane.setDividerLocation(300);
+		this.searcherPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.elementPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.sorterPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.filterPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		this.searcherInfo.setText(this.searcher.getFilter().toString());
+		JPanel filterPanel = new JPanel(new BorderLayout());
+		filterPanel.add(this.filterPanel, BorderLayout.CENTER);
+		filterPanel.add(this.elementPanel, BorderLayout.SOUTH);
+		
+		JTabbedPane tabbedPane = new JTabbedPane();
+		
+		tabbedPane.addTab(
+				Translations.getString("searcheredit.tab.general"),
+				this.searcherPanel);
+		
+		tabbedPane.addTab(
+				Translations.getString("searcheredit.tab.sorter"),
+				this.sorterPanel);
+		
+		tabbedPane.addTab(
+				Translations.getString("searcheredit.tab.filter"),
+				filterPanel);
+		
+		this.add(tabbedPane, BorderLayout.CENTER);
 	}
 	
 	public void close() {
 		this.elementPanel.saveElement();
-		this.searcherInfo.setText(this.searcher.getFilter().toString());
 	}
 	
 	@Override
@@ -122,14 +113,11 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 			
 			if (node instanceof TaskFilterElementTreeNode) {
 				this.elementPanel.setElement(((TaskFilterElementTreeNode) node).getElement());
-				this.searcherInfo.setText(this.searcher.getFilter().toString());
 				return;
 			}
 		}
 		
 		this.elementPanel.setElement(null);
-		
-		this.searcherInfo.setText(this.searcher.getFilter().toString());
 	}
 	
 }

@@ -33,21 +33,19 @@
 package com.leclercb.taskunifier.gui.components.searcheredit.filter;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.jdesktop.swingx.JXComboBox;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -80,9 +78,9 @@ public class TaskFilterElementPanel extends JPanel {
 	
 	private TaskFilterElement element;
 	
-	private JComboBox elementColumn;
-	private JComboBox elementCondition;
-	private JComboBox elementValueCb;
+	private JXComboBox elementColumn;
+	private JXComboBox elementCondition;
+	private JXComboBox elementValueCb;
 	private JTextField elementValueTf;
 	
 	public TaskFilterElementPanel() {
@@ -223,6 +221,25 @@ public class TaskFilterElementPanel extends JPanel {
 		Object[] modelConditions = modelConditionList.toArray();
 		
 		switch (column) {
+			case CONTEXT:
+			case FOLDER:
+			case GOAL:
+			case LOCATION:
+			case PARENT:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						modelConditions));
+				
+				if (condition == null)
+					condition = (Condition<?, ?>) modelConditions[0];
+				
+				if (condition instanceof StringCondition) {
+					this.elementValueTf.setText(value == null ? "" : value.toString());
+					this.elementValueTf.setVisible(true);
+				}
+				break;
+		}
+		
+		switch (column) {
 			case TITLE:
 			case NOTE:
 			case TAGS:
@@ -269,8 +286,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case CONTEXT:
 				if (condition instanceof ModelCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
 					this.elementValueCb.setModel(new ContextModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
@@ -281,8 +296,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case FOLDER:
 				if (condition instanceof ModelCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
 					this.elementValueCb.setModel(new FolderModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
@@ -293,8 +306,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case GOAL:
 				if (condition instanceof ModelCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
 					this.elementValueCb.setModel(new GoalModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
@@ -305,8 +316,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case LOCATION:
 				if (condition instanceof ModelCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
 					this.elementValueCb.setModel(new LocationModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
@@ -317,8 +326,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case PARENT:
 				if (condition instanceof ModelCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
 					this.elementValueCb.setModel(new TaskModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
@@ -382,21 +389,6 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 		}
 		
-		switch (column) {
-			case CONTEXT:
-			case FOLDER:
-			case GOAL:
-			case LOCATION:
-			case PARENT:
-				if (condition instanceof StringCondition) {
-					this.elementCondition.setModel(new DefaultComboBoxModel(
-							modelConditions));
-					this.elementValueTf.setText(value == null ? "" : value.toString());
-					this.elementValueTf.setVisible(true);
-				}
-				break;
-		}
-		
 		if (condition == null)
 			this.elementCondition.setSelectedIndex(0);
 		else
@@ -407,11 +399,9 @@ public class TaskFilterElementPanel extends JPanel {
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		FormBuilder builder = new FormBuilder(
 				"fill:default:grow, 10dlu, fill:default:grow, 10dlu, fill:default:grow");
@@ -421,7 +411,7 @@ public class TaskFilterElementPanel extends JPanel {
 		builder.appendI15d("searcheredit.element.value", true);
 		
 		// Column
-		this.elementColumn = new JComboBox();
+		this.elementColumn = new JXComboBox();
 		this.elementColumn.setEnabled(false);
 		this.elementColumn.addItemListener(new ItemListener() {
 			
@@ -441,7 +431,7 @@ public class TaskFilterElementPanel extends JPanel {
 		builder.append(this.elementColumn);
 		
 		// Condition
-		this.elementCondition = new JComboBox();
+		this.elementCondition = new JXComboBox();
 		this.elementCondition.setRenderer(new DefaultListRenderer(
 				StringValueFilterCondition.INSTANCE));
 		this.elementCondition.setEnabled(false);
@@ -476,7 +466,7 @@ public class TaskFilterElementPanel extends JPanel {
 		builder.append(this.elementCondition);
 		
 		// Value
-		this.elementValueCb = new JComboBox();
+		this.elementValueCb = new JXComboBox();
 		this.elementValueCb.setEnabled(false);
 		
 		this.elementValueTf = new JTextField();
@@ -492,7 +482,7 @@ public class TaskFilterElementPanel extends JPanel {
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
 		
-		this.add(panel, BorderLayout.NORTH);
+		this.add(panel, BorderLayout.CENTER);
 	}
 	
 }

@@ -63,6 +63,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class NoteSearcherTreeUI extends BasicTreeUI {
 	
@@ -372,8 +373,12 @@ public class NoteSearcherTreeUI extends BasicTreeUI {
 					"<html>"
 							+ node.getNoteSearcher().getTitle()
 							+ "<br />"
+							+ Translations.getString("general.sort")
+							+ ": "
 							+ node.getNoteSearcher().getSorter()
 							+ "<br />"
+							+ Translations.getString("general.filter")
+							+ ": "
 							+ node.getNoteSearcher().getFilter()
 							+ "</html>");
 			

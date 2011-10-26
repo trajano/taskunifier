@@ -48,7 +48,6 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE extends SorterElement<M, MP>> implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
@@ -118,9 +117,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	
 	@Override
 	public String toString() {
-		return Translations.getString("general.sort")
-				+ ": "
-				+ ListUtils.listToString(this.elements, ", ");
+		return ListUtils.listToString(this.elements, ", ");
 	}
 	
 	@Override

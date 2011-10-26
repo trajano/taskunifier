@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.searcheredit.searcher;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -44,7 +43,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -80,11 +78,9 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");
