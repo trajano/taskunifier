@@ -50,10 +50,9 @@ public class EditDefaultTaskSorterFieldType extends ConfigurationFieldType.Panel
 	private TaskSorterXMLCoder coder;
 	
 	public EditDefaultTaskSorterFieldType() {
-		super(new TaskSorterPanel(Constants.getDefaultTaskSorter()));
-		
-		this.sorter = ((TaskSorterPanel) this.getFieldComponent()).getSorter();
+		this.sorter = Constants.getDefaultTaskSorter();
 		this.coder = new TaskSorterXMLCoder();
+		this.setPanel(new TaskSorterPanel(this.sorter));
 	}
 	
 	@Override

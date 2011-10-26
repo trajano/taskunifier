@@ -75,7 +75,15 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		private JPanel panel;
 		
+		public Panel() {
+			this(null);
+		}
+		
 		public Panel(JPanel panel) {
+			this.panel = panel;
+		}
+		
+		public void setPanel(JPanel panel) {
 			this.panel = panel;
 		}
 		

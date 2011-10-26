@@ -80,9 +80,6 @@ public class TaskSorterPanel extends JPanel {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
-		JPanel tablePanel = new JPanel();
-		tablePanel.setLayout(new BorderLayout());
-		
 		this.table = new TaskSorterTable(this.sorter);
 		this.table.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
@@ -101,12 +98,9 @@ public class TaskSorterPanel extends JPanel {
 					
 				});
 		
-		tablePanel.add(this.table.getTableHeader(), BorderLayout.NORTH);
-		tablePanel.add(
+		this.add(
 				ComponentFactory.createJScrollPane(this.table, true),
 				BorderLayout.CENTER);
-		
-		this.add(tablePanel, BorderLayout.CENTER);
 		
 		this.initializeButtons();
 	}
