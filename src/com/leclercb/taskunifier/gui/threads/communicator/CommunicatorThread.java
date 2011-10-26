@@ -26,7 +26,9 @@ public class CommunicatorThread extends Thread {
 			
 		}
 		
-		GuiLogger.getLogger().info("Communicator closed on port " + this.port);
+		if (this.isAlive())
+			GuiLogger.getLogger().info(
+					"Communicator closed on port " + this.port);
 		
 		super.interrupt();
 	}

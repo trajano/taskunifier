@@ -15,6 +15,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
+	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel priorityConfigurationPanel;
 	private ConfigurationPanel importanceConfigurationPanel;
 	
@@ -31,6 +32,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
 		this.initializeGeneralPanel();
+		this.initializeColumnsPanel();
 		this.initializePriorityPanel();
 		this.initializeImportancePanel();
 	}
@@ -42,6 +44,16 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 				Translations.getString("configuration.tab.general"),
 				ComponentFactory.createJScrollPane(
 						this.generalConfigurationPanel,
+						false));
+	}
+	
+	private void initializeColumnsPanel() {
+		this.columnsConfigurationPanel = new ThemeColumnsConfigurationPanel(
+				this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.columns"),
+				ComponentFactory.createJScrollPane(
+						this.columnsConfigurationPanel,
 						false));
 	}
 	
@@ -68,6 +80,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 	@Override
 	public void saveAndApplyConfig() {
 		this.generalConfigurationPanel.saveAndApplyConfig();
+		this.columnsConfigurationPanel.saveAndApplyConfig();
 		this.priorityConfigurationPanel.saveAndApplyConfig();
 		this.importanceConfigurationPanel.saveAndApplyConfig();
 	}
@@ -75,6 +88,7 @@ public class ThemeConfigurationPanel extends ConfigurationPanel {
 	@Override
 	public void cancelConfig() {
 		this.generalConfigurationPanel.cancelConfig();
+		this.columnsConfigurationPanel.cancelConfig();
 		this.priorityConfigurationPanel.cancelConfig();
 		this.importanceConfigurationPanel.cancelConfig();
 	}

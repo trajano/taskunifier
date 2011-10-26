@@ -259,7 +259,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeCommunicatorThread() {
 		this.communicatorThread = new CommunicatorThread();
-		this.communicatorThread.start();
+		
+		if (Main.SETTINGS.getBooleanProperty("general.communicator.enabled"))
+			this.communicatorThread.start();
 	}
 	
 	private void initializeReminderThread() {

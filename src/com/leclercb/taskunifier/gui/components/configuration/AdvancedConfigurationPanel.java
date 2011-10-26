@@ -36,25 +36,30 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.configuration.fields.advanced.CommunicatorPortFieldType;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ColumnsConfigurationPanel extends DefaultConfigurationPanel {
+public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public ColumnsConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration, "configuration_columns");
+	public AdvancedConfigurationPanel(ConfigurationGroup configuration) {
+		super(configuration);
 		this.initialize();
 		this.pack();
 	}
 	
 	private void initialize() {
-		for (TaskColumn taskColumn : TaskColumn.values()) {
-			this.addField(new ConfigurationField(
-					taskColumn.name(),
-					taskColumn.getLabel(),
-					new ConfigurationFieldType.CheckBox("taskcolumn."
-							+ taskColumn.name().toLowerCase()
-							+ ".visible")));
-		}
+		this.addField(new ConfigurationField(
+				"COMMUNICATOR_ENABLED",
+				Translations.getString("configuration.advanced.communicator_enabled"),
+				true,
+				new ConfigurationFieldType.CheckBox(
+						"general.communicator.enabled")));
+		
+		this.addField(new ConfigurationField(
+				"COMMUNICATOR_PORT",
+				Translations.getString("configuration.advanced.communicator_port"),
+				true,
+				new CommunicatorPortFieldType()));
 	}
 	
 }

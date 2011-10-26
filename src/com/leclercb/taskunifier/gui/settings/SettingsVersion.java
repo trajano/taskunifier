@@ -973,6 +973,7 @@ public final class SettingsVersion {
 				"general.backup.backup_before_sync",
 				"false");
 		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "10");
+		Main.SETTINGS.setStringProperty("general.communicator.enabled", "true");
 		
 		return "1.8.0";
 	}

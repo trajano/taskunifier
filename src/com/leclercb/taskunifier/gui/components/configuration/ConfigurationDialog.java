@@ -77,10 +77,10 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		GENERAL,
 		BACKUP,
 		PROXY,
-		COLUMNS,
 		SEARCHER,
 		THEME,
 		TOOLBAR,
+		ADVANCED,
 		SYNCHRONIZATION,
 		PLUGIN;
 		
@@ -91,10 +91,10 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel generalConfigurationPanel;
 	private ConfigurationPanel backupConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
-	private ConfigurationPanel columnsConfigurationPanel;
 	private ConfigurationPanel searcherConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	private ConfigurationPanel toolbarConfigurationPanel;
+	private ConfigurationPanel advancedConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	private ConfigurationPanel pluginConfigurationPanel;
 	
@@ -134,10 +134,10 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeGeneralPanel();
 		this.initializeBackupPanel();
 		this.initializeProxyPanel();
-		this.initializeColumnsPanel();
 		this.initializeSearcherPanel();
 		this.initializeThemePanel();
 		this.initializeToolbarPanel();
+		this.initializeAdvancedPanel();
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
@@ -215,15 +215,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 						false));
 	}
 	
-	private void initializeColumnsPanel() {
-		this.columnsConfigurationPanel = new ColumnsConfigurationPanel(this);
-		this.tabbedPane.addTab(
-				Translations.getString("configuration.tab.columns"),
-				ComponentFactory.createJScrollPane(
-						this.columnsConfigurationPanel,
-						false));
-	}
-	
 	private void initializeSearcherPanel() {
 		this.searcherConfigurationPanel = new SearcherConfigurationPanel(this);
 		this.tabbedPane.addTab(
@@ -248,6 +239,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 				Translations.getString("configuration.tab.toolbar"),
 				ComponentFactory.createJScrollPane(
 						this.toolbarConfigurationPanel,
+						false));
+	}
+	
+	private void initializeAdvancedPanel() {
+		this.advancedConfigurationPanel = new AdvancedConfigurationPanel(this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.advanced"),
+				ComponentFactory.createJScrollPane(
+						this.advancedConfigurationPanel,
 						false));
 	}
 	
@@ -282,10 +282,10 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.backupConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
-			this.columnsConfigurationPanel.saveAndApplyConfig();
 			this.searcherConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.toolbarConfigurationPanel.saveAndApplyConfig();
+			this.advancedConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
@@ -317,10 +317,10 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			
 			this.backupConfigurationPanel.cancelConfig();
 			this.proxyConfigurationPanel.cancelConfig();
-			this.columnsConfigurationPanel.cancelConfig();
 			this.searcherConfigurationPanel.cancelConfig();
 			this.themeConfigurationPanel.cancelConfig();
 			this.toolbarConfigurationPanel.cancelConfig();
+			this.advancedConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
