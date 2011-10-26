@@ -89,7 +89,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("action.change_data_folder_location"));
-		this.setSize(500, 150);
+		this.setSize(600, 150);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
