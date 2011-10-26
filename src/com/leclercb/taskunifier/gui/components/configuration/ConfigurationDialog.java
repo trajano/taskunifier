@@ -228,9 +228,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.themeConfigurationPanel = new ThemeConfigurationPanel(this);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.theme"),
-				ComponentFactory.createJScrollPane(
-						this.themeConfigurationPanel,
-						false));
+				this.themeConfigurationPanel);
 	}
 	
 	private void initializeToolbarPanel() {
