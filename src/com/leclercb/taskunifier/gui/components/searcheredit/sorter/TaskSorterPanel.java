@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -40,6 +41,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -54,7 +56,6 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -80,6 +81,9 @@ public class TaskSorterPanel extends JPanel {
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		this.table = new TaskSorterTable(this.sorter);
 		this.table.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
@@ -98,9 +102,11 @@ public class TaskSorterPanel extends JPanel {
 					
 				});
 		
-		this.add(
-				ComponentFactory.createJScrollPane(this.table, true),
-				BorderLayout.CENTER);
+		panel.add(this.table.getTableHeader(), BorderLayout.NORTH);
+		
+		panel.add(this.table, BorderLayout.CENTER);
+		
+		this.add(panel, BorderLayout.CENTER);
 		
 		this.initializeButtons();
 	}
