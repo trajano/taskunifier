@@ -188,9 +188,9 @@ public class Main {
 			
 			@Override
 			public void run() {
-				String lookAndFeel = SETTINGS.getStringProperty("theme.lookandfeel");
-				
 				try {
+					String lookAndFeel = SETTINGS.getStringProperty("theme.lookandfeel");
+					
 					if (lookAndFeel != null) {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
 						if (laf != null)
@@ -227,30 +227,51 @@ public class Main {
 					JXErrorPane.showDialog(null, info);
 				}
 				
-				if (FIRST_EXECUTION) {
-					new LanguageDialog(null).setVisible(true);
-					MainFrame.getInstance();
-					new WelcomeDialog(null).setVisible(true);
+				try {
+					if (FIRST_EXECUTION) {
+						new LanguageDialog(null).setVisible(true);
+						MainFrame.getInstance();
+						new WelcomeDialog(null).setVisible(true);
+					}
+					
+					MainFrame.getInstance().getFrame().setVisible(true);
+					ActionCheckVersion.checkVersion(true);
+					ActionCheckPluginVersion.checkPluginVersion(true);
+					
+					Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
+					if (showed == null || !showed)
+						ActionReview.review();
+					
+					Main.SETTINGS.setBooleanProperty("review.showed", true);
+					
+					if (finalOutdatedPlugins)
+						ActionManagePlugins.managePlugins();
+					
+					TipsDialog.getInstance().showTipsDialog(true);
+					
+					Boolean syncStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
+					if (syncStart != null && syncStart)
+						ActionSynchronize.synchronize(false);
+				} catch (Throwable t) {
+					GuiLogger.getLogger().log(
+							Level.WARNING,
+							"Error while loading gui",
+							t);
+					
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							"Error while loading gui",
+							null,
+							null,
+							t,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(null, info);
+					
+					QUIT = true;
+					System.exit(1);
 				}
-				
-				MainFrame.getInstance().getFrame().setVisible(true);
-				ActionCheckVersion.checkVersion(true);
-				ActionCheckPluginVersion.checkPluginVersion(true);
-				
-				Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
-				if (showed == null || !showed)
-					ActionReview.review();
-				
-				Main.SETTINGS.setBooleanProperty("review.showed", true);
-				
-				if (finalOutdatedPlugins)
-					ActionManagePlugins.managePlugins();
-				
-				TipsDialog.getInstance().showTipsDialog(true);
-				
-				Boolean syncStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
-				if (syncStart != null && syncStart)
-					ActionSynchronize.synchronize(false);
 			}
 			
 		});
@@ -261,7 +282,13 @@ public class Main {
 			String message = "There is another instance of "
 					+ Constants.TITLE
 					+ " running.";
-			JOptionPane.showMessageDialog(null, message);
+			
+			JOptionPane.showMessageDialog(
+					null,
+					message,
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			
 			throw new RuntimeException(message);
 		}
 	}
