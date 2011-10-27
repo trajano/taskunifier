@@ -794,9 +794,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskProgressCheckBox.setSelected(selected);
 		this.taskCompletedCheckBox.setSelected(selected);
 		this.taskStartDateCheckBox.setSelected(selected);
-		this.taskStartDatePostponeButton.setSelected(selected);
 		this.taskDueDateCheckBox.setSelected(selected);
-		this.taskDueDatePostponeButton.setSelected(selected);
 		this.taskStartDateReminderCheckBox.setSelected(selected);
 		this.taskDueDateReminderCheckBox.setSelected(selected);
 		this.taskRepeatCheckBox.setSelected(selected);
