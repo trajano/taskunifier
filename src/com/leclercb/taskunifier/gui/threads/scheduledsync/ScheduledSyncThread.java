@@ -104,7 +104,9 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				
 				ActionSynchronize.synchronize(true);
 			}
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+			
+		}
 	}
 	
 	@Override

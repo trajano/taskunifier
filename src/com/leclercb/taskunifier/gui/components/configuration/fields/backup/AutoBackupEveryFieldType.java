@@ -46,7 +46,7 @@ public class AutoBackupEveryFieldType extends ConfigurationFieldType.Spinner {
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
 				1,
-				365,
+				24 * 365,
 				1));
 		
 		this.setEditor(new JSpinner.NumberEditor(this));
@@ -56,8 +56,8 @@ public class AutoBackupEveryFieldType extends ConfigurationFieldType.Spinner {
 	public Object getPropertyValue() {
 		Integer value = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
 		
-		if (value == null || value < 1 || value > 365)
-			value = 7;
+		if (value == null || value < 1 || value > 24 * 365)
+			value = 24;
 		
 		return value;
 	}

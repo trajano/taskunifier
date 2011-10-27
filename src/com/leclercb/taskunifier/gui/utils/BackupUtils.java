@@ -91,7 +91,7 @@ public final class BackupUtils {
 		}
 	}
 	
-	public void autoBackup(int nbDays) {
+	public void autoBackup(int nbHours) {
 		List<String> list = this.getBackupList();
 		
 		if (list.size() == 0) {
@@ -103,7 +103,7 @@ public final class BackupUtils {
 			Calendar calendar = this.backupNameToDate(list.get(list.size() - 1));
 			
 			Calendar past = Calendar.getInstance();
-			past.add(Calendar.DAY_OF_MONTH, -nbDays);
+			past.add(Calendar.HOUR_OF_DAY, -nbHours);
 			
 			if (calendar.compareTo(past) <= 0)
 				this.createNewBackup();
@@ -112,19 +112,30 @@ public final class BackupUtils {
 		}
 	}
 	
-	public void createNewBackup() {
+	public boolean createNewBackup() {
 		String backupName = FORMAT.format(Calendar.getInstance().getTime());
 		
 		if (!this.checkBackupName(backupName, true))
-			return;
+			return false;
 		
 		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
-		Main.saveAllData(folder);
+		
+		try {
+			if (!Synchronizing.setSynchronizing(true))
+				return false;
+			
+			Main.saveAllData(folder);
+		} finally {
+			Synchronizing.setSynchronizing(false);
+		}
+		
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
 				0,
 				backupName);
 		GuiLogger.getLogger().info("Backup created: " + backupName);
+		
+		return true;
 	}
 	
 	public void restoreBackup(String backupName) {

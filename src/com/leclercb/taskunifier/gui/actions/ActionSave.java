@@ -60,15 +60,17 @@ public class ActionSave extends AbstractAction {
 		ActionSave.save();
 	}
 	
-	public static void save() {
+	public static boolean save() {
 		try {
 			if (!Synchronizing.setSynchronizing(true))
-				return;
+				return false;
 			
 			Main.saveAllData(Main.DATA_FOLDER);
 		} finally {
 			Synchronizing.setSynchronizing(false);
 		}
+		
+		return true;
 	}
 	
 }

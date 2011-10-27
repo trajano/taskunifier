@@ -856,8 +856,8 @@ public class Main {
 	}
 	
 	private static void autoBackup() {
-		int nbDays = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
-		BackupUtils.getInstance().autoBackup(nbDays);
+		int nbHours = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+		BackupUtils.getInstance().autoBackup(nbHours);
 	}
 	
 	private static void cleanBackups() {
