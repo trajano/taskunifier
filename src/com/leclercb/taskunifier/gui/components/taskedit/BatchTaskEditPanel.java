@@ -129,7 +129,9 @@ public class BatchTaskEditPanel extends JPanel {
 	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
 	private JDateChooser taskStartDate;
+	private JButton taskStartDatePostponeButton;
 	private JDateChooser taskDueDate;
+	private JButton taskDueDatePostponeButton;
 	private JComboBox taskStartDateReminder;
 	private JComboBox taskDueDateReminder;
 	private JComboBox taskRepeat;
@@ -357,6 +359,28 @@ public class BatchTaskEditPanel extends JPanel {
 		final String finalDueDateMask = dueDateMask;
 		final String finalStartDateMask = startDateMask;
 		
+		// Task Start/Due Date Listener
+		ActionListener postponeListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				if (!(evt.getSource() instanceof ActionPostponeTaskBeans))
+					return;
+				
+				ActionPostponeTaskBeans action = (ActionPostponeTaskBeans) evt.getSource();
+				
+				TaskBean bean = new TaskBean();
+				bean.setStartDate(BatchTaskEditPanel.this.taskStartDate.getCalendar());
+				bean.setDueDate(BatchTaskEditPanel.this.taskDueDate.getCalendar());
+				
+				action.postponeTaskBeans(new TaskBean[] { bean });
+				
+				BatchTaskEditPanel.this.taskStartDate.setCalendar(bean.getStartDate());
+				BatchTaskEditPanel.this.taskDueDate.setCalendar(bean.getDueDate());
+			}
+			
+		};
+		
 		this.setLayout(new BorderLayout(5, 5));
 		
 		this.taskTitleCheckBox = new JCheckBox("", true);
@@ -402,6 +426,10 @@ public class BatchTaskEditPanel extends JPanel {
 					}
 					
 				});
+		this.taskStartDatePostponeButton = ComponentFactory.createPostponeButton(
+				16,
+				16,
+				postponeListener);
 		this.taskDueDate = new JDateChooser(
 				new TUPostponeCalendar(false),
 				null,
@@ -414,6 +442,10 @@ public class BatchTaskEditPanel extends JPanel {
 					}
 					
 				});
+		this.taskDueDatePostponeButton = ComponentFactory.createPostponeButton(
+				16,
+				16,
+				postponeListener);
 		this.taskStartDateReminder = new JComboBox();
 		this.taskDueDateReminder = new JComboBox();
 		this.taskRepeat = new JComboBox();
@@ -456,8 +488,12 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskCompleted));
 		this.taskStartDateCheckBox.addItemListener(new EnabledActionListener(
 				this.taskStartDate));
+		this.taskStartDateCheckBox.addItemListener(new EnabledActionListener(
+				this.taskStartDatePostponeButton));
 		this.taskDueDateCheckBox.addItemListener(new EnabledActionListener(
 				this.taskDueDate));
+		this.taskDueDateCheckBox.addItemListener(new EnabledActionListener(
+				this.taskDueDatePostponeButton));
 		this.taskStartDateReminderCheckBox.addItemListener(new EnabledActionListener(
 				this.taskStartDateReminder));
 		this.taskDueDateReminderCheckBox.addItemListener(new EnabledActionListener(
@@ -586,37 +622,12 @@ public class BatchTaskEditPanel extends JPanel {
 		// Separator
 		builder.getBuilder().appendSeparator();
 		
-		// Task Start/Due Date Listener
-		ActionListener postponeListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				if (!(evt.getSource() instanceof ActionPostponeTaskBeans))
-					return;
-				
-				ActionPostponeTaskBeans action = (ActionPostponeTaskBeans) evt.getSource();
-				
-				TaskBean bean = new TaskBean();
-				bean.setStartDate(BatchTaskEditPanel.this.taskStartDate.getCalendar());
-				bean.setDueDate(BatchTaskEditPanel.this.taskDueDate.getCalendar());
-				
-				action.postponeTaskBeans(new TaskBean[] { bean });
-				
-				BatchTaskEditPanel.this.taskStartDate.setCalendar(bean.getStartDate());
-				BatchTaskEditPanel.this.taskDueDate.setCalendar(bean.getDueDate());
-			}
-			
-		};
-		
 		// Task Start Date
 		JPanel startDatePanel = new JPanel(new BorderLayout());
 		startDatePanel.add(this.taskStartDate, BorderLayout.CENTER);
-		JButton startDatePostponeButton = ComponentFactory.createPostponeButton(
-				16,
-				16,
-				postponeListener);
-		startDatePostponeButton.setText("");
-		startDatePanel.add(startDatePostponeButton, BorderLayout.EAST);
+		
+		this.taskStartDatePostponeButton.setText("");
+		startDatePanel.add(this.taskStartDatePostponeButton, BorderLayout.EAST);
 		
 		builder.appendI15d(
 				"general.task.start_date",
@@ -627,12 +638,9 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Due Date
 		JPanel dueDatePanel = new JPanel(new BorderLayout());
 		dueDatePanel.add(this.taskDueDate, BorderLayout.CENTER);
-		JButton dueDatePostponeButton = ComponentFactory.createPostponeButton(
-				16,
-				16,
-				postponeListener);
-		dueDatePostponeButton.setText("");
-		dueDatePanel.add(dueDatePostponeButton, BorderLayout.EAST);
+		
+		this.taskDueDatePostponeButton.setText("");
+		dueDatePanel.add(this.taskDueDatePostponeButton, BorderLayout.EAST);
 		
 		builder.appendI15d(
 				"general.task.due_date",
@@ -786,7 +794,9 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskProgressCheckBox.setSelected(selected);
 		this.taskCompletedCheckBox.setSelected(selected);
 		this.taskStartDateCheckBox.setSelected(selected);
+		this.taskStartDatePostponeButton.setSelected(selected);
 		this.taskDueDateCheckBox.setSelected(selected);
+		this.taskDueDatePostponeButton.setSelected(selected);
 		this.taskStartDateReminderCheckBox.setSelected(selected);
 		this.taskDueDateReminderCheckBox.setSelected(selected);
 		this.taskRepeatCheckBox.setSelected(selected);
