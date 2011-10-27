@@ -968,13 +968,11 @@ public final class SettingsVersion {
 				"Update settings from version 1.7.1 to 1.8.0");
 		
 		Main.SETTINGS.setStringProperty("view.notes.window.split", "0");
-		Main.SETTINGS.setStringProperty(
-				"general.backup.auto_backup_every",
-				"24");
+		Main.SETTINGS.setStringProperty("general.backup.auto_backup_every", "2");
 		Main.SETTINGS.setStringProperty(
 				"general.backup.backup_before_sync",
 				"false");
-		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "10");
+		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "100");
 		Main.SETTINGS.setStringProperty("general.communicator.enabled", "true");
 		
 		return "1.8.0";
