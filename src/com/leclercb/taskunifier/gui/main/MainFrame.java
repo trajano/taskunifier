@@ -66,6 +66,7 @@ import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.autobackup.AutoBackupThread;
+import com.leclercb.taskunifier.gui.threads.autosave.AutoSaveThread;
 import com.leclercb.taskunifier.gui.threads.communicator.CommunicatorThread;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
@@ -91,6 +92,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private JTabbedPane mainTabbedPane;
 	
 	private AutoBackupThread autoBackupThread;
+	private AutoSaveThread autoSaveThread;
 	private CommunicatorThread communicatorThread;
 	private ReminderThread reminderThread;
 	private ScheduledSyncThread scheduledSyncThread;
@@ -152,6 +154,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		});
 		
 		this.initializeAutoBackupThread();
+		this.initializeAutoSaveThread();
 		this.initializeCommunicatorThread();
 		this.initializeReminderThread();
 		this.initializeScheduledSyncThread();
@@ -265,6 +268,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.autoBackupThread.start();
 	}
 	
+	private void initializeAutoSaveThread() {
+		this.autoSaveThread = new AutoSaveThread();
+		this.autoSaveThread.start();
+	}
+	
 	private void initializeCommunicatorThread() {
 		this.communicatorThread = new CommunicatorThread();
 		
@@ -334,6 +342,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public void dispose() {
 		this.autoBackupThread.interrupt();
+		this.autoSaveThread.interrupt();
 		this.communicatorThread.interrupt();
 		this.reminderThread.interrupt();
 		this.scheduledSyncThread.interrupt();

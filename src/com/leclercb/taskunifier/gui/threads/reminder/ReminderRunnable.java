@@ -60,47 +60,47 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	@Override
 	public void run() {
-		while (true) {
-			try {
+		try {
+			while (true) {
 				Thread.sleep(SLEEP_TIME);
-			} catch (InterruptedException e) {
 				
-			}
-			
-			if (Synchronizing.isSynchronizing())
-				continue;
-			
-			boolean reminders = false;
-			List<Task> list = TaskFactory.getInstance().getList();
-			for (final Task task : list) {
-				if (this.notifiedTasks.contains(task.getModelId()))
+				if (Synchronizing.isSynchronizing())
 					continue;
 				
-				if (!task.getModelStatus().isEndUserStatus())
-					continue;
+				boolean reminders = false;
+				List<Task> list = TaskFactory.getInstance().getList();
+				for (final Task task : list) {
+					if (this.notifiedTasks.contains(task.getModelId()))
+						continue;
+					
+					if (!task.getModelStatus().isEndUserStatus())
+						continue;
+					
+					if (TaskUtils.isInStartDateReminderZone(task)
+							|| TaskUtils.isInDueDateReminderZone(task)) {
+						this.notifiedTasks.remove(task.getModelId());
+						this.notifiedTasks.add(task.getModelId());
+						
+						ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
+								task);
+						
+						reminders = true;
+					}
+				}
 				
-				if (TaskUtils.isInStartDateReminderZone(task)
-						|| TaskUtils.isInDueDateReminderZone(task)) {
-					this.notifiedTasks.remove(task.getModelId());
-					this.notifiedTasks.add(task.getModelId());
-					
-					ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
-							task);
-					
-					reminders = true;
+				if (reminders) {
+					SwingUtilities.invokeLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							ActionTaskReminders.taskReminders(true);
+						}
+						
+					});
 				}
 			}
+		} catch (InterruptedException e) {
 			
-			if (reminders) {
-				SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						ActionTaskReminders.taskReminders(true);
-					}
-					
-				});
-			}
 		}
 	}
 	

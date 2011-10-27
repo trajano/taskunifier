@@ -11,15 +11,15 @@ public class AutoBackupThread extends Thread {
 	
 	@Override
 	public void run() {
-		while (true) {
-			try {
+		try {
+			while (true) {
 				Thread.sleep(60000);
-			} catch (InterruptedException e) {
 				
+				int nbHours = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+				BackupUtils.getInstance().autoBackup(nbHours);
 			}
+		} catch (InterruptedException e) {
 			
-			int nbHours = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
-			BackupUtils.getInstance().autoBackup(nbHours);
 		}
 	}
 	
