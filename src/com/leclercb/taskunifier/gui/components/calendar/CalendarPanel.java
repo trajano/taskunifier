@@ -19,13 +19,14 @@ import java.util.Vector;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -68,7 +69,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	private Date date = new Date();
 	private LinkedHashMap<NamedCalendar, CheckBoxPanel> namedCalendars = new LinkedHashMap<NamedCalendar, CheckBoxPanel>();
 	protected AbstractCalendarView currentView;
-	private JSlider slider;
+	private JSlider zoomSlider;
 	private NamedCalendar lastShowingCalendarBeforeShowAll = null;
 	private ButtonGroup calendarButtonGroup = new ButtonGroup();
 	
@@ -100,6 +101,10 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		this.createMenuPanel();
 		
 		this.loadSplitPaneSettings();
+	}
+	
+	public JSlider getZoomSlider() {
+		return this.zoomSlider;
 	}
 	
 	public TaskSearcherPanel getTaskSearcherPanel() {
@@ -162,6 +167,8 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 				3,
 				3));
 		
+		bottomPanel.add(this.viewsButtonPanel, BorderLayout.NORTH);
+		
 		this.calendarButtonPanel = new ButtonPanel(
 				null,
 				null,
@@ -191,20 +198,20 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 			}
 		});
 		
-		bottomPanel.add(this.dayChooser, BorderLayout.NORTH);
+		bottomPanel.add(this.dayChooser, BorderLayout.CENTER);
 		
-		this.slider = new JSlider();
+		this.zoomSlider = new JSlider();
 		try {
-			this.slider.setMinimum(30);
-			this.slider.setMaximum(500);
-			this.slider.setValue(DayView.PIXELS_PER_HOUR);
+			this.zoomSlider.setMinimum(30);
+			this.zoomSlider.setMaximum(500);
+			this.zoomSlider.setValue(DayView.PIXELS_PER_HOUR);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		this.slider.setOpaque(false);
+		this.zoomSlider.setOpaque(false);
 		
-		this.slider.addChangeListener(new ChangeListener() {
+		this.zoomSlider.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -220,17 +227,17 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 			}
 		});
 		
-		this.slider.addMouseWheelListener(new MouseWheelListener() {
+		this.zoomSlider.addMouseWheelListener(new MouseWheelListener() {
 			
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				CalendarPanel.this.slider.setValue(CalendarPanel.this.slider.getValue()
+				CalendarPanel.this.zoomSlider.setValue(CalendarPanel.this.zoomSlider.getValue()
 						+ e.getWheelRotation()
 						* 6);
 			}
 		});
 		
-		bottomPanel.add(this.slider, BorderLayout.CENTER);
+		bottomPanel.add(this.zoomSlider, BorderLayout.SOUTH);
 		
 		JPanel searcherPane = new JPanel();
 		searcherPane.setLayout(new BorderLayout());
@@ -275,21 +282,18 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		showComletedTasksPanel.add(this.showCompletedTasksCheckBox);
 		
 		northPanel.add(this.searchField);
-		northPanel.add(this.viewsButtonPanel);
-		northPanel.add(Box.createVerticalStrut(10));
 		northPanel.add(showComletedTasksPanel);
-		northPanel.add(Box.createVerticalStrut(3));
 		northPanel.add(this.calendarButtonPanel);
 		
 		searcherPane.add(panel, BorderLayout.CENTER);
+		
+		panel.add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.SOUTH);
 		
 		this.initializeTaskSearcherList(panel);
 	}
 	
 	private void initializeTaskSearcherList(JPanel searcherPane) {
-		this.taskSearcherPanel = new TaskSearcherPanel(
-				"tasksearcher.calendar",
-				true);
+		this.taskSearcherPanel = new TaskSearcherPanel("tasksearcher.calendar");
 		
 		this.taskSearcherPanel.addPropertyChangeListener(
 				TaskSearcherPanel.PROP_TITLE_FILTER,

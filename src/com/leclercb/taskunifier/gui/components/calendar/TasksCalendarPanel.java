@@ -182,6 +182,24 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					
 				});
 		
+		int zoom = Main.SETTINGS.getIntegerProperty("view.calendar.zoom", 80);
+		this.calendarPanel.getZoomSlider().setValue(zoom);
+		
+		Main.SETTINGS.addPropertyChangeListener(
+				"view.calendar.zoom",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						int zoom = Main.SETTINGS.getIntegerProperty(
+								"view.calendar.zoom",
+								80);
+						TasksCalendarPanel.this.calendarPanel.getZoomSlider().setValue(
+								zoom);
+					}
+					
+				});
+		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 	}
 	
@@ -323,6 +341,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 						"calendar.selected",
 						calendar.getId().toString());
 		}
+		
+		Main.SETTINGS.setIntegerProperty(
+				"view.calendar.zoom",
+				this.calendarPanel.getZoomSlider().getValue());
 	}
 	
 	@Override

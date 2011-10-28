@@ -998,6 +998,7 @@ public final class SettingsVersion {
 				"false");
 		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "100");
 		Main.SETTINGS.setStringProperty("general.communicator.enabled", "true");
+		Main.SETTINGS.setStringProperty("view.calendar.zoom", "80");
 		
 		return "1.8.0";
 	}

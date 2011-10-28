@@ -181,9 +181,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	private void initializeTaskSearcherList(JPanel searcherPane) {
-		this.taskSearcherPanel = new TaskSearcherPanel(
-				"tasksearcher.tasks",
-				false);
+		this.taskSearcherPanel = new TaskSearcherPanel("tasksearcher.tasks");
 		
 		this.taskSearcherPanel.addPropertyChangeListener(
 				TaskSearcherPanel.PROP_TITLE_FILTER,

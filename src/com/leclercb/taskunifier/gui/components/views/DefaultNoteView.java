@@ -167,9 +167,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	}
 	
 	private void initializeNoteSearcherList(JPanel searcherPane) {
-		this.noteSearcherPanel = new NoteSearcherPanel(
-				"notesearcher.notes",
-				false);
+		this.noteSearcherPanel = new NoteSearcherPanel("notesearcher.notes");
 		
 		this.noteSearcherPanel.addPropertyChangeListener(
 				NoteSearcherPanel.PROP_TITLE_FILTER,

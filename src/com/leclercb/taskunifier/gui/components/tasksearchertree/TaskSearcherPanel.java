@@ -94,7 +94,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private String titleFilter;
 	
-	public TaskSearcherPanel(String settingsPrefix, boolean border) {
+	public TaskSearcherPanel(String settingsPrefix) {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
 				this);
 		
@@ -102,7 +102,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
-		this.initialize(border);
+		this.initialize();
 	}
 	
 	@Override
@@ -210,13 +210,13 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(this.getSelectedTaskSearcher());
 	}
 	
-	private void initialize(boolean border) {
+	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
 		this.searcherView = new TaskSearcherTree(this.settingsPrefix);
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.searcherView, border),
+				ComponentFactory.createJScrollPane(this.searcherView, false),
 				BorderLayout.CENTER);
 		
 		this.searcherView.addMouseListener(new MouseAdapter() {

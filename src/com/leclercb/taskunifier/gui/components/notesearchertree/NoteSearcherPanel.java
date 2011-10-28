@@ -79,7 +79,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private String titleFilter;
 	
-	public NoteSearcherPanel(String settingsPrefix, boolean border) {
+	public NoteSearcherPanel(String settingsPrefix) {
 		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
 				this);
 		
@@ -87,7 +87,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
-		this.initialize(border);
+		this.initialize();
 	}
 	
 	@Override
@@ -166,13 +166,13 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 		this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(this.getSelectedNoteSearcher());
 	}
 	
-	private void initialize(boolean border) {
+	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
 		this.searcherView = new NoteSearcherTree(this.settingsPrefix);
 		
 		this.add(
-				ComponentFactory.createJScrollPane(this.searcherView, border),
+				ComponentFactory.createJScrollPane(this.searcherView, false),
 				BorderLayout.CENTER);
 		
 		this.searcherView.addMouseListener(new MouseAdapter() {
