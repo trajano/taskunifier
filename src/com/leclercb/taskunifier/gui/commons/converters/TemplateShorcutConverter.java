@@ -51,6 +51,9 @@ public class TemplateShorcutConverter extends AbstractConverter {
 	
 	@Override
 	public Object convertFromSubject(Object value) {
+		if (value == null)
+			return null;
+		
 		PropertyMap properties = (PropertyMap) value;
 		return properties.getIntegerProperty("shortcut");
 	}

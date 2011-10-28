@@ -8,6 +8,7 @@ Version 1.8.0
 		- FR 3406671: Tooltip total length and total timer
 		- FR 3416765: Immediate sorting of searcher categories
 		- FR 3427819: Use searcher template with quick add task
+		- FR 3380561: Shorcuts for adding task with template
 		- BF 3425016: Time issue when not using start/due time
 		- BF 3426213: Time issue when not using start/due time
 		- BF 3426948: New entries are hidden if filter is active

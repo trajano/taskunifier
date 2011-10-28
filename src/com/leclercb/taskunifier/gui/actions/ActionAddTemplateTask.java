@@ -67,6 +67,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		Integer keyEvent = template.getProperties().getIntegerProperty(
 				"shortcut");
+		
 		if (keyEvent != null) {
 			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 					keyEvent,
