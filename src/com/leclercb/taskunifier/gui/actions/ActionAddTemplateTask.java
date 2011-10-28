@@ -32,11 +32,14 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
@@ -46,21 +49,31 @@ public class ActionAddTemplateTask extends AbstractAction {
 	
 	private TaskTemplate template;
 	
-	public ActionAddTemplateTask(TaskTemplate template) {
-		this(template, 32, 32);
+	public ActionAddTemplateTask(Integer keyEvent, TaskTemplate template) {
+		this(keyEvent, template, 32, 32);
 	}
 	
-	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
+	public ActionAddTemplateTask(
+			Integer keyEvent,
+			TaskTemplate template,
+			int width,
+			int height) {
 		super(template.getTitle(), ImageUtils.getResourceImage(
 				"template.png",
 				width,
 				height));
 		
+		CheckUtils.isNotNull(template, "Template cannot be null");
+		this.template = template;
+		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());
 		
-		CheckUtils.isNotNull(template, "Template cannot be null");
-		
-		this.template = template;
+		if (keyEvent != null) {
+			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+					keyEvent,
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+							+ InputEvent.SHIFT_MASK));
+		}
 		
 		template.addPropertyChangeListener(
 				TaskTemplate.PROP_TITLE,

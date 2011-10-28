@@ -72,10 +72,10 @@ public final class TemplateUtils {
 		
 		for (TaskTemplate template : templates) {
 			if (menu != null)
-				menu.add(new ActionAddTemplateTask(template, 16, 16));
+				menu.add(new ActionAddTemplateTask(null, template, 16, 16));
 			
 			if (popupMenu != null)
-				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
+				popupMenu.add(new ActionAddTemplateTask(null, template, 16, 16));
 		}
 		
 		if (menu != null) {
