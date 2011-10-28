@@ -71,21 +71,11 @@ public final class TemplateUtils {
 		Collections.sort(templates, new TaskTemplateComparator());
 		
 		for (TaskTemplate template : templates) {
-			Integer keyEvent = null;
-			
-			if (template.getProperties() != null)
-				keyEvent = template.getProperties().getIntegerProperty(
-						"shortcut");
-			
 			if (menu != null)
-				menu.add(new ActionAddTemplateTask(keyEvent, template, 16, 16));
+				menu.add(new ActionAddTemplateTask(template, 16, 16));
 			
 			if (popupMenu != null)
-				popupMenu.add(new ActionAddTemplateTask(
-						keyEvent,
-						template,
-						16,
-						16));
+				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
 		}
 		
 		if (menu != null) {

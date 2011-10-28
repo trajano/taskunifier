@@ -50,15 +50,11 @@ public class ActionAddTemplateTask extends AbstractAction {
 	
 	private TaskTemplate template;
 	
-	public ActionAddTemplateTask(Integer keyEvent, TaskTemplate template) {
-		this(keyEvent, template, 32, 32);
+	public ActionAddTemplateTask(TaskTemplate template) {
+		this(template, 32, 32);
 	}
 	
-	public ActionAddTemplateTask(
-			Integer keyEvent,
-			TaskTemplate template,
-			int width,
-			int height) {
+	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
 		super(template.getTitle(), ImageUtils.getResourceImage(
 				"template.png",
 				width,
@@ -69,6 +65,8 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());
 		
+		Integer keyEvent = template.getProperties().getIntegerProperty(
+				"shortcut");
 		if (keyEvent != null) {
 			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 					keyEvent,
@@ -89,6 +87,27 @@ public class ActionAddTemplateTask extends AbstractAction {
 						ActionAddTemplateTask.this.putValue(
 								SHORT_DESCRIPTION,
 								ActionAddTemplateTask.this.template.getTitle());
+					}
+					
+				});
+		
+		template.getProperties().addPropertyChangeListener(
+				"shortcut",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						Integer keyEvent = ActionAddTemplateTask.this.template.getProperties().getIntegerProperty(
+								"shortcut");
+						
+						if (keyEvent != null) {
+							ActionAddTemplateTask.this.putValue(
+									ACCELERATOR_KEY,
+									KeyStroke.getKeyStroke(
+											keyEvent,
+											Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+													+ InputEvent.SHIFT_MASK));
+						}
 					}
 					
 				});
