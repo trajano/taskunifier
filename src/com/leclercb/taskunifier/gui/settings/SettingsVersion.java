@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.swing.UIManager;
@@ -46,6 +47,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -208,7 +210,29 @@ public final class SettingsVersion {
 		if (version.equals("1.7.1"))
 			version = updateSettings_1_7_1_to_1_8_0();
 		
+		cleanSettings();
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
+	}
+	
+	private static void cleanSettings() {
+		try {
+			Properties defaultProperties = new Properties();
+			defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
+			
+			for (String key : defaultProperties.stringPropertyNames()) {
+				String value = defaultProperties.getProperty(key);
+				
+				if (value == null || value.length() == 0)
+					continue;
+				
+				if (Main.SETTINGS.getStringProperty(key) == null) {
+					GuiLogger.getLogger().warning("Clean settings: " + key);
+					Main.SETTINGS.remove(key);
+				}
+			}
+		} catch (Throwable t) {
+			
+		}
 	}
 	
 	private static String updateSettings_0_5_2_to_0_6() {
