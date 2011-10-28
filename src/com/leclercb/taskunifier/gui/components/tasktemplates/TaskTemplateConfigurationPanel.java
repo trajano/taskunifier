@@ -33,11 +33,15 @@
 package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -64,6 +68,8 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.Template;
+import com.leclercb.taskunifier.gui.commons.converters.TemplateShorcutConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
@@ -73,6 +79,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueKeyEvent;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -94,6 +101,11 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Initialize Fields
 		final JTextField templateTitle = new JTextField();
+		
+		final JComboBox templateShortcut = new JComboBox();
+		templateShortcut.setRenderer(new DefaultListRenderer(
+				StringValueKeyEvent.INSTANCE));
+		
 		final JTextField templateTaskTitle = new JTextField();
 		final JTextField templateTaskTags = new JTextField();
 		final JComboBox templateTaskFolder = ComponentFactory.createModelComboBox(
@@ -134,6 +146,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Set Disabled
 		templateTitle.setEnabled(false);
+		templateShortcut.setEnabled(false);
 		templateTaskTitle.setEnabled(false);
 		templateTaskTags.setEnabled(false);
 		templateTaskContext.setEnabled(false);
@@ -166,8 +179,25 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 						(TaskTemplate) null,
 						true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(TaskTemplate.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(Template.PROP_TITLE);
 				Bindings.bind(templateTitle, titleModel);
+				
+				TemplateShorcutConverter shortcutModel = new TemplateShorcutConverter(
+						this.adapter.getValueModel(Template.PROP_PROPERTIES));
+				templateShortcut.setModel(new ComboBoxAdapter<Integer>(
+						new Integer[] {
+								null,
+								KeyEvent.VK_0,
+								KeyEvent.VK_1,
+								KeyEvent.VK_2,
+								KeyEvent.VK_3,
+								KeyEvent.VK_4,
+								KeyEvent.VK_5,
+								KeyEvent.VK_6,
+								KeyEvent.VK_7,
+								KeyEvent.VK_8,
+								KeyEvent.VK_9 },
+						shortcutModel));
 				
 				ValueModel taskTitleModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_TITLE);
 				Bindings.bind(templateTaskTitle, taskTitleModel);
@@ -292,6 +322,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			public void templateSelected(TaskTemplate template) {
 				this.adapter.setBean(template != null ? template : null);
 				templateTitle.setEnabled(template != null);
+				templateShortcut.setEnabled(template != null);
 				templateTaskTitle.setEnabled(template != null);
 				templateTaskTags.setEnabled(template != null);
 				templateTaskFolder.setEnabled(template != null);
@@ -336,6 +367,17 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Template Title
 		builder.appendI15d("general.template.title", true, templateTitle);
+		
+		// Template Shortcut
+		JPanel shortcutPanel = new JPanel(new BorderLayout());
+		shortcutPanel.add(
+				new JLabel(
+						KeyEvent.getKeyModifiersText(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+								+ InputEvent.SHIFT_MASK)
+								+ " + "),
+				BorderLayout.WEST);
+		shortcutPanel.add(templateShortcut, BorderLayout.CENTER);
+		builder.appendI15d("general.template.shortcut", true, shortcutPanel);
 		
 		// Template Separator
 		builder.appendSeparator();

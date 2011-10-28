@@ -43,6 +43,7 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.Template;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTemplateTask extends AbstractAction {
@@ -76,7 +77,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 		}
 		
 		template.addPropertyChangeListener(
-				TaskTemplate.PROP_TITLE,
+				Template.PROP_TITLE,
 				new PropertyChangeListener() {
 					
 					@Override
