@@ -53,7 +53,12 @@ public class ActionAddQuickTask extends AbstractAction {
 	}
 	
 	public static Task addQuickTask(String task, boolean edit) {
-		TaskTemplate taskTemplate = TaskTemplateFactory.getInstance().getDefaultTemplate().clone();
+		TaskTemplate taskTemplate = null;
+		
+		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)
+			taskTemplate = TaskTemplateFactory.getInstance().getDefaultTemplate().clone();
+		else
+			taskTemplate = new TaskTemplate();
 		
 		task = task.trim();
 		

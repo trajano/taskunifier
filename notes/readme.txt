@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.8.1
+	- Major:
+		- BF 3429857: Quick add task not working
+
 Version 1.8.0
 	- Major:
 		- FR 3425408: Backup system + auto backup + auto save

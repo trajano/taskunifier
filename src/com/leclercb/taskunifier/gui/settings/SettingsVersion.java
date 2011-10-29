@@ -210,6 +210,9 @@ public final class SettingsVersion {
 		if (version.equals("1.7.1"))
 			version = updateSettings_1_7_1_to_1_8_0();
 		
+		if (version.equals("1.8.0"))
+			version = updateSettings_1_8_0_to_1_8_1();
+		
 		cleanSettings();
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -1001,6 +1004,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("view.calendar.zoom", "80");
 		
 		return "1.8.0";
+	}
+	
+	private static String updateSettings_1_8_0_to_1_8_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.8.0 to 1.8.1");
+		
+		return "1.8.1";
 	}
 	
 }
