@@ -41,14 +41,15 @@ import javax.swing.SwingWorker;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionSave;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -62,13 +63,15 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 	private static int SYNCHRONIZE_COUNT = 0;
 	
 	private boolean silent;
-	private ProgressMessageListener handler;
+	private SynchronizerProgressMessageListener handler;
 	
 	public SynchronizeWorker(boolean silent) {
 		this(silent, null);
 	}
 	
-	public SynchronizeWorker(boolean silent, ProgressMessageListener handler) {
+	public SynchronizeWorker(
+			boolean silent,
+			SynchronizerProgressMessageListener handler) {
 		this.silent = silent;
 		this.handler = handler;
 	}
@@ -93,7 +96,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
-			monitor.addMessage(new DefaultProgressMessage(
+			monitor.addMessage(new SynchronizerDefaultProgressMessage(
 					Translations.getString("synchronizer.set_proxy")));
 			
 			SynchronizerUtils.initializeProxy();
@@ -101,7 +104,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
 			
 			if (plugin.needsLicense()) {
-				monitor.addMessage(new DefaultProgressMessage(
+				monitor.addMessage(new SynchronizerDefaultProgressMessage(
 						Translations.getString("synchronizer.checking_license")));
 				
 				if (!plugin.checkLicense()) {
@@ -109,12 +112,12 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 					waitTime += SYNCHRONIZE_COUNT
 							* Constants.WAIT_NO_LICENSE_ADDED_TIME;
 					
-					monitor.addMessage(new DefaultProgressMessage(
+					monitor.addMessage(new SynchronizerDefaultProgressMessage(
 							Translations.getString(
 									"synchronizer.wait_no_license",
 									waitTime)));
 					
-					monitor.addMessage(new DefaultProgressMessage(
+					monitor.addMessage(new SynchronizerDefaultProgressMessage(
 							Translations.getString(
 									"general.go_to_serial",
 									plugin.getName())));
@@ -123,7 +126,7 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 				}
 			}
 			
-			monitor.addMessage(new DefaultProgressMessage(
+			monitor.addMessage(new SynchronizerDefaultProgressMessage(
 					Translations.getString(
 							"synchronizer.connecting",
 							plugin.getSynchronizerApi().getApiName())));
@@ -155,7 +158,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			SYNCHRONIZE_COUNT++;
 		} catch (final SynchronizerException e) {
-			monitor.addMessage(new DefaultProgressMessage(e.getMessage()));
+			monitor.addMessage(new SynchronizerDefaultProgressMessage(
+					e.getMessage()));
 			
 			SwingUtilities.invokeLater(new Runnable() {
 				
@@ -184,7 +188,8 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			return null;
 		} catch (final Throwable t) {
-			monitor.addMessage(new DefaultProgressMessage(t.getMessage()));
+			monitor.addMessage(new SynchronizerDefaultProgressMessage(
+					t.getMessage()));
 			
 			if (!this.silent) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -219,6 +224,9 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 		}
 		
 		Thread.sleep(1000);
+		
+		if (this.handler != null)
+			monitor.removeListChangeListener(this.handler);
 		
 		Main.SETTINGS.setStringProperty(
 				"synchronizer.scheduler_sleep_time",

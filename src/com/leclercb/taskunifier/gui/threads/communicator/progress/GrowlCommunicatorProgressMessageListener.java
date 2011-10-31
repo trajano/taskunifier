@@ -30,46 +30,21 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration;
+package com.leclercb.taskunifier.gui.threads.communicator.progress;
 
-import org.apache.commons.lang.SystemUtils;
+import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.taskunifier.gui.utils.GrowlUtils;
+import com.leclercb.taskunifier.gui.utils.GrowlUtils.GrowlNotificationList;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
-import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.advanced.CommunicatorPortFieldType;
-import com.leclercb.taskunifier.gui.translations.Translations;
-
-public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
+public class GrowlCommunicatorProgressMessageListener extends CommunicatorProgressMessageListener {
 	
-	public AdvancedConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration);
-		this.initialize();
-		this.pack();
+	public GrowlCommunicatorProgressMessageListener() {
+		
 	}
 	
-	private void initialize() {
-		if (SystemUtils.IS_OS_MAC) {
-			this.addField(new ConfigurationField(
-					"GROWL_ENABLED",
-					Translations.getString("configuration.advanced.growl_enabled"),
-					true,
-					new ConfigurationFieldType.CheckBox("general.growl.enabled")));
-		}
-		
-		this.addField(new ConfigurationField(
-				"COMMUNICATOR_ENABLED",
-				Translations.getString("configuration.advanced.communicator_enabled"),
-				true,
-				new ConfigurationFieldType.CheckBox(
-						"general.communicator.enabled")));
-		
-		this.addField(new ConfigurationField(
-				"COMMUNICATOR_PORT",
-				Translations.getString("configuration.advanced.communicator_port"),
-				true,
-				new CommunicatorPortFieldType()));
+	@Override
+	public void showMessage(ProgressMessage message, String content) {
+		GrowlUtils.notify(GrowlNotificationList.COMMUNICATOR, content);
 	}
 	
 }

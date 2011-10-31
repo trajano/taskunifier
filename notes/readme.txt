@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.8.2
+	- Minor:
+		- Growl support on Mac OS
+
 Version 1.8.1
 	- Major:
 		- BF 3429857: Quick add task not working

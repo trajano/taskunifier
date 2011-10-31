@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
@@ -20,6 +19,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class CommunicatorClient extends Thread {
@@ -78,7 +78,7 @@ public class CommunicatorClient extends Thread {
 					notes.add(ActionAddNote.addNote(note, true, false));
 				}
 				
-				Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
 						Translations.getString(
 								"communicator.message.add_note",
 								notes.size(),
@@ -95,7 +95,7 @@ public class CommunicatorClient extends Thread {
 					tasks.add(ActionAddTask.addTask(task, true, false));
 				}
 				
-				Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
 						Translations.getString(
 								"communicator.message.add_task",
 								tasks.size(),
@@ -110,7 +110,7 @@ public class CommunicatorClient extends Thread {
 			
 		}
 		
-		Constants.PROGRESS_MONITOR.addMessage(new DefaultProgressMessage(
+		Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
 				Translations.getString("error.unknown_message_format")));
 		
 		GuiLogger.getLogger().warning("Unknown message format");

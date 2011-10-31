@@ -30,46 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration;
+package com.leclercb.taskunifier.gui.threads.communicator.progress;
 
-import org.apache.commons.lang.SystemUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.progress.ProgressMessage;
 
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
-import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.advanced.CommunicatorPortFieldType;
-import com.leclercb.taskunifier.gui.translations.Translations;
-
-public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
+public abstract class CommunicatorProgressMessageListener implements ListChangeListener {
 	
-	public AdvancedConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration);
-		this.initialize();
-		this.pack();
-	}
+	public abstract void showMessage(ProgressMessage message, String content);
 	
-	private void initialize() {
-		if (SystemUtils.IS_OS_MAC) {
-			this.addField(new ConfigurationField(
-					"GROWL_ENABLED",
-					Translations.getString("configuration.advanced.growl_enabled"),
-					true,
-					new ConfigurationFieldType.CheckBox("general.growl.enabled")));
+	@Override
+	public void listChange(ListChangeEvent event) {
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+			ProgressMessage message = (ProgressMessage) event.getValue();
+			
+			if (message instanceof CommunicatorDefaultProgressMessage) {
+				CommunicatorDefaultProgressMessage m = (CommunicatorDefaultProgressMessage) message;
+				
+				this.showMessage(m, m.getMessage());
+			}
 		}
-		
-		this.addField(new ConfigurationField(
-				"COMMUNICATOR_ENABLED",
-				Translations.getString("configuration.advanced.communicator_enabled"),
-				true,
-				new ConfigurationFieldType.CheckBox(
-						"general.communicator.enabled")));
-		
-		this.addField(new ConfigurationField(
-				"COMMUNICATOR_PORT",
-				Translations.getString("configuration.advanced.communicator_port"),
-				true,
-				new CommunicatorPortFieldType()));
 	}
 	
 }

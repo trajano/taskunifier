@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
+import com.leclercb.taskunifier.gui.components.synchronize.progress.GrowlSynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
@@ -68,6 +69,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.autobackup.AutoBackupThread;
 import com.leclercb.taskunifier.gui.threads.autosave.AutoSaveThread;
 import com.leclercb.taskunifier.gui.threads.communicator.CommunicatorThread;
+import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -152,6 +154,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			}
 			
 		});
+		
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlCommunicatorProgressMessageListener());
 		
 		this.initializeAutoBackupThread();
 		this.initializeAutoSaveThread();

@@ -43,13 +43,14 @@ import javax.swing.JLabel;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
-import com.leclercb.taskunifier.gui.components.synchronize.ProgressMessageListener;
+import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -62,13 +63,22 @@ final class StatusBarElements {
 	public static final JLabel createSynchronizerStatus() {
 		final JLabel element = new JLabel();
 		
-		Constants.PROGRESS_MONITOR.addListChangeListener(new ProgressMessageListener() {
+		Constants.PROGRESS_MONITOR.addListChangeListener(new SynchronizerProgressMessageListener() {
 			
 			@Override
 			public void showMessage(ProgressMessage message, String content) {
 				element.setText(Translations.getString("synchronizer.status")
 						+ ": "
 						+ content);
+			}
+			
+		});
+		
+		Constants.PROGRESS_MONITOR.addListChangeListener(new CommunicatorProgressMessageListener() {
+			
+			@Override
+			public void showMessage(ProgressMessage message, String content) {
+				element.setText(content);
 			}
 			
 		});
