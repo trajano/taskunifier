@@ -73,12 +73,15 @@ public class Growl {
 		this.notify(notificationList, title, "");
 	}
 	
-	public void notify(String notificationList, String title, String message)
+	public void notify(String notificationList, String title, String description)
 			throws ScriptException {
+		if (description == null)
+			description = "";
+		
 		String script = this.script().add("tell application id ").quote(
 				GROWL_APPLICATION).nextRow("notify with name ").quote(
 				notificationList).add(" title ").quote(title).add(
-				" description ").quote(message).add(" application name ").quote(
+				" description ").quote(description).add(" application name ").quote(
 				this.applicationName).nextRow("end tell").get();
 		this.executeScript(script);
 	}

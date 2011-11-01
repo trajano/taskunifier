@@ -71,6 +71,7 @@ import com.leclercb.taskunifier.gui.threads.autosave.AutoSaveThread;
 import com.leclercb.taskunifier.gui.threads.communicator.CommunicatorThread;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.reminder.ReminderThread;
+import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -155,8 +156,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 		});
 		
-		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
 		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlCommunicatorProgressMessageListener());
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlReminderProgressMessageListener());
 		
 		this.initializeAutoBackupThread();
 		this.initializeAutoSaveThread();

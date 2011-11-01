@@ -39,22 +39,23 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.threads.reminder.progress.ReminderDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	private static final long SLEEP_TIME = 10000;
 	
-	private List<ModelId> notifiedTasks;
+	private List<Task> notifiedTasks;
 	
 	public ReminderRunnable() {
-		this.notifiedTasks = new ArrayList<ModelId>();
+		this.notifiedTasks = new ArrayList<Task>();
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
@@ -68,9 +69,9 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 					continue;
 				
 				boolean reminders = false;
-				List<Task> list = TaskFactory.getInstance().getList();
-				for (final Task task : list) {
-					if (this.notifiedTasks.contains(task.getModelId()))
+				List<Task> tasks = TaskFactory.getInstance().getList();
+				for (final Task task : tasks) {
+					if (this.notifiedTasks.contains(task))
 						continue;
 					
 					if (!task.getModelStatus().isEndUserStatus())
@@ -78,11 +79,14 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 					
 					if (TaskUtils.isInStartDateReminderZone(task)
 							|| TaskUtils.isInDueDateReminderZone(task)) {
-						this.notifiedTasks.remove(task.getModelId());
-						this.notifiedTasks.add(task.getModelId());
+						this.notifiedTasks.remove(task);
+						this.notifiedTasks.add(task);
 						
 						ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
 								task);
+						
+						Constants.PROGRESS_MONITOR.addMessage(new ReminderDefaultProgressMessage(
+								task));
 						
 						reminders = true;
 					}
@@ -114,7 +118,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 				|| !((Task) evt.getSource()).getModelStatus().isEndUserStatus()) {
 			ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
 					(Task) evt.getSource());
-			this.notifiedTasks.remove(((Task) evt.getSource()).getModelId());
+			this.notifiedTasks.remove(evt.getSource());
 		}
 	}
 	

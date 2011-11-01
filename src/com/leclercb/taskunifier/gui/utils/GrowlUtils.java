@@ -99,13 +99,13 @@ public final class GrowlUtils {
 	public static void notify(
 			GrowlNotificationList list,
 			String title,
-			String message) {
+			String description) {
 		if (GROWL == null)
 			return;
 		
 		try {
 			GROWL.registerApplication();
-			GROWL.notify(list.getNotificationList(), title, message);
+			GROWL.notify(list.getNotificationList(), title, description);
 		} catch (Throwable t) {
 			
 		}
