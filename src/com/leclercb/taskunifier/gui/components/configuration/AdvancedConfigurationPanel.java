@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public AdvancedConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration);
+		super(configuration, "configuration_advanced");
 		this.initialize();
 		this.pack();
 	}

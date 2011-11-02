@@ -138,18 +138,20 @@ public final class BackupUtils {
 		return true;
 	}
 	
-	public void restoreBackup(String backupName) {
+	public boolean restoreBackup(String backupName) {
 		if (!this.checkBackupName(backupName, false))
-			return;
+			return false;
 		
 		if (!Synchronizing.setSynchronizing(true))
-			return;
+			return false;
 		
 		SynchronizerUtils.resetSynchronizerAndDeleteModels();
 		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
 		Main.loadAllData(folder);
 		
 		Synchronizing.setSynchronizing(false);
+		
+		return true;
 	}
 	
 	public void removeBackup(String backupName) {

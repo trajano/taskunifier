@@ -35,7 +35,9 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -58,7 +60,27 @@ public class ActionCreateNewBackup extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		BackupUtils.getInstance().createNewBackup();
+		ActionCreateNewBackup.createNewBackup(true);
+	}
+	
+	public static boolean createNewBackup(boolean feedback) {
+		boolean result = BackupUtils.getInstance().createNewBackup();
+		
+		if (result) {
+			JOptionPane.showMessageDialog(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("action.create_new_backup.success"),
+					Translations.getString("general.information"),
+					JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("action.create_new_backup.failure"),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return result;
 	}
 	
 }
