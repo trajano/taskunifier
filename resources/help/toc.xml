@@ -9,8 +9,15 @@
 			<tocitem text="General" target="configuration_general" />
 			<tocitem text="Backup" target="configuration_backup" />
 			<tocitem text="Proxy" target="configuration_proxy" />
-			<tocitem text="Columns" target="configuration_columns" />
 			<tocitem text="Searcher" target="configuration_searcher" />
+			
+			<tocitem text="Theme">
+			
+				<tocitem text="Columns" target="configuration_columns" />
+		
+			</tocitem>
+			
+			<tocitem text="Advanced" target="configuration_advanced" />
 			<tocitem text="Synchronization" target="configuration_synchronization" />
 		
 		</tocitem>

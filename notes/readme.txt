@@ -4,6 +4,7 @@ HISTORY
 Version 1.8.2
 	- Minor:
 		- Growl support on Mac OS
+		- FR 3432166: Feedback messages for backup and save
 
 Version 1.8.1
 	- Major:

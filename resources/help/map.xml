@@ -4,6 +4,7 @@
 
 	<mapID target="taskunifier" url="pages/taskunifier.html" />
 
+	<mapID target="configuration_advanced" url="pages/configuration_advanced.html" />
 	<mapID target="configuration_backup" url="pages/configuration_backup.html" />
 	<mapID target="configuration_columns" url="pages/configuration_columns.html" />
 	<mapID target="configuration_general" url="pages/configuration_general.html" />
