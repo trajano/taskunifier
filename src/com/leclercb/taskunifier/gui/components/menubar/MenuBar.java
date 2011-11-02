@@ -82,6 +82,7 @@ import com.leclercb.taskunifier.gui.actions.ActionImportTaskSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionLogBug;
 import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
+import com.leclercb.taskunifier.gui.actions.ActionManageBackups;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
@@ -158,6 +159,8 @@ public class MenuBar extends JMenuBar {
 		fileMenu.add(new ActionPrintSelectedModels(16, 16));
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionCreateNewBackup(16, 16));
+		fileMenu.add(new ActionManageBackups(16, 16));
+		fileMenu.addSeparator();
 		fileMenu.add(new ActionSave(16, 16));
 		fileMenu.addSeparator();
 		fileMenu.add(new ActionQuit(16, 16));
