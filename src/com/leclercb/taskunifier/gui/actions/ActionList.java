@@ -55,6 +55,7 @@ public enum ActionList {
 	IMPORT_TASK_TEMPLATES(Translations.getString("action.import_task_templates"), "download.png", true),
 	LOG_BUG(Translations.getString("action.log_bug"), null, false),
 	LOG_FEATURE_REQUEST(Translations.getString("action.log_feature_request"), null, false),
+	MANAGE_BACKUPS(Translations.getString("action.manage_backus"), "save.png", true),
 	MANAGE_MODELS(Translations.getString("action.manage_models"), "folder.png", true),
 	MANAGE_PLUGINS(Translations.getString("action.manage_plugins"), "download.png", true),
 	MANAGE_TASK_TEMPLATES(Translations.getString("action.manage_task_templates"), "template.png", true),
