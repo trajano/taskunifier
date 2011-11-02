@@ -66,6 +66,9 @@ public class ActionCreateNewBackup extends AbstractAction {
 	public static boolean createNewBackup(boolean feedback) {
 		boolean result = BackupUtils.getInstance().createNewBackup();
 		
+		if (!feedback)
+			return result;
+		
 		if (result) {
 			JOptionPane.showMessageDialog(
 					MainFrame.getInstance().getFrame(),
