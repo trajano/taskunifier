@@ -170,7 +170,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
-		Synchronizing.setSynchronizing(true);
+		if (!Synchronizing.setSynchronizing(true))
+			return;
 		
 		Main.SETTINGS.setCalendarProperty(
 				"synchronizer.last_synchronization_date",

@@ -37,6 +37,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import com.leclercb.commons.api.progress.DefaultProgressMessage;
+import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
@@ -45,6 +47,8 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.AutoBackupEveryFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
+import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
@@ -107,9 +111,27 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								if (backupList.getSelectedItem() != null) {
-									BackupUtils.getInstance().createNewBackup();
-									BackupUtils.getInstance().restoreBackup(
-											(String) backupList.getSelectedItem());
+									TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+											MainFrame.getInstance().getFrame(),
+											Translations.getString("configuration.backup.restore_backup")) {
+										
+										@Override
+										public Void doActions(
+												ProgressMonitor monitor)
+												throws Throwable {
+											monitor.addMessage(new DefaultProgressMessage(
+													Translations.getString("configuration.backup.restore_backup")));
+											
+											BackupUtils.getInstance().createNewBackup();
+											BackupUtils.getInstance().restoreBackup(
+													(String) backupList.getSelectedItem());
+											
+											return null;
+										}
+										
+									};
+									
+									dialog.setVisible(true);
 								}
 							}
 							

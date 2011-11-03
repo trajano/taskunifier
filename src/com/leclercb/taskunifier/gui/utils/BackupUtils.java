@@ -142,10 +142,11 @@ public final class BackupUtils {
 		if (!this.checkBackupName(backupName, false))
 			return false;
 		
+		SynchronizerUtils.resetSynchronizerAndDeleteModels();
+		
 		if (!Synchronizing.setSynchronizing(true))
 			return false;
 		
-		SynchronizerUtils.resetSynchronizerAndDeleteModels();
 		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
 		Main.loadAllData(folder);
 		
