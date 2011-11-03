@@ -221,12 +221,12 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			return null;
 		} finally {
 			SynchronizerUtils.removeProxy();
+			
+			if (this.handler != null)
+				monitor.removeListChangeListener(this.handler);
 		}
 		
 		Thread.sleep(1000);
-		
-		if (this.handler != null)
-			monitor.removeListChangeListener(this.handler);
 		
 		Main.SETTINGS.setStringProperty(
 				"synchronizer.scheduler_sleep_time",

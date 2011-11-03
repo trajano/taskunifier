@@ -56,17 +56,6 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 				SynchronizerDefaultProgressMessage m = (SynchronizerDefaultProgressMessage) message;
 				
 				this.showMessage(m, m.getMessage());
-			} else if (message instanceof SynchronizerMainProgressMessage) {
-				SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
-				
-				if (m.getType().equals(ProgressMessageType.START))
-					this.showMessage(
-							m,
-							Translations.getString("synchronizer.start_synchronization"));
-				else if (m.getType().equals(ProgressMessageType.END))
-					this.showMessage(
-							m,
-							Translations.getString("synchronizer.synchronization_completed"));
 			} else if (message instanceof SynchronizerRetrievedModelsProgressMessage) {
 				SynchronizerRetrievedModelsProgressMessage m = (SynchronizerRetrievedModelsProgressMessage) message;
 				
@@ -97,6 +86,17 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 								"synchronizer.synchronizing",
 								m.getActionCount(),
 								type));
+			} else if (message instanceof SynchronizerMainProgressMessage) {
+				SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
+				
+				if (m.getType().equals(ProgressMessageType.START))
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.start_synchronization"));
+				else if (m.getType().equals(ProgressMessageType.END))
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.synchronization_completed"));
 			}
 		}
 	}
