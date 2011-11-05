@@ -487,10 +487,11 @@ public final class TaskUtils {
 		importance += (task.isStar() ? 1 : 0);
 		
 		if (task.getDueDate() != null) {
-			long milliSeconds1 = task.getDueDate().getTimeInMillis();
-			long milliSeconds2 = Calendar.getInstance().getTimeInMillis();
-			long diff = milliSeconds1 - milliSeconds2;
-			double diffDays = diff / (24 * 60 * 60 * 1000.0);
+			boolean useTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+			double diffDays = DateUtils.getDiffInDays(
+					Calendar.getInstance(),
+					task.getDueDate(),
+					useTime);
 			
 			if (diffDays > 14)
 				importance += 0;
@@ -498,9 +499,9 @@ public final class TaskUtils {
 				importance += 1;
 			else if (diffDays >= 2)
 				importance += 2;
-			else if (diffDays == 1)
+			else if (diffDays >= 1)
 				importance += 3;
-			else if (diffDays == 0)
+			else if (diffDays >= 0)
 				importance += 5;
 			else
 				importance += 6;
