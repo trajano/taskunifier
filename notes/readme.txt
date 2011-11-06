@@ -4,7 +4,7 @@ HISTORY
 Version 1.8.2
 	- Minor:
 		- Growl support on Mac OS
-		- FR 3432166: Feedback messages for backup
+		- FR 3432166: Feedback message for backup
 		- BF 3433706: Importance not correct
 
 Version 1.8.1
