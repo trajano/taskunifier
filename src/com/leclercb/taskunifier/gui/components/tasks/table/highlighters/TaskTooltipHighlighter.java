@@ -43,6 +43,7 @@ import org.jdesktop.swingx.decorator.ToolTipHighlighter;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskProgress;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -58,6 +59,8 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
 		
 		switch (column) {
+			case PROGRESS:
+				return this.doHighlightProgress(renderer, adapter);
 			case LENGTH:
 				return this.doHighlightLength(renderer, adapter);
 			case TIMER:
@@ -65,6 +68,49 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 			default:
 				return super.doHighlight(renderer, adapter);
 		}
+	}
+	
+	protected Component doHighlightProgress(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		int nbChildren = 0;
+		double progress = 0;
+		for (Task child : task.getChildren()) {
+			if (!child.getModelStatus().isEndUserStatus())
+				continue;
+			
+			nbChildren++;
+			
+			if (child.isCompleted())
+				progress += 1;
+			else
+				progress += child.getProgress();
+		}
+		
+		String tooltip = null;
+		
+		if (nbChildren > 0)
+			tooltip = String.format(
+					"%1s (%2s: %3s)",
+					StringValueTaskProgress.INSTANCE.getString(task.getProgress()),
+					Translations.getString("general.subtasks"),
+					StringValueTaskProgress.INSTANCE.getString(progress
+							/ nbChildren));
+		else
+			tooltip = StringValueTaskProgress.INSTANCE.getString(task.getProgress());
+		
+		((JComponent) renderer).setToolTipText(tooltip);
+		
+		return renderer;
 	}
 	
 	protected Component doHighlightLength(
