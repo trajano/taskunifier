@@ -88,6 +88,15 @@ public class TaskComparator implements Comparator<Task> {
 				return result;
 		}
 		
+		int result = this.compare(
+				TaskColumn.MODEL_CREATION_DATE,
+				SortOrder.ASCENDING,
+				task1,
+				task2);
+		
+		if (result != 0)
+			return result;
+		
 		return this.compare(TaskColumn.MODEL, SortOrder.ASCENDING, task1, task2);
 	}
 	
@@ -176,10 +185,16 @@ public class TaskComparator implements Comparator<Task> {
 				result = 0;
 				break;
 			case MODEL_CREATION_DATE:
-				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				result = this.compareCalendars(
+						(Calendar) o1,
+						(Calendar) o2,
+						true);
 				break;
 			case MODEL_UPDATE_DATE:
-				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				result = this.compareCalendars(
+						(Calendar) o1,
+						(Calendar) o2,
+						true);
 				break;
 			case SHOW_CHILDREN:
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
@@ -219,13 +234,22 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case COMPLETED_ON:
-				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				result = this.compareCalendars(
+						(Calendar) o1,
+						(Calendar) o2,
+						false);
 				break;
 			case DUE_DATE:
-				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				result = this.compareCalendars(
+						(Calendar) o1,
+						(Calendar) o2,
+						false);
 				break;
 			case START_DATE:
-				result = this.compareCalendars((Calendar) o1, (Calendar) o2);
+				result = this.compareCalendars(
+						(Calendar) o1,
+						(Calendar) o2,
+						false);
 				break;
 			case DUE_DATE_REMINDER:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
@@ -289,7 +313,10 @@ public class TaskComparator implements Comparator<Task> {
 		return model1.getTitle().compareTo(model2.getTitle());
 	}
 	
-	private int compareCalendars(Calendar calendar1, Calendar calendar2) {
+	private int compareCalendars(
+			Calendar calendar1,
+			Calendar calendar2,
+			boolean raw) {
 		if (calendar1 == null && calendar2 == null)
 			return 0;
 		
@@ -299,11 +326,13 @@ public class TaskComparator implements Comparator<Task> {
 		if (calendar2 == null)
 			return -1;
 		
-		calendar1.set(Calendar.SECOND, 0);
-		calendar1.set(Calendar.MILLISECOND, 0);
-		
-		calendar2.set(Calendar.SECOND, 0);
-		calendar2.set(Calendar.MILLISECOND, 0);
+		if (!raw) {
+			calendar1.set(Calendar.SECOND, 0);
+			calendar1.set(Calendar.MILLISECOND, 0);
+			
+			calendar2.set(Calendar.SECOND, 0);
+			calendar2.set(Calendar.MILLISECOND, 0);
+		}
 		
 		return calendar1.compareTo(calendar2);
 	}
