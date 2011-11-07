@@ -208,6 +208,16 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.firePropertyChange(PROP_NOTE_COUNT, null, this.getNoteCount());
 	}
 	
+	@Override
+	public boolean shouldBeDisplayed(Note note) {
+		CheckUtils.isNotNull(note, "Note cannot be null");
+		NoteSearcher searcher = this.getNoteSearcher();
+		if (searcher == null)
+			return false;
+		
+		return new NoteRowFilter(searcher.getFilter()).include(note);
+	}
+	
 	public NoteSearcher getNoteSearcher() {
 		return NoteRowComparator.getInstance().getNoteSearcher();
 	}

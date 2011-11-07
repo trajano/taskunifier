@@ -60,7 +60,10 @@ public class NoteRowFilter extends RowFilter<TableModel, Integer> {
 	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
 		NoteTableModel noteTableModel = (NoteTableModel) entry.getModel();
 		Note note = noteTableModel.getNote(entry.getIdentifier());
-		
+		return this.include(note);
+	}
+	
+	public boolean include(Note note) {
 		return NoteUtils.showNote(note, this.filter);
 	}
 	

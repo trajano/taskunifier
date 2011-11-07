@@ -106,13 +106,13 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	@Override
 	public void addNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public void removeNoteSearcherSelectionChangeListener(
 			NoteSearcherSelectionListener listener) {
-		
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override

@@ -108,13 +108,13 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	@Override
 	public void addTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public void removeTaskSearcherSelectionChangeListener(
 			TaskSearcherSelectionListener listener) {
-		
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
