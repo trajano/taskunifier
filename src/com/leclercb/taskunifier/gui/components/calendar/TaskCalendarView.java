@@ -12,4 +12,6 @@ public interface TaskCalendarView extends ModelSelectionChangeSupported {
 	
 	public abstract void refreshTasks();
 	
+	public abstract boolean shouldBeDisplayed(Task task);
+	
 }

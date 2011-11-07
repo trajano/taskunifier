@@ -94,9 +94,6 @@ public class ActionAddTask extends AbstractAction {
 		
 		if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
 			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
-			
-			if (searcherTemplate == null)
-				ViewType.selectDefaultTaskSearcher();
 		}
 		
 		Task task = TaskFactory.getInstance().create(
@@ -110,6 +107,9 @@ public class ActionAddTask extends AbstractAction {
 		
 		if (title != null)
 			task.setTitle(title);
+		
+		if (searcherTemplate == null && !ViewType.shouldBeDisplayed(task))
+			ViewType.selectDefaultTaskSearcher();
 		
 		ViewType.refreshTasks();
 		

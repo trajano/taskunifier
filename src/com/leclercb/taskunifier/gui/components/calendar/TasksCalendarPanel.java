@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPane
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
 	
@@ -229,6 +230,17 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		this.eventDataList.clear();
 		this.eventDataList.addAll(allActiveEvents);
+	}
+	
+	@Override
+	public boolean shouldBeDisplayed(Task task) {
+		TaskSearcher searcher = this.calendarPanel.getTaskSearcherPanel().getSelectedTaskSearcher();
+		
+		if (searcher != null
+				&& !TaskUtils.showUnindentTask(task, searcher.getFilter()))
+			return false;
+		
+		return true;
 	}
 	
 	private class TasksCalendarListener extends CalendarAdapter {
