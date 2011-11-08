@@ -10,14 +10,14 @@ public class AutoSaveThread extends Thread {
 	
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (!this.isInterrupted()) {
+			try {
 				Thread.sleep(30 * 60 * 1000);
 				
 				ActionSave.save();
+			} catch (InterruptedException e) {
+				
 			}
-		} catch (InterruptedException e) {
-			
 		}
 	}
 	

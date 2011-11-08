@@ -61,8 +61,8 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
+			try {
 				Thread.sleep(SLEEP_TIME);
 				
 				if (Synchronizing.isSynchronizing())
@@ -102,9 +102,9 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 						
 					});
 				}
+			} catch (InterruptedException e) {
+				
 			}
-		} catch (InterruptedException e) {
-			
 		}
 	}
 	

@@ -43,7 +43,7 @@ public class CommunicatorThread extends Thread {
 			GuiLogger.getLogger().info(
 					"Communicator initialized on port " + this.port);
 			
-			while (true) {
+			while (!this.isInterrupted()) {
 				CommunicatorClient client = new CommunicatorClient(
 						this.group,
 						serverSocket.accept());

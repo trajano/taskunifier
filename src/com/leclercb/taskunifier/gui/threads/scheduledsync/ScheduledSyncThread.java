@@ -97,15 +97,15 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 	
 	@Override
 	public void run() {
-		try {
-			while (true) {
+		while (!this.isInterrupted()) {
+			try {
 				for (this.setRemainingSleepTime(this.sleepTime); this.getRemainingSleepTime() > 0; this.setRemainingSleepTime(this.isPaused() ? this.getRemainingSleepTime() : this.getRemainingSleepTime() - 1000))
 					Thread.sleep(1000);
 				
 				ActionSynchronize.synchronize(true);
+			} catch (InterruptedException e) {
+				
 			}
-		} catch (InterruptedException e) {
-			
 		}
 	}
 	
