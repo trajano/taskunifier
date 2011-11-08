@@ -49,6 +49,7 @@ import javax.swing.tree.TreePath;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -58,6 +59,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Tag;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -69,6 +71,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupport;
@@ -92,7 +95,8 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private TaskSearcherTree searcherView;
 	
-	private String titleFilter;
+	private Task[] tasks;
+	private String filter;
 	
 	public TaskSearcherPanel(String settingsPrefix) {
 		this.taskSearcherSelectionChangeSupport = new TaskSearcherSelectionChangeSupport(
@@ -106,14 +110,33 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	@Override
-	public void setTitleFilter(String titleFilter) {
-		if (EqualsUtils.equals(this.titleFilter, titleFilter))
+	public void addExtraTasks(Task[] tasks) {
+		if (tasks == null)
 			return;
 		
-		String oldTitleFilter = this.titleFilter;
-		this.titleFilter = titleFilter;
+		if (this.tasks == null) {
+			this.setExtraTasks(tasks);
+			return;
+		}
 		
-		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
+		this.setExtraTasks(ArrayUtils.concat(this.tasks, tasks));
+	}
+	
+	@Override
+	public void setExtraTasks(Task[] tasks) {
+		this.tasks = tasks;
+		this.refreshTaskSearcher();
+	}
+	
+	@Override
+	public void setSearchFilter(String filter) {
+		if (EqualsUtils.equals(this.filter, filter))
+			return;
+		
+		String oldTitleFilter = this.filter;
+		this.filter = filter;
+		
+		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, filter);
 	}
 	
 	@Override
@@ -145,48 +168,68 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		searcher = searcher.clone();
 		
-		if (this.titleFilter != null && this.titleFilter.length() != 0) {
-			TaskFilter originalFilter = searcher.getFilter();
-			
-			TaskFilter newFilter = new TaskFilter();
-			newFilter.setLink(FilterLink.AND);
-			
-			TaskFilter searchFilter = new TaskFilter();
-			searchFilter.setLink(FilterLink.OR);
+		TaskFilter originalFilter = searcher.getFilter();
+		
+		TaskFilter mainFilter = new TaskFilter();
+		mainFilter.setLink(FilterLink.OR);
+		
+		TaskFilter newFilter = new TaskFilter();
+		newFilter.setLink(FilterLink.AND);
+		
+		TaskFilter extraFilter = new TaskFilter();
+		extraFilter.setLink(FilterLink.OR);
+		
+		TaskFilter searchFilter = new TaskFilter();
+		searchFilter.setLink(FilterLink.OR);
+		
+		if (this.filter != null && this.filter.length() != 0) {
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.TITLE,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.TAGS,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.NOTE,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.CONTEXT,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.FOLDER,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.GOAL,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
 					TaskColumn.LOCATION,
 					StringCondition.CONTAINS,
-					this.titleFilter));
-			
-			newFilter.addFilter(searchFilter);
-			newFilter.addFilter(originalFilter);
-			
-			searcher.setFilter(newFilter);
+					this.filter));
 		}
+		
+		if (this.tasks != null) {
+			for (Task task : this.tasks) {
+				extraFilter.addElement(new TaskFilterElement(
+						TaskColumn.MODEL,
+						ModelCondition.EQUALS,
+						task));
+			}
+			
+			mainFilter.addFilter(extraFilter);
+		}
+		
+		mainFilter.addFilter(newFilter);
+		
+		newFilter.addFilter(searchFilter);
+		newFilter.addFilter(originalFilter);
+		
+		searcher.setFilter(mainFilter);
 		
 		if (Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks_at_the_end")) {
 			searcher.getSorter().insertElement(
@@ -246,6 +289,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent evt) {
+				TaskSearcherPanel.this.tasks = null;
 				TaskSearcherPanel.this.taskSearcherSelectionChangeSupport.fireTaskSearcherSelectionChange(TaskSearcherPanel.this.getSelectedTaskSearcher());
 			}
 			

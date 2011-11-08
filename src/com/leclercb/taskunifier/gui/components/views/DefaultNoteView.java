@@ -145,7 +145,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultNoteView.this.noteSearcherPanel.setTitleFilter(e.getActionCommand());
+				DefaultNoteView.this.noteSearcherPanel.setSearchFilter(e.getActionCommand());
 			}
 			
 		});

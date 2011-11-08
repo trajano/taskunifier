@@ -34,12 +34,17 @@ package com.leclercb.taskunifier.gui.components.tasksearchertree;
 
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Tag;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeSupported;
 
 public interface TaskSearcherView extends TaskSearcherSelectionChangeSupported {
 	
-	public abstract void setTitleFilter(String title);
+	public abstract void addExtraTasks(Task[] tasks);
+	
+	public abstract void setExtraTasks(Task[] tasks);
+	
+	public abstract void setSearchFilter(String filter);
 	
 	public abstract void selectDefaultTaskSearcher();
 	

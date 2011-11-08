@@ -51,6 +51,7 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Tag;
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -118,7 +119,17 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	@Override
-	public void setTitleFilter(String title) {
+	public void addExtraTasks(Task[] tasks) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void setExtraTasks(Task[] tasks) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void setSearchFilter(String filter) {
 		throw new UnsupportedOperationException();
 	}
 	

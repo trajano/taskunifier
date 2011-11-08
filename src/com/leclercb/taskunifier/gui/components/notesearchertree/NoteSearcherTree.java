@@ -50,6 +50,7 @@ import javax.swing.tree.TreeNode;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.notesearchertree.draganddrop.NoteSearcherTransferHandler;
@@ -116,7 +117,17 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	}
 	
 	@Override
-	public void setTitleFilter(String title) {
+	public void addExtraNotes(Note[] notes) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void setExtraNotes(Note[] notes) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void setSearchFilter(String filter) {
 		throw new UnsupportedOperationException();
 	}
 	

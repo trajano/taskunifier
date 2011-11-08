@@ -156,7 +156,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultTaskView.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
+				DefaultTaskView.this.taskSearcherPanel.setSearchFilter(e.getActionCommand());
 			}
 			
 		});

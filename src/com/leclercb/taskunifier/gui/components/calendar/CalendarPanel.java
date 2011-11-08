@@ -261,7 +261,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CalendarPanel.this.taskSearcherPanel.setTitleFilter(e.getActionCommand());
+				CalendarPanel.this.taskSearcherPanel.setSearchFilter(e.getActionCommand());
 			}
 			
 		});

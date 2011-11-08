@@ -112,16 +112,36 @@ public enum ViewType implements ActionSupported {
 			ViewType.getCalendarView().getTaskSearcherView().selectDefaultTaskSearcher();
 	}
 	
-	public static void setTitleFilter(String title) {
+	public static void addExtraTasks(Task[] tasks) {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
 		if (viewType == ViewType.TASKS)
-			ViewType.getTaskView().getTaskSearcherView().setTitleFilter(title);
+			ViewType.getTaskView().getTaskSearcherView().addExtraTasks(tasks);
 		else if (viewType == ViewType.CALENDAR)
-			ViewType.getCalendarView().getTaskSearcherView().setTitleFilter(
-					title);
+			ViewType.getCalendarView().getTaskSearcherView().addExtraTasks(
+					tasks);
+	}
+	
+	public static void setExtraTasks(Task[] tasks) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskSearcherView().setExtraTasks(tasks);
+		else if (viewType == ViewType.CALENDAR)
+			ViewType.getCalendarView().getTaskSearcherView().setExtraTasks(
+					tasks);
+	}
+	
+	public static void setSearchFilter(String filter) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskSearcherView().setSearchFilter(filter);
+		else if (viewType == ViewType.CALENDAR)
+			ViewType.getCalendarView().getTaskSearcherView().setSearchFilter(
+					filter);
 		else if (viewType == ViewType.NOTES)
-			ViewType.getNoteView().getNoteSearcherView().setTitleFilter(title);
+			ViewType.getNoteView().getNoteSearcherView().setSearchFilter(filter);
 	}
 	
 	public static void refreshTasks() {

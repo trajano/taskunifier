@@ -44,12 +44,14 @@ import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
@@ -57,6 +59,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
@@ -77,7 +80,8 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private NoteSearcherTree searcherView;
 	
-	private String titleFilter;
+	private Note[] notes;
+	private String filter;
 	
 	public NoteSearcherPanel(String settingsPrefix) {
 		this.noteSearcherSelectionChangeSupport = new NoteSearcherSelectionChangeSupport(
@@ -91,14 +95,33 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	}
 	
 	@Override
-	public void setTitleFilter(String titleFilter) {
-		if (EqualsUtils.equals(this.titleFilter, titleFilter))
+	public void addExtraNotes(Note[] notes) {
+		if (notes == null)
 			return;
 		
-		String oldTitleFilter = this.titleFilter;
-		this.titleFilter = titleFilter;
+		if (this.notes == null) {
+			this.setExtraNotes(notes);
+			return;
+		}
 		
-		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, titleFilter);
+		this.setExtraNotes(ArrayUtils.concat(this.notes, notes));
+	}
+	
+	@Override
+	public void setExtraNotes(Note[] notes) {
+		this.notes = notes;
+		this.refreshNoteSearcher();
+	}
+	
+	@Override
+	public void setSearchFilter(String filter) {
+		if (EqualsUtils.equals(this.filter, filter))
+			return;
+		
+		String oldTitleFilter = this.filter;
+		this.filter = filter;
+		
+		this.firePropertyChange(PROP_TITLE_FILTER, oldTitleFilter, filter);
 	}
 	
 	@Override
@@ -125,32 +148,52 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		searcher = searcher.clone();
 		
-		if (this.titleFilter != null && this.titleFilter.length() != 0) {
-			NoteFilter originalFilter = searcher.getFilter();
-			
-			NoteFilter newFilter = new NoteFilter();
-			newFilter.setLink(FilterLink.AND);
-			
-			NoteFilter searchFilter = new NoteFilter();
-			searchFilter.setLink(FilterLink.OR);
+		NoteFilter originalFilter = searcher.getFilter();
+		
+		NoteFilter mainFilter = new NoteFilter();
+		mainFilter.setLink(FilterLink.OR);
+		
+		NoteFilter newFilter = new NoteFilter();
+		newFilter.setLink(FilterLink.AND);
+		
+		NoteFilter extraFilter = new NoteFilter();
+		extraFilter.setLink(FilterLink.OR);
+		
+		NoteFilter searchFilter = new NoteFilter();
+		searchFilter.setLink(FilterLink.OR);
+		
+		if (this.filter != null && this.filter.length() != 0) {
 			searchFilter.addElement(new NoteFilterElement(
 					NoteColumn.TITLE,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new NoteFilterElement(
 					NoteColumn.NOTE,
 					StringCondition.CONTAINS,
-					this.titleFilter));
+					this.filter));
 			searchFilter.addElement(new NoteFilterElement(
 					NoteColumn.FOLDER,
 					StringCondition.CONTAINS,
-					this.titleFilter));
-			
-			newFilter.addFilter(searchFilter);
-			newFilter.addFilter(originalFilter);
-			
-			searcher.setFilter(newFilter);
+					this.filter));
 		}
+		
+		if (this.notes != null) {
+			for (Note note : this.notes) {
+				extraFilter.addElement(new NoteFilterElement(
+						NoteColumn.MODEL,
+						ModelCondition.EQUALS,
+						note));
+			}
+			
+			mainFilter.addFilter(extraFilter);
+		}
+		
+		mainFilter.addFilter(newFilter);
+		
+		newFilter.addFilter(searchFilter);
+		newFilter.addFilter(originalFilter);
+		
+		searcher.setFilter(mainFilter);
 		
 		return searcher;
 	}
@@ -197,6 +240,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent evt) {
+				NoteSearcherPanel.this.notes = null;
 				NoteSearcherPanel.this.noteSearcherSelectionChangeSupport.fireNoteSearcherSelectionChange(NoteSearcherPanel.this.getSelectedNoteSearcher());
 			}
 			

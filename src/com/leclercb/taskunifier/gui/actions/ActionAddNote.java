@@ -78,8 +78,6 @@ public class ActionAddNote extends AbstractAction {
 		
 		NoteTemplate searcherTemplate = ViewType.getNoteView().getNoteSearcherView().getSelectedNoteSearcher().getTemplate();
 		
-		ViewType.setTitleFilter(null);
-		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
 		
@@ -89,11 +87,8 @@ public class ActionAddNote extends AbstractAction {
 		if (title != null)
 			note.setTitle(title);
 		
-		if (searcherTemplate == null
-				&& !ViewType.getNoteView().getNoteTableView().shouldBeDisplayed(
-						note))
-			ViewType.getNoteView().getNoteSearcherView().selectDefaultNoteSearcher();
-		
+		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(
+				new Note[] { note });
 		ViewType.getNoteView().getNoteTableView().refreshNotes();
 		
 		if (edit) {
@@ -104,14 +99,8 @@ public class ActionAddNote extends AbstractAction {
 		return note;
 	}
 	
-	public static synchronized Note addNote(
-			NoteBean noteBean,
-			boolean selectDefaultSearcher,
-			boolean edit) {
+	public static synchronized Note addNote(NoteBean noteBean, boolean edit) {
 		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
-		
-		if (selectDefaultSearcher)
-			ViewType.getNoteView().getNoteSearcherView().selectDefaultNoteSearcher();
 		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
@@ -119,6 +108,8 @@ public class ActionAddNote extends AbstractAction {
 		if (noteBean != null)
 			note.loadBean(noteBean);
 		
+		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(
+				new Note[] { note });
 		ViewType.getNoteView().getNoteTableView().refreshNotes();
 		
 		if (edit) {

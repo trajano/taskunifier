@@ -75,7 +75,7 @@ public class CommunicatorClient extends Thread {
 				List<Note> notes = new ArrayList<Note>();
 				for (ComNoteBean note : bean.getNotes()) {
 					note.setModels();
-					notes.add(ActionAddNote.addNote(note, true, false));
+					notes.add(ActionAddNote.addNote(note, false));
 				}
 				
 				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
@@ -92,7 +92,7 @@ public class CommunicatorClient extends Thread {
 				List<Task> tasks = new ArrayList<Task>();
 				for (ComTaskBean task : bean.getTasks()) {
 					task.setModels();
-					tasks.add(ActionAddTask.addTask(task, true, false));
+					tasks.add(ActionAddTask.addTask(task, false));
 				}
 				
 				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(

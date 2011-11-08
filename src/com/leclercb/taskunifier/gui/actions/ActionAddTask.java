@@ -96,8 +96,6 @@ public class ActionAddTask extends AbstractAction {
 			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
 		}
 		
-		ViewType.setTitleFilter(null);
-		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
@@ -110,9 +108,7 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		if (searcherTemplate == null && !ViewType.shouldBeDisplayed(task))
-			ViewType.selectDefaultTaskSearcher();
-		
+		ViewType.addExtraTasks(new Task[] { task });
 		ViewType.refreshTasks();
 		
 		if (edit) {
@@ -129,10 +125,7 @@ public class ActionAddTask extends AbstractAction {
 		return task;
 	}
 	
-	public static synchronized Task addTask(
-			TaskBean taskBean,
-			boolean selectDefaultSearcher,
-			boolean edit) {
+	public static synchronized Task addTask(TaskBean taskBean, boolean edit) {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
 		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
@@ -140,15 +133,13 @@ public class ActionAddTask extends AbstractAction {
 			viewType = MainFrame.getInstance().getSelectedViewType();
 		}
 		
-		if (selectDefaultSearcher)
-			ViewType.selectDefaultTaskSearcher();
-		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
 		if (taskBean != null)
 			task.loadBean(taskBean);
 		
+		ViewType.addExtraTasks(new Task[] { task });
 		ViewType.refreshTasks();
 		
 		if (edit) {
