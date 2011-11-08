@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ThemeGeneralConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration);
+		super(configuration, "configuration_theme_general");
 		
 		this.initialize();
 		this.pack();

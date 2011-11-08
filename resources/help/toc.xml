@@ -13,7 +13,8 @@
 			
 			<tocitem text="Theme">
 			
-				<tocitem text="Columns" target="configuration_columns" />
+				<tocitem text="General" target="configuration_theme_general" />
+				<tocitem text="Columns" target="configuration_theme_columns" />
 		
 			</tocitem>
 			
