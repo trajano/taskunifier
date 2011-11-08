@@ -78,6 +78,8 @@ public class ActionAddNote extends AbstractAction {
 		
 		NoteTemplate searcherTemplate = ViewType.getNoteView().getNoteSearcherView().getSelectedNoteSearcher().getTemplate();
 		
+		ViewType.setTitleFilter(null);
+		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
 		

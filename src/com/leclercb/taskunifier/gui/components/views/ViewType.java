@@ -112,6 +112,18 @@ public enum ViewType implements ActionSupported {
 			ViewType.getCalendarView().getTaskSearcherView().selectDefaultTaskSearcher();
 	}
 	
+	public static void setTitleFilter(String title) {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.TASKS)
+			ViewType.getTaskView().getTaskSearcherView().setTitleFilter(title);
+		else if (viewType == ViewType.CALENDAR)
+			ViewType.getCalendarView().getTaskSearcherView().setTitleFilter(
+					title);
+		else if (viewType == ViewType.NOTES)
+			ViewType.getNoteView().getNoteSearcherView().setTitleFilter(title);
+	}
+	
 	public static void refreshTasks() {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		

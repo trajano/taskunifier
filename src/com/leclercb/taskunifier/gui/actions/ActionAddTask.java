@@ -96,6 +96,8 @@ public class ActionAddTask extends AbstractAction {
 			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
 		}
 		
+		ViewType.setTitleFilter(null);
+		
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
