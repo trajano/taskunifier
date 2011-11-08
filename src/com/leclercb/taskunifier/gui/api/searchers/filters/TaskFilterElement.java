@@ -32,11 +32,15 @@
  */
 package com.leclercb.taskunifier.gui.api.searchers.filters;
 
+import java.util.Calendar;
+
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
@@ -65,6 +69,7 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 				+ " \"";
 		
 		switch (this.getProperty()) {
+			case SHOW_CHILDREN:
 			case COMPLETED:
 			case STAR:
 				str += TranslationsUtils.translateBoolean(Boolean.parseBoolean(this.getValue().toString()));
@@ -81,6 +86,26 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 			default:
 				str += (this.getValue() == null ? "" : this.getValue());
 				break;
+		}
+		
+		if (this.getValue() != null
+				&& this.getCondition() instanceof DaysCondition) {
+			try {
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.DAY_OF_MONTH, (Integer) this.getValue());
+				
+				if (this.getCondition() == DaysCondition.LESS_THAN_USING_TIME
+						|| this.getCondition() == DaysCondition.GREATER_THAN_USING_TIME)
+					str += " ("
+							+ StringValueCalendar.INSTANCE_DATE_TIME.getString(c)
+							+ ")";
+				else
+					str += " ("
+							+ StringValueCalendar.INSTANCE_DATE.getString(c)
+							+ ")";
+			} catch (Throwable t) {
+				
+			}
 		}
 		
 		return str + "\"";

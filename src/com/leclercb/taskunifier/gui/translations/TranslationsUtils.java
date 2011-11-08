@@ -225,17 +225,17 @@ public final class TranslationsUtils {
 				case EQUALS:
 					return Translations.getString("task_filter_condition.equals");
 				case LESS_THAN:
-					return Translations.getString("task_filter_condition.less_than");
+					return Translations.getString("task_filter_condition.before");
 				case LESS_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.less_than_or_equals");
+					return Translations.getString("task_filter_condition.before_or_equals");
 				case LESS_THAN_USING_TIME:
-					return Translations.getString("task_filter_condition.less_than_using_time");
+					return Translations.getString("task_filter_condition.before_using_time");
 				case GREATER_THAN:
-					return Translations.getString("task_filter_condition.greater_than");
+					return Translations.getString("task_filter_condition.after");
 				case GREATER_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.greater_than_or_equals");
+					return Translations.getString("task_filter_condition.after_or_equals");
 				case GREATER_THAN_USING_TIME:
-					return Translations.getString("task_filter_condition.greater_than_using_time");
+					return Translations.getString("task_filter_condition.after_using_time");
 			}
 		}
 		

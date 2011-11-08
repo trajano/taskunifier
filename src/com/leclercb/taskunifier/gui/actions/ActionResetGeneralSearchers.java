@@ -165,6 +165,9 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		importanceSorter.addElement(new TaskSorterElement(
 				TaskColumn.IMPORTANCE,
 				SortOrder.DESCENDING));
+		importanceSorter.addElement(new TaskSorterElement(
+				TaskColumn.TITLE,
+				SortOrder.ASCENDING));
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,
