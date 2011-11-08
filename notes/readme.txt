@@ -2,10 +2,11 @@ HISTORY
 -------
 
 Version 1.8.2
-	- Minor:
+	- Major:
 		- Growl support on Mac OS
-		- FR 3432166: Feedback message for backup
 		- FR 3429868: Keep current search after add task/note
+	- Minor:
+		- FR 3432166: Feedback message for backup
 		- FR 3429884: Position of new tasks/notes
 		- BF 3433706: Importance not correct
 		- BF 3426948: New entries are hidden if filter is active
