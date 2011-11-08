@@ -572,7 +572,7 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		this.taskProgress.setEditor(new JSpinner.NumberEditor(
 				this.taskProgress,
-				"##0.00%"));
+				"##0%"));
 		
 		builder.appendI15d(
 				"general.task.progress",

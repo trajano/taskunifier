@@ -43,7 +43,7 @@ public class StringValueTaskProgress implements StringValue {
 	private DecimalFormat format;
 	
 	private StringValueTaskProgress() {
-		this.format = new DecimalFormat("##0.00%");
+		this.format = new DecimalFormat("##0%");
 	}
 	
 	@Override

@@ -56,7 +56,7 @@ public class ProgressEditor extends AbstractCellEditor implements TableCellEdito
 				0.10));
 		this.progressSpinner.setEditor(new JSpinner.NumberEditor(
 				this.progressSpinner,
-				"##0.00%"));
+				"##0%"));
 	}
 	
 	@Override

@@ -236,7 +236,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				templateTaskProgress.setModel(taskProgressSpinnerModel);
 				templateTaskProgress.setEditor(new JSpinner.NumberEditor(
 						templateTaskProgress,
-						"##0.00%"));
+						"##0%"));
 				
 				ValueModel taskCompletedModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_COMPLETED);
 				Bindings.bind(templateTaskCompleted, taskCompletedModel);
