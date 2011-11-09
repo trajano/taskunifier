@@ -51,7 +51,8 @@ public class GrowlSynchronizerProgressMessageListener extends SynchronizerProgre
 	public void showMessage(ProgressMessage message, String content) {
 		if (message instanceof SynchronizerUpdatedModelsProgressMessage) {
 			this.builder.append(content);
-		} else if (message instanceof SynchronizerMainProgressMessage) {
+		} else if (message.getClass().equals(
+				SynchronizerMainProgressMessage.class)) {
 			SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
 			
 			if (m.getType().equals(ProgressMessageType.START)) {
