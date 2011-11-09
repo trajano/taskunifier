@@ -93,7 +93,12 @@ public class ActionAddQuickTask extends AbstractAction {
 			s = s.substring(1).trim();
 			
 			if (c == '&') { // Tag
-				taskTemplate.setTaskTags(taskTemplate.getTaskTags() + s + ", ");
+				if (taskTemplate.getTaskTags() != null)
+					taskTemplate.setTaskTags(taskTemplate.getTaskTags()
+							+ ", "
+							+ s);
+				else
+					taskTemplate.setTaskTags(s);
 			} else if (c == '@') { // Context, Folder, Goal, Location
 				findModel(s, taskTemplate);
 			} else if (c == '*') { // Priority, Status
