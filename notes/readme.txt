@@ -3,7 +3,7 @@ HISTORY
 
 Version 1.8.3
 	- Minor:
-		-
+		- Substance themes are back
 
 Version 1.8.2
 	- Major:

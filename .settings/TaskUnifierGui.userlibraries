@@ -16,5 +16,8 @@
         <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
         <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/miglayout-4.0-javadoc.jar!/" path="/TaskUnifierGui/lib/miglayout-4.0-swing.jar"/>
         <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
+        <archive path="/TaskUnifierGui/lib/substance-swingx-6.2.jar"/>
+        <archive path="/TaskUnifierGui/lib/substance-6.2.jar"/>
+        <archive path="/TaskUnifierGui/lib/trident-6.2.jar"/>
     </library>
 </eclipse-userlibraries>

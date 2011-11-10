@@ -71,7 +71,7 @@ public class LookAndFeelFieldType extends ConfigurationFieldType.ComboBox {
 			public int compare(
 					LookAndFeelDescriptor laf1,
 					LookAndFeelDescriptor laf2) {
-				return laf1.getName().compareTo(laf2.getName());
+				return laf1.getName().compareToIgnoreCase(laf2.getName());
 			}
 			
 		});

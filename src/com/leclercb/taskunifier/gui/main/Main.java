@@ -40,6 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -53,6 +54,8 @@ import javax.swing.UIManager;
 import org.apache.commons.lang.SystemUtils;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
+import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.substance.api.skin.SkinInfo;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -106,6 +109,7 @@ import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
+import com.leclercb.taskunifier.gui.swing.lookandfeel.SubstanceLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -767,19 +771,34 @@ public class Main {
 		Properties jgoodies = new Properties();
 		jgoodies.load(Resources.class.getResourceAsStream("jgoodies_themes.properties"));
 		
-		for (Object key : jgoodies.keySet())
+		for (Object key : jgoodies.keySet()) {
 			LookAndFeelUtils.addLookAndFeel(new DefaultLookAndFeelDescriptor(
 					"jGoodies - " + jgoodies.getProperty(key.toString()),
 					key.toString()));
+		}
 		
 		// jTattoo
 		Properties jtattoo = new Properties();
 		jtattoo.load(Resources.class.getResourceAsStream("jtattoo_themes.properties"));
 		
-		for (Object key : jtattoo.keySet())
+		for (Object key : jtattoo.keySet()) {
 			LookAndFeelUtils.addLookAndFeel(new JTattooLookAndFeelDescriptor(
 					"jTattoo - " + jtattoo.getProperty(key.toString()),
 					key.toString()));
+		}
+		
+		// Substance
+		try {
+			Class.forName("org.pushingpixels.substance.api.SubstanceLookAndFeel");
+			
+			Map<String, SkinInfo> lafs = SubstanceLookAndFeel.getAllSkins();
+			for (SkinInfo laf : lafs.values())
+				LookAndFeelUtils.addLookAndFeel(new SubstanceLookAndFeelDescriptor(
+						"Substance - " + laf.getDisplayName(),
+						laf.getClassName()));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().warning("Cannot load \"Substance\" themes");
+		}
 	}
 	
 	private static boolean loadApiPlugins() {
