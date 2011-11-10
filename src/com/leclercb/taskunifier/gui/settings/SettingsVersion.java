@@ -216,6 +216,9 @@ public final class SettingsVersion {
 		if (version.equals("1.8.1"))
 			version = updateSettings_1_8_1_to_1_8_2();
 		
+		if (version.equals("1.8.2"))
+			version = updateSettings_1_8_2_to_1_8_3();
+		
 		cleanSettings();
 		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
 	}
@@ -1023,6 +1026,13 @@ public final class SettingsVersion {
 		Main.SETTINGS.setStringProperty("general.growl.enabled", "true");
 		
 		return "1.8.2";
+	}
+	
+	private static String updateSettings_1_8_2_to_1_8_3() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.8.2 to 1.8.3");
+		
+		return "1.8.3";
 	}
 	
 }

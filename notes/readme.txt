@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.8.3
+	- Minor:
+		-
+
 Version 1.8.2
 	- Major:
 		- Growl support on Mac OS
