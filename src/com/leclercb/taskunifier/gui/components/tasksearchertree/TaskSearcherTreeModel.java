@@ -482,6 +482,23 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				
 				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			} else {
+				if (item == null) {
+					item = new ModelItem(model.getModelType(), model);
+					
+					try {
+						this.insertNodeInto(
+								item,
+								category,
+								this.findNewIndexInModelCategory(
+										category,
+										model));
+					} catch (Exception e) {
+						this.insertNodeInto(item, category, 0);
+					}
+					
+					return;
+				}
+				
 				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
 					this.removeNodeFromParent(item);
 					

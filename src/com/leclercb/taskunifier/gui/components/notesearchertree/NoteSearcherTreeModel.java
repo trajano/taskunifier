@@ -268,6 +268,21 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				
 				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			} else {
+				if (item == null) {
+					item = new FolderItem(folder);
+					
+					try {
+						this.insertNodeInto(
+								item,
+								this.folderCategory,
+								this.findNewIndexInFolderCategory(folder));
+					} catch (Exception e) {
+						this.insertNodeInto(item, this.folderCategory, 0);
+					}
+					
+					return;
+				}
+				
 				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
 					this.removeNodeFromParent(item);
 					
