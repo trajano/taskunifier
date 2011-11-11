@@ -81,7 +81,10 @@ public class NoteComparator implements Comparator<Note> {
 				return result;
 		}
 		
-		int result = this.compare(NoteColumn.MODEL_CREATION_DATE, note1, note2);
+		Object o1 = NoteColumn.MODEL_CREATION_DATE.getProperty(note1);
+		Object o2 = NoteColumn.MODEL_CREATION_DATE.getProperty(note2);
+		
+		int result = this.compare(NoteColumn.MODEL_CREATION_DATE, o1, o2);
 		
 		if (result != 0)
 			return result;
