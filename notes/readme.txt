@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.8.4
+	- Minor:
+		- 
+
 Version 1.8.3
 	- Minor:
 		- Substance themes are back
