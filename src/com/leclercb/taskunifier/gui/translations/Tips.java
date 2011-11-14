@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.translations;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -107,7 +108,9 @@ public final class Tips {
 				throw new Exception();
 			
 			properties = new Properties();
-			properties.load(new FileInputStream(file));
+			properties.load(new InputStreamReader(
+					new FileInputStream(file),
+					"UTF-8"));
 		} catch (Exception e) {
 			properties = null;
 		}

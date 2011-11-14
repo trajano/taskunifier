@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.translations;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -109,7 +110,9 @@ public final class Translations {
 			if (file == null)
 				throw new Exception();
 			
-			messages = new PropertyResourceBundle(new FileInputStream(file));
+			messages = new PropertyResourceBundle(new InputStreamReader(
+					new FileInputStream(file),
+					"UTF-8"));
 			Locale.setDefault(locale);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, "Cannot load locale", e);

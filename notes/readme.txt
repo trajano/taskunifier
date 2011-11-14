@@ -3,7 +3,7 @@ HISTORY
 
 Version 1.8.4
 	- Minor:
-		- 
+		- Change encoding of translations to UTF-8
 
 Version 1.8.3
 	- Minor:
