@@ -169,9 +169,6 @@ public class ActionAddSubTask extends AbstractViewAction {
 			boolean edit) {
 		CheckUtils.isNotNull(parent, "Parent cannot be null");
 		
-		if (parent.getParent() != null)
-			parent = parent.getParent();
-		
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
 		TaskTemplate searcherTemplate = null;

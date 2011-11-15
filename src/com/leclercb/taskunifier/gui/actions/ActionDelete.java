@@ -95,7 +95,7 @@ public class ActionDelete extends AbstractViewAction {
 			boolean hasSubTasks = false;
 			
 			for (Task task : tasks) {
-				if (task.getChildren().length != 0) {
+				if (task.getAllChildren().length != 0) {
 					hasSubTasks = true;
 					break;
 				}
@@ -112,7 +112,7 @@ public class ActionDelete extends AbstractViewAction {
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {
 					if (deleteSubTasks == JOptionPane.YES_OPTION) {
-						Task[] children = task.getChildren();
+						Task[] children = task.getAllChildren();
 						for (Task child : children) {
 							if (child.getModelStatus().isEndUserStatus()) {
 								TaskFactory.getInstance().markToDelete(child);
