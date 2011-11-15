@@ -12,7 +12,7 @@ public class AutoSaveThread extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Thread.sleep(30 * 60 * 1000);
+				Thread.sleep(10 * 60 * 1000);
 				
 				ActionSave.save();
 			} catch (InterruptedException e) {
