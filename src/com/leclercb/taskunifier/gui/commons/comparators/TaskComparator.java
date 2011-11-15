@@ -32,7 +32,10 @@
  */
 package com.leclercb.taskunifier.gui.commons.comparators;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -135,6 +138,11 @@ public class TaskComparator implements Comparator<Task> {
 		
 		int result = 0;
 		
+		List<Task> parents1 = new ArrayList<Task>(
+				Arrays.asList(task1.getAllParents()));
+		List<Task> parents2 = new ArrayList<Task>(
+				Arrays.asList(task2.getAllParents()));
+		
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both tasks are parents, compare them
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
@@ -145,28 +153,39 @@ public class TaskComparator implements Comparator<Task> {
 			// If both tasks have the same parent, compare them
 			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
 					* this.compare(taskColumn, o1, o2);
-		} else if (task1.getParent() == null
-				&& task2.getParent() != null
-				&& task1.equals(task2.getParent())) {
-			// If a task is the child of the other task
-			result = -1;
-		} else if (task1.getParent() != null
-				&& task2.getParent() == null
-				&& task1.getParent().equals(task2)) {
+		} else if (parents1.contains(task2)) {
 			// If a task is the child of the other task
 			result = 1;
+		} else if (parents2.contains(task1)) {
+			// If a task is the child of the other task
+			result = -1;
 		} else {
 			// Else, compare tasks with parent
-			if (task1.getParent() != null)
-				task1 = task1.getParent();
+			parents1.add(0, task1);
+			parents2.add(0, task2);
 			
-			if (task2.getParent() != null)
-				task2 = task2.getParent();
+			Collections.reverse(parents1);
+			Collections.reverse(parents2);
 			
-			Object newO1 = taskColumn.getProperty(task1);
-			Object newO2 = taskColumn.getProperty(task2);
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, newO1, newO2);
+			int max = Math.max(parents1.size(), parents2.size());
+			for (int i = 0; i < max; i++) {
+				if (i < parents1.size())
+					task1 = parents1.get(i);
+				
+				if (i < parents2.size())
+					task2 = parents2.get(i);
+				
+				if (task1.equals(task2))
+					continue;
+				
+				Object newO1 = taskColumn.getProperty(task1);
+				Object newO2 = taskColumn.getProperty(task2);
+				
+				result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
+						* this.compare(taskColumn, newO1, newO2);
+				
+				break;
+			}
 		}
 		
 		return result;

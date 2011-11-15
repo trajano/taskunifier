@@ -101,8 +101,9 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		final Task task = (Task) value;
 		
-		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
-		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		final boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+		final boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		final int nbParents = task.getAllParents().length;
 		
 		String title = task.getTitle();
 		
@@ -123,10 +124,15 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		} else {
 			r.setFont(r.getFont().deriveFont(Font.PLAIN));
 			
-			if (indentSubtasks)
-				r.setText("          " + title);
-			else
+			if (indentSubtasks) {
+				StringBuffer buffer = new StringBuffer();
+				for (int i = 0; i < nbParents; i++)
+					buffer.append("     ");
+				
+				r.setText(buffer + title);
+			} else {
 				r.setText(title);
+			}
 		}
 		
 		// Set Icon
@@ -150,8 +156,10 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 					int x = 18;
 					int y = 3;
 					
-					if (task.getParent() != null)
-						x += metrics.stringWidth("          ");
+					if (task.getParent() != null) {
+						for (int i = 0; i < nbParents; i++)
+							x += metrics.stringWidth("     ");
+					}
 					
 					width = (int) ((width - (x + 3)) * task.getProgress());
 					height = height - (y + y);

@@ -95,11 +95,6 @@ public class TaskTransferHandler extends TransferHandler {
 				if (((JTable.DropLocation) support.getDropLocation()).isInsertRow())
 					return true;
 				
-				// False : If drag task has at least one child
-				for (Task dragTask : dragTasks)
-					if (dragTask.getChildren().length != 0)
-						return false;
-				
 				// Get Drop Task
 				Task dropTask = table.getTask(dl.getRow());
 				
@@ -110,10 +105,6 @@ public class TaskTransferHandler extends TransferHandler {
 				for (Task dragTask : dragTasks)
 					if (dragTask.equals(dropTask))
 						return false;
-				
-				// False if drop task has a parent task
-				if (dropTask.getParent() != null)
-					return false;
 				
 				return true;
 			} else {
@@ -205,10 +196,6 @@ public class TaskTransferHandler extends TransferHandler {
 				Task dropTask = table.getTask(dl.getRow());
 				
 				if (dropTask == null)
-					return false;
-				
-				// Validate Import
-				if (dropTask.getParent() != null)
 					return false;
 				
 				// Import

@@ -84,7 +84,7 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		
 		int nbChildren = 0;
 		double progress = 0;
-		for (Task child : task.getChildren()) {
+		for (Task child : task.getAllChildren()) {
 			if (!child.getModelStatus().isEndUserStatus())
 				continue;
 			
@@ -127,7 +127,7 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		
 		boolean atLeastOneChild = false;
 		int length = task.getLength();
-		for (Task child : task.getChildren()) {
+		for (Task child : task.getAllChildren()) {
 			if (!child.getModelStatus().isEndUserStatus())
 				continue;
 			
@@ -168,7 +168,7 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		
 		boolean atLeastOneChild = false;
 		long timer = task.getTimer().getTimerValue();
-		for (Task child : task.getChildren()) {
+		for (Task child : task.getAllChildren()) {
 			if (!child.getModelStatus().isEndUserStatus())
 				continue;
 			
