@@ -95,9 +95,11 @@ public class ActionDelete extends AbstractViewAction {
 			boolean hasSubTasks = false;
 			
 			for (Task task : tasks) {
-				if (task.getAllChildren().length != 0) {
-					hasSubTasks = true;
-					break;
+				for (Task subtask : task.getAllChildren()) {
+					if (subtask.getModelStatus().isEndUserStatus()) {
+						hasSubTasks = true;
+						break;
+					}
 				}
 			}
 			

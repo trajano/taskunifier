@@ -150,9 +150,20 @@ public class RepeatUtils {
 				if (!subtask.isCompleted())
 					subtask.setCompleted(true);
 				
-				Task newSubtask = createRepeatTask(subtask, newTask.getRepeat());
-				newSubtask.setCompleted(false);
-				newSubtask.setParent(newTask);
+				String newRepeat = newTask.getRepeat();
+				if ("With Parent".equalsIgnoreCase(newRepeat))
+					newRepeat = repeat;
+				
+				Task newSubtask = createRepeatTask(subtask, newRepeat);
+				
+				if (newSubtask != null) {
+					newSubtask.setCompleted(false);
+					newSubtask.setParent(newTask);
+				} else {
+					subtask.setCompleted(false);
+					subtask.setParent(newTask);
+				}
+				
 				continue;
 			}
 			
