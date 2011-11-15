@@ -156,7 +156,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 					int x = 18;
 					int y = 3;
 					
-					if (task.getParent() != null) {
+					if (indentSubtasks) {
 						for (int i = 0; i < nbParents; i++)
 							x += metrics.stringWidth("     ");
 					}
