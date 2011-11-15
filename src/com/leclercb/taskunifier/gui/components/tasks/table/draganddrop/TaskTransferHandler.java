@@ -181,7 +181,7 @@ public class TaskTransferHandler extends TransferHandler {
 						for (Task dragTask : dragTasks)
 							if (!EqualsUtils.equals(
 									dragTask.getParent(),
-									this.getParent(table, dl.getRow())))
+									this.getParent(table, dl.getRow(), dragTask)))
 								dragTask.setParent(null);
 					} else {
 						for (Task dragTask : dragTasks)
@@ -253,20 +253,23 @@ public class TaskTransferHandler extends TransferHandler {
 		
 	}
 	
-	private Task getParent(TaskTable table, int index) {
+	private Task getParent(TaskTable table, int index, Task dragTask) {
 		Task[] tasks = this.getDisplayedTasks(table);
 		
 		if (tasks.length < index)
 			return null;
 		
-		for (int i = index; i > 0; i--) {
+		for (int i = index; i >= 0; i--) {
 			Task task = tasks[i];
 			
-			if (task.getParent() == null)
-				if (i == index)
-					return null;
-				else
-					return task;
+			if (task.equals(dragTask))
+				continue;
+			
+			if (EqualsUtils.equals(dragTask.getParent(), task))
+				return task;
+			
+			if (EqualsUtils.equals(dragTask.getParent(), task.getParent()))
+				return task.getParent();
 		}
 		
 		return null;
