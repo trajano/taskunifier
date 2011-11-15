@@ -138,7 +138,7 @@ public final class SynchronizerUtils {
 		for (Task task : tasks) {
 			if (task.isCompleted()
 					&& task.getCompletedOn().compareTo(completedAfter) < 0) {
-				Task[] children = task.getChildren();
+				Task[] children = task.getAllChildren();
 				boolean delete = true;
 				
 				for (Task child : children) {

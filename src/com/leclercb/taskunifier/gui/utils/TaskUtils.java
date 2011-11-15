@@ -554,25 +554,22 @@ public final class TaskUtils {
 		// If a filtered parent task has non filtered children,
 		// it must be displayed
 		if (!skipParentCheck) {
-			if (task.getParent() == null) {
-				Task[] children = task.getChildren();
-				for (Task child : children)
-					if (showTask(
-							child,
-							filter,
-							containsCompleted,
-							false,
-							skipShowChildren,
-							skipShowIfParentShown))
-						return true;
-			}
+			Task[] children = task.getChildren();
+			for (Task child : children)
+				if (showTask(
+						child,
+						filter,
+						containsCompleted,
+						false,
+						skipShowChildren,
+						skipShowIfParentShown))
+					return true;
 		}
 		
 		if (!skipShowChildren) {
-			if (task.getParent() != null) {
-				if (!((GuiTask) task.getParent()).isShowChildren())
+			for (Task parent : task.getAllParents())
+				if (!((GuiTask) parent).isShowChildren())
 					return false;
-			}
 		}
 		
 		if (!Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks")) {

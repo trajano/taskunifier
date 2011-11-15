@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 1.8.4
+	- Major:
+		- FR 3430086: Subtasks allow subtasks
 	- Minor:
 		- Change encoding of translations to UTF-8
 
