@@ -32,15 +32,39 @@
  */
 package com.leclercb.taskunifier.gui.components.plugins.list;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class PluginListRenderer extends DefaultListCellRenderer {
+public class PluginListRenderer implements ListCellRenderer {
+	
+	private JPanel panel;
+	private JLabel icon;
+	private JLabel text;
+	
+	public PluginListRenderer() {
+		this.panel = new JPanel(new BorderLayout());
+		this.icon = new JLabel();
+		this.text = new JLabel();
+		
+		this.icon.setOpaque(true);
+		this.text.setOpaque(true);
+		
+		this.icon.setBorder(null);
+		this.text.setBorder(null);
+		
+		this.panel.add(this.icon, BorderLayout.EAST);
+		this.panel.add(this.text, BorderLayout.CENTER);
+	}
 	
 	@Override
 	public Component getListCellRendererComponent(
@@ -49,13 +73,6 @@ public class PluginListRenderer extends DefaultListCellRenderer {
 			int index,
 			boolean isSelected,
 			boolean cellHasFocus) {
-		Component component = super.getListCellRendererComponent(
-				list,
-				value,
-				index,
-				isSelected,
-				cellHasFocus);
-		
 		Plugin plugin = (Plugin) value;
 		
 		String price = null;
@@ -80,10 +97,15 @@ public class PluginListRenderer extends DefaultListCellRenderer {
 				+ "<br />");
 		text.append(Translations.getString("plugin.price") + ": " + price);
 		
-		this.setIcon(plugin.getLogo());
-		this.setText("<html>" + text.toString() + "</html>");
+		if (isSelected)
+			this.text.setBackground(UIManager.getColor("List.selectionBackground"));
+		else
+			this.text.setBackground(Color.WHITE);
 		
-		return component;
+		this.icon.setIcon(plugin.getLogo());
+		this.text.setText("<html>" + text.toString() + "</html>");
+		
+		return this.panel;
 	}
 	
 }
