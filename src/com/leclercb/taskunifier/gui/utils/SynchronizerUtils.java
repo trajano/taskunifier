@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class SynchronizerUtils {
@@ -73,12 +74,23 @@ public final class SynchronizerUtils {
 						if (task == null || !task.isCompleted())
 							return;
 						
-						boolean synchronizing = Synchronizing.setSynchronizing(true);
+						boolean set = false;
+						
+						try {
+							set = Synchronizing.setSynchronizing(true);
+						} catch (SynchronizingException e) {
+							
+						}
 						
 						getPlugin().getSynchronizerApi().createRepeatTask(task);
 						
-						if (synchronizing)
-							Synchronizing.setSynchronizing(false);
+						if (set) {
+							try {
+								Synchronizing.setSynchronizing(false);
+							} catch (SynchronizingException e) {
+								
+							}
+						}
 					}
 					
 				});
@@ -175,8 +187,17 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
-		if (!Synchronizing.setSynchronizing(true))
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
+			
+		}
+		
+		if (!set) {
 			return;
+		}
 		
 		Main.SETTINGS.setCalendarProperty(
 				"synchronizer.last_synchronization_date",
@@ -192,7 +213,13 @@ public final class SynchronizerUtils {
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.SETTINGS);
 		
-		Synchronizing.setSynchronizing(false);
+		if (set) {
+			try {
+				Synchronizing.setSynchronizing(false);
+			} catch (SynchronizingException e) {
+				
+			}
+		}
 	}
 	
 }

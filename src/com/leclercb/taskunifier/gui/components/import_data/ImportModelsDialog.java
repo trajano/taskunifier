@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -91,7 +92,15 @@ public class ImportModelsDialog extends AbstractImportDialog {
 					
 					@Override
 					protected Void doInBackground() throws Exception {
-						if (!Synchronizing.setSynchronizing(true)) {
+						boolean set = false;
+						
+						try {
+							set = Synchronizing.setSynchronizing(true);
+						} catch (SynchronizingException e) {
+							
+						}
+						
+						if (!set) {
 							JOptionPane.showMessageDialog(
 									null,
 									Translations.getString("general.synchronization_ongoing"),
@@ -100,49 +109,59 @@ public class ImportModelsDialog extends AbstractImportDialog {
 							return null;
 						}
 						
-						dialog.appendToProgressStatus(Translations.getString("action.import_models"));
-						
-						SynchronizerUtils.setTaskRepeatEnabled(false);
-						
-						ZipFile zip = new ZipFile(new File(file));
-						
-						for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
-							ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
+						try {
+							dialog.appendToProgressStatus(Translations.getString("action.import_models"));
 							
-							if (entry.getName().equals("contexts.xml"))
-								ContextFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							SynchronizerUtils.setTaskRepeatEnabled(false);
 							
-							if (entry.getName().equals("folders.xml"))
-								FolderFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							ZipFile zip = new ZipFile(new File(file));
 							
-							if (entry.getName().equals("goals.xml"))
-								GoalFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
+								ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
+								
+								if (entry.getName().equals("contexts.xml"))
+									ContextFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+								
+								if (entry.getName().equals("folders.xml"))
+									FolderFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+								
+								if (entry.getName().equals("goals.xml"))
+									GoalFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+								
+								if (entry.getName().equals("locations.xml"))
+									LocationFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+								
+								if (entry.getName().equals("notes.xml"))
+									NoteFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+								
+								if (entry.getName().equals("tasks.xml"))
+									TaskFactory.getInstance().decodeFromXML(
+											zip.getInputStream(entry));
+							}
 							
-							if (entry.getName().equals("locations.xml"))
-								LocationFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							Thread.sleep(1000);
 							
-							if (entry.getName().equals("notes.xml"))
-								NoteFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							return null;
+						} finally {
+							SynchronizerUtils.setTaskRepeatEnabled(true);
 							
-							if (entry.getName().equals("tasks.xml"))
-								TaskFactory.getInstance().decodeFromXML(
-										zip.getInputStream(entry));
+							if (set) {
+								try {
+									Synchronizing.setSynchronizing(false);
+								} catch (SynchronizingException e) {
+									
+								}
+							}
 						}
-						
-						Thread.sleep(1000);
-						
-						return null;
 					}
 					
 					@Override
 					protected void done() {
-						SynchronizerUtils.setTaskRepeatEnabled(true);
-						Synchronizing.setSynchronizing(false);
 						dialog.dispose();
 					}
 					

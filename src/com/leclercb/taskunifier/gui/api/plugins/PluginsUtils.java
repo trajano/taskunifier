@@ -62,6 +62,7 @@ import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExcept
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -206,8 +207,13 @@ public class PluginsUtils {
 	
 	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
 			throws Exception {
-		if (!Synchronizing.setSynchronizing(true))
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
 			return;
+		}
 		
 		File file = null;
 		
@@ -275,7 +281,13 @@ public class PluginsUtils {
 			
 			throw e;
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			if (set) {
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+			}
 		}
 	}
 	
@@ -297,8 +309,13 @@ public class PluginsUtils {
 	}
 	
 	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
-		if (!Synchronizing.setSynchronizing(true))
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
 			return;
+		}
 		
 		try {
 			if (monitor != null)
@@ -327,7 +344,13 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.plugin_deleted")));
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			if (set) {
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+			}
 		}
 	}
 	

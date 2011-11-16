@@ -64,6 +64,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -86,8 +87,17 @@ public final class TaskUtils {
 			int index,
 			Task[] tasksToOrder,
 			Task[] displayedTasks) {
-		if (!Synchronizing.setSynchronizing(true))
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
+			
+		}
+		
+		if (!set) {
 			return;
+		}
 		
 		int newOrder = 0;
 		
@@ -130,7 +140,13 @@ public final class TaskUtils {
 			task.setOrder(newOrder + i);
 		}
 		
-		Synchronizing.setSynchronizing(false);
+		if (set) {
+			try {
+				Synchronizing.setSynchronizing(false);
+			} catch (SynchronizingException e) {
+				
+			}
+		}
 	}
 	
 	public static boolean isInStartDateReminderZone(Task task) {

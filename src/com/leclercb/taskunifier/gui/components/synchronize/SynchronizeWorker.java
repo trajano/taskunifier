@@ -85,14 +85,23 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 		if (this.handler != null)
 			monitor.addListChangeListener(this.handler);
 		
+		boolean set = false;
+		
 		try {
 			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
 				BackupUtils.getInstance().createNewBackup();
 			
 			ActionSave.save();
 			
-			if (!Synchronizing.setSynchronizing(true))
+			try {
+				set = Synchronizing.setSynchronizing(true);
+			} catch (SynchronizingException e) {
+				
+			}
+			
+			if (!set) {
 				return null;
+			}
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
@@ -219,6 +228,18 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 			
 			if (this.handler != null)
 				monitor.removeListChangeListener(this.handler);
+			
+			Constants.PROGRESS_MONITOR.clear();
+			SynchronizerUtils.removeOldCompletedTasks();
+			SynchronizerUtils.setTaskRepeatEnabled(true);
+			
+			if (set) {
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+			}
 		}
 		
 		Thread.sleep(1000);
@@ -229,14 +250,6 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 				true);
 		
 		return null;
-	}
-	
-	@Override
-	protected void done() {
-		Constants.PROGRESS_MONITOR.clear();
-		SynchronizerUtils.removeOldCompletedTasks();
-		SynchronizerUtils.setTaskRepeatEnabled(true);
-		Synchronizing.setSynchronizing(false);
 	}
 	
 }

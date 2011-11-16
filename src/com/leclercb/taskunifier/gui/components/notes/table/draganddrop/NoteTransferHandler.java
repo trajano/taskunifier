@@ -50,10 +50,10 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
+import com.leclercb.taskunifier.gui.actions.ActionDuplicateNotes;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 
 public class NoteTransferHandler extends TransferHandler {
 	
@@ -129,20 +129,7 @@ public class NoteTransferHandler extends TransferHandler {
 				return false;
 			}
 			
-			// Get Objects
-			NoteTable table = (NoteTable) support.getComponent();
-			
-			List<Note> newNotes = new ArrayList<Note>();
-			
-			Synchronizing.setSynchronizing(true);
-			
-			for (Note dragNote : dragNotes)
-				newNotes.add(NoteFactory.getInstance().create(dragNote));
-			
-			Synchronizing.setSynchronizing(false);
-			
-			table.refreshNotes();
-			table.setSelectedNotes(newNotes.toArray(new Note[0]));
+			ActionDuplicateNotes.duplicateNotes(dragNotes.toArray(new Note[0]));
 			
 			return true;
 		} else {

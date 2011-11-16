@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -108,8 +109,13 @@ public class ActionDelete extends AbstractViewAction {
 			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
 				return;
 			
-			if (!Synchronizing.setSynchronizing(true))
+			boolean set = false;
+			
+			try {
+				set = Synchronizing.setSynchronizing(true);
+			} catch (SynchronizingException e) {
 				return;
+			}
 			
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {
@@ -126,7 +132,13 @@ public class ActionDelete extends AbstractViewAction {
 				}
 			}
 			
-			Synchronizing.setSynchronizing(false);
+			if (set) {
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+			}
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getSelectedNotes();
 			

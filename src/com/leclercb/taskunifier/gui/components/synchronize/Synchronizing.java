@@ -52,14 +52,28 @@ public class Synchronizing {
 	}
 	
 	public synchronized static boolean isSynchronizingThread() {
+		if (!synchronizing || synchronizingThread == null)
+			return false;
+		
 		return synchronizingThread.equals(Thread.currentThread());
 	}
 	
-	public synchronized static boolean setSynchronizing(boolean synchronizing) {
-		if (Synchronizing.synchronizing && synchronizing) {
+	public synchronized static boolean setSynchronizing(boolean synchronizing)
+			throws SynchronizingException {
+		if (Synchronizing.synchronizing
+				&& synchronizing
+				&& !isSynchronizingThread()) {
 			GuiLogger.getLogger().info(
-					"Cannot synchronize because already synchronizing");
-			return false;
+					"Cannot synchronize because synchronization is ongoing on another thread");
+			throw new SynchronizingException();
+		}
+		
+		if (Synchronizing.synchronizing
+				&& !synchronizing
+				&& !isSynchronizingThread()) {
+			GuiLogger.getLogger().info(
+					"Only the synchronization thread can stop the synchronization");
+			throw new SynchronizingException();
 		}
 		
 		if (Synchronizing.synchronizing == synchronizing)
