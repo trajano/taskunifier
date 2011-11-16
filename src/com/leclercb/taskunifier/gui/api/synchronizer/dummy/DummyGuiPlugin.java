@@ -83,6 +83,11 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	}
 	
 	@Override
+	public String getLicenseUrl() {
+		return null;
+	}
+	
+	@Override
 	public boolean needsLicense() {
 		return false;
 	}

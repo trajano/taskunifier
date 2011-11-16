@@ -49,6 +49,8 @@ public interface SynchronizerGuiPlugin extends SynchronizerPlugin {
 			ConfigurationGroup configuration,
 			boolean welcome);
 	
+	public abstract String getLicenseUrl();
+	
 	public abstract boolean needsLicense();
 	
 	public abstract boolean checkLicense() throws SynchronizerLicenseException;
