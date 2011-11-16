@@ -42,11 +42,17 @@ public class Synchronizing {
 	public static final String PROP_SYNCHRONIZING = "synchronizing";
 	
 	private static boolean synchronizing = false;
+	private static Thread synchronizingThread = null;
+	
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			Synchronizing.class);
 	
 	public synchronized static boolean isSynchronizing() {
 		return synchronizing;
+	}
+	
+	public synchronized static boolean isSynchronizingThread() {
+		return synchronizingThread.equals(Thread.currentThread());
 	}
 	
 	public synchronized static boolean setSynchronizing(boolean synchronizing) {
@@ -58,6 +64,11 @@ public class Synchronizing {
 		
 		if (Synchronizing.synchronizing == synchronizing)
 			return false;
+		
+		if (synchronizing)
+			Synchronizing.synchronizingThread = Thread.currentThread();
+		else
+			Synchronizing.synchronizingThread = null;
 		
 		boolean oldSynchronizing = Synchronizing.synchronizing;
 		Synchronizing.synchronizing = synchronizing;

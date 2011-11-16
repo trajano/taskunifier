@@ -73,7 +73,12 @@ public final class SynchronizerUtils {
 						if (task == null || !task.isCompleted())
 							return;
 						
+						boolean synchronizing = Synchronizing.setSynchronizing(true);
+						
 						getPlugin().getSynchronizerApi().createRepeatTask(task);
+						
+						if (synchronizing)
+							Synchronizing.setSynchronizing(false);
 					}
 					
 				});
