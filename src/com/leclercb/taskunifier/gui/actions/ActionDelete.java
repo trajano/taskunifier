@@ -114,7 +114,7 @@ public class ActionDelete extends AbstractViewAction {
 			try {
 				set = Synchronizing.setSynchronizing(true);
 			} catch (SynchronizingException e) {
-				return;
+				
 			}
 			
 			for (Task task : tasks) {

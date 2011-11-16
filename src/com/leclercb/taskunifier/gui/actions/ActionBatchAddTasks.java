@@ -88,7 +88,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 		try {
 			set = Synchronizing.setSynchronizing(true);
 		} catch (SynchronizingException e) {
-			return;
+			
 		}
 		
 		Task previousParentTask = null;
