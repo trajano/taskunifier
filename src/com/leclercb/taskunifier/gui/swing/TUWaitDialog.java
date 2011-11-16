@@ -38,6 +38,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -65,6 +66,10 @@ public class TUWaitDialog extends JDialog {
 	
 	public void appendToProgressStatus(String text) {
 		this.progressStatus.append(text);
+	}
+	
+	public void setSouthComponent(JComponent component) {
+		this.add(component, BorderLayout.SOUTH);
 	}
 	
 	private void initialize(String title) {
