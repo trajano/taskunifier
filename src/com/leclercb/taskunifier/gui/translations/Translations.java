@@ -83,8 +83,9 @@ public final class Translations {
 		}
 		
 		try {
-			defaultMessages = new PropertyResourceBundle(new FileInputStream(
-					DEFAULT_BUNDLE));
+			defaultMessages = new PropertyResourceBundle(new InputStreamReader(
+					new FileInputStream(DEFAULT_BUNDLE),
+					"UTF-8"));
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,

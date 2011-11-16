@@ -81,7 +81,8 @@ public final class Tips {
 		
 		try {
 			defaultProperties = new Properties();
-			defaultProperties.load(new FileInputStream(DEFAULT_BUNDLE));
+			defaultProperties.load(new InputStreamReader(new FileInputStream(
+					DEFAULT_BUNDLE), "UTF-8"));
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
