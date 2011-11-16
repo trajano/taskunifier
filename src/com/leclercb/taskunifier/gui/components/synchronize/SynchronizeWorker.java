@@ -117,11 +117,6 @@ public class SynchronizeWorker extends SwingWorker<Void, Void> {
 									"synchronizer.wait_no_license",
 									waitTime)));
 					
-					monitor.addMessage(new SynchronizerDefaultProgressMessage(
-							Translations.getString(
-									"general.go_to_serial",
-									plugin.getName())));
-					
 					Thread.sleep(waitTime * 1000);
 				}
 			}

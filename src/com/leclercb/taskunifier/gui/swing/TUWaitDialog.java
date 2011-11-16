@@ -52,6 +52,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 public class TUWaitDialog extends JDialog {
 	
 	private Runnable runnable;
+	
+	private JPanel panel;
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
 	
@@ -69,7 +71,7 @@ public class TUWaitDialog extends JDialog {
 	}
 	
 	public void setSouthComponent(JComponent component) {
-		this.add(component, BorderLayout.SOUTH);
+		this.panel.add(component, BorderLayout.SOUTH);
 	}
 	
 	private void initialize(String title) {
@@ -83,12 +85,11 @@ public class TUWaitDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.panel = new JPanel();
+		this.panel.setLayout(new BorderLayout(5, 5));
+		this.panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		this.progressBar = new JProgressBar(SwingConstants.HORIZONTAL);
-		this.progressBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0));
 		this.progressBar.setIndeterminate(true);
 		this.progressBar.setString("");
 		
@@ -110,10 +111,10 @@ public class TUWaitDialog extends JDialog {
 					
 				});
 		
-		panel.add(this.progressBar, BorderLayout.NORTH);
-		panel.add(scrollStatus, BorderLayout.CENTER);
+		this.panel.add(this.progressBar, BorderLayout.NORTH);
+		this.panel.add(scrollStatus, BorderLayout.CENTER);
 		
-		this.add(panel, BorderLayout.CENTER);
+		this.add(this.panel, BorderLayout.CENTER);
 	}
 	
 	@Override

@@ -39,6 +39,7 @@ import javax.swing.JButton;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionGetSerial;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
@@ -53,12 +54,18 @@ public class SynchronizerDialog extends TUWaitDialog {
 				Translations.getString("general.synchronization"));
 		this.setRunnable(new SynchronizeRunnable());
 		
-		SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
-		if (plugin.needsLicense() && plugin.getLicenseUrl() != null)
-			this.setSouthComponent(new JButton(new ActionGetSerial(
-					SynchronizerUtils.getPlugin().getLicenseUrl(),
-					22,
-					22)));
+		try {
+			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
+			if (plugin.needsLicense()
+					&& plugin.getLicenseUrl() != null
+					&& !plugin.checkLicense())
+				this.setSouthComponent(new JButton(new ActionGetSerial(
+						SynchronizerUtils.getPlugin().getLicenseUrl(),
+						22,
+						22)));
+		} catch (SynchronizerLicenseException exc) {
+			
+		}
 	}
 	
 	@Override
