@@ -58,11 +58,27 @@ public class PluginListRenderer extends DefaultListCellRenderer {
 		
 		Plugin plugin = (Plugin) value;
 		
+		String price = null;
+		if (plugin.getPrice() == null || plugin.getPrice().length() == 0) {
+			price = Translations.getString("plugin.price.free");
+		} else {
+			price = plugin.getPrice()
+					+ " ("
+					+ Translations.getString("plugin.price.free_trial")
+					+ ")";
+		}
+		
 		StringBuffer text = new StringBuffer();
-		text.append(plugin.getName() + " - " + plugin.getVersion() + "<br />");
+		text.append("<b>"
+				+ plugin.getName()
+				+ "</b> - "
+				+ plugin.getVersion()
+				+ "<br />");
 		text.append(Translations.getString("plugin.author")
 				+ ": "
-				+ plugin.getAuthor());
+				+ plugin.getAuthor()
+				+ "<br />");
+		text.append(Translations.getString("plugin.price") + ": " + price);
 		
 		this.setIcon(plugin.getLogo());
 		this.setText("<html>" + text.toString() + "</html>");
