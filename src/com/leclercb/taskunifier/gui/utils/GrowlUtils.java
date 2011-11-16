@@ -8,6 +8,7 @@ import org.apache.commons.lang.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 
 public final class GrowlUtils {
 	
@@ -85,15 +86,7 @@ public final class GrowlUtils {
 	}
 	
 	public static void notify(GrowlNotificationList list, String title) {
-		if (GROWL == null)
-			return;
-		
-		try {
-			GROWL.registerApplication();
-			GROWL.notify(list.getNotificationList(), title);
-		} catch (Throwable t) {
-			
-		}
+		notify(list, title, "");
 	}
 	
 	public static void notify(
@@ -101,6 +94,9 @@ public final class GrowlUtils {
 			String title,
 			String description) {
 		if (GROWL == null)
+			return;
+		
+		if (MainFrame.getInstance().getFrame().isActive())
 			return;
 		
 		try {
