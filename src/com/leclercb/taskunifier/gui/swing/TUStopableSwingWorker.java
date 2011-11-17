@@ -26,7 +26,7 @@ public abstract class TUStopableSwingWorker<T, V> extends SwingWorker<T, V> {
 		Thread thread = new Thread(runnable);
 		thread.start();
 		
-		while (!thread.isInterrupted() && !this.isStopped()) {
+		while (thread.isAlive() && !this.isStopped()) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
