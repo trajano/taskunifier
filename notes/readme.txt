@@ -6,7 +6,7 @@ Version 1.8.4
 		- FR 3430086: Subtasks allow subtasks
 	- Minor:
 		- Change encoding of translations to UTF-8
-		- Substance themes removed
+		- Bug fixed: Substance themes removed
 
 Version 1.8.3
 	- Minor:
