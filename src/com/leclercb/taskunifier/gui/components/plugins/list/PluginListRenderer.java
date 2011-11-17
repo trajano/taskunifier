@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.plugins.list;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -98,10 +97,13 @@ public class PluginListRenderer implements ListCellRenderer {
 				+ "<br />");
 		text.append(Translations.getString("plugin.price") + ": " + price);
 		
-		if (isSelected)
+		if (isSelected) {
 			this.panel.setBackground(UIManager.getColor("List.selectionBackground"));
-		else
-			this.panel.setBackground(Color.WHITE);
+			this.text.setForeground(UIManager.getColor("List.selectionForeground"));
+		} else {
+			this.panel.setBackground(UIManager.getColor("List.background"));
+			this.text.setForeground(UIManager.getColor("List.foreground"));
+		}
 		
 		this.icon.setIcon(plugin.getLogo());
 		this.text.setText("<html>" + text.toString() + "</html>");

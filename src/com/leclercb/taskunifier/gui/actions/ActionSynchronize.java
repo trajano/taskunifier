@@ -76,12 +76,19 @@ public class ActionSynchronize extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionSynchronize.synchronize(this.background);
+		ActionSynchronize.synchronize(this.background, true);
 	}
 	
 	public static void synchronize(boolean background) {
+		synchronize(background, false);
+	}
+	
+	public static void synchronize(boolean background, boolean userAction) {
 		if (SynchronizerUtils.getPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId())) {
+			if (background || !userAction)
+				return;
+			
 			ActionManagePlugins.managePlugins();
 			ActionConfiguration.configuration(ConfigurationTab.PLUGIN);
 			return;
