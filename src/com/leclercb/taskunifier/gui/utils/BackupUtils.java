@@ -134,7 +134,7 @@ public final class BackupUtils {
 		}
 		
 		try {
-			Main.saveAllData(folder);
+			Main.copyAllData(folder);
 		} finally {
 			if (set) {
 				try {

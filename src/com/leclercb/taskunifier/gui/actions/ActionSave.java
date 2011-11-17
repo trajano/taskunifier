@@ -71,7 +71,7 @@ public class ActionSave extends AbstractAction {
 				return false;
 			}
 			
-			Main.saveAllData(Main.DATA_FOLDER);
+			Main.saveAllData();
 		} finally {
 			if (set) {
 				try {

@@ -894,7 +894,7 @@ public class Main {
 				"general.last_exit_date",
 				Calendar.getInstance());
 		
-		saveAllData(DATA_FOLDER);
+		saveAllData();
 		
 		MainFrame.getInstance().getFrame().dispose();
 		
@@ -903,10 +903,16 @@ public class Main {
 		System.exit(0);
 	}
 	
-	public static void saveAllData(String folder) {
+	public static void copyAllData(String folder) {
 		saveModels(folder);
 		saveTaskTemplates(folder);
 		saveTaskSearchers(folder);
+	}
+	
+	public static void saveAllData() {
+		saveModels(DATA_FOLDER);
+		saveTaskTemplates(DATA_FOLDER);
+		saveTaskSearchers(DATA_FOLDER);
 		saveInitSettings();
 		saveSettings();
 	}
