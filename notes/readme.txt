@@ -4,7 +4,9 @@ HISTORY
 Version 1.8.4
 	- Major:
 		- FR 3430086: Subtasks allow subtasks
+		- Stop synchronization
 	- Minor:
+		- Improved user interface
 		- Change encoding of translations to UTF-8
 		- Bug fixed: Substance themes removed
 
