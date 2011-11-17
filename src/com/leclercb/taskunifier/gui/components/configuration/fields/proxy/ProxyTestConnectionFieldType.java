@@ -41,35 +41,26 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("configuration.proxy.test_connection"));
 			
-			dialog.setRunnable(new Runnable() {
+			dialog.setWorker(new SwingWorker<Void, Void>() {
 				
 				@Override
-				public void run() {
-					SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-						
-						@Override
-						protected Void doInBackground() throws Exception {
-							dialog.appendToProgressStatus(Translations.getString("configuration.proxy.test_connection"));
-							
-							try {
-								HttpUtils.getHttpGetResponse(new URI(
-										Constants.TEST_CONNECTION));
-								TestConnection.this.showResult(true);
-							} catch (Throwable t) {
-								TestConnection.this.showResult(false);
-							}
-							
-							return null;
-						}
-						
-						@Override
-						protected void done() {
-							dialog.dispose();
-						}
-						
-					};
+				protected Void doInBackground() throws Exception {
+					dialog.appendToProgressStatus(Translations.getString("configuration.proxy.test_connection"));
 					
-					worker.execute();
+					try {
+						HttpUtils.getHttpGetResponse(new URI(
+								Constants.TEST_CONNECTION));
+						TestConnection.this.showResult(true);
+					} catch (Throwable t) {
+						TestConnection.this.showResult(false);
+					}
+					
+					return null;
+				}
+				
+				@Override
+				protected void done() {
+					dialog.dispose();
 				}
 				
 			});

@@ -55,7 +55,7 @@ public abstract class TUMonitorWaitDialog<ResultType> extends TUWaitDialog {
 	
 	public TUMonitorWaitDialog(Frame frame, String title) {
 		super(frame, title);
-		this.setRunnable(new MonitorWaitRunnable());
+		this.setWorker(new MonitorWaitWorker());
 		
 		this.result = null;
 		
@@ -77,56 +77,47 @@ public abstract class TUMonitorWaitDialog<ResultType> extends TUWaitDialog {
 		return this.result;
 	}
 	
-	public class MonitorWaitRunnable implements Runnable {
+	public class MonitorWaitWorker extends SwingWorker<Void, Void> {
 		
 		@Override
-		public void run() {
-			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-				
-				@Override
-				protected Void doInBackground() throws Exception {
-					TUMonitorWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		protected Void doInBackground() throws Exception {
+			TUMonitorWaitDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			
+			try {
+				TUMonitorWaitDialog.this.result = TUMonitorWaitDialog.this.doActions(TUMonitorWaitDialog.this.monitor);
+			} catch (final Throwable e) {
+				SwingUtilities.invokeLater(new Runnable() {
 					
-					try {
-						TUMonitorWaitDialog.this.result = TUMonitorWaitDialog.this.doActions(TUMonitorWaitDialog.this.monitor);
-					} catch (final Throwable e) {
-						SwingUtilities.invokeLater(new Runnable() {
-							
-							@Override
-							public void run() {
-								ErrorInfo info = new ErrorInfo(
-										Translations.getString("general.error"),
-										e.getMessage(),
-										null,
-										null,
-										e,
-										null,
-										null);
-								
-								JXErrorPane.showDialog(
-										MainFrame.getInstance().getFrame(),
-										info);
-							}
-							
-						});
+					@Override
+					public void run() {
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
+								e.getMessage(),
+								null,
+								null,
+								e,
+								null,
+								null);
 						
-						return null;
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
 					}
 					
-					Thread.sleep(1000);
-					
-					return null;
-				}
+				});
 				
-				@Override
-				protected void done() {
-					TUMonitorWaitDialog.this.setCursor(null);
-					TUMonitorWaitDialog.this.dispose();
-				}
-				
-			};
+				return null;
+			}
 			
-			worker.execute();
+			Thread.sleep(1000);
+			
+			return null;
+		}
+		
+		@Override
+		protected void done() {
+			TUMonitorWaitDialog.this.setCursor(null);
+			TUMonitorWaitDialog.this.dispose();
 		}
 		
 	}

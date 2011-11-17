@@ -43,7 +43,7 @@ public final class BackgroundSynchronizer {
 	}
 	
 	public static void synchronize() {
-		SynchronizeWorker worker = new SynchronizeWorker(true) {
+		SynchronizerWorker worker = new SynchronizerWorker(true) {
 			
 			@Override
 			protected Void doInBackground() throws Exception {

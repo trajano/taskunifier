@@ -52,7 +52,7 @@ public class SynchronizerDialog extends TUWaitDialog {
 		super(
 				MainFrame.getInstance().getFrame(),
 				Translations.getString("general.synchronization"));
-		this.setRunnable(new SynchronizeRunnable());
+		this.setWorker(new SynchronizerDialogWorker());
 		
 		try {
 			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
@@ -76,11 +76,10 @@ public class SynchronizerDialog extends TUWaitDialog {
 		super.setVisible(visible);
 	}
 	
-	public class SynchronizeRunnable implements Runnable {
+	public class SynchronizerDialogWorker extends SynchronizerWorker {
 		
-		@Override
-		public void run() {
-			SynchronizerProgressMessageListener handler = new SynchronizerProgressMessageListener() {
+		public SynchronizerDialogWorker() {
+			super(false, new SynchronizerProgressMessageListener() {
 				
 				@Override
 				public void showMessage(ProgressMessage message, String content) {
@@ -88,26 +87,20 @@ public class SynchronizerDialog extends TUWaitDialog {
 							+ "\n");
 				}
 				
-			};
-			
-			SynchronizeWorker worker = new SynchronizeWorker(false, handler) {
-				
-				@Override
-				protected Void doInBackground() throws Exception {
-					SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					return super.doInBackground();
-				}
-				
-				@Override
-				protected void done() {
-					super.done();
-					SynchronizerDialog.this.setCursor(null);
-					SynchronizerDialog.this.dispose();
-				}
-				
-			};
-			
-			worker.execute();
+			});
+		}
+		
+		@Override
+		protected Void doInBackground() throws Exception {
+			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			return super.doInBackground();
+		}
+		
+		@Override
+		protected void done() {
+			super.done();
+			SynchronizerDialog.this.setCursor(null);
+			SynchronizerDialog.this.dispose();
 		}
 		
 	}

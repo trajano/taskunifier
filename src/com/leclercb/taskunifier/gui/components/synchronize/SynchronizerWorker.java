@@ -58,18 +58,18 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizeWorker extends SwingWorker<Void, Void> {
+public class SynchronizerWorker extends SwingWorker<Void, Void> {
 	
 	private static int SYNCHRONIZE_COUNT = 0;
 	
 	private boolean silent;
 	private SynchronizerProgressMessageListener handler;
 	
-	public SynchronizeWorker(boolean silent) {
+	public SynchronizerWorker(boolean silent) {
 		this(silent, null);
 	}
 	
-	public SynchronizeWorker(
+	public SynchronizerWorker(
 			boolean silent,
 			SynchronizerProgressMessageListener handler) {
 		this.silent = silent;

@@ -84,90 +84,81 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				MainFrame.getInstance().getFrame(),
 				"action.import_models");
 		
-		dialog.setRunnable(new Runnable() {
+		dialog.setWorker(new SwingWorker<Void, Void>() {
 			
 			@Override
-			public void run() {
-				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			protected Void doInBackground() throws Exception {
+				boolean set = false;
+				
+				try {
+					set = Synchronizing.setSynchronizing(true);
+				} catch (SynchronizingException e) {
 					
-					@Override
-					protected Void doInBackground() throws Exception {
-						boolean set = false;
+				}
+				
+				if (!set) {
+					JOptionPane.showMessageDialog(
+							null,
+							Translations.getString("general.synchronization_ongoing"),
+							Translations.getString("general.error"),
+							JOptionPane.ERROR_MESSAGE);
+					return null;
+				}
+				
+				try {
+					dialog.appendToProgressStatus(Translations.getString("action.import_models"));
+					
+					SynchronizerUtils.setTaskRepeatEnabled(false);
+					
+					ZipFile zip = new ZipFile(new File(file));
+					
+					for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
+						ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
 						
+						if (entry.getName().equals("contexts.xml"))
+							ContextFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+						
+						if (entry.getName().equals("folders.xml"))
+							FolderFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+						
+						if (entry.getName().equals("goals.xml"))
+							GoalFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+						
+						if (entry.getName().equals("locations.xml"))
+							LocationFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+						
+						if (entry.getName().equals("notes.xml"))
+							NoteFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+						
+						if (entry.getName().equals("tasks.xml"))
+							TaskFactory.getInstance().decodeFromXML(
+									zip.getInputStream(entry));
+					}
+					
+					Thread.sleep(1000);
+					
+					return null;
+				} finally {
+					SynchronizerUtils.setTaskRepeatEnabled(true);
+					
+					if (set) {
 						try {
-							set = Synchronizing.setSynchronizing(true);
+							Synchronizing.setSynchronizing(false);
 						} catch (SynchronizingException e) {
 							
 						}
-						
-						if (!set) {
-							JOptionPane.showMessageDialog(
-									null,
-									Translations.getString("general.synchronization_ongoing"),
-									Translations.getString("general.error"),
-									JOptionPane.ERROR_MESSAGE);
-							return null;
-						}
-						
-						try {
-							dialog.appendToProgressStatus(Translations.getString("action.import_models"));
-							
-							SynchronizerUtils.setTaskRepeatEnabled(false);
-							
-							ZipFile zip = new ZipFile(new File(file));
-							
-							for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
-								ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
-								
-								if (entry.getName().equals("contexts.xml"))
-									ContextFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-								
-								if (entry.getName().equals("folders.xml"))
-									FolderFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-								
-								if (entry.getName().equals("goals.xml"))
-									GoalFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-								
-								if (entry.getName().equals("locations.xml"))
-									LocationFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-								
-								if (entry.getName().equals("notes.xml"))
-									NoteFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-								
-								if (entry.getName().equals("tasks.xml"))
-									TaskFactory.getInstance().decodeFromXML(
-											zip.getInputStream(entry));
-							}
-							
-							Thread.sleep(1000);
-							
-							return null;
-						} finally {
-							SynchronizerUtils.setTaskRepeatEnabled(true);
-							
-							if (set) {
-								try {
-									Synchronizing.setSynchronizing(false);
-								} catch (SynchronizingException e) {
-									
-								}
-							}
-						}
 					}
-					
-					@Override
-					protected void done() {
-						dialog.dispose();
-					}
-					
-				};
-				
-				worker.execute();
+				}
+			}
+			
+			@Override
+			protected void done() {
+				dialog.dispose();
 			}
 			
 		});

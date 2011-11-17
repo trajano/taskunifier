@@ -45,13 +45,14 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TUWaitDialog extends JDialog {
 	
-	private Runnable runnable;
+	private SwingWorker<?, ?> worker;
 	
 	private JPanel panel;
 	private JProgressBar progressBar;
@@ -62,8 +63,8 @@ public class TUWaitDialog extends JDialog {
 		this.initialize(title);
 	}
 	
-	public void setRunnable(Runnable runnable) {
-		this.runnable = runnable;
+	public void setWorker(SwingWorker<?, ?> worker) {
+		this.worker = worker;
 	}
 	
 	public void appendToProgressStatus(String text) {
@@ -120,9 +121,8 @@ public class TUWaitDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			CheckUtils.isNotNull(this.runnable, "Runnable cannot be null");
-			Thread synchronizeThread = new Thread(this.runnable);
-			synchronizeThread.start();
+			CheckUtils.isNotNull(this.worker, "Worker cannot be null");
+			this.worker.execute();
 		}
 		
 		super.setVisible(visible);
