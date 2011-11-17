@@ -91,6 +91,8 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskTableColumn extends TableColumnExt {
 	
+	private static final TableCellRenderer GENERIC_RENDERER;
+	
 	private static final TableCellRenderer COMPLETED_RENDERER;
 	private static final TableCellRenderer COMPLETED_ON_RENDERER;
 	private static final TableCellRenderer DUE_DATE_RENDERER;
@@ -133,6 +135,8 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellEditor TITLE_EDITOR;
 	
 	static {
+		GENERIC_RENDERER = new DefaultTableRenderer();
+		
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
 				IconValueCompleted.INSTANCE,
@@ -346,7 +350,7 @@ public class TaskTableColumn extends TableColumnExt {
 			case NOTE:
 				return NOTE_RENDERER;
 			default:
-				return super.getCellRenderer();
+				return GENERIC_RENDERER;
 		}
 	}
 	
