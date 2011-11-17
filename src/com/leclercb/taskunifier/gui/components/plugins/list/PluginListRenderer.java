@@ -36,6 +36,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -56,11 +57,11 @@ public class PluginListRenderer implements ListCellRenderer {
 		this.icon = new JLabel();
 		this.text = new JLabel();
 		
-		this.icon.setOpaque(true);
-		this.text.setOpaque(true);
+		this.icon.setOpaque(false);
+		this.text.setOpaque(false);
 		
 		this.icon.setBorder(null);
-		this.text.setBorder(null);
+		this.text.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		this.panel.add(this.icon, BorderLayout.EAST);
 		this.panel.add(this.text, BorderLayout.CENTER);
@@ -98,9 +99,9 @@ public class PluginListRenderer implements ListCellRenderer {
 		text.append(Translations.getString("plugin.price") + ": " + price);
 		
 		if (isSelected)
-			this.text.setBackground(UIManager.getColor("List.selectionBackground"));
+			this.panel.setBackground(UIManager.getColor("List.selectionBackground"));
 		else
-			this.text.setBackground(Color.WHITE);
+			this.panel.setBackground(Color.WHITE);
 		
 		this.icon.setIcon(plugin.getLogo());
 		this.text.setText("<html>" + text.toString() + "</html>");
