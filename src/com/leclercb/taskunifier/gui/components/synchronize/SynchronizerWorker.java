@@ -36,7 +36,6 @@ import java.util.Calendar;
 import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -54,11 +53,12 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
+import com.leclercb.taskunifier.gui.swing.TUStopableSwingWorker;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizerWorker extends SwingWorker<Void, Void> {
+public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 	
 	private static int SYNCHRONIZE_COUNT = 0;
 	
@@ -74,6 +74,16 @@ public class SynchronizerWorker extends SwingWorker<Void, Void> {
 			SynchronizerProgressMessageListener handler) {
 		this.silent = silent;
 		this.handler = handler;
+	}
+	
+	@Override
+	public synchronized void stop() {
+		if (!this.isStopped()) {
+			Constants.PROGRESS_MONITOR.addMessage(new SynchronizerDefaultProgressMessage(
+					Translations.getString("synchronizer.cancelled_by_user")));
+		}
+		
+		super.stop();
 	}
 	
 	@Override
@@ -127,6 +137,9 @@ public class SynchronizerWorker extends SwingWorker<Void, Void> {
 									waitTime)));
 					
 					Thread.sleep(waitTime * 1000);
+					
+					if (this.isStopped())
+						return null;
 				}
 			}
 			
@@ -139,7 +152,34 @@ public class SynchronizerWorker extends SwingWorker<Void, Void> {
 					Main.SETTINGS);
 			
 			connection.loadParameters(Main.SETTINGS);
-			connection.connect();
+			
+			final Connection finalConnection = connection;
+			this.executeNonAtomicAction(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						finalConnection.connect();
+					} catch (final SynchronizerException e) {
+						if (SynchronizerWorker.this.isStopped())
+							return;
+						
+						SynchronizerWorker.this.handleSynchronizerException(e);
+						SynchronizerWorker.this.stop();
+					} catch (final Throwable t) {
+						if (SynchronizerWorker.this.isStopped())
+							return;
+						
+						SynchronizerWorker.this.handleThrowable(t);
+						SynchronizerWorker.this.stop();
+					}
+				};
+				
+			});
+			
+			if (this.isStopped())
+				return null;
+			
 			connection.saveParameters(Main.SETTINGS);
 			
 			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
@@ -161,67 +201,13 @@ public class SynchronizerWorker extends SwingWorker<Void, Void> {
 					Calendar.getInstance());
 			
 			SYNCHRONIZE_COUNT++;
+		} catch (final InterruptedException e) {
+			return null;
 		} catch (final SynchronizerException e) {
-			monitor.addMessage(new SynchronizerDefaultProgressMessage(
-					e.getMessage()));
-			
-			SwingUtilities.invokeLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					PluginLogger.getLogger().log(
-							(e.isExpected() ? Level.INFO : Level.WARNING),
-							e.getMessage(),
-							e);
-					
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							e.getMessage(),
-							null,
-							null,
-							(e.isExpected() ? e : null),
-							null,
-							null);
-					
-					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
-							info);
-				}
-				
-			});
-			
+			this.handleSynchronizerException(e);
 			return null;
 		} catch (final Throwable t) {
-			monitor.addMessage(new SynchronizerDefaultProgressMessage(
-					t.getMessage()));
-			
-			if (!this.silent) {
-				SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						PluginLogger.getLogger().log(
-								Level.WARNING,
-								t.getMessage(),
-								t);
-						
-						ErrorInfo info = new ErrorInfo(
-								Translations.getString("general.error"),
-								t.getMessage(),
-								null,
-								null,
-								t,
-								null,
-								null);
-						
-						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
-								info);
-					}
-					
-				});
-			}
-			
+			this.handleThrowable(t);
 			return null;
 		} finally {
 			SynchronizerUtils.removeProxy();
@@ -250,6 +236,72 @@ public class SynchronizerWorker extends SwingWorker<Void, Void> {
 				true);
 		
 		return null;
+	}
+	
+	private void handleSynchronizerException(final SynchronizerException e) {
+		if (this.isStopped())
+			return;
+		
+		Constants.PROGRESS_MONITOR.addMessage(new SynchronizerDefaultProgressMessage(
+				e.getMessage()));
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				PluginLogger.getLogger().log(
+						(e.isExpected() ? Level.INFO : Level.WARNING),
+						e.getMessage(),
+						e);
+				
+				ErrorInfo info = new ErrorInfo(
+						Translations.getString("general.error"),
+						e.getMessage(),
+						null,
+						null,
+						(e.isExpected() ? e : null),
+						null,
+						null);
+				
+				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			}
+			
+		});
+	}
+	
+	private void handleThrowable(final Throwable t) {
+		if (this.isStopped())
+			return;
+		
+		Constants.PROGRESS_MONITOR.addMessage(new SynchronizerDefaultProgressMessage(
+				t.getMessage()));
+		
+		if (!this.silent) {
+			SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					PluginLogger.getLogger().log(
+							Level.WARNING,
+							t.getMessage(),
+							t);
+					
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							t.getMessage(),
+							null,
+							null,
+							t,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
+				}
+				
+			});
+		}
 	}
 	
 }

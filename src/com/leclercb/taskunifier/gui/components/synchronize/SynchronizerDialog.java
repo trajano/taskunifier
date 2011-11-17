@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 
@@ -52,7 +54,17 @@ public class SynchronizerDialog extends TUWaitDialog {
 		super(
 				MainFrame.getInstance().getFrame(),
 				Translations.getString("general.synchronization"));
-		this.setWorker(new SynchronizerDialogWorker());
+		final SynchronizerDialogWorker worker = new SynchronizerDialogWorker();
+		this.setWorker(worker);
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				worker.stop();
+			}
+			
+		});
 		
 		try {
 			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
