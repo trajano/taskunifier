@@ -80,6 +80,7 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
@@ -371,6 +372,18 @@ public class TaskTable extends JXTable implements TaskTableView {
 			}
 			
 		});
+		
+		Synchronizing.addPropertyChangeListener(
+				Synchronizing.PROP_SYNCHRONIZING,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
+							TaskTable.this.refreshTasks();
+					}
+					
+				});
 	}
 	
 	private void initializeHeaderListener() {
