@@ -223,16 +223,6 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.firePropertyChange(PROP_TASK_COUNT, null, this.getTaskCount());
 	}
 	
-	@Override
-	public boolean shouldBeDisplayed(Task task) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
-		TaskSearcher searcher = this.getTaskSearcher();
-		if (searcher == null)
-			return false;
-		
-		return new TaskRowFilter(searcher.getFilter()).include(task);
-	}
-	
 	public TaskSearcher getTaskSearcher() {
 		return TaskRowComparator.getInstance().getTaskSearcher();
 	}

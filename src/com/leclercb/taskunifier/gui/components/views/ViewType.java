@@ -162,19 +162,6 @@ public enum ViewType implements ActionSupported {
 			ViewType.getCalendarView().getTaskSearcherView().refreshTaskSearcher();
 	}
 	
-	public static boolean shouldBeDisplayed(Task task) {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		
-		if (viewType == ViewType.TASKS)
-			return ViewType.getTaskView().getTaskTableView().shouldBeDisplayed(
-					task);
-		else if (viewType == ViewType.CALENDAR)
-			return ViewType.getCalendarView().getTaskCalendarView().shouldBeDisplayed(
-					task);
-		
-		return false;
-	}
-	
 	private ActionSupport actionSupport;
 	
 	private View view;

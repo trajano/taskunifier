@@ -49,8 +49,6 @@ public interface TaskTableView extends ModelSelectionChangeSupported, PropertyCh
 	
 	public abstract void setSelectedTasks(Task[] tasks);
 	
-	public abstract boolean shouldBeDisplayed(Task task);
-	
 	public abstract void refreshTasks();
 	
 	public abstract void printTasks() throws Exception;
