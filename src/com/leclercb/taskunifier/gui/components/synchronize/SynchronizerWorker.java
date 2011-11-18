@@ -98,11 +98,6 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		boolean set = false;
 		
 		try {
-			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
-				BackupUtils.getInstance().createNewBackup();
-			
-			ActionSave.save();
-			
 			try {
 				set = Synchronizing.setSynchronizing(true);
 			} catch (SynchronizingException e) {
@@ -112,6 +107,11 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			if (!set) {
 				return null;
 			}
+			
+			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
+				BackupUtils.getInstance().createNewBackup();
+			
+			ActionSave.save();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
