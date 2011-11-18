@@ -96,18 +96,18 @@ public class ActionSynchronize extends AbstractAction {
 		
 		ViewType.commitAll();
 		
-		Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
-		Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
-		
 		if (background) {
 			BackgroundSynchronizer.synchronize();
 		} else {
+			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
+			Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
+			
 			SynchronizerDialog dialog = new SynchronizerDialog();
 			dialog.setVisible(true);
+			
+			ViewType.getNoteView().getNoteTableView().setSelectedNotes(notes);
+			ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
 		}
-		
-		ViewType.getNoteView().getNoteTableView().setSelectedNotes(notes);
-		ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
 	}
 	
 }
