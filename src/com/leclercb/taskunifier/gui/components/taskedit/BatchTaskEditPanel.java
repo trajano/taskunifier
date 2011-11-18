@@ -151,9 +151,9 @@ public class BatchTaskEditPanel extends JPanel {
 		this.reinitializeFields(null);
 	}
 	
-	public void editTasks() {
+	public boolean editTasks() {
 		if (this.tasks == null)
-			return;
+			return true;
 		
 		boolean set = false;
 		
@@ -164,7 +164,7 @@ public class BatchTaskEditPanel extends JPanel {
 		}
 		
 		if (!set)
-			return;
+			return false;
 		
 		try {
 			
@@ -324,6 +324,8 @@ public class BatchTaskEditPanel extends JPanel {
 				}
 			}
 		}
+		
+		return true;
 	}
 	
 	public Task[] getTasks() {

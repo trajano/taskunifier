@@ -43,6 +43,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -151,8 +152,16 @@ public class BatchTaskEditDialog extends TUDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				if (!BatchTaskEditDialog.this.batchTaskEditPanel.editTasks()) {
+					JOptionPane.showMessageDialog(
+							null,
+							Translations.getString("general.synchronization_ongoing"),
+							Translations.getString("general.error"),
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
 				BatchTaskEditDialog.this.cancelled = false;
-				BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
 				BatchTaskEditDialog.this.setTasks(null);
 				BatchTaskEditDialog.this.setVisible(false);
 			}
