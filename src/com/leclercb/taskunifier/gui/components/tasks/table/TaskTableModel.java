@@ -61,6 +61,18 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
+		
+		Synchronizing.addPropertyChangeListener(
+				Synchronizing.PROP_SYNCHRONIZING,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
+							TaskTableModel.this.fireTableDataChanged();
+					}
+					
+				});
 	}
 	
 	public Task getTask(int row) {

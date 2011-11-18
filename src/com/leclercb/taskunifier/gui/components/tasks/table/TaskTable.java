@@ -372,18 +372,6 @@ public class TaskTable extends JXTable implements TaskTableView {
 			}
 			
 		});
-		
-		Synchronizing.addPropertyChangeListener(
-				Synchronizing.PROP_SYNCHRONIZING,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (!(Boolean) evt.getNewValue())
-							TaskTable.this.refreshTasks();
-					}
-					
-				});
 	}
 	
 	private void initializeHeaderListener() {
