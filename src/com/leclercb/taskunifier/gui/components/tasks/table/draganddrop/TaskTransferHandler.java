@@ -55,6 +55,8 @@ import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -184,8 +186,7 @@ public class TaskTransferHandler extends TransferHandler {
 									this.getParent(table, dl.getRow(), dragTask)))
 								dragTask.setParent(null);
 					} else {
-						for (Task dragTask : dragTasks)
-							dragTask.setParent(null);
+						this.setParent(null, dragTasks);
 					}
 					
 					table.refreshTasks();
@@ -199,8 +200,7 @@ public class TaskTransferHandler extends TransferHandler {
 					return false;
 				
 				// Import
-				for (Task dragTask : dragTasks)
-					dragTask.setParent(dropTask);
+				this.setParent(dropTask, dragTasks);
 				
 				table.refreshTasks();
 				
@@ -287,6 +287,27 @@ public class TaskTransferHandler extends TransferHandler {
 		}
 		
 		return tasks.toArray(new Task[0]);
+	}
+	
+	private void setParent(Task parent, List<Task> tasks) {
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
+			
+		}
+		
+		for (Task task : tasks)
+			task.setParent(parent);
+		
+		if (set) {
+			try {
+				Synchronizing.setSynchronizing(false);
+			} catch (SynchronizingException e) {
+				
+			}
+		}
 	}
 	
 }
