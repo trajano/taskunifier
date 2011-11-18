@@ -3,8 +3,6 @@ package com.leclercb.taskunifier.gui.components.modelnote;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
@@ -15,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -135,10 +135,20 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.textNote.getDocument().addUndoableEditListener(this.undoSupport);
 		this.undoSupport.initializeMaps(this.textNote);
 		
-		this.textNote.addFocusListener(new FocusAdapter() {
+		this.textNote.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void removeUpdate(DocumentEvent e) {
+				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
 				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
 			}
 			
