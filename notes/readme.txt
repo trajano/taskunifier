@@ -3,7 +3,7 @@ HISTORY
 
 Version 1.8.5
 	- Minor:
-		- 
+		- FR 3440661: Add subtask at the same level
 
 Version 1.8.4
 	- Major:

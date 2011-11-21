@@ -13,6 +13,7 @@ public enum ActionList {
 	ADD_NOTE(Translations.getString("action.add_note"), "note.png", true),
 	ADD_QUICK_TASK(Translations.getString("action.add_task"), "task.png", false),
 	ADD_SUBTASK(Translations.getString("action.add_subtask"), "subtask.png", true),
+	ADD_SUBTASK_AT_SAME_LEVEL(Translations.getString("action.add_subtask_at_same_level"), "subtask.png", true),
 	ADD_TASK(Translations.getString("action.add_task"), "task.png", true),
 	ADD_TASK_SEARCHER(Translations.getString("action.add_task_searcher"), "add.png", true),
 	ADD_TASK_SEARCHER_SELECTED_TASKS(Translations.getString("action.add_task_searcher_selected_tasks"), "add.png", true),
@@ -118,6 +119,8 @@ public enum ActionList {
 				return new ActionAddQuickTask(width, height);
 			case ADD_SUBTASK:
 				return new ActionAddSubTask(width, height);
+			case ADD_SUBTASK_AT_SAME_LEVEL:
+				return new ActionAddSubTaskAtSameLevel(width, height);
 			case ADD_TASK:
 				return new ActionAddTask(width, height);
 			case ADD_TASK_SEARCHER:

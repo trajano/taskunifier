@@ -49,6 +49,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTaskAtSameLevel;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcherSelectedTasks;
@@ -229,6 +230,7 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.add(new ActionAddTask(16, 16));
 		tasksMenu.add(new ActionAddSubTask(16, 16));
+		tasksMenu.add(new ActionAddSubTaskAtSameLevel(16, 16));
 		
 		this.initializeTemplateMenu(tasksMenu);
 		
