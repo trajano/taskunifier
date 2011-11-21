@@ -40,6 +40,7 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddSubTaskAtSameLevel;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionCollapseAll;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -72,6 +73,7 @@ public class TaskTableMenu extends JPopupMenu {
 		this.addSeparator();
 		this.add(new ActionAddTask(16, 16));
 		this.add(new ActionAddSubTask(16, 16));
+		this.add(new ActionAddSubTaskAtSameLevel(16, 16));
 		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
 		this.add(new ActionDelete(16, 16));
