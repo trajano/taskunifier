@@ -410,17 +410,14 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				} catch (Exception e) {
 					this.insertNodeInto(item, category, 0);
 				}
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				ModelItem item = this.findItemFromModel(model);
 				
 				if (item != null)
 					this.removeNodeFromParent(item);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 		
@@ -432,16 +429,14 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				SearcherItem item = new SearcherItem(searcher);
 				
 				this.insertNodeInto(item, category, 0);
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				SearcherItem item = this.findItemFromSearcher(searcher);
 				
 				if (item != null)
 					this.removeNodeFromParent(item);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 		
@@ -459,6 +454,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 					this.removeNodeFromParent(item);
 			}
 			
+			this.updateSelection();
 			return;
 		}
 	}
@@ -479,46 +475,33 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
+			} else if (item == null) {
+				item = new ModelItem(model.getModelType(), model);
 				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
-			} else {
-				if (item == null) {
-					item = new ModelItem(model.getModelType(), model);
-					
-					try {
-						this.insertNodeInto(
-								item,
-								category,
-								this.findNewIndexInModelCategory(
-										category,
-										model));
-					} catch (Exception e) {
-						this.insertNodeInto(item, category, 0);
-					}
-					
-					return;
+				try {
+					this.insertNodeInto(
+							item,
+							category,
+							this.findNewIndexInModelCategory(category, model));
+				} catch (Exception e) {
+					this.insertNodeInto(item, category, 0);
 				}
+			} else if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+				this.removeNodeFromParent(item);
 				
-				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
-					this.removeNodeFromParent(item);
-					
-					try {
-						this.insertNodeInto(
-								item,
-								category,
-								this.findNewIndexInModelCategory(
-										category,
-										model));
-					} catch (Exception e) {
-						this.insertNodeInto(item, category, 0);
-					}
+				try {
+					this.insertNodeInto(
+							item,
+							category,
+							this.findNewIndexInModelCategory(category, model));
+				} catch (Exception e) {
+					this.insertNodeInto(item, category, 0);
 				}
-				
-				if (event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
-					this.nodeChanged(item);
-				}
+			} else if (event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
+				this.nodeChanged(item);
 			}
 			
+			this.updateSelection();
 			return;
 		}
 		
@@ -544,10 +527,9 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				item = new SearcherItem(searcher);
 				
 				this.insertNodeInto(item, category, 0);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 	}
@@ -562,6 +544,11 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 		
 		this.nodeChanged((TreeNode) this.getRoot());
+	}
+	
+	private void updateSelection() {
+		if (this.treeSelectionModel.getSelectionPath() == null)
+			this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 	}
 	
 }

@@ -214,17 +214,14 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				} catch (Exception e) {
 					this.insertNodeInto(item, this.folderCategory, 0);
 				}
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				FolderItem item = this.findItemFromFolder(folder);
 				
 				if (item != null)
 					this.removeNodeFromParent(item);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 		
@@ -236,16 +233,14 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				SearcherItem item = new SearcherItem(searcher);
 				
 				this.insertNodeInto(item, category, 0);
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 				SearcherItem item = this.findItemFromSearcher(searcher);
 				
 				if (item != null)
 					this.removeNodeFromParent(item);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 	}
@@ -265,42 +260,33 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
+			} else if (item == null) {
+				item = new FolderItem(folder);
 				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
-			} else {
-				if (item == null) {
-					item = new FolderItem(folder);
-					
-					try {
-						this.insertNodeInto(
-								item,
-								this.folderCategory,
-								this.findNewIndexInFolderCategory(folder));
-					} catch (Exception e) {
-						this.insertNodeInto(item, this.folderCategory, 0);
-					}
-					
-					return;
+				try {
+					this.insertNodeInto(
+							item,
+							this.folderCategory,
+							this.findNewIndexInFolderCategory(folder));
+				} catch (Exception e) {
+					this.insertNodeInto(item, this.folderCategory, 0);
 				}
+			} else if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+				this.removeNodeFromParent(item);
 				
-				if (event.getPropertyName().equals(Model.PROP_TITLE)) {
-					this.removeNodeFromParent(item);
-					
-					try {
-						this.insertNodeInto(
-								item,
-								this.folderCategory,
-								this.findNewIndexInFolderCategory(folder));
-					} catch (Exception e) {
-						this.insertNodeInto(item, this.folderCategory, 0);
-					}
+				try {
+					this.insertNodeInto(
+							item,
+							this.folderCategory,
+							this.findNewIndexInFolderCategory(folder));
+				} catch (Exception e) {
+					this.insertNodeInto(item, this.folderCategory, 0);
 				}
-				
-				if (event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
-					this.nodeChanged(item);
-				}
+			} else if (event.getPropertyName().equals(GuiModel.PROP_COLOR)) {
+				this.nodeChanged(item);
 			}
 			
+			this.updateSelection();
 			return;
 		}
 		
@@ -326,10 +312,9 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				item = new SearcherItem(searcher);
 				
 				this.insertNodeInto(item, category, 0);
-				
-				this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(item));
 			}
 			
+			this.updateSelection();
 			return;
 		}
 	}
@@ -344,6 +329,11 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 		
 		this.nodeChanged((TreeNode) this.getRoot());
+	}
+	
+	private void updateSelection() {
+		if (this.treeSelectionModel.getSelectionPath() == null)
+			this.treeSelectionModel.setSelectionPath(TreeUtils.getPath(this.getDefaultSearcher()));
 	}
 	
 }
