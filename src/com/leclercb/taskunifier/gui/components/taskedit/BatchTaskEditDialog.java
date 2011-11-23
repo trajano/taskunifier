@@ -50,6 +50,7 @@ import javax.swing.KeyStroke;
 import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUDialog;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -179,10 +180,13 @@ public class BatchTaskEditDialog extends TUDialog {
 			
 		};
 		
+		JButton manageButton = new JButton(new ActionManageModels(16, 16));
 		JButton okButton = new TUOkButton(okListener);
 		JButton cancelButton = new TUCancelButton(cancelListener);
 		
-		JPanel panel = new TUButtonsPanel(okButton, cancelButton);
+		manageButton.setText("");
+		
+		JPanel panel = new TUButtonsPanel(manageButton, okButton, cancelButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
