@@ -60,7 +60,9 @@ public class GuiTask extends Task {
 	}
 	
 	public void setShowChildren(boolean showChildren) {
-		this.checkBeforeSet();
+		if (!this.checkBeforeSet(this.isShowChildren(), showChildren))
+			return;
+		
 		boolean oldShowChildren = this.showChildren;
 		this.showChildren = showChildren;
 		this.updateProperty(

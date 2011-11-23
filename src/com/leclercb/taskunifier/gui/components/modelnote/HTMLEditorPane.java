@@ -36,6 +36,7 @@ public abstract class HTMLEditorPane extends JPanel {
 	private JXEditorPane htmlNote;
 	private JTextArea textNote;
 	private Action editAction;
+	private boolean flagSetText;
 	
 	public HTMLEditorPane(String text, boolean canEdit) {
 		this.initialize(text, canEdit);
@@ -52,7 +53,9 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.htmlNote.setEnabled(canEdit);
 		this.editAction.setEnabled(canEdit);
 		
+		this.flagSetText = true;
 		this.textNote.setText(StringEscapeUtils.unescapeHtml(text));
+		this.flagSetText = false;
 		
 		if (discardAllEdits) {
 			this.textNote.setCaretPosition(this.textNote.getText().length());
@@ -139,16 +142,25 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				if (HTMLEditorPane.this.flagSetText)
+					return;
+				
 				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
+				if (HTMLEditorPane.this.flagSetText)
+					return;
+				
 				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				if (HTMLEditorPane.this.flagSetText)
+					return;
+				
 				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
 			}
 			

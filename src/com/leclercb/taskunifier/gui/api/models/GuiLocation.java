@@ -62,7 +62,9 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	@Override
 	public void setColor(Color color) {
-		this.checkBeforeSet();
+		if (!this.checkBeforeSet(this.getColor(), color))
+			return;
+		
 		Color oldColor = this.color;
 		this.color = color;
 		this.updateProperty(PROP_COLOR, oldColor, color, false);
