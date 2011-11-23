@@ -33,8 +33,6 @@
 package com.leclercb.taskunifier.gui.components.modelnote;
 
 import java.awt.BorderLayout;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
@@ -45,7 +43,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener, PropertyChangeListener {
+public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener {
 	
 	private HTMLEditorPane htmlEditorPane;
 	private ModelNote previousSelectedModel;
@@ -108,24 +106,6 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 						true,
 						true);
 			}
-		}
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		synchronized (this) {
-			if (!EqualsUtils.equals(this.previousSelectedModel, evt.getSource()))
-				return;
-			
-			if (!EqualsUtils.equals(ModelNote.PROP_NOTE, evt.getPropertyName()))
-				return;
-			
-			String note = this.previousSelectedModel.getNote();
-			
-			if (EqualsUtils.equals(this.htmlEditorPane.getText(), note))
-				return;
-			
-			this.htmlEditorPane.setText(note, true, false);
 		}
 	}
 	

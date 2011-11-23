@@ -16,8 +16,6 @@ import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.ModelNote;
-import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
@@ -214,11 +212,6 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	private void initializeModelNote(JPanel notePane) {
 		this.noteNote = new ModelNotePanel();
 		this.noteTable.addModelSelectionChangeListener(this.noteNote);
-		
-		NoteFactory.getInstance().addPropertyChangeListener(
-				ModelNote.PROP_NOTE,
-				this.noteNote);
-		
 		notePane.add(this.noteNote);
 	}
 	

@@ -3,7 +3,9 @@ HISTORY
 
 Version 1.8.5
 	- Minor:
+		- Polish translations (thanks to Krzysztof)
 		- FR 3440661: Add subtask at the same level
+		- Bug fixed: Note editor sometimes behave strangely
 
 Version 1.8.4
 	- Major:

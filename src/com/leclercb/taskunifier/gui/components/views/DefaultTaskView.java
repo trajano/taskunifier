@@ -18,8 +18,6 @@ import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
-import com.leclercb.taskunifier.api.models.ModelNote;
-import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
@@ -238,11 +236,6 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private void initializeModelNote(JPanel notePane) {
 		this.taskNote = new ModelNotePanel();
 		this.taskTable.addModelSelectionChangeListener(this.taskNote);
-		
-		TaskFactory.getInstance().addPropertyChangeListener(
-				ModelNote.PROP_NOTE,
-				this.taskNote);
-		
 		notePane.add(this.taskNote);
 	}
 	
