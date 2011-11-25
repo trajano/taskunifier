@@ -72,10 +72,8 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 			
 			@Override
 			public void textChanged(String text) {
-				synchronized (ModelNotePanel.this) {
-					if (ModelNotePanel.this.previousSelectedModel != null)
-						ModelNotePanel.this.previousSelectedModel.setNote(text);
-				}
+				if (ModelNotePanel.this.previousSelectedModel != null)
+					ModelNotePanel.this.previousSelectedModel.setNote(text);
 			}
 			
 		};
@@ -85,27 +83,25 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 	
 	@Override
 	public void modelSelectionChange(ModelSelectionChangeEvent event) {
-		synchronized (this) {
-			Model[] models = event.getSelectedModels();
-			
-			if (models.length == 1 && models[0] instanceof ModelNote) {
-				if (EqualsUtils.equals(models[0], this.previousSelectedModel))
-					return;
-			}
-			
-			if (models.length != 1 || !(models[0] instanceof ModelNote)) {
-				this.previousSelectedModel = null;
-				this.htmlEditorPane.setText(
-						Translations.getString("error.select_one_row"),
-						false,
-						true);
-			} else {
-				this.previousSelectedModel = (ModelNote) models[0];
-				this.htmlEditorPane.setText(
-						this.previousSelectedModel.getNote(),
-						true,
-						true);
-			}
+		Model[] models = event.getSelectedModels();
+		
+		if (models.length == 1 && models[0] instanceof ModelNote) {
+			if (EqualsUtils.equals(models[0], this.previousSelectedModel))
+				return;
+		}
+		
+		if (models.length != 1 || !(models[0] instanceof ModelNote)) {
+			this.previousSelectedModel = null;
+			this.htmlEditorPane.setText(
+					Translations.getString("error.select_one_row"),
+					false,
+					true);
+		} else {
+			this.previousSelectedModel = (ModelNote) models[0];
+			this.htmlEditorPane.setText(
+					this.previousSelectedModel.getNote(),
+					true,
+					true);
 		}
 	}
 	
