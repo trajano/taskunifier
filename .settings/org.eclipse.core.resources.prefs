@@ -1,4 +1,4 @@
-#Wed Nov 23 12:24:50 CET 2011
+#Fri Nov 25 12:26:58 CET 2011
 eclipse.preferences.version=1
 encoding//resources/translations/Tips.properties=UTF-8
 encoding//resources/translations/Tips_pl_PL.properties=UTF-8
@@ -12,5 +12,6 @@ encoding//resources/translations/Translations_fr_BE.properties=UTF-8
 encoding//resources/translations/Translations_fr_CA.properties=UTF-8
 encoding//resources/translations/Translations_fr_FR.properties=UTF-8
 encoding//resources/translations/Translations_pl_PL.properties=UTF-8
+encoding//resources/translations/Translations_ru_RU.properties=UTF-8
 encoding//resources/translations/Translations_zh_CN.properties=UTF-8
 encoding//resources/translations/Translations_zh_TW.properties=UTF-8
