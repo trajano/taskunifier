@@ -2,11 +2,13 @@ HISTORY
 -------
 
 Version 1.8.5
+	- Major:
+		- Bug fixed: Note editor not working correctly
 	- Minor:
 		- Polish translations (thanks to Krzysztof)
+		- Russian translations (thanks to Andronik)
 		- FR 3440661: Add subtask at the same level
 		- FR 3441403: Add manage button in edit task window
-		- Bug fixed: Note editor sometimes behave strangely
 
 Version 1.8.4
 	- Major:
