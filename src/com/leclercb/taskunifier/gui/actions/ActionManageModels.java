@@ -37,16 +37,27 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
+import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageModels extends AbstractAction {
 	
+	private ModelConfigurationTab tab;
+	
 	public ActionManageModels() {
-		this(32, 32);
+		this(null);
+	}
+	
+	public ActionManageModels(ModelConfigurationTab tab) {
+		this(32, 32, tab);
 	}
 	
 	public ActionManageModels(int width, int height) {
+		this(width, height, null);
+	}
+	
+	public ActionManageModels(int width, int height, ModelConfigurationTab tab) {
 		super(
 				Translations.getString("action.manage_models"),
 				ImageUtils.getResourceImage("folder.png", width, height));
@@ -54,14 +65,24 @@ public class ActionManageModels extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.manage_models"));
+		
+		this.tab = tab;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionManageModels.manageModels();
+		ActionManageModels.manageModels(this.tab);
 	}
 	
 	public static void manageModels() {
+		manageModels(null);
+	}
+	
+	public static void manageModels(ModelConfigurationTab tab) {
+		if (tab != null)
+			ModelConfigurationDialog.getInstance().setSelectedModelConfigurationTab(
+					tab);
+		
 		ModelConfigurationDialog.getInstance().setVisible(true);
 	}
 	

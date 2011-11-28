@@ -46,6 +46,7 @@ import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXHeader;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Tag;
@@ -73,11 +74,26 @@ public class ModelConfigurationDialog extends JDialog {
 		return INSTANCE;
 	}
 	
+	public static enum ModelConfigurationTab {
+		
+		CONTEXT,
+		FOLDER,
+		GOAL,
+		LOCATION,
+		TAG;
+		
+	}
+	
 	private JTabbedPane tabbedPane;
 	
 	private ModelConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize();
+	}
+	
+	public void setSelectedModelConfigurationTab(ModelConfigurationTab tab) {
+		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
+		this.tabbedPane.setSelectedIndex(tab.ordinal());
 	}
 	
 	public void setSelectedModel(ModelType type, Model model) {

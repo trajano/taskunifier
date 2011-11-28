@@ -65,6 +65,7 @@ import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
+import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
@@ -77,6 +78,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
+import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -611,13 +613,15 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskFolder.setModel(new FolderModel(true));
 		
 		builder.appendI15d("general.task.folder", true, this.taskFolderCheckBox);
-		builder.append(this.taskFolder);
+		builder.append(this.createPanel(this.taskFolder, new JButton(
+				new ActionManageModels(16, 16, ModelConfigurationTab.FOLDER))));
 		
 		// Task Goal
 		this.taskGoal.setModel(new GoalModel(true));
 		
 		builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
-		builder.append(this.taskGoal);
+		builder.append(this.createPanel(this.taskGoal, new JButton(
+				new ActionManageModels(16, 16, ModelConfigurationTab.GOAL))));
 		
 		// Task Context
 		this.taskContext.setModel(new ContextModel(true));
@@ -626,7 +630,8 @@ public class BatchTaskEditPanel extends JPanel {
 				"general.task.context",
 				true,
 				this.taskContextCheckBox);
-		builder.append(this.taskContext);
+		builder.append(this.createPanel(this.taskContext, new JButton(
+				new ActionManageModels(16, 16, ModelConfigurationTab.CONTEXT))));
 		
 		// Task Location
 		this.taskLocation.setModel(new LocationModel(true));
@@ -635,36 +640,29 @@ public class BatchTaskEditPanel extends JPanel {
 				"general.task.location",
 				true,
 				this.taskLocationCheckBox);
-		builder.append(this.taskLocation);
+		builder.append(this.createPanel(this.taskLocation, new JButton(
+				new ActionManageModels(16, 16, ModelConfigurationTab.LOCATION))));
 		
 		// Separator
 		builder.getBuilder().appendSeparator();
 		
 		// Task Start Date
-		JPanel startDatePanel = new JPanel(new BorderLayout());
-		startDatePanel.add(this.taskStartDate, BorderLayout.CENTER);
-		
-		this.taskStartDatePostponeButton.setText("");
-		startDatePanel.add(this.taskStartDatePostponeButton, BorderLayout.EAST);
-		
 		builder.appendI15d(
 				"general.task.start_date",
 				true,
 				this.taskStartDateCheckBox);
-		builder.append(startDatePanel);
+		builder.append(this.createPanel(
+				this.taskStartDate,
+				this.taskStartDatePostponeButton));
 		
 		// Task Due Date
-		JPanel dueDatePanel = new JPanel(new BorderLayout());
-		dueDatePanel.add(this.taskDueDate, BorderLayout.CENTER);
-		
-		this.taskDueDatePostponeButton.setText("");
-		dueDatePanel.add(this.taskDueDatePostponeButton, BorderLayout.EAST);
-		
 		builder.appendI15d(
 				"general.task.due_date",
 				true,
 				this.taskDueDateCheckBox);
-		builder.append(dueDatePanel);
+		builder.append(this.createPanel(
+				this.taskDueDate,
+				this.taskDueDatePostponeButton));
 		
 		// Task Start Date Reminder
 		this.taskStartDateReminder.setModel(new TaskReminderModel());
@@ -845,6 +843,16 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskPriorityCheckBox.setVisible(visible);
 		this.taskStarCheckBox.setVisible(visible);
 		this.taskNoteCheckBox.setVisible(visible);
+	}
+	
+	private JPanel createPanel(JComponent component, JButton button) {
+		button.setText("");
+		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(component, BorderLayout.CENTER);
+		panel.add(button, BorderLayout.EAST);
+		
+		return panel;
 	}
 	
 	private static class EnabledActionListener implements ItemListener {
