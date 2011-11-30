@@ -214,7 +214,7 @@ public enum ActionList {
 			case POSTPONE_TASKS:
 				return null;
 			case POSTPONE_TASKS_MENU:
-				return new ActionPostponeTasksMenu(width, height);
+				return new ActionPostponeTasksMenu(width, height, null);
 			case PRINT:
 				return new ActionPrint(width, height);
 			case PRINT_SELECTED_MODELS:

@@ -7,6 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -14,11 +15,11 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 	
 	private JPopupMenu popupMenu;
 	
-	public ActionPostponeTasksMenu() {
-		this(32, 32);
+	public ActionPostponeTasksMenu(TaskSelectionView view) {
+		this(32, 32, view);
 	}
 	
-	public ActionPostponeTasksMenu(int width, int height) {
+	public ActionPostponeTasksMenu(int width, int height, TaskSelectionView view) {
 		super(
 				Translations.getString("action.postpone_tasks"),
 				ImageUtils.getResourceImage("calendar.png", width, height),
@@ -59,25 +60,28 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 		ActionPostponeTasks[] actions = null;
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.START_DATE,
 				16,
-				16);
+				16,
+				view,
+				PostponeType.START_DATE);
 		for (ActionPostponeTasks action : actions) {
 			postponeStartDateMenu.add(action);
 		}
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.DUE_DATE,
 				16,
-				16);
+				16,
+				view,
+				PostponeType.DUE_DATE);
 		for (ActionPostponeTasks action : actions) {
 			postponeDueDateMenu.add(action);
 		}
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.BOTH,
 				16,
-				16);
+				16,
+				view,
+				PostponeType.BOTH);
 		for (ActionPostponeTasks action : actions) {
 			postponeBothMenu.add(action);
 		}
