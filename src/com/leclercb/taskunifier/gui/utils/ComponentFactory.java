@@ -289,25 +289,28 @@ public final class ComponentFactory {
 		ActionPostponeTasks[] actions = null;
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.START_DATE,
 				16,
-				16);
+				16,
+				null,
+				PostponeType.START_DATE);
 		for (ActionPostponeTasks action : actions) {
 			postponeStartDateMenu.add(action);
 		}
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.DUE_DATE,
 				16,
-				16);
+				16,
+				null,
+				PostponeType.DUE_DATE);
 		for (ActionPostponeTasks action : actions) {
 			postponeDueDateMenu.add(action);
 		}
 		
 		actions = ActionPostponeTasks.createDefaultActions(
-				PostponeType.BOTH,
 				16,
-				16);
+				16,
+				null,
+				PostponeType.BOTH);
 		for (ActionPostponeTasks action : actions) {
 			postponeBothMenu.add(action);
 		}
