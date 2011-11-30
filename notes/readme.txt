@@ -2,10 +2,8 @@ HISTORY
 -------
 
 Version 1.8.6
-	- Major:
-		- 
 	- Minor:
-		- 
+		- FR 3445982: Improved reminder window
 
 Version 1.8.5
 	- Major:

@@ -55,10 +55,11 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskDescription;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelRowFilter;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
+import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class ReminderList extends JPanel {
+public class ReminderList extends JPanel implements TaskSelectionView {
 	
 	private JXSearchField searchField;
 	
@@ -146,6 +147,7 @@ public class ReminderList extends JPanel {
 		return tasks.toArray(new Task[0]);
 	}
 	
+	@Override
 	public Task[] getSelectedTasks() {
 		Object[] values = this.modelList.getSelectedValues();
 		List<Task> tasks = new ArrayList<Task>();
@@ -155,6 +157,22 @@ public class ReminderList extends JPanel {
 		}
 		
 		return tasks.toArray(new Task[0]);
+	}
+	
+	@Override
+	public void setSelectedTasks(Task[] tasks) {
+		DefaultListModel model = (DefaultListModel) this.modelList.getModel();
+		this.modelList.getSelectionModel().setValueIsAdjusting(true);
+		
+		for (Task task : tasks) {
+			int index = model.indexOf(task);
+			if (index != -1)
+				this.modelList.getSelectionModel().addSelectionInterval(
+						index,
+						index);
+		}
+		
+		this.modelList.getSelectionModel().setValueIsAdjusting(false);
 	}
 	
 }

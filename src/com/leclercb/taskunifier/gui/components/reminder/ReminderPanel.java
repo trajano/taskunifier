@@ -43,6 +43,7 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionPostponeTasksMenu;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -126,6 +127,11 @@ public class ReminderPanel extends JPanel {
 	}
 	
 	private void initializeButtonsPanel() {
+		final JButton postponeButton = new JButton(new ActionPostponeTasksMenu(
+				16,
+				16,
+				this.reminderList));
+		
 		final JPopupMenu snoozePopup = new JPopupMenu();
 		snoozePopup.add(new SnoozeAction(5));
 		snoozePopup.add(new SnoozeAction(10));
@@ -191,6 +197,7 @@ public class ReminderPanel extends JPanel {
 		dismissAllButton.addActionListener(listener);
 		
 		JPanel panel = new TUButtonsPanel(
+				postponeButton,
 				snoozeButton,
 				snoozeAllButton,
 				dismissButton,
@@ -223,7 +230,7 @@ public class ReminderPanel extends JPanel {
 		
 		public SnoozeAllAction(int minutes) {
 			super(Translations.getString(
-					"general.task.reminder.x_minutes",
+					"general.task.reminder.remind_x_minutes_before",
 					minutes));
 			this.minutes = minutes;
 		}
