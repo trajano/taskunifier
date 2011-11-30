@@ -1,6 +1,12 @@
 HISTORY
 -------
 
+Version 1.8.6
+	- Major:
+		- 
+	- Minor:
+		- 
+
 Version 1.8.5
 	- Major:
 		- Bug fixed: Note editor not working correctly
