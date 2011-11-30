@@ -162,7 +162,9 @@ public class ReminderList extends JPanel implements TaskSelectionView {
 	@Override
 	public void setSelectedTasks(Task[] tasks) {
 		DefaultListModel model = (DefaultListModel) this.modelList.getModel();
+		
 		this.modelList.getSelectionModel().setValueIsAdjusting(true);
+		this.modelList.getSelectionModel().clearSelection();
 		
 		for (Task task : tasks) {
 			int index = model.indexOf(task);
