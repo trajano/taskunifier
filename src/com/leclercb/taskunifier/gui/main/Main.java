@@ -44,8 +44,7 @@ import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.XMLFormatter;
-
+import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -446,7 +445,7 @@ public class Main {
 			FileHandler handler = new FileHandler(apiLogFile, 50000, 1, true);
 			
 			handler.setLevel(apiLogLevel);
-			handler.setFormatter(new XMLFormatter());
+			handler.setFormatter(new SimpleFormatter());
 			
 			ApiLogger.getLogger().addHandler(handler);
 		} catch (SecurityException e) {
@@ -459,7 +458,7 @@ public class Main {
 			FileHandler handler = new FileHandler(guiLogFile, 50000, 1, true);
 			
 			handler.setLevel(guiLogLevel);
-			handler.setFormatter(new XMLFormatter());
+			handler.setFormatter(new SimpleFormatter());
 			
 			GuiLogger.getLogger().addHandler(handler);
 		} catch (SecurityException e) {
@@ -472,7 +471,7 @@ public class Main {
 			FileHandler handler = new FileHandler(pluginLogFile, 50000, 1, true);
 			
 			handler.setLevel(pluginLogLevel);
-			handler.setFormatter(new XMLFormatter());
+			handler.setFormatter(new SimpleFormatter());
 			
 			PluginLogger.getLogger().addHandler(handler);
 		} catch (SecurityException e) {
