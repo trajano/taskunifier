@@ -141,7 +141,7 @@ public class ModelConfigurationDialog extends JDialog {
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_models"));
-		this.setSize(600, 450);
+		this.setSize(800, 500);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
