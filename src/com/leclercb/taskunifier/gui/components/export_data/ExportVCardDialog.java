@@ -32,6 +32,18 @@
  */
 package com.leclercb.taskunifier.gui.components.export_data;
 
+import java.io.File;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+
+import a_vcard.android.syncml.pim.PropertyNode;
+import a_vcard.android.syncml.pim.VNode;
+import a_vcard.android.syncml.pim.vcard.ContactStruct;
+import a_vcard.android.syncml.pim.vcard.VCardComposer;
+
+import com.leclercb.taskunifier.api.models.Contact;
+import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ExportVCardDialog extends AbstractExportDialog {
@@ -54,7 +66,45 @@ public class ExportVCardDialog extends AbstractExportDialog {
 	
 	@Override
 	protected void exportToFile(String file) throws Exception {
+		VCardComposer composer = new VCardComposer();
 		
+		StringBuffer buffer = new StringBuffer();
+		List<Contact> contacts = ContactFactory.getInstance().getList();
+		for (Contact contact : contacts) {
+			PropertyNode fnNode = new PropertyNode();
+			fnNode.propName = "FN";
+			fnNode.propValue = contact.getTitle();
+			
+			PropertyNode n1Node = new PropertyNode();
+			n1Node.propName = "N";
+			n1Node.propValue = contact.getLastName()
+			
+			PropertyNode n2Node = new PropertyNode();
+			n2Node.propName = "N";
+			n2Node.propValue = contact.getFirstName();
+			
+			PropertyNode emailNode = new PropertyNode();
+			emailNode.propName = "EMAIL";
+			emailNode.propValue = contact.getEmail();
+			
+			VNode c = new VNode();
+			c.VName = "VCARD";
+			c.propList.add(fnNode);
+			c.propList.add(n1Node);
+			c.propList.add(n2Node);
+			c.propList.add(emailNode);
+			
+			String vcard = composer.createVCard(
+					ContactStruct.constructContactFromVNode(
+							c,
+							ContactStruct.NAME_ORDER_TYPE_ENGLISH),
+					VCardComposer.VERSION_VCARD21_INT);
+			
+			buffer.append(vcard);
+			buffer.append("\n");
+		}
+		
+		FileUtils.writeStringToFile(new File(file), buffer.toString());
 	}
 	
 }

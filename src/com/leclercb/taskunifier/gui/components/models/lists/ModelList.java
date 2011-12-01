@@ -74,6 +74,8 @@ public abstract class ModelList extends JPanel implements IModelList {
 	private JXList modelList;
 	private ModelRowFilter rowFilter;
 	
+	private TUButtonsPanel buttonsPanel;
+	
 	private JButton addButton;
 	private JButton removeButton;
 	
@@ -178,9 +180,16 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
-		JPanel panel = new TUButtonsPanel(this.addButton, this.removeButton);
+		this.buttonsPanel = new TUButtonsPanel(
+				true,
+				this.addButton,
+				this.removeButton);
 		
-		this.add(panel, BorderLayout.SOUTH);
+		this.add(this.buttonsPanel, BorderLayout.SOUTH);
+	}
+	
+	public void addButton(JButton button) {
+		this.buttonsPanel.addButton(button);
 	}
 	
 	@Override

@@ -52,6 +52,7 @@ import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.actions.ActionImportVCard;
 import com.leclercb.taskunifier.gui.api.models.GuiContact;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.commons.converters.ColorConverter;
@@ -148,6 +149,8 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			}
 			
 		};
+		
+		this.modelList.addButton(new JButton(new ActionImportVCard(16, 16)));
 		
 		this.setLeftComponent(this.modelList);
 		
