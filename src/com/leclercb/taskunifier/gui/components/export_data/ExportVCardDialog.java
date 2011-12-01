@@ -30,29 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.util.List;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-import com.leclercb.taskunifier.api.models.Contact;
-import com.leclercb.taskunifier.api.models.ContactFactory;
-
-public class ContactModel extends AbstractModelSortedModel {
+public class ExportVCardDialog extends AbstractExportDialog {
 	
-	public ContactModel(boolean firstNull) {
-		this.initialize(firstNull);
+	private static ExportVCardDialog INSTANCE;
+	
+	public static ExportVCardDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportVCardDialog();
+		
+		return INSTANCE;
 	}
 	
-	private void initialize(boolean firstNull) {
-		if (firstNull)
-			this.addElement(null);
+	private ExportVCardDialog() {
+		super(
+				Translations.getString("action.export_vcard"),
+				"vcf",
+				Translations.getString("general.vcard_files"));
+	}
+	
+	@Override
+	protected void exportToFile(String file) throws Exception {
 		
-		List<Contact> contacts = ContactFactory.getInstance().getList();
-		for (Contact contact : contacts)
-			this.addElement(contact);
-		
-		ContactFactory.getInstance().addListChangeListener(this);
-		ContactFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 }

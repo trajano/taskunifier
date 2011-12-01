@@ -41,28 +41,28 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 public class GuiContactBean extends ContactBean implements GuiModelBean {
-
+	
 	@XStreamAlias("color")
 	@XStreamConverter(ColorConverter.class)
 	private Color color;
-
+	
 	public GuiContactBean() {
 		this(null);
 	}
-
+	
 	public GuiContactBean(ModelId modelId) {
 		super(modelId);
 		this.setColor(null);
 	}
-
+	
 	@Override
 	public Color getColor() {
 		return this.color;
 	}
-
+	
 	@Override
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
+	
 }

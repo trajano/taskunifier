@@ -30,29 +30,39 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.actions;
 
-import java.util.List;
+import java.awt.event.ActionEvent;
 
-import com.leclercb.taskunifier.api.models.Contact;
-import com.leclercb.taskunifier.api.models.ContactFactory;
+import javax.swing.AbstractAction;
 
-public class ContactModel extends AbstractModelSortedModel {
+import com.leclercb.taskunifier.gui.components.import_data.ImportVCardDialog;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class ActionImportVCard extends AbstractAction {
 	
-	public ContactModel(boolean firstNull) {
-		this.initialize(firstNull);
+	public ActionImportVCard() {
+		this(32, 32);
 	}
 	
-	private void initialize(boolean firstNull) {
-		if (firstNull)
-			this.addElement(null);
+	public ActionImportVCard(int width, int height) {
+		super(
+				Translations.getString("action.import_vcard"),
+				ImageUtils.getResourceImage("download.png", width, height));
 		
-		List<Contact> contacts = ContactFactory.getInstance().getList();
-		for (Contact contact : contacts)
-			this.addElement(contact);
-		
-		ContactFactory.getInstance().addListChangeListener(this);
-		ContactFactory.getInstance().addPropertyChangeListener(this);
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.import_vcard"));
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		ActionImportVCard.importVCard();
+	}
+	
+	public static void importVCard() {
+		ImportVCardDialog.getInstance().setVisible(true);
 	}
 	
 }

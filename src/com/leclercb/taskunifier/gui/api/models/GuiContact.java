@@ -40,50 +40,50 @@ import com.leclercb.taskunifier.api.models.beans.ContactBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContactBean;
 
 public class GuiContact extends Contact implements GuiModel {
-
+	
 	private Color color;
-
+	
 	public GuiContact(ContactBean bean) {
 		super(bean);
 	}
-
+	
 	public GuiContact(String title) {
 		super(title);
 	}
-
+	
 	public GuiContact(ModelId modelId, String title) {
 		super(modelId, title);
 	}
-
+	
 	@Override
 	public Color getColor() {
 		return this.color;
 	}
-
+	
 	@Override
 	public void setColor(Color color) {
 		if (!this.checkBeforeSet(this.getColor(), color))
 			return;
-
+		
 		Color oldColor = this.color;
 		this.color = color;
 		this.updateProperty(PROP_COLOR, oldColor, color, false);
 	}
-
+	
 	@Override
 	public void loadBean(ContactBean bean) {
 		if (bean instanceof GuiContactBean)
 			this.setColor(((GuiContactBean) bean).getColor());
-
+		
 		super.loadBean(bean);
 	}
-
+	
 	@Override
 	public void toBean(ContactBean bean) {
 		if (bean instanceof GuiContactBean)
 			((GuiContactBean) bean).setColor(this.getColor());
-
+		
 		super.toBean(bean);
 	}
-
+	
 }

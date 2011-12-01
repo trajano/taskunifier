@@ -64,26 +64,26 @@ import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ContactConfigurationPanel extends JSplitPane implements IModelList {
-
+	
 	private ModelList modelList;
-
+	
 	public ContactConfigurationPanel() {
 		this.initialize();
 	}
-
+	
 	@Override
 	public Model getSelectedModel() {
 		return this.modelList.getSelectedModel();
 	}
-
+	
 	@Override
 	public void setSelectedModel(Model model) {
 		this.modelList.setSelectedModel(model);
 	}
-
+	
 	private void initialize() {
 		this.setBorder(null);
-
+		
 		// Initialize Fields
 		final JTextField contactTitle = new JTextField();
 		final JTextField contactFirstName = new JTextField();
@@ -91,7 +91,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		final JTextField contactEmail = new JTextField();
 		final JXColorSelectionButton contactColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
-
+		
 		// Set Disabled
 		contactTitle.setEnabled(false);
 		contactFirstName.setEnabled(false);
@@ -99,43 +99,43 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		contactEmail.setEnabled(false);
 		contactColor.setEnabled(false);
 		removeColor.setEnabled(false);
-
+		
 		// Initialize Model List
 		this.modelList = new ModelList(new ContactModel(false), contactTitle) {
-
+			
 			private BeanAdapter<Contact> adapter;
-
+			
 			{
 				this.adapter = new BeanAdapter<Contact>((Contact) null, true);
-
+				
 				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(contactTitle, titleModel);
-
+				
 				ValueModel firstNameModel = this.adapter.getValueModel(Contact.PROP_FIRSTNAME);
 				Bindings.bind(contactFirstName, firstNameModel);
-
+				
 				ValueModel lastNameModel = this.adapter.getValueModel(Contact.PROP_LASTNAME);
 				Bindings.bind(contactLastName, lastNameModel);
-
+				
 				ValueModel emailModel = this.adapter.getValueModel(Contact.PROP_EMAIL);
 				Bindings.bind(contactEmail, emailModel);
-
+				
 				ValueModel colorModel = this.adapter.getValueModel(GuiModel.PROP_COLOR);
 				Bindings.bind(contactColor, "background", new ColorConverter(
 						colorModel));
 			}
-
+			
 			@Override
 			public Model addModel() {
 				return ContactFactory.getInstance().create(
 						Translations.getString("contact.default.title"));
 			}
-
+			
 			@Override
 			public void removeModel(Model model) {
 				ContactFactory.getInstance().markToDelete(model);
 			}
-
+			
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Contact) model : null);
@@ -146,58 +146,58 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 				contactColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);
 			}
-
+			
 		};
-
+		
 		this.setLeftComponent(this.modelList);
-
+		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		rightPanel.setLayout(new BorderLayout());
 		this.setRightComponent(ComponentFactory.createJScrollPane(
 				rightPanel,
 				false));
-
+		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");
-
+		
 		// Contact Title
 		builder.appendI15d("general.contact.title", true, contactTitle);
-
+		
 		// Contact FirstName
 		builder.appendI15d("general.contact.firstname", true, contactFirstName);
-
+		
 		// Contact LastName
 		builder.appendI15d("general.contact.lastname", true, contactLastName);
-
+		
 		// Contact Email
 		builder.appendI15d("general.contact.email", true, contactEmail);
-
+		
 		// Contact Color
 		JPanel p = new JPanel(new BorderLayout(5, 0));
-
+		
 		builder.appendI15d("general.color", true, p);
-
+		
 		contactColor.setPreferredSize(new Dimension(24, 24));
 		contactColor.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		removeColor.setIcon(ImageUtils.getResourceImage("remove.png", 16, 16));
 		removeColor.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((GuiContact) ContactConfigurationPanel.this.modelList.getSelectedModel()).setColor(null);
 			}
-
+			
 		});
-
+		
 		p.add(contactColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
-
+		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
-
+		
 		this.setDividerLocation(200);
 	}
-
+	
 }

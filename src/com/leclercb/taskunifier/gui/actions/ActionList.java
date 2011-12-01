@@ -48,12 +48,14 @@ public enum ActionList {
 	EXPORT_SETTINGS(Translations.getString("action.export_settings"), "upload.png", true),
 	EXPORT_TASK_SEARCHERS(Translations.getString("action.export_task_searchers"), "upload.png", true),
 	EXPORT_TASK_TEMPLATES(Translations.getString("action.export_task_templates"), "upload.png", true),
+	EXPORT_VCARD(Translations.getString("action.export_vcard"), "upload.png", true),
 	GET_SERIAL(Translations.getString("action.get_serial"), "key.png", false),
 	HELP(Translations.getString("action.help"), "help.png", true),
 	IMPORT_MODELS(Translations.getString("action.import_models"), "download.png", true),
 	IMPORT_SETTINGS(Translations.getString("action.import_settings"), "download.png", true),
 	IMPORT_TASK_SEARCHERS(Translations.getString("action.import_task_searchers"), "download.png", true),
 	IMPORT_TASK_TEMPLATES(Translations.getString("action.import_task_templates"), "download.png", true),
+	IMPORT_VCARD(Translations.getString("action.import_vcard"), "download.png", true),
 	LOG_BUG(Translations.getString("action.log_bug"), null, false),
 	LOG_FEATURE_REQUEST(Translations.getString("action.log_feature_request"), null, false),
 	MANAGE_BACKUPS(Translations.getString("action.manage_backups"), "save.png", true),
@@ -185,6 +187,8 @@ public enum ActionList {
 				return new ActionExportTaskSearchers(width, height);
 			case EXPORT_TASK_TEMPLATES:
 				return new ActionExportTaskTemplates(width, height);
+			case EXPORT_VCARD:
+				return new ActionExportVCard(width, height);
 			case GET_SERIAL:
 				return null;
 			case HELP:
@@ -197,6 +201,8 @@ public enum ActionList {
 				return new ActionImportTaskSearchers(width, height);
 			case IMPORT_TASK_TEMPLATES:
 				return new ActionImportTaskTemplates(width, height);
+			case IMPORT_VCARD:
+				return new ActionImportVCard(width, height);
 			case LOG_BUG:
 				return new ActionLogBug();
 			case LOG_FEATURE_REQUEST:

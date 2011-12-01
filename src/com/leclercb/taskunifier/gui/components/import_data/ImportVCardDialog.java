@@ -30,29 +30,37 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.util.List;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-import com.leclercb.taskunifier.api.models.Contact;
-import com.leclercb.taskunifier.api.models.ContactFactory;
-
-public class ContactModel extends AbstractModelSortedModel {
+public class ImportVCardDialog extends AbstractImportDialog {
 	
-	public ContactModel(boolean firstNull) {
-		this.initialize(firstNull);
+	private static ImportVCardDialog INSTANCE;
+	
+	public static ImportVCardDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportVCardDialog();
+		
+		return INSTANCE;
 	}
 	
-	private void initialize(boolean firstNull) {
-		if (firstNull)
-			this.addElement(null);
+	private ImportVCardDialog() {
+		super(
+				Translations.getString("action.import_vcard"),
+				false,
+				"vcf",
+				Translations.getString("general.vcard_files"));
+	}
+	
+	@Override
+	public void deleteExistingValue() {
 		
-		List<Contact> contacts = ContactFactory.getInstance().getList();
-		for (Contact contact : contacts)
-			this.addElement(contact);
+	}
+	
+	@Override
+	protected void importFromFile(String file) throws Exception {
 		
-		ContactFactory.getInstance().addListChangeListener(this);
-		ContactFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 }
