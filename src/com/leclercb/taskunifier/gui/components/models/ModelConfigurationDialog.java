@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ITagList;
+import com.leclercb.taskunifier.gui.components.models.panels.ContactConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.ContextConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.FolderConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
@@ -64,74 +65,78 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ModelConfigurationDialog extends JDialog {
-	
+
 	private static ModelConfigurationDialog INSTANCE = null;
-	
+
 	public static ModelConfigurationDialog getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new ModelConfigurationDialog();
-		
+
 		return INSTANCE;
 	}
-	
+
 	public static enum ModelConfigurationTab {
-		
+
+		CONTACT,
 		CONTEXT,
 		FOLDER,
 		GOAL,
 		LOCATION,
 		TAG;
-		
+
 	}
-	
+
 	private JTabbedPane tabbedPane;
-	
+
 	private ModelConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
-	
+
 	public void setSelectedModelConfigurationTab(ModelConfigurationTab tab) {
 		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
 		this.tabbedPane.setSelectedIndex(tab.ordinal());
 	}
-	
+
 	public void setSelectedModel(ModelType type, Model model) {
 		int index = -1;
-		
+
 		switch (type) {
-			case CONTEXT:
-				index = 0;
-				break;
-			case FOLDER:
-				index = 1;
-				break;
-			case GOAL:
-				index = 2;
-				break;
-			case LOCATION:
-				index = 3;
-				break;
+		case CONTACT:
+			index = 0;
+			break;
+		case CONTEXT:
+			index = 1;
+			break;
+		case FOLDER:
+			index = 2;
+			break;
+		case GOAL:
+			index = 3;
+			break;
+		case LOCATION:
+			index = 4;
+			break;
 		}
-		
+
 		if (index == -1)
 			return;
-		
+
 		this.tabbedPane.setSelectedIndex(index);
-		
+
 		if (model != null) {
 			IModelList list = (IModelList) this.tabbedPane.getSelectedComponent();
 			list.setSelectedModel(model);
 		}
 	}
-	
+
 	public void setSelectedTag(Tag tag) {
-		this.tabbedPane.setSelectedIndex(4);
-		
+		this.tabbedPane.setSelectedIndex(5);
+
 		ITagList list = (ITagList) this.tabbedPane.getSelectedComponent();
 		list.setSelectedTag(tag);
 	}
-	
+
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.manage_models"));
@@ -139,63 +144,67 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
+
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
-		
+
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_models"));
 		header.setDescription(Translations.getString("header.description.manage_models"));
 		header.setIcon(ImageUtils.getResourceImage("folder.png", 32, 32));
-		
+
 		this.tabbedPane = new JTabbedPane();
-		
+
+		this.tabbedPane.addTab(
+				Translations.getString("general.contacts"),
+				new ContactConfigurationPanel());
+
 		this.tabbedPane.addTab(
 				Translations.getString("general.contexts"),
 				new ContextConfigurationPanel());
-		
+
 		this.tabbedPane.addTab(
 				Translations.getString("general.folders"),
 				new FolderConfigurationPanel());
-		
+
 		this.tabbedPane.addTab(
 				Translations.getString("general.goals"),
 				new GoalConfigurationPanel());
-		
+
 		this.tabbedPane.addTab(
 				Translations.getString("general.locations"),
 				new LocationConfigurationPanel());
-		
+
 		this.tabbedPane.addTab(
 				Translations.getString("general.task.tags"),
 				new TagConfigurationPanel());
-		
+
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.tabbedPane, BorderLayout.CENTER);
-		
+
 		this.initializeButtonsPanel();
 	}
-	
+
 	private void initializeButtonsPanel() {
 		ActionListener listener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				ModelConfigurationDialog.this.setVisible(false);
 			}
-			
+
 		};
-		
+
 		JButton okButton = new TUOkButton(listener);
 		JPanel panel = new TUButtonsPanel(okButton);
-		
+
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
-		
+
 		this.getRootPane().registerKeyboardAction(
 				listener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
-	
+
 }
