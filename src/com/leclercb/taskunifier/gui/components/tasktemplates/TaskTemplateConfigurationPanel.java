@@ -207,7 +207,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				
 				ValueModel taskFolderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_FOLDER);
 				templateTaskFolder.setModel(new ComboBoxAdapter<Folder>(
-						new FolderModel(true),
+						new FolderModel(true, false),
 						taskFolderModel));
 				
 				ValueModel taskContextModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXT);

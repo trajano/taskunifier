@@ -95,7 +95,9 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 		removeColor.setEnabled(false);
 		
 		// Initialize Model List
-		this.modelList = new ModelList(new FolderModel(false), folderTitle) {
+		this.modelList = new ModelList(
+				new FolderModel(false, true),
+				folderTitle) {
 			
 			private BeanAdapter<Folder> adapter;
 			

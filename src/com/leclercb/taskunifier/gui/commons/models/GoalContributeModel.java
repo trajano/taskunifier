@@ -60,6 +60,14 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 	}
 	
 	@Override
+	public void addElement(Object element) {
+		if (!((Goal) element).getLevel().equals(GoalLevel.LIFE_TIME))
+			return;
+		
+		super.addElement(element);
+	}
+	
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()
 				|| !((Goal) event.getSource()).getLevel().equals(

@@ -296,7 +296,7 @@ public class TaskFilterElementPanel extends JPanel {
 				break;
 			case FOLDER:
 				if (condition instanceof ModelCondition) {
-					this.elementValueCb.setModel(new FolderModel(true));
+					this.elementValueCb.setModel(new FolderModel(true, true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE,
 							IconValueModel.INSTANCE));

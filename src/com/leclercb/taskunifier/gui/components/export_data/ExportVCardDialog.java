@@ -77,7 +77,7 @@ public class ExportVCardDialog extends AbstractExportDialog {
 			
 			PropertyNode n1Node = new PropertyNode();
 			n1Node.propName = "N";
-			n1Node.propValue = contact.getLastName()
+			n1Node.propValue = contact.getLastName();
 			
 			PropertyNode n2Node = new PropertyNode();
 			n2Node.propName = "N";

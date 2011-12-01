@@ -610,7 +610,7 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.getBuilder().append(this.taskParent, 7);
 		
 		// Task Folder
-		this.taskFolder.setModel(new FolderModel(true));
+		this.taskFolder.setModel(new FolderModel(true, false));
 		
 		builder.appendI15d("general.task.folder", true, this.taskFolderCheckBox);
 		builder.append(this.createPanel(this.taskFolder, new JButton(

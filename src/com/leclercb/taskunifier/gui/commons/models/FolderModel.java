@@ -32,27 +32,57 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
+import com.leclercb.taskunifier.api.models.Model;
 
 public class FolderModel extends AbstractModelSortedModel {
 	
-	public FolderModel(boolean firstNull) {
-		this.initialize(firstNull);
+	private boolean includeArchived;
+	
+	public FolderModel(boolean firstNull, boolean includeArchived) {
+		this.initialize(firstNull, includeArchived);
 	}
 	
-	private void initialize(boolean firstNull) {
+	private void initialize(boolean firstNull, boolean includeArchived) {
+		this.includeArchived = includeArchived;
+		
 		if (firstNull)
 			this.addElement(null);
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
-			this.addElement(folder);
+			if (includeArchived || !folder.isArchived())
+				this.addElement(folder);
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
+	}
+	
+	@Override
+	public void addElement(Object element) {
+		if (!this.includeArchived && ((Folder) element).isArchived())
+			return;
+		
+		super.addElement(element);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()
+				|| (!this.includeArchived && ((Folder) event.getSource()).isArchived())) {
+			this.removeElement(event.getSource());
+		} else {
+			int index = this.getIndexOf(event.getSource());
+			
+			if (index == -1)
+				this.addElement(event.getSource());
+			else
+				this.fireContentsChanged(this, index, index);
+		}
 	}
 	
 }
