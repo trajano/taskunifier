@@ -64,8 +64,9 @@ public class FolderModel extends AbstractModelSortedModel {
 	
 	@Override
 	public void addElement(Object element) {
-		if (!this.includeArchived && ((Folder) element).isArchived())
-			return;
+		if (element != null)
+			if (!this.includeArchived && ((Folder) element).isArchived())
+				return;
 		
 		super.addElement(element);
 	}

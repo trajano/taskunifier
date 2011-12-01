@@ -39,6 +39,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -86,11 +87,13 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 		
 		// Initialize Fields
 		final JTextField folderTitle = new JTextField();
+		final JCheckBox folderArchived = new JCheckBox();
 		final JXColorSelectionButton folderColor = new JXColorSelectionButton();
 		final JButton removeColor = new JButton();
 		
 		// Set Disabled
 		folderTitle.setEnabled(false);
+		folderArchived.setEnabled(false);
 		folderColor.setEnabled(false);
 		removeColor.setEnabled(false);
 		
@@ -106,6 +109,9 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 				
 				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
 				Bindings.bind(folderTitle, titleModel);
+				
+				ValueModel archivedModel = this.adapter.getValueModel(Folder.PROP_ARCHIVED);
+				Bindings.bind(folderArchived, archivedModel);
 				
 				ValueModel colorModel = this.adapter.getValueModel(GuiModel.PROP_COLOR);
 				Bindings.bind(folderColor, "background", new ColorConverter(
@@ -127,6 +133,7 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Folder) model : null);
 				folderTitle.setEnabled(model != null);
+				folderArchived.setEnabled(model != null);
 				folderColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);
 			}
@@ -147,6 +154,9 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 		
 		// Folder Title
 		builder.appendI15d("general.folder.title", true, folderTitle);
+		
+		// Folder Archived
+		builder.appendI15d("general.folder.archived", true, folderArchived);
 		
 		// Folder Color
 		JPanel p = new JPanel(new BorderLayout(5, 0));

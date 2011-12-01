@@ -2,8 +2,13 @@ HISTORY
 -------
 
 Version 1.8.6
+	- Major:
+		- Manage a list of contacts
+		- Import and export contacts (VCard)
+		- FR 3441398: Delegate task to co-worker
 	- Minor:
 		- FR 3445982: Improved reminder window
+		- FR 3447236: Archive folders
 
 Version 1.8.5
 	- Major:

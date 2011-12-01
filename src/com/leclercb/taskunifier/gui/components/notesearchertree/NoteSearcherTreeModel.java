@@ -120,7 +120,8 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().isEndUserStatus())
-				this.folderCategory.add(new FolderItem(folder));
+				if (!folder.isArchived())
+					this.folderCategory.add(new FolderItem(folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
@@ -204,6 +205,9 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				if (!folder.getModelStatus().isEndUserStatus())
 					return;
 				
+				if (folder.isArchived())
+					return;
+				
 				FolderItem item = new FolderItem(folder);
 				
 				try {
@@ -258,6 +262,9 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 			FolderItem item = this.findItemFromFolder(folder);
 			
 			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
+				if (item != null)
+					this.removeNodeFromParent(item);
+			} else if (folder.isArchived()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
 			} else if (item == null) {

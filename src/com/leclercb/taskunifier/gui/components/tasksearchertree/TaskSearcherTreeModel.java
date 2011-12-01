@@ -200,7 +200,10 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().isEndUserStatus())
-				this.folderCategory.add(new ModelItem(ModelType.FOLDER, folder));
+				if (!folder.isArchived())
+					this.folderCategory.add(new ModelItem(
+							ModelType.FOLDER,
+							folder));
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
@@ -400,6 +403,10 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				if (!model.getModelStatus().isEndUserStatus())
 					return;
 				
+				if (event.getValue() instanceof Folder)
+					if (((Folder) event.getValue()).isArchived())
+						return;
+				
 				ModelItem item = new ModelItem(model.getModelType(), model);
 				
 				try {
@@ -473,6 +480,10 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 			ModelItem item = this.findItemFromModel(model);
 			
 			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
+				if (item != null)
+					this.removeNodeFromParent(item);
+			} else if (event.getSource() instanceof Folder
+					&& ((Folder) event.getSource()).isArchived()) {
 				if (item != null)
 					this.removeNodeFromParent(item);
 			} else if (item == null) {
