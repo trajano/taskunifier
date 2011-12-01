@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -153,6 +154,9 @@ public class ModelConfigurationDialog extends JDialog {
 		header.setDescription(Translations.getString("header.description.manage_models"));
 		header.setIcon(ImageUtils.getResourceImage("folder.png", 32, 32));
 
+		JPanel tabbedPanel = new JPanel(new BorderLayout());
+		tabbedPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		this.tabbedPane = new JTabbedPane();
 
 		this.tabbedPane.addTab(
@@ -178,9 +182,11 @@ public class ModelConfigurationDialog extends JDialog {
 		this.tabbedPane.addTab(
 				Translations.getString("general.task.tags"),
 				new TagConfigurationPanel());
+		
+		tabbedPanel.add(this.tabbedPane);
 
 		this.add(header, BorderLayout.NORTH);
-		this.add(this.tabbedPane, BorderLayout.CENTER);
+		this.add(tabbedPanel, BorderLayout.CENTER);
 
 		this.initializeButtonsPanel();
 	}

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <eclipse-userlibraries version="2">
     <library name="TaskUnifierGui" systemlibrary="false">
+        <archive path="/TaskUnifierGui/lib/android-vcard.jar"/>
         <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
         <archive path="/TaskUnifierGui/lib/forms-1.2.1.jar"/>
         <archive path="/TaskUnifierGui/lib/jtattoo.jar"/>
