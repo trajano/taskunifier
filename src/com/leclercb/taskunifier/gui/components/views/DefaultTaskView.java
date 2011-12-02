@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXSearchField;
 
@@ -23,6 +24,8 @@ import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
+import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsPanel;
+import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsView;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
@@ -33,6 +36,7 @@ import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener {
 	
@@ -47,6 +51,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private QuickAddTaskPanel quickAddTaskPanel;
 	private TaskTable taskTable;
 	private ModelNotePanel taskNote;
+	private TaskContactsPanel taskContacts;
 	
 	public DefaultTaskView(MainView mainView) {
 		this.initialize();
@@ -77,6 +82,10 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		return this.taskNote;
 	}
 	
+	public TaskContactsView getTaskContactsView() {
+		return this.taskContacts;
+	}
+	
 	private void initialize() {
 		Main.SETTINGS.addSavePropertiesListener(this);
 		
@@ -103,14 +112,13 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		JPanel middlePane = new JPanel();
 		middlePane.setLayout(new BorderLayout(5, 5));
 		
-		JPanel notePane = new JPanel();
-		notePane.setLayout(new BorderLayout());
+		JTabbedPane tabbedPane = new JTabbedPane();
 		
 		this.horizontalSplitPane.setLeftComponent(searcherPane);
 		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 		
 		this.verticalSplitPane.setTopComponent(middlePane);
-		this.verticalSplitPane.setBottomComponent(notePane);
+		this.verticalSplitPane.setBottomComponent(tabbedPane);
 		
 		this.add(this.horizontalSplitPane, BorderLayout.CENTER);
 		
@@ -122,7 +130,8 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.initializeSearcherList(searcherPane);
 		this.initializeQuickAddTask(middlePane);
 		this.initializeTaskTable(middlePane);
-		this.initializeModelNote(notePane);
+		this.initializeModelNote(tabbedPane);
+		this.initializeTaskContacts(tabbedPane);
 		
 		this.taskSearcherPanel.refreshTaskSearcher();
 	}
@@ -233,10 +242,22 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		middlePane.add(taskPanel, BorderLayout.CENTER);
 	}
 	
-	private void initializeModelNote(JPanel notePane) {
+	private void initializeModelNote(JTabbedPane tabbedPane) {
 		this.taskNote = new ModelNotePanel();
 		this.taskTable.addModelSelectionChangeListener(this.taskNote);
-		notePane.add(this.taskNote);
+		tabbedPane.addTab(
+				Translations.getString("general.note"),
+				ImageUtils.getResourceImage("note.png", 16, 16),
+				this.taskNote);
+	}
+	
+	private void initializeTaskContacts(JTabbedPane tabbedPane) {
+		this.taskContacts = new TaskContactsPanel();
+		this.taskTable.addModelSelectionChangeListener(this.taskContacts);
+		tabbedPane.addTab(
+				Translations.getString("general.contacts"),
+				ImageUtils.getResourceImage("user.png", 16, 16),
+				this.taskContacts);
 	}
 	
 }
