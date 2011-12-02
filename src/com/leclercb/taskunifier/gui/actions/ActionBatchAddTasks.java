@@ -91,10 +91,15 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 			
 		}
 		
-		Task previousParentTask = null;
+		List<Task> previousParentTasks = new ArrayList<Task>();
 		List<Task> tasks = new ArrayList<Task>();
+		
 		for (String title : titles) {
-			boolean isSubTask = title.startsWith("\t");
+			int subTaskLevel = 0;
+			while (title.startsWith("\t")) {
+				subTaskLevel++;
+				title = title.substring(1);
+			}
 			
 			title = title.trim();
 			
@@ -103,14 +108,23 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 			
 			Task task = null;
 			
-			if (isSubTask && previousParentTask != null) {
+			if (subTaskLevel == 0 || previousParentTasks.size() == 0) {
+				task = ActionAddTask.addTask(template, title, false);
+				previousParentTasks.clear();
+				previousParentTasks.add(task);
+			} else {
+				if (subTaskLevel > previousParentTasks.size())
+					subTaskLevel = previousParentTasks.size();
+				
 				task = ActionAddSubTask.addSubTask(
 						template,
-						previousParentTask,
+						previousParentTasks.get(subTaskLevel - 1),
 						false);
-			} else {
-				task = ActionAddTask.addTask(template, title, false);
-				previousParentTask = task;
+				
+				for (int i = previousParentTasks.size() - 1; i >= subTaskLevel; i--)
+					previousParentTasks.remove(i);
+				
+				previousParentTasks.add(task);
 			}
 			
 			task.setTitle(title);

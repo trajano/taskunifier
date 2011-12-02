@@ -37,8 +37,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
-import a_vcard.android.syncml.pim.PropertyNode;
-import a_vcard.android.syncml.pim.VNode;
+import a_vcard.android.provider.Contacts;
 import a_vcard.android.syncml.pim.vcard.ContactStruct;
 import a_vcard.android.syncml.pim.vcard.VCardComposer;
 
@@ -71,33 +70,17 @@ public class ExportVCardDialog extends AbstractExportDialog {
 		StringBuffer buffer = new StringBuffer();
 		List<Contact> contacts = ContactFactory.getInstance().getList();
 		for (Contact contact : contacts) {
-			PropertyNode fnNode = new PropertyNode();
-			fnNode.propName = "FN";
-			fnNode.propValue = contact.getTitle();
-			
-			PropertyNode n1Node = new PropertyNode();
-			n1Node.propName = "N";
-			n1Node.propValue = contact.getLastName();
-			
-			PropertyNode n2Node = new PropertyNode();
-			n2Node.propName = "N";
-			n2Node.propValue = contact.getFirstName();
-			
-			PropertyNode emailNode = new PropertyNode();
-			emailNode.propName = "EMAIL";
-			emailNode.propValue = contact.getEmail();
-			
-			VNode c = new VNode();
-			c.VName = "VCARD";
-			c.propList.add(fnNode);
-			c.propList.add(n1Node);
-			c.propList.add(n2Node);
-			c.propList.add(emailNode);
+			ContactStruct c = new ContactStruct();
+			c.name = contact.getLastName() + " " + contact.getFirstName();
+			c.addContactmethod(
+					Contacts.KIND_EMAIL,
+					-1,
+					contact.getEmail(),
+					null,
+					true);
 			
 			String vcard = composer.createVCard(
-					ContactStruct.constructContactFromVNode(
-							c,
-							ContactStruct.NAME_ORDER_TYPE_ENGLISH),
+					c,
 					VCardComposer.VERSION_VCARD21_INT);
 			
 			buffer.append(vcard);
