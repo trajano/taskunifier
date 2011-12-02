@@ -76,8 +76,6 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new ActionAddSubTaskAtSameLevel(16, 16));
 		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
-		this.add(new ActionDelete(16, 16));
-		this.addSeparator();
 		this.initializeItemSortTasks();
 		this.addSeparator();
 		this.add(new JMenuItem(new ActionCollapseAll()));
@@ -85,6 +83,8 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new JMenuItem(new ActionSelectParentTasks(16, 16)));
 		this.addSeparator();
 		this.add(new ActionPrintSelectedModels(16, 16));
+		this.addSeparator();
+		this.add(new ActionDelete(16, 16));
 	}
 	
 	private void initializeItemSortTasks() {

@@ -51,8 +51,6 @@ import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTaskAtSameLevel;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
-import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
-import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcherSelectedTasks;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionChangeDataFolderLocation;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
@@ -65,11 +63,9 @@ import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
-import com.leclercb.taskunifier.gui.actions.ActionDeleteTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateNotes;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
-import com.leclercb.taskunifier.gui.actions.ActionEditTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionExportModels;
@@ -239,14 +235,17 @@ public class MenuBar extends JMenuBar {
 		this.initializeTemplateMenu(tasksMenu);
 		
 		tasksMenu.add(new ActionBatchAddTasks(16, 16));
-		tasksMenu.add(new ActionEditTasks(16, 16));
-		tasksMenu.add(ComponentFactory.createPostponeMenu());
-		tasksMenu.add(new ActionCompleteTasks(16, 16));
 		tasksMenu.add(new ActionDuplicateTasks(16, 16));
-		tasksMenu.add(new ActionDelete(16, 16));
 		
 		tasksMenu.addSeparator();
 		
+		tasksMenu.add(new ActionEditTasks(16, 16));
+		tasksMenu.add(ComponentFactory.createPostponeMenu());
+		tasksMenu.add(new ActionCompleteTasks(16, 16));
+		
+		tasksMenu.addSeparator();
+		
+		tasksMenu.add(new ActionManageTaskTemplates(16, 16));
 		tasksMenu.add(new ActionTaskReminders(16, 16));
 		
 		tasksMenu.addSeparator();
@@ -257,14 +256,7 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.addSeparator();
 		
-		tasksMenu.add(new ActionManageTaskTemplates(16, 16));
-		
-		tasksMenu.addSeparator();
-		
-		tasksMenu.add(new ActionAddTaskSearcher(16, 16));
-		tasksMenu.add(new ActionAddTaskSearcherSelectedTasks(16, 16));
-		tasksMenu.add(new ActionEditTaskSearcher(16, 16));
-		tasksMenu.add(new ActionDeleteTaskSearcher(16, 16));
+		tasksMenu.add(new ActionDelete(16, 16));
 	}
 	
 	private void initializeSynchronizeMenu() {
