@@ -7,6 +7,7 @@ Version 1.8.6
 		- FR 3445982: Improved reminder window
 		- FR 3447236: Archive folders
 		- FR 3447543: Batch add sub-sub tasks
+		- BF 3448985: XStream error
 
 Version 1.8.5
 	- Major:
