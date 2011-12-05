@@ -81,6 +81,7 @@ import com.leclercb.taskunifier.gui.actions.ActionImportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionImportVCard;
 import com.leclercb.taskunifier.gui.actions.ActionLogBug;
 import com.leclercb.taskunifier.gui.actions.ActionLogFeatureRequest;
+import com.leclercb.taskunifier.gui.actions.ActionMailTo;
 import com.leclercb.taskunifier.gui.actions.ActionManageBackups;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
@@ -116,8 +117,9 @@ public class MenuBar extends JMenuBar {
 		this.initializeFileMenu();
 		this.initializeEditMenu();
 		this.initializeViewMenu();
-		this.initializeNoteMenu();
-		this.initializeTaskMenu();
+		this.initializeContactsMenu();
+		this.initializeNotesMenu();
+		this.initializeTasksMenu();
 		this.initializeSynchronizeMenu();
 		this.initializeHelpMenu();
 	}
@@ -215,7 +217,14 @@ public class MenuBar extends JMenuBar {
 		}
 	}
 	
-	private void initializeNoteMenu() {
+	private void initializeContactsMenu() {
+		JMenu contactsMenu = new JMenu(Translations.getString("menu.contacts"));
+		this.add(contactsMenu);
+		
+		contactsMenu.add(new ActionMailTo(16, 16));
+	}
+	
+	private void initializeNotesMenu() {
 		JMenu notesMenu = new JMenu(Translations.getString("menu.notes"));
 		this.add(notesMenu);
 		
@@ -224,7 +233,7 @@ public class MenuBar extends JMenuBar {
 		notesMenu.add(new ActionDelete(16, 16));
 	}
 	
-	private void initializeTaskMenu() {
+	private void initializeTasksMenu() {
 		JMenu tasksMenu = new JMenu(Translations.getString("menu.tasks"));
 		this.add(tasksMenu);
 		

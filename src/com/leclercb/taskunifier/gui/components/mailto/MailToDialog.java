@@ -100,6 +100,8 @@ public class MailToDialog extends JDialog {
 			
 		};
 		
+		this.mailToPanel.addActionListener(listener);
+		
 		JButton closeButton = new TUCloseButton(listener);
 		JPanel panel = new TUButtonsPanel(closeButton);
 		

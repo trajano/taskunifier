@@ -36,26 +36,33 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.NoteUtils;
+import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class MailToPanel extends JPanel {
 	
-	public static final String ACTION_SNOOZE = "ACTION_MAIL";
+	public static final String ACTION_MAIL = "ACTION_MAIL";
 	
 	private ActionSupport actionSupport;
 	
@@ -84,7 +91,7 @@ public class MailToPanel extends JPanel {
 		
 		List<String> toList = new ArrayList<String>();
 		for (Contact contact : contacts) {
-			if (contact.getEmail() != null)
+			if (contact.getEmail() != null && contact.getEmail().length() != 0)
 				toList.add(contact.getEmail());
 		}
 		
@@ -97,11 +104,34 @@ public class MailToPanel extends JPanel {
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
 			Task[] tasks = ViewType.getSelectedTasks();
 			
+			List<TaskColumn> columns = new ArrayList<TaskColumn>(
+					Arrays.asList(TaskColumn.values()));
+			columns.remove(NoteColumn.MODEL);
+			columns.remove(NoteColumn.MODEL_CREATION_DATE);
+			columns.remove(NoteColumn.MODEL_UPDATE_DATE);
+			columns.remove(TaskColumn.MODEL_EDIT);
+			columns.remove(TaskColumn.NOTE);
+			columns.remove(TaskColumn.SHOW_CHILDREN);
+			columns.remove(TaskColumn.ORDER);
+			TaskColumn[] c = columns.toArray(new TaskColumn[0]);
+			
+			subject = StringUtils.join(tasks, ", ");
+			body = TaskUtils.toText(tasks, c, false);
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getSelectedNotes();
 			
+			List<NoteColumn> columns = new ArrayList<NoteColumn>(
+					Arrays.asList(NoteColumn.values()));
+			columns.remove(NoteColumn.MODEL);
+			columns.remove(NoteColumn.MODEL_CREATION_DATE);
+			columns.remove(NoteColumn.MODEL_UPDATE_DATE);
+			columns.remove(NoteColumn.NOTE);
+			NoteColumn[] c = columns.toArray(new NoteColumn[0]);
+			
+			subject = StringUtils.join(notes, ", ");
+			body = NoteUtils.toText(notes, c, false);
 		}
-		
+		System.out.println(body);
 		DesktopUtils.mail(to, cc, subject, body);
 	}
 	
@@ -126,7 +156,7 @@ public class MailToPanel extends JPanel {
 		public MailAction() {
 			super(
 					Translations.getString("general.send_mail"),
-					ImageUtils.getResourceImage("mail.png", 24, 24));
+					ImageUtils.getResourceImage("mail.png", 16, 16));
 			
 		}
 		
