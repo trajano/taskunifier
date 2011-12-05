@@ -21,11 +21,11 @@ import javax.swing.event.HyperlinkListener;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
-import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
@@ -97,11 +97,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			@Override
 			public void hyperlinkUpdate(HyperlinkEvent evt) {
 				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					try {
-						BrowserUtils.openDefaultBrowser(evt.getURL().toExternalForm());
-					} catch (Exception exc) {
-						
-					}
+					DesktopUtils.browse(evt.getURL().toExternalForm());
 				}
 			}
 			

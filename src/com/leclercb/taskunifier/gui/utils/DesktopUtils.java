@@ -30,63 +30,29 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.review;
+package com.leclercb.taskunifier.gui.utils;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import net.miginfocom.swing.MigLayout;
-
-import org.jdesktop.swingx.JXEditorPane;
-
-import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.DesktopUtils;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ReviewPanel extends JPanel {
+public final class DesktopUtils {
 	
-	public ReviewPanel() {
-		this.initialize();
+	private DesktopUtils() {
+		
 	}
 	
-	private void initialize() {
-		this.setLayout(new MigLayout());
-		
-		JLabel icon = new JLabel(Constants.TITLE, ImageUtils.getResourceImage(
-				"logo.png",
-				48,
-				48), SwingConstants.CENTER);
-		
-		JXEditorPane pane = new JXEditorPane();
-		pane.setContentType("text/html");
-		pane.setEditable(false);
-		pane.setText(Translations.getString("review.message"));
-		pane.setCaretPosition(0);
-		
-		JButton reviewButton = new JButton(
-				Translations.getString("review.link"));
-		
-		reviewButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				DesktopUtils.browse(Constants.REVIEW_URL);
-			}
-			
-		});
-		
-		this.add(icon, "center, wrap 15px");
-		this.add(
-				ComponentFactory.createJScrollPane(pane, true),
-				"grow, push, wrap");
-		this.add(reviewButton, "center");
+	public static void browse(String url) {
+		try {
+			com.leclercb.commons.gui.utils.DesktopUtils.browse(url);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("general.please_visit", url),
+					Translations.getString("error.cannot_open_browser"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }
