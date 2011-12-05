@@ -34,10 +34,8 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.components.mailto.MailToDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -68,15 +66,7 @@ public class ActionMailTo extends AbstractViewAction {
 	}
 	
 	public static void mailTo() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		
-		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
-			Task[] tasks = ViewType.getSelectedTasks();
-			
-		} else if (viewType == ViewType.NOTES) {
-			Note[] notes = ViewType.getSelectedNotes();
-			
-		}
+		MailToDialog.getInstance().setVisible(true);
 	}
 	
 }

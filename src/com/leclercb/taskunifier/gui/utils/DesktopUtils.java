@@ -55,9 +55,17 @@ public final class DesktopUtils {
 		}
 	}
 	
-	public static void mail(String to, String subject, String body) {
+	public static void mail(
+			String[] to,
+			String[] cc,
+			String subject,
+			String body) {
 		try {
-			com.leclercb.commons.gui.utils.DesktopUtils.mail(to, subject, body);
+			com.leclercb.commons.gui.utils.DesktopUtils.mail(
+					to,
+					cc,
+					subject,
+					body);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					MainFrame.getInstance().getFrame(),
