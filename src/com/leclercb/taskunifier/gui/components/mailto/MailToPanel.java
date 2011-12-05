@@ -87,6 +87,10 @@ public class MailToPanel extends JPanel {
 	}
 	
 	public void mail() {
+		this.mail(true);
+	}
+	
+	public void mail(boolean withNote) {
 		Contact[] contacts = this.contactList.getSelectedContacts();
 		
 		List<String> toList = new ArrayList<String>();
@@ -106,11 +110,14 @@ public class MailToPanel extends JPanel {
 			
 			List<TaskColumn> columns = new ArrayList<TaskColumn>(
 					Arrays.asList(TaskColumn.values()));
-			columns.remove(NoteColumn.MODEL);
-			columns.remove(NoteColumn.MODEL_CREATION_DATE);
-			columns.remove(NoteColumn.MODEL_UPDATE_DATE);
+			columns.remove(TaskColumn.MODEL);
+			columns.remove(TaskColumn.MODEL_CREATION_DATE);
+			columns.remove(TaskColumn.MODEL_UPDATE_DATE);
 			columns.remove(TaskColumn.MODEL_EDIT);
-			columns.remove(TaskColumn.NOTE);
+			
+			if (!withNote)
+				columns.remove(TaskColumn.NOTE);
+			
 			columns.remove(TaskColumn.SHOW_CHILDREN);
 			columns.remove(TaskColumn.ORDER);
 			TaskColumn[] c = columns.toArray(new TaskColumn[0]);
@@ -125,14 +132,19 @@ public class MailToPanel extends JPanel {
 			columns.remove(NoteColumn.MODEL);
 			columns.remove(NoteColumn.MODEL_CREATION_DATE);
 			columns.remove(NoteColumn.MODEL_UPDATE_DATE);
-			columns.remove(NoteColumn.NOTE);
+			
+			if (!withNote)
+				columns.remove(NoteColumn.NOTE);
+			
 			NoteColumn[] c = columns.toArray(new NoteColumn[0]);
 			
 			subject = StringUtils.join(notes, ", ");
 			body = NoteUtils.toText(notes, c, false);
 		}
-		System.out.println(body);
-		DesktopUtils.mail(to, cc, subject, body);
+		
+		if (!DesktopUtils.mail(to, cc, subject, body))
+			if (withNote)
+				this.mail(false);
 	}
 	
 	private void initialize() {

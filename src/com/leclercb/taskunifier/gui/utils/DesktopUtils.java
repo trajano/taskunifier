@@ -43,19 +43,23 @@ public final class DesktopUtils {
 		
 	}
 	
-	public static void browse(String url) {
+	public static boolean browse(String url) {
 		try {
 			com.leclercb.commons.gui.utils.DesktopUtils.browse(url);
+			
+			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("general.please_visit", url),
 					Translations.getString("error.cannot_open_browser"),
 					JOptionPane.ERROR_MESSAGE);
+			
+			return false;
 		}
 	}
 	
-	public static void mail(
+	public static boolean mail(
 			String[] to,
 			String[] cc,
 			String subject,
@@ -66,12 +70,16 @@ public final class DesktopUtils {
 					cc,
 					subject,
 					body);
+			
+			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("error.cannot_open_mail_client"),
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
+			
+			return false;
 		}
 	}
 	

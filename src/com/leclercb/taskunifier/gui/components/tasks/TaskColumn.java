@@ -85,8 +85,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 	TIMER(Timer.class, Translations.getString("general.task.timer"), true),
 	PRIORITY(TaskPriority.class, Translations.getString("general.task.priority"), true),
 	STAR(Boolean.class, Translations.getString("general.task.star"), true),
-	NOTE(String.class, Translations.getString("general.task.note"), false),
-	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false);
+	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false),
+	NOTE(String.class, Translations.getString("general.task.note"), false);
 	
 	public static final String PROP_ORDER = "order";
 	public static final String PROP_WIDTH = "width";
