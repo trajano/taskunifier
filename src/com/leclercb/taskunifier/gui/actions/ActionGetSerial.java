@@ -35,11 +35,9 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
-import com.leclercb.commons.gui.utils.BrowserUtils;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionGetSerial extends AbstractAction {
@@ -68,15 +66,7 @@ public class ActionGetSerial extends AbstractAction {
 	}
 	
 	public static void getSerial(String url) {
-		try {
-			BrowserUtils.openDefaultBrowser(url);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.please_visit", url),
-					Translations.getString("error.cannot_open_browser"),
-					JOptionPane.ERROR_MESSAGE);
-		}
+		DesktopUtils.browse(url);
 	}
 	
 }

@@ -44,11 +44,11 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -123,7 +123,7 @@ public class ActionCheckVersion extends AbstractAction {
 									options[0]);
 							
 							if (result == 0) {
-								BrowserUtils.openDefaultBrowser(Constants.DOWNLOAD_URL);
+								DesktopUtils.browse(Constants.DOWNLOAD_URL);
 							}
 						}
 					} else {

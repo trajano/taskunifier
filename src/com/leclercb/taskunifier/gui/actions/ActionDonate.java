@@ -35,12 +35,10 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
-import com.leclercb.commons.gui.utils.BrowserUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDonate extends AbstractAction {
@@ -65,17 +63,7 @@ public class ActionDonate extends AbstractAction {
 	}
 	
 	public static void donate() {
-		try {
-			BrowserUtils.openDefaultBrowser(Constants.DONATE_URL);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString(
-							"general.please_visit",
-							Constants.DONATE_URL),
-					Translations.getString("error.cannot_open_browser"),
-					JOptionPane.ERROR_MESSAGE);
-		}
+		DesktopUtils.browse(Constants.DONATE_URL);
 	}
 	
 }
