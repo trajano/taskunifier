@@ -58,6 +58,7 @@ public enum ActionList {
 	IMPORT_VCARD(Translations.getString("action.import_vcard"), "download.png", true),
 	LOG_BUG(Translations.getString("action.log_bug"), null, false),
 	LOG_FEATURE_REQUEST(Translations.getString("action.log_feature_request"), null, false),
+	MAIL_TO(Translations.getString("action.mail_to"), "mail.png", true),
 	MANAGE_BACKUPS(Translations.getString("action.manage_backups"), "save.png", true),
 	MANAGE_MODELS(Translations.getString("action.manage_models"), "folder.png", true),
 	MANAGE_PLUGINS(Translations.getString("action.manage_plugins"), "download.png", true),
@@ -207,6 +208,8 @@ public enum ActionList {
 				return new ActionLogBug();
 			case LOG_FEATURE_REQUEST:
 				return new ActionLogFeatureRequest();
+			case MAIL_TO:
+				return new ActionMailTo(width, height);
 			case MANAGE_MODELS:
 				return new ActionManageModels(width, height);
 			case MANAGE_PLUGINS:
