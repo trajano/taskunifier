@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ContactModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueContact;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelRowFilter;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -79,7 +80,8 @@ public class ContactList extends JPanel {
 		this.modelList.setModel(new ContactModel(false));
 		this.modelList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.modelList.setCellRenderer(new DefaultListRenderer(
-				StringValueModel.INSTANCE));
+				StringValueModel.INSTANCE,
+				IconValueContact.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
 		this.modelList.setComparator(new ModelComparator());

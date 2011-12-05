@@ -5,6 +5,7 @@ Version 1.8.6
 	- Major:
 		- Manage a list of contacts
 		- Import and export contacts (VCard)
+		- Send task/note by email
 		- FR 3441398: Delegate task to co-worker
 	- Minor:
 		- FR 3445982: Improved reminder window
