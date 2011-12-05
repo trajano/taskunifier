@@ -55,4 +55,16 @@ public final class DesktopUtils {
 		}
 	}
 	
+	public static void mail(String to, String subject, String body) {
+		try {
+			com.leclercb.commons.gui.utils.DesktopUtils.mail(to, subject, body);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("error.cannot_open_mail_client"),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 }
