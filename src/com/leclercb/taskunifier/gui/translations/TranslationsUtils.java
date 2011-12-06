@@ -59,6 +59,8 @@ public final class TranslationsUtils {
 	public static String translateModelType(ModelType type, boolean plurial) {
 		if (plurial) {
 			switch (type) {
+				case CONTACT:
+					return Translations.getString("general.contacts");
 				case CONTEXT:
 					return Translations.getString("general.contexts");
 				case FOLDER:
@@ -75,6 +77,8 @@ public final class TranslationsUtils {
 		}
 		
 		switch (type) {
+			case CONTACT:
+				return Translations.getString("general.contact");
 			case CONTEXT:
 				return Translations.getString("general.context");
 			case FOLDER:

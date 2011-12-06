@@ -30,21 +30,36 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.taskcontacts.table.editors;
+package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.models.utils.TaskContactLinkList;
 
-import com.leclercb.taskunifier.gui.commons.models.TaskContactLinkModel;
-
-public class LinkEditor extends ComboBoxCellEditor {
+public class TaskContactLinkModel extends DefaultComboBoxModel implements ListChangeListener {
 	
-	public LinkEditor() {
-		super(new JComboBox(new TaskContactLinkModel(false)));
-		((JComboBox) this.getComponent()).setEditable(true);
+	public TaskContactLinkModel(boolean firstNull) {
+		String[] links = TaskContactLinkList.getInstance().getLinks();
 		
-		this.setClickCountToStart(2);
+		if (firstNull)
+			this.addElement(null);
+		
+		for (String link : links)
+			this.addElement(link);
+		
+		TaskContactLinkList.getInstance().addListChangeListener(this);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
+		String link = (String) evt.getValue();
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.addElement(link);
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.removeElement(link);
 	}
 	
 }
