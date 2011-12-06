@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
@@ -45,7 +47,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -117,7 +118,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	
 	@Override
 	public String toString() {
-		return ListUtils.listToString(this.elements, ", ");
+		return StringUtils.join(this.elements, ", ");
 	}
 	
 	@Override

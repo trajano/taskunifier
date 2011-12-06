@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
@@ -45,7 +47,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.ListUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
@@ -282,7 +283,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		StringBuffer buffer = new StringBuffer();
 		
 		if (this.elements.size() != 0) {
-			buffer.append(ListUtils.listToString(this.elements, " "
+			buffer.append(StringUtils.join(this.elements, " "
 					+ TranslationsUtils.translateFilterLink(this.link)
 					+ " "));
 		}
@@ -295,7 +296,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		
 		if (this.filters.size() != 0) {
 			buffer.append("(");
-			buffer.append(ListUtils.listToString(this.filters, " "
+			buffer.append(StringUtils.join(this.filters, " "
 					+ TranslationsUtils.translateFilterLink(this.link)
 					+ " "));
 			buffer.append(")");
