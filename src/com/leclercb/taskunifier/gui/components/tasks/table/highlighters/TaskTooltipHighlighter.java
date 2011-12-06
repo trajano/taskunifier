@@ -59,6 +59,8 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
 		
 		switch (column) {
+			case CONTACTS:
+				return this.doHighlightContacts(renderer, adapter);
 			case PROGRESS:
 				return this.doHighlightProgress(renderer, adapter);
 			case LENGTH:
@@ -68,6 +70,24 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 			default:
 				return super.doHighlight(renderer, adapter);
 		}
+	}
+	
+	protected Component doHighlightContacts(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		if (task.getContacts().size() != 0)
+			((JComponent) renderer).setToolTipText(task.getContacts().toString());
+		
+		return renderer;
 	}
 	
 	protected Component doHighlightProgress(

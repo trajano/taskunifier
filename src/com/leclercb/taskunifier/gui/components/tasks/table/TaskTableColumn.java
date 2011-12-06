@@ -54,6 +54,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.IconValueRepeat;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskContacts;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
@@ -93,6 +94,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer GENERIC_RENDERER;
 	
+	private static final TableCellRenderer CONTACTS_RENDERER;
 	private static final TableCellRenderer COMPLETED_RENDERER;
 	private static final TableCellRenderer COMPLETED_ON_RENDERER;
 	private static final TableCellRenderer DUE_DATE_RENDERER;
@@ -136,6 +138,10 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	static {
 		GENERIC_RENDERER = new DefaultTableRenderer();
+		
+		CONTACTS_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueTaskContacts.INSTANCE));
 		
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -315,6 +321,8 @@ public class TaskTableColumn extends TableColumnExt {
 				return TITLE_RENDERER;
 			case ORDER:
 				return ORDER_RENDERER;
+			case CONTACTS:
+				return CONTACTS_RENDERER;
 			case PROGRESS:
 				return PROGRESS_RENDERER;
 			case COMPLETED:

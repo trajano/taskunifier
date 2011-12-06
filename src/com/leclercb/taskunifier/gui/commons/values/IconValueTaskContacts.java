@@ -30,32 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import java.awt.Component;
+import javax.swing.Icon;
 
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.renderer.IconValue;
 
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class TaskTooltipHighlightPredicate implements HighlightPredicate {
+public class IconValueTaskContacts implements IconValue {
+	
+	public static final IconValueTaskContacts INSTANCE = new IconValueTaskContacts();
+	
+	private IconValueTaskContacts() {
+		
+	}
 	
 	@Override
-	public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
-		TaskColumn column = (TaskColumn) adapter.getColumnIdentifierAt(adapter.convertColumnIndexToModel(adapter.column));
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof String))
+			return null;
 		
-		switch (column) {
-			case TITLE:
-			case CONTACTS:
-			case PROGRESS:
-			case LENGTH:
-			case TIMER:
-			case REPEAT:
-				return true;
-		}
+		if (((String) value).length() == 0)
+			return null;
 		
-		return false;
+		return ImageUtils.getResourceImage("user.png", 16, 16);
 	}
 	
 }

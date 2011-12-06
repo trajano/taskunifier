@@ -1063,8 +1063,8 @@ public final class SettingsVersion {
 				"Update settings from version 1.8.5 to 1.8.6");
 		
 		Main.SETTINGS.setStringProperty("taskcolumn.contacts.order", "30");
-		Main.SETTINGS.setStringProperty("taskcolumn.contacts.visible", "false");
-		Main.SETTINGS.setStringProperty("taskcolumn.contacts.width", "200");
+		Main.SETTINGS.setStringProperty("taskcolumn.contacts.visible", "true");
+		Main.SETTINGS.setStringProperty("taskcolumn.contacts.width", "50");
 		
 		Main.SETTINGS.setStringProperty("taskcontactscolumn.link.order", "1");
 		Main.SETTINGS.setStringProperty(
