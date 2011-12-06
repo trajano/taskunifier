@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -59,8 +60,11 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskContactsPanel extends JPanel implements TaskContactsView, ModelSelectionListener {
 	
-	private JToolBar toolBar;
 	private TaskContactsTable table;
+	private JToolBar toolBar;
+	
+	private Action addAction;
+	private Action removeAction;
 	
 	public TaskContactsPanel() {
 		this.initialize();
@@ -69,10 +73,28 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 	private void initialize() {
 		this.setLayout(new BorderLayout());
 		
+		this.table = new TaskContactsTable();
+		
 		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		this.toolBar.setFloatable(false);
 		
-		this.toolBar.add(new AbstractAction("", ImageUtils.getResourceImage(
+		this.initializeActions();
+		
+		this.toolBar.add(this.addAction);
+		this.toolBar.add(this.removeAction);
+		
+		this.add(
+				ComponentFactory.createJScrollPane(this.table, false),
+				BorderLayout.CENTER);
+		this.add(this.toolBar, BorderLayout.SOUTH);
+		
+		this.table.setContactGroup(null);
+		this.addAction.setEnabled(false);
+		this.removeAction.setEnabled(false);
+	}
+	
+	private void initializeActions() {
+		this.addAction = new AbstractAction("", ImageUtils.getResourceImage(
 				"add.png",
 				16,
 				16)) {
@@ -101,10 +123,10 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 						new ContactItem(newContact, null));
 			}
 			
-		});
+		};
 		
-		this.toolBar.add(new AbstractAction("", ImageUtils.getResourceImage(
-				"removed.png",
+		this.removeAction = new AbstractAction("", ImageUtils.getResourceImage(
+				"remove.png",
 				16,
 				16)) {
 			
@@ -116,14 +138,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 					TaskContactsPanel.this.table.getContactGroup().remove(item);
 			}
 			
-		});
-		
-		this.table = new TaskContactsTable();
-		
-		this.add(
-				ComponentFactory.createJScrollPane(this.table, false),
-				BorderLayout.CENTER);
-		this.add(this.toolBar, BorderLayout.SOUTH);
+		};
 	}
 	
 	@Override
@@ -132,16 +147,16 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 		
 		if (models.length != 1 || !(models[0] instanceof Task)) {
 			this.table.setContactGroup(null);
-			this.toolBar.setEnabled(false);
-			this.table.setEnabled(false);
+			this.addAction.setEnabled(false);
+			this.removeAction.setEnabled(false);
 			return;
 		}
 		
 		Task task = (Task) models[0];
 		
 		this.table.setContactGroup(task.getContacts());
-		this.toolBar.setEnabled(true);
-		this.table.setEnabled(true);
+		this.addAction.setEnabled(true);
+		this.removeAction.setEnabled(true);
 	}
 	
 }
