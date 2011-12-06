@@ -68,7 +68,7 @@ public final class TemplateUtils {
 		
 		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
 				TaskTemplateFactory.getInstance().getList());
-		Collections.sort(templates, new TaskTemplateComparator());
+		Collections.sort(templates, TaskTemplateComparator.INSTANCE);
 		
 		for (TaskTemplate template : templates) {
 			if (menu != null)

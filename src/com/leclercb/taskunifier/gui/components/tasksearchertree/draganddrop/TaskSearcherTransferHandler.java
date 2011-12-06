@@ -255,11 +255,9 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 				
 				Collections.sort(items, new Comparator<SearcherItem>() {
 					
-					private TaskSearcherComparator comparator = new TaskSearcherComparator();
-					
 					@Override
 					public int compare(SearcherItem o1, SearcherItem o2) {
-						return this.comparator.compare(
+						return TaskSearcherComparator.INSTANCE.compare(
 								o1.getTaskSearcher(),
 								o2.getTaskSearcher());
 					}

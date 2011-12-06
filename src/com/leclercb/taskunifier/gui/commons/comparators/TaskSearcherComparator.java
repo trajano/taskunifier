@@ -39,6 +39,12 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 
 public class TaskSearcherComparator implements Comparator<TaskSearcher> {
 	
+	public static final TaskSearcherComparator INSTANCE = new TaskSearcherComparator();
+	
+	private TaskSearcherComparator() {
+		
+	}
+	
 	@Override
 	public int compare(TaskSearcher ts1, TaskSearcher ts2) {
 		Integer i1 = ts1 == null ? null : ts1.getOrder();

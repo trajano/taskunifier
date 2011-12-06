@@ -39,6 +39,12 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 
 public class TaskTemplateComparator implements Comparator<TaskTemplate> {
 	
+	public static final TaskTemplateComparator INSTANCE = new TaskTemplateComparator();
+	
+	private TaskTemplateComparator() {
+		
+	}
+	
 	@Override
 	public int compare(TaskTemplate t1, TaskTemplate t2) {
 		String s1 = t1 == null ? null : t1.getTitle().toLowerCase();

@@ -40,10 +40,10 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderComparator implements Comparator<Task> {
 	
-	private ModelComparator modelComparator;
+	public static final ReminderComparator INSTANCE = new ReminderComparator();
 	
-	public ReminderComparator() {
-		this.modelComparator = new ModelComparator();
+	private ReminderComparator() {
+		
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ class ReminderComparator implements Comparator<Task> {
 		if (importance1 != importance2)
 			return new Integer(importance2).compareTo(importance1);
 		
-		return this.modelComparator.compare(t1, t2);
+		return ModelComparator.INSTANCE.compare(t1, t2);
 	}
 	
 }

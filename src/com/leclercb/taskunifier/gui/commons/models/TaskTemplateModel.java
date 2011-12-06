@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 public class TaskTemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
 	public TaskTemplateModel(boolean firstNull) {
-		super(new TaskTemplateComparator());
+		super(TaskTemplateComparator.INSTANCE);
 		this.initialize(firstNull);
 	}
 	

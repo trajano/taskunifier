@@ -39,6 +39,12 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 
 public class SynchronizerGuiPluginComparator implements Comparator<SynchronizerGuiPlugin> {
 	
+	public static final SynchronizerGuiPluginComparator INSTANCE = new SynchronizerGuiPluginComparator();
+	
+	private SynchronizerGuiPluginComparator() {
+		
+	}
+	
 	@Override
 	public int compare(SynchronizerGuiPlugin p1, SynchronizerGuiPlugin p2) {
 		String s1 = p1 == null ? null : p1.getSynchronizerApi().getApiName();

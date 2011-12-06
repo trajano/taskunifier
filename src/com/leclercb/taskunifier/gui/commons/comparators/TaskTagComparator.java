@@ -39,6 +39,12 @@ import com.leclercb.commons.api.utils.IgnoreCaseString;
 
 public class TaskTagComparator implements Comparator<IgnoreCaseString> {
 	
+	public static final TaskTagComparator INSTANCE = new TaskTagComparator();
+	
+	private TaskTagComparator() {
+		
+	}
+	
 	@Override
 	public int compare(IgnoreCaseString s1, IgnoreCaseString s2) {
 		return CompareUtils.compare(s1, s2);

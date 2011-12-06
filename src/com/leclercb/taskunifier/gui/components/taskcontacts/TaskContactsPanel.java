@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.taskcontacts.table.TaskContactsTable;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -82,6 +83,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 		
 		this.toolBar.add(this.addAction);
 		this.toolBar.add(this.removeAction);
+		this.toolBar.add(Help.getHelpButton("task_contacts"));
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.table, false),
@@ -104,7 +106,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 				List<Contact> contacts = new ArrayList<Contact>(
 						ContactFactory.getInstance().getList());
 				
-				Collections.sort(contacts, new ModelComparator());
+				Collections.sort(contacts, ModelComparator.INSTANCE);
 				
 				Contact newContact = null;
 				for (Contact contact : contacts) {

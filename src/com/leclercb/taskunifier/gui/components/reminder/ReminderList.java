@@ -83,7 +83,7 @@ public class ReminderList extends JPanel implements TaskSelectionView {
 				IconValueTaskPriority.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
-		this.modelList.setComparator(new ReminderComparator());
+		this.modelList.setComparator(ReminderComparator.INSTANCE);
 		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		

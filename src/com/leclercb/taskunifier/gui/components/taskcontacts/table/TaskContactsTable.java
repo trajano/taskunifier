@@ -43,6 +43,7 @@ import org.jdesktop.swingx.JXTable;
 
 import com.leclercb.taskunifier.api.models.ContactGroup;
 import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
 
 public class TaskContactsTable extends JXTable {
 	
@@ -112,8 +113,9 @@ public class TaskContactsTable extends JXTable {
 		
 		this.setSortable(true);
 		this.setSortsOnUpdates(false);
-		this.setSortOrderCycle(SortOrder.ASCENDING);
+		this.setSortOrderCycle(SortOrder.ASCENDING, SortOrder.DESCENDING);
 		this.setColumnControlVisible(true);
+		this.setSortOrder(TaskContactsColumn.LINK, SortOrder.ASCENDING);
 	}
 	
 }

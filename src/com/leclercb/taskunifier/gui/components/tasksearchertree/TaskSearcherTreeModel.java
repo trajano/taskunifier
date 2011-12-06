@@ -157,7 +157,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
 				TaskSearcherFactory.getInstance().getList());
-		Collections.sort(searchers, new TaskSearcherComparator());
+		Collections.sort(searchers, TaskSearcherComparator.INSTANCE);
 		
 		for (TaskSearcher searcher : searchers)
 			if (searcher.getType() == TaskSearcherType.GENERAL)
@@ -174,7 +174,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Context> contexts = new ArrayList<Context>(
 				ContextFactory.getInstance().getList());
-		Collections.sort(contexts, new ModelComparator());
+		Collections.sort(contexts, ModelComparator.INSTANCE);
 		
 		for (Context context : contexts)
 			if (context.getModelStatus().isEndUserStatus())
@@ -196,7 +196,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
-		Collections.sort(folders, new ModelComparator());
+		Collections.sort(folders, ModelComparator.INSTANCE);
 		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().isEndUserStatus())
@@ -219,7 +219,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Goal> goals = new ArrayList<Goal>(
 				GoalFactory.getInstance().getList());
-		Collections.sort(goals, new ModelComparator());
+		Collections.sort(goals, ModelComparator.INSTANCE);
 		
 		for (Goal goal : goals)
 			if (goal.getModelStatus().isEndUserStatus())
@@ -239,7 +239,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Location> locations = new ArrayList<Location>(
 				LocationFactory.getInstance().getList());
-		Collections.sort(locations, new ModelComparator());
+		Collections.sort(locations, ModelComparator.INSTANCE);
 		
 		for (Location location : locations)
 			if (location.getModelStatus().isEndUserStatus())
@@ -273,7 +273,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<TaskSearcher> searchers = new ArrayList<TaskSearcher>(
 				TaskSearcherFactory.getInstance().getList());
-		Collections.sort(searchers, new TaskSearcherComparator());
+		Collections.sort(searchers, TaskSearcherComparator.INSTANCE);
 		
 		for (TaskSearcher searcher : searchers)
 			if (searcher.getType() == TaskSearcherType.PERSONAL)
@@ -292,7 +292,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 		
 		models.add(model);
-		Collections.sort(models, new ModelComparator());
+		Collections.sort(models, ModelComparator.INSTANCE);
 		
 		return models.indexOf(model);
 	}

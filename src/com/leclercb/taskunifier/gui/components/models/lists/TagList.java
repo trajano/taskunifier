@@ -80,7 +80,7 @@ public abstract class TagList extends JPanel implements ITagList {
 		this.tagList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		this.tagList.setAutoCreateRowSorter(true);
-		this.tagList.setComparator(new TaskTagComparator());
+		this.tagList.setComparator(TaskTagComparator.INSTANCE);
 		this.tagList.setSortOrder(SortOrder.ASCENDING);
 		this.tagList.setSortsOnUpdates(true);
 		

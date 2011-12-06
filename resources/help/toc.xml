@@ -30,6 +30,7 @@
 		<tocitem text="Tasks" target="view_tasks">
 		
 			<tocitem text="Manage Task Templates" target="manage_task_templates" />
+			<tocitem text="Task Contacts" target="task_contacts" />
 			<tocitem text="Task Importance" target="task_importance" />
 			<tocitem text="Manually sort tasks" target="task_manually_sort_tasks" />
 			<tocitem text="Task Quick Creation" target="task_quick_add" />
