@@ -42,7 +42,11 @@ import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 
 public class TaskTagModel extends DefaultComboBoxModel implements ListChangeListener {
 	
+	private boolean firstNull;
+	
 	public TaskTagModel(boolean firstNull) {
+		this.firstNull = firstNull;
+		
 		TagList tags = TaskTagList.getInstance().getTags();
 		
 		if (firstNull)
@@ -58,8 +62,12 @@ public class TaskTagModel extends DefaultComboBoxModel implements ListChangeList
 	public void listChange(ListChangeEvent evt) {
 		Tag tag = (Tag) evt.getValue();
 		
+		int index = evt.getIndex();
+		if (this.firstNull)
+			index++;
+		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(tag);
+			this.insertElementAt(tag, index);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
 			this.removeElement(tag);
 	}

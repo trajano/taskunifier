@@ -1062,6 +1062,23 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.8.5 to 1.8.6");
 		
+		Main.SETTINGS.setStringProperty("taskcolumn.contacts.order", "30");
+		Main.SETTINGS.setStringProperty("taskcolumn.contacts.visible", "false");
+		Main.SETTINGS.setStringProperty("taskcolumn.contacts.width", "200");
+		
+		Main.SETTINGS.setStringProperty("taskcontactscolumn.link.order", "1");
+		Main.SETTINGS.setStringProperty(
+				"taskcontactscolumn.link.visible",
+				"true");
+		Main.SETTINGS.setStringProperty("taskcontactscolumn.link.width", "200");
+		Main.SETTINGS.setStringProperty("taskcontactscolumn.contact.order", "2");
+		Main.SETTINGS.setStringProperty(
+				"taskcontactscolumn.contact.visible",
+				"true");
+		Main.SETTINGS.setStringProperty(
+				"taskcontactscolumn.contact.width",
+				"200");
+		
 		return "1.8.6";
 	}
 	

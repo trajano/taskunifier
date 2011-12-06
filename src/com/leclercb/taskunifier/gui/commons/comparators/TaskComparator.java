@@ -226,6 +226,11 @@ public class TaskComparator implements Comparator<Task> {
 			case ORDER:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
+			case CONTACTS:
+				result = CompareUtils.compareIngoreCase(
+						(String) o1,
+						(String) o2);
+				break;
 			case TAGS:
 				result = CompareUtils.compareIngoreCase(
 						(String) o1,

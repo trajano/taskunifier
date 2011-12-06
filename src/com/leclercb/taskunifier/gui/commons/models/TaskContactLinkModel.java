@@ -40,7 +40,11 @@ import com.leclercb.taskunifier.api.models.utils.TaskContactLinkList;
 
 public class TaskContactLinkModel extends DefaultComboBoxModel implements ListChangeListener {
 	
+	private boolean firstNull;
+	
 	public TaskContactLinkModel(boolean firstNull) {
+		this.firstNull = firstNull;
+		
 		String[] links = TaskContactLinkList.getInstance().getLinks();
 		
 		if (firstNull)
@@ -56,8 +60,12 @@ public class TaskContactLinkModel extends DefaultComboBoxModel implements ListCh
 	public void listChange(ListChangeEvent evt) {
 		String link = (String) evt.getValue();
 		
+		int index = evt.getIndex();
+		if (this.firstNull)
+			index++;
+		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(link);
+			this.insertElementAt(link, index);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
 			this.removeElement(link);
 	}

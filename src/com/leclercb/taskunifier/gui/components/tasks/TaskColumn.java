@@ -66,6 +66,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	TITLE(String.class, Translations.getString("general.task.title"), true),
 	ORDER(Integer.class, Translations.getString("general.task.order"), false),
 	TAGS(String.class, Translations.getString("general.task.tags"), true),
+	CONTACTS(String.class, Translations.getString("general.task.contacts"), false),
 	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
 	CONTEXT(Context.class, Translations.getString("general.task.context"), true),
 	GOAL(Goal.class, Translations.getString("general.task.goal"), true),
@@ -275,6 +276,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 				return task.getOrder();
 			case TAGS:
 				return task.getTags().toString();
+			case CONTACTS:
+				return task.getContacts().toString();
 			case FOLDER:
 				return task.getFolder();
 			case CONTEXT:
@@ -347,6 +350,8 @@ public enum TaskColumn implements ModelProperties<Task> {
 				break;
 			case TAGS:
 				task.setTags(TagList.fromString((String) value));
+				break;
+			case CONTACTS:
 				break;
 			case FOLDER:
 				task.setFolder((Folder) value);

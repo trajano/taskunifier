@@ -111,6 +111,7 @@ public class TaskFilterElementPanel extends JPanel {
 					value = null;
 					break;
 				case TITLE:
+				case CONTACTS:
 				case TAGS:
 				case NOTE:
 				case REPEAT:
@@ -242,6 +243,7 @@ public class TaskFilterElementPanel extends JPanel {
 		switch (column) {
 			case TITLE:
 			case NOTE:
+			case CONTACTS:
 			case TAGS:
 			case REPEAT:
 				this.elementCondition.setModel(new DefaultComboBoxModel(

@@ -69,7 +69,7 @@ public class TUTagListModel extends DefaultListModel implements ListChangeSuppor
 		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			JCheckBox cb = new JCheckBox(tag.toString());
-			this.addElement(cb);
+			this.insertElementAt(cb, evt.getIndex());
 			cb.addItemListener(this);
 		} else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 			JCheckBox cb = this.findCheckBox(tag);

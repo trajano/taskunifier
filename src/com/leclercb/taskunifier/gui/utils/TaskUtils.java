@@ -377,6 +377,9 @@ public final class TaskUtils {
 				Object value = column.getProperty(task);
 				
 				switch (column) {
+					case CONTACTS:
+						content = (value == null ? null : value.toString());
+						break;
 					case COMPLETED:
 						content = StringValueBoolean.INSTANCE.getString(value);
 						break;
