@@ -37,7 +37,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.commons.api.utils.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -57,11 +58,11 @@ public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyC
 	}
 	
 	private static TaskPriority[] generateArray(boolean firstNull) {
-		TaskPriority[] array = ArrayUtils.concat(
+		TaskPriority[] array = ArrayUtils.addAll(
 				(firstNull ? new TaskPriority[] { null } : new TaskPriority[0]),
 				TaskPriority.values());
 		
-		org.apache.commons.lang.ArrayUtils.reverse(array);
+		org.apache.commons.lang3.ArrayUtils.reverse(array);
 		
 		return array;
 	}

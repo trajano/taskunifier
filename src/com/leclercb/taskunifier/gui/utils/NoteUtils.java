@@ -35,7 +35,7 @@ package com.leclercb.taskunifier.gui.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
@@ -81,7 +81,7 @@ public final class NoteUtils {
 					if (columns[j] == NoteColumn.NOTE)
 						text = Text2HTML.convert(text);
 					else
-						text = StringEscapeUtils.escapeHtml(text);
+						text = StringEscapeUtils.escapeHtml4(text);
 					
 					buffer.append(text);
 				}
@@ -129,7 +129,7 @@ public final class NoteUtils {
 				if (columns[j] == NoteColumn.NOTE)
 					text = Text2HTML.convert(text);
 				else
-					text = StringEscapeUtils.escapeHtml(text);
+					text = StringEscapeUtils.escapeHtml3(text);
 				
 				buffer.append("<td>" + text + "</td>");
 			}

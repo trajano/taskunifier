@@ -36,9 +36,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
-
-import com.leclercb.commons.api.utils.ArrayUtils;
 
 public class ModelTransferable extends BasicTransferable {
 	
@@ -55,7 +54,7 @@ public class ModelTransferable extends BasicTransferable {
 	
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-		return ArrayUtils.concat(
+		return ArrayUtils.addAll(
 				new DataFlavor[] { MODEL_FLAVOR },
 				super.getTransferDataFlavors());
 	}

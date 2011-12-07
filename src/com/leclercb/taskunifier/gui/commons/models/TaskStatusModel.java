@@ -34,13 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.commons.api.utils.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 
 public class TaskStatusModel extends DefaultComboBoxModel {
 	
 	public TaskStatusModel(boolean firstNull) {
-		super(ArrayUtils.concat(
+		super(ArrayUtils.addAll(
 				(firstNull ? new TaskStatus[] { null } : new TaskStatus[0]),
 				TaskStatus.values()));
 	}

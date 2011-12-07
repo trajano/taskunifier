@@ -38,7 +38,7 @@ import java.util.List;
 
 import javax.swing.SortOrder;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
@@ -277,7 +277,7 @@ public final class TaskUtils {
 					if (columns[j] == TaskColumn.NOTE)
 						text = Text2HTML.convert(text);
 					else
-						text = StringEscapeUtils.escapeHtml(text);
+						text = StringEscapeUtils.escapeHtml3(text);
 					
 					buffer.append(text);
 				}
@@ -325,7 +325,7 @@ public final class TaskUtils {
 				if (columns[j] == TaskColumn.NOTE)
 					text = Text2HTML.convert(text);
 				else
-					text = StringEscapeUtils.escapeHtml(text);
+					text = StringEscapeUtils.escapeHtml3(text);
 				
 				buffer.append("<td>" + text + "</td>");
 			}

@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.tips;
 
-import org.apache.commons.lang.math.RandomUtils;
+import java.util.Random;
+
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 
@@ -25,7 +26,8 @@ public class TipsDialog extends JXTipOfTheDay {
 	
 	public void showTipsDialog(boolean startup) {
 		try {
-			int i = RandomUtils.nextInt(this.getModel().getTipCount());
+			Random r = new Random();
+			int i = r.nextInt(this.getModel().getTipCount());
 			this.setCurrentTip(i);
 		} catch (Throwable t) {
 			

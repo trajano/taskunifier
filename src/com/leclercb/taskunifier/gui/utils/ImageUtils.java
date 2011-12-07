@@ -39,9 +39,10 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsBuilder;
-import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class ImageUtils {
@@ -74,7 +75,7 @@ public final class ImageUtils {
 				
 				return new EqualsBuilder().append(this.file, info.file).append(
 						this.width,
-						info.width).append(this.height, info.height).isEqual();
+						info.width).append(this.height, info.height).isEquals();
 			}
 			
 			return false;

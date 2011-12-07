@@ -46,10 +46,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
-import com.leclercb.commons.api.utils.ArrayUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -120,7 +121,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 			return;
 		}
 		
-		this.setExtraTasks(ArrayUtils.concat(this.tasks, tasks));
+		this.setExtraTasks(ArrayUtils.addAll(this.tasks, tasks));
 	}
 	
 	@Override

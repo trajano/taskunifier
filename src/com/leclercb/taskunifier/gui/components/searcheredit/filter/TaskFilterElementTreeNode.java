@@ -37,9 +37,10 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsBuilder;
-import com.leclercb.commons.api.utils.HashCodeBuilder;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 
 public class TaskFilterElementTreeNode implements TreeNode {
@@ -104,7 +105,7 @@ public class TaskFilterElementTreeNode implements TreeNode {
 		if (o instanceof TaskFilterElementTreeNode) {
 			TaskFilterElementTreeNode node = (TaskFilterElementTreeNode) o;
 			
-			return new EqualsBuilder().append(this.element, node.element).isEqual();
+			return new EqualsBuilder().append(this.element, node.element).isEquals();
 		}
 		
 		return false;

@@ -37,7 +37,7 @@ import java.awt.PopupMenu;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 import com.apple.eawt.Application;
 import com.apple.eawt.ApplicationAdapter;

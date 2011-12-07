@@ -18,7 +18,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.taskunifier.gui.components.help.Help;
@@ -55,7 +55,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.editAction.setEnabled(canEdit);
 		
 		this.flagSetText = true;
-		this.textNote.setText(StringEscapeUtils.unescapeHtml(text));
+		this.textNote.setText(StringEscapeUtils.unescapeHtml4(text));
 		this.flagSetText = false;
 		
 		if (discardAllEdits) {
