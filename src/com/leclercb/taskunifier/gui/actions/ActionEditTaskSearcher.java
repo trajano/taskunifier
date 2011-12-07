@@ -142,12 +142,10 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditTaskSearcher.editTaskSearcher();
+		ActionEditTaskSearcher.editTaskSearcher(ViewType.getSelectedOriginalTaskSearcher());
 	}
 	
-	public static void editTaskSearcher() {
-		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
-		
+	public static void editTaskSearcher(TaskSearcher searcher) {
 		if (searcher == null)
 			return;
 		

@@ -21,6 +21,7 @@ import javax.swing.event.HyperlinkListener;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -119,6 +120,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		};
 		
 		toolBar.add(this.editAction);
+		toolBar.add(Help.getHelpButton("task_note"));
 		
 		JPanel htmlPanel = new JPanel(new BorderLayout());
 		htmlPanel.add(toolBar, BorderLayout.NORTH);

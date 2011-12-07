@@ -18,6 +18,7 @@
 	<mapID target="task_contacts" url="pages/task_contacts.html" />
 	<mapID target="task_importance" url="pages/task_importance.html" />
 	<mapID target="task_manually_sort_tasks" url="pages/task_manually_sort_tasks.html" />
+	<mapID target="task_note" url="pages/task_note.html" />
 	<mapID target="task_quick_add" url="pages/task_quick_add.html" />
 	<mapID target="task_repeat" url="pages/task_repeat.html" />
 	<mapID target="task_searcher" url="pages/task_searcher.html" />

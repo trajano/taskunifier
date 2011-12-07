@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
@@ -44,6 +45,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondit
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -84,14 +86,25 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 					task));
 		}
 		
-		TaskSearcherFactory.getInstance().create(
+		TaskSearcher searcher = TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.PERSONAL,
 				Integer.MAX_VALUE,
 				Translations.getString("searcher.default.title"),
 				filter,
 				Constants.getDefaultTaskSorter());
 		
-		ActionEditTaskSearcher.editTaskSearcher();
+		ViewType type = MainFrame.getInstance().getSelectedViewType();
+		
+		switch (type) {
+			case TASKS:
+				ViewType.getTaskView().getTaskSearcherView().selectTaskSearcher(
+						searcher);
+			case CALENDAR:
+				ViewType.getCalendarView().getTaskSearcherView().selectTaskSearcher(
+						searcher);
+		}
+		
+		ActionEditTaskSearcher.editTaskSearcher(searcher);
 	}
 	
 }

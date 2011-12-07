@@ -80,6 +80,7 @@ import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.TagItem;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -279,7 +280,8 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					if (node instanceof TagItem)
 						TaskSearcherPanel.this.openManageTags((TagItem) node);
 					
-					ActionEditTaskSearcher.editTaskSearcher();
+					if (node instanceof SearcherItem)
+						ActionEditTaskSearcher.editTaskSearcher(((SearcherItem) node).getTaskSearcher());
 				}
 			}
 			
