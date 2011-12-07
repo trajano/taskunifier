@@ -202,6 +202,9 @@ public class Main {
 						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						
 						if (SystemUtils.IS_OS_WINDOWS)
+							laf = LookAndFeelUtils.getLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
+						
+						if (SystemUtils.IS_OS_LINUX)
 							laf = LookAndFeelUtils.getLookAndFeel("com.jtattoo.plaf.fast.FastLookAndFeel$Blue");
 						
 						if (laf != null) {
