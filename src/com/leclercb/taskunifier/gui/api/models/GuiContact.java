@@ -43,7 +43,7 @@ public class GuiContact extends Contact implements GuiModel {
 	
 	private Color color;
 	
-	public GuiContact(GuiContactBean bean) {
+	public GuiContact(ContactBean bean) {
 		super(bean);
 	}
 	

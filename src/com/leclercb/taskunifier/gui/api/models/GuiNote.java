@@ -2,11 +2,11 @@ package com.leclercb.taskunifier.gui.api.models;
 
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.gui.api.models.beans.GuiNoteBean;
+import com.leclercb.taskunifier.api.models.beans.NoteBean;
 
 public class GuiNote extends Note {
 	
-	public GuiNote(GuiNoteBean bean) {
+	public GuiNote(NoteBean bean) {
 		super(bean);
 	}
 	

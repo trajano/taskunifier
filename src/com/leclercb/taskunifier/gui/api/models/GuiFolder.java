@@ -43,7 +43,7 @@ public class GuiFolder extends Folder implements GuiModel {
 	
 	private Color color;
 	
-	public GuiFolder(GuiFolderBean bean) {
+	public GuiFolder(FolderBean bean) {
 		super(bean);
 	}
 	

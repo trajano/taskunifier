@@ -44,7 +44,7 @@ public class GuiGoal extends Goal implements GuiModel {
 	
 	private Color color;
 	
-	public GuiGoal(GuiGoalBean bean) {
+	public GuiGoal(GoalBean bean) {
 		super(bean);
 	}
 	

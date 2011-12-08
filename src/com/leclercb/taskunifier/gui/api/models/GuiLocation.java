@@ -43,7 +43,7 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	private Color color;
 	
-	public GuiLocation(GuiLocationBean bean) {
+	public GuiLocation(LocationBean bean) {
 		super(bean);
 	}
 	

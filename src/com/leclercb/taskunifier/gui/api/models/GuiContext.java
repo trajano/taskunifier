@@ -43,7 +43,7 @@ public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;
 	
-	public GuiContext(GuiContextBean bean) {
+	public GuiContext(ContextBean bean) {
 		super(bean);
 	}
 	
