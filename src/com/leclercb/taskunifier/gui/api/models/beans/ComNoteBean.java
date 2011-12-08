@@ -6,13 +6,12 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.beans.NoteBean;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class ComNoteBean extends NoteBean {
+public class ComNoteBean extends GuiNoteBean {
 	
 	@XStreamAlias("foldertitle")
 	private String folderTitle;

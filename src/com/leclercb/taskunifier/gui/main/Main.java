@@ -86,12 +86,14 @@ import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiFolder;
 import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
+import com.leclercb.taskunifier.gui.api.models.GuiNote;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContactBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContextBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiFolderBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiGoalBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiLocationBean;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
@@ -587,6 +589,7 @@ public class Main {
 		LocationFactory.initializeWithClass(
 				GuiLocation.class,
 				GuiLocationBean.class);
+		NoteFactory.initializeWithClass(GuiNote.class, GuiNoteBean.class);
 		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
 		loadAllData(DATA_FOLDER);

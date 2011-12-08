@@ -67,6 +67,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
+import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.GoalModel;
@@ -389,7 +390,7 @@ public class BatchTaskEditPanel extends JPanel {
 				
 				ActionPostponeTaskBeans action = (ActionPostponeTaskBeans) evt.getSource();
 				
-				TaskBean bean = new TaskBean();
+				GuiTaskBean bean = new GuiTaskBean();
 				bean.setStartDate(BatchTaskEditPanel.this.taskStartDate.getCalendar());
 				bean.setDueDate(BatchTaskEditPanel.this.taskDueDate.getCalendar());
 				

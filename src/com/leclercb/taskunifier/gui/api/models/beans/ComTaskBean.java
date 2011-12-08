@@ -14,13 +14,12 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class ComTaskBean extends TaskBean {
+public class ComTaskBean extends GuiTaskBean {
 	
 	@XStreamAlias("foldertitle")
 	private String folderTitle;
