@@ -55,16 +55,16 @@ public class ModelTransferData implements Serializable {
 	private ModelId[] ids;
 	
 	public ModelTransferData(ModelType type, ModelId id) {
-		CheckUtils.isNotNull(type, "Type cannot be null");
-		CheckUtils.isNotNull(id, "ID cannot be null");
+		CheckUtils.isNotNull(type);
+		CheckUtils.isNotNull(id);
 		
 		this.type = type;
 		this.ids = new ModelId[] { id };
 	}
 	
 	public ModelTransferData(ModelType type, ModelId[] ids) {
-		CheckUtils.isNotNull(type, "Type cannot be null");
-		CheckUtils.isNotNull(ids, "IDs cannot be null");
+		CheckUtils.isNotNull(type);
+		CheckUtils.isNotNull(ids);
 		
 		this.type = type;
 		this.ids = Arrays.copyOf(ids, ids.length);

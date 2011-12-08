@@ -20,7 +20,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 	private TasksCalendarPanel calendarPanel;
 	
 	public DefaultCalendarView(MainView mainView) {
-		CheckUtils.isNotNull(mainView, "Main view cannot be null");
+		CheckUtils.isNotNull(mainView);
 		this.mainView = mainView;
 		
 		this.initialize();

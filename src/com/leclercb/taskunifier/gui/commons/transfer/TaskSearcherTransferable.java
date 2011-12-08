@@ -54,7 +54,7 @@ public class TaskSearcherTransferable implements Transferable {
 	private TaskSearcherTransferData data;
 	
 	public TaskSearcherTransferable(TaskSearcherTransferData data) {
-		CheckUtils.isNotNull(data, "Data cannot be null");
+		CheckUtils.isNotNull(data);
 		this.data = data;
 	}
 	

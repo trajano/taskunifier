@@ -43,7 +43,7 @@ public class ModelSelectionChangeSupport implements ModelSelectionChangeSupporte
 	private Object source;
 	
 	public ModelSelectionChangeSupport(Object source) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.listeners = new ListenerList<ModelSelectionListener>();
 		this.source = source;

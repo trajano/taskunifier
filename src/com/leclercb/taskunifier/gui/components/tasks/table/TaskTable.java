@@ -228,7 +228,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 	}
 	
 	public void setTaskSearcher(TaskSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Task searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		
 		TaskRowComparator.getInstance().setTaskSearcher(searcher);
 		

@@ -51,8 +51,8 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	private ModelId id;
 	
 	public ModelDeleteUndoableEdit(ModelType type, ModelId id) {
-		CheckUtils.isNotNull(type, "Model type cannot be null");
-		CheckUtils.isNotNull(id, "Model ID cannot be null");
+		CheckUtils.isNotNull(type);
+		CheckUtils.isNotNull(id);
 		
 		this.type = type;
 		this.id = id;

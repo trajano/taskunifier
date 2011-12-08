@@ -43,7 +43,7 @@ public class NoteSearcherSelectionChangeSupport implements NoteSearcherSelection
 	private Object source;
 	
 	public NoteSearcherSelectionChangeSupport(Object source) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.listeners = new ListenerList<NoteSearcherSelectionListener>();
 		this.source = source;

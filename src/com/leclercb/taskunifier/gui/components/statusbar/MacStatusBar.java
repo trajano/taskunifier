@@ -54,7 +54,7 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 	public MacStatusBar(ScheduledSyncThread thread) {
 		super(BottomBarSize.LARGE);
 		
-		CheckUtils.isNotNull(thread, "Thread cannot be null");
+		CheckUtils.isNotNull(thread);
 		this.thread = thread;
 		
 		this.initialize();

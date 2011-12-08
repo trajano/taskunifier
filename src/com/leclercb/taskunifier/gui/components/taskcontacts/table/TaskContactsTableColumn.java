@@ -75,7 +75,7 @@ public class TaskContactsTableColumn extends TableColumnExt {
 	public TaskContactsTableColumn(TaskContactsColumn column) {
 		super(column.ordinal());
 		
-		CheckUtils.isNotNull(column, "Task contacts column cannot be null");
+		CheckUtils.isNotNull(column);
 		
 		this.column = column;
 		

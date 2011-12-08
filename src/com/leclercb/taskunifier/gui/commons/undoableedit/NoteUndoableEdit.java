@@ -54,8 +54,8 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 			NoteColumn column,
 			Object newValue,
 			Object oldValue) {
-		CheckUtils.isNotNull(note, "Note cannot be null");
-		CheckUtils.isNotNull(column, "Column cannot be null");
+		CheckUtils.isNotNull(note);
+		CheckUtils.isNotNull(column);
 		
 		this.note = note;
 		this.column = column;

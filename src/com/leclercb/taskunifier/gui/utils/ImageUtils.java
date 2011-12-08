@@ -58,7 +58,7 @@ public final class ImageUtils {
 		private int height;
 		
 		public ImageInfo(String file, int width, int height) {
-			CheckUtils.isNotNull(file, "File cannot be null");
+			CheckUtils.isNotNull(file);
 			this.file = file;
 			this.width = width;
 			this.height = height;

@@ -37,6 +37,7 @@ import java.awt.Color;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.LocationBean;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiLocationBean;
 
 public class GuiLocation extends Location implements GuiModel {
@@ -71,7 +72,7 @@ public class GuiLocation extends Location implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(LocationBean bean) {
+	public void loadBean(ModelBean bean) {
 		if (bean instanceof GuiLocationBean)
 			this.setColor(((GuiLocationBean) bean).getColor());
 		
@@ -79,7 +80,7 @@ public class GuiLocation extends Location implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(LocationBean bean) {
+	public void toBean(ModelBean bean) {
 		if (bean instanceof GuiLocationBean)
 			((GuiLocationBean) bean).setColor(this.getColor());
 		

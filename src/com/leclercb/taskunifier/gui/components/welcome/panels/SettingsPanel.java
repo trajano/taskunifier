@@ -56,8 +56,8 @@ public class SettingsPanel extends CardPanel {
 	}
 	
 	public void reset(String title, ConfigurationPanel panel) {
-		CheckUtils.isNotNull(title, "Title cannot be null");
-		CheckUtils.isNotNull(panel, "Panel cannot be null");
+		CheckUtils.isNotNull(title);
+		CheckUtils.isNotNull(panel);
 		
 		this.title = title;
 		this.panel = panel;

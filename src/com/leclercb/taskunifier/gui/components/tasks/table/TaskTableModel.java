@@ -56,7 +56,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 	private UndoSupport undoSupport;
 	
 	public TaskTableModel(UndoSupport undoSupport) {
-		CheckUtils.isNotNull(undoSupport, "Undo support cannot be null");
+		CheckUtils.isNotNull(undoSupport);
 		this.undoSupport = undoSupport;
 		
 		TaskFactory.getInstance().addListChangeListener(this);

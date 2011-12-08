@@ -45,7 +45,7 @@ public class TaskSorterTransferData implements Serializable {
 	}
 	
 	public TaskSorterTransferData(int[] elementIndexes) {
-		CheckUtils.isNotNull(elementIndexes, "Element indexes cannot be null");
+		CheckUtils.isNotNull(elementIndexes);
 		
 		this.elementIndexes = elementIndexes;
 	}

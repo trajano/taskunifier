@@ -43,7 +43,7 @@ public class NoteSearcherSelectionChangeEvent {
 	public NoteSearcherSelectionChangeEvent(
 			Object source,
 			NoteSearcher selectedNoteSearcher) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.source = source;
 		this.selectedNoteSearcher = selectedNoteSearcher;

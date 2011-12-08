@@ -61,7 +61,7 @@ public class TaskTableMenu extends JPopupMenu {
 	public TaskTableMenu(TaskTableView taskTableView) {
 		super(Translations.getString("general.task"));
 		
-		CheckUtils.isNotNull(taskTableView, "Task table view cannot be null");
+		CheckUtils.isNotNull(taskTableView);
 		this.taskTableView = taskTableView;
 		
 		this.initialize();

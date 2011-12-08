@@ -31,7 +31,7 @@ public abstract class AbstractViewAction extends AbstractAction {
 	}
 	
 	private void initialize(final ViewType... enabledViews) {
-		CheckUtils.isNotNull(enabledViews, "Enabled views cannot be null");
+		CheckUtils.isNotNull(enabledViews);
 		
 		this.enabledViews = enabledViews;
 		

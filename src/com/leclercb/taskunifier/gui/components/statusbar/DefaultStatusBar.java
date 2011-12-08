@@ -51,7 +51,7 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	private JLabel currentDateTime;
 	
 	public DefaultStatusBar(ScheduledSyncThread thread) {
-		CheckUtils.isNotNull(thread, "Thread cannot be null");
+		CheckUtils.isNotNull(thread);
 		this.thread = thread;
 		
 		this.initialize();

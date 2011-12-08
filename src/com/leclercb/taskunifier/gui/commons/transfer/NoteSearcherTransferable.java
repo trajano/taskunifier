@@ -54,7 +54,7 @@ public class NoteSearcherTransferable implements Transferable {
 	private NoteSearcherTransferData data;
 	
 	public NoteSearcherTransferable(NoteSearcherTransferData data) {
-		CheckUtils.isNotNull(data, "Data cannot be null");
+		CheckUtils.isNotNull(data);
 		this.data = data;
 	}
 	

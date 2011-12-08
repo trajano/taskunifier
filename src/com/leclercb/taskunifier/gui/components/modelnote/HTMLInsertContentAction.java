@@ -49,9 +49,9 @@ public class HTMLInsertContentAction extends AbstractAction {
 			JTextArea textArea,
 			String image,
 			String content) {
-		CheckUtils.isNotNull(textArea, "Text area cannot be null");
-		CheckUtils.isNotNull(image, "Image cannot be null");
-		CheckUtils.isNotNull(content, "Content cannot be null");
+		CheckUtils.isNotNull(textArea);
+		CheckUtils.isNotNull(image);
+		CheckUtils.isNotNull(content);
 		
 		this.textArea = textArea;
 		this.content = content;
@@ -63,7 +63,7 @@ public class HTMLInsertContentAction extends AbstractAction {
 	}
 	
 	public void setContent(String content) {
-		CheckUtils.isNotNull(content, "Content cannot be null");
+		CheckUtils.isNotNull(content);
 		this.content = content;
 	}
 	

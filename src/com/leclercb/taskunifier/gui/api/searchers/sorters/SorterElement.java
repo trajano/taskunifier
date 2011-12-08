@@ -71,7 +71,7 @@ public class SorterElement<M extends Model, MP extends ModelProperties<M>> imple
 	}
 	
 	public void setProperty(MP property) {
-		CheckUtils.isNotNull(property, "Property cannot be null");
+		CheckUtils.isNotNull(property);
 		MP oldProperty = this.property;
 		this.property = property;
 		this.propertyChangeSupport.firePropertyChange(
@@ -85,7 +85,7 @@ public class SorterElement<M extends Model, MP extends ModelProperties<M>> imple
 	}
 	
 	public void setSortOrder(SortOrder sortOrder) {
-		CheckUtils.isNotNull(sortOrder, "Sort order cannot be null");
+		CheckUtils.isNotNull(sortOrder);
 		SortOrder oldSortOrder = this.sortOrder;
 		this.sortOrder = sortOrder;
 		this.propertyChangeSupport.firePropertyChange(

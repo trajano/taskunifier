@@ -66,8 +66,8 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 				Translations.getString("action.undo"),
 				ImageUtils.getResourceImage("undo.png", width, height));
 		
-		CheckUtils.isNotNull(undoManager, "Undo manager cannot be null");
-		CheckUtils.isNotNull(editSupport, "Edit support cannot be null");
+		CheckUtils.isNotNull(undoManager);
+		CheckUtils.isNotNull(editSupport);
 		
 		this.undoManager = undoManager;
 		this.editSupport = editSupport;

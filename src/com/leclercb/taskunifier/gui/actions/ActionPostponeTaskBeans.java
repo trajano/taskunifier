@@ -44,8 +44,8 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		
-		CheckUtils.isNotNull(listener, "Listener cannot be null");
-		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		CheckUtils.isNotNull(listener);
+		CheckUtils.isNotNull(type);
 		
 		this.listener = listener;
 		this.type = type;
@@ -80,7 +80,7 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 			PostponeType type,
 			int field,
 			int amount) {
-		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		CheckUtils.isNotNull(type);
 		
 		if (tasks == null)
 			return;

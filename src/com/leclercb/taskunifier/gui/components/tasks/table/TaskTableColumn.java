@@ -251,7 +251,7 @@ public class TaskTableColumn extends TableColumnExt {
 	public TaskTableColumn(TaskColumn taskColumn) {
 		super(taskColumn.ordinal());
 		
-		CheckUtils.isNotNull(taskColumn, "Task column cannot be null");
+		CheckUtils.isNotNull(taskColumn);
 		
 		this.taskColumn = taskColumn;
 		

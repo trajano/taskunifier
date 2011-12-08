@@ -234,8 +234,8 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			this.first = true;
 			this.propertyName = propertyName;
 			
-			CheckUtils.isNotNull(labels, "Labels cannot be null");
-			CheckUtils.isNotNull(values, "Values cannot be null");
+			CheckUtils.isNotNull(labels);
+			CheckUtils.isNotNull(values);
 			
 			if (labels.length != values.length)
 				throw new IllegalArgumentException();

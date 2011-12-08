@@ -61,7 +61,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	public TagItem(Tag tag) {
 		super(tag);
 		
-		CheckUtils.isNotNull(tag, "Tag cannot be null");
+		CheckUtils.isNotNull(tag);
 		
 		this.initializeTaskSearcher();
 		this.updateBadgeCount();

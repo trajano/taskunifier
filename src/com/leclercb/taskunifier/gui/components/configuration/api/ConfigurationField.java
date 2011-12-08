@@ -64,7 +64,7 @@ public class ConfigurationField {
 	}
 	
 	public void setId(String id) {
-		CheckUtils.isNotNull(id, "Id cannot be null");
+		CheckUtils.isNotNull(id);
 		this.id = id;
 	}
 	
@@ -89,7 +89,7 @@ public class ConfigurationField {
 	}
 	
 	private void setType(ConfigurationFieldType<?, ?> type) {
-		CheckUtils.isNotNull(type, "Type cannot be null");
+		CheckUtils.isNotNull(type);
 		this.type = type;
 	}
 	

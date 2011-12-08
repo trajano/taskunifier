@@ -52,7 +52,7 @@ public class TaskFilterTreeNode implements TreeNode {
 	private TaskFilter filter;
 	
 	public TaskFilterTreeNode(TaskFilter filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		CheckUtils.isNotNull(filter);
 		this.filter = filter;
 	}
 	

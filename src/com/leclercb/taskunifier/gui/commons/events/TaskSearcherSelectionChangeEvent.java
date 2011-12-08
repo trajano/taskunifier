@@ -43,7 +43,7 @@ public class TaskSearcherSelectionChangeEvent {
 	public TaskSearcherSelectionChangeEvent(
 			Object source,
 			TaskSearcher selectedTaskSearcher) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.source = source;
 		this.selectedTaskSearcher = selectedTaskSearcher;

@@ -80,7 +80,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 	private JButton removeButton;
 	
 	public ModelList(ModelListModel model, JTextField titleField) {
-		CheckUtils.isNotNull(titleField, "Title field cannot be null");
+		CheckUtils.isNotNull(titleField);
 		this.titleField = titleField;
 		
 		this.initialize(model);

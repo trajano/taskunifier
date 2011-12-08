@@ -54,7 +54,7 @@ public class TaskSorterTransferable implements Transferable {
 	private TaskSorterTransferData data;
 	
 	public TaskSorterTransferable(TaskSorterTransferData data) {
-		CheckUtils.isNotNull(data, "Data cannot be null");
+		CheckUtils.isNotNull(data);
 		this.data = data;
 	}
 	

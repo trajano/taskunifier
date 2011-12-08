@@ -71,8 +71,8 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	}
 	
 	public void checkAndSet(MP property, Condition<?, ?> condition, Object value) {
-		CheckUtils.isNotNull(property, "Property cannot be null");
-		CheckUtils.isNotNull(condition, "Condition cannot be null");
+		CheckUtils.isNotNull(property);
+		CheckUtils.isNotNull(condition);
 		
 		this.check(property, condition, value);
 		
@@ -99,7 +99,7 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	}
 	
 	private PropertyChangeEvent setProperty(MP property) {
-		CheckUtils.isNotNull(property, "Property cannot be null");
+		CheckUtils.isNotNull(property);
 		MP oldProperty = this.property;
 		this.property = property;
 		return new PropertyChangeEvent(
@@ -114,7 +114,7 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	}
 	
 	private PropertyChangeEvent setCondition(Condition<?, ?> condition) {
-		CheckUtils.isNotNull(condition, "Condition cannot be null");
+		CheckUtils.isNotNull(condition);
 		Condition<?, ?> oldCondition = this.condition;
 		this.condition = condition;
 		return new PropertyChangeEvent(

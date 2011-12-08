@@ -43,7 +43,7 @@ public class TaskSearcherSelectionChangeSupport implements TaskSearcherSelection
 	private Object source;
 	
 	public TaskSearcherSelectionChangeSupport(Object source) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.listeners = new ListenerList<TaskSearcherSelectionListener>();
 		this.source = source;

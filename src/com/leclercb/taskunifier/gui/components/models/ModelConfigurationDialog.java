@@ -95,7 +95,7 @@ public class ModelConfigurationDialog extends JDialog {
 	}
 	
 	public void setSelectedModelConfigurationTab(ModelConfigurationTab tab) {
-		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
+		CheckUtils.isNotNull(tab);
 		this.tabbedPane.setSelectedIndex(tab.ordinal());
 	}
 	

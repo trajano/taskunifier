@@ -43,7 +43,7 @@ public class NoteSearcherTransferData implements Serializable {
 	private String searcher;
 	
 	public NoteSearcherTransferData(NoteSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		this.searcher = searcher.getId();
 	}
 	

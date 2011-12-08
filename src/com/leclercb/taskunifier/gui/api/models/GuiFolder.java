@@ -37,6 +37,7 @@ import java.awt.Color;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.FolderBean;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiFolderBean;
 
 public class GuiFolder extends Folder implements GuiModel {
@@ -71,7 +72,7 @@ public class GuiFolder extends Folder implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(FolderBean bean) {
+	public void loadBean(ModelBean bean) {
 		if (bean instanceof GuiFolderBean)
 			this.setColor(((GuiFolderBean) bean).getColor());
 		
@@ -79,7 +80,7 @@ public class GuiFolder extends Folder implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(FolderBean bean) {
+	public void toBean(ModelBean bean) {
 		if (bean instanceof GuiFolderBean)
 			((GuiFolderBean) bean).setColor(this.getColor());
 		

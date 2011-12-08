@@ -86,7 +86,7 @@ public class RepeatUtils {
 	}
 	
 	public static Task createRepeatTask(Task task, String repeat) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
+		CheckUtils.isNotNull(task);
 		
 		Calendar startDate = null;
 		Calendar dueDate = null;

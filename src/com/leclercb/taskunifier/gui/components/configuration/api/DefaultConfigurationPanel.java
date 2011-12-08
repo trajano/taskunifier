@@ -115,7 +115,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	}
 	
 	public ConfigurationField getField(String id) {
-		CheckUtils.isNotNull(id, "Id cannot be null");
+		CheckUtils.isNotNull(id);
 		
 		for (ConfigurationField field : this.fields)
 			if (EqualsUtils.equals(id, field.getId()))
@@ -130,7 +130,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	}
 	
 	public void addField(ConfigurationField field) {
-		CheckUtils.isNotNull(field, "Field cannot be null");
+		CheckUtils.isNotNull(field);
 		
 		if (this.getField(field.getId()) != null)
 			throw new IllegalArgumentException(

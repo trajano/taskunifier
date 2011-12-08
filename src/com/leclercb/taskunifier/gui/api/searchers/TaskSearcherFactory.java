@@ -129,7 +129,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public void register(TaskSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		
 		if (this.contains(searcher))
 			return;
@@ -144,7 +144,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public void unregister(TaskSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		
 		int index = this.searchers.indexOf(searcher);
 		if (this.searchers.remove(searcher)) {

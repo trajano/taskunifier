@@ -124,7 +124,7 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	private void setId(String id) {
-		CheckUtils.isNotNull(id, "ID cannot be null");
+		CheckUtils.isNotNull(id);
 		this.id = id;
 	}
 	
@@ -133,7 +133,7 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	public void setType(NoteSearcherType type) {
-		CheckUtils.isNotNull(type, "Type cannot be null");
+		CheckUtils.isNotNull(type);
 		NoteSearcherType oldType = this.type;
 		this.type = type;
 		this.propertyChangeSupport.firePropertyChange(PROP_TYPE, oldType, type);
@@ -157,7 +157,7 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	public void setTitle(String title) {
-		CheckUtils.isNotNull(title, "Title cannot be null");
+		CheckUtils.isNotNull(title);
 		String oldTitle = this.title;
 		this.title = title;
 		this.propertyChangeSupport.firePropertyChange(
@@ -181,7 +181,7 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	public void setFilter(NoteFilter filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		CheckUtils.isNotNull(filter);
 		
 		if (this.filter != null) {
 			this.filter.removeListChangeListener(this);
@@ -205,7 +205,7 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	public void setSorter(NoteSorter sorter) {
-		CheckUtils.isNotNull(sorter, "Sorter cannot be null");
+		CheckUtils.isNotNull(sorter);
 		
 		if (this.sorter != null) {
 			this.sorter.removeListChangeListener(this);

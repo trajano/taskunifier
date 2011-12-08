@@ -53,7 +53,7 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 	private UndoSupport undoSupport;
 	
 	public NoteTableModel(UndoSupport undoSupport) {
-		CheckUtils.isNotNull(undoSupport, "Undo support cannot be null");
+		CheckUtils.isNotNull(undoSupport);
 		this.undoSupport = undoSupport;
 		
 		NoteFactory.getInstance().addListChangeListener(this);

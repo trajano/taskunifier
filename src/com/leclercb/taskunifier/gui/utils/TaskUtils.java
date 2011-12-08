@@ -342,8 +342,8 @@ public final class TaskUtils {
 	}
 	
 	public static String[][] toStringData(Task[] tasks, TaskColumn[] columns) {
-		CheckUtils.isNotNull(tasks, "Tasks cannot be null");
-		CheckUtils.isNotNull(columns, "Columns cannot be null");
+		CheckUtils.isNotNull(tasks);
+		CheckUtils.isNotNull(columns);
 		
 		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
 		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
@@ -481,7 +481,7 @@ public final class TaskUtils {
 	}
 	
 	public static int getImportance(Task task) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
+		CheckUtils.isNotNull(task);
 		
 		int importance = 2;
 		

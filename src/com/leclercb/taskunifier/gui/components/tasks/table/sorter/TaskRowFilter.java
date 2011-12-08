@@ -55,7 +55,7 @@ public class TaskRowFilter extends RowFilter<TableModel, Integer> {
 	}
 	
 	public void setFilter(TaskFilter filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		CheckUtils.isNotNull(filter);
 		this.filter = filter;
 	}
 	

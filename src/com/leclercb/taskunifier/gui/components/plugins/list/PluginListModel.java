@@ -53,7 +53,7 @@ public class PluginListModel extends AbstractListModel implements PropertyChange
 	}
 	
 	public void setPlugins(Plugin[] plugins) {
-		CheckUtils.isNotNull(plugins, "Plugins cannot be null");
+		CheckUtils.isNotNull(plugins);
 		
 		if (this.plugins != null)
 			for (Plugin plugin : this.plugins)

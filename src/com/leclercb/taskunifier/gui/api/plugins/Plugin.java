@@ -96,7 +96,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setStatus(PluginStatus status) {
-		CheckUtils.isNotNull(status, "Status cannot be null");
+		CheckUtils.isNotNull(status);
 		PluginStatus oldStatus = this.status;
 		this.status = status;
 		this.propertyChangeSupport.firePropertyChange(
@@ -110,7 +110,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setId(String id) {
-		CheckUtils.isNotNull(id, "Id cannot be null");
+		CheckUtils.isNotNull(id);
 		String oldId = this.id;
 		this.id = id;
 		this.propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
@@ -121,7 +121,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setName(String name) {
-		CheckUtils.isNotNull(name, "Name cannot be null");
+		CheckUtils.isNotNull(name);
 		String oldName = this.name;
 		this.name = name;
 		this.propertyChangeSupport.firePropertyChange(PROP_NAME, oldName, name);
@@ -132,7 +132,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setAuthor(String author) {
-		CheckUtils.isNotNull(author, "Author cannot be null");
+		CheckUtils.isNotNull(author);
 		String oldAuthor = this.author;
 		this.author = author;
 		this.propertyChangeSupport.firePropertyChange(
@@ -146,7 +146,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setVersion(String version) {
-		CheckUtils.isNotNull(version, "Version cannot be null");
+		CheckUtils.isNotNull(version);
 		String oldVersion = this.version;
 		this.version = version;
 		this.propertyChangeSupport.firePropertyChange(
@@ -160,7 +160,7 @@ public class Plugin implements PropertyChangeSupported {
 	}
 	
 	public void setServiceProvider(String serviceProvider) {
-		CheckUtils.isNotNull(serviceProvider, "Service provider cannot be null");
+		CheckUtils.isNotNull(serviceProvider);
 		String oldServiceProvider = this.serviceProvider;
 		this.serviceProvider = serviceProvider;
 		this.propertyChangeSupport.firePropertyChange(

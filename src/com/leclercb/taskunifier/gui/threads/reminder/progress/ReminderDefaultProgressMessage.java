@@ -8,7 +8,7 @@ public class ReminderDefaultProgressMessage implements ReminderProgressMessage {
 	private Task task;
 	
 	public ReminderDefaultProgressMessage(Task task) {
-		CheckUtils.isNotNull(task, "Task cannot be null");
+		CheckUtils.isNotNull(task);
 		this.task = task;
 	}
 	

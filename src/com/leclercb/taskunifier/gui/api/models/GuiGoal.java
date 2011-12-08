@@ -37,6 +37,7 @@ import java.awt.Color;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.GoalBean;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiGoalBean;
 
@@ -80,7 +81,7 @@ public class GuiGoal extends Goal implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(GoalBean bean) {
+	public void loadBean(ModelBean bean) {
 		if (bean instanceof GuiGoalBean)
 			this.setColor(((GuiGoalBean) bean).getColor());
 		
@@ -88,7 +89,7 @@ public class GuiGoal extends Goal implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(GoalBean bean) {
+	public void toBean(ModelBean bean) {
 		if (bean instanceof GuiGoalBean)
 			((GuiGoalBean) bean).setColor(this.getColor());
 		

@@ -43,7 +43,7 @@ public class TaskSearcherTransferData implements Serializable {
 	private String searcher;
 	
 	public TaskSearcherTransferData(TaskSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		this.searcher = searcher.getId();
 	}
 	

@@ -100,7 +100,7 @@ public class NoteTableColumn extends TableColumnExt {
 	public NoteTableColumn(NoteColumn noteColumn) {
 		super(noteColumn.ordinal());
 		
-		CheckUtils.isNotNull(noteColumn, "Note column cannot be null");
+		CheckUtils.isNotNull(noteColumn);
 		
 		this.noteColumn = noteColumn;
 		

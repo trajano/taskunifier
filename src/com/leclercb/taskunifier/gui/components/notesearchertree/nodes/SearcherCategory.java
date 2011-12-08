@@ -44,7 +44,7 @@ public class SearcherCategory extends DefaultMutableTreeNode {
 	public SearcherCategory(NoteSearcherType type, String expandedPropetyName) {
 		super(type);
 		
-		CheckUtils.isNotNull(type, "Type cannot be null");
+		CheckUtils.isNotNull(type);
 		
 		this.expandedPropetyName = expandedPropetyName;
 	}

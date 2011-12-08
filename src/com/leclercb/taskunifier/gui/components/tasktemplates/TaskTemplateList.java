@@ -80,7 +80,7 @@ abstract class TaskTemplateList extends JPanel {
 	private JButton defaultButton;
 	
 	public TaskTemplateList(JTextField titleField) {
-		CheckUtils.isNotNull(titleField, "Title field cannot be null");
+		CheckUtils.isNotNull(titleField);
 		this.titleField = titleField;
 		
 		this.initialize();

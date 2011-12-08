@@ -78,7 +78,7 @@ public final class ComponentFactory {
 	}
 	
 	public static void createRepeatComboBox(JComboBox repeatComboBox) {
-		CheckUtils.isNotNull(repeatComboBox, "Repeat combobox cannot be null");
+		CheckUtils.isNotNull(repeatComboBox);
 		
 		repeatComboBox.setEditable(true);
 		

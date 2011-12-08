@@ -37,6 +37,7 @@ import java.awt.Color;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.ContactBean;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContactBean;
 
 public class GuiContact extends Contact implements GuiModel {
@@ -71,7 +72,7 @@ public class GuiContact extends Contact implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ContactBean bean) {
+	public void loadBean(ModelBean bean) {
 		if (bean instanceof GuiContactBean)
 			this.setColor(((GuiContactBean) bean).getColor());
 		
@@ -79,7 +80,7 @@ public class GuiContact extends Contact implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(ContactBean bean) {
+	public void toBean(ModelBean bean) {
 		if (bean instanceof GuiContactBean)
 			((GuiContactBean) bean).setColor(this.getColor());
 		

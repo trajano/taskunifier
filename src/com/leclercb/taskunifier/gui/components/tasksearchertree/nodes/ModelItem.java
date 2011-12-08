@@ -71,7 +71,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	public ModelItem(ModelType modelType, Model model) {
 		super(model);
 		
-		CheckUtils.isNotNull(modelType, "Model type cannot be null");
+		CheckUtils.isNotNull(modelType);
 		this.modelType = modelType;
 		
 		this.initializeTaskSearcher();

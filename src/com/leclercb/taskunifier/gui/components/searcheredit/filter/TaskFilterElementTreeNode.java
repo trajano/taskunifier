@@ -48,7 +48,7 @@ public class TaskFilterElementTreeNode implements TreeNode {
 	private TaskFilterElement element;
 	
 	public TaskFilterElementTreeNode(TaskFilterElement element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		this.element = element;
 	}
 	

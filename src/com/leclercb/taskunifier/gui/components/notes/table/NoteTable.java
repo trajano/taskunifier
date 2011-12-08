@@ -213,7 +213,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 	}
 	
 	public void setNoteSearcher(NoteSearcher searcher) {
-		CheckUtils.isNotNull(searcher, "Note searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		
 		NoteRowComparator.getInstance().setNoteSearcher(searcher);
 		

@@ -186,7 +186,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	@Override
 	public void setSelectedViewType(ViewType viewType) {
-		CheckUtils.isNotNull(viewType, "View cannot be null");
+		CheckUtils.isNotNull(viewType);
 		
 		if (this.selectedViewType == viewType)
 			return;

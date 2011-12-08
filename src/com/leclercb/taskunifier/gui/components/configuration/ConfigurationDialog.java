@@ -105,7 +105,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	}
 	
 	public void setSelectedConfigurationTab(ConfigurationTab tab) {
-		CheckUtils.isNotNull(tab, "Configuration tab cannot be null");
+		CheckUtils.isNotNull(tab);
 		this.tabbedPane.setSelectedIndex(tab.ordinal());
 	}
 	

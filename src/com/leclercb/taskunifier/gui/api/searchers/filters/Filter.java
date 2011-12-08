@@ -87,7 +87,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public void setLink(FilterLink link) {
-		CheckUtils.isNotNull(link, "Link cannot be null");
+		CheckUtils.isNotNull(link);
 		FilterLink oldLink = this.link;
 		this.link = link;
 		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
@@ -111,7 +111,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	
 	@SuppressWarnings("unchecked")
 	public void addElement(FE element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		this.elements.add(element);
 		
 		if (element.getParent() != null) {
@@ -128,7 +128,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public void removeElement(FE element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		
 		int index = this.elements.indexOf(element);
 		if (this.elements.remove(element)) {
@@ -166,7 +166,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	
 	@SuppressWarnings("unchecked")
 	public void addFilter(F filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		CheckUtils.isNotNull(filter);
 		this.filters.add(filter);
 		
 		if (filter.getParent() != null) {
@@ -184,7 +184,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public void removeFilter(F filter) {
-		CheckUtils.isNotNull(filter, "Filter cannot be null");
+		CheckUtils.isNotNull(filter);
 		
 		int index = this.filters.indexOf(filter);
 		if (this.filters.remove(filter)) {

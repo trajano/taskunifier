@@ -19,13 +19,9 @@ public class Growl {
 			String applicationName,
 			String[] allNotificationsList,
 			String[] enabledNotificationsList) {
-		CheckUtils.isNotNull(applicationName, "Application name cannot be null");
-		CheckUtils.isNotNull(
-				allNotificationsList,
-				"All notifications list cannot be null");
-		CheckUtils.isNotNull(
-				enabledNotificationsList,
-				"Enable notifications list cannot be null");
+		CheckUtils.isNotNull(applicationName);
+		CheckUtils.isNotNull(allNotificationsList);
+		CheckUtils.isNotNull(enabledNotificationsList);
 		
 		this.applicationName = applicationName;
 		this.allNotificationsList = allNotificationsList;

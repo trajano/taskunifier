@@ -44,7 +44,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		
 		this.putValue(SHORT_DESCRIPTION, title);
 		
-		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		CheckUtils.isNotNull(type);
 		
 		this.view = view;
 		this.type = type;
@@ -83,7 +83,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			PostponeType type,
 			int field,
 			int amount) {
-		CheckUtils.isNotNull(type, "Postpone type cannot be null");
+		CheckUtils.isNotNull(type);
 		
 		if (tasks == null)
 			return;

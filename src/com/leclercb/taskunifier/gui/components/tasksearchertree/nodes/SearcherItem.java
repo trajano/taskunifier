@@ -52,7 +52,7 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	public SearcherItem(TaskSearcher searcher) {
 		super(searcher);
 		
-		CheckUtils.isNotNull(searcher, "Searcher cannot be null");
+		CheckUtils.isNotNull(searcher);
 		
 		this.updateBadgeCount();
 	}

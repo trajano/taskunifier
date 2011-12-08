@@ -59,7 +59,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
 	@Override
 	public void decode(Node root) throws FactoryCoderException {
-		CheckUtils.isNotNull(root, "Root cannot be null");
+		CheckUtils.isNotNull(root);
 		
 		try {
 			NodeList nTaskSearchers = root.getChildNodes();

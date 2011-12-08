@@ -60,7 +60,7 @@ public class ActionAddTemplateTask extends AbstractAction {
 				width,
 				height));
 		
-		CheckUtils.isNotNull(template, "Template cannot be null");
+		CheckUtils.isNotNull(template);
 		this.template = template;
 		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());

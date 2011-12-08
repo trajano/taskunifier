@@ -41,7 +41,7 @@ public class ModelSelectionChangeEvent {
 	private Model[] selectedModels;
 	
 	public ModelSelectionChangeEvent(Object source, Model[] selectedModels) {
-		CheckUtils.isNotNull(source, "Source cannot be null");
+		CheckUtils.isNotNull(source);
 		
 		this.source = source;
 		this.selectedModels = selectedModels;

@@ -83,7 +83,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public void addElement(SE element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		this.elements.add(element);
 		element.addPropertyChangeListener(this);
 		int index = this.elements.indexOf(element);
@@ -94,7 +94,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public void insertElement(SE element, int index) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		this.elements.add(index, element);
 		element.addPropertyChangeListener(this);
 		this.listChangeSupport.fireListChange(
@@ -104,7 +104,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public void removeElement(SE element) {
-		CheckUtils.isNotNull(element, "Element cannot be null");
+		CheckUtils.isNotNull(element);
 		
 		int index = this.elements.indexOf(element);
 		if (this.elements.remove(element)) {

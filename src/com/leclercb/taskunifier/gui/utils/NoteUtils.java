@@ -146,8 +146,8 @@ public final class NoteUtils {
 	}
 	
 	public static String[][] toStringData(Note[] notes, NoteColumn[] columns) {
-		CheckUtils.isNotNull(notes, "Notes cannot be null");
-		CheckUtils.isNotNull(columns, "Columns cannot be null");
+		CheckUtils.isNotNull(notes);
+		CheckUtils.isNotNull(columns);
 		
 		List<String[]> data = new ArrayList<String[]>();
 		

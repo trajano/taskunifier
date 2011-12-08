@@ -121,7 +121,7 @@ public class TUWaitDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			CheckUtils.isNotNull(this.worker, "Worker cannot be null");
+			CheckUtils.isNotNull(this.worker);
 			this.worker.execute();
 		}
 		

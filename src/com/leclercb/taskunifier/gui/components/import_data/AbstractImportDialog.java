@@ -73,10 +73,8 @@ abstract class AbstractImportDialog extends JDialog {
 			String fileExtentionDescription) {
 		super(MainFrame.getInstance().getFrame());
 		
-		CheckUtils.isNotNull(fileExtention, "File extention cannot be null");
-		CheckUtils.isNotNull(
-				fileExtentionDescription,
-				"File extention description cannot be null");
+		CheckUtils.isNotNull(fileExtention);
+		CheckUtils.isNotNull(fileExtentionDescription);
 		
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;

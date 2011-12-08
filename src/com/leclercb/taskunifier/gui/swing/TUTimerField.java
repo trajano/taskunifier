@@ -78,7 +78,7 @@ public class TUTimerField extends JPanel {
 	}
 	
 	public void setTimer(Timer timer) {
-		CheckUtils.isNotNull(timer, "Timer cannot be null");
+		CheckUtils.isNotNull(timer);
 		this.timer = timer;
 		
 		this.timeSpinner.setValue((int) (this.timer.getTimerValue() / 60));

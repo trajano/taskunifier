@@ -29,7 +29,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 		private ConfigurationPanel panel;
 		
 		public TestConnection(ConfigurationPanel panel) {
-			CheckUtils.isNotNull(panel, "Configuration panel cannot be null");
+			CheckUtils.isNotNull(panel);
 			this.panel = panel;
 		}
 		

@@ -41,7 +41,7 @@ public class StringValueTitle implements StringValue {
 	private String defaultTitle;
 	
 	public StringValueTitle(String defaultTitle) {
-		CheckUtils.isNotNull(defaultTitle, "Default title cannot be null");
+		CheckUtils.isNotNull(defaultTitle);
 		this.defaultTitle = defaultTitle;
 	}
 	
