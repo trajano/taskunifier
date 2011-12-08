@@ -43,7 +43,7 @@ public class GuiTask extends Task {
 	
 	private boolean showChildren;
 	
-	public GuiTask(TaskBean bean) {
+	public GuiTask(GuiTaskBean bean) {
 		super(bean);
 	}
 	
