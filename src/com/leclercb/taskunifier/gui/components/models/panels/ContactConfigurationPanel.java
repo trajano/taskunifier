@@ -134,7 +134,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			
 			@Override
 			public void removeModel(Model model) {
-				ContactFactory.getInstance().markToDelete(model);
+				ContactFactory.getInstance().markToDelete((Contact) model);
 			}
 			
 			@Override

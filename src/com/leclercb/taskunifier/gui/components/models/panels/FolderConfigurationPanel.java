@@ -126,7 +126,7 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			
 			@Override
 			public void removeModel(Model model) {
-				FolderFactory.getInstance().markToDelete(model);
+				FolderFactory.getInstance().markToDelete((Folder) model);
 			}
 			
 			@Override

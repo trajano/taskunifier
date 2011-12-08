@@ -142,7 +142,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			
 			@Override
 			public void removeModel(Model model) {
-				GoalFactory.getInstance().markToDelete(model);
+				GoalFactory.getInstance().markToDelete((Goal) model);
 			}
 			
 			@Override

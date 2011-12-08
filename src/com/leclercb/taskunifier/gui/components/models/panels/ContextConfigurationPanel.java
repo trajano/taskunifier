@@ -118,7 +118,7 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			
 			@Override
 			public void removeModel(Model model) {
-				ContextFactory.getInstance().markToDelete(model);
+				ContextFactory.getInstance().markToDelete((Context) model);
 			}
 			
 			@Override

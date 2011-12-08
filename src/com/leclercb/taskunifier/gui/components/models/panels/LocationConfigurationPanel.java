@@ -139,7 +139,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			
 			@Override
 			public void removeModel(Model model) {
-				LocationFactory.getInstance().markToDelete(model);
+				LocationFactory.getInstance().markToDelete((Location) model);
 			}
 			
 			@Override
