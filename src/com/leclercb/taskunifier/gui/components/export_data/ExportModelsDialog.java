@@ -70,7 +70,7 @@ public class ExportModelsDialog extends AbstractExportDialog {
 	protected void exportToFile(String file) throws Exception {
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file));
 		
-		// CONTEXTS
+		// CONTACTS
 		{
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			ContactFactory.getInstance().encodeToXML(output);

@@ -203,6 +203,8 @@ public final class SynchronizerUtils {
 				"synchronizer.last_synchronization_date",
 				null);
 		
+		// TODO: Delete all contacts ?
+		// ContactFactory.getInstance().deleteAll();
 		ContextFactory.getInstance().deleteAll();
 		FolderFactory.getInstance().deleteAll();
 		GoalFactory.getInstance().deleteAll();
