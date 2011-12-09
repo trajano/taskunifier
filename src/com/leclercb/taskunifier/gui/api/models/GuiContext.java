@@ -80,11 +80,12 @@ public class GuiContext extends Context implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(ModelBean bean) {
-		if (bean instanceof GuiContextBean)
-			((GuiContextBean) bean).setColor(this.getColor());
+	public GuiContextBean toBean() {
+		GuiContextBean bean = (GuiContextBean) super.toBean();
 		
-		super.toBean(bean);
+		bean.setColor(this.getColor());
+		
+		return bean;
 	}
 	
 }

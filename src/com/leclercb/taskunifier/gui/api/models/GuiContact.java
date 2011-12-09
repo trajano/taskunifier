@@ -80,11 +80,12 @@ public class GuiContact extends Contact implements GuiModel {
 	}
 	
 	@Override
-	public void toBean(ModelBean bean) {
-		if (bean instanceof GuiContactBean)
-			((GuiContactBean) bean).setColor(this.getColor());
+	public GuiContactBean toBean() {
+		GuiContactBean bean = (GuiContactBean) super.toBean();
 		
-		super.toBean(bean);
+		bean.setColor(this.getColor());
+		
+		return bean;
 	}
 	
 }
