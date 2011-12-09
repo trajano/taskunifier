@@ -46,6 +46,9 @@ public class GuiTask extends Task {
 	
 	public GuiTask(TaskBean bean) {
 		super(bean);
+		
+		if (!(bean instanceof GuiTaskBean))
+			this.setShowChildren(true);
 	}
 	
 	public GuiTask(String title) {
