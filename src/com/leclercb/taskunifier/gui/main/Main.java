@@ -97,7 +97,6 @@ import com.leclercb.taskunifier.gui.api.models.beans.GuiNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
-import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -833,8 +832,12 @@ public class Main {
 			try {
 				PluginsUtils.loadPlugin(file);
 			} catch (PluginException e) {
-				if (e.getType() == PluginExceptionType.OUTDATED_PLUGIN)
-					outdatedPlugins = true;
+				switch (e.getType()) {
+					case MORE_THAN_ONE_PLUGIN:
+					case NO_VALID_PLUGIN:
+					case OUTDATED_PLUGIN:
+						outdatedPlugins = true;
+				}
 				
 				GuiLogger.getLogger().warning(e.getMessage());
 			} catch (Throwable t) {

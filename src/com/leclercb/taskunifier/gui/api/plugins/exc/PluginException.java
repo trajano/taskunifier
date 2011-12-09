@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.api.plugins.exc;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class PluginException extends Exception {
@@ -67,6 +68,7 @@ public class PluginException extends Exception {
 	public PluginException(PluginExceptionType type, Throwable cause) {
 		super(type.toString(), cause);
 		
+		CheckUtils.isNotNull(type);
 		this.type = type;
 	}
 	

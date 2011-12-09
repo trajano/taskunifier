@@ -109,10 +109,22 @@ public class PluginsUtils {
 					false);
 			
 			if (plugins.size() == 0) {
+				try {
+					file.delete();
+				} catch (Throwable t) {
+					
+				}
+				
 				throw new PluginException(PluginExceptionType.NO_VALID_PLUGIN);
 			}
 			
 			if (plugins.size() > 1) {
+				try {
+					file.delete();
+				} catch (Throwable t) {
+					
+				}
+				
 				throw new PluginException(
 						PluginExceptionType.MORE_THAN_ONE_PLUGIN);
 			}
