@@ -19,10 +19,14 @@ public class ComBean {
 	@XStreamAlias("tasks")
 	private ComTaskBean[] tasks;
 	
+	@XStreamAlias("quicktasks")
+	private ComQuickTaskBean[] quickTasks;
+	
 	public ComBean() {
 		this.setApplicationName(null);
 		this.setNotes(null);
 		this.setTasks(null);
+		this.setQuickTasks(null);
 	}
 	
 	public String getApplicationName() {
@@ -49,6 +53,14 @@ public class ComBean {
 		this.tasks = tasks;
 	}
 	
+	public ComQuickTaskBean[] getQuickTasks() {
+		return this.quickTasks;
+	}
+	
+	public void setQuickTasks(ComQuickTaskBean[] quickTasks) {
+		this.quickTasks = quickTasks;
+	}
+	
 	public static ComBean decodeFromXML(InputStream input) {
 		XStream xstream = new XStream(
 				new PureJavaReflectionProvider(),
@@ -57,6 +69,7 @@ public class ComBean {
 		xstream.processAnnotations(ComBean.class);
 		xstream.alias("note", ComNoteBean.class);
 		xstream.alias("task", ComTaskBean.class);
+		xstream.alias("quicktask", ComQuickTaskBean.class);
 		
 		return (ComBean) xstream.fromXML(input);
 	}

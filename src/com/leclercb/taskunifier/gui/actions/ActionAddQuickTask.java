@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -53,6 +54,8 @@ public class ActionAddQuickTask extends AbstractAction {
 	}
 	
 	public static Task addQuickTask(String task, boolean edit) {
+		CheckUtils.isNotNull(task);
+		
 		TaskTemplate taskTemplate = null;
 		
 		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)

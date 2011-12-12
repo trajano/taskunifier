@@ -13,9 +13,11 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
+import com.leclercb.taskunifier.gui.actions.ActionAddQuickTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
+import com.leclercb.taskunifier.gui.api.models.beans.ComQuickTaskBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -93,6 +95,27 @@ public class CommunicatorClient extends Thread {
 				for (ComTaskBean task : bean.getTasks()) {
 					task.setModels();
 					tasks.add(ActionAddTask.addTask(task, false));
+				}
+				
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
+						Translations.getString(
+								"communicator.message.add_task",
+								tasks.size(),
+								bean.getApplicationName())));
+				
+				ViewType.getTaskView().getTaskTableView().setSelectedTasks(
+						tasks.toArray(new Task[0]));
+			}
+			
+			if (bean.getQuickTasks() != null) {
+				List<Task> tasks = new ArrayList<Task>();
+				for (ComQuickTaskBean quickTask : bean.getQuickTasks()) {
+					if (quickTask.getTitle() == null)
+						continue;
+					
+					tasks.add(ActionAddQuickTask.addQuickTask(
+							quickTask.getTitle(),
+							false));
 				}
 				
 				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
