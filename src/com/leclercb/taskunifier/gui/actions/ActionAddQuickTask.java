@@ -286,7 +286,7 @@ public class ActionAddQuickTask extends AbstractAction {
 		}
 		
 		SimpleDateFormat[] formats = {
-				new SimpleDateFormat(dateFormat + timeFormat),
+				new SimpleDateFormat(dateFormat + " " + timeFormat),
 				new SimpleDateFormat(dateFormat) };
 		
 		for (SimpleDateFormat format : formats) {
@@ -299,10 +299,16 @@ public class ActionAddQuickTask extends AbstractAction {
 						date,
 						false);
 				
-				if (startDate)
+				int minutes = (date.get(Calendar.HOUR_OF_DAY) * 60)
+						+ date.get(Calendar.MINUTE);
+				
+				if (startDate) {
 					taskTemplate.setTaskStartDate((int) diffDays);
-				else
+					taskTemplate.setTaskStartTime(minutes);
+				} else {
 					taskTemplate.setTaskDueDate((int) diffDays);
+					taskTemplate.setTaskDueTime(minutes);
+				}
 				
 				return;
 			} catch (ParseException e) {

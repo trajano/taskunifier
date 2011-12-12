@@ -13,6 +13,7 @@ Version 1.8.6
 		- FR 3447543: Batch add sub-sub tasks
 		- FR 3450259: Remember show children status
 		- BF 3448985: XStream error
+		- Bug fixed: Missing hour with quick add task
 
 Version 1.8.5
 	- Major:
