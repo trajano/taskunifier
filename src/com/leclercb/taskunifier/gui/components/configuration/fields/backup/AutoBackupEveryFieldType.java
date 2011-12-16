@@ -54,7 +54,8 @@ public class AutoBackupEveryFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+		Integer value = Main.getSettings().getIntegerProperty(
+				"general.backup.auto_backup_every");
 		
 		if (value == null || value < 1 || value > 24 * 365)
 			value = 24;
@@ -64,7 +65,7 @@ public class AutoBackupEveryFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"general.backup.auto_backup_every",
 				(Integer) this.getFieldValue());
 	}

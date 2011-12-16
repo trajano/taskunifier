@@ -72,7 +72,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setOpaque(false);
 		this.setRootVisible(false);
@@ -264,15 +264,16 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	private void initializeExpandedState() {
-		Main.SETTINGS.addPropertyChangeListener(this.settingsPrefix
-				+ ".category", new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				TaskSearcherTree.this.updateExpandedState();
-			}
-			
-		});
+		Main.getSettings().addPropertyChangeListener(
+				this.settingsPrefix + ".category",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						TaskSearcherTree.this.updateExpandedState();
+					}
+					
+				});
 		
 		this.updateExpandedState();
 	}
@@ -283,7 +284,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 			if (category.getExpandedPropetyName() != null) {
 				this.setExpandedState(
 						TreeUtils.getPath(category),
-						Main.SETTINGS.getBooleanProperty(
+						Main.getSettings().getBooleanProperty(
 								category.getExpandedPropetyName(),
 								false));
 			}
@@ -295,7 +296,7 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
 			if (category.getExpandedPropetyName() != null) {
-				Main.SETTINGS.setBooleanProperty(
+				Main.getSettings().setBooleanProperty(
 						category.getExpandedPropetyName(),
 						this.isExpanded(TreeUtils.getPath(category)));
 			}

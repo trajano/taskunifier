@@ -56,7 +56,8 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
+		Integer value = Main.getSettings().getIntegerProperty(
+				"synchronizer.keep_tasks_completed_for_x_days");
 		
 		if (value == null || value < 1 || value > 10 * 365)
 			value = 14;
@@ -67,11 +68,12 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	@Override
 	public void saveAndApplyConfig() {
 		if (!EqualsUtils.equals(
-				Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days"),
+				Main.getSettings().getIntegerProperty(
+						"synchronizer.keep_tasks_completed_for_x_days"),
 				this.getFieldValue()))
 			SynchronizerUtils.resetSynchronizer();
 		
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",
 				(Integer) this.getFieldValue());
 	}

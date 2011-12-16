@@ -54,7 +54,7 @@ public final class BackupUtils {
 		if (!backupName.matches("[0-9]{8}_[0-9]{6}"))
 			return false;
 		
-		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
+		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
 		File file = new File(folder);
 		if (!file.exists()) {
@@ -127,7 +127,7 @@ public final class BackupUtils {
 		if (!this.checkBackupName(backupName, true))
 			return false;
 		
-		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
+		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
 		boolean set = false;
 		
@@ -180,7 +180,7 @@ public final class BackupUtils {
 			return false;
 		}
 		
-		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
+		String folder = Main.getBackupFolder() + File.separator + backupName;
 		SynchronizerUtils.setTaskRepeatEnabled(false);
 		Main.loadAllData(folder);
 		SynchronizerUtils.setTaskRepeatEnabled(true);
@@ -200,7 +200,7 @@ public final class BackupUtils {
 		if (!this.checkBackupName(backupName, false))
 			return;
 		
-		String folder = Main.BACKUP_FOLDER + File.separator + backupName;
+		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
 		try {
 			FileUtils.deleteDirectory(new File(folder));
@@ -239,7 +239,7 @@ public final class BackupUtils {
 	}
 	
 	public List<String> getBackupList() {
-		File folder = new File(Main.BACKUP_FOLDER);
+		File folder = new File(Main.getBackupFolder());
 		File[] backups = folder.listFiles(new FileFilter() {
 			
 			@Override

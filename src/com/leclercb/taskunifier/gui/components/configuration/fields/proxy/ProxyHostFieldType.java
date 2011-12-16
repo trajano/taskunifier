@@ -43,15 +43,15 @@ public class ProxyHostFieldType extends ConfigurationFieldType.TextField {
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("proxy.host") != null)
-			return Main.SETTINGS.getStringProperty("proxy.host");
+		if (Main.getSettings().getStringProperty("proxy.host") != null)
+			return Main.getSettings().getStringProperty("proxy.host");
 		else
 			return "";
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty("proxy.host", this.getFieldValue());
+		Main.getSettings().setStringProperty("proxy.host", this.getFieldValue());
 	}
 	
 }

@@ -43,15 +43,17 @@ public class ProxyLoginFieldType extends ConfigurationFieldType.TextField {
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("proxy.login") != null)
-			return Main.SETTINGS.getStringProperty("proxy.login");
+		if (Main.getSettings().getStringProperty("proxy.login") != null)
+			return Main.getSettings().getStringProperty("proxy.login");
 		else
 			return "";
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty("proxy.login", this.getFieldValue());
+		Main.getSettings().setStringProperty(
+				"proxy.login",
+				this.getFieldValue());
 	}
 	
 }

@@ -52,12 +52,13 @@ public class TimeFormatFieldType extends ConfigurationFieldType.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		return Main.SETTINGS.getSimpleDateFormatProperty("date.time_format");
+		return Main.getSettings().getSimpleDateFormatProperty(
+				"date.time_format");
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setSimpleDateFormatProperty(
+		Main.getSettings().setSimpleDateFormatProperty(
 				"date.time_format",
 				(SimpleDateFormat) this.getFieldValue());
 	}

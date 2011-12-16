@@ -51,14 +51,14 @@ public class ChoiceFieldType extends ConfigurationFieldType.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		return Main.SETTINGS.getEnumProperty(
+		return Main.getSettings().getEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class);
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setEnumProperty(
+		Main.getSettings().setEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class,
 				(SynchronizerChoice) this.getFieldValue());

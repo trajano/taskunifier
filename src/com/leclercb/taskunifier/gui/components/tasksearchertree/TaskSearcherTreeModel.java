@@ -116,7 +116,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		TaskSearcherFactory.getInstance().addListChangeListener(this);
 		TaskSearcherFactory.getInstance().addPropertyChangeListener(this);
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					

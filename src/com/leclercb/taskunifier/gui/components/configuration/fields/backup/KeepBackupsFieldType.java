@@ -54,7 +54,8 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = Main.SETTINGS.getIntegerProperty("general.backup.keep_backups");
+		Integer value = Main.getSettings().getIntegerProperty(
+				"general.backup.keep_backups");
 		
 		if (value == null || value < 1 || value > 1000)
 			value = 10;
@@ -64,7 +65,7 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"general.backup.keep_backups",
 				(Integer) this.getFieldValue());
 	}

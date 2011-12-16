@@ -40,14 +40,14 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class HttpUtils {
 	
 	public static HttpResponse getHttpGetResponse(URI uri) throws Exception {
-		if (!Main.SETTINGS.getBooleanProperty("proxy.use_system_proxies")
-				&& Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
+		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
+				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
 			return com.leclercb.commons.api.utils.HttpUtils.getHttpGetResponse(
 					uri,
-					Main.SETTINGS.getStringProperty("proxy.host"),
-					Main.SETTINGS.getIntegerProperty("proxy.port"),
-					Main.SETTINGS.getStringProperty("proxy.login"),
-					Main.SETTINGS.getStringProperty("proxy.password"));
+					Main.getSettings().getStringProperty("proxy.host"),
+					Main.getSettings().getIntegerProperty("proxy.port"),
+					Main.getSettings().getStringProperty("proxy.login"),
+					Main.getSettings().getStringProperty("proxy.password"));
 		} else {
 			return com.leclercb.commons.api.utils.HttpUtils.getHttpGetResponse(uri);
 		}

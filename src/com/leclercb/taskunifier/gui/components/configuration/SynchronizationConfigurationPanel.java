@@ -192,7 +192,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					})));
 		}
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

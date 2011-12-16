@@ -58,7 +58,7 @@ public final class SettingsVersion {
 	}
 	
 	public static void updateSettings() {
-		String version = Main.SETTINGS.getStringProperty("general.version");
+		String version = Main.getSettings().getStringProperty("general.version");
 		
 		if (version == null)
 			version = "0.5.2";
@@ -229,7 +229,9 @@ public final class SettingsVersion {
 			version = updateSettings_1_8_5_to_1_8_6();
 		
 		cleanSettings();
-		Main.SETTINGS.setStringProperty("general.version", Constants.VERSION);
+		Main.getSettings().setStringProperty(
+				"general.version",
+				Constants.VERSION);
 	}
 	
 	private static void cleanSettings() {
@@ -243,9 +245,9 @@ public final class SettingsVersion {
 				if (value == null || value.length() == 0)
 					continue;
 				
-				if (Main.SETTINGS.getStringProperty(key) == null) {
+				if (Main.getSettings().getStringProperty(key) == null) {
 					GuiLogger.getLogger().warning("Clean settings: " + key);
-					Main.SETTINGS.remove(key);
+					Main.getSettings().remove(key);
 				}
 			}
 		} catch (Throwable t) {
@@ -256,15 +258,15 @@ public final class SettingsVersion {
 	private static String updateSettings_0_5_2_to_0_6() {
 		GuiLogger.getLogger().info("Update settings from version 0.5.2 to 0.6");
 		
-		Main.SETTINGS.setStringProperty("date.date_format", "dd/MM/yyyy");
-		Main.SETTINGS.setStringProperty("date.time_format", "HH:mm");
+		Main.getSettings().setStringProperty("date.date_format", "dd/MM/yyyy");
+		Main.getSettings().setStringProperty("date.time_format", "HH:mm");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"theme.lookandfeel",
 				"com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
 		
-		Main.SETTINGS.remove("date.simple_time_format");
-		Main.SETTINGS.remove("date.date_time_format");
+		Main.getSettings().remove("date.simple_time_format");
+		Main.getSettings().remove("date.date_time_format");
 		
 		return "0.6";
 	}
@@ -273,7 +275,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.1 to 0.6.2");
 		
-		Main.SETTINGS.setStringProperty("theme.color.searcher_list", "-3090718");
+		Main.getSettings().setStringProperty(
+				"theme.color.searcher_list",
+				"-3090718");
 		
 		return "0.6.2";
 	}
@@ -282,10 +286,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.2 to 0.6.3");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"synchronizer.scheduler_enabled",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"synchronizer.scheduler_sleep_time",
 				"600000");
 		
@@ -296,49 +300,54 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.6.4 to 0.7.0");
 		
-		Main.SETTINGS.remove("task.default.completed");
-		Main.SETTINGS.remove("task.default.context");
-		Main.SETTINGS.remove("task.default.due_date");
-		Main.SETTINGS.remove("task.default.folder");
-		Main.SETTINGS.remove("task.default.goal");
-		Main.SETTINGS.remove("task.default.location");
-		Main.SETTINGS.remove("task.default.length");
-		Main.SETTINGS.remove("task.default.note");
-		Main.SETTINGS.remove("task.default.priority");
-		Main.SETTINGS.remove("task.default.reminder");
-		Main.SETTINGS.remove("task.default.repeat");
-		Main.SETTINGS.remove("task.default.repeat_from");
-		Main.SETTINGS.remove("task.default.star");
-		Main.SETTINGS.remove("task.default.start_date");
-		Main.SETTINGS.remove("task.default.status");
-		Main.SETTINGS.remove("task.default.tags");
-		Main.SETTINGS.remove("task.default.title");
+		Main.getSettings().remove("task.default.completed");
+		Main.getSettings().remove("task.default.context");
+		Main.getSettings().remove("task.default.due_date");
+		Main.getSettings().remove("task.default.folder");
+		Main.getSettings().remove("task.default.goal");
+		Main.getSettings().remove("task.default.location");
+		Main.getSettings().remove("task.default.length");
+		Main.getSettings().remove("task.default.note");
+		Main.getSettings().remove("task.default.priority");
+		Main.getSettings().remove("task.default.reminder");
+		Main.getSettings().remove("task.default.repeat");
+		Main.getSettings().remove("task.default.repeat_from");
+		Main.getSettings().remove("task.default.star");
+		Main.getSettings().remove("task.default.start_date");
+		Main.getSettings().remove("task.default.status");
+		Main.getSettings().remove("task.default.tags");
+		Main.getSettings().remove("task.default.title");
 		
-		Main.SETTINGS.remove("synchronizer.last_context_edit");
-		Main.SETTINGS.remove("synchronizer.last_folder_edit");
-		Main.SETTINGS.remove("synchronizer.last_goal_edit");
-		Main.SETTINGS.remove("synchronizer.last_location_edit");
-		Main.SETTINGS.remove("synchronizer.last_task_edit");
-		Main.SETTINGS.remove("synchronizer.last_task_delete");
+		Main.getSettings().remove("synchronizer.last_context_edit");
+		Main.getSettings().remove("synchronizer.last_folder_edit");
+		Main.getSettings().remove("synchronizer.last_goal_edit");
+		Main.getSettings().remove("synchronizer.last_location_edit");
+		Main.getSettings().remove("synchronizer.last_task_edit");
+		Main.getSettings().remove("synchronizer.last_task_delete");
 		
-		Main.SETTINGS.remove("toodledo.token");
-		Main.SETTINGS.remove("toodledo.token_creation_date");
-		Main.SETTINGS.remove("toodledo.userid");
+		Main.getSettings().remove("toodledo.token");
+		Main.getSettings().remove("toodledo.token_creation_date");
+		Main.getSettings().remove("toodledo.userid");
 		
-		if ("KEEP_TOODLEDO".equals(Main.SETTINGS.getStringProperty("synchronizer.choice")))
-			Main.SETTINGS.setStringProperty("synchronizer.choice", "KEEP_API");
+		if ("KEEP_TOODLEDO".equals(Main.getSettings().getStringProperty(
+				"synchronizer.choice")))
+			Main.getSettings().setStringProperty(
+					"synchronizer.choice",
+					"KEEP_API");
 		
-		Main.SETTINGS.setStringProperty("api.id", "1");
-		Main.SETTINGS.setStringProperty("api.version", "1.0");
+		Main.getSettings().setStringProperty("api.id", "1");
+		Main.getSettings().setStringProperty("api.version", "1.0");
 		
-		Main.SETTINGS.setStringProperty("review.showed", "false");
+		Main.getSettings().setStringProperty("review.showed", "false");
 		
-		Main.SETTINGS.setStringProperty("searcher.show_completed_tasks", "true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
+				"searcher.show_completed_tasks",
+				"true");
+		Main.getSettings().setStringProperty(
 				"searcher.show_completed_tasks_at_the_end",
 				"false");
 		
-		Main.SETTINGS.setStringProperty("proxy.use_system_proxy", "false");
+		Main.getSettings().setStringProperty("proxy.use_system_proxy", "false");
 		
 		return "0.7.0";
 	}
@@ -348,11 +357,11 @@ public final class SettingsVersion {
 				"Update settings from version 0.7.0 to 0.7.1");
 		
 		if (SystemUtils.IS_OS_MAC)
-			Main.SETTINGS.setStringProperty(
+			Main.getSettings().setStringProperty(
 					"theme.lookandfeel",
 					UIManager.getSystemLookAndFeelClassName());
 		
-		Main.SETTINGS.remove("theme.color.searcher_list");
+		Main.getSettings().remove("theme.color.searcher_list");
 		
 		return "0.7.1";
 	}
@@ -361,10 +370,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.1 to 0.7.2");
 		
-		Main.SETTINGS.setStringProperty("new_version.showed", "0.7.2");
+		Main.getSettings().setStringProperty("new_version.showed", "0.7.2");
 		
-		Main.SETTINGS.remove("proxy.use_system_proxy");
-		Main.SETTINGS.remove("proxy.type");
+		Main.getSettings().remove("proxy.use_system_proxy");
+		Main.getSettings().remove("proxy.type");
 		
 		return "0.7.2";
 	}
@@ -373,8 +382,11 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.2 to 0.7.3");
 		
-		if ("MMM dd, yyyy".equals(Main.SETTINGS.getStringProperty("date.date_format")))
-			Main.SETTINGS.setStringProperty("date.date_format", "MM/dd/yyyy");
+		if ("MMM dd, yyyy".equals(Main.getSettings().getStringProperty(
+				"date.date_format")))
+			Main.getSettings().setStringProperty(
+					"date.date_format",
+					"MM/dd/yyyy");
 		
 		return "0.7.3";
 	}
@@ -383,8 +395,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.3 to 0.7.4");
 		
-		Main.SETTINGS.setStringProperty("synchronizer.sync_start", "false");
-		Main.SETTINGS.setStringProperty("synchronizer.sync_exit", "false");
+		Main.getSettings().setStringProperty("synchronizer.sync_start", "false");
+		Main.getSettings().setStringProperty("synchronizer.sync_exit", "false");
 		
 		return "0.7.4";
 	}
@@ -393,8 +405,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.7.4 to 0.8.0");
 		
-		Main.SETTINGS.setStringProperty("searcher.show_badges", "false");
-		Main.SETTINGS.setStringProperty("task.show_edit_window_on_add", "false");
+		Main.getSettings().setStringProperty("searcher.show_badges", "false");
+		Main.getSettings().setStringProperty(
+				"task.show_edit_window_on_add",
+				"false");
 		
 		return "0.8.0";
 	}
@@ -403,13 +417,13 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.8.1 to 0.8.2");
 		
-		Main.SETTINGS.setStringProperty("api.id", "0");
-		Main.SETTINGS.setStringProperty("api.version", "1.0");
+		Main.getSettings().setStringProperty("api.id", "0");
+		Main.getSettings().setStringProperty("api.version", "1.0");
 		// Main.SETTINGS.remove("api.version");
 		
-		Main.SETTINGS.remove("toodledo.toodledo.token_creation_date");
-		Main.SETTINGS.remove("toodledo.toodledo.token");
-		Main.SETTINGS.remove("toodledo.toodledo.userid");
+		Main.getSettings().remove("toodledo.toodledo.token_creation_date");
+		Main.getSettings().remove("toodledo.toodledo.token");
+		Main.getSettings().remove("toodledo.toodledo.userid");
 		
 		return "0.8.2";
 	}
@@ -426,12 +440,13 @@ public final class SettingsVersion {
 				"Update settings from version 0.8.3 to 0.8.4");
 		
 		try {
-			String oldPluginsDir = Main.RESOURCES_FOLDER
+			String oldPluginsDir = Main.getResourcesFolder()
 					+ File.separator
 					+ "plugins";
 			
-			FileUtils.copyDirectory(new File(oldPluginsDir), new File(
-					Main.PLUGINS_FOLDER));
+			FileUtils.copyDirectory(
+					new File(oldPluginsDir),
+					new File(Main.getPluginsFolder()));
 		} catch (Throwable t) {}
 		
 		return "0.8.4";
@@ -464,23 +479,29 @@ public final class SettingsVersion {
 		
 		ActionResetGeneralSearchers.resetGeneralSearchers();
 		
-		Main.SETTINGS.setStringProperty("notecolumn.folder.order", "1");
-		Main.SETTINGS.setStringProperty("notecolumn.folder.visible", "true");
-		Main.SETTINGS.setStringProperty("notecolumn.folder.width", "150");
-		Main.SETTINGS.setStringProperty("notecolumn.model.order", "4");
-		Main.SETTINGS.setStringProperty("notecolumn.model.visible", "false");
-		Main.SETTINGS.setStringProperty("notecolumn.model.width", "150");
-		Main.SETTINGS.setStringProperty("notecolumn.note.order", "3");
-		Main.SETTINGS.setStringProperty("notecolumn.note.visible", "false");
-		Main.SETTINGS.setStringProperty("notecolumn.note.width", "300");
-		Main.SETTINGS.setStringProperty("notecolumn.title.order", "2");
-		Main.SETTINGS.setStringProperty("notecolumn.title.visible", "true");
-		Main.SETTINGS.setStringProperty("notecolumn.title.width", "300");
-		Main.SETTINGS.setStringProperty("taskcolumn.model.order", "20");
-		Main.SETTINGS.setStringProperty("taskcolumn.model.visible", "false");
-		Main.SETTINGS.setStringProperty("taskcolumn.model.width", "150");
+		Main.getSettings().setStringProperty("notecolumn.folder.order", "1");
+		Main.getSettings().setStringProperty(
+				"notecolumn.folder.visible",
+				"true");
+		Main.getSettings().setStringProperty("notecolumn.folder.width", "150");
+		Main.getSettings().setStringProperty("notecolumn.model.order", "4");
+		Main.getSettings().setStringProperty(
+				"notecolumn.model.visible",
+				"false");
+		Main.getSettings().setStringProperty("notecolumn.model.width", "150");
+		Main.getSettings().setStringProperty("notecolumn.note.order", "3");
+		Main.getSettings().setStringProperty("notecolumn.note.visible", "false");
+		Main.getSettings().setStringProperty("notecolumn.note.width", "300");
+		Main.getSettings().setStringProperty("notecolumn.title.order", "2");
+		Main.getSettings().setStringProperty("notecolumn.title.visible", "true");
+		Main.getSettings().setStringProperty("notecolumn.title.width", "300");
+		Main.getSettings().setStringProperty("taskcolumn.model.order", "20");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.model.visible",
+				"false");
+		Main.getSettings().setStringProperty("taskcolumn.model.width", "150");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"theme.color.importance.enabled",
 				"true");
 		
@@ -512,11 +533,15 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.3 to 0.9.4");
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.show_children.order", "3");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
+				"taskcolumn.show_children.order",
+				"3");
+		Main.getSettings().setStringProperty(
 				"taskcolumn.show_children.visible",
 				"true");
-		Main.SETTINGS.setStringProperty("taskcolumn.show_children.width", "40");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.show_children.width",
+				"40");
 		
 		return "0.9.4";
 	}
@@ -537,13 +562,15 @@ public final class SettingsVersion {
 			
 		});
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.progress.order", "2");
-		Main.SETTINGS.setStringProperty("taskcolumn.progress.visible", "true");
-		Main.SETTINGS.setStringProperty("taskcolumn.progress.width", "80");
+		Main.getSettings().setStringProperty("taskcolumn.progress.order", "2");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.progress.visible",
+				"true");
+		Main.getSettings().setStringProperty("taskcolumn.progress.width", "80");
 		
-		Main.SETTINGS.setStringProperty("theme.color.progress", "-3355393");
+		Main.getSettings().setStringProperty("theme.color.progress", "-3355393");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"window.minimize_to_system_tray",
 				"false");
 		
@@ -561,8 +588,8 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.6 to 0.9.7");
 		
-		Main.SETTINGS.setStringProperty("date.use_due_time", "true");
-		Main.SETTINGS.setStringProperty("date.use_start_time", "true");
+		Main.getSettings().setStringProperty("date.use_due_time", "true");
+		Main.getSettings().setStringProperty("date.use_start_time", "true");
 		
 		return "0.9.7";
 	}
@@ -578,11 +605,13 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.8 to 0.9.9");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"searcher.category.tag.expanded",
 				"true");
 		
-		Main.SETTINGS.setStringProperty("proxy.use_system_proxies", "false");
+		Main.getSettings().setStringProperty(
+				"proxy.use_system_proxies",
+				"false");
 		
 		return "0.9.9";
 	}
@@ -598,26 +627,26 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 0.9.9b to 1.0.0");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"searcher.task.default_sorter",
-				Main.SETTINGS.getStringProperty("searcher.default_sorter"));
+				Main.getSettings().getStringProperty("searcher.default_sorter"));
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"searcher.task.selected.value",
-				Main.SETTINGS.getStringProperty("searcher.selected.value"));
+				Main.getSettings().getStringProperty("searcher.selected.value"));
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"searcher.task.selected.type",
-				Main.SETTINGS.getStringProperty("searcher.selected.type"));
+				Main.getSettings().getStringProperty("searcher.selected.type"));
 		
-		Main.SETTINGS.remove("searcher.default_sorter");
-		Main.SETTINGS.remove("searcher.selected.value");
-		Main.SETTINGS.remove("searcher.selected.type");
+		Main.getSettings().remove("searcher.default_sorter");
+		Main.getSettings().remove("searcher.selected.value");
+		Main.getSettings().remove("searcher.selected.type");
 		
 		try {
-			FileUtils.moveFile(new File(Main.DATA_FOLDER
+			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
-					+ "templates.xml"), new File(Main.DATA_FOLDER
+					+ "templates.xml"), new File(Main.getDataFolder()
 					+ File.separator
 					+ "task_templates.xml"));
 		} catch (Throwable t) {
@@ -628,9 +657,9 @@ public final class SettingsVersion {
 		}
 		
 		try {
-			FileUtils.moveFile(new File(Main.DATA_FOLDER
+			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
-					+ "searchers.xml"), new File(Main.DATA_FOLDER
+					+ "searchers.xml"), new File(Main.getDataFolder()
 					+ File.separator
 					+ "task_searchers.xml"));
 		} catch (Throwable t) {
@@ -667,7 +696,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.1 to 1.0.2");
 		
-		Main.SETTINGS.setStringProperty("tips.show_on_startup", "true");
+		Main.getSettings().setStringProperty("tips.show_on_startup", "true");
 		
 		return "1.0.2";
 	}
@@ -676,62 +705,62 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.2 to 1.0.3");
 		
-		Main.SETTINGS.setStringProperty("notesearcher.show_badges", "true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty("notesearcher.show_badges", "true");
+		Main.getSettings().setStringProperty(
 				"notesearcher.category.folder.expanded",
 				"true");
 		
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.show_badges",
 				"tasksearcher.show_badges");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.show_completed_tasks",
 				"tasksearcher.show_completed_tasks");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.show_completed_tasks_at_the_end",
 				"tasksearcher.show_completed_tasks_at_the_end");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.general.expanded",
 				"tasksearcher.category.general.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.context.expanded",
 				"tasksearcher.category.context.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.folder.expanded",
 				"tasksearcher.category.folder.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.goal.expanded",
 				"tasksearcher.category.goal.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.location.expanded",
 				"tasksearcher.category.location.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.tag.expanded",
 				"tasksearcher.category.tag.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.category.personal.expanded",
 				"tasksearcher.category.personal.expanded");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"view.notes.window.horizontal_split",
-				Main.SETTINGS.getProperty("window.horizontal_split"));
-		Main.SETTINGS.setStringProperty(
+				Main.getSettings().getProperty("window.horizontal_split"));
+		Main.getSettings().setStringProperty(
 				"view.notes.window.vertical_split",
-				Main.SETTINGS.getProperty("window.vertical_split"));
+				Main.getSettings().getProperty("window.vertical_split"));
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"view.tasks.window.horizontal_split",
-				Main.SETTINGS.getProperty("window.horizontal_split"));
-		Main.SETTINGS.setStringProperty(
+				Main.getSettings().getProperty("window.horizontal_split"));
+		Main.getSettings().setStringProperty(
 				"view.tasks.window.vertical_split",
-				Main.SETTINGS.getProperty("window.vertical_split"));
+				Main.getSettings().getProperty("window.vertical_split"));
 		
-		Main.SETTINGS.remove("window.horizontal_split");
-		Main.SETTINGS.remove("window.vertical_split");
+		Main.getSettings().remove("window.horizontal_split");
+		Main.getSettings().remove("window.vertical_split");
 		
-		Main.SETTINGS.setStringProperty("logger.api.level", "INFO");
-		Main.SETTINGS.setStringProperty("logger.gui.level", "INFO");
-		Main.SETTINGS.setStringProperty("logger.plugin.level", "INFO");
+		Main.getSettings().setStringProperty("logger.api.level", "INFO");
+		Main.getSettings().setStringProperty("logger.gui.level", "INFO");
+		Main.getSettings().setStringProperty("logger.plugin.level", "INFO");
 		
 		return "1.0.3";
 	}
@@ -740,9 +769,9 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.0.3 to 1.0.4");
 		
-		Main.SETTINGS.setStringProperty("task.indent_subtasks", "true");
+		Main.getSettings().setStringProperty("task.indent_subtasks", "true");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"task.postpone_from_current_date",
 				"false");
 		
@@ -781,31 +810,31 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.1.0 to 1.2.0");
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.timer.order", "19");
-		Main.SETTINGS.setStringProperty("taskcolumn.timer.visible", "true");
-		Main.SETTINGS.setStringProperty("taskcolumn.timer.width", "50");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty("taskcolumn.timer.order", "19");
+		Main.getSettings().setStringProperty("taskcolumn.timer.visible", "true");
+		Main.getSettings().setStringProperty("taskcolumn.timer.width", "50");
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_creation_date.order",
 				"24");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_creation_date.visible",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_creation_date.width",
 				"100");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_update_date.order",
 				"25");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_update_date.visible",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.model_update_date.width",
 				"100");
 		
-		Main.SETTINGS.setStringProperty("notecolumn.note.order", "3");
-		Main.SETTINGS.setStringProperty("notecolumn.note.visible", "true");
-		Main.SETTINGS.setStringProperty("notecolumn.note.width", "100");
+		Main.getSettings().setStringProperty("notecolumn.note.order", "3");
+		Main.getSettings().setStringProperty("notecolumn.note.visible", "true");
+		Main.getSettings().setStringProperty("notecolumn.note.width", "100");
 		
 		Main.AFTER_START.addActionListener(new ActionListener() {
 			
@@ -834,26 +863,30 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.2.1 to 1.2.2");
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.order", "5");
-		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.visible", "true");
-		Main.SETTINGS.setStringProperty("taskcolumn.model_edit.width", "50");
+		Main.getSettings().setStringProperty("taskcolumn.model_edit.order", "5");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.model_edit.visible",
+				"true");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.model_edit.width",
+				"50");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_creation_date.order",
 				"5");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_creation_date.visible",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_creation_date.width",
 				"100");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_update_date.order",
 				"6");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_update_date.visible",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"notecolumn.model_update_date.width",
 				"100");
 		
@@ -864,33 +897,35 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.2.2 to 1.3.0");
 		
-		Main.SETTINGS.remove("taskcolumn.reminder.order");
-		Main.SETTINGS.remove("taskcolumn.reminder.visible");
-		Main.SETTINGS.remove("taskcolumn.reminder.width");
+		Main.getSettings().remove("taskcolumn.reminder.order");
+		Main.getSettings().remove("taskcolumn.reminder.visible");
+		Main.getSettings().remove("taskcolumn.reminder.width");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.start_date_reminder.order",
 				"18");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.start_date_reminder.visible",
 				"true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.start_date_reminder.width",
 				"100");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.due_date_reminder.order",
 				"19");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.due_date_reminder.visible",
 				"true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcolumn.due_date_reminder.width",
 				"100");
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.order.order", "27");
-		Main.SETTINGS.setStringProperty("taskcolumn.order.visible", "false");
-		Main.SETTINGS.setStringProperty("taskcolumn.order.width", "50");
+		Main.getSettings().setStringProperty("taskcolumn.order.order", "27");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.order.visible",
+				"false");
+		Main.getSettings().setStringProperty("taskcolumn.order.width", "50");
 		
 		return "1.3.0";
 	}
@@ -899,7 +934,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.3.0 to 1.4.0");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"general.toolbar",
 				"ADD_NOTE;ADD_TASK;ADD_SUBTASK;ADD_TEMPLATE_TASK_MENU;DELETE;SEPARATOR;SYNCHRONIZE;SCHEDULED_SYNC;SEPARATOR;CONFIGURATION");
 		
@@ -910,10 +945,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.4.0 to 1.5.0");
 		
-		Main.SETTINGS.setStringProperty("window.task_edit.height", "700");
-		Main.SETTINGS.setStringProperty("window.task_edit.location_x", "0");
-		Main.SETTINGS.setStringProperty("window.task_edit.location_y", "0");
-		Main.SETTINGS.setStringProperty("window.task_edit.width", "900");
+		Main.getSettings().setStringProperty("window.task_edit.height", "700");
+		Main.getSettings().setStringProperty("window.task_edit.location_x", "0");
+		Main.getSettings().setStringProperty("window.task_edit.location_y", "0");
+		Main.getSettings().setStringProperty("window.task_edit.width", "900");
 		
 		return "1.5.0";
 	}
@@ -936,62 +971,64 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.6.0 to 1.7.0");
 		
-		Main.SETTINGS.setStringProperty("general.communicator.port", "4576");
+		Main.getSettings().setStringProperty(
+				"general.communicator.port",
+				"4576");
 		
-		Main.SETTINGS.setStringProperty("date.show_day_of_week", "false");
+		Main.getSettings().setStringProperty("date.show_day_of_week", "false");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"view.calendar.window.horizontal_split",
 				"300");
 		
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"searcher.default_sorter",
 				"tasksearcher.default_sorter");
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.general.expanded",
 				"true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.context.expanded",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.folder.expanded",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.goal.expanded",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.location.expanded",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.tag.expanded",
 				"false");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"tasksearcher.calendar.category.personal.expanded",
 				"true");
 		
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"notesearcher.category.folder.expanded",
 				"notesearcher.notes.category.folder.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.general.expanded",
 				"tasksearcher.tasks.category.general.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.context.expanded",
 				"tasksearcher.tasks.category.context.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.folder.expanded",
 				"tasksearcher.tasks.category.folder.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.goal.expanded",
 				"tasksearcher.tasks.category.goal.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.location.expanded",
 				"tasksearcher.tasks.category.location.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.tag.expanded",
 				"tasksearcher.tasks.category.tag.expanded");
-		Main.SETTINGS.replaceKey(
+		Main.getSettings().replaceKey(
 				"tasksearcher.category.personal.expanded",
 				"tasksearcher.tasks.category.personal.expanded");
 		
@@ -1009,14 +1046,20 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.7.1 to 1.8.0");
 		
-		Main.SETTINGS.setStringProperty("view.notes.window.split", "0");
-		Main.SETTINGS.setStringProperty("general.backup.auto_backup_every", "2");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty("view.notes.window.split", "0");
+		Main.getSettings().setStringProperty(
+				"general.backup.auto_backup_every",
+				"2");
+		Main.getSettings().setStringProperty(
 				"general.backup.backup_before_sync",
 				"false");
-		Main.SETTINGS.setStringProperty("general.backup.keep_backups", "100");
-		Main.SETTINGS.setStringProperty("general.communicator.enabled", "true");
-		Main.SETTINGS.setStringProperty("view.calendar.zoom", "80");
+		Main.getSettings().setStringProperty(
+				"general.backup.keep_backups",
+				"100");
+		Main.getSettings().setStringProperty(
+				"general.communicator.enabled",
+				"true");
+		Main.getSettings().setStringProperty("view.calendar.zoom", "80");
 		
 		return "1.8.0";
 	}
@@ -1032,7 +1075,7 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.8.1 to 1.8.2");
 		
-		Main.SETTINGS.setStringProperty("general.growl.enabled", "true");
+		Main.getSettings().setStringProperty("general.growl.enabled", "true");
 		
 		return "1.8.2";
 	}
@@ -1062,20 +1105,28 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.8.5 to 1.8.6");
 		
-		Main.SETTINGS.setStringProperty("taskcolumn.contacts.order", "30");
-		Main.SETTINGS.setStringProperty("taskcolumn.contacts.visible", "true");
-		Main.SETTINGS.setStringProperty("taskcolumn.contacts.width", "50");
+		Main.getSettings().setStringProperty("taskcolumn.contacts.order", "30");
+		Main.getSettings().setStringProperty(
+				"taskcolumn.contacts.visible",
+				"true");
+		Main.getSettings().setStringProperty("taskcolumn.contacts.width", "50");
 		
-		Main.SETTINGS.setStringProperty("taskcontactscolumn.link.order", "1");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
+				"taskcontactscolumn.link.order",
+				"1");
+		Main.getSettings().setStringProperty(
 				"taskcontactscolumn.link.visible",
 				"true");
-		Main.SETTINGS.setStringProperty("taskcontactscolumn.link.width", "200");
-		Main.SETTINGS.setStringProperty("taskcontactscolumn.contact.order", "2");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
+				"taskcontactscolumn.link.width",
+				"200");
+		Main.getSettings().setStringProperty(
+				"taskcontactscolumn.contact.order",
+				"2");
+		Main.getSettings().setStringProperty(
 				"taskcontactscolumn.contact.visible",
 				"true");
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"taskcontactscolumn.contact.width",
 				"200");
 		

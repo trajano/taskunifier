@@ -39,14 +39,15 @@ public class TipsDialog extends JXTipOfTheDay {
 					
 					@Override
 					public void setShowingOnStartup(boolean showOnStartup) {
-						Main.SETTINGS.setBooleanProperty(
+						Main.getSettings().setBooleanProperty(
 								"tips.show_on_startup",
 								showOnStartup);
 					}
 					
 					@Override
 					public boolean isShowingOnStartup() {
-						return Main.SETTINGS.getBooleanProperty("tips.show_on_startup");
+						return Main.getSettings().getBooleanProperty(
+								"tips.show_on_startup");
 					}
 					
 				},

@@ -57,7 +57,7 @@ public class ExportSettingsDialog extends AbstractExportDialog {
 	
 	@Override
 	protected void exportToFile(String file) throws Exception {
-		Main.SETTINGS.store(new FileOutputStream(file), "Settings");
+		Main.getSettings().store(new FileOutputStream(file), "Settings");
 	}
 	
 }

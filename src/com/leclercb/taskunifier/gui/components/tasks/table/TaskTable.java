@@ -317,7 +317,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.initializeCopyAndPaste();
 		this.initializeHighlighters();
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"task.indent_subtasks",
 				new PropertyChangeListener() {
 					
@@ -328,7 +328,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 					
 				});
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					

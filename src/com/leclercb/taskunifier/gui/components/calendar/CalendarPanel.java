@@ -80,7 +80,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	private TaskSearcherPanel taskSearcherPanel;
 	
 	public CalendarPanel() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setLayout(new BorderLayout(3, 3));
 		
@@ -112,13 +112,14 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	}
 	
 	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("view.calendar.window.horizontal_split");
+		int hSplit = Main.getSettings().getIntegerProperty(
+				"view.calendar.window.horizontal_split");
 		this.horizontalSplitPane.setDividerLocation(hSplit);
 	}
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.calendar.window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
 	}

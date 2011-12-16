@@ -152,7 +152,7 @@ public class TaskTableColumn extends TableColumnExt {
 				StringValueCalendar.INSTANCE_DATE_TIME);
 		
 		DUE_DATE_RENDERER = new DefaultTableRenderer(
-				(Main.SETTINGS.getBooleanProperty("date.use_due_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
+				(Main.getSettings().getBooleanProperty("date.use_due_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
 		
 		LENGTH_RENDERER = new DefaultTableRenderer(
 				StringValueTaskLength.INSTANCE);
@@ -206,7 +206,7 @@ public class TaskTableColumn extends TableColumnExt {
 				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		
 		START_DATE_RENDERER = new DefaultTableRenderer(
-				(Main.SETTINGS.getBooleanProperty("date.use_start_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
+				(Main.getSettings().getBooleanProperty("date.use_start_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
 		
 		PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskPriority.INSTANCE,
@@ -227,8 +227,8 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 		CONTEXT_EDITOR = new ContextEditor();
-		DUE_DATE_EDITOR = new DateEditor(
-				Main.SETTINGS.getBooleanProperty("date.use_due_time"));
+		DUE_DATE_EDITOR = new DateEditor(Main.getSettings().getBooleanProperty(
+				"date.use_due_time"));
 		FOLDER_EDITOR = new FolderEditor();
 		GOAL_EDITOR = new GoalEditor();
 		LENGTH_EDITOR = new LengthEditor();
@@ -237,7 +237,7 @@ public class TaskTableColumn extends TableColumnExt {
 		REMINDER_EDITOR = new ReminderEditor();
 		REPEAT_EDITOR = new RepeatEditor();
 		START_DATE_EDITOR = new DateEditor(
-				Main.SETTINGS.getBooleanProperty("date.use_start_time"));
+				Main.getSettings().getBooleanProperty("date.use_start_time"));
 		TAGS_EDITOR = new TagsEditor();
 		PRIORITY_EDITOR = new PriorityEditor();
 		REPEAT_FROM_EDITOR = new RepeatFromEditor();

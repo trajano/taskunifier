@@ -43,15 +43,17 @@ public class ProxyPasswordFieldType extends ConfigurationFieldType.PasswordField
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("proxy.password") != null)
-			return Main.SETTINGS.getStringProperty("proxy.password");
+		if (Main.getSettings().getStringProperty("proxy.password") != null)
+			return Main.getSettings().getStringProperty("proxy.password");
 		else
 			return "";
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty("proxy.password", this.getFieldValue());
+		Main.getSettings().setStringProperty(
+				"proxy.password",
+				this.getFieldValue());
 	}
 	
 }

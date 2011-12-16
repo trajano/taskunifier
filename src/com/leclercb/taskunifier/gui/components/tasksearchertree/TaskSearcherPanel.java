@@ -106,7 +106,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		this.settingsPrefix = settingsPrefix;
 		
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.initialize();
 	}
@@ -233,7 +233,8 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		searcher.setFilter(mainFilter);
 		
-		if (Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks_at_the_end")) {
+		if (Main.getSettings().getBooleanProperty(
+				"tasksearcher.show_completed_tasks_at_the_end")) {
 			searcher.getSorter().insertElement(
 					new TaskSorterElement(
 							TaskColumn.COMPLETED,
@@ -345,9 +346,9 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void initializeSelectedSearcher() {
 		try {
-			String value = Main.SETTINGS.getStringProperty(this.settingsPrefix
-					+ ".selected.value");
-			TaskSearcherType type = Main.SETTINGS.getEnumProperty(
+			String value = Main.getSettings().getStringProperty(
+					this.settingsPrefix + ".selected.value");
+			TaskSearcherType type = Main.getSettings().getEnumProperty(
 					this.settingsPrefix + ".selected.type",
 					TaskSearcherType.class);
 			
@@ -419,21 +420,22 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 			if (searcher == null)
 				return;
 			
-			Main.SETTINGS.setEnumProperty(
+			Main.getSettings().setEnumProperty(
 					this.settingsPrefix + ".selected.type",
 					TaskSearcherType.class,
 					searcher.getType());
 			
 			if (searcher.getType() == TaskSearcherType.GENERAL
 					|| searcher.getType() == TaskSearcherType.PERSONAL) {
-				Main.SETTINGS.setStringProperty(this.settingsPrefix
-						+ ".selected.value", searcher.getTitle());
+				Main.getSettings().setStringProperty(
+						this.settingsPrefix + ".selected.value",
+						searcher.getTitle());
 				return;
 			}
 			
 			if (searcher.getType() == TaskSearcherType.TAG) {
 				if (this.searcherView.getSelectedTag() != null) {
-					Main.SETTINGS.setStringProperty(
+					Main.getSettings().setStringProperty(
 							this.settingsPrefix + ".selected.value",
 							this.searcherView.getSelectedTag().toString());
 				}
@@ -447,7 +449,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					|| searcher.getType() == TaskSearcherType.LOCATION) {
 				if (this.searcherView.getSelectedModel() != null) {
 					ModelId id = this.searcherView.getSelectedModel().getModelId();
-					Main.SETTINGS.setStringProperty(
+					Main.getSettings().setStringProperty(
 							this.settingsPrefix + ".selected.value",
 							new ModelIdSettingsCoder().encode(id));
 				}
@@ -461,7 +463,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					t);
 		}
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				this.settingsPrefix + ".selected.value",
 				null);
 	}

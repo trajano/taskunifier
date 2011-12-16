@@ -14,7 +14,8 @@ public class CommunicatorThread extends Thread {
 	public CommunicatorThread() {
 		super("CommunicatorThread");
 		
-		this.port = Main.SETTINGS.getIntegerProperty("general.communicator.port");
+		this.port = Main.getSettings().getIntegerProperty(
+				"general.communicator.port");
 		this.group = new ThreadGroup("CommunicatorGroup");
 	}
 	

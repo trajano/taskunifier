@@ -118,31 +118,82 @@ public class Main {
 	
 	private static boolean QUIT;
 	
-	public static boolean DEVELOPER_MODE;
+	private static boolean DEVELOPER_MODE;
+	private static boolean FIRST_EXECUTION;
 	
-	public static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
-	public static PropertyMap INIT_SETTINGS;
-	public static PropertyMap SETTINGS;
-	public static boolean FIRST_EXECUTION;
-	public static String RESOURCES_FOLDER;
-	public static String DATA_FOLDER;
-	public static String BACKUP_FOLDER;
-	public static String PLUGINS_FOLDER;
+	private static String RESOURCES_FOLDER;
+	private static String DATA_FOLDER;
+	private static String BACKUP_FOLDER;
+	private static String PLUGINS_FOLDER;
+	
+	private static PropertyMap INIT_SETTINGS;
+	private static PropertyMap SETTINGS;
+	
+	private static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	
 	public static ActionSupport AFTER_START;
 	public static ActionSupport BEFORE_EXIT;
+	
+	public static boolean isFirstExecution() {
+		return FIRST_EXECUTION;
+	}
+	
+	static void setFirstExecution(boolean isFirstExecution) {
+		FIRST_EXECUTION = isFirstExecution;
+	}
 	
 	public static String getInitSettingsFile() {
 		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
 	}
 	
-	public static String getSettingsFile() {
+	public static String getAccountSettingsFile() {
 		return DATA_FOLDER + File.separator + "settings.properties";
+	}
+	
+	public static String getGlobalSettingsFile() {
+		return DATA_FOLDER + File.separator + "settings.properties";
+	}
+	
+	public static String getResourcesFolder() {
+		return RESOURCES_FOLDER;
+	}
+	
+	public static String getDataFolder() {
+		return DATA_FOLDER;
+	}
+	
+	public static String getBackupFolder() {
+		return BACKUP_FOLDER;
+	}
+	
+	public static String getPluginsFolder() {
+		return PLUGINS_FOLDER;
+	}
+	
+	public static PropertyMap getSettings() {
+		return getGlobalSettings();
+	}
+	
+	public static PropertyMap getInitSettings() {
+		return INIT_SETTINGS;
+	}
+	
+	public static PropertyMap getAccountSettings() {
+		return SETTINGS;
+	}
+	
+	public static PropertyMap getGlobalSettings() {
+		return SETTINGS;
+	}
+	
+	public static PluginLoader<SynchronizerGuiPlugin> getApiPlugins() {
+		return API_PLUGINS;
 	}
 	
 	public static void main(String[] args) {
 		checkSingleInstance();
 		
+		DEVELOPER_MODE = false;
 		FIRST_EXECUTION = false;
 		
 		AFTER_START = new ActionSupport(Main.class);
@@ -235,7 +286,7 @@ public class Main {
 				}
 				
 				try {
-					if (FIRST_EXECUTION) {
+					if (isFirstExecution()) {
 						new LanguageDialog(null).setVisible(true);
 						MainFrame.getInstance();
 						new WelcomeDialog(null).setVisible(true);
@@ -249,14 +300,14 @@ public class Main {
 					if (showed == null || !showed)
 						ActionReview.review();
 					
-					Main.SETTINGS.setBooleanProperty("review.showed", true);
+					SETTINGS.setBooleanProperty("review.showed", true);
 					
 					if (finalOutdatedPlugins)
 						ActionManagePlugins.managePlugins();
 					
 					TipsDialog.getInstance().showTipsDialog(true);
 					
-					Boolean syncStart = Main.SETTINGS.getBooleanProperty("synchronizer.sync_start");
+					Boolean syncStart = SETTINGS.getBooleanProperty("synchronizer.sync_start");
 					if (syncStart != null && syncStart)
 						ActionSynchronize.synchronize(false);
 				} catch (Throwable t) {
@@ -341,7 +392,8 @@ public class Main {
 	}
 	
 	private static void loadDataFolder() throws Exception {
-		DATA_FOLDER = INIT_SETTINGS.getStringProperty("com.leclercb.taskunifier.data_folder");
+		DATA_FOLDER = Main.getInitSettings().getStringProperty(
+				"com.leclercb.taskunifier.data_folder");
 		
 		if (DATA_FOLDER == null)
 			DATA_FOLDER = System.getProperty("com.leclercb.taskunifier.data_folder");
@@ -367,7 +419,7 @@ public class Main {
 						t);
 			}
 			
-			FIRST_EXECUTION = true;
+			Main.setFirstExecution(true);
 			return;
 		} else if (!file.isDirectory()) {
 			throw new Exception(String.format(
@@ -435,13 +487,13 @@ public class Main {
 		Level guiLogLevel = Level.INFO;
 		Level pluginLogLevel = Level.INFO;
 		
-		String apiLogFile = DATA_FOLDER
+		String apiLogFile = getDataFolder()
 				+ File.separator
 				+ "taskunifier_api.log";
-		String guiLogFile = DATA_FOLDER
+		String guiLogFile = getDataFolder()
 				+ File.separator
 				+ "taskunifier_gui.log";
-		String pluginLogFile = DATA_FOLDER
+		String pluginLogFile = getDataFolder()
 				+ File.separator
 				+ "taskunifier_plugin.log";
 		
@@ -500,7 +552,7 @@ public class Main {
 			
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
-			SETTINGS.load(new FileInputStream(getSettingsFile()));
+			SETTINGS.load(new FileInputStream(getGlobalSettingsFile()));
 			
 			SettingsVersion.updateSettings();
 		} catch (Exception e) {
@@ -510,14 +562,14 @@ public class Main {
 			
 			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
-			if (!FIRST_EXECUTION)
+			if (!isFirstExecution())
 				JOptionPane.showMessageDialog(
 						null,
 						"Settings file not found. A default settings file is loaded.",
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
 			
-			FIRST_EXECUTION = true;
+			setFirstExecution(true);
 		}
 	}
 	
@@ -591,7 +643,7 @@ public class Main {
 		NoteFactory.initializeWithClass(GuiNote.class, GuiNoteBean.class);
 		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
-		loadAllData(DATA_FOLDER);
+		loadAllData(getDataFolder());
 	}
 	
 	public static void loadAllData(String folder) {
@@ -823,7 +875,7 @@ public class Main {
 		
 		API_PLUGINS.addPlugin(null, DummyGuiPlugin.getInstance());
 		
-		File pluginsFolder = new File(PLUGINS_FOLDER);
+		File pluginsFolder = new File(getPluginsFolder());
 		
 		boolean outdatedPlugins = false;
 		File[] pluginFiles = pluginsFolder.listFiles();
@@ -947,9 +999,9 @@ public class Main {
 	}
 	
 	public static void saveAllData() {
-		saveModels(DATA_FOLDER);
-		saveTaskTemplates(DATA_FOLDER);
-		saveTaskSearchers(DATA_FOLDER);
+		saveModels(getDataFolder());
+		saveTaskTemplates(getDataFolder());
+		saveTaskSearchers(getDataFolder());
 		saveInitSettings();
 		saveSettings();
 	}
@@ -976,7 +1028,7 @@ public class Main {
 	public static void saveSettings() {
 		try {
 			SETTINGS.store(
-					new FileOutputStream(getSettingsFile()),
+					new FileOutputStream(getGlobalSettingsFile()),
 					Constants.TITLE + " Settings");
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving settings");

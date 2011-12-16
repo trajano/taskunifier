@@ -48,7 +48,7 @@ public class PluginApi {
 	}
 	
 	public static PropertyMap getSettings() {
-		return Main.SETTINGS;
+		return Main.getSettings();
 	}
 	
 	public static void initializeProxy() {

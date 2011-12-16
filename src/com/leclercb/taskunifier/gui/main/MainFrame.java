@@ -113,7 +113,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -209,11 +209,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void loadWindowSettings() {
-		int extendedState = Main.SETTINGS.getIntegerProperty("window.extended_state");
-		int width = Main.SETTINGS.getIntegerProperty("window.width");
-		int height = Main.SETTINGS.getIntegerProperty("window.height");
-		int locationX = Main.SETTINGS.getIntegerProperty("window.location_x");
-		int locationY = Main.SETTINGS.getIntegerProperty("window.location_y");
+		int extendedState = Main.getSettings().getIntegerProperty(
+				"window.extended_state");
+		int width = Main.getSettings().getIntegerProperty("window.width");
+		int height = Main.getSettings().getIntegerProperty("window.height");
+		int locationX = Main.getSettings().getIntegerProperty(
+				"window.location_x");
+		int locationY = Main.getSettings().getIntegerProperty(
+				"window.location_y");
 		
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
@@ -223,15 +226,19 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public void saveProperties() {
 		if (this.isVisible()) {
-			Main.SETTINGS.setIntegerProperty(
+			Main.getSettings().setIntegerProperty(
 					"window.extended_state",
 					this.getExtendedState());
-			Main.SETTINGS.setIntegerProperty("window.width", this.getWidth());
-			Main.SETTINGS.setIntegerProperty("window.height", this.getHeight());
-			Main.SETTINGS.setIntegerProperty(
+			Main.getSettings().setIntegerProperty(
+					"window.width",
+					this.getWidth());
+			Main.getSettings().setIntegerProperty(
+					"window.height",
+					this.getHeight());
+			Main.getSettings().setIntegerProperty(
 					"window.location_x",
 					(int) this.getLocationOnScreen().getX());
-			Main.SETTINGS.setIntegerProperty(
+			Main.getSettings().setIntegerProperty(
 					"window.location_y",
 					(int) this.getLocationOnScreen().getY());
 		}
@@ -283,7 +290,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	private void initializeCommunicatorThread() {
 		this.communicatorThread = new CommunicatorThread();
 		
-		if (Main.SETTINGS.getBooleanProperty("general.communicator.enabled"))
+		if (Main.getSettings().getBooleanProperty(
+				"general.communicator.enabled"))
 			this.communicatorThread.start();
 	}
 	
@@ -299,7 +307,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	private void initializeSystemTray() {
 		if (!SystemTray.isSupported()
-				|| !Main.SETTINGS.getBooleanProperty("window.minimize_to_system_tray")) {
+				|| !Main.getSettings().getBooleanProperty(
+						"window.minimize_to_system_tray")) {
 			this.minimizeToSystemTray = false;
 			return;
 		}

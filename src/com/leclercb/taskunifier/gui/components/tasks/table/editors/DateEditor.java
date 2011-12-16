@@ -56,8 +56,10 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 	private JDateChooser dateChooser;
 	
 	public DateEditor(boolean showTime) {
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String dateFormat = Main.getSettings().getStringProperty(
+				"date.date_format");
+		String timeFormat = Main.getSettings().getStringProperty(
+				"date.time_format");
 		String format = null;
 		String mask = null;
 		

@@ -57,17 +57,18 @@ public class LocaleFieldType extends ConfigurationFieldType.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		return Main.SETTINGS.getLocaleProperty("general.locale");
+		return Main.getSettings().getLocaleProperty("general.locale");
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setLocaleProperty(
+		Main.getSettings().setLocaleProperty(
 				"general.locale",
 				(Locale) this.getFieldValue());
 		
 		if (this.languageOnly) {
-			Translations.setLocale(Main.SETTINGS.getLocaleProperty("general.locale"));
+			Translations.setLocale(Main.getSettings().getLocaleProperty(
+					"general.locale"));
 		}
 	}
 	

@@ -72,16 +72,17 @@ public class MacToolBar extends UnifiedToolBar {
 		final JLabel accountLabel = MacWidgetFactory.createEmphasizedLabel("");
 		accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
 		
-		Main.SETTINGS.addSavePropertiesListener(new SavePropertiesListener() {
-			
-			@Override
-			public void saveProperties() {
-				accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
-			}
-			
-		});
+		Main.getSettings().addSavePropertiesListener(
+				new SavePropertiesListener() {
+					
+					@Override
+					public void saveProperties() {
+						accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+					}
+					
+				});
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					
@@ -98,7 +99,8 @@ public class MacToolBar extends UnifiedToolBar {
 	private void initializeActions() {
 		try {
 			boolean added = false;
-			String value = Main.SETTINGS.getStringProperty("general.toolbar");
+			String value = Main.getSettings().getStringProperty(
+					"general.toolbar");
 			
 			if (value == null)
 				throw new Exception();

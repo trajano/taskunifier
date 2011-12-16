@@ -54,7 +54,7 @@ public final class Help {
 	
 	private Help() {
 		try {
-			File file = new File(Main.RESOURCES_FOLDER
+			File file = new File(Main.getResourcesFolder()
 					+ File.separator
 					+ "help"
 					+ File.separator

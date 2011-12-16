@@ -15,7 +15,8 @@ public class AutoBackupThread extends Thread {
 			try {
 				Thread.sleep(60000);
 				
-				int nbHours = Main.SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+				int nbHours = Main.getSettings().getIntegerProperty(
+						"general.backup.auto_backup_every");
 				BackupUtils.getInstance().autoBackup(nbHours);
 			} catch (InterruptedException e) {
 				

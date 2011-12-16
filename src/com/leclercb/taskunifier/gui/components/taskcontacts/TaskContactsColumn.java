@@ -68,49 +68,56 @@ public enum TaskContactsColumn {
 		this.setLabel(label);
 		this.setEditable(editable);
 		
-		this.setOrder(Main.SETTINGS.getIntegerProperty("taskcontactscolumn."
-				+ TaskContactsColumn.this.name().toLowerCase()
-				+ ".order", 0));
+		this.setOrder(Main.getSettings().getIntegerProperty(
+				"taskcontactscolumn."
+						+ TaskContactsColumn.this.name().toLowerCase()
+						+ ".order",
+				0));
 		
-		this.setWidth(Main.SETTINGS.getIntegerProperty("taskcontactscolumn."
-				+ TaskContactsColumn.this.name().toLowerCase()
-				+ ".width", 200));
+		this.setWidth(Main.getSettings().getIntegerProperty(
+				"taskcontactscolumn."
+						+ TaskContactsColumn.this.name().toLowerCase()
+						+ ".width",
+				200));
 		
-		this.setVisible(Main.SETTINGS.getBooleanProperty("taskcontactscolumn."
-				+ TaskContactsColumn.this.name().toLowerCase()
-				+ ".visible", true));
+		this.setVisible(Main.getSettings().getBooleanProperty(
+				"taskcontactscolumn."
+						+ TaskContactsColumn.this.name().toLowerCase()
+						+ ".visible",
+				true));
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().startsWith(
-						"taskcontactscolumn."
-								+ TaskContactsColumn.this.name().toLowerCase())) {
-					if (evt.getNewValue() == null)
-						return;
+		Main.getSettings().addPropertyChangeListener(
+				new PropertyChangeListener() {
 					
-					if (evt.getPropertyName().equals(
-							"taskcontactscolumn."
-									+ TaskContactsColumn.this.name().toLowerCase()
-									+ ".order"))
-						TaskContactsColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (evt.getPropertyName().startsWith(
+								"taskcontactscolumn."
+										+ TaskContactsColumn.this.name().toLowerCase())) {
+							if (evt.getNewValue() == null)
+								return;
+							
+							if (evt.getPropertyName().equals(
+									"taskcontactscolumn."
+											+ TaskContactsColumn.this.name().toLowerCase()
+											+ ".order"))
+								TaskContactsColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"taskcontactscolumn."
+											+ TaskContactsColumn.this.name().toLowerCase()
+											+ ".width"))
+								TaskContactsColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"taskcontactscolumn."
+											+ TaskContactsColumn.this.name().toLowerCase()
+											+ ".visible"))
+								TaskContactsColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
+						}
+					}
 					
-					if (evt.getPropertyName().equals(
-							"taskcontactscolumn."
-									+ TaskContactsColumn.this.name().toLowerCase()
-									+ ".width"))
-						TaskContactsColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-					
-					if (evt.getPropertyName().equals(
-							"taskcontactscolumn."
-									+ TaskContactsColumn.this.name().toLowerCase()
-									+ ".visible"))
-						TaskContactsColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
-				}
-			}
-			
-		});
+				});
 	}
 	
 	public Class<?> getType() {
@@ -131,9 +138,9 @@ public enum TaskContactsColumn {
 		
 		int oldOrder = this.getOrder();
 		this.order = order;
-		Main.SETTINGS.setIntegerProperty("taskcontactscolumn."
-				+ this.name().toLowerCase()
-				+ ".order", order);
+		Main.getSettings().setIntegerProperty(
+				"taskcontactscolumn." + this.name().toLowerCase() + ".order",
+				order);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_ORDER,
 				oldOrder,
@@ -158,9 +165,9 @@ public enum TaskContactsColumn {
 		
 		int oldWidth = this.getWidth();
 		this.width = width;
-		Main.SETTINGS.setIntegerProperty("taskcontactscolumn."
-				+ this.name().toLowerCase()
-				+ ".width", width);
+		Main.getSettings().setIntegerProperty(
+				"taskcontactscolumn." + this.name().toLowerCase() + ".width",
+				width);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_WIDTH,
 				oldWidth,
@@ -185,9 +192,9 @@ public enum TaskContactsColumn {
 		
 		boolean oldVisible = this.isVisible();
 		this.visible = visible;
-		Main.SETTINGS.setBooleanProperty("taskcontactscolumn."
-				+ this.name().toLowerCase()
-				+ ".visible", visible);
+		Main.getSettings().setBooleanProperty(
+				"taskcontactscolumn." + this.name().toLowerCase() + ".visible",
+				visible);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_VISIBLE,
 				oldVisible,

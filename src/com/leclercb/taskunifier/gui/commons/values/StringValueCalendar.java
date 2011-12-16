@@ -50,9 +50,12 @@ public class StringValueCalendar implements StringValue {
 	private DateFormat formatter;
 	
 	private StringValueCalendar(boolean showTime) {
-		boolean showDayOfWeek = Main.SETTINGS.getBooleanProperty("date.show_day_of_week");
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		boolean showDayOfWeek = Main.getSettings().getBooleanProperty(
+				"date.show_day_of_week");
+		String dateFormat = Main.getSettings().getStringProperty(
+				"date.date_format");
+		String timeFormat = Main.getSettings().getStringProperty(
+				"date.time_format");
 		String format = "";
 		
 		if (showDayOfWeek)

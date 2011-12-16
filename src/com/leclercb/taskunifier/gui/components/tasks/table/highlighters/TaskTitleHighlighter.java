@@ -64,7 +64,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		this.resetColors();
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"theme.color.progress",
 				new PropertyChangeListener() {
 					
@@ -76,7 +76,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 					
 				});
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"task.indent_subtasks",
 				new PropertyChangeListener() {
 					
@@ -101,8 +101,10 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		final Task task = (Task) value;
 		
-		final boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
-		final boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		final boolean indentSubtasks = Main.getSettings().getBooleanProperty(
+				"task.indent_subtasks");
+		final boolean useDueTime = Main.getSettings().getBooleanProperty(
+				"date.use_due_time");
 		final int nbParents = task.getAllParents().length;
 		
 		String title = task.getTitle();
@@ -180,7 +182,8 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 	}
 	
 	private void resetColors() {
-		this.progressColor = Main.SETTINGS.getColorProperty("theme.color.progress");
+		this.progressColor = Main.getSettings().getColorProperty(
+				"theme.color.progress");
 	}
 	
 }

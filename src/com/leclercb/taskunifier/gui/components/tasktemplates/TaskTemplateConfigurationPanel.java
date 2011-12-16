@@ -253,7 +253,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				templateTaskDueTime.setModel(taskDueTimeSpinnerModel);
 				templateTaskDueTime.setEditor(new JSpinner.DateEditor(
 						templateTaskDueTime,
-						Main.SETTINGS.getStringProperty("date.time_format")));
+						Main.getSettings().getStringProperty("date.time_format")));
 				
 				ValueModel taskStartDateModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_START_DATE);
 				Bindings.bind(templateTaskStartDate, taskStartDateModel);
@@ -267,7 +267,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				templateTaskStartTime.setModel(taskStartTimeSpinnerModel);
 				templateTaskStartTime.setEditor(new JSpinner.DateEditor(
 						templateTaskStartTime,
-						Main.SETTINGS.getStringProperty("date.time_format")));
+						Main.getSettings().getStringProperty("date.time_format")));
 				
 				ValueModel taskDueDateReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_DUE_DATE_REMINDER);
 				templateTaskDueDateReminder.setModel(new ComboBoxAdapter<Integer>(

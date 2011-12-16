@@ -92,21 +92,23 @@ final class StatusBarElements {
 		final JLabel element = new JLabel();
 		
 		final SimpleDateFormat dateFormat = new SimpleDateFormat(
-				Main.SETTINGS.getStringProperty("date.date_format")
+				Main.getSettings().getStringProperty("date.date_format")
 						+ " "
-						+ Main.SETTINGS.getStringProperty("date.time_format"));
+						+ Main.getSettings().getStringProperty(
+								"date.time_format"));
 		
 		String date = Translations.getString("statusbar.never");
 		
-		if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
+		if (Main.getSettings().getCalendarProperty(
+				"synchronizer.last_synchronization_date") != null)
+			date = dateFormat.format(Main.getSettings().getCalendarProperty(
 					"synchronizer.last_synchronization_date").getTime());
 		
 		element.setText(Translations.getString("statusbar.last_synchronization_date")
 				+ ": "
 				+ date);
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"synchronizer.last_synchronization_date",
 				new PropertyChangeListener() {
 					
@@ -114,8 +116,9 @@ final class StatusBarElements {
 					public void propertyChange(PropertyChangeEvent event) {
 						String date = Translations.getString("statusbar.never");
 						
-						if (Main.SETTINGS.getCalendarProperty("synchronizer.last_synchronization_date") != null)
-							date = dateFormat.format(Main.SETTINGS.getCalendarProperty(
+						if (Main.getSettings().getCalendarProperty(
+								"synchronizer.last_synchronization_date") != null)
+							date = dateFormat.format(Main.getSettings().getCalendarProperty(
 									"synchronizer.last_synchronization_date").getTime());
 						
 						element.setText(Translations.getString("statusbar.last_synchronization_date")
@@ -134,7 +137,7 @@ final class StatusBarElements {
 		
 		updateScheduledSyncStatus(element, thread);
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
 				new PropertyChangeListener() {
 					
@@ -164,7 +167,8 @@ final class StatusBarElements {
 			ScheduledSyncThread thread) {
 		String text = null;
 		
-		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled")) {
+		if (Main.getSettings().getBooleanProperty(
+				"synchronizer.scheduler_enabled")) {
 			long sleep = thread.getRemainingSleepTime();
 			sleep = sleep / 1000;
 			
@@ -245,8 +249,10 @@ final class StatusBarElements {
 	}
 	
 	public static final JLabel createCurrentDateTime() {
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String dateFormat = Main.getSettings().getStringProperty(
+				"date.date_format");
+		String timeFormat = Main.getSettings().getStringProperty(
+				"date.time_format");
 		
 		final SimpleDateFormat format = new SimpleDateFormat(dateFormat
 				+ " "

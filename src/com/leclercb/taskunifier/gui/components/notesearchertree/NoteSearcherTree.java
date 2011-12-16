@@ -70,7 +70,7 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setOpaque(false);
 		this.setRootVisible(false);
@@ -239,15 +239,16 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	}
 	
 	private void initializeExpandedState() {
-		Main.SETTINGS.addPropertyChangeListener(this.settingsPrefix
-				+ ".category", new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				NoteSearcherTree.this.updateExpandedState();
-			}
-			
-		});
+		Main.getSettings().addPropertyChangeListener(
+				this.settingsPrefix + ".category",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						NoteSearcherTree.this.updateExpandedState();
+					}
+					
+				});
 		
 		this.updateExpandedState();
 	}
@@ -258,7 +259,7 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 			if (category.getExpandedPropetyName() != null) {
 				this.setExpandedState(
 						TreeUtils.getPath(category),
-						Main.SETTINGS.getBooleanProperty(
+						Main.getSettings().getBooleanProperty(
 								category.getExpandedPropetyName(),
 								false));
 			}
@@ -270,7 +271,7 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
 			if (category.getExpandedPropetyName() != null) {
-				Main.SETTINGS.setBooleanProperty(
+				Main.getSettings().setBooleanProperty(
 						category.getExpandedPropetyName(),
 						this.isExpanded(TreeUtils.getPath(category)));
 			}

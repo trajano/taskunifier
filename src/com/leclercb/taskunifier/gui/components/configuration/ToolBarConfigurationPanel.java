@@ -290,7 +290,9 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 				buffer.append(action.name() + ";");
 		}
 		
-		Main.SETTINGS.setStringProperty("general.toolbar", buffer.toString());
+		Main.getSettings().setStringProperty(
+				"general.toolbar",
+				buffer.toString());
 	}
 	
 	@Override
@@ -301,7 +303,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 	public void reloadConfig() {
 		this.rightModel.removeAllElements();
 		
-		String value = Main.SETTINGS.getStringProperty("general.toolbar");
+		String value = Main.getSettings().getStringProperty("general.toolbar");
 		
 		if (value == null)
 			return;

@@ -69,7 +69,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -85,7 +85,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 		this.horizontalSplitPane.setOneTouchExpandable(true);
 		
 		this.verticalSplitPane = new JSplitPane(
-				Main.SETTINGS.getIntegerProperty("view.notes.window.split"));
+				Main.getSettings().getIntegerProperty("view.notes.window.split"));
 		this.verticalSplitPane.setOneTouchExpandable(true);
 		this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		
@@ -117,8 +117,10 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	}
 	
 	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.horizontal_split");
-		int vSplit = Main.SETTINGS.getIntegerProperty("view.notes.window.vertical_split");
+		int hSplit = Main.getSettings().getIntegerProperty(
+				"view.notes.window.horizontal_split");
+		int vSplit = Main.getSettings().getIntegerProperty(
+				"view.notes.window.vertical_split");
 		
 		this.horizontalSplitPane.setDividerLocation(hSplit);
 		this.verticalSplitPane.setDividerLocation(vSplit);
@@ -126,10 +128,10 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.notes.window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.notes.window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}

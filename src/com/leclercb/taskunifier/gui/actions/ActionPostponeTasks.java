@@ -88,7 +88,8 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		if (tasks == null)
 			return;
 		
-		boolean fromCurrentDate = Main.SETTINGS.getBooleanProperty("task.postpone_from_current_date");
+		boolean fromCurrentDate = Main.getSettings().getBooleanProperty(
+				"task.postpone_from_current_date");
 		
 		if (type == PostponeType.BOTH)
 			fromCurrentDate = false;

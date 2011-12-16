@@ -89,48 +89,52 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.setLabel(label);
 		this.setEditable(editable);
 		
-		this.setOrder(Main.SETTINGS.getIntegerProperty("notecolumn."
-				+ NoteColumn.this.name().toLowerCase()
-				+ ".order", 0));
+		this.setOrder(Main.getSettings().getIntegerProperty(
+				"notecolumn." + NoteColumn.this.name().toLowerCase() + ".order",
+				0));
 		
-		this.setWidth(Main.SETTINGS.getIntegerProperty("notecolumn."
-				+ NoteColumn.this.name().toLowerCase()
-				+ ".width", 100));
+		this.setWidth(Main.getSettings().getIntegerProperty(
+				"notecolumn." + NoteColumn.this.name().toLowerCase() + ".width",
+				100));
 		
-		this.setVisible(Main.SETTINGS.getBooleanProperty("notecolumn."
-				+ NoteColumn.this.name().toLowerCase()
-				+ ".visible", true));
+		this.setVisible(Main.getSettings().getBooleanProperty(
+				"notecolumn."
+						+ NoteColumn.this.name().toLowerCase()
+						+ ".visible",
+				true));
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().startsWith(
-						"notecolumn." + NoteColumn.this.name().toLowerCase())) {
-					if (evt.getNewValue() == null)
-						return;
+		Main.getSettings().addPropertyChangeListener(
+				new PropertyChangeListener() {
 					
-					if (evt.getPropertyName().equals(
-							"notecolumn."
-									+ NoteColumn.this.name().toLowerCase()
-									+ ".order"))
-						NoteColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (evt.getPropertyName().startsWith(
+								"notecolumn."
+										+ NoteColumn.this.name().toLowerCase())) {
+							if (evt.getNewValue() == null)
+								return;
+							
+							if (evt.getPropertyName().equals(
+									"notecolumn."
+											+ NoteColumn.this.name().toLowerCase()
+											+ ".order"))
+								NoteColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"notecolumn."
+											+ NoteColumn.this.name().toLowerCase()
+											+ ".width"))
+								NoteColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"notecolumn."
+											+ NoteColumn.this.name().toLowerCase()
+											+ ".visible"))
+								NoteColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
+						}
+					}
 					
-					if (evt.getPropertyName().equals(
-							"notecolumn."
-									+ NoteColumn.this.name().toLowerCase()
-									+ ".width"))
-						NoteColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-					
-					if (evt.getPropertyName().equals(
-							"notecolumn."
-									+ NoteColumn.this.name().toLowerCase()
-									+ ".visible"))
-						NoteColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
-				}
-			}
-			
-		});
+				});
 	}
 	
 	@Override
@@ -152,9 +156,9 @@ public enum NoteColumn implements ModelProperties<Note> {
 		
 		int oldOrder = this.getOrder();
 		this.order = order;
-		Main.SETTINGS.setIntegerProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".order", order);
+		Main.getSettings().setIntegerProperty(
+				"notecolumn." + this.name().toLowerCase() + ".order",
+				order);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_ORDER,
 				oldOrder,
@@ -179,9 +183,9 @@ public enum NoteColumn implements ModelProperties<Note> {
 		
 		int oldWidth = this.getWidth();
 		this.width = width;
-		Main.SETTINGS.setIntegerProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".width", width);
+		Main.getSettings().setIntegerProperty(
+				"notecolumn." + this.name().toLowerCase() + ".width",
+				width);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_WIDTH,
 				oldWidth,
@@ -206,9 +210,9 @@ public enum NoteColumn implements ModelProperties<Note> {
 		
 		boolean oldVisible = this.isVisible();
 		this.visible = visible;
-		Main.SETTINGS.setBooleanProperty("notecolumn."
-				+ this.name().toLowerCase()
-				+ ".visible", visible);
+		Main.getSettings().setBooleanProperty(
+				"notecolumn." + this.name().toLowerCase() + ".visible",
+				visible);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_VISIBLE,
 				oldVisible,

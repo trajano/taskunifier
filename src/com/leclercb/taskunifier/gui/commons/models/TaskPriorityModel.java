@@ -47,7 +47,7 @@ public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyC
 	public TaskPriorityModel(boolean firstNull) {
 		super(generateArray(firstNull));
 		
-		Main.SETTINGS.addPropertyChangeListener(this);
+		Main.getSettings().addPropertyChangeListener(this);
 	}
 	
 	@Override

@@ -21,36 +21,38 @@ public class TUDialog extends JDialog {
 		if (windowProperty == null)
 			return;
 		
-		int width = Main.SETTINGS.getIntegerProperty(windowProperty + ".width");
-		int height = Main.SETTINGS.getIntegerProperty(windowProperty
-				+ ".height");
-		int locationX = Main.SETTINGS.getIntegerProperty(windowProperty
-				+ ".location_x");
-		int locationY = Main.SETTINGS.getIntegerProperty(windowProperty
-				+ ".location_y");
+		int width = Main.getSettings().getIntegerProperty(
+				windowProperty + ".width");
+		int height = Main.getSettings().getIntegerProperty(
+				windowProperty + ".height");
+		int locationX = Main.getSettings().getIntegerProperty(
+				windowProperty + ".location_x");
+		int locationY = Main.getSettings().getIntegerProperty(
+				windowProperty + ".location_y");
 		
 		this.setSize(width, height);
 		this.setLocation(locationX, locationY);
 		
-		Main.SETTINGS.addSavePropertiesListener(new SavePropertiesListener() {
-			
-			@Override
-			public void saveProperties() {
-				Main.SETTINGS.setIntegerProperty(
-						windowProperty + ".width",
-						TUDialog.this.getWidth());
-				Main.SETTINGS.setIntegerProperty(
-						windowProperty + ".height",
-						TUDialog.this.getHeight());
-				Main.SETTINGS.setIntegerProperty(
-						windowProperty + ".location_x",
-						TUDialog.this.getX());
-				Main.SETTINGS.setIntegerProperty(
-						windowProperty + ".location_y",
-						TUDialog.this.getY());
-			}
-			
-		});
+		Main.getSettings().addSavePropertiesListener(
+				new SavePropertiesListener() {
+					
+					@Override
+					public void saveProperties() {
+						Main.getSettings().setIntegerProperty(
+								windowProperty + ".width",
+								TUDialog.this.getWidth());
+						Main.getSettings().setIntegerProperty(
+								windowProperty + ".height",
+								TUDialog.this.getHeight());
+						Main.getSettings().setIntegerProperty(
+								windowProperty + ".location_x",
+								TUDialog.this.getX());
+						Main.getSettings().setIntegerProperty(
+								windowProperty + ".location_y",
+								TUDialog.this.getY());
+					}
+					
+				});
 	}
 	
 }

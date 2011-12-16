@@ -79,7 +79,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	@Override
 	public void setVisible(boolean b) {
 		if (b) {
-			File file = new File(Main.DATA_FOLDER);
+			File file = new File(Main.getDataFolder());
 			this.fileField.setFile(file.getAbsolutePath());
 		}
 		
@@ -141,7 +141,8 @@ public class ChangeDataFolderDialog extends JDialog {
 				if (event.getActionCommand().equals("RESET")) {
 					quit = true;
 					
-					Main.INIT_SETTINGS.remove("com.leclercb.taskunifier.data_folder");
+					Main.getInitSettings().remove(
+							"com.leclercb.taskunifier.data_folder");
 				}
 				
 				if (event.getActionCommand().equals("CHANGE")) {
@@ -158,7 +159,7 @@ public class ChangeDataFolderDialog extends JDialog {
 						if (!file.exists() || !file.isDirectory())
 							throw new Exception();
 						
-						Main.INIT_SETTINGS.setStringProperty(
+						Main.getInitSettings().setStringProperty(
 								"com.leclercb.taskunifier.data_folder",
 								file.getAbsolutePath());
 					} catch (Exception e) {

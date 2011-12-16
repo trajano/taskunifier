@@ -52,12 +52,13 @@ public class LookAndFeelFieldType extends ConfigurationFieldType.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		return LookAndFeelUtils.getLookAndFeel(Main.SETTINGS.getStringProperty("theme.lookandfeel"));
+		return LookAndFeelUtils.getLookAndFeel(Main.getSettings().getStringProperty(
+				"theme.lookandfeel"));
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"theme.lookandfeel",
 				((LookAndFeelDescriptor) this.getFieldValue()).getIdentifier());
 	}

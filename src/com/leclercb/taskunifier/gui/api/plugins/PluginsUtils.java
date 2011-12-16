@@ -103,7 +103,7 @@ public class PluginsUtils {
 			
 			org.apache.commons.io.FileUtils.copyFile(file, tmpFile);
 			
-			List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.loadJar(
+			List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().loadJar(
 					tmpFile,
 					file,
 					false);
@@ -156,10 +156,10 @@ public class PluginsUtils {
 			SynchronizerGuiPlugin plugin = plugins.get(0);
 			
 			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
-					Main.API_PLUGINS.getPlugins());
+					Main.getApiPlugins().getPlugins());
 			
 			// "existingPlugins" does not contain the new plugin yet
-			Main.API_PLUGINS.addPlugin(file, plugin);
+			Main.getApiPlugins().addPlugin(file, plugin);
 			
 			GuiLogger.getLogger().info(
 					"Plugin loaded: "
@@ -205,10 +205,10 @@ public class PluginsUtils {
 		if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
 			return;
 		
-		File file = Main.API_PLUGINS.getFile(plugin);
+		File file = Main.getApiPlugins().getFile(plugin);
 		file.delete();
 		
-		Main.API_PLUGINS.removePlugin(plugin);
+		Main.getApiPlugins().removePlugin(plugin);
 		
 		GuiLogger.getLogger().info(
 				"Plugin deleted: "
@@ -237,7 +237,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.start_plugin_installation")));
 			
-			file = new File(Main.PLUGINS_FOLDER
+			file = new File(Main.getPluginsFolder()
 					+ File.separator
 					+ UUID.randomUUID().toString()
 					+ ".jar");
@@ -248,15 +248,16 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.downloading_plugin")));
 			
-			if (!Main.SETTINGS.getBooleanProperty("proxy.use_system_proxies")
-					&& Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
+			if (!Main.getSettings().getBooleanProperty(
+					"proxy.use_system_proxies")
+					&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
 				FileUtils.copyURLToFile(
 						new URL(plugin.getDownloadUrl()),
 						file,
-						Main.SETTINGS.getStringProperty("proxy.host"),
-						Main.SETTINGS.getIntegerProperty("proxy.port"),
-						Main.SETTINGS.getStringProperty("proxy.login"),
-						Main.SETTINGS.getStringProperty("proxy.password"));
+						Main.getSettings().getStringProperty("proxy.host"),
+						Main.getSettings().getIntegerProperty("proxy.port"),
+						Main.getSettings().getStringProperty("proxy.login"),
+						Main.getSettings().getStringProperty("proxy.password"));
 			} else {
 				FileUtils.copyURLToFile(new URL(plugin.getDownloadUrl()), file);
 			}
@@ -335,12 +336,12 @@ public class PluginsUtils {
 						Translations.getString("manage_plugins.progress.start_plugin_deletion")));
 			
 			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
-					Main.API_PLUGINS.getPlugins());
+					Main.getApiPlugins().getPlugins());
 			for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
 				if (existingPlugin.getId().equals(plugin.getId())) {
-					File file = Main.API_PLUGINS.getFile(existingPlugin);
+					File file = Main.getApiPlugins().getFile(existingPlugin);
 					file.delete();
-					Main.API_PLUGINS.removePlugin(existingPlugin);
+					Main.getApiPlugins().removePlugin(existingPlugin);
 					
 					GuiLogger.getLogger().info(
 							"Plugin deleted: "
@@ -576,7 +577,7 @@ public class PluginsUtils {
 			plugins = new Plugin[] { DUMMY_PLUGIN };
 		}
 		
-		List<SynchronizerGuiPlugin> loadedPlugins = Main.API_PLUGINS.getPlugins();
+		List<SynchronizerGuiPlugin> loadedPlugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin p : loadedPlugins) {
 			for (int i = 0; i < plugins.length; i++) {
 				if (p.getId().equals(plugins[i].getId())) {

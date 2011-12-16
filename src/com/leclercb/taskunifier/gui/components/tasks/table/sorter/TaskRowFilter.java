@@ -67,7 +67,8 @@ public class TaskRowFilter extends RowFilter<TableModel, Integer> {
 	}
 	
 	public boolean include(Task task) {
-		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+		boolean indentSubtasks = Main.getSettings().getBooleanProperty(
+				"task.indent_subtasks");
 		
 		if (indentSubtasks)
 			return TaskUtils.showTask(task, this.filter);

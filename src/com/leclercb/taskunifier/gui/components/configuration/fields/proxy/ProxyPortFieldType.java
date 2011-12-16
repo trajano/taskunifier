@@ -44,15 +44,15 @@ public class ProxyPortFieldType extends ConfigurationFieldType.FormattedTextFiel
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("proxy.port") != null)
-			return Main.SETTINGS.getStringProperty("proxy.port");
+		if (Main.getSettings().getStringProperty("proxy.port") != null)
+			return Main.getSettings().getStringProperty("proxy.port");
 		else
 			return "0";
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty("proxy.port", this.getFieldValue());
+		Main.getSettings().setStringProperty("proxy.port", this.getFieldValue());
 	}
 	
 }

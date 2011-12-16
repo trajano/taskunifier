@@ -49,12 +49,12 @@ public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel imple
 	}
 	
 	private void initialize() {
-		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
+		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
 			this.addElement(plugin);
 		}
 		
-		Main.API_PLUGINS.addListChangeListener(this);
+		Main.getApiPlugins().addListChangeListener(this);
 	}
 	
 	@Override

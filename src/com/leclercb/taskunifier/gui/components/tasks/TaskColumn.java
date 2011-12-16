@@ -123,48 +123,52 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.setLabel(label);
 		this.setEditable(editable);
 		
-		this.setOrder(Main.SETTINGS.getIntegerProperty("taskcolumn."
-				+ TaskColumn.this.name().toLowerCase()
-				+ ".order", 0));
+		this.setOrder(Main.getSettings().getIntegerProperty(
+				"taskcolumn." + TaskColumn.this.name().toLowerCase() + ".order",
+				0));
 		
-		this.setWidth(Main.SETTINGS.getIntegerProperty("taskcolumn."
-				+ TaskColumn.this.name().toLowerCase()
-				+ ".width", 100));
+		this.setWidth(Main.getSettings().getIntegerProperty(
+				"taskcolumn." + TaskColumn.this.name().toLowerCase() + ".width",
+				100));
 		
-		this.setVisible(Main.SETTINGS.getBooleanProperty("taskcolumn."
-				+ TaskColumn.this.name().toLowerCase()
-				+ ".visible", true));
+		this.setVisible(Main.getSettings().getBooleanProperty(
+				"taskcolumn."
+						+ TaskColumn.this.name().toLowerCase()
+						+ ".visible",
+				true));
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().startsWith(
-						"taskcolumn." + TaskColumn.this.name().toLowerCase())) {
-					if (evt.getNewValue() == null)
-						return;
+		Main.getSettings().addPropertyChangeListener(
+				new PropertyChangeListener() {
 					
-					if (evt.getPropertyName().equals(
-							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".order"))
-						TaskColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (evt.getPropertyName().startsWith(
+								"taskcolumn."
+										+ TaskColumn.this.name().toLowerCase())) {
+							if (evt.getNewValue() == null)
+								return;
+							
+							if (evt.getPropertyName().equals(
+									"taskcolumn."
+											+ TaskColumn.this.name().toLowerCase()
+											+ ".order"))
+								TaskColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"taskcolumn."
+											+ TaskColumn.this.name().toLowerCase()
+											+ ".width"))
+								TaskColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
+							
+							if (evt.getPropertyName().equals(
+									"taskcolumn."
+											+ TaskColumn.this.name().toLowerCase()
+											+ ".visible"))
+								TaskColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
+						}
+					}
 					
-					if (evt.getPropertyName().equals(
-							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".width"))
-						TaskColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-					
-					if (evt.getPropertyName().equals(
-							"taskcolumn."
-									+ TaskColumn.this.name().toLowerCase()
-									+ ".visible"))
-						TaskColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
-				}
-			}
-			
-		});
+				});
 	}
 	
 	@Override
@@ -186,9 +190,9 @@ public enum TaskColumn implements ModelProperties<Task> {
 		
 		int oldOrder = this.getOrder();
 		this.order = order;
-		Main.SETTINGS.setIntegerProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".order", order);
+		Main.getSettings().setIntegerProperty(
+				"taskcolumn." + this.name().toLowerCase() + ".order",
+				order);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_ORDER,
 				oldOrder,
@@ -213,9 +217,9 @@ public enum TaskColumn implements ModelProperties<Task> {
 		
 		int oldWidth = this.getWidth();
 		this.width = width;
-		Main.SETTINGS.setIntegerProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".width", width);
+		Main.getSettings().setIntegerProperty(
+				"taskcolumn." + this.name().toLowerCase() + ".width",
+				width);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_WIDTH,
 				oldWidth,
@@ -240,9 +244,9 @@ public enum TaskColumn implements ModelProperties<Task> {
 		
 		boolean oldVisible = this.isVisible();
 		this.visible = visible;
-		Main.SETTINGS.setBooleanProperty("taskcolumn."
-				+ this.name().toLowerCase()
-				+ ".visible", visible);
+		Main.getSettings().setBooleanProperty(
+				"taskcolumn." + this.name().toLowerCase() + ".visible",
+				visible);
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_VISIBLE,
 				oldVisible,

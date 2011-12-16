@@ -101,12 +101,12 @@ public final class SynchronizerUtils {
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
-		String apiId = Main.SETTINGS.getStringProperty("api.id");
+		String apiId = Main.getSettings().getStringProperty("api.id");
 		
 		if (apiId == null)
 			return DummyGuiPlugin.getInstance();
 		
-		List<SynchronizerGuiPlugin> plugins = Main.API_PLUGINS.getPlugins();
+		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
 			if (EqualsUtils.equals(apiId, plugin.getId())) {
 				return plugin;
@@ -119,12 +119,13 @@ public final class SynchronizerUtils {
 	public static void initializeProxy() {
 		SynchronizerGuiPlugin plugin = getPlugin();
 		
-		if (!Main.SETTINGS.getBooleanProperty("proxy.use_system_proxies")
-				&& Main.SETTINGS.getBooleanProperty("proxy.enabled")) {
-			String host = Main.SETTINGS.getStringProperty("proxy.host");
-			Integer port = Main.SETTINGS.getIntegerProperty("proxy.port");
-			String login = Main.SETTINGS.getStringProperty("proxy.login");
-			String password = Main.SETTINGS.getStringProperty("proxy.password");
+		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
+				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
+			String host = Main.getSettings().getStringProperty("proxy.host");
+			Integer port = Main.getSettings().getIntegerProperty("proxy.port");
+			String login = Main.getSettings().getStringProperty("proxy.login");
+			String password = Main.getSettings().getStringProperty(
+					"proxy.password");
 			
 			plugin.getSynchronizerApi().setProxyHost(host);
 			plugin.getSynchronizerApi().setProxyPort(port);
@@ -145,7 +146,8 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void removeOldCompletedTasks() {
-		int keep = Main.SETTINGS.getIntegerProperty("synchronizer.keep_tasks_completed_for_x_days");
+		int keep = Main.getSettings().getIntegerProperty(
+				"synchronizer.keep_tasks_completed_for_x_days");
 		
 		Calendar completedAfter = Calendar.getInstance();
 		completedAfter.add(Calendar.DAY_OF_MONTH, -keep);
@@ -174,16 +176,16 @@ public final class SynchronizerUtils {
 	
 	public static void resetConnection() {
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetConnectionParameters(
-				Main.SETTINGS);
+				Main.getSettings());
 	}
 	
 	public static void resetSynchronizer() {
-		Main.SETTINGS.setCalendarProperty(
+		Main.getSettings().setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
 		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
-				Main.SETTINGS);
+				Main.getSettings());
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
@@ -199,7 +201,7 @@ public final class SynchronizerUtils {
 			return;
 		}
 		
-		Main.SETTINGS.setCalendarProperty(
+		Main.getSettings().setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
 		
@@ -213,7 +215,7 @@ public final class SynchronizerUtils {
 		TaskFactory.getInstance().deleteAll();
 		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
-				Main.SETTINGS);
+				Main.getSettings());
 		
 		if (set) {
 			try {

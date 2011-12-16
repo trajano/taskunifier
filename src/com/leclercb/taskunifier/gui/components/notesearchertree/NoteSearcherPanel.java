@@ -90,7 +90,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 		
 		this.settingsPrefix = settingsPrefix;
 		
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.initialize();
 	}
@@ -275,9 +275,9 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 	
 	private void initializeSelectedSearcher() {
 		try {
-			String value = Main.SETTINGS.getStringProperty(this.settingsPrefix
-					+ ".selected.value");
-			NoteSearcherType type = Main.SETTINGS.getEnumProperty(
+			String value = Main.getSettings().getStringProperty(
+					this.settingsPrefix + ".selected.value");
+			NoteSearcherType type = Main.getSettings().getEnumProperty(
 					this.settingsPrefix + ".selected.type",
 					NoteSearcherType.class);
 			
@@ -313,7 +313,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			if (searcher == null)
 				return;
 			
-			Main.SETTINGS.setEnumProperty(
+			Main.getSettings().setEnumProperty(
 					this.settingsPrefix + ".selected.type",
 					NoteSearcherType.class,
 					searcher.getType());
@@ -321,7 +321,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			if (searcher.getType() == NoteSearcherType.FOLDER) {
 				if (this.searcherView.getSelectedFolder() != null) {
 					ModelId id = this.searcherView.getSelectedFolder().getModelId();
-					Main.SETTINGS.setStringProperty(
+					Main.getSettings().setStringProperty(
 							this.settingsPrefix + ".selected.value",
 							new ModelIdSettingsCoder().encode(id));
 				}
@@ -335,7 +335,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 					t);
 		}
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				this.settingsPrefix + ".selected.value",
 				null);
 	}

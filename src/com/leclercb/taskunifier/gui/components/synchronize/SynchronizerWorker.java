@@ -108,7 +108,8 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				return null;
 			}
 			
-			if (Main.SETTINGS.getBooleanProperty("general.backup.backup_before_sync"))
+			if (Main.getSettings().getBooleanProperty(
+					"general.backup.backup_before_sync"))
 				BackupUtils.getInstance().createNewBackup();
 			
 			ActionSave.save();
@@ -149,9 +150,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 							plugin.getSynchronizerApi().getApiName())));
 			
 			connection = plugin.getSynchronizerApi().getConnection(
-					Main.SETTINGS);
+					Main.getSettings());
 			
-			connection.loadParameters(Main.SETTINGS);
+			connection.loadParameters(Main.getSettings());
 			
 			final Connection finalConnection = connection;
 			this.executeNonAtomicAction(new Runnable() {
@@ -180,23 +181,23 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			if (this.isStopped())
 				return null;
 			
-			connection.saveParameters(Main.SETTINGS);
+			connection.saveParameters(Main.getSettings());
 			
 			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
-					Main.SETTINGS,
+					Main.getSettings(),
 					connection);
 			
-			SynchronizerChoice choice = Main.SETTINGS.getEnumProperty(
+			SynchronizerChoice choice = Main.getSettings().getEnumProperty(
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 			
-			synchronizer.loadParameters(Main.SETTINGS);
+			synchronizer.loadParameters(Main.getSettings());
 			synchronizer.synchronize(choice, monitor);
-			synchronizer.saveParameters(Main.SETTINGS);
+			synchronizer.saveParameters(Main.getSettings());
 			
 			connection.disconnect();
 			
-			Main.SETTINGS.setCalendarProperty(
+			Main.getSettings().setCalendarProperty(
 					"synchronizer.last_synchronization_date",
 					Calendar.getInstance());
 			
@@ -230,9 +231,10 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		
 		Thread.sleep(1000);
 		
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"synchronizer.scheduler_sleep_time",
-				Main.SETTINGS.getStringProperty("synchronizer.scheduler_sleep_time"),
+				Main.getSettings().getStringProperty(
+						"synchronizer.scheduler_sleep_time"),
 				true);
 		
 		return null;

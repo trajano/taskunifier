@@ -348,8 +348,10 @@ public class BatchTaskEditPanel extends JPanel {
 	}
 	
 	private void initialize() {
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String dateFormat = Main.getSettings().getStringProperty(
+				"date.date_format");
+		String timeFormat = Main.getSettings().getStringProperty(
+				"date.time_format");
 		
 		String dueDateFormat = null;
 		String dueDateMask = null;
@@ -357,7 +359,7 @@ public class BatchTaskEditPanel extends JPanel {
 		String startDateFormat = null;
 		String startDateMask = null;
 		
-		if (Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
+		if (Main.getSettings().getBooleanProperty("date.use_due_time")) {
 			dueDateFormat = dateFormat + " " + timeFormat;
 			dueDateMask = DateTimeFormatUtils.getMask(dateFormat)
 					+ " "
@@ -367,7 +369,7 @@ public class BatchTaskEditPanel extends JPanel {
 			dueDateMask = DateTimeFormatUtils.getMask(dateFormat);
 		}
 		
-		if (Main.SETTINGS.getBooleanProperty("date.use_start_time")) {
+		if (Main.getSettings().getBooleanProperty("date.use_start_time")) {
 			startDateFormat = dateFormat + " " + timeFormat;
 			startDateMask = DateTimeFormatUtils.getMask(dateFormat)
 					+ " "

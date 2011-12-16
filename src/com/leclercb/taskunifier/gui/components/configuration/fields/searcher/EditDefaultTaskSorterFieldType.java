@@ -70,7 +70,9 @@ public class EditDefaultTaskSorterFieldType extends ConfigurationFieldType.Panel
 					e);
 		}
 		
-		Main.SETTINGS.setStringProperty("tasksearcher.default_sorter", value);
+		Main.getSettings().setStringProperty(
+				"tasksearcher.default_sorter",
+				value);
 	}
 	
 }

@@ -54,19 +54,22 @@ public class AlternateHighlighter extends AbstractHighlighter {
 		
 		this.resetColors();
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("theme.color.enabled")
-						|| evt.getPropertyName().equals("theme.color.even")
-						|| evt.getPropertyName().equals("theme.color.odd")) {
-					AlternateHighlighter.this.resetColors();
-					AlternateHighlighter.this.fireStateChanged();
-				}
-			}
-			
-		});
+		Main.getSettings().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (evt.getPropertyName().equals("theme.color.enabled")
+								|| evt.getPropertyName().equals(
+										"theme.color.even")
+								|| evt.getPropertyName().equals(
+										"theme.color.odd")) {
+							AlternateHighlighter.this.resetColors();
+							AlternateHighlighter.this.fireStateChanged();
+						}
+					}
+					
+				});
 	}
 	
 	@Override
@@ -87,9 +90,9 @@ public class AlternateHighlighter extends AbstractHighlighter {
 	}
 	
 	private void resetColors() {
-		if (Main.SETTINGS.getBooleanProperty("theme.color.enabled")) {
-			this.even = Main.SETTINGS.getColorProperty("theme.color.even");
-			this.odd = Main.SETTINGS.getColorProperty("theme.color.odd");
+		if (Main.getSettings().getBooleanProperty("theme.color.enabled")) {
+			this.even = Main.getSettings().getColorProperty("theme.color.even");
+			this.odd = Main.getSettings().getColorProperty("theme.color.odd");
 		} else {
 			this.even = UIManager.getColor("Table.background");
 			this.odd = UIManager.getColor("Table.background");

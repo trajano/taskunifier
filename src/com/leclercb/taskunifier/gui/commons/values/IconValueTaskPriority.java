@@ -67,8 +67,8 @@ public class IconValueTaskPriority implements IconValue {
 		if (priority == null)
 			return null;
 		
-		Color color = Main.SETTINGS.getColorProperty("theme.color.priority."
-				+ priority.name().toLowerCase());
+		Color color = Main.getSettings().getColorProperty(
+				"theme.color.priority." + priority.name().toLowerCase());
 		
 		Icon icon = new TUColorBadgeIcon(color, 12, 12);
 		

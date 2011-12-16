@@ -223,8 +223,10 @@ public class ActionAddQuickTask extends AbstractAction {
 			String title,
 			boolean startDate,
 			TaskTemplate taskTemplate) {
-		String dateFormat = Main.SETTINGS.getStringProperty("date.date_format");
-		String timeFormat = Main.SETTINGS.getStringProperty("date.time_format");
+		String dateFormat = Main.getSettings().getStringProperty(
+				"date.date_format");
+		String timeFormat = Main.getSettings().getStringProperty(
+				"date.time_format");
 		dateFormat = dateFormat.replace("yyyy", "yy");
 		
 		Pattern pattern = Pattern.compile("([+-]?)([0-9]*)(d|w|m|y|tt|t)(.*)");

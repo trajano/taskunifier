@@ -99,10 +99,11 @@ public class ActionCheckVersion extends AbstractAction {
 						GuiLogger.getLogger().info(
 								"New version available : " + version);
 						
-						String showed = Main.SETTINGS.getStringProperty("new_version.showed");
+						String showed = Main.getSettings().getStringProperty(
+								"new_version.showed");
 						
 						if (!silent || !EqualsUtils.equals(version, showed)) {
-							Main.SETTINGS.setStringProperty(
+							Main.getSettings().setStringProperty(
 									"new_version.showed",
 									version);
 							

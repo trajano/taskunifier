@@ -91,7 +91,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 			
 			for (int i = 0; i < toImport.length; i++) {
 				if (key.startsWith(toImport[i])) {
-					Main.SETTINGS.setStringProperty(key, value);
+					Main.getSettings().setStringProperty(key, value);
 					break;
 				}
 			}

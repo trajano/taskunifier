@@ -95,7 +95,7 @@ public final class ImageUtils {
 	
 	private static Map<ImageInfo, ImageIcon> images = new HashMap<ImageUtils.ImageInfo, ImageIcon>();
 	
-	private static final String IMAGES_FOLDER = Main.RESOURCES_FOLDER
+	private static final String IMAGES_FOLDER = Main.getResourcesFolder()
 			+ File.separator
 			+ "images";
 	

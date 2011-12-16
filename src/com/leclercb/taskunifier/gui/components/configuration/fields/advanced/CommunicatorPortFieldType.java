@@ -46,15 +46,16 @@ public class CommunicatorPortFieldType extends ConfigurationFieldType.FormattedT
 	
 	@Override
 	public String getPropertyValue() {
-		if (Main.SETTINGS.getStringProperty("general.communicator.port") != null)
-			return Main.SETTINGS.getStringProperty("general.communicator.port");
+		if (Main.getSettings().getStringProperty("general.communicator.port") != null)
+			return Main.getSettings().getStringProperty(
+					"general.communicator.port");
 		else
 			return "0";
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.SETTINGS.setStringProperty(
+		Main.getSettings().setStringProperty(
 				"general.communicator.port",
 				this.getFieldValue());
 	}

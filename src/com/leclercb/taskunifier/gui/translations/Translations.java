@@ -52,7 +52,7 @@ public final class Translations {
 		
 	}
 	
-	private static final String BUNDLE_FOLDER = Main.RESOURCES_FOLDER
+	private static final String BUNDLE_FOLDER = Main.getResourcesFolder()
 			+ File.separator
 			+ "translations";
 	

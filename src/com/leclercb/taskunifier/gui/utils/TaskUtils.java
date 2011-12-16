@@ -161,7 +161,7 @@ public final class TaskUtils {
 		
 		Calendar startDate = task.getStartDate();
 		
-		if (!Main.SETTINGS.getBooleanProperty("date.use_start_time")) {
+		if (!Main.getSettings().getBooleanProperty("date.use_start_time")) {
 			startDate.set(
 					startDate.get(Calendar.YEAR),
 					startDate.get(Calendar.MONTH),
@@ -179,7 +179,8 @@ public final class TaskUtils {
 				&& now.compareTo(startDate) <= 0)
 			return true;
 		
-		Calendar exitDate = Main.SETTINGS.getCalendarProperty("general.last_exit_date");
+		Calendar exitDate = Main.getSettings().getCalendarProperty(
+				"general.last_exit_date");
 		
 		if (exitDate != null)
 			if (now.compareTo(startDateReminder) >= 0
@@ -201,7 +202,7 @@ public final class TaskUtils {
 		
 		Calendar dueDate = task.getDueDate();
 		
-		if (!Main.SETTINGS.getBooleanProperty("date.use_due_time")) {
+		if (!Main.getSettings().getBooleanProperty("date.use_due_time")) {
 			dueDate.set(
 					dueDate.get(Calendar.YEAR),
 					dueDate.get(Calendar.MONTH),
@@ -218,7 +219,8 @@ public final class TaskUtils {
 		if (now.compareTo(dueDateReminder) >= 0 && now.compareTo(dueDate) <= 0)
 			return true;
 		
-		Calendar exitDate = Main.SETTINGS.getCalendarProperty("general.last_exit_date");
+		Calendar exitDate = Main.getSettings().getCalendarProperty(
+				"general.last_exit_date");
 		
 		if (exitDate != null)
 			if (now.compareTo(dueDateReminder) >= 0
@@ -345,8 +347,10 @@ public final class TaskUtils {
 		CheckUtils.isNotNull(tasks);
 		CheckUtils.isNotNull(columns);
 		
-		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
-		boolean useStartTime = Main.SETTINGS.getBooleanProperty("date.use_start_time");
+		boolean useDueTime = Main.getSettings().getBooleanProperty(
+				"date.use_due_time");
+		boolean useStartTime = Main.getSettings().getBooleanProperty(
+				"date.use_start_time");
 		
 		List<String[]> data = new ArrayList<String[]>();
 		
@@ -506,7 +510,8 @@ public final class TaskUtils {
 		importance += (task.isStar() ? 1 : 0);
 		
 		if (task.getDueDate() != null) {
-			boolean useTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+			boolean useTime = Main.getSettings().getBooleanProperty(
+					"date.use_due_time");
 			double diffDays = DateUtils.getDiffInDays(
 					Calendar.getInstance(),
 					task.getDueDate(),
@@ -605,7 +610,8 @@ public final class TaskUtils {
 					return false;
 		}
 		
-		if (!Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks")) {
+		if (!Main.getSettings().getBooleanProperty(
+				"tasksearcher.show_completed_tasks")) {
 			if (task.isCompleted() && !containsCompleted)
 				return false;
 		}

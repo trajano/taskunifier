@@ -142,7 +142,7 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public void updateBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("notesearcher.show_badges")) {
+		if (!Main.getSettings().getBooleanProperty("notesearcher.show_badges")) {
 			this.badgeCount = null;
 			return;
 		}

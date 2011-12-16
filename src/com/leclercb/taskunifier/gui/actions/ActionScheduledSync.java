@@ -63,7 +63,7 @@ public class ActionScheduledSync extends AbstractAction {
 		
 		this.updateIcon();
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
 				new PropertyChangeListener() {
 					
@@ -76,7 +76,8 @@ public class ActionScheduledSync extends AbstractAction {
 	}
 	
 	private void updateIcon() {
-		if (Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"))
+		if (Main.getSettings().getBooleanProperty(
+				"synchronizer.scheduler_enabled"))
 			this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 					"synchronize_play.png",
 					this.width,
@@ -94,9 +95,10 @@ public class ActionScheduledSync extends AbstractAction {
 	}
 	
 	public static void scheduledSync() {
-		Main.SETTINGS.setBooleanProperty(
+		Main.getSettings().setBooleanProperty(
 				"synchronizer.scheduler_enabled",
-				!Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled"));
+				!Main.getSettings().getBooleanProperty(
+						"synchronizer.scheduler_enabled"));
 	}
 	
 }

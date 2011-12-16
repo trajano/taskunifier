@@ -67,7 +67,8 @@ public final class GrowlUtils {
 	
 	static {
 		if (!SystemUtils.IS_OS_MAC
-				|| !Main.SETTINGS.getBooleanProperty("general.growl.enabled")) {
+				|| !Main.getSettings().getBooleanProperty(
+						"general.growl.enabled")) {
 			GROWL = null;
 		} else {
 			try {

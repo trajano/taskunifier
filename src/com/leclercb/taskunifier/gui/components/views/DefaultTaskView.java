@@ -83,7 +83,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	private void initialize() {
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -133,8 +133,10 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	private void loadSplitPaneSettings() {
-		int hSplit = Main.SETTINGS.getIntegerProperty("view.tasks.window.horizontal_split");
-		int vSplit = Main.SETTINGS.getIntegerProperty("view.tasks.window.vertical_split");
+		int hSplit = Main.getSettings().getIntegerProperty(
+				"view.tasks.window.horizontal_split");
+		int vSplit = Main.getSettings().getIntegerProperty(
+				"view.tasks.window.vertical_split");
 		
 		this.horizontalSplitPane.setDividerLocation(hSplit);
 		this.verticalSplitPane.setDividerLocation(vSplit);
@@ -142,10 +144,10 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.tasks.window.horizontal_split",
 				this.horizontalSplitPane.getDividerLocation());
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.tasks.window.vertical_split",
 				this.verticalSplitPane.getDividerLocation());
 	}

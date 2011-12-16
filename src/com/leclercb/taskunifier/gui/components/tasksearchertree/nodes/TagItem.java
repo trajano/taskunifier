@@ -108,7 +108,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public void updateBadgeCount() {
-		if (!Main.SETTINGS.getBooleanProperty("tasksearcher.show_badges")) {
+		if (!Main.getSettings().getBooleanProperty("tasksearcher.show_badges")) {
 			this.badgeCount = null;
 			return;
 		}
@@ -116,7 +116,8 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		TaskSearcher searcher = this.getTaskSearcher();
 		
-		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		boolean useDueTime = Main.getSettings().getBooleanProperty(
+				"date.use_due_time");
 		
 		int count = 0;
 		int countOverdue = 0;

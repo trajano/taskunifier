@@ -260,7 +260,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -285,12 +285,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public String getPropertyValue() {
-			return Main.SETTINGS.getStringProperty(this.propertyName);
+			return Main.getSettings().getStringProperty(this.propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setStringProperty(
+			Main.getSettings().setStringProperty(
 					this.propertyName,
 					this.getFieldValue());
 		}
@@ -329,7 +329,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -359,12 +359,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public Boolean getPropertyValue() {
-			return Main.SETTINGS.getBooleanProperty(propertyName);
+			return Main.getSettings().getBooleanProperty(propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setBooleanProperty(propertyName, this.getFieldValue());
+			Main.getSettings().setBooleanProperty(
+					propertyName,
+					this.getFieldValue());
 		}
 		
 	}
@@ -390,7 +392,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -474,7 +476,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				this.first = false;
 				
 				if (this.propertyName != null) {
-					Main.SETTINGS.addPropertyChangeListener(
+					Main.getSettings().addPropertyChangeListener(
 							propertyName,
 							new PropertyChangeListener() {
 								
@@ -528,7 +530,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -553,12 +555,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public String getPropertyValue() {
-			return Main.SETTINGS.getStringProperty(this.propertyName);
+			return Main.getSettings().getStringProperty(this.propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setStringProperty(
+			Main.getSettings().setStringProperty(
 					this.propertyName,
 					this.getFieldValue());
 		}
@@ -582,7 +584,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -607,12 +609,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public String getPropertyValue() {
-			return Main.SETTINGS.getStringProperty(this.propertyName);
+			return Main.getSettings().getStringProperty(this.propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setStringProperty(
+			Main.getSettings().setStringProperty(
 					this.propertyName,
 					this.getFieldValue());
 		}
@@ -640,7 +642,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -688,7 +690,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -713,12 +715,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public String getPropertyValue() {
-			return Main.SETTINGS.getStringProperty(this.propertyName);
+			return Main.getSettings().getStringProperty(this.propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setStringProperty(
+			Main.getSettings().setStringProperty(
 					this.propertyName,
 					this.getFieldValue());
 		}
@@ -749,7 +751,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			if (this.first) {
 				this.first = false;
 				
-				Main.SETTINGS.addPropertyChangeListener(
+				Main.getSettings().addPropertyChangeListener(
 						propertyName,
 						new PropertyChangeListener() {
 							
@@ -774,12 +776,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public Color getPropertyValue() {
-			return Main.SETTINGS.getColorProperty(this.propertyName);
+			return Main.getSettings().getColorProperty(this.propertyName);
 		}
 		
 		@Override
 		public void saveAndApplyConfig() {
-			Main.SETTINGS.setColorProperty(
+			Main.getSettings().setColorProperty(
 					this.propertyName,
 					this.getFieldValue());
 		}

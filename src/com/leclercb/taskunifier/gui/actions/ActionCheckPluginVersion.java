@@ -119,12 +119,13 @@ public class ActionCheckPluginVersion extends AbstractAction {
 										+ "\" version available : "
 										+ version);
 						
-						String showed = Main.SETTINGS.getStringProperty("new_plugin_version."
-								+ SynchronizerUtils.getPlugin().getId()
-								+ ".showed");
+						String showed = Main.getSettings().getStringProperty(
+								"new_plugin_version."
+										+ SynchronizerUtils.getPlugin().getId()
+										+ ".showed");
 						
 						if (!silent || !EqualsUtils.equals(version, showed)) {
-							Main.SETTINGS.setStringProperty(
+							Main.getSettings().setStringProperty(
 									"new_plugin_version."
 											+ SynchronizerUtils.getPlugin().getId()
 											+ ".showed",

@@ -54,7 +54,8 @@ public class TaskDueTodayHighlightPredicate implements HighlightPredicate {
 		
 		Task task = (Task) value;
 		
-		boolean useDueTime = Main.SETTINGS.getBooleanProperty("date.use_due_time");
+		boolean useDueTime = Main.getSettings().getBooleanProperty(
+				"date.use_due_time");
 		
 		return task.isDueToday(!useDueTime) && !task.isCompleted();
 	}

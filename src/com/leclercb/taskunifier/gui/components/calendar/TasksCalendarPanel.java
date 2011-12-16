@@ -58,7 +58,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	public TasksCalendarPanel(MainView mainView) {
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
-		Main.SETTINGS.addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(this);
 		
 		this.initialize();
 		
@@ -104,13 +104,13 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
 		boolean foundSelected = false;
-		String selectedCalendar = Main.SETTINGS.getStringProperty("calendar.selected");
+		String selectedCalendar = Main.getSettings().getStringProperty(
+				"calendar.selected");
 		
 		for (TasksCalendar calendar : this.tasksCalendars) {
 			try {
-				boolean active = Main.SETTINGS.getBooleanProperty("calendar."
-						+ calendar.getId()
-						+ ".active");
+				boolean active = Main.getSettings().getBooleanProperty(
+						"calendar." + calendar.getId() + ".active");
 				
 				calendar.setActive(active);
 			} catch (Throwable t) {
@@ -172,7 +172,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					
 				});
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					
@@ -183,16 +183,18 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 					
 				});
 		
-		int zoom = Main.SETTINGS.getIntegerProperty("view.calendar.zoom", 80);
+		int zoom = Main.getSettings().getIntegerProperty(
+				"view.calendar.zoom",
+				80);
 		this.calendarPanel.getZoomSlider().setValue(zoom);
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"view.calendar.zoom",
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						int zoom = Main.SETTINGS.getIntegerProperty(
+						int zoom = Main.getSettings().getIntegerProperty(
 								"view.calendar.zoom",
 								80);
 						TasksCalendarPanel.this.calendarPanel.getZoomSlider().setValue(
@@ -213,7 +215,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized void refreshTasks() {
-		boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+		boolean selected = Main.getSettings().getBooleanProperty(
+				"tasksearcher.show_completed_tasks");
 		TaskSearcher searcher = this.calendarPanel.getTaskSearcherPanel().getSelectedTaskSearcher();
 		
 		for (TasksCalendar calendar : this.tasksCalendars)
@@ -341,20 +344,20 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	@Override
 	public void saveProperties() {
-		Main.SETTINGS.remove("calendar.selected");
+		Main.getSettings().remove("calendar.selected");
 		
 		for (TasksCalendar calendar : this.tasksCalendars) {
-			Main.SETTINGS.setBooleanProperty("calendar."
-					+ calendar.getId()
-					+ ".active", calendar.isActive());
+			Main.getSettings().setBooleanProperty(
+					"calendar." + calendar.getId() + ".active",
+					calendar.isActive());
 			
 			if (calendar.isSelected())
-				Main.SETTINGS.setStringProperty(
+				Main.getSettings().setStringProperty(
 						"calendar.selected",
 						calendar.getId().toString());
 		}
 		
-		Main.SETTINGS.setIntegerProperty(
+		Main.getSettings().setIntegerProperty(
 				"view.calendar.zoom",
 				this.calendarPanel.getZoomSlider().getValue());
 	}

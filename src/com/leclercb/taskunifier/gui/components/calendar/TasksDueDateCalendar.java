@@ -89,8 +89,8 @@ public class TasksDueDateCalendar extends TasksCalendar {
 					+ "</html>");
 			event.setStart(start.getTime());
 			event.setEnd(task.getDueDate().getTime());
-			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
-					+ TaskUtils.getImportance(task)));
+			event.setColor(Main.getSettings().getColorProperty(
+					"theme.color.importance." + TaskUtils.getImportance(task)));
 			
 			if (!task.isCompleted() && task.isOverDue(false))
 				event.setIcon(ImageUtils.getResourceImage(

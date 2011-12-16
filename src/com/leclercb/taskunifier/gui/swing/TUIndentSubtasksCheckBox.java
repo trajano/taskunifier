@@ -21,15 +21,17 @@ public class TUIndentSubtasksCheckBox extends JCheckBox {
 		this.setOpaque(false);
 		this.setFont(this.getFont().deriveFont(10.0f));
 		
-		this.setSelected(Main.SETTINGS.getBooleanProperty("task.indent_subtasks"));
+		this.setSelected(Main.getSettings().getBooleanProperty(
+				"task.indent_subtasks"));
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"task.indent_subtasks",
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+						boolean selected = Main.getSettings().getBooleanProperty(
+								"task.indent_subtasks");
 						TUIndentSubtasksCheckBox.this.setSelected(selected);
 					}
 					
@@ -39,7 +41,7 @@ public class TUIndentSubtasksCheckBox extends JCheckBox {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
+				Main.getSettings().setBooleanProperty(
 						"task.indent_subtasks",
 						TUIndentSubtasksCheckBox.this.isSelected());
 			}

@@ -56,27 +56,32 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 		
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
+		this.sleepTime = Main.getSettings().getLongProperty(
+				"synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;
-		this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");
+		this.paused = !Main.getSettings().getBooleanProperty(
+				"synchronizer.scheduler_enabled");
 		
-		Main.SETTINGS.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						"synchronizer.scheduler_sleep_time")) {
-					ScheduledSyncThread.this.sleepTime = Main.SETTINGS.getLongProperty("synchronizer.scheduler_sleep_time");
-					ScheduledSyncThread.this.setRemainingSleepTime(ScheduledSyncThread.this.sleepTime);
-				}
-				
-				if (evt.getPropertyName().equals(
-						"synchronizer.scheduler_enabled")) {
-					ScheduledSyncThread.this.paused = !Main.SETTINGS.getBooleanProperty("synchronizer.scheduler_enabled");
-				}
-			}
-			
-		});
+		Main.getSettings().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (evt.getPropertyName().equals(
+								"synchronizer.scheduler_sleep_time")) {
+							ScheduledSyncThread.this.sleepTime = Main.getSettings().getLongProperty(
+									"synchronizer.scheduler_sleep_time");
+							ScheduledSyncThread.this.setRemainingSleepTime(ScheduledSyncThread.this.sleepTime);
+						}
+						
+						if (evt.getPropertyName().equals(
+								"synchronizer.scheduler_enabled")) {
+							ScheduledSyncThread.this.paused = !Main.getSettings().getBooleanProperty(
+									"synchronizer.scheduler_enabled");
+						}
+					}
+					
+				});
 	}
 	
 	public synchronized long getRemainingSleepTime() {

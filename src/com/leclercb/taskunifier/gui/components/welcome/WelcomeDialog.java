@@ -89,7 +89,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 		super(frame);
 		
 		// For API Configuration Panel
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

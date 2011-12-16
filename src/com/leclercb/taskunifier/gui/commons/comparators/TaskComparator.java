@@ -108,7 +108,8 @@ public class TaskComparator implements Comparator<Task> {
 			SortOrder sortOrder,
 			Task task1,
 			Task task2) {
-		boolean indentSubtasks = Main.SETTINGS.getBooleanProperty("task.indent_subtasks");
+		boolean indentSubtasks = Main.getSettings().getBooleanProperty(
+				"task.indent_subtasks");
 		
 		if (indentSubtasks)
 			return this.compareIndented(taskColumn, sortOrder, task1, task2);

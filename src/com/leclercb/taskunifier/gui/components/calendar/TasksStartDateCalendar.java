@@ -89,8 +89,8 @@ public class TasksStartDateCalendar extends TasksCalendar {
 					+ "</html>");
 			event.setStart(task.getStartDate().getTime());
 			event.setEnd(end.getTime());
-			event.setColor(Main.SETTINGS.getColorProperty("theme.color.importance."
-					+ TaskUtils.getImportance(task)));
+			event.setColor(Main.getSettings().getColorProperty(
+					"theme.color.importance." + TaskUtils.getImportance(task)));
 			
 			event.setIcon(ImageUtils.getResourceImage(
 					"warning_blue.png",

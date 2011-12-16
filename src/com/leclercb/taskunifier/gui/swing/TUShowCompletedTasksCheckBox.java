@@ -22,15 +22,17 @@ public class TUShowCompletedTasksCheckBox extends JCheckBox {
 		this.setOpaque(false);
 		this.setFont(this.getFont().deriveFont(10.0f));
 		
-		this.setSelected(Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks"));
+		this.setSelected(Main.getSettings().getBooleanProperty(
+				"tasksearcher.show_completed_tasks"));
 		
-		Main.SETTINGS.addPropertyChangeListener(
+		Main.getSettings().addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						boolean selected = Main.SETTINGS.getBooleanProperty("tasksearcher.show_completed_tasks");
+						boolean selected = Main.getSettings().getBooleanProperty(
+								"tasksearcher.show_completed_tasks");
 						TUShowCompletedTasksCheckBox.this.setSelected(selected);
 					}
 					
@@ -40,7 +42,7 @@ public class TUShowCompletedTasksCheckBox extends JCheckBox {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.SETTINGS.setBooleanProperty(
+				Main.getSettings().setBooleanProperty(
 						"tasksearcher.show_completed_tasks",
 						TUShowCompletedTasksCheckBox.this.isSelected());
 			}
