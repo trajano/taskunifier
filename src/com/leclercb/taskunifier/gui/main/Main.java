@@ -134,12 +134,20 @@ public class Main {
 	public static ActionSupport AFTER_START;
 	public static ActionSupport BEFORE_EXIT;
 	
+	public static boolean isDeveloperMode() {
+		return DEVELOPER_MODE;
+	}
+	
+	static void setDeveloperMode(boolean developerMode) {
+		DEVELOPER_MODE = developerMode;
+	}
+	
 	public static boolean isFirstExecution() {
 		return FIRST_EXECUTION;
 	}
 	
-	static void setFirstExecution(boolean isFirstExecution) {
-		FIRST_EXECUTION = isFirstExecution;
+	static void setFirstExecution(boolean firstExecution) {
+		FIRST_EXECUTION = firstExecution;
 	}
 	
 	public static String getInitSettingsFile() {
@@ -193,8 +201,8 @@ public class Main {
 	public static void main(String[] args) {
 		checkSingleInstance();
 		
-		DEVELOPER_MODE = false;
-		FIRST_EXECUTION = false;
+		setDeveloperMode(false);
+		setFirstExecution(false);
 		
 		AFTER_START = new ActionSupport(Main.class);
 		BEFORE_EXIT = new ActionSupport(Main.class);
@@ -296,7 +304,7 @@ public class Main {
 					ActionCheckVersion.checkVersion(true);
 					ActionCheckPluginVersion.checkPluginVersion(true);
 					
-					Boolean showed = Main.SETTINGS.getBooleanProperty("review.showed");
+					Boolean showed = SETTINGS.getBooleanProperty("review.showed");
 					if (showed == null || !showed)
 						ActionReview.review();
 					
@@ -353,9 +361,9 @@ public class Main {
 	
 	private static void loadDeveloperMode() {
 		String developerMode = System.getProperty("com.leclercb.taskunifier.developer_mode");
-		DEVELOPER_MODE = "true".equals(developerMode);
+		setDeveloperMode("true".equals(developerMode));
 		
-		if (DEVELOPER_MODE)
+		if (isDeveloperMode())
 			GuiLogger.getLogger().severe("DEVELOPER MODE");
 	}
 	
@@ -392,7 +400,7 @@ public class Main {
 	}
 	
 	private static void loadDataFolder() throws Exception {
-		DATA_FOLDER = Main.getInitSettings().getStringProperty(
+		DATA_FOLDER = getInitSettings().getStringProperty(
 				"com.leclercb.taskunifier.data_folder");
 		
 		if (DATA_FOLDER == null)
@@ -419,7 +427,7 @@ public class Main {
 						t);
 			}
 			
-			Main.setFirstExecution(true);
+			setFirstExecution(true);
 			return;
 		} else if (!file.isDirectory()) {
 			throw new Exception(String.format(
@@ -900,7 +908,7 @@ public class Main {
 			}
 		}
 		
-		Main.SETTINGS.setStringProperty(
+		SETTINGS.setStringProperty(
 				"api.id",
 				SynchronizerUtils.getPlugin().getId());
 		
@@ -911,14 +919,14 @@ public class Main {
 				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					Main.SETTINGS.setStringProperty("api.id", plugin.getId());
+					SETTINGS.setStringProperty("api.id", plugin.getId());
 				}
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					if (EqualsUtils.equals(
-							Main.SETTINGS.getStringProperty("api.id"),
+							SETTINGS.getStringProperty("api.id"),
 							plugin.getId()))
-						Main.SETTINGS.setStringProperty(
+						SETTINGS.setStringProperty(
 								"api.id",
 								DummyGuiPlugin.getInstance().getId());
 				}
@@ -973,13 +981,13 @@ public class Main {
 			QUIT = true;
 		}
 		
-		Boolean syncExit = Main.SETTINGS.getBooleanProperty("synchronizer.sync_exit");
+		Boolean syncExit = SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
 			ActionSynchronize.synchronize(false);
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
-		Main.SETTINGS.setCalendarProperty(
+		SETTINGS.setCalendarProperty(
 				"general.last_exit_date",
 				Calendar.getInstance());
 		
@@ -1010,7 +1018,7 @@ public class Main {
 		try {
 			File f = new File(getInitSettingsFile());
 			
-			if (!DEVELOPER_MODE && f.exists() && f.canWrite()) {
+			if (!isDeveloperMode() && f.exists() && f.canWrite()) {
 				INIT_SETTINGS.store(
 						new FileOutputStream(getInitSettingsFile()),
 						Constants.TITLE + " Init Settings");
