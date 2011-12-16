@@ -230,6 +230,9 @@ public class MenuBar extends JMenuBar {
 		
 		notesMenu.add(new ActionAddNote(16, 16));
 		notesMenu.add(new ActionDuplicateNotes(16, 16));
+		
+		notesMenu.addSeparator();
+		
 		notesMenu.add(new ActionDelete(16, 16));
 	}
 	

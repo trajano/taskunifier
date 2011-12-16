@@ -32,7 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
-import javax.swing.JOptionPane;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -49,11 +50,16 @@ public final class DesktopUtils {
 			
 			return true;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.please_visit", url),
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_browser"),
-					JOptionPane.ERROR_MESSAGE);
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			
 			return false;
 		}
@@ -73,11 +79,16 @@ public final class DesktopUtils {
 			
 			return true;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("error.cannot_open_mail_client"),
+			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					Translations.getString("error.cannot_open_mail_client"),
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			
 			return false;
 		}

@@ -35,11 +35,12 @@ package com.leclercb.taskunifier.gui.components.import_data;
 import java.io.File;
 import java.util.Enumeration;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -98,11 +99,19 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				}
 				
 				if (!set) {
-					JOptionPane.showMessageDialog(
-							null,
-							Translations.getString("general.synchronization_ongoing"),
+					ErrorInfo info = new ErrorInfo(
 							Translations.getString("general.error"),
-							JOptionPane.ERROR_MESSAGE);
+							Translations.getString("general.synchronization_ongoing"),
+							null,
+							null,
+							null,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
+					
 					return null;
 				}
 				

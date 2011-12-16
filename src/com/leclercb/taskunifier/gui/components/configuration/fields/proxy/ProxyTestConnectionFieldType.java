@@ -7,6 +7,9 @@ import java.net.URI;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -76,11 +79,16 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 						Translations.getString("general.information"),
 						JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(
-						MainFrame.getInstance().getFrame(),
-						Translations.getString("configuration.proxy.test_connection.failed"),
+				ErrorInfo info = new ErrorInfo(
 						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
+						Translations.getString("configuration.proxy.test_connection.failed"),
+						null,
+						null,
+						null,
+						null,
+						null);
+				
+				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			}
 		}
 		

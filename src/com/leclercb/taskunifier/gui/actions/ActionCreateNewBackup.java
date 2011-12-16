@@ -37,6 +37,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
@@ -76,11 +79,16 @@ public class ActionCreateNewBackup extends AbstractAction {
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
-					Translations.getString("action.create_new_backup.failure"),
+			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					Translations.getString("action.create_new_backup.failure"),
+					null,
+					null,
+					null,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 		}
 		
 		return result;

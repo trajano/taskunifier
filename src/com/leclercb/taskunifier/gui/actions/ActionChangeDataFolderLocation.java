@@ -36,10 +36,13 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
+
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.components.change_data_folder.ChangeDataFolderDialog;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionChangeDataFolderLocation extends AbstractAction {
@@ -65,12 +68,18 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 		File f = new File(Main.getInitSettingsFile());
 		
 		if (!f.exists() || !f.canWrite()) {
-			JOptionPane.showMessageDialog(
-					null,
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
 					Translations.getString("general.cannot_write", new File(
 							Main.getInitSettingsFile()).getAbsolutePath()),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					null,
+					null,
+					null,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
 			return;
 		}
 		

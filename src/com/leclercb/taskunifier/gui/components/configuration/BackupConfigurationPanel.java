@@ -37,6 +37,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNewBackup;
@@ -110,29 +113,44 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								if (backupList.getSelectedItem() != null) {
-									TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
-											MainFrame.getInstance().getFrame(),
-											Translations.getString("configuration.backup.restore_backup")) {
-										
-										@Override
-										public Void doActions(
-												ProgressMonitor monitor)
-												throws Throwable {
-											monitor.addMessage(new DefaultProgressMessage(
-													Translations.getString("configuration.backup.restore_backup")));
-											
-											BackupUtils.getInstance().createNewBackup();
-											BackupUtils.getInstance().restoreBackup(
-													(String) backupList.getSelectedItem());
-											
-											return null;
-										}
-										
-									};
+								if (backupList.getSelectedItem() == null) {
+									ErrorInfo info = new ErrorInfo(
+											Translations.getString("general.error"),
+											Translations.getString("error.no_backup_selected"),
+											null,
+											null,
+											null,
+											null,
+											null);
 									
-									dialog.setVisible(true);
+									JXErrorPane.showDialog(
+											MainFrame.getInstance().getFrame(),
+											info);
+									
+									return;
 								}
+								
+								TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+										MainFrame.getInstance().getFrame(),
+										Translations.getString("configuration.backup.restore_backup")) {
+									
+									@Override
+									public Void doActions(
+											ProgressMonitor monitor)
+											throws Throwable {
+										monitor.addMessage(new DefaultProgressMessage(
+												Translations.getString("configuration.backup.restore_backup")));
+										
+										BackupUtils.getInstance().createNewBackup();
+										BackupUtils.getInstance().restoreBackup(
+												(String) backupList.getSelectedItem());
+										
+										return null;
+									}
+									
+								};
+								
+								dialog.setVisible(true);
 							}
 							
 						})));

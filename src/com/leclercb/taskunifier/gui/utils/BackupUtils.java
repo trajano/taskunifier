@@ -8,9 +8,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.apache.commons.io.FileUtils;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -19,6 +19,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class BackupUtils {
@@ -61,21 +62,28 @@ public final class BackupUtils {
 				return false;
 			
 			if (!file.mkdir()) {
-				JOptionPane.showMessageDialog(
-						null,
+				ErrorInfo info = new ErrorInfo(
+						Translations.getString("general.error"),
 						Translations.getString(
 								"error.folder_not_a_folder",
-								folder),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
+								folder), null, null, null, null, null);
+				
+				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				
 				return false;
 			}
 		} else if (!file.isDirectory()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("error.folder_not_a_folder", folder),
+			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					Translations.getString("error.folder_not_a_folder", folder),
+					null,
+					null,
+					null,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
 			return false;
 		}
 		
@@ -197,11 +205,17 @@ public final class BackupUtils {
 		try {
 			FileUtils.deleteDirectory(new File(folder));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null,
-					e.getMessage(),
+			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+					e.getMessage(),
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
 			return;
 		}
 		
