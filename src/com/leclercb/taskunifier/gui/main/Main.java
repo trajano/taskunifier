@@ -138,7 +138,7 @@ public class Main {
 		return DEVELOPER_MODE;
 	}
 	
-	static void setDeveloperMode(boolean developerMode) {
+	private static void setDeveloperMode(boolean developerMode) {
 		DEVELOPER_MODE = developerMode;
 	}
 	
@@ -146,7 +146,7 @@ public class Main {
 		return FIRST_EXECUTION;
 	}
 	
-	static void setFirstExecution(boolean firstExecution) {
+	private static void setFirstExecution(boolean firstExecution) {
 		FIRST_EXECUTION = firstExecution;
 	}
 	
@@ -154,11 +154,7 @@ public class Main {
 		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
 	}
 	
-	public static String getAccountSettingsFile() {
-		return DATA_FOLDER + File.separator + "settings.properties";
-	}
-	
-	public static String getGlobalSettingsFile() {
+	public static String getSettingsFile() {
 		return DATA_FOLDER + File.separator + "settings.properties";
 	}
 	
@@ -178,19 +174,11 @@ public class Main {
 		return PLUGINS_FOLDER;
 	}
 	
-	public static PropertyMap getSettings() {
-		return getGlobalSettings();
-	}
-	
 	public static PropertyMap getInitSettings() {
 		return INIT_SETTINGS;
 	}
 	
-	public static PropertyMap getAccountSettings() {
-		return SETTINGS;
-	}
-	
-	public static PropertyMap getGlobalSettings() {
+	public static PropertyMap getSettings() {
 		return SETTINGS;
 	}
 	
@@ -560,7 +548,7 @@ public class Main {
 			
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
-			SETTINGS.load(new FileInputStream(getGlobalSettingsFile()));
+			SETTINGS.load(new FileInputStream(getSettingsFile()));
 			
 			SettingsVersion.updateSettings();
 		} catch (Exception e) {
@@ -1036,7 +1024,7 @@ public class Main {
 	public static void saveSettings() {
 		try {
 			SETTINGS.store(
-					new FileOutputStream(getGlobalSettingsFile()),
+					new FileOutputStream(getSettingsFile()),
 					Constants.TITLE + " Settings");
 			
 			GuiLogger.getLogger().log(Level.INFO, "Saving settings");
