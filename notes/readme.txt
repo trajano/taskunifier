@@ -1,6 +1,12 @@
 HISTORY
 -------
 
+Version 1.8.7
+	- Major:
+		- BF 3461408: Installer issue
+	- Minor:
+		- FR 3461830: Right-click menu in notes
+
 Version 1.8.6
 	- Major:
 		- Manage a list of contacts
