@@ -32,6 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
+import java.io.File;
+
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
@@ -82,6 +84,27 @@ public final class DesktopUtils {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_mail_client"),
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
+			return false;
+		}
+	}
+	
+	public static boolean open(File file) {
+		try {
+			com.leclercb.commons.gui.utils.DesktopUtils.open(file);
+			
+			return true;
+		} catch (Exception e) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					Translations.getString("error.cannot_open_file"),
 					null,
 					null,
 					e,
