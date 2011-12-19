@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
+import com.leclercb.taskunifier.gui.actions.ActionMailTo;
 import com.leclercb.taskunifier.gui.actions.ActionPrintSelectedModels;
 import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
@@ -82,6 +83,7 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new JMenuItem(new ActionExpandAll()));
 		this.add(new JMenuItem(new ActionSelectParentTasks(16, 16)));
 		this.addSeparator();
+		this.add(new ActionMailTo(16, 16));
 		this.add(new ActionPrintSelectedModels(16, 16));
 		this.addSeparator();
 		this.add(new ActionDelete(16, 16));

@@ -293,7 +293,8 @@ public abstract class HTMLEditorPane extends JPanel {
 		}
 		
 		private void showMenuIfPopupTrigger(MouseEvent e) {
-			if (e.isPopupTrigger()) {
+			// Or BUTTON3 due to a bug with OSX
+			if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON3) {
 				this.popup.show(this.component, e.getX() + 3, e.getY() + 3);
 			}
 		}
