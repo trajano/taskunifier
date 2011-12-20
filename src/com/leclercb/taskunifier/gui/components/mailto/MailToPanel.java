@@ -110,7 +110,6 @@ public class MailToPanel extends JPanel {
 			columns.remove(TaskColumn.MODEL_CREATION_DATE);
 			columns.remove(TaskColumn.MODEL_UPDATE_DATE);
 			columns.remove(TaskColumn.MODEL_EDIT);
-			columns.remove(TaskColumn.NOTE);
 			columns.remove(TaskColumn.SHOW_CHILDREN);
 			columns.remove(TaskColumn.ORDER);
 			TaskColumn[] c = columns.toArray(new TaskColumn[0]);
