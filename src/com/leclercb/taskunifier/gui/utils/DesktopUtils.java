@@ -67,6 +67,27 @@ public final class DesktopUtils {
 		}
 	}
 	
+	public static boolean edit(File file) {
+		try {
+			com.leclercb.commons.gui.utils.DesktopUtils.edit(file);
+			
+			return true;
+		} catch (Exception e) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					Translations.getString("error.cannot_edit_file"),
+					null,
+					null,
+					e,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
+			return false;
+		}
+	}
+	
 	public static boolean mail(
 			String[] to,
 			String[] cc,
