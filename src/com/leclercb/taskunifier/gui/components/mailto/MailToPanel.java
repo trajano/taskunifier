@@ -36,29 +36,25 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.NoteUtils;
-import com.leclercb.taskunifier.gui.utils.TaskUtils;
+import com.leclercb.taskunifier.gui.utils.MailUtils;
 
 public class MailToPanel extends JPanel {
 	
@@ -89,50 +85,35 @@ public class MailToPanel extends JPanel {
 	public void mail() {
 		Contact[] contacts = this.contactList.getSelectedContacts();
 		
-		List<String> toList = new ArrayList<String>();
+		List<Address> to = new ArrayList<Address>();
 		for (Contact contact : contacts) {
-			if (contact.getEmail() != null && contact.getEmail().length() != 0)
-				toList.add(contact.getEmail());
+			if (contact.getEmail() != null && contact.getEmail().length() != 0) {
+				try {
+					to.add(new InternetAddress(contact.getEmail()));
+				} catch (AddressException e) {}
+			}
 		}
 		
-		String[] to = toList.toArray(new String[0]);
-		String[] cc = null;
-		String subject = null;
-		String body = null;
-		
+		boolean result = false;
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
 			Task[] tasks = ViewType.getSelectedTasks();
-			
-			List<TaskColumn> columns = new ArrayList<TaskColumn>(
-					Arrays.asList(TaskColumn.values()));
-			columns.remove(TaskColumn.MODEL);
-			columns.remove(TaskColumn.MODEL_CREATION_DATE);
-			columns.remove(TaskColumn.MODEL_UPDATE_DATE);
-			columns.remove(TaskColumn.MODEL_EDIT);
-			columns.remove(TaskColumn.SHOW_CHILDREN);
-			columns.remove(TaskColumn.ORDER);
-			TaskColumn[] c = columns.toArray(new TaskColumn[0]);
-			
-			subject = StringUtils.join(tasks, ", ");
-			body = TaskUtils.toText(tasks, c, false);
+			result = MailUtils.mail(
+					to.toArray(new Address[0]),
+					null,
+					null,
+					tasks);
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getSelectedNotes();
-			
-			List<NoteColumn> columns = new ArrayList<NoteColumn>(
-					Arrays.asList(NoteColumn.values()));
-			columns.remove(NoteColumn.MODEL);
-			columns.remove(NoteColumn.MODEL_CREATION_DATE);
-			columns.remove(NoteColumn.MODEL_UPDATE_DATE);
-			NoteColumn[] c = columns.toArray(new NoteColumn[0]);
-			
-			subject = StringUtils.join(notes, ", ");
-			body = NoteUtils.toText(notes, c, false);
+			result = MailUtils.mail(
+					to.toArray(new Address[0]),
+					null,
+					null,
+					notes);
 		}
 		
-		DesktopUtils.mail(to, cc, subject, body);
-		
-		this.actionSupport.fireActionPerformed(0, ACTION_MAIL);
+		if (result)
+			this.actionSupport.fireActionPerformed(0, ACTION_MAIL);
 	}
 	
 	private void initialize() {
