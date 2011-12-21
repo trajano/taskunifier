@@ -134,7 +134,7 @@ public class MenuBar extends JMenuBar {
 		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.setIcon(ImageUtils.getResourceImage("download.png", 16, 16));
-
+		
 		importMenu.add(new ActionImportComFile(16, 16));
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));

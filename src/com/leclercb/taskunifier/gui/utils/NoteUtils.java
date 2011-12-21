@@ -56,7 +56,12 @@ public final class NoteUtils {
 		return toText(notes, columns, html, null, null);
 	}
 	
-	public static String toText(Note[] notes, NoteColumn[] columns, boolean html, String header, String footer) {
+	public static String toText(
+			Note[] notes,
+			NoteColumn[] columns,
+			boolean html,
+			String header,
+			String footer) {
 		String[][] data = toStringData(notes, columns);
 		StringBuffer buffer = new StringBuffer();
 		
