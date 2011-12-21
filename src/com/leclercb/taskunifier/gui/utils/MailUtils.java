@@ -14,6 +14,7 @@ import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Multipart;
 import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeMultipart;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
@@ -48,7 +50,8 @@ public final class MailUtils {
 			
 			List<ComNoteBean> noteBeans = new ArrayList<ComNoteBean>();
 			for (Note note : notes) {
-				noteBeans.add(new ComNoteBean(note.toBean()));
+				ComNoteBean b = new ComNoteBean(note.toBean());
+				noteBeans.add(b);
 			}
 			
 			bean.setApplicationName(Constants.TITLE);
@@ -94,7 +97,8 @@ public final class MailUtils {
 			
 			List<ComTaskBean> taskBeans = new ArrayList<ComTaskBean>();
 			for (Task task : tasks) {
-				taskBeans.add(new ComTaskBean(task.toBean()));
+				ComTaskBean b = new ComTaskBean(task.toBean());
+				taskBeans.add(b);
 			}
 			
 			bean.setApplicationName(Constants.TITLE);
@@ -144,6 +148,13 @@ public final class MailUtils {
 		MimeMessage message = new MimeMessage(session);
 		
 		message.setSubject(subject);
+		
+		Contact currentUser = ContactUtils.getCurrentUser();
+		
+		if (currentUser != null
+				&& currentUser.getEmail() != null
+				&& currentUser.getEmail().length() != 0)
+			message.setFrom(new InternetAddress(currentUser.getEmail()));
 		
 		if (to != null)
 			message.setRecipients(javax.mail.Message.RecipientType.TO, to);

@@ -36,9 +36,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -49,6 +52,7 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -61,6 +65,7 @@ import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.ContactUtils;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -86,6 +91,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		this.setBorder(null);
 		
 		// Initialize Fields
+		final JCheckBox contactCurrentUser = new JCheckBox();
 		final JTextField contactTitle = new JTextField();
 		final JTextField contactFirstName = new JTextField();
 		final JTextField contactLastName = new JTextField();
@@ -94,6 +100,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		final JButton removeColor = new JButton();
 		
 		// Set Disabled
+		contactCurrentUser.setEnabled(false);
 		contactTitle.setEnabled(false);
 		contactFirstName.setEnabled(false);
 		contactLastName.setEnabled(false);
@@ -140,12 +147,17 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Contact) model : null);
+				contactCurrentUser.setEnabled(model != null);
 				contactTitle.setEnabled(model != null);
 				contactFirstName.setEnabled(model != null);
 				contactLastName.setEnabled(model != null);
 				contactEmail.setEnabled(model != null);
 				contactColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);
+				
+				contactCurrentUser.setSelected(EqualsUtils.equals(
+						model,
+						ContactUtils.getCurrentUser()));
 			}
 			
 		};
@@ -196,6 +208,26 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		
 		p.add(contactColor, BorderLayout.WEST);
 		p.add(removeColor, BorderLayout.EAST);
+		
+		// Contact Current User
+		builder.appendI15d("general.contact.me", true, contactCurrentUser);
+		
+		contactCurrentUser.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent event) {
+				Model model = ContactConfigurationPanel.this.modelList.getSelectedModel();
+				
+				if (EqualsUtils.equals(model, ContactUtils.getCurrentUser())) {
+					if (!contactCurrentUser.isSelected())
+						ContactUtils.setCurrentUser(null);
+				} else {
+					if (contactCurrentUser.isSelected())
+						ContactUtils.setCurrentUser((Contact) model);
+				}
+			}
+			
+		});
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
