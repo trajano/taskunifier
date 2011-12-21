@@ -42,7 +42,18 @@ public class ComNoteBean extends GuiNoteBean {
 		this.folderTitle = folderTitle;
 	}
 	
-	public void setModels() {
+	public void loadTitles(boolean removeModelId) {
+		if (this.getFolder() != null) {
+			Folder folder = FolderFactory.getInstance().get(this.getFolder());
+			if (folder != null)
+				this.setFolderTitle(folder.getTitle());
+			
+			if (removeModelId)
+				this.setFolder(null);
+		}
+	}
+	
+	public void loadModels(boolean removeTitle) {
 		if (this.getFolder() == null) {
 			if (this.getFolderTitle() != null) {
 				List<Folder> models = FolderFactory.getInstance().getList();
@@ -52,6 +63,9 @@ public class ComNoteBean extends GuiNoteBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setFolderTitle(null);
 			}
 		}
 	}

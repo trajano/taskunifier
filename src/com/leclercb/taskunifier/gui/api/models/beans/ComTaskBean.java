@@ -22,6 +22,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ComTaskBean extends GuiTaskBean {
 	
+	@XStreamAlias("comcontacts")
+	private ComContactGroupBean comContacts;
+	
 	@XStreamAlias("foldertitle")
 	private String folderTitle;
 	
@@ -44,6 +47,7 @@ public class ComTaskBean extends GuiTaskBean {
 	public ComTaskBean(ModelId modelId) {
 		super(modelId);
 		
+		this.setComContacts(null);
 		this.setFolderTitle(null);
 		this.setContextTitle(null);
 		this.setGoalTitle(null);
@@ -55,12 +59,21 @@ public class ComTaskBean extends GuiTaskBean {
 		super(bean);
 		
 		if (bean instanceof ComTaskBean) {
+			this.setComContacts(((ComTaskBean) bean).getComContacts());
 			this.setFolderTitle(((ComTaskBean) bean).getFolderTitle());
 			this.setContextTitle(((ComTaskBean) bean).getContextTitle());
 			this.setGoalTitle(((ComTaskBean) bean).getGoalTitle());
 			this.setLocationTitle(((ComTaskBean) bean).getLocationTitle());
 			this.setParentTitle(((ComTaskBean) bean).getParentTitle());
 		}
+	}
+	
+	public ComContactGroupBean getComContacts() {
+		return this.comContacts;
+	}
+	
+	public void setComContacts(ComContactGroupBean comContacts) {
+		this.comContacts = comContacts;
 	}
 	
 	public String getFolderTitle() {
@@ -103,7 +116,72 @@ public class ComTaskBean extends GuiTaskBean {
 		this.parentTitle = parentTitle;
 	}
 	
-	public void setModels() {
+	public void loadTitles(boolean removeModelId) {
+		if (this.getContacts() != null) {
+			this.setComContacts(new ComContactGroupBean(this.getContacts()));
+			
+			if (removeModelId)
+				this.setContacts(null);
+		}
+		
+		if (this.getContext() != null) {
+			Context context = ContextFactory.getInstance().get(
+					this.getContext());
+			if (context != null)
+				this.setContextTitle(context.getTitle());
+			
+			if (removeModelId)
+				this.setContext(null);
+		}
+		
+		if (this.getFolder() != null) {
+			Folder folder = FolderFactory.getInstance().get(this.getFolder());
+			if (folder != null)
+				this.setFolderTitle(folder.getTitle());
+			
+			if (removeModelId)
+				this.setFolder(null);
+		}
+		
+		if (this.getGoal() != null) {
+			Goal goal = GoalFactory.getInstance().get(this.getGoal());
+			if (goal != null)
+				this.setGoalTitle(goal.getTitle());
+			
+			if (removeModelId)
+				this.setGoal(null);
+		}
+		
+		if (this.getLocation() != null) {
+			Location location = LocationFactory.getInstance().get(
+					this.getLocation());
+			if (location != null)
+				this.setLocationTitle(location.getTitle());
+			
+			if (removeModelId)
+				this.setLocation(null);
+		}
+		
+		if (this.getParent() != null) {
+			Task parent = TaskFactory.getInstance().get(this.getParent());
+			if (parent != null)
+				this.setParentTitle(parent.getTitle());
+			
+			if (removeModelId)
+				this.setParent(null);
+		}
+	}
+	
+	public void loadModels(boolean removeTitle) {
+		if (this.getContacts() == null) {
+			if (this.getComContacts() != null) {
+				this.setContacts(this.getComContacts().toContactGroupBean());
+				
+				if (removeTitle)
+					this.setComContacts(null);
+			}
+		}
+		
 		if (this.getContext() == null) {
 			if (this.getContextTitle() != null) {
 				List<Context> models = ContextFactory.getInstance().getList();
@@ -114,6 +192,9 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setContextTitle(null);
 			}
 		}
 		
@@ -126,6 +207,9 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setFolderTitle(null);
 			}
 		}
 		
@@ -138,6 +222,9 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setGoalTitle(null);
 			}
 		}
 		
@@ -151,6 +238,9 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setLocationTitle(null);
 			}
 		}
 		
@@ -163,6 +253,9 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
+				
+				if (removeTitle)
+					this.setParentTitle(null);
 			}
 		}
 	}

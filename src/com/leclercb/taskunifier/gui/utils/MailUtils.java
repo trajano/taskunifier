@@ -25,6 +25,8 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.ContactGroupBean;
+import com.leclercb.taskunifier.api.models.beans.ContactGroupBean.ContactItemBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
@@ -51,6 +53,7 @@ public final class MailUtils {
 			List<ComNoteBean> noteBeans = new ArrayList<ComNoteBean>();
 			for (Note note : notes) {
 				ComNoteBean b = new ComNoteBean(note.toBean());
+				b.loadTitles(true);
 				noteBeans.add(b);
 			}
 			
@@ -98,6 +101,20 @@ public final class MailUtils {
 			List<ComTaskBean> taskBeans = new ArrayList<ComTaskBean>();
 			for (Task task : tasks) {
 				ComTaskBean b = new ComTaskBean(task.toBean());
+				
+				Contact currentUser = ContactUtils.getCurrentUser();
+				
+				if (currentUser != null) {
+					if (b.getContacts() == null)
+						b.setContacts(new ContactGroupBean());
+					
+					b.getContacts().add(
+							new ContactItemBean(
+									currentUser.getModelId(),
+									Translations.getString("general.assigned_by")));
+				}
+				
+				b.loadTitles(true);
 				taskBeans.add(b);
 			}
 			

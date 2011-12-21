@@ -82,7 +82,7 @@ public class ActionImportComFile extends AbstractAction {
 			if (bean.getNotes() != null) {
 				List<Note> notes = new ArrayList<Note>();
 				for (ComNoteBean note : bean.getNotes()) {
-					note.setModels();
+					note.loadModels(false);
 					notes.add(ActionAddNote.addNote(note, false));
 				}
 				
@@ -99,7 +99,7 @@ public class ActionImportComFile extends AbstractAction {
 			if (bean.getTasks() != null) {
 				List<Task> tasks = new ArrayList<Task>();
 				for (ComTaskBean task : bean.getTasks()) {
-					task.setModels();
+					task.loadModels(false);
 					tasks.add(ActionAddTask.addTask(task, false));
 				}
 				
@@ -136,7 +136,7 @@ public class ActionImportComFile extends AbstractAction {
 			
 			return;
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		
 		Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
