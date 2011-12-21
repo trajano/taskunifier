@@ -58,6 +58,9 @@ public class ComNoteBean extends GuiNoteBean {
 			if (this.getFolderTitle() != null) {
 				List<Folder> models = FolderFactory.getInstance().getList();
 				for (Folder model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(this.getFolderTitle())) {
 						this.setFolder(model.getModelId());
 						break;

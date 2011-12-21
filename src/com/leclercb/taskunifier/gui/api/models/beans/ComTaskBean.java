@@ -186,6 +186,9 @@ public class ComTaskBean extends GuiTaskBean {
 			if (this.getContextTitle() != null) {
 				List<Context> models = ContextFactory.getInstance().getList();
 				for (Context model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(
 							this.getContextTitle())) {
 						this.setContext(model.getModelId());
@@ -202,6 +205,9 @@ public class ComTaskBean extends GuiTaskBean {
 			if (this.getFolderTitle() != null) {
 				List<Folder> models = FolderFactory.getInstance().getList();
 				for (Folder model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(this.getFolderTitle())) {
 						this.setFolder(model.getModelId());
 						break;
@@ -217,6 +223,9 @@ public class ComTaskBean extends GuiTaskBean {
 			if (this.getGoalTitle() != null) {
 				List<Goal> models = GoalFactory.getInstance().getList();
 				for (Goal model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(this.getGoalTitle())) {
 						this.setGoal(model.getModelId());
 						break;
@@ -232,6 +241,9 @@ public class ComTaskBean extends GuiTaskBean {
 			if (this.getLocationTitle() != null) {
 				List<Location> models = LocationFactory.getInstance().getList();
 				for (Location model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(
 							this.getLocationTitle())) {
 						this.setLocation(model.getModelId());
@@ -248,6 +260,9 @@ public class ComTaskBean extends GuiTaskBean {
 			if (this.getParentTitle() != null) {
 				List<Task> models = TaskFactory.getInstance().getList();
 				for (Task model : models) {
+					if (!model.getModelStatus().isEndUserStatus())
+						continue;
+					
 					if (model.getTitle().equalsIgnoreCase(this.getParentTitle())) {
 						this.setParent(model.getModelId());
 						break;
