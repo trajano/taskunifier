@@ -12,6 +12,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.BodyPart;
+import javax.mail.Flags.Flag;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -165,6 +166,7 @@ public final class MailUtils {
 		MimeMessage message = new MimeMessage(session);
 		
 		message.setSubject(subject);
+		message.setFlag(Flag.DRAFT, true);
 		
 		Contact currentUser = ContactUtils.getCurrentUser();
 		
