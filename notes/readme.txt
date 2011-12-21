@@ -3,6 +3,7 @@ HISTORY
 
 Version 1.8.7
 	- Major:
+		- BF 3463010: Another instance is running
 		- BF 3461408: Installer issue
 		- BF 3461831: Mail encoding issue
 	- Minor:
