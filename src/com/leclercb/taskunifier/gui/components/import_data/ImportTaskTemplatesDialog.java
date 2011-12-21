@@ -65,6 +65,7 @@ public class ImportTaskTemplatesDialog extends AbstractImportDialog {
 	protected void importFromFile(String file) throws Exception {
 		FileInputStream input = new FileInputStream(file);
 		TaskTemplateFactory.getInstance().decodeFromXML(input);
+		input.close();
 	}
 	
 }

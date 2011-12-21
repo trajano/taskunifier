@@ -6,6 +6,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.beans.NoteBean;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -17,12 +18,20 @@ public class ComNoteBean extends GuiNoteBean {
 	private String folderTitle;
 	
 	public ComNoteBean() {
-		this(null);
+		this((ModelId) null);
 	}
 	
 	public ComNoteBean(ModelId modelId) {
 		super(modelId);
+		
 		this.setFolderTitle(null);
+	}
+	
+	public ComNoteBean(NoteBean bean) {
+		super(bean);
+		
+		if (bean instanceof ComNoteBean)
+			this.setFolderTitle(((ComNoteBean) bean).getFolderTitle());
 	}
 	
 	public String getFolderTitle() {

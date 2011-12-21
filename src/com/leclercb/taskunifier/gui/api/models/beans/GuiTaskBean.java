@@ -42,12 +42,20 @@ public class GuiTaskBean extends TaskBean {
 	private boolean showChildren;
 	
 	public GuiTaskBean() {
-		this(null);
+		this((ModelId) null);
 	}
 	
 	public GuiTaskBean(ModelId modelId) {
 		super(modelId);
+		
 		this.setShowChildren(true);
+	}
+	
+	public GuiTaskBean(TaskBean bean) {
+		super(bean);
+		
+		if (bean instanceof GuiTaskBean)
+			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
 	}
 	
 	public boolean isShowChildren() {

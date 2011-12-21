@@ -35,10 +35,12 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Calendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
@@ -105,8 +107,13 @@ public class ActionAddNote extends AbstractAction {
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
 		
-		if (noteBean != null)
+		if (noteBean != null) {
+			noteBean.setModelStatus(ModelStatus.TO_UPDATE);
+			noteBean.setModelCreationDate(Calendar.getInstance());
+			noteBean.setModelUpdateDate(Calendar.getInstance());
+			
 			note.loadBean(noteBean);
+		}
 		
 		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(
 				new Note[] { note });

@@ -45,6 +45,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
@@ -98,6 +101,22 @@ public class MailToPanel extends JPanel {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
 			Task[] tasks = ViewType.getSelectedTasks();
+			
+			if (tasks.length == 0) {
+				ErrorInfo info = new ErrorInfo(
+						Translations.getString("general.error"),
+						Translations.getString("error.select_tasks"),
+						null,
+						null,
+						null,
+						null,
+						null);
+				
+				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				
+				return;
+			}
+			
 			result = MailUtils.mail(
 					to.toArray(new Address[0]),
 					null,
@@ -105,6 +124,22 @@ public class MailToPanel extends JPanel {
 					tasks);
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewType.getSelectedNotes();
+			
+			if (notes.length == 0) {
+				ErrorInfo info = new ErrorInfo(
+						Translations.getString("general.error"),
+						Translations.getString("error.select_notes"),
+						null,
+						null,
+						null,
+						null,
+						null);
+				
+				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				
+				return;
+			}
+			
 			result = MailUtils.mail(
 					to.toArray(new Address[0]),
 					null,

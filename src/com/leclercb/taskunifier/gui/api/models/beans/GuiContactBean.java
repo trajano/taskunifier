@@ -47,12 +47,20 @@ public class GuiContactBean extends ContactBean implements GuiModelBean {
 	private Color color;
 	
 	public GuiContactBean() {
-		this(null);
+		this((ModelId) null);
 	}
 	
 	public GuiContactBean(ModelId modelId) {
 		super(modelId);
+		
 		this.setColor(null);
+	}
+	
+	public GuiContactBean(ContactBean bean) {
+		super(bean);
+		
+		if (bean instanceof GuiContactBean)
+			this.setColor(((GuiContactBean) bean).getColor());
 	}
 	
 	@Override

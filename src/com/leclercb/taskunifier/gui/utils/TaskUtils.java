@@ -293,7 +293,7 @@ public final class TaskUtils {
 			if (!html)
 				buffer.append(System.getProperty("line.separator"));
 			else
-				buffer.append("<br />");
+				buffer.append("<hr /><br />");
 			
 			i++;
 		}

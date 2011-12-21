@@ -35,10 +35,12 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Calendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
@@ -137,8 +139,13 @@ public class ActionAddTask extends AbstractAction {
 		Task task = TaskFactory.getInstance().create(
 				Translations.getString("task.default.title"));
 		
-		if (taskBean != null)
+		if (taskBean != null) {
+			taskBean.setModelStatus(ModelStatus.TO_UPDATE);
+			taskBean.setModelCreationDate(Calendar.getInstance());
+			taskBean.setModelUpdateDate(Calendar.getInstance());
+			
 			task.loadBean(taskBean);
+		}
 		
 		ViewType.addExtraTasks(new Task[] { task });
 		ViewType.refreshTasks();

@@ -38,11 +38,15 @@ import com.leclercb.taskunifier.api.models.beans.NoteBean;
 public class GuiNoteBean extends NoteBean {
 	
 	public GuiNoteBean() {
-		this(null);
+		this((ModelId) null);
 	}
 	
 	public GuiNoteBean(ModelId modelId) {
 		super(modelId);
+	}
+	
+	public GuiNoteBean(NoteBean bean) {
+		super(bean);
 	}
 	
 }

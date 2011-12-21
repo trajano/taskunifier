@@ -30,47 +30,45 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.models.beans;
+package com.leclercb.taskunifier.gui.components.import_data;
 
-import java.awt.Color;
+import java.io.FileInputStream;
 
-import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.beans.LocationBean;
-import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
+import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class GuiLocationBean extends LocationBean implements GuiModelBean {
+public class ImportComFileDialog extends AbstractImportDialog {
 	
-	@XStreamAlias("color")
-	@XStreamConverter(ColorConverter.class)
-	private Color color;
+	private static ImportComFileDialog INSTANCE;
 	
-	public GuiLocationBean() {
-		this((ModelId) null);
+	public static ImportComFileDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ImportComFileDialog();
+		
+		return INSTANCE;
 	}
 	
-	public GuiLocationBean(ModelId modelId) {
-		super(modelId);
-		
-		this.setColor(null);
-	}
-	
-	public GuiLocationBean(LocationBean bean) {
-		super(bean);
-		
-		if (bean instanceof GuiLocationBean)
-			this.setColor(((GuiLocationBean) bean).getColor());
+	private ImportComFileDialog() {
+		super(
+				Translations.getString("action.import_com_file"),
+				false,
+				"tue",
+				Translations.getString("general.tue_files"));
 	}
 	
 	@Override
-	public Color getColor() {
-		return this.color;
+	public void deleteExistingValue() {
+		
 	}
 	
 	@Override
-	public void setColor(Color color) {
-		this.color = color;
+	protected void importFromFile(String file) throws Exception {
+		FileInputStream input = new FileInputStream(file);
+		ComBean bean = ComBean.decodeFromXML(input);
+		input.close();
+		
+		ActionImportComFile.importComBean(bean);
 	}
 	
 }

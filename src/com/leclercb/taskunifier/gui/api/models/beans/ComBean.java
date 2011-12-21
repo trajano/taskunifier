@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.api.models.beans;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -59,6 +60,23 @@ public class ComBean {
 	
 	public void setQuickTasks(ComQuickTaskBean[] quickTasks) {
 		this.quickTasks = quickTasks;
+	}
+	
+	public void encodeToXML(OutputStream output) {
+		encodeToXML(output, this);
+	}
+	
+	public static void encodeToXML(OutputStream output, ComBean bean) {
+		XStream xstream = new XStream(
+				new PureJavaReflectionProvider(),
+				new DomDriver("UTF-8"));
+		xstream.setMode(XStream.NO_REFERENCES);
+		xstream.processAnnotations(ComBean.class);
+		xstream.alias("note", ComNoteBean.class);
+		xstream.alias("task", ComTaskBean.class);
+		xstream.alias("quicktask", ComQuickTaskBean.class);
+		
+		xstream.toXML(bean, output);
 	}
 	
 	public static ComBean decodeFromXML(InputStream input) {

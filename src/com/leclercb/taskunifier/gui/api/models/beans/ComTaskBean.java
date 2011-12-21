@@ -14,6 +14,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -37,16 +38,29 @@ public class ComTaskBean extends GuiTaskBean {
 	private String parentTitle;
 	
 	public ComTaskBean() {
-		this(null);
+		this((ModelId) null);
 	}
 	
 	public ComTaskBean(ModelId modelId) {
 		super(modelId);
+		
 		this.setFolderTitle(null);
 		this.setContextTitle(null);
 		this.setGoalTitle(null);
 		this.setLocationTitle(null);
 		this.setParentTitle(null);
+	}
+	
+	public ComTaskBean(TaskBean bean) {
+		super(bean);
+		
+		if (bean instanceof ComTaskBean) {
+			this.setFolderTitle(((ComTaskBean) bean).getFolderTitle());
+			this.setContextTitle(((ComTaskBean) bean).getContextTitle());
+			this.setGoalTitle(((ComTaskBean) bean).getGoalTitle());
+			this.setLocationTitle(((ComTaskBean) bean).getLocationTitle());
+			this.setParentTitle(((ComTaskBean) bean).getParentTitle());
+		}
 	}
 	
 	public String getFolderTitle() {

@@ -51,6 +51,7 @@ public enum ActionList {
 	EXPORT_VCARD(Translations.getString("action.export_vcard"), "upload.png", true),
 	GET_SERIAL(Translations.getString("action.get_serial"), "key.png", false),
 	HELP(Translations.getString("action.help"), "help.png", true),
+	IMPORT_COM_FILE(Translations.getString("action.import_com_file"), "download.png", true),
 	IMPORT_MODELS(Translations.getString("action.import_models"), "download.png", true),
 	IMPORT_SETTINGS(Translations.getString("action.import_settings"), "download.png", true),
 	IMPORT_TASK_SEARCHERS(Translations.getString("action.import_task_searchers"), "download.png", true),
@@ -194,6 +195,8 @@ public enum ActionList {
 				return null;
 			case HELP:
 				return new ActionHelp(width, height);
+			case IMPORT_COM_FILE:
+				return new ActionImportComFile(width, height);
 			case IMPORT_MODELS:
 				return new ActionImportModels(width, height);
 			case IMPORT_SETTINGS:

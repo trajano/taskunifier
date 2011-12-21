@@ -66,6 +66,7 @@ public class ImportTaskSearchersDialog extends AbstractImportDialog {
 	protected void importFromFile(String file) throws Exception {
 		FileInputStream input = new FileInputStream(file);
 		new TaskSearcherFactoryXMLCoder().decode(input);
+		input.close();
 	}
 	
 }
