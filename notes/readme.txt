@@ -4,8 +4,10 @@ HISTORY
 Version 1.8.7
 	- Major:
 		- BF 3461408: Installer issue
+		- BF 3461831: Mail encoding issue
 	- Minor:
 		- FR 3461830: Right-click menu in notes
+		- FR 3462902: Improved mail + import from mail
 
 Version 1.8.6
 	- Major:
