@@ -66,6 +66,7 @@ public final class MailUtils {
 					getSubject(notes),
 					getBody(notes, false),
 					getBody(notes, true),
+					"notes.tue",
 					attachment);
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
@@ -111,6 +112,7 @@ public final class MailUtils {
 					getSubject(tasks),
 					getBody(tasks, false),
 					getBody(tasks, true),
+					"tasks.tue",
 					attachment);
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
@@ -135,6 +137,7 @@ public final class MailUtils {
 			String subject,
 			String textBody,
 			String htmlBody,
+			String attachmentName,
 			File attachment) throws Exception {
 		Properties p = System.getProperties();
 		Session session = Session.getInstance(p);
@@ -164,7 +167,7 @@ public final class MailUtils {
 		multipart.addBodyPart(bodyPart);
 		DataSource source = new FileDataSource(attachment);
 		bodyPart.setDataHandler(new DataHandler(source));
-		bodyPart.setFileName("tasks.tue");
+		bodyPart.setFileName(attachmentName);
 		
 		message.setContent(multipart);
 		
@@ -212,7 +215,14 @@ public final class MailUtils {
 		columns.remove(NoteColumn.MODEL_UPDATE_DATE);
 		NoteColumn[] c = columns.toArray(new NoteColumn[0]);
 		
-		return NoteUtils.toText(notes, c, html);
+		String header = Translations.getString("mailto.notes.import_com_file");
+		
+		if (html)
+			header = header + "<br /><hr /><br />";
+		else
+			header = header + "\n-------------------\n\n";
+		
+		return NoteUtils.toText(notes, c, html, header, null);
 	}
 	
 	private static String getBody(Task[] tasks, boolean html) {
@@ -226,7 +236,14 @@ public final class MailUtils {
 		columns.remove(TaskColumn.ORDER);
 		TaskColumn[] c = columns.toArray(new TaskColumn[0]);
 		
-		return TaskUtils.toText(tasks, c, html);
+		String header = Translations.getString("mailto.tasks.import_com_file");
+		
+		if (html)
+			header = header + "<br /><hr /><br />";
+		else
+			header = header + "\n-------------------\n\n";
+		
+		return TaskUtils.toText(tasks, c, html, header, null);
 	}
 	
 }

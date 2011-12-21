@@ -74,6 +74,7 @@ import com.leclercb.taskunifier.gui.actions.ActionExportTaskSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionExportVCard;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
+import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionImportModels;
 import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionImportTaskSearchers;
@@ -133,7 +134,8 @@ public class MenuBar extends JMenuBar {
 		
 		JMenu importMenu = new JMenu(Translations.getString("general.import"));
 		importMenu.setIcon(ImageUtils.getResourceImage("download.png", 16, 16));
-		
+
+		importMenu.add(new ActionImportComFile(16, 16));
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
 		importMenu.add(new ActionImportTaskSearchers(16, 16));
@@ -222,6 +224,10 @@ public class MenuBar extends JMenuBar {
 		this.add(contactsMenu);
 		
 		contactsMenu.add(new ActionMailTo(16, 16));
+		
+		contactsMenu.addSeparator();
+		
+		contactsMenu.add(new ActionImportComFile(16, 16));
 	}
 	
 	private void initializeNotesMenu() {

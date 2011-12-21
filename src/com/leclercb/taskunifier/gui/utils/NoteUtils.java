@@ -53,6 +53,10 @@ public final class NoteUtils {
 	}
 	
 	public static String toText(Note[] notes, NoteColumn[] columns, boolean html) {
+		return toText(notes, columns, html, null, null);
+	}
+	
+	public static String toText(Note[] notes, NoteColumn[] columns, boolean html, String header, String footer) {
 		String[][] data = toStringData(notes, columns);
 		StringBuffer buffer = new StringBuffer();
 		
@@ -61,6 +65,9 @@ public final class NoteUtils {
 		
 		if (html)
 			buffer.append("<html>");
+		
+		if (header != null)
+			buffer.append(header);
 		
 		int i = 0;
 		for (String[] row : data) {
@@ -99,6 +106,9 @@ public final class NoteUtils {
 			
 			i++;
 		}
+		
+		if (footer != null)
+			buffer.append(footer);
 		
 		if (html)
 			buffer.append("</html>");

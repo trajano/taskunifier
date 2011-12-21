@@ -43,6 +43,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
@@ -63,6 +64,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
@@ -251,6 +253,10 @@ public final class TaskUtils {
 	}
 	
 	public static String toText(Task[] tasks, TaskColumn[] columns, boolean html) {
+		return toText(tasks, columns, html, null, null);
+	}
+	
+	public static String toText(Task[] tasks, TaskColumn[] columns, boolean html, String header, String footer) {
 		String[][] data = toStringData(tasks, columns);
 		StringBuffer buffer = new StringBuffer();
 		
@@ -259,6 +265,9 @@ public final class TaskUtils {
 		
 		if (html)
 			buffer.append("<html>");
+		
+		if (header != null)
+			buffer.append(header);
 		
 		int i = 0;
 		for (String[] row : data) {
@@ -297,6 +306,9 @@ public final class TaskUtils {
 			
 			i++;
 		}
+		
+		if (footer != null)
+			buffer.append(footer);
 		
 		if (html)
 			buffer.append("</html>");
