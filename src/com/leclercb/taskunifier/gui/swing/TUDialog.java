@@ -1,10 +1,12 @@
 package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.Frame;
+import java.awt.Point;
 
 import javax.swing.JDialog;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.gui.utils.ScreenUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class TUDialog extends JDialog {
@@ -31,7 +33,11 @@ public class TUDialog extends JDialog {
 				windowProperty + ".location_y");
 		
 		this.setSize(width, height);
-		this.setLocation(locationX, locationY);
+		
+		if (ScreenUtils.isLocationInScreen(new Point(locationX, locationY)))
+			this.setLocation(locationX, locationY);
+		else
+			this.setLocation(0, 0);
 		
 		Main.getSettings().addSavePropertiesListener(
 				new SavePropertiesListener() {
