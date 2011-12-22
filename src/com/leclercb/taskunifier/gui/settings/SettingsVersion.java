@@ -231,6 +231,9 @@ public final class SettingsVersion {
 		if (version.equals("1.8.6"))
 			version = updateSettings_1_8_6_to_1_8_7();
 		
+		if (version.equals("1.8.7"))
+			version = updateSettings_1_8_7_to_1_8_8();
+		
 		cleanSettings();
 		Main.getSettings().setStringProperty(
 				"general.version",
@@ -1141,6 +1144,13 @@ public final class SettingsVersion {
 				"Update settings from version 1.8.6 to 1.8.7");
 		
 		return "1.8.7";
+	}
+	
+	private static String updateSettings_1_8_7_to_1_8_8() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.8.7 to 1.8.8");
+		
+		return "1.8.8";
 	}
 	
 }
