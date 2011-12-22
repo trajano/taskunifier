@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 1.8.8
+	- Minor:
+		- FR 3462903: Check if location on screen is valid
+
 Version 1.8.7
 	- Major:
 		- BF 3463010: Another instance is running
