@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.main;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.Point;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -54,6 +55,7 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
+import com.leclercb.commons.gui.utils.ScreenUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
@@ -220,7 +222,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
-		this.setLocation(locationX, locationY);
+		
+		if (ScreenUtils.isLocationInScreen(new Point(locationX, locationY)))
+			this.setLocation(locationX, locationY);
+		else
+			this.setLocation(0, 0);
 	}
 	
 	@Override
