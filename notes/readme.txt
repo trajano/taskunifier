@@ -4,6 +4,7 @@ HISTORY
 Version 1.8.8
 	- Minor:
 		- FR 3462903: Check if location on screen is valid
+		- Added date conditions on weeks and months
 
 Version 1.8.7
 	- Major:
