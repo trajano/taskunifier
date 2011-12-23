@@ -240,6 +240,10 @@ public final class TranslationsUtils {
 					return Translations.getString("task_filter_condition.after_or_equals");
 				case GREATER_THAN_USING_TIME:
 					return Translations.getString("task_filter_condition.after_using_time");
+				case WEEK_EQUALS:
+					return Translations.getString("task_filter_condition.week_equals");
+				case MONTH_EQUALS:
+					return Translations.getString("task_filter_condition.month_equals");
 			}
 		}
 		

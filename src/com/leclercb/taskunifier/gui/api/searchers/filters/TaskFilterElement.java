@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.api.searchers.filters;
 
 import java.util.Calendar;
 
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -91,18 +92,48 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 		if (this.getValue() != null
 				&& this.getCondition() instanceof DaysCondition) {
 			try {
-				Calendar c = Calendar.getInstance();
-				c.add(Calendar.DAY_OF_MONTH, (Integer) this.getValue());
-				
-				if (this.getCondition() == DaysCondition.LESS_THAN_USING_TIME
-						|| this.getCondition() == DaysCondition.GREATER_THAN_USING_TIME)
-					str += " ("
-							+ StringValueCalendar.INSTANCE_DATE_TIME.getString(c)
-							+ ")";
-				else
-					str += " ("
-							+ StringValueCalendar.INSTANCE_DATE.getString(c)
-							+ ")";
+				if (this.getCondition() == DaysCondition.WEEK_EQUALS) {
+					Calendar c1 = Calendar.getInstance();
+					Calendar c2 = Calendar.getInstance();
+					
+					c1.add(Calendar.WEEK_OF_YEAR, (Integer) this.getValue());
+					c2.add(Calendar.WEEK_OF_YEAR, (Integer) this.getValue());
+					
+					DateUtils.goToFirstDayOfWeek(c1);
+					DateUtils.goToLastDayOfWeek(c2);
+					
+					str += String.format(
+							" (%1s - %2s)",
+							StringValueCalendar.INSTANCE_DATE.getString(c1),
+							StringValueCalendar.INSTANCE_DATE.getString(c2));
+				} else if (this.getCondition() == DaysCondition.MONTH_EQUALS) {
+					Calendar c1 = Calendar.getInstance();
+					Calendar c2 = Calendar.getInstance();
+					
+					c1.add(Calendar.MONTH, (Integer) this.getValue());
+					c2.add(Calendar.MONTH, (Integer) this.getValue());
+					
+					DateUtils.goToFirstDayOfMonth(c1);
+					DateUtils.goToLastDayOfMonth(c2);
+					
+					str += String.format(
+							" (%1s - %2s)",
+							StringValueCalendar.INSTANCE_DATE.getString(c1),
+							StringValueCalendar.INSTANCE_DATE.getString(c2));
+				} else {
+					Calendar c = Calendar.getInstance();
+					c.add(Calendar.DAY_OF_MONTH, (Integer) this.getValue());
+					
+					if (this.getCondition() == DaysCondition.LESS_THAN_USING_TIME
+							|| this.getCondition() == DaysCondition.GREATER_THAN_USING_TIME)
+						str += " ("
+								+ StringValueCalendar.INSTANCE_DATE_TIME.getString(c)
+								+ ")";
+					else
+						str += " ("
+								+ StringValueCalendar.INSTANCE_DATE.getString(c)
+								+ ")";
+				}
 			} catch (Throwable t) {
 				
 			}

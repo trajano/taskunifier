@@ -44,7 +44,9 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	GREATER_THAN_USING_TIME,
 	LESS_THAN,
 	LESS_THAN_OR_EQUALS,
-	LESS_THAN_USING_TIME;
+	LESS_THAN_USING_TIME,
+	WEEK_EQUALS,
+	MONTH_EQUALS;
 	
 	private DaysCondition() {
 		
@@ -62,6 +64,12 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	
 	@Override
 	public boolean include(Integer value, Calendar taskValue) {
+		if (this == WEEK_EQUALS)
+			return DateUtils.getDiffInWeeks(Calendar.getInstance(), taskValue) == value;
+		
+		if (this == MONTH_EQUALS)
+			return DateUtils.getDiffInMonths(Calendar.getInstance(), taskValue) == value;
+		
 		boolean useTime = (this == GREATER_THAN_USING_TIME || this == LESS_THAN_USING_TIME);
 		double diffDays = DateUtils.getDiffInDays(
 				Calendar.getInstance(),
