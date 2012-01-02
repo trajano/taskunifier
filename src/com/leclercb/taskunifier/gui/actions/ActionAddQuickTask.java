@@ -54,14 +54,19 @@ public class ActionAddQuickTask extends AbstractAction {
 	}
 	
 	public static Task addQuickTask(String task, boolean edit) {
+		return addQuickTask(
+				TaskTemplateFactory.getInstance().getDefaultTemplate(), 
+				task, 
+				edit);
+	}
+	
+	public static Task addQuickTask(TaskTemplate template, String task, boolean edit) {
 		CheckUtils.isNotNull(task);
 		
-		TaskTemplate taskTemplate = null;
-		
-		if (TaskTemplateFactory.getInstance().getDefaultTemplate() != null)
-			taskTemplate = TaskTemplateFactory.getInstance().getDefaultTemplate().clone();
+		if (template == null)
+			template = new TaskTemplate();
 		else
-			taskTemplate = new TaskTemplate();
+			template = template.clone();
 		
 		task = task.trim();
 		
@@ -73,7 +78,7 @@ public class ActionAddQuickTask extends AbstractAction {
 		
 		String title = matcher.group();
 		
-		taskTemplate.setTitle(title.trim());
+		template.setTitle(title.trim());
 		
 		char lastChar = title.charAt(title.length() - 1);
 		
@@ -85,7 +90,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			
 			if (lastChar != ' ') {
 				lastChar = s.charAt(s.length() - 1);
-				taskTemplate.setTitle(taskTemplate.getTitle() + s.trim());
+				template.setTitle(template.getTitle() + s.trim());
 				continue;
 			}
 			
@@ -96,34 +101,34 @@ public class ActionAddQuickTask extends AbstractAction {
 			s = s.substring(1).trim();
 			
 			if (c == '&') { // Tag
-				if (taskTemplate.getTaskTags() != null)
-					taskTemplate.setTaskTags(taskTemplate.getTaskTags()
+				if (template.getTaskTags() != null)
+					template.setTaskTags(template.getTaskTags()
 							+ ", "
 							+ s);
 				else
-					taskTemplate.setTaskTags(s);
+					template.setTaskTags(s);
 			} else if (c == '@') { // Context, Folder, Goal, Location
-				findModel(s, taskTemplate);
+				findModel(s, template);
 			} else if (c == '*') { // Priority, Status
-				findStatusPriority(s, taskTemplate);
+				findStatusPriority(s, template);
 			} else if (c == '>') { // Start Date
-				findDate(s, true, taskTemplate);
+				findDate(s, true, template);
 			} else if (c == '<') { // Due Date
-				findDate(s, false, taskTemplate);
+				findDate(s, false, template);
 			}
 		}
 		
-		return ActionAddTask.addTask(taskTemplate, title, edit);
+		return ActionAddTask.addTask(template, title, edit);
 	}
 	
-	private static void findModel(String title, TaskTemplate taskTemplate) {
+	private static void findModel(String title, TaskTemplate template) {
 		Model model = null;
 		
-		if (taskTemplate.getTaskContext() == null) {
+		if (template.getTaskContext() == null) {
 			List<Context> contexts = ContextFactory.getInstance().getList();
 			for (Context context : contexts) {
 				if (context.getTitle().equalsIgnoreCase(title)) {
-					taskTemplate.setTaskContext(context);
+					template.setTaskContext(context);
 					return;
 				}
 				
@@ -136,11 +141,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (taskTemplate.getTaskFolder() == null) {
+		if (template.getTaskFolder() == null) {
 			List<Folder> folders = FolderFactory.getInstance().getList();
 			for (Folder folder : folders) {
 				if (folder.getTitle().equalsIgnoreCase(title)) {
-					taskTemplate.setTaskFolder(folder);
+					template.setTaskFolder(folder);
 					return;
 				}
 				
@@ -153,11 +158,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (taskTemplate.getTaskGoal() == null) {
+		if (template.getTaskGoal() == null) {
 			List<Goal> goals = GoalFactory.getInstance().getList();
 			for (Goal goal : goals) {
 				if (goal.getTitle().equalsIgnoreCase(title)) {
-					taskTemplate.setTaskGoal(goal);
+					template.setTaskGoal(goal);
 					return;
 				}
 				
@@ -170,11 +175,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (taskTemplate.getTaskLocation() == null) {
+		if (template.getTaskLocation() == null) {
 			List<Location> locations = LocationFactory.getInstance().getList();
 			for (Location location : locations) {
 				if (location.getTitle().equalsIgnoreCase(title)) {
-					taskTemplate.setTaskLocation(location);
+					template.setTaskLocation(location);
 					return;
 				}
 				
@@ -188,23 +193,23 @@ public class ActionAddQuickTask extends AbstractAction {
 		}
 		
 		if (model instanceof Context)
-			taskTemplate.setTaskContext((Context) model);
+			template.setTaskContext((Context) model);
 		else if (model instanceof Folder)
-			taskTemplate.setTaskFolder((Folder) model);
+			template.setTaskFolder((Folder) model);
 		else if (model instanceof Goal)
-			taskTemplate.setTaskGoal((Goal) model);
+			template.setTaskGoal((Goal) model);
 		else if (model instanceof Location)
-			taskTemplate.setTaskLocation((Location) model);
+			template.setTaskLocation((Location) model);
 	}
 	
 	private static void findStatusPriority(
 			String title,
-			TaskTemplate taskTemplate) {
+			TaskTemplate template) {
 		for (TaskStatus status : TaskStatus.values()) {
 			String s = TranslationsUtils.translateTaskStatus(status);
 			
 			if (s.toLowerCase().startsWith(title.toLowerCase())) {
-				taskTemplate.setTaskStatus(status);
+				template.setTaskStatus(status);
 				return;
 			}
 		}
@@ -213,7 +218,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			String p = TranslationsUtils.translateTaskPriority(priority);
 			
 			if (p.toLowerCase().startsWith(title.toLowerCase())) {
-				taskTemplate.setTaskPriority(priority);
+				template.setTaskPriority(priority);
 				return;
 			}
 		}
@@ -222,7 +227,7 @@ public class ActionAddQuickTask extends AbstractAction {
 	private static void findDate(
 			String title,
 			boolean startDate,
-			TaskTemplate taskTemplate) {
+			TaskTemplate template) {
 		String dateFormat = Main.getSettings().getStringProperty(
 				"date.date_format");
 		String timeFormat = Main.getSettings().getStringProperty(
@@ -280,9 +285,9 @@ public class ActionAddQuickTask extends AbstractAction {
 					false);
 			
 			if (startDate)
-				taskTemplate.setTaskStartDate((int) diffDays);
+				template.setTaskStartDate((int) diffDays);
 			else
-				taskTemplate.setTaskDueDate((int) diffDays);
+				template.setTaskDueDate((int) diffDays);
 			
 			return;
 		}
@@ -305,11 +310,11 @@ public class ActionAddQuickTask extends AbstractAction {
 						+ date.get(Calendar.MINUTE);
 				
 				if (startDate) {
-					taskTemplate.setTaskStartDate((int) diffDays);
-					taskTemplate.setTaskStartTime(minutes);
+					template.setTaskStartDate((int) diffDays);
+					template.setTaskStartTime(minutes);
 				} else {
-					taskTemplate.setTaskDueDate((int) diffDays);
-					taskTemplate.setTaskDueTime(minutes);
+					template.setTaskDueDate((int) diffDays);
+					template.setTaskDueTime(minutes);
 				}
 				
 				return;
