@@ -55,12 +55,15 @@ public class ActionAddQuickTask extends AbstractAction {
 	
 	public static Task addQuickTask(String task, boolean edit) {
 		return addQuickTask(
-				TaskTemplateFactory.getInstance().getDefaultTemplate(), 
-				task, 
+				TaskTemplateFactory.getInstance().getDefaultTemplate(),
+				task,
 				edit);
 	}
 	
-	public static Task addQuickTask(TaskTemplate template, String task, boolean edit) {
+	public static Task addQuickTask(
+			TaskTemplate template,
+			String task,
+			boolean edit) {
 		CheckUtils.isNotNull(task);
 		
 		if (template == null)
@@ -102,9 +105,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			
 			if (c == '&') { // Tag
 				if (template.getTaskTags() != null)
-					template.setTaskTags(template.getTaskTags()
-							+ ", "
-							+ s);
+					template.setTaskTags(template.getTaskTags() + ", " + s);
 				else
 					template.setTaskTags(s);
 			} else if (c == '@') { // Context, Folder, Goal, Location
@@ -202,9 +203,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			template.setTaskLocation((Location) model);
 	}
 	
-	private static void findStatusPriority(
-			String title,
-			TaskTemplate template) {
+	private static void findStatusPriority(String title, TaskTemplate template) {
 		for (TaskStatus status : TaskStatus.values()) {
 			String s = TranslationsUtils.translateTaskStatus(status);
 			

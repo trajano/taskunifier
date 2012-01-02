@@ -51,6 +51,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTaskAtSameLevel;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionChangeDataFolderLocation;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
@@ -298,14 +299,18 @@ public class MenuBar extends JMenuBar {
 				16));
 		tasksMenu.add(templatesMenu);
 		
-		TemplateUtils.updateTemplateList(templatesMenu);
+		TemplateUtils.updateTemplateList(
+				ActionAddTemplateTask.ADD_TASK_LISTENER,
+				templatesMenu);
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(templatesMenu);
+						TemplateUtils.updateTemplateList(
+								ActionAddTemplateTask.ADD_TASK_LISTENER,
+								templatesMenu);
 					}
 					
 				});

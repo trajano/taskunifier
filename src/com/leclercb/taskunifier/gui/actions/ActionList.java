@@ -134,7 +134,10 @@ public enum ActionList {
 			case ADD_TEMPLATE_TASK:
 				return null;
 			case ADD_TEMPLATE_TASK_MENU:
-				return new ActionAddTemplateTaskMenu(width, height);
+				return new ActionAddTemplateTaskMenu(
+						ActionAddTemplateTask.ADD_TASK_LISTENER,
+						width,
+						height);
 			case BATCH_ADD_TASKS:
 				return new ActionBatchAddTasks(width, height);
 			case CHANGE_DATE_FOLDER_LOCATION:

@@ -48,6 +48,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
+import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -146,7 +147,10 @@ public class DefaultToolBar extends JToolBar {
 			this.add(new ActionAddNote(24, 24));
 			this.add(new ActionAddTask(24, 24));
 			this.add(new ActionAddSubTask(24, 24));
-			this.add(new ActionAddTemplateTaskMenu(24, 24));
+			this.add(new ActionAddTemplateTaskMenu(
+					ActionAddTemplateTask.ADD_TASK_LISTENER,
+					24,
+					24));
 			this.add(new ActionDelete(24, 24));
 			this.addSeparator(new Dimension(20, 20));
 			this.add(new ActionSynchronize(false, 24, 24));

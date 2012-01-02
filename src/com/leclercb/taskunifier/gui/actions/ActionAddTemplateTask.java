@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -48,20 +49,39 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTemplateTask extends AbstractAction {
 	
-	private TaskTemplate template;
+	public static final String ACTION_ADD_TEMPLATE_TASK = "ACTION_ADD_TEMPLATE_TASK";
 	
-	public ActionAddTemplateTask(TaskTemplate template) {
-		this(template, 32, 32);
+	public static final ActionListener ADD_TASK_LISTENER = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ActionAddTemplateTask action = (ActionAddTemplateTask) e.getSource();
+			ActionAddTask.addTask(action.getTemplate(), null, true);
+		}
+	};
+	
+	private TaskTemplate template;
+	private ActionListener listener;
+	
+	public ActionAddTemplateTask(TaskTemplate template, ActionListener listener) {
+		this(template, listener, 32, 32);
 	}
 	
-	public ActionAddTemplateTask(TaskTemplate template, int width, int height) {
+	public ActionAddTemplateTask(
+			TaskTemplate template,
+			ActionListener listener,
+			int width,
+			int height) {
 		super(template.getTitle(), ImageUtils.getResourceImage(
 				"template.png",
 				width,
 				height));
 		
 		CheckUtils.isNotNull(template);
+		CheckUtils.isNotNull(listener);
+		
 		this.template = template;
+		this.listener = listener;
 		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());
 		
@@ -114,9 +134,20 @@ public class ActionAddTemplateTask extends AbstractAction {
 				});
 	}
 	
+	public TaskTemplate getTemplate() {
+		return this.template;
+	}
+	
+	public ActionListener getListener() {
+		return this.listener;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionAddTask.addTask(this.template, null, true);
+		this.listener.actionPerformed(new ActionEvent(
+				this,
+				0,
+				ACTION_ADD_TEMPLATE_TASK));
 	}
 	
 }

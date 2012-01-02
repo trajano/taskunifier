@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.utils;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,15 +52,20 @@ public final class TemplateUtils {
 		
 	}
 	
-	public static void updateTemplateList(JMenu menu) {
-		updateTemplateList(menu, null);
+	public static void updateTemplateList(ActionListener listener, JMenu menu) {
+		updateTemplateList(listener, menu, null);
 	}
 	
-	public static void updateTemplateList(JPopupMenu popupMenu) {
-		updateTemplateList(null, popupMenu);
+	public static void updateTemplateList(
+			ActionListener listener,
+			JPopupMenu popupMenu) {
+		updateTemplateList(listener, null, popupMenu);
 	}
 	
-	private static void updateTemplateList(JMenu menu, JPopupMenu popupMenu) {
+	private static void updateTemplateList(
+			ActionListener listener,
+			JMenu menu,
+			JPopupMenu popupMenu) {
 		if (menu != null)
 			menu.removeAll();
 		
@@ -72,10 +78,14 @@ public final class TemplateUtils {
 		
 		for (TaskTemplate template : templates) {
 			if (menu != null)
-				menu.add(new ActionAddTemplateTask(template, 16, 16));
+				menu.add(new ActionAddTemplateTask(template, listener, 16, 16));
 			
 			if (popupMenu != null)
-				popupMenu.add(new ActionAddTemplateTask(template, 16, 16));
+				popupMenu.add(new ActionAddTemplateTask(
+						template,
+						listener,
+						16,
+						16));
 		}
 		
 		if (menu != null) {

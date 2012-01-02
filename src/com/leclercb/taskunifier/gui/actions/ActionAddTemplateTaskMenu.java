@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
@@ -49,11 +50,14 @@ public class ActionAddTemplateTaskMenu extends AbstractAction {
 	
 	private JPopupMenu popupMenu;
 	
-	public ActionAddTemplateTaskMenu() {
-		this(32, 32);
+	public ActionAddTemplateTaskMenu(final ActionListener listener) {
+		this(listener, 32, 32);
 	}
 	
-	public ActionAddTemplateTaskMenu(int width, int height) {
+	public ActionAddTemplateTaskMenu(
+			final ActionListener listener,
+			int width,
+			int height) {
 		super(
 				Translations.getString("action.add_template_task"),
 				ImageUtils.getResourceImage("template.png", width, height));
@@ -65,14 +69,16 @@ public class ActionAddTemplateTaskMenu extends AbstractAction {
 		this.popupMenu = new JPopupMenu(
 				Translations.getString("action.add_template_task"));
 		
-		TemplateUtils.updateTemplateList(this.popupMenu);
+		TemplateUtils.updateTemplateList(listener, this.popupMenu);
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(ActionAddTemplateTaskMenu.this.popupMenu);
+						TemplateUtils.updateTemplateList(
+								listener,
+								ActionAddTemplateTaskMenu.this.popupMenu);
 					}
 					
 				});
