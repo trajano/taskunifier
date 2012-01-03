@@ -98,7 +98,6 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
-import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
@@ -114,8 +113,6 @@ public class MenuBar extends JMenuBar {
 	}
 	
 	private void initialize() {
-		MacApplicationAdapter.initializeApplicationAdapter();
-		
 		this.initializeFileMenu();
 		this.initializeEditMenu();
 		this.initializeViewMenu();

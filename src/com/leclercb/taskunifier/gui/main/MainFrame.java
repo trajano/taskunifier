@@ -57,7 +57,6 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.actions.MacApplicationAdapter;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
@@ -168,6 +167,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.initializeReminderThread();
 		this.initializeScheduledSyncThread();
 		
+		this.initializeOsSpecifications();
 		this.initializeAppMenu();
 		this.initializeMenuBar();
 		this.initializeToolBar();
@@ -250,10 +250,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		}
 	}
 	
+	private void initializeOsSpecifications() {
+		MacApplication.initializeApplicationAdapter();
+	}
+	
 	private void initializeAppMenu() {
 		if (SystemUtils.IS_OS_MAC) {
 			TrayPopup popupMenu = new TrayPopup(false);
-			MacApplicationAdapter.setDockMenu(popupMenu);
+			MacApplication.setDockMenu(popupMenu);
 		}
 	}
 	

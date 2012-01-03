@@ -40,6 +40,7 @@ import javax.swing.AbstractAction;
 import org.apache.commons.lang3.SystemUtils;
 
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
+import com.leclercb.taskunifier.gui.main.MacApplication;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -67,7 +68,7 @@ public class ActionTaskReminders extends AbstractAction {
 	public static void taskReminders(boolean requestUserAttention) {
 		if (requestUserAttention) {
 			if (SystemUtils.IS_OS_MAC)
-				MacApplicationAdapter.requestUserAttention();
+				MacApplication.requestUserAttention();
 			else
 				Toolkit.getDefaultToolkit().beep();
 		}

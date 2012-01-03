@@ -30,63 +30,58 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.main;
 
 import java.awt.Frame;
 import java.awt.PopupMenu;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import com.apple.eawt.AboutHandler;
+import com.apple.eawt.AppEvent.AboutEvent;
+import com.apple.eawt.AppEvent.AppReOpenedEvent;
+import com.apple.eawt.AppEvent.OpenFilesEvent;
+import com.apple.eawt.AppEvent.PreferencesEvent;
+import com.apple.eawt.AppEvent.PrintFilesEvent;
+import com.apple.eawt.AppEvent.QuitEvent;
+import com.apple.eawt.AppEventListener;
+import com.apple.eawt.AppReOpenedListener;
 import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationAdapter;
-import com.apple.eawt.ApplicationEvent;
+import com.apple.eawt.OpenFilesHandler;
+import com.apple.eawt.PreferencesHandler;
+import com.apple.eawt.PrintFilesHandler;
+import com.apple.eawt.QuitHandler;
+import com.apple.eawt.QuitResponse;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.actions.ActionAbout;
+import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
+import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
+import com.leclercb.taskunifier.gui.actions.ActionPrint;
+import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-@SuppressWarnings("deprecation")
-public class MacApplicationAdapter extends ApplicationAdapter {
+public class MacApplication {
 	
-	public MacApplicationAdapter() {
+	public MacApplication() {
 		
 	}
 	
-	@Override
-	public void handleQuit(ApplicationEvent e) {
-		e.setHandled(true);
-		ActionQuit.quit();
-	}
-	
-	@Override
-	public void handleAbout(ApplicationEvent e) {
-		e.setHandled(true);
-		ActionAbout.about();
-	}
-	
-	@Override
-	public void handlePreferences(ApplicationEvent e) {
-		e.setHandled(true);
-		ActionConfiguration.configuration();
-	}
-	
-	@Override
-	public void handlePrintFile(ApplicationEvent e) {
-		e.setHandled(true);
-		ActionPrint.print();
-	}
-	
-	@Override
-	public void handleReOpenApplication(ApplicationEvent e) {
-		e.setHandled(true);
-		MainFrame.getInstance().getFrame().setVisible(true);
-		MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+	private static class MacAppEventListener implements AppEventListener, AppReOpenedListener {
+		
+		@Override
+		public void appReOpened(AppReOpenedEvent e) {
+			MainFrame.getInstance().getFrame().setVisible(true);
+			MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+		}
+		
 	}
 	
 	public static void initializeApplicationAdapter() {
@@ -95,9 +90,55 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 		
 		try {
 			Application application = Application.getApplication();
-			MacApplicationAdapter adapter = new MacApplicationAdapter();
-			application.setEnabledPreferencesMenu(true);
-			application.addApplicationListener(adapter);
+			
+			application.addAppEventListener(new MacAppEventListener());
+			
+			application.setAboutHandler(new AboutHandler() {
+				
+				@Override
+				public void handleAbout(AboutEvent e) {
+					ActionAbout.about();
+				}
+				
+			});
+			
+			application.setOpenFileHandler(new OpenFilesHandler() {
+				
+				@Override
+				public void openFiles(OpenFilesEvent e) {
+					for (File file : e.getFiles()) {
+						ActionImportComFile.importComFile(file);
+					}
+				}
+				
+			});
+			
+			application.setPreferencesHandler(new PreferencesHandler() {
+				
+				@Override
+				public void handlePreferences(PreferencesEvent e) {
+					ActionConfiguration.configuration();
+				}
+				
+			});
+			
+			application.setPrintFileHandler(new PrintFilesHandler() {
+				
+				@Override
+				public void printFiles(PrintFilesEvent e) {
+					ActionPrint.print();
+				}
+				
+			});
+			
+			application.setQuitHandler(new QuitHandler() {
+				
+				@Override
+				public void handleQuitRequestWith(QuitEvent e, QuitResponse r) {
+					ActionQuit.quit();
+				}
+				
+			});
 		} catch (Throwable t) {
 			
 		}
@@ -183,6 +224,9 @@ public class MacApplicationAdapter extends ApplicationAdapter {
 	}
 	
 	public static void setDockMenu(PopupMenu popupMenu) {
+		if (!SystemUtils.IS_OS_MAC)
+			return;
+		
 		try {
 			Application application = Application.getApplication();
 			application.setDockMenu(popupMenu);

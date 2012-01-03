@@ -85,6 +85,39 @@ public class ActionImportComFile extends AbstractAction {
 		ImportComFileDialog.getInstance().setVisible(true);
 	}
 	
+	public static void importComFile(File file) {
+		if (file == null)
+			return;
+		
+		if (!file.exists() || !file.isFile())
+			return;
+		
+		String ext = FileUtils.getExtention(file.getName());
+		
+		try {
+			if ("tue".equals(ext)) {
+				FileInputStream input = new FileInputStream(file);
+				ComBean b = ComBean.decodeFromXML(input);
+				input.close();
+				
+				importComBean(b);
+			}
+		} catch (Throwable t) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					Translations.getString(
+							"error.cannot_open_file",
+							file.getAbsolutePath()),
+					null,
+					null,
+					t,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+		}
+	}
+	
 	public static void importComBean(ComBean bean) {
 		try {
 			if (bean.getArguments() != null) {
@@ -95,37 +128,7 @@ public class ActionImportComFile extends AbstractAction {
 					if (argument == null)
 						continue;
 					
-					File file = new File(argument);
-					
-					if (!file.exists() || !file.isFile())
-						continue;
-					
-					String ext = FileUtils.getExtention(argument);
-					
-					try {
-						if ("tue".equals(ext)) {
-							FileInputStream input = new FileInputStream(file);
-							ComBean b = ComBean.decodeFromXML(input);
-							input.close();
-							
-							importComBean(b);
-						}
-					} catch (Throwable t) {
-						ErrorInfo info = new ErrorInfo(
-								Translations.getString("general.error"),
-								Translations.getString(
-										"error.cannot_open_file",
-										file.getAbsolutePath()),
-								null,
-								null,
-								t,
-								null,
-								null);
-						
-						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
-								info);
-					}
+					importComFile(new File(argument));
 				}
 			}
 			
