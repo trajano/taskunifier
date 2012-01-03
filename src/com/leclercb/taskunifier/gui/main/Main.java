@@ -88,6 +88,7 @@ import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.api.models.GuiLocation;
 import com.leclercb.taskunifier.gui.api.models.GuiNote;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
+import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContactBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiContextBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiFolderBean;
@@ -112,6 +113,7 @@ import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
+import com.leclercb.taskunifier.gui.utils.CommunicatorUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class Main {
@@ -187,7 +189,12 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		checkSingleInstance();
+		try {
+			checkSingleInstance(args);
+		} catch (RuntimeException e) {
+			secondaryMain(args);
+			throw e;
+		}
 		
 		setDeveloperMode(false);
 		setFirstExecution(false);
@@ -331,17 +338,34 @@ public class Main {
 		});
 	}
 	
-	private static void checkSingleInstance() {
+	private static void secondaryMain(String[] args) {
+		try {
+			loadDeveloperMode();
+			loadResourceFolder();
+			loadInitSettings();
+			loadDataFolder();
+			loadBackupFolder();
+			loadPluginsFolder();
+			loadSettings();
+			
+			ComBean bean = new ComBean();
+			bean.setApplicationName(Constants.TITLE);
+			bean.setArguments(args);
+			
+			CommunicatorUtils.send(
+					bean,
+					"127.0.0.1",
+					SETTINGS.getIntegerProperty("general.communicator.port"));
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+	
+	private static void checkSingleInstance(String[] args) {
 		if (!SingleInstanceUtils.isSingleInstance()) {
 			String message = "There is another instance of "
 					+ Constants.TITLE
 					+ " running.";
-			
-			JOptionPane.showMessageDialog(
-					null,
-					message,
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
 			
 			throw new RuntimeException(message);
 		}

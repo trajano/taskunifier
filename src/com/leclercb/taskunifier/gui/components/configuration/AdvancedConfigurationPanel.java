@@ -70,6 +70,9 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.advanced.communicator_port"),
 				true,
 				new CommunicatorPortFieldType()));
+		
+		((ConfigurationFieldType.CheckBox) this.getField("COMMUNICATOR_ENABLED").getType()).getFieldComponent().setEnabled(
+				false);
 	}
 	
 }

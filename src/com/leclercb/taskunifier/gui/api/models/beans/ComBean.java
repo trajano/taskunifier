@@ -14,6 +14,9 @@ public class ComBean {
 	@XStreamAlias("applicationname")
 	private String applicationName;
 	
+	@XStreamAlias("arguments")
+	private String[] arguments;
+	
 	@XStreamAlias("notes")
 	private ComNoteBean[] notes;
 	
@@ -25,6 +28,7 @@ public class ComBean {
 	
 	public ComBean() {
 		this.setApplicationName(null);
+		this.setArguments(null);
 		this.setNotes(null);
 		this.setTasks(null);
 		this.setQuickTasks(null);
@@ -36,6 +40,14 @@ public class ComBean {
 	
 	public void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
+	}
+	
+	public String[] getArguments() {
+		return this.arguments;
+	}
+	
+	public void setArguments(String[] arguments) {
+		this.arguments = arguments;
 	}
 	
 	public ComNoteBean[] getNotes() {

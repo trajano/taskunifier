@@ -1150,6 +1150,10 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 1.8.7 to 1.8.8");
 		
+		Main.getSettings().setStringProperty(
+				"general.communicator.enabled",
+				"true");
+		
 		return "1.8.8";
 	}
 	

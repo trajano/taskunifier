@@ -33,11 +33,17 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
+import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
@@ -48,6 +54,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.import_data.ImportComFileDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -79,6 +86,45 @@ public class ActionImportComFile extends AbstractAction {
 	
 	public static void importComBean(ComBean bean) {
 		try {
+			if (bean.getArguments() != null) {
+				for (String argument : bean.getArguments()) {
+					if (argument == null)
+						continue;
+					
+					File file = new File(argument);
+					
+					try {
+						if (!file.exists() || !file.isFile())
+							continue;
+						
+						String ext = FileUtils.getExtention(argument);
+						
+						if ("tue".equals(ext)) {
+							FileInputStream input = new FileInputStream(file);
+							ComBean b = ComBean.decodeFromXML(input);
+							input.close();
+							
+							importComBean(b);
+						}
+					} catch (Throwable t) {
+						ErrorInfo info = new ErrorInfo(
+								Translations.getString("general.error"),
+								Translations.getString(
+										"error.cannot_open_file",
+										file.getAbsolutePath()),
+								null,
+								null,
+								t,
+								null,
+								null);
+						
+						JXErrorPane.showDialog(
+								MainFrame.getInstance().getFrame(),
+								info);
+					}
+				}
+			}
+			
 			if (bean.getNotes() != null) {
 				List<Note> notes = new ArrayList<Note>();
 				for (ComNoteBean note : bean.getNotes()) {

@@ -75,7 +75,9 @@ public final class DesktopUtils {
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					Translations.getString("error.cannot_edit_file"),
+					Translations.getString(
+							"error.cannot_edit_file",
+							file.getAbsolutePath()),
 					null,
 					null,
 					e,
@@ -125,7 +127,9 @@ public final class DesktopUtils {
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
-					Translations.getString("error.cannot_open_file"),
+					Translations.getString(
+							"error.cannot_open_file",
+							file.getAbsolutePath()),
 					null,
 					null,
 					e,
