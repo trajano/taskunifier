@@ -1,6 +1,5 @@
 package com.leclercb.taskunifier.gui.threads.communicator;
 
-import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +11,6 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -64,9 +62,6 @@ public class CommunicatorClient extends Thread {
 			ComBean bean = ComBean.decodeFromXML(IOUtils.toInputStream(
 					message,
 					"UTF-8"));
-			
-			MainFrame.getInstance().getFrame().setVisible(true);
-			MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
 			
 			ActionImportComFile.importComBean(bean);
 			

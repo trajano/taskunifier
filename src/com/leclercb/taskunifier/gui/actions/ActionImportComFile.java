@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,18 +88,21 @@ public class ActionImportComFile extends AbstractAction {
 	public static void importComBean(ComBean bean) {
 		try {
 			if (bean.getArguments() != null) {
+				MainFrame.getInstance().getFrame().setVisible(true);
+				MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+				
 				for (String argument : bean.getArguments()) {
 					if (argument == null)
 						continue;
 					
 					File file = new File(argument);
 					
+					if (!file.exists() || !file.isFile())
+						continue;
+					
+					String ext = FileUtils.getExtention(argument);
+					
 					try {
-						if (!file.exists() || !file.isFile())
-							continue;
-						
-						String ext = FileUtils.getExtention(argument);
-						
 						if ("tue".equals(ext)) {
 							FileInputStream input = new FileInputStream(file);
 							ComBean b = ComBean.decodeFromXML(input);
