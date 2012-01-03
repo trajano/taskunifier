@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Calendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -29,6 +30,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
@@ -253,6 +255,11 @@ public abstract class HTMLEditorPane extends JPanel {
 			}
 			
 		});
+		
+		toolBar.add(new HTMLInsertContentAction(
+				this.textNote,
+				"calendar.png",
+				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())));
 		
 		JPanel textPanel = new JPanel(new BorderLayout());
 		textPanel.add(toolBar, BorderLayout.NORTH);
