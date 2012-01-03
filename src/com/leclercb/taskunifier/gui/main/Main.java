@@ -77,6 +77,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -188,9 +189,9 @@ public class Main {
 		return API_PLUGINS;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			checkSingleInstance(args);
+			checkSingleInstance();
 		} catch (RuntimeException e) {
 			secondaryMain(args);
 			throw e;
@@ -310,6 +311,8 @@ public class Main {
 					
 					TipsDialog.getInstance().showTipsDialog(true);
 					
+					handleArguments(args);
+					
 					Boolean syncStart = SETTINGS.getBooleanProperty("synchronizer.sync_start");
 					if (syncStart != null && syncStart)
 						ActionSynchronize.synchronize(false);
@@ -361,7 +364,19 @@ public class Main {
 		}
 	}
 	
-	private static void checkSingleInstance(String[] args) {
+	public static void handleArguments(String[] args) {
+		if (args == null)
+			return;
+		
+		for (String arg : args) {
+			if (arg == null)
+				continue;
+			
+			ActionImportComFile.importComFile(new File(arg));
+		}
+	}
+	
+	private static void checkSingleInstance() {
 		if (!SingleInstanceUtils.isSingleInstance()) {
 			String message = "There is another instance of "
 					+ Constants.TITLE

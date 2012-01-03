@@ -55,6 +55,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.import_data.ImportComFileDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -124,12 +125,7 @@ public class ActionImportComFile extends AbstractAction {
 				MainFrame.getInstance().getFrame().setVisible(true);
 				MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
 				
-				for (String argument : bean.getArguments()) {
-					if (argument == null)
-						continue;
-					
-					importComFile(new File(argument));
-				}
+				Main.handleArguments(bean.getArguments());
 			}
 			
 			if (bean.getNotes() != null) {
