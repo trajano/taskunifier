@@ -53,7 +53,7 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	protected DummyApi() {
-		super("DUMMY", "No Synchronization", "http://www.taskunifier.net");
+		super("DUMMY", "No Synchronization", "http://www.taskunifier.com");
 	}
 	
 	@Override
