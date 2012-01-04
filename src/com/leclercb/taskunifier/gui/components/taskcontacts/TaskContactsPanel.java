@@ -117,7 +117,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 				}
 				
 				if (newContact == null) {
-					ActionManageModels.manageModels(ModelConfigurationTab.CONTACT);
+					ActionManageModels.manageModels(ModelConfigurationTab.CONTACTS);
 					return;
 				}
 				

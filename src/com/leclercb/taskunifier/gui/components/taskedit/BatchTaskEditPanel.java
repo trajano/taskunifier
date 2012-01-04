@@ -617,14 +617,14 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		builder.appendI15d("general.task.folder", true, this.taskFolderCheckBox);
 		builder.append(this.createPanel(this.taskFolder, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.FOLDER))));
+				new ActionManageModels(16, 16, ModelConfigurationTab.FOLDERS))));
 		
 		// Task Goal
 		this.taskGoal.setModel(new GoalModel(true));
 		
 		builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
 		builder.append(this.createPanel(this.taskGoal, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.GOAL))));
+				new ActionManageModels(16, 16, ModelConfigurationTab.GOALS))));
 		
 		// Task Context
 		this.taskContext.setModel(new ContextModel(true));
@@ -634,7 +634,7 @@ public class BatchTaskEditPanel extends JPanel {
 				true,
 				this.taskContextCheckBox);
 		builder.append(this.createPanel(this.taskContext, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.CONTEXT))));
+				new ActionManageModels(16, 16, ModelConfigurationTab.CONTEXTS))));
 		
 		// Task Location
 		this.taskLocation.setModel(new LocationModel(true));
@@ -643,8 +643,12 @@ public class BatchTaskEditPanel extends JPanel {
 				"general.task.location",
 				true,
 				this.taskLocationCheckBox);
-		builder.append(this.createPanel(this.taskLocation, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.LOCATION))));
+		builder.append(this.createPanel(
+				this.taskLocation,
+				new JButton(new ActionManageModels(
+						16,
+						16,
+						ModelConfigurationTab.LOCATIONS))));
 		
 		// Separator
 		builder.getBuilder().appendSeparator();

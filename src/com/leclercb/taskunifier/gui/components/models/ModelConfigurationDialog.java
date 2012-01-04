@@ -78,12 +78,12 @@ public class ModelConfigurationDialog extends JDialog {
 	
 	public static enum ModelConfigurationTab {
 		
-		CONTACT,
-		CONTEXT,
-		FOLDER,
-		GOAL,
-		LOCATION,
-		TAG;
+		CONTACTS,
+		CONTEXTS,
+		FOLDERS,
+		GOALS,
+		LOCATIONS,
+		TAGS;
 		
 	}
 	
