@@ -19,6 +19,7 @@ import lu.tudor.santec.bizcal.NamedCalendar;
 import lu.tudor.santec.bizcal.listeners.NamedCalendarListener;
 import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
+import lu.tudor.santec.bizcal.views.MonthViewPanel;
 import lu.tudor.santec.bizcal.views.WeekListViewPanel;
 import bizcal.common.DayViewConfig;
 import bizcal.common.Event;
@@ -50,6 +51,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
+	private MonthViewPanel monthViewPanel;
 	private WeekListViewPanel listViewPanel;
 	
 	private TasksCalendar[] tasksCalendars = new TasksCalendar[] {
@@ -91,19 +93,28 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		EventModel weekModel = new EventModel(
 				this.eventDataList,
 				EventModel.TYPE_WEEK);
+		EventModel monthModel = new EventModel(
+				this.eventDataList,
+				EventModel.TYPE_MONTH);
+		EventModel listModel = new EventModel(
+				this.eventDataList,
+				EventModel.TYPE_WEEK);
 		
 		this.dayViewPanel = new DayViewPanel(dayModel, config);
 		this.weekViewPanel = new DayViewPanel(weekModel, config);
-		this.listViewPanel = new WeekListViewPanel(weekModel);
+		this.monthViewPanel = new MonthViewPanel(monthModel);
+		this.listViewPanel = new WeekListViewPanel(listModel);
 		
 		TasksCalendarListener calListener = new TasksCalendarListener();
 		
 		this.dayViewPanel.addCalendarListener(calListener);
 		this.weekViewPanel.addCalendarListener(calListener);
+		this.monthViewPanel.addCalendarListener(calListener);
 		this.listViewPanel.addCalendarListener(calListener);
 		
 		this.calendarPanel.addCalendarView(this.dayViewPanel);
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
+		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		this.calendarPanel.addCalendarView(this.listViewPanel);
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
@@ -209,6 +220,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				});
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
+		
+		this.calendarPanel.setDate(Calendar.getInstance().getTime());
 	}
 	
 	@Override
@@ -254,12 +267,12 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	private class TasksCalendarListener extends CalendarAdapter {
 		
 		@Override
-		public void eventSelected(Object id, Event event) throws Exception {
+		public void eventSelected(Object id, Event event) {
 			this.eventsSelected(Arrays.asList(event));
 		}
 		
 		@Override
-		public void eventsSelected(List<Event> events) throws Exception {
+		public void eventsSelected(List<Event> events) {
 			TasksCalendarPanel.this.modelSelectionChangeSupport.fireModelSelectionChange(TasksCalendar.getTasks(events));
 		}
 		
@@ -268,6 +281,11 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				Object id,
 				Event event,
 				MouseEvent mouseEvent) {
+			this.showEvent(id, event);
+		}
+		
+		@Override
+		public void showEvent(Object id, Event event) {
 			Task[] tasks = new Task[] { TasksCalendar.getTask(event) };
 			ActionEditTasks.editTasks(tasks);
 			
