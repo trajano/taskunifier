@@ -9,6 +9,7 @@ import java.util.List;
 import bizcal.common.Event;
 import bizcal.util.DateInterval;
 
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -61,12 +62,21 @@ public class TasksStartDateCalendar extends TasksCalendar {
 					&& !TaskUtils.showUnindentTask(task, searcher.getFilter()))
 				continue;
 			
+			Calendar startDate = task.getStartDate();
+			
+			if (!Main.getSettings().getBooleanProperty("date.use_start_time")) {
+				startDate.set(Calendar.HOUR_OF_DAY, 8);
+				startDate.set(Calendar.MINUTE, 0);
+				startDate.set(Calendar.SECOND, 0);
+				startDate.set(Calendar.MILLISECOND, 0);
+			}
+			
 			int length = task.getLength();
 			
 			if (length < 30)
 				length = 30;
 			
-			Calendar end = task.getStartDate();
+			Calendar end = DateUtils.cloneCalendar(startDate);
 			end.add(Calendar.MINUTE, length);
 			
 			String title = task.getTitle();
@@ -87,7 +97,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 					+ "</i><br />"
 					+ TaskUtils.toText(new Task[] { task }, c, true)
 					+ "</html>");
-			event.setStart(task.getStartDate().getTime());
+			event.setStart(startDate.getTime());
 			event.setEnd(end.getTime());
 			event.setColor(Main.getSettings().getColorProperty(
 					"theme.color.importance." + TaskUtils.getImportance(task)));
