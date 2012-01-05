@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -56,6 +58,7 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
@@ -126,6 +129,15 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 					}
 					
 				});
+		
+		this.treeSelectionModel.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				TaskSearcherTreeModel.this.updateBadges();
+			}
+			
+		});
 	}
 	
 	public SearcherItem getDefaultSearcher() {
@@ -470,7 +482,8 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof Task) {
 			if (!Synchronizing.isSynchronizing())
-				this.updateBadges();
+				if (!event.getPropertyName().equals(ModelNote.PROP_NOTE))
+					this.updateBadges();
 			return;
 		}
 		

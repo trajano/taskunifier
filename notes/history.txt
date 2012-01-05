@@ -4,6 +4,7 @@ Version 1.8.8
 		- Added date conditions on weeks and months
 		- Added quick task with template button
 		- Mac & Windows: Associate .tue extension
+		- Improved performance while editing notes
 
 Version 1.8.7
 	- Major:
