@@ -19,6 +19,7 @@ import lu.tudor.santec.bizcal.NamedCalendar;
 import lu.tudor.santec.bizcal.listeners.NamedCalendarListener;
 import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
+import lu.tudor.santec.bizcal.views.WeekListViewPanel;
 import bizcal.common.DayViewConfig;
 import bizcal.common.Event;
 import bizcal.swing.CalendarListener.CalendarAdapter;
@@ -49,6 +50,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
+	private WeekListViewPanel listViewPanel;
 	
 	private TasksCalendar[] tasksCalendars = new TasksCalendar[] {
 			new TasksStartDateCalendar(),
@@ -92,14 +94,17 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		this.dayViewPanel = new DayViewPanel(dayModel, config);
 		this.weekViewPanel = new DayViewPanel(weekModel, config);
+		this.listViewPanel = new WeekListViewPanel(weekModel);
 		
 		TasksCalendarListener calListener = new TasksCalendarListener();
 		
 		this.dayViewPanel.addCalendarListener(calListener);
 		this.weekViewPanel.addCalendarListener(calListener);
+		this.listViewPanel.addCalendarListener(calListener);
 		
 		this.calendarPanel.addCalendarView(this.dayViewPanel);
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
+		this.calendarPanel.addCalendarView(this.listViewPanel);
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		
