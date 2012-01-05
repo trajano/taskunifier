@@ -75,6 +75,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	public static enum ConfigurationTab {
 		
 		GENERAL,
+		DATE,
 		BACKUP,
 		PROXY,
 		SEARCHER,
@@ -89,6 +90,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel generalConfigurationPanel;
+	private ConfigurationPanel dateConfigurationPanel;
 	private ConfigurationPanel backupConfigurationPanel;
 	private ConfigurationPanel proxyConfigurationPanel;
 	private ConfigurationPanel searcherConfigurationPanel;
@@ -132,6 +134,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeButtonsPanel();
 		
 		this.initializeGeneralPanel();
+		this.initializeDatePanel();
 		this.initializeBackupPanel();
 		this.initializeProxyPanel();
 		this.initializeSearcherPanel();
@@ -194,6 +197,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 				Translations.getString("configuration.tab.general"),
 				ComponentFactory.createJScrollPane(
 						this.generalConfigurationPanel,
+						false));
+	}
+	
+	private void initializeDatePanel() {
+		this.dateConfigurationPanel = new DateConfigurationPanel(this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.date"),
+				ComponentFactory.createJScrollPane(
+						this.dateConfigurationPanel,
 						false));
 	}
 	
@@ -278,6 +290,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.pluginConfigurationPanel.saveAndApplyConfig();
 			
 			this.generalConfigurationPanel.saveAndApplyConfig();
+			this.dateConfigurationPanel.saveAndApplyConfig();
 			this.backupConfigurationPanel.saveAndApplyConfig();
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.searcherConfigurationPanel.saveAndApplyConfig();
@@ -309,6 +322,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	public void cancelConfig() {
 		try {
 			this.generalConfigurationPanel.cancelConfig();
+			this.dateConfigurationPanel.cancelConfig();
 			
 			this.synchronizationConfigurationPanel.cancelConfig();
 			this.pluginConfigurationPanel.cancelConfig();

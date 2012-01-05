@@ -47,6 +47,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.components.configuration.DateConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
@@ -69,6 +70,9 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 			new SettingsPanel(
 					Translations.getString("configuration.tab.general"),
 					new GeneralConfigurationPanel(this, false, true)),
+			new SettingsPanel(
+					Translations.getString("configuration.tab.date"),
+					new DateConfigurationPanel(this)),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.proxy"),
 					new ProxyConfigurationPanel(this)),

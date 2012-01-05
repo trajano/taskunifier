@@ -65,7 +65,10 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			Calendar startDate = task.getStartDate();
 			
 			if (!Main.getSettings().getBooleanProperty("date.use_start_time")) {
-				startDate.set(Calendar.HOUR_OF_DAY, 8);
+				startDate.set(
+						Calendar.HOUR_OF_DAY,
+						Main.getSettings().getIntegerProperty(
+								"date.day_start_hour"));
 				startDate.set(Calendar.MINUTE, 0);
 				startDate.set(Calendar.SECOND, 0);
 				startDate.set(Calendar.MILLISECOND, 0);

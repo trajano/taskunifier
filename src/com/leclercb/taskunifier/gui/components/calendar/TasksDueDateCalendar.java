@@ -65,7 +65,10 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			Calendar dueDate = task.getDueDate();
 			
 			if (!Main.getSettings().getBooleanProperty("date.use_due_time")) {
-				dueDate.set(Calendar.HOUR_OF_DAY, 18);
+				dueDate.set(
+						Calendar.HOUR_OF_DAY,
+						Main.getSettings().getIntegerProperty(
+								"date.day_end_hour"));
 				dueDate.set(Calendar.MINUTE, 0);
 				dueDate.set(Calendar.SECOND, 0);
 				dueDate.set(Calendar.MILLISECOND, 0);

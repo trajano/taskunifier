@@ -81,11 +81,17 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.eventDataList = new ObservableEventList();
 		
 		DayViewConfig config = new DayViewConfig();
-		config.setStartView(new TimeOfDay(0, 0));
-		config.setEndView(new TimeOfDay(24, 0));
-		config.setDefaultDayStartHour(0);
-		config.setDayBreak(12);
-		config.setDefaultDayEndHour(24);
+		config.setStartView(new TimeOfDay(
+				Main.getSettings().getIntegerProperty("date.day_start_hour"),
+				0));
+		config.setEndView(new TimeOfDay(Main.getSettings().getIntegerProperty(
+				"date.day_end_hour"), 0));
+		config.setDefaultDayStartHour(Main.getSettings().getIntegerProperty(
+				"date.day_start_hour"));
+		config.setDayBreak(Main.getSettings().getIntegerProperty(
+				"date.day_break_hour"));
+		config.setDefaultDayEndHour(Main.getSettings().getIntegerProperty(
+				"date.day_end_hour"));
 		
 		EventModel dayModel = new EventModel(
 				this.eventDataList,

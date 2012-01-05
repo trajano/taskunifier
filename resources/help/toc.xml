@@ -7,6 +7,7 @@
 		<tocitem text="Configuration">
 		
 			<tocitem text="General" target="configuration_general" />
+			<tocitem text="Date" target="configuration_date" />
 			<tocitem text="Backup" target="configuration_backup" />
 			<tocitem text="Proxy" target="configuration_proxy" />
 			<tocitem text="Searcher" target="configuration_searcher" />

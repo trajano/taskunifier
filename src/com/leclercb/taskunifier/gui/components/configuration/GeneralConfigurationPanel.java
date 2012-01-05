@@ -37,9 +37,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.DateFormatFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.TimeFormatFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
@@ -75,41 +73,6 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.Separator()));
 			
 			this.addField(new ConfigurationField(
-					"DATE_FORMAT",
-					Translations.getString("configuration.general.date_format"),
-					true,
-					new DateFormatFieldType()));
-			
-			this.addField(new ConfigurationField(
-					"TIME_FORMAT",
-					Translations.getString("configuration.general.time_format"),
-					true,
-					new TimeFormatFieldType()));
-			
-			this.addField(new ConfigurationField(
-					"USE_DUE_TIME",
-					Translations.getString("configuration.general.use_due_time"),
-					true,
-					new ConfigurationFieldType.CheckBox("date.use_due_time")));
-			
-			this.addField(new ConfigurationField(
-					"USE_START_TIME",
-					Translations.getString("configuration.general.use_start_time"),
-					true,
-					new ConfigurationFieldType.CheckBox("date.use_start_time")));
-			
-			this.addField(new ConfigurationField(
-					"SHOW_DAY_OF_WEEK",
-					Translations.getString("configuration.general.show_day_of_week"),
-					true,
-					new ConfigurationFieldType.CheckBox("date.show_day_of_week")));
-			
-			this.addField(new ConfigurationField(
-					"SEPARATOR_2",
-					null,
-					new ConfigurationFieldType.Separator()));
-			
-			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",
 					Translations.getString("configuration.general.minimize_to_system_tray"),
 					true,
@@ -117,7 +80,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 							"window.minimize_to_system_tray")));
 			
 			this.addField(new ConfigurationField(
-					"SEPARATOR_3",
+					"SEPARATOR_2",
 					null,
 					new ConfigurationFieldType.Separator()));
 			
@@ -138,7 +101,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 							"task.show_edit_window_on_add")));
 			
 			this.addField(new ConfigurationField(
-					"SEPARATOR_4",
+					"SEPARATOR_3",
 					null,
 					new ConfigurationFieldType.Separator()));
 			

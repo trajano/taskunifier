@@ -30,37 +30,52 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.fields.general;
+package com.leclercb.taskunifier.gui.components.configuration.fields.date;
 
-import java.text.SimpleDateFormat;
-
-import org.jdesktop.swingx.renderer.DefaultListRenderer;
-
-import com.leclercb.taskunifier.gui.commons.values.StringValueSimpleDateFormat;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 
-public class DateFormatFieldType extends ConfigurationFieldType.ComboBox {
+public class DayStartHourFieldType extends ConfigurationFieldType.ComboBox {
 	
-	public DateFormatFieldType() {
-		super(DateTimeFormatUtils.getAvailableDateFormats(), "date.date_format");
-		
-		this.setRenderer(new DefaultListRenderer(
-				StringValueSimpleDateFormat.INSTANCE));
+	public DayStartHourFieldType() {
+		super(new Integer[] {
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24 }, "date.day_start_hour");
 	}
 	
 	@Override
 	public Object getPropertyValue() {
-		return Main.getSettings().getSimpleDateFormatProperty(
-				"date.date_format");
+		return Main.getSettings().getIntegerProperty("date.day_start_hour");
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.getSettings().setSimpleDateFormatProperty(
-				"date.date_format",
-				(SimpleDateFormat) this.getFieldValue());
+		Main.getSettings().setIntegerProperty(
+				"date.day_start_hour",
+				(Integer) this.getFieldValue());
 	}
 	
 }

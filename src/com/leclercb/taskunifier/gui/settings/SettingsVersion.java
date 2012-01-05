@@ -1154,6 +1154,10 @@ public final class SettingsVersion {
 				"general.communicator.enabled",
 				"true");
 		
+		Main.getSettings().setStringProperty("date.day_start_hour", "8");
+		Main.getSettings().setStringProperty("date.day_break_hour", "12");
+		Main.getSettings().setStringProperty("date.day_end_hour", "17");
+		
 		return "1.8.8";
 	}
 	

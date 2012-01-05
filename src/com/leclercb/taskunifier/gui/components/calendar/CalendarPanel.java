@@ -216,8 +216,13 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				JSlider slider = (JSlider) e.getSource();
+				
+				if (slider.getValueIsAdjusting())
+					return;
+				
+				int pos = slider.getValue();
 				Date date = CalendarPanel.this.getDate();
-				int pos = (((JSlider) (e.getSource())).getValue());
 				for (AbstractCalendarView acv : CalendarPanel.this.calendarViews.values()) {
 					if (acv instanceof DayViewPanel) {
 						DayViewPanel dvp = (DayViewPanel) acv;
