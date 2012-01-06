@@ -117,6 +117,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.CommunicatorUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.leclercb.taskunifier.gui.utils.UserUtils;
 
 public class Main {
 	
@@ -141,6 +142,10 @@ public class Main {
 	
 	public static ActionSupport AFTER_START;
 	public static ActionSupport BEFORE_EXIT;
+	
+	public static String getUserId() {
+		return USER_ID;
+	}
 	
 	public static boolean isDeveloperMode() {
 		return DEVELOPER_MODE;
@@ -180,6 +185,14 @@ public class Main {
 	
 	public static String getUserFolder() {
 		return USER_FOLDER;
+	}
+	
+	public static String getUserFolder(String userId) {
+		return getDataFolder()
+				+ File.separator
+				+ "users"
+				+ File.separator
+				+ userId;
 	}
 	
 	public static String getBackupFolder() {
@@ -222,18 +235,17 @@ public class Main {
 		
 		boolean outdatedPlugins;
 		
-		USER_ID = "default";
-		
 		try {
 			loadDeveloperMode();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
-			loadUserFolder();
-			loadBackupFolder();
 			loadPluginsFolder();
 			loadLoggers();
 			loadSettings();
+			loadUserId();
+			loadUserFolder();
+			loadBackupFolder();
 			loadUserSettings();
 			SettingsVersion.updateSettings();
 			loadLoggerLevels();
@@ -465,11 +477,7 @@ public class Main {
 	private static void loadUserFolder() throws Exception {
 		loadFolder(DATA_FOLDER + File.separator + "users");
 		
-		USER_FOLDER = DATA_FOLDER
-				+ File.separator
-				+ "users"
-				+ File.separator
-				+ USER_ID;
+		USER_FOLDER = getUserFolder(USER_ID);
 		
 		loadFolder(USER_FOLDER);
 	}
@@ -484,7 +492,7 @@ public class Main {
 		loadFolder(PLUGINS_FOLDER);
 	}
 	
-	private static boolean loadFolder(String f) throws Exception {
+	public static boolean loadFolder(String f) throws Exception {
 		File folder = new File(f);
 		if (!folder.exists()) {
 			if (!folder.mkdir())
@@ -600,6 +608,23 @@ public class Main {
 			
 			setFirstExecution(true);
 		}
+	}
+	
+	private static void loadUserId() throws Exception {
+		USER_ID = SETTINGS.getStringProperty("general.user.last_user_id");
+		
+		String[] userIds = UserUtils.getUserIds();
+		for (String userId : userIds) {
+			if (EqualsUtils.equals(USER_ID, userId))
+				return;
+		}
+		
+		if (userIds.length == 0) {
+			USER_ID = UserUtils.createNewUser();
+			return;
+		}
+		
+		USER_ID = userIds[0];
 	}
 	
 	private static void loadUserSettings() throws Exception {
@@ -1038,6 +1063,8 @@ public class Main {
 			ActionSynchronize.synchronize(false);
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
+		
+		SETTINGS.setStringProperty("general.user.last_user_id", USER_ID);
 		
 		SETTINGS.setCalendarProperty(
 				"general.last_exit_date",
