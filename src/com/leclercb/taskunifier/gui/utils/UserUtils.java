@@ -2,22 +2,41 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class UserUtils {
 	
-	private UserUtils() {
+	private static UserUtils INSTANCE;
+	
+	public static UserUtils getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new UserUtils();
 		
+		return INSTANCE;
 	}
 	
-	public static String[] getUserIds() {
+	private ListChangeSupport listChangeSupport;
+	
+	private Map<String, String> users;
+	
+	private UserUtils() {
+		this.listChangeSupport = new ListChangeSupport(BackupUtils.class);
+		this.users = new HashMap<String, String>();
+		this.loadUsers();
+	}
+	
+	private void loadUsers() {
 		File file = new File(Main.getDataFolder() + File.separator + "users");
 		
 		File[] folders = file.listFiles(new FileFilter() {
@@ -29,22 +48,66 @@ public final class UserUtils {
 			
 		});
 		
-		List<String> userIds = new ArrayList<String>();
 		for (File folder : folders) {
-			userIds.add(folder.getName());
+			users.put(folder.getName(), getUserNameFromSettings(folder.getName()));
 		}
-		
-		return userIds.toArray(new String[0]);
 	}
 	
-	public static String createNewUser() throws Exception {
+	private String getUserNameFromSettings(String userId) {
+		String userFolder = Main.getUserFolder(userId);
+		
+		try {
+			File file = new File(userFolder + File.separator + "settings.properties");
+			Properties properties = new Properties();
+			properties.load(new FileInputStream(file));
+			return properties.getProperty("general.user.name");
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public String[] getUserIds() {
+		return users.values().toArray(new String[0]);
+	}
+	
+	public String getUserName(String userId) {
+		return users.get(userId);
+	}
+	
+	public void setUserName(String userId, String userName) {
+		setUserName(userId, userName, true);
+	}
+	
+	private void setUserName(String userId, String userName, boolean fire) {
+		String userFolder = Main.getUserFolder(userId);
+		
+		try {
+			File file = new File(userFolder + File.separator + "settings.properties");
+			Properties properties = new Properties();
+			properties.load(new FileInputStream(file));
+			
+			users.put(userId, userName);
+			
+			if (fire)
+				listChangeSupport.fireListChange(ListChangeEvent.VALUE_CHANGED, -1, userId);
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	public String createNewUser(String userName) throws Exception {
 		String userId = UUID.randomUUID().toString();
 		String userFolder = Main.getUserFolder(userId);
 		Main.loadFolder(userFolder);
+		
+		setUserName(userId, userName, false);
+		
+		listChangeSupport.fireListChange(ListChangeEvent.VALUE_ADDED, -1, userId);
+		
 		return userId;
 	}
 	
-	public static boolean deleteUser(String userId) {
+	public boolean deleteUser(String userId) {
 		if (EqualsUtils.equals(Main.getUserId(), userId))
 			return false;
 		
@@ -56,6 +119,9 @@ public final class UserUtils {
 				return true;
 			
 			FileUtils.deleteDirectory(file);
+			users.remove(userId);
+			
+			listChangeSupport.fireListChange(ListChangeEvent.VALUE_REMOVED, -1, userId);
 		} catch (Exception e) {
 			
 		}

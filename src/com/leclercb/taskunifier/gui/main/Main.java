@@ -472,13 +472,12 @@ public class Main {
 		
 		if (loadFolder(DATA_FOLDER))
 			setFirstExecution(true);
+		
+		loadFolder(DATA_FOLDER + File.separator + "users");
 	}
 	
 	private static void loadUserFolder() throws Exception {
-		loadFolder(DATA_FOLDER + File.separator + "users");
-		
 		USER_FOLDER = getUserFolder(USER_ID);
-		
 		loadFolder(USER_FOLDER);
 	}
 	
@@ -613,14 +612,14 @@ public class Main {
 	private static void loadUserId() throws Exception {
 		USER_ID = SETTINGS.getStringProperty("general.user.last_user_id");
 		
-		String[] userIds = UserUtils.getUserIds();
+		String[] userIds = UserUtils.getInstance().getUserIds();
 		for (String userId : userIds) {
 			if (EqualsUtils.equals(USER_ID, userId))
 				return;
 		}
 		
 		if (userIds.length == 0) {
-			USER_ID = UserUtils.createNewUser();
+			USER_ID = UserUtils.getInstance().createNewUser("Default");
 			return;
 		}
 		
