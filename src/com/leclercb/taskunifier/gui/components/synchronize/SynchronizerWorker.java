@@ -152,7 +152,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			connection = plugin.getSynchronizerApi().getConnection(
 					Main.getSettings());
 			
-			connection.loadParameters(Main.getSettings());
+			connection.loadParameters(Main.getUserSettings());
 			
 			final Connection finalConnection = connection;
 			this.executeNonAtomicAction(new Runnable() {
@@ -181,7 +181,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			if (this.isStopped())
 				return null;
 			
-			connection.saveParameters(Main.getSettings());
+			connection.saveParameters(Main.getUserSettings());
 			
 			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
 					Main.getSettings(),
@@ -191,13 +191,13 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 			
-			synchronizer.loadParameters(Main.getSettings());
+			synchronizer.loadParameters(Main.getUserSettings());
 			synchronizer.synchronize(choice, monitor);
-			synchronizer.saveParameters(Main.getSettings());
+			synchronizer.saveParameters(Main.getUserSettings());
 			
 			connection.disconnect();
 			
-			Main.getSettings().setCalendarProperty(
+			Main.getUserSettings().setCalendarProperty(
 					"synchronizer.last_synchronization_date",
 					Calendar.getInstance());
 			

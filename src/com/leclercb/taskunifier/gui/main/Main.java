@@ -104,6 +104,7 @@ import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLC
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -124,7 +125,7 @@ public class Main {
 	private static boolean DEVELOPER_MODE;
 	private static boolean FIRST_EXECUTION;
 	
-	private static String ACCOUNT_UUID;
+	private static String USER_ID;
 	
 	private static String RESOURCES_FOLDER;
 	private static String DATA_FOLDER;
@@ -221,7 +222,7 @@ public class Main {
 		
 		boolean outdatedPlugins;
 		
-		ACCOUNT_UUID = "default";
+		USER_ID = "default";
 		
 		try {
 			loadDeveloperMode();
@@ -467,7 +468,7 @@ public class Main {
 				+ File.separator
 				+ "users"
 				+ File.separator
-				+ ACCOUNT_UUID;
+				+ USER_ID;
 		
 		loadFolder(USER_FOLDER);
 	}
@@ -619,6 +620,16 @@ public class Main {
 			
 			USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
+			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
+		}
+	}
+	
+	private static void reloadUserSettings() throws Exception {
+		USER_SETTINGS.clear();
+		
+		try {
+			USER_SETTINGS.load(new FileInputStream(getUserSettingsFile()));
+		} catch (Exception e) {
 			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
 		}
 	}
@@ -1327,6 +1338,63 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public static boolean changeUser(String userId) {
+		saveAllData();
+		
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
+			
+		}
+		
+		if (!set) {
+			return false;
+		}
+		
+		boolean result = false;
+		
+		String oldUserId = USER_ID;
+		
+		try {
+			USER_ID = userId;
+			loadUserFolder();
+			
+			SynchronizerUtils.resetSynchronizerAndDeleteModels();
+			
+			reloadUserSettings();
+			
+			SynchronizerUtils.setTaskRepeatEnabled(false);
+			loadAllData(getUserFolder());
+			SynchronizerUtils.setTaskRepeatEnabled(true);
+			
+			result = true;
+		} catch (Exception e) {
+			USER_ID = oldUserId;
+			USER_FOLDER = DATA_FOLDER
+					+ File.separator
+					+ "users"
+					+ File.separator
+					+ USER_ID;
+			
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					String.format("Error while switching user %1s", userId),
+					e);
+		}
+		
+		if (set) {
+			try {
+				Synchronizing.setSynchronizing(false);
+			} catch (SynchronizingException e) {
+				
+			}
+		}
+		
+		return result;
 	}
 	
 }

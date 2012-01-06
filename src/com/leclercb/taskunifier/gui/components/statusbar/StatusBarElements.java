@@ -99,16 +99,16 @@ final class StatusBarElements {
 		
 		String date = Translations.getString("statusbar.never");
 		
-		if (Main.getSettings().getCalendarProperty(
+		if (Main.getUserSettings().getCalendarProperty(
 				"synchronizer.last_synchronization_date") != null)
-			date = dateFormat.format(Main.getSettings().getCalendarProperty(
+			date = dateFormat.format(Main.getUserSettings().getCalendarProperty(
 					"synchronizer.last_synchronization_date").getTime());
 		
 		element.setText(Translations.getString("statusbar.last_synchronization_date")
 				+ ": "
 				+ date);
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"synchronizer.last_synchronization_date",
 				new PropertyChangeListener() {
 					
@@ -116,9 +116,9 @@ final class StatusBarElements {
 					public void propertyChange(PropertyChangeEvent event) {
 						String date = Translations.getString("statusbar.never");
 						
-						if (Main.getSettings().getCalendarProperty(
+						if (Main.getUserSettings().getCalendarProperty(
 								"synchronizer.last_synchronization_date") != null)
-							date = dateFormat.format(Main.getSettings().getCalendarProperty(
+							date = dateFormat.format(Main.getUserSettings().getCalendarProperty(
 									"synchronizer.last_synchronization_date").getTime());
 						
 						element.setText(Translations.getString("statusbar.last_synchronization_date")

@@ -176,16 +176,16 @@ public final class SynchronizerUtils {
 	
 	public static void resetConnection() {
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetConnectionParameters(
-				Main.getSettings());
+				Main.getUserSettings());
 	}
 	
 	public static void resetSynchronizer() {
-		Main.getSettings().setCalendarProperty(
+		Main.getUserSettings().setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
 		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
-				Main.getSettings());
+				Main.getUserSettings());
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
@@ -201,7 +201,7 @@ public final class SynchronizerUtils {
 			return;
 		}
 		
-		Main.getSettings().setCalendarProperty(
+		Main.getUserSettings().setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
 		
@@ -215,7 +215,7 @@ public final class SynchronizerUtils {
 		TaskFactory.getInstance().deleteAll();
 		
 		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
-				Main.getSettings());
+				Main.getUserSettings());
 		
 		if (set) {
 			try {
