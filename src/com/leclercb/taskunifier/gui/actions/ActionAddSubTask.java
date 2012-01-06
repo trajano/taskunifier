@@ -36,8 +36,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.KeyStroke;
 
@@ -51,7 +49,6 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -121,16 +118,6 @@ public class ActionAddSubTask extends AbstractViewAction {
 							ActionAddSubTask.this.setEnabled(ActionAddSubTask.this.shouldBeEnabled());
 						}
 						
-					});
-			
-			MainFrame.getInstance().addPropertyChangeListener(
-					MainView.PROP_SELECTED_VIEW,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							ActionAddSubTask.this.setEnabled(ActionAddSubTask.this.shouldBeEnabled());
-						}
 					});
 			
 			this.setEnabled(this.shouldBeEnabled());

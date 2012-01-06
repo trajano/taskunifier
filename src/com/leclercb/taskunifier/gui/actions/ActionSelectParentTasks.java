@@ -33,10 +33,13 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -57,7 +60,48 @@ public class ActionSelectParentTasks extends AbstractViewAction {
 				SHORT_DESCRIPTION,
 				Translations.getString("action.select_parent_tasks"));
 		
-		this.setEnabled(this.shouldBeEnabled());
+		this.viewLoaded();
+		
+		ViewType.TASKS.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionSelectParentTasks.this.viewLoaded();
+			}
+			
+		});
+		
+		this.setEnabled(false);
+	}
+	
+	private void viewLoaded() {
+		if (ViewType.TASKS.isLoaded()) {
+			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
+					new ModelSelectionListener() {
+						
+						@Override
+						public void modelSelectionChange(
+								ModelSelectionChangeEvent event) {
+							ActionSelectParentTasks.this.setEnabled(ActionSelectParentTasks.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
+	}
+	
+	@Override
+	protected boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
+			return false;
+		
+		Task[] tasks = ViewType.getSelectedTasks();
+		
+		if (tasks == null)
+			return false;
+		
+		return tasks.length != 0;
 	}
 	
 	@Override

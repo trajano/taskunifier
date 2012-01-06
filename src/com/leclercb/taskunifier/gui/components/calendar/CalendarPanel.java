@@ -137,6 +137,11 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 						CalendarPanel.this.viewsPanel,
 						e.getActionCommand());
 				CalendarPanel.this.currentView = CalendarPanel.this.calendarViews.get(e.getActionCommand());
+				
+				for (Iterator iter = CalendarPanel.this.calendarListeners.iterator(); iter.hasNext();) {
+					NamedCalendarListener listener = (NamedCalendarListener) iter.next();
+					listener.selectedCalendarChanged(CalendarPanel.this.getSelectedCalendar());
+				}
 			}
 		};
 		

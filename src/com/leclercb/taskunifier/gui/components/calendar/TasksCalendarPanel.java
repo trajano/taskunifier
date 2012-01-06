@@ -255,6 +255,13 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		Collections.sort(allActiveEvents);
 		
+		this.dayViewPanel.getView().clear();
+		this.weekViewPanel.getView().clear();
+		this.monthViewPanel.getView().clear();
+		this.listViewPanel.getView().clear();
+		
+		TasksCalendarPanel.this.modelSelectionChangeSupport.fireModelSelectionChange(new Task[0]);
+		
 		this.eventDataList.clear();
 		this.eventDataList.addAll(allActiveEvents);
 	}

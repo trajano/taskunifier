@@ -33,11 +33,14 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -58,7 +61,48 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 				SHORT_DESCRIPTION,
 				Translations.getString("action.duplicate_notes"));
 		
-		this.setEnabled(this.shouldBeEnabled());
+		this.viewLoaded();
+		
+		ViewType.NOTES.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionDuplicateNotes.this.viewLoaded();
+			}
+			
+		});
+		
+		this.setEnabled(false);
+	}
+	
+	private void viewLoaded() {
+		if (ViewType.NOTES.isLoaded()) {
+			ViewType.getNoteView().getNoteTableView().addModelSelectionChangeListener(
+					new ModelSelectionListener() {
+						
+						@Override
+						public void modelSelectionChange(
+								ModelSelectionChangeEvent event) {
+							ActionDuplicateNotes.this.setEnabled(ActionDuplicateNotes.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
+	}
+	
+	@Override
+	protected boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
+			return false;
+		
+		Note[] notes = ViewType.getSelectedNotes();
+		
+		if (notes == null)
+			return false;
+		
+		return notes.length != 0;
 	}
 	
 	@Override

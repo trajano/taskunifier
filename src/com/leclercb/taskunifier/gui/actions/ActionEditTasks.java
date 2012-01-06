@@ -34,11 +34,14 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -65,7 +68,68 @@ public class ActionEditTasks extends AbstractViewAction {
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		this.setEnabled(this.shouldBeEnabled());
+		this.viewLoaded();
+		
+		ViewType.TASKS.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionEditTasks.this.viewLoaded();
+			}
+			
+		});
+		
+		ViewType.CALENDAR.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionEditTasks.this.viewLoaded();
+			}
+			
+		});
+		
+		this.setEnabled(false);
+	}
+	
+	private void viewLoaded() {
+		if (ViewType.TASKS.isLoaded() && ViewType.CALENDAR.isLoaded()) {
+			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
+					new ModelSelectionListener() {
+						
+						@Override
+						public void modelSelectionChange(
+								ModelSelectionChangeEvent event) {
+							ActionEditTasks.this.setEnabled(ActionEditTasks.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			ViewType.getCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
+					new ModelSelectionListener() {
+						
+						@Override
+						public void modelSelectionChange(
+								ModelSelectionChangeEvent event) {
+							ActionEditTasks.this.setEnabled(ActionEditTasks.this.shouldBeEnabled());
+						}
+						
+					});
+			
+			this.setEnabled(this.shouldBeEnabled());
+		}
+	}
+	
+	@Override
+	protected boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
+			return false;
+		
+		Task[] tasks = ViewType.getSelectedTasks();
+		
+		if (tasks == null)
+			return false;
+		
+		return tasks.length != 0;
 	}
 	
 	@Override
