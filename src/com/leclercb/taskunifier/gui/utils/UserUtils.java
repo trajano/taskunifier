@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.utils;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class UserUtils {
@@ -67,7 +69,7 @@ public final class UserUtils {
 	}
 	
 	public String[] getUserIds() {
-		return users.values().toArray(new String[0]);
+		return users.keySet().toArray(new String[0]);
 	}
 	
 	public String getUserName(String userId) {
@@ -83,8 +85,16 @@ public final class UserUtils {
 		
 		try {
 			File file = new File(userFolder + File.separator + "settings.properties");
+			
+			if (!file.exists())
+				file.createNewFile();
+			
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
+			
+			properties.setProperty("general.user.name", userName);
+			
+			properties.store(new FileOutputStream(file), Constants.TITLE + " User Settings");
 			
 			users.put(userId, userName);
 			
@@ -95,16 +105,21 @@ public final class UserUtils {
 		}
 	}
 	
-	public String createNewUser(String userName) throws Exception {
+	public String createNewUser(String userName) {
 		String userId = UUID.randomUUID().toString();
 		String userFolder = Main.getUserFolder(userId);
-		Main.loadFolder(userFolder);
 		
-		setUserName(userId, userName, false);
-		
-		listChangeSupport.fireListChange(ListChangeEvent.VALUE_ADDED, -1, userId);
-		
-		return userId;
+		try {
+			Main.loadFolder(userFolder);
+			
+			setUserName(userId, userName, false);
+			
+			listChangeSupport.fireListChange(ListChangeEvent.VALUE_ADDED, -1, userId);
+			
+			return userId;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public boolean deleteUser(String userId) {

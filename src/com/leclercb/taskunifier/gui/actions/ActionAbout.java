@@ -39,6 +39,7 @@ import javax.swing.AbstractAction;
 import com.leclercb.taskunifier.gui.components.about.AboutDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.UserUtils;
 
 public class ActionAbout extends AbstractAction {
 	
@@ -60,6 +61,7 @@ public class ActionAbout extends AbstractAction {
 	}
 	
 	public static void about() {
+		UserUtils.getInstance().createNewUser("Default User");
 		AboutDialog.getInstance().setVisible(true);
 	}
 	
