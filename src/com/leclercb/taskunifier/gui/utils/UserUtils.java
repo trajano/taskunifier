@@ -51,7 +51,9 @@ public final class UserUtils {
 		});
 		
 		for (File folder : folders) {
-			users.put(folder.getName(), getUserNameFromSettings(folder.getName()));
+			this.users.put(
+					folder.getName(),
+					this.getUserNameFromSettings(folder.getName()));
 		}
 	}
 	
@@ -59,7 +61,9 @@ public final class UserUtils {
 		String userFolder = Main.getUserFolder(userId);
 		
 		try {
-			File file = new File(userFolder + File.separator + "settings.properties");
+			File file = new File(userFolder
+					+ File.separator
+					+ "settings.properties");
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
 			return properties.getProperty("general.user.name");
@@ -69,22 +73,24 @@ public final class UserUtils {
 	}
 	
 	public String[] getUserIds() {
-		return users.keySet().toArray(new String[0]);
+		return this.users.keySet().toArray(new String[0]);
 	}
 	
 	public String getUserName(String userId) {
-		return users.get(userId);
+		return this.users.get(userId);
 	}
 	
 	public void setUserName(String userId, String userName) {
-		setUserName(userId, userName, true);
+		this.setUserName(userId, userName, true);
 	}
 	
 	private void setUserName(String userId, String userName, boolean fire) {
 		String userFolder = Main.getUserFolder(userId);
 		
 		try {
-			File file = new File(userFolder + File.separator + "settings.properties");
+			File file = new File(userFolder
+					+ File.separator
+					+ "settings.properties");
 			
 			if (!file.exists())
 				file.createNewFile();
@@ -94,12 +100,16 @@ public final class UserUtils {
 			
 			properties.setProperty("general.user.name", userName);
 			
-			properties.store(new FileOutputStream(file), Constants.TITLE + " User Settings");
+			properties.store(new FileOutputStream(file), Constants.TITLE
+					+ " User Settings");
 			
-			users.put(userId, userName);
+			this.users.put(userId, userName);
 			
 			if (fire)
-				listChangeSupport.fireListChange(ListChangeEvent.VALUE_CHANGED, -1, userId);
+				this.listChangeSupport.fireListChange(
+						ListChangeEvent.VALUE_CHANGED,
+						-1,
+						userId);
 		} catch (Exception e) {
 			
 		}
@@ -112,9 +122,12 @@ public final class UserUtils {
 		try {
 			Main.loadFolder(userFolder);
 			
-			setUserName(userId, userName, false);
+			this.setUserName(userId, userName, false);
 			
-			listChangeSupport.fireListChange(ListChangeEvent.VALUE_ADDED, -1, userId);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_ADDED,
+					-1,
+					userId);
 			
 			return userId;
 		} catch (Exception e) {
@@ -134,9 +147,12 @@ public final class UserUtils {
 				return true;
 			
 			FileUtils.deleteDirectory(file);
-			users.remove(userId);
+			this.users.remove(userId);
 			
-			listChangeSupport.fireListChange(ListChangeEvent.VALUE_REMOVED, -1, userId);
+			this.listChangeSupport.fireListChange(
+					ListChangeEvent.VALUE_REMOVED,
+					-1,
+					userId);
 		} catch (Exception e) {
 			
 		}
