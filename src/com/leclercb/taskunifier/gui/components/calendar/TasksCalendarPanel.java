@@ -255,10 +255,18 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		Collections.sort(allActiveEvents);
 		
-		this.dayViewPanel.getView().clear();
-		this.weekViewPanel.getView().clear();
-		this.monthViewPanel.getView().clear();
-		this.listViewPanel.getView().clear();
+		try {
+			this.dayViewPanel.getView().deselect();
+		} catch (Exception e) {}
+		try {
+			this.weekViewPanel.getView().deselect();
+		} catch (Exception e) {}
+		try {
+			this.monthViewPanel.getView().deselect();
+		} catch (Exception e) {}
+		try {
+			this.listViewPanel.getView().deselect();
+		} catch (Exception e) {}
 		
 		TasksCalendarPanel.this.modelSelectionChangeSupport.fireModelSelectionChange(new Task[0]);
 		
@@ -278,11 +286,6 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	}
 	
 	private class TasksCalendarListener extends CalendarAdapter {
-		
-		@Override
-		public void eventSelected(Object id, Event event) {
-			this.eventsSelected(Arrays.asList(event));
-		}
 		
 		@Override
 		public void eventsSelected(List<Event> events) {
