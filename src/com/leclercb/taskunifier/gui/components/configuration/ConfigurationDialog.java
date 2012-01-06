@@ -300,6 +300,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
+			Main.saveUserSettings();
 			
 			this.refreshSynchronizationPanels();
 		} catch (Exception e) {

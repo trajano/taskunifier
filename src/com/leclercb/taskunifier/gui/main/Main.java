@@ -41,7 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -159,15 +158,15 @@ public class Main {
 	}
 	
 	public static String getInitSettingsFile() {
-		return getResourcesFolder() + File.separator + "taskunifier.properties";
+		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
 	}
 	
 	public static String getSettingsFile() {
-		return getDataFolder() + File.separator + "settings.properties";
+		return DATA_FOLDER + File.separator + "settings.properties";
 	}
 	
 	public static String getUserSettingsFile() {
-		return getUserFolder() + File.separator + "settings.properties";
+		return USER_FOLDER + File.separator + "settings.properties";
 	}
 	
 	public static String getResourcesFolder() {
@@ -222,7 +221,7 @@ public class Main {
 		
 		boolean outdatedPlugins;
 		
-		ACCOUNT_UUID = UUID.randomUUID().toString();
+		ACCOUNT_UUID = "default";
 		
 		try {
 			loadDeveloperMode();
@@ -456,31 +455,8 @@ public class Main {
 		if (DATA_FOLDER == null)
 			DATA_FOLDER = "data";
 		
-		File file = new File(DATA_FOLDER);
-		if (!file.exists()) {
-			if (!file.mkdir())
-				throw new Exception(String.format(
-						"Error while creating folder \"%1s\"",
-						DATA_FOLDER));
-			
-			try {
-				file.setExecutable(true, true);
-				file.setReadable(true, true);
-				file.setWritable(true, true);
-			} catch (Throwable t) {
-				GuiLogger.getLogger().log(
-						Level.SEVERE,
-						"Cannot change permissions of data folder",
-						t);
-			}
-			
+		if (loadFolder(DATA_FOLDER))
 			setFirstExecution(true);
-			return;
-		} else if (!file.isDirectory()) {
-			throw new Exception(String.format(
-					"\"%1s\" is not a folder",
-					DATA_FOLDER));
-		}
 	}
 	
 	private static void loadUserFolder() throws Exception {
@@ -489,88 +465,54 @@ public class Main {
 			return;
 		}
 		
+		loadFolder(DATA_FOLDER + File.separator + "users");
+		
 		USER_FOLDER = DATA_FOLDER
 				+ File.separator
 				+ "users"
 				+ File.separator
 				+ ACCOUNT_UUID;
 		
-		File userFolder = new File(USER_FOLDER);
-		if (!userFolder.exists()) {
-			if (!userFolder.mkdir())
-				throw new Exception(String.format(
-						"Error while creating user folder \"%1s\"",
-						USER_FOLDER));
-			
-			try {
-				userFolder.setExecutable(true, true);
-				userFolder.setReadable(true, true);
-				userFolder.setWritable(true, true);
-			} catch (Throwable t) {
-				GuiLogger.getLogger().log(
-						Level.SEVERE,
-						"Cannot change user folder permissions",
-						t);
-			}
-		} else if (!userFolder.isDirectory()) {
-			throw new Exception(String.format(
-					"\"%1s\" is not a folder",
-					USER_FOLDER));
-		}
+		loadFolder(USER_FOLDER);
 	}
 	
 	private static void loadBackupFolder() throws Exception {
 		BACKUP_FOLDER = USER_FOLDER + File.separator + "backup";
-		
-		File backupFolder = new File(BACKUP_FOLDER);
-		if (!backupFolder.exists()) {
-			if (!backupFolder.mkdir())
-				throw new Exception(String.format(
-						"Error while creating backup folder \"%1s\"",
-						BACKUP_FOLDER));
-			
-			try {
-				backupFolder.setExecutable(true, true);
-				backupFolder.setReadable(true, true);
-				backupFolder.setWritable(true, true);
-			} catch (Throwable t) {
-				GuiLogger.getLogger().log(
-						Level.SEVERE,
-						"Cannot change backup folder permissions",
-						t);
-			}
-		} else if (!backupFolder.isDirectory()) {
-			throw new Exception(String.format(
-					"\"%1s\" is not a folder",
-					BACKUP_FOLDER));
-		}
+		loadFolder(BACKUP_FOLDER);
 	}
 	
 	private static void loadPluginsFolder() throws Exception {
 		PLUGINS_FOLDER = DATA_FOLDER + File.separator + "plugins";
-		
-		File pluginsFolder = new File(PLUGINS_FOLDER);
-		if (!pluginsFolder.exists()) {
-			if (!pluginsFolder.mkdir())
+		loadFolder(PLUGINS_FOLDER);
+	}
+	
+	private static boolean loadFolder(String f) throws Exception {
+		File folder = new File(f);
+		if (!folder.exists()) {
+			if (!folder.mkdir())
 				throw new Exception(String.format(
-						"Error while creating plugins folder \"%1s\"",
-						PLUGINS_FOLDER));
+						"Error while creating folder \"%1s\"",
+						f));
 			
 			try {
-				pluginsFolder.setExecutable(true, true);
-				pluginsFolder.setReadable(true, true);
-				pluginsFolder.setWritable(true, true);
+				folder.setExecutable(true, true);
+				folder.setReadable(true, true);
+				folder.setWritable(true, true);
 			} catch (Throwable t) {
 				GuiLogger.getLogger().log(
 						Level.SEVERE,
-						"Cannot change plugins folder permissions",
+						String.format(
+								"Cannot change folder permissions \"%1s\"",
+								f),
 						t);
 			}
-		} else if (!pluginsFolder.isDirectory()) {
-			throw new Exception(String.format(
-					"\"%1s\" is not a folder",
-					PLUGINS_FOLDER));
+			
+			return true;
+		} else if (!folder.isDirectory()) {
+			throw new Exception(String.format("\"%1s\" is not a folder", f));
 		}
+		
+		return false;
 	}
 	
 	private static void loadLoggers() {
@@ -661,6 +603,27 @@ public class Main {
 						JOptionPane.ERROR_MESSAGE);
 			
 			setFirstExecution(true);
+		}
+	}
+	
+	private static void loadUserSettings() throws Exception {
+		try {
+			Properties defaultProperties = new Properties();
+			defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
+			
+			USER_SETTINGS = new PropertyMap(
+					new Properties(defaultProperties),
+					defaultProperties);
+			
+			USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
+			
+			USER_SETTINGS.load(new FileInputStream(getUserSettingsFile()));
+		} catch (Exception e) {
+			USER_SETTINGS = new PropertyMap(new Properties());
+			
+			USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
+			
+			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
 		}
 	}
 	
@@ -1095,6 +1058,7 @@ public class Main {
 		saveTaskSearchers(getUserFolder());
 		saveInitSettings();
 		saveSettings();
+		saveUserSettings();
 	}
 	
 	public static void saveInitSettings() {
@@ -1127,6 +1091,27 @@ public class Main {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"Error while saving settings",
+					e);
+			
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void saveUserSettings() {
+		try {
+			USER_SETTINGS.store(
+					new FileOutputStream(getUserSettingsFile()),
+					Constants.TITLE + " User Settings");
+			
+			GuiLogger.getLogger().log(Level.INFO, "Saving user settings");
+		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving user settings",
 					e);
 			
 			JOptionPane.showMessageDialog(
