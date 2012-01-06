@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -124,13 +125,17 @@ public class Main {
 	private static boolean DEVELOPER_MODE;
 	private static boolean FIRST_EXECUTION;
 	
+	private static String ACCOUNT_UUID;
+	
 	private static String RESOURCES_FOLDER;
 	private static String DATA_FOLDER;
+	private static String USER_FOLDER;
 	private static String BACKUP_FOLDER;
 	private static String PLUGINS_FOLDER;
 	
 	private static PropertyMap INIT_SETTINGS;
 	private static PropertyMap SETTINGS;
+	private static PropertyMap USER_SETTINGS;
 	
 	private static PluginLoader<SynchronizerGuiPlugin> API_PLUGINS;
 	
@@ -154,11 +159,15 @@ public class Main {
 	}
 	
 	public static String getInitSettingsFile() {
-		return RESOURCES_FOLDER + File.separator + "taskunifier.properties";
+		return getResourcesFolder() + File.separator + "taskunifier.properties";
 	}
 	
 	public static String getSettingsFile() {
-		return DATA_FOLDER + File.separator + "settings.properties";
+		return getDataFolder() + File.separator + "settings.properties";
+	}
+	
+	public static String getUserSettingsFile() {
+		return getUserFolder() + File.separator + "settings.properties";
 	}
 	
 	public static String getResourcesFolder() {
@@ -167,6 +176,10 @@ public class Main {
 	
 	public static String getDataFolder() {
 		return DATA_FOLDER;
+	}
+	
+	public static String getUserFolder() {
+		return USER_FOLDER;
 	}
 	
 	public static String getBackupFolder() {
@@ -183,6 +196,10 @@ public class Main {
 	
 	public static PropertyMap getSettings() {
 		return SETTINGS;
+	}
+	
+	public static PropertyMap getUserSettings() {
+		return USER_SETTINGS;
 	}
 	
 	public static PluginLoader<SynchronizerGuiPlugin> getApiPlugins() {
@@ -205,11 +222,14 @@ public class Main {
 		
 		boolean outdatedPlugins;
 		
+		ACCOUNT_UUID = UUID.randomUUID().toString();
+		
 		try {
 			loadDeveloperMode();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
+			loadUserFolder();
 			loadBackupFolder();
 			loadPluginsFolder();
 			loadLoggers();
@@ -463,8 +483,44 @@ public class Main {
 		}
 	}
 	
+	private static void loadUserFolder() throws Exception {
+		if (true) {
+			USER_FOLDER = DATA_FOLDER;
+			return;
+		}
+		
+		USER_FOLDER = DATA_FOLDER
+				+ File.separator
+				+ "users"
+				+ File.separator
+				+ ACCOUNT_UUID;
+		
+		File userFolder = new File(USER_FOLDER);
+		if (!userFolder.exists()) {
+			if (!userFolder.mkdir())
+				throw new Exception(String.format(
+						"Error while creating user folder \"%1s\"",
+						USER_FOLDER));
+			
+			try {
+				userFolder.setExecutable(true, true);
+				userFolder.setReadable(true, true);
+				userFolder.setWritable(true, true);
+			} catch (Throwable t) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot change user folder permissions",
+						t);
+			}
+		} else if (!userFolder.isDirectory()) {
+			throw new Exception(String.format(
+					"\"%1s\" is not a folder",
+					USER_FOLDER));
+		}
+	}
+	
 	private static void loadBackupFolder() throws Exception {
-		BACKUP_FOLDER = DATA_FOLDER + File.separator + "backup";
+		BACKUP_FOLDER = USER_FOLDER + File.separator + "backup";
 		
 		File backupFolder = new File(BACKUP_FOLDER);
 		if (!backupFolder.exists()) {
@@ -678,7 +734,7 @@ public class Main {
 		NoteFactory.initializeWithClass(GuiNote.class, GuiNoteBean.class);
 		TaskFactory.initializeWithClass(GuiTask.class, GuiTaskBean.class);
 		
-		loadAllData(getDataFolder());
+		loadAllData(getUserFolder());
 	}
 	
 	public static void loadAllData(String folder) {
@@ -1034,9 +1090,9 @@ public class Main {
 	}
 	
 	public static void saveAllData() {
-		saveModels(getDataFolder());
-		saveTaskTemplates(getDataFolder());
-		saveTaskSearchers(getDataFolder());
+		saveModels(getUserFolder());
+		saveTaskTemplates(getUserFolder());
+		saveTaskSearchers(getUserFolder());
 		saveInitSettings();
 		saveSettings();
 	}

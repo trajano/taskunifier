@@ -1161,4 +1161,50 @@ public final class SettingsVersion {
 		return "1.8.8";
 	}
 	
+	private static String updateSettings_1_8_8_to_2_0_0() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 1.8.8 to 2.0.0");
+		
+		copyToUserFolder("contacts.xml");
+		copyToUserFolder("contexts.xml");
+		copyToUserFolder("folders.xml");
+		copyToUserFolder("goals.xml");
+		copyToUserFolder("locations.xml");
+		copyToUserFolder("notes.xml");
+		copyToUserFolder("settings.properties");
+		copyToUserFolder("task_searchers.xml");
+		copyToUserFolder("task_templates.xml");
+		copyToUserFolder("tasks.xml");
+		
+		try {
+			FileUtils.copyDirectory(new File(Main.getDataFolder()
+					+ File.separator
+					+ "backup"), new File(Main.getUserFolder()
+					+ File.separator
+					+ "backup"));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying backup folder",
+					t);
+		}
+		
+		return "2.0.0";
+	}
+	
+	private static void copyToUserFolder(String fileName) {
+		try {
+			FileUtils.copyFile(new File(Main.getDataFolder()
+					+ File.separator
+					+ fileName), new File(Main.getUserFolder()
+					+ File.separator
+					+ fileName));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying " + fileName,
+					t);
+		}
+	}
+	
 }
