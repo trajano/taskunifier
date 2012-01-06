@@ -1157,6 +1157,9 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("date.day_start_hour", "8");
 		Main.getSettings().setStringProperty("date.day_break_hour", "12");
 		Main.getSettings().setStringProperty("date.day_end_hour", "17");
+		Main.getUserSettings().setStringProperty(
+				"general.user.name",
+				"Default User");
 		
 		copyToUserFolder("contacts.xml");
 		copyToUserFolder("contexts.xml");

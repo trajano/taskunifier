@@ -235,6 +235,7 @@ public class Main {
 			loadLoggers();
 			loadSettings();
 			loadUserSettings();
+			SettingsVersion.updateSettings();
 			loadLoggerLevels();
 			loadProxies();
 			loadLocale();
@@ -583,8 +584,6 @@ public class Main {
 			SETTINGS.addCoder(new ModelIdSettingsCoder());
 			
 			SETTINGS.load(new FileInputStream(getSettingsFile()));
-			
-			SettingsVersion.updateSettings();
 		} catch (Exception e) {
 			SETTINGS = new PropertyMap(new Properties());
 			
