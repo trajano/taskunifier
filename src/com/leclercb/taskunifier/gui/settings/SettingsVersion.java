@@ -1148,7 +1148,7 @@ public final class SettingsVersion {
 	
 	private static String updateSettings_1_8_7_to_2_0_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 1.8.8 to 2.0.0");
+				"Update settings from version 1.8.7 to 2.0.0");
 		
 		Main.getSettings().setStringProperty(
 				"general.communicator.enabled",
