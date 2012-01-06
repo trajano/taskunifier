@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayBrea
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayEndHourFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayStartHourFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.TimeFormatFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DateConfigurationPanel extends DefaultConfigurationPanel {
@@ -68,7 +69,9 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				"SHOW_DAY_OF_WEEK",
 				Translations.getString("configuration.date.show_day_of_week"),
 				true,
-				new ConfigurationFieldType.CheckBox("date.show_day_of_week")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"date.show_day_of_week")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
@@ -79,13 +82,17 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				"USE_DUE_TIME",
 				Translations.getString("configuration.date.use_due_time"),
 				true,
-				new ConfigurationFieldType.CheckBox("date.use_due_time")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"date.use_due_time")));
 		
 		this.addField(new ConfigurationField(
 				"USE_START_TIME",
 				Translations.getString("configuration.date.use_start_time"),
 				true,
-				new ConfigurationFieldType.CheckBox("date.use_start_time")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"date.use_start_time")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",

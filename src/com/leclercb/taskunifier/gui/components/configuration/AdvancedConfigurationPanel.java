@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.advanced.CommunicatorPortFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
@@ -55,7 +56,9 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 					"GROWL_ENABLED",
 					Translations.getString("configuration.advanced.growl_enabled"),
 					true,
-					new ConfigurationFieldType.CheckBox("general.growl.enabled")));
+					new ConfigurationFieldType.CheckBox(
+							Main.getSettings(),
+							"general.growl.enabled")));
 		}
 		
 		this.addField(new ConfigurationField(
@@ -63,6 +66,7 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.advanced.communicator_enabled"),
 				true,
 				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
 						"general.communicator.enabled")));
 		
 		this.addField(new ConfigurationField(

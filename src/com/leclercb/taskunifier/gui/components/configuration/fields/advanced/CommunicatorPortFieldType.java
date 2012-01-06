@@ -41,6 +41,7 @@ public class CommunicatorPortFieldType extends ConfigurationFieldType.FormattedT
 	public CommunicatorPortFieldType() {
 		super(
 				FormatterUtils.getRegexFormatter("^[0-9]{1,4}$"),
+				Main.getSettings(),
 				"general.communicator.port");
 	}
 	

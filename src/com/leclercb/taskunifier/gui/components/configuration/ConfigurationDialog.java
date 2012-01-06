@@ -144,7 +144,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

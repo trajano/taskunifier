@@ -37,6 +37,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.theme.LookAndFeelFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
@@ -68,12 +69,16 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"SHOW_NOTE_BADGES",
 				Translations.getString("configuration.theme.show_note_badges"),
-				new ConfigurationFieldType.CheckBox("notesearcher.show_badges")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"notesearcher.show_badges")));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_TASK_BADGES",
 				Translations.getString("configuration.theme.show_task_badges"),
-				new ConfigurationFieldType.CheckBox("tasksearcher.show_badges")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"tasksearcher.show_badges")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -85,6 +90,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.theme.notes_split"),
 				true,
 				new ConfigurationFieldType.RadioButton(
+						Main.getSettings(),
 						"view.notes.window.split",
 						new String[] {
 								Translations.getString("configuration.theme.notes_split.vertical"),
@@ -100,12 +106,15 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				"COLORS_IMPORTANCE_ENABLED",
 				Translations.getString("configuration.theme.colors_by_importance_enabled"),
 				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
 						"theme.color.importance.enabled")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_TASK_PROGRESS",
 				Translations.getString("configuration.theme.color_task_progress"),
-				new ConfigurationFieldType.ColorChooser("theme.color.progress")));
+				new ConfigurationFieldType.ColorChooser(
+						Main.getSettings(),
+						"theme.color.progress")));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_4",
@@ -115,17 +124,23 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",
 				Translations.getString("configuration.theme.colors_enabled"),
-				new ConfigurationFieldType.CheckBox("theme.color.enabled")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"theme.color.enabled")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_EVEN",
 				Translations.getString("configuration.theme.color_even"),
-				new ConfigurationFieldType.ColorChooser("theme.color.even")));
+				new ConfigurationFieldType.ColorChooser(
+						Main.getSettings(),
+						"theme.color.even")));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_ODD",
 				Translations.getString("configuration.theme.color_odd"),
-				new ConfigurationFieldType.ColorChooser("theme.color.odd")));
+				new ConfigurationFieldType.ColorChooser(
+						Main.getSettings(),
+						"theme.color.odd")));
 	}
 	
 }

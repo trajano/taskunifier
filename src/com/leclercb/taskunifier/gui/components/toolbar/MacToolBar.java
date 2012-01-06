@@ -83,7 +83,7 @@ public class MacToolBar extends UnifiedToolBar {
 					
 				});
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

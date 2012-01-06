@@ -101,7 +101,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
-		String apiId = Main.getSettings().getStringProperty("api.id");
+		String apiId = Main.getUserSettings().getStringProperty("api.id");
 		
 		if (apiId == null)
 			return DummyGuiPlugin.getInstance();
@@ -146,7 +146,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void removeOldCompletedTasks() {
-		int keep = Main.getSettings().getIntegerProperty(
+		int keep = Main.getUserSettings().getIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days");
 		
 		Calendar completedAfter = Calendar.getInstance();

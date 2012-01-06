@@ -38,6 +38,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
@@ -77,6 +78,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					Translations.getString("configuration.general.minimize_to_system_tray"),
 					true,
 					new ConfigurationFieldType.CheckBox(
+							Main.getSettings(),
 							"window.minimize_to_system_tray")));
 			
 			this.addField(new ConfigurationField(
@@ -88,6 +90,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"POSTPONE_TASK_FROM_CURRENT_DATE",
 					Translations.getString("configuration.general.postpone_task"),
 					new ConfigurationFieldType.RadioButton(
+							Main.getSettings(),
 							"task.postpone_from_current_date",
 							new String[] {
 									Translations.getString("configuration.general.postpone_task.from_current_date"),
@@ -98,6 +101,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SHOW_EDIT_WINDOW_ON_ADD",
 					Translations.getString("configuration.general.show_edit_window_on_add"),
 					new ConfigurationFieldType.CheckBox(
+							Main.getSettings(),
 							"task.show_edit_window_on_add")));
 			
 			this.addField(new ConfigurationField(
@@ -109,6 +113,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
 					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
 					new ConfigurationFieldType.CheckBox(
+							Main.getSettings(),
 							"tasksearcher.show_completed_tasks_at_the_end")));
 			
 			if (!this.welcome) {

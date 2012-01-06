@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyL
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPasswordFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyPortFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.proxy.ProxyTestConnectionFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
@@ -61,7 +62,9 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"USE_SYSTEM",
 				Translations.getString("configuration.proxy.use_system_proxies"),
-				new ConfigurationFieldType.CheckBox("proxy.use_system_proxies")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"proxy.use_system_proxies")));
 		
 		final JCheckBox useSystemProxiesField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM").getType()).getFieldComponent();
@@ -69,7 +72,9 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"ENABLED",
 				Translations.getString("configuration.proxy.enabled"),
-				new ConfigurationFieldType.CheckBox("proxy.enabled")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"proxy.enabled")));
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();

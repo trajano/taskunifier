@@ -187,7 +187,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 					Main.getSettings(),
 					connection);
 			
-			SynchronizerChoice choice = Main.getSettings().getEnumProperty(
+			SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
 					"synchronizer.choice",
 					SynchronizerChoice.class);
 			
@@ -231,9 +231,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		
 		Thread.sleep(1000);
 		
-		Main.getSettings().setStringProperty(
+		Main.getUserSettings().setStringProperty(
 				"synchronizer.scheduler_sleep_time",
-				Main.getSettings().getStringProperty(
+				Main.getUserSettings().getStringProperty(
 						"synchronizer.scheduler_sleep_time"),
 				true);
 		

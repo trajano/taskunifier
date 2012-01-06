@@ -51,6 +51,10 @@ public class PluginApi {
 		return Main.getSettings();
 	}
 	
+	public static PropertyMap getUserSettings() {
+		return Main.getUserSettings();
+	}
+	
 	public static void initializeProxy() {
 		SynchronizerUtils.initializeProxy();
 	}

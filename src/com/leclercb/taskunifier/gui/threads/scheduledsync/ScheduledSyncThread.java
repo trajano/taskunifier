@@ -56,10 +56,10 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 		
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.sleepTime = Main.getSettings().getLongProperty(
+		this.sleepTime = Main.getUserSettings().getLongProperty(
 				"synchronizer.scheduler_sleep_time");
 		this.remainingSleepTime = this.sleepTime;
-		this.paused = !Main.getSettings().getBooleanProperty(
+		this.paused = !Main.getUserSettings().getBooleanProperty(
 				"synchronizer.scheduler_enabled");
 		
 		Main.getSettings().addPropertyChangeListener(
@@ -69,14 +69,14 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (evt.getPropertyName().equals(
 								"synchronizer.scheduler_sleep_time")) {
-							ScheduledSyncThread.this.sleepTime = Main.getSettings().getLongProperty(
+							ScheduledSyncThread.this.sleepTime = Main.getUserSettings().getLongProperty(
 									"synchronizer.scheduler_sleep_time");
 							ScheduledSyncThread.this.setRemainingSleepTime(ScheduledSyncThread.this.sleepTime);
 						}
 						
 						if (evt.getPropertyName().equals(
 								"synchronizer.scheduler_enabled")) {
-							ScheduledSyncThread.this.paused = !Main.getSettings().getBooleanProperty(
+							ScheduledSyncThread.this.paused = !Main.getUserSettings().getBooleanProperty(
 									"synchronizer.scheduler_enabled");
 						}
 					}

@@ -63,7 +63,7 @@ public class DayEndHourFieldType extends ConfigurationFieldType.ComboBox {
 				21,
 				22,
 				23,
-				24 }, "date.day_end_hour");
+				24 }, Main.getSettings(), "date.day_end_hour");
 	}
 	
 	@Override

@@ -137,7 +137,7 @@ final class StatusBarElements {
 		
 		updateScheduledSyncStatus(element, thread);
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
 				new PropertyChangeListener() {
 					
@@ -167,7 +167,7 @@ final class StatusBarElements {
 			ScheduledSyncThread thread) {
 		String text = null;
 		
-		if (Main.getSettings().getBooleanProperty(
+		if (Main.getUserSettings().getBooleanProperty(
 				"synchronizer.scheduler_enabled")) {
 			long sleep = thread.getRemainingSleepTime();
 			sleep = sleep / 1000;

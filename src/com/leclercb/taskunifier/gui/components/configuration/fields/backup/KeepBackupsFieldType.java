@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
 	public KeepBackupsFieldType() {
-		super("general.backup.keep_backups");
+		super(Main.getSettings(), "general.backup.keep_backups");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),

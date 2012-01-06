@@ -233,6 +233,7 @@ public class Main {
 			loadPluginsFolder();
 			loadLoggers();
 			loadSettings();
+			loadUserSettings();
 			loadLoggerLevels();
 			loadProxies();
 			loadLocale();
@@ -332,7 +333,7 @@ public class Main {
 					
 					handleArguments(args);
 					
-					Boolean syncStart = SETTINGS.getBooleanProperty("synchronizer.sync_start");
+					Boolean syncStart = USER_SETTINGS.getBooleanProperty("synchronizer.sync_start");
 					if (syncStart != null && syncStart)
 						ActionSynchronize.synchronize(false);
 				} catch (Throwable t) {
@@ -460,11 +461,6 @@ public class Main {
 	}
 	
 	private static void loadUserFolder() throws Exception {
-		if (true) {
-			USER_FOLDER = DATA_FOLDER;
-			return;
-		}
-		
 		loadFolder(DATA_FOLDER + File.separator + "users");
 		
 		USER_FOLDER = DATA_FOLDER
@@ -954,7 +950,7 @@ public class Main {
 			}
 		}
 		
-		SETTINGS.setStringProperty(
+		USER_SETTINGS.setStringProperty(
 				"api.id",
 				SynchronizerUtils.getPlugin().getId());
 		
@@ -965,14 +961,14 @@ public class Main {
 				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					SETTINGS.setStringProperty("api.id", plugin.getId());
+					USER_SETTINGS.setStringProperty("api.id", plugin.getId());
 				}
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					if (EqualsUtils.equals(
-							SETTINGS.getStringProperty("api.id"),
+							USER_SETTINGS.getStringProperty("api.id"),
 							plugin.getId()))
-						SETTINGS.setStringProperty(
+						USER_SETTINGS.setStringProperty(
 								"api.id",
 								DummyGuiPlugin.getInstance().getId());
 				}
@@ -1027,7 +1023,7 @@ public class Main {
 			QUIT = true;
 		}
 		
-		Boolean syncExit = SETTINGS.getBooleanProperty("synchronizer.sync_exit");
+		Boolean syncExit = USER_SETTINGS.getBooleanProperty("synchronizer.sync_exit");
 		if (syncExit != null && syncExit)
 			ActionSynchronize.synchronize(false);
 		

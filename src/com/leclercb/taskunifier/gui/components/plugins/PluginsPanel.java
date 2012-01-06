@@ -110,7 +110,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			dialog.setVisible(true);
 		}
 		
-		Main.getSettings().setStringProperty("api.id", plugin.getId());
+		Main.getUserSettings().setStringProperty("api.id", plugin.getId());
 		
 		PluginsPanel.this.valueChanged(null);
 	}

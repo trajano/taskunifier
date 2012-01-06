@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class LookAndFeelFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public LookAndFeelFieldType() {
-		super(createModel(), "theme.lookandfeel");
+		super(createModel(), Main.getSettings(), "theme.lookandfeel");
 	}
 	
 	@Override

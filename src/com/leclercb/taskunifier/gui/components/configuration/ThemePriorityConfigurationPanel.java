@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
@@ -61,6 +62,7 @@ public class ThemePriorityConfigurationPanel extends DefaultConfigurationPanel {
 					priority.name(),
 					TranslationsUtils.translateTaskPriority(priority),
 					new ConfigurationFieldType.ColorChooser(
+							Main.getSettings(),
 							"theme.color.priority."
 									+ priority.name().toLowerCase())));
 		}

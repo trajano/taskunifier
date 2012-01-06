@@ -232,7 +232,7 @@ public final class SettingsVersion {
 			version = updateSettings_1_8_6_to_1_8_7();
 		
 		if (version.equals("1.8.7"))
-			version = updateSettings_1_8_7_to_1_8_8();
+			version = updateSettings_1_8_7_to_2_0_0();
 		
 		cleanSettings();
 		Main.getSettings().setStringProperty(
@@ -1146,9 +1146,9 @@ public final class SettingsVersion {
 		return "1.8.7";
 	}
 	
-	private static String updateSettings_1_8_7_to_1_8_8() {
+	private static String updateSettings_1_8_7_to_2_0_0() {
 		GuiLogger.getLogger().info(
-				"Update settings from version 1.8.7 to 1.8.8");
+				"Update settings from version 1.8.8 to 2.0.0");
 		
 		Main.getSettings().setStringProperty(
 				"general.communicator.enabled",
@@ -1157,13 +1157,6 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("date.day_start_hour", "8");
 		Main.getSettings().setStringProperty("date.day_break_hour", "12");
 		Main.getSettings().setStringProperty("date.day_end_hour", "17");
-		
-		return "1.8.8";
-	}
-	
-	private static String updateSettings_1_8_8_to_2_0_0() {
-		GuiLogger.getLogger().info(
-				"Update settings from version 1.8.8 to 2.0.0");
 		
 		copyToUserFolder("contacts.xml");
 		copyToUserFolder("contexts.xml");

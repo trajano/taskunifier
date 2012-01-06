@@ -122,12 +122,16 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		this.addField(new ConfigurationField(
 				"SYNC_START",
 				Translations.getString("configuration.synchronization.sync_start"),
-				new ConfigurationFieldType.CheckBox("synchronizer.sync_start")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.sync_start")));
 		
 		this.addField(new ConfigurationField(
 				"SYNC_EXIT",
 				Translations.getString("configuration.synchronization.sync_exit"),
-				new ConfigurationFieldType.CheckBox("synchronizer.sync_exit")));
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.sync_exit")));
 		
 		if (!this.welcome) {
 			this.addField(new ConfigurationField(
@@ -192,7 +196,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					})));
 		}
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

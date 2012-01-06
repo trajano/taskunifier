@@ -43,7 +43,9 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	
 	public KeepTasksForFieldType() {
-		super("synchronizer.keep_tasks_completed_for_x_days");
+		super(
+				Main.getUserSettings(),
+				"synchronizer.keep_tasks_completed_for_x_days");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
@@ -56,7 +58,7 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = Main.getSettings().getIntegerProperty(
+		Integer value = Main.getUserSettings().getIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days");
 		
 		if (value == null || value < 1 || value > 10 * 365)
@@ -68,12 +70,12 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 	@Override
 	public void saveAndApplyConfig() {
 		if (!EqualsUtils.equals(
-				Main.getSettings().getIntegerProperty(
+				Main.getUserSettings().getIntegerProperty(
 						"synchronizer.keep_tasks_completed_for_x_days"),
 				this.getFieldValue()))
 			SynchronizerUtils.resetSynchronizer();
 		
-		Main.getSettings().setIntegerProperty(
+		Main.getUserSettings().setIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",
 				(Integer) this.getFieldValue());
 	}

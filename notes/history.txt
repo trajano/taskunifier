@@ -1,4 +1,4 @@
-Version 1.8.8
+Version 2.0.0
 	- Major:
 		- FR 3426067: New calendar view: Week list view
 		- FR 3426018: New calendar view: Month view

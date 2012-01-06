@@ -43,7 +43,10 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ChoiceFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public ChoiceFieldType() {
-		super(new SynchronizerChoiceModel(), "synchronizer.choice");
+		super(
+				new SynchronizerChoiceModel(),
+				Main.getUserSettings(),
+				"synchronizer.choice");
 		
 		this.setRenderer(new DefaultListRenderer(
 				StringValueSynchronizerChoice.INSTANCE));
@@ -51,14 +54,14 @@ public class ChoiceFieldType extends ConfigurationFieldType.ComboBox {
 	
 	@Override
 	public Object getPropertyValue() {
-		return Main.getSettings().getEnumProperty(
+		return Main.getUserSettings().getEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class);
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.getSettings().setEnumProperty(
+		Main.getUserSettings().setEnumProperty(
 				"synchronizer.choice",
 				SynchronizerChoice.class,
 				(SynchronizerChoice) this.getFieldValue());

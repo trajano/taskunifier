@@ -44,7 +44,10 @@ import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 public class TimeFormatFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public TimeFormatFieldType() {
-		super(DateTimeFormatUtils.getAvailableTimeFormats(), "date.time_format");
+		super(
+				DateTimeFormatUtils.getAvailableTimeFormats(),
+				Main.getSettings(),
+				"date.time_format");
 		
 		this.setRenderer(new DefaultListRenderer(
 				StringValueSimpleDateFormat.INSTANCE));

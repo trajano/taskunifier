@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class ProxyPasswordFieldType extends ConfigurationFieldType.PasswordField {
 	
 	public ProxyPasswordFieldType() {
-		super("proxy.password");
+		super(Main.getSettings(), "proxy.password");
 	}
 	
 	@Override

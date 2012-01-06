@@ -86,7 +86,7 @@ public class DefaultToolBar extends JToolBar {
 					
 				});
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				"api.id",
 				new PropertyChangeListener() {
 					

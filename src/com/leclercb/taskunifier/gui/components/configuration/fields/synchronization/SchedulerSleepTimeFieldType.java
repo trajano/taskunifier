@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner {
 	
 	public SchedulerSleepTimeFieldType() {
-		super("synchronizer.scheduler_sleep_time");
+		super(Main.getUserSettings(), "synchronizer.scheduler_sleep_time");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
@@ -54,7 +54,7 @@ public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner 
 	
 	@Override
 	public Object getPropertyValue() {
-		Integer value = (int) (Main.getSettings().getLongProperty(
+		Integer value = (int) (Main.getUserSettings().getLongProperty(
 				"synchronizer.scheduler_sleep_time") / 1000);
 		
 		if (value == null || value < 10 || value > 24 * 3600)
@@ -65,7 +65,7 @@ public class SchedulerSleepTimeFieldType extends ConfigurationFieldType.Spinner 
 	
 	@Override
 	public void saveAndApplyConfig() {
-		Main.getSettings().setLongProperty(
+		Main.getUserSettings().setLongProperty(
 				"synchronizer.scheduler_sleep_time",
 				((Integer) this.getFieldValue()) * 1000l);
 	}

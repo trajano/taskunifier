@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigur
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.AutoBackupEveryFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -80,6 +81,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 				"BACKUP_BEFORE_SYNC",
 				Translations.getString("configuration.backup.backup_before_sync"),
 				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
 						"general.backup.backup_before_sync")));
 		
 		this.addField(new ConfigurationField(
