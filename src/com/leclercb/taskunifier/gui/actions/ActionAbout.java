@@ -61,7 +61,6 @@ public class ActionAbout extends AbstractAction {
 	}
 	
 	public static void about() {
-		UserUtils.getInstance().createNewUser("Default User");
 		AboutDialog.getInstance().setVisible(true);
 	}
 	

@@ -45,7 +45,6 @@ import org.apache.commons.io.FileUtils;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
-import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
@@ -235,9 +234,7 @@ public final class SettingsVersion {
 			version = updateSettings_1_8_7_to_2_0_0();
 		
 		cleanSettings();
-		Main.getSettings().setStringProperty(
-				"general.version",
-				Constants.VERSION);
+		Main.saveSettings();
 	}
 	
 	private static void cleanSettings() {
@@ -1157,9 +1154,6 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("date.day_start_hour", "8");
 		Main.getSettings().setStringProperty("date.day_break_hour", "12");
 		Main.getSettings().setStringProperty("date.day_end_hour", "17");
-		Main.getUserSettings().setStringProperty(
-				"general.user.name",
-				"Default User");
 		
 		copyToUserFolder("contacts.xml");
 		copyToUserFolder("contexts.xml");

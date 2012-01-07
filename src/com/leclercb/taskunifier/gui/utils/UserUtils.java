@@ -1,5 +1,7 @@
 package com.leclercb.taskunifier.gui.utils;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -55,6 +57,15 @@ public final class UserUtils {
 					folder.getName(),
 					this.getUserNameFromSettings(folder.getName()));
 		}
+		
+		Main.getUserSettings().addPropertyChangeListener("general.user.name", new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setUserName(Main.getUserId(), Main.getUserSettings().getStringProperty("general.user.name")); 
+			}
+			
+		});
 	}
 	
 	private String getUserNameFromSettings(String userId) {
@@ -85,6 +96,22 @@ public final class UserUtils {
 	}
 	
 	private void setUserName(String userId, String userName, boolean fire) {
+		if (EqualsUtils.equals(Main.getUserId(), userId)) {
+			if (EqualsUtils.equals(userName, Main.getUserSettings().getStringProperty("general.user.name")))
+				return;
+			
+			Main.getUserSettings().setStringProperty("general.user.name", userName);
+			this.users.put(userId, userName);
+			
+			if (fire)
+				this.listChangeSupport.fireListChange(
+						ListChangeEvent.VALUE_CHANGED,
+						-1,
+						userId);
+			
+			return;
+		}
+		
 		String userFolder = Main.getUserFolder(userId);
 		
 		try {

@@ -112,6 +112,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
+import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
@@ -227,15 +228,10 @@ public class Main {
 			throw e;
 		}
 		
-		setDeveloperMode(false);
-		setFirstExecution(false);
-		
-		AFTER_START = new ActionSupport(Main.class);
-		BEFORE_EXIT = new ActionSupport(Main.class);
-		
 		boolean outdatedPlugins;
 		
 		try {
+			initialize();
 			loadDeveloperMode();
 			loadResourceFolder();
 			loadInitSettings();
@@ -246,8 +242,9 @@ public class Main {
 			loadUserId();
 			loadUserFolder();
 			loadBackupFolder();
-			loadUserSettings();
 			SettingsVersion.updateSettings();
+			loadUserSettings();
+			UserSettingsVersion.updateSettings();
 			loadLoggerLevels();
 			loadProxies();
 			loadLocale();
@@ -256,6 +253,10 @@ public class Main {
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
 			loadShutdownHook();
+			
+			Main.getSettings().setStringProperty(
+					"general.version",
+					Constants.VERSION);
 			
 			autoBackup();
 			cleanBackups();
@@ -428,6 +429,34 @@ public class Main {
 			GuiLogger.getLogger().severe("DEVELOPER MODE");
 	}
 	
+	private static void initialize() throws Exception {
+		setDeveloperMode(false);
+		setFirstExecution(false);
+		
+		Properties defaultProperties = null;
+		
+		defaultProperties = new Properties();
+		defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
+		
+		SETTINGS = new PropertyMap(
+				new Properties(defaultProperties),
+				defaultProperties);
+		
+		SETTINGS.addCoder(new ModelIdSettingsCoder());
+		
+		defaultProperties = new Properties();
+		defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
+		
+		USER_SETTINGS = new PropertyMap(
+				new Properties(defaultProperties),
+				defaultProperties);
+		
+		USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
+		
+		AFTER_START = new ActionSupport(Main.class);
+		BEFORE_EXIT = new ActionSupport(Main.class);
+	}
+	
 	private static void loadResourceFolder() throws Exception {
 		RESOURCES_FOLDER = System.getProperty("com.leclercb.taskunifier.resource_folder");
 		
@@ -581,21 +610,8 @@ public class Main {
 	
 	private static void loadSettings() throws Exception {
 		try {
-			Properties defaultProperties = new Properties();
-			defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
-			
-			SETTINGS = new PropertyMap(
-					new Properties(defaultProperties),
-					defaultProperties);
-			
-			SETTINGS.addCoder(new ModelIdSettingsCoder());
-			
 			SETTINGS.load(new FileInputStream(getSettingsFile()));
 		} catch (Exception e) {
-			SETTINGS = new PropertyMap(new Properties());
-			
-			SETTINGS.addCoder(new ModelIdSettingsCoder());
-			
 			SETTINGS.load(Resources.class.getResourceAsStream("default_settings.properties"));
 			
 			if (!isFirstExecution())
@@ -628,21 +644,8 @@ public class Main {
 	
 	private static void loadUserSettings() throws Exception {
 		try {
-			Properties defaultProperties = new Properties();
-			defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
-			
-			USER_SETTINGS = new PropertyMap(
-					new Properties(defaultProperties),
-					defaultProperties);
-			
-			USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
-			
 			USER_SETTINGS.load(new FileInputStream(getUserSettingsFile()));
 		} catch (Exception e) {
-			USER_SETTINGS = new PropertyMap(new Properties());
-			
-			USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
-			
 			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
 		}
 	}
