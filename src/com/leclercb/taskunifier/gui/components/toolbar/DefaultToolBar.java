@@ -74,14 +74,25 @@ public class DefaultToolBar extends JToolBar {
 		this.add(Box.createHorizontalGlue());
 		
 		final JLabel accountLabel = new JLabel();
-		accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+		accountLabel.setText(this.getAccountLabelText());
 		
-		Main.getSettings().addSavePropertiesListener(
+		Main.getUserSettings().addSavePropertiesListener(
 				new SavePropertiesListener() {
 					
 					@Override
 					public void saveProperties() {
-						accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
+					}
+					
+				});
+		
+		Main.getUserSettings().addPropertyChangeListener(
+				"general.user.name",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
 					}
 					
 				});
@@ -92,7 +103,7 @@ public class DefaultToolBar extends JToolBar {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						accountLabel.setText(SynchronizerUtils.getPlugin().getAccountLabel());
+						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
 					}
 					
 				});
@@ -100,6 +111,29 @@ public class DefaultToolBar extends JToolBar {
 		this.add(accountLabel);
 		
 		this.add(Box.createHorizontalStrut(10));
+	}
+	
+	private String getAccountLabelText() {
+		String user = Main.getUserSettings().getStringProperty(
+				"general.user.name");
+		String account = SynchronizerUtils.getPlugin().getAccountLabel();
+		
+		if (user == null)
+			user = "";
+		
+		if (account == null)
+			account = "";
+		
+		if (user.length() == 0 && account.length() == 0)
+			return "";
+		
+		if (user.length() == 0)
+			return account;
+		
+		if (account.length() == 0)
+			return user;
+		
+		return user + " - " + account;
 	}
 	
 	private void initializeActions() {

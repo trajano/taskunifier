@@ -62,7 +62,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 		this.paused = !Main.getUserSettings().getBooleanProperty(
 				"synchronizer.scheduler_enabled");
 		
-		Main.getSettings().addPropertyChangeListener(
+		Main.getUserSettings().addPropertyChangeListener(
 				new PropertyChangeListener() {
 					
 					@Override

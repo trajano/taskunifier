@@ -14,6 +14,7 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -58,14 +59,19 @@ public final class UserUtils {
 					this.getUserNameFromSettings(folder.getName()));
 		}
 		
-		Main.getUserSettings().addPropertyChangeListener("general.user.name", new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				setUserName(Main.getUserId(), Main.getUserSettings().getStringProperty("general.user.name")); 
-			}
-			
-		});
+		Main.getUserSettings().addPropertyChangeListener(
+				"general.user.name",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						UserUtils.this.setUserName(
+								Main.getUserId(),
+								Main.getUserSettings().getStringProperty(
+										"general.user.name"));
+					}
+					
+				});
 	}
 	
 	private String getUserNameFromSettings(String userId) {
@@ -97,10 +103,15 @@ public final class UserUtils {
 	
 	private void setUserName(String userId, String userName, boolean fire) {
 		if (EqualsUtils.equals(Main.getUserId(), userId)) {
-			if (EqualsUtils.equals(userName, Main.getUserSettings().getStringProperty("general.user.name")))
+			if (EqualsUtils.equals(
+					userName,
+					Main.getUserSettings().getStringProperty(
+							"general.user.name")))
 				return;
 			
-			Main.getUserSettings().setStringProperty("general.user.name", userName);
+			Main.getUserSettings().setStringProperty(
+					"general.user.name",
+					userName);
 			this.users.put(userId, userName);
 			
 			if (fire)
@@ -185,6 +196,14 @@ public final class UserUtils {
 		}
 		
 		return true;
+	}
+	
+	public void addListChangeListener(ListChangeListener listener) {
+		this.listChangeSupport.addListChangeListener(listener);
+	}
+	
+	public void removeListChangeListener(ListChangeListener listener) {
+		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 }

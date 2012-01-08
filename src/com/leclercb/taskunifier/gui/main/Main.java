@@ -658,6 +658,12 @@ public class Main {
 		} catch (Exception e) {
 			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
 		}
+		
+		for (String key : USER_SETTINGS.stringPropertyNames()) {
+			String value = USER_SETTINGS.getProperty(key);
+			USER_SETTINGS.remove(key);
+			USER_SETTINGS.setStringProperty(key, value);
+		}
 	}
 	
 	private static void loadLoggerLevels() {

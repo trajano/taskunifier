@@ -150,7 +150,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 							plugin.getSynchronizerApi().getApiName())));
 			
 			connection = plugin.getSynchronizerApi().getConnection(
-					Main.getSettings());
+					Main.getUserSettings());
 			
 			connection.loadParameters(Main.getUserSettings());
 			
@@ -184,7 +184,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			connection.saveParameters(Main.getUserSettings());
 			
 			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
-					Main.getSettings(),
+					Main.getUserSettings(),
 					connection);
 			
 			SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
