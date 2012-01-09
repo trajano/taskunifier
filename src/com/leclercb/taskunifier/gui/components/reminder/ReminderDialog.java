@@ -69,7 +69,7 @@ public class ReminderDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setModal(true);
+		this.setModal(false);
 		this.setTitle(Translations.getString("general.task.reminder"));
 		this.setSize(600, 350);
 		this.setResizable(true);

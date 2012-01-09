@@ -39,6 +39,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
@@ -48,7 +50,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.reminder.progress.ReminderDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-class ReminderRunnable implements Runnable, PropertyChangeListener {
+class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeListener {
 	
 	private static final long SLEEP_TIME = 10000;
 	
@@ -56,6 +58,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 	
 	public ReminderRunnable() {
 		this.notifiedTasks = new ArrayList<Task>();
+		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
@@ -108,6 +111,15 @@ class ReminderRunnable implements Runnable, PropertyChangeListener {
 			} catch (InterruptedException e) {
 				
 			}
+		}
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
+		if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+			ReminderDialog.getInstance().getReminderPanel().getReminderList().removeTask(
+					(Task) evt.getValue());
+			this.notifiedTasks.remove(evt.getValue());
 		}
 	}
 	
