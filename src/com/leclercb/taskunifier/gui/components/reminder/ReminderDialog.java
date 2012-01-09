@@ -38,15 +38,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCloseButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ReminderDialog extends JDialog {
+public class ReminderDialog extends JFrame {
 	
 	private static ReminderDialog INSTANCE;
 	
@@ -60,7 +61,7 @@ public class ReminderDialog extends JDialog {
 	private ReminderPanel reminderPanel;
 	
 	private ReminderDialog() {
-		super(MainFrame.getInstance().getFrame());
+		super();
 		this.initialize();
 	}
 	
@@ -69,15 +70,14 @@ public class ReminderDialog extends JDialog {
 	}
 	
 	private void initialize() {
-		this.setModal(false);
 		this.setTitle(Translations.getString("general.task.reminder"));
+		this.setIconImage(ImageUtils.getResourceImage("logo.png", 16, 16).getImage());
 		this.setSize(600, 350);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
+		this.setLocationRelativeTo(MainFrame.getInstance().getFrame());
 		
 		this.reminderPanel = new ReminderPanel();
 		this.reminderPanel.setBorder(BorderFactory.createEmptyBorder(
