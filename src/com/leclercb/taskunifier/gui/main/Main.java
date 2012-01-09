@@ -661,8 +661,7 @@ public class Main {
 		
 		for (String key : USER_SETTINGS.stringPropertyNames()) {
 			String value = USER_SETTINGS.getProperty(key);
-			USER_SETTINGS.remove(key);
-			USER_SETTINGS.setStringProperty(key, value);
+			USER_SETTINGS.setStringProperty(key, value, true);
 		}
 	}
 	
