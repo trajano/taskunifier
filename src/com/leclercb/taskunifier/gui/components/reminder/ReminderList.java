@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.components.reminder;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskDescription;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelRowFilter;
@@ -120,6 +123,28 @@ public class ReminderList extends JPanel implements TaskSelectionView {
 				});
 		
 		this.add(this.searchField, BorderLayout.NORTH);
+		
+		this.modelList.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					int index = ReminderList.this.modelList.locationToIndex(event.getPoint());
+					
+					if (index == -1)
+						return;
+					
+					index = ReminderList.this.modelList.convertIndexToModel(index);
+					Object item = ReminderList.this.modelList.getModel().getElementAt(
+							index);
+					ReminderList.this.modelList.ensureIndexIsVisible(index);
+					
+					ActionEditTasks.editTasks(new Task[] { (Task) item });
+				}
+			}
+			
+		});
 	}
 	
 	public void addTask(Task task) {

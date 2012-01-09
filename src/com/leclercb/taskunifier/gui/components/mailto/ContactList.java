@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.components.mailto;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -51,11 +53,13 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.Contact;
+import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ContactModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueContact;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
+import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelRowFilter;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -121,6 +125,18 @@ public class ContactList extends JPanel {
 				});
 		
 		this.add(this.searchField, BorderLayout.NORTH);
+		
+		this.modelList.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					ActionManageModels.manageModels(ModelConfigurationTab.CONTACTS);
+				}
+			}
+			
+		});
 	}
 	
 	public Contact[] getSelectedContacts() {

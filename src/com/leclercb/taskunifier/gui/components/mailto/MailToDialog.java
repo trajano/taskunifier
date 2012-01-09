@@ -41,8 +41,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.actions.ActionManageModels;
-import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCloseButton;
@@ -104,13 +102,9 @@ public class MailToDialog extends JDialog {
 		
 		this.mailToPanel.addActionListener(listener);
 		
-		JButton manageContactsButton = new JButton(new ActionManageModels(
-				16,
-				16,
-				ModelConfigurationTab.CONTACTS));
 		JButton closeButton = new TUCloseButton(listener);
 		
-		JPanel panel = new TUButtonsPanel(manageContactsButton, closeButton);
+		JPanel panel = new TUButtonsPanel(closeButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(closeButton);
