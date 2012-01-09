@@ -1405,6 +1405,8 @@ public class Main {
 			loadAllData(getUserFolder());
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 			
+			UserUtils.getInstance().fireSwitchedUser();
+			
 			result = true;
 		} catch (Exception e) {
 			USER_ID = oldUserId;

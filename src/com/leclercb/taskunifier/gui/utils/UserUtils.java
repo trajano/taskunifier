@@ -206,4 +206,11 @@ public final class UserUtils {
 		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
+	public void fireSwitchedUser() {
+		this.listChangeSupport.fireListChange(
+				ListChangeEvent.VALUE_CHANGED,
+				-1,
+				Main.getUserId());
+	}
+	
 }

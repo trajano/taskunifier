@@ -47,6 +47,7 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.commons.api.properties.events.ReloadPropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -151,6 +152,16 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						ConfigurationDialog.this.refreshSynchronizationPanels();
+					}
+					
+				});
+		
+		Main.getUserSettings().addReloadPropertiesListener(
+				new ReloadPropertiesListener() {
+					
+					@Override
+					public void reloadProperties() {
+						ConfigurationDialog.this.cancelConfig();
 					}
 					
 				});

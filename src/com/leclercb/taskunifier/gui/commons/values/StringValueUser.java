@@ -34,6 +34,9 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.UserUtils;
 
 public class StringValueUser implements StringValue {
@@ -49,7 +52,17 @@ public class StringValueUser implements StringValue {
 		if (value == null || !(value instanceof String))
 			return " ";
 		
-		return UserUtils.getInstance().getUserName((String) value);
+		String str = UserUtils.getInstance().getUserName((String) value);
+		
+		if (str == null)
+			str = "";
+		
+		if (EqualsUtils.equals(Main.getUserId(), value))
+			str += " ("
+					+ Translations.getString("manage_users.current_user")
+					+ ")";
+		
+		return str;
 	}
 	
 }
