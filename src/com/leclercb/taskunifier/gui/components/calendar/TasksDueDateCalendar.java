@@ -82,19 +82,12 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			Calendar start = DateUtils.cloneCalendar(dueDate);
 			start.add(Calendar.MINUTE, -length);
 			
-			String title = task.getTitle();
-			
-			if (task.isCompleted())
-				title = Translations.getString("general.task.completed")
-						+ ": "
-						+ title;
-			
 			Event event = new Event();
 			event.setId(task.getModelId());
 			event.set(CALENDAR_ID, this.getId());
 			event.setEditable(true);
 			event.setSelectable(true);
-			event.setDescription(title);
+			event.setDescription(task.getTitle());
 			event.setToolTip("<html><i>"
 					+ Translations.getString("calendar.task_by_due_date")
 					+ "</i><br />"
@@ -105,7 +98,12 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			event.setColor(Main.getSettings().getColorProperty(
 					"theme.color.importance." + TaskUtils.getImportance(task)));
 			
-			if (!task.isCompleted() && task.isOverDue(false))
+			if (task.isCompleted())
+				event.setIcon(ImageUtils.getResourceImage(
+						"checkbox_selected.png",
+						16,
+						16));
+			else if (task.isOverDue(false))
 				event.setIcon(ImageUtils.getResourceImage(
 						"warning_red.png",
 						16,

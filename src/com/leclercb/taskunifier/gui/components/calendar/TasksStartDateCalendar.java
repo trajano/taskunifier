@@ -82,19 +82,12 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			Calendar end = DateUtils.cloneCalendar(startDate);
 			end.add(Calendar.MINUTE, length);
 			
-			String title = task.getTitle();
-			
-			if (task.isCompleted())
-				title = Translations.getString("general.task.completed")
-						+ ": "
-						+ title;
-			
 			Event event = new Event();
 			event.setId(task.getModelId());
 			event.set(CALENDAR_ID, this.getId());
 			event.setEditable(true);
 			event.setSelectable(true);
-			event.setDescription(title);
+			event.setDescription(task.getTitle());
 			event.setToolTip("<html><i>"
 					+ Translations.getString("calendar.task_by_start_date")
 					+ "</i><br />"
@@ -105,10 +98,16 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			event.setColor(Main.getSettings().getColorProperty(
 					"theme.color.importance." + TaskUtils.getImportance(task)));
 			
-			event.setIcon(ImageUtils.getResourceImage(
-					"warning_blue.png",
-					16,
-					16));
+			if (task.isCompleted())
+				event.setIcon(ImageUtils.getResourceImage(
+						"checkbox_selected.png",
+						16,
+						16));
+			else
+				event.setIcon(ImageUtils.getResourceImage(
+						"warning_blue.png",
+						16,
+						16));
 			
 			this.events.add(event);
 		}
