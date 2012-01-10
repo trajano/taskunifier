@@ -9,8 +9,8 @@ public final class ContactUtils {
 	
 	public static final Contact getCurrentUser() {
 		try {
-			ModelId modelId = Main.getSettings().getObjectProperty(
-					"general.current_user",
+			ModelId modelId = Main.getUserSettings().getObjectProperty(
+					"general.contact.me",
 					ModelId.class);
 			
 			return ContactFactory.getInstance().get(modelId);
@@ -21,12 +21,12 @@ public final class ContactUtils {
 	
 	public static final void setCurrentUser(Contact contact) {
 		if (contact == null) {
-			Main.getSettings().remove("general.current_user");
+			Main.getUserSettings().remove("general.contact.me");
 			return;
 		}
 		
-		Main.getSettings().setObjectProperty(
-				"general.current_user",
+		Main.getUserSettings().setObjectProperty(
+				"general.contact.me",
 				ModelId.class,
 				contact.getModelId());
 	}
