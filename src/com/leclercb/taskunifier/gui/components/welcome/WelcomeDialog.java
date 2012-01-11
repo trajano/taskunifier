@@ -169,7 +169,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 						WelcomeDialog.this.currentPanel++;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 						
-						if (WelcomeDialog.this.currentPanel == 3)
+						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 2)
 							ActionManagePlugins.managePlugins();
 					} else {
 						WelcomeDialog.this.dispose();
