@@ -144,7 +144,9 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 			r.setIcon(ImageUtils.getResourceImage("transparent.png", 16, 16));
 		
 		// Set Progress
-		if (!adapter.isSelected() && task.getProgress() != 0) {
+		if (!adapter.isSelected()
+				&& !task.isCompleted()
+				&& task.getProgress() != 0) {
 			r.setPainter(new Painter<JLabel>() {
 				
 				@Override
@@ -176,6 +178,8 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 				}
 				
 			});
+		} else {
+			r.setPainter(null);
 		}
 		
 		return renderer;
