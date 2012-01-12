@@ -36,6 +36,8 @@ public class TUDialog extends JDialog {
 		
 		if (ScreenUtils.isLocationInScreen(new Point(locationX, locationY)))
 			this.setLocation(locationX, locationY);
+		else if (this.getOwner() != null)
+			this.setLocationRelativeTo(this.getOwner());
 		else
 			this.setLocation(0, 0);
 		
