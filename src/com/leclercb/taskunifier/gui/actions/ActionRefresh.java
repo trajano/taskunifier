@@ -69,7 +69,6 @@ public class ActionRefresh extends AbstractAction {
 	}
 	
 	public static void refresh() {
-		System.out.println("ref");
 		ViewType.refreshNotes();
 		ViewType.refreshTasks();
 	}
