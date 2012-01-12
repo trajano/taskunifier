@@ -93,6 +93,7 @@ import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionPrintSelectedModels;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
+import com.leclercb.taskunifier.gui.actions.ActionRefresh;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
@@ -182,6 +183,8 @@ public class MenuBar extends JMenuBar {
 		this.add(viewMenu);
 		
 		viewMenu.add(new ActionChangeView(16, 16));
+		viewMenu.addSeparator();
+		viewMenu.add(new ActionRefresh(16, 16));
 		viewMenu.addSeparator();
 		
 		ButtonGroup viewGroup = new ButtonGroup();

@@ -472,7 +472,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 	}
 	
 	private void initializeTaskTableMenu() {
-		this.taskTableMenu = new TaskTableMenu(this);
+		this.taskTableMenu = new TaskTableMenu();
 		
 		this.addMouseListener(new MouseAdapter() {
 			

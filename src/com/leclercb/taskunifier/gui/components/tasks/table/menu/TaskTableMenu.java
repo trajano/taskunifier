@@ -32,13 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTaskAtSameLevel;
 import com.leclercb.taskunifier.gui.actions.ActionAddTask;
@@ -49,21 +45,15 @@ import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionMailTo;
 import com.leclercb.taskunifier.gui.actions.ActionPrintSelectedModels;
+import com.leclercb.taskunifier.gui.actions.ActionRefresh;
 import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
-import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskTableMenu extends JPopupMenu {
 	
-	private TaskTableView taskTableView;
-	
-	public TaskTableMenu(TaskTableView taskTableView) {
+	public TaskTableMenu() {
 		super(Translations.getString("general.task"));
-		
-		CheckUtils.isNotNull(taskTableView);
-		this.taskTableView = taskTableView;
 		
 		this.initialize();
 	}
@@ -77,7 +67,7 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new ActionAddSubTaskAtSameLevel(16, 16));
 		this.add(new ActionDuplicateTasks(16, 16));
 		this.addSeparator();
-		this.initializeItemSortTasks();
+		this.add(new ActionRefresh(16, 16));
 		this.addSeparator();
 		this.add(new JMenuItem(new ActionCollapseAll()));
 		this.add(new JMenuItem(new ActionExpandAll()));
@@ -87,23 +77,6 @@ public class TaskTableMenu extends JPopupMenu {
 		this.add(new ActionPrintSelectedModels(16, 16));
 		this.addSeparator();
 		this.add(new ActionDelete(16, 16));
-	}
-	
-	private void initializeItemSortTasks() {
-		JMenuItem itemSortTasks = new JMenuItem(
-				Translations.getString("general.sort"),
-				ImageUtils.getResourceImage("synchronize.png", 16, 16));
-		
-		itemSortTasks.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				TaskTableMenu.this.taskTableView.refreshTasks();
-			}
-			
-		});
-		
-		this.add(itemSortTasks);
 	}
 	
 }

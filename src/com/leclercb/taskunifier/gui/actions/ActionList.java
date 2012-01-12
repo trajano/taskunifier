@@ -73,6 +73,7 @@ public enum ActionList {
 	PRINT_SELECTED_MODELS(Translations.getString("action.print_selection"), "print.png", true),
 	QUIT(Translations.getString("action.quit"), "exit.png", true),
 	REDO(Translations.getString("action.redo"), "redo.png", false),
+	REFRESH(Translations.getString("action.refresh"), "synchronize.png", false),
 	RESET_GENERAL_SEARCHERS(Translations.getString("action.reset_general_searchers"), "undo.png", false),
 	REVIEW(Translations.getString("action.review"), "information.png", true),
 	SAVE(Translations.getString("action.save"), "save.png", false),
@@ -241,6 +242,8 @@ public enum ActionList {
 				return new ActionQuit(width, height);
 			case REDO:
 				return null;
+			case REFRESH:
+				return new ActionRefresh(width, height);
 			case RESET_GENERAL_SEARCHERS:
 				return new ActionResetGeneralSearchers(width, height);
 			case REVIEW:

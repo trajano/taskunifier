@@ -144,6 +144,13 @@ public enum ViewType implements ActionSupported {
 			ViewType.getNoteView().getNoteSearcherView().setSearchFilter(filter);
 	}
 	
+	public static void refreshNotes() {
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType == ViewType.NOTES)
+			ViewType.getNoteView().getNoteTableView().refreshNotes();
+	}
+	
 	public static void refreshTasks() {
 		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
 		
