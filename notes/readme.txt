@@ -6,6 +6,7 @@ Version 2.0.0
 		- FR 3194175: Multiple accounts
 		- FR 3426067: New calendar view: Week list view
 		- FR 3426018: New calendar view: Month view
+		- BF 3472611: Note editing issue
 	- Minor:
 		- FR 3462903: Check if location on screen is valid
 		- Added date conditions on weeks and months

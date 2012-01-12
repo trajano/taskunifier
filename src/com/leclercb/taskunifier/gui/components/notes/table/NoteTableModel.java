@@ -42,6 +42,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.commons.undoableedit.NoteUndoableEdit;
@@ -128,7 +129,11 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
-			this.fireTableDataChanged();
+			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
+			ModelStatus newStatus = (ModelStatus) event.getNewValue();
+			
+			if (oldStatus.isEndUserStatus() != newStatus.isEndUserStatus())
+				this.fireTableDataChanged();
 		} else {
 			int index = NoteFactory.getInstance().getIndexOf(
 					(Note) event.getSource());
