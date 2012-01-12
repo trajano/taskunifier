@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.util.Calendar;
 import java.util.List;
 
@@ -121,11 +123,27 @@ public final class SynchronizerUtils {
 		
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
 				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
-			String host = Main.getSettings().getStringProperty("proxy.host");
-			Integer port = Main.getSettings().getIntegerProperty("proxy.port");
-			String login = Main.getSettings().getStringProperty("proxy.login");
-			String password = Main.getSettings().getStringProperty(
+			final String host = Main.getSettings().getStringProperty("proxy.host");
+			final Integer port = Main.getSettings().getIntegerProperty("proxy.port");
+			final String login = Main.getSettings().getStringProperty("proxy.login");
+			final String password = Main.getSettings().getStringProperty(
 					"proxy.password");
+			
+			System.setProperty("http.proxyHost", host);
+			System.setProperty("http.proxyPort", port + "");
+			System.setProperty("http.proxyUser", login);
+			System.setProperty("http.proxyPassword", password);
+			
+			System.setProperty("https.proxyHost", host);
+			System.setProperty("https.proxyPort", port + "");
+			System.setProperty("https.proxyUser", login);
+			System.setProperty("https.proxyPassword", password);
+			
+			Authenticator.setDefault(new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(login, password.toCharArray());
+				}
+			});
 			
 			plugin.getSynchronizerApi().setProxyHost(host);
 			plugin.getSynchronizerApi().setProxyPort(port);
