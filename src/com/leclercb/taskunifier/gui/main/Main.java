@@ -1374,6 +1374,9 @@ public class Main {
 	}
 	
 	public static boolean changeUser(String userId) {
+		if (EqualsUtils.equals(userId, USER_ID))
+			return false;
+		
 		saveAllData();
 		
 		boolean set = false;
