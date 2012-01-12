@@ -123,9 +123,12 @@ public final class SynchronizerUtils {
 		
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
 				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
-			final String host = Main.getSettings().getStringProperty("proxy.host");
-			final Integer port = Main.getSettings().getIntegerProperty("proxy.port");
-			final String login = Main.getSettings().getStringProperty("proxy.login");
+			final String host = Main.getSettings().getStringProperty(
+					"proxy.host");
+			final Integer port = Main.getSettings().getIntegerProperty(
+					"proxy.port");
+			final String login = Main.getSettings().getStringProperty(
+					"proxy.login");
 			final String password = Main.getSettings().getStringProperty(
 					"proxy.password");
 			
@@ -140,8 +143,12 @@ public final class SynchronizerUtils {
 			System.setProperty("https.proxyPassword", password);
 			
 			Authenticator.setDefault(new Authenticator() {
+				
+				@Override
 				public PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(login, password.toCharArray());
+					return new PasswordAuthentication(
+							login,
+							password.toCharArray());
 				}
 			});
 			
