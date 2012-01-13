@@ -93,7 +93,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 		this.propertyChangeSupport.firePropertyChange(PROP_LINK, oldLink, link);
 	}
 	
-	public int getIndexOf(TaskFilterElement element) {
+	public int getIndexOf(FE element) {
 		return this.elements.indexOf(element);
 	}
 	
