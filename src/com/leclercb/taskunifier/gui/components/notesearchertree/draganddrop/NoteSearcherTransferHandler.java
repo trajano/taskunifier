@@ -33,22 +33,32 @@
 package com.leclercb.taskunifier.gui.components.notesearchertree.draganddrop;
 
 import java.awt.datatransfer.Transferable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
+import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.utils.TreeUtils;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
+import com.leclercb.taskunifier.gui.commons.comparators.NoteSearcherComparator;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherTree;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
 
 public class NoteSearcherTransferHandler extends TransferHandler {
@@ -56,6 +66,9 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 	@Override
 	public boolean canImport(TransferSupport support) {
 		if (this.canImportModelFlavor(support))
+			return true;
+		
+		if (this.canImportNoteSearcherFlavor(support))
 			return true;
 		
 		return false;
@@ -92,6 +105,54 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 		return false;
 	}
 	
+	private boolean canImportNoteSearcherFlavor(TransferSupport support) {
+		if (support.isDataFlavorSupported(NoteSearcherTransferable.NOTE_SEARCHER_FLAVOR)) {
+			Transferable t = support.getTransferable();
+			NoteSearcherTransferData data = null;
+			NoteSearcher dragSearcher = null;
+			
+			try {
+				data = (NoteSearcherTransferData) t.getTransferData(NoteSearcherTransferable.NOTE_SEARCHER_FLAVOR);
+				dragSearcher = data.getNoteSearcher();
+			} catch (Exception e) {
+				return false;
+			}
+			
+			if (dragSearcher == null)
+				return false;
+			
+			if (!support.isDrop()) {
+				return true;
+			} else {
+				SearcherNode node = this.getSearcherNodeForLocation(support);
+				
+				if (node == null)
+					return false;
+				
+				if (!(node instanceof SearcherItem))
+					return false;
+				
+				SearcherItem dragItem = null;
+				List<SearcherItem> items = new ArrayList<SearcherItem>();
+				SearcherCategory category = (SearcherCategory) node.getParent();
+				
+				for (int i = 0; i < category.getChildCount(); i++) {
+					SearcherItem item = (SearcherItem) category.getChildAt(i);
+					items.add(item);
+					if (EqualsUtils.equals(item.getNoteSearcher(), dragSearcher))
+						dragItem = item;
+				}
+				
+				if (dragItem == null)
+					return false;
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		NoteSearcherTree tree = (NoteSearcherTree) c;
@@ -106,7 +167,7 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 	
 	@Override
 	public int getSourceActions(JComponent c) {
-		return TransferHandler.MOVE;
+		return TransferHandler.COPY_OR_MOVE;
 	}
 	
 	@Override
@@ -115,6 +176,9 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 			return false;
 		
 		if (this.importModelFlavorData(support))
+			return true;
+		
+		if (this.importNoteSearcherFlavorData(support))
 			return true;
 		
 		return false;
@@ -142,6 +206,95 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 		}
 		
 		return false;
+	}
+	
+	private boolean importNoteSearcherFlavorData(TransferSupport support) {
+		if (support.isDataFlavorSupported(NoteSearcherTransferable.NOTE_SEARCHER_FLAVOR)) {
+			Transferable t = support.getTransferable();
+			NoteSearcherTransferData data = null;
+			NoteSearcher dragSearcher = null;
+			
+			try {
+				data = (NoteSearcherTransferData) t.getTransferData(NoteSearcherTransferable.NOTE_SEARCHER_FLAVOR);
+				dragSearcher = data.getNoteSearcher();
+			} catch (Exception e) {
+				return false;
+			}
+			
+			if (dragSearcher == null)
+				return false;
+			
+			if (!support.isDrop()) {
+				NoteSearcher newSearcher = dragSearcher.clone();
+				NoteSearcherFactory.getInstance().register(newSearcher);
+				
+				return true;
+			} else {
+				NoteSearcherTree tree = (NoteSearcherTree) support.getComponent();
+				SearcherNode node = this.getSearcherNodeForLocation(support);
+				
+				if (node == null)
+					return false;
+				
+				if (!(node instanceof SearcherItem))
+					return false;
+				
+				SearcherItem dragItem = null;
+				List<SearcherItem> items = new ArrayList<SearcherItem>();
+				SearcherCategory category = (SearcherCategory) node.getParent();
+				
+				for (int i = 0; i < category.getChildCount(); i++) {
+					SearcherItem item = (SearcherItem) category.getChildAt(i);
+					items.add(item);
+					if (EqualsUtils.equals(item.getNoteSearcher(), dragSearcher))
+						dragItem = item;
+				}
+				
+				if (dragItem == null)
+					return false;
+				
+				Collections.sort(items, new Comparator<SearcherItem>() {
+					
+					@Override
+					public int compare(SearcherItem o1, SearcherItem o2) {
+						return NoteSearcherComparator.INSTANCE.compare(
+								o1.getNoteSearcher(),
+								o2.getNoteSearcher());
+					}
+					
+				});
+				
+				int index = items.indexOf(node);
+				
+				items.remove(dragItem);
+				items.add(index, dragItem);
+				
+				int order = 1;
+				for (SearcherItem i : items) {
+					i.getNoteSearcher().setOrder(order++);
+				}
+				
+				for (SearcherItem i : items) {
+					tree.getSearcherModel().removeNodeFromParent(i);
+				}
+				
+				order = 0;
+				for (SearcherItem i : items) {
+					tree.getSearcherModel().insertNodeInto(i, category, order++);
+				}
+				
+				tree.expandPath(TreeUtils.getPath(category));
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	@Override
+	protected void exportDone(JComponent source, Transferable data, int action) {
+		
 	}
 	
 	private SearcherNode getSearcherNodeForLocation(TransferSupport support) {

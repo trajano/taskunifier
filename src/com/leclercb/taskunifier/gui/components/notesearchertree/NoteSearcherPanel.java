@@ -74,6 +74,7 @@ import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -239,6 +240,9 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 					
 					if (node instanceof FolderItem)
 						NoteSearcherPanel.this.openManageFolders((FolderItem) node);
+					
+					if (node instanceof SearcherItem)
+						ActionEditNoteSearcher.editNoteSearcher(((SearcherItem) node).getNoteSearcher());
 				}
 			}
 			
