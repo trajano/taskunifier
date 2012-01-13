@@ -139,7 +139,7 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 			throw new IllegalArgumentException("Value is not an instance of "
 					+ condition.getValueType());
 		
-		if (!condition.getTaskValueType().isAssignableFrom(property.getType()))
+		if (!condition.getModelValueType().isAssignableFrom(property.getType()))
 			throw new IllegalArgumentException(
 					"The property is incompatible with this condition");
 	}

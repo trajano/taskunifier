@@ -51,7 +51,7 @@ public enum NumberCondition implements Condition<Number, Number> {
 	}
 	
 	@Override
-	public Class<?> getTaskValueType() {
+	public Class<?> getModelValueType() {
 		return Number.class;
 	}
 	

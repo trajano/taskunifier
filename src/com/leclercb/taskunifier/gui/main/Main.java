@@ -99,7 +99,9 @@ import com.leclercb.taskunifier.gui.api.models.beans.GuiNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.coders.NoteSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLCoder;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
@@ -742,6 +744,7 @@ public class Main {
 		loadModels(folder);
 		loadTaskTemplates(folder);
 		loadTaskSearchers(folder);
+		loadNoteSearchers(folder);
 	}
 	
 	public static void loadModels(String folder) {
@@ -939,6 +942,29 @@ public class Main {
 		}
 	}
 	
+	public static void loadNoteSearchers(String folder) {
+		try {
+			NoteSearcherFactory.getInstance().deleteAll();
+			
+			new NoteSearcherFactoryXMLCoder().decode(new FileInputStream(folder
+					+ File.separator
+					+ "note_searchers.xml"));
+		} catch (FileNotFoundException e) {
+			
+		} catch (Throwable e) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while loading note searchers",
+					e);
+			
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	private static void loadLookAndFeel() throws Exception {
 		// jGoodies
 		Properties jgoodies = new Properties();
@@ -1090,12 +1116,14 @@ public class Main {
 		saveModels(folder);
 		saveTaskTemplates(folder);
 		saveTaskSearchers(folder);
+		saveNoteSearchers(folder);
 	}
 	
 	public static void saveAllData() {
 		saveModels(getUserFolder());
 		saveTaskTemplates(getUserFolder());
 		saveTaskSearchers(getUserFolder());
+		saveNoteSearchers(getUserFolder());
 		saveInitSettings();
 		saveSettings();
 		saveUserSettings();
@@ -1363,6 +1391,28 @@ public class Main {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"Error while saving task searchers",
+					e);
+			
+			JOptionPane.showMessageDialog(
+					null,
+					e.getMessage(),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void saveNoteSearchers(String folder) {
+		try {
+			new NoteSearcherFactoryXMLCoder().encode(new FileOutputStream(
+					folder + File.separator + "note_searchers.xml"));
+			
+			GuiLogger.getLogger().log(
+					Level.INFO,
+					"Saving note searchers (" + folder + ")");
+		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while saving note searchers",
 					e);
 			
 			JOptionPane.showMessageDialog(

@@ -30,42 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
+package com.leclercb.taskunifier.gui.commons.comparators;
 
-import java.util.Calendar;
+import java.util.Comparator;
 
-public enum CalendarCondition implements Condition<Calendar, Calendar> {
+import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+
+public class NoteSearcherComparator implements Comparator<NoteSearcher> {
 	
-	AFTER,
-	BEFORE,
-	EQUALS;
+	public static final NoteSearcherComparator INSTANCE = new NoteSearcherComparator();
 	
-	private CalendarCondition() {
+	private NoteSearcherComparator() {
 		
 	}
 	
 	@Override
-	public Class<?> getValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public Class<?> getModelValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public boolean include(Calendar value, Calendar taskValue) {
-		switch (this) {
-			case AFTER:
-				return taskValue.compareTo(value) > 0;
-			case BEFORE:
-				return taskValue.compareTo(value) < 0;
-			case EQUALS:
-				return taskValue.equals(value);
-		}
+	public int compare(NoteSearcher ts1, NoteSearcher ts2) {
+		Integer i1 = ts1 == null ? null : ts1.getOrder();
+		Integer i2 = ts2 == null ? null : ts2.getOrder();
 		
-		return false;
+		return CompareUtils.compare(i1, i2);
 	}
 	
 }

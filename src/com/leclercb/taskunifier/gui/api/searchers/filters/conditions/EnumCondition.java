@@ -51,7 +51,7 @@ public enum EnumCondition implements Condition<Enum<?>, Enum<?>> {
 	}
 	
 	@Override
-	public Class<?> getTaskValueType() {
+	public Class<?> getModelValueType() {
 		return Enum.class;
 	}
 	

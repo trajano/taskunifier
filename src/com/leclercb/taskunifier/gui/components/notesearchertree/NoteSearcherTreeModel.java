@@ -57,6 +57,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.NoteSearcherComparator;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherItem;
@@ -72,6 +73,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	
 	private SearcherItem defaultSearcher;
 	private SearcherCategory folderCategory;
+	private SearcherCategory personalCategory;
 	
 	public NoteSearcherTreeModel(
 			String settingsPrefix,
@@ -84,6 +86,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		this.initializeDefaultSearcher();
 		this.initializeFolderCategory();
+		this.initializePersonalCategory();
 		
 		NoteFactory.getInstance().addListChangeListener(this);
 		NoteFactory.getInstance().addPropertyChangeListener(this);
@@ -97,7 +100,9 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	}
 	
 	public SearcherCategory[] getCategories() {
-		return new SearcherCategory[] { this.folderCategory };
+		return new SearcherCategory[] {
+				this.folderCategory,
+				this.personalCategory };
 	}
 	
 	private void initializeDefaultSearcher() {
@@ -125,6 +130,21 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
+	}
+	
+	private void initializePersonalCategory() {
+		this.personalCategory = new SearcherCategory(
+				NoteSearcherType.PERSONAL,
+				this.settingsPrefix + ".category.personal.expanded");
+		((DefaultMutableTreeNode) this.getRoot()).add(this.personalCategory);
+		
+		List<NoteSearcher> searchers = new ArrayList<NoteSearcher>(
+				NoteSearcherFactory.getInstance().getList());
+		Collections.sort(searchers, NoteSearcherComparator.INSTANCE);
+		
+		for (NoteSearcher searcher : searchers)
+			if (searcher.getType() == NoteSearcherType.PERSONAL)
+				this.personalCategory.add(new SearcherItem(searcher));
 	}
 	
 	public int findNewIndexInFolderCategory(Folder folder) {
@@ -185,6 +205,8 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				return (SearcherCategory) this.getRoot();
 			case FOLDER:
 				return this.folderCategory;
+			case PERSONAL:
+				return this.personalCategory;
 		}
 		
 		return null;

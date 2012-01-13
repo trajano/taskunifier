@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasksearcheredit;
+package com.leclercb.taskunifier.gui.components.notesearcheredit;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -43,7 +43,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -51,17 +51,17 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class TaskSearcherEditDialog extends JDialog {
+public class NoteSearcherEditDialog extends JDialog {
 	
-	private TaskSearcherEditPanel searcherEditPanel;
+	private NoteSearcherEditPanel searcherEditPanel;
 	
-	public TaskSearcherEditDialog(Frame frame, TaskSearcher searcher) {
+	public NoteSearcherEditDialog(Frame frame, NoteSearcher searcher) {
 		super(frame);
 		
 		this.initialize(searcher);
 	}
 	
-	private void initialize(TaskSearcher searcher) {
+	private void initialize(NoteSearcher searcher) {
 		this.setModal(true);
 		this.setTitle(Translations.getString("searcheredit.title"));
 		this.setSize(700, 500);
@@ -76,7 +76,7 @@ public class TaskSearcherEditDialog extends JDialog {
 		header.setDescription(Translations.getString("header.description.edit_searcher"));
 		header.setIcon(ImageUtils.getResourceImage("search.png", 32, 32));
 		
-		this.searcherEditPanel = new TaskSearcherEditPanel(searcher);
+		this.searcherEditPanel = new NoteSearcherEditPanel(searcher);
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);
@@ -90,9 +90,9 @@ public class TaskSearcherEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					TaskSearcherEditDialog.this.searcherEditPanel.close();
-					ViewType.refreshTasks();
-					TaskSearcherEditDialog.this.dispose();
+					NoteSearcherEditDialog.this.searcherEditPanel.close();
+					ViewType.getNoteView().getNoteTableView().refreshNotes();
+					NoteSearcherEditDialog.this.dispose();
 				}
 			}
 			
@@ -101,7 +101,7 @@ public class TaskSearcherEditDialog extends JDialog {
 		JButton okButton = new TUOkButton(listener);
 		
 		JPanel panel = new TUButtonsPanel(
-				Help.getHelpButton("task_searcher"),
+				Help.getHelpButton("note_searcher"),
 				okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);

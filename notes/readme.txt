@@ -6,6 +6,8 @@ Version 2.0.0
 		- FR 3194175: Multiple accounts
 		- FR 3426067: New calendar view: Week list view
 		- FR 3426018: New calendar view: Month view
+		- FR 3472615: Note searchers (sorters and filters)
+		- FR 3472613: Default note sort order settings
 		- BF 3472611: Note editing issue
 	- Minor:
 		- FR 3462903: Check if location on screen is valid

@@ -37,6 +37,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -44,6 +46,7 @@ import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
@@ -54,7 +57,10 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.gui.actions.ActionAddNoteSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
+import com.leclercb.taskunifier.gui.actions.ActionDeleteNoteSearcher;
+import com.leclercb.taskunifier.gui.actions.ActionEditNoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
@@ -69,6 +75,7 @@ import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class NoteSearcherPanel extends JPanel implements SavePropertiesListener, NoteSearcherView, PropertyChangeSupported {
@@ -247,7 +254,20 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			
 		});
 		
+		this.initializeButtons();
+		
 		this.initializeSelectedSearcher();
+	}
+	
+	private void initializeButtons() {
+		JPanel panel = new TUButtonsPanel(true, new JButton(
+				new ActionAddNoteSearcher(16, 16)), new JButton(
+				new ActionEditNoteSearcher(16, 16)), new JButton(
+				new ActionDeleteNoteSearcher(16, 16)));
+		panel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		panel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
+		
+		this.add(panel, BorderLayout.SOUTH);
 	}
 	
 	private void openManageFolders(FolderItem item) {

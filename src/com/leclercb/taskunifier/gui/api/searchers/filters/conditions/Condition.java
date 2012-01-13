@@ -36,7 +36,7 @@ public interface Condition<ValueType, TaskValueType> {
 	
 	public abstract Class<?> getValueType();
 	
-	public abstract Class<?> getTaskValueType();
+	public abstract Class<?> getModelValueType();
 	
 	public abstract String name();
 	

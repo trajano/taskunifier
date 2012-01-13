@@ -36,6 +36,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultNoteSorterFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultTaskSorterFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -59,6 +60,18 @@ public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 				null,
 				true,
 				new EditDefaultTaskSorterFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"NOTE_SORTER",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.searcher.edit_default_note_sorter"))));
+		
+		this.addField(new ConfigurationField(
+				"EDIT_DEFAULT_NOTE_SORTER",
+				null,
+				true,
+				new EditDefaultNoteSorterFieldType()));
 	}
 	
 }

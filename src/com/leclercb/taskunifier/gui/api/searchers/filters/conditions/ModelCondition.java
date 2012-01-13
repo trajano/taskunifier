@@ -49,7 +49,7 @@ public enum ModelCondition implements Condition<Model, Model> {
 	}
 	
 	@Override
-	public Class<?> getTaskValueType() {
+	public Class<?> getModelValueType() {
 		return Model.class;
 	}
 	

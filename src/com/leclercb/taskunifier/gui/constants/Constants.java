@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.coders.NoteSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
@@ -114,6 +115,8 @@ public final class Constants {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				String value = null;
+				
 				// NOTE
 				DEFAULT_NOTE_SORTER = new NoteSorter();
 				
@@ -124,6 +127,23 @@ public final class Constants {
 				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
 						NoteColumn.TITLE,
 						SortOrder.ASCENDING));
+				
+				value = Main.getSettings().getStringProperty(
+						"notesearcher.default_sorter");
+				
+				if (value != null && value.length() != 0) {
+					try {
+						InputStream input = IOUtils.toInputStream(
+								value,
+								"UTF-8");
+						DEFAULT_NOTE_SORTER = new NoteSorterXMLCoder().decode(input);
+					} catch (Exception e) {
+						GuiLogger.getLogger().log(
+								Level.SEVERE,
+								"Error while loading default note sorter",
+								e);
+					}
+				}
 				
 				DEFAULT_NOTE_SEARCHER = new NoteSearcher(
 						NoteSearcherType.DEFAULT,
@@ -146,7 +166,7 @@ public final class Constants {
 						TaskColumn.TITLE,
 						SortOrder.ASCENDING));
 				
-				String value = Main.getSettings().getStringProperty(
+				value = Main.getSettings().getStringProperty(
 						"tasksearcher.default_sorter");
 				
 				if (value != null && value.length() != 0) {

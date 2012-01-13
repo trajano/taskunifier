@@ -30,42 +30,55 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
+package com.leclercb.taskunifier.gui.actions;
 
-import java.util.Calendar;
+import java.awt.event.ActionEvent;
 
-public enum CalendarCondition implements Condition<Calendar, Calendar> {
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
+import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class ActionAddNoteSearcher extends AbstractViewAction {
 	
-	AFTER,
-	BEFORE,
-	EQUALS;
+	public ActionAddNoteSearcher() {
+		this(32, 32);
+	}
 	
-	private CalendarCondition() {
+	public ActionAddNoteSearcher(int width, int height) {
+		super(
+				Translations.getString("action.add_note_searcher"),
+				ImageUtils.getResourceImage("add.png", width, height),
+				ViewType.NOTES);
 		
-	}
-	
-	@Override
-	public Class<?> getValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public Class<?> getModelValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public boolean include(Calendar value, Calendar taskValue) {
-		switch (this) {
-			case AFTER:
-				return taskValue.compareTo(value) > 0;
-			case BEFORE:
-				return taskValue.compareTo(value) < 0;
-			case EQUALS:
-				return taskValue.equals(value);
-		}
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.add_note_searcher"));
 		
-		return false;
+		this.setEnabled(this.shouldBeEnabled());
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		ActionAddNoteSearcher.addNoteSearcher();
+	}
+	
+	public static void addNoteSearcher() {
+		NoteSearcher searcher = NoteSearcherFactory.getInstance().create(
+				NoteSearcherType.PERSONAL,
+				Integer.MAX_VALUE,
+				Translations.getString("searcher.default.title"),
+				new NoteFilter(),
+				Constants.getDefaultNoteSorter());
+		
+		ViewType.getNoteView().getNoteSearcherView().selectNoteSearcher(
+				searcher);
+		
+		ActionEditNoteSearcher.editNoteSearcher(searcher);
 	}
 	
 }

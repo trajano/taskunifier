@@ -11,6 +11,7 @@ public enum ActionList {
 	OBJECT("", null, false),
 	ABOUT(Translations.getString("action.about"), "information.png", true),
 	ADD_NOTE(Translations.getString("action.add_note"), "note.png", true),
+	ADD_NOTE_SEARCHER(Translations.getString("action.add_note_searcher"), "add.png", true),
 	ADD_QUICK_TASK(Translations.getString("action.add_task"), "task.png", false),
 	ADD_SUBTASK(Translations.getString("action.add_subtask"), "subtask.png", true),
 	ADD_SUBTASK_AT_SAME_LEVEL(Translations.getString("action.add_subtask_at_same_level"), "subtask.png", true),
@@ -37,14 +38,17 @@ public enum ActionList {
 	CREATE_TASK_FROM_CLIPBOARD(Translations.getString("action.create_task_from_clipboard"), "information.png", true),
 	CUT(Translations.getString("action.cut"), "cut.png", false),
 	DELETE(Translations.getString("action.delete"), "remove.png", true),
+	DELETE_NOTE_SEARCHER(Translations.getString("action.delete_note_searcher"), "remove.png", true),
 	DELETE_TASK_SEARCHER(Translations.getString("action.delete_task_searcher"), "remove.png", true),
 	DONATE(Translations.getString("action.donate"), "dollar.png", true),
 	DUPLICATE_NOTES(Translations.getString("action.duplicate_notes"), "duplicate.png", true),
 	DUPLICATE_TASKS(Translations.getString("action.duplicate_tasks"), "duplicate.png", true),
 	EDIT_TASKS(Translations.getString("action.edit_tasks"), "edit.png", true),
+	EDIT_NOTE_SEARCHER(Translations.getString("action.edit_note_searcher"), "edit.png", true),
 	EDIT_TASK_SEARCHER(Translations.getString("action.edit_task_searcher"), "edit.png", true),
 	EXPAND_ALL(Translations.getString("action.expand_all"), "tree_collapsed.png", true),
 	EXPORT_MODELS(Translations.getString("action.export_models"), "upload.png", true),
+	EXPORT_NOTE_SEARCHERS(Translations.getString("action.export_note_searchers"), "upload.png", true),
 	EXPORT_SETTINGS(Translations.getString("action.export_settings"), "upload.png", true),
 	EXPORT_TASK_SEARCHERS(Translations.getString("action.export_task_searchers"), "upload.png", true),
 	EXPORT_TASK_TEMPLATES(Translations.getString("action.export_task_templates"), "upload.png", true),
@@ -53,6 +57,7 @@ public enum ActionList {
 	HELP(Translations.getString("action.help"), "help.png", true),
 	IMPORT_COM_FILE(Translations.getString("action.import_com_file"), "download.png", true),
 	IMPORT_MODELS(Translations.getString("action.import_models"), "download.png", true),
+	IMPORT_NOTE_SEARCHERS(Translations.getString("action.import_note_searchers"), "download.png", true),
 	IMPORT_SETTINGS(Translations.getString("action.import_settings"), "download.png", true),
 	IMPORT_TASK_SEARCHERS(Translations.getString("action.import_task_searchers"), "download.png", true),
 	IMPORT_TASK_TEMPLATES(Translations.getString("action.import_task_templates"), "download.png", true),
@@ -121,6 +126,8 @@ public enum ActionList {
 				return new ActionAbout(width, height);
 			case ADD_NOTE:
 				return new ActionAddNote(width, height);
+			case ADD_NOTE_SEARCHER:
+				return new ActionAddNoteSearcher(width, height);
 			case ADD_QUICK_TASK:
 				return new ActionAddQuickTask(width, height);
 			case ADD_SUBTASK:
@@ -172,6 +179,8 @@ public enum ActionList {
 				return new ActionCut(width, height);
 			case DELETE:
 				return new ActionDelete(width, height);
+			case DELETE_NOTE_SEARCHER:
+				return new ActionDeleteNoteSearcher(width, height);
 			case DELETE_TASK_SEARCHER:
 				return new ActionDeleteTaskSearcher(width, height);
 			case DONATE:
@@ -180,6 +189,8 @@ public enum ActionList {
 				return new ActionDuplicateNotes(width, height);
 			case DUPLICATE_TASKS:
 				return new ActionDuplicateTasks(width, height);
+			case EDIT_NOTE_SEARCHER:
+				return new ActionEditNoteSearcher(width, height);
 			case EDIT_TASK_SEARCHER:
 				return new ActionEditTaskSearcher(width, height);
 			case EDIT_TASKS:
@@ -188,6 +199,8 @@ public enum ActionList {
 				return new ActionExpandAll();
 			case EXPORT_MODELS:
 				return new ActionExportModels(width, height);
+			case EXPORT_NOTE_SEARCHERS:
+				return new ActionExportNoteSearchers(width, height);
 			case EXPORT_SETTINGS:
 				return new ActionExportSettings(width, height);
 			case EXPORT_TASK_SEARCHERS:
@@ -204,6 +217,8 @@ public enum ActionList {
 				return new ActionImportComFile(width, height);
 			case IMPORT_MODELS:
 				return new ActionImportModels(width, height);
+			case IMPORT_NOTE_SEARCHERS:
+				return new ActionImportNoteSearchers(width, height);
 			case IMPORT_SETTINGS:
 				return new ActionImportSettings(width, height);
 			case IMPORT_TASK_SEARCHERS:

@@ -58,7 +58,7 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	}
 	
 	@Override
-	public Class<?> getTaskValueType() {
+	public Class<?> getModelValueType() {
 		return Calendar.class;
 	}
 	

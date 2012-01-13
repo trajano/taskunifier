@@ -30,42 +30,39 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
+package com.leclercb.taskunifier.gui.actions;
 
-import java.util.Calendar;
+import java.awt.event.ActionEvent;
 
-public enum CalendarCondition implements Condition<Calendar, Calendar> {
+import javax.swing.AbstractAction;
+
+import com.leclercb.taskunifier.gui.components.import_data.ImportNoteSearchersDialog;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class ActionImportNoteSearchers extends AbstractAction {
 	
-	AFTER,
-	BEFORE,
-	EQUALS;
+	public ActionImportNoteSearchers() {
+		this(32, 32);
+	}
 	
-	private CalendarCondition() {
+	public ActionImportNoteSearchers(int width, int height) {
+		super(
+				Translations.getString("action.import_note_searchers"),
+				ImageUtils.getResourceImage("download.png", width, height));
 		
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.import_note_searchers"));
 	}
 	
 	@Override
-	public Class<?> getValueType() {
-		return Calendar.class;
+	public void actionPerformed(ActionEvent event) {
+		ActionImportNoteSearchers.importNoteSearchers();
 	}
 	
-	@Override
-	public Class<?> getModelValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public boolean include(Calendar value, Calendar taskValue) {
-		switch (this) {
-			case AFTER:
-				return taskValue.compareTo(value) > 0;
-			case BEFORE:
-				return taskValue.compareTo(value) < 0;
-			case EQUALS:
-				return taskValue.equals(value);
-		}
-		
-		return false;
+	public static void importNoteSearchers() {
+		ImportNoteSearchersDialog.getInstance().setVisible(true);
 	}
 	
 }

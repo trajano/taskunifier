@@ -70,6 +70,7 @@ import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.actions.ActionExpandAll;
 import com.leclercb.taskunifier.gui.actions.ActionExportModels;
+import com.leclercb.taskunifier.gui.actions.ActionExportNoteSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionExportTaskSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportTaskTemplates;
@@ -77,6 +78,7 @@ import com.leclercb.taskunifier.gui.actions.ActionExportVCard;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionImportModels;
+import com.leclercb.taskunifier.gui.actions.ActionImportNoteSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionImportTaskSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionImportTaskTemplates;
@@ -138,6 +140,7 @@ public class MenuBar extends JMenuBar {
 		importMenu.add(new ActionImportComFile(16, 16));
 		importMenu.add(new ActionImportModels(16, 16));
 		importMenu.add(new ActionImportSettings(16, 16));
+		importMenu.add(new ActionImportNoteSearchers(16, 16));
 		importMenu.add(new ActionImportTaskSearchers(16, 16));
 		importMenu.add(new ActionImportTaskTemplates(16, 16));
 		importMenu.add(new ActionImportVCard(16, 16));
@@ -148,6 +151,7 @@ public class MenuBar extends JMenuBar {
 		
 		exportMenu.add(new ActionExportModels(16, 16));
 		exportMenu.add(new ActionExportSettings(16, 16));
+		exportMenu.add(new ActionExportNoteSearchers(16, 16));
 		exportMenu.add(new ActionExportTaskSearchers(16, 16));
 		exportMenu.add(new ActionExportTaskTemplates(16, 16));
 		exportMenu.add(new ActionExportVCard(16, 16));

@@ -51,7 +51,7 @@ public enum StringCondition implements Condition<String, Object> {
 	}
 	
 	@Override
-	public Class<?> getTaskValueType() {
+	public Class<?> getModelValueType() {
 		return Object.class;
 	}
 	

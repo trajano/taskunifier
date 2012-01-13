@@ -30,42 +30,35 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
+package com.leclercb.taskunifier.gui.components.export_data;
 
-import java.util.Calendar;
+import java.io.FileOutputStream;
 
-public enum CalendarCondition implements Condition<Calendar, Calendar> {
+import com.leclercb.taskunifier.gui.api.searchers.coders.NoteSearcherFactoryXMLCoder;
+import com.leclercb.taskunifier.gui.translations.Translations;
+
+public class ExportNoteSearchersDialog extends AbstractExportDialog {
 	
-	AFTER,
-	BEFORE,
-	EQUALS;
+	private static ExportNoteSearchersDialog INSTANCE;
 	
-	private CalendarCondition() {
+	public static ExportNoteSearchersDialog getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new ExportNoteSearchersDialog();
 		
+		return INSTANCE;
+	}
+	
+	private ExportNoteSearchersDialog() {
+		super(
+				Translations.getString("action.export_note_searchers"),
+				"xml",
+				Translations.getString("general.xml_files"));
 	}
 	
 	@Override
-	public Class<?> getValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public Class<?> getModelValueType() {
-		return Calendar.class;
-	}
-	
-	@Override
-	public boolean include(Calendar value, Calendar taskValue) {
-		switch (this) {
-			case AFTER:
-				return taskValue.compareTo(value) > 0;
-			case BEFORE:
-				return taskValue.compareTo(value) < 0;
-			case EQUALS:
-				return taskValue.equals(value);
-		}
-		
-		return false;
+	protected void exportToFile(String file) throws Exception {
+		FileOutputStream output = new FileOutputStream(file);
+		new NoteSearcherFactoryXMLCoder().encode(output);
 	}
 	
 }
