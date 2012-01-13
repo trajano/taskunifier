@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit;
 
 import java.awt.BorderLayout;
 
@@ -42,11 +42,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterElementPanel;
-import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterElementTreeNode;
-import com.leclercb.taskunifier.gui.components.searcheredit.filter.TaskFilterPanel;
-import com.leclercb.taskunifier.gui.components.searcheredit.searcher.TaskSearcherPanel;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.filter.TaskFilterElementPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.filter.TaskFilterElementTreeNode;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.filter.TaskFilterPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.searcher.TaskSearcherPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherEditPanel extends JPanel implements TreeSelectionListener {

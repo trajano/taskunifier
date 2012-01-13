@@ -40,7 +40,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSorterXMLCoder;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 

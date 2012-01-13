@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit.sorter.draganddrop;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.draganddrop;
 
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSorterTransferable;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.TaskSorterTable;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.TaskSorterTable;
 
 public class TaskSorterTransferHandler extends TransferHandler {
 	

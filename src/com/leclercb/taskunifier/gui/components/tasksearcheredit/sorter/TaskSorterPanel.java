@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

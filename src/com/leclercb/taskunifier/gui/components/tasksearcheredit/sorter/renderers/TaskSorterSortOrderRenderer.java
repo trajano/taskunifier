@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.renderers;
 
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;

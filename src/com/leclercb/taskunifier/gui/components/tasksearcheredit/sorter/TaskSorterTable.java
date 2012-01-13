@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit.sorter;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +50,9 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorterElement;
 import com.leclercb.taskunifier.gui.commons.values.StringValueSortOrder;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.draganddrop.TaskSorterTransferHandler;
-import com.leclercb.taskunifier.gui.components.searcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.draganddrop.TaskSorterTransferHandler;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.renderers.TaskSorterSortOrderRenderer;
 
 public class TaskSorterTable extends JTable {
 	

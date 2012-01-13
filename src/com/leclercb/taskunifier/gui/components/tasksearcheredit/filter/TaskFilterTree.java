@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.searcheredit.filter;
+package com.leclercb.taskunifier.gui.components.tasksearcheredit.filter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
