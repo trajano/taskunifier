@@ -51,11 +51,11 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class SearcherEditDialog extends JDialog {
+public class TaskSearcherEditDialog extends JDialog {
 	
-	private SearcherEditPanel searcherEditPanel;
+	private TaskSearcherEditPanel searcherEditPanel;
 	
-	public SearcherEditDialog(Frame frame, TaskSearcher searcher) {
+	public TaskSearcherEditDialog(Frame frame, TaskSearcher searcher) {
 		super(frame);
 		
 		this.initialize(searcher);
@@ -76,7 +76,7 @@ public class SearcherEditDialog extends JDialog {
 		header.setDescription(Translations.getString("header.description.edit_searcher"));
 		header.setIcon(ImageUtils.getResourceImage("search.png", 32, 32));
 		
-		this.searcherEditPanel = new SearcherEditPanel(searcher);
+		this.searcherEditPanel = new TaskSearcherEditPanel(searcher);
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);
@@ -90,9 +90,9 @@ public class SearcherEditDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					SearcherEditDialog.this.searcherEditPanel.close();
+					TaskSearcherEditDialog.this.searcherEditPanel.close();
 					ViewType.getTaskView().getTaskTableView().refreshTasks();
-					SearcherEditDialog.this.dispose();
+					TaskSearcherEditDialog.this.dispose();
 				}
 			}
 			

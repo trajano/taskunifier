@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.gui.components.tasksearcheredit.searcher.TaskSea
 import com.leclercb.taskunifier.gui.components.tasksearcheredit.sorter.TaskSorterPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
+public class TaskSearcherEditPanel extends JPanel implements TreeSelectionListener {
 	
 	private TaskSearcher searcher;
 	
@@ -58,7 +58,7 @@ public class SearcherEditPanel extends JPanel implements TreeSelectionListener {
 	private TaskSorterPanel sorterPanel;
 	private TaskFilterPanel filterPanel;
 	
-	public SearcherEditPanel(TaskSearcher searcher) {
+	public TaskSearcherEditPanel(TaskSearcher searcher) {
 		this.searcher = searcher;
 		
 		this.initialize();
