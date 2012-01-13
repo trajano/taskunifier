@@ -49,6 +49,11 @@ public class DummyPlugin implements SynchronizerPlugin {
 	}
 	
 	@Override
+	public boolean isSynchronizer() {
+		return true;
+	}
+	
+	@Override
 	public String getId() {
 		return "0";
 	}

@@ -83,6 +83,10 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 		
 		this.toolBar.add(this.addAction);
 		this.toolBar.add(this.removeAction);
+		this.toolBar.add(new ActionManageModels(
+				16,
+				16,
+				ModelConfigurationTab.CONTACTS));
 		this.toolBar.add(Help.getHelpButton("task_contacts"));
 		
 		this.add(

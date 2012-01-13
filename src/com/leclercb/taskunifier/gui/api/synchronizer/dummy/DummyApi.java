@@ -93,8 +93,10 @@ public class DummyApi extends SynchronizerApi {
 	@Override
 	public Synchronizer getSynchronizer(
 			Properties properties,
-			Connection connection) {
-		return null;
+			Connection connection) throws SynchronizerException {
+		throw new SynchronizerException(
+				true,
+				Translations.getString("synchronizer.select_an_api"));
 	}
 	
 	@Override
