@@ -66,7 +66,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 		this.elements = new ArrayList<SE>();
 	}
 	
-	public int getIndexOf(TaskSorterElement element) {
+	public int getIndexOf(SE element) {
 		return this.elements.indexOf(element);
 	}
 	

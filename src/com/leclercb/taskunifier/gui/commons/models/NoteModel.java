@@ -30,53 +30,29 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.api.searchers;
+package com.leclercb.taskunifier.gui.commons.models;
 
-import com.leclercb.taskunifier.gui.translations.Translations;
+import java.util.List;
 
-public enum NoteSearcherType {
+import com.leclercb.taskunifier.api.models.Note;
+import com.leclercb.taskunifier.api.models.NoteFactory;
+
+public class NoteModel extends AbstractModelSortedModel {
 	
-	DEFAULT(false, false, ""),
-	FOLDER(false, false, Translations.getString("general.folders")),
-	PERSONAL(true, true, Translations.getString("searcherlist.personal"));
-	
-	private boolean editable;
-	private boolean deletable;
-	private String label;
-	
-	private NoteSearcherType(boolean editable, boolean deletable, String label) {
-		this.setEditable(editable);
-		this.setDeletable(deletable);
-		this.setLabel(label);
+	public NoteModel(boolean firstNull) {
+		this.initialize(firstNull);
 	}
 	
-	public boolean isEditable() {
-		return this.editable;
-	}
-	
-	private void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-	
-	public boolean isDeletable() {
-		return this.deletable;
-	}
-	
-	private void setDeletable(boolean deletable) {
-		this.deletable = deletable;
-	}
-	
-	public String getLabel() {
-		return this.label;
-	}
-	
-	private void setLabel(String label) {
-		this.label = label;
-	}
-	
-	@Override
-	public String toString() {
-		return this.label;
+	private void initialize(boolean firstNull) {
+		if (firstNull)
+			this.addElement(null);
+		
+		List<Note> notes = NoteFactory.getInstance().getList();
+		for (Note note : notes)
+			this.addElement(note);
+		
+		NoteFactory.getInstance().addListChangeListener(this);
+		NoteFactory.getInstance().addPropertyChangeListener(this);
 	}
 	
 }
