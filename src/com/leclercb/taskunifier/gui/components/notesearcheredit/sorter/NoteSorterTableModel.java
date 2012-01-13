@@ -80,11 +80,11 @@ public class NoteSorterTableModel extends DefaultTableModel implements ListChang
 	public String getColumnName(int col) {
 		switch (col) {
 			case 0:
-				return Translations.getString("note_sorter.order");
+				return Translations.getString("sorter.order");
 			case 1:
-				return Translations.getString("note_sorter.column");
+				return Translations.getString("sorter.column");
 			case 2:
-				return Translations.getString("note_sorter.sort_order");
+				return Translations.getString("sorter.sort_order");
 			default:
 				return null;
 		}

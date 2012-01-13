@@ -28,6 +28,12 @@
 
 		<tocitem text="Calendar" target="view_calendar" />
 
+		<tocitem text="Notes">
+		
+			<tocitem text="Note Searcher" target="note_searcher" />
+		
+		</tocitem>
+
 		<tocitem text="Tasks" target="view_tasks">
 		
 			<tocitem text="Manage Task Templates" target="manage_task_templates" />

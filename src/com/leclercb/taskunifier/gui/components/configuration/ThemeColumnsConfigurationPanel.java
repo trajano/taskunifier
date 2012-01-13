@@ -32,6 +32,12 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -48,14 +54,26 @@ public class ThemeColumnsConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
-		for (TaskColumn taskColumn : TaskColumn.values()) {
+		List<TaskColumn> columns = new ArrayList<TaskColumn>(
+				Arrays.asList(TaskColumn.values()));
+		
+		Collections.sort(columns, new Comparator<TaskColumn>() {
+			
+			@Override
+			public int compare(TaskColumn c1, TaskColumn c2) {
+				return c1.getLabel().compareTo(c2.getLabel());
+			}
+			
+		});
+		
+		for (TaskColumn column : columns) {
 			this.addField(new ConfigurationField(
-					taskColumn.name(),
-					taskColumn.getLabel(),
+					column.name(),
+					column.getLabel(),
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"taskcolumn."
-									+ taskColumn.name().toLowerCase()
+									+ column.name().toLowerCase()
 									+ ".visible")));
 		}
 	}

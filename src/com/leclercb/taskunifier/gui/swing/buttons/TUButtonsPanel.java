@@ -6,6 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.leclercb.commons.gui.swing.layouts.WrapLayout;
+
 public class TUButtonsPanel extends JPanel {
 	
 	private boolean removeText;
@@ -18,7 +20,7 @@ public class TUButtonsPanel extends JPanel {
 		this.removeText = removeText;
 		
 		this.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
-		this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		this.setLayout(new WrapLayout(FlowLayout.RIGHT));
 		
 		if (buttons == null)
 			return;

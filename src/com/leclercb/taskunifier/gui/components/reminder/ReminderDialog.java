@@ -72,7 +72,7 @@ public class ReminderDialog extends JFrame {
 	private void initialize() {
 		this.setTitle(Translations.getString("general.task.reminder"));
 		this.setIconImage(ImageUtils.getResourceImage("logo.png", 16, 16).getImage());
-		this.setSize(600, 350);
+		this.setSize(700, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);

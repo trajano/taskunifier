@@ -216,94 +216,94 @@ public final class TranslationsUtils {
 		if (condition instanceof CalendarCondition) {
 			switch ((CalendarCondition) condition) {
 				case AFTER:
-					return Translations.getString("task_filter_condition.after");
+					return Translations.getString("filter_condition.after");
 				case BEFORE:
-					return Translations.getString("task_filter_condition.before");
+					return Translations.getString("filter_condition.before");
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 			}
 		}
 		
 		if (condition instanceof DaysCondition) {
 			switch ((DaysCondition) condition) {
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 				case LESS_THAN:
-					return Translations.getString("task_filter_condition.before");
+					return Translations.getString("filter_condition.before");
 				case LESS_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.before_or_equals");
+					return Translations.getString("filter_condition.before_or_equals");
 				case LESS_THAN_USING_TIME:
-					return Translations.getString("task_filter_condition.before_using_time");
+					return Translations.getString("filter_condition.before_using_time");
 				case GREATER_THAN:
-					return Translations.getString("task_filter_condition.after");
+					return Translations.getString("filter_condition.after");
 				case GREATER_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.after_or_equals");
+					return Translations.getString("filter_condition.after_or_equals");
 				case GREATER_THAN_USING_TIME:
-					return Translations.getString("task_filter_condition.after_using_time");
+					return Translations.getString("filter_condition.after_using_time");
 				case WEEK_EQUALS:
-					return Translations.getString("task_filter_condition.week_equals");
+					return Translations.getString("filter_condition.week_equals");
 				case MONTH_EQUALS:
-					return Translations.getString("task_filter_condition.month_equals");
+					return Translations.getString("filter_condition.month_equals");
 			}
 		}
 		
 		if (condition instanceof EnumCondition) {
 			switch ((EnumCondition) condition) {
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 				case LESS_THAN:
-					return Translations.getString("task_filter_condition.less_than");
+					return Translations.getString("filter_condition.less_than");
 				case LESS_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.less_than_or_equals");
+					return Translations.getString("filter_condition.less_than_or_equals");
 				case GREATER_THAN:
-					return Translations.getString("task_filter_condition.greater_than");
+					return Translations.getString("filter_condition.greater_than");
 				case GREATER_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.greater_than_or_equals");
+					return Translations.getString("filter_condition.greater_than_or_equals");
 				case NOT_EQUALS:
-					return Translations.getString("task_filter_condition.not_equals");
+					return Translations.getString("filter_condition.not_equals");
 			}
 		}
 		
 		if (condition instanceof ModelCondition) {
 			switch ((ModelCondition) condition) {
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 				case NOT_EQUALS:
-					return Translations.getString("task_filter_condition.not_equals");
+					return Translations.getString("filter_condition.not_equals");
 			}
 		}
 		
 		if (condition instanceof NumberCondition) {
 			switch ((NumberCondition) condition) {
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 				case LESS_THAN:
-					return Translations.getString("task_filter_condition.less_than");
+					return Translations.getString("filter_condition.less_than");
 				case LESS_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.less_than_or_equals");
+					return Translations.getString("filter_condition.less_than_or_equals");
 				case GREATER_THAN:
-					return Translations.getString("task_filter_condition.greater_than");
+					return Translations.getString("filter_condition.greater_than");
 				case GREATER_THAN_OR_EQUALS:
-					return Translations.getString("task_filter_condition.greater_than_or_equals");
+					return Translations.getString("filter_condition.greater_than_or_equals");
 				case NOT_EQUALS:
-					return Translations.getString("task_filter_condition.not_equals");
+					return Translations.getString("filter_condition.not_equals");
 			}
 		}
 		
 		if (condition instanceof StringCondition) {
 			switch ((StringCondition) condition) {
 				case CONTAINS:
-					return Translations.getString("task_filter_condition.contains");
+					return Translations.getString("filter_condition.contains");
 				case DOES_NOT_CONTAIN:
-					return Translations.getString("task_filter_condition.does_not_contain");
+					return Translations.getString("filter_condition.does_not_contain");
 				case EQUALS:
-					return Translations.getString("task_filter_condition.equals");
+					return Translations.getString("filter_condition.equals");
 				case ENDS_WITH:
-					return Translations.getString("task_filter_condition.ends_with");
+					return Translations.getString("filter_condition.ends_with");
 				case NOT_EQUALS:
-					return Translations.getString("task_filter_condition.not_equals");
+					return Translations.getString("filter_condition.not_equals");
 				case STARTS_WITH:
-					return Translations.getString("task_filter_condition.starts_with");
+					return Translations.getString("filter_condition.starts_with");
 			}
 		}
 		

@@ -80,11 +80,11 @@ public class TaskSorterTableModel extends DefaultTableModel implements ListChang
 	public String getColumnName(int col) {
 		switch (col) {
 			case 0:
-				return Translations.getString("task_sorter.order");
+				return Translations.getString("sorter.order");
 			case 1:
-				return Translations.getString("task_sorter.column");
+				return Translations.getString("sorter.column");
 			case 2:
-				return Translations.getString("task_sorter.sort_order");
+				return Translations.getString("sorter.sort_order");
 			default:
 				return null;
 		}
