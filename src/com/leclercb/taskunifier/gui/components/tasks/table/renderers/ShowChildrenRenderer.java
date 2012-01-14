@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -73,7 +74,13 @@ public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 		
 		GuiTask task = (GuiTask) ((TaskTable) table).getTask(row);
 		
-		if (task.getChildren().length != 0)
+		int count = 0;
+		for (Task child : task.getChildren()) {
+			if (child.getModelStatus().isEndUserStatus())
+				count++;
+		}
+		
+		if (count != 0)
 			if (task.isShowChildren())
 				this.setIcon(ImageUtils.getResourceImage(
 						"tree_expanded.png",

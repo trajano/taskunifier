@@ -106,24 +106,29 @@ public class RepeatUtils {
 				dueDate = getNextRepeatDate(repeat, completedOn);
 			}
 			
-			if (task.getStartDate() == null || task.getDueDate() == null) {
-				if (task.getStartDate() != null) {
-					startDate = DateUtils.cloneCalendar(task.getStartDate());
-					Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
-					completedOn.set(
-							completedOn.get(Calendar.YEAR),
-							completedOn.get(Calendar.MONTH),
-							completedOn.get(Calendar.DAY_OF_MONTH),
-							startDate.get(Calendar.HOUR_OF_DAY),
-							startDate.get(Calendar.MINUTE),
-							startDate.get(Calendar.SECOND));
-					
-					startDate = getNextRepeatDate(repeat, completedOn);
-				}
-			} else {
+			if (task.getStartDate() != null && task.getDueDate() == null) {
+				startDate = DateUtils.cloneCalendar(task.getStartDate());
+				Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
+				completedOn.set(
+						completedOn.get(Calendar.YEAR),
+						completedOn.get(Calendar.MONTH),
+						completedOn.get(Calendar.DAY_OF_MONTH),
+						startDate.get(Calendar.HOUR_OF_DAY),
+						startDate.get(Calendar.MINUTE),
+						startDate.get(Calendar.SECOND));
+				
+				startDate = getNextRepeatDate(repeat, completedOn);
+			}
+			
+			if (task.getStartDate() != null && task.getDueDate() != null) {
 				startDate = Calendar.getInstance();
 				startDate.setTimeInMillis(dueDate.getTimeInMillis()
 						- (task.getDueDate().getTimeInMillis() - task.getStartDate().getTimeInMillis()));
+			}
+			
+			if (task.getStartDate() == null && task.getDueDate() == null) {
+				Calendar completedOn = DateUtils.cloneCalendar(task.getCompletedOn());
+				dueDate = getNextRepeatDate(repeat, completedOn);
 			}
 		}
 		
