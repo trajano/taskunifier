@@ -81,6 +81,10 @@ public class UserList extends JPanel {
 				BorderLayout.CENTER);
 	}
 	
+	public JXList getList() {
+		return this.userList;
+	}
+	
 	public String getSelectedUser() {
 		return (String) this.userList.getSelectedValue();
 	}

@@ -42,11 +42,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -57,6 +60,7 @@ import com.leclercb.taskunifier.gui.utils.UserUtils;
 public class UserPanel extends JPanel {
 	
 	public static final String ACTION_CHANGE_USER_NAME = "ACTION_CHANGE_USER_NAME";
+	public static final String ACTION_SWITCH_TO_USER = "ACTION_SWITCH_TO_USER";
 	public static final String ACTION_CREATE_NEW_USER = "ACTION_CREATE_NEW_USER";
 	public static final String ACTION_DELETE_USER = "ACTION_DELETE_USER";
 	
@@ -64,6 +68,10 @@ public class UserPanel extends JPanel {
 	
 	private JTextField userName;
 	private UserList userList;
+	
+	private JButton switchToUserButton;
+	private JButton createNewUserButton;
+	private JButton deleteUserButton;
 	
 	public UserPanel() {
 		this.actionSupport = new ActionSupport(this);
@@ -93,6 +101,8 @@ public class UserPanel extends JPanel {
 		
 		UserUtils.getInstance().setUserName(user, this.userName.getText());
 		this.userName.setText("");
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_CHANGE_USER_NAME);
 	}
 	
 	public void createNewUser() {
@@ -106,6 +116,8 @@ public class UserPanel extends JPanel {
 			return;
 		
 		UserUtils.getInstance().createNewUser(userName);
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_CREATE_NEW_USER);
 	}
 	
 	public void deleteUser() {
@@ -136,6 +148,8 @@ public class UserPanel extends JPanel {
 			return;
 		
 		UserUtils.getInstance().deleteUser(user);
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_DELETE_USER);
 	}
 	
 	public void switchToUser() {
@@ -147,6 +161,8 @@ public class UserPanel extends JPanel {
 		}
 		
 		Main.changeUser(user);
+		
+		this.actionSupport.fireActionPerformed(0, ACTION_SWITCH_TO_USER);
 	}
 	
 	private void selectUser() {
@@ -182,16 +198,45 @@ public class UserPanel extends JPanel {
 		this.add(this.userList, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
+		
+		this.userList.getList().addListSelectionListener(
+				new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent evt) {
+						boolean isMainUser = EqualsUtils.equals(
+								UserPanel.this.userList.getSelectedUser(),
+								Main.getUserId());
+						
+						UserPanel.this.switchToUserButton.setEnabled(!isMainUser);
+						UserPanel.this.deleteUserButton.setEnabled(!isMainUser);
+					}
+					
+				});
+		
+		this.actionSupport.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				boolean isMainUser = EqualsUtils.equals(
+						UserPanel.this.userList.getSelectedUser(),
+						Main.getUserId());
+				
+				UserPanel.this.switchToUserButton.setEnabled(!isMainUser);
+				UserPanel.this.deleteUserButton.setEnabled(!isMainUser);
+			}
+			
+		});
 	}
 	
 	private void initializeButtonsPanel() {
-		JButton switchToUserButton = new JButton(new SwitchToUserAction());
-		JButton createNewUserButton = new JButton(new CreateNewUserAction());
-		JButton deleteUserButton = new JButton(new DeleteUserAction());
+		this.switchToUserButton = new JButton(new SwitchToUserAction());
+		this.createNewUserButton = new JButton(new CreateNewUserAction());
+		this.deleteUserButton = new JButton(new DeleteUserAction());
 		JPanel panel = new TUButtonsPanel(
-				switchToUserButton,
-				createNewUserButton,
-				deleteUserButton);
+				this.switchToUserButton,
+				this.createNewUserButton,
+				this.deleteUserButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}
