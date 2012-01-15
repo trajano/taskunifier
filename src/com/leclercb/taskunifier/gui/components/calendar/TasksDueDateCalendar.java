@@ -79,8 +79,8 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			if (length < 30)
 				length = 30;
 			
-			Calendar start = DateUtils.cloneCalendar(dueDate);
-			start.add(Calendar.MINUTE, -length);
+			Calendar startDate = DateUtils.cloneCalendar(dueDate);
+			startDate.add(Calendar.MINUTE, -length);
 			
 			Event event = new Event();
 			event.setId(task.getModelId());
@@ -93,7 +93,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 					+ "</i><br />"
 					+ TaskUtils.toText(new Task[] { task }, c, true)
 					+ "</html>");
-			event.setStart(start.getTime());
+			event.setStart(startDate.getTime());
 			event.setEnd(dueDate.getTime());
 			event.setColor(Main.getSettings().getColorProperty(
 					"theme.color.importance." + TaskUtils.getImportance(task)));
