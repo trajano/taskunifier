@@ -45,9 +45,12 @@ import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerSettingsException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerDefaultProgressMessage;
+import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionSave;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -202,12 +205,12 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 					Calendar.getInstance());
 			
 			SYNCHRONIZE_COUNT++;
-		} catch (final InterruptedException e) {
+		} catch (InterruptedException e) {
 			return null;
-		} catch (final SynchronizerException e) {
+		} catch (SynchronizerException e) {
 			this.handleSynchronizerException(e);
 			return null;
-		} catch (final Throwable t) {
+		} catch (Throwable t) {
 			this.handleThrowable(t);
 			return null;
 		} finally {
@@ -266,6 +269,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 						null);
 				
 				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				
+				if (e instanceof SynchronizerSettingsException)
+					ActionConfiguration.configuration(ConfigurationTab.PLUGIN);
 			}
 			
 		});
