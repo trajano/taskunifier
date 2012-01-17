@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import javax.swing.AbstractAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -21,7 +20,9 @@ import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
@@ -66,10 +67,10 @@ public class ActionAddQuickTask extends AbstractAction {
 			boolean edit) {
 		CheckUtils.isNotNull(task);
 		
-		if (template == null)
-			template = new TaskTemplate();
-		else
-			template = template.clone();
+		TaskBean bean = new TaskBean();
+		
+		if (template != null)
+			template.applyTo(bean);
 		
 		task = task.trim();
 		
@@ -81,7 +82,7 @@ public class ActionAddQuickTask extends AbstractAction {
 		
 		String title = matcher.group();
 		
-		template.setTitle(title.trim());
+		bean.setTitle(title.trim());
 		
 		char lastChar = title.charAt(title.length() - 1);
 		
@@ -93,7 +94,7 @@ public class ActionAddQuickTask extends AbstractAction {
 			
 			if (lastChar != ' ') {
 				lastChar = s.charAt(s.length() - 1);
-				template.setTitle(template.getTitle() + s.trim());
+				bean.setTitle(bean.getTitle() + s.trim());
 				continue;
 			}
 			
@@ -104,32 +105,32 @@ public class ActionAddQuickTask extends AbstractAction {
 			s = s.substring(1).trim();
 			
 			if (c == '&') { // Tag
-				if (template.getTaskTags() != null)
-					template.setTaskTags(template.getTaskTags() + ", " + s);
+				if (bean.getTags() != null)
+					bean.getTags().addTag(s);
 				else
-					template.setTaskTags(s);
+					bean.setTags(TagList.fromString(s));
 			} else if (c == '@') { // Context, Folder, Goal, Location
-				findModel(s, template);
+				findModel(s, bean);
 			} else if (c == '*') { // Priority, Status
-				findStatusPriority(s, template);
+				findStatusPriority(s, bean);
 			} else if (c == '>') { // Start Date
-				findDate(s, true, template);
+				findDate(s, true, bean);
 			} else if (c == '<') { // Due Date
-				findDate(s, false, template);
+				findDate(s, false, bean);
 			}
 		}
 		
-		return ActionAddTask.addTask(template, title, edit);
+		return ActionAddTask.addTask(bean, edit);
 	}
 	
-	private static void findModel(String title, TaskTemplate template) {
+	private static void findModel(String title, TaskBean bean) {
 		Model model = null;
 		
-		if (template.getTaskContext() == null) {
+		if (bean.getContext() == null) {
 			List<Context> contexts = ContextFactory.getInstance().getList();
 			for (Context context : contexts) {
 				if (context.getTitle().equalsIgnoreCase(title)) {
-					template.setTaskContext(context);
+					bean.setContext(context.getModelId());
 					return;
 				}
 				
@@ -142,11 +143,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (template.getTaskFolder() == null) {
+		if (bean.getFolder() == null) {
 			List<Folder> folders = FolderFactory.getInstance().getList();
 			for (Folder folder : folders) {
 				if (folder.getTitle().equalsIgnoreCase(title)) {
-					template.setTaskFolder(folder);
+					bean.setFolder(folder.getModelId());
 					return;
 				}
 				
@@ -159,11 +160,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (template.getTaskGoal() == null) {
+		if (bean.getGoal() == null) {
 			List<Goal> goals = GoalFactory.getInstance().getList();
 			for (Goal goal : goals) {
 				if (goal.getTitle().equalsIgnoreCase(title)) {
-					template.setTaskGoal(goal);
+					bean.setGoal(goal.getModelId());
 					return;
 				}
 				
@@ -176,11 +177,11 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		if (template.getTaskLocation() == null) {
+		if (bean.getLocation() == null) {
 			List<Location> locations = LocationFactory.getInstance().getList();
 			for (Location location : locations) {
 				if (location.getTitle().equalsIgnoreCase(title)) {
-					template.setTaskLocation(location);
+					bean.setLocation(location.getModelId());
 					return;
 				}
 				
@@ -194,21 +195,21 @@ public class ActionAddQuickTask extends AbstractAction {
 		}
 		
 		if (model instanceof Context)
-			template.setTaskContext((Context) model);
+			bean.setContext(model.getModelId());
 		else if (model instanceof Folder)
-			template.setTaskFolder((Folder) model);
+			bean.setFolder(model.getModelId());
 		else if (model instanceof Goal)
-			template.setTaskGoal((Goal) model);
+			bean.setGoal(model.getModelId());
 		else if (model instanceof Location)
-			template.setTaskLocation((Location) model);
+			bean.setLocation(model.getModelId());
 	}
 	
-	private static void findStatusPriority(String title, TaskTemplate template) {
+	private static void findStatusPriority(String title, TaskBean bean) {
 		for (TaskStatus status : TaskStatus.values()) {
 			String s = TranslationsUtils.translateTaskStatus(status);
 			
 			if (s.toLowerCase().startsWith(title.toLowerCase())) {
-				template.setTaskStatus(status);
+				bean.setStatus(status);
 				return;
 			}
 		}
@@ -217,16 +218,13 @@ public class ActionAddQuickTask extends AbstractAction {
 			String p = TranslationsUtils.translateTaskPriority(priority);
 			
 			if (p.toLowerCase().startsWith(title.toLowerCase())) {
-				template.setTaskPriority(priority);
+				bean.setPriority(priority);
 				return;
 			}
 		}
 	}
 	
-	private static void findDate(
-			String title,
-			boolean startDate,
-			TaskTemplate template) {
+	private static void findDate(String title, boolean startDate, TaskBean bean) {
 		String dateFormat = Main.getSettings().getStringProperty(
 				"date.date_format");
 		String timeFormat = Main.getSettings().getStringProperty(
@@ -278,15 +276,10 @@ public class ActionAddQuickTask extends AbstractAction {
 				
 			}
 			
-			double diffDays = DateUtils.getDiffInDays(
-					Calendar.getInstance(),
-					date,
-					false);
-			
 			if (startDate)
-				template.setTaskStartDate((int) diffDays);
+				bean.setStartDate(date);
 			else
-				template.setTaskDueDate((int) diffDays);
+				bean.setDueDate(date);
 			
 			return;
 		}
@@ -300,21 +293,10 @@ public class ActionAddQuickTask extends AbstractAction {
 				Calendar date = Calendar.getInstance();
 				date.setTime(format.parse(title));
 				
-				double diffDays = DateUtils.getDiffInDays(
-						Calendar.getInstance(),
-						date,
-						false);
-				
-				int minutes = (date.get(Calendar.HOUR_OF_DAY) * 60)
-						+ date.get(Calendar.MINUTE);
-				
-				if (startDate) {
-					template.setTaskStartDate((int) diffDays);
-					template.setTaskStartTime(minutes);
-				} else {
-					template.setTaskDueDate((int) diffDays);
-					template.setTaskDueTime(minutes);
-				}
+				if (startDate)
+					bean.setStartDate(date);
+				else
+					bean.setDueDate(date);
 				
 				return;
 			} catch (ParseException e) {
