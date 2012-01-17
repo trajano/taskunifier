@@ -3,6 +3,10 @@ package com.leclercb.taskunifier.gui.api.models.beans;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.leclercb.taskunifier.api.models.templates.NoteTemplateFactory;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ComNoteBeanWithTemplateConverter;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ComTaskBeanWithTemplateConverter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -88,6 +92,16 @@ public class ComBean {
 		xstream.alias("task", ComTaskBean.class);
 		xstream.alias("quicktask", ComQuickTaskBean.class);
 		
+		xstream.registerConverter(new ComNoteBeanWithTemplateConverter(
+				xstream.getMapper(),
+				xstream.getReflectionProvider(),
+				NoteTemplateFactory.getInstance().getDefaultTemplate()));
+		
+		xstream.registerConverter(new ComTaskBeanWithTemplateConverter(
+				xstream.getMapper(),
+				xstream.getReflectionProvider(),
+				TaskTemplateFactory.getInstance().getDefaultTemplate()));
+		
 		xstream.toXML(bean, output);
 	}
 	
@@ -100,6 +114,16 @@ public class ComBean {
 		xstream.alias("note", ComNoteBean.class);
 		xstream.alias("task", ComTaskBean.class);
 		xstream.alias("quicktask", ComQuickTaskBean.class);
+		
+		xstream.registerConverter(new ComNoteBeanWithTemplateConverter(
+				xstream.getMapper(),
+				xstream.getReflectionProvider(),
+				NoteTemplateFactory.getInstance().getDefaultTemplate()));
+		
+		xstream.registerConverter(new ComTaskBeanWithTemplateConverter(
+				xstream.getMapper(),
+				xstream.getReflectionProvider(),
+				TaskTemplateFactory.getInstance().getDefaultTemplate()));
 		
 		return (ComBean) xstream.fromXML(input);
 	}

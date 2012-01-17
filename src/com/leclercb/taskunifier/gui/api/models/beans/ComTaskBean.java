@@ -1,6 +1,5 @@
 package com.leclercb.taskunifier.gui.api.models.beans;
 
-import java.io.InputStream;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Context;
@@ -15,10 +14,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
-import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ComTaskBean extends GuiTaskBean {
 	
@@ -273,17 +269,6 @@ public class ComTaskBean extends GuiTaskBean {
 					this.setParentTitle(null);
 			}
 		}
-	}
-	
-	public static ComTaskBean decodeFromXML(InputStream input) {
-		XStream xstream = new XStream(
-				new PureJavaReflectionProvider(),
-				new DomDriver("UTF-8"));
-		xstream.setMode(XStream.NO_REFERENCES);
-		xstream.alias("task", ComTaskBean.class);
-		xstream.processAnnotations(ComTaskBean.class);
-		
-		return (ComTaskBean) xstream.fromXML(input);
 	}
 	
 }
