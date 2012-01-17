@@ -54,7 +54,8 @@ public class ImportComFileDialog extends AbstractImportDialog {
 				Translations.getString("action.import_com_file"),
 				false,
 				"tue",
-				Translations.getString("general.tue_files"));
+				Translations.getString("general.tue_files"),
+				"import.com_file.file_name");
 	}
 	
 	@Override

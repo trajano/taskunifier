@@ -64,7 +64,8 @@ public class ImportVCardDialog extends AbstractImportDialog {
 				Translations.getString("action.import_vcard"),
 				false,
 				"vcf",
-				Translations.getString("general.vcard_files"));
+				Translations.getString("general.vcard_files"),
+				"import.vcard.file_name");
 	}
 	
 	@Override

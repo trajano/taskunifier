@@ -60,7 +60,8 @@ public class ExportVCardDialog extends AbstractExportDialog {
 		super(
 				Translations.getString("action.export_vcard"),
 				"vcf",
-				Translations.getString("general.vcard_files"));
+				Translations.getString("general.vcard_files"),
+				"export.vcard.file_name");
 	}
 	
 	@Override

@@ -54,7 +54,8 @@ public class ImportNoteSearchersDialog extends AbstractImportDialog {
 				Translations.getString("action.import_note_searchers"),
 				true,
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"import.note_searchers.file_name");
 	}
 	
 	@Override

@@ -52,6 +52,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -65,12 +66,14 @@ abstract class AbstractImportDialog extends JDialog {
 	private JCheckBox deleteExistingValues;
 	private String fileExtention;
 	private String fileExtentionDescription;
+	private String fileProperty;
 	
 	public AbstractImportDialog(
 			String title,
 			boolean showDeleteExistingValues,
 			String fileExtention,
-			String fileExtentionDescription) {
+			String fileExtentionDescription,
+			String fileProperty) {
 		super(MainFrame.getInstance().getFrame());
 		
 		CheckUtils.isNotNull(fileExtention);
@@ -78,6 +81,7 @@ abstract class AbstractImportDialog extends JDialog {
 		
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;
+		this.fileProperty = fileProperty;
 		
 		this.initialize(title, showDeleteExistingValues);
 	}
@@ -132,9 +136,15 @@ abstract class AbstractImportDialog extends JDialog {
 			
 		};
 		
+		String defaultFile = null;
+		
+		if (this.fileProperty != null)
+			defaultFile = Main.getSettings().getStringProperty(
+					this.fileProperty);
+		
 		this.fileField = new TUFileField(
 				true,
-				null,
+				defaultFile,
 				JFileChooser.FILES_ONLY,
 				fileFilter,
 				null);
@@ -164,12 +174,17 @@ abstract class AbstractImportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("IMPORT")) {
 					try {
+						if (AbstractImportDialog.this.fileProperty != null)
+							Main.getSettings().setStringProperty(
+									AbstractImportDialog.this.fileProperty,
+									AbstractImportDialog.this.fileField.getFile());
+						
 						if (AbstractImportDialog.this.deleteExistingValues.isSelected())
 							AbstractImportDialog.this.deleteExistingValue();
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.fileField.getFile());
 						
-						AbstractImportDialog.this.fileField.setFile(null);
+						// AbstractImportDialog.this.fileField.setFile(null);
 						AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {

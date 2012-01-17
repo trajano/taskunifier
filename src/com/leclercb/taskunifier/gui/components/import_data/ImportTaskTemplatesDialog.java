@@ -53,7 +53,8 @@ public class ImportTaskTemplatesDialog extends AbstractImportDialog {
 				Translations.getString("action.import_task_templates"),
 				true,
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"import.task_templates.file_name");
 	}
 	
 	@Override

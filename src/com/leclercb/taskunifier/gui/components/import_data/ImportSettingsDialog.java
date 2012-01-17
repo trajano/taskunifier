@@ -58,7 +58,8 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 				Translations.getString("action.import_settings"),
 				false,
 				"properties",
-				Translations.getString("general.properties_files"));
+				Translations.getString("general.properties_files"),
+				"import.settings.file_name");
 	}
 	
 	@Override
@@ -70,8 +71,10 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 	protected void importFromFile(String file) throws Exception {
 		String[] toImport = new String[] {
 				"date",
+				"export",
 				"general.locale",
 				"general.toolbar",
+				"import",
 				"notecolumn",
 				"notesearcher",
 				"proxy",

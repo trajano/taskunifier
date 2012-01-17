@@ -52,7 +52,8 @@ public class ExportSettingsDialog extends AbstractExportDialog {
 		super(
 				Translations.getString("action.export_settings"),
 				"properties",
-				Translations.getString("general.properties_files"));
+				Translations.getString("general.properties_files"),
+				"export.settings.file_name");
 	}
 	
 	@Override

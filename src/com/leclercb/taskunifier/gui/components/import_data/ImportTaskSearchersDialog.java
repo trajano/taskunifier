@@ -54,7 +54,8 @@ public class ImportTaskSearchersDialog extends AbstractImportDialog {
 				Translations.getString("action.import_task_searchers"),
 				true,
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"import.task_searchers.file_name");
 	}
 	
 	@Override

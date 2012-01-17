@@ -52,7 +52,8 @@ public class ExportTaskTemplatesDialog extends AbstractExportDialog {
 		super(
 				Translations.getString("action.export_task_templates"),
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"export.task_templates.file_name");
 	}
 	
 	@Override

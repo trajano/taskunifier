@@ -51,6 +51,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -63,11 +64,13 @@ abstract class AbstractExportDialog extends JDialog {
 	private TUFileField fileField;
 	private String fileExtention;
 	private String fileExtentionDescription;
+	private String fileProperty;
 	
 	public AbstractExportDialog(
 			String title,
 			String fileExtention,
-			String fileExtentionDescription) {
+			String fileExtentionDescription,
+			String fileProperty) {
 		super(MainFrame.getInstance().getFrame());
 		
 		CheckUtils.isNotNull(fileExtention);
@@ -75,6 +78,7 @@ abstract class AbstractExportDialog extends JDialog {
 		
 		this.fileExtention = fileExtention;
 		this.fileExtentionDescription = fileExtentionDescription;
+		this.fileProperty = fileProperty;
 		
 		this.initialize(title);
 	}
@@ -128,9 +132,15 @@ abstract class AbstractExportDialog extends JDialog {
 			
 		};
 		
+		String defaultFile = null;
+		
+		if (this.fileProperty != null)
+			defaultFile = Main.getSettings().getStringProperty(
+					this.fileProperty);
+		
 		this.fileField = new TUFileField(
 				false,
-				null,
+				defaultFile,
 				JFileChooser.FILES_ONLY,
 				fileFilter,
 				this.fileExtention);
@@ -150,8 +160,14 @@ abstract class AbstractExportDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("EXPORT")) {
 					try {
+						if (AbstractExportDialog.this.fileProperty != null)
+							Main.getSettings().setStringProperty(
+									AbstractExportDialog.this.fileProperty,
+									AbstractExportDialog.this.fileField.getFile());
+						
 						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.fileField.getFile());
-						AbstractExportDialog.this.fileField.setFile(null);
+						
+						// AbstractExportDialog.this.fileField.setFile(null);
 						AbstractExportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(

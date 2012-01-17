@@ -72,7 +72,8 @@ public class ImportModelsDialog extends AbstractImportDialog {
 				Translations.getString("action.import_models"),
 				true,
 				"zip",
-				Translations.getString("general.zip_files"));
+				Translations.getString("general.zip_files"),
+				"import.models.file_name");
 	}
 	
 	@Override

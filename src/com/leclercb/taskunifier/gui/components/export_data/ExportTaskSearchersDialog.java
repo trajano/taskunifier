@@ -52,7 +52,8 @@ public class ExportTaskSearchersDialog extends AbstractExportDialog {
 		super(
 				Translations.getString("action.export_task_searchers"),
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"export.task_searchers.file_name");
 	}
 	
 	@Override

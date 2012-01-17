@@ -52,7 +52,8 @@ public class ExportNoteSearchersDialog extends AbstractExportDialog {
 		super(
 				Translations.getString("action.export_note_searchers"),
 				"xml",
-				Translations.getString("general.xml_files"));
+				Translations.getString("general.xml_files"),
+				"export.note_searchers.file_name");
 	}
 	
 	@Override
