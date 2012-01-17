@@ -101,6 +101,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskTool
 import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
+import com.leclercb.taskunifier.gui.components.views.TaskView.InfoTab;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -309,7 +310,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		
 		this.initializeHeaderListener();
 		this.initializeDeleteTasks();
-		this.initializeEditNote();
+		this.initializeDoubleClick();
 		this.initializeTaskTableMenu();
 		this.initializeDragAndDrop();
 		this.initializeEnter();
@@ -428,7 +429,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		});
 	}
 	
-	private void initializeEditNote() {
+	private void initializeDoubleClick() {
 		this.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -444,8 +445,9 @@ public class TaskTable extends JXTable implements TaskTableView {
 						TaskColumn column = (TaskColumn) TaskTable.this.getColumn(
 								colIndex).getIdentifier();
 						
-						if (column == TaskColumn.NOTE
-								|| column == TaskColumn.MODEL_EDIT) {
+						if (column == TaskColumn.CONTACTS
+								|| column == TaskColumn.MODEL_EDIT
+								|| column == TaskColumn.NOTE) {
 							Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
 							
 							if (task == null)
@@ -454,12 +456,19 @@ public class TaskTable extends JXTable implements TaskTableView {
 							TaskTable.this.commitChanges();
 							TaskTable.this.setSelectedTasks(new Task[] { task });
 							
-							if (column == TaskColumn.NOTE) {
-								ViewType.getTaskView().getModelNoteView().edit();
+							if (column == TaskColumn.CONTACTS) {
+								ViewType.getTaskView().setSelectedInfoTab(
+										InfoTab.CONTACTS);
 							}
 							
 							if (column == TaskColumn.MODEL_EDIT) {
 								ActionEditTasks.editTasks(new Task[] { task });
+							}
+							
+							if (column == TaskColumn.NOTE) {
+								ViewType.getTaskView().setSelectedInfoTab(
+										InfoTab.NOTE);
+								ViewType.getTaskView().getModelNoteView().edit();
 							}
 						}
 					} catch (Exception e) {

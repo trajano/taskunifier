@@ -19,6 +19,7 @@ import org.jdesktop.swingx.JXSearchField;
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.help.Help;
@@ -52,6 +53,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private TaskTable taskTable;
 	private ModelNotePanel taskNote;
 	private TaskContactsPanel taskContacts;
+	private JTabbedPane infoTabbedPane;
 	
 	public DefaultTaskView(MainView mainView) {
 		this.initialize();
@@ -82,6 +84,12 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		return this.taskNote;
 	}
 	
+	@Override
+	public void setSelectedInfoTab(InfoTab tab) {
+		CheckUtils.isNotNull(tab);
+		this.infoTabbedPane.setSelectedIndex(tab.ordinal());
+	}
+	
 	private void initialize() {
 		Main.getSettings().addSavePropertiesListener(this);
 		
@@ -108,13 +116,13 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		JPanel middlePane = new JPanel();
 		middlePane.setLayout(new BorderLayout(5, 5));
 		
-		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.BOTTOM);
+		this.infoTabbedPane = new JTabbedPane(SwingConstants.BOTTOM);
 		
 		this.horizontalSplitPane.setLeftComponent(searcherPane);
 		this.horizontalSplitPane.setRightComponent(this.verticalSplitPane);
 		
 		this.verticalSplitPane.setTopComponent(middlePane);
-		this.verticalSplitPane.setBottomComponent(tabbedPane);
+		this.verticalSplitPane.setBottomComponent(this.infoTabbedPane);
 		
 		this.add(this.horizontalSplitPane, BorderLayout.CENTER);
 		
@@ -126,8 +134,8 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.initializeSearcherList(searcherPane);
 		this.initializeQuickAddTask(middlePane);
 		this.initializeTaskTable(middlePane);
-		this.initializeModelNote(tabbedPane);
-		this.initializeTaskContacts(tabbedPane);
+		this.initializeModelNote(this.infoTabbedPane);
+		this.initializeTaskContacts(this.infoTabbedPane);
 		
 		this.taskSearcherPanel.refreshTaskSearcher();
 	}
