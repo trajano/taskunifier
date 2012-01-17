@@ -51,7 +51,8 @@ public class ComTaskBeanWithTemplateConverter extends ReflectionConverter {
 		super(mapper, reflectionProvider);
 		this.template = template;
 	}
-	
+
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class cls) {
 		return ComTaskBean.class.isAssignableFrom(cls);
