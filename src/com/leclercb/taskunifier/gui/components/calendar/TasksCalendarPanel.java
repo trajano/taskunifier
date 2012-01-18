@@ -81,6 +81,12 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.eventDataList = new ObservableEventList();
 		
 		DayViewConfig config = new DayViewConfig();
+		
+		config.setDayFormat(Main.getSettings().getSimpleDateFormatProperty(
+				"date.date_format"));
+		config.setTimeFormat(Main.getSettings().getSimpleDateFormatProperty(
+				"date.time_format"));
+		
 		config.setStartView(new TimeOfDay(
 				Main.getSettings().getIntegerProperty("date.day_start_hour"),
 				0));
@@ -108,8 +114,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		this.dayViewPanel = new DayViewPanel(dayModel, config);
 		this.weekViewPanel = new DayViewPanel(weekModel, config);
-		this.monthViewPanel = new MonthViewPanel(monthModel);
-		this.listViewPanel = new WeekListViewPanel(listModel);
+		this.monthViewPanel = new MonthViewPanel(monthModel, config);
+		this.listViewPanel = new WeekListViewPanel(listModel, config);
 		
 		TasksCalendarListener calListener = new TasksCalendarListener();
 		
