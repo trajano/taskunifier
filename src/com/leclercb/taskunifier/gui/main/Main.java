@@ -223,11 +223,13 @@ public class Main {
 	}
 	
 	public static void main(final String[] args) {
-		try {
-			checkSingleInstance();
-		} catch (RuntimeException e) {
-			secondaryMain(args);
-			throw e;
+		if (!SystemUtils.IS_OS_MAC) {
+			try {
+				checkSingleInstance();
+			} catch (RuntimeException e) {
+				secondaryMain(args);
+				throw e;
+			}
 		}
 		
 		boolean outdatedPlugins;
