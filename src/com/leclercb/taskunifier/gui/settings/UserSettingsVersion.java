@@ -21,6 +21,9 @@ public final class UserSettingsVersion {
 		if (version.equals("1.8.7"))
 			version = updateUserSettings_1_8_7_to_2_0_0();
 		
+		if (version.equals("2.0.0"))
+			version = updateUserSettings_2_0_0_to_2_0_1();
+		
 		cleanSettings();
 		Main.saveUserSettings();
 	}
@@ -53,6 +56,13 @@ public final class UserSettingsVersion {
 		Main.getUserSettings().setStringProperty("general.user.name", "Default");
 		
 		return "2.0.0";
+	}
+	
+	private static String updateUserSettings_2_0_0_to_2_0_1() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.0.0 to 2.0.1");
+		
+		return "2.0.1";
 	}
 	
 }

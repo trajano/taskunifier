@@ -27,7 +27,9 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -67,10 +69,26 @@ public class ActionAddQuickTask extends AbstractAction {
 			boolean edit) {
 		CheckUtils.isNotNull(task);
 		
+		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		
+		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
+			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
+			viewType = MainFrame.getInstance().getSelectedViewType();
+		}
+		
+		TaskTemplate searcherTemplate = null;
+		
+		if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
+			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
+		}
+		
 		TaskBean bean = new TaskBean();
 		
 		if (template != null)
 			template.applyTo(bean);
+		
+		if (searcherTemplate != null)
+			searcherTemplate.applyTo(bean);
 		
 		task = task.trim();
 		

@@ -233,6 +233,9 @@ public final class SettingsVersion {
 		if (version.equals("1.8.7"))
 			version = updateSettings_1_8_7_to_2_0_0();
 		
+		if (version.equals("2.0.0"))
+			version = updateSettings_2_0_0_to_2_0_1();
+		
 		cleanSettings();
 		Main.saveSettings();
 	}
@@ -1180,6 +1183,13 @@ public final class SettingsVersion {
 		}
 		
 		return "2.0.0";
+	}
+	
+	private static String updateSettings_2_0_0_to_2_0_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 2.0.0 to 2.0.1");
+		
+		return "2.0.1";
 	}
 	
 	private static void copyToUserFolder(String fileName) {

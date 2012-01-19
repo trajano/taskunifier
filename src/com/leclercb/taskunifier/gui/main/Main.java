@@ -380,13 +380,17 @@ public class Main {
 	
 	private static void secondaryMain(String[] args) {
 		try {
+			initialize();
 			loadDeveloperMode();
 			loadResourceFolder();
 			loadInitSettings();
 			loadDataFolder();
-			loadBackupFolder();
 			loadPluginsFolder();
 			loadSettings();
+			loadUserId();
+			loadUserFolder();
+			loadBackupFolder();
+			loadUserSettings();
 			
 			ComBean bean = new ComBean();
 			bean.setApplicationName(Constants.TITLE);

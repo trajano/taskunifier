@@ -1,3 +1,9 @@
+Version 2.0.1
+	- Major:
+		- Crash if TaskUnifier is already running
+	- Minor:
+		- BF 3475908: Apply searcher template with quick add task
+
 Version 2.0.0
 	- Major:
 		- FR 3194175: Multiple accounts
