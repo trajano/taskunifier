@@ -124,13 +124,17 @@ public final class SynchronizerUtils {
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
 				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
 			final String host = Main.getSettings().getStringProperty(
-					"proxy.host");
+					"proxy.host",
+					"");
 			final Integer port = Main.getSettings().getIntegerProperty(
-					"proxy.port");
+					"proxy.port",
+					0);
 			final String login = Main.getSettings().getStringProperty(
-					"proxy.login");
+					"proxy.login",
+					"");
 			final String password = Main.getSettings().getStringProperty(
-					"proxy.password");
+					"proxy.password",
+					"");
 			
 			System.setProperty("http.proxyHost", host);
 			System.setProperty("http.proxyPort", port + "");

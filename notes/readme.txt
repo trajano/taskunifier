@@ -4,6 +4,7 @@ HISTORY
 Version 2.0.1
 	- Major:
 		- Crash if TaskUnifier is already running
+		- BF 3475975: Proxy issue
 	- Minor:
 		- BF 3475908: Apply searcher template with quick add task
 
