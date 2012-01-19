@@ -38,8 +38,10 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -136,25 +138,35 @@ public final class SynchronizerUtils {
 					"proxy.password",
 					"");
 			
-			System.setProperty("http.proxyHost", host);
-			System.setProperty("http.proxyPort", port + "");
-			System.setProperty("http.proxyUser", login);
-			System.setProperty("http.proxyPassword", password);
-			
-			System.setProperty("https.proxyHost", host);
-			System.setProperty("https.proxyPort", port + "");
-			System.setProperty("https.proxyUser", login);
-			System.setProperty("https.proxyPassword", password);
-			
-			Authenticator.setDefault(new Authenticator() {
+			try {
+				System.setProperty("http.proxyHost", host);
+				System.setProperty("http.proxyPort", port + "");
+				System.setProperty("http.proxyUser", login);
+				System.setProperty("http.proxyPassword", password);
 				
-				@Override
-				public PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(
-							login,
-							password.toCharArray());
+				System.setProperty("https.proxyHost", host);
+				System.setProperty("https.proxyPort", port + "");
+				System.setProperty("https.proxyUser", login);
+				System.setProperty("https.proxyPassword", password);
+				
+				if (login.length() != 0) {
+					Authenticator.setDefault(new Authenticator() {
+						
+						@Override
+						public PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(
+									login,
+									password.toCharArray());
+						}
+						
+					});
 				}
-			});
+			} catch (Throwable t) {
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Cannot set java proxy",
+						t);
+			}
 			
 			plugin.getSynchronizerApi().setProxyHost(host);
 			plugin.getSynchronizerApi().setProxyPort(port);
