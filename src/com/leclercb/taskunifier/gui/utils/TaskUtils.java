@@ -74,27 +74,6 @@ public final class TaskUtils {
 		
 	}
 	
-	public static void applyDefaultTimes(Task task) {
-		int startTime = Main.getSettings().getIntegerProperty(
-				"date.default_start_time");
-		int dueTime = Main.getSettings().getIntegerProperty(
-				"date.default_due_time");
-		
-		if (task.getStartDate() != null) {
-			Calendar startDate = task.getStartDate();
-			DateUtils.removeTime(startDate);
-			startDate.set(Calendar.MINUTE, startTime);
-			task.setStartDate(startDate);
-		}
-		
-		if (task.getDueDate() != null) {
-			Calendar dueDate = task.getDueDate();
-			DateUtils.removeTime(dueDate);
-			dueDate.set(Calendar.MINUTE, dueTime);
-			task.setDueDate(dueDate);
-		}
-	}
-	
 	public static boolean isSortByOrder(TaskSorter sorter) {
 		if (sorter.getElementCount() >= 1)
 			if (sorter.getElement(0).getProperty() == TaskColumn.ORDER
