@@ -37,8 +37,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -67,10 +70,41 @@ public class ActionQuit extends AbstractAction {
 		ActionQuit.quit();
 	}
 	
-	public static void quit() {
-		ViewType.commitAll();
+	public static boolean quit() {
+		return quit(false);
+	}
+	
+	public static boolean quit(boolean force) {
+		boolean set = false;
 		
-		Main.quit();
+		try {
+			try {
+				set = Synchronizing.setSynchronizing(true);
+			} catch (SynchronizingException e) {
+				if (!force) {
+					JOptionPane.showMessageDialog(
+							null,
+							Translations.getString("general.synchronization_ongoing"),
+							Translations.getString("general.error"),
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+				return false;
+			}
+			
+			ViewType.commitAll();
+			Main.quit(force);
+		} finally {
+			if (set) {
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 }

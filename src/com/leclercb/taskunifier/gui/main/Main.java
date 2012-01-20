@@ -79,6 +79,7 @@ import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
@@ -1064,7 +1065,20 @@ public class Main {
 			
 			@Override
 			public void run() {
-				quit();
+				boolean quit = ActionQuit.quit(true);
+				
+				if (!quit) {
+					Synchronizing.addPropertyChangeListener(
+							Synchronizing.PROP_SYNCHRONIZING,
+							new PropertyChangeListener() {
+								
+								@Override
+								public void propertyChange(
+										PropertyChangeEvent evt) {
+									ActionQuit.quit(true);
+								}
+							});
+				}
 			}
 			
 		});
@@ -1080,16 +1094,7 @@ public class Main {
 		BackupUtils.getInstance().cleanBackups(nbToKeep);
 	}
 	
-	public static void quit() {
-		if (Synchronizing.isSynchronizing()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("general.synchronization_ongoing"),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		
+	public static void quit(boolean force) {
 		synchronized (Main.class) {
 			if (QUIT)
 				return;
@@ -1097,9 +1102,11 @@ public class Main {
 			QUIT = true;
 		}
 		
-		Boolean syncExit = USER_SETTINGS.getBooleanProperty("synchronizer.sync_exit");
-		if (syncExit != null && syncExit)
-			ActionSynchronize.synchronize(false);
+		if (!force) {
+			Boolean syncExit = USER_SETTINGS.getBooleanProperty("synchronizer.sync_exit");
+			if (syncExit != null && syncExit)
+				ActionSynchronize.synchronize(false);
+		}
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
