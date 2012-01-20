@@ -75,7 +75,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				"MANAGE_PLUGINS",
 				Translations.getString("configuration.synchronization.synchronize_with"),
 				new ConfigurationFieldType.Button(
-						SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName(),
+						SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName(),
 						new ActionListener() {
 							
 							@Override
@@ -145,7 +145,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.synchronize_all",
-									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
+									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"SYNCHRONIZE_ALL",
@@ -174,7 +174,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					new ConfigurationFieldType.Label(
 							Translations.getString(
 									"configuration.synchronization.reset_all",
-									SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName()))));
+									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()))));
 			
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
@@ -206,7 +206,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					public void propertyChange(PropertyChangeEvent evt) {
 						SynchronizationConfigurationPanel.this.disableFields();
 						
-						String apiName = SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName();
+						String apiName = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName();
 						
 						JButton managePluginsButton = (JButton) SynchronizationConfigurationPanel.this.getField(
 								"MANAGE_PLUGINS").getType().getFieldComponent();
@@ -235,7 +235,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	
 	private void disableFields() {
 		// Disable fields for DUMMY service
-		boolean enabled = !SynchronizerUtils.getPlugin().getId().equals(
+		boolean enabled = !SynchronizerUtils.getSynchronizerPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId());
 		
 		if (this.containsId("CHOICE"))

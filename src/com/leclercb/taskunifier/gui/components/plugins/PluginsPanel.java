@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
@@ -108,6 +109,8 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			
 			dialog.setVisible(true);
 		}
+		
+		SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getSynchronizerPlugin(plugin.getId()));
 		
 		PluginsPanel.this.valueChanged(null);
 	}

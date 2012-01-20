@@ -80,11 +80,11 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 					Translations.getString("configuration.tab.synchronization"),
 					new SynchronizationConfigurationPanel(this, true)),
 			new SettingsPanel(
-					SynchronizerUtils.getPlugin().getName(),
+					SynchronizerUtils.getSynchronizerPlugin().getName(),
 					new PluginConfigurationPanel(
 							this,
 							false,
-							SynchronizerUtils.getPlugin())) };
+							SynchronizerUtils.getSynchronizerPlugin())) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;
@@ -102,11 +102,11 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 						SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
 						
 						servicePanel.reset(
-								SynchronizerUtils.getPlugin().getName(),
+								SynchronizerUtils.getSynchronizerPlugin().getName(),
 								new PluginConfigurationPanel(
 										WelcomeDialog.this,
 										false,
-										SynchronizerUtils.getPlugin()));
+										SynchronizerUtils.getSynchronizerPlugin()));
 						
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);

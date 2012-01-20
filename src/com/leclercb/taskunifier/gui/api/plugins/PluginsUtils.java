@@ -88,9 +88,7 @@ public class PluginsUtils {
 					if (EqualsUtils.equals(
 							Main.getUserSettings().getStringProperty("api.id"),
 							plugin.getId()))
-						Main.getUserSettings().setStringProperty(
-								"api.id",
-								DummyGuiPlugin.getInstance().getId());
+						SynchronizerUtils.setSynchronizerPlugin(DummyGuiPlugin.getInstance());
 				}
 			}
 			
@@ -300,9 +298,7 @@ public class PluginsUtils {
 			SynchronizerGuiPlugin loadedPlugin = PluginsUtils.loadPlugin(file);
 			
 			if (use)
-				Main.getUserSettings().setStringProperty(
-						"api.id",
-						loadedPlugin.getId());
+				SynchronizerUtils.setSynchronizerPlugin(loadedPlugin);
 			
 			if (loadedPlugin != null)
 				loadedPlugin.installPlugin();
@@ -345,7 +341,8 @@ public class PluginsUtils {
 					Translations.getString("manage_plugins.progress.start_plugin_update")));
 		
 		boolean use = false;
-		if (plugin.getId().equals(SynchronizerUtils.getPlugin().getId()))
+		if (plugin.getId().equals(
+				SynchronizerUtils.getSynchronizerPlugin().getId()))
 			use = true;
 		
 		deletePlugin(plugin, monitor);

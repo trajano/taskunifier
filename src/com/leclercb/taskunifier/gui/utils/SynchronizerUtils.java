@@ -86,7 +86,8 @@ public final class SynchronizerUtils {
 							
 						}
 						
-						getPlugin().getSynchronizerApi().createRepeatTask(task);
+						getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
+								task);
 						
 						if (set) {
 							try {
@@ -104,17 +105,19 @@ public final class SynchronizerUtils {
 		TASK_REPEAT_ENABLED = enabled;
 	}
 	
-	public static SynchronizerGuiPlugin getPlugin() {
-		return getPlugin(Main.getUserSettings().getStringProperty("api.id"));
+	public static SynchronizerGuiPlugin getSynchronizerPlugin() {
+		return getSynchronizerPlugin(Main.getUserSettings().getStringProperty(
+				"api.id"));
 	}
 	
-	public static SynchronizerGuiPlugin getPlugin(String pluginId) {
+	public static SynchronizerGuiPlugin getSynchronizerPlugin(String pluginId) {
 		if (pluginId == null)
 			return DummyGuiPlugin.getInstance();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			if (EqualsUtils.equals(pluginId, plugin.getId())) {
+			if (EqualsUtils.equals(pluginId, plugin.getId())
+					&& plugin.isSynchronizer()) {
 				return plugin;
 			}
 		}
@@ -122,8 +125,13 @@ public final class SynchronizerUtils {
 		return DummyGuiPlugin.getInstance();
 	}
 	
+	public static void setSynchronizerPlugin(SynchronizerGuiPlugin plugin) {
+		if (plugin.isSynchronizer())
+			Main.getUserSettings().setStringProperty("api.id", plugin.getId());
+	}
+	
 	public static void initializeProxy() {
-		SynchronizerGuiPlugin plugin = getPlugin();
+		SynchronizerGuiPlugin plugin = getSynchronizerPlugin();
 		
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
 				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
@@ -180,7 +188,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void removeProxy() {
-		SynchronizerGuiPlugin plugin = getPlugin();
+		SynchronizerGuiPlugin plugin = getSynchronizerPlugin();
 		
 		plugin.getSynchronizerApi().setProxyHost(null);
 		plugin.getSynchronizerApi().setProxyPort(0);
@@ -218,7 +226,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetConnection() {
-		SynchronizerUtils.getPlugin().getSynchronizerApi().resetConnectionParameters(
+		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetConnectionParameters(
 				Main.getUserSettings());
 	}
 	
@@ -227,7 +235,7 @@ public final class SynchronizerUtils {
 				"synchronizer.last_synchronization_date",
 				null);
 		
-		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
+		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.getUserSettings());
 	}
 	
@@ -257,7 +265,7 @@ public final class SynchronizerUtils {
 		NoteFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
 		
-		SynchronizerUtils.getPlugin().getSynchronizerApi().resetSynchronizerParameters(
+		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.getUserSettings());
 		
 		if (set) {

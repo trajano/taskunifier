@@ -52,7 +52,7 @@ public class PluginList extends JXList {
 	public void setPlugins(Plugin[] plugins) {
 		((PluginListModel) this.getModel()).setPlugins(plugins);
 		
-		String currentId = SynchronizerUtils.getPlugin().getId();
+		String currentId = SynchronizerUtils.getSynchronizerPlugin().getId();
 		Plugin currentPlugin = null;
 		for (Plugin plugin : plugins) {
 			if (plugin.getId().equals(currentId)) {

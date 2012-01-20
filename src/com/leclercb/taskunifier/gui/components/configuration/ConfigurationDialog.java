@@ -287,9 +287,9 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.pluginConfigurationPanel = new PluginConfigurationPanel(
 				this,
 				false,
-				SynchronizerUtils.getPlugin());
+				SynchronizerUtils.getSynchronizerPlugin());
 		this.tabbedPane.addTab(
-				SynchronizerUtils.getPlugin().getName(),
+				SynchronizerUtils.getSynchronizerPlugin().getName(),
 				ComponentFactory.createJScrollPane(
 						this.pluginConfigurationPanel,
 						false));

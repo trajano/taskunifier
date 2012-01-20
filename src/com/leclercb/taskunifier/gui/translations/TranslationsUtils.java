@@ -105,7 +105,7 @@ public final class TranslationsUtils {
 			case KEEP_API:
 				return Translations.getString(
 						"general.synchronizer.choice.keep_api",
-						SynchronizerUtils.getPlugin().getSynchronizerApi().getApiName());
+						SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName());
 		}
 		
 		return "Missing translation";

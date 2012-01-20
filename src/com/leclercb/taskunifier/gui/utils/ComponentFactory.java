@@ -102,7 +102,7 @@ public final class ComponentFactory {
 					}
 					
 					private void update() {
-						if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+						if (SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().isValidRepeatValue(
 								repeatTextField.getText()))
 							repeatTextField.setForeground(Color.BLACK);
 						else

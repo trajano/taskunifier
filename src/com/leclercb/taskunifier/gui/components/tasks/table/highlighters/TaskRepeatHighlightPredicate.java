@@ -52,7 +52,7 @@ public class TaskRepeatHighlightPredicate implements HighlightPredicate {
 		if (value == null || !(value instanceof String))
 			return false;
 		
-		return !SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+		return !SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().isValidRepeatValue(
 				(String) value);
 	}
 	

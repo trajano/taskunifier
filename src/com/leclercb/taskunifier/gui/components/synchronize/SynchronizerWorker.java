@@ -124,7 +124,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			
 			SynchronizerUtils.initializeProxy();
 			
-			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
+			SynchronizerGuiPlugin plugin = SynchronizerUtils.getSynchronizerPlugin();
 			
 			if (plugin.needsLicense()) {
 				monitor.addMessage(new SynchronizerDefaultProgressMessage(

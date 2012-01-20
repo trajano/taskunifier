@@ -84,7 +84,7 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public static void synchronize(boolean background, boolean userAction) {
-		if (SynchronizerUtils.getPlugin().getId().equals(
+		if (SynchronizerUtils.getSynchronizerPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId())) {
 			if (background || !userAction)
 				return;

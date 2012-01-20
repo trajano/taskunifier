@@ -67,14 +67,15 @@ public class SynchronizerDialog extends TUWaitDialog {
 		});
 		
 		try {
-			SynchronizerGuiPlugin plugin = SynchronizerUtils.getPlugin();
+			SynchronizerGuiPlugin plugin = SynchronizerUtils.getSynchronizerPlugin();
 			if (plugin.needsLicense()
 					&& plugin.getLicenseUrl() != null
 					&& !plugin.checkLicense())
-				this.setSouthComponent(new JButton(new ActionGetSerial(
-						SynchronizerUtils.getPlugin().getLicenseUrl(),
-						22,
-						22)));
+				this.setSouthComponent(new JButton(
+						new ActionGetSerial(
+								SynchronizerUtils.getSynchronizerPlugin().getLicenseUrl(),
+								22,
+								22)));
 		} catch (SynchronizerLicenseException exc) {
 			
 		}

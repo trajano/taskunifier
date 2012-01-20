@@ -340,7 +340,7 @@ public class Main {
 					
 					MainFrame.getInstance().getFrame().setVisible(true);
 					ActionCheckVersion.checkVersion(true);
-					ActionCheckPluginVersion.checkPluginVersion(true);
+					ActionCheckPluginVersion.checkAllPluginVersion(true);
 					
 					Boolean showed = SETTINGS.getBooleanProperty("review.showed");
 					if (showed == null || !showed)
@@ -1027,9 +1027,7 @@ public class Main {
 			}
 		}
 		
-		USER_SETTINGS.setStringProperty(
-				"api.id",
-				SynchronizerUtils.getPlugin().getId());
+		SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getSynchronizerPlugin());
 		
 		return outdatedPlugins;
 	}

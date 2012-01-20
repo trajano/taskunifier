@@ -116,7 +116,7 @@ public class DefaultToolBar extends JToolBar {
 	private String getAccountLabelText() {
 		String user = Main.getUserSettings().getStringProperty(
 				"general.user.name");
-		String account = SynchronizerUtils.getPlugin().getAccountLabel();
+		String account = SynchronizerUtils.getSynchronizerPlugin().getAccountLabel();
 		
 		if (user == null)
 			user = "";

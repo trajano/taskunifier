@@ -57,7 +57,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 	private boolean silent;
 	
 	public CheckPluginVersionRunnable(boolean silent) {
-		this(SynchronizerUtils.getPlugin(), silent);
+		this(SynchronizerUtils.getSynchronizerPlugin(), silent);
 	}
 	
 	public CheckPluginVersionRunnable(

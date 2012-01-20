@@ -281,7 +281,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 				
 				ValueModel taskRepeatModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT);
 				templateTaskRepeat.setModel(new ComboBoxAdapter<String>(
-						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues(),
+						SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues(),
 						taskRepeatModel));
 				
 				ValueModel taskRepeatFromModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT_FROM);

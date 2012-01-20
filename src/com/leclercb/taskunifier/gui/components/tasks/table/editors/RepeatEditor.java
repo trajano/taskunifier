@@ -48,7 +48,7 @@ public class RepeatEditor extends DefaultCellEditor {
 	public RepeatEditor() {
 		super(
 				new JComboBox(
-						SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues()));
+						SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues()));
 		
 		final JComboBox repeatField = (JComboBox) this.getComponent();
 		ComponentFactory.createRepeatComboBox(repeatField);
@@ -71,7 +71,7 @@ public class RepeatEditor extends DefaultCellEditor {
 		final JComboBox repeatField = (JComboBox) this.getComponent();
 		final JTextField repeatTextField = (JTextField) repeatField.getEditor().getEditorComponent();
 		
-		if (SynchronizerUtils.getPlugin().getSynchronizerApi().isValidRepeatValue(
+		if (SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().isValidRepeatValue(
 				(this.getCellEditorValue() == null ? null : this.getCellEditorValue().toString())))
 			repeatTextField.setForeground(Color.BLACK);
 		else

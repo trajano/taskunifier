@@ -712,7 +712,7 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		// Task Repeat
 		this.taskRepeat.setModel(new DefaultComboBoxModel(
-				SynchronizerUtils.getPlugin().getSynchronizerApi().getDefaultRepeatValues()));
+				SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues()));
 		
 		ComponentFactory.createRepeatComboBox(this.taskRepeat);
 		
