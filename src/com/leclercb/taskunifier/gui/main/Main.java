@@ -125,7 +125,7 @@ import com.leclercb.taskunifier.gui.utils.UserUtils;
 
 public class Main {
 	
-	private static boolean QUIT;
+	private static boolean QUITTING;
 	
 	private static boolean DEVELOPER_MODE;
 	private static boolean FIRST_EXECUTION;
@@ -165,6 +165,10 @@ public class Main {
 	
 	private static void setFirstExecution(boolean firstExecution) {
 		FIRST_EXECUTION = firstExecution;
+	}
+	
+	public static boolean isQuitting() {
+		return QUITTING;
 	}
 	
 	public static String getInitSettingsFile() {
@@ -373,7 +377,7 @@ public class Main {
 					
 					JXErrorPane.showDialog(null, info);
 					
-					QUIT = true;
+					QUITTING = true;
 					System.exit(1);
 				}
 			}
@@ -1059,7 +1063,7 @@ public class Main {
 	}
 	
 	private static void loadShutdownHook() {
-		QUIT = false;
+		QUITTING = false;
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			
@@ -1096,10 +1100,10 @@ public class Main {
 	
 	public static void quit(boolean force) {
 		synchronized (Main.class) {
-			if (QUIT)
+			if (QUITTING)
 				return;
 			
-			QUIT = true;
+			QUITTING = true;
 		}
 		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");

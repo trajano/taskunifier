@@ -75,6 +75,11 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 	public static boolean quit(boolean force) {
+		synchronized (Main.class) {
+			if (Main.isQuitting())
+				return true;
+		}
+		
 		if (!force) {
 			Boolean syncExit = Main.getUserSettings().getBooleanProperty(
 					"synchronizer.sync_exit");

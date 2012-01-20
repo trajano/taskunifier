@@ -161,6 +161,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 								SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 							}
 							
+							SynchronizerUtils.resetConnection();
 							SynchronizerUtils.resetSynchronizer();
 							super.actionPerformed(event);
 						}
@@ -189,6 +190,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 								SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 							}
 							
+							SynchronizerUtils.resetConnection();
 							SynchronizerUtils.resetSynchronizerAndDeleteModels();
 							super.actionPerformed(event);
 						}
