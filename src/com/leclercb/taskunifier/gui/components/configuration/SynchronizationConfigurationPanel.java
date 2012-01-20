@@ -199,7 +199,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		}
 		
 		Main.getUserSettings().addPropertyChangeListener(
-				"api.id",
+				"plugin.synchronizer.id",
 				new PropertyChangeListener() {
 					
 					@Override

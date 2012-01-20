@@ -46,7 +46,7 @@ public class SynchronizerChoiceModel extends DefaultComboBoxModel {
 		super(SynchronizerChoice.values());
 		
 		Main.getUserSettings().addPropertyChangeListener(
-				"api.id",
+				"plugin.synchronizer.id",
 				new PropertyChangeListener() {
 					
 					@Override

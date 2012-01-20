@@ -86,7 +86,8 @@ public class PluginsUtils {
 				
 				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					if (EqualsUtils.equals(
-							Main.getUserSettings().getStringProperty("api.id"),
+							Main.getUserSettings().getStringProperty(
+									"plugin.synchronizer.id"),
 							plugin.getId()))
 						SynchronizerUtils.setSynchronizerPlugin(DummyGuiPlugin.getInstance());
 				}

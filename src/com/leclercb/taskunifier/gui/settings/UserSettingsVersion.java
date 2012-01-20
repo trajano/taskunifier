@@ -62,6 +62,8 @@ public final class UserSettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update user settings from version 2.0.0 to 2.0.1");
 		
+		Main.getUserSettings().replaceKey("api.id", "plugin.synchronizer.id");
+		
 		return "2.0.1";
 	}
 	

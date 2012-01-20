@@ -98,7 +98,7 @@ public class DefaultToolBar extends JToolBar {
 				});
 		
 		Main.getUserSettings().addPropertyChangeListener(
-				"api.id",
+				"plugin.synchronizer.id",
 				new PropertyChangeListener() {
 					
 					@Override

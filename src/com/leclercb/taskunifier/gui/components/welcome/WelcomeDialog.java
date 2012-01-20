@@ -94,7 +94,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 		
 		// For API Configuration Panel
 		Main.getUserSettings().addPropertyChangeListener(
-				"api.id",
+				"plugin.synchronizer.id",
 				new PropertyChangeListener() {
 					
 					@Override

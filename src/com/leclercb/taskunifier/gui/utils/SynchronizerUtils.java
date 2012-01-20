@@ -124,7 +124,7 @@ public final class SynchronizerUtils {
 	
 	public static SynchronizerGuiPlugin[] getPublisherPlugins() {
 		String value = Main.getUserSettings().getStringProperty(
-				"api.publisher.ids");
+				"plugin.publisher.ids");
 		
 		if (value == null)
 			return new SynchronizerGuiPlugin[0];
@@ -148,7 +148,7 @@ public final class SynchronizerUtils {
 			return;
 		
 		String value = Main.getUserSettings().getStringProperty(
-				"api.publisher.ids");
+				"plugin.publisher.ids");
 		
 		if (value == null)
 			value = "";
@@ -166,7 +166,7 @@ public final class SynchronizerUtils {
 		listIds.add(plugin.getId());
 		
 		Main.getUserSettings().setStringProperty(
-				"api.publisher.ids",
+				"plugin.publisher.ids",
 				StringUtils.join(listIds, ";"));
 	}
 	
@@ -199,7 +199,7 @@ public final class SynchronizerUtils {
 	
 	public static SynchronizerGuiPlugin getSynchronizerPlugin() {
 		SynchronizerGuiPlugin plugin = getPlugin(Main.getUserSettings().getStringProperty(
-				"api.id"));
+				"plugin.synchronizer.id"));
 		
 		if (plugin == null || !plugin.isSynchronizer())
 			return DummyGuiPlugin.getInstance();
@@ -211,7 +211,9 @@ public final class SynchronizerUtils {
 		if (plugin == null || !plugin.isSynchronizer())
 			return;
 		
-		Main.getUserSettings().setStringProperty("api.id", plugin.getId());
+		Main.getUserSettings().setStringProperty(
+				"plugin.synchronizer.id",
+				plugin.getId());
 	}
 	
 	public static void initializeProxy() {

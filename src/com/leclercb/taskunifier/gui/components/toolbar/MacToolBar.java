@@ -95,7 +95,7 @@ public class MacToolBar extends UnifiedToolBar {
 				});
 		
 		Main.getUserSettings().addPropertyChangeListener(
-				"api.id",
+				"plugin.synchronizer.id",
 				new PropertyChangeListener() {
 					
 					@Override
