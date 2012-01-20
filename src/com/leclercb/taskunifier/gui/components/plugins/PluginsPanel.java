@@ -110,7 +110,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			dialog.setVisible(true);
 		}
 		
-		SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getSynchronizerPlugin(plugin.getId()));
+		SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getPlugin(plugin.getId()));
 		
 		PluginsPanel.this.valueChanged(null);
 	}

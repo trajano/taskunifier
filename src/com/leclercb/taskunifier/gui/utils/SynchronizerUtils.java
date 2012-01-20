@@ -36,9 +36,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -105,29 +108,110 @@ public final class SynchronizerUtils {
 		TASK_REPEAT_ENABLED = enabled;
 	}
 	
-	public static SynchronizerGuiPlugin getSynchronizerPlugin() {
-		return getSynchronizerPlugin(Main.getUserSettings().getStringProperty(
-				"api.id"));
-	}
-	
-	public static SynchronizerGuiPlugin getSynchronizerPlugin(String pluginId) {
+	public static SynchronizerGuiPlugin getPlugin(String pluginId) {
 		if (pluginId == null)
-			return DummyGuiPlugin.getInstance();
+			return null;
 		
 		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			if (EqualsUtils.equals(pluginId, plugin.getId())
-					&& plugin.isSynchronizer()) {
+			if (EqualsUtils.equals(pluginId, plugin.getId())) {
 				return plugin;
 			}
 		}
 		
-		return DummyGuiPlugin.getInstance();
+		return null;
+	}
+	
+	public static SynchronizerGuiPlugin[] getPublisherPlugins() {
+		String value = Main.getUserSettings().getStringProperty(
+				"api.publisher.ids");
+		
+		if (value == null)
+			return new SynchronizerGuiPlugin[0];
+		
+		String[] ids = StringUtils.split(value, ";");
+		List<SynchronizerGuiPlugin> plugins = new ArrayList<SynchronizerGuiPlugin>();
+		for (String id : ids) {
+			SynchronizerGuiPlugin plugin = getPlugin(id.trim());
+			
+			if (plugin == null || !plugin.isPublisher())
+				continue;
+			
+			plugins.add(plugin);
+		}
+		
+		return plugins.toArray(new SynchronizerGuiPlugin[0]);
+	}
+	
+	public static void addPublisherPlugin(SynchronizerGuiPlugin plugin) {
+		if (plugin == null || !plugin.isPublisher())
+			return;
+		
+		String value = Main.getUserSettings().getStringProperty(
+				"api.publisher.ids");
+		
+		if (value == null)
+			value = "";
+		
+		String[] ids = StringUtils.split(value, ";");
+		List<String> listIds = new ArrayList<String>();
+		
+		for (String id : ids) {
+			if (id.trim().length() == 0)
+				continue;
+			
+			listIds.add(id);
+		}
+		
+		listIds.add(plugin.getId());
+		
+		Main.getUserSettings().setStringProperty(
+				"api.publisher.ids",
+				StringUtils.join(listIds, ";"));
+	}
+	
+	public static void removePublisherPlugin(SynchronizerGuiPlugin plugin) {
+		if (plugin == null || !plugin.isPublisher())
+			return;
+		
+		String value = Main.getUserSettings().getStringProperty(
+				"api.publisher.ids");
+		
+		if (value == null)
+			value = "";
+		
+		String[] ids = StringUtils.split(value, ";");
+		List<String> listIds = new ArrayList<String>();
+		
+		for (String id : ids) {
+			if (id.trim().length() == 0)
+				continue;
+			
+			listIds.add(id);
+		}
+		
+		listIds.remove(plugin.getId());
+		
+		Main.getUserSettings().setStringProperty(
+				"api.publisher.ids",
+				StringUtils.join(listIds, ";"));
+	}
+	
+	public static SynchronizerGuiPlugin getSynchronizerPlugin() {
+		SynchronizerGuiPlugin plugin = getPlugin(Main.getUserSettings().getStringProperty(
+				"api.id"));
+		
+		if (plugin == null || !plugin.isSynchronizer())
+			return DummyGuiPlugin.getInstance();
+		
+		return plugin;
 	}
 	
 	public static void setSynchronizerPlugin(SynchronizerGuiPlugin plugin) {
-		if (plugin.isSynchronizer())
-			Main.getUserSettings().setStringProperty("api.id", plugin.getId());
+		if (plugin == null || !plugin.isSynchronizer())
+			return;
+		
+		Main.getUserSettings().setStringProperty("api.id", plugin.getId());
 	}
 	
 	public static void initializeProxy() {
