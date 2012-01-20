@@ -30,70 +30,20 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.threads.communicator;
+package com.leclercb.taskunifier.gui.threads.checkpluginversion;
 
-import java.io.IOException;
-import java.net.ServerSocket;
+import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
 
-import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.gui.main.Main;
-
-public class CommunicatorThread extends Thread {
+public class CheckPluginVersionThread extends Thread {
 	
-	private int port;
-	private ThreadGroup group;
-	
-	public CommunicatorThread() {
-		super("CommunicatorThread");
-		
-		this.port = Main.getSettings().getIntegerProperty(
-				"general.communicator.port");
-		this.group = new ThreadGroup("CommunicatorGroup");
+	public CheckPluginVersionThread(boolean silent) {
+		super(new CheckPluginVersionRunnable(silent));
 	}
 	
-	@Override
-	public void interrupt() {
-		try {
-			this.group.interrupt();
-		} catch (Throwable t) {
-			
-		}
-		
-		if (this.isAlive())
-			GuiLogger.getLogger().info(
-					"Communicator closed on port " + this.port);
-		
-		super.interrupt();
-	}
-	
-	@Override
-	public void run() {
-		ServerSocket serverSocket = null;
-		
-		try {
-			serverSocket = new ServerSocket(this.port);
-			
-			GuiLogger.getLogger().info(
-					"Communicator initialized on port " + this.port);
-			
-			while (!this.isInterrupted()) {
-				CommunicatorClient client = new CommunicatorClient(
-						this.group,
-						serverSocket.accept());
-				
-				client.start();
-			}
-		} catch (Exception e) {
-			GuiLogger.getLogger().warning(
-					"Cannot initialize communicator on port " + this.port);
-		} finally {
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				GuiLogger.getLogger().warning(
-						"Cannot close communicator on port " + this.port);
-			}
-		}
+	public CheckPluginVersionThread(
+			SynchronizerPlugin syncPlugin,
+			boolean silent) {
+		super(new CheckPluginVersionRunnable(syncPlugin, silent));
 	}
 	
 }

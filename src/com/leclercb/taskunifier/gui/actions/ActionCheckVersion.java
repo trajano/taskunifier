@@ -33,25 +33,12 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.net.URI;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
-
-import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.commons.api.utils.HttpResponse;
-import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.threads.checkversion.CheckVersionThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.DesktopUtils;
-import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ActionCheckVersion extends AbstractAction {
 	
@@ -79,93 +66,7 @@ public class ActionCheckVersion extends AbstractAction {
 	}
 	
 	public static void checkVersion(final boolean silent) {
-		Thread thread = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					HttpResponse response = HttpUtils.getHttpGetResponse(new URI(
-							Constants.VERSION_FILE));
-					
-					if (!response.isSuccessfull())
-						throw new Exception();
-					
-					String version = response.getContent().trim();
-					
-					if (version.length() > 10)
-						throw new Exception();
-					
-					if (Constants.VERSION.compareTo(version) < 0) {
-						GuiLogger.getLogger().info(
-								"New version available : " + version);
-						
-						String showed = Main.getSettings().getStringProperty(
-								"new_version.showed");
-						
-						if (!silent || !EqualsUtils.equals(version, showed)) {
-							Main.getSettings().setStringProperty(
-									"new_version.showed",
-									version);
-							
-							String[] options = new String[] {
-									Translations.getString("general.download"),
-									Translations.getString("general.cancel") };
-							
-							int result = JOptionPane.showOptionDialog(
-									MainFrame.getInstance().getFrame(),
-									Translations.getString(
-											"action.check_version.new_version_available",
-											version),
-									Translations.getString("general.information"),
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.INFORMATION_MESSAGE,
-									null,
-									options,
-									options[0]);
-							
-							if (result == 0) {
-								DesktopUtils.browse(Constants.DOWNLOAD_URL);
-							}
-						}
-					} else {
-						GuiLogger.getLogger().info("No new version available");
-						
-						if (!silent) {
-							JOptionPane.showMessageDialog(
-									MainFrame.getInstance().getFrame(),
-									Translations.getString(
-											"action.check_version.no_new_version_available",
-											Constants.VERSION),
-									Translations.getString("general.information"),
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-				} catch (Exception e) {
-					if (silent) {
-						GuiLogger.getLogger().warning(
-								"An error occured while checking for updates");
-					} else {
-						ErrorInfo info = new ErrorInfo(
-								Translations.getString("general.error"),
-								Translations.getString("error.check_version_error"),
-								null,
-								null,
-								e,
-								null,
-								null);
-						
-						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
-								info);
-					}
-				} finally {
-					SynchronizerUtils.removeProxy();
-				}
-			}
-			
-		});
-		
-		thread.start();
+		new CheckVersionThread(silent).start();
 	}
 	
 }
