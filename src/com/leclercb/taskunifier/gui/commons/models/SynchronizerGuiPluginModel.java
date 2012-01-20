@@ -43,15 +43,24 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel implements ListChangeListener {
 	
-	public SynchronizerGuiPluginModel() {
+	private boolean publisher;
+	private boolean synchronizer;
+	
+	public SynchronizerGuiPluginModel(boolean publisher, boolean synchronizer) {
 		super(SynchronizerGuiPluginComparator.INSTANCE);
+		
+		this.publisher = publisher;
+		this.synchronizer = synchronizer;
+		
 		this.initialize();
 	}
 	
 	private void initialize() {
 		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			this.addElement(plugin);
+			if ((this.publisher && plugin.isPublisher())
+					|| (this.synchronizer && plugin.isSynchronizer()))
+				this.addElement(plugin);
 		}
 		
 		Main.getApiPlugins().addListChangeListener(this);
@@ -59,8 +68,12 @@ public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel imple
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
+		SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) event.getValue();
+		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement(event.getValue());
+			if ((this.publisher && plugin.isPublisher())
+					|| (this.synchronizer && plugin.isSynchronizer()))
+				this.addElement(event.getValue());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 			this.removeElement(event.getValue());
 		}

@@ -36,7 +36,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.checkpluginversion.CheckPluginVersionThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -71,9 +72,14 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	}
 	
 	public static void checkPluginVersion(
-			SynchronizerPlugin syncPlugin,
+			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
 		new CheckPluginVersionThread(syncPlugin, silent).start();
+	}
+	
+	public static void checkAllPluginVersion(boolean silent) {
+		new CheckPluginVersionThread(Main.getApiPlugins().getPlugins().toArray(
+				new SynchronizerGuiPlugin[0]), silent).start();
 	}
 	
 }

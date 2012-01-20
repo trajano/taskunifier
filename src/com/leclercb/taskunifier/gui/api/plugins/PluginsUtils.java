@@ -50,6 +50,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CompareUtils;
@@ -71,8 +73,29 @@ import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class PluginsUtils {
+	
+	static {
+		Main.getApiPlugins().addListChangeListener(new ListChangeListener() {
+			
+			@Override
+			public void listChange(ListChangeEvent evt) {
+				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
+				
+				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+					if (EqualsUtils.equals(
+							Main.getUserSettings().getStringProperty("api.id"),
+							plugin.getId()))
+						Main.getUserSettings().setStringProperty(
+								"api.id",
+								DummyGuiPlugin.getInstance().getId());
+				}
+			}
+			
+		});
+	}
 	
 	public static final Plugin DUMMY_PLUGIN = new Plugin(
 			PluginStatus.INSTALLED,
@@ -217,8 +240,10 @@ public class PluginsUtils {
 						+ plugin.getVersion());
 	}
 	
-	public static void installPlugin(Plugin plugin, ProgressMonitor monitor)
-			throws Exception {
+	public static void installPlugin(
+			Plugin plugin,
+			boolean use,
+			ProgressMonitor monitor) throws Exception {
 		boolean set = false;
 		
 		try {
@@ -273,6 +298,12 @@ public class PluginsUtils {
 						Translations.getString("manage_plugins.progress.installing_plugin")));
 			
 			SynchronizerGuiPlugin loadedPlugin = PluginsUtils.loadPlugin(file);
+			
+			if (use)
+				Main.getUserSettings().setStringProperty(
+						"api.id",
+						loadedPlugin.getId());
+			
 			if (loadedPlugin != null)
 				loadedPlugin.installPlugin();
 			
@@ -313,8 +344,12 @@ public class PluginsUtils {
 			monitor.addMessage(new DefaultProgressMessage(
 					Translations.getString("manage_plugins.progress.start_plugin_update")));
 		
+		boolean use = false;
+		if (plugin.getId().equals(SynchronizerUtils.getPlugin().getId()))
+			use = true;
+		
 		deletePlugin(plugin, monitor);
-		installPlugin(plugin, monitor);
+		installPlugin(plugin, use, monitor);
 		
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(

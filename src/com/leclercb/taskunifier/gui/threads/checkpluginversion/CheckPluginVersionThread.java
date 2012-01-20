@@ -32,7 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.threads.checkpluginversion;
 
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 
 public class CheckPluginVersionThread extends Thread {
 	
@@ -41,9 +41,15 @@ public class CheckPluginVersionThread extends Thread {
 	}
 	
 	public CheckPluginVersionThread(
-			SynchronizerPlugin syncPlugin,
+			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
 		super(new CheckPluginVersionRunnable(syncPlugin, silent));
+	}
+	
+	public CheckPluginVersionThread(
+			SynchronizerGuiPlugin[] syncPlugins,
+			boolean silent) {
+		super(new CheckPluginVersionRunnable(syncPlugins, silent));
 	}
 	
 }

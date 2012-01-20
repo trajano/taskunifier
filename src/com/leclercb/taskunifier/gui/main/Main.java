@@ -55,8 +55,6 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertyMap;
@@ -1032,28 +1030,6 @@ public class Main {
 		USER_SETTINGS.setStringProperty(
 				"api.id",
 				SynchronizerUtils.getPlugin().getId());
-		
-		API_PLUGINS.addListChangeListener(new ListChangeListener() {
-			
-			@Override
-			public void listChange(ListChangeEvent evt) {
-				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
-				
-				if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					USER_SETTINGS.setStringProperty("api.id", plugin.getId());
-				}
-				
-				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-					if (EqualsUtils.equals(
-							USER_SETTINGS.getStringProperty("api.id"),
-							plugin.getId()))
-						USER_SETTINGS.setStringProperty(
-								"api.id",
-								DummyGuiPlugin.getInstance().getId());
-				}
-			}
-			
-		});
 		
 		return outdatedPlugins;
 	}

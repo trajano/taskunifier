@@ -44,7 +44,6 @@ import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.components.plugins.list.PluginList;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -98,7 +97,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 				@Override
 				public Void doActions(ProgressMonitor monitor) throws Throwable {
 					if (plugin.getStatus() == PluginStatus.TO_INSTALL)
-						PluginsUtils.installPlugin(plugin, monitor);
+						PluginsUtils.installPlugin(plugin, true, monitor);
 					else if (plugin.getStatus() == PluginStatus.TO_UPDATE)
 						PluginsUtils.updatePlugin(plugin, monitor);
 					
@@ -109,8 +108,6 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			
 			dialog.setVisible(true);
 		}
-		
-		Main.getUserSettings().setStringProperty("api.id", plugin.getId());
 		
 		PluginsPanel.this.valueChanged(null);
 	}

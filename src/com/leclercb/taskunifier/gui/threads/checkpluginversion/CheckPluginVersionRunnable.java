@@ -41,9 +41,9 @@ import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.api.synchronizer.SynchronizerPlugin;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class CheckPluginVersionRunnable implements Runnable {
 	
-	private SynchronizerPlugin syncPlugin;
+	private SynchronizerGuiPlugin[] syncPlugins;
 	private boolean silent;
 	
 	public CheckPluginVersionRunnable(boolean silent) {
@@ -61,131 +61,144 @@ public class CheckPluginVersionRunnable implements Runnable {
 	}
 	
 	public CheckPluginVersionRunnable(
-			SynchronizerPlugin syncPlugin,
+			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
-		CheckUtils.isNotNull(syncPlugin);
+		this(new SynchronizerGuiPlugin[] { syncPlugin }, silent);
+	}
+	
+	public CheckPluginVersionRunnable(
+			SynchronizerGuiPlugin[] syncPlugins,
+			boolean silent) {
+		CheckUtils.isNotNull(syncPlugins);
 		
-		this.syncPlugin = syncPlugin;
+		this.syncPlugins = syncPlugins;
 		this.silent = silent;
 	}
 	
 	@Override
 	public void run() {
-		try {
-			Plugin plugin = null;
-			
-			if (this.syncPlugin.getId().equals(
-					DummyGuiPlugin.getInstance().getId())) {
-				this.showNoNewVersion(this.silent);
-				return;
-			}
-			
-			Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(
-					false,
-					true);
-			
-			for (Plugin p : plugins) {
-				if (this.syncPlugin.getId().equals(p.getId()))
-					plugin = p;
-			}
-			
-			if (plugin == null) {
-				this.showNoNewVersion(this.silent);
-				return;
-			}
-			
-			String version = plugin.getVersion();
-			
-			if (version == null || version.length() > 10)
-				throw new Exception();
-			
-			if (this.syncPlugin.getVersion().compareTo(version) < 0) {
-				GuiLogger.getLogger().info(
-						"New plugin \""
-								+ this.syncPlugin.getName()
-								+ "\" version available : "
-								+ version);
+		Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(false, true);
+		
+		if (plugins == null)
+			return;
+		
+		for (SynchronizerGuiPlugin syncPlugin : this.syncPlugins) {
+			try {
+				Plugin plugin = null;
 				
-				String showed = Main.getSettings().getStringProperty(
-						"new_plugin_version."
-								+ this.syncPlugin.getId()
-								+ ".showed");
-				
-				if (!this.silent || !EqualsUtils.equals(version, showed)) {
-					Main.getSettings().setStringProperty(
-							"new_plugin_version."
-									+ this.syncPlugin.getId()
-									+ ".showed",
-							version);
-					
-					int result = 0;
-					
-					if (!this.silent) {
-						String[] options = new String[] {
-								Translations.getString("general.update"),
-								Translations.getString("general.cancel") };
-						
-						result = JOptionPane.showOptionDialog(
-								MainFrame.getInstance().getFrame(),
-								Translations.getString(
-										"action.check_plugin_version.new_plugin_version_available",
-										version,
-										this.syncPlugin.getName()),
-								Translations.getString("general.information"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.INFORMATION_MESSAGE,
-								null,
-								options,
-								options[0]);
-					}
-					
-					if (result == 0) {
-						final Plugin pluginToUpdate = plugin;
-						
-						TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
-								MainFrame.getInstance().getFrame(),
-								Translations.getString("general.manage_plugins")) {
-							
-							@Override
-							public Void doActions(ProgressMonitor monitor)
-									throws Throwable {
-								PluginsUtils.updatePlugin(
-										pluginToUpdate,
-										monitor);
-								return null;
-							}
-							
-						};
-						
-						dialog.setVisible(true);
-					}
+				if (syncPlugin.getId().equals(
+						DummyGuiPlugin.getInstance().getId())) {
+					this.showNoNewVersion(syncPlugin, this.silent);
+					return;
 				}
-			} else {
-				this.showNoNewVersion(this.silent);
-			}
-		} catch (Throwable t) {
-			if (this.silent) {
-				GuiLogger.getLogger().warning(
-						"An error occured while checking for plugin updates");
-			} else {
-				ErrorInfo info = new ErrorInfo(
-						Translations.getString("general.error"),
-						Translations.getString("error.check_plugin_version_error"),
-						null,
-						null,
-						t,
-						null,
-						null);
 				
-				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				for (Plugin p : plugins) {
+					if (syncPlugin.getId().equals(p.getId()))
+						plugin = p;
+				}
+				
+				if (plugin == null) {
+					this.showNoNewVersion(syncPlugin, this.silent);
+					return;
+				}
+				
+				String version = plugin.getVersion();
+				
+				if (version == null || version.length() > 10)
+					throw new Exception();
+				
+				if (syncPlugin.getVersion().compareTo(version) < 0) {
+					GuiLogger.getLogger().info(
+							"New plugin \""
+									+ syncPlugin.getName()
+									+ "\" version available : "
+									+ version);
+					
+					String showed = Main.getSettings().getStringProperty(
+							"new_plugin_version."
+									+ syncPlugin.getId()
+									+ ".showed");
+					
+					if (!this.silent || !EqualsUtils.equals(version, showed)) {
+						Main.getSettings().setStringProperty(
+								"new_plugin_version."
+										+ syncPlugin.getId()
+										+ ".showed",
+								version);
+						
+						int result = 0;
+						
+						if (!this.silent) {
+							String[] options = new String[] {
+									Translations.getString("general.update"),
+									Translations.getString("general.cancel") };
+							
+							result = JOptionPane.showOptionDialog(
+									MainFrame.getInstance().getFrame(),
+									Translations.getString(
+											"action.check_plugin_version.new_plugin_version_available",
+											version,
+											syncPlugin.getName()),
+									Translations.getString("general.information"),
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.INFORMATION_MESSAGE,
+									null,
+									options,
+									options[0]);
+						}
+						
+						if (result == 0) {
+							final Plugin pluginToUpdate = plugin;
+							
+							TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+									MainFrame.getInstance().getFrame(),
+									Translations.getString("general.manage_plugins")) {
+								
+								@Override
+								public Void doActions(ProgressMonitor monitor)
+										throws Throwable {
+									PluginsUtils.updatePlugin(
+											pluginToUpdate,
+											monitor);
+									return null;
+								}
+								
+							};
+							
+							dialog.setVisible(true);
+						}
+					}
+				} else {
+					this.showNoNewVersion(syncPlugin, this.silent);
+				}
+			} catch (Throwable t) {
+				if (this.silent) {
+					GuiLogger.getLogger().warning(
+							"An error occured while checking for plugin updates");
+				} else {
+					ErrorInfo info = new ErrorInfo(
+							Translations.getString("general.error"),
+							Translations.getString("error.check_plugin_version_error"),
+							null,
+							null,
+							t,
+							null,
+							null);
+					
+					JXErrorPane.showDialog(
+							MainFrame.getInstance().getFrame(),
+							info);
+				}
 			}
 		}
 	}
 	
-	public void showNoNewVersion(boolean silent) {
+	public void showNoNewVersion(
+			SynchronizerGuiPlugin syncPlugin,
+			boolean silent) {
 		GuiLogger.getLogger().info(
 				"No new plugin \""
-						+ this.syncPlugin.getName()
+						+ syncPlugin.getName()
 						+ "\" version available");
 		
 		if (!silent) {
@@ -193,8 +206,8 @@ public class CheckPluginVersionRunnable implements Runnable {
 					MainFrame.getInstance().getFrame(),
 					Translations.getString(
 							"action.check_plugin_version.no_new_plugin_version_available",
-							this.syncPlugin.getVersion(),
-							this.syncPlugin.getName()),
+							syncPlugin.getVersion(),
+							syncPlugin.getName()),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
 		}

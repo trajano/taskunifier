@@ -105,14 +105,16 @@ public final class SynchronizerUtils {
 	}
 	
 	public static SynchronizerGuiPlugin getPlugin() {
-		String apiId = Main.getUserSettings().getStringProperty("api.id");
-		
-		if (apiId == null)
+		return getPlugin(Main.getUserSettings().getStringProperty("api.id"));
+	}
+	
+	public static SynchronizerGuiPlugin getPlugin(String pluginId) {
+		if (pluginId == null)
 			return DummyGuiPlugin.getInstance();
 		
 		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
-			if (EqualsUtils.equals(apiId, plugin.getId())) {
+			if (EqualsUtils.equals(pluginId, plugin.getId())) {
 				return plugin;
 			}
 		}
