@@ -1102,12 +1102,6 @@ public class Main {
 			QUIT = true;
 		}
 		
-		if (!force) {
-			Boolean syncExit = USER_SETTINGS.getBooleanProperty("synchronizer.sync_exit");
-			if (syncExit != null && syncExit)
-				ActionSynchronize.synchronize(false);
-		}
-		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
 		SETTINGS.setStringProperty("general.user.last_user_id", USER_ID);
