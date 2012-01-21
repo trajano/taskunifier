@@ -30,39 +30,51 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
-
-import com.leclercb.taskunifier.gui.components.plugins.PluginsDialog;
+import com.leclercb.taskunifier.gui.actions.ActionManagePublisherPlugins;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
+import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionManagePlugins extends AbstractAction {
+public class PublicationConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public ActionManagePlugins() {
-		this(32, 32);
-	}
-	
-	public ActionManagePlugins(int width, int height) {
-		super(
-				Translations.getString("action.manage_plugins"),
-				ImageUtils.getResourceImage("download.png", width, height));
+	public PublicationConfigurationPanel(ConfigurationGroup configuration) {
+		super(configuration, "configuration_publication");
 		
-		this.putValue(
-				SHORT_DESCRIPTION,
-				Translations.getString("action.manage_plugins"));
+		this.initialize();
+		this.pack();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionManagePlugins.managePlugins();
-	}
-	
-	public static void managePlugins() {
-		PluginsDialog.getInstance().setVisible(true);
+	private void initialize() {
+		this.addField(new ConfigurationField(
+				"MANAGE_PLUGINS",
+				null,
+				new ConfigurationFieldType.Button(
+						Translations.getString("configuration.publication.install_new_plugins"),
+						new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								if (PublicationConfigurationPanel.this.getConfigurationGroup() != null) {
+									PublicationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
+								}
+								
+								ActionManagePublisherPlugins.managePublisherPlugins();
+							}
+							
+						})));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
 	}
 	
 }

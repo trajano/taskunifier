@@ -77,7 +77,11 @@ public class CheckPluginVersionRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(false, true);
+		Plugin[] plugins = PluginsUtils.loadAndUpdatePluginsFromXML(
+				true,
+				true,
+				false,
+				true);
 		
 		if (plugins == null)
 			return;

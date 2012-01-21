@@ -46,7 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.components.configuration.DateConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
@@ -170,7 +170,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 						
 						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 2)
-							ActionManagePlugins.managePlugins();
+							ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 					} else {
 						WelcomeDialog.this.dispose();
 					}

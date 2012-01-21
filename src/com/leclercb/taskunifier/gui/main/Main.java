@@ -76,7 +76,7 @@ import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
-import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
@@ -349,7 +349,7 @@ public class Main {
 					SETTINGS.setBooleanProperty("review.showed", true);
 					
 					if (finalOutdatedPlugins)
-						ActionManagePlugins.managePlugins();
+						ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 					
 					TipsDialog.getInstance().showTipsDialog(true);
 					

@@ -24,6 +24,9 @@ public final class UserSettingsVersion {
 		if (version.equals("2.0.0"))
 			version = updateUserSettings_2_0_0_to_2_0_1();
 		
+		if (version.equals("2.0.1"))
+			version = updateUserSettings_2_0_1_to_2_1_0();
+		
 		cleanSettings();
 		Main.saveUserSettings();
 	}
@@ -62,9 +65,16 @@ public final class UserSettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update user settings from version 2.0.0 to 2.0.1");
 		
+		return "2.0.1";
+	}
+	
+	private static String updateUserSettings_2_0_1_to_2_1_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.0.1 to 2.1.0");
+		
 		Main.getUserSettings().replaceKey("api.id", "plugin.synchronizer.id");
 		
-		return "2.0.1";
+		return "2.1.0";
 	}
 	
 }

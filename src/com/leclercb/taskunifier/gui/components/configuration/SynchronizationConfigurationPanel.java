@@ -40,7 +40,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import com.leclercb.taskunifier.gui.actions.ActionManagePlugins;
+import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -84,7 +84,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 									SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
 								}
 								
-								ActionManagePlugins.managePlugins();
+								ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 							}
 							
 						})));

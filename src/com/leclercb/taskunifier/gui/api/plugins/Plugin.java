@@ -44,6 +44,8 @@ public class Plugin implements PropertyChangeSupported {
 	
 	public static final String PROP_STATUS = "status";
 	public static final String PROP_ID = "id";
+	public static final String PROP_PUBLISHER = "publisher";
+	public static final String PROP_SYNCHRONIZER = "synchronizer";
 	public static final String PROP_NAME = "name";
 	public static final String PROP_AUTHOR = "author";
 	public static final String PROP_VERSION = "version";
@@ -57,6 +59,8 @@ public class Plugin implements PropertyChangeSupported {
 	
 	private PluginStatus status;
 	private String id;
+	private boolean publisher;
+	private boolean synchronizer;
 	private String name;
 	private String author;
 	private String version;
@@ -69,6 +73,8 @@ public class Plugin implements PropertyChangeSupported {
 	public Plugin(
 			PluginStatus status,
 			String id,
+			boolean publisher,
+			boolean synchronizer,
 			String name,
 			String author,
 			String version,
@@ -81,6 +87,8 @@ public class Plugin implements PropertyChangeSupported {
 		
 		this.setStatus(status);
 		this.setId(id);
+		this.setPublisher(publisher);
+		this.setSynchronizer(synchronizer);
 		this.setName(name);
 		this.setAuthor(author);
 		this.setVersion(version);
@@ -114,6 +122,32 @@ public class Plugin implements PropertyChangeSupported {
 		String oldId = this.id;
 		this.id = id;
 		this.propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
+	}
+	
+	public boolean isPublisher() {
+		return this.publisher;
+	}
+	
+	public void setPublisher(boolean publisher) {
+		boolean oldPublisher = this.publisher;
+		this.publisher = publisher;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_PUBLISHER,
+				oldPublisher,
+				publisher);
+	}
+	
+	public boolean isSynchronizer() {
+		return this.synchronizer;
+	}
+	
+	public void setSynchronizer(boolean synchronizer) {
+		boolean oldSynchronizer = this.synchronizer;
+		this.synchronizer = synchronizer;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_SYNCHRONIZER,
+				oldSynchronizer,
+				synchronizer);
 	}
 	
 	public String getName() {

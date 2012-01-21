@@ -50,20 +50,20 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class PluginsDialog extends JDialog {
+public class SynchronizerPluginsDialog extends JDialog {
 	
-	private static PluginsDialog INSTANCE;
+	private static SynchronizerPluginsDialog INSTANCE;
 	
-	public static PluginsDialog getInstance() {
+	public static SynchronizerPluginsDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new PluginsDialog();
+			INSTANCE = new SynchronizerPluginsDialog();
 		
 		return INSTANCE;
 	}
 	
 	private PluginsPanel pluginsPanel;
 	
-	private PluginsDialog() {
+	private SynchronizerPluginsDialog() {
 		super(MainFrame.getInstance().getFrame());
 		
 		this.initialize();
@@ -90,12 +90,12 @@ public class PluginsDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
-		header.setTitle(Translations.getString("header.title.manage_plugins"));
-		header.setDescription(Translations.getString("header.description.manage_plugins"));
+		header.setTitle(Translations.getString("header.title.manage_synchronizer_plugins"));
+		header.setDescription(Translations.getString("header.description.manage_synchronizer_plugins"));
 		header.setIcon(ImageUtils.getResourceImage("settings.png", 32, 32));
 		this.add(header, BorderLayout.NORTH);
 		
-		this.pluginsPanel = new PluginsPanel();
+		this.pluginsPanel = new PluginsPanel(false, true);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 10));
@@ -112,10 +112,10 @@ public class PluginsDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					PluginsDialog.this.pluginsPanel.installSelectedPlugin();
+					SynchronizerPluginsDialog.this.pluginsPanel.installSelectedPlugin();
 				}
 				
-				PluginsDialog.this.setVisible(false);
+				SynchronizerPluginsDialog.this.setVisible(false);
 			}
 			
 		};

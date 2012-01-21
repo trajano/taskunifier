@@ -52,15 +52,23 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class PluginsPanel extends JPanel implements ListSelectionListener {
 	
+	private boolean includePublishers;
+	private boolean includeSynchronizers;
+	
 	private PluginList list;
 	private JTextArea history;
 	
-	public PluginsPanel() {
+	public PluginsPanel(boolean includePublishers, boolean includeSynchronizers) {
+		this.includePublishers = includePublishers;
+		this.includeSynchronizers = includeSynchronizers;
+		
 		this.initialize();
 	}
 	
 	public void reloadPlugins() {
 		this.list.setPlugins(PluginsUtils.loadAndUpdatePluginsFromXML(
+				this.includePublishers,
+				this.includeSynchronizers,
 				true,
 				false));
 	}
@@ -110,7 +118,11 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 			dialog.setVisible(true);
 		}
 		
-		SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getPlugin(plugin.getId()));
+		if (this.includePublishers)
+			SynchronizerUtils.addPublisherPlugin(SynchronizerUtils.getPlugin(plugin.getId()));
+		
+		if (this.includeSynchronizers)
+			SynchronizerUtils.setSynchronizerPlugin(SynchronizerUtils.getPlugin(plugin.getId()));
 		
 		PluginsPanel.this.valueChanged(null);
 	}

@@ -99,6 +99,8 @@ public class PluginsUtils {
 	public static final Plugin DUMMY_PLUGIN = new Plugin(
 			PluginStatus.INSTALLED,
 			DummyGuiPlugin.getInstance().getId(),
+			DummyGuiPlugin.getInstance().isPublisher(),
+			DummyGuiPlugin.getInstance().isSynchronizer(),
 			DummyGuiPlugin.getInstance().getName(),
 			DummyGuiPlugin.getInstance().getAuthor(),
 			DummyGuiPlugin.getInstance().getVersion(),
@@ -402,7 +404,9 @@ public class PluginsUtils {
 	
 	private static Plugin[] loadPluginsFromXML(
 			ProgressMonitor monitor,
-			boolean includeDummy) throws Exception {
+			boolean includePublishers,
+			boolean includeSynchronizers,
+			boolean includeDummyPlugin) throws Exception {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
@@ -452,6 +456,8 @@ public class PluginsUtils {
 				String id = null;
 				String minVersion = null;
 				String maxVersion = null;
+				boolean publisher = false;
+				boolean synchronizer = false;
 				String name = null;
 				String author = null;
 				String version = null;
@@ -474,6 +480,12 @@ public class PluginsUtils {
 					
 					if (element.getNodeName().equals("maxVersion"))
 						maxVersion = element.getTextContent();
+					
+					if (element.getNodeName().equals("publisher"))
+						publisher = Boolean.parseBoolean(element.getTextContent());
+					
+					if (element.getNodeName().equals("synchronizer"))
+						synchronizer = Boolean.parseBoolean(element.getTextContent());
 					
 					if (element.getNodeName().equals("name"))
 						name = element.getTextContent();
@@ -499,6 +511,22 @@ public class PluginsUtils {
 					if (element.getNodeName().equals("price"))
 						price = element.getTextContent();
 				}
+				
+				// Check min version
+				if (minVersion != null && minVersion.length() != 0) {
+					if (Constants.VERSION.compareTo(minVersion) < 0)
+						continue;
+				}
+				
+				// Check max version
+				if (maxVersion != null && maxVersion.length() != 0) {
+					if (Constants.VERSION.compareTo(maxVersion) > 0)
+						continue;
+				}
+				
+				// Check publisher & synchronizer
+				if (!((includePublishers && publisher) || (includeSynchronizers && synchronizer)))
+					continue;
 				
 				if (historyUrl != null) {
 					try {
@@ -526,21 +554,11 @@ public class PluginsUtils {
 					} catch (Throwable t) {}
 				}
 				
-				// Check min version
-				if (minVersion != null && minVersion.length() != 0) {
-					if (Constants.VERSION.compareTo(minVersion) < 0)
-						continue;
-				}
-				
-				// Check max version
-				if (maxVersion != null && maxVersion.length() != 0) {
-					if (Constants.VERSION.compareTo(maxVersion) > 0)
-						continue;
-				}
-				
 				Plugin plugin = new Plugin(
 						PluginStatus.TO_INSTALL,
 						id,
+						publisher,
+						synchronizer,
 						name,
 						author,
 						version,
@@ -557,7 +575,7 @@ public class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.plugin_database_retrieved")));
 			
-			if (includeDummy)
+			if (includeSynchronizers && includeDummyPlugin)
 				plugins.add(0, DUMMY_PLUGIN);
 			
 			return plugins.toArray(new Plugin[0]);
@@ -574,13 +592,19 @@ public class PluginsUtils {
 	}
 	
 	public static Plugin[] loadAndUpdatePluginsFromXML(
-			final boolean includeDummy,
+			final boolean includePublishers,
+			final boolean includeSynchronizers,
+			final boolean includeDummyPlugin,
 			final boolean silent) {
 		Plugin[] plugins = null;
 		
 		if (silent) {
 			try {
-				plugins = PluginsUtils.loadPluginsFromXML(null, includeDummy);
+				plugins = PluginsUtils.loadPluginsFromXML(
+						null,
+						includePublishers,
+						includeSynchronizers,
+						includeDummyPlugin);
 			} catch (Exception e) {
 				GuiLogger.getLogger().warning("Cannot load plugins from XML");
 			}
@@ -594,7 +618,9 @@ public class PluginsUtils {
 						throws Throwable {
 					return PluginsUtils.loadPluginsFromXML(
 							monitor,
-							includeDummy);
+							includePublishers,
+							includeSynchronizers,
+							includeDummyPlugin);
 				}
 				
 			};
@@ -604,7 +630,7 @@ public class PluginsUtils {
 		}
 		
 		if (plugins == null) {
-			if (!includeDummy)
+			if (!includeDummyPlugin)
 				return new Plugin[0];
 			
 			plugins = new Plugin[] { DUMMY_PLUGIN };

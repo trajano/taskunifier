@@ -83,6 +83,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		THEME,
 		TOOLBAR,
 		ADVANCED,
+		PUBLICATION,
 		SYNCHRONIZATION,
 		PLUGIN;
 		
@@ -98,6 +99,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel themeConfigurationPanel;
 	private ConfigurationPanel toolbarConfigurationPanel;
 	private ConfigurationPanel advancedConfigurationPanel;
+	private ConfigurationPanel publicationConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	private ConfigurationPanel pluginConfigurationPanel;
 	
@@ -142,6 +144,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeThemePanel();
 		this.initializeToolbarPanel();
 		this.initializeAdvancedPanel();
+		this.initializePublicationPanel();
 		this.initializeSynchronizationPanel();
 		this.initializePluginPanel();
 		
@@ -272,6 +275,16 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 						false));
 	}
 	
+	private void initializePublicationPanel() {
+		this.publicationConfigurationPanel = new PublicationConfigurationPanel(
+				this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.publication"),
+				ComponentFactory.createJScrollPane(
+						this.publicationConfigurationPanel,
+						false));
+	}
+	
 	private void initializeSynchronizationPanel() {
 		this.synchronizationConfigurationPanel = new SynchronizationConfigurationPanel(
 				this,
@@ -308,6 +321,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.themeConfigurationPanel.saveAndApplyConfig();
 			this.toolbarConfigurationPanel.saveAndApplyConfig();
 			this.advancedConfigurationPanel.saveAndApplyConfig();
+			this.publicationConfigurationPanel.saveAndApplyConfig();
 			this.synchronizationConfigurationPanel.saveAndApplyConfig();
 			
 			Main.saveSettings();
@@ -345,6 +359,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.themeConfigurationPanel.cancelConfig();
 			this.toolbarConfigurationPanel.cancelConfig();
 			this.advancedConfigurationPanel.cancelConfig();
+			this.publicationConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),

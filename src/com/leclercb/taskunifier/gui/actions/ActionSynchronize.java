@@ -89,7 +89,7 @@ public class ActionSynchronize extends AbstractAction {
 			if (background || !userAction)
 				return;
 			
-			ActionManagePlugins.managePlugins();
+			ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 			ActionConfiguration.configuration(ConfigurationTab.PLUGIN);
 			return;
 		}
