@@ -143,6 +143,26 @@ public final class SynchronizerUtils {
 		return plugins.toArray(new SynchronizerGuiPlugin[0]);
 	}
 	
+	public static void setPublisherPlugins(SynchronizerGuiPlugin[] plugins) {
+		if (plugins == null) {
+			Main.getUserSettings().setStringProperty("plugin.publisher.ids", "");
+			return;
+		}
+		
+		List<String> listIds = new ArrayList<String>();
+		
+		for (SynchronizerGuiPlugin plugin : plugins) {
+			if (plugin == null)
+				continue;
+			
+			listIds.add(plugin.getId());
+		}
+		
+		Main.getUserSettings().setStringProperty(
+				"plugin.publisher.ids",
+				StringUtils.join(listIds, ";"));
+	}
+	
 	public static void addPublisherPlugin(SynchronizerGuiPlugin plugin) {
 		if (plugin == null || !plugin.isPublisher())
 			return;
@@ -314,6 +334,12 @@ public final class SynchronizerUtils {
 	public static void resetConnection() {
 		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetConnectionParameters(
 				Main.getUserSettings());
+		
+		SynchronizerGuiPlugin[] plugins = getPublisherPlugins();
+		for (SynchronizerGuiPlugin plugin : plugins) {
+			plugin.getSynchronizerApi().resetConnectionParameters(
+					Main.getUserSettings());
+		}
 	}
 	
 	public static void resetSynchronizer() {
@@ -323,6 +349,12 @@ public final class SynchronizerUtils {
 		
 		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetSynchronizerParameters(
 				Main.getUserSettings());
+		
+		SynchronizerGuiPlugin[] plugins = getPublisherPlugins();
+		for (SynchronizerGuiPlugin plugin : plugins) {
+			plugin.getSynchronizerApi().resetSynchronizerParameters(
+					Main.getUserSettings());
+		}
 	}
 	
 	public static void resetSynchronizerAndDeleteModels() {
@@ -338,10 +370,6 @@ public final class SynchronizerUtils {
 			return;
 		}
 		
-		Main.getUserSettings().setCalendarProperty(
-				"synchronizer.last_synchronization_date",
-				null);
-		
 		// TODO: Delete all contacts ?
 		// ContactFactory.getInstance().deleteAll();
 		ContextFactory.getInstance().deleteAll();
@@ -351,8 +379,7 @@ public final class SynchronizerUtils {
 		NoteFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
 		
-		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetSynchronizerParameters(
-				Main.getUserSettings());
+		resetSynchronizer();
 		
 		if (set) {
 			try {

@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import javax.swing.JCheckBox;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
@@ -41,12 +43,14 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.comparators.SynchronizerGuiPluginComparator;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel implements ListChangeListener {
+public class CheckboxSynchronizerGuiPluginModel extends DefaultSortedComboBoxModel implements ListChangeListener {
 	
 	private boolean publisher;
 	private boolean synchronizer;
 	
-	public SynchronizerGuiPluginModel(boolean publisher, boolean synchronizer) {
+	public CheckboxSynchronizerGuiPluginModel(
+			boolean publisher,
+			boolean synchronizer) {
 		super(SynchronizerGuiPluginComparator.INSTANCE);
 		
 		this.publisher = publisher;
@@ -59,11 +63,26 @@ public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel imple
 		List<SynchronizerGuiPlugin> plugins = Main.getApiPlugins().getPlugins();
 		for (SynchronizerGuiPlugin plugin : plugins) {
 			if ((this.publisher && plugin.isPublisher())
-					|| (this.synchronizer && plugin.isSynchronizer()))
-				this.addElement(plugin);
+					|| (this.synchronizer && plugin.isSynchronizer())) {
+				JCheckBox cb = new JCheckBox(plugin.getName());
+				cb.setActionCommand(plugin.getId());
+				this.addElement(cb);
+			}
 		}
 		
 		Main.getApiPlugins().addListChangeListener(this);
+	}
+	
+	private JCheckBox findCheckBox(SynchronizerGuiPlugin plugin) {
+		for (int i = 0; i < this.getSize(); i++) {
+			JCheckBox checkBox = (JCheckBox) this.getElementAt(i);
+			
+			if (checkBox.getActionCommand().equals(plugin.getId())) {
+				return checkBox;
+			}
+		}
+		
+		return null;
 	}
 	
 	@Override
@@ -72,10 +91,13 @@ public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel imple
 		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			if ((this.publisher && plugin.isPublisher())
-					|| (this.synchronizer && plugin.isSynchronizer()))
-				this.addElement(plugin);
+					|| (this.synchronizer && plugin.isSynchronizer())) {
+				JCheckBox cb = new JCheckBox(plugin.getName());
+				cb.setActionCommand(plugin.getId());
+				this.addElement(cb);
+			}
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement(plugin);
+			this.removeElement(this.findCheckBox(plugin));
 		}
 	}
 	
