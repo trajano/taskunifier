@@ -41,10 +41,12 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -84,8 +86,11 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public static void synchronize(boolean background, boolean userAction) {
-		if (SynchronizerUtils.getSynchronizerPlugin().getId().equals(
-				DummyGuiPlugin.getInstance().getId())) {
+		boolean isDummyPlugin = SynchronizerUtils.getSynchronizerPlugin().getId().equals(
+				DummyGuiPlugin.getInstance().getId());
+		
+		if (isDummyPlugin
+				&& SynchronizerUtils.getPublisherPlugins().length == 0) {
 			if (background || !userAction)
 				return;
 			
@@ -96,14 +101,30 @@ public class ActionSynchronize extends AbstractAction {
 		
 		ViewType.commitAll();
 		
+		SynchronizerGuiPlugin[] publisherPlugins = SynchronizerUtils.getPublisherPlugins();
+		
 		if (background) {
-			BackgroundSynchronizer.synchronize();
+			if (!isDummyPlugin)
+				BackgroundSynchronizer.synchronize(
+						SynchronizerUtils.getSynchronizerPlugin(),
+						Type.SYNCHRONIZE);
 		} else {
 			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
 			Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
 			
-			SynchronizerDialog dialog = new SynchronizerDialog();
-			dialog.setVisible(true);
+			if (!isDummyPlugin) {
+				SynchronizerDialog dialog = new SynchronizerDialog(
+						SynchronizerUtils.getSynchronizerPlugin(),
+						Type.SYNCHRONIZE);
+				dialog.setVisible(true);
+			}
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				SynchronizerDialog dialog = new SynchronizerDialog(
+						plugin,
+						Type.PUBLISH);
+				dialog.setVisible(true);
+			}
 			
 			ViewType.getNoteView().getNoteTableView().setSelectedNotes(notes);
 			ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);

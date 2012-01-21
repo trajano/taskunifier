@@ -41,6 +41,7 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
@@ -63,18 +64,43 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 	
+	public enum Type {
+		
+		PUBLISH,
+		SYNCHRONIZE;
+		
+	}
+	
 	private static int SYNCHRONIZE_COUNT = 0;
 	
+	private SynchronizerGuiPlugin plugin;
+	private Type type;
 	private boolean silent;
 	private SynchronizerProgressMessageListener handler;
 	
-	public SynchronizerWorker(boolean silent) {
-		this(silent, null);
+	public SynchronizerWorker(
+			SynchronizerGuiPlugin plugin,
+			Type type,
+			boolean silent) {
+		this(plugin, type, silent, null);
 	}
 	
 	public SynchronizerWorker(
+			SynchronizerGuiPlugin plugin,
+			Type type,
 			boolean silent,
 			SynchronizerProgressMessageListener handler) {
+		CheckUtils.isNotNull(plugin);
+		CheckUtils.isNotNull(type);
+		
+		if (type == Type.PUBLISH && !plugin.isPublisher())
+			throw new IllegalArgumentException();
+		
+		if (type == Type.SYNCHRONIZE && !plugin.isSynchronizer())
+			throw new IllegalArgumentException();
+		
+		this.plugin = plugin;
+		this.type = type;
 		this.silent = silent;
 		this.handler = handler;
 	}
@@ -111,8 +137,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				return null;
 			}
 			
-			if (Main.getSettings().getBooleanProperty(
-					"general.backup.backup_before_sync"))
+			if (this.type == Type.SYNCHRONIZE
+					&& Main.getSettings().getBooleanProperty(
+							"general.backup.backup_before_sync"))
 				BackupUtils.getInstance().createNewBackup();
 			
 			ActionSave.save();
@@ -124,16 +151,16 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			
 			SynchronizerUtils.initializeProxy();
 			
-			SynchronizerGuiPlugin plugin = SynchronizerUtils.getSynchronizerPlugin();
-			
-			if (plugin.needsLicense()) {
+			if (this.plugin.needsLicense()) {
 				monitor.addMessage(new SynchronizerDefaultProgressMessage(
 						Translations.getString("synchronizer.checking_license")));
 				
-				if (!plugin.checkLicense()) {
+				if (!this.plugin.checkLicense()) {
 					int waitTime = Constants.WAIT_NO_LICENSE_TIME;
-					waitTime += SYNCHRONIZE_COUNT
-							* Constants.WAIT_NO_LICENSE_ADDED_TIME;
+					
+					if (this.type == Type.SYNCHRONIZE)
+						waitTime += SYNCHRONIZE_COUNT
+								* Constants.WAIT_NO_LICENSE_ADDED_TIME;
 					
 					monitor.addMessage(new SynchronizerDefaultProgressMessage(
 							Translations.getString(
@@ -150,9 +177,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			monitor.addMessage(new SynchronizerDefaultProgressMessage(
 					Translations.getString(
 							"synchronizer.connecting",
-							plugin.getSynchronizerApi().getApiName())));
+							this.plugin.getSynchronizerApi().getApiName())));
 			
-			connection = plugin.getSynchronizerApi().getConnection(
+			connection = this.plugin.getSynchronizerApi().getConnection(
 					Main.getUserSettings());
 			
 			connection.loadParameters(Main.getUserSettings());
@@ -186,16 +213,24 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			
 			connection.saveParameters(Main.getUserSettings());
 			
-			synchronizer = plugin.getSynchronizerApi().getSynchronizer(
+			synchronizer = this.plugin.getSynchronizerApi().getSynchronizer(
 					Main.getUserSettings(),
 					connection);
 			
-			SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
-					"synchronizer.choice",
-					SynchronizerChoice.class);
-			
 			synchronizer.loadParameters(Main.getUserSettings());
-			synchronizer.synchronize(choice, monitor);
+			
+			if (this.type == Type.PUBLISH) {
+				synchronizer.publish(monitor);
+			}
+			
+			if (this.type == Type.SYNCHRONIZE) {
+				SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
+						"synchronizer.choice",
+						SynchronizerChoice.class);
+				
+				synchronizer.synchronize(choice, monitor);
+			}
+			
 			synchronizer.saveParameters(Main.getUserSettings());
 			
 			connection.disconnect();
@@ -220,7 +255,10 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				monitor.removeListChangeListener(this.handler);
 			
 			Constants.PROGRESS_MONITOR.clear();
-			SynchronizerUtils.removeOldCompletedTasks();
+			
+			if (this.type == Type.SYNCHRONIZE)
+				SynchronizerUtils.removeOldCompletedTasks();
+			
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 			
 			if (set) {

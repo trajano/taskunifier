@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
 
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 
 public final class BackgroundSynchronizer {
@@ -42,8 +44,8 @@ public final class BackgroundSynchronizer {
 		
 	}
 	
-	public static void synchronize() {
-		SynchronizerWorker worker = new SynchronizerWorker(true) {
+	public static void synchronize(SynchronizerGuiPlugin plugin, Type type) {
+		SynchronizerWorker worker = new SynchronizerWorker(plugin, type, true) {
 			
 			@Override
 			protected Void doInBackground() throws Exception {
