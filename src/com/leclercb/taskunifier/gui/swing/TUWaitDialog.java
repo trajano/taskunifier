@@ -82,7 +82,7 @@ public class TUWaitDialog extends JDialog {
 	private void initialize(String title) {
 		this.setModal(true);
 		this.setTitle(title);
-		this.setSize(400, 180);
+		this.setSize(600, 300);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
