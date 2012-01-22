@@ -85,9 +85,10 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 						m.getActionCount() > 1);
 				
 				String property = null;
-				if (m.getType().equals(ProgressMessageType.PUBLISHER_END))
+				if (m.getType().equals(ProgressMessageType.PUBLISHER_START))
 					property = "synchronizer.publishing";
-				else
+				else if (m.getType().equals(
+						ProgressMessageType.SYNCHRONIZER_START))
 					property = "synchronizer.synchronizing";
 				
 				this.showMessage(m, Translations.getString(

@@ -1,11 +1,13 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.publication;
 
+import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -13,21 +15,29 @@ import com.leclercb.taskunifier.gui.commons.models.CheckboxSynchronizerGuiPlugin
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUCheckBoxList;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class PublisherPluginList extends TUCheckBoxList implements ConfigurationFieldType<TUCheckBoxList, String> {
+public class PublisherPluginList extends JPanel implements ConfigurationFieldType<JPanel, String> {
 	
 	private boolean first;
+	private TUCheckBoxList list;
 	
 	public PublisherPluginList() {
 		this.first = true;
 		
-		this.setModel(new CheckboxSynchronizerGuiPluginModel(true, false));
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.list = new TUCheckBoxList();
+		this.list.setModel(new CheckboxSynchronizerGuiPluginModel(true, false));
+		this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		this.setLayout(new BorderLayout());
+		this.add(
+				ComponentFactory.createJScrollPane(this.list, true),
+				BorderLayout.CENTER);
 	}
 	
 	public SynchronizerGuiPlugin getSelectedPlugin() {
-		CheckBox cb = (CheckBox) this.getSelectedValue();
+		CheckBox cb = (CheckBox) this.list.getSelectedValue();
 		
 		if (cb == null)
 			return null;
@@ -56,7 +66,7 @@ public class PublisherPluginList extends TUCheckBoxList implements Configuration
 	}
 	
 	@Override
-	public TUCheckBoxList getFieldComponent() {
+	public JPanel getFieldComponent() {
 		return this;
 	}
 	
@@ -67,7 +77,7 @@ public class PublisherPluginList extends TUCheckBoxList implements Configuration
 	
 	public void setFieldValue() {
 		SynchronizerGuiPlugin[] plugins = SynchronizerUtils.getPublisherPlugins();
-		CheckboxSynchronizerGuiPluginModel model = (CheckboxSynchronizerGuiPluginModel) this.getModel();
+		CheckboxSynchronizerGuiPluginModel model = (CheckboxSynchronizerGuiPluginModel) this.list.getModel();
 		for (int i = 0; i < model.getSize(); i++) {
 			JCheckBox checkBox = (JCheckBox) model.getElementAt(i);
 			
@@ -89,7 +99,7 @@ public class PublisherPluginList extends TUCheckBoxList implements Configuration
 	@Override
 	public void saveAndApplyConfig() {
 		List<SynchronizerGuiPlugin> plugins = new ArrayList<SynchronizerGuiPlugin>();
-		CheckboxSynchronizerGuiPluginModel model = (CheckboxSynchronizerGuiPluginModel) this.getModel();
+		CheckboxSynchronizerGuiPluginModel model = (CheckboxSynchronizerGuiPluginModel) this.list.getModel();
 		for (int i = 0; i < model.getSize(); i++) {
 			JCheckBox checkBox = (JCheckBox) model.getElementAt(i);
 			
