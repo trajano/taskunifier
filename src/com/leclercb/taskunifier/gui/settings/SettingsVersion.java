@@ -683,7 +683,7 @@ public final class SettingsVersion {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SynchronizerUtils.resetSynchronizer();
+					SynchronizerUtils.resetAllSynchronizers();
 				} catch (Throwable t) {
 					
 				}
@@ -850,7 +850,7 @@ public final class SettingsVersion {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SynchronizerUtils.resetSynchronizer();
+					SynchronizerUtils.resetAllSynchronizers();
 				} catch (Throwable t) {
 					
 				}

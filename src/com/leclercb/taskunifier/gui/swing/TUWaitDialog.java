@@ -63,6 +63,10 @@ public class TUWaitDialog extends JDialog {
 		this.initialize(title);
 	}
 	
+	public SwingWorker<?, ?> getWorker() {
+		return this.worker;
+	}
+	
 	public void setWorker(SwingWorker<?, ?> worker) {
 		this.worker = worker;
 	}

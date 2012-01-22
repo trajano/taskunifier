@@ -59,7 +59,9 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 			} else if (message instanceof SynchronizerRetrievedModelsProgressMessage) {
 				SynchronizerRetrievedModelsProgressMessage m = (SynchronizerRetrievedModelsProgressMessage) message;
 				
-				if (m.getType().equals(ProgressMessageType.END))
+				if (m.getType().equals(ProgressMessageType.PUBLISHER_END)
+						|| m.getType().equals(
+								ProgressMessageType.SYNCHRONIZER_END))
 					return;
 				
 				String type = TranslationsUtils.translateModelType(
@@ -72,7 +74,9 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 			} else if (message instanceof SynchronizerUpdatedModelsProgressMessage) {
 				SynchronizerUpdatedModelsProgressMessage m = (SynchronizerUpdatedModelsProgressMessage) message;
 				
-				if (m.getType().equals(ProgressMessageType.END)
+				if (m.getType().equals(ProgressMessageType.PUBLISHER_END)
+						|| m.getType().equals(
+								ProgressMessageType.SYNCHRONIZER_END)
 						|| m.getActionCount() == 0)
 					return;
 				
@@ -80,20 +84,33 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 						m.getModelType(),
 						m.getActionCount() > 1);
 				
-				this.showMessage(
-						m,
-						Translations.getString(
-								"synchronizer.synchronizing",
-								m.getActionCount(),
-								type));
+				String property = null;
+				if (m.getType().equals(ProgressMessageType.PUBLISHER_END))
+					property = "synchronizer.publishing";
+				else
+					property = "synchronizer.synchronizing";
+				
+				this.showMessage(m, Translations.getString(
+						property,
+						m.getActionCount(),
+						type));
 			} else if (message instanceof SynchronizerMainProgressMessage) {
 				SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
-				
-				if (m.getType().equals(ProgressMessageType.START))
+				if (m.getType().equals(ProgressMessageType.PUBLISHER_START))
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.start_publication"));
+				else if (m.getType().equals(ProgressMessageType.PUBLISHER_END))
+					this.showMessage(
+							m,
+							Translations.getString("synchronizer.publication_completed"));
+				else if (m.getType().equals(
+						ProgressMessageType.SYNCHRONIZER_START))
 					this.showMessage(
 							m,
 							Translations.getString("synchronizer.start_synchronization"));
-				else if (m.getType().equals(ProgressMessageType.END))
+				else if (m.getType().equals(
+						ProgressMessageType.SYNCHRONIZER_END))
 					this.showMessage(
 							m,
 							Translations.getString("synchronizer.synchronization_completed"));

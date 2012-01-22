@@ -36,6 +36,7 @@ import java.awt.Component;
 import java.util.Locale;
 
 import com.leclercb.commons.api.properties.PropertyMap;
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -55,8 +56,12 @@ public class PluginApi {
 		return Main.getUserSettings();
 	}
 	
-	public static void initializeProxy() {
-		SynchronizerUtils.initializeProxy();
+	public static SynchronizerGuiPlugin getPlugin(String pluginId) {
+		return SynchronizerUtils.getPlugin(pluginId);
+	}
+	
+	public static void initializeProxy(SynchronizerGuiPlugin plugin) {
+		SynchronizerUtils.initializeProxy(plugin);
 	}
 	
 	public static Locale getLocale() {
@@ -71,8 +76,8 @@ public class PluginApi {
 		return Translations.getString(key, args);
 	}
 	
-	public static void resetSynchronizerAndDeleteModels() {
-		SynchronizerUtils.resetSynchronizerAndDeleteModels();
+	public static void resetAllSynchronizersAndDeleteModels() {
+		SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 	}
 	
 }

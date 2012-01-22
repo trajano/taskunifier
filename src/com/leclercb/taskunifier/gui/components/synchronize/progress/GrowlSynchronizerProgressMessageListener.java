@@ -55,7 +55,9 @@ public class GrowlSynchronizerProgressMessageListener extends SynchronizerProgre
 				SynchronizerMainProgressMessage.class)) {
 			SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
 			
-			if (m.getType().equals(ProgressMessageType.START)) {
+			if (m.getType().equals(ProgressMessageType.PUBLISHER_START)
+					|| m.getType().equals(
+							ProgressMessageType.SYNCHRONIZER_START)) {
 				GrowlUtils.notify(
 						GrowlNotificationList.SYNCHRONIZATION,
 						content);

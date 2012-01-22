@@ -166,7 +166,7 @@ public final class BackupUtils {
 		if (!this.checkBackupName(backupName, false))
 			return false;
 		
-		SynchronizerUtils.resetSynchronizerAndDeleteModels();
+		SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 		
 		boolean set = false;
 		

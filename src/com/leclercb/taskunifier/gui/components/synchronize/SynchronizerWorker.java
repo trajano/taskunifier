@@ -32,7 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.components.synchronize;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
@@ -73,23 +75,26 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 	
 	private static int SYNCHRONIZE_COUNT = 0;
 	
-	private SynchronizerGuiPlugin plugin;
-	private Type type;
+	private List<SynchronizerGuiPlugin> plugins;
+	private List<Type> types;
 	private boolean silent;
 	private SynchronizerProgressMessageListener handler;
 	
-	public SynchronizerWorker(
-			SynchronizerGuiPlugin plugin,
-			Type type,
-			boolean silent) {
-		this(plugin, type, silent, null);
+	public SynchronizerWorker(boolean silent) {
+		this(silent, null);
 	}
 	
 	public SynchronizerWorker(
-			SynchronizerGuiPlugin plugin,
-			Type type,
 			boolean silent,
 			SynchronizerProgressMessageListener handler) {
+		this.plugins = new ArrayList<SynchronizerGuiPlugin>();
+		this.types = new ArrayList<Type>();
+		
+		this.silent = silent;
+		this.handler = handler;
+	}
+	
+	public void add(SynchronizerGuiPlugin plugin, Type type) {
 		CheckUtils.isNotNull(plugin);
 		CheckUtils.isNotNull(type);
 		
@@ -99,10 +104,8 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		if (type == Type.SYNCHRONIZE && !plugin.isSynchronizer())
 			throw new IllegalArgumentException();
 		
-		this.plugin = plugin;
-		this.type = type;
-		this.silent = silent;
-		this.handler = handler;
+		this.plugins.add(plugin);
+		this.types.add(type);
 	}
 	
 	@Override
@@ -137,107 +140,108 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				return null;
 			}
 			
-			if (this.type == Type.SYNCHRONIZE
-					&& Main.getSettings().getBooleanProperty(
-							"general.backup.backup_before_sync"))
-				BackupUtils.getInstance().createNewBackup();
-			
-			ActionSave.save();
-			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
-			monitor.addMessage(new SynchronizerDefaultProgressMessage(
-					Translations.getString("synchronizer.set_proxy")));
-			
-			SynchronizerUtils.initializeProxy();
-			
-			if (this.plugin.needsLicense()) {
-				monitor.addMessage(new SynchronizerDefaultProgressMessage(
-						Translations.getString("synchronizer.checking_license")));
+			for (int i = 0; i < this.plugins.size(); i++) {
+				SynchronizerGuiPlugin plugin = this.plugins.get(i);
+				Type type = this.types.get(i);
 				
-				if (!this.plugin.checkLicense()) {
-					int waitTime = Constants.WAIT_NO_LICENSE_TIME;
+				if (type == Type.SYNCHRONIZE
+						&& Main.getSettings().getBooleanProperty(
+								"general.backup.backup_before_sync")) {
+					BackupUtils.getInstance().createNewBackup();
+					ActionSave.save();
+				}
+				
+				SynchronizerUtils.initializeProxy(plugin);
+				
+				if (type == Type.SYNCHRONIZE && plugin.needsLicense()) {
+					monitor.addMessage(new SynchronizerDefaultProgressMessage(
+							Translations.getString("synchronizer.checking_license")));
 					
-					if (this.type == Type.SYNCHRONIZE)
+					if (!plugin.checkLicense()) {
+						int waitTime = Constants.WAIT_NO_LICENSE_TIME;
+						
 						waitTime += SYNCHRONIZE_COUNT
 								* Constants.WAIT_NO_LICENSE_ADDED_TIME;
-					
-					monitor.addMessage(new SynchronizerDefaultProgressMessage(
-							Translations.getString(
-									"synchronizer.wait_no_license",
-									waitTime)));
-					
-					Thread.sleep(waitTime * 1000);
-					
-					if (this.isStopped())
-						return null;
-				}
-			}
-			
-			monitor.addMessage(new SynchronizerDefaultProgressMessage(
-					Translations.getString(
-							"synchronizer.connecting",
-							this.plugin.getSynchronizerApi().getApiName())));
-			
-			connection = this.plugin.getSynchronizerApi().getConnection(
-					Main.getUserSettings());
-			
-			connection.loadParameters(Main.getUserSettings());
-			
-			final Connection finalConnection = connection;
-			this.executeNonAtomicAction(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						finalConnection.connect();
-					} catch (final SynchronizerException e) {
-						if (SynchronizerWorker.this.isStopped())
-							return;
 						
-						SynchronizerWorker.this.handleSynchronizerException(e);
-						SynchronizerWorker.this.stop();
-					} catch (final Throwable t) {
-						if (SynchronizerWorker.this.isStopped())
-							return;
+						monitor.addMessage(new SynchronizerDefaultProgressMessage(
+								Translations.getString(
+										"synchronizer.wait_no_license",
+										waitTime)));
 						
-						SynchronizerWorker.this.handleThrowable(t);
-						SynchronizerWorker.this.stop();
+						Thread.sleep(waitTime * 1000);
+						
+						if (this.isStopped())
+							return null;
 					}
-				};
+				}
 				
-			});
-			
-			if (this.isStopped())
-				return null;
-			
-			connection.saveParameters(Main.getUserSettings());
-			
-			synchronizer = this.plugin.getSynchronizerApi().getSynchronizer(
-					Main.getUserSettings(),
-					connection);
-			
-			synchronizer.loadParameters(Main.getUserSettings());
-			
-			if (this.type == Type.PUBLISH) {
-				synchronizer.publish(monitor);
-			}
-			
-			if (this.type == Type.SYNCHRONIZE) {
-				SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
-						"synchronizer.choice",
-						SynchronizerChoice.class);
+				monitor.addMessage(new SynchronizerDefaultProgressMessage(
+						Translations.getString(
+								"synchronizer.connecting",
+								plugin.getSynchronizerApi().getApiName())));
 				
-				synchronizer.synchronize(choice, monitor);
+				connection = plugin.getSynchronizerApi().getConnection(
+						Main.getUserSettings());
+				
+				connection.loadParameters(Main.getUserSettings());
+				
+				final Connection finalConnection = connection;
+				this.executeNonAtomicAction(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							finalConnection.connect();
+						} catch (final SynchronizerException e) {
+							if (SynchronizerWorker.this.isStopped())
+								return;
+							
+							SynchronizerWorker.this.handleSynchronizerException(e);
+							SynchronizerWorker.this.stop();
+						} catch (final Throwable t) {
+							if (SynchronizerWorker.this.isStopped())
+								return;
+							
+							SynchronizerWorker.this.handleThrowable(t);
+							SynchronizerWorker.this.stop();
+						}
+					};
+					
+				});
+				
+				if (this.isStopped())
+					return null;
+				
+				connection.saveParameters(Main.getUserSettings());
+				
+				synchronizer = plugin.getSynchronizerApi().getSynchronizer(
+						Main.getUserSettings(),
+						connection);
+				
+				synchronizer.loadParameters(Main.getUserSettings());
+				
+				if (type == Type.PUBLISH) {
+					synchronizer.publish(monitor);
+				}
+				
+				if (type == Type.SYNCHRONIZE) {
+					SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
+							"synchronizer.choice",
+							SynchronizerChoice.class);
+					
+					synchronizer.synchronize(choice, monitor);
+				}
+				
+				synchronizer.saveParameters(Main.getUserSettings());
+				
+				connection.disconnect();
+				
+				Main.getUserSettings().setCalendarProperty(
+						"synchronizer.last_synchronization_date",
+						Calendar.getInstance());
 			}
-			
-			synchronizer.saveParameters(Main.getUserSettings());
-			
-			connection.disconnect();
-			
-			Main.getUserSettings().setCalendarProperty(
-					"synchronizer.last_synchronization_date",
-					Calendar.getInstance());
 			
 			SYNCHRONIZE_COUNT++;
 		} catch (InterruptedException e) {
@@ -249,15 +253,12 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			this.handleThrowable(t);
 			return null;
 		} finally {
-			SynchronizerUtils.removeProxy();
-			
 			if (this.handler != null)
 				monitor.removeListChangeListener(this.handler);
 			
 			Constants.PROGRESS_MONITOR.clear();
 			
-			if (this.type == Type.SYNCHRONIZE)
-				SynchronizerUtils.removeOldCompletedTasks();
+			SynchronizerUtils.removeOldCompletedTasks();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 			

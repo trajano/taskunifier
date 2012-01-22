@@ -48,7 +48,6 @@ import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class CheckVersionRunnable implements Runnable {
 	
@@ -132,8 +131,6 @@ public class CheckVersionRunnable implements Runnable {
 				
 				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			}
-		} finally {
-			SynchronizerUtils.removeProxy();
 		}
 	}
 	

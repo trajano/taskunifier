@@ -78,7 +78,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void deleteExistingValue() {
-		SynchronizerUtils.resetSynchronizerAndDeleteModels();
+		SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 	}
 	
 	@Override

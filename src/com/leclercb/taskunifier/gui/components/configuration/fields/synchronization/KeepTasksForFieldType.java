@@ -73,7 +73,7 @@ public class KeepTasksForFieldType extends ConfigurationFieldType.Spinner {
 				Main.getUserSettings().getIntegerProperty(
 						"synchronizer.keep_tasks_completed_for_x_days"),
 				this.getFieldValue()))
-			SynchronizerUtils.resetSynchronizer();
+			SynchronizerUtils.resetAllSynchronizers();
 		
 		Main.getUserSettings().setIntegerProperty(
 				"synchronizer.keep_tasks_completed_for_x_days",

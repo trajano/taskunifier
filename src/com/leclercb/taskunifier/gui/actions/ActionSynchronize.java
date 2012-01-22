@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -104,27 +105,34 @@ public class ActionSynchronize extends AbstractAction {
 		SynchronizerGuiPlugin[] publisherPlugins = SynchronizerUtils.getPublisherPlugins();
 		
 		if (background) {
+			SynchronizerWorker worker = BackgroundSynchronizer.getSynchronizer();
+			
 			if (!isDummyPlugin)
-				BackgroundSynchronizer.synchronize(
+				worker.add(
 						SynchronizerUtils.getSynchronizerPlugin(),
 						Type.SYNCHRONIZE);
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				worker.add(plugin, Type.PUBLISH);
+			}
+			
+			worker.execute();
 		} else {
 			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
 			Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
 			
-			if (!isDummyPlugin) {
-				SynchronizerDialog dialog = new SynchronizerDialog(
+			SynchronizerDialog dialog = new SynchronizerDialog();
+			
+			if (!isDummyPlugin)
+				dialog.add(
 						SynchronizerUtils.getSynchronizerPlugin(),
 						Type.SYNCHRONIZE);
-				dialog.setVisible(true);
-			}
 			
 			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
-				SynchronizerDialog dialog = new SynchronizerDialog(
-						plugin,
-						Type.PUBLISH);
-				dialog.setVisible(true);
+				dialog.add(plugin, Type.PUBLISH);
 			}
+			
+			dialog.setVisible(true);
 			
 			ViewType.getNoteView().getNoteTableView().setSelectedNotes(notes);
 			ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);

@@ -1434,7 +1434,7 @@ public class Main {
 			USER_ID = userId;
 			loadUserFolder();
 			
-			SynchronizerUtils.resetSynchronizerAndDeleteModels();
+			SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 			
 			reloadUserSettings();
 			

@@ -236,9 +236,7 @@ public final class SynchronizerUtils {
 				plugin.getId());
 	}
 	
-	public static void initializeProxy() {
-		SynchronizerGuiPlugin plugin = getSynchronizerPlugin();
-		
+	public static void initializeProxy(SynchronizerGuiPlugin plugin) {
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
 				&& Main.getSettings().getBooleanProperty("proxy.enabled")) {
 			final String host = Main.getSettings().getStringProperty(
@@ -289,13 +287,11 @@ public final class SynchronizerUtils {
 			plugin.getSynchronizerApi().setProxyUsername(login);
 			plugin.getSynchronizerApi().setProxyPassword(password);
 		} else {
-			removeProxy();
+			removeProxy(plugin);
 		}
 	}
 	
-	public static void removeProxy() {
-		SynchronizerGuiPlugin plugin = getSynchronizerPlugin();
-		
+	public static void removeProxy(SynchronizerGuiPlugin plugin) {
 		plugin.getSynchronizerApi().setProxyHost(null);
 		plugin.getSynchronizerApi().setProxyPort(0);
 		plugin.getSynchronizerApi().setProxyUsername(null);
@@ -331,7 +327,7 @@ public final class SynchronizerUtils {
 		}
 	}
 	
-	public static void resetConnection() {
+	public static void resetAllConnections() {
 		SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().resetConnectionParameters(
 				Main.getUserSettings());
 		
@@ -342,7 +338,7 @@ public final class SynchronizerUtils {
 		}
 	}
 	
-	public static void resetSynchronizer() {
+	public static void resetAllSynchronizers() {
 		Main.getUserSettings().setCalendarProperty(
 				"synchronizer.last_synchronization_date",
 				null);
@@ -357,7 +353,7 @@ public final class SynchronizerUtils {
 		}
 	}
 	
-	public static void resetSynchronizerAndDeleteModels() {
+	public static void resetAllSynchronizersAndDeleteModels() {
 		boolean set = false;
 		
 		try {
@@ -379,7 +375,7 @@ public final class SynchronizerUtils {
 		NoteFactory.getInstance().deleteAll();
 		TaskFactory.getInstance().deleteAll();
 		
-		resetSynchronizer();
+		resetAllSynchronizers();
 		
 		if (set) {
 			try {

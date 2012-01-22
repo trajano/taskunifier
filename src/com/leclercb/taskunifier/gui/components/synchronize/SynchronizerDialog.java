@@ -39,7 +39,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionGetSerial;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
@@ -52,18 +51,10 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizerDialog extends TUWaitDialog {
 	
-	private SynchronizerGuiPlugin plugin;
-	private Type type;
-	
-	public SynchronizerDialog(SynchronizerGuiPlugin plugin, Type type) {
+	public SynchronizerDialog() {
 		super(
 				MainFrame.getInstance().getFrame(),
 				Translations.getString("general.synchronization"));
-		CheckUtils.isNotNull(plugin);
-		CheckUtils.isNotNull(type);
-		
-		this.plugin = plugin;
-		this.type = type;
 		
 		final SynchronizerDialogWorker worker = new SynchronizerDialogWorker();
 		this.setWorker(worker);
@@ -76,9 +67,15 @@ public class SynchronizerDialog extends TUWaitDialog {
 			}
 			
 		});
+	}
+	
+	public void add(SynchronizerGuiPlugin plugin, Type type) {
+		SynchronizerDialogWorker worker = (SynchronizerDialogWorker) this.getWorker();
+		worker.add(plugin, type);
 		
 		try {
-			if (plugin.needsLicense()
+			if (type == Type.SYNCHRONIZE
+					&& plugin.needsLicense()
 					&& plugin.getLicenseUrl() != null
 					&& !plugin.checkLicense())
 				this.setSouthComponent(new JButton(
@@ -102,21 +99,15 @@ public class SynchronizerDialog extends TUWaitDialog {
 	public class SynchronizerDialogWorker extends SynchronizerWorker {
 		
 		public SynchronizerDialogWorker() {
-			super(
-					SynchronizerDialog.this.plugin,
-					SynchronizerDialog.this.type,
-					false,
-					new SynchronizerProgressMessageListener() {
-						
-						@Override
-						public void showMessage(
-								ProgressMessage message,
-								String content) {
-							SynchronizerDialog.this.appendToProgressStatus(content
-									+ "\n");
-						}
-						
-					});
+			super(false, new SynchronizerProgressMessageListener() {
+				
+				@Override
+				public void showMessage(ProgressMessage message, String content) {
+					SynchronizerDialog.this.appendToProgressStatus(content
+							+ "\n");
+				}
+				
+			});
 		}
 		
 		@Override
