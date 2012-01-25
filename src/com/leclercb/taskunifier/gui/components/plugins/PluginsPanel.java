@@ -40,10 +40,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
+import com.leclercb.taskunifier.gui.actions.ActionPluginConfiguration;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginStatus;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.list.PluginList;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
@@ -92,11 +94,11 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 				BorderLayout.SOUTH);
 	}
 	
-	public SynchronizerGuiPlugin installSelectedPlugin() {
+	public void installSelectedPlugin() {
 		final Plugin plugin = this.list.getSelectedPlugin();
 		
 		if (plugin == null)
-			return null;
+			return;
 		
 		if (plugin.getStatus() == PluginStatus.TO_INSTALL
 				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
@@ -127,9 +129,10 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (this.includeSynchronizers)
 			SynchronizerUtils.setSynchronizerPlugin(p);
 		
-		PluginsPanel.this.valueChanged(null);
+		if (!plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
+			ActionPluginConfiguration.pluginConfiguration(p);
 		
-		return p;
+		PluginsPanel.this.valueChanged(null);
 	}
 	
 	@Override

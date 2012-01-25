@@ -43,9 +43,6 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.actions.ActionPluginConfiguration;
-import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
@@ -114,18 +111,11 @@ public class PublisherPluginsDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				SynchronizerGuiPlugin plugin = null;
-				
 				if (event.getActionCommand().equals("OK")) {
-					plugin = PublisherPluginsDialog.this.pluginsPanel.installSelectedPlugin();
+					PublisherPluginsDialog.this.pluginsPanel.installSelectedPlugin();
 				}
 				
 				PublisherPluginsDialog.this.setVisible(false);
-				
-				if (plugin != null
-						&& !plugin.getId().equals(
-								DummyGuiPlugin.getInstance().getId()))
-					ActionPluginConfiguration.pluginConfiguration(plugin);
 			}
 			
 		};
