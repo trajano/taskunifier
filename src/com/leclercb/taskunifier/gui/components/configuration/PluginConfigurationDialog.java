@@ -41,6 +41,7 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 	
 	private SynchronizerGuiPlugin plugin;
 	
+	private JPanel pluginContainerPanel;
 	private ConfigurationPanel pluginConfigurationPanel;
 	
 	private PluginConfigurationDialog() {
@@ -77,8 +78,13 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 		
 		this.add(header, BorderLayout.NORTH);
 		
+		this.pluginContainerPanel = new JPanel();
+		this.pluginContainerPanel.setLayout(new BorderLayout());
+		
 		this.initializeButtonsPanel();
 		this.initializePluginPanel();
+		
+		this.add(this.pluginContainerPanel, BorderLayout.CENTER);
 		
 		Main.getUserSettings().addReloadPropertiesListener(
 				new ReloadPropertiesListener() {
@@ -127,13 +133,18 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 		if (this.plugin == null)
 			return;
 		
+		this.pluginContainerPanel.removeAll();
+		
 		this.pluginConfigurationPanel = new PluginConfigurationPanel(
 				this,
 				false,
 				this.plugin);
-		this.add(ComponentFactory.createJScrollPane(
+		
+		this.pluginContainerPanel.add(ComponentFactory.createJScrollPane(
 				this.pluginConfigurationPanel,
 				false), BorderLayout.CENTER);
+		
+		this.pluginContainerPanel.validate();
 	}
 	
 	@Override

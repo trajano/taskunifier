@@ -35,8 +35,6 @@ package com.leclercb.taskunifier.gui.components.configuration;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -60,7 +58,6 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	
@@ -84,8 +81,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		TOOLBAR,
 		ADVANCED,
 		PUBLICATION,
-		SYNCHRONIZATION,
-		PLUGIN;
+		SYNCHRONIZATION;
 		
 	}
 	
@@ -101,7 +97,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel advancedConfigurationPanel;
 	private ConfigurationPanel publicationConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
-	private ConfigurationPanel pluginConfigurationPanel;
 	
 	private ConfigurationDialog() {
 		super(MainFrame.getInstance().getFrame(), true);
@@ -146,18 +141,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeAdvancedPanel();
 		this.initializePublicationPanel();
 		this.initializeSynchronizationPanel();
-		this.initializePluginPanel();
-		
-		Main.getUserSettings().addPropertyChangeListener(
-				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ConfigurationDialog.this.refreshSynchronizationPanels();
-					}
-					
-				});
 		
 		Main.getUserSettings().addReloadPropertiesListener(
 				new ReloadPropertiesListener() {
@@ -296,23 +279,9 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 						false));
 	}
 	
-	private void initializePluginPanel() {
-		this.pluginConfigurationPanel = new PluginConfigurationPanel(
-				this,
-				false,
-				SynchronizerUtils.getSynchronizerPlugin());
-		this.tabbedPane.addTab(
-				SynchronizerUtils.getSynchronizerPlugin().getName(),
-				ComponentFactory.createJScrollPane(
-						this.pluginConfigurationPanel,
-						false));
-	}
-	
 	@Override
 	public void saveAndApplyConfig() {
 		try {
-			this.pluginConfigurationPanel.saveAndApplyConfig();
-			
 			this.generalConfigurationPanel.saveAndApplyConfig();
 			this.dateConfigurationPanel.saveAndApplyConfig();
 			this.backupConfigurationPanel.saveAndApplyConfig();
@@ -326,8 +295,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			
 			Main.saveSettings();
 			Main.saveUserSettings();
-			
-			this.refreshSynchronizationPanels();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
@@ -351,7 +318,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.dateConfigurationPanel.cancelConfig();
 			
 			this.synchronizationConfigurationPanel.cancelConfig();
-			this.pluginConfigurationPanel.cancelConfig();
 			
 			this.backupConfigurationPanel.cancelConfig();
 			this.proxyConfigurationPanel.cancelConfig();
@@ -373,20 +339,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 			
 			return;
-		}
-	}
-	
-	private void refreshSynchronizationPanels() {
-		int selectedTab = this.tabbedPane.getSelectedIndex();
-		
-		this.tabbedPane.removeTabAt(this.tabbedPane.getTabCount() - 1);
-		
-		this.initializePluginPanel();
-		
-		try {
-			this.tabbedPane.setSelectedIndex(selectedTab);
-		} catch (IndexOutOfBoundsException e) {
-			
 		}
 	}
 	

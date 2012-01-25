@@ -50,10 +50,9 @@ import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerSettingsException;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerDefaultProgressMessage;
-import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
+import com.leclercb.taskunifier.gui.actions.ActionPluginConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionSave;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -128,6 +127,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			monitor.addListChangeListener(this.handler);
 		
 		boolean set = false;
+		SynchronizerGuiPlugin plugin = null;
 		
 		try {
 			try {
@@ -143,7 +143,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
 			for (int i = 0; i < this.plugins.size(); i++) {
-				SynchronizerGuiPlugin plugin = this.plugins.get(i);
+				plugin = this.plugins.get(i);
 				Type type = this.types.get(i);
 				
 				if (type == Type.SYNCHRONIZE
@@ -188,6 +188,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				connection.loadParameters(Main.getUserSettings());
 				
 				final Connection finalConnection = connection;
+				final SynchronizerGuiPlugin finalPlugin = plugin;
 				this.executeNonAtomicAction(new Runnable() {
 					
 					@Override
@@ -198,7 +199,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 							if (SynchronizerWorker.this.isStopped())
 								return;
 							
-							SynchronizerWorker.this.handleSynchronizerException(e);
+							SynchronizerWorker.this.handleSynchronizerException(
+									e,
+									finalPlugin);
 							SynchronizerWorker.this.stop();
 						} catch (final Throwable t) {
 							if (SynchronizerWorker.this.isStopped())
@@ -247,7 +250,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		} catch (InterruptedException e) {
 			return null;
 		} catch (SynchronizerException e) {
-			this.handleSynchronizerException(e);
+			this.handleSynchronizerException(e, plugin);
 			return null;
 		} catch (Throwable t) {
 			this.handleThrowable(t);
@@ -282,7 +285,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		return null;
 	}
 	
-	private void handleSynchronizerException(final SynchronizerException e) {
+	private void handleSynchronizerException(
+			final SynchronizerException e,
+			final SynchronizerGuiPlugin plugin) {
 		if (this.isStopped())
 			return;
 		
@@ -310,7 +315,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
 				
 				if (e instanceof SynchronizerSettingsException)
-					ActionConfiguration.configuration(ConfigurationTab.PLUGIN);
+					ActionPluginConfiguration.pluginConfiguration(plugin);
 			}
 			
 		});

@@ -72,6 +72,7 @@ public enum ActionList {
 	MANAGE_TASK_TEMPLATES(Translations.getString("action.manage_task_templates"), "template.png", true),
 	MANAGE_USERS(Translations.getString("action.manage_users"), "user.png", true),
 	PASTE(Translations.getString("action.paste"), "paste.png", false),
+	PLUGIN_CONFIGURATION(Translations.getString("action.plugin_configuration"), "settings.png", true),
 	POSTPONE_TASK_BEANS(Translations.getString("action.postpone_tasks"), "calendar.png", false),
 	POSTPONE_TASKS(Translations.getString("action.postpone_tasks"), "calendar.png", false),
 	POSTPONE_TASKS_MENU(Translations.getString("action.postpone_tasks"), "calendar.png", true),
@@ -246,6 +247,8 @@ public enum ActionList {
 				return new ActionManageUsers(width, height);
 			case PASTE:
 				return new ActionPaste(width, height);
+			case PLUGIN_CONFIGURATION:
+				return new ActionPluginConfiguration(width, height);
 			case POSTPONE_TASK_BEANS:
 				return null;
 			case POSTPONE_TASKS:

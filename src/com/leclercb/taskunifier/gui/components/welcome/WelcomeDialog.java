@@ -37,8 +37,6 @@ import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,7 +47,6 @@ import javax.swing.WindowConstants;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.components.configuration.DateConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.GeneralConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -57,11 +54,9 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPa
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 	
@@ -78,41 +73,13 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 					new ProxyConfigurationPanel(this)),
 			new SettingsPanel(
 					Translations.getString("configuration.tab.synchronization"),
-					new SynchronizationConfigurationPanel(this, true)),
-			new SettingsPanel(
-					SynchronizerUtils.getSynchronizerPlugin().getName(),
-					new PluginConfigurationPanel(
-							this,
-							false,
-							SynchronizerUtils.getSynchronizerPlugin())) };
+					new SynchronizationConfigurationPanel(this, true)) };
 	
 	private JPanel cardPanel;
 	private int currentPanel;
 	
 	public WelcomeDialog(Frame frame) {
 		super(frame);
-		
-		// For API Configuration Panel
-		Main.getUserSettings().addPropertyChangeListener(
-				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						SettingsPanel servicePanel = (SettingsPanel) WelcomeDialog.this.panels[WelcomeDialog.this.panels.length - 1];
-						
-						servicePanel.reset(
-								SynchronizerUtils.getSynchronizerPlugin().getName(),
-								new PluginConfigurationPanel(
-										WelcomeDialog.this,
-										false,
-										SynchronizerUtils.getSynchronizerPlugin()));
-						
-						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).previous(WelcomeDialog.this.cardPanel);
-						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
-					}
-					
-				});
 		
 		this.initialize();
 	}
@@ -169,7 +136,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 						WelcomeDialog.this.currentPanel++;
 						((CardLayout) WelcomeDialog.this.cardPanel.getLayout()).next(WelcomeDialog.this.cardPanel);
 						
-						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 2)
+						if (WelcomeDialog.this.currentPanel == WelcomeDialog.this.panels.length - 1)
 							ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 					} else {
 						WelcomeDialog.this.dispose();

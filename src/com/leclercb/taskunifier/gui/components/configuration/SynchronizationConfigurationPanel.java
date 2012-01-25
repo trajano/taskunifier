@@ -41,6 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
+import com.leclercb.taskunifier.gui.actions.ActionPluginConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
@@ -88,6 +89,12 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							}
 							
 						})));
+		
+		this.addField(new ConfigurationField(
+				"CONFIGURE_PLUGIN",
+				null,
+				new ConfigurationFieldType.Button(
+						new ActionPluginConfiguration(24, 24))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_1",
@@ -237,6 +244,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		// Disable fields for DUMMY service
 		boolean enabled = !SynchronizerUtils.getSynchronizerPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId());
+		
+		if (this.containsId("CONFIGURE_PLUGIN"))
+			this.setEnabled("CONFIGURE_PLUGIN", enabled);
 		
 		if (this.containsId("CHOICE"))
 			this.setEnabled("CHOICE", enabled);

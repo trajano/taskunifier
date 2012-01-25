@@ -7,11 +7,14 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class OptionsRenderer extends JButton implements TableCellRenderer {
 	
 	public OptionsRenderer() {
-		super(Translations.getString("general.configuration"));
+		super(
+				Translations.getString("action.plugin_configuration"),
+				ImageUtils.getResourceImage("settings.png", 24, 24));
 	}
 	
 	@Override
