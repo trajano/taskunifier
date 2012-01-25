@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 2.1.0
+	- Major:
+		- Publisher plugins: publish your tasks
+
 Version 2.0.1
 	- Major:
 		- Crash if TaskUnifier is already running
