@@ -195,7 +195,7 @@ public final class SynchronizerUtils {
 			return;
 		
 		String value = Main.getUserSettings().getStringProperty(
-				"api.publisher.ids");
+				"plugin.publisher.ids");
 		
 		if (value == null)
 			value = "";
@@ -213,7 +213,7 @@ public final class SynchronizerUtils {
 		listIds.remove(plugin.getId());
 		
 		Main.getUserSettings().setStringProperty(
-				"api.publisher.ids",
+				"plugin.publisher.ids",
 				StringUtils.join(listIds, ";"));
 	}
 	
