@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
+import com.leclercb.taskunifier.gui.commons.values.IconValueReminder;
 import com.leclercb.taskunifier.gui.commons.values.IconValueRepeat;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskContacts;
@@ -190,8 +191,10 @@ public class TaskTableColumn extends TableColumnExt {
 		PROGRESS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskProgress.INSTANCE);
 		
-		REMINDER_RENDERER = new DefaultTableRenderer(
-				StringValueTaskReminder.INSTANCE);
+		REMINDER_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValueTaskReminder.INSTANCE,
+				IconValueReminder.INSTANCE,
+				null));
 		
 		REPEAT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskRepeat.INSTANCE,
