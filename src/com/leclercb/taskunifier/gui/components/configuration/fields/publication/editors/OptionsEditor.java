@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.configuration.PluginConfigurationDialog;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class OptionsEditor extends AbstractCellEditor implements TableCellEditor {
 	
@@ -25,14 +27,16 @@ public class OptionsEditor extends AbstractCellEditor implements TableCellEditor
 			boolean isSelected,
 			int row,
 			int column) {
-		SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) value;
+		final SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) value;
 		
-		JButton button = new JButton("Options");
+		JButton button = new JButton(
+				Translations.getString("general.configuration"));
 		button.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				System.out.println("test");
+				PluginConfigurationDialog.getInstance().setPlugin(plugin);
+				PluginConfigurationDialog.getInstance().setVisible(true);
 			}
 			
 		});

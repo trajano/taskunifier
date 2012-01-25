@@ -57,6 +57,7 @@ public class PublisherPluginTable extends JXTable {
 		PublisherPluginModel tableModel = new PublisherPluginModel();
 		
 		this.setModel(tableModel);
+		this.setRowHeight(24);
 		this.getTableHeader().setReorderingAllowed(false);
 		this.setShowGrid(true, false);
 		

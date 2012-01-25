@@ -9,6 +9,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class PublisherPluginModel extends AbstractTableModel implements ListChangeListener {
@@ -44,11 +45,11 @@ public class PublisherPluginModel extends AbstractTableModel implements ListChan
 	public String getColumnName(int col) {
 		switch (col) {
 			case 0:
-				return "Enabled";
+				return Translations.getString("configuration.publication.plugin.enabled");
 			case 1:
-				return "Name";
+				return Translations.getString("configuration.publication.plugin.name");
 			case 2:
-				return "Options";
+				return Translations.getString("general.configuration");
 			default:
 				return null;
 		}

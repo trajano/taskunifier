@@ -54,6 +54,12 @@ public class PublicationConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private void initialize() {
 		this.addField(new ConfigurationField(
+				"DESCRIPTION",
+				null,
+				new ConfigurationFieldType.Label(
+						Translations.getString("configuration.publication.description"))));
+		
+		this.addField(new ConfigurationField(
 				"MANAGE_PLUGINS",
 				null,
 				new ConfigurationFieldType.Button(

@@ -6,10 +6,12 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import com.leclercb.taskunifier.gui.translations.Translations;
+
 public class OptionsRenderer extends JButton implements TableCellRenderer {
 	
 	public OptionsRenderer() {
-		super("Options");
+		super(Translations.getString("general.configuration"));
 	}
 	
 	@Override

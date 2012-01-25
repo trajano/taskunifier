@@ -1,29 +1,35 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.publication;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class PublisherPluginFieldType extends JPanel implements ConfigurationFieldType<JPanel, String> {
+public class PublisherPluginFieldType extends ConfigurationFieldType.Panel {
 	
 	private boolean first;
+	
 	private PublisherPluginTable table;
 	
 	public PublisherPluginFieldType() {
 		this.first = true;
 		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		this.table = new PublisherPluginTable();
 		
-		this.setLayout(new BorderLayout());
-		this.add(
-				ComponentFactory.createJScrollPane(this.table, true),
-				BorderLayout.CENTER);
+		panel.add(this.table.getTableHeader(), BorderLayout.NORTH);
+		panel.add(this.table, BorderLayout.CENTER);
+		
+		this.setPanel(panel);
 	}
 	
 	@Override
@@ -44,26 +50,6 @@ public class PublisherPluginFieldType extends JPanel implements ConfigurationFie
 						
 					});
 		}
-	}
-	
-	@Override
-	public JPanel getFieldComponent() {
-		return this;
-	}
-	
-	@Override
-	public String getFieldValue() {
-		return null;
-	}
-	
-	@Override
-	public String getPropertyValue() {
-		return Main.getUserSettings().getStringProperty("plugin.publisher.ids");
-	}
-	
-	@Override
-	public void saveAndApplyConfig() {
-		
 	}
 	
 }
