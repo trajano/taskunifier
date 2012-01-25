@@ -38,6 +38,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
@@ -52,6 +53,9 @@ public class PluginConfigurationPanel extends ConfigurationPanel {
 			boolean welcome,
 			SynchronizerGuiPlugin plugin) {
 		super(configurationGroup);
+		
+		CheckUtils.isNotNull(plugin);
+		
 		this.initialize(welcome, plugin);
 	}
 	
