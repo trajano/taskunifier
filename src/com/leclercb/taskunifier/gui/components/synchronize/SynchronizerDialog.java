@@ -51,10 +51,14 @@ import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizerDialog extends TUWaitDialog {
 	
+	private boolean serialNeeded;
+	
 	public SynchronizerDialog() {
 		super(
 				MainFrame.getInstance().getFrame(),
 				Translations.getString("general.synchronization"));
+		
+		this.serialNeeded = false;
 		
 		final SynchronizerDialogWorker worker = new SynchronizerDialogWorker();
 		this.setWorker(worker);
@@ -74,15 +78,17 @@ public class SynchronizerDialog extends TUWaitDialog {
 		worker.add(plugin, type);
 		
 		try {
-			if (type == Type.SYNCHRONIZE
+			if (!this.serialNeeded
 					&& plugin.needsLicense()
 					&& plugin.getLicenseUrl() != null
-					&& !plugin.checkLicense())
+					&& !plugin.checkLicense()) {
+				this.serialNeeded = true;
 				this.setSouthComponent(new JButton(
 						new ActionGetSerial(
 								SynchronizerUtils.getSynchronizerPlugin().getLicenseUrl(),
 								22,
 								22)));
+			}
 		} catch (SynchronizerLicenseException exc) {
 			
 		}

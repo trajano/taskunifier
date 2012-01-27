@@ -155,7 +155,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				
 				SynchronizerUtils.initializeProxy(plugin);
 				
-				if (type == Type.SYNCHRONIZE && plugin.needsLicense()) {
+				if (plugin.needsLicense()) {
 					monitor.addMessage(new SynchronizerDefaultProgressMessage(
 							Translations.getString("synchronizer.checking_license")));
 					
