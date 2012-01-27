@@ -137,7 +137,16 @@ public final class SynchronizerUtils {
 			if (plugin == null || !plugin.isPublisher())
 				continue;
 			
-			plugins.add(plugin);
+			boolean found = false;
+			for (SynchronizerGuiPlugin p : plugins) {
+				if (p.getId().equals(plugin.getId())) {
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+				plugins.add(plugin);
 		}
 		
 		return plugins.toArray(new SynchronizerGuiPlugin[0]);
@@ -155,7 +164,8 @@ public final class SynchronizerUtils {
 			if (plugin == null)
 				continue;
 			
-			listIds.add(plugin.getId());
+			if (!listIds.contains(plugin.getId()))
+				listIds.add(plugin.getId());
 		}
 		
 		Main.getUserSettings().setStringProperty(
@@ -183,6 +193,8 @@ public final class SynchronizerUtils {
 			listIds.add(id);
 		}
 		
+		while (listIds.remove(plugin.getId()))
+			;
 		listIds.add(plugin.getId());
 		
 		Main.getUserSettings().setStringProperty(
@@ -210,7 +222,8 @@ public final class SynchronizerUtils {
 			listIds.add(id);
 		}
 		
-		listIds.remove(plugin.getId());
+		while (listIds.remove(plugin.getId()))
+			;
 		
 		Main.getUserSettings().setStringProperty(
 				"plugin.publisher.ids",

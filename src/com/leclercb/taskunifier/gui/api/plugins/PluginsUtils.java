@@ -611,7 +611,7 @@ public class PluginsUtils {
 		} else {
 			TUMonitorWaitDialog<Plugin[]> dialog = new TUMonitorWaitDialog<Plugin[]>(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.manage_plugins")) {
+					Translations.getString("general.loading_plugins")) {
 				
 				@Override
 				public Plugin[] doActions(ProgressMonitor monitor)

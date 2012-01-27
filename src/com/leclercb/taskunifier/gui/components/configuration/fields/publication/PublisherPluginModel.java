@@ -106,7 +106,6 @@ public class PublisherPluginModel extends AbstractTableModel implements ListChan
 	public void setValueAt(Object value, int row, int col) {
 		switch (col) {
 			case 0:
-				System.out.println(value);
 				if ((Boolean) value)
 					SynchronizerUtils.addPublisherPlugin(this.plugins.get(row));
 				else

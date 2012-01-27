@@ -91,6 +91,7 @@ public final class Help {
 		if (id == null)
 			id = "taskunifier";
 		
+		hb.setCurrentID(id);
 		hb.setDisplayed(true);
 	}
 	
@@ -123,6 +124,16 @@ public final class Help {
 		}
 		
 		return button;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		HelpSet hs = new HelpSet(
+				null,
+				new File("resources/help/help.xml").toURI().toURL());
+		HelpBroker hb = hs.createHelpBroker();
+		
+		hb.setCurrentID("taskunifier");
+		hb.setDisplayed(true);
 	}
 	
 }

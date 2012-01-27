@@ -34,60 +34,56 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.TemplateUtils;
+import com.leclercb.taskunifier.gui.utils.UserUtils;
 
-public class ActionAddTemplateTaskMenu extends AbstractAction {
+public class ActionSwitchToUserMenu extends AbstractAction {
 	
 	private JPopupMenu popupMenu;
 	
-	public ActionAddTemplateTaskMenu(ActionListener listener) {
-		this(listener, 32, 32);
+	public ActionSwitchToUserMenu() {
+		this(32, 32);
 	}
 	
-	public ActionAddTemplateTaskMenu(
-			final ActionListener listener,
-			int width,
-			int height) {
+	public ActionSwitchToUserMenu(int width, int height) {
 		super(
-				Translations.getString("action.add_template_task"),
-				ImageUtils.getResourceImage("template.png", width, height));
+				Translations.getString("action.switch_user_menu"),
+				ImageUtils.getResourceImage("user.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.add_template_task"));
+				Translations.getString("action.switch_user_menu"));
 		
 		this.popupMenu = new JPopupMenu(
-				Translations.getString("action.add_template_task"));
+				Translations.getString("action.switch_user_menu"));
 		
-		TemplateUtils.updateTemplateList(listener, this.popupMenu);
+		UserUtils.updateUserList(this.popupMenu);
 		
-		TaskTemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(
-								listener,
-								ActionAddTemplateTaskMenu.this.popupMenu);
-					}
-					
-				});
+		UserUtils.getInstance().addListChangeListener(new ListChangeListener() {
+			
+			@Override
+			public void listChange(ListChangeEvent event) {
+				UserUtils.updateUserList(ActionSwitchToUserMenu.this.popupMenu);
+			}
+			
+		});
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof Component)
 			this.popupMenu.show((Component) e.getSource(), 0, 0);
+	}
+	
+	public void showPopupMenu(Component component) {
+		this.popupMenu.show(component, 0, 0);
 	}
 	
 }

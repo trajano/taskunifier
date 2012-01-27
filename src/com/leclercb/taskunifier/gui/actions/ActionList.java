@@ -87,6 +87,8 @@ public enum ActionList {
 	SCHEDULED_SYNC(Translations.getString("action.scheduled_sync"), "synchronize_play.png", true),
 	SELECT_PARENT_TASKS(Translations.getString("action.select_parent_tasks"), "task.png", true),
 	SHOW_TIPS(Translations.getString("action.show_tips"), "information.png", true),
+	SWITCH_TO_USER(Translations.getString("action.switch_user"), "user.png", false),
+	SWITCH_TO_USER_MENU(Translations.getString("action.switch_user_menu"), "user.png", true),
 	SYNCHRONIZE(Translations.getString("action.synchronize"), "synchronize.png", true),
 	TASK_REMINDERS(Translations.getString("action.task_reminders"), "clock.png", true),
 	UNDO(Translations.getString("action.undo"), "undo.png", false);
@@ -277,6 +279,10 @@ public enum ActionList {
 				return new ActionSelectParentTasks(width, height);
 			case SHOW_TIPS:
 				return new ActionShowTips(width, height);
+			case SWITCH_TO_USER:
+				return null;
+			case SWITCH_TO_USER_MENU:
+				return new ActionSwitchToUserMenu(width, height);
 			case SYNCHRONIZE:
 				return new ActionSynchronize(false, width, height);
 			case TASK_REMINDERS:

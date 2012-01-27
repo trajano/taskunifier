@@ -244,6 +244,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				Main.getUserSettings().setCalendarProperty(
 						"synchronizer.last_synchronization_date",
 						Calendar.getInstance());
+				
+				monitor.addMessage(new SynchronizerDefaultProgressMessage(
+						"----------"));
 			}
 			
 			SYNCHRONIZE_COUNT++;

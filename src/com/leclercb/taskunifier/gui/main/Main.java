@@ -58,6 +58,7 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertyMap;
+import com.leclercb.commons.api.properties.SortedProperties;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.SingleInstanceUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -444,22 +445,22 @@ public class Main {
 		setDeveloperMode(false);
 		setFirstExecution(false);
 		
-		Properties defaultProperties = null;
+		SortedProperties defaultProperties = null;
 		
-		defaultProperties = new Properties();
+		defaultProperties = new SortedProperties();
 		defaultProperties.load(Resources.class.getResourceAsStream("default_settings.properties"));
 		
 		SETTINGS = new PropertyMap(
-				new Properties(defaultProperties),
+				new SortedProperties(defaultProperties),
 				defaultProperties);
 		
 		SETTINGS.addCoder(new ModelIdSettingsCoder());
 		
-		defaultProperties = new Properties();
+		defaultProperties = new SortedProperties();
 		defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
 		
 		USER_SETTINGS = new PropertyMap(
-				new Properties(defaultProperties),
+				new SortedProperties(defaultProperties),
 				defaultProperties);
 		
 		USER_SETTINGS.addCoder(new ModelIdSettingsCoder());

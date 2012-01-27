@@ -100,21 +100,21 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 				if (m.getType().equals(ProgressMessageType.PUBLISHER_START))
 					this.showMessage(m, Translations.getString(
 							"synchronizer.start_publication",
-							m.getPlugin().getName()));
+							m.getPlugin().getSynchronizerApi().getApiName()));
 				else if (m.getType().equals(ProgressMessageType.PUBLISHER_END))
 					this.showMessage(m, Translations.getString(
 							"synchronizer.publication_completed",
-							m.getPlugin().getName()));
+							m.getPlugin().getSynchronizerApi().getApiName()));
 				else if (m.getType().equals(
 						ProgressMessageType.SYNCHRONIZER_START))
 					this.showMessage(m, Translations.getString(
 							"synchronizer.start_synchronization",
-							m.getPlugin().getName()));
+							m.getPlugin().getSynchronizerApi().getApiName()));
 				else if (m.getType().equals(
 						ProgressMessageType.SYNCHRONIZER_END))
 					this.showMessage(m, Translations.getString(
 							"synchronizer.synchronization_completed",
-							m.getPlugin().getName()));
+							m.getPlugin().getSynchronizerApi().getApiName()));
 			}
 		}
 	}

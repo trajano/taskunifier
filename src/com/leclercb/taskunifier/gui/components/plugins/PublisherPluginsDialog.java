@@ -80,7 +80,7 @@ public class PublisherPluginsDialog extends JDialog {
 	
 	private void initialize() {
 		this.setModal(true);
-		this.setTitle(Translations.getString("general.manage_plugins"));
+		this.setTitle(Translations.getString("general.manage_publisher_plugins"));
 		this.setSize(650, 400);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());

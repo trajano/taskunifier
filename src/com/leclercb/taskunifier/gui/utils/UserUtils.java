@@ -6,10 +6,14 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
 
 import org.apache.commons.io.FileUtils;
 
@@ -17,6 +21,9 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
+import com.leclercb.taskunifier.gui.actions.ActionSwitchToUser;
+import com.leclercb.taskunifier.gui.commons.comparators.UserComparator;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -211,6 +218,43 @@ public final class UserUtils {
 				ListChangeEvent.VALUE_CHANGED,
 				-1,
 				Main.getUserId());
+	}
+	
+	public static void updateUserList(JMenu menu) {
+		updateUserList(menu, null);
+	}
+	
+	public static void updateUserList(JPopupMenu popupMenu) {
+		updateUserList(null, popupMenu);
+	}
+	
+	private static void updateUserList(JMenu menu, JPopupMenu popupMenu) {
+		if (menu != null)
+			menu.removeAll();
+		
+		if (popupMenu != null)
+			popupMenu.removeAll();
+		
+		String[] users = UserUtils.getInstance().getUserIds();
+		Arrays.sort(users, UserComparator.INSTANCE);
+		
+		for (String user : users) {
+			if (menu != null)
+				menu.add(new ActionSwitchToUser(16, 16, user));
+			
+			if (popupMenu != null)
+				popupMenu.add(new ActionSwitchToUser(16, 16, user));
+		}
+		
+		if (menu != null) {
+			menu.addSeparator();
+			menu.add(new ActionManageUsers(16, 16));
+		}
+		
+		if (popupMenu != null) {
+			popupMenu.addSeparator();
+			popupMenu.add(new ActionManageUsers(16, 16));
+		}
 	}
 	
 }

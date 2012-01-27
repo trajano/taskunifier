@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.components.toolbar;
 
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -54,7 +56,9 @@ import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionList;
+import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
+import com.leclercb.taskunifier.gui.actions.ActionSwitchToUserMenu;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -73,8 +77,26 @@ public class DefaultToolBar extends JToolBar {
 		
 		this.add(Box.createHorizontalGlue());
 		
+		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu();
 		final JLabel accountLabel = new JLabel();
 		accountLabel.setText(this.getAccountLabelText());
+		
+		accountLabel.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					userMenu.showPopupMenu(accountLabel);
+				}
+				
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					ActionManageUsers.manageUsers();
+				}
+			}
+			
+		});
 		
 		Main.getUserSettings().addSavePropertiesListener(
 				new SavePropertiesListener() {
