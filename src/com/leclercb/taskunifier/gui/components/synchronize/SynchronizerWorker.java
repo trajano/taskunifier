@@ -157,7 +157,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				
 				if (plugin.needsLicense()) {
 					monitor.addMessage(new SynchronizerDefaultProgressMessage(
-							Translations.getString("synchronizer.checking_license")));
+							Translations.getString(
+									"synchronizer.checking_license",
+									plugin.getSynchronizerApi().getApiName())));
 					
 					if (!plugin.checkLicense()) {
 						int waitTime = Constants.WAIT_NO_LICENSE_TIME;
