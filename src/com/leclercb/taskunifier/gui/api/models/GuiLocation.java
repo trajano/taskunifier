@@ -44,8 +44,8 @@ public class GuiLocation extends Location implements GuiModel {
 	
 	private Color color;
 	
-	public GuiLocation(LocationBean bean) {
-		super(bean);
+	public GuiLocation(LocationBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiLocation(String title) {
@@ -72,11 +72,11 @@ public class GuiLocation extends Location implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiLocationBean)
 			this.setColor(((GuiLocationBean) bean).getColor());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override

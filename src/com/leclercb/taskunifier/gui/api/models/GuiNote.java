@@ -7,8 +7,8 @@ import com.leclercb.taskunifier.gui.api.models.beans.GuiNoteBean;
 
 public class GuiNote extends Note {
 	
-	public GuiNote(NoteBean bean) {
-		super(bean);
+	public GuiNote(NoteBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiNote(String title) {

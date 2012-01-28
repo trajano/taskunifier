@@ -44,8 +44,8 @@ public class GuiFolder extends Folder implements GuiModel {
 	
 	private Color color;
 	
-	public GuiFolder(FolderBean bean) {
-		super(bean);
+	public GuiFolder(FolderBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiFolder(String title) {
@@ -72,11 +72,11 @@ public class GuiFolder extends Folder implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiFolderBean)
 			this.setColor(((GuiFolderBean) bean).getColor());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override

@@ -44,8 +44,8 @@ public class GuiTask extends Task {
 	
 	private boolean showChildren;
 	
-	public GuiTask(TaskBean bean) {
-		super(bean);
+	public GuiTask(TaskBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 		
 		if (!(bean instanceof GuiTaskBean))
 			this.setShowChildren(true);
@@ -79,11 +79,11 @@ public class GuiTask extends Task {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiTaskBean)
 			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override

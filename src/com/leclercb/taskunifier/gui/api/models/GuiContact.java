@@ -44,8 +44,8 @@ public class GuiContact extends Contact implements GuiModel {
 	
 	private Color color;
 	
-	public GuiContact(ContactBean bean) {
-		super(bean);
+	public GuiContact(ContactBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiContact(String title) {
@@ -72,11 +72,11 @@ public class GuiContact extends Contact implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiContactBean)
 			this.setColor(((GuiContactBean) bean).getColor());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override

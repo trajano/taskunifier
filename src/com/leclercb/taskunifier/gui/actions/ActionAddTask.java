@@ -144,7 +144,7 @@ public class ActionAddTask extends AbstractAction {
 			taskBean.setModelCreationDate(Calendar.getInstance());
 			taskBean.setModelUpdateDate(Calendar.getInstance());
 			
-			task.loadBean(taskBean);
+			task.loadBean(taskBean, false);
 		}
 		
 		ViewType.addExtraTasks(new Task[] { task });

@@ -112,7 +112,7 @@ public class ActionAddNote extends AbstractAction {
 			noteBean.setModelCreationDate(Calendar.getInstance());
 			noteBean.setModelUpdateDate(Calendar.getInstance());
 			
-			note.loadBean(noteBean);
+			note.loadBean(noteBean, false);
 		}
 		
 		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(

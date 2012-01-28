@@ -44,8 +44,8 @@ public class GuiContext extends Context implements GuiModel {
 	
 	private Color color;
 	
-	public GuiContext(ContextBean bean) {
-		super(bean);
+	public GuiContext(ContextBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiContext(String title) {
@@ -72,11 +72,11 @@ public class GuiContext extends Context implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiContextBean)
 			this.setColor(((GuiContextBean) bean).getColor());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override

@@ -45,8 +45,8 @@ public class GuiGoal extends Goal implements GuiModel {
 	
 	private Color color;
 	
-	public GuiGoal(GoalBean bean) {
-		super(bean);
+	public GuiGoal(GoalBean bean, boolean loadReferenceIds) {
+		super(bean, loadReferenceIds);
 	}
 	
 	public GuiGoal(String title) {
@@ -81,11 +81,11 @@ public class GuiGoal extends Goal implements GuiModel {
 	}
 	
 	@Override
-	public void loadBean(ModelBean bean) {
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiGoalBean)
 			this.setColor(((GuiGoalBean) bean).getColor());
 		
-		super.loadBean(bean);
+		super.loadBean(bean, loadReferenceIds);
 	}
 	
 	@Override
