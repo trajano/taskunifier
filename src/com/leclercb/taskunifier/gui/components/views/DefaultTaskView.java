@@ -249,7 +249,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	private void initializeModelNote(JTabbedPane tabbedPane) {
-		this.taskNote = new ModelNotePanel();
+		this.taskNote = new ModelNotePanel("view.tasks.modelnote");
 		this.taskTable.addModelSelectionChangeListener(this.taskNote);
 		tabbedPane.addTab(
 				Translations.getString("general.notes"),

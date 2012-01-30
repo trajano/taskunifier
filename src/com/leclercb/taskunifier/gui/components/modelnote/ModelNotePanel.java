@@ -48,9 +48,9 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 	private HTMLEditorPane htmlEditorPane;
 	private ModelNote previousSelectedModel;
 	
-	public ModelNotePanel() {
+	public ModelNotePanel(String propertyName) {
 		this.previousSelectedModel = null;
-		this.initialize();
+		this.initialize(propertyName);
 	}
 	
 	@Override
@@ -63,12 +63,13 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 		this.htmlEditorPane.view();
 	}
 	
-	private void initialize() {
+	private void initialize(String propertyName) {
 		this.setLayout(new BorderLayout());
 		
 		this.htmlEditorPane = new HTMLEditorPane(
 				Translations.getString("error.select_one_row"),
-				false) {
+				false,
+				propertyName) {
 			
 			@Override
 			public void textChanged(String text) {

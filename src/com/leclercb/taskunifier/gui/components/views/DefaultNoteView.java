@@ -212,7 +212,7 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	}
 	
 	private void initializeModelNote(JPanel notePane) {
-		this.noteNote = new ModelNotePanel();
+		this.noteNote = new ModelNotePanel("view.notes.modelnote");
 		this.noteTable.addModelSelectionChangeListener(this.noteNote);
 		notePane.add(this.noteNote);
 	}

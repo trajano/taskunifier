@@ -482,7 +482,7 @@ public class BatchTaskEditPanel extends JPanel {
 				null,
 				true);
 		this.taskStar = new JCheckBox();
-		this.taskNote = new HTMLEditorPane("", false) {
+		this.taskNote = new HTMLEditorPane("", false, null) {
 			
 			@Override
 			public void textChanged(String text) {

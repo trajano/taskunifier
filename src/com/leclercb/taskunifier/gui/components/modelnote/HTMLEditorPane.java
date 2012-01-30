@@ -3,6 +3,8 @@ package com.leclercb.taskunifier.gui.components.modelnote;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.util.Calendar;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -22,10 +25,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.JTextComponent;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
 import com.leclercb.taskunifier.gui.actions.ActionCut;
@@ -33,6 +38,7 @@ import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -49,8 +55,8 @@ public abstract class HTMLEditorPane extends JPanel {
 	private Action editAction;
 	private boolean flagSetText;
 	
-	public HTMLEditorPane(String text, boolean canEdit) {
-		this.initialize(text, canEdit);
+	public HTMLEditorPane(String text, boolean canEdit, String propertyName) {
+		this.initialize(text, canEdit, propertyName);
 	}
 	
 	public abstract void textChanged(String text);
@@ -91,7 +97,10 @@ public abstract class HTMLEditorPane extends JPanel {
 		this.htmlNote.setText(Text2HTML.convert(this.getText()));
 	}
 	
-	private void initialize(String text, boolean canEdit) {
+	private void initialize(
+			String text,
+			boolean canEdit,
+			final String propertyName) {
 		this.setLayout(new CardLayout());
 		
 		this.undoSupport = new UndoSupport();
@@ -115,6 +124,14 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 		});
 		
+		if (propertyName != null) {
+			float htmlFontSize = Main.getSettings().getFloatProperty(
+					propertyName + ".html.font_size",
+					(float) this.htmlNote.getFont().getSize());
+			this.htmlNote.setFont(this.htmlNote.getFont().deriveFont(
+					htmlFontSize));
+		}
+		
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
@@ -132,6 +149,11 @@ public abstract class HTMLEditorPane extends JPanel {
 		
 		toolBar.add(this.editAction);
 		toolBar.add(Help.getHelpButton("task_note"));
+		
+		if (propertyName != null) {
+			toolBar.addSeparator();
+			toolBar.add(this.createFontSizeComboBox(this.htmlNote));
+		}
 		
 		JPanel htmlPanel = new JPanel(new BorderLayout());
 		htmlPanel.add(toolBar, BorderLayout.NORTH);
@@ -174,6 +196,14 @@ public abstract class HTMLEditorPane extends JPanel {
 			}
 			
 		});
+		
+		if (propertyName != null) {
+			float textFontSize = Main.getSettings().getFloatProperty(
+					propertyName + ".text.font_size",
+					(float) this.textNote.getFont().getSize());
+			this.textNote.setFont(this.textNote.getFont().deriveFont(
+					textFontSize));
+		}
 		
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
@@ -261,6 +291,11 @@ public abstract class HTMLEditorPane extends JPanel {
 				"calendar.png",
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())));
 		
+		if (propertyName != null) {
+			toolBar.addSeparator();
+			toolBar.add(this.createFontSizeComboBox(this.textNote));
+		}
+		
 		JPanel textPanel = new JPanel(new BorderLayout());
 		textPanel.add(toolBar, BorderLayout.NORTH);
 		textPanel.add(
@@ -269,6 +304,24 @@ public abstract class HTMLEditorPane extends JPanel {
 		
 		this.add(htmlPanel, "" + 0);
 		this.add(textPanel, "" + 1);
+		
+		// Properties
+		if (propertyName != null) {
+			Main.getSettings().addSavePropertiesListener(
+					new SavePropertiesListener() {
+						
+						@Override
+						public void saveProperties() {
+							Main.getSettings().setFloatProperty(
+									propertyName + ".html.font_size",
+									(float) HTMLEditorPane.this.htmlNote.getFont().getSize());
+							Main.getSettings().setFloatProperty(
+									propertyName + ".text.font_size",
+									(float) HTMLEditorPane.this.textNote.getFont().getSize());
+						}
+						
+					});
+		}
 		
 		this.setText(text, canEdit, true);
 		this.view();
@@ -316,6 +369,41 @@ public abstract class HTMLEditorPane extends JPanel {
 			this.showMenuIfPopupTrigger(e);
 		}
 		
+	}
+	
+	private JComponent createFontSizeComboBox(final JTextComponent component) {
+		JPanel panel = new JPanel(new BorderLayout());
+		
+		final JComboBox cb = new JComboBox(new Integer[] {
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20 });
+		cb.setSelectedItem(component.getFont().getSize());
+		
+		cb.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				Integer fontSize = (Integer) cb.getSelectedItem();
+				component.setFont(component.getFont().deriveFont(
+						(float) fontSize));
+			}
+			
+		});
+		
+		panel.add(cb, BorderLayout.WEST);
+		
+		return panel;
 	}
 	
 }

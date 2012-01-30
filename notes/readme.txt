@@ -4,6 +4,8 @@ HISTORY
 Version 2.1.0
 	- Major:
 		- Publisher plugins: publish your tasks
+	- Minor:
+		- Change font size in note editor
 
 Version 2.0.1
 	- Major:
