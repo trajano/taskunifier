@@ -47,7 +47,6 @@ import com.leclercb.taskunifier.gui.components.synchronize.progress.Synchronizer
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class SynchronizerDialog extends TUWaitDialog {
 	
@@ -83,11 +82,10 @@ public class SynchronizerDialog extends TUWaitDialog {
 					&& plugin.getLicenseUrl() != null
 					&& !plugin.checkLicense()) {
 				this.serialNeeded = true;
-				this.setSouthComponent(new JButton(
-						new ActionGetSerial(
-								SynchronizerUtils.getSynchronizerPlugin().getLicenseUrl(),
-								22,
-								22)));
+				this.setSouthComponent(new JButton(new ActionGetSerial(
+						plugin.getLicenseUrl(),
+						22,
+						22)));
 			}
 		} catch (SynchronizerLicenseException exc) {
 			
