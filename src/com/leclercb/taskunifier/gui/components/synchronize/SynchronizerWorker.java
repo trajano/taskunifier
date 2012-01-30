@@ -72,7 +72,6 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		
 	}
 	
-	private static int SYNCHRONIZE_COUNT = 0;
 	private static int NO_LICENSE_COUNT = 0;
 	
 	private List<SynchronizerGuiPlugin> plugins;
@@ -255,8 +254,6 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				monitor.addMessage(new SynchronizerDefaultProgressMessage(
 						"----------"));
 			}
-			
-			SYNCHRONIZE_COUNT++;
 			
 			if (noLicense)
 				NO_LICENSE_COUNT++;
