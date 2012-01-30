@@ -73,6 +73,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 	}
 	
 	private static int SYNCHRONIZE_COUNT = 0;
+	private static int NO_LICENSE_COUNT = 0;
 	
 	private List<SynchronizerGuiPlugin> plugins;
 	private List<Type> types;
@@ -127,6 +128,8 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			monitor.addListChangeListener(this.handler);
 		
 		boolean set = false;
+		
+		boolean noLicense = false;
 		SynchronizerGuiPlugin plugin = null;
 		
 		try {
@@ -162,9 +165,11 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 									plugin.getSynchronizerApi().getApiName())));
 					
 					if (!plugin.checkLicense()) {
+						noLicense = true;
+						
 						int waitTime = Constants.WAIT_NO_LICENSE_TIME;
 						
-						waitTime += SYNCHRONIZE_COUNT
+						waitTime += NO_LICENSE_COUNT
 								* Constants.WAIT_NO_LICENSE_ADDED_TIME;
 						
 						monitor.addMessage(new SynchronizerDefaultProgressMessage(
@@ -252,6 +257,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 			}
 			
 			SYNCHRONIZE_COUNT++;
+			
+			if (noLicense)
+				NO_LICENSE_COUNT++;
 		} catch (InterruptedException e) {
 			return null;
 		} catch (SynchronizerException e) {
