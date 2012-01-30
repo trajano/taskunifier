@@ -20,6 +20,7 @@
 			</tocitem>
 			
 			<tocitem text="Advanced" target="configuration_advanced" />
+			<tocitem text="Publication" target="configuration_publication" />
 			<tocitem text="Synchronization" target="configuration_synchronization" />
 		
 		</tocitem>

@@ -9,6 +9,7 @@
 	<mapID target="configuration_date" url="pages/configuration_date.html" />
 	<mapID target="configuration_general" url="pages/configuration_general.html" />
 	<mapID target="configuration_proxy" url="pages/configuration_proxy.html" />
+	<mapID target="configuration_publication" url="pages/configuration_publication.html" />
 	<mapID target="configuration_searcher" url="pages/configuration_searcher.html" />
 	<mapID target="configuration_synchronization" url="pages/configuration_synchronization.html" />
 	<mapID target="configuration_theme_general" url="pages/configuration_theme_general.html" />
