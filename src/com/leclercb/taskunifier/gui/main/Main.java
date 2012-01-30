@@ -76,6 +76,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
@@ -236,6 +237,7 @@ public class Main {
 			}
 		}
 		
+		boolean updateVersion;
 		boolean outdatedPlugins;
 		
 		try {
@@ -262,6 +264,9 @@ public class Main {
 			loadSynchronizer();
 			loadShutdownHook();
 			
+			updateVersion = !Constants.VERSION.equals(Main.getSettings().getStringProperty(
+					"general.version"));
+			
 			Main.getSettings().setStringProperty(
 					"general.version",
 					Constants.VERSION);
@@ -284,6 +289,7 @@ public class Main {
 			return;
 		}
 		
+		final boolean finalUpdateVersion = updateVersion;
 		final boolean finalOutdatedPlugins = outdatedPlugins;
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -353,6 +359,9 @@ public class Main {
 						ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 					
 					TipsDialog.getInstance().showTipsDialog(true);
+					
+					if (finalUpdateVersion)
+						ActionHelp.help("whats_new");
 					
 					handleArguments(args);
 					

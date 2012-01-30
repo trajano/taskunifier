@@ -3,6 +3,7 @@
 <map version="1.0">
 
 	<mapID target="taskunifier" url="pages/taskunifier.html" />
+	<mapID target="whats_new" url="pages/whats_new.html" />
 
 	<mapID target="configuration_advanced" url="pages/configuration_advanced.html" />
 	<mapID target="configuration_backup" url="pages/configuration_backup.html" />

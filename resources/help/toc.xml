@@ -3,6 +3,8 @@
 <toc version="2.0">
 
 	<tocitem text="TaskUnifier Help" target="taskunifier">
+		
+		<tocitem text="What's new" target="whats_new" />
 
 		<tocitem text="Configuration">
 		
