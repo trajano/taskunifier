@@ -313,7 +313,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 						e.getMessage(),
 						null,
 						null,
-						(e.isExpected() ? e : null),
+						(e.isExpected() ? null : e),
 						null,
 						null);
 				
