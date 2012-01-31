@@ -401,6 +401,8 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 		});
 		
+		cb.setPrototypeDisplayValue("0000");
+		
 		panel.add(cb, BorderLayout.WEST);
 		
 		return panel;
