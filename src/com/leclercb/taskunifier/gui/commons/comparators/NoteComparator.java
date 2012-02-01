@@ -114,7 +114,7 @@ public class NoteComparator implements Comparator<Note> {
 						true);
 				break;
 			case TITLE:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;
@@ -122,7 +122,7 @@ public class NoteComparator implements Comparator<Note> {
 				result = this.compareModels(((Folder) o1), ((Folder) o2));
 				break;
 			case NOTE:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;

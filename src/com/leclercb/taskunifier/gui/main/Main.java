@@ -228,15 +228,6 @@ public class Main {
 	}
 	
 	public static void main(final String[] args) {
-		if (!SystemUtils.IS_OS_MAC) {
-			try {
-				checkSingleInstance();
-			} catch (RuntimeException e) {
-				secondaryMain(args);
-				throw e;
-			}
-		}
-		
 		boolean updateVersion;
 		boolean outdatedPlugins;
 		
@@ -247,6 +238,13 @@ public class Main {
 			loadInitSettings();
 			loadDataFolder();
 			loadPluginsFolder();
+			
+			if (!checkSingleInstance(args)) {
+				secondaryMain(args);
+				throw new RuntimeException(
+						"Another instance of TaskUnifier is running");
+			}
+			
 			loadLoggers();
 			loadSettings();
 			loadUserId();
@@ -277,6 +275,8 @@ public class Main {
 			Constants.initialize();
 			
 			AFTER_START.fireActionPerformed(0, "AFTER_START");
+		} catch (RuntimeException e) {
+			throw e;
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, e.getMessage(), e);
 			
@@ -395,12 +395,6 @@ public class Main {
 	
 	private static void secondaryMain(String[] args) {
 		try {
-			initialize();
-			loadDeveloperMode();
-			loadResourceFolder();
-			loadInitSettings();
-			loadDataFolder();
-			loadPluginsFolder();
 			loadSettings();
 			loadUserId();
 			loadUserFolder();
@@ -432,14 +426,12 @@ public class Main {
 		}
 	}
 	
-	private static void checkSingleInstance() {
-		if (!SingleInstanceUtils.isSingleInstance()) {
-			String message = "There is another instance of "
-					+ Constants.TITLE
-					+ " running.";
-			
-			throw new RuntimeException(message);
-		}
+	private static boolean checkSingleInstance(String[] args) {
+		if (SystemUtils.IS_OS_MAC)
+			return true;
+		
+		String lockFile = DATA_FOLDER + File.separator + "taskunifier.lock";
+		return SingleInstanceUtils.isSingleInstance(lockFile);
 	}
 	
 	private static void loadDeveloperMode() {

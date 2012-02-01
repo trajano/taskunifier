@@ -220,7 +220,7 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case TITLE:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;
@@ -228,12 +228,12 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case CONTACTS:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;
 			case TAGS:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;
@@ -283,7 +283,7 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);
 				break;
 			case REPEAT:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;
@@ -310,7 +310,7 @@ public class TaskComparator implements Comparator<Task> {
 				result = CompareUtils.compare((Boolean) o1, (Boolean) o2);
 				break;
 			case NOTE:
-				result = CompareUtils.compareIgnoreCase(
+				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,
 						(String) o2);
 				break;

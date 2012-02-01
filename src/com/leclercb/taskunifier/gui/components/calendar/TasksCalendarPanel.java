@@ -82,6 +82,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		
 		DayViewConfig config = new DayViewConfig();
 		
+		config.setShowTime(Main.getSettings().getBooleanProperty(
+				"date.use_start_time")
+				|| Main.getSettings().getBooleanProperty("date.use_due_time"));
+		
 		config.setDayFormat(Main.getSettings().getSimpleDateFormatProperty(
 				"date.date_format"));
 		config.setTimeFormat(Main.getSettings().getSimpleDateFormatProperty(
