@@ -41,7 +41,11 @@ public interface SynchronizerGuiPlugin extends SynchronizerPlugin {
 	
 	public abstract String getAccountLabel();
 	
+	public abstract void loadPlugin();
+	
 	public abstract void installPlugin();
+	
+	public abstract void deletePlugin();
 	
 	public abstract int getPluginApiVersion();
 	

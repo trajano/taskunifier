@@ -210,6 +210,9 @@ public class PluginsUtils {
 				}
 			}
 			
+			if (loadedPlugin != null)
+				loadedPlugin.loadPlugin();
+			
 			return loadedPlugin;
 		} catch (PluginException e) {
 			throw e;
@@ -374,6 +377,8 @@ public class PluginsUtils {
 					Main.getApiPlugins().getPlugins());
 			for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
 				if (existingPlugin.getId().equals(plugin.getId())) {
+					existingPlugin.deletePlugin();
+					
 					File file = Main.getApiPlugins().getFile(existingPlugin);
 					file.delete();
 					Main.getApiPlugins().removePlugin(existingPlugin);

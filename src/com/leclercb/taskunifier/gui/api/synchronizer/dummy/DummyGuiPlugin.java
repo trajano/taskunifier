@@ -61,7 +61,17 @@ public class DummyGuiPlugin extends DummyPlugin implements SynchronizerGuiPlugin
 	}
 	
 	@Override
+	public void loadPlugin() {
+		
+	}
+	
+	@Override
 	public void installPlugin() {
+		
+	}
+	
+	@Override
+	public void deletePlugin() {
 		
 	}
 	
