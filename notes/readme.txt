@@ -6,6 +6,8 @@ Version 2.1.0
 		- Publisher plugins: publish your tasks
 	- Minor:
 		- Change font size in note editor
+		- BF 3479573: Check single instance
+		- FR 3475476: Hide time in calendar view
 
 Version 2.0.1
 	- Major:
