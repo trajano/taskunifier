@@ -255,6 +255,9 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 						"----------"));
 			}
 			
+			monitor.addMessage(new SynchronizerDefaultProgressMessage(
+					Translations.getString("synchronizer.synchronization_fully_completed")));
+			
 			if (noLicense)
 				NO_LICENSE_COUNT++;
 		} catch (InterruptedException e) {
