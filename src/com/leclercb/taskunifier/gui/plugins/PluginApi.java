@@ -87,4 +87,8 @@ public class PluginApi {
 		Help.DEFAULT_HELP.getHelpSet().add(helpSet);
 	}
 	
+	public static void removeHelpSet(HelpSet helpSet) {
+		Help.DEFAULT_HELP.getHelpSet().remove(helpSet);
+	}
+	
 }

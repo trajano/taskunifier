@@ -232,6 +232,8 @@ public class PluginsUtils {
 		if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
 			return;
 		
+		plugin.deletePlugin();
+		
 		File file = Main.getApiPlugins().getFile(plugin);
 		file.delete();
 		
