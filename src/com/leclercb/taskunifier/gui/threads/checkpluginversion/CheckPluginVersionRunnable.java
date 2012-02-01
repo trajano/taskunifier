@@ -93,7 +93,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 				if (syncPlugin.getId().equals(
 						DummyGuiPlugin.getInstance().getId())) {
 					this.showNoNewVersion(syncPlugin, this.silent);
-					return;
+					continue;
 				}
 				
 				for (Plugin p : plugins) {
@@ -103,7 +103,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 				
 				if (plugin == null) {
 					this.showNoNewVersion(syncPlugin, this.silent);
-					return;
+					continue;
 				}
 				
 				String version = plugin.getVersion();
