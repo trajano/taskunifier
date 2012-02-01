@@ -120,6 +120,7 @@ import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescript
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.CommunicatorUtils;
+import com.leclercb.taskunifier.gui.utils.ProtocolUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.UserUtils;
 
@@ -261,6 +262,7 @@ public class Main {
 			outdatedPlugins = loadApiPlugins();
 			loadSynchronizer();
 			loadShutdownHook();
+			loadCustomProtocolHandlers();
 			
 			updateVersion = !Constants.VERSION.equals(Main.getSettings().getStringProperty(
 					"general.version"));
@@ -1062,6 +1064,10 @@ public class Main {
 			}
 			
 		});
+	}
+	
+	private static void loadCustomProtocolHandlers() {
+		ProtocolUtils.registerCustomProtocolHandlers();
 	}
 	
 	private static void autoBackup() {

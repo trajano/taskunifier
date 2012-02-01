@@ -8,6 +8,7 @@ Version 2.1.0
 		- Change font size in note editor
 		- BF 3479573: Check single instance
 		- FR 3475476: Hide time in calendar view
+		- FR 3481585: Open Evernote link in note editor
 
 Version 2.0.1
 	- Major:
