@@ -47,15 +47,17 @@ public class HTMLInsertContentAction extends AbstractAction {
 	
 	public HTMLInsertContentAction(
 			JTextArea textArea,
-			String image,
+			String icon,
+			String description,
 			String content) {
 		CheckUtils.isNotNull(textArea);
-		CheckUtils.isNotNull(image);
+		CheckUtils.isNotNull(icon);
 		CheckUtils.isNotNull(content);
 		
 		this.textArea = textArea;
 		this.content = content;
-		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(image, 16, 16));
+		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(icon, 16, 16));
+		this.putValue(SHORT_DESCRIPTION, description);
 	}
 	
 	public String getContent() {

@@ -147,6 +147,10 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 		};
 		
+		this.editAction.putValue(
+				Action.SHORT_DESCRIPTION,
+				Translations.getString("modelnote.action.edit_note"));
+		
 		toolBar.add(this.editAction);
 		toolBar.add(Help.getHelpButton("task_note"));
 		
@@ -208,17 +212,22 @@ public abstract class HTMLEditorPane extends JPanel {
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
-		toolBar.add(new AbstractAction("", ImageUtils.getResourceImage(
-				"previous.png",
-				16,
-				16)) {
+		AbstractAction viewAction = new AbstractAction(
+				"",
+				ImageUtils.getResourceImage("previous.png", 16, 16)) {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				HTMLEditorPane.this.view();
 			}
 			
-		});
+		};
+		
+		viewAction.putValue(
+				Action.SHORT_DESCRIPTION,
+				Translations.getString("modelnote.action.view_note"));
+		
+		toolBar.add(viewAction);
 		
 		toolBar.addSeparator();
 		
@@ -230,31 +239,37 @@ public abstract class HTMLEditorPane extends JPanel {
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_b.png",
+				Translations.getString("modelnote.action.b"),
 				"<b>|</b>"));
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_i.png",
+				Translations.getString("modelnote.action.i"),
 				"<i>|</i>"));
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_ul.png",
+				Translations.getString("modelnote.action.ul"),
 				"\n<ul>\n<li>|</li>\n</ul>"));
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_ol.png",
+				Translations.getString("modelnote.action.ol"),
 				"\n<ol>\n<li>|</li>\n</ol>"));
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_li.png",
+				Translations.getString("modelnote.action.li"),
 				"\n<li>|</li>"));
 		
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"html_a.png",
+				Translations.getString("modelnote.action.a"),
 				"<a href=\"\">|</a>") {
 			
 			@Override
@@ -289,6 +304,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		toolBar.add(new HTMLInsertContentAction(
 				this.textNote,
 				"calendar.png",
+				Translations.getString("modelnote.action.date"),
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())));
 		
 		if (propertyName != null) {
@@ -402,6 +418,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		});
 		
 		cb.setPrototypeDisplayValue("0000");
+		cb.setToolTipText(Translations.getString("modelnote.action.font_size"));
 		
 		panel.add(cb, BorderLayout.WEST);
 		

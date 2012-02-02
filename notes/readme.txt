@@ -3,7 +3,8 @@ HISTORY
 
 Version 2.1.1
 	- Minor:
-		- FR 3483133: Tooltip in month and week list views
+		- FR 3483133: Tooltips in month and week list views
+		- FR 3483158: Tooltips for note editor actions
 
 Version 2.1.0
 	- Major:
