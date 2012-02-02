@@ -239,6 +239,9 @@ public final class SettingsVersion {
 		if (version.equals("2.0.1"))
 			version = updateSettings_2_0_1_to_2_1_0();
 		
+		if (version.equals("2.1.0"))
+			version = updateSettings_2_1_0_to_2_1_1();
+		
 		cleanSettings();
 		Main.saveSettings();
 	}
@@ -1188,6 +1191,21 @@ public final class SettingsVersion {
 		return "2.0.0";
 	}
 	
+	private static void copyToUserFolder(String fileName) {
+		try {
+			FileUtils.copyFile(new File(Main.getDataFolder()
+					+ File.separator
+					+ fileName), new File(Main.getUserFolder()
+					+ File.separator
+					+ fileName));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying " + fileName,
+					t);
+		}
+	}
+	
 	private static String updateSettings_2_0_0_to_2_0_1() {
 		GuiLogger.getLogger().info(
 				"Update settings from version 2.0.0 to 2.0.1");
@@ -1202,19 +1220,11 @@ public final class SettingsVersion {
 		return "2.1.0";
 	}
 	
-	private static void copyToUserFolder(String fileName) {
-		try {
-			FileUtils.copyFile(new File(Main.getDataFolder()
-					+ File.separator
-					+ fileName), new File(Main.getUserFolder()
-					+ File.separator
-					+ fileName));
-		} catch (Throwable t) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while copying " + fileName,
-					t);
-		}
+	private static String updateSettings_2_1_0_to_2_1_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 2.1.0 to 2.1.1");
+		
+		return "2.1.1";
 	}
 	
 }

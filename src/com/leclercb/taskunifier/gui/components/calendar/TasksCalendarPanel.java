@@ -51,8 +51,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	private DayViewPanel dayViewPanel;
 	private DayViewPanel weekViewPanel;
-	private MonthViewPanel monthViewPanel;
 	private WeekListViewPanel listViewPanel;
+	private MonthViewPanel monthViewPanel;
 	
 	private TasksCalendar[] tasksCalendars = new TasksCalendar[] {
 			new TasksStartDateCalendar(),
@@ -109,29 +109,29 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		EventModel weekModel = new EventModel(
 				this.eventDataList,
 				EventModel.TYPE_WEEK);
-		EventModel monthModel = new EventModel(
-				this.eventDataList,
-				EventModel.TYPE_MONTH);
 		EventModel listModel = new EventModel(
 				this.eventDataList,
 				EventModel.TYPE_WEEK);
+		EventModel monthModel = new EventModel(
+				this.eventDataList,
+				EventModel.TYPE_MONTH);
 		
 		this.dayViewPanel = new DayViewPanel(dayModel, config);
 		this.weekViewPanel = new DayViewPanel(weekModel, config);
-		this.monthViewPanel = new MonthViewPanel(monthModel, config);
 		this.listViewPanel = new WeekListViewPanel(listModel, config);
+		this.monthViewPanel = new MonthViewPanel(monthModel, config);
 		
 		TasksCalendarListener calListener = new TasksCalendarListener();
 		
 		this.dayViewPanel.addCalendarListener(calListener);
 		this.weekViewPanel.addCalendarListener(calListener);
-		this.monthViewPanel.addCalendarListener(calListener);
 		this.listViewPanel.addCalendarListener(calListener);
+		this.monthViewPanel.addCalendarListener(calListener);
 		
 		this.calendarPanel.addCalendarView(this.dayViewPanel);
 		this.calendarPanel.addCalendarView(this.weekViewPanel);
-		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		this.calendarPanel.addCalendarView(this.listViewPanel);
+		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		
 		this.calendarPanel.showView(this.weekViewPanel.getViewName());
 		

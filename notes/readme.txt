@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 2.1.1
+	- Minor:
+		- FR 3483133: Tooltip in month and week list views
+
 Version 2.1.0
 	- Major:
 		- Publisher plugins: publish your tasks
