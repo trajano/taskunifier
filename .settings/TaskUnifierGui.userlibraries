@@ -17,5 +17,14 @@
         <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
         <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/miglayout-4.0-javadoc.jar!/" path="/TaskUnifierGui/lib/miglayout-4.0-swing.jar"/>
         <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-api-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-api-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-http-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-http-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-oauth-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-oauth-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/gson-2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/guava-11.0.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jackson-all-1.9.3.jar"/>
     </library>
 </eclipse-userlibraries>
