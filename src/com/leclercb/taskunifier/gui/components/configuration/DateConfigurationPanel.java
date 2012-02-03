@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayBrea
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayEndHourFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.DayStartHourFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.date.TimeFormatFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.date.TimeZoneFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -53,6 +54,17 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 	}
 	
 	private void initialize() {
+		this.addField(new ConfigurationField(
+				"TIMEZONE",
+				Translations.getString("configuration.date.timezone"),
+				true,
+				new TimeZoneFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_1",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
 		this.addField(new ConfigurationField(
 				"DATE_FORMAT",
 				Translations.getString("configuration.date.date_format"),
@@ -74,7 +86,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 						"date.show_day_of_week")));
 		
 		this.addField(new ConfigurationField(
-				"SEPARATOR_1",
+				"SEPARATOR_2",
 				null,
 				new ConfigurationFieldType.Separator()));
 		
@@ -95,7 +107,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 						"date.use_start_time")));
 		
 		this.addField(new ConfigurationField(
-				"SEPARATOR_2",
+				"SEPARATOR_3",
 				null,
 				new ConfigurationFieldType.Separator()));
 		

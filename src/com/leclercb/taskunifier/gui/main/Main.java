@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -248,6 +249,7 @@ public class Main {
 			
 			loadLoggers();
 			loadSettings();
+			loadTimeZone();
 			loadUserId();
 			loadUserFolder();
 			loadBackupFolder();
@@ -638,6 +640,15 @@ public class Main {
 			
 			setFirstExecution(true);
 		}
+	}
+	
+	private static void loadTimeZone() {
+		String id = SETTINGS.getStringProperty("date.timezone");
+		
+		if (id == null)
+			return;
+		
+		TimeZone.setDefault(TimeZone.getTimeZone(id));
 	}
 	
 	private static void loadUserId() throws Exception {
