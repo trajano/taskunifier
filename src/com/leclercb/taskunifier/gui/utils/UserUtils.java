@@ -53,6 +53,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
 import com.leclercb.taskunifier.gui.actions.ActionSwitchToUser;
 import com.leclercb.taskunifier.gui.commons.comparators.UserComparator;
@@ -206,6 +207,8 @@ public final class UserUtils {
 					-1,
 					userId);
 			
+			GuiLogger.getLogger().info("User \"" + userName + "\" created");
+			
 			return userId;
 		} catch (Exception e) {
 			return null;
@@ -216,6 +219,7 @@ public final class UserUtils {
 		if (EqualsUtils.equals(Main.getUserId(), userId))
 			return false;
 		
+		String userName = this.getUserName(userId);
 		String userFolder = Main.getUserFolder(userId);
 		
 		try {
@@ -230,6 +234,8 @@ public final class UserUtils {
 					ListChangeEvent.VALUE_REMOVED,
 					-1,
 					userId);
+			
+			GuiLogger.getLogger().info("User \"" + userName + "\" deleted");
 		} catch (Exception e) {
 			
 		}

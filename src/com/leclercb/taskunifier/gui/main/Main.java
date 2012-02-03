@@ -1450,6 +1450,8 @@ public class Main {
 		String oldUserId = USER_ID;
 		
 		try {
+			String userName = UserUtils.getInstance().getUserName(userId);
+			
 			USER_ID = userId;
 			loadUserFolder();
 			
@@ -1464,6 +1466,8 @@ public class Main {
 			UserUtils.getInstance().fireSwitchedUser();
 			
 			result = true;
+			
+			GuiLogger.getLogger().info("User switched to \"" + userName + "\"");
 		} catch (Exception e) {
 			USER_ID = oldUserId;
 			USER_FOLDER = DATA_FOLDER

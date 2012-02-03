@@ -189,6 +189,7 @@ public final class BackupUtils {
 				ListChangeEvent.VALUE_ADDED,
 				0,
 				backupName);
+		
 		GuiLogger.getLogger().info("Backup created: " + backupName);
 		
 		return true;
@@ -255,6 +256,7 @@ public final class BackupUtils {
 				ListChangeEvent.VALUE_REMOVED,
 				0,
 				backupName);
+		
 		GuiLogger.getLogger().info("Backup removed: " + backupName);
 	}
 	

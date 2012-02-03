@@ -144,7 +144,7 @@ public class UserPanel extends JPanel {
 				options,
 				options[0]);
 		
-		if (result == JOptionPane.NO_OPTION)
+		if (result == 1)
 			return;
 		
 		UserUtils.getInstance().deleteUser(user);
