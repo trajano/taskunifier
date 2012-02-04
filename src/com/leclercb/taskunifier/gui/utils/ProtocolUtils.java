@@ -50,7 +50,10 @@ public final class ProtocolUtils {
 			@Override
 			public URLStreamHandler createURLStreamHandler(String protocol) {
 				if (protocol.equalsIgnoreCase("evernote"))
-					return new EvernoteURLStreamHandler();
+					return new VoidURLStreamHandler();
+				
+				if (protocol.equalsIgnoreCase("message"))
+					return new VoidURLStreamHandler();
 				
 				return null;
 			}
@@ -58,7 +61,7 @@ public final class ProtocolUtils {
 		});
 	}
 	
-	private static class EvernoteURLStreamHandler extends URLStreamHandler {
+	private static class VoidURLStreamHandler extends URLStreamHandler {
 		
 		@Override
 		protected URLConnection openConnection(URL u) throws IOException {
