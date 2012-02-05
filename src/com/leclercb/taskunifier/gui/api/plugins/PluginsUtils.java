@@ -266,7 +266,9 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.start_plugin_installation")));
+						Translations.getString(
+								"manage_plugins.progress.start_plugin_installation",
+								plugin.getName())));
 			
 			file = new File(Main.getPluginsFolder()
 					+ File.separator
@@ -277,7 +279,9 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.downloading_plugin")));
+						Translations.getString(
+								"manage_plugins.progress.downloading_plugin",
+								plugin.getName())));
 			
 			if (!Main.getSettings().getBooleanProperty(
 					"proxy.use_system_proxies")
@@ -293,17 +297,20 @@ public class PluginsUtils {
 				FileUtils.copyURLToFile(new URL(plugin.getDownloadUrl()), file);
 			}
 			
-			GuiLogger.getLogger().info(
-					"Plugin installed: "
-							+ plugin.getName()
-							+ " - "
-							+ plugin.getVersion());
-			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.installing_plugin")));
+						Translations.getString(
+								"manage_plugins.progress.installing_plugin",
+								plugin.getName())));
 			
 			SynchronizerGuiPlugin loadedPlugin = PluginsUtils.loadPlugin(file);
+			
+			if (loadedPlugin != null)
+				GuiLogger.getLogger().info(
+						"Plugin installed: "
+								+ loadedPlugin.getName()
+								+ " - "
+								+ loadedPlugin.getVersion());
 			
 			if (use)
 				SynchronizerUtils.setSynchronizerPlugin(loadedPlugin);
@@ -313,7 +320,9 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.plugin_installed")));
+						Translations.getString(
+								"manage_plugins.progress.plugin_installed",
+								plugin.getName())));
 			
 			plugin.setStatus(PluginStatus.INSTALLED);
 		} catch (PluginException e) {
@@ -346,7 +355,9 @@ public class PluginsUtils {
 		
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
-					Translations.getString("manage_plugins.progress.start_plugin_update")));
+					Translations.getString(
+							"manage_plugins.progress.start_plugin_update",
+							plugin.getName())));
 		
 		boolean use = false;
 		if (plugin.getId().equals(
@@ -358,7 +369,9 @@ public class PluginsUtils {
 		
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(
-					Translations.getString("manage_plugins.progress.plugin_updated")));
+					Translations.getString(
+							"manage_plugins.progress.plugin_updated",
+							plugin.getName())));
 	}
 	
 	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
@@ -373,7 +386,9 @@ public class PluginsUtils {
 		try {
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.start_plugin_deletion")));
+						Translations.getString(
+								"manage_plugins.progress.start_plugin_deletion",
+								plugin.getName())));
 			
 			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
 					Main.getApiPlugins().getPlugins());
@@ -387,9 +402,9 @@ public class PluginsUtils {
 					
 					GuiLogger.getLogger().info(
 							"Plugin deleted: "
-									+ plugin.getName()
+									+ existingPlugin.getName()
 									+ " - "
-									+ plugin.getVersion());
+									+ existingPlugin.getVersion());
 					
 					plugin.setStatus(PluginStatus.DELETED);
 				}
@@ -397,7 +412,9 @@ public class PluginsUtils {
 			
 			if (monitor != null)
 				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString("manage_plugins.progress.plugin_deleted")));
+						Translations.getString(
+								"manage_plugins.progress.plugin_deleted",
+								plugin.getName())));
 		} finally {
 			if (set) {
 				try {

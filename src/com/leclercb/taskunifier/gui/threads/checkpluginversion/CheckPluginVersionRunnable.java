@@ -32,20 +32,22 @@
  */
 package com.leclercb.taskunifier.gui.threads.checkpluginversion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -86,6 +88,8 @@ public class CheckPluginVersionRunnable implements Runnable {
 		if (plugins == null)
 			return;
 		
+		final List<Plugin> pluginsToUpdate = new ArrayList<Plugin>();
+		
 		for (SynchronizerGuiPlugin syncPlugin : this.syncPlugins) {
 			try {
 				Plugin plugin = null;
@@ -118,59 +122,29 @@ public class CheckPluginVersionRunnable implements Runnable {
 									+ "\" version available : "
 									+ version);
 					
-					String showed = Main.getSettings().getStringProperty(
-							"new_plugin_version."
-									+ syncPlugin.getId()
-									+ ".showed");
+					int result = 0;
 					
-					if (!this.silent || !EqualsUtils.equals(version, showed)) {
-						Main.getSettings().setStringProperty(
-								"new_plugin_version."
-										+ syncPlugin.getId()
-										+ ".showed",
-								version);
+					if (!this.silent) {
+						String[] options = new String[] {
+								Translations.getString("general.update"),
+								Translations.getString("general.cancel") };
 						
-						int result = 0;
-						
-						if (!this.silent) {
-							String[] options = new String[] {
-									Translations.getString("general.update"),
-									Translations.getString("general.cancel") };
-							
-							result = JOptionPane.showOptionDialog(
-									MainFrame.getInstance().getFrame(),
-									Translations.getString(
-											"action.check_plugin_version.new_plugin_version_available",
-											version,
-											syncPlugin.getName()),
-									Translations.getString("general.information"),
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.INFORMATION_MESSAGE,
-									null,
-									options,
-									options[0]);
-						}
-						
-						if (result == 0) {
-							final Plugin pluginToUpdate = plugin;
-							
-							TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
-									MainFrame.getInstance().getFrame(),
-									Translations.getString("general.manage_plugins")) {
-								
-								@Override
-								public Void doActions(ProgressMonitor monitor)
-										throws Throwable {
-									PluginsUtils.updatePlugin(
-											pluginToUpdate,
-											monitor);
-									return null;
-								}
-								
-							};
-							
-							dialog.setVisible(true);
-						}
+						result = JOptionPane.showOptionDialog(
+								MainFrame.getInstance().getFrame(),
+								Translations.getString(
+										"action.check_plugin_version.new_plugin_version_available",
+										version,
+										syncPlugin.getName()),
+								Translations.getString("general.information"),
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.INFORMATION_MESSAGE,
+								null,
+								options,
+								options[0]);
+					}
+					
+					if (result == 0) {
+						pluginsToUpdate.add(plugin);
 					}
 				} else {
 					this.showNoNewVersion(syncPlugin, this.silent);
@@ -195,6 +169,25 @@ public class CheckPluginVersionRunnable implements Runnable {
 				}
 			}
 		}
+		
+		TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+				MainFrame.getInstance().getFrame(),
+				Translations.getString("general.manage_plugins")) {
+			
+			@Override
+			public Void doActions(ProgressMonitor monitor) throws Throwable {
+				for (Plugin plugin : pluginsToUpdate) {
+					PluginsUtils.updatePlugin(plugin, monitor);
+				}
+				
+				monitor.addMessage(new DefaultProgressMessage(" "));
+				
+				return null;
+			}
+			
+		};
+		
+		dialog.setVisible(true);
 	}
 	
 	public void showNoNewVersion(
