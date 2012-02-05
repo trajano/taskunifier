@@ -151,6 +151,9 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 	public void saveAndApplyConfig() {
 		try {
 			this.pluginConfigurationPanel.saveAndApplyConfig();
+			
+			Main.saveSettings();
+			Main.saveUserSettings();
 		} catch (Exception e) {
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
