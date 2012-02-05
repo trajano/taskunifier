@@ -305,7 +305,15 @@ public abstract class HTMLEditorPane extends JPanel {
 				this.textNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
-				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())));
+				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())) {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				this.setContent(StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance()));
+				super.actionPerformed(event);
+			}
+			
+		});
 		
 		if (propertyName != null) {
 			toolBar.addSeparator();
