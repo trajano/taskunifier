@@ -347,6 +347,7 @@ public class Main {
 						new LanguageDialog(null).setVisible(true);
 						MainFrame.getInstance();
 						new WelcomeDialog(null).setVisible(true);
+						ActionResetGeneralSearchers.resetGeneralSearchers();
 					}
 					
 					MainFrame.getInstance().getFrame().setVisible(true);
