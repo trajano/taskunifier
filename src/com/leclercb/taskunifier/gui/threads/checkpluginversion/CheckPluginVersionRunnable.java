@@ -178,9 +178,8 @@ public class CheckPluginVersionRunnable implements Runnable {
 			public Void doActions(ProgressMonitor monitor) throws Throwable {
 				for (Plugin plugin : pluginsToUpdate) {
 					PluginsUtils.updatePlugin(plugin, monitor);
+					monitor.addMessage(new DefaultProgressMessage(" "));
 				}
-				
-				monitor.addMessage(new DefaultProgressMessage(" "));
 				
 				return null;
 			}
