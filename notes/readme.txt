@@ -6,6 +6,8 @@ Version 2.1.1
 		- FR 3483133: Tooltips in month and week list views
 		- FR 3483158: Tooltips for note editor actions
 		- Select timezone in the settings
+		- Reduced size of plugin files
+		- Improved plugin updates
 
 Version 2.1.0
 	- Major:

@@ -170,23 +170,25 @@ public class CheckPluginVersionRunnable implements Runnable {
 			}
 		}
 		
-		TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
-				MainFrame.getInstance().getFrame(),
-				Translations.getString("general.manage_plugins")) {
-			
-			@Override
-			public Void doActions(ProgressMonitor monitor) throws Throwable {
-				for (Plugin plugin : pluginsToUpdate) {
-					PluginsUtils.updatePlugin(plugin, monitor);
-					monitor.addMessage(new DefaultProgressMessage(" "));
+		if (pluginsToUpdate.size() > 0) {
+			TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+					MainFrame.getInstance().getFrame(),
+					Translations.getString("general.manage_plugins")) {
+				
+				@Override
+				public Void doActions(ProgressMonitor monitor) throws Throwable {
+					for (Plugin plugin : pluginsToUpdate) {
+						PluginsUtils.updatePlugin(plugin, monitor);
+						monitor.addMessage(new DefaultProgressMessage(" "));
+					}
+					
+					return null;
 				}
 				
-				return null;
-			}
+			};
 			
-		};
-		
-		dialog.setVisible(true);
+			dialog.setVisible(true);
+		}
 	}
 	
 	public void showNoNewVersion(
