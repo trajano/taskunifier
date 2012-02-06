@@ -2,6 +2,7 @@ Version 2.1.2
 	- Minor:
 		- BF 3484734: Evernote link not working on Mac
 		- BF 3483191: Improved sort order
+		- Bug fixed: Incorrect inserted date in note editor
 
 Version 2.1.1
 	- Minor:
