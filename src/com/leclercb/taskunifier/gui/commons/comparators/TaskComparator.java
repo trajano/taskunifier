@@ -125,8 +125,7 @@ public class TaskComparator implements Comparator<Task> {
 		Object o1 = taskColumn.getProperty(task1);
 		Object o2 = taskColumn.getProperty(task2);
 		
-		return (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-				* this.compare(taskColumn, o1, o2);
+		return this.compare(taskColumn, o1, o2, sortOrder);
 	}
 	
 	private int compareIndented(
@@ -146,14 +145,12 @@ public class TaskComparator implements Comparator<Task> {
 		
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both tasks are parents, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, o1, o2);
+			result = this.compare(taskColumn, o1, o2, sortOrder);
 		} else if (task1.getParent() != null
 				&& task2.getParent() != null
 				&& task1.getParent().equals(task2.getParent())) {
 			// If both tasks have the same parent, compare them
-			result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-					* this.compare(taskColumn, o1, o2);
+			result = this.compare(taskColumn, o1, o2, sortOrder);
 		} else if (parents1.contains(task2)) {
 			// If a task is the child of the other task
 			result = 1;
@@ -182,8 +179,7 @@ public class TaskComparator implements Comparator<Task> {
 				Object newO1 = taskColumn.getProperty(task1);
 				Object newO2 = taskColumn.getProperty(task2);
 				
-				result = (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1)
-						* this.compare(taskColumn, newO1, newO2);
+				result = this.compare(taskColumn, newO1, newO2, sortOrder);
 				
 				break;
 			}
@@ -192,7 +188,20 @@ public class TaskComparator implements Comparator<Task> {
 		return result;
 	}
 	
-	private int compare(TaskColumn column, Object o1, Object o2) {
+	private int compare(
+			TaskColumn column,
+			Object o1,
+			Object o2,
+			SortOrder sortOrder) {
+		if (o1 == null && o2 == null)
+			return 0;
+		
+		if (o1 == null)
+			return 1;
+		
+		if (o2 == null)
+			return -1;
+		
 		int result = 0;
 		
 		switch (column) {
@@ -322,7 +331,7 @@ public class TaskComparator implements Comparator<Task> {
 				break;
 		}
 		
-		return result;
+		return (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * result;
 	}
 	
 	private int compareModels(Model model1, Model model2) {

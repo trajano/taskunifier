@@ -73,9 +73,11 @@ public class NoteComparator implements Comparator<Note> {
 			Object o1 = element.getProperty().getProperty(note1);
 			Object o2 = element.getProperty().getProperty(note2);
 			
-			int result = this.compare(element.getProperty(), o1, o2);
-			
-			result *= (element.getSortOrder().equals(SortOrder.ASCENDING) ? 1 : -1);
+			int result = this.compare(
+					element.getProperty(),
+					o1,
+					o2,
+					element.getSortOrder());
 			
 			if (result != 0)
 				return result;
@@ -84,15 +86,32 @@ public class NoteComparator implements Comparator<Note> {
 		Object o1 = NoteColumn.MODEL_CREATION_DATE.getProperty(note1);
 		Object o2 = NoteColumn.MODEL_CREATION_DATE.getProperty(note2);
 		
-		int result = this.compare(NoteColumn.MODEL_CREATION_DATE, o1, o2);
+		int result = this.compare(
+				NoteColumn.MODEL_CREATION_DATE,
+				o1,
+				o2,
+				SortOrder.ASCENDING);
 		
 		if (result != 0)
 			return result;
 		
-		return this.compare(NoteColumn.MODEL, note1, note2);
+		return this.compare(NoteColumn.MODEL, note1, note2, SortOrder.ASCENDING);
 	}
 	
-	private int compare(NoteColumn column, Object o1, Object o2) {
+	private int compare(
+			NoteColumn column,
+			Object o1,
+			Object o2,
+			SortOrder sortOrder) {
+		if (o1 == null && o2 == null)
+			return 0;
+		
+		if (o1 == null)
+			return 1;
+		
+		if (o2 == null)
+			return -1;
+		
 		int result = 0;
 		
 		switch (column) {
@@ -131,7 +150,7 @@ public class NoteComparator implements Comparator<Note> {
 				break;
 		}
 		
-		return result;
+		return (sortOrder.equals(SortOrder.ASCENDING) ? 1 : -1) * result;
 	}
 	
 	private int compareModels(Model model1, Model model2) {
