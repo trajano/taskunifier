@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.ProtocolUtils;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public abstract class HTMLEditorPane extends JPanel {
@@ -118,7 +119,8 @@ public abstract class HTMLEditorPane extends JPanel {
 			@Override
 			public void hyperlinkUpdate(HyperlinkEvent evt) {
 				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					DesktopUtils.browse(evt.getURL().toExternalForm());
+					String url = ProtocolUtils.urlToString(evt.getURL());
+					DesktopUtils.browse(url);
 				}
 			}
 			

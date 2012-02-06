@@ -1,3 +1,7 @@
+Version 2.1.2
+	- Minor:
+		- BF 3484734: Evernote link not working on Mac
+
 Version 2.1.1
 	- Minor:
 		- FR 3483133: Tooltips in month and week list views

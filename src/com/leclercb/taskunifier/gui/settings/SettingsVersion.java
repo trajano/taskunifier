@@ -242,6 +242,9 @@ public final class SettingsVersion {
 		if (version.equals("2.1.0"))
 			version = updateSettings_2_1_0_to_2_1_1();
 		
+		if (version.equals("2.1.1"))
+			version = updateSettings_2_1_1_to_2_1_2();
+		
 		cleanSettings();
 		Main.saveSettings();
 	}
@@ -1225,6 +1228,13 @@ public final class SettingsVersion {
 				"Update settings from version 2.1.0 to 2.1.1");
 		
 		return "2.1.1";
+	}
+	
+	private static String updateSettings_2_1_1_to_2_1_2() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 2.1.1 to 2.1.2");
+		
+		return "2.1.2";
 	}
 	
 }

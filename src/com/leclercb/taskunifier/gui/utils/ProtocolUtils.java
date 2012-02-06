@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
@@ -68,6 +70,20 @@ public final class ProtocolUtils {
 			return null;
 		}
 		
+	}
+	
+	public static String urlToString(URL url) {
+		try {
+			URI uri = url.toURI();
+			
+			if (uri.getScheme().equalsIgnoreCase("evernote")) {
+				return "evernote://" + uri.getPath();
+			}
+		} catch (URISyntaxException e) {
+			
+		}
+		
+		return url.toExternalForm();
 	}
 	
 }
