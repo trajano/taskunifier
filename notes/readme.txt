@@ -3,6 +3,7 @@ HISTORY
 
 Version 2.1.2
 	- Minor:
+		- FR 3484966: Calendar view improvements
 		- BF 3484734: Evernote link not working on Mac
 		- BF 3483191: Improved sort order
 		- Bug fixed: Incorrect inserted date in note editor

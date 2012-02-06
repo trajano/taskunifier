@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -86,8 +87,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 				"date.use_start_time")
 				|| Main.getSettings().getBooleanProperty("date.use_due_time"));
 		
-		config.setDayFormat(Main.getSettings().getSimpleDateFormatProperty(
-				"date.date_format"));
+		config.setDayFormat(new SimpleDateFormat("E "
+				+ Main.getSettings().getStringProperty("date.date_format")));
+		config.setWeekDateFormat(new SimpleDateFormat("E "
+				+ Main.getSettings().getStringProperty("date.date_format")));
 		config.setTimeFormat(Main.getSettings().getSimpleDateFormatProperty(
 				"date.time_format"));
 		
@@ -133,7 +136,13 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		this.calendarPanel.addCalendarView(this.listViewPanel);
 		this.calendarPanel.addCalendarView(this.monthViewPanel);
 		
-		this.calendarPanel.showView(this.weekViewPanel.getViewName());
+		String selectedView = Main.getSettings().getStringProperty(
+				"calendar.view.selected");
+		
+		if (selectedView == null)
+			this.calendarPanel.showView(this.weekViewPanel.getViewName());
+		else
+			this.calendarPanel.showView(selectedView);
 		
 		boolean foundSelected = false;
 		String selectedCalendar = Main.getSettings().getStringProperty(
@@ -393,6 +402,10 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	@Override
 	public void saveProperties() {
+		Main.getSettings().setStringProperty(
+				"calendar.view.selected",
+				this.calendarPanel.getCurrentView().getViewName());
+		
 		Main.getSettings().remove("calendar.selected");
 		
 		for (TasksCalendar calendar : this.tasksCalendars) {
