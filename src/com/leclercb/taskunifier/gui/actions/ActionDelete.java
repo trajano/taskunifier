@@ -161,11 +161,18 @@ public class ActionDelete extends AbstractViewAction {
 					return;
 			}
 			
+			Constants.UNDO_SUPPORT.beginUpdate();
+			
 			for (Note note : notes) {
 				if (note.getModelStatus().isEndUserStatus()) {
 					NoteFactory.getInstance().markToDelete(note);
+					Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+							note.getModelId(),
+							note.getModelType()));
 				}
 			}
+			
+			Constants.UNDO_SUPPORT.endUpdate();
 		}
 	}
 	
