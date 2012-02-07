@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ActionMap;
@@ -105,10 +106,13 @@ public class UndoSupport implements UndoableEditListener {
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "undo");
 		
 		if (SystemUtils.IS_OS_MAC) {
-			imap.put(KeyStroke.getKeyStroke(
-					KeyEvent.VK_Z,
-					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
-							| KeyEvent.VK_ALT), "redo");
+			imap.put(
+					KeyStroke.getKeyStroke(
+							KeyEvent.VK_Z,
+							
+							InputEvent.ALT_DOWN_MASK
+									| Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+					"redo");
 		} else {
 			imap.put(
 					KeyStroke.getKeyStroke(

@@ -32,12 +32,18 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
+
+import org.apache.commons.lang3.SystemUtils;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.undo.IDiscardAllEditsListener;
@@ -74,6 +80,19 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 		this.editSupport = editSupport;
 		
 		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.redo"));
+		
+		if (SystemUtils.IS_OS_MAC) {
+			this.putValue(
+					ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(
+							KeyEvent.VK_Z,
+							InputEvent.ALT_DOWN_MASK
+									| Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		} else {
+			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+					KeyEvent.VK_Y,
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		}
 		
 		this.updateAction();
 		
