@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class NoteUndoableEdit extends AbstractUndoableEdit {
 	
@@ -65,7 +66,7 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 	
 	@Override
 	public String getPresentationName() {
-		return "Cell Edit";
+		return Translations.getString("undo.edit");
 	}
 	
 	@Override

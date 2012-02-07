@@ -56,6 +56,7 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public final class SynchronizerUtils {
@@ -378,6 +379,8 @@ public final class SynchronizerUtils {
 		if (!set) {
 			return;
 		}
+		
+		Constants.UNDO_MANAGER.discardAllEdits();
 		
 		// TODO: Delete all contacts ?
 		// ContactFactory.getInstance().deleteAll();

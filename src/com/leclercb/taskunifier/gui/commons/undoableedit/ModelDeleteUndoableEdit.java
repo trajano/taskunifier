@@ -43,26 +43,23 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	
-	private ModelType type;
 	private ModelId id;
+	private ModelType type;
 	
-	public ModelDeleteUndoableEdit(ModelType type, ModelId id) {
-		CheckUtils.isNotNull(type);
+	public ModelDeleteUndoableEdit(ModelId id, ModelType type) {
 		CheckUtils.isNotNull(id);
+		CheckUtils.isNotNull(type);
 		
-		this.type = type;
 		this.id = id;
+		this.type = type;
 	}
 	
 	@Override
 	public String getPresentationName() {
-		return Translations.getString("general.delete")
-				+ ": "
-				+ TranslationsUtils.translateModelType(this.type, true);
+		return Translations.getString("undo.delete");
 	}
 	
 	@Override

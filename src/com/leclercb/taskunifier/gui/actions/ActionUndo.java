@@ -40,13 +40,14 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.swing.undo.IDiscardAllEditsListener;
 import com.leclercb.commons.gui.swing.undo.IRedoListener;
 import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener {
+public class ActionUndo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener, IDiscardAllEditsListener {
 	
 	private UndoFireManager undoManager;
 	private UndoableEditSupport editSupport;
@@ -78,6 +79,7 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 		
 		this.undoManager.addUndoListener(this);
 		this.undoManager.addRedoListener(this);
+		this.undoManager.addDiscardAllEditsListener(this);
 		this.editSupport.addUndoableEditListener(this);
 	}
 	
@@ -99,6 +101,11 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	
 	@Override
 	public void redoPerformed(ActionEvent event) {
+		this.updateAction();
+	}
+	
+	@Override
+	public void discardAllEditsPerformed(ActionEvent event) {
 		this.updateAction();
 	}
 	

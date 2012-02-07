@@ -41,6 +41,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskUndoableEdit extends AbstractUndoableEdit {
 	
@@ -65,7 +66,7 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	
 	@Override
 	public String getPresentationName() {
-		return "Cell Edit";
+		return Translations.getString("undo.edit");
 	}
 	
 	@Override

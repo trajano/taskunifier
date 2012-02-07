@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.actions;
 import javax.swing.Action;
 import javax.swing.Icon;
 
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -79,7 +80,7 @@ public enum ActionList {
 	PRINT(Translations.getString("action.print"), "print.png", true),
 	PRINT_SELECTED_MODELS(Translations.getString("action.print_selection"), "print.png", true),
 	QUIT(Translations.getString("action.quit"), "exit.png", true),
-	REDO(Translations.getString("action.redo"), "redo.png", false),
+	REDO(Translations.getString("action.redo"), "redo.png", true),
 	REFRESH(Translations.getString("action.refresh"), "synchronize.png", false),
 	RESET_GENERAL_SEARCHERS(Translations.getString("action.reset_general_searchers"), "undo.png", false),
 	REVIEW(Translations.getString("action.review"), "information.png", true),
@@ -91,7 +92,7 @@ public enum ActionList {
 	SWITCH_TO_USER_MENU(Translations.getString("action.switch_user_menu"), "user.png", true),
 	SYNCHRONIZE(Translations.getString("action.synchronize"), "synchronize.png", true),
 	TASK_REMINDERS(Translations.getString("action.task_reminders"), "clock.png", true),
-	UNDO(Translations.getString("action.undo"), "undo.png", false);
+	UNDO(Translations.getString("action.undo"), "undo.png", true);
 	
 	private String title;
 	private Icon icon;
@@ -264,7 +265,11 @@ public enum ActionList {
 			case QUIT:
 				return new ActionQuit(width, height);
 			case REDO:
-				return null;
+				return new ActionRedo(
+						Constants.UNDO_MANAGER,
+						Constants.EDIT_SUPPORT,
+						width,
+						height);
 			case REFRESH:
 				return new ActionRefresh(width, height);
 			case RESET_GENERAL_SEARCHERS:
@@ -288,7 +293,11 @@ public enum ActionList {
 			case TASK_REMINDERS:
 				return new ActionTaskReminders(width, height);
 			case UNDO:
-				return null;
+				return new ActionUndo(
+						Constants.UNDO_MANAGER,
+						Constants.EDIT_SUPPORT,
+						width,
+						height);
 			default:
 				return null;
 		}

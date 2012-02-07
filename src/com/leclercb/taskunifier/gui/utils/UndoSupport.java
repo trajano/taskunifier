@@ -44,6 +44,9 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEdit;
 import javax.swing.undo.UndoableEditSupport;
 
+import org.apache.commons.lang3.SystemUtils;
+
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
@@ -57,8 +60,17 @@ public class UndoSupport implements UndoableEditListener {
 	private ActionRedo redoAction;
 	
 	public UndoSupport() {
-		this.undoManager = new UndoFireManager();
-		this.editSupport = new UndoableEditSupport();
+		this(new UndoFireManager(), new UndoableEditSupport());
+	}
+	
+	public UndoSupport(
+			UndoFireManager undoManager,
+			UndoableEditSupport editSupport) {
+		CheckUtils.isNotNull(undoManager);
+		CheckUtils.isNotNull(editSupport);
+		
+		this.undoManager = undoManager;
+		this.editSupport = editSupport;
 		this.editSupport.addUndoableEditListener(this.undoManager);
 		
 		this.undoAction = new ActionUndo(
@@ -91,9 +103,19 @@ public class UndoSupport implements UndoableEditListener {
 		imap.put(KeyStroke.getKeyStroke(
 				KeyEvent.VK_Z,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "undo");
-		imap.put(KeyStroke.getKeyStroke(
-				KeyEvent.VK_Y,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "redo");
+		
+		if (SystemUtils.IS_OS_MAC) {
+			imap.put(KeyStroke.getKeyStroke(
+					KeyEvent.VK_Z,
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+							| KeyEvent.VK_ALT), "redo");
+		} else {
+			imap.put(
+					KeyStroke.getKeyStroke(
+							KeyEvent.VK_Y,
+							Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+					"redo");
+		}
 	}
 	
 	public void postEdit(UndoableEdit e) {

@@ -43,9 +43,11 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -117,6 +119,8 @@ public class ActionDelete extends AbstractViewAction {
 				
 			}
 			
+			Constants.EDIT_SUPPORT.beginUpdate();
+			
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {
 					if (deleteSubTasks == JOptionPane.YES_OPTION) {
@@ -124,13 +128,21 @@ public class ActionDelete extends AbstractViewAction {
 						for (Task child : children) {
 							if (child.getModelStatus().isEndUserStatus()) {
 								TaskFactory.getInstance().markToDelete(child);
+								Constants.EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+										child.getModelId(),
+										child.getModelType()));
 							}
 						}
 					}
 					
 					TaskFactory.getInstance().markToDelete(task);
+					Constants.EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+							task.getModelId(),
+							task.getModelType()));
 				}
 			}
+			
+			Constants.EDIT_SUPPORT.endUpdate();
 			
 			if (set) {
 				try {
