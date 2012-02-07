@@ -76,6 +76,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	}
 	
 	private void initialize() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
 		this.calendarPanel = new CalendarPanel();

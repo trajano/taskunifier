@@ -47,6 +47,7 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 	}
 	
 	private void initialize() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
 		this.calendarPanel = new TasksCalendarPanel(this.mainView);

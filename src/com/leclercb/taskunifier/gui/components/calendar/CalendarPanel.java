@@ -82,6 +82,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 	public CalendarPanel() {
 		Main.getSettings().addSavePropertiesListener(this);
 		
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout(3, 3));
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
@@ -93,6 +94,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 					JSplitPane.HORIZONTAL_SPLIT);
 		}
 		
+		this.horizontalSplitPane.setOpaque(false);
 		this.horizontalSplitPane.setOneTouchExpandable(true);
 		
 		this.add(this.horizontalSplitPane, BorderLayout.CENTER);
@@ -146,12 +148,14 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		};
 		
 		JPanel quickAddTaskPanel = new JPanel(new BorderLayout(3, 3));
+		quickAddTaskPanel.setOpaque(false);
 		quickAddTaskPanel.add(new QuickAddTaskPanel(), BorderLayout.CENTER);
 		quickAddTaskPanel.add(
 				Help.getHelpButton("task_quick_add"),
 				BorderLayout.EAST);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout(5, 5));
+		mainPanel.setOpaque(false);
 		mainPanel.add(quickAddTaskPanel, BorderLayout.NORTH);
 		mainPanel.add(this.viewsPanel, BorderLayout.CENTER);
 		
