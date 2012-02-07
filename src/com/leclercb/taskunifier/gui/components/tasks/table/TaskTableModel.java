@@ -46,7 +46,7 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
-import com.leclercb.taskunifier.gui.commons.undoableedit.TaskUndoableEdit;
+import com.leclercb.taskunifier.gui.commons.undoableedit.TaskEditUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
@@ -123,7 +123,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setProperty(task, value);
-			this.undoSupport.postEdit(new TaskUndoableEdit(
+			this.undoSupport.postEdit(new TaskEditUndoableEdit(
 					task.getModelId(),
 					column,
 					value,

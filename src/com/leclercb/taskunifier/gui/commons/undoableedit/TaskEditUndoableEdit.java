@@ -43,14 +43,14 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskUndoableEdit extends AbstractUndoableEdit {
+public class TaskEditUndoableEdit extends AbstractUndoableEdit {
 	
 	private ModelId task;
 	private TaskColumn column;
 	private Object newValue;
 	private Object oldValue;
 	
-	public TaskUndoableEdit(
+	public TaskEditUndoableEdit(
 			ModelId task,
 			TaskColumn column,
 			Object newValue,

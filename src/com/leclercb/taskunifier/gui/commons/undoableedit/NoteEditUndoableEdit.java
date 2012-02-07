@@ -43,14 +43,14 @@ import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class NoteUndoableEdit extends AbstractUndoableEdit {
+public class NoteEditUndoableEdit extends AbstractUndoableEdit {
 	
 	private ModelId note;
 	private NoteColumn column;
 	private Object newValue;
 	private Object oldValue;
 	
-	public NoteUndoableEdit(
+	public NoteEditUndoableEdit(
 			ModelId note,
 			NoteColumn column,
 			Object newValue,

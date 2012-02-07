@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.commons.undoableedit.NoteUndoableEdit;
+import com.leclercb.taskunifier.gui.commons.undoableedit.NoteEditUndoableEdit;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
@@ -109,7 +109,7 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 		
 		if (!EqualsUtils.equals(oldValue, value)) {
 			column.setProperty(note, value);
-			this.undoSupport.postEdit(new NoteUndoableEdit(
+			this.undoSupport.postEdit(new NoteEditUndoableEdit(
 					note.getModelId(),
 					column,
 					value,

@@ -39,7 +39,9 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.undoableedit.TaskSearcherDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -154,6 +156,8 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 		
 		if (foundInFactory && searcher.getType().isDeletable()) {
 			TaskSearcherFactory.getInstance().unregister(searcher);
+			Constants.UNDO_SUPPORT.postEdit(new TaskSearcherDeleteUndoableEdit(
+					searcher));
 		}
 	}
 	

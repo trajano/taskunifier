@@ -39,7 +39,9 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.undoableedit.NoteSearcherDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -126,6 +128,8 @@ public class ActionDeleteNoteSearcher extends AbstractViewAction {
 		
 		if (foundInFactory && searcher.getType().isDeletable()) {
 			NoteSearcherFactory.getInstance().unregister(searcher);
+			Constants.UNDO_SUPPORT.postEdit(new NoteSearcherDeleteUndoableEdit(
+					searcher));
 		}
 	}
 	
