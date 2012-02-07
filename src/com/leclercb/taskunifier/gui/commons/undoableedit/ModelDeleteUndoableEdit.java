@@ -64,8 +64,6 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	
 	@Override
 	public void undo() throws CannotUndoException {
-		super.undo();
-		
 		Model model = ModelFactoryUtils.getModel(this.type, this.id);
 		
 		if (model == null)
@@ -75,12 +73,12 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		model.setModelStatus(ModelStatus.TO_UPDATE);
+		
+		super.undo();
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
-		super.redo();
-		
 		Model model = ModelFactoryUtils.getModel(this.type, this.id);
 		
 		if (model == null)
@@ -90,6 +88,8 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		ModelFactoryUtils.getFactory(this.type).markToDelete(this.id);
+		
+		super.redo();
 	}
 	
 }

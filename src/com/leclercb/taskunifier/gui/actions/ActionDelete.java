@@ -119,7 +119,7 @@ public class ActionDelete extends AbstractViewAction {
 				
 			}
 			
-			Constants.EDIT_SUPPORT.beginUpdate();
+			Constants.UNDO_SUPPORT.beginUpdate();
 			
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {
@@ -128,7 +128,7 @@ public class ActionDelete extends AbstractViewAction {
 						for (Task child : children) {
 							if (child.getModelStatus().isEndUserStatus()) {
 								TaskFactory.getInstance().markToDelete(child);
-								Constants.EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+								Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
 										child.getModelId(),
 										child.getModelType()));
 							}
@@ -136,13 +136,13 @@ public class ActionDelete extends AbstractViewAction {
 					}
 					
 					TaskFactory.getInstance().markToDelete(task);
-					Constants.EDIT_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+					Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
 							task.getModelId(),
 							task.getModelType()));
 				}
 			}
 			
-			Constants.EDIT_SUPPORT.endUpdate();
+			Constants.UNDO_SUPPORT.endUpdate();
 			
 			if (set) {
 				try {

@@ -96,7 +96,6 @@ import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionPrintSelectedModels;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionRefresh;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
@@ -104,7 +103,6 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
-import com.leclercb.taskunifier.gui.actions.ActionUndo;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -183,16 +181,8 @@ public class MenuBar extends JMenuBar {
 		JMenu editMenu = new JMenu(Translations.getString("menu.edit"));
 		this.add(editMenu);
 		
-		editMenu.add(new ActionUndo(
-				Constants.UNDO_MANAGER,
-				Constants.EDIT_SUPPORT,
-				16,
-				16));
-		editMenu.add(new ActionRedo(
-				Constants.UNDO_MANAGER,
-				Constants.EDIT_SUPPORT,
-				16,
-				16));
+		editMenu.add(Constants.UNDO_SUPPORT.getUndoAction());
+		editMenu.add(Constants.UNDO_SUPPORT.getRedoAction());
 		
 		editMenu.addSeparator();
 		

@@ -380,7 +380,7 @@ public final class SynchronizerUtils {
 			return;
 		}
 		
-		Constants.UNDO_MANAGER.discardAllEdits();
+		Constants.UNDO_SUPPORT.discardAllEdits();
 		
 		// TODO: Delete all contacts ?
 		// ContactFactory.getInstance().deleteAll();

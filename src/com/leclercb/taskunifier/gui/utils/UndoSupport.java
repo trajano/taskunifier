@@ -47,7 +47,6 @@ import javax.swing.undo.UndoableEditSupport;
 
 import org.apache.commons.lang3.SystemUtils;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.actions.ActionRedo;
 import com.leclercb.taskunifier.gui.actions.ActionUndo;
@@ -61,17 +60,8 @@ public class UndoSupport implements UndoableEditListener {
 	private ActionRedo redoAction;
 	
 	public UndoSupport() {
-		this(new UndoFireManager(), new UndoableEditSupport());
-	}
-	
-	public UndoSupport(
-			UndoFireManager undoManager,
-			UndoableEditSupport editSupport) {
-		CheckUtils.isNotNull(undoManager);
-		CheckUtils.isNotNull(editSupport);
-		
-		this.undoManager = undoManager;
-		this.editSupport = editSupport;
+		this.undoManager = new UndoFireManager();
+		this.editSupport = new UndoableEditSupport();
 		this.editSupport.addUndoableEditListener(this.undoManager);
 		
 		this.undoAction = new ActionUndo(
@@ -110,7 +100,7 @@ public class UndoSupport implements UndoableEditListener {
 					KeyStroke.getKeyStroke(
 							KeyEvent.VK_Z,
 							
-							InputEvent.ALT_DOWN_MASK
+							InputEvent.SHIFT_DOWN_MASK
 									| Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 					"redo");
 		} else {
@@ -120,6 +110,14 @@ public class UndoSupport implements UndoableEditListener {
 							Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
 					"redo");
 		}
+	}
+	
+	public void beginUpdate() {
+		this.editSupport.beginUpdate();
+	}
+	
+	public void endUpdate() {
+		this.editSupport.endUpdate();
 	}
 	
 	public void postEdit(UndoableEdit e) {

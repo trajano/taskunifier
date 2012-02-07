@@ -116,9 +116,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 	private TaskTableMenu taskTableMenu;
 	
 	public TaskTable() {
-		this.undoSupport = new UndoSupport(
-				Constants.UNDO_MANAGER,
-				Constants.EDIT_SUPPORT);
+		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}

@@ -86,7 +86,7 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 					ACCELERATOR_KEY,
 					KeyStroke.getKeyStroke(
 							KeyEvent.VK_Z,
-							InputEvent.ALT_DOWN_MASK
+							InputEvent.SHIFT_DOWN_MASK
 									| Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		} else {
 			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(

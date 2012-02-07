@@ -71,8 +71,6 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 	
 	@Override
 	public void undo() throws CannotUndoException {
-		super.undo();
-		
 		Task task = TaskFactory.getInstance().get(this.task);
 		
 		if (task == null)
@@ -82,12 +80,12 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		this.column.setProperty(task, this.oldValue);
+		
+		super.undo();
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
-		super.redo();
-		
 		Task task = TaskFactory.getInstance().get(this.task);
 		
 		if (task == null)
@@ -97,6 +95,8 @@ public class TaskUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		this.column.setProperty(task, this.newValue);
+		
+		super.redo();
 	}
 	
 }

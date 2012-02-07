@@ -142,7 +142,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				return null;
 			}
 			
-			Constants.UNDO_MANAGER.discardAllEdits();
+			Constants.UNDO_SUPPORT.discardAllEdits();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			

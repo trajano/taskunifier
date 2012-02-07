@@ -38,14 +38,12 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import javax.swing.SortOrder;
-import javax.swing.undo.UndoableEditSupport;
 
 import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.undo.TransferActionListener;
-import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
@@ -63,6 +61,7 @@ import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public final class Constants {
 	
@@ -96,8 +95,7 @@ public final class Constants {
 	
 	public static final TransferActionListener TRANSFER_ACTION_LISTENER = new TransferActionListener();
 	
-	public static final UndoFireManager UNDO_MANAGER = new UndoFireManager();
-	public static final UndoableEditSupport EDIT_SUPPORT = new UndoableEditSupport();
+	public static final UndoSupport UNDO_SUPPORT = new UndoSupport();
 	
 	public static NoteSorter getDefaultNoteSorter() {
 		return DEFAULT_NOTE_SORTER.clone();

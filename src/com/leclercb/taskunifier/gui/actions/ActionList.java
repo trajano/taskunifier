@@ -265,11 +265,7 @@ public enum ActionList {
 			case QUIT:
 				return new ActionQuit(width, height);
 			case REDO:
-				return new ActionRedo(
-						Constants.UNDO_MANAGER,
-						Constants.EDIT_SUPPORT,
-						width,
-						height);
+				return Constants.UNDO_SUPPORT.getRedoAction();
 			case REFRESH:
 				return new ActionRefresh(width, height);
 			case RESET_GENERAL_SEARCHERS:
@@ -293,11 +289,7 @@ public enum ActionList {
 			case TASK_REMINDERS:
 				return new ActionTaskReminders(width, height);
 			case UNDO:
-				return new ActionUndo(
-						Constants.UNDO_MANAGER,
-						Constants.EDIT_SUPPORT,
-						width,
-						height);
+				return Constants.UNDO_SUPPORT.getUndoAction();
 			default:
 				return null;
 		}

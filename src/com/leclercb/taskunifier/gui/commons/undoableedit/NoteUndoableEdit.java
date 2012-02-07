@@ -71,8 +71,6 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 	
 	@Override
 	public void undo() throws CannotUndoException {
-		super.undo();
-		
 		Note note = NoteFactory.getInstance().get(this.note);
 		
 		if (note == null)
@@ -82,12 +80,12 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		this.column.setProperty(note, this.oldValue);
+		
+		super.undo();
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
-		super.redo();
-		
 		Note note = NoteFactory.getInstance().get(this.note);
 		
 		if (note == null)
@@ -97,6 +95,8 @@ public class NoteUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		this.column.setProperty(note, this.newValue);
+		
+		super.redo();
 	}
 	
 }

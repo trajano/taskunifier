@@ -100,9 +100,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 	private NoteTableMenu noteTableMenu;
 	
 	public NoteTable() {
-		this.undoSupport = new UndoSupport(
-				Constants.UNDO_MANAGER,
-				Constants.EDIT_SUPPORT);
+		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
