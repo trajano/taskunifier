@@ -102,6 +102,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			String text,
 			boolean canEdit,
 			final String propertyName) {
+		this.setOpaque(false);
 		this.setLayout(new CardLayout());
 		
 		this.undoSupport = new UndoSupport();
@@ -135,6 +136,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		}
 		
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
+		toolBar.setOpaque(false);
 		toolBar.setFloatable(false);
 		
 		this.editAction = new AbstractAction("", ImageUtils.getResourceImage(
@@ -162,6 +164,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		}
 		
 		JPanel htmlPanel = new JPanel(new BorderLayout());
+		htmlPanel.setOpaque(false);
 		htmlPanel.add(toolBar, BorderLayout.NORTH);
 		htmlPanel.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
@@ -212,6 +215,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		}
 		
 		toolBar = new JToolBar(SwingConstants.HORIZONTAL);
+		toolBar.setOpaque(false);
 		toolBar.setFloatable(false);
 		
 		AbstractAction viewAction = new AbstractAction(
@@ -323,6 +327,7 @@ public abstract class HTMLEditorPane extends JPanel {
 		}
 		
 		JPanel textPanel = new JPanel(new BorderLayout());
+		textPanel.setOpaque(false);
 		textPanel.add(toolBar, BorderLayout.NORTH);
 		textPanel.add(
 				ComponentFactory.createJScrollPane(this.textNote, false),
@@ -399,6 +404,7 @@ public abstract class HTMLEditorPane extends JPanel {
 	
 	private JComponent createFontSizeComboBox(final JTextComponent component) {
 		JPanel panel = new JPanel(new BorderLayout());
+		panel.setOpaque(false);
 		
 		final JComboBox cb = new JComboBox(new Integer[] {
 				8,

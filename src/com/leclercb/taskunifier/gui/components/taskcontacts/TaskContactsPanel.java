@@ -72,11 +72,13 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 	}
 	
 	private void initialize() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
 		this.table = new TaskContactsTable();
 		
 		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
+		this.toolBar.setOpaque(false);
 		this.toolBar.setFloatable(false);
 		
 		this.initializeActions();

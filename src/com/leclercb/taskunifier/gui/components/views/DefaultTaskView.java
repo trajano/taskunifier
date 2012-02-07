@@ -93,6 +93,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private void initialize() {
 		Main.getSettings().addSavePropertiesListener(this);
 		
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
@@ -104,9 +105,11 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 					JSplitPane.HORIZONTAL_SPLIT);
 		}
 		
+		this.horizontalSplitPane.setOpaque(false);
 		this.horizontalSplitPane.setOneTouchExpandable(true);
 		
 		this.verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		this.verticalSplitPane.setOpaque(false);
 		this.verticalSplitPane.setOneTouchExpandable(true);
 		this.verticalSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		
@@ -114,6 +117,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		searcherPane.setLayout(new BorderLayout());
 		
 		JPanel middlePane = new JPanel();
+		middlePane.setOpaque(false);
 		middlePane.setLayout(new BorderLayout(5, 5));
 		
 		this.infoTabbedPane = new JTabbedPane(SwingConstants.BOTTOM);
@@ -217,6 +221,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.quickAddTaskPanel = new QuickAddTaskPanel();
 		
 		JPanel panel = new JPanel(new BorderLayout(3, 3));
+		panel.setOpaque(false);
 		panel.add(this.quickAddTaskPanel, BorderLayout.CENTER);
 		panel.add(Help.getHelpButton("task_quick_add"), BorderLayout.EAST);
 		

@@ -27,6 +27,8 @@ public class QuickAddTaskPanel extends JPanel {
 	}
 	
 	private void initialize() {
+		this.setOpaque(false);
+		
 		this.textField = new JTextField();
 		this.textField.addKeyListener(new KeyAdapter() {
 			
@@ -72,6 +74,7 @@ public class QuickAddTaskPanel extends JPanel {
 		this.add(this.textField, BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel(new BorderLayout(3, 3));
+		buttonsPanel.setOpaque(false);
 		buttonsPanel.add(this.button, BorderLayout.WEST);
 		buttonsPanel.add(this.buttonTemplate, BorderLayout.EAST);
 		
