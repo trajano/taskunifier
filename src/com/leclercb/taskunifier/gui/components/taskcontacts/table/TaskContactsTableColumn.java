@@ -50,7 +50,6 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
 import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.ContactEditor;
 import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.LinkEditor;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 
 public class TaskContactsTableColumn extends TableColumnExt {
 	
@@ -87,11 +86,11 @@ public class TaskContactsTableColumn extends TableColumnExt {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
+				if (evt.getPropertyName().equals(TaskContactsColumn.PROP_VISIBLE)) {
 					TaskContactsTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
 				
-				if (evt.getPropertyName().equals(TaskColumn.PROP_WIDTH)) {
+				if (evt.getPropertyName().equals(TaskContactsColumn.PROP_WIDTH)) {
 					TaskContactsTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
