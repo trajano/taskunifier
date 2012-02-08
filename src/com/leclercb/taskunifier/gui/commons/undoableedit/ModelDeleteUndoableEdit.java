@@ -41,20 +41,31 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	
 	private ModelId id;
+	private ModelId parentId;
 	private ModelType type;
 	
-	public ModelDeleteUndoableEdit(ModelId id, ModelType type) {
-		CheckUtils.isNotNull(id);
-		CheckUtils.isNotNull(type);
+	public ModelDeleteUndoableEdit(Task task) {
+		this((Model) task);
 		
-		this.id = id;
-		this.type = type;
+		if (task.getParent() == null)
+			this.parentId = null;
+		else
+			this.parentId = task.getParent().getModelId();
+	}
+	
+	public ModelDeleteUndoableEdit(Model model) {
+		CheckUtils.isNotNull(model);
+		
+		this.id = model.getModelId();
+		this.type = model.getModelType();
 	}
 	
 	@Override
@@ -73,6 +84,10 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 			return;
 		
 		model.setModelStatus(ModelStatus.TO_UPDATE);
+		
+		if (this.type == ModelType.TASK && this.parentId != null)
+			((Task) model).setParent(TaskFactory.getInstance().get(
+					this.parentId));
 		
 		super.undo();
 	}
