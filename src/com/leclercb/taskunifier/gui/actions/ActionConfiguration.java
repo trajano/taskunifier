@@ -44,11 +44,21 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionConfiguration extends AbstractAction {
 	
+	private ConfigurationTab tab;
+	
 	public ActionConfiguration() {
-		this(32, 32);
+		this(null);
+	}
+	
+	public ActionConfiguration(ConfigurationTab tab) {
+		this(32, 32, tab);
 	}
 	
 	public ActionConfiguration(int width, int height) {
+		this(width, height, null);
+	}
+	
+	public ActionConfiguration(int width, int height, ConfigurationTab tab) {
 		super(
 				Translations.getString("action.configuration"),
 				ImageUtils.getResourceImage("settings.png", width, height));
@@ -56,19 +66,23 @@ public class ActionConfiguration extends AbstractAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.configuration"));
+		
+		this.tab = tab;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ActionConfiguration.configuration();
+		ActionConfiguration.configuration(this.tab);
 	}
 	
 	public static void configuration() {
-		ConfigurationDialog.getInstance().setVisible(true);
+		configuration(null);
 	}
 	
 	public static void configuration(ConfigurationTab tab) {
-		ConfigurationDialog.getInstance().setSelectedConfigurationTab(tab);
+		if (tab != null)
+			ConfigurationDialog.getInstance().setSelectedConfigurationTab(tab);
+		
 		ConfigurationDialog.getInstance().setVisible(true);
 		
 		ViewType.refreshTaskSearcher();

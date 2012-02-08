@@ -32,12 +32,15 @@
  */
 package com.leclercb.taskunifier.gui.components.toolbar;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
@@ -58,6 +61,7 @@ import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionList;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -69,6 +73,27 @@ public class MacToolBar extends UnifiedToolBar {
 	
 	private void initialize() {
 		this.initializeActions();
+		
+		final JPopupMenu toolbarMenu = new JPopupMenu();
+		toolbarMenu.add(new ActionConfiguration(
+				16,
+				16,
+				ConfigurationTab.TOOLBAR));
+		
+		this.getComponent().addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					toolbarMenu.show(
+							MacToolBar.this.getComponent(),
+							event.getX(),
+							event.getY());
+				}
+			}
+			
+		});
 		
 		final JLabel accountLabel = MacWidgetFactory.createEmphasizedLabel("");
 		accountLabel.setText(this.getAccountLabelText());

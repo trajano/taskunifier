@@ -41,6 +41,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +61,7 @@ import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSwitchToUserMenu;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -76,6 +78,27 @@ public class DefaultToolBar extends JToolBar {
 		this.initializeActions();
 		
 		this.add(Box.createHorizontalGlue());
+		
+		final JPopupMenu toolbarMenu = new JPopupMenu();
+		toolbarMenu.add(new ActionConfiguration(
+				16,
+				16,
+				ConfigurationTab.TOOLBAR));
+		
+		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					toolbarMenu.show(
+							DefaultToolBar.this,
+							event.getX(),
+							event.getY());
+				}
+			}
+			
+		});
 		
 		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu();
 		final JLabel accountLabel = new JLabel();
