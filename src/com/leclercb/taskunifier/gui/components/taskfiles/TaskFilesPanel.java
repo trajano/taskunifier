@@ -104,7 +104,7 @@ public class TaskFilesPanel extends JPanel implements TaskFilesView, ModelSelect
 						Translations.getString("general.file"));
 				dialog.setVisible(true);
 				
-				if (dialog.getFile() == null)
+				if (dialog.isCancelled())
 					return;
 				
 				TaskFilesPanel.this.table.getFileGroup().add(

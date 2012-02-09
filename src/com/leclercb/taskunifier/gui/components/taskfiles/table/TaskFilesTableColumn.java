@@ -44,7 +44,7 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
+import com.leclercb.taskunifier.gui.commons.values.IconValueOpen;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.editors.FileEditor;
@@ -66,7 +66,7 @@ public class TaskFilesTableColumn extends TableColumnExt {
 				Translations.getString("general.no_value")));
 		OPEN_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueEdit.INSTANCE));
+				IconValueOpen.INSTANCE));
 		
 		LINK_EDITOR = new LinkEditor();
 		FILE_EDITOR = new FileEditor();
