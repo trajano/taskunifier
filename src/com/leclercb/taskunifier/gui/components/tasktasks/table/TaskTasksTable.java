@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
+import com.leclercb.taskunifier.gui.components.tasktasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public class TaskTasksTable extends JXTable {
@@ -126,6 +127,7 @@ public class TaskTasksTable extends JXTable {
 		
 		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
+		this.initializeHighlighters();
 	}
 	
 	private void initializeDragAndDrop() {
@@ -178,6 +180,10 @@ public class TaskTasksTable extends JXTable {
 			}
 			
 		});
+	}
+	
+	private void initializeHighlighters() {
+		this.setHighlighters(new TaskAlternateHighlighter());
 	}
 	
 }

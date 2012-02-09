@@ -47,6 +47,7 @@ import org.jdesktop.swingx.JXTable;
 
 import com.leclercb.taskunifier.api.models.FileGroup;
 import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop.TaskFilesTransferHandler;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
@@ -125,6 +126,7 @@ public class TaskFilesTable extends JXTable {
 		
 		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
+		this.initializeHighlighters();
 	}
 	
 	private void initializeDragAndDrop() {
@@ -167,6 +169,10 @@ public class TaskFilesTable extends JXTable {
 			}
 			
 		});
+	}
+	
+	private void initializeHighlighters() {
+		this.setHighlighters(new AlternateHighlighter());
 	}
 	
 }
