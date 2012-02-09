@@ -32,30 +32,23 @@
  */
 package com.leclercb.taskunifier.gui.commons.values;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import javax.swing.Icon;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import org.jdesktop.swingx.renderer.IconValue;
 
-public class StringValueModel implements StringValue {
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class IconValueSelect implements IconValue {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
+	public static final IconValueSelect INSTANCE = new IconValueSelect();
 	
-	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
-	
-	private String noValue;
-	
-	private StringValueModel(String noValue) {
-		this.noValue = noValue;
+	private IconValueSelect() {
+		
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Model))
-			return this.noValue;
-		
-		return ((Model) value).getTitle();
+	public Icon getIcon(Object value) {
+		return ImageUtils.getResourceImage("select.png", 16, 16);
 	}
 	
 }

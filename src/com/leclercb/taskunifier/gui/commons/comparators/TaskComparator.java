@@ -241,6 +241,16 @@ public class TaskComparator implements Comparator<Task> {
 						(String) o1,
 						(String) o2);
 				break;
+			case TASKS:
+				result = CompareUtils.compareStringIgnoreCase(
+						(String) o1,
+						(String) o2);
+				break;
+			case FILES:
+				result = CompareUtils.compareStringIgnoreCase(
+						(String) o1,
+						(String) o2);
+				break;
 			case TAGS:
 				result = CompareUtils.compareStringIgnoreCase(
 						(String) o1,

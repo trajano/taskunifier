@@ -418,6 +418,9 @@ public final class TaskUtils {
 						else
 							content = StringValueCalendar.INSTANCE_DATE.getString(value);
 						break;
+					case FILES:
+						content = (value == null ? null : value.toString());
+						break;
 					case IMPORTANCE:
 						content = (value == null ? null : value.toString());
 						break;
@@ -477,6 +480,9 @@ public final class TaskUtils {
 						content = StringValueTaskStatus.INSTANCE.getString(value);
 						break;
 					case TAGS:
+						content = (value == null ? null : value.toString());
+						break;
+					case TASKS:
 						content = (value == null ? null : value.toString());
 						break;
 					case TIMER:

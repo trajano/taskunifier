@@ -446,6 +446,8 @@ public class TaskTable extends JXTable implements TaskTableView {
 								colIndex).getIdentifier();
 						
 						if (column == TaskColumn.CONTACTS
+								|| column == TaskColumn.TASKS
+								|| column == TaskColumn.FILES
 								|| column == TaskColumn.MODEL_EDIT
 								|| column == TaskColumn.NOTE) {
 							Task task = ((TaskTableModel) TaskTable.this.getModel()).getTask(rowIndex);
@@ -459,6 +461,16 @@ public class TaskTable extends JXTable implements TaskTableView {
 							if (column == TaskColumn.CONTACTS) {
 								ViewType.getTaskView().setSelectedInfoTab(
 										InfoTab.CONTACTS);
+							}
+							
+							if (column == TaskColumn.TASKS) {
+								ViewType.getTaskView().setSelectedInfoTab(
+										InfoTab.TASKS);
+							}
+							
+							if (column == TaskColumn.FILES) {
+								ViewType.getTaskView().setSelectedInfoTab(
+										InfoTab.FILES);
 							}
 							
 							if (column == TaskColumn.MODEL_EDIT) {

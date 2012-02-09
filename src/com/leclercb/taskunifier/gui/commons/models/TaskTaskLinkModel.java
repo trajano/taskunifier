@@ -30,32 +30,44 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.commons.models;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.models.utils.TaskTaskLinkList;
 
-public class StringValueModel implements StringValue {
+public class TaskTaskLinkModel extends DefaultComboBoxModel implements ListChangeListener {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
+	private boolean firstNull;
 	
-	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
-	
-	private String noValue;
-	
-	private StringValueModel(String noValue) {
-		this.noValue = noValue;
+	public TaskTaskLinkModel(boolean firstNull) {
+		this.firstNull = firstNull;
+		
+		String[] links = TaskTaskLinkList.getInstance().getLinks();
+		
+		if (firstNull)
+			this.addElement(null);
+		
+		for (String link : links)
+			this.addElement(link);
+		
+		TaskTaskLinkList.getInstance().addListChangeListener(this);
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Model))
-			return this.noValue;
+	public void listChange(ListChangeEvent evt) {
+		String link = (String) evt.getValue();
 		
-		return ((Model) value).getTitle();
+		int index = evt.getIndex();
+		if (this.firstNull)
+			index++;
+		
+		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.insertElementAt(link, index);
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.removeElement(link);
 	}
 	
 }

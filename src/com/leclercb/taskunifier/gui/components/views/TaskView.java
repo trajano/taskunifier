@@ -9,7 +9,9 @@ public interface TaskView extends View {
 	public static enum InfoTab {
 		
 		NOTE,
-		CONTACTS;
+		CONTACTS,
+		TASKS,
+		FILES;
 		
 	}
 	

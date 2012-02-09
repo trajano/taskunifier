@@ -30,32 +30,54 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.tasktasks.table;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Enumeration;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import javax.swing.table.TableColumn;
 
-public class StringValueModel implements StringValue {
+import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
+
+import com.leclercb.commons.api.utils.CompareUtils;
+import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
+
+public class TaskTasksTableColumnModel extends DefaultTableColumnModelExt {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
+	public TaskTasksTableColumnModel() {
+		this.initialize();
+	}
 	
-	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
+	private void initialize() {
+		TaskTasksColumn[] columns = TaskTasksColumn.values();
+		Arrays.sort(columns, new Comparator<TaskTasksColumn>() {
+			
+			@Override
+			public int compare(TaskTasksColumn c1, TaskTasksColumn c2) {
+				return CompareUtils.compare(c1.getOrder(), c2.getOrder());
+			}
+			
+		});
+		
+		for (int i = 0; i < columns.length; i++)
+			this.addColumn(new TaskTasksTableColumn(columns[i]));
+	}
 	
-	private String noValue;
-	
-	private StringValueModel(String noValue) {
-		this.noValue = noValue;
+	public TaskTasksColumn getTaskTasksColumn(int col) {
+		return (TaskTasksColumn) this.getColumn(col).getIdentifier();
 	}
 	
 	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Model))
-			return this.noValue;
+	public void moveColumn(int columnIndex, int newIndex) {
+		super.moveColumn(columnIndex, newIndex);
 		
-		return ((Model) value).getTitle();
+		int i = 1;
+		Enumeration<TableColumn> columns = this.getColumns();
+		while (columns.hasMoreElements()) {
+			TableColumn column = columns.nextElement();
+			((TaskTasksColumn) column.getIdentifier()).setOrder(i++);
+		}
 	}
 	
 }

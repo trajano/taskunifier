@@ -61,6 +61,10 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		switch (column) {
 			case CONTACTS:
 				return this.doHighlightContacts(renderer, adapter);
+			case TASKS:
+				return this.doHighlightTasks(renderer, adapter);
+			case FILES:
+				return this.doHighlightFiles(renderer, adapter);
 			case PROGRESS:
 				return this.doHighlightProgress(renderer, adapter);
 			case LENGTH:
@@ -86,6 +90,42 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		
 		if (task.getContacts().size() != 0)
 			((JComponent) renderer).setToolTipText(task.getContacts().toString());
+		
+		return renderer;
+	}
+	
+	protected Component doHighlightTasks(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		if (task.getTasks().size() != 0)
+			((JComponent) renderer).setToolTipText(task.getTasks().toString());
+		
+		return renderer;
+	}
+	
+	protected Component doHighlightFiles(
+			Component renderer,
+			ComponentAdapter adapter) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.getColumnIndex(TaskColumn.MODEL));
+		
+		if (value == null || !(value instanceof Task))
+			return renderer;
+		
+		final Task task = (Task) value;
+		
+		if (task.getFiles().size() != 0)
+			((JComponent) renderer).setToolTipText(task.getFiles().toString());
 		
 		return renderer;
 	}

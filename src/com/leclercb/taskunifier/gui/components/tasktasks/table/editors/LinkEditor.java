@@ -30,32 +30,21 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.tasktasks.table.editors;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import javax.swing.JComboBox;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-public class StringValueModel implements StringValue {
+import com.leclercb.taskunifier.gui.commons.models.TaskTaskLinkModel;
+
+public class LinkEditor extends ComboBoxCellEditor {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
-	
-	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
-	
-	private String noValue;
-	
-	private StringValueModel(String noValue) {
-		this.noValue = noValue;
-	}
-	
-	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Model))
-			return this.noValue;
+	public LinkEditor() {
+		super(new JComboBox(new TaskTaskLinkModel(false)));
+		((JComboBox) this.getComponent()).setEditable(true);
 		
-		return ((Model) value).getTitle();
+		this.setClickCountToStart(2);
 	}
 	
 }

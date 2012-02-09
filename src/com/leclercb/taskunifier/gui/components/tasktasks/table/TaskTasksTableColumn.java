@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.taskcontacts.table;
+package com.leclercb.taskunifier.gui.components.tasktasks.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -44,34 +44,43 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueSelect;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
-import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.ContactEditor;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
+import com.leclercb.taskunifier.gui.components.tasktasks.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.components.tasktasks.table.editors.TaskEditor;
 
-public class TaskContactsTableColumn extends TableColumnExt {
+public class TaskTasksTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer LINK_RENDERER;
-	private static final TableCellRenderer CONTACT_RENDERER;
+	private static final TableCellRenderer TASK_RENDERER;
+	private static final TableCellRenderer EDIT_RENDERER;
+	private static final TableCellRenderer SELECT_RENDERER;
 	
 	private static final TableCellEditor LINK_EDITOR;
-	private static final TableCellEditor CONTACT_EDITOR;
+	private static final TableCellEditor TASK_EDITOR;
 	
 	static {
 		LINK_RENDERER = new DefaultTableRenderer();
-		CONTACT_RENDERER = new DefaultTableRenderer(new MappedValue(
+		TASK_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE_NO_VALUE,
 				IconValueModel.INSTANCE));
+		EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueEdit.INSTANCE));
+		SELECT_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueSelect.INSTANCE));
 		
 		LINK_EDITOR = new LinkEditor();
-		CONTACT_EDITOR = new ContactEditor();
+		TASK_EDITOR = new TaskEditor();
 	}
 	
-	private TaskContactsColumn column;
+	private TaskTasksColumn column;
 	
-	public TaskContactsTableColumn(TaskContactsColumn column) {
+	public TaskTasksTableColumn(TaskTasksColumn column) {
 		super(column.ordinal());
 		
 		CheckUtils.isNotNull(column);
@@ -86,13 +95,12 @@ public class TaskContactsTableColumn extends TableColumnExt {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						TaskContactsColumn.PROP_VISIBLE)) {
-					TaskContactsTableColumn.this.setVisible((Boolean) evt.getNewValue());
+				if (evt.getPropertyName().equals(TaskTasksColumn.PROP_VISIBLE)) {
+					TaskTasksTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
 				
-				if (evt.getPropertyName().equals(TaskContactsColumn.PROP_WIDTH)) {
-					TaskContactsTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
+				if (evt.getPropertyName().equals(TaskTasksColumn.PROP_WIDTH)) {
+					TaskTasksTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
 			
@@ -104,8 +112,12 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return super.getComparator();
-			case CONTACT:
-				return ModelComparator.INSTANCE;
+			case TASK:
+				return super.getComparator();
+			case EDIT:
+				return super.getComparator();
+			case SELECT:
+				return super.getComparator();
 			default:
 				return super.getComparator();
 		}
@@ -133,8 +145,12 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return LINK_RENDERER;
-			case CONTACT:
-				return CONTACT_RENDERER;
+			case TASK:
+				return TASK_RENDERER;
+			case EDIT:
+				return EDIT_RENDERER;
+			case SELECT:
+				return SELECT_RENDERER;
 			default:
 				return super.getCellRenderer();
 		}
@@ -145,8 +161,8 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return LINK_EDITOR;
-			case CONTACT:
-				return CONTACT_EDITOR;
+			case TASK:
+				return TASK_EDITOR;
 			default:
 				return super.getCellEditor();
 		}

@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.taskcontacts.table;
+package com.leclercb.taskunifier.gui.components.taskfiles.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -44,34 +44,37 @@ import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
-import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
-import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.ContactEditor;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
+import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
+import com.leclercb.taskunifier.gui.components.taskfiles.table.editors.FileEditor;
+import com.leclercb.taskunifier.gui.components.taskfiles.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskContactsTableColumn extends TableColumnExt {
+public class TaskFilesTableColumn extends TableColumnExt {
 	
 	private static final TableCellRenderer LINK_RENDERER;
-	private static final TableCellRenderer CONTACT_RENDERER;
+	private static final TableCellRenderer FILE_RENDERER;
+	private static final TableCellRenderer OPEN_RENDERER;
 	
 	private static final TableCellEditor LINK_EDITOR;
-	private static final TableCellEditor CONTACT_EDITOR;
+	private static final TableCellEditor FILE_EDITOR;
 	
 	static {
 		LINK_RENDERER = new DefaultTableRenderer();
-		CONTACT_RENDERER = new DefaultTableRenderer(new MappedValue(
-				StringValueModel.INSTANCE_NO_VALUE,
-				IconValueModel.INSTANCE));
+		FILE_RENDERER = new DefaultTableRenderer(new StringValueTitle(
+				Translations.getString("general.no_value")));
+		OPEN_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueEdit.INSTANCE));
 		
 		LINK_EDITOR = new LinkEditor();
-		CONTACT_EDITOR = new ContactEditor();
+		FILE_EDITOR = new FileEditor();
 	}
 	
-	private TaskContactsColumn column;
+	private TaskFilesColumn column;
 	
-	public TaskContactsTableColumn(TaskContactsColumn column) {
+	public TaskFilesTableColumn(TaskFilesColumn column) {
 		super(column.ordinal());
 		
 		CheckUtils.isNotNull(column);
@@ -86,13 +89,12 @@ public class TaskContactsTableColumn extends TableColumnExt {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						TaskContactsColumn.PROP_VISIBLE)) {
-					TaskContactsTableColumn.this.setVisible((Boolean) evt.getNewValue());
+				if (evt.getPropertyName().equals(TaskFilesColumn.PROP_VISIBLE)) {
+					TaskFilesTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
 				
-				if (evt.getPropertyName().equals(TaskContactsColumn.PROP_WIDTH)) {
-					TaskContactsTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
+				if (evt.getPropertyName().equals(TaskFilesColumn.PROP_WIDTH)) {
+					TaskFilesTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
 			
@@ -104,8 +106,10 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return super.getComparator();
-			case CONTACT:
-				return ModelComparator.INSTANCE;
+			case FILE:
+				return super.getComparator();
+			case OPEN:
+				return super.getComparator();
 			default:
 				return super.getComparator();
 		}
@@ -133,8 +137,10 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return LINK_RENDERER;
-			case CONTACT:
-				return CONTACT_RENDERER;
+			case FILE:
+				return FILE_RENDERER;
+			case OPEN:
+				return OPEN_RENDERER;
 			default:
 				return super.getCellRenderer();
 		}
@@ -145,8 +151,8 @@ public class TaskContactsTableColumn extends TableColumnExt {
 		switch (this.column) {
 			case LINK:
 				return LINK_EDITOR;
-			case CONTACT:
-				return CONTACT_EDITOR;
+			case FILE:
+				return FILE_EDITOR;
 			default:
 				return super.getCellEditor();
 		}

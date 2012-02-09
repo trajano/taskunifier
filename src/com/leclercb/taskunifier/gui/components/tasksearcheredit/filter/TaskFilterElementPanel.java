@@ -112,6 +112,8 @@ public class TaskFilterElementPanel extends JPanel {
 					break;
 				case TITLE:
 				case CONTACTS:
+				case TASKS:
+				case FILES:
 				case TAGS:
 				case NOTE:
 				case REPEAT:

@@ -1,4 +1,7 @@
 Version 2.1.2
+	- Major:
+		- FR 3485813: Link files to task
+		- FR 3482268: Link tasks to task
 	- Minor:
 		- FR 3474934: Undo / redo
 		- FR 3485596: Context menu for toolbar

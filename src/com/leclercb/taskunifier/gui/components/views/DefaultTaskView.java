@@ -27,10 +27,12 @@ import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsPanel;
+import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesPanel;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksPanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
@@ -53,6 +55,8 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	private TaskTable taskTable;
 	private ModelNotePanel taskNote;
 	private TaskContactsPanel taskContacts;
+	private TaskTasksPanel taskTasks;
+	private TaskFilesPanel taskFiles;
 	private JTabbedPane infoTabbedPane;
 	
 	public DefaultTaskView(MainView mainView) {
@@ -140,6 +144,8 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.initializeTaskTable(middlePane);
 		this.initializeModelNote(this.infoTabbedPane);
 		this.initializeTaskContacts(this.infoTabbedPane);
+		this.initializeTaskTasks(this.infoTabbedPane);
+		this.initializeTaskFiles(this.infoTabbedPane);
 		
 		this.taskSearcherPanel.refreshTaskSearcher();
 	}
@@ -269,6 +275,24 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 				Translations.getString("general.contacts"),
 				ImageUtils.getResourceImage("user.png", 16, 16),
 				this.taskContacts);
+	}
+	
+	private void initializeTaskTasks(JTabbedPane tabbedPane) {
+		this.taskTasks = new TaskTasksPanel();
+		this.taskTable.addModelSelectionChangeListener(this.taskTasks);
+		tabbedPane.addTab(
+				Translations.getString("general.tasks"),
+				ImageUtils.getResourceImage("task.png", 16, 16),
+				this.taskTasks);
+	}
+	
+	private void initializeTaskFiles(JTabbedPane tabbedPane) {
+		this.taskFiles = new TaskFilesPanel();
+		this.taskTable.addModelSelectionChangeListener(this.taskFiles);
+		tabbedPane.addTab(
+				Translations.getString("general.files"),
+				ImageUtils.getResourceImage("folder.png", 16, 16),
+				this.taskFiles);
 	}
 	
 }

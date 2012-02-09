@@ -56,7 +56,9 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueReminder;
 import com.leclercb.taskunifier.gui.commons.values.IconValueRepeat;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskContacts;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskFiles;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskPriority;
+import com.leclercb.taskunifier.gui.commons.values.IconValueTaskTasks;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
@@ -99,6 +101,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer COMPLETED_RENDERER;
 	private static final TableCellRenderer COMPLETED_ON_RENDERER;
 	private static final TableCellRenderer DUE_DATE_RENDERER;
+	private static final TableCellRenderer FILES_RENDERER;
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
@@ -116,6 +119,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer PRIORITY_RENDERER;
 	private static final TableCellRenderer REPEAT_FROM_RENDERER;
 	private static final TableCellRenderer STATUS_RENDERER;
+	private static final TableCellRenderer TASKS_RENDERER;
 	private static final TableCellRenderer TIMER_RENDERER;
 	private static final TableCellRenderer TITLE_RENDERER;
 	
@@ -154,6 +158,10 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		DUE_DATE_RENDERER = new DefaultTableRenderer(
 				(Main.getSettings().getBooleanProperty("date.use_due_time") ? StringValueCalendar.INSTANCE_DATE_TIME : StringValueCalendar.INSTANCE_DATE));
+		
+		FILES_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueTaskFiles.INSTANCE));
 		
 		LENGTH_RENDERER = new DefaultTableRenderer(
 				StringValueTaskLength.INSTANCE);
@@ -221,6 +229,10 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		STATUS_RENDERER = new DefaultTableRenderer(
 				StringValueTaskStatus.INSTANCE);
+		
+		TASKS_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueTaskTasks.INSTANCE));
 		
 		TIMER_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTimer.INSTANCE,
@@ -326,6 +338,10 @@ public class TaskTableColumn extends TableColumnExt {
 				return ORDER_RENDERER;
 			case CONTACTS:
 				return CONTACTS_RENDERER;
+			case TASKS:
+				return TASKS_RENDERER;
+			case FILES:
+				return FILES_RENDERER;
 			case PROGRESS:
 				return PROGRESS_RENDERER;
 			case COMPLETED:

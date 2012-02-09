@@ -30,32 +30,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.taskfiles.table.editors;
 
-import org.jdesktop.swingx.renderer.StringValue;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JTextField;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.translations.Translations;
-
-public class StringValueModel implements StringValue {
+public class FileEditor extends DefaultCellEditor {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
-	
-	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
-	
-	private String noValue;
-	
-	private StringValueModel(String noValue) {
-		this.noValue = noValue;
-	}
-	
-	@Override
-	public String getString(Object value) {
-		if (value == null || !(value instanceof Model))
-			return this.noValue;
-		
-		return ((Model) value).getTitle();
+	public FileEditor() {
+		super(new JTextField());
 	}
 	
 }
