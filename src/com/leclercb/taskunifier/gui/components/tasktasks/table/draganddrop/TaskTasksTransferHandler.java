@@ -55,6 +55,11 @@ public class TaskTasksTransferHandler extends TransferHandler {
 	@Override
 	public boolean canImport(TransferSupport support) {
 		Transferable t = support.getTransferable();
+		TaskTasksTable table = (TaskTasksTable) support.getComponent();
+		
+		if (table.getTaskGroup() == null) {
+			return false;
+		}
 		
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			try {
@@ -90,6 +95,10 @@ public class TaskTasksTransferHandler extends TransferHandler {
 		
 		Transferable t = support.getTransferable();
 		TaskTasksTable table = (TaskTasksTable) support.getComponent();
+		
+		if (table.getTaskGroup() == null) {
+			return false;
+		}
 		
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			// Get Drag Task

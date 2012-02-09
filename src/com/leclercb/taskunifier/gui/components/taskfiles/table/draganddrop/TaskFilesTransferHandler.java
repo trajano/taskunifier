@@ -32,15 +32,31 @@
  */
 package com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.io.File;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
+
+import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.gui.components.taskfiles.table.TaskFilesTable;
 
 public class TaskFilesTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
+		TaskFilesTable table = (TaskFilesTable) support.getComponent();
+		
+		if (table.getFileGroup() == null) {
+			return false;
+		}
+		
+		if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -49,10 +65,30 @@ public class TaskFilesTransferHandler extends TransferHandler {
 		return TransferHandler.LINK;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean importData(TransferSupport support) {
 		if (!this.canImport(support)) {
 			return false;
+		}
+		
+		Transferable t = support.getTransferable();
+		TaskFilesTable table = (TaskFilesTable) support.getComponent();
+		
+		if (table.getFileGroup() == null) {
+			return false;
+		}
+		
+		if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+			try {
+				List data = (List) t.getTransferData(DataFlavor.javaFileListFlavor);
+				for (Object object : data) {
+					String file = ((File) object).getAbsolutePath();
+					table.getFileGroup().add(new FileItem(file, null));
+				}
+			} catch (Exception e) {
+				return false;
+			}
 		}
 		
 		return false;
