@@ -20,12 +20,14 @@
 	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />
 	<mapID target="shortcuts" url="pages/shortcuts.html" />
 	<mapID target="task_contacts" url="pages/task_contacts.html" />
+	<mapID target="task_files" url="pages/task_files.html" />
 	<mapID target="task_importance" url="pages/task_importance.html" />
 	<mapID target="task_manually_sort_tasks" url="pages/task_manually_sort_tasks.html" />
 	<mapID target="task_note" url="pages/task_note.html" />
 	<mapID target="task_quick_add" url="pages/task_quick_add.html" />
 	<mapID target="task_repeat" url="pages/task_repeat.html" />
 	<mapID target="task_searcher" url="pages/task_searcher.html" />
+	<mapID target="task_tasks" url="pages/task_tasks.html" />
 	<mapID target="view_calendar" url="pages/view_calendar.html" />
 	<mapID target="view_tasks" url="pages/view_tasks.html" />
 	

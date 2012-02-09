@@ -1,7 +1,7 @@
 HISTORY
 -------
 
-Version 2.1.2
+Version 2.2.0
 	- Major:
 		- FR 3485813: Link files to task
 		- FR 3482268: Link tasks to task

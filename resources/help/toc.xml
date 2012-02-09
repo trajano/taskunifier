@@ -42,11 +42,13 @@
 			<tocitem text="Manage Task Templates" target="manage_task_templates" />
 			<tocitem text="Task Contacts" target="task_contacts" />
 			<tocitem text="Task Importance" target="task_importance" />
+			<tocitem text="Task Files" target="task_files" />
 			<tocitem text="Manually sort tasks" target="task_manually_sort_tasks" />
 			<tocitem text="Task Note" target="task_note" />
 			<tocitem text="Task Quick Creation" target="task_quick_add" />
 			<tocitem text="Task Repeat" target="task_repeat" />
 			<tocitem text="Task Searcher" target="task_searcher" />
+			<tocitem text="Task Tasks" target="task_tasks" />
 		
 		</tocitem>
 
