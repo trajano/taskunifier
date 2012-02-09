@@ -43,7 +43,6 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
-import org.jdesktop.swingx.renderer.StringValues;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -146,7 +145,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		CONTACTS_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueTaskContacts.INSTANCE));
+				IconValueTaskContacts.INSTANCE), SwingConstants.CENTER);
 		
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -161,7 +160,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		FILES_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueTaskFiles.INSTANCE));
+				IconValueTaskFiles.INSTANCE), SwingConstants.CENTER);
 		
 		LENGTH_RENDERER = new DefaultTableRenderer(
 				StringValueTaskLength.INSTANCE);
@@ -174,8 +173,8 @@ public class TaskTableColumn extends TableColumnExt {
 				IconValueModel.INSTANCE));
 		
 		MODEL_EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
-				StringValues.EMPTY,
-				IconValueEdit.INSTANCE));
+				null,
+				IconValueEdit.INSTANCE), SwingConstants.CENTER);
 		
 		((DefaultTableRenderer) MODEL_EDIT_RENDERER).getComponentProvider().setHorizontalAlignment(
 				SwingConstants.CENTER);
@@ -187,8 +186,8 @@ public class TaskTableColumn extends TableColumnExt {
 				StringValueCalendar.INSTANCE_DATE_TIME);
 		
 		NOTE_RENDERER = new DefaultTableRenderer(new MappedValue(
-				StringValues.EMPTY,
-				IconValueNote.INSTANCE));
+				null,
+				IconValueNote.INSTANCE), SwingConstants.CENTER);
 		
 		((DefaultTableRenderer) NOTE_RENDERER).getComponentProvider().setHorizontalAlignment(
 				SwingConstants.CENTER);
@@ -201,13 +200,11 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		REMINDER_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskReminder.INSTANCE,
-				IconValueReminder.INSTANCE,
-				null));
+				IconValueReminder.INSTANCE));
 		
 		REPEAT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskRepeat.INSTANCE,
-				IconValueRepeat.INSTANCE,
-				null));
+				IconValueRepeat.INSTANCE));
 		
 		SHOW_CHILDREN_RENDERER = new ShowChildrenRenderer();
 		
@@ -221,8 +218,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		PRIORITY_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTaskPriority.INSTANCE,
-				IconValueTaskPriority.INSTANCE,
-				null));
+				IconValueTaskPriority.INSTANCE));
 		
 		REPEAT_FROM_RENDERER = new DefaultTableRenderer(
 				StringValueTaskRepeatFrom.INSTANCE);
@@ -232,7 +228,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		TASKS_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueTaskTasks.INSTANCE));
+				IconValueTaskTasks.INSTANCE), SwingConstants.CENTER);
 		
 		TIMER_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueTimer.INSTANCE,

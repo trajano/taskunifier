@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -69,10 +70,10 @@ public class TaskTasksTableColumn extends TableColumnExt {
 				IconValueModel.INSTANCE));
 		EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueEdit.INSTANCE));
+				IconValueEdit.INSTANCE), SwingConstants.CENTER);
 		SELECT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueSelect.INSTANCE));
+				IconValueSelect.INSTANCE), SwingConstants.CENTER);
 		
 		LINK_EDITOR = new LinkEditor();
 		TASK_EDITOR = new TaskEditor();
