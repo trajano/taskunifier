@@ -323,7 +323,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 		@Override
 		public void showEvent(Object id, Event event) {
 			Task[] tasks = new Task[] { TasksCalendar.getTask(event) };
-			ActionEditTasks.editTasks(tasks);
+			ActionEditTasks.editTasks(tasks, true);
 			
 			TasksCalendarPanel.this.refreshTasks();
 		}

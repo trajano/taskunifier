@@ -474,7 +474,9 @@ public class TaskTable extends JXTable implements TaskTableView {
 							}
 							
 							if (column == TaskColumn.MODEL_EDIT) {
-								ActionEditTasks.editTasks(new Task[] { task });
+								ActionEditTasks.editTasks(
+										new Task[] { task },
+										true);
 							}
 							
 							if (column == TaskColumn.NOTE) {

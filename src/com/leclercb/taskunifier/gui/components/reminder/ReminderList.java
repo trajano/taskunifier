@@ -140,7 +140,7 @@ public class ReminderList extends JPanel implements TaskSelectionView {
 							index);
 					ReminderList.this.modelList.ensureIndexIsVisible(index);
 					
-					ActionEditTasks.editTasks(new Task[] { (Task) item });
+					ActionEditTasks.editTasks(new Task[] { (Task) item }, false);
 				}
 			}
 			

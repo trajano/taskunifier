@@ -37,6 +37,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -48,24 +50,71 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.TaskTasksTable;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelectionListener {
 	
+	private boolean locked;
+	
+	private Task task;
+	
 	private TaskTasksTable table;
 	private JToolBar toolBar;
 	
+	private JLabel label;
+	
 	private Action addAction;
 	private Action removeAction;
+	private Action lockedAction;
 	
 	public TaskTasksPanel() {
 		this.initialize();
+		
+		this.task = null;
+		this.setLocked(false);
+	}
+	
+	public boolean isLocked() {
+		return this.locked;
+	}
+	
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+		
+		if (locked) {
+			this.lockedAction.putValue(
+					Action.SMALL_ICON,
+					ImageUtils.getResourceImage("locked.png", 16, 16));
+			this.lockedAction.putValue(
+					Action.NAME,
+					Translations.getString("general.locked", this.task));
+			
+			this.label.setText(Translations.getString(
+					"general.locked",
+					this.task.getTitle()));
+		} else {
+			this.lockedAction.putValue(
+					Action.SMALL_ICON,
+					ImageUtils.getResourceImage("unlocked.png", 16, 16));
+			this.lockedAction.putValue(
+					Action.NAME,
+					Translations.getString("general.unlocked"));
+			
+			if (this.task == null)
+				this.label.setText("");
+			else
+				this.label.setText(this.task.getTitle());
+		}
 	}
 	
 	private void initialize() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
+		
+		this.label = new JLabel();
+		this.label.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		
 		this.table = new TaskTasksTable();
 		
@@ -77,8 +126,10 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 		
 		this.toolBar.add(this.addAction);
 		this.toolBar.add(this.removeAction);
+		this.toolBar.add(this.lockedAction);
 		this.toolBar.add(Help.getHelpButton("task_tasks"));
 		
+		this.add(this.label, BorderLayout.NORTH);
 		this.add(
 				ComponentFactory.createJScrollPane(this.table, false),
 				BorderLayout.CENTER);
@@ -87,6 +138,7 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 		this.table.setTaskGroup(null);
 		this.addAction.setEnabled(false);
 		this.removeAction.setEnabled(false);
+		this.lockedAction.setEnabled(false);
 	}
 	
 	private void initializeActions() {
@@ -117,24 +169,44 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 			}
 			
 		};
+		
+		this.lockedAction = new AbstractAction(
+				Translations.getString("general.unlocked"),
+				ImageUtils.getResourceImage("unlocked.png", 16, 16)) {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				TaskTasksPanel.this.setLocked(!TaskTasksPanel.this.isLocked());
+			}
+			
+		};
 	}
 	
 	@Override
 	public void modelSelectionChange(ModelSelectionChangeEvent event) {
+		if (this.isLocked())
+			return;
+		
 		Model[] models = event.getSelectedModels();
 		
 		if (models.length != 1 || !(models[0] instanceof Task)) {
+			this.task = null;
+			this.setLocked(false);
 			this.table.setTaskGroup(null);
 			this.addAction.setEnabled(false);
 			this.removeAction.setEnabled(false);
+			this.lockedAction.setEnabled(false);
 			return;
 		}
 		
 		Task task = (Task) models[0];
 		
+		this.task = task;
+		this.setLocked(false);
 		this.table.setTaskGroup(task.getTasks());
 		this.addAction.setEnabled(true);
 		this.removeAction.setEnabled(true);
+		this.lockedAction.setEnabled(true);
 	}
 	
 }

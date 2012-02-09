@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
@@ -48,6 +49,7 @@ import com.leclercb.taskunifier.api.models.TaskGroup;
 import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
+import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public class TaskTasksTable extends JXTable {
@@ -122,7 +124,14 @@ public class TaskTasksTable extends JXTable {
 		this.setColumnControlVisible(true);
 		this.setSortOrder(TaskTasksColumn.LINK, SortOrder.ASCENDING);
 		
+		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
+	}
+	
+	private void initializeDragAndDrop() {
+		this.setDragEnabled(true);
+		this.setTransferHandler(new TaskTasksTransferHandler());
+		this.setDropMode(DropMode.INSERT_ROWS);
 	}
 	
 	private void initializeDoubleClick() {
@@ -152,7 +161,9 @@ public class TaskTasksTable extends JXTable {
 								return;
 							
 							if (column == TaskTasksColumn.EDIT) {
-								ActionEditTasks.editTasks(new Task[] { item.getTask() });
+								ActionEditTasks.editTasks(
+										new Task[] { item.getTask() },
+										false);
 							}
 							
 							if (column == TaskTasksColumn.SELECT) {

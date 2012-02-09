@@ -38,6 +38,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SortOrder;
@@ -47,6 +48,7 @@ import org.jdesktop.swingx.JXTable;
 import com.leclercb.taskunifier.api.models.FileGroup;
 import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
+import com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop.TaskFilesTransferHandler;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 
 public class TaskFilesTable extends JXTable {
@@ -121,7 +123,14 @@ public class TaskFilesTable extends JXTable {
 		this.setColumnControlVisible(true);
 		this.setSortOrder(TaskFilesColumn.LINK, SortOrder.ASCENDING);
 		
+		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
+	}
+	
+	private void initializeDragAndDrop() {
+		this.setDragEnabled(true);
+		this.setTransferHandler(new TaskFilesTransferHandler());
+		this.setDropMode(DropMode.INSERT_ROWS);
 	}
 	
 	private void initializeDoubleClick() {

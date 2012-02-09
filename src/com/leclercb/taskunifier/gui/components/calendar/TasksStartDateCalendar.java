@@ -154,7 +154,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		task.setLength(length);
 		task.setStartDate(startDate);
 		
-		if (!ActionEditTasks.editTasks(new Task[] { task }))
+		if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 			TaskFactory.getInstance().markDeleted(task);
 	}
 	

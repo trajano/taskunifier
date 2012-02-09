@@ -139,12 +139,14 @@ public class ActionEditTasks extends AbstractViewAction {
 	
 	public static boolean editTasks() {
 		Task[] tasks = ViewType.getSelectedTasks();
-		return editTasks(tasks);
+		return editTasks(tasks, true);
 	}
 	
-	public static boolean editTasks(Task[] tasks) {
+	public static boolean editTasks(Task[] tasks, boolean select) {
 		if (tasks == null || tasks.length == 0)
 			return false;
+		
+		Task[] previousSelectedTasks = ViewType.getSelectedTasks();
 		
 		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
 		dialog.setTasks(tasks);
@@ -153,8 +155,12 @@ public class ActionEditTasks extends AbstractViewAction {
 		
 		ViewType.refreshTasks();
 		
-		if (edited)
-			ViewType.setSelectedTasks(tasks);
+		if (edited) {
+			if (select)
+				ViewType.setSelectedTasks(tasks);
+			else
+				ViewType.setSelectedTasks(previousSelectedTasks);
+		}
 		
 		return edited;
 	}

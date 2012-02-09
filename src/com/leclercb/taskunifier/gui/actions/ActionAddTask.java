@@ -117,7 +117,7 @@ public class ActionAddTask extends AbstractAction {
 			if (viewType == ViewType.CALENDAR
 					|| Main.getSettings().getBooleanProperty(
 							"task.show_edit_window_on_add")) {
-				if (!ActionEditTasks.editTasks(new Task[] { task }))
+				if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
 				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
@@ -154,7 +154,7 @@ public class ActionAddTask extends AbstractAction {
 			if (viewType == ViewType.CALENDAR
 					|| Main.getSettings().getBooleanProperty(
 							"task.show_edit_window_on_add")) {
-				if (!ActionEditTasks.editTasks(new Task[] { task }))
+				if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
 				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(

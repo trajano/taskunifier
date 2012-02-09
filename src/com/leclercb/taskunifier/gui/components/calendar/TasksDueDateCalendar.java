@@ -159,7 +159,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 		task.setLength(length);
 		task.setDueDate(dueDate);
 		
-		if (!ActionEditTasks.editTasks(new Task[] { task }))
+		if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 			TaskFactory.getInstance().markDeleted(task);
 	}
 	
