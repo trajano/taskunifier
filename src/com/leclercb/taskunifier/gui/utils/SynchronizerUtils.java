@@ -45,6 +45,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.GoalFactory;
@@ -382,8 +383,7 @@ public final class SynchronizerUtils {
 		
 		Constants.UNDO_SUPPORT.discardAllEdits();
 		
-		// TODO: Delete all contacts ?
-		// ContactFactory.getInstance().deleteAll();
+		ContactFactory.getInstance().deleteAll();
 		ContextFactory.getInstance().deleteAll();
 		FolderFactory.getInstance().deleteAll();
 		GoalFactory.getInstance().deleteAll();
