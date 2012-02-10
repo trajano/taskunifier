@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.reminder;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -78,11 +79,19 @@ public class ReminderPanel extends JPanel {
 	private void snooze(Task[] tasks, int minutes) {
 		for (Task task : tasks) {
 			if (TaskUtils.isInDueDateReminderZone(task)) {
-				task.setDueDateReminder(minutes);
+				Calendar dueDate = Calendar.getInstance();
+				dueDate.add(
+						Calendar.MINUTE,
+						minutes + task.getDueDateReminder());
+				task.setDueDate(dueDate);
 			}
 			
 			if (TaskUtils.isInStartDateReminderZone(task)) {
-				task.setStartDateReminder(minutes);
+				Calendar startDate = Calendar.getInstance();
+				startDate.add(
+						Calendar.MINUTE,
+						minutes + task.getStartDateReminder());
+				task.setStartDate(startDate);
 			}
 		}
 		
@@ -212,7 +221,7 @@ public class ReminderPanel extends JPanel {
 		
 		public SnoozeAction(int minutes) {
 			super(Translations.getString(
-					"general.task.reminder.remind_x_minutes_before",
+					"general.task.reminder.remind_in_x_minutes",
 					minutes));
 			this.minutes = minutes;
 		}
@@ -230,7 +239,7 @@ public class ReminderPanel extends JPanel {
 		
 		public SnoozeAllAction(int minutes) {
 			super(Translations.getString(
-					"general.task.reminder.remind_x_minutes_before",
+					"general.task.reminder.remind_in_x_minutes",
 					minutes));
 			this.minutes = minutes;
 		}
