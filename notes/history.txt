@@ -7,6 +7,7 @@ Version 2.2.0
 		- FR 3485596: Context menu for toolbar
 		- FR 3484966: Calendar view improvements
 		- FR 3486452: Improved snooze feature
+		- FR 3487213: Add "With Parent" in the repeat list
 		- BF 3484734: Evernote link not working on Mac
 		- BF 3483191: Improved sort order
 		- Bug fixed: Incorrect inserted date in note editor

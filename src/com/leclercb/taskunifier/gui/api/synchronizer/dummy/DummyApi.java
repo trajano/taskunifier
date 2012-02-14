@@ -69,7 +69,8 @@ public class DummyApi extends SynchronizerApi {
 				"Bimonthly",
 				"Quarterly",
 				"Semiannually",
-				"Yearly" };
+				"Yearly",
+				"With Parent" };
 	}
 	
 	@Override
