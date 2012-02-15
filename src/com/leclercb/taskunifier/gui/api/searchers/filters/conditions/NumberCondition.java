@@ -57,6 +57,24 @@ public enum NumberCondition implements Condition<Number, Number> {
 	
 	@Override
 	public boolean include(Number value, Number taskValue) {
+		if (value == null && taskValue == null) {
+			switch (this) {
+				case EQUALS:
+					return true;
+				default:
+					return false;
+			}
+		}
+		
+		if (value == null || taskValue == null) {
+			switch (this) {
+				case NOT_EQUALS:
+					return true;
+				default:
+					return false;
+			}
+		}
+		
 		switch (this) {
 			case EQUALS:
 				return taskValue.doubleValue() == value.doubleValue();

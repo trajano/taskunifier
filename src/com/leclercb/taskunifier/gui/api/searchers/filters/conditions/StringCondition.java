@@ -57,6 +57,12 @@ public enum StringCondition implements Condition<String, Object> {
 	
 	@Override
 	public boolean include(String value, Object taskValue) {
+		if (value == null)
+			value = "";
+		
+		if (taskValue == null)
+			taskValue = "";
+		
 		String string = value.toLowerCase();
 		String taskString = taskValue.toString().toLowerCase();
 		

@@ -56,6 +56,19 @@ public enum CalendarCondition implements Condition<Calendar, Calendar> {
 	
 	@Override
 	public boolean include(Calendar value, Calendar taskValue) {
+		if (value == null && taskValue == null) {
+			switch (this) {
+				case EQUALS:
+					return true;
+				default:
+					return false;
+			}
+		}
+		
+		if (value == null || taskValue == null) {
+			return false;
+		}
+		
 		switch (this) {
 			case AFTER:
 				return taskValue.compareTo(value) > 0;

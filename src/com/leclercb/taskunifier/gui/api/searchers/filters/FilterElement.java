@@ -147,12 +147,6 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	public boolean include(M model) {
 		Object taskValue = this.property.getProperty(model);
 		
-		if (this.value == null && taskValue == null)
-			return true;
-		
-		if (this.value == null || taskValue == null)
-			return false;
-		
 		if (this.condition instanceof CalendarCondition) {
 			CalendarCondition c = (CalendarCondition) this.condition;
 			return c.include((Calendar) this.value, (Calendar) taskValue);

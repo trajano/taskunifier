@@ -55,6 +55,24 @@ public enum ModelCondition implements Condition<Model, Model> {
 	
 	@Override
 	public boolean include(Model value, Model taskValue) {
+		if (value == null && taskValue == null) {
+			switch (this) {
+				case EQUALS:
+					return true;
+				default:
+					return false;
+			}
+		}
+		
+		if (value == null || taskValue == null) {
+			switch (this) {
+				case NOT_EQUALS:
+					return true;
+				default:
+					return false;
+			}
+		}
+		
 		switch (this) {
 			case EQUALS:
 				return taskValue.equals(value);

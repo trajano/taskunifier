@@ -228,22 +228,28 @@ public final class TranslationsUtils {
 			switch ((DaysCondition) condition) {
 				case EQUALS:
 					return Translations.getString("filter_condition.equals");
-				case LESS_THAN:
-					return Translations.getString("filter_condition.before");
-				case LESS_THAN_OR_EQUALS:
-					return Translations.getString("filter_condition.before_or_equals");
-				case LESS_THAN_USING_TIME:
-					return Translations.getString("filter_condition.before_using_time");
 				case GREATER_THAN:
 					return Translations.getString("filter_condition.after");
 				case GREATER_THAN_OR_EQUALS:
 					return Translations.getString("filter_condition.after_or_equals");
 				case GREATER_THAN_USING_TIME:
 					return Translations.getString("filter_condition.after_using_time");
-				case WEEK_EQUALS:
-					return Translations.getString("filter_condition.week_equals");
+				case LESS_THAN:
+					return Translations.getString("filter_condition.before");
+				case LESS_THAN_OR_EQUALS:
+					return Translations.getString("filter_condition.before_or_equals");
+				case LESS_THAN_USING_TIME:
+					return Translations.getString("filter_condition.before_using_time");
 				case MONTH_EQUALS:
 					return Translations.getString("filter_condition.month_equals");
+				case MONTH_NOT_EQUALS:
+					return Translations.getString("filter_condition.month_not_equals");
+				case NOT_EQUALS:
+					return Translations.getString("filter_condition.not_equals");
+				case WEEK_EQUALS:
+					return Translations.getString("filter_condition.week_equals");
+				case WEEK_NOT_EQUALS:
+					return Translations.getString("filter_condition.week_not_equals");
 			}
 		}
 		
