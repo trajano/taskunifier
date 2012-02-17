@@ -72,12 +72,16 @@ public class PluginLicense {
 	}
 	
 	public boolean checkLicense() throws SynchronizerLicenseException {
+		return this.checkLicense(true);
+	}
+	
+	public boolean checkLicense(boolean getLicense)
+			throws SynchronizerLicenseException {
 		if (this.email == null || this.email.length() == 0)
 			return false;
 		
-		if (this.serial == null
-				|| this.serial.length() == 0
-				|| !this.checkValidLicense())
+		if (getLicense
+				&& (this.serial == null || this.serial.length() == 0 || !this.checkValidLicense()))
 			this.serial = this.getLicense();
 		
 		if (this.serial == null || this.serial.length() == 0)
