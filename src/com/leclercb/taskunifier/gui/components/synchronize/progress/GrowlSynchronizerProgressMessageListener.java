@@ -50,7 +50,7 @@ public class GrowlSynchronizerProgressMessageListener extends SynchronizerProgre
 	@Override
 	public void showMessage(ProgressMessage message, String content) {
 		if (message instanceof SynchronizerUpdatedModelsProgressMessage) {
-			this.builder.append(content);
+			this.builder.append(content + "\n");
 		} else if (message.getClass().equals(
 				SynchronizerMainProgressMessage.class)) {
 			SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
