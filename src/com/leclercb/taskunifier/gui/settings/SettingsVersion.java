@@ -662,8 +662,8 @@ public final class SettingsVersion {
 			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ "templates.xml"), new File(Main.getDataFolder()
-							+ File.separator
-							+ "task_templates.xml"));
+					+ File.separator
+					+ "task_templates.xml"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -675,8 +675,8 @@ public final class SettingsVersion {
 			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ "searchers.xml"), new File(Main.getDataFolder()
-							+ File.separator
-							+ "task_searchers.xml"));
+					+ File.separator
+					+ "task_searchers.xml"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1182,8 +1182,8 @@ public final class SettingsVersion {
 			FileUtils.copyDirectory(new File(Main.getDataFolder()
 					+ File.separator
 					+ "backup"), new File(Main.getUserFolder()
-							+ File.separator
-							+ "backup"));
+					+ File.separator
+					+ "backup"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1199,8 +1199,8 @@ public final class SettingsVersion {
 			FileUtils.copyFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ fileName), new File(Main.getUserFolder()
-							+ File.separator
-							+ fileName));
+					+ File.separator
+					+ fileName));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
