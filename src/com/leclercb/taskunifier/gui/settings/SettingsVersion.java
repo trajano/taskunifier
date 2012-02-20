@@ -662,8 +662,8 @@ public final class SettingsVersion {
 			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ "templates.xml"), new File(Main.getDataFolder()
-					+ File.separator
-					+ "task_templates.xml"));
+							+ File.separator
+							+ "task_templates.xml"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -675,8 +675,8 @@ public final class SettingsVersion {
 			FileUtils.moveFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ "searchers.xml"), new File(Main.getDataFolder()
-					+ File.separator
-					+ "task_searchers.xml"));
+							+ File.separator
+							+ "task_searchers.xml"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1182,8 +1182,8 @@ public final class SettingsVersion {
 			FileUtils.copyDirectory(new File(Main.getDataFolder()
 					+ File.separator
 					+ "backup"), new File(Main.getUserFolder()
-					+ File.separator
-					+ "backup"));
+							+ File.separator
+							+ "backup"));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1199,8 +1199,8 @@ public final class SettingsVersion {
 			FileUtils.copyFile(new File(Main.getDataFolder()
 					+ File.separator
 					+ fileName), new File(Main.getUserFolder()
-					+ File.separator
-					+ fileName));
+							+ File.separator
+							+ fileName));
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
@@ -1233,6 +1233,13 @@ public final class SettingsVersion {
 	private static String updateSettings_2_1_1_to_2_2_0() {
 		GuiLogger.getLogger().info(
 				"Update settings from version 2.1.1 to 2.2.0");
+		
+		Main.getSettings().setStringProperty("taskcolumn.files.order", "31");
+		Main.getSettings().setStringProperty("taskcolumn.files.visible", "true");
+		Main.getSettings().setStringProperty("taskcolumn.files.width", "50");
+		Main.getSettings().setStringProperty("taskcolumn.tasks.order", "32");
+		Main.getSettings().setStringProperty("taskcolumn.tasks.visible", "true");
+		Main.getSettings().setStringProperty("taskcolumn.tasks.width", "50");
 		
 		return "2.2.0";
 	}
