@@ -75,10 +75,6 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 	public static boolean quit(boolean force) {
-		return quit(force, false);
-	}
-	
-	public static boolean quit(boolean force, boolean restart) {
 		synchronized (Main.class) {
 			if (Main.isQuitting())
 				return true;
@@ -109,11 +105,7 @@ public class ActionQuit extends AbstractAction {
 			}
 			
 			ViewType.commitAll();
-			
-			if (restart)
-				Main.restart();
-			else
-				Main.quit();
+			Main.quit(force);
 		} finally {
 			if (set) {
 				try {

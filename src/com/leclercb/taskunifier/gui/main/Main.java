@@ -39,10 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileLock;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.FileHandler;
@@ -65,7 +62,6 @@ import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.properties.SortedProperties;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.SingleInstanceUtils;
-import com.leclercb.commons.api.utils.StartUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -138,8 +134,6 @@ public class Main {
 	
 	private static String USER_ID;
 	
-	private static FileLock FILE_LOCK;
-	
 	private static String RESOURCES_FOLDER;
 	private static String DATA_FOLDER;
 	private static String USER_FOLDER;
@@ -177,10 +171,6 @@ public class Main {
 	
 	public static boolean isQuitting() {
 		return QUITTING;
-	}
-	
-	public static String getLockFile() {
-		return DATA_FOLDER + File.separator + "taskunifier.lock";
 	}
 	
 	public static String getInitSettingsFile() {
@@ -445,9 +435,8 @@ public class Main {
 		if (SystemUtils.IS_OS_MAC)
 			return true;
 		
-		FILE_LOCK = SingleInstanceUtils.isSingleInstance(getLockFile());
-		
-		return FILE_LOCK != null;
+		String lockFile = DATA_FOLDER + File.separator + "taskunifier.lock";
+		return SingleInstanceUtils.isSingleInstance(lockFile);
 	}
 	
 	private static void loadDeveloperMode() {
@@ -1103,33 +1092,7 @@ public class Main {
 		BackupUtils.getInstance().cleanBackups(nbToKeep);
 	}
 	
-	public static void restart() {
-		List<String> args = new ArrayList<String>();
-		
-		for (Object key : System.getProperties().keySet()) {
-			if (key == null)
-				continue;
-			
-			if (!(key.toString().startsWith("com.leclercb.taskunifier")))
-				continue;
-			
-			args.add("-D"
-					+ key.toString()
-					+ "="
-					+ System.getProperty(key.toString()));
-		}
-		
-		GuiLogger.getLogger().info("Restarting " + Constants.TITLE);
-		
-		if (SystemUtils.IS_OS_MAC)
-			StartUtils.startMacApp(Main.class, args.toArray(new String[0]));
-		else
-			StartUtils.startJar(Main.class, args.toArray(new String[0]));
-		
-		Main.quit();
-	}
-	
-	public static void quit() {
+	public static void quit(boolean force) {
 		synchronized (Main.class) {
 			if (QUITTING)
 				return;
