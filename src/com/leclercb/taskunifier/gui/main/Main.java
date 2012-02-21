@@ -39,7 +39,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.FileHandler;
@@ -61,6 +63,7 @@ import com.leclercb.commons.api.plugins.PluginLoader;
 import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.properties.SortedProperties;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.commons.api.utils.RestartUtils;
 import com.leclercb.commons.api.utils.SingleInstanceUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelDescriptor;
@@ -131,6 +134,7 @@ public class Main {
 	
 	private static boolean DEVELOPER_MODE;
 	private static boolean FIRST_EXECUTION;
+	private static boolean FORCE_START;
 	
 	private static String USER_ID;
 	
@@ -167,6 +171,14 @@ public class Main {
 	
 	private static void setFirstExecution(boolean firstExecution) {
 		FIRST_EXECUTION = firstExecution;
+	}
+	
+	public static boolean isForceStart() {
+		return FORCE_START;
+	}
+	
+	private static void setForceStart(boolean forceStart) {
+		FORCE_START = forceStart;
 	}
 	
 	public static boolean isQuitting() {
@@ -432,7 +444,10 @@ public class Main {
 	}
 	
 	private static boolean checkSingleInstance(String[] args) {
-		if (SystemUtils.IS_OS_MAC)
+		String forceStart = System.getProperty("com.leclercb.taskunifier.force_start");
+		setForceStart("true".equals(forceStart));
+		
+		if (isForceStart() || SystemUtils.IS_OS_MAC)
 			return true;
 		
 		String lockFile = DATA_FOLDER + File.separator + "taskunifier.lock";
@@ -450,6 +465,7 @@ public class Main {
 	private static void initialize() throws Exception {
 		setDeveloperMode(false);
 		setFirstExecution(false);
+		setForceStart(false);
 		
 		SortedProperties defaultProperties = null;
 		
@@ -1092,7 +1108,35 @@ public class Main {
 		BackupUtils.getInstance().cleanBackups(nbToKeep);
 	}
 	
-	public static void quit(boolean force) {
+	public static void restart() {
+		List<String> args = new ArrayList<String>();
+		
+		for (Object key : System.getProperties().keySet()) {
+			if (key == null)
+				continue;
+			
+			if (!(key.toString().startsWith("com.leclercb.taskunifier")))
+				continue;
+			
+			if (key.toString().equals("com.leclercb.taskunifier.force_start"))
+				continue;
+			
+			args.add("-D"
+					+ key.toString()
+					+ "="
+					+ System.getProperty(key.toString()));
+		}
+		
+		args.add("-Dcom.leclercb.taskunifier.force_start=true");
+		
+		GuiLogger.getLogger().info("Restarting " + Constants.TITLE);
+		
+		RestartUtils.restart(Main.class, args.toArray(new String[0]));
+		
+		Main.quit();
+	}
+	
+	public static void quit() {
 		synchronized (Main.class) {
 			if (QUITTING)
 				return;
