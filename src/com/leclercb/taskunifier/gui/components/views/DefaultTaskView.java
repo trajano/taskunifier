@@ -272,7 +272,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.taskContacts = new TaskContactsPanel();
 		this.taskTable.addModelSelectionChangeListener(this.taskContacts);
 		tabbedPane.addTab(
-				Translations.getString("general.contacts"),
+				Translations.getString("general.task.contacts"),
 				ImageUtils.getResourceImage("user.png", 16, 16),
 				this.taskContacts);
 	}
@@ -281,7 +281,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.taskTasks = new TaskTasksPanel();
 		this.taskTable.addModelSelectionChangeListener(this.taskTasks);
 		tabbedPane.addTab(
-				Translations.getString("general.tasks"),
+				Translations.getString("general.task.tasks"),
 				ImageUtils.getResourceImage("task.png", 16, 16),
 				this.taskTasks);
 	}
@@ -290,7 +290,7 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 		this.taskFiles = new TaskFilesPanel();
 		this.taskTable.addModelSelectionChangeListener(this.taskFiles);
 		tabbedPane.addTab(
-				Translations.getString("general.files"),
+				Translations.getString("general.task.files"),
 				ImageUtils.getResourceImage("folder.png", 16, 16),
 				this.taskFiles);
 	}

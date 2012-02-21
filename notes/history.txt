@@ -3,6 +3,7 @@ Version 2.2.0
 		- FR 3485813: Link files to task
 		- FR 3482268: Link tasks to task
 	- Minor:
+		- Italian translations (thanks to Agnese)
 		- FR 3474934: Undo / redo
 		- FR 3485596: Context menu for toolbar
 		- FR 3484966: Calendar view improvements
