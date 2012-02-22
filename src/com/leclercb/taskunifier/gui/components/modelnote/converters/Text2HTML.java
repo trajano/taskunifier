@@ -91,20 +91,37 @@ public class Text2HTML {
 		
 		text = text.replace("\n", "\n ");
 		String[] lines = text.split("\n");
+		String[] prefixes = new String[] {
+				"<ul",
+				"<ol",
+				"<li",
+				"</ul",
+				"</ol",
+				"</li" };
 		
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			
 			line = line.trim();
 			buffer.append(line);
-			if (line.startsWith("<"))
-				if (i + 1 < lines.length && lines[i + 1].trim().startsWith("<"))
+			if (startsWith(line, prefixes))
+				if (i + 1 < lines.length
+						&& startsWith(lines[i + 1].trim(), prefixes))
 					continue;
 			
 			buffer.append("<br />");
 		}
 		
 		return buffer.toString();
+	}
+	
+	private static boolean startsWith(String str, String... prefix) {
+		for (String p : prefix) {
+			if (str.startsWith(p))
+				return true;
+		}
+		
+		return false;
 	}
 	
 }
