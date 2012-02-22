@@ -35,31 +35,61 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
+import javax.swing.JTextArea;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class WysiwygHTMLInsertContentAction extends AbstractAction {
+public class ModeInsertHTMLTextAction extends AbstractAction {
 	
-	private Action action;
+	private JTextArea textArea;
+	private String text;
 	
-	public WysiwygHTMLInsertContentAction(
+	public ModeInsertHTMLTextAction(
+			JTextArea textArea,
 			String icon,
 			String description,
-			Action action) {
+			String text) {
+		CheckUtils.isNotNull(textArea);
 		CheckUtils.isNotNull(icon);
-		CheckUtils.isNotNull(action);
+		CheckUtils.isNotNull(text);
 		
-		this.action = action;
+		this.textArea = textArea;
+		this.text = text;
 		
 		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(icon, 16, 16));
 		this.putValue(SHORT_DESCRIPTION, description);
 	}
 	
+	public String getText() {
+		return this.text;
+	}
+	
+	public void setText(String text) {
+		CheckUtils.isNotNull(text);
+		this.text = text;
+	}
+	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		action.actionPerformed(e);
+	public void actionPerformed(ActionEvent event) {
+		int caret = this.textArea.getCaretPosition();
+		
+		if (this.text.contains("|")) {
+			int index = this.text.indexOf('|');
+			String selectedText = this.textArea.getSelectedText();
+			
+			if (selectedText == null)
+				selectedText = "";
+			
+			this.textArea.replaceSelection(this.text.replace(
+					"|",
+					selectedText));
+			this.textArea.setCaretPosition(caret + index);
+		} else {
+			this.textArea.insert(this.text, caret);
+		}
+		
+		this.textArea.requestFocus();
 	}
 	
 }

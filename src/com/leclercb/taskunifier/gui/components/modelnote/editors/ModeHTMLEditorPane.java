@@ -251,37 +251,37 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 		
 		toolBar.addSeparator();
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
 				"<b>|</b>"));
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
 				"<i>|</i>"));
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
 				"\n<ul>\n<li>|</li>\n</ul>"));
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
 				"\n<ol>\n<li>|</li>\n</ol>"));
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				"\n<li>|</li>"));
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"html_a.png",
 				Translations.getString("modelnote.action.a"),
@@ -310,13 +310,13 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 					
 				}
 				
-				this.setContent("<a href=\"" + url + "\">|</a>");
+				this.setText("<a href=\"" + url + "\">|</a>");
 				super.actionPerformed(event);
 			}
 			
 		});
 		
-		toolBar.add(new ModeHTMLInsertContentAction(
+		toolBar.add(new ModeInsertHTMLTextAction(
 				this.textNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
@@ -324,7 +324,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				this.setContent(StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance()));
+				this.setText(StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance()));
 				super.actionPerformed(event);
 			}
 			
