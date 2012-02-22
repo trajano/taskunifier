@@ -81,9 +81,7 @@ public class ModeInsertHTMLTextAction extends AbstractAction {
 			if (selectedText == null)
 				selectedText = "";
 			
-			this.textArea.replaceSelection(this.text.replace(
-					"|",
-					selectedText));
+			this.textArea.replaceSelection(this.text.replace("|", selectedText));
 			this.textArea.setCaretPosition(caret + index);
 		} else {
 			this.textArea.insert(this.text, caret);

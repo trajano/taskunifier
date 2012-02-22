@@ -22,9 +22,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLEditorKit;
 
 import org.jdesktop.swingx.JXEditorPane;
 
@@ -53,7 +52,10 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	private JXEditorPane htmlNote;
 	
-	public WysiwygHTMLEditorPane(String text, boolean canEdit, String propertyName) {
+	public WysiwygHTMLEditorPane(
+			String text,
+			boolean canEdit,
+			String propertyName) {
 		this.actionSupport = new ActionSupport(this);
 		this.initialize(text, canEdit, propertyName);
 	}
@@ -63,16 +65,18 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		return this;
 	}
 	
+	@Override
 	public String getText() {
 		return HTML2Text.convert(this.htmlNote.getText());
 	}
 	
+	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		
 		if (discardAllEdits) {
-			//this.htmlNote.setCaretPosition(this.htmlNote.getCaret().);
+			// this.htmlNote.setCaretPosition(this.htmlNote.getCaret().);
 			this.undoSupport.discardAllEdits();
 			this.htmlNote.requestFocus();
 		}
@@ -103,13 +107,18 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.htmlNote.setContentType("text/html");
 		this.htmlNote.setFont(UIManager.getFont("Label.font"));
 		this.htmlNote.getDocument().addUndoableEditListener(this.undoSupport);
+		this.htmlNote.getDocument().putProperty(
+				DefaultEditorKit.EndOfLineStringProperty,
+				"<br/>\n");
 		this.undoSupport.initializeMaps(this.htmlNote);
 		
 		this.htmlNote.addFocusListener(new FocusAdapter() {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
+				WysiwygHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						ACTION_TEXT_CHANGED);
 			}
 			
 		});
@@ -150,32 +159,32 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
-				getAction("font-bold")));
+				this.getAction("font-bold")));
 		
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
-				getAction("font-italic")));
+				this.getAction("font-italic")));
 		
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
-				getAction("InsertUnorderedList")));
+				this.getAction("InsertUnorderedList")));
 		
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
-				getAction("InsertUnorderedListItem")));
+				this.getAction("InsertUnorderedListItem")));
 		
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
-				getAction("InsertOrderedList")));
+				this.getAction("InsertOrderedList")));
 		
 		toolBar.add(new WysiwygInsertHTMLTextAction(
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
-				getAction("InsertOrderedListItem")));
+				this.getAction("InsertOrderedListItem")));
 		
 		toolBar.add(new WysiwygInsertHTMLLinkAction(
 				"html_a.png",

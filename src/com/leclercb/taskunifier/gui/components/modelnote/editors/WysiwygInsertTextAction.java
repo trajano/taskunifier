@@ -14,10 +14,7 @@ public class WysiwygInsertTextAction extends StyledTextAction {
 	
 	private String text;
 	
-	public WysiwygInsertTextAction(
-			String icon,
-			String description,
-			String text) {
+	public WysiwygInsertTextAction(String icon, String description, String text) {
 		super(description);
 		
 		CheckUtils.isNotNull(text);
@@ -38,7 +35,7 @@ public class WysiwygInsertTextAction extends StyledTextAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		JEditorPane editor = getEditor(evt);
+		JEditorPane editor = this.getEditor(evt);
 		
 		if (editor == null)
 			return;
@@ -47,7 +44,7 @@ public class WysiwygInsertTextAction extends StyledTextAction {
 		int offset = editor.getSelectionStart();
 		
 		try {
-			document.insertString(offset, text, null);
+			document.insertString(offset, this.text, null);
 		} catch (BadLocationException ble) {
 			throw new Error(ble);
 		}

@@ -1,17 +1,13 @@
 package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 import javax.swing.JEditorPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
 import javax.swing.text.StyledEditorKit.StyledTextAction;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.modelnote.converters.HTML2Text;
+import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class WysiwygInsertHTMLLinkAction extends StyledTextAction {
@@ -19,9 +15,7 @@ public class WysiwygInsertHTMLLinkAction extends StyledTextAction {
 	private String link;
 	private String label;
 	
-	public WysiwygInsertHTMLLinkAction(
-			String icon,
-			String description) {
+	public WysiwygInsertHTMLLinkAction(String icon, String description) {
 		super(description);
 		
 		this.setLink("");
@@ -41,7 +35,7 @@ public class WysiwygInsertHTMLLinkAction extends StyledTextAction {
 	}
 	
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 	
 	public void setLabel(String label) {
@@ -51,22 +45,11 @@ public class WysiwygInsertHTMLLinkAction extends StyledTextAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		JEditorPane editor = getEditor(evt);
+		JEditorPane editor = this.getEditor(evt);
 		
-		if (editor == null)
-			return;
-		
-		HTMLDocument document = (HTMLDocument) editor.getDocument();
-		HTMLEditorKit ekit = (HTMLEditorKit) editor.getEditorKit();
-		int offset = editor.getSelectionStart();
-		
-		try {
-			ekit.insertHTML(document, offset, "<a href=\"" + link + "\">" + label + "</a>", 0, 0, HTML.Tag.A);
-		} catch (BadLocationException ble) {
-			throw new Error(ble);
-		} catch (IOException ioe) {
-			throw new Error(ioe);
-		}
+		String text = HTML2Text.convert(editor.getText());
+		text += "<a href=\"" + this.link + "\">" + this.label + "</a>";
+		editor.setText(Text2HTML.convert(text));
 	}
 	
 }

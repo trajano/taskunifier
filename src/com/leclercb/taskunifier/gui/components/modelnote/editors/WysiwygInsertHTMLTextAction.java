@@ -59,7 +59,7 @@ public class WysiwygInsertHTMLTextAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		action.actionPerformed(e);
+		this.action.actionPerformed(e);
 	}
 	
 }

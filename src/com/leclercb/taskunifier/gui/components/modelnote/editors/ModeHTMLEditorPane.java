@@ -71,10 +71,12 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 		return this;
 	}
 	
+	@Override
 	public String getText() {
 		return this.textNote.getText();
 	}
 	
+	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
@@ -93,6 +95,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 			this.view();
 	}
 	
+	@Override
 	public boolean edit() {
 		if (!this.htmlNote.isEnabled())
 			return false;
@@ -102,6 +105,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 		return true;
 	}
 	
+	@Override
 	public void view() {
 		((CardLayout) this.getLayout()).first(this);
 		this.htmlNote.setText(Text2HTML.convert(this.getText()));
@@ -194,7 +198,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
+				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						ACTION_TEXT_CHANGED);
 			}
 			
 			@Override
@@ -202,7 +208,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
+				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						ACTION_TEXT_CHANGED);
 			}
 			
 			@Override
@@ -210,7 +218,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
+				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						ACTION_TEXT_CHANGED);
 			}
 			
 		});
