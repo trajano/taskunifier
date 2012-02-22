@@ -43,7 +43,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
+import com.leclercb.taskunifier.gui.components.modelnote.editors.ModeHTMLEditorPane;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener {
@@ -70,7 +70,7 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.htmlEditorPane = new WysiwygHTMLEditorPane(
+		this.htmlEditorPane = new ModeHTMLEditorPane(
 				Translations.getString("error.select_one_row"),
 				false,
 				propertyName);
