@@ -30,65 +30,36 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.modelnote;
+package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JTextArea;
+import javax.swing.Action;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class HTMLInsertContentAction extends AbstractAction {
+public class WysiwygHTMLInsertContentAction extends AbstractAction {
 	
-	private JTextArea textArea;
-	private String content;
+	private Action action;
 	
-	public HTMLInsertContentAction(
-			JTextArea textArea,
+	public WysiwygHTMLInsertContentAction(
 			String icon,
 			String description,
-			String content) {
-		CheckUtils.isNotNull(textArea);
+			Action action) {
 		CheckUtils.isNotNull(icon);
-		CheckUtils.isNotNull(content);
+		CheckUtils.isNotNull(action);
 		
-		this.textArea = textArea;
-		this.content = content;
+		this.action = action;
+		
 		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(icon, 16, 16));
 		this.putValue(SHORT_DESCRIPTION, description);
 	}
 	
-	public String getContent() {
-		return this.content;
-	}
-	
-	public void setContent(String content) {
-		CheckUtils.isNotNull(content);
-		this.content = content;
-	}
-	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		int caret = this.textArea.getCaretPosition();
-		
-		if (this.content.contains("|")) {
-			int index = this.content.indexOf('|');
-			String selectedText = this.textArea.getSelectedText();
-			
-			if (selectedText == null)
-				selectedText = "";
-			
-			this.textArea.replaceSelection(this.content.replace(
-					"|",
-					selectedText));
-			this.textArea.setCaretPosition(caret + index);
-		} else {
-			this.textArea.insert(this.content, caret);
-		}
-		
-		this.textArea.requestFocus();
+	public void actionPerformed(ActionEvent e) {
+		action.actionPerformed(e);
 	}
 	
 }

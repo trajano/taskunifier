@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.components.modelnote;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
@@ -41,11 +43,12 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener {
 	
-	private HTMLEditorPane htmlEditorPane;
+	private HTMLEditorInterface htmlEditorPane;
 	private ModelNote previousSelectedModel;
 	
 	public ModelNotePanel(String propertyName) {
@@ -67,20 +70,21 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.htmlEditorPane = new HTMLEditorPane(
+		this.htmlEditorPane = new WysiwygHTMLEditorPane(
 				Translations.getString("error.select_one_row"),
 				false,
-				propertyName) {
+				propertyName);
+		
+		this.htmlEditorPane.addActionListener(new ActionListener() {
 			
 			@Override
-			public void textChanged(String text) {
+			public void actionPerformed(ActionEvent evt) {
 				if (ModelNotePanel.this.previousSelectedModel != null)
-					ModelNotePanel.this.previousSelectedModel.setNote(text);
+					ModelNotePanel.this.previousSelectedModel.setNote(htmlEditorPane.getText());
 			}
-			
-		};
+		});
 		
-		this.add(this.htmlEditorPane, BorderLayout.CENTER);
+		this.add(this.htmlEditorPane.getComponent(), BorderLayout.CENTER);
 	}
 	
 	@Override

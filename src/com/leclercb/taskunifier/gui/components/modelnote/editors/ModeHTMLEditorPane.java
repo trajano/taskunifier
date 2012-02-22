@@ -1,8 +1,9 @@
-package com.leclercb.taskunifier.gui.components.modelnote;
+package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -30,6 +31,7 @@ import javax.swing.text.JTextComponent;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
+import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
@@ -37,6 +39,7 @@ import com.leclercb.taskunifier.gui.actions.ActionCut;
 import com.leclercb.taskunifier.gui.actions.ActionPaste;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.components.help.Help;
+import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
@@ -47,7 +50,9 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.ProtocolUtils;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
-public abstract class HTMLEditorPane extends JPanel {
+public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
+	
+	private ActionSupport actionSupport;
 	
 	private UndoSupport undoSupport;
 	
@@ -56,11 +61,15 @@ public abstract class HTMLEditorPane extends JPanel {
 	private Action editAction;
 	private boolean flagSetText;
 	
-	public HTMLEditorPane(String text, boolean canEdit, String propertyName) {
+	public ModeHTMLEditorPane(String text, boolean canEdit, String propertyName) {
+		this.actionSupport = new ActionSupport(this);
 		this.initialize(text, canEdit, propertyName);
 	}
 	
-	public abstract void textChanged(String text);
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
 	
 	public String getText() {
 		return this.textNote.getText();
@@ -146,7 +155,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				HTMLEditorPane.this.edit();
+				ModeHTMLEditorPane.this.edit();
 			}
 			
 		};
@@ -182,26 +191,26 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				if (HTMLEditorPane.this.flagSetText)
+				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
+				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				if (HTMLEditorPane.this.flagSetText)
+				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
+				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				if (HTMLEditorPane.this.flagSetText)
+				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				HTMLEditorPane.this.textChanged(HTMLEditorPane.this.getText());
+				actionSupport.fireActionPerformed(0, ACTION_TEXT_CHANGED);
 			}
 			
 		});
@@ -224,7 +233,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				HTMLEditorPane.this.view();
+				ModeHTMLEditorPane.this.view();
 			}
 			
 		};
@@ -242,37 +251,37 @@ public abstract class HTMLEditorPane extends JPanel {
 		
 		toolBar.addSeparator();
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
 				"<b>|</b>"));
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
 				"<i>|</i>"));
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
 				"\n<ul>\n<li>|</li>\n</ul>"));
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
 				"\n<ol>\n<li>|</li>\n</ol>"));
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				"\n<li>|</li>"));
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"html_a.png",
 				Translations.getString("modelnote.action.a"),
@@ -287,7 +296,7 @@ public abstract class HTMLEditorPane extends JPanel {
 				dialog.setVisible(true);
 				
 				if (dialog.isCancelled()) {
-					HTMLEditorPane.this.textNote.requestFocus();
+					ModeHTMLEditorPane.this.textNote.requestFocus();
 					return;
 				}
 				
@@ -307,7 +316,7 @@ public abstract class HTMLEditorPane extends JPanel {
 			
 		});
 		
-		toolBar.add(new HTMLInsertContentAction(
+		toolBar.add(new ModeHTMLInsertContentAction(
 				this.textNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
@@ -345,10 +354,10 @@ public abstract class HTMLEditorPane extends JPanel {
 						public void saveProperties() {
 							Main.getSettings().setFloatProperty(
 									propertyName + ".html.font_size",
-									(float) HTMLEditorPane.this.htmlNote.getFont().getSize());
+									(float) ModeHTMLEditorPane.this.htmlNote.getFont().getSize());
 							Main.getSettings().setFloatProperty(
 									propertyName + ".text.font_size",
-									(float) HTMLEditorPane.this.textNote.getFont().getSize());
+									(float) ModeHTMLEditorPane.this.textNote.getFont().getSize());
 						}
 						
 					});
@@ -439,6 +448,16 @@ public abstract class HTMLEditorPane extends JPanel {
 		panel.add(cb, BorderLayout.WEST);
 		
 		return panel;
+	}
+	
+	@Override
+	public void addActionListener(ActionListener listener) {
+		this.actionSupport.addActionListener(listener);
+	}
+	
+	@Override
+	public void removeActionListener(ActionListener listener) {
+		this.actionSupport.removeActionListener(listener);
 	}
 	
 }

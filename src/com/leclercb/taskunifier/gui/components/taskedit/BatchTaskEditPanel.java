@@ -78,7 +78,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
-import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorPane;
+import com.leclercb.taskunifier.gui.components.modelnote.editors.ModeHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
@@ -145,7 +145,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private TUTimerField taskTimer;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
-	private HTMLEditorPane taskNote;
+	private ModeHTMLEditorPane taskNote;
 	
 	public BatchTaskEditPanel() {
 		this.tasks = null;
@@ -482,14 +482,7 @@ public class BatchTaskEditPanel extends JPanel {
 				null,
 				true);
 		this.taskStar = new JCheckBox();
-		this.taskNote = new HTMLEditorPane("", false, null) {
-			
-			@Override
-			public void textChanged(String text) {
-				
-			}
-			
-		};
+		this.taskNote = new ModeHTMLEditorPane("", false, null);
 		
 		this.taskTitleCheckBox.addItemListener(new EnabledActionListener(
 				this.taskTitle));
