@@ -75,6 +75,10 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		
+		this.htmlNote.getDocument().putProperty(
+				DefaultEditorKit.EndOfLineStringProperty,
+				"<br />\n");
+		
 		if (discardAllEdits) {
 			// this.htmlNote.setCaretPosition(this.htmlNote.getCaret().);
 			this.undoSupport.discardAllEdits();
@@ -107,9 +111,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.htmlNote.setContentType("text/html");
 		this.htmlNote.setFont(UIManager.getFont("Label.font"));
 		this.htmlNote.getDocument().addUndoableEditListener(this.undoSupport);
-		this.htmlNote.getDocument().putProperty(
-				DefaultEditorKit.EndOfLineStringProperty,
-				"<br/>\n");
 		this.undoSupport.initializeMaps(this.htmlNote);
 		
 		this.htmlNote.addFocusListener(new FocusAdapter() {

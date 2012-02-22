@@ -59,6 +59,11 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 		this.stringBuffer.append(text);
 	}
 	
+	@Override
+	public void handleEndOfLineString(String eol) {
+		this.stringBuffer.append("\n");
+	}
+	
 	public String getText() {
 		return this.stringBuffer.toString();
 	}
