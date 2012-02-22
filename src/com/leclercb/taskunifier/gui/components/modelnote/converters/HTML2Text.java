@@ -40,6 +40,9 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 	public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
 		if (this.keepTags.contains(t))
 			this.stringBuffer.append("<" + t + ">");
+		
+		if (t.equals(HTML.Tag.P))
+			this.stringBuffer.append("\n");
 	}
 	
 	@Override
@@ -50,7 +53,7 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 	
 	@Override
 	public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
-		if (t.equals(HTML.Tag.BR) || t.equals(HTML.Tag.P))
+		if (t.equals(HTML.Tag.BR))
 			this.stringBuffer.append("\n");
 	}
 	

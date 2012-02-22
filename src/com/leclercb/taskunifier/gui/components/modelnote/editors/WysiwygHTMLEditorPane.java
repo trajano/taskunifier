@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXEditorPane;
@@ -67,6 +66,8 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public String getText() {
+		System.out.println(this.htmlNote.getText());
+		System.out.println(HTML2Text.convert(this.htmlNote.getText()));
 		return HTML2Text.convert(this.htmlNote.getText());
 	}
 	
@@ -75,12 +76,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
 		
-		this.htmlNote.getDocument().putProperty(
-				DefaultEditorKit.EndOfLineStringProperty,
-				"<br />\n");
-		
 		if (discardAllEdits) {
-			// this.htmlNote.setCaretPosition(this.htmlNote.getCaret().);
 			this.undoSupport.discardAllEdits();
 			this.htmlNote.requestFocus();
 		}
@@ -187,9 +183,11 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertOrderedListItem")));
 		
-		toolBar.add(new WysiwygInsertHTMLLinkAction(
+		toolBar.add(new WysiwygInsertTextAction(
+				this.htmlNote,
 				"html_a.png",
-				Translations.getString("modelnote.action.a")) {
+				Translations.getString("modelnote.action.a"),
+				"") {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -214,14 +212,14 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 					
 				}
 				
-				this.setLink(url);
-				this.setLabel("test");
+				this.setText("<a href=\"" + url + "\">Test</a>");
 				super.actionPerformed(event);
 			}
 			
 		});
 		
 		toolBar.add(new WysiwygInsertTextAction(
+				this.htmlNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())) {

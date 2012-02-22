@@ -13,7 +13,7 @@ public class Text2HTML {
 		text = convertNlToBr(text);
 		text = convertToHtmlUrl(text);
 		
-		return text;
+		return "<p style=\"margin-top: 0\">" + text + "</p>";
 	}
 	
 	private static String convertTags(String text) {
