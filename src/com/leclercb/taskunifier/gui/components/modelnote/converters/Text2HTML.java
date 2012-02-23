@@ -7,7 +7,7 @@ public class Text2HTML {
 	
 	public static String convert(String text) {
 		if (text == null || text.length() == 0)
-			return " ";
+			return "<p style=\"margin-top: 0\"></p>";
 		
 		text = convertTags(text);
 		text = convertNlToBr(text);

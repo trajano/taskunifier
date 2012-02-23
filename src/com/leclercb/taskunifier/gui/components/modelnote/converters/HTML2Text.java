@@ -21,12 +21,12 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 	
 	private HTML2Text() {
 		this.keepTags = new ArrayList<HTML.Tag>();
-		this.keepTags.add(HTML.Tag.OL);
-		this.keepTags.add(HTML.Tag.UL);
-		this.keepTags.add(HTML.Tag.LI);
 		this.keepTags.add(HTML.Tag.B);
 		this.keepTags.add(HTML.Tag.I);
-		this.keepTags.add(HTML.Tag.U);
+		this.keepTags.add(HTML.Tag.A);
+		this.keepTags.add(HTML.Tag.UL);
+		this.keepTags.add(HTML.Tag.OL);
+		this.keepTags.add(HTML.Tag.LI);
 		
 		this.stringBuffer = new StringBuffer();
 	}
@@ -38,8 +38,22 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 	
 	@Override
 	public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
-		if (this.keepTags.contains(t))
-			this.stringBuffer.append("<" + t + ">");
+		if (this.keepTags.contains(t)) {
+			if (t.equals(HTML.Tag.A)) {
+				Object link = a.getAttribute(HTML.Attribute.HREF);
+				
+				if (link != null)
+					this.stringBuffer.append("<"
+							+ t
+							+ " href=\""
+							+ link
+							+ "\">");
+				else
+					this.stringBuffer.append("<" + t + ">");
+			} else {
+				this.stringBuffer.append("<" + t + ">");
+			}
+		}
 		
 		if (t.equals(HTML.Tag.P))
 			this.stringBuffer.append("\n");

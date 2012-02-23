@@ -34,63 +34,46 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JTextArea;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.TextAction;
+import javax.swing.Action;
+import javax.swing.JEditorPane;
+import javax.swing.text.html.HTMLEditorKit.HTMLTextAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ModeInsertHTMLTextAction extends TextAction {
+public class WysiwygInsertHTMLAction extends HTMLTextAction {
 	
-	private String text;
+	private Action action;
 	
-	public ModeInsertHTMLTextAction(String icon, String description, String text) {
+	public WysiwygInsertHTMLAction(
+			String icon,
+			String description,
+			Action action) {
 		super(description);
 		
 		CheckUtils.isNotNull(icon);
-		CheckUtils.isNotNull(text);
 		
-		this.text = text;
+		this.setAction(action);
 		
 		this.putValue(SMALL_ICON, ImageUtils.getResourceImage(icon, 16, 16));
 		this.putValue(SHORT_DESCRIPTION, description);
 	}
 	
-	public String getText() {
-		return this.text;
+	public Action getAction() {
+		return this.action;
 	}
 	
-	public void setText(String text) {
-		CheckUtils.isNotNull(text);
-		this.text = text;
+	public void setAction(Action action) {
+		CheckUtils.isNotNull(action);
+		this.action = action;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		JTextComponent component = this.getTextComponent(event);
+		this.action.actionPerformed(event);
 		
-		if (!(component instanceof JTextArea))
-			return;
-		
-		JTextArea textArea = (JTextArea) component;
-		
-		int caret = textArea.getCaretPosition();
-		
-		if (this.text.contains("|")) {
-			int index = this.text.indexOf('|');
-			String selectedText = textArea.getSelectedText();
-			
-			if (selectedText == null)
-				selectedText = "";
-			
-			textArea.replaceSelection(this.text.replace("|", selectedText));
-			textArea.setCaretPosition(caret + index);
-		} else {
-			textArea.insert(this.text, caret);
-		}
-		
-		textArea.requestFocus();
+		JEditorPane editor = this.getEditor(event);
+		editor.requestFocus();
 	}
 	
 }
