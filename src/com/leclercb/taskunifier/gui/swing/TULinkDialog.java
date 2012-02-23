@@ -113,6 +113,7 @@ public class TULinkDialog extends JDialog {
 		this.labelField = new TUTextField(
 				Translations.getString("general.label"),
 				"");
+		this.labelField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		panel.add(this.labelField, BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.CENTER);

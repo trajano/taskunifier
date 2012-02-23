@@ -78,7 +78,8 @@ import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
-import com.leclercb.taskunifier.gui.components.modelnote.editors.ModeHTMLEditorPane;
+import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
+import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
@@ -145,7 +146,7 @@ public class BatchTaskEditPanel extends JPanel {
 	private TUTimerField taskTimer;
 	private JComboBox taskPriority;
 	private JCheckBox taskStar;
-	private ModeHTMLEditorPane taskNote;
+	private HTMLEditorInterface taskNote;
 	
 	public BatchTaskEditPanel() {
 		this.tasks = null;
@@ -482,7 +483,7 @@ public class BatchTaskEditPanel extends JPanel {
 				null,
 				true);
 		this.taskStar = new JCheckBox();
-		this.taskNote = new ModeHTMLEditorPane("", false, null);
+		this.taskNote = new WysiwygHTMLEditorPane("", false, null);
 		
 		this.taskTitleCheckBox.addItemListener(new EnabledActionListener(
 				this.taskTitle));
@@ -529,7 +530,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskStarCheckBox.addItemListener(new EnabledActionListener(
 				this.taskStar));
 		this.taskNoteCheckBox.addItemListener(new EnabledActionListener(
-				this.taskNote));
+				this.taskNote.getComponent()));
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, pref, 4dlu, fill:default:grow, "
@@ -725,13 +726,14 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.getBuilder().appendSeparator();
 		
 		// Task Note
-		this.taskNote.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		this.taskNote.getComponent().setBorder(
+				BorderFactory.createLineBorder(Color.GRAY));
 		
 		JPanel notePanel = new JPanel(new BorderLayout());
 		notePanel.add(new JLabel(Translations.getString("general.task.note")
 				+ ":"), BorderLayout.NORTH);
 		notePanel.add(this.taskNoteCheckBox, BorderLayout.WEST);
-		notePanel.add(this.taskNote, BorderLayout.CENTER);
+		notePanel.add(this.taskNote.getComponent(), BorderLayout.CENTER);
 		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.NORTH);
