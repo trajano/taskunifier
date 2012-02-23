@@ -64,6 +64,7 @@ public class WysiwygInsertHTMLTextAction extends HTMLTextAction {
 		int offset = this.editor.getCaretPosition();
 		
 		try {
+			document.insertString(offset, " ", null);
 			editorKit.insertHTML(document, offset, this.html, 0, 0, this.tag);
 		} catch (BadLocationException e) {
 			e.printStackTrace();

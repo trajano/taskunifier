@@ -25,6 +25,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTML;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.api.event.action.ActionSupport;
@@ -38,7 +39,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.HTML2Text;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.TUFileDialog;
+import com.leclercb.taskunifier.gui.swing.TULinkDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
@@ -192,7 +193,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				TUFileDialog dialog = new TUFileDialog(
+				TULinkDialog dialog = new TULinkDialog(
 						true,
 						Translations.getString("general.link"));
 				dialog.setFile("http://");
@@ -204,6 +205,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 				}
 				
 				String url = dialog.getFile();
+				String label = dialog.getLabel();
 				
 				try {
 					File file = new File(url);
@@ -213,7 +215,15 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 					
 				}
 				
-				this.setHtml("<a href=\"" + url + "\">Test</a>");
+				if (label == null || label.length() == 0) {
+					label = dialog.getFile();
+				}
+				
+				this.setHtml("<a href=\""
+						+ StringEscapeUtils.escapeHtml4(url)
+						+ "\">"
+						+ StringEscapeUtils.escapeHtml4(label)
+						+ "</a>");
 				super.actionPerformed(event);
 			}
 			

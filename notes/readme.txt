@@ -3,6 +3,7 @@ HISTORY
 
 Version 2.2.0
 	- Major:
+		- Wysiwyg note editor
 		- FR 3485813: Link files to task
 		- FR 3482268: Link tasks to task
 	- Minor:

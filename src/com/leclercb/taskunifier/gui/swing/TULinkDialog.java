@@ -48,12 +48,13 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TUFileDialog extends JDialog {
+public class TULinkDialog extends JDialog {
 	
 	private TUFileField fileField;
+	private TUTextField labelField;
 	private boolean cancelled;
 	
-	public TUFileDialog(boolean open, String title) {
+	public TULinkDialog(boolean open, String title) {
 		super(MainFrame.getInstance().getFrame());
 		this.initialize(open, title);
 	}
@@ -64,6 +65,14 @@ public class TUFileDialog extends JDialog {
 	
 	public void setFile(String file) {
 		this.fileField.setFile(file);
+	}
+	
+	public String getLabel() {
+		return this.labelField.getText();
+	}
+	
+	public void setLabel(String label) {
+		this.labelField.setText(label);
 	}
 	
 	@Override
@@ -89,15 +98,24 @@ public class TUFileDialog extends JDialog {
 		if (this.getOwner() != null)
 			this.setLocationRelativeTo(this.getOwner());
 		
+		JPanel panel = new JPanel(new BorderLayout());
+		
 		this.fileField = new TUFileField(
-				Translations.getString("general.file"),
+				Translations.getString("general.link"),
 				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,
 				null,
 				null);
 		this.fileField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-		this.add(this.fileField, BorderLayout.NORTH);
+		panel.add(this.fileField, BorderLayout.NORTH);
+		
+		this.labelField = new TUTextField(
+				Translations.getString("general.label"),
+				"");
+		panel.add(this.labelField, BorderLayout.SOUTH);
+		
+		this.add(panel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}
@@ -108,13 +126,13 @@ public class TUFileDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					TUFileDialog.this.cancelled = false;
-					TUFileDialog.this.setVisible(false);
+					TULinkDialog.this.cancelled = false;
+					TULinkDialog.this.setVisible(false);
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					TUFileDialog.this.cancelled = true;
-					TUFileDialog.this.setVisible(false);
+					TULinkDialog.this.cancelled = true;
+					TULinkDialog.this.setVisible(false);
 				}
 			}
 			
