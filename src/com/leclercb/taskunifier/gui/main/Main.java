@@ -377,6 +377,9 @@ public class Main {
 					Boolean syncStart = USER_SETTINGS.getBooleanProperty("synchronizer.sync_start");
 					if (syncStart != null && syncStart)
 						ActionSynchronize.synchronize(false);
+					
+					if (isFirstExecution())
+						ActionSynchronize.synchronize(true);
 				} catch (Throwable t) {
 					GuiLogger.getLogger().log(
 							Level.WARNING,
