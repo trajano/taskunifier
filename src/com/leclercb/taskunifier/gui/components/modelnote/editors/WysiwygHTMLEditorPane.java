@@ -3,8 +3,6 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +18,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.JTextComponent;
@@ -52,6 +52,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	private UndoSupport undoSupport;
 	
 	private JXEditorPane htmlNote;
+	private boolean flagSetText;
 	
 	public WysiwygHTMLEditorPane(
 			String text,
@@ -73,13 +74,19 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
-		this.htmlNote.setText(Text2HTML.convert(text));
 		this.htmlNote.setEnabled(canEdit);
+		
+		this.flagSetText = true;
+		this.htmlNote.setText(Text2HTML.convert(text));
+		this.flagSetText = false;
 		
 		if (discardAllEdits) {
 			this.undoSupport.discardAllEdits();
 			this.htmlNote.requestFocus();
 		}
+		
+		if (!canEdit)
+			this.view();
 	}
 	
 	@Override
@@ -110,13 +117,36 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.htmlNote.getDocument().addUndoableEditListener(this.undoSupport);
 		this.undoSupport.initializeMaps(this.htmlNote);
 		
-		this.htmlNote.addFocusListener(new FocusAdapter() {
+		this.htmlNote.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void removeUpdate(DocumentEvent e) {
+				if (WysiwygHTMLEditorPane.this.flagSetText)
+					return;
+				
 				WysiwygHTMLEditorPane.this.actionSupport.fireActionPerformed(
 						0,
-						ACTION_TEXT_CHANGED);
+						WysiwygHTMLEditorPane.this.getText());
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if (WysiwygHTMLEditorPane.this.flagSetText)
+					return;
+				
+				WysiwygHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						WysiwygHTMLEditorPane.this.getText());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if (WysiwygHTMLEditorPane.this.flagSetText)
+					return;
+				
+				WysiwygHTMLEditorPane.this.actionSupport.fireActionPerformed(
+						0,
+						WysiwygHTMLEditorPane.this.getText());
 			}
 			
 		});
@@ -242,17 +272,18 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 		});
 		
-		this.add(toolBar, BorderLayout.NORTH);
-		this.add(
-				ComponentFactory.createJScrollPane(this.htmlNote, false),
-				BorderLayout.CENTER);
-		
 		if (propertyName != null) {
 			toolBar.addSeparator();
 			toolBar.add(this.createFontSizeComboBox(this.htmlNote));
 		}
 		
+		this.add(toolBar, BorderLayout.NORTH);
+		this.add(
+				ComponentFactory.createJScrollPane(this.htmlNote, false),
+				BorderLayout.CENTER);
+		
 		this.setText(text, canEdit, true);
+		this.view();
 	}
 	
 	private void addContextMenu(JComponent component) {

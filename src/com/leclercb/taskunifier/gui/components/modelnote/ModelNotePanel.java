@@ -80,7 +80,7 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				if (ModelNotePanel.this.previousSelectedModel != null)
-					ModelNotePanel.this.previousSelectedModel.setNote(ModelNotePanel.this.htmlEditorPane.getText());
+					ModelNotePanel.this.previousSelectedModel.setNote(evt.getActionCommand());
 			}
 		});
 		

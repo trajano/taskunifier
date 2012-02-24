@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.TUFileDialog;
+import com.leclercb.taskunifier.gui.swing.TULinkDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
@@ -200,7 +200,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				
 				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
 						0,
-						ACTION_TEXT_CHANGED);
+						ModeHTMLEditorPane.this.getText());
 			}
 			
 			@Override
@@ -210,7 +210,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				
 				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
 						0,
-						ACTION_TEXT_CHANGED);
+						ModeHTMLEditorPane.this.getText());
 			}
 			
 			@Override
@@ -220,7 +220,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				
 				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
 						0,
-						ACTION_TEXT_CHANGED);
+						ModeHTMLEditorPane.this.getText());
 			}
 			
 		});
@@ -293,7 +293,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				TUFileDialog dialog = new TUFileDialog(
+				TULinkDialog dialog = new TULinkDialog(
 						true,
 						Translations.getString("general.link"));
 				dialog.setFile("http://");
@@ -305,6 +305,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				}
 				
 				String url = dialog.getFile();
+				String label = dialog.getLabel();
 				
 				try {
 					File file = new File(url);
@@ -314,7 +315,15 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 					
 				}
 				
-				this.setText("<a href=\"" + url + "\">|</a>");
+				if (label == null || label.length() == 0) {
+					label = dialog.getFile();
+				}
+				
+				this.setText("<a href=\""
+						+ StringEscapeUtils.escapeHtml4(url)
+						+ "\">"
+						+ StringEscapeUtils.escapeHtml4(label)
+						+ "</a>");
 				super.actionPerformed(event);
 			}
 			
