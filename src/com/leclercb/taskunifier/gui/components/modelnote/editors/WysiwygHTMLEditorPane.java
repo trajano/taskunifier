@@ -51,6 +51,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	private UndoSupport undoSupport;
 	
+	private JToolBar toolBar;
 	private JXEditorPane htmlNote;
 	private boolean flagSetText;
 	
@@ -74,6 +75,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
+		this.toolBar.setVisible(canEdit);
 		this.htmlNote.setEnabled(canEdit);
 		
 		this.flagSetText = true;
@@ -174,45 +176,45 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 					htmlFontSize));
 		}
 		
-		JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
-		toolBar.setFloatable(false);
+		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
+		this.toolBar.setFloatable(false);
 		
-		toolBar.add(this.undoSupport.getUndoAction());
-		toolBar.add(this.undoSupport.getRedoAction());
+		this.toolBar.add(this.undoSupport.getUndoAction());
+		this.toolBar.add(this.undoSupport.getRedoAction());
 		
-		toolBar.addSeparator();
+		this.toolBar.addSeparator();
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
 				this.getAction("font-bold")));
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
 				this.getAction("font-italic")));
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
 				this.getAction("InsertUnorderedList")));
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertUnorderedListItem")));
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
 				this.getAction("InsertOrderedList")));
 		
-		toolBar.add(new WysiwygInsertHTMLAction(
+		this.toolBar.add(new WysiwygInsertHTMLAction(
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertOrderedListItem")));
 		
-		toolBar.add(new WysiwygInsertHTMLTextAction(
+		this.toolBar.add(new WysiwygInsertHTMLTextAction(
 				this.htmlNote,
 				"html_a.png",
 				Translations.getString("modelnote.action.a"),
@@ -257,7 +259,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 		});
 		
-		toolBar.add(new WysiwygInsertTextAction(
+		this.toolBar.add(new WysiwygInsertTextAction(
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())) {
@@ -271,11 +273,11 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		});
 		
 		if (propertyName != null) {
-			toolBar.addSeparator();
-			toolBar.add(this.createFontSizeComboBox(this.htmlNote));
+			this.toolBar.addSeparator();
+			this.toolBar.add(this.createFontSizeComboBox(this.htmlNote));
 		}
 		
-		this.add(toolBar, BorderLayout.NORTH);
+		this.add(this.toolBar, BorderLayout.NORTH);
 		this.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				BorderLayout.CENTER);
