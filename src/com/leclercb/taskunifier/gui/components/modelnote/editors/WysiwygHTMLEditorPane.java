@@ -177,8 +177,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolBar.setFloatable(false);
 		
-		toolBar.addSeparator();
-		
 		toolBar.add(this.undoSupport.getUndoAction());
 		toolBar.add(this.undoSupport.getRedoAction());
 		
