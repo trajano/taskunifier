@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 2.2.1
+	- Major:
+	- Minor:
+
 Version 2.2.0
 	- Major:
 		- Wysiwyg note editor

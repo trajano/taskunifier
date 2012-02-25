@@ -245,6 +245,9 @@ public final class SettingsVersion {
 		if (version.equals("2.1.1"))
 			version = updateSettings_2_1_1_to_2_2_0();
 		
+		if (version.equals("2.2.0"))
+			version = updateSettings_2_2_0_to_2_2_1();
+		
 		cleanSettings();
 		Main.saveSettings();
 	}
@@ -1242,6 +1245,13 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("taskcolumn.tasks.width", "50");
 		
 		return "2.2.0";
+	}
+	
+	private static String updateSettings_2_2_0_to_2_2_1() {
+		GuiLogger.getLogger().info(
+				"Update settings from version 2.2.0 to 2.2.1");
+		
+		return "2.2.1";
 	}
 	
 }
