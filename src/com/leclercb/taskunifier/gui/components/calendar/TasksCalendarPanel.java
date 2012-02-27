@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import lu.tudor.santec.bizcal.EventModel;
 import lu.tudor.santec.bizcal.NamedCalendar;
 import lu.tudor.santec.bizcal.listeners.NamedCalendarListener;
+import lu.tudor.santec.bizcal.resources.BizCalTranslations;
 import lu.tudor.santec.bizcal.util.ObservableEventList;
 import lu.tudor.santec.bizcal.views.DayViewPanel;
 import lu.tudor.santec.bizcal.views.MonthViewPanel;
@@ -42,6 +43,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPane
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TasksCalendarPanel extends JPanel implements TaskCalendarView, SavePropertiesListener {
@@ -78,6 +80,8 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	private void initialize() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
+		
+		BizCalTranslations.setLocale(Translations.getLocale());
 		
 		this.calendarPanel = new CalendarPanel();
 		this.eventDataList = new ObservableEventList();
