@@ -32,14 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -52,7 +46,6 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -91,86 +84,14 @@ public enum TaskColumn implements ModelProperties<Task> {
 	TASKS(String.class, Translations.getString("general.task.tasks"), false),
 	FILES(String.class, Translations.getString("general.task.files"), false);
 	
-	public static final String PROP_ORDER = "order";
-	public static final String PROP_WIDTH = "width";
-	public static final String PROP_VISIBLE = "visible";
-	
-	public static TaskColumn[] getVisibleTaskColumns() {
-		List<TaskColumn> columns = new ArrayList<TaskColumn>(
-				Arrays.asList(TaskColumn.values()));
-		
-		for (TaskColumn column : TaskColumn.values()) {
-			if (!column.isVisible()) {
-				columns.remove(column);
-			}
-		}
-		
-		return columns.toArray(new TaskColumn[0]);
-	}
-	
-	private PropertyChangeSupport propertyChangeSupport;
-	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
 	
-	private int order;
-	private int width;
-	private boolean visible;
-	
 	private TaskColumn(Class<?> type, String label, boolean editable) {
-		this.propertyChangeSupport = new PropertyChangeSupport(TaskColumn.class);
-		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
-		
-		this.setOrder(Main.getSettings().getIntegerProperty(
-				"taskcolumn." + TaskColumn.this.name().toLowerCase() + ".order",
-				0));
-		
-		this.setWidth(Main.getSettings().getIntegerProperty(
-				"taskcolumn." + TaskColumn.this.name().toLowerCase() + ".width",
-				100));
-		
-		this.setVisible(Main.getSettings().getBooleanProperty(
-				"taskcolumn."
-						+ TaskColumn.this.name().toLowerCase()
-						+ ".visible",
-				true));
-		
-		Main.getSettings().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().startsWith(
-								"taskcolumn."
-										+ TaskColumn.this.name().toLowerCase())) {
-							if (evt.getNewValue() == null)
-								return;
-							
-							if (evt.getPropertyName().equals(
-									"taskcolumn."
-											+ TaskColumn.this.name().toLowerCase()
-											+ ".order"))
-								TaskColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
-							
-							if (evt.getPropertyName().equals(
-									"taskcolumn."
-											+ TaskColumn.this.name().toLowerCase()
-											+ ".width"))
-								TaskColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-							
-							if (evt.getPropertyName().equals(
-									"taskcolumn."
-											+ TaskColumn.this.name().toLowerCase()
-											+ ".visible"))
-								TaskColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
-						}
-					}
-					
-				});
 	}
 	
 	@Override
@@ -182,25 +103,6 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.type = type;
 	}
 	
-	public int getOrder() {
-		return this.order;
-	}
-	
-	public void setOrder(int order) {
-		if (order == this.getOrder())
-			return;
-		
-		int oldOrder = this.getOrder();
-		this.order = order;
-		Main.getSettings().setIntegerProperty(
-				"taskcolumn." + this.name().toLowerCase() + ".order",
-				order);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_ORDER,
-				oldOrder,
-				order);
-	}
-	
 	public String getLabel() {
 		return this.label;
 	}
@@ -209,50 +111,12 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.label = label;
 	}
 	
-	public int getWidth() {
-		return this.width;
-	}
-	
-	public void setWidth(int width) {
-		if (width == this.getWidth())
-			return;
-		
-		int oldWidth = this.getWidth();
-		this.width = width;
-		Main.getSettings().setIntegerProperty(
-				"taskcolumn." + this.name().toLowerCase() + ".width",
-				width);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_WIDTH,
-				oldWidth,
-				width);
-	}
-	
 	public boolean isEditable() {
 		return this.editable;
 	}
 	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
-	}
-	
-	public boolean isVisible() {
-		return this.visible;
-	}
-	
-	public void setVisible(boolean visible) {
-		if (visible == this.isVisible())
-			return;
-		
-		boolean oldVisible = this.isVisible();
-		this.visible = visible;
-		Main.getSettings().setBooleanProperty(
-				"taskcolumn." + this.name().toLowerCase() + ".visible",
-				visible);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_VISIBLE,
-				oldVisible,
-				visible);
 	}
 	
 	@Override
@@ -439,22 +303,6 @@ public enum TaskColumn implements ModelProperties<Task> {
 			case FILES:
 				break;
 		}
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 }

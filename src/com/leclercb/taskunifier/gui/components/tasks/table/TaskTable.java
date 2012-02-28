@@ -81,6 +81,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupport;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.draganddrop.TaskTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasks.table.highlighters.TaskAlternateHighlighter;
@@ -113,12 +114,20 @@ public class TaskTable extends JXTable implements TaskTableView {
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
+	private TaskColumnsProperties taskColumnsProperties;
 	private TaskTableMenu taskTableMenu;
 	
-	public TaskTable() {
+	public TaskTable(TaskColumnsProperties taskColumnsProperties) {
+		CheckUtils.isNotNull(taskColumnsProperties);
+		this.taskColumnsProperties = taskColumnsProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
+	}
+	
+	@Override
+	public TaskColumnsProperties getTaskColumnsProperties() {
+		return this.taskColumnsProperties;
 	}
 	
 	@Override
@@ -291,7 +300,8 @@ public class TaskTable extends JXTable implements TaskTableView {
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		TaskTableColumnModel columnModel = new TaskTableColumnModel();
+		TaskTableColumnModel columnModel = new TaskTableColumnModel(
+				this.taskColumnsProperties);
 		TaskTableModel tableModel = new TaskTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);

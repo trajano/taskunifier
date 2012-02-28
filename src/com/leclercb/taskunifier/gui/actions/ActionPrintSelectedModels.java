@@ -80,7 +80,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 			
 			if (viewType == ViewType.NOTES) {
 				List<NoteColumn> columns = new ArrayList<NoteColumn>(
-						Arrays.asList(NoteColumn.getVisibleNoteColumns()));
+						Arrays.asList(ViewType.getNoteView().getNoteTableView().getNoteColumnsProperties().getVisibleNoteColumns()));
 				
 				if (!columns.contains(NoteColumn.NOTE)) {
 					columns.add(NoteColumn.NOTE);
@@ -92,7 +92,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 						true);
 			} else if (viewType == ViewType.TASKS) {
 				List<TaskColumn> columns = new ArrayList<TaskColumn>(
-						Arrays.asList(TaskColumn.getVisibleTaskColumns()));
+						Arrays.asList(ViewType.getTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
 				columns.remove(TaskColumn.MODEL_EDIT);
 				columns.remove(TaskColumn.SHOW_CHILDREN);
 				columns.remove(TaskColumn.ORDER);

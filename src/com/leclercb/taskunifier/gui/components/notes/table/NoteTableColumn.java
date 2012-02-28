@@ -54,6 +54,8 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
 import com.leclercb.taskunifier.gui.commons.values.StringValueNoteTitle;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties.NoteColumnProperties;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 
@@ -95,17 +97,17 @@ public class NoteTableColumn extends TableColumnExt {
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}
 	
-	private NoteColumn noteColumn;
+	private NoteColumnProperties noteColumn;
 	
-	public NoteTableColumn(NoteColumn noteColumn) {
-		super(noteColumn.ordinal());
+	public NoteTableColumn(NoteColumnProperties noteColumn) {
+		super(noteColumn.getColumn().ordinal());
 		
 		CheckUtils.isNotNull(noteColumn);
 		
 		this.noteColumn = noteColumn;
 		
-		this.setIdentifier(noteColumn);
-		this.setHeaderValue(noteColumn.getLabel());
+		this.setIdentifier(noteColumn.getColumn());
+		this.setHeaderValue(noteColumn.getColumn().getLabel());
 		this.setPreferredWidth(noteColumn.getWidth());
 		this.setVisible(noteColumn.isVisible());
 		
@@ -113,11 +115,13 @@ public class NoteTableColumn extends TableColumnExt {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(NoteColumn.PROP_VISIBLE)) {
+				if (evt.getPropertyName().equals(
+						NoteColumnsProperties.PROP_VISIBLE)) {
 					NoteTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
 				
-				if (evt.getPropertyName().equals(NoteColumn.PROP_WIDTH)) {
+				if (evt.getPropertyName().equals(
+						NoteColumnsProperties.PROP_WIDTH)) {
 					NoteTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
@@ -127,7 +131,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public Comparator<?> getComparator() {
-		if (this.noteColumn == NoteColumn.MODEL)
+		if (this.noteColumn.getColumn() == NoteColumn.MODEL)
 			return NoteRowComparator.getInstance();
 		
 		return super.getComparator();
@@ -135,7 +139,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public boolean isSortable() {
-		if (this.noteColumn == NoteColumn.MODEL)
+		if (this.noteColumn.getColumn() == NoteColumn.MODEL)
 			return true;
 		
 		return false;
@@ -155,7 +159,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.noteColumn) {
+		switch (this.noteColumn.getColumn()) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
 			case MODEL_CREATION_DATE:
@@ -175,7 +179,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.noteColumn) {
+		switch (this.noteColumn.getColumn()) {
 			case TITLE:
 				return GENERIC_EDITOR;
 			case FOLDER:

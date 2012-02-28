@@ -78,6 +78,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.notes.table.draganddrop.NoteTransferHandler;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlightPredicate;
@@ -97,12 +98,20 @@ public class NoteTable extends JXTable implements NoteTableView {
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
+	private NoteColumnsProperties noteColumnsProperties;
 	private NoteTableMenu noteTableMenu;
 	
-	public NoteTable() {
+	public NoteTable(NoteColumnsProperties noteColumnsProperties) {
+		CheckUtils.isNotNull(noteColumnsProperties);
+		this.noteColumnsProperties = noteColumnsProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
+	}
+	
+	@Override
+	public NoteColumnsProperties getNoteColumnsProperties() {
+		return this.noteColumnsProperties;
 	}
 	
 	@Override
@@ -269,7 +278,8 @@ public class NoteTable extends JXTable implements NoteTableView {
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		NoteTableColumnModel columnModel = new NoteTableColumnModel();
+		NoteTableColumnModel columnModel = new NoteTableColumnModel(
+				this.noteColumnsProperties);
 		NoteTableModel tableModel = new NoteTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);

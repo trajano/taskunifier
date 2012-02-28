@@ -32,18 +32,11 @@
  */
 package com.leclercb.taskunifier.gui.components.notes;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public enum NoteColumn implements ModelProperties<Note> {
@@ -55,86 +48,14 @@ public enum NoteColumn implements ModelProperties<Note> {
 	FOLDER(Folder.class, Translations.getString("general.note.folder"), true),
 	NOTE(String.class, Translations.getString("general.note.note"), false);
 	
-	public static final String PROP_ORDER = "order";
-	public static final String PROP_WIDTH = "width";
-	public static final String PROP_VISIBLE = "visible";
-	
-	public static NoteColumn[] getVisibleNoteColumns() {
-		List<NoteColumn> columns = new ArrayList<NoteColumn>(
-				Arrays.asList(NoteColumn.values()));
-		
-		for (NoteColumn column : NoteColumn.values()) {
-			if (!column.isVisible()) {
-				columns.remove(column);
-			}
-		}
-		
-		return columns.toArray(new NoteColumn[0]);
-	}
-	
-	private PropertyChangeSupport propertyChangeSupport;
-	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
 	
-	private int order;
-	private int width;
-	private boolean visible;
-	
 	private NoteColumn(Class<?> type, String label, boolean editable) {
-		this.propertyChangeSupport = new PropertyChangeSupport(NoteColumn.class);
-		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
-		
-		this.setOrder(Main.getSettings().getIntegerProperty(
-				"notecolumn." + NoteColumn.this.name().toLowerCase() + ".order",
-				0));
-		
-		this.setWidth(Main.getSettings().getIntegerProperty(
-				"notecolumn." + NoteColumn.this.name().toLowerCase() + ".width",
-				100));
-		
-		this.setVisible(Main.getSettings().getBooleanProperty(
-				"notecolumn."
-						+ NoteColumn.this.name().toLowerCase()
-						+ ".visible",
-				true));
-		
-		Main.getSettings().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().startsWith(
-								"notecolumn."
-										+ NoteColumn.this.name().toLowerCase())) {
-							if (evt.getNewValue() == null)
-								return;
-							
-							if (evt.getPropertyName().equals(
-									"notecolumn."
-											+ NoteColumn.this.name().toLowerCase()
-											+ ".order"))
-								NoteColumn.this.setOrder(Integer.parseInt(evt.getNewValue().toString()));
-							
-							if (evt.getPropertyName().equals(
-									"notecolumn."
-											+ NoteColumn.this.name().toLowerCase()
-											+ ".width"))
-								NoteColumn.this.setWidth(Integer.parseInt(evt.getNewValue().toString()));
-							
-							if (evt.getPropertyName().equals(
-									"notecolumn."
-											+ NoteColumn.this.name().toLowerCase()
-											+ ".visible"))
-								NoteColumn.this.setVisible(Boolean.parseBoolean(evt.getNewValue().toString()));
-						}
-					}
-					
-				});
 	}
 	
 	@Override
@@ -146,25 +67,6 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.type = type;
 	}
 	
-	public int getOrder() {
-		return this.order;
-	}
-	
-	public void setOrder(int order) {
-		if (order == this.getOrder())
-			return;
-		
-		int oldOrder = this.getOrder();
-		this.order = order;
-		Main.getSettings().setIntegerProperty(
-				"notecolumn." + this.name().toLowerCase() + ".order",
-				order);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_ORDER,
-				oldOrder,
-				order);
-	}
-	
 	public String getLabel() {
 		return this.label;
 	}
@@ -173,50 +75,12 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.label = label;
 	}
 	
-	public int getWidth() {
-		return this.width;
-	}
-	
-	public void setWidth(int width) {
-		if (width == this.getWidth())
-			return;
-		
-		int oldWidth = this.getWidth();
-		this.width = width;
-		Main.getSettings().setIntegerProperty(
-				"notecolumn." + this.name().toLowerCase() + ".width",
-				width);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_WIDTH,
-				oldWidth,
-				width);
-	}
-	
 	public boolean isEditable() {
 		return this.editable;
 	}
 	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
-	}
-	
-	public boolean isVisible() {
-		return this.visible;
-	}
-	
-	public void setVisible(boolean visible) {
-		if (visible == this.isVisible())
-			return;
-		
-		boolean oldVisible = this.isVisible();
-		this.visible = visible;
-		Main.getSettings().setBooleanProperty(
-				"notecolumn." + this.name().toLowerCase() + ".visible",
-				visible);
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_VISIBLE,
-				oldVisible,
-				visible);
 	}
 	
 	@Override
@@ -269,22 +133,6 @@ public enum NoteColumn implements ModelProperties<Note> {
 				note.setNote((String) value);
 				break;
 		}
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
 }

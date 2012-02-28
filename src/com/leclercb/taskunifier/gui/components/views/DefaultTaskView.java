@@ -28,6 +28,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsPanel;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesPanel;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
@@ -235,7 +236,9 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	private void initializeTaskTable(JPanel middlePane) {
-		this.taskTable = new TaskTable();
+		this.taskTable = new TaskTable(new TaskColumnsProperties(
+				"taskcolumn",
+				false));
 		
 		JPanel taskPanel = new JPanel(new BorderLayout());
 		taskPanel.add(

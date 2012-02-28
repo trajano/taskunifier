@@ -73,6 +73,8 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTitle;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties.TaskColumnProperties;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.FolderEditor;
@@ -257,17 +259,17 @@ public class TaskTableColumn extends TableColumnExt {
 		TITLE_EDITOR = new TitleEditor();
 	}
 	
-	private TaskColumn taskColumn;
+	private TaskColumnProperties taskColumn;
 	
-	public TaskTableColumn(TaskColumn taskColumn) {
-		super(taskColumn.ordinal());
+	public TaskTableColumn(TaskColumnProperties taskColumn) {
+		super(taskColumn.getColumn().ordinal());
 		
 		CheckUtils.isNotNull(taskColumn);
 		
 		this.taskColumn = taskColumn;
 		
-		this.setIdentifier(taskColumn);
-		this.setHeaderValue(taskColumn.getLabel());
+		this.setIdentifier(taskColumn.getColumn());
+		this.setHeaderValue(taskColumn.getColumn().getLabel());
 		this.setPreferredWidth(taskColumn.getWidth());
 		this.setVisible(taskColumn.isVisible());
 		
@@ -275,11 +277,13 @@ public class TaskTableColumn extends TableColumnExt {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TaskColumn.PROP_VISIBLE)) {
+				if (evt.getPropertyName().equals(
+						TaskColumnsProperties.PROP_VISIBLE)) {
 					TaskTableColumn.this.setVisible((Boolean) evt.getNewValue());
 				}
 				
-				if (evt.getPropertyName().equals(TaskColumn.PROP_WIDTH)) {
+				if (evt.getPropertyName().equals(
+						TaskColumnsProperties.PROP_WIDTH)) {
 					TaskTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
 				}
 			}
@@ -289,7 +293,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public Comparator<?> getComparator() {
-		if (this.taskColumn == TaskColumn.MODEL)
+		if (this.taskColumn.getColumn() == TaskColumn.MODEL)
 			return TaskRowComparator.getInstance();
 		
 		return super.getComparator();
@@ -297,7 +301,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public boolean isSortable() {
-		if (this.taskColumn == TaskColumn.MODEL)
+		if (this.taskColumn.getColumn() == TaskColumn.MODEL)
 			return true;
 		
 		return false;
@@ -317,7 +321,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.taskColumn) {
+		switch (this.taskColumn.getColumn()) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
 			case MODEL_EDIT:
@@ -379,7 +383,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.taskColumn) {
+		switch (this.taskColumn.getColumn()) {
 			case SHOW_CHILDREN:
 				return BOOLEAN_EDITOR;
 			case TITLE:

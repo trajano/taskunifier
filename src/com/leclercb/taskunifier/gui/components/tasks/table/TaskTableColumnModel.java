@@ -40,12 +40,20 @@ import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties.TaskColumnProperties;
 
 public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 	
-	public TaskTableColumnModel() {
+	private TaskColumnsProperties taskColumnsProperties;
+	
+	public TaskTableColumnModel(TaskColumnsProperties taskColumnsProperties) {
+		CheckUtils.isNotNull(taskColumnsProperties);
+		this.taskColumnsProperties = taskColumnsProperties;
+		
 		this.initialize();
 	}
 	
@@ -55,13 +63,16 @@ public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 			
 			@Override
 			public int compare(TaskColumn c1, TaskColumn c2) {
-				return CompareUtils.compare(c1.getOrder(), c2.getOrder());
+				return CompareUtils.compare(
+						TaskTableColumnModel.this.taskColumnsProperties.get(c1).getOrder(),
+						TaskTableColumnModel.this.taskColumnsProperties.get(c2).getOrder());
 			}
 			
 		});
 		
 		for (int i = 0; i < taskColumns.length; i++)
-			this.addColumn(new TaskTableColumn(taskColumns[i]));
+			this.addColumn(new TaskTableColumn(
+					this.taskColumnsProperties.get(taskColumns[i])));
 	}
 	
 	public TaskColumn getTaskColumn(int col) {
@@ -75,8 +86,9 @@ public class TaskTableColumnModel extends DefaultTableColumnModelExt {
 		int i = 1;
 		Enumeration<TableColumn> columns = this.getColumns();
 		while (columns.hasMoreElements()) {
-			TableColumn column = columns.nextElement();
-			((TaskColumn) column.getIdentifier()).setOrder(i++);
+			TaskColumn column = (TaskColumn) columns.nextElement().getIdentifier();
+			TaskColumnProperties properties = this.taskColumnsProperties.get(column);
+			properties.setOrder(i++);
 		}
 	}
 	

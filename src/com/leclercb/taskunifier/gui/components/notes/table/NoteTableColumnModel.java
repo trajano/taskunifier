@@ -40,12 +40,20 @@ import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties.NoteColumnProperties;
 
 public class NoteTableColumnModel extends DefaultTableColumnModelExt {
 	
-	public NoteTableColumnModel() {
+	private NoteColumnsProperties noteColumnsProperties;
+	
+	public NoteTableColumnModel(NoteColumnsProperties noteColumnsProperties) {
+		CheckUtils.isNotNull(noteColumnsProperties);
+		this.noteColumnsProperties = noteColumnsProperties;
+		
 		this.initialize();
 	}
 	
@@ -55,13 +63,16 @@ public class NoteTableColumnModel extends DefaultTableColumnModelExt {
 			
 			@Override
 			public int compare(NoteColumn c1, NoteColumn c2) {
-				return CompareUtils.compare(c1.getOrder(), c2.getOrder());
+				return CompareUtils.compare(
+						NoteTableColumnModel.this.noteColumnsProperties.get(c1).getOrder(),
+						NoteTableColumnModel.this.noteColumnsProperties.get(c2).getOrder());
 			}
 			
 		});
 		
 		for (int i = 0; i < noteColumns.length; i++)
-			this.addColumn(new NoteTableColumn(noteColumns[i]));
+			this.addColumn(new NoteTableColumn(
+					this.noteColumnsProperties.get(noteColumns[i])));
 	}
 	
 	public NoteColumn getNoteColumn(int col) {
@@ -75,8 +86,9 @@ public class NoteTableColumnModel extends DefaultTableColumnModelExt {
 		int i = 1;
 		Enumeration<TableColumn> columns = this.getColumns();
 		while (columns.hasMoreElements()) {
-			TableColumn column = columns.nextElement();
-			((NoteColumn) column.getIdentifier()).setOrder(i++);
+			NoteColumn column = (NoteColumn) columns.nextElement().getIdentifier();
+			NoteColumnProperties properties = this.noteColumnsProperties.get(column);
+			properties.setOrder(i++);
 		}
 	}
 	

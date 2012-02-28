@@ -16,6 +16,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -40,7 +41,7 @@ public class TasksDueDateCalendar extends TasksCalendar {
 		this.events.clear();
 		
 		List<TaskColumn> columns = new ArrayList<TaskColumn>(
-				Arrays.asList(TaskColumn.getVisibleTaskColumns()));
+				Arrays.asList(ViewType.getTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
 		columns.remove(TaskColumn.MODEL_EDIT);
 		columns.remove(TaskColumn.NOTE);
 		columns.remove(TaskColumn.SHOW_CHILDREN);
