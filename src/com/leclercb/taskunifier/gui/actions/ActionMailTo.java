@@ -56,8 +56,6 @@ public class ActionMailTo extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.mail_to"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

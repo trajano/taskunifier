@@ -48,6 +48,7 @@ import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -74,8 +75,6 @@ public class ActionDelete extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_D,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -84,10 +83,10 @@ public class ActionDelete extends AbstractViewAction {
 	}
 	
 	public static void delete() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
-			Task[] tasks = ViewType.getSelectedTasks();
+			Task[] tasks = ViewUtils.getSelectedTasks();
 			
 			if (tasks.length > 1) {
 				int deleteTasks = askDeleteTasks(tasks.length);
@@ -151,7 +150,7 @@ public class ActionDelete extends AbstractViewAction {
 				}
 			}
 		} else if (viewType == ViewType.NOTES) {
-			Note[] notes = ViewType.getSelectedNotes();
+			Note[] notes = ViewUtils.getSelectedNotes();
 			
 			if (notes.length > 1) {
 				int deleteNotes = askDeleteNotes(notes.length);

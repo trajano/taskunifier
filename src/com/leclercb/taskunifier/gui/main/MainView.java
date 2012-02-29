@@ -35,16 +35,9 @@ package com.leclercb.taskunifier.gui.main;
 import java.awt.Frame;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 
 public interface MainView extends PropertyChangeSupported {
 	
-	public static final String PROP_SELECTED_VIEW = "selectedView";
-	
 	public abstract Frame getFrame();
-	
-	public abstract ViewType getSelectedViewType();
-	
-	public abstract void setSelectedViewType(ViewType view);
 	
 }

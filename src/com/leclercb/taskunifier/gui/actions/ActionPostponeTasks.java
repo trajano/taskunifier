@@ -8,6 +8,7 @@ import java.util.List;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -50,8 +51,6 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		this.type = type;
 		this.field = field;
 		this.amount = amount;
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	public PostponeType getType() {
@@ -73,7 +72,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		if (this.view != null)
 			tasks = this.view.getSelectedTasks();
 		else
-			tasks = ViewType.getSelectedTasks();
+			tasks = ViewUtils.getSelectedTasks();
 		
 		postponeTasks(tasks, this.type, this.field, this.amount);
 	}
@@ -138,7 +137,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			}
 		}
 		
-		ViewType.refreshTasks();
+		ViewUtils.refreshTasks();
 	}
 	
 	public static ActionPostponeTasks[] createDefaultActions(

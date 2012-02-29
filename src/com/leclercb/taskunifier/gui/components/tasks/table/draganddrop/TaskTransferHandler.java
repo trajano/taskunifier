@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class TaskTransferHandler extends TransferHandler {
@@ -174,7 +174,8 @@ public class TaskTransferHandler extends TransferHandler {
 				
 				// Import : If insert row
 				if (dl.isInsertRow()) {
-					if (TaskUtils.isSortByOrder(ViewType.getTaskView().getTaskSearcherView().getSelectedOriginalTaskSearcher().getSorter())) {
+					if (ViewUtils.getSelectedOriginalTaskSearcher() != null
+							&& TaskUtils.isSortByOrder(ViewUtils.getSelectedOriginalTaskSearcher().getSorter())) {
 						TaskUtils.updateOrder(
 								dl.getRow(),
 								dragTasks.toArray(new Task[0]),

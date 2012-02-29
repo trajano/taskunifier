@@ -46,6 +46,7 @@ import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -69,8 +70,6 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_B,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -140,7 +139,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 			}
 		}
 		
-		ViewType.setSelectedTasks(tasks.toArray(new Task[0]));
+		ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 	}
 	
 }

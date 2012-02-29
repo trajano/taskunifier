@@ -42,6 +42,7 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -64,8 +65,6 @@ public class ActionPrint extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_P,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -75,12 +74,12 @@ public class ActionPrint extends AbstractViewAction {
 	
 	public static void print() {
 		try {
-			switch (MainFrame.getInstance().getSelectedViewType()) {
+			switch (ViewUtils.getCurrentViewType()) {
 				case NOTES:
-					ViewType.getNoteView().getNoteTableView().printNotes();
+					ViewUtils.getCurrentNoteView().getNoteTableView().printNotes();
 					break;
 				case TASKS:
-					ViewType.getTaskView().getTaskTableView().printTasks();
+					ViewUtils.getCurrentTaskView().getTaskTableView().printTasks();
 					break;
 			}
 		} catch (Exception e) {

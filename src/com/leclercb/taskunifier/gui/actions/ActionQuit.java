@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -104,7 +104,7 @@ public class ActionQuit extends AbstractAction {
 				return false;
 			}
 			
-			ViewType.commitAll();
+			ViewUtils.commitAll();
 			
 			Main.quit();
 		} finally {

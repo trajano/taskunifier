@@ -45,8 +45,7 @@ import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
 import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -76,9 +75,10 @@ public class ActionAddNote extends AbstractAction {
 	}
 	
 	public static Note addNote(String title, boolean edit) {
-		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
+		if (ViewUtils.getCurrentNoteView() == null)
+			ViewUtils.setMainNoteView();
 		
-		NoteTemplate searcherTemplate = ViewType.getNoteView().getNoteSearcherView().getSelectedNoteSearcher().getTemplate();
+		NoteTemplate searcherTemplate = ViewUtils.getSelectedNoteSearcher().getTemplate();
 		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
@@ -89,12 +89,11 @@ public class ActionAddNote extends AbstractAction {
 		if (title != null)
 			note.setTitle(title);
 		
-		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(
-				new Note[] { note });
-		ViewType.getNoteView().getNoteTableView().refreshNotes();
+		ViewUtils.addExtraNotes(new Note[] { note });
+		ViewUtils.refreshNotes();
 		
 		if (edit) {
-			ViewType.getNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
+			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
 					note);
 		}
 		
@@ -102,7 +101,8 @@ public class ActionAddNote extends AbstractAction {
 	}
 	
 	public static synchronized Note addNote(NoteBean noteBean, boolean edit) {
-		MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
+		if (ViewUtils.getCurrentNoteView() == null)
+			ViewUtils.setMainNoteView();
 		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));
@@ -115,12 +115,11 @@ public class ActionAddNote extends AbstractAction {
 			note.loadBean(noteBean, false);
 		}
 		
-		ViewType.getNoteView().getNoteSearcherView().addExtraNotes(
-				new Note[] { note });
-		ViewType.getNoteView().getNoteTableView().refreshNotes();
+		ViewUtils.addExtraNotes(new Note[] { note });
+		ViewUtils.refreshNotes();
 		
 		if (edit) {
-			ViewType.getNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
+			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
 					note);
 		}
 		

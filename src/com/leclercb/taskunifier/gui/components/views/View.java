@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 
 public interface View {
 	
-	public abstract ViewType getViewType();
-	
 	public abstract JPanel getViewContent();
 	
 }

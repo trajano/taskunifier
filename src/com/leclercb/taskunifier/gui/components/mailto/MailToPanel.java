@@ -52,7 +52,9 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -98,9 +100,9 @@ public class MailToPanel extends JPanel {
 		}
 		
 		boolean result = false;
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewList.getInstance().getCurrentView().getViewType();
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
-			Task[] tasks = ViewType.getSelectedTasks();
+			Task[] tasks = ViewUtils.getSelectedTasks();
 			
 			if (tasks.length == 0) {
 				ErrorInfo info = new ErrorInfo(
@@ -123,7 +125,7 @@ public class MailToPanel extends JPanel {
 					null,
 					tasks);
 		} else if (viewType == ViewType.NOTES) {
-			Note[] notes = ViewType.getSelectedNotes();
+			Note[] notes = ViewUtils.getSelectedNotes();
 			
 			if (notes.length == 0) {
 				ErrorInfo info = new ErrorInfo(

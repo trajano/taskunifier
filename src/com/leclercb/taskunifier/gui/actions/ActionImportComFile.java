@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComQuickTaskBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.import_data.ImportComFileDialog;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
@@ -141,8 +141,7 @@ public class ActionImportComFile extends AbstractAction {
 								notes.size(),
 								bean.getApplicationName())));
 				
-				ViewType.getNoteView().getNoteTableView().setSelectedNotes(
-						notes.toArray(new Note[0]));
+				ViewUtils.setSelectedNotes(notes.toArray(new Note[0]));
 			}
 			
 			if (bean.getTasks() != null) {
@@ -158,8 +157,7 @@ public class ActionImportComFile extends AbstractAction {
 								tasks.size(),
 								bean.getApplicationName())));
 				
-				ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-						tasks.toArray(new Task[0]));
+				ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 			}
 			
 			if (bean.getQuickTasks() != null) {
@@ -179,8 +177,7 @@ public class ActionImportComFile extends AbstractAction {
 								tasks.size(),
 								bean.getApplicationName())));
 				
-				ViewType.getTaskView().getTaskTableView().setSelectedTasks(
-						tasks.toArray(new Task[0]));
+				ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 			}
 			
 			return;

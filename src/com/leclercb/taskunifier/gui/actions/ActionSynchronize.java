@@ -39,15 +39,13 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
-import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -99,7 +97,7 @@ public class ActionSynchronize extends AbstractAction {
 			return;
 		}
 		
-		ViewType.commitAll();
+		ViewUtils.commitAll();
 		
 		SynchronizerGuiPlugin[] publisherPlugins = SynchronizerUtils.getPublisherPlugins();
 		
@@ -117,9 +115,6 @@ public class ActionSynchronize extends AbstractAction {
 			
 			worker.execute();
 		} else {
-			Note[] notes = ViewType.getNoteView().getNoteTableView().getSelectedNotes();
-			Task[] tasks = ViewType.getTaskView().getTaskTableView().getSelectedTasks();
-			
 			SynchronizerDialog dialog = new SynchronizerDialog();
 			
 			if (!isDummyPlugin)
@@ -132,9 +127,6 @@ public class ActionSynchronize extends AbstractAction {
 			}
 			
 			dialog.setVisible(true);
-			
-			ViewType.getNoteView().getNoteTableView().setSelectedNotes(notes);
-			ViewType.getTaskView().getTaskTableView().setSelectedTasks(tasks);
 		}
 	}
 	

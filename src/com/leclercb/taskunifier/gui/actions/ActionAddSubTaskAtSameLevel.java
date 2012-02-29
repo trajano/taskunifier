@@ -3,7 +3,7 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddSubTaskAtSameLevel extends ActionAddSubTask {
@@ -28,10 +28,10 @@ public class ActionAddSubTaskAtSameLevel extends ActionAddSubTask {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (ViewType.getSelectedTasks().length != 1)
+		if (ViewUtils.getSelectedTasks().length != 1)
 			return;
 		
-		Task parent = ViewType.getSelectedTasks()[0];
+		Task parent = ViewUtils.getSelectedTasks()[0];
 		
 		if (parent.getParent() != null)
 			parent = parent.getParent();

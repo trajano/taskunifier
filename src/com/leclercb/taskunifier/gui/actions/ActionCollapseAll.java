@@ -55,8 +55,6 @@ public class ActionCollapseAll extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.collapse_all"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

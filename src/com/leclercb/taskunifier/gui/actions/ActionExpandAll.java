@@ -55,8 +55,6 @@ public class ActionExpandAll extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.expand_all"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

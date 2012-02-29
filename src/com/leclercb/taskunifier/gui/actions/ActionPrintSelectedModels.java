@@ -46,6 +46,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -76,23 +77,23 @@ public class ActionPrintSelectedModels extends AbstractAction {
 	public static void print() {
 		try {
 			String text = null;
-			ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+			ViewType viewType = ViewUtils.getCurrentViewType();
 			
 			if (viewType == ViewType.NOTES) {
 				List<NoteColumn> columns = new ArrayList<NoteColumn>(
-						Arrays.asList(ViewType.getNoteView().getNoteTableView().getNoteColumnsProperties().getVisibleNoteColumns()));
+						Arrays.asList(ViewUtils.getMainNoteView().getNoteTableView().getNoteColumnsProperties().getVisibleNoteColumns()));
 				
 				if (!columns.contains(NoteColumn.NOTE)) {
 					columns.add(NoteColumn.NOTE);
 				}
 				
 				text = NoteUtils.toText(
-						ViewType.getSelectedNotes(),
+						ViewUtils.getSelectedNotes(),
 						columns.toArray(new NoteColumn[0]),
 						true);
 			} else if (viewType == ViewType.TASKS) {
 				List<TaskColumn> columns = new ArrayList<TaskColumn>(
-						Arrays.asList(ViewType.getTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
+						Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
 				columns.remove(TaskColumn.MODEL_EDIT);
 				columns.remove(TaskColumn.SHOW_CHILDREN);
 				columns.remove(TaskColumn.ORDER);
@@ -102,7 +103,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 				}
 				
 				text = TaskUtils.toText(
-						ViewType.getSelectedTasks(),
+						ViewUtils.getSelectedTasks(),
 						columns.toArray(new TaskColumn[0]),
 						true);
 			}

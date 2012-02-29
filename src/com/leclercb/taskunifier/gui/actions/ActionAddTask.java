@@ -47,8 +47,8 @@ import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -85,17 +85,15 @@ public class ActionAddTask extends AbstractAction {
 	}
 	
 	public static Task addTask(TaskTemplate template, String title, boolean edit) {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		
-		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
-			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-			viewType = MainFrame.getInstance().getSelectedViewType();
-		}
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		TaskTemplate searcherTemplate = null;
 		
-		if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
-			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
+		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
+			ViewUtils.setMainTaskView();
+			viewType = ViewUtils.getCurrentViewType();
+		} else {
+			searcherTemplate = ViewUtils.getSelectedTaskSearcher().getTemplate();
 		}
 		
 		Task task = TaskFactory.getInstance().create(
@@ -110,8 +108,8 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		ViewType.addExtraTasks(new Task[] { task });
-		ViewType.refreshTasks();
+		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.refreshTasks();
 		
 		if (edit) {
 			if (viewType == ViewType.CALENDAR
@@ -120,7 +118,7 @@ public class ActionAddTask extends AbstractAction {
 				if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
+				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}
@@ -129,11 +127,11 @@ public class ActionAddTask extends AbstractAction {
 	}
 	
 	public static synchronized Task addTask(TaskBean taskBean, boolean edit) {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
-			MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-			viewType = MainFrame.getInstance().getSelectedViewType();
+			ViewUtils.setMainTaskView();
+			viewType = ViewUtils.getCurrentViewType();
 		}
 		
 		Task task = TaskFactory.getInstance().create(
@@ -147,8 +145,8 @@ public class ActionAddTask extends AbstractAction {
 			task.loadBean(taskBean, false);
 		}
 		
-		ViewType.addExtraTasks(new Task[] { task });
-		ViewType.refreshTasks();
+		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.refreshTasks();
 		
 		if (edit) {
 			if (viewType == ViewType.CALENDAR
@@ -157,7 +155,7 @@ public class ActionAddTask extends AbstractAction {
 				if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
+				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}

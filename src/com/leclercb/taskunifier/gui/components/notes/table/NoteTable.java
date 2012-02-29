@@ -88,7 +88,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTool
 import com.leclercb.taskunifier.gui.components.notes.table.menu.NoteTableMenu;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
@@ -419,7 +419,9 @@ public class NoteTable extends JXTable implements NoteTableView {
 						
 						NoteTable.this.setSelectedNotes(new Note[] { note });
 						
-						ViewType.getNoteView().getModelNoteView().edit();
+						if (ViewUtils.getCurrentNoteView() != null) {
+							ViewUtils.getCurrentNoteView().getModelNoteView().edit();
+						}
 					}
 				}
 			}

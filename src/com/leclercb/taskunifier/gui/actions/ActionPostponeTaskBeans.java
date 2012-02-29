@@ -10,7 +10,7 @@ import javax.swing.AbstractAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -135,7 +135,7 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 			}
 		}
 		
-		ViewType.refreshTasks();
+		ViewUtils.refreshTasks();
 	}
 	
 	public static ActionPostponeTaskBeans[] createDefaultActions(

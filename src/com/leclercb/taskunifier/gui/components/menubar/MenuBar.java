@@ -32,19 +32,11 @@
  */
 package com.leclercb.taskunifier.gui.components.menubar;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JRadioButtonMenuItem;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
@@ -103,10 +95,7 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -196,43 +185,7 @@ public class MenuBar extends JMenuBar {
 		this.add(viewMenu);
 		
 		viewMenu.add(new ActionChangeView(16, 16));
-		viewMenu.addSeparator();
 		viewMenu.add(new ActionRefresh(16, 16));
-		viewMenu.addSeparator();
-		
-		ButtonGroup viewGroup = new ButtonGroup();
-		
-		for (ViewType view : ViewType.values()) {
-			final ViewType v = view;
-			final JRadioButtonMenuItem item = new JRadioButtonMenuItem(
-					v.getLabel());
-			viewGroup.add(item);
-			viewMenu.add(item);
-			
-			if (MainFrame.getInstance().getSelectedViewType() == view)
-				item.setSelected(true);
-			
-			item.addItemListener(new ItemListener() {
-				
-				@Override
-				public void itemStateChanged(ItemEvent evt) {
-					MainFrame.getInstance().setSelectedViewType(v);
-				}
-				
-			});
-			
-			MainFrame.getInstance().addPropertyChangeListener(
-					MainView.PROP_SELECTED_VIEW,
-					new PropertyChangeListener() {
-						
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							if (EqualsUtils.equals(evt.getNewValue(), v))
-								item.setSelected(true);
-						}
-						
-					});
-		}
 	}
 	
 	private void initializeContactsMenu() {

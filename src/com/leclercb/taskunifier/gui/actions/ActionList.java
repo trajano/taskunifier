@@ -24,9 +24,6 @@ public enum ActionList {
 	BATCH_ADD_TASKS(Translations.getString("action.batch_add_tasks"), "batch.png", true),
 	CHANGE_DATE_FOLDER_LOCATION(Translations.getString("action.change_data_folder_location"), null, false),
 	CHANGE_VIEW(Translations.getString("action.change_view"), "change_view_tasks.png", true),
-	CHANGE_VIEW_CALENDAR(Translations.getString("action.change_view_calendar"), "change_view_calendar.png", true),
-	CHANGE_VIEW_NOTES(Translations.getString("action.change_view_notes"), "change_view_notes.png", true),
-	CHANGE_VIEW_TASKS(Translations.getString("action.change_view_tasks"), "change_view_tasks.png", true),
 	CHECK_PLUGIN_VERSION(Translations.getString("action.check_plugin_version"), "download.png", true),
 	CHECK_VERSION(Translations.getString("action.check_version"), "download.png", true),
 	COLLAPSE_ALL(Translations.getString("action.collapse_all"), "tree_expanded.png", true),
@@ -158,8 +155,6 @@ public enum ActionList {
 				return new ActionChangeDataFolderLocation(width, height);
 			case CHANGE_VIEW:
 				return new ActionChangeView(width, height);
-			case CHANGE_VIEW_CALENDAR:
-				return new ActionChangeViewCalendar(width, height);
 			case CHECK_PLUGIN_VERSION:
 				return new ActionCheckPluginVersion(false, width, height);
 			case CHECK_VERSION:

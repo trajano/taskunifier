@@ -45,11 +45,6 @@ class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener
 	}
 	
 	@Override
-	public ViewType getViewType() {
-		return ViewType.NOTES;
-	}
-	
-	@Override
 	public JPanel getViewContent() {
 		return this;
 	}

@@ -65,11 +65,6 @@ class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener
 	}
 	
 	@Override
-	public ViewType getViewType() {
-		return ViewType.TASKS;
-	}
-	
-	@Override
 	public JPanel getViewContent() {
 		return this;
 	}

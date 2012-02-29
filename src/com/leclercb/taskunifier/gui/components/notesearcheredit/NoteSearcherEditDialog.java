@@ -45,7 +45,7 @@ import org.jdesktop.swingx.JXHeader;
 
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.components.help.Help;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -91,7 +91,7 @@ public class NoteSearcherEditDialog extends JDialog {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
 					NoteSearcherEditDialog.this.searcherEditPanel.close();
-					ViewType.getNoteView().getNoteTableView().refreshNotes();
+					ViewUtils.refreshNotes();
 					NoteSearcherEditDialog.this.dispose();
 				}
 			}

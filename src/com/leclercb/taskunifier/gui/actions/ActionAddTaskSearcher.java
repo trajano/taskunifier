@@ -39,8 +39,8 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -60,8 +60,6 @@ public class ActionAddTaskSearcher extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.add_task_searcher"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -77,14 +75,14 @@ public class ActionAddTaskSearcher extends AbstractViewAction {
 				new TaskFilter(),
 				Constants.getDefaultTaskSorter());
 		
-		ViewType type = MainFrame.getInstance().getSelectedViewType();
+		ViewType type = ViewUtils.getCurrentViewType();
 		
 		switch (type) {
 			case TASKS:
-				ViewType.getTaskView().getTaskSearcherView().selectTaskSearcher(
+				ViewUtils.getCurrentTaskView().getTaskSearcherView().selectTaskSearcher(
 						searcher);
 			case CALENDAR:
-				ViewType.getCalendarView().getTaskSearcherView().selectTaskSearcher(
+				ViewUtils.getCurrentCalendarView().getTaskSearcherView().selectTaskSearcher(
 						searcher);
 		}
 		

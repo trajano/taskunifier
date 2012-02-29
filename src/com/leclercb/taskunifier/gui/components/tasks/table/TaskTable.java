@@ -103,7 +103,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.menu.TaskTableMenu;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowFilter;
 import com.leclercb.taskunifier.gui.components.views.TaskView.InfoTab;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
@@ -469,18 +469,24 @@ public class TaskTable extends JXTable implements TaskTableView {
 							TaskTable.this.setSelectedTasks(new Task[] { task });
 							
 							if (column == TaskColumn.CONTACTS) {
-								ViewType.getTaskView().setSelectedInfoTab(
-										InfoTab.CONTACTS);
+								if (ViewUtils.getCurrentTaskView() != null) {
+									ViewUtils.getCurrentTaskView().setSelectedInfoTab(
+											InfoTab.CONTACTS);
+								}
 							}
 							
 							if (column == TaskColumn.TASKS) {
-								ViewType.getTaskView().setSelectedInfoTab(
-										InfoTab.TASKS);
+								if (ViewUtils.getCurrentTaskView() != null) {
+									ViewUtils.getCurrentTaskView().setSelectedInfoTab(
+											InfoTab.TASKS);
+								}
 							}
 							
 							if (column == TaskColumn.FILES) {
-								ViewType.getTaskView().setSelectedInfoTab(
-										InfoTab.FILES);
+								if (ViewUtils.getCurrentTaskView() != null) {
+									ViewUtils.getCurrentTaskView().setSelectedInfoTab(
+											InfoTab.FILES);
+								}
 							}
 							
 							if (column == TaskColumn.MODEL_EDIT) {
@@ -490,9 +496,11 @@ public class TaskTable extends JXTable implements TaskTableView {
 							}
 							
 							if (column == TaskColumn.NOTE) {
-								ViewType.getTaskView().setSelectedInfoTab(
-										InfoTab.NOTE);
-								ViewType.getTaskView().getModelNoteView().edit();
+								if (ViewUtils.getCurrentTaskView() != null) {
+									ViewUtils.getCurrentTaskView().setSelectedInfoTab(
+											InfoTab.NOTE);
+									ViewUtils.getCurrentTaskView().getModelNoteView().edit();
+								}
 							}
 						}
 					} catch (Exception e) {

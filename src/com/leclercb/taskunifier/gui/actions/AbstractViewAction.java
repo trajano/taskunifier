@@ -39,9 +39,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
 
 public abstract class AbstractViewAction extends AbstractAction {
 	
@@ -67,8 +66,8 @@ public abstract class AbstractViewAction extends AbstractAction {
 		
 		this.enabledViews = enabledViews;
 		
-		MainFrame.getInstance().addPropertyChangeListener(
-				MainView.PROP_SELECTED_VIEW,
+		ViewList.getInstance().addPropertyChangeListener(
+				ViewList.PROP_CURRENT_VIEW,
 				new PropertyChangeListener() {
 					
 					@Override
@@ -79,10 +78,10 @@ public abstract class AbstractViewAction extends AbstractAction {
 				});
 	}
 	
-	protected boolean shouldBeEnabled() {
+	protected boolean shouldBeEnabled2() {
 		if (this.enabledViews != null && this.enabledViews.length != 0) {
 			for (ViewType view : this.enabledViews)
-				if (view.equals(MainFrame.getInstance().getSelectedViewType()))
+				if (view.equals(ViewList.getInstance().getCurrentView().getViewType()))
 					return true;
 			
 			return false;

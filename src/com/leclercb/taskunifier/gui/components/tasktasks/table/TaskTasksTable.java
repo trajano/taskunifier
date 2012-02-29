@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.highlighters.TaskAlternateHighlighter;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 
 public class TaskTasksTable extends JXTable {
 	
@@ -169,8 +169,8 @@ public class TaskTasksTable extends JXTable {
 							}
 							
 							if (column == TaskTasksColumn.SELECT) {
-								ViewType.selectDefaultTaskSearcher();
-								ViewType.setSelectedTasks(new Task[] { item.getTask() });
+								ViewUtils.selectDefaultTaskSearcher();
+								ViewUtils.setSelectedTasks(new Task[] { item.getTask() });
 							}
 						}
 					} catch (Exception e) {

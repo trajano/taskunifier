@@ -41,9 +41,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -72,8 +72,8 @@ public class ActionChangeView extends AbstractAction {
 		
 		this.updateIcon();
 		
-		MainFrame.getInstance().addPropertyChangeListener(
-				MainView.PROP_SELECTED_VIEW,
+		ViewList.getInstance().addPropertyChangeListener(
+				ViewList.PROP_CURRENT_VIEW,
 				new PropertyChangeListener() {
 					
 					@Override
@@ -85,7 +85,7 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	private void updateIcon() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		switch (viewType) {
 			case CALENDAR:
 				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
@@ -105,12 +105,6 @@ public class ActionChangeView extends AbstractAction {
 						this.width,
 						this.height));
 				break;
-			default:
-				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
-						"change_view_tasks.png",
-						this.width,
-						this.height));
-				break;
 		}
 	}
 	
@@ -120,21 +114,15 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public static void changeView() {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
-		switch (viewType) {
-			case TASKS:
-				MainFrame.getInstance().setSelectedViewType(ViewType.NOTES);
-				break;
-			case NOTES:
-				MainFrame.getInstance().setSelectedViewType(ViewType.CALENDAR);
-				break;
-			case CALENDAR:
-				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-				break;
-			default:
-				MainFrame.getInstance().setSelectedViewType(ViewType.TASKS);
-				break;
-		}
+		int index = ViewList.getInstance().getIndexOf(
+				ViewList.getInstance().getCurrentView());
+		index++;
+		
+		if (index >= ViewList.getInstance().getViews().length)
+			index = 0;
+		
+		ViewList.getInstance().setCurrentView(
+				ViewList.getInstance().getView(index));
 	}
 	
 }

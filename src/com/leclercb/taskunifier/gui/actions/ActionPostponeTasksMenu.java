@@ -89,8 +89,6 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 		this.popupMenu.add(postponeStartDateMenu);
 		this.popupMenu.add(postponeDueDateMenu);
 		this.popupMenu.add(postponeBothMenu);
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

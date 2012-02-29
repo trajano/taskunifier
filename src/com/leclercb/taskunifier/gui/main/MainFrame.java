@@ -42,6 +42,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -51,6 +53,8 @@ import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXStatusBar;
 
 import com.jgoodies.common.base.SystemUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -65,7 +69,8 @@ import com.leclercb.taskunifier.gui.components.synchronize.progress.GrowlSynchro
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewItem;
+import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.threads.autobackup.AutoBackupThread;
 import com.leclercb.taskunifier.gui.threads.autosave.AutoSaveThread;
@@ -90,8 +95,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private boolean minimizeToSystemTray;
-	
-	private ViewType selectedViewType;
 	
 	private JTabbedPane mainTabbedPane;
 	
@@ -138,21 +141,14 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.mainTabbedPane = new JTabbedPane();
 		this.add(this.mainTabbedPane, BorderLayout.CENTER);
 		
-		ViewType.initialize(this);
-		for (ViewType viewType : ViewType.values()) {
-			this.mainTabbedPane.addTab(
-					viewType.getLabel(),
-					viewType.getIcon(),
-					viewType.getView().getViewContent());
-		}
-		
-		this.setSelectedViewType(ViewType.TASKS);
+		this.initializeViews();
 		
 		this.mainTabbedPane.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				MainFrame.this.setSelectedViewType(ViewType.values()[MainFrame.this.mainTabbedPane.getSelectedIndex()]);
+				MainFrame.this.setSelectedView(ViewList.getInstance().getView(
+						MainFrame.this.mainTabbedPane.getSelectedIndex()));
 			}
 			
 		});
@@ -176,38 +172,67 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.initializeSystemTray();
 	}
 	
+	private void initializeViews() {
+		ViewList.getInstance().initializeMainViews(this);
+		for (ViewItem view : ViewList.getInstance().getViews()) {
+			this.mainTabbedPane.addTab(
+					view.getLabel(),
+					view.getIcon(),
+					view.getView().getViewContent());
+		}
+		
+		this.setSelectedView(ViewList.getInstance().getMainTaskView());
+		
+		ViewList.getInstance().addListChangeListener(new ListChangeListener() {
+			
+			@Override
+			public void listChange(ListChangeEvent event) {
+				ViewItem view = (ViewItem) event.getValue();
+				
+				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+					MainFrame.this.mainTabbedPane.insertTab(
+							view.getLabel(),
+							view.getIcon(),
+							view.getView().getViewContent(),
+							null,
+							event.getIndex());
+				}
+				
+				if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+					MainFrame.this.mainTabbedPane.removeTabAt(event.getIndex());
+				}
+			}
+			
+		});
+		
+		ViewList.getInstance().addPropertyChangeListener(
+				ViewList.PROP_CURRENT_VIEW,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						MainFrame.this.setSelectedView((ViewItem) event.getNewValue());
+					}
+					
+				});
+	}
+	
 	@Override
 	public Frame getFrame() {
 		return this;
 	}
 	
-	@Override
-	public ViewType getSelectedViewType() {
-		return this.selectedViewType;
-	}
-	
-	@Override
-	public void setSelectedViewType(ViewType viewType) {
-		CheckUtils.isNotNull(viewType);
+	public void setSelectedView(ViewItem view) {
+		CheckUtils.isNotNull(view);
 		
-		if (this.selectedViewType == viewType)
-			return;
-		
-		this.mainTabbedPane.setSelectedIndex(viewType.ordinal());
-		
-		ViewType oldSelectedViewType = this.selectedViewType;
-		this.selectedViewType = viewType;
+		this.mainTabbedPane.setSelectedIndex(ViewList.getInstance().getIndexOf(
+				view));
 		
 		this.setTitle(Constants.TITLE
 				+ " - "
 				+ Constants.VERSION
 				+ " - "
-				+ this.selectedViewType.getLabel());
-		
-		this.firePropertyChange(
-				PROP_SELECTED_VIEW,
-				oldSelectedViewType,
-				viewType);
+				+ view.getLabel());
 	}
 	
 	private void loadWindowSettings() {

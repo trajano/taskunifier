@@ -44,8 +44,8 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -65,8 +65,6 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.add_task_searcher_selected_tasks"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -78,7 +76,7 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		for (Task task : tasks) {
 			filter.addElement(new TaskFilterElement(
 					TaskColumn.MODEL,
@@ -93,14 +91,14 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 				filter,
 				Constants.getDefaultTaskSorter());
 		
-		ViewType type = MainFrame.getInstance().getSelectedViewType();
+		ViewType type = ViewUtils.getCurrentViewType();
 		
 		switch (type) {
 			case TASKS:
-				ViewType.getTaskView().getTaskSearcherView().selectTaskSearcher(
+				ViewUtils.getCurrentTaskView().getTaskSearcherView().selectTaskSearcher(
 						searcher);
 			case CALENDAR:
-				ViewType.getCalendarView().getTaskSearcherView().selectTaskSearcher(
+				ViewUtils.getCurrentCalendarView().getTaskSearcherView().selectTaskSearcher(
 						searcher);
 		}
 		

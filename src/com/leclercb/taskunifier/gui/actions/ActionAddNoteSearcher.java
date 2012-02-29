@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -58,8 +59,6 @@ public class ActionAddNoteSearcher extends AbstractViewAction {
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.add_note_searcher"));
-		
-		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override
@@ -75,7 +74,7 @@ public class ActionAddNoteSearcher extends AbstractViewAction {
 				new NoteFilter(),
 				Constants.getDefaultNoteSorter());
 		
-		ViewType.getNoteView().getNoteSearcherView().selectNoteSearcher(
+		ViewUtils.getCurrentNoteView().getNoteSearcherView().selectNoteSearcher(
 				searcher);
 		
 		ActionEditNoteSearcher.editNoteSearcher(searcher);

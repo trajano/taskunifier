@@ -27,11 +27,6 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 	}
 	
 	@Override
-	public ViewType getViewType() {
-		return ViewType.CALENDAR;
-	}
-	
-	@Override
 	public JPanel getViewContent() {
 		return this;
 	}
@@ -54,13 +49,13 @@ class DefaultCalendarView extends JPanel implements CalendarView {
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 		
-		this.mainView.addPropertyChangeListener(
-				MainView.PROP_SELECTED_VIEW,
+		ViewList.getInstance().addPropertyChangeListener(
+				ViewList.PROP_CURRENT_VIEW,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						if (DefaultCalendarView.this.mainView.getSelectedViewType() == DefaultCalendarView.this.getViewType())
+						if (ViewList.getInstance().getCurrentView().getViewType() == ViewType.CALENDAR)
 							DefaultCalendarView.this.calendarPanel.refreshTasks();
 					}
 					
