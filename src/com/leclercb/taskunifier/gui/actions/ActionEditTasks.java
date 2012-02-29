@@ -34,20 +34,17 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.taskedit.BatchTaskEditDialog;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionEditTasks extends AbstractViewAction {
+public class ActionEditTasks extends AbstractViewTaskSelectionAction {
 	
 	public ActionEditTasks() {
 		this(32, 32);
@@ -56,9 +53,7 @@ public class ActionEditTasks extends AbstractViewAction {
 	public ActionEditTasks(int width, int height) {
 		super(
 				Translations.getString("action.edit_tasks"),
-				ImageUtils.getResourceImage("edit.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				ImageUtils.getResourceImage("edit.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -67,64 +62,14 @@ public class ActionEditTasks extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_E,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.viewLoaded();
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionEditTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionEditTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.TASKS.isLoaded() && ViewType.CALENDAR.isLoaded()) {
-			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionEditTasks.this.setEnabled(ActionEditTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			ViewType.getCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionEditTasks.this.setEnabled(ActionEditTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
 		if (tasks == null)
 			return false;
@@ -138,7 +83,7 @@ public class ActionEditTasks extends AbstractViewAction {
 	}
 	
 	public static boolean editTasks() {
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		return editTasks(tasks, true);
 	}
 	
@@ -146,20 +91,20 @@ public class ActionEditTasks extends AbstractViewAction {
 		if (tasks == null || tasks.length == 0)
 			return false;
 		
-		Task[] previousSelectedTasks = ViewType.getSelectedTasks();
+		Task[] previousSelectedTasks = ViewUtils.getSelectedTasks();
 		
 		BatchTaskEditDialog dialog = BatchTaskEditDialog.getInstance();
 		dialog.setTasks(tasks);
 		dialog.setVisible(true);
 		boolean edited = !dialog.isCancelled();
 		
-		ViewType.refreshTasks();
+		ViewUtils.refreshTasks();
 		
 		if (edited) {
 			if (select)
-				ViewType.setSelectedTasks(tasks);
+				ViewUtils.setSelectedTasks(tasks);
 			else
-				ViewType.setSelectedTasks(previousSelectedTasks);
+				ViewUtils.setSelectedTasks(previousSelectedTasks);
 		}
 		
 		return edited;

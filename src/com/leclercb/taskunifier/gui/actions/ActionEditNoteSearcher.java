@@ -33,19 +33,16 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.notesearcheredit.NoteSearcherEditDialog;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionEditNoteSearcher extends AbstractViewAction {
+public class ActionEditNoteSearcher extends AbstractViewNoteSearcherSelectionAction {
 	
 	public ActionEditNoteSearcher() {
 		this(32, 32);
@@ -54,50 +51,19 @@ public class ActionEditNoteSearcher extends AbstractViewAction {
 	public ActionEditNoteSearcher(int width, int height) {
 		super(
 				Translations.getString("action.edit_note_searcher"),
-				ImageUtils.getResourceImage("edit.png", width, height),
-				ViewType.NOTES);
+				ImageUtils.getResourceImage("edit.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.edit_note_searcher"));
-		
-		this.viewNotesLoaded();
-		
-		ViewType.NOTES.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionEditNoteSearcher.this.viewNotesLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewNotesLoaded() {
-		if (ViewType.NOTES.isLoaded()) {
-			ViewType.getNoteView().getNoteSearcherView().addNoteSearcherSelectionChangeListener(
-					new NoteSearcherSelectionListener() {
-						
-						@Override
-						public void noteSearcherSelectionChange(
-								NoteSearcherSelectionChangeEvent event) {
-							ActionEditNoteSearcher.this.setEnabled(ActionEditNoteSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		NoteSearcher searcher = ViewType.getNoteView().getNoteSearcherView().getSelectedOriginalNoteSearcher();
+		NoteSearcher searcher = ViewUtils.getSelectedOriginalNoteSearcher();
 		
 		boolean enabled = false;
 		
@@ -114,7 +80,7 @@ public class ActionEditNoteSearcher extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditNoteSearcher.editNoteSearcher(ViewType.getNoteView().getNoteSearcherView().getSelectedOriginalNoteSearcher());
+		ActionEditNoteSearcher.editNoteSearcher(ViewUtils.getSelectedOriginalNoteSearcher());
 	}
 	
 	public static void editNoteSearcher(NoteSearcher searcher) {
@@ -131,7 +97,7 @@ public class ActionEditNoteSearcher extends AbstractViewAction {
 			
 			dialog.setVisible(true);
 			
-			ViewType.getNoteView().getNoteSearcherView().refreshNoteSearcher();
+			ViewUtils.refreshNoteSearcher();
 		}
 	}
 	

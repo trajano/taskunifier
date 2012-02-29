@@ -225,6 +225,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	public void setSelectedView(ViewItem view) {
 		CheckUtils.isNotNull(view);
 		
+		ViewList.getInstance().setCurrentView(view);
+		
 		this.mainTabbedPane.setSelectedIndex(ViewList.getInstance().getIndexOf(
 				view));
 		

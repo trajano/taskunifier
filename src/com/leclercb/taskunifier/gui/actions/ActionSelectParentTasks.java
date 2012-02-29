@@ -33,18 +33,15 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionSelectParentTasks extends AbstractViewAction {
+public class ActionSelectParentTasks extends AbstractViewTaskSelectionAction {
 	
 	public ActionSelectParentTasks() {
 		this(32, 32);
@@ -53,50 +50,19 @@ public class ActionSelectParentTasks extends AbstractViewAction {
 	public ActionSelectParentTasks(int width, int height) {
 		super(
 				Translations.getString("action.select_parent_tasks"),
-				ImageUtils.getResourceImage("task.png", width, height),
-				ViewType.TASKS);
+				ImageUtils.getResourceImage("task.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.select_parent_tasks"));
-		
-		this.viewLoaded();
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionSelectParentTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.TASKS.isLoaded()) {
-			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionSelectParentTasks.this.setEnabled(ActionSelectParentTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
 		if (tasks == null)
 			return false;
@@ -110,7 +76,7 @@ public class ActionSelectParentTasks extends AbstractViewAction {
 	}
 	
 	public static void showParentTasks() {
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
 		List<Task> parents = new ArrayList<Task>();
 		for (Task task : tasks) {
@@ -119,7 +85,7 @@ public class ActionSelectParentTasks extends AbstractViewAction {
 					parents.add(task.getParent());
 		}
 		
-		ViewType.setSelectedTasks(parents.toArray(new Task[0]));
+		ViewUtils.setSelectedTasks(parents.toArray(new Task[0]));
 	}
 	
 }

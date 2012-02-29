@@ -36,7 +36,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -58,7 +58,7 @@ public class ActionCreateNoteFromClipboard extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ViewType.getNoteView().getNoteTableView().pasteNote();
+		ViewUtils.getMainNoteView().getNoteTableView().pasteNote();
 	}
 	
 }

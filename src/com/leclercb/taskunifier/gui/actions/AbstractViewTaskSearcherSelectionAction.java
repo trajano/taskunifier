@@ -5,8 +5,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Icon;
 
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
+import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.CalendarView;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
@@ -14,19 +14,19 @@ import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 
-public abstract class AbstractViewTaskSelectionAction extends AbstractViewAction implements ModelSelectionListener, PropertyChangeListener {
+public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractViewAction implements TaskSearcherSelectionListener, PropertyChangeListener {
 	
-	public AbstractViewTaskSelectionAction() {
+	public AbstractViewTaskSearcherSelectionAction() {
 		super(ViewType.TASKS, ViewType.CALENDAR);
 		this.initialize();
 	}
 	
-	public AbstractViewTaskSelectionAction(String title) {
+	public AbstractViewTaskSearcherSelectionAction(String title) {
 		super(title, ViewType.TASKS, ViewType.CALENDAR);
 		this.initialize();
 	}
 	
-	public AbstractViewTaskSelectionAction(String title, Icon icon) {
+	public AbstractViewTaskSearcherSelectionAction(String title, Icon icon) {
 		super(title, icon, ViewType.TASKS, ViewType.CALENDAR);
 		this.initialize();
 	}
@@ -43,31 +43,32 @@ public abstract class AbstractViewTaskSelectionAction extends AbstractViewAction
 			ViewItem oldView = (ViewItem) event.getOldValue();
 			
 			if (oldView.getViewType() == ViewType.CALENDAR) {
-				((CalendarView) oldView.getView()).getTaskCalendarView().removeModelSelectionChangeListener(
+				((CalendarView) oldView.getView()).getTaskSearcherView().removeTaskSearcherSelectionChangeListener(
 						this);
 			}
 			
 			if (oldView.getViewType() == ViewType.TASKS) {
-				((TaskView) oldView.getView()).getTaskTableView().removeModelSelectionChangeListener(
+				((TaskView) oldView.getView()).getTaskSearcherView().removeTaskSearcherSelectionChangeListener(
 						this);
 			}
 		}
 		
 		if (ViewList.getInstance().getCurrentView().isLoaded()) {
 			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR) {
-				ViewUtils.getCurrentCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
+				ViewUtils.getCurrentCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 						this);
 			}
 			
 			if (ViewUtils.getCurrentViewType() == ViewType.TASKS) {
-				ViewUtils.getCurrentTaskView().getTaskTableView().addModelSelectionChangeListener(
+				ViewUtils.getCurrentTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
 						this);
 			}
 		}
 	}
 	
 	@Override
-	public final void modelSelectionChange(ModelSelectionChangeEvent event) {
+	public void taskSearcherSelectionChange(
+			TaskSearcherSelectionChangeEvent event) {
 		this.setEnabled(this.shouldBeEnabled2());
 	}
 	

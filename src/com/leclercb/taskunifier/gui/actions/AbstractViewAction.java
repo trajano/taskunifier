@@ -78,13 +78,13 @@ public abstract class AbstractViewAction extends AbstractAction {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled());
+						AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled2());
 					}
 					
 				});
 	}
 	
-	protected boolean shouldBeEnabled2() {
+	public boolean shouldBeEnabled2() {
 		if (this.enabledViews != null && this.enabledViews.length != 0) {
 			for (ViewType view : this.enabledViews)
 				if (view.equals(ViewList.getInstance().getCurrentView().getViewType()))

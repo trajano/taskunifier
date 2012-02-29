@@ -33,19 +33,16 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.tasksearcheredit.TaskSearcherEditDialog;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionEditTaskSearcher extends AbstractViewAction {
+public class ActionEditTaskSearcher extends AbstractViewTaskSearcherSelectionAction {
 	
 	public ActionEditTaskSearcher() {
 		this(32, 32);
@@ -54,78 +51,19 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 	public ActionEditTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.edit_task_searcher"),
-				ImageUtils.getResourceImage("edit.png", width, height),
-				ViewType.CALENDAR,
-				ViewType.TASKS);
+				ImageUtils.getResourceImage("edit.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.edit_task_searcher"));
-		
-		this.viewCalendarLoaded();
-		this.viewTasksLoaded();
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionEditTaskSearcher.this.viewCalendarLoaded();
-			}
-			
-		});
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionEditTaskSearcher.this.viewTasksLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewCalendarLoaded() {
-		if (ViewType.CALENDAR.isLoaded()) {
-			ViewType.getCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-					new TaskSearcherSelectionListener() {
-						
-						@Override
-						public void taskSearcherSelectionChange(
-								TaskSearcherSelectionChangeEvent event) {
-							ActionEditTaskSearcher.this.setEnabled(ActionEditTaskSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
-	}
-	
-	private void viewTasksLoaded() {
-		if (ViewType.TASKS.isLoaded()) {
-			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-					new TaskSearcherSelectionListener() {
-						
-						@Override
-						public void taskSearcherSelectionChange(
-								TaskSearcherSelectionChangeEvent event) {
-							ActionEditTaskSearcher.this.setEnabled(ActionEditTaskSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewUtils.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
 		
@@ -142,7 +80,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionEditTaskSearcher.editTaskSearcher(ViewType.getSelectedOriginalTaskSearcher());
+		ActionEditTaskSearcher.editTaskSearcher(ViewUtils.getSelectedOriginalTaskSearcher());
 	}
 	
 	public static void editTaskSearcher(TaskSearcher searcher) {
@@ -159,7 +97,7 @@ public class ActionEditTaskSearcher extends AbstractViewAction {
 			
 			dialog.setVisible(true);
 			
-			ViewType.refreshTaskSearcher();
+			ViewUtils.refreshTaskSearcher();
 		}
 	}
 	

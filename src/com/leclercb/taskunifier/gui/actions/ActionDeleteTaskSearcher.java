@@ -33,19 +33,16 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.commons.undoableedit.TaskSearcherDeleteUndoableEdit;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionDeleteTaskSearcher extends AbstractViewAction {
+public class ActionDeleteTaskSearcher extends AbstractViewTaskSearcherSelectionAction {
 	
 	public ActionDeleteTaskSearcher() {
 		this(32, 32);
@@ -54,78 +51,19 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	public ActionDeleteTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_task_searcher"),
-				ImageUtils.getResourceImage("remove.png", width, height),
-				ViewType.CALENDAR,
-				ViewType.TASKS);
+				ImageUtils.getResourceImage("remove.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_task_searcher"));
-		
-		this.viewCalendarLoaded();
-		this.viewTasksLoaded();
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDeleteTaskSearcher.this.viewCalendarLoaded();
-			}
-			
-		});
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDeleteTaskSearcher.this.viewTasksLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewCalendarLoaded() {
-		if (ViewType.CALENDAR.isLoaded()) {
-			ViewType.getCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-					new TaskSearcherSelectionListener() {
-						
-						@Override
-						public void taskSearcherSelectionChange(
-								TaskSearcherSelectionChangeEvent event) {
-							ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
-	}
-	
-	private void viewTasksLoaded() {
-		if (ViewType.TASKS.isLoaded()) {
-			ViewType.getTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-					new TaskSearcherSelectionListener() {
-						
-						@Override
-						public void taskSearcherSelectionChange(
-								TaskSearcherSelectionChangeEvent event) {
-							ActionDeleteTaskSearcher.this.setEnabled(ActionDeleteTaskSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewUtils.getSelectedOriginalTaskSearcher();
 		
 		boolean enabled = false;
 		
@@ -146,7 +84,7 @@ public class ActionDeleteTaskSearcher extends AbstractViewAction {
 	}
 	
 	public static void deleteTaskSearcher() {
-		TaskSearcher searcher = ViewType.getSelectedOriginalTaskSearcher();
+		TaskSearcher searcher = ViewUtils.getSelectedOriginalTaskSearcher();
 		
 		if (searcher == null)
 			return;

@@ -45,11 +45,14 @@ import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
+import com.leclercb.taskunifier.gui.components.views.NoteView;
+import com.leclercb.taskunifier.gui.components.views.TaskView;
+import com.leclercb.taskunifier.gui.components.views.ViewItem;
+import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -192,53 +195,65 @@ final class StatusBarElements {
 		
 		updateRowCount(element);
 		
-		MainFrame.getInstance().addPropertyChangeListener(
-				MainView.PROP_SELECTED_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						updateRowCount(element);
-					}
-					
-				});
+		final PropertyChangeListener listener = new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				updateRowCount(element);
+			}
+			
+		};
 		
-		ViewType.getNoteView().getNoteTableView().addPropertyChangeListener(
-				NoteTableView.PROP_NOTE_COUNT,
+		ViewList.getInstance().addPropertyChangeListener(
+				ViewList.PROP_CURRENT_VIEW,
 				new PropertyChangeListener() {
 					
 					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						updateRowCount(element);
+					public void propertyChange(PropertyChangeEvent event) {
+						if (event != null && event.getOldValue() != null) {
+							ViewItem oldView = (ViewItem) event.getOldValue();
+							
+							if (oldView.getViewType() == ViewType.NOTES) {
+								((NoteView) oldView.getView()).getNoteTableView().removePropertyChangeListener(
+										listener);
+							}
+							
+							if (oldView.getViewType() == ViewType.TASKS) {
+								((TaskView) oldView.getView()).getTaskTableView().removePropertyChangeListener(
+										listener);
+							}
+						}
+						
+						if (ViewList.getInstance().getCurrentView().isLoaded()) {
+							if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
+								ViewUtils.getCurrentNoteView().getNoteTableView().addPropertyChangeListener(
+										NoteTableView.PROP_NOTE_COUNT,
+										listener);
+							}
+							
+							if (ViewUtils.getCurrentViewType() == ViewType.TASKS) {
+								ViewUtils.getCurrentTaskView().getTaskTableView().addPropertyChangeListener(
+										TaskTableView.PROP_TASK_COUNT,
+										listener);
+							}
+						}
 					}
-					
-				});
-		
-		ViewType.getTaskView().getTaskTableView().addPropertyChangeListener(
-				TaskTableView.PROP_TASK_COUNT,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						updateRowCount(element);
-					}
-					
 				});
 		
 		return element;
 	}
 	
 	private static final void updateRowCount(JLabel element) {
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		switch (viewType) {
 			case NOTES:
-				element.setText(ViewType.getNoteView().getNoteTableView().getNoteCount()
+				element.setText(ViewUtils.getCurrentNoteView().getNoteTableView().getNoteCount()
 						+ " "
 						+ Translations.getString("general.notes"));
 				break;
 			case TASKS:
-				element.setText(ViewType.getTaskView().getTaskTableView().getTaskCount()
+				element.setText(ViewUtils.getCurrentTaskView().getTaskTableView().getTaskCount()
 						+ " "
 						+ Translations.getString("general.tasks"));
 				break;

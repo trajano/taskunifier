@@ -33,19 +33,16 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionDuplicateNotes extends AbstractViewAction {
+public class ActionDuplicateNotes extends AbstractViewNoteSelectionAction {
 	
 	public ActionDuplicateNotes() {
 		this(32, 32);
@@ -54,50 +51,19 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 	public ActionDuplicateNotes(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_notes"),
-				ImageUtils.getResourceImage("duplicate.png", width, height),
-				ViewType.NOTES);
+				ImageUtils.getResourceImage("duplicate.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.duplicate_notes"));
-		
-		this.viewLoaded();
-		
-		ViewType.NOTES.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDuplicateNotes.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.NOTES.isLoaded()) {
-			ViewType.getNoteView().getNoteTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionDuplicateNotes.this.setEnabled(ActionDuplicateNotes.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		Note[] notes = ViewType.getSelectedNotes();
+		Note[] notes = ViewUtils.getSelectedNotes();
 		
 		if (notes == null)
 			return false;
@@ -107,7 +73,7 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateNotes.duplicateNotes(ViewType.getSelectedNotes());
+		ActionDuplicateNotes.duplicateNotes(ViewUtils.getSelectedNotes());
 	}
 	
 	public static void duplicateNotes(Note[] notes) {
@@ -116,9 +82,8 @@ public class ActionDuplicateNotes extends AbstractViewAction {
 		for (Note note : notes)
 			newNotes.add(NoteFactory.getInstance().create(note));
 		
-		ViewType.getNoteView().getNoteTableView().refreshNotes();
-		ViewType.getNoteView().getNoteTableView().setSelectedNotes(
-				newNotes.toArray(new Note[0]));
+		ViewUtils.refreshNotes();
+		ViewUtils.setSelectedNotes(newNotes.toArray(new Note[0]));
 	}
 	
 }

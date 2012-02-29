@@ -66,8 +66,8 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 	}
 	
 	public void initializeMainViews(MainView mainView) {
-		this.mainTaskView.setView(new DefaultNoteView(mainView));
-		this.mainNoteView.setView(new DefaultTaskView(mainView));
+		this.mainTaskView.setView(new DefaultTaskView(mainView));
+		this.mainNoteView.setView(new DefaultNoteView(mainView));
 		this.mainCalendarView.setView(new DefaultCalendarView(mainView));
 	}
 	

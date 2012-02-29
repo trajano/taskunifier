@@ -33,19 +33,16 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.commons.undoableedit.NoteSearcherDeleteUndoableEdit;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionDeleteNoteSearcher extends AbstractViewAction {
+public class ActionDeleteNoteSearcher extends AbstractViewNoteSearcherSelectionAction {
 	
 	public ActionDeleteNoteSearcher() {
 		this(32, 32);
@@ -54,50 +51,19 @@ public class ActionDeleteNoteSearcher extends AbstractViewAction {
 	public ActionDeleteNoteSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_note_searcher"),
-				ImageUtils.getResourceImage("remove.png", width, height),
-				ViewType.NOTES);
+				ImageUtils.getResourceImage("remove.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.delete_note_searcher"));
-		
-		this.viewNotesLoaded();
-		
-		ViewType.NOTES.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDeleteNoteSearcher.this.viewNotesLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewNotesLoaded() {
-		if (ViewType.NOTES.isLoaded()) {
-			ViewType.getNoteView().getNoteSearcherView().addNoteSearcherSelectionChangeListener(
-					new NoteSearcherSelectionListener() {
-						
-						@Override
-						public void noteSearcherSelectionChange(
-								NoteSearcherSelectionChangeEvent event) {
-							ActionDeleteNoteSearcher.this.setEnabled(ActionDeleteNoteSearcher.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		NoteSearcher searcher = ViewType.getNoteView().getNoteSearcherView().getSelectedOriginalNoteSearcher();
+		NoteSearcher searcher = ViewUtils.getSelectedOriginalNoteSearcher();
 		
 		boolean enabled = false;
 		
@@ -118,7 +84,7 @@ public class ActionDeleteNoteSearcher extends AbstractViewAction {
 	}
 	
 	public static void deleteNoteSearcher() {
-		NoteSearcher searcher = ViewType.getNoteView().getNoteSearcherView().getSelectedOriginalNoteSearcher();
+		NoteSearcher searcher = ViewUtils.getSelectedOriginalNoteSearcher();
 		
 		if (searcher == null)
 			return;

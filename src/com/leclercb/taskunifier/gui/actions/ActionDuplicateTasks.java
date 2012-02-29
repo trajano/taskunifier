@@ -33,21 +33,18 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionDuplicateTasks extends AbstractViewAction {
+public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	
 	public ActionDuplicateTasks() {
 		this(32, 32);
@@ -56,71 +53,19 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	public ActionDuplicateTasks(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_tasks"),
-				ImageUtils.getResourceImage("duplicate.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				ImageUtils.getResourceImage("duplicate.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.duplicate_tasks"));
-		
-		this.viewLoaded();
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDuplicateTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionDuplicateTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.TASKS.isLoaded() && ViewType.CALENDAR.isLoaded()) {
-			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionDuplicateTasks.this.setEnabled(ActionDuplicateTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			ViewType.getCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionDuplicateTasks.this.setEnabled(ActionDuplicateTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
 		if (tasks == null)
 			return false;
@@ -130,7 +75,7 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionDuplicateTasks.duplicateTasks(ViewType.getSelectedTasks());
+		ActionDuplicateTasks.duplicateTasks(ViewUtils.getSelectedTasks());
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
@@ -164,8 +109,8 @@ public class ActionDuplicateTasks extends AbstractViewAction {
 			}
 		}
 		
-		ViewType.refreshTasks();
-		ViewType.setSelectedTasks(newTasks.values().toArray(new Task[0]));
+		ViewUtils.refreshTasks();
+		ViewUtils.setSelectedTasks(newTasks.values().toArray(new Task[0]));
 	}
 	
 }

@@ -43,7 +43,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -71,20 +70,16 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 	}
 	
 	@Override
-	public void modelSelectionChange(ModelSelectionChangeEvent event) {
-		if (!super.shouldBeEnabled2()) {
-			this.setEnabled(false);
-			return;
-		}
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
+			return false;
 		
 		Task[] tasks = ViewUtils.getSelectedTasks();
 		
-		if (tasks == null) {
-			this.setEnabled(false);
-			return;
-		}
+		if (tasks == null)
+			return false;
 		
-		this.setEnabled(tasks.length == 1);
+		return tasks.length == 1;
 	}
 	
 	@Override

@@ -33,20 +33,17 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
-import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionCompleteTasks extends AbstractViewAction {
+public class ActionCompleteTasks extends AbstractViewTaskSelectionAction {
 	
 	public ActionCompleteTasks() {
 		this(32, 32);
@@ -55,9 +52,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 	public ActionCompleteTasks(int width, int height) {
 		super(
 				Translations.getString("action.complete_tasks"),
-				ImageUtils.getResourceImage("check.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				ImageUtils.getResourceImage("check.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -66,64 +61,14 @@ public class ActionCompleteTasks extends AbstractViewAction {
 		this.putValue(
 				ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
-		
-		this.viewLoaded();
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionCompleteTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionCompleteTasks.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.TASKS.isLoaded() && ViewType.CALENDAR.isLoaded()) {
-			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionCompleteTasks.this.setEnabled(ActionCompleteTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			ViewType.getCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionCompleteTasks.this.setEnabled(ActionCompleteTasks.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
+	public boolean shouldBeEnabled2() {
+		if (!super.shouldBeEnabled2())
 			return false;
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
 		if (tasks == null)
 			return false;
@@ -133,7 +78,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionCompleteTasks.completeTasks(ViewType.getSelectedTasks());
+		ActionCompleteTasks.completeTasks(ViewUtils.getSelectedTasks());
 	}
 	
 	public static void completeTasks(Task[] tasks) {
@@ -161,7 +106,7 @@ public class ActionCompleteTasks extends AbstractViewAction {
 			task.setCompleted(completed);
 		}
 		
-		ViewType.refreshTasks();
+		ViewUtils.refreshTasks();
 	}
 	
 }
