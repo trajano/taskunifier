@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -183,26 +184,32 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 									"configuration.synchronization.reset_all",
 									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()))));
 			
+			ActionSynchronize actionResetAll = new ActionSynchronize(
+					false,
+					22,
+					22) {
+				
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
+						SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
+					}
+					
+					SynchronizerUtils.resetAllConnections();
+					SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
+					super.actionPerformed(event);
+				}
+				
+			};
+			
+			actionResetAll.putValue(
+					Action.NAME,
+					Translations.getString("action.synchronize_reset_all"));
+			
 			this.addField(new ConfigurationField(
 					"RESET_ALL",
 					null,
-					new ConfigurationFieldType.Button(new ActionSynchronize(
-							false,
-							22,
-							22) {
-						
-						@Override
-						public void actionPerformed(ActionEvent event) {
-							if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
-								SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
-							}
-							
-							SynchronizerUtils.resetAllConnections();
-							SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
-							super.actionPerformed(event);
-						}
-						
-					})));
+					new ConfigurationFieldType.Button(actionResetAll)));
 		}
 		
 		Main.getUserSettings().addPropertyChangeListener(
