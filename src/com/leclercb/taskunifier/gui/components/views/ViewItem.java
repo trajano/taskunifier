@@ -12,7 +12,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 
 public class ViewItem implements ActionSupported {
 	
-	private static final String ACTION_VIEW_LOADED = "ACTION_VIEW_LOADED";
+	public static final String ACTION_VIEW_LOADED = "ACTION_VIEW_LOADED";
 	
 	private ActionSupport actionSupport;
 	

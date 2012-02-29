@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
@@ -45,14 +44,13 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
-import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionAddSubTask extends AbstractViewAction {
+public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 	
 	public ActionAddSubTask() {
 		this(32, 32);
@@ -61,9 +59,7 @@ public class ActionAddSubTask extends AbstractViewAction {
 	public ActionAddSubTask(int width, int height) {
 		super(
 				Translations.getString("action.add_subtask"),
-				ImageUtils.getResourceImage("subtask.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				ImageUtils.getResourceImage("subtask.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -72,75 +68,29 @@ public class ActionAddSubTask extends AbstractViewAction {
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_K,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		this.viewLoaded();
-		
-		ViewType.TASKS.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionAddSubTask.this.viewLoaded();
-			}
-			
-		});
-		
-		ViewType.CALENDAR.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ActionAddSubTask.this.viewLoaded();
-			}
-			
-		});
-		
-		this.setEnabled(false);
-	}
-	
-	private void viewLoaded() {
-		if (ViewType.TASKS.isLoaded() && ViewType.CALENDAR.isLoaded()) {
-			ViewType.getTaskView().getTaskTableView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionAddSubTask.this.setEnabled(ActionAddSubTask.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			ViewType.getCalendarView().getTaskCalendarView().addModelSelectionChangeListener(
-					new ModelSelectionListener() {
-						
-						@Override
-						public void modelSelectionChange(
-								ModelSelectionChangeEvent event) {
-							ActionAddSubTask.this.setEnabled(ActionAddSubTask.this.shouldBeEnabled());
-						}
-						
-					});
-			
-			this.setEnabled(this.shouldBeEnabled());
-		}
 	}
 	
 	@Override
-	protected boolean shouldBeEnabled() {
-		if (!super.shouldBeEnabled())
-			return false;
+	public void modelSelectionChange(ModelSelectionChangeEvent event) {
+		if (!super.shouldBeEnabled2()) {
+			this.setEnabled(false);
+			return;
+		}
 		
-		Task[] tasks = ViewType.getSelectedTasks();
+		Task[] tasks = ViewUtils.getSelectedTasks();
 		
-		if (tasks == null)
-			return false;
+		if (tasks == null) {
+			this.setEnabled(false);
+			return;
+		}
 		
-		return tasks.length == 1;
+		this.setEnabled(tasks.length == 1);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (ViewType.getSelectedTasks().length == 1)
-			ActionAddSubTask.addSubTask(ViewType.getSelectedTasks()[0], true);
+		if (ViewUtils.getSelectedTasks().length == 1)
+			ActionAddSubTask.addSubTask(ViewUtils.getSelectedTasks()[0], true);
 	}
 	
 	public static Task addSubTask(Task parent, boolean edit) {
@@ -156,15 +106,15 @@ public class ActionAddSubTask extends AbstractViewAction {
 			boolean edit) {
 		CheckUtils.isNotNull(parent);
 		
-		ViewType viewType = MainFrame.getInstance().getSelectedViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		TaskTemplate searcherTemplate = null;
 		
-		if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
-			searcherTemplate = ViewType.getSelectedTaskSearcher().getTemplate();
-			
-			if (searcherTemplate == null)
-				ViewType.selectDefaultTaskSearcher();
+		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
+			ViewUtils.setMainTaskView();
+			viewType = ViewUtils.getCurrentViewType();
+		} else {
+			searcherTemplate = ViewUtils.getSelectedTaskSearcher().getTemplate();
 		}
 		
 		Task task = TaskFactory.getInstance().create(
@@ -182,7 +132,8 @@ public class ActionAddSubTask extends AbstractViewAction {
 		task.setGoal(parent.getGoal());
 		task.setLocation(parent.getLocation());
 		
-		ViewType.refreshTasks();
+		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.refreshTasks();
 		
 		if (edit) {
 			if (viewType == ViewType.CALENDAR
@@ -191,7 +142,7 @@ public class ActionAddSubTask extends AbstractViewAction {
 				if (!ActionEditTasks.editTasks(new Task[] { task }, true))
 					TaskFactory.getInstance().markDeleted(task);
 			} else {
-				ViewType.getTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
+				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
 		}

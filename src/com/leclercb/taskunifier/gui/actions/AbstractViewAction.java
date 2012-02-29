@@ -51,20 +51,26 @@ public abstract class AbstractViewAction extends AbstractAction {
 		this.initialize(enabledViews);
 	}
 	
+	public AbstractViewAction(String title, ViewType... enabledViews) {
+		super(title);
+		this.initialize(enabledViews);
+	}
+	
 	public AbstractViewAction(String title, Icon icon, ViewType... enabledViews) {
 		super(title, icon);
 		this.initialize(enabledViews);
 	}
 	
-	public AbstractViewAction(String title, ViewType... enabledViews) {
-		super(title);
-		this.initialize(enabledViews);
+	public ViewType[] getEnabledViews() {
+		return this.enabledViews;
 	}
 	
 	private void initialize(final ViewType... enabledViews) {
 		CheckUtils.isNotNull(enabledViews);
 		
 		this.enabledViews = enabledViews;
+		
+		this.setEnabled(false);
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
