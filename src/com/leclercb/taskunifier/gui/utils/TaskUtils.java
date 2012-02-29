@@ -600,7 +600,7 @@ public final class TaskUtils {
 		// it must be displayed
 		if (!skipParentCheck) {
 			boolean result = false;
-			Task[] children = task.getAllChildren();
+			List<Task> children = task.getAllChildren();
 			for (Task child : children) {
 				if (showTask(
 						child,

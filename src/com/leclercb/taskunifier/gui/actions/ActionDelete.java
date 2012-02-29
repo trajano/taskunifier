@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
@@ -124,7 +125,7 @@ public class ActionDelete extends AbstractViewAction {
 			for (Task task : tasks) {
 				if (task.getModelStatus().isEndUserStatus()) {
 					if (deleteSubTasks == JOptionPane.YES_OPTION) {
-						Task[] children = task.getAllChildren();
+						List<Task> children = task.getAllChildren();
 						for (Task child : children) {
 							if (child.getModelStatus().isEndUserStatus()) {
 								TaskFactory.getInstance().markToDelete(child);

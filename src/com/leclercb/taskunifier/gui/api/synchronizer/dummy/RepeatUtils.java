@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.api.synchronizer.dummy;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,7 +150,7 @@ public class RepeatUtils {
 		newTask.setDueDate(dueDate);
 		newTask.setRepeat(task.getRepeat());
 		
-		Task[] tasks = task.getChildren();
+		List<Task> tasks = task.getChildren();
 		for (Task subtask : tasks) {
 			if ("With Parent".equalsIgnoreCase(subtask.getRepeat())) {
 				if (!subtask.isCompleted())

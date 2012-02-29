@@ -105,7 +105,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 				"task.indent_subtasks");
 		final boolean useDueTime = Main.getSettings().getBooleanProperty(
 				"date.use_due_time");
-		final int nbParents = task.getAllParents().length;
+		final int nbParents = task.getAllParents().size();
 		
 		String title = task.getTitle();
 		

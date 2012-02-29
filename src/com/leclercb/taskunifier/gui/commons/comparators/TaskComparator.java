@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.commons.comparators;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -138,10 +137,8 @@ public class TaskComparator implements Comparator<Task> {
 		
 		int result = 0;
 		
-		List<Task> parents1 = new ArrayList<Task>(
-				Arrays.asList(task1.getAllParents()));
-		List<Task> parents2 = new ArrayList<Task>(
-				Arrays.asList(task2.getAllParents()));
+		List<Task> parents1 = new ArrayList<Task>(task1.getAllParents());
+		List<Task> parents2 = new ArrayList<Task>(task2.getAllParents());
 		
 		if (task1.getParent() == null && task2.getParent() == null) {
 			// If both tasks are parents, compare them
