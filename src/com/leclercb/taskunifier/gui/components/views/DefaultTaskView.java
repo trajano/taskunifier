@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener {
+public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesListener {
 	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;

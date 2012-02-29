@@ -13,7 +13,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.MainView;
 
-class DefaultCalendarView extends JPanel implements CalendarView {
+public class DefaultCalendarView extends JPanel implements CalendarView {
 	
 	private MainView mainView;
 	

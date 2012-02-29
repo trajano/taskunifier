@@ -29,7 +29,7 @@ import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener {
+public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesListener {
 	
 	private JSplitPane horizontalSplitPane;
 	private JSplitPane verticalSplitPane;
