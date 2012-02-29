@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -99,7 +100,8 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 					true));
 		}
 		
-		Main.getSettings().addPropertyChangeListener(this);
+		Main.getSettings().addPropertyChangeListener(
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	public boolean isReadOnly() {
