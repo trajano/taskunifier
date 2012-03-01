@@ -49,6 +49,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -231,9 +232,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		panel.setOpaque(false);
 		
 		panel.add(new JLabel(
-				view.getLabel(), 
-				view.getIcon(), 
-				JLabel.LEFT), BorderLayout.CENTER);
+				view.getLabel(),
+				view.getIcon(),
+				SwingConstants.LEFT), BorderLayout.CENTER);
 		
 		if (view.isRemovable()) {
 			JButton button = new JButton(ImageUtils.getResourceImage(
@@ -242,6 +243,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 					12));
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
+			button.setFocusable(false);
 			
 			button.addActionListener(new ActionListener() {
 				

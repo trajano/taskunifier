@@ -139,8 +139,7 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 		CheckUtils.isNotNull(view);
 		
 		if (!view.isRemovable())
-			throw new RuntimeException(
-					"You cannot remove this view");
+			throw new RuntimeException("You cannot remove this view");
 		
 		int index = this.views.indexOf(view);
 		if (this.views.remove(view)) {

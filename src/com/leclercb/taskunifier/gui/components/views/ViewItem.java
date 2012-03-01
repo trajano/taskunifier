@@ -22,7 +22,11 @@ public class ViewItem implements ActionSupported {
 	private Icon icon;
 	private boolean removable;
 	
-	public ViewItem(ViewType viewType, String label, Icon icon, boolean removable) {
+	public ViewItem(
+			ViewType viewType,
+			String label,
+			Icon icon,
+			boolean removable) {
 		CheckUtils.isNotNull(viewType);
 		CheckUtils.isNotNull(label);
 		CheckUtils.isNotNull(icon);
@@ -80,7 +84,7 @@ public class ViewItem implements ActionSupported {
 	}
 	
 	public boolean isRemovable() {
-		return removable;
+		return this.removable;
 	}
 	
 	@Override
