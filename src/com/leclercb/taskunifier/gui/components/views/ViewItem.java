@@ -20,8 +20,9 @@ public class ViewItem implements ActionSupported {
 	private View view;
 	private String label;
 	private Icon icon;
+	private boolean removable;
 	
-	public ViewItem(ViewType viewType, String label, Icon icon) {
+	public ViewItem(ViewType viewType, String label, Icon icon, boolean removable) {
 		CheckUtils.isNotNull(viewType);
 		CheckUtils.isNotNull(label);
 		CheckUtils.isNotNull(icon);
@@ -32,6 +33,7 @@ public class ViewItem implements ActionSupported {
 		this.view = null;
 		this.label = label;
 		this.icon = icon;
+		this.removable = removable;
 	}
 	
 	public boolean isLoaded() {
@@ -75,6 +77,10 @@ public class ViewItem implements ActionSupported {
 	
 	public Icon getIcon() {
 		return this.icon;
+	}
+	
+	public boolean isRemovable() {
+		return removable;
 	}
 	
 	@Override

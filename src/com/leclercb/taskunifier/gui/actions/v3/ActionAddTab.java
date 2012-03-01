@@ -45,19 +45,22 @@ public class ActionAddTab extends AbstractAction {
 			viewItem = new ViewItem(
 					ViewType.CALENDAR,
 					Translations.getString("general.calendar"),
-					ImageUtils.getResourceImage("calendar.png", 16, 16));
+					ImageUtils.getResourceImage("calendar.png", 16, 16),
+					true);
 			viewItem.setView(new DefaultCalendarView(MainFrame.getInstance()));
 		} else if (type == ViewType.NOTES) {
 			viewItem = new ViewItem(
 					ViewType.NOTES,
 					Translations.getString("general.notes"),
-					ImageUtils.getResourceImage("note.png", 16, 16));
+					ImageUtils.getResourceImage("note.png", 16, 16),
+					true);
 			viewItem.setView(new DefaultNoteView(MainFrame.getInstance()));
 		} else if (type == ViewType.TASKS) {
 			viewItem = new ViewItem(
 					ViewType.TASKS,
 					Translations.getString("general.tasks"),
-					ImageUtils.getResourceImage("task.png", 16, 16));
+					ImageUtils.getResourceImage("task.png", 16, 16),
+					true);
 			viewItem.setView(new DefaultTaskView(MainFrame.getInstance()));
 		}
 		

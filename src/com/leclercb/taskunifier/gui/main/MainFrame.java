@@ -45,6 +45,9 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -173,12 +176,11 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void initializeViews() {
+		int index = 0;
 		ViewList.getInstance().initializeMainViews(this);
 		for (ViewItem view : ViewList.getInstance().getViews()) {
-			this.mainTabbedPane.addTab(
-					view.getLabel(),
-					view.getIcon(),
-					view.getView().getViewContent());
+			this.insertViewTab(view, index);
+			index++;
 		}
 		
 		this.setSelectedView(ViewList.getInstance().getMainTaskView());
@@ -190,12 +192,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				ViewItem view = (ViewItem) event.getValue();
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					MainFrame.this.mainTabbedPane.insertTab(
-							view.getLabel(),
-							view.getIcon(),
-							view.getView().getViewContent(),
-							null,
-							event.getIndex());
+					MainFrame.this.insertViewTab(view, event.getIndex());
 				}
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
@@ -220,6 +217,45 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public Frame getFrame() {
 		return this;
+	}
+	
+	private void insertViewTab(final ViewItem view, final int index) {
+		this.mainTabbedPane.insertTab(
+				view.getLabel(),
+				view.getIcon(),
+				view.getView().getViewContent(),
+				null,
+				index);
+		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setOpaque(false);
+		
+		panel.add(new JLabel(
+				view.getLabel(), 
+				view.getIcon(), 
+				JLabel.LEFT), BorderLayout.CENTER);
+		
+		if (view.isRemovable()) {
+			JButton button = new JButton(ImageUtils.getResourceImage(
+					"remove.png",
+					12,
+					12));
+			button.setBorderPainted(false);
+			button.setContentAreaFilled(false);
+			
+			button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					ViewList.getInstance().removeView(view);
+				}
+				
+			});
+			
+			panel.add(button, BorderLayout.EAST);
+		}
+		
+		this.mainTabbedPane.setTabComponentAt(index, panel);
 	}
 	
 	public void setSelectedView(ViewItem view) {

@@ -48,15 +48,18 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 		this.mainTaskView = new ViewItem(
 				ViewType.TASKS,
 				Translations.getString("general.tasks"),
-				ImageUtils.getResourceImage("task.png", 16, 16));
+				ImageUtils.getResourceImage("task.png", 16, 16),
+				false);
 		this.mainNoteView = new ViewItem(
 				ViewType.NOTES,
 				Translations.getString("general.notes"),
-				ImageUtils.getResourceImage("note.png", 16, 16));
+				ImageUtils.getResourceImage("note.png", 16, 16),
+				false);
 		this.mainCalendarView = new ViewItem(
 				ViewType.CALENDAR,
 				Translations.getString("general.calendar"),
-				ImageUtils.getResourceImage("calendar.png", 16, 16));
+				ImageUtils.getResourceImage("calendar.png", 16, 16),
+				false);
 		
 		this.addView(this.mainTaskView);
 		this.addView(this.mainNoteView);
@@ -135,11 +138,9 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 	public void removeView(ViewItem view) {
 		CheckUtils.isNotNull(view);
 		
-		if (this.mainTaskView.equals(view)
-				|| this.mainNoteView.equals(view)
-				|| this.mainCalendarView.equals(view))
+		if (!view.isRemovable())
 			throw new RuntimeException(
-					"You cannot delete one of the main views");
+					"You cannot remove this view");
 		
 		int index = this.views.indexOf(view);
 		if (this.views.remove(view)) {
