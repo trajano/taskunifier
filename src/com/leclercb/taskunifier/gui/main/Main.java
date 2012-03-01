@@ -118,6 +118,7 @@ import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
+import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.CommunicatorUtils;
@@ -377,6 +378,8 @@ public class Main {
 					Boolean syncStart = USER_SETTINGS.getBooleanProperty("synchronizer.sync_start");
 					if (isFirstExecution() || (syncStart != null && syncStart))
 						ActionSynchronize.synchronize(false);
+					
+					Threads.startAll();
 				} catch (Throwable t) {
 					GuiLogger.getLogger().log(
 							Level.WARNING,
@@ -1103,6 +1106,8 @@ public class Main {
 			QUITTING = true;
 		}
 		
+		Threads.stopAll();
+		
 		BEFORE_EXIT.fireActionPerformed(0, "BEFORE_EXIT");
 		
 		SETTINGS.setStringProperty("general.user.last_user_id", USER_ID);
@@ -1112,8 +1117,6 @@ public class Main {
 				Calendar.getInstance());
 		
 		saveAllData();
-		
-		MainFrame.getInstance().getFrame().dispose();
 		
 		GuiLogger.getLogger().info("Exiting " + Constants.TITLE);
 		

@@ -38,6 +38,8 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 
 public interface MainView extends PropertyChangeSupported {
 	
+	public abstract int getFrameId();
+	
 	public abstract Frame getFrame();
 	
 }

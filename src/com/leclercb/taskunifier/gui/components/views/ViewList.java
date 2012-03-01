@@ -11,6 +11,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.main.MainView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -49,16 +50,19 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 				ViewType.TASKS,
 				Translations.getString("general.tasks"),
 				ImageUtils.getResourceImage("task.png", 16, 16),
+				MainFrame.getInstance().getFrameId(),
 				false);
 		this.mainNoteView = new ViewItem(
 				ViewType.NOTES,
 				Translations.getString("general.notes"),
 				ImageUtils.getResourceImage("note.png", 16, 16),
+				MainFrame.getInstance().getFrameId(),
 				false);
 		this.mainCalendarView = new ViewItem(
 				ViewType.CALENDAR,
 				Translations.getString("general.calendar"),
 				ImageUtils.getResourceImage("calendar.png", 16, 16),
+				MainFrame.getInstance().getFrameId(),
 				false);
 		
 		this.addView(this.mainTaskView);
@@ -119,6 +123,10 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 	
 	public ViewItem[] getViews() {
 		return this.views.toArray(new ViewItem[0]);
+	}
+	
+	public int getViewCount() {
+		return this.views.size();
 	}
 	
 	public void addView(ViewItem view) {

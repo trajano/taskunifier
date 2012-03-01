@@ -32,12 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.main;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Point;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -45,6 +42,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -65,7 +65,6 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
-import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.v3.ActionRemoveTab;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
@@ -74,7 +73,6 @@ import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.GrowlSynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
-import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -83,30 +81,40 @@ import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunica
 import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class MainFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
+public class SubFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
 	
-	private static MainFrame INSTANCE;
+	private static int SUBFRAME_ID = 1;
 	
-	public static MainView getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MainFrame();
-			INSTANCE.initialize();
-		}
-		
-		return INSTANCE;
+	public static List<SubFrame> subFrames = new ArrayList<SubFrame>();
+	
+	public static List<SubFrame> getSubFrames() {
+		return Collections.unmodifiableList(subFrames);
 	}
 	
-	private boolean minimizeToSystemTray;
+	public static SubFrame createSubFrame() {
+		SubFrame subFrame = new SubFrame(SUBFRAME_ID);
+		SUBFRAME_ID++;
+		
+		subFrames.add(subFrame);
+		
+		return subFrame;
+	}
 	
+	public static void deleteSubFrame(SubFrame subFrame) {
+		// TODO deleteSubFrame
+	}
+	
+	private int frameId;
 	private JTabbedPane mainTabbedPane;
 	
-	private MainFrame() {
-		
+	private SubFrame(int frameId) {
+		this.frameId = frameId;
+		this.initialize();
 	}
 	
 	@Override
 	public int getFrameId() {
-		return 0;
+		return this.frameId;
 	}
 	
 	@Override
@@ -130,11 +138,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
-				if (MainFrame.this.minimizeToSystemTray) {
-					MainFrame.this.setVisible(false);
-				} else {
-					ActionQuit.quit();
-				}
+				deleteSubFrame(SubFrame.this);
+				SubFrame.this.setVisible(false);
+				SubFrame.this.dispose();
 			}
 			
 		});
@@ -148,8 +154,8 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				MainFrame.this.setSelectedView(ViewList.getInstance().getView(
-						MainFrame.this.mainTabbedPane.getSelectedIndex()));
+				SubFrame.this.setSelectedView(ViewList.getInstance().getView(
+						SubFrame.this.mainTabbedPane.getSelectedIndex()));
 			}
 			
 		});
@@ -158,22 +164,17 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
 		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlReminderProgressMessageListener());
 		
-		this.initializeOsSpecifications();
-		this.initializeAppMenu();
 		this.initializeMenuBar();
 		this.initializeToolBar();
 		this.initializeStatusBar();
-		
-		this.initializeSystemTray();
 	}
 	
 	private void initializeViews() {
-		ViewList.getInstance().initializeMainViews(this);
 		for (ViewItem view : ViewList.getInstance().getViews()) {
-			this.addViewTab(view);
+			if (this.getFrameId() == view.getFrameId()) {
+				this.addViewTab(view);
+			}
 		}
-		
-		this.setSelectedView(ViewList.getInstance().getMainTaskView());
 		
 		ViewList.getInstance().addListChangeListener(new ListChangeListener() {
 			
@@ -182,19 +183,19 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				ViewItem view = (ViewItem) event.getValue();
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-					MainFrame.this.addViewTab(view);
+					SubFrame.this.addViewTab(view);
 				}
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 					int index = 0;
 					for (int i = 0; i < event.getIndex(); i++) {
-						if (MainFrame.this.getFrameId() == ViewList.getInstance().getView(
+						if (SubFrame.this.getFrameId() == ViewList.getInstance().getView(
 								i).getFrameId()) {
 							index++;
 						}
 					}
 					
-					MainFrame.this.mainTabbedPane.removeTabAt(index);
+					SubFrame.this.mainTabbedPane.removeTabAt(index);
 				}
 			}
 			
@@ -207,7 +208,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 					@Override
 					public void propertyChange(PropertyChangeEvent event) {
 						ViewItem view = (ViewItem) event.getNewValue();
-						MainFrame.this.setSelectedView(view);
+						SubFrame.this.setSelectedView(view);
 					}
 					
 				});
@@ -222,7 +223,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			@Override
 			public void windowGainedFocus(WindowEvent event) {
 				ViewList.getInstance().setCurrentView(
-						MainFrame.this.getSelectedView());
+						SubFrame.this.getSelectedView());
 			}
 			
 		});
@@ -234,8 +235,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void addViewTab(final ViewItem view) {
-		CheckUtils.isNotNull(view);
-		
 		if (this.getFrameId() != view.getFrameId())
 			return;
 		
@@ -286,13 +285,13 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		int listLength = ViewList.getInstance().getViewCount();
 		for (int i = 0; i < listLength; i++) {
 			if (selectedIndex == currentFrameIndex
-					&& MainFrame.this.getFrameId() == ViewList.getInstance().getView(
+					&& SubFrame.this.getFrameId() == ViewList.getInstance().getView(
 							i).getFrameId())
 				break;
 			
 			viewIndex++;
 			
-			if (MainFrame.this.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
+			if (SubFrame.this.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
 				currentFrameIndex++;
 			}
 		}
@@ -313,7 +312,7 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		int listIndex = ViewList.getInstance().getIndexOf(view);
 		int index = 0;
 		for (int i = 0; i < listIndex; i++) {
-			if (MainFrame.this.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
+			if (SubFrame.this.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
 				index++;
 			}
 		}
@@ -328,14 +327,18 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	}
 	
 	private void loadWindowSettings() {
+		String propertyName = "window.sub";
+		
 		int extendedState = Main.getSettings().getIntegerProperty(
-				"window.extended_state");
-		int width = Main.getSettings().getIntegerProperty("window.width");
-		int height = Main.getSettings().getIntegerProperty("window.height");
+				propertyName + ".extended_state");
+		int width = Main.getSettings().getIntegerProperty(
+				propertyName + ".width");
+		int height = Main.getSettings().getIntegerProperty(
+				propertyName + ".height");
 		int locationX = Main.getSettings().getIntegerProperty(
-				"window.location_x");
+				propertyName + ".location_x");
 		int locationY = Main.getSettings().getIntegerProperty(
-				"window.location_y");
+				propertyName + ".location_y");
 		
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
@@ -349,32 +352,23 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	@Override
 	public void saveProperties() {
 		if (this.isVisible()) {
+			String propertyName = "window.sub";
+			
 			Main.getSettings().setIntegerProperty(
-					"window.extended_state",
+					propertyName + ".extended_state",
 					this.getExtendedState());
 			Main.getSettings().setIntegerProperty(
-					"window.width",
+					propertyName + ".width",
 					this.getWidth());
 			Main.getSettings().setIntegerProperty(
-					"window.height",
+					propertyName + ".height",
 					this.getHeight());
 			Main.getSettings().setIntegerProperty(
-					"window.location_x",
+					propertyName + ".location_x",
 					(int) this.getLocationOnScreen().getX());
 			Main.getSettings().setIntegerProperty(
-					"window.location_y",
+					propertyName + ".location_y",
 					(int) this.getLocationOnScreen().getY());
-		}
-	}
-	
-	private void initializeOsSpecifications() {
-		MacApplication.initializeApplicationAdapter();
-	}
-	
-	private void initializeAppMenu() {
-		if (SystemUtils.IS_OS_MAC) {
-			TrayPopup popupMenu = new TrayPopup(false);
-			MacApplication.setDockMenu(popupMenu);
 		}
 	}
 	
@@ -402,56 +396,6 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());
 		else
 			this.add(statusBar.getStatusBar(), BorderLayout.SOUTH);
-	}
-	
-	private void initializeSystemTray() {
-		if (!SystemTray.isSupported()
-				|| !Main.getSettings().getBooleanProperty(
-						"window.minimize_to_system_tray")) {
-			this.minimizeToSystemTray = false;
-			return;
-		}
-		
-		this.minimizeToSystemTray = true;
-		
-		final SystemTray tray = SystemTray.getSystemTray();
-		final TrayIcon trayIcon = new TrayIcon(ImageUtils.getResourceImage(
-				"logo.png",
-				(int) tray.getTrayIconSize().getWidth(),
-				(int) tray.getTrayIconSize().getHeight()).getImage());
-		
-		trayIcon.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.setVisible(true);
-				MainFrame.this.setState(Frame.NORMAL);
-			}
-			
-		});
-		
-		trayIcon.setPopupMenu(new TrayPopup());
-		
-		try {
-			tray.add(trayIcon);
-		} catch (AWTException e) {
-			
-		}
-		
-		this.addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowIconified(WindowEvent event) {
-				MainFrame.this.setVisible(false);
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent event) {
-				MainFrame.this.setVisible(true);
-				MainFrame.this.setState(Frame.NORMAL);
-			}
-			
-		});
 	}
 	
 }

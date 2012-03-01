@@ -12,32 +12,37 @@ import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.SubFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionAddTab extends AbstractAction {
+public class ActionNewWindow extends AbstractAction {
 	
-	public ActionAddTab() {
+	public ActionNewWindow() {
 		this(32, 32);
 	}
 	
-	public ActionAddTab(int width, int height) {
+	public ActionNewWindow(int width, int height) {
 		super(
-				Translations.getString("action.add_tab"),
-				ImageUtils.getResourceImage("tab_add.png", width, height));
+				Translations.getString("action.new_window"),
+				ImageUtils.getResourceImage("window_add.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.add_tab"));
+				Translations.getString("action.new_window"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddTab.addTab();
+		ActionNewWindow.newWindow();
 	}
 	
-	public static void addTab() {
+	public static void newWindow() {
 		ViewType type = ViewUtils.getCurrentViewType();
+		
+		SubFrame subFrame = SubFrame.createSubFrame();
+		subFrame.setVisible(true);
+		subFrame.requestFocus();
 		
 		ViewItem viewItem = null;
 		
@@ -46,7 +51,7 @@ public class ActionAddTab extends AbstractAction {
 					ViewType.CALENDAR,
 					Translations.getString("general.calendar"),
 					ImageUtils.getResourceImage("calendar.png", 16, 16),
-					ViewList.getInstance().getCurrentView().getFrameId(),
+					subFrame.getFrameId(),
 					true);
 			viewItem.setView(new DefaultCalendarView(MainFrame.getInstance()));
 		} else if (type == ViewType.NOTES) {
@@ -54,7 +59,7 @@ public class ActionAddTab extends AbstractAction {
 					ViewType.NOTES,
 					Translations.getString("general.notes"),
 					ImageUtils.getResourceImage("note.png", 16, 16),
-					ViewList.getInstance().getCurrentView().getFrameId(),
+					subFrame.getFrameId(),
 					true);
 			viewItem.setView(new DefaultNoteView(MainFrame.getInstance()));
 		} else if (type == ViewType.TASKS) {
@@ -62,7 +67,7 @@ public class ActionAddTab extends AbstractAction {
 					ViewType.TASKS,
 					Translations.getString("general.tasks"),
 					ImageUtils.getResourceImage("task.png", 16, 16),
-					ViewList.getInstance().getCurrentView().getFrameId(),
+					subFrame.getFrameId(),
 					true);
 			viewItem.setView(new DefaultTaskView(MainFrame.getInstance()));
 		}
