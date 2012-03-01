@@ -187,6 +187,9 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 				}
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+					if (SubFrame.this.getFrameId() != view.getFrameId())
+						return;
+					
 					int index = 0;
 					for (int i = 0; i < event.getIndex(); i++) {
 						if (SubFrame.this.getFrameId() == ViewList.getInstance().getView(

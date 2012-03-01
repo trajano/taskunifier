@@ -95,7 +95,6 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
-import com.leclercb.taskunifier.gui.actions.v3.ActionNewWindow;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -122,7 +121,11 @@ public class MenuBar extends JMenuBar {
 	private void initializeFileMenu() {
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.add(fileMenu);
-		fileMenu.add(new ActionNewWindow(16, 16));
+		
+		// fileMenu.add(new ActionNewWindow(16, 16));
+		// fileMenu.add(new ActionAddTab(16, 16));
+		// fileMenu.addSeparator();
+		
 		fileMenu.add(new ActionChangeDataFolderLocation(16, 16));
 		fileMenu.addSeparator();
 		

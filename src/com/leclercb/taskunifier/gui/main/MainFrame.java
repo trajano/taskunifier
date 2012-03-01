@@ -186,6 +186,9 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 				}
 				
 				if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+					if (MainFrame.this.getFrameId() != view.getFrameId())
+						return;
+					
 					int index = 0;
 					for (int i = 0; i < event.getIndex(); i++) {
 						if (MainFrame.this.getFrameId() == ViewList.getInstance().getView(
