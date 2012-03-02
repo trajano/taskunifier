@@ -47,45 +47,50 @@ public class Synchronizing {
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			Synchronizing.class);
 	
-	public synchronized static boolean isSynchronizing() {
+	public static boolean isSynchronizing() {
 		return synchronizing;
 	}
 	
-	public synchronized static boolean isSynchronizingThread() {
+	private static boolean isSynchronizingThread() {
 		if (!synchronizing || synchronizingThread == null)
 			return false;
 		
 		return synchronizingThread.equals(Thread.currentThread());
 	}
 	
-	public synchronized static boolean setSynchronizing(boolean synchronizing)
+	public static boolean setSynchronizing(boolean synchronizing)
 			throws SynchronizingException {
-		if (Synchronizing.synchronizing
-				&& synchronizing
-				&& !isSynchronizingThread()) {
-			GuiLogger.getLogger().info(
-					"Cannot synchronize because synchronization is ongoing on another thread");
-			throw new SynchronizingException();
+		boolean oldSynchronizing;
+		
+		synchronized (Synchronizing.class) {
+			if (Synchronizing.synchronizing
+					&& synchronizing
+					&& !isSynchronizingThread()) {
+				GuiLogger.getLogger().info(
+						"Cannot synchronize because synchronization is ongoing on another thread");
+				throw new SynchronizingException();
+			}
+			
+			if (Synchronizing.synchronizing
+					&& !synchronizing
+					&& !isSynchronizingThread()) {
+				GuiLogger.getLogger().info(
+						"Only the synchronization thread can stop the synchronization");
+				throw new SynchronizingException();
+			}
+			
+			if (Synchronizing.synchronizing == synchronizing)
+				return false;
+			
+			if (synchronizing)
+				Synchronizing.synchronizingThread = Thread.currentThread();
+			else
+				Synchronizing.synchronizingThread = null;
+			
+			oldSynchronizing = Synchronizing.synchronizing;
+			Synchronizing.synchronizing = synchronizing;
 		}
 		
-		if (Synchronizing.synchronizing
-				&& !synchronizing
-				&& !isSynchronizingThread()) {
-			GuiLogger.getLogger().info(
-					"Only the synchronization thread can stop the synchronization");
-			throw new SynchronizingException();
-		}
-		
-		if (Synchronizing.synchronizing == synchronizing)
-			return false;
-		
-		if (synchronizing)
-			Synchronizing.synchronizingThread = Thread.currentThread();
-		else
-			Synchronizing.synchronizingThread = null;
-		
-		boolean oldSynchronizing = Synchronizing.synchronizing;
-		Synchronizing.synchronizing = synchronizing;
 		propertyChangeSupport.firePropertyChange(
 				PROP_SYNCHRONIZING,
 				oldSynchronizing,
