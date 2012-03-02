@@ -45,8 +45,6 @@ import com.leclercb.taskunifier.api.models.beans.ModelParentBean;
 
 public abstract class AbstractModelParent<M extends AbstractModelParent<M>> extends AbstractModel implements ModelParent<M> {
 	
-	public static final String PROP_PARENT = "parent";
-	
 	private ParentPropertyChangeListener parentPropertyChangeListener;
 	
 	private M parent;

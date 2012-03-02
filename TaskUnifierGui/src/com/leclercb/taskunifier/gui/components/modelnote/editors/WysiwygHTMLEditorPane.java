@@ -85,7 +85,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		
 		if (discardAllEdits) {
 			this.undoSupport.discardAllEdits();
-			this.htmlNote.requestFocus();
 		}
 		
 		if (!canEdit)

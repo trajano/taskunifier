@@ -65,7 +65,6 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
-import com.leclercb.taskunifier.gui.actions.v3.ActionRemoveTab;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
@@ -288,7 +287,7 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 				
 				@Override
 				public void actionPerformed(ActionEvent event) {
-					ActionRemoveTab.removeTab(view);
+					// ActionRemoveTab.removeTab(view);
 				}
 				
 			});

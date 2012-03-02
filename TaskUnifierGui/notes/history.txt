@@ -1,8 +1,9 @@
-Version 2.2.1
+Version 2.3.0
 	- Major:
 		- BF 3495620: Deadlock when synchronizing
 	- Minor:
 		- BF 3484734: Evernote link not working on Mac
+		- FR 3495214: Focus issue in note editor
 
 Version 2.2.0
 	- Major:

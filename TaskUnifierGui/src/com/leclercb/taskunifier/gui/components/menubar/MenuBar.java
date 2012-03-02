@@ -122,16 +122,6 @@ public class MenuBar extends JMenuBar {
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.add(fileMenu);
 		
-		/*
-		 * fileMenu.add(new ActionNewWindow(16, 16));
-		 * JMenu addTabMenu = new JMenu(new ActionAddTab(16, 16));
-		 * fileMenu.add(addTabMenu);
-		 * for (ViewType type : ViewType.values()) {
-		 * addTabMenu.add(new JMenuItem(new ActionAddTab(type, 16, 16)));
-		 * }
-		 * fileMenu.addSeparator();
-		 */
-		
 		fileMenu.add(new ActionChangeDataFolderLocation(16, 16));
 		fileMenu.addSeparator();
 		
