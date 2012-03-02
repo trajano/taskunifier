@@ -1,4 +1,4 @@
-package com.leclercb.taskunifier.gui.actions.v3;
+package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 
