@@ -4,6 +4,4 @@ public interface ModelNoteView {
 	
 	public abstract boolean edit();
 	
-	public abstract void view();
-	
 }

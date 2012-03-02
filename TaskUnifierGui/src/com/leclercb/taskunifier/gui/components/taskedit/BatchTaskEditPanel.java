@@ -769,9 +769,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);
 			this.taskStar.setSelected(false);
 			
-			this.taskNote.view();
 			this.taskNote.setText("", true, true);
-			this.taskNote.view();
 		} else {
 			visible = false;
 			selected = true;
@@ -797,9 +795,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskPriority.setSelectedItem(task.getPriority());
 			this.taskStar.setSelected(task.isStar());
 			
-			this.taskNote.view();
 			this.taskNote.setText(task.getNote(), true, true);
-			this.taskNote.edit();
 		}
 		
 		this.taskTitleCheckBox.setSelected(selected);

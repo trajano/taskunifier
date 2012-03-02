@@ -67,12 +67,10 @@ public final class ViewUtils {
 		for (ViewItem view : ViewList.getInstance().getViews()) {
 			if (view.getViewType() == ViewType.NOTES) {
 				((NoteView) view.getView()).getNoteTableView().commitChanges();
-				((NoteView) view.getView()).getModelNoteView().view();
 			}
 			
 			if (view.getViewType() == ViewType.TASKS) {
 				((TaskView) view.getView()).getTaskTableView().commitChanges();
-				((TaskView) view.getView()).getModelNoteView().view();
 			}
 		}
 	}

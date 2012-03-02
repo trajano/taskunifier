@@ -93,11 +93,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		
 		if (discardAllEdits) {
 			this.undoSupport.discardAllEdits();
-			this.htmlNote.requestFocus();
 		}
-		
-		if (!canEdit)
-			this.view();
 	}
 	
 	@Override
@@ -107,11 +103,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		
 		this.htmlNote.requestFocus();
 		return true;
-	}
-	
-	@Override
-	public void view() {
-		
 	}
 	
 	private void initialize(String text, boolean canEdit, String propertyName) {
@@ -290,7 +281,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 				BorderLayout.CENTER);
 		
 		this.setText(text, canEdit, true);
-		this.view();
 	}
 	
 	private void addContextMenu(JComponent component) {

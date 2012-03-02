@@ -21,6 +21,4 @@ public interface HTMLEditorInterface extends PropertyChangeSupported {
 	
 	public abstract boolean edit();
 	
-	public abstract void view();
-	
 }

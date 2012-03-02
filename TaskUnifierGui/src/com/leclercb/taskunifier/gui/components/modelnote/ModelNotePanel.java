@@ -61,11 +61,6 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 		return this.htmlEditorPane.edit();
 	}
 	
-	@Override
-	public void view() {
-		this.htmlEditorPane.view();
-	}
-	
 	private void initialize(String propertyName) {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
