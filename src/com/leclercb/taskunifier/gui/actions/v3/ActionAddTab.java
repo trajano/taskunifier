@@ -17,14 +17,42 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTab extends AbstractAction {
 	
+	private ViewType type;
+	
 	public ActionAddTab() {
-		this(32, 32);
+		this(null, 32, 32);
+	}
+	
+	public ActionAddTab(ViewType type) {
+		this(type, 32, 32);
 	}
 	
 	public ActionAddTab(int width, int height) {
+		this(null, width, height);
+	}
+	
+	public ActionAddTab(ViewType type, int width, int height) {
 		super(
 				Translations.getString("action.add_tab"),
 				ImageUtils.getResourceImage("tab_add.png", width, height));
+		
+		this.type = type;
+		
+		if (type != null) {
+			switch (type) {
+				case CALENDAR:
+					this.putValue(
+							NAME,
+							Translations.getString("general.calendar"));
+					break;
+				case NOTES:
+					this.putValue(NAME, Translations.getString("general.notes"));
+					break;
+				case TASKS:
+					this.putValue(NAME, Translations.getString("general.tasks"));
+					break;
+			}
+		}
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
@@ -33,12 +61,15 @@ public class ActionAddTab extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddTab.addTab();
+		ViewType type = this.type;
+		
+		if (type == null)
+			type = ViewUtils.getCurrentViewType();
+		
+		ActionAddTab.addTab(type);
 	}
 	
-	public static void addTab() {
-		ViewType type = ViewUtils.getCurrentViewType();
-		
+	public static void addTab(ViewType type) {
 		ViewItem viewItem = null;
 		
 		if (type == ViewType.CALENDAR) {
