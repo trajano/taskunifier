@@ -6,7 +6,7 @@ Version 3.0.0
 		- Sub-folders
 		- Sub-goals
 
-Version 2.2.1
+Version 2.3.0
 	- Major:
 		- BF 3495620: Deadlock when synchronizing
 	- Minor:

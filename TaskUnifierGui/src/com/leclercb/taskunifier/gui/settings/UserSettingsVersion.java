@@ -66,7 +66,10 @@ public final class UserSettingsVersion {
 			version = updateUserSettings_2_1_1_to_2_2_0();
 		
 		if (version.equals("2.2.0"))
-			version = updateUserSettings_2_2_0_to_2_2_1();
+			version = updateUserSettings_2_2_0_to_2_3_0();
+		
+		if (version.equals("2.9.0"))
+			version = updateUserSettings_2_9_0_to_3_0_0();
 		
 		cleanSettings();
 		Main.saveUserSettings();
@@ -132,11 +135,18 @@ public final class UserSettingsVersion {
 		return "2.2.0";
 	}
 	
-	private static String updateUserSettings_2_2_0_to_2_2_1() {
+	private static String updateUserSettings_2_2_0_to_2_3_0() {
 		GuiLogger.getLogger().info(
-				"Update user settings from version 2.2.0 to 2.2.1");
+				"Update user settings from version 2.2.0 to 2.3.0");
 		
-		return "2.2.1";
+		return "2.3.0";
+	}
+	
+	private static String updateUserSettings_2_9_0_to_3_0_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.9.0 to 3.0.0");
+		
+		return "3.0.0";
 	}
 	
 }
