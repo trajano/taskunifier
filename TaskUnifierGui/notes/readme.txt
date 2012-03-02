@@ -1,6 +1,11 @@
+HISTORY
+-------
+
 Version 2.2.1
 	- Major:
+		- BF 3495620: Deadlock when synchronizing
 	- Minor:
+		- BF 3484734: Evernote link not working on Mac
 
 Version 2.2.0
 	- Major:
@@ -575,7 +580,7 @@ Version 0.6.2
 	- Error window: create report button
 	- Default button defined in each dialog
 	- Added searcher list background color in settings
-
+	
 Version 0.6.1
 	- Improved Mac OS version
 	- Date/Time format settings
@@ -598,3 +603,92 @@ Version 0.5.1
 
 Version 0.5
 	- Initial release
+
+
+LICENCE
+-------
+
+TaskUnifier
+---------------------------------------------------
+Copyright (c) 2011, Benjamin Leclerc
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  - Neither the name of TaskUnifier or the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+BizCal
+------
+http://bizcal.sourceforge.net/
+
+JCalendar
+---------
+http://www.toedter.com/en/jcalendar/
+
+Icons: Creative Commons
+-----------------------
+Licence: http://creativecommons.org/licenses/by-nd/3.0/
+
+Mac Widgets
+-----------
+http://code.google.com/p/macwidgets/
+Licence: http://www.gnu.org/licenses/lgpl.html
+
+Themes: Substance
+-----------------
+Copyright (c) 2005-2010 Substance, Kirill Grouchnikov.
+All Rights Reserved.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Themes: JTattoo
+---------------
+Copyright (c) 2002-2007 by MH Software-Entwicklung. All Rights Reserved.
+MH Software-Entwicklung grants registered users ("Licensee") a non-exclusive, 
+royalty free, license to use and redistribute this software in binary code form.
+This software is provided "AS IS," without a warranty of any kind.
+ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY 
+IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR 
+NON-INFRINGEMENT, ARE HEREBY EXCLUDED. MH SOFTWARE-ENTWICKLUNG SHALL NOT BE LIABLE 
+FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING 
+THE SOFTWARE OR ITS DERIVATIVES. IN NO EVENT WILL MH SOFTWARE-ENTWICKLUNG BE LIABLE 
+FOR ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
+INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF 
+LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE SOFTWARE, EVEN IF MH 
+SOFTWARE-ENTWICKLUNG HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+This software is not designed or intended for use in on-line control of aircraft, 
+air traffic, aircraft navigation or aircraft communications; or in the design, 
+construction, operation or maintenance of any nuclear facility. Licensee represents 
+and warrants that it will not use or redistribute the Software for such purposes.
