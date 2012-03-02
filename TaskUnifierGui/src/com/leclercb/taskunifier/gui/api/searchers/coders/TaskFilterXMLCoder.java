@@ -85,7 +85,6 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 					TaskColumn column = null;
 					String conditionClass = null;
 					String enumName = null;
-					Node valueNode = null;
 					String valueStr = null;
 					
 					for (int j = 0; j < nElement.getLength(); j++) {
@@ -105,7 +104,6 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 						}
 						
 						if (nElement.item(j).getNodeName().equals("value")) {
-							valueNode = nElement.item(j);
 							valueStr = nElement.item(j).getTextContent();
 							
 							if (valueStr.equals(NULL_STRING_VALUE))
