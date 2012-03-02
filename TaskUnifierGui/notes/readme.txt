@@ -3,7 +3,9 @@ HISTORY
 
 Version 2.2.1
 	- Major:
+		- BF 3495620: Deadlock when synchronizing
 	- Minor:
+		- BF 3484734: Evernote link not working on Mac
 
 Version 2.2.0
 	- Major:

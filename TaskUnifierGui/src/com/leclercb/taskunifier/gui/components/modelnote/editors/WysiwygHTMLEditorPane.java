@@ -43,6 +43,7 @@ import com.leclercb.taskunifier.gui.swing.TULinkDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
+import com.leclercb.taskunifier.gui.utils.ProtocolUtils;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface {
@@ -158,11 +159,8 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			@Override
 			public void hyperlinkUpdate(HyperlinkEvent evt) {
 				if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					try {
-						DesktopUtils.browse(evt.getURL().toExternalForm());
-					} catch (Exception exc) {
-						
-					}
+					String url = ProtocolUtils.urlToString(evt.getURL());
+					DesktopUtils.browse(url);
 				}
 			}
 			
