@@ -122,7 +122,7 @@ public final class ComponentFactory {
 			comboBox.setModel(model);
 		
 		comboBox.setRenderer(new DefaultListRenderer(
-				StringValueModel.INSTANCE,
+				StringValueModel.INSTANCE_INDENTED,
 				IconValueModel.INSTANCE));
 		
 		if (false) {

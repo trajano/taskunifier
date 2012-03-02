@@ -35,25 +35,48 @@ package com.leclercb.taskunifier.gui.commons.values;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StringValueModel implements StringValue {
 	
-	public static final StringValueModel INSTANCE = new StringValueModel(" ");
+	public static final StringValueModel INSTANCE = new StringValueModel(
+			" ",
+			false);
 	
 	public static final StringValueModel INSTANCE_NO_VALUE = new StringValueModel(
-			Translations.getString("general.no_value"));
+			Translations.getString("general.no_value"),
+			false);
+	
+	public static final StringValueModel INSTANCE_INDENTED = new StringValueModel(
+			" ",
+			true);
+	
+	public static final StringValueModel INSTANCE_INDENTED_NO_VALUE = new StringValueModel(
+			Translations.getString("general.no_value"),
+			true);
 	
 	private String noValue;
+	private boolean indented;
 	
-	private StringValueModel(String noValue) {
+	private StringValueModel(String noValue, boolean indented) {
 		this.noValue = noValue;
+		this.indented = indented;
 	}
 	
 	@Override
 	public String getString(Object value) {
 		if (value == null || !(value instanceof Model))
 			return this.noValue;
+		
+		if (this.indented && value instanceof ModelParent<?>) {
+			int nbParents = ((ModelParent<?>) value).getAllParents().size();
+			StringBuffer buffer = new StringBuffer();
+			for (int i = 0; i < nbParents; i++)
+				buffer.append("     ");
+			buffer.append(((Model) value).getTitle());
+			return buffer.toString();
+		}
 		
 		return ((Model) value).getTitle();
 	}

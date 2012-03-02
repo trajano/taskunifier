@@ -206,7 +206,7 @@ public class NoteFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValueCb.setModel(new NoteModel(true));
 				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
+						StringValueModel.INSTANCE_INDENTED,
 						IconValueModel.INSTANCE));
 				this.elementValueCb.setSelectedItem(value);
 				this.elementValueCb.setVisible(true);
@@ -215,7 +215,7 @@ public class NoteFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new FolderModel(true, true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);

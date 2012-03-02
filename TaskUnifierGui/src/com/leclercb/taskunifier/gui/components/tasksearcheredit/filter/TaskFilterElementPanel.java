@@ -283,7 +283,7 @@ public class TaskFilterElementPanel extends JPanel {
 						ModelCondition.values()));
 				this.elementValueCb.setModel(new TaskModel(true));
 				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueModel.INSTANCE,
+						StringValueModel.INSTANCE_INDENTED,
 						IconValueModel.INSTANCE));
 				this.elementValueCb.setSelectedItem(value);
 				this.elementValueCb.setVisible(true);
@@ -292,7 +292,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new ContextModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);
@@ -302,7 +302,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new FolderModel(true, true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);
@@ -312,7 +312,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new GoalModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);
@@ -322,7 +322,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new LocationModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);
@@ -332,7 +332,7 @@ public class TaskFilterElementPanel extends JPanel {
 				if (condition instanceof ModelCondition) {
 					this.elementValueCb.setModel(new TaskModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
-							StringValueModel.INSTANCE,
+							StringValueModel.INSTANCE_INDENTED,
 							IconValueModel.INSTANCE));
 					this.elementValueCb.setSelectedItem(value);
 					this.elementValueCb.setVisible(true);
