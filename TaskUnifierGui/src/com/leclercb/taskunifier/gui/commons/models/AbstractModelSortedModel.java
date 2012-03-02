@@ -39,6 +39,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
 
 abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
@@ -74,10 +75,14 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 		} else {
 			int index = this.getIndexOf(event.getSource());
 			
-			if (index == -1)
+			if (index == -1) {
 				this.addElement(event.getSource());
-			else
+			} else if (event.getPropertyName().equals(Model.PROP_TITLE)
+					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
+				this.fireStructureChanged(this);
+			} else {
 				this.fireContentsChanged(this, index, index);
+			}
 		}
 	}
 	

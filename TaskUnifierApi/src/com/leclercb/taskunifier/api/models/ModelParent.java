@@ -36,6 +36,8 @@ import java.util.List;
 
 public interface ModelParent<M extends ModelParent<M>> extends Model {
 	
+	public static final String PROP_PARENT = "parent";
+	
 	public abstract M getParent();
 	
 	public abstract void setParent(M parent);

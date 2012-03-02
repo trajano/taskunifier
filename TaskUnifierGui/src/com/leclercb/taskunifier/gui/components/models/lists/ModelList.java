@@ -188,6 +188,10 @@ public abstract class ModelList extends JPanel implements IModelList {
 		this.add(this.buttonsPanel, BorderLayout.SOUTH);
 	}
 	
+	public JXList getModelList() {
+		return this.modelList;
+	}
+	
 	public void addButton(JButton button) {
 		this.buttonsPanel.addButton(button);
 	}

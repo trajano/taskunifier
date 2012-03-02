@@ -38,6 +38,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -52,12 +53,14 @@ import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.commons.converters.ColorConverter;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
+import com.leclercb.taskunifier.gui.components.models.lists.draganddrop.ModelTransferHandler;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -130,6 +133,11 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			}
 			
 		};
+		
+		this.modelList.getModelList().setDragEnabled(true);
+		this.modelList.getModelList().setTransferHandler(
+				new ModelTransferHandler<Context>(ModelType.CONTEXT));
+		this.modelList.getModelList().setDropMode(DropMode.ON_OR_INSERT);
 		
 		this.setLeftComponent(this.modelList);
 		

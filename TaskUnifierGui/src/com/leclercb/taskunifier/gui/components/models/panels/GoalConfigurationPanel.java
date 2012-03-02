@@ -40,6 +40,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -57,6 +58,7 @@ import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.gui.api.models.GuiGoal;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
@@ -66,6 +68,7 @@ import com.leclercb.taskunifier.gui.commons.models.GoalModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueGoalLevel;
 import com.leclercb.taskunifier.gui.components.models.lists.IModelList;
 import com.leclercb.taskunifier.gui.components.models.lists.ModelList;
+import com.leclercb.taskunifier.gui.components.models.lists.draganddrop.ModelTransferHandler;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -160,6 +163,11 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			}
 			
 		};
+		
+		this.modelList.getModelList().setDragEnabled(true);
+		this.modelList.getModelList().setTransferHandler(
+				new ModelTransferHandler<Goal>(ModelType.GOAL));
+		this.modelList.getModelList().setDropMode(DropMode.ON_OR_INSERT);
 		
 		this.setLeftComponent(this.modelList);
 		

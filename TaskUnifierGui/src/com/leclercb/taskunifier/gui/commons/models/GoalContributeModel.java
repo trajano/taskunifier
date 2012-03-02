@@ -38,6 +38,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
 public class GoalContributeModel extends AbstractModelSortedModel {
@@ -77,10 +78,14 @@ public class GoalContributeModel extends AbstractModelSortedModel {
 		} else {
 			int index = this.getIndexOf(event.getSource());
 			
-			if (index == -1)
+			if (index == -1) {
 				this.addElement(event.getSource());
-			else
+			} else if (event.getPropertyName().equals(Model.PROP_TITLE)
+					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
+				this.fireStructureChanged(this);
+			} else {
 				this.fireContentsChanged(this, index, index);
+			}
 		}
 	}
 	
