@@ -38,7 +38,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.beans.FolderBean;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public class Folder extends AbstractModel {
+public class Folder extends AbstractModelParent<Folder> {
 	
 	public static final String PROP_ARCHIVED = "archived";
 	
@@ -66,6 +66,7 @@ public class Folder extends AbstractModel {
 		Folder folder = this.getFactory().create(modelId, this.getTitle());
 		
 		folder.setArchived(this.isArchived());
+		folder.setParent(this.getParent());
 		
 		// After all other setXxx methods
 		folder.setOrder(this.getOrder());

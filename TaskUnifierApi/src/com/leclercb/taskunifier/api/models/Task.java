@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.api.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -844,58 +843,6 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 					|| location.getModelStatus().equals(ModelStatus.DELETED))
 				this.setLocation(null);
 		}
-	}
-	
-	@Override
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer(super.toDetailedString());
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"dd/MM/yyyy HH:mm:ss");
-		
-		buffer.append("Tags: " + this.getTags() + "\n");
-		if (this.getFolder() != null)
-			buffer.append("Folder: " + this.getFolder() + "\n");
-		if (this.getContext() != null)
-			buffer.append("Context: " + this.getContext() + "\n");
-		if (this.getGoal() != null)
-			buffer.append("Goal: " + this.getGoal() + "\n");
-		if (this.getLocation() != null)
-			buffer.append("Location: " + this.getLocation() + "\n");
-		if (this.getParent() != null)
-			buffer.append("Parent: " + this.getParent() + "\n");
-		buffer.append("Progress: " + this.getProgress() + "\n");
-		buffer.append("Completed: " + this.isCompleted() + "\n");
-		if (this.getCompletedOn() != null)
-			buffer.append("Completed On: "
-					+ dateFormat.format(this.getCompletedOn().getTime())
-					+ "\n");
-		if (this.getStartDate() != null)
-			buffer.append("Start Date: "
-					+ dateFormat.format(this.getStartDate().getTime())
-					+ "\n");
-		buffer.append("Start Date Reminder: "
-				+ this.getStartDateReminder()
-				+ "\n");
-		if (this.getDueDate() != null)
-			buffer.append("Due Date: "
-					+ dateFormat.format(this.getDueDate().getTime())
-					+ "\n");
-		buffer.append("Due Date Reminder: " + this.getDueDateReminder() + "\n");
-		buffer.append("Repeat: " + this.getRepeat() + "\n");
-		if (this.getRepeatFrom() != null)
-			buffer.append("Repeat From: " + this.getRepeatFrom() + "\n");
-		buffer.append("Status: " + this.getStatus() + "\n");
-		buffer.append("Length: " + this.getLength() + "\n");
-		buffer.append("Timer: " + this.getTimer() + "\n");
-		buffer.append("Priority: " + this.getPriority() + "\n");
-		buffer.append("Star: " + this.isStar() + "\n");
-		buffer.append("Note: " + this.getNote() + "\n");
-		buffer.append("Contacts: " + this.getContacts() + "\n");
-		buffer.append("Tasks: " + this.getTasks() + "\n");
-		buffer.append("Files: " + this.getFiles() + "\n");
-		
-		return buffer.toString();
 	}
 	
 }

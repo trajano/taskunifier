@@ -159,18 +159,4 @@ public class Contact extends AbstractModel implements Model {
 		this.updateProperty(PROP_EMAIL, oldEmail, email);
 	}
 	
-	@Override
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer(super.toDetailedString());
-		
-		if (this.getFirstName() != null)
-			buffer.append("First name: " + this.getFirstName() + "\n");
-		if (this.getLastName() != null)
-			buffer.append("Last name: " + this.getLastName() + "\n");
-		if (this.getEmail() != null)
-			buffer.append("Email: " + this.getEmail() + "\n");
-		
-		return buffer.toString();
-	}
-	
 }

@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.api.models;
 
 import java.beans.PropertyChangeListener;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -575,30 +574,6 @@ public abstract class AbstractModel implements Model {
 	@Override
 	public final String toString() {
 		return this.title;
-	}
-	
-	/**
-	 * Returns a detailed string of the model.
-	 * 
-	 * @return a detailed string of the model
-	 */
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer();
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"dd/MM/yyyy HH:mm:ss");
-		
-		buffer.append("Model Id : " + this.modelId + "\n");
-		buffer.append("Model Status : " + this.modelStatus + "\n");
-		buffer.append("Mode Creation Date : "
-				+ dateFormat.format(this.modelCreationDate.getTime())
-				+ "\n");
-		buffer.append("Mode Update Date : "
-				+ dateFormat.format(this.modelUpdateDate.getTime())
-				+ "\n");
-		buffer.append("Title : " + this.getTitle() + "\n");
-		
-		return buffer.toString();
 	}
 	
 	@Override

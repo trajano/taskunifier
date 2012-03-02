@@ -36,7 +36,7 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class FolderBean extends AbstractModelBean {
+public class FolderBean extends AbstractModelParentBean {
 	
 	@XStreamAlias("archived")
 	private boolean archived;

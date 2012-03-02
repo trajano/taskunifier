@@ -35,7 +35,7 @@ package com.leclercb.taskunifier.api.models.beans;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 
-public class ContextBean extends AbstractModelBean {
+public class ContextBean extends AbstractModelParentBean {
 	
 	public ContextBean() {
 		this((ModelId) null);

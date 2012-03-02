@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.api.models.beans.GoalBean;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
-public class Goal extends AbstractModel implements PropertyChangeListener {
+public class Goal extends AbstractModelParent<Goal> implements PropertyChangeListener {
 	
 	public static final String PROP_LEVEL = "level";
 	public static final String PROP_CONTRIBUTES = "contributes";
@@ -82,6 +82,7 @@ public class Goal extends AbstractModel implements PropertyChangeListener {
 		
 		goal.setLevel(this.getLevel());
 		goal.setContributes(this.getContributes());
+		goal.setParent(this.getParent());
 		
 		// After all other setXxx methods
 		goal.setOrder(this.getOrder());
@@ -198,17 +199,6 @@ public class Goal extends AbstractModel implements PropertyChangeListener {
 					|| goal.getModelStatus().equals(ModelStatus.DELETED))
 				this.setContributes(null);
 		}
-	}
-	
-	@Override
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer(super.toDetailedString());
-		
-		buffer.append("Level: " + this.getLevel() + "\n");
-		if (this.getContributes() != null)
-			buffer.append("Contributes To: " + this.getContributes() + "\n");
-		
-		return buffer.toString();
 	}
 	
 }

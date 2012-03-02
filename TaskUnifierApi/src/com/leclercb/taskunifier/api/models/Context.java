@@ -38,7 +38,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.beans.ContextBean;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public class Context extends AbstractModel {
+public class Context extends AbstractModelParent<Context> {
 	
 	protected Context(ContextBean bean, boolean loadReferenceIds) {
 		this(bean.getModelId(), bean.getTitle());
@@ -58,6 +58,8 @@ public class Context extends AbstractModel {
 	@Override
 	public Context clone(ModelId modelId) {
 		Context context = this.getFactory().create(modelId, this.getTitle());
+		
+		context.setParent(this.getParent());
 		
 		// After all other setXxx methods
 		context.setOrder(this.getOrder());

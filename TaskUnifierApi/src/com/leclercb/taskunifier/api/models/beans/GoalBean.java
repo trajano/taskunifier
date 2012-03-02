@@ -37,7 +37,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class GoalBean extends AbstractModelBean {
+public class GoalBean extends AbstractModelParentBean {
 	
 	@XStreamAlias("level")
 	private GoalLevel level;

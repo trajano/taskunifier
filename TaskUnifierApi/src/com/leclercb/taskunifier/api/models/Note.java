@@ -180,16 +180,4 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 		}
 	}
 	
-	@Override
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer(super.toDetailedString());
-		
-		if (this.getFolder() != null)
-			buffer.append("Folder: " + this.getFolder() + "\n");
-		if (this.getNote() != null)
-			buffer.append("Note: " + this.getNote() + "\n");
-		
-		return buffer.toString();
-	}
-	
 }

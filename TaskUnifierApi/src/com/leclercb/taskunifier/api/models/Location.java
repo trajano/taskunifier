@@ -159,16 +159,4 @@ public class Location extends AbstractModel {
 		this.updateProperty(PROP_LONGITUDE, oldLongitude, longitude);
 	}
 	
-	@Override
-	public String toDetailedString() {
-		StringBuffer buffer = new StringBuffer(super.toDetailedString());
-		
-		if (this.getDescription() != null)
-			buffer.append("Description: " + this.getDescription() + "\n");
-		buffer.append("Latitude: " + this.getLatitude() + "\n");
-		buffer.append("Longitude: " + this.getLongitude() + "\n");
-		
-		return buffer.toString();
-	}
-	
 }
