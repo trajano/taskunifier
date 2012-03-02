@@ -97,4 +97,8 @@ public class DefaultSortedListModel extends AbstractListModel {
 		this.fireIntervalRemoved(this, 0, size);
 	}
 	
+	public void fireStructureChanged(Object source) {
+		this.fireIntervalAdded(this, 0, this.getSize() - 1);
+	}
+	
 }
