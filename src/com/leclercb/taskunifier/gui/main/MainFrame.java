@@ -148,8 +148,13 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				int index = MainFrame.this.mainTabbedPane.getSelectedIndex();
+				
+				if (index == -1)
+					return;
+				
 				MainFrame.this.setSelectedView(ViewList.getInstance().getView(
-						MainFrame.this.mainTabbedPane.getSelectedIndex()));
+						index));
 			}
 			
 		});
@@ -228,8 +233,12 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void windowGainedFocus(WindowEvent event) {
-				ViewList.getInstance().setCurrentView(
-						MainFrame.this.getSelectedView());
+				ViewItem view = MainFrame.this.getSelectedView();
+				
+				if (view == null)
+					return;
+				
+				ViewList.getInstance().setCurrentView(view);
 			}
 			
 		});
@@ -287,6 +296,10 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 	
 	public ViewItem getSelectedView() {
 		int selectedIndex = this.mainTabbedPane.getSelectedIndex();
+		
+		if (selectedIndex == -1)
+			return null;
+		
 		int currentFrameIndex = 0;
 		int viewIndex = 0;
 		

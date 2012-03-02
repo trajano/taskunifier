@@ -101,7 +101,16 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 	}
 	
 	public static void deleteSubFrame(SubFrame subFrame) {
-		// TODO deleteSubFrame
+		int listLength = ViewList.getInstance().getViewCount();
+		for (int i = 0; i < listLength; i++) {
+			if (subFrame.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
+				ViewList.getInstance().removeView(
+						ViewList.getInstance().getView(i));
+			}
+		}
+		
+		subFrame.setVisible(false);
+		subFrame.dispose();
 	}
 	
 	private int frameId;
@@ -139,8 +148,6 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 			@Override
 			public void windowClosing(WindowEvent event) {
 				deleteSubFrame(SubFrame.this);
-				SubFrame.this.setVisible(false);
-				SubFrame.this.dispose();
 			}
 			
 		});
@@ -154,8 +161,13 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				int index = SubFrame.this.mainTabbedPane.getSelectedIndex();
+				
+				if (index == -1)
+					return;
+				
 				SubFrame.this.setSelectedView(ViewList.getInstance().getView(
-						SubFrame.this.mainTabbedPane.getSelectedIndex()));
+						index));
 			}
 			
 		});
@@ -199,6 +211,11 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 					}
 					
 					SubFrame.this.mainTabbedPane.removeTabAt(index);
+					
+					if (SubFrame.this.mainTabbedPane.getTabCount() == 0) {
+						deleteSubFrame(SubFrame.this);
+					}
+					
 				}
 			}
 			
@@ -225,8 +242,12 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 			
 			@Override
 			public void windowGainedFocus(WindowEvent event) {
-				ViewList.getInstance().setCurrentView(
-						SubFrame.this.getSelectedView());
+				ViewItem view = SubFrame.this.getSelectedView();
+				
+				if (view == null)
+					return;
+				
+				ViewList.getInstance().setCurrentView(view);
 			}
 			
 		});
@@ -282,6 +303,10 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 	
 	public ViewItem getSelectedView() {
 		int selectedIndex = this.mainTabbedPane.getSelectedIndex();
+		
+		if (selectedIndex == -1)
+			return null;
+		
 		int currentFrameIndex = 0;
 		int viewIndex = 0;
 		
