@@ -484,7 +484,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);
 		
-		this.setDividerLocation(200);
+		this.setDividerLocation(300);
 	}
 	
 }

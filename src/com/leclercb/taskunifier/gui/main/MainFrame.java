@@ -165,6 +165,10 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 		this.initializeStatusBar();
 		
 		this.initializeSystemTray();
+		
+		ViewList.getInstance().setCurrentView(
+				ViewList.getInstance().getMainTaskView(),
+				true);
 	}
 	
 	private void initializeViews() {

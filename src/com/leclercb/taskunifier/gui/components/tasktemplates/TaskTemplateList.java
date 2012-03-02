@@ -188,12 +188,11 @@ abstract class TaskTemplateList extends JPanel {
 		this.removeButton = new TURemoveButton(listener);
 		this.removeButton.setEnabled(false);
 		
-		this.defaultButton = new JButton(ImageUtils.getResourceImage(
-				"properties.png",
-				16,
-				16));
+		this.defaultButton = new JButton(
+				Translations.getString("manage_templates.set_default_template"),
+				ImageUtils.getResourceImage("properties.png", 16, 16));
 		this.defaultButton.setActionCommand("DEFAULT");
-		this.defaultButton.setToolTipText(Translations.getString("general.set_default"));
+		this.defaultButton.setToolTipText(Translations.getString("manage_templates.set_default_template"));
 		this.defaultButton.addActionListener(listener);
 		this.defaultButton.setEnabled(false);
 		

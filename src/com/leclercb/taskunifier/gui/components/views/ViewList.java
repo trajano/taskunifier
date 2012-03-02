@@ -95,9 +95,13 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 	}
 	
 	public void setCurrentView(ViewItem currentView) {
+		this.setCurrentView(currentView, false);
+	}
+	
+	public void setCurrentView(ViewItem currentView, boolean force) {
 		CheckUtils.isNotNull(currentView);
 		
-		if (currentView.equals(this.currentView))
+		if (!force && currentView.equals(this.currentView))
 			return;
 		
 		if (!this.views.contains(currentView))
@@ -106,6 +110,10 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 					+ "\"");
 		
 		ViewItem oldCurrentView = this.currentView;
+		
+		if (force)
+			oldCurrentView = null;
+		
 		this.currentView = currentView;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_CURRENT_VIEW,
