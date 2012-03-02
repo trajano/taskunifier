@@ -1,6 +1,11 @@
 HISTORY
 -------
 
+Version 3.0.0
+	- Major:
+		- Open tabs and windows
+		- New task template window
+
 Version 2.2.1
 	- Major:
 		- BF 3495620: Deadlock when synchronizing

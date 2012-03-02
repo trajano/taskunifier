@@ -33,8 +33,8 @@
 package com.leclercb.taskunifier.gui.components.modelnote;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
@@ -75,14 +75,17 @@ public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelect
 				false,
 				propertyName);
 		
-		this.htmlEditorPane.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				if (ModelNotePanel.this.previousSelectedModel != null)
-					ModelNotePanel.this.previousSelectedModel.setNote(evt.getActionCommand());
-			}
-		});
+		this.htmlEditorPane.addPropertyChangeListener(
+				HTMLEditorInterface.PROP_TEXT,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (ModelNotePanel.this.previousSelectedModel != null)
+							ModelNotePanel.this.previousSelectedModel.setNote((String) evt.getNewValue());
+					}
+					
+				});
 		
 		this.add(this.htmlEditorPane.getComponent(), BorderLayout.CENTER);
 	}

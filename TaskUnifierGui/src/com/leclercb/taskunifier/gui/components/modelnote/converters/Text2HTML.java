@@ -6,8 +6,10 @@ import java.util.regex.Pattern;
 public class Text2HTML {
 	
 	public static String convert(String text) {
-		if (text == null || text.length() == 0)
+		if (text == null || text.trim().length() == 0)
 			return "<p style=\"margin-top: 0\"></p>";
+		
+		text = text.trim();
 		
 		text = convertTags(text);
 		text = convertNlToBr(text);

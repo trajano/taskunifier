@@ -104,7 +104,7 @@ public class HTML2Text extends HTMLEditorKit.ParserCallback {
 			}
 		}
 		
-		return parser.getText();
+		return parser.getText().trim();
 	}
 	
 }

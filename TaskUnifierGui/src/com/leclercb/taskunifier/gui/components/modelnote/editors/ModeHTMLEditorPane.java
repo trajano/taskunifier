@@ -3,11 +3,11 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Calendar;
 
@@ -31,7 +31,7 @@ import javax.swing.text.JTextComponent;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
-import com.leclercb.commons.api.event.action.ActionSupport;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
@@ -52,7 +52,7 @@ import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 	
-	private ActionSupport actionSupport;
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private UndoSupport undoSupport;
 	
@@ -62,7 +62,7 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 	private boolean flagSetText;
 	
 	public ModeHTMLEditorPane(String text, boolean canEdit, String propertyName) {
-		this.actionSupport = new ActionSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		this.initialize(text, canEdit, propertyName);
 	}
 	
@@ -74,6 +74,11 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 	@Override
 	public String getText() {
 		return this.textNote.getText();
+	}
+	
+	@Override
+	public void setText(String text) {
+		this.setText(text, true, false);
 	}
 	
 	@Override
@@ -198,8 +203,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
-						0,
+				ModeHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+						PROP_TEXT,
+						null,
 						ModeHTMLEditorPane.this.getText());
 			}
 			
@@ -208,8 +214,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
-						0,
+				ModeHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+						PROP_TEXT,
+						null,
 						ModeHTMLEditorPane.this.getText());
 			}
 			
@@ -218,8 +225,9 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 				if (ModeHTMLEditorPane.this.flagSetText)
 					return;
 				
-				ModeHTMLEditorPane.this.actionSupport.fireActionPerformed(
-						0,
+				ModeHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+						PROP_TEXT,
+						null,
 						ModeHTMLEditorPane.this.getText());
 			}
 			
@@ -463,13 +471,31 @@ public class ModeHTMLEditorPane extends JPanel implements HTMLEditorInterface {
 	}
 	
 	@Override
-	public void addActionListener(ActionListener listener) {
-		this.actionSupport.addActionListener(listener);
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
 	@Override
-	public void removeActionListener(ActionListener listener) {
-		this.actionSupport.removeActionListener(listener);
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 }
