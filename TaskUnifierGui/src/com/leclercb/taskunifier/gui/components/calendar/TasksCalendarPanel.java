@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -63,7 +63,7 @@ public class TasksCalendarPanel extends JPanel implements TaskCalendarView, Save
 	
 	private CalendarPanel calendarPanel;
 	
-	public TasksCalendarPanel(MainView mainView) {
+	public TasksCalendarPanel(FrameView mainView) {
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		Main.getSettings().addSavePropertiesListener(this);
 		

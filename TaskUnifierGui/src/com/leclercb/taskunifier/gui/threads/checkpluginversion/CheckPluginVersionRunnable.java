@@ -48,7 +48,7 @@ import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;

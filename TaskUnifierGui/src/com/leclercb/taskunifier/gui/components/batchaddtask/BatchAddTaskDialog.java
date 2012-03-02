@@ -43,7 +43,7 @@ import javax.swing.JDialog;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 

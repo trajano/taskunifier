@@ -50,7 +50,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;

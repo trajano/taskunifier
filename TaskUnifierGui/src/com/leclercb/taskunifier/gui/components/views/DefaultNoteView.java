@@ -25,7 +25,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherPanel;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
@@ -40,7 +40,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	
 	private JXSearchField searchField;
 	
-	public DefaultNoteView(MainView mainView) {
+	public DefaultNoteView(FrameView mainView) {
 		this.initialize();
 	}
 	

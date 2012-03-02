@@ -45,7 +45,7 @@ import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;

@@ -53,6 +53,8 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -189,7 +191,7 @@ final class StatusBarElements {
 		element.setText(text);
 	}
 	
-	public static final JLabel createRowCount() {
+	public static final JLabel createRowCount(int frameId) {
 		final JLabel element = new JLabel();
 		
 		updateRowCount(element);
@@ -203,8 +205,8 @@ final class StatusBarElements {
 			
 		};
 		
-		ViewList.getInstance().addPropertyChangeListener(
-				ViewList.PROP_CURRENT_VIEW,
+		FrameUtils.getFrameView(frameId).addPropertyChangeListener(
+				FrameView.PROP_SELECTED_VIEW,
 				new PropertyChangeListener() {
 					
 					@Override

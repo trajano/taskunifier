@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.menubar;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
@@ -95,6 +96,9 @@ import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
+import com.leclercb.taskunifier.gui.actions.v3.ActionAddTab;
+import com.leclercb.taskunifier.gui.actions.v3.ActionNewWindow;
+import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -122,15 +126,13 @@ public class MenuBar extends JMenuBar {
 		JMenu fileMenu = new JMenu(Translations.getString("menu.file"));
 		this.add(fileMenu);
 		
-		/*
-		 * fileMenu.add(new ActionNewWindow(16, 16));
-		 * JMenu addTabMenu = new JMenu(new ActionAddTab(16, 16));
-		 * fileMenu.add(addTabMenu);
-		 * for (ViewType type : ViewType.values()) {
-		 * addTabMenu.add(new JMenuItem(new ActionAddTab(type, 16, 16)));
-		 * }
-		 * fileMenu.addSeparator();
-		 */
+		fileMenu.add(new ActionNewWindow(16, 16));
+		JMenu addTabMenu = new JMenu(new ActionAddTab(16, 16));
+		fileMenu.add(addTabMenu);
+		for (ViewType type : ViewType.values()) {
+			addTabMenu.add(new JMenuItem(new ActionAddTab(type, 16, 16)));
+		}
+		fileMenu.addSeparator();
 		
 		fileMenu.add(new ActionChangeDataFolderLocation(16, 16));
 		fileMenu.addSeparator();

@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.swing.TUStopableSwingWorker;
 import com.leclercb.taskunifier.gui.translations.Translations;

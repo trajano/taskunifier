@@ -52,7 +52,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;

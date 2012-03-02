@@ -43,7 +43,7 @@ import javax.swing.Action;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNoteFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionCreateTaskFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TrayPopup extends PopupMenu {

@@ -45,7 +45,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public abstract class TUMonitorWaitDialog<ResultType> extends TUWaitDialog {

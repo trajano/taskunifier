@@ -35,7 +35,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPane
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksPanel;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -60,7 +60,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	private TaskFilesPanel taskFiles;
 	private JTabbedPane infoTabbedPane;
 	
-	public DefaultTaskView(MainView mainView) {
+	public DefaultTaskView(FrameView mainView) {
 		this.initialize();
 	}
 	

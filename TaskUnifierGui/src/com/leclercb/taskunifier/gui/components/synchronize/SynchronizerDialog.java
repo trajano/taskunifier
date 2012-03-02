@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 

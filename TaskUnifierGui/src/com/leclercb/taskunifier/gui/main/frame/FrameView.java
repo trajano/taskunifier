@@ -30,16 +30,23 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main;
+package com.leclercb.taskunifier.gui.main.frame;
 
 import java.awt.Frame;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.taskunifier.gui.components.views.ViewItem;
 
-public interface MainView extends PropertyChangeSupported {
+public interface FrameView extends PropertyChangeSupported {
+	
+	public static final String PROP_SELECTED_VIEW = "selectedView";
 	
 	public abstract int getFrameId();
 	
 	public abstract Frame getFrame();
+	
+	public abstract ViewItem getSelectedView();
+	
+	public abstract void setSelectedView(ViewItem view);
 	
 }

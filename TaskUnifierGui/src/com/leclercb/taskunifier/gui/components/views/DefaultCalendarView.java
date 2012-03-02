@@ -11,15 +11,15 @@ import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 
 public class DefaultCalendarView extends JPanel implements CalendarView {
 	
-	private MainView mainView;
+	private FrameView mainView;
 	
 	private TasksCalendarPanel calendarPanel;
 	
-	public DefaultCalendarView(MainView mainView) {
+	public DefaultCalendarView(FrameView mainView) {
 		CheckUtils.isNotNull(mainView);
 		this.mainView = mainView;
 		

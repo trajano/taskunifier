@@ -34,7 +34,7 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.Cursor;
 
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 
 public final class BackgroundSynchronizer {
 	

@@ -11,8 +11,8 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.main.MainView;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -72,7 +72,7 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 		this.setCurrentView(this.mainTaskView);
 	}
 	
-	public void initializeMainViews(MainView mainView) {
+	public void initializeMainViews(FrameView mainView) {
 		this.mainTaskView.setView(new DefaultTaskView(mainView));
 		this.mainNoteView.setView(new DefaultNoteView(mainView));
 		this.mainCalendarView.setView(new DefaultCalendarView(mainView));

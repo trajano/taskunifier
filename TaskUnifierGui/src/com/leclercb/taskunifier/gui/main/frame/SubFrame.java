@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main;
+package com.leclercb.taskunifier.gui.main.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -76,12 +76,13 @@ import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class SubFrame extends JXFrame implements MainView, SavePropertiesListener, PropertyChangeSupported {
+public class SubFrame extends JXFrame implements FrameView, SavePropertiesListener, PropertyChangeSupported {
 	
 	private static int SUBFRAME_ID = 1;
 	
@@ -96,6 +97,8 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 		SUBFRAME_ID++;
 		
 		subFrames.add(subFrame);
+		
+		subFrame.initialize();
 		
 		return subFrame;
 	}
@@ -118,7 +121,6 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 	
 	private SubFrame(int frameId) {
 		this.frameId = frameId;
-		this.initialize();
 	}
 	
 	@Override
@@ -301,6 +303,7 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 				panel);
 	}
 	
+	@Override
 	public ViewItem getSelectedView() {
 		int selectedIndex = this.mainTabbedPane.getSelectedIndex();
 		
@@ -327,6 +330,7 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 		return ViewList.getInstance().getView(viewIndex);
 	}
 	
+	@Override
 	public void setSelectedView(ViewItem view) {
 		CheckUtils.isNotNull(view);
 		
@@ -352,6 +356,8 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 				+ Constants.VERSION
 				+ " - "
 				+ view.getLabel());
+		
+		this.firePropertyChange(PROP_SELECTED_VIEW, null, view);
 	}
 	
 	private void loadWindowSettings() {
@@ -416,9 +422,13 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 		StatusBar statusBar = null;
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
-			statusBar = new MacStatusBar(Threads.getScheduledSyncThread());
+			statusBar = new MacStatusBar(
+					this.getFrameId(),
+					Threads.getScheduledSyncThread());
 		else
-			statusBar = new DefaultStatusBar(Threads.getScheduledSyncThread());
+			statusBar = new DefaultStatusBar(
+					this.getFrameId(),
+					Threads.getScheduledSyncThread());
 		
 		if (statusBar.getStatusBar() instanceof JXStatusBar)
 			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());

@@ -43,7 +43,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;

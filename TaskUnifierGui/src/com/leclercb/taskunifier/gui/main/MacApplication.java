@@ -66,6 +66,7 @@ import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class MacApplication {

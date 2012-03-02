@@ -50,14 +50,14 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	private JLabel rowCount;
 	private JLabel currentDateTime;
 	
-	public DefaultStatusBar(ScheduledSyncThread thread) {
+	public DefaultStatusBar(int frameId, ScheduledSyncThread thread) {
 		CheckUtils.isNotNull(thread);
 		this.thread = thread;
 		
-		this.initialize();
+		this.initialize(frameId);
 	}
 	
-	private void initialize() {
+	private void initialize(int frameId) {
 		JXStatusBar.Constraint c = null;
 		
 		c = new JXStatusBar.Constraint(ResizeBehavior.FILL);
@@ -73,7 +73,7 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 		this.add(this.lastSynchronizationDate, c);
 		
 		c = new JXStatusBar.Constraint(100);
-		this.rowCount = StatusBarElements.createRowCount();
+		this.rowCount = StatusBarElements.createRowCount(frameId);
 		this.add(this.rowCount, c);
 		
 		c = new JXStatusBar.Constraint(150);

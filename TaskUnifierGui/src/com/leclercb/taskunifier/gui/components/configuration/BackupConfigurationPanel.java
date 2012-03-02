@@ -51,7 +51,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.backup.AutoB
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;

@@ -6,7 +6,7 @@ import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Tips;
 
 public class TipsDialog extends JXTipOfTheDay {

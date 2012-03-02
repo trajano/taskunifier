@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.taskunifier.gui.main.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
