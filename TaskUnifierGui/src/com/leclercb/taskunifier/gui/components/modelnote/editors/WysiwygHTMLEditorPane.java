@@ -81,6 +81,9 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
+		if (WysiwygHTMLEditorPane.this.flagSetText)
+			return;
+		
 		this.toolBar.setVisible(canEdit);
 		this.htmlNote.setEnabled(canEdit);
 		
@@ -129,9 +132,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				if (WysiwygHTMLEditorPane.this.flagSetText)
-					return;
-				
 				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
 						PROP_TEXT,
 						null,
@@ -140,9 +140,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				if (WysiwygHTMLEditorPane.this.flagSetText)
-					return;
-				
 				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
 						PROP_TEXT,
 						null,
@@ -151,9 +148,6 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				if (WysiwygHTMLEditorPane.this.flagSetText)
-					return;
-				
 				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
 						PROP_TEXT,
 						null,
@@ -191,31 +185,37 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.toolBar.addSeparator();
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
 				this.getAction("font-bold")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
 				this.getAction("font-italic")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
 				this.getAction("InsertUnorderedList")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertUnorderedListItem")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
 				this.getAction("InsertOrderedList")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertOrderedListItem")));
@@ -266,6 +266,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		});
 		
 		this.toolBar.add(new WysiwygInsertTextAction(
+				this.htmlNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())) {

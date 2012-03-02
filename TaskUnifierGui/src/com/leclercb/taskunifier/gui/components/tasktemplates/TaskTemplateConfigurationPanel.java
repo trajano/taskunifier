@@ -158,6 +158,30 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskStar = new JCheckBox();
 		this.taskNote = new WysiwygHTMLEditorPane("", false, null);
 		
+		this.templateTitle.setEnabled(false);
+		this.templateShortcut.setEnabled(false);
+		this.taskTitle.setEnabled(false);
+		this.taskTags.setEnabled(false);
+		this.taskFolder.setEnabled(false);
+		this.taskContext.setEnabled(false);
+		this.taskGoal.setEnabled(false);
+		this.taskLocation.setEnabled(false);
+		this.taskProgress.setEnabled(false);
+		this.taskCompleted.setEnabled(false);
+		this.taskDueDate.setEnabled(false);
+		this.taskDueTime.setEnabled(false);
+		this.taskStartDate.setEnabled(false);
+		this.taskStartTime.setEnabled(false);
+		this.taskDueDateReminder.setEnabled(false);
+		this.taskStartDateReminder.setEnabled(false);
+		this.taskRepeat.setEnabled(false);
+		this.taskRepeatFrom.setEnabled(false);
+		this.taskStatus.setEnabled(false);
+		this.taskLength.setEnabled(false);
+		this.taskPriority.setEnabled(false);
+		this.taskStar.setEnabled(false);
+		this.taskNote.setEnabled(false);
+		
 		// Initialize Model List
 		final TaskTemplateList modelList = new TaskTemplateList(
 				this.templateTitle);

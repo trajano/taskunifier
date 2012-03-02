@@ -43,15 +43,20 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class WysiwygInsertHTMLAction extends HTMLTextAction {
 	
+	private JEditorPane editor;
 	private Action action;
 	
 	public WysiwygInsertHTMLAction(
+			JEditorPane editor,
 			String icon,
 			String description,
 			Action action) {
 		super(description);
 		
+		CheckUtils.isNotNull(editor);
 		CheckUtils.isNotNull(icon);
+		
+		this.editor = editor;
 		
 		this.setAction(action);
 		
@@ -72,8 +77,7 @@ public class WysiwygInsertHTMLAction extends HTMLTextAction {
 	public void actionPerformed(ActionEvent event) {
 		this.action.actionPerformed(event);
 		
-		JEditorPane editor = this.getEditor(event);
-		editor.requestFocus();
+		this.editor.requestFocus();
 	}
 	
 }

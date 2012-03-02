@@ -12,12 +12,20 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class WysiwygInsertTextAction extends HTMLTextAction {
 	
+	private JEditorPane editor;
 	private String text;
 	
-	public WysiwygInsertTextAction(String icon, String description, String text) {
+	public WysiwygInsertTextAction(
+			JEditorPane editor,
+			String icon,
+			String description,
+			String text) {
 		super(description);
 		
+		CheckUtils.isNotNull(editor);
 		CheckUtils.isNotNull(icon);
+		
+		this.editor = editor;
 		
 		this.setText(text);
 		
@@ -36,9 +44,8 @@ public class WysiwygInsertTextAction extends HTMLTextAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		JEditorPane editor = this.getEditor(event);
-		HTMLDocument document = this.getHTMLDocument(editor);
-		int offset = editor.getCaretPosition();
+		HTMLDocument document = this.getHTMLDocument(this.editor);
+		int offset = this.editor.getCaretPosition();
 		
 		try {
 			document.insertString(offset, this.text, null);
@@ -46,7 +53,7 @@ public class WysiwygInsertTextAction extends HTMLTextAction {
 			e.printStackTrace();
 		}
 		
-		editor.requestFocus();
+		this.editor.requestFocus();
 	}
 	
 }
