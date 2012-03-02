@@ -45,28 +45,14 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 @XStreamConverter(ModelIdConverter.class)
 public class ModelId implements Serializable, Comparable<ModelId> {
 	
-	private boolean newId;
 	private String id;
 	
 	public ModelId() {
-		this(true, UUID.randomUUID().toString());
+		this(UUID.randomUUID().toString());
 	}
 	
 	public ModelId(String id) {
-		this(false, id);
-	}
-	
-	public ModelId(boolean newId, String id) {
-		this.setNewId(newId);
 		this.setId(id);
-	}
-	
-	public boolean isNewId() {
-		return this.newId;
-	}
-	
-	private void setNewId(boolean newId) {
-		this.newId = newId;
 	}
 	
 	public String getId() {
@@ -80,9 +66,6 @@ public class ModelId implements Serializable, Comparable<ModelId> {
 	
 	@Override
 	public String toString() {
-		if (this.newId)
-			return "NEW ID (" + this.id + ")";
-		
 		return this.id;
 	}
 	
@@ -95,9 +78,7 @@ public class ModelId implements Serializable, Comparable<ModelId> {
 		if (o instanceof ModelId) {
 			ModelId id = (ModelId) o;
 			
-			return new EqualsBuilder().append(this.newId, id.newId).append(
-					this.id,
-					id.id).isEquals();
+			return new EqualsBuilder().append(this.id, id.id).isEquals();
 		}
 		
 		return false;
@@ -105,7 +86,7 @@ public class ModelId implements Serializable, Comparable<ModelId> {
 	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.newId).append(this.id).toHashCode();
+		return new HashCodeBuilder().append(this.id).toHashCode();
 	}
 	
 	@Override
@@ -113,16 +94,7 @@ public class ModelId implements Serializable, Comparable<ModelId> {
 		if (this.id == null)
 			return 1;
 		
-		if (this.isNewId() && modelId.isNewId())
-			return this.id.compareTo(modelId.id);
-		
-		if (!this.isNewId() && !modelId.isNewId())
-			return this.id.compareTo(modelId.id);
-		
-		if (this.isNewId())
-			return -1;
-		
-		return 1;
+		return this.id.compareTo(modelId.id);
 	}
 	
 }

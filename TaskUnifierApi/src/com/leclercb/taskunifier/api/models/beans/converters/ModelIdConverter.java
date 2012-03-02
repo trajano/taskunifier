@@ -56,9 +56,7 @@ public class ModelIdConverter implements Converter {
 		if (reader.getValue() == null || reader.getValue().length() == 0)
 			return null;
 		
-		return new ModelId(
-				Boolean.parseBoolean(reader.getAttribute("isnew")),
-				reader.getValue());
+		return new ModelId(reader.getValue());
 	}
 	
 	@Override
@@ -67,7 +65,6 @@ public class ModelIdConverter implements Converter {
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
 		ModelId id = (ModelId) source;
-		writer.addAttribute("isnew", id.isNewId() + "");
 		writer.setValue(id.getId());
 	}
 	

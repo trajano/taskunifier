@@ -316,11 +316,6 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	public void cleanFactory() {
 		List<M> models = new ArrayList<M>(this.models);
 		for (M model : models)
-			if (model.getModelId().isNewId()
-					&& model.getModelStatus() == ModelStatus.TO_DELETE)
-				this.markDeleted(model);
-		
-		for (M model : models)
 			if (model.getModelStatus() == ModelStatus.DELETED)
 				this.unregister(model);
 	}

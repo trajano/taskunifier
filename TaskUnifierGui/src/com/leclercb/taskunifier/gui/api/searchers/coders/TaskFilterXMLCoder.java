@@ -199,31 +199,24 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 						
 						if (valueStr != null) {
 							try {
-								Boolean newId = XMLUtils.getBooleanAttributeValue(
-										valueNode,
-										"isnew");
-								
-								if (newId == null)
-									newId = false;
-								
 								if (column.equals(TaskColumn.MODEL))
 									value = TaskFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.CONTEXT))
 									value = ContextFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.FOLDER))
 									value = FolderFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.GOAL))
 									value = GoalFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.LOCATION))
 									value = LocationFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.PARENT))
 									value = TaskFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 							} catch (Exception e) {
 								value = null;
 							}
@@ -308,9 +301,6 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 				
 				if (e.getValue() != null) {
 					ModelId id = ((Model) e.getValue()).getModelId();
-					
-					value.setAttribute("isnew", id.isNewId() + "");
-					
 					value.setTextContent(id.getId());
 				}
 			}

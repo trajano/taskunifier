@@ -42,10 +42,7 @@ public class ModelIdSettingsCoder extends PropertiesCoder<ModelId> {
 		if (value == null || value.length() == 0)
 			return null;
 		
-		boolean newId = (Byte.parseByte(value.charAt(0) + "") == 1);
-		String id = value.substring(1);
-		
-		return new ModelId(newId, id);
+		return new ModelId(value);
 	}
 	
 	@Override
@@ -53,7 +50,7 @@ public class ModelIdSettingsCoder extends PropertiesCoder<ModelId> {
 		if (value == null)
 			return null;
 		
-		return (value.isNewId() ? 1 : 0) + value.getId();
+		return value.getId();
 	}
 	
 }

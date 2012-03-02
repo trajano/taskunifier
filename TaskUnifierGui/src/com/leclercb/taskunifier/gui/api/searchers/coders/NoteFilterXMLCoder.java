@@ -196,19 +196,12 @@ public class NoteFilterXMLCoder extends AbstractXMLCoder<NoteFilter> {
 						
 						if (valueStr != null) {
 							try {
-								Boolean newId = XMLUtils.getBooleanAttributeValue(
-										valueNode,
-										"isnew");
-								
-								if (newId == null)
-									newId = false;
-								
 								if (column.equals(NoteColumn.MODEL))
 									value = NoteFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 								else if (column.equals(NoteColumn.FOLDER))
 									value = FolderFactory.getInstance().get(
-											new ModelId(newId, valueStr));
+											new ModelId(valueStr));
 							} catch (Exception e) {
 								value = null;
 							}
@@ -293,9 +286,6 @@ public class NoteFilterXMLCoder extends AbstractXMLCoder<NoteFilter> {
 				
 				if (e.getValue() != null) {
 					ModelId id = ((Model) e.getValue()).getModelId();
-					
-					value.setAttribute("isnew", id.isNewId() + "");
-					
 					value.setTextContent(id.getId());
 				}
 			}
