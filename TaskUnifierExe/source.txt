@@ -1,0 +1,33 @@
+---------------------------------------
+How to import source code into Eclipse:
+---------------------------------------
+
+1/ Install Subclipse in Eclipse
+2/ Checkout the following projects:
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/BizCal
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/Commons
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/JavaVersionGui
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierApi
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierExe
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierGui
+3/ Import the user libraries:
+	a) Go to the preferences of Eclipse
+	b) Go to user libraries
+	c) Import Commons/.settings/Commons.userlibraries
+	d) Import TaskUnifierGui/.settings/TaskUnifierGui.userlibraries
+4/ Restart Eclipse
+
+Multiple "Run Configurations" will be added automatically.
+Multiple "External Tools Configurations" will be added automatically.
+
+-------------------------
+How to build TaskUnifier:
+-------------------------
+
+Run the following external tools configurations:
+- BizCal Build + Jar
+- Commons Build + Jar
+- JavaVersionGui Build + Jar
+- TaskUnifierApi Build + Jar
+- TaskUnifierGui Build + Jar
+- TaskUnifierExe Create Sources and Binaries

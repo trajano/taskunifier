@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<map version="1.0">
+
+	<mapID target="taskunifier" url="pages/taskunifier.html" />
+	<mapID target="whats_new" url="pages/whats_new.html" />
+
+	<mapID target="configuration_advanced" url="pages/configuration_advanced.html" />
+	<mapID target="configuration_backup" url="pages/configuration_backup.html" />
+	<mapID target="configuration_date" url="pages/configuration_date.html" />
+	<mapID target="configuration_general" url="pages/configuration_general.html" />
+	<mapID target="configuration_proxy" url="pages/configuration_proxy.html" />
+	<mapID target="configuration_publication" url="pages/configuration_publication.html" />
+	<mapID target="configuration_searcher" url="pages/configuration_searcher.html" />
+	<mapID target="configuration_synchronization" url="pages/configuration_synchronization.html" />
+	<mapID target="configuration_theme_general" url="pages/configuration_theme_general.html" />
+	<mapID target="configuration_theme_columns" url="pages/configuration_theme_columns.html" />
+	<mapID target="manage_task_templates" url="pages/manage_task_templates.html" />
+	<mapID target="note_searcher" url="pages/note_searcher.html" />
+	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />
+	<mapID target="shortcuts" url="pages/shortcuts.html" />
+	<mapID target="task_contacts" url="pages/task_contacts.html" />
+	<mapID target="task_files" url="pages/task_files.html" />
+	<mapID target="task_importance" url="pages/task_importance.html" />
+	<mapID target="task_manually_sort_tasks" url="pages/task_manually_sort_tasks.html" />
+	<mapID target="task_note" url="pages/task_note.html" />
+	<mapID target="task_quick_add" url="pages/task_quick_add.html" />
+	<mapID target="task_repeat" url="pages/task_repeat.html" />
+	<mapID target="task_searcher" url="pages/task_searcher.html" />
+	<mapID target="task_tasks" url="pages/task_tasks.html" />
+	<mapID target="view_calendar" url="pages/view_calendar.html" />
+	<mapID target="view_tasks" url="pages/view_tasks.html" />
+	
+</map>

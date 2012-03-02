@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<title>Task Quick Creation</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+	</head>
+	<body>
+	
+		<h1>Task Quick Creation</h1>
+	
+		<p>The quick add task bar works like this:<br />
+		<br />
+		<i>"Task Title &Tag1 &Tag2 @Context @Folder @Goal @Location *Status *Priority &gt;Start Date &lt;Due Date"</i><br />
+		<br />
+		The first part is the task title.<br />
+		Then you can define the field values of your task, each value must start with &, @, *, &gt; or &lt;.<br />
+		All the fields (except the title) are optional and can be defined in any order.
+		<br />
+		
+		<ul>
+			<li>& xyz: add a tag xyz</li>
+			<li>@ xyz: look for a context, folder, goal or location starting with xyz</li>
+			<li>* xyz: look for a status or a priority starting with xyz</li>
+			<li>&gt; xyz: define the start date of the task
+			<br />
+				<ul>
+					<li>Using your selected date format</li>
+					<li>Using your selected date/time format</li>
+					<li>Using a shortcut: +- (optional, default is +) then a number then d, w, m or y (day, week, month or year)
+					<br /><br />Examples:<br />
+						<ul>
+							<li>1d: tomorrow</li>
+							<li>+1d: tomorrow</li>
+							<li>+1w: in one week</li>
+							<li>3d: in three days</li>
+							<li>-1d: yesterday</li>
+						</ul>					
+					</li>
+					<li>Using a shortcut: t (today) or tt (tomorrow)
+					<br /><br />Examples:<br />
+						<ul>
+							<li>t: today</li>
+							<li>tt: tomorrow</li>
+						</ul>					
+					</li>
+				</ul>
+			</li>
+			<li>&lt; xyz: define the due date of the task
+			<br />
+			
+			</li>
+		</ul>
+		
+		<br />
+		Example: My new task &gt; 1d 14:00 &lt; 25/08/2011 &MyTag @Work @New York *Med<br />
+		The task will contain:<br />
+		<ul>
+			<li>Title: My new task</li>
+			<li>Start date: tomorrow 14:00 (depending on your date/time format)</li>
+			<li>Due date: 25/08/2011 (depending on your date/time format)</li>
+			<li>Tags: MyTag</li>
+			<li>Context: Work (assuming the context exists)</li>
+			<li>Location: New York (assuming the location exists)</li>
+			<li>Priority: Medium</li>
+		</ul>
+		</p>
+		
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<toc version="2.0">
+
+	<tocitem text="TaskUnifier Help" target="taskunifier">
+		
+		<tocitem text="What's new" target="whats_new" />
+
+		<tocitem text="Configuration">
+		
+			<tocitem text="General" target="configuration_general" />
+			<tocitem text="Date" target="configuration_date" />
+			<tocitem text="Backup" target="configuration_backup" />
+			<tocitem text="Proxy" target="configuration_proxy" />
+			<tocitem text="Searcher" target="configuration_searcher" />
+			
+			<tocitem text="Theme">
+			
+				<tocitem text="General" target="configuration_theme_general" />
+				<tocitem text="Columns" target="configuration_theme_columns" />
+		
+			</tocitem>
+			
+			<tocitem text="Advanced" target="configuration_advanced" />
+			<tocitem text="Publication" target="configuration_publication" />
+			<tocitem text="Synchronization" target="configuration_synchronization" />
+		
+		</tocitem>
+
+		<tocitem text="Scheduled Synchronization" target="scheduled_sync" />
+
+		<tocitem text="Calendar" target="view_calendar" />
+
+		<tocitem text="Notes">
+		
+			<tocitem text="Note Searcher" target="note_searcher" />
+		
+		</tocitem>
+
+		<tocitem text="Tasks" target="view_tasks">
+		
+			<tocitem text="Manage Task Templates" target="manage_task_templates" />
+			<tocitem text="Task Contacts" target="task_contacts" />
+			<tocitem text="Task Importance" target="task_importance" />
+			<tocitem text="Task Files" target="task_files" />
+			<tocitem text="Manually sort tasks" target="task_manually_sort_tasks" />
+			<tocitem text="Task Note" target="task_note" />
+			<tocitem text="Task Quick Creation" target="task_quick_add" />
+			<tocitem text="Task Repeat" target="task_repeat" />
+			<tocitem text="Task Searcher" target="task_searcher" />
+			<tocitem text="Task Tasks" target="task_tasks" />
+		
+		</tocitem>
+
+		<tocitem text="Shortcuts" target="shortcuts" />
+		
+	</tocitem>
+
+</toc>

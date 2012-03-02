@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title>Note Searcher</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+	</head>
+	<body>
+	
+		<h1>Note Searcher</h1>
+	
+		<dl>
+			<dt>Icon:</dt>
+			<dd>
+				You can select an image file on your computer.<br />
+				The icon will be displayed in the list next to the title.
+			</dd>
+			<dt>Title:</dt>
+			<dd>
+				The title of you search.
+			</dd>
+			<dt>Sort order:</dt>
+			<dd>
+				The sort order table allows you to order the notes.<br />
+				Order: the order of the column sorts<br />
+				Column: the column you want to sort<br />
+				Sort order: ascending or descending sort
+			</dd>
+			<dt>Filters:</dt>
+			<dd>
+				The filters tree allows you to filter the notes.<br />
+				The filters are composed of sub-filters (branches) and conditions.<br /><br />
+				<b>You can right click on a branch to choose between AND or OR.</b><br />
+				You can click on a condition and edit the values at the bottom of the screen.
+			</dd>
+			<dt>Filter column:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines on which column the condition will be executed.
+			</dd>
+			<dt>Filter condition:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines what type of condition will be executed.
+			</dd>
+			<dt>Filter value:</dt>
+			<dd>
+				When you click on a condition in the filter tree, you can edit this field.
+				This field defines the value that will be checked.<br />
+				Depending on the selected column, you will be able to choose one of the values in the list or to enter a value manually.
+				<br /><br />
+				These are the columns that require a "manual" value:
+				<dl>
+					<dt>Title, note</dt>
+					<dd>
+						Anything you want...
+					</dd>
+					<dt>Creation date, update date</dt>
+					<dd>
+						You have to enter a number (of days/weeks/months).<br />
+						The date used in the condition will be : now + number of days/weeks/months.<br />
+						Note: if you enter nothing, it always means "EQUALS NO DATE"
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+		
+	</body>
+</html>

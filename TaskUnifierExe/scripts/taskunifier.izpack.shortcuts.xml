@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+	<skipIfNotSupported/>
+	<programGroup defaultName="TaskUnifier" location="applications"/>
+	<shortcut 
+			name="TaskUnifier" 
+			target="$INSTALL_PATH\TaskUnifier.exe" 
+			workingDirectory="$INSTALL_PATH" 
+			description="TaskUnifier" 
+			iconFile="$INSTALL_PATH\resources\icon.ico" 
+			initialState="normal" 
+			programGroup="yes" 
+			desktop="yes" 
+			applications="no" 
+			startMenu="no" 
+			startup="no"
+			encoding="UTF-8">
+		<createForPack name="Base"/>
+	</shortcut>
+	<shortcut
+			name="Uninstall TaskUnifier"
+			target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
+			workingDirectory="$INSTALL_PATH" 
+			description="Uninstall TaskUnifier" 
+			iconFile="$INSTALL_PATH\resources\icon.ico" 
+			initialState="normal" 
+			programGroup="yes" 
+			desktop="no" 
+			applications="no" 
+			startMenu="no" 
+			startup="no"
+			encoding="UTF-8">
+		<createForPack name="Base"/>
+	</shortcut> 
+</shortcuts>

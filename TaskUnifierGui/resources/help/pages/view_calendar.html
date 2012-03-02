@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>Calendar</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+	</head>
+	<body>
+	
+		<h1>Calendar</h1>
+		
+		<br />
+		
+		<img src="../images/view_calendar.png" />
+		
+		<br />
+	
+		<dl>
+			<dt>1. Calendar view</dt>
+			<dd>
+				There are two type of calendars, you can select them in the right panel.<br />
+				<br />
+				You can add new events in these calendars.<br />
+				You can also move and resize events.<br />
+				<br />
+				Double click on an event to edit the task.
+				<br />
+				Press <i>ALT + C</i> to complete/uncomplete tasks.
+			</dd>
+			<dt>2. Select calendar mode</dt>
+			<dd>
+				Select the calendar mode:<br />
+				- Day view<br />
+				- Week view
+			</dd>
+			<dt>3. Select the calendars to display</dt>
+			<dd>
+				<dl>
+					<dt>Calendar "Tasks by due date":</dt>
+					<dd>
+						Each event in this calendar represent a task with a due date.<br />
+						The event start date is the due date of the task minus its length.<br />
+						The event end date is the due date of the task.<br />
+						<u>If the length is less than 30mn, a length of 30mn is used to display the event.</u><br />
+						<br />
+						If you do not use due time (use due time setting is disabled), the day end setting will be used as due time.<br />
+						<br />
+						The icon is <img src="../../images/checkbox_selected.png" width="16" height="16" /> if the task is completed.<br />
+						The icon is <img src="../../images/warning_green.png" width="16" height="16" /> if the task is not overdue.<br />
+						The icon is <img src="../../images/warning_red.png" width="16" height="16" /> if the task is overdue.
+					</dd>
+					<dt>Calendar "Tasks by start date":</dt>
+					<dd>
+						Each event in this calendar represent a task with a start date.<br />
+						The event start date is the start date of the task.<br />
+						The event end date is the start date of the task plus its length.<br />
+						<u>If the length is less than 30mn, a length of 30mn is used to display the event.</u><br />
+						<br />
+						If you do not use start time (use start time setting is disabled), the day start setting will be used as start time.<br />
+						<br />
+						The icon is <img src="../../images/checkbox_selected.png" width="16" height="16" /> if the task is completed.<br />
+						The icon is <img src="../../images/warning_blue.png" width="16" height="16" /> if the task is not completed.
+					</dd>
+				</dl>
+			</dd>
+			<dt>4. Select the date to display</dt>
+			<dd>
+				Select the day/week you want to display in the calendar view.
+			</dd>
+		</dl>
+		
+	</body>
+</html>

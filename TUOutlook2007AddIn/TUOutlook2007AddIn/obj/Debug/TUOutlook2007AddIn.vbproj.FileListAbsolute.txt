@@ -1,0 +1,17 @@
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.dll.config
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.dll
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.pdb
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.xml
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.dll.manifest
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\TUOutlook2007AddIn.vsto
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\bin\Debug\Microsoft.Office.Tools.Outlook.v4.0.Utilities.xml
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\TUOutlook2007AddIn.Resources.resources
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\TUOutlook2007AddIn.dll
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\TUOutlook2007AddIn.xml
+C:\Documents and Settings\IGK557\My Documents\Visual Studio 2010\Projects\TUOutlook2007AddIn\TUOutlook2007AddIn\obj\Debug\TUOutlook2007AddIn.pdb

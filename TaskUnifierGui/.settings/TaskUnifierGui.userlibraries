@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="TaskUnifierGui" systemlibrary="false">
+        <archive path="/TaskUnifierGui/lib/android-vcard.jar"/>
+        <archive path="/TaskUnifierGui/lib/applejavaextensions.jar"/>
+        <archive path="/TaskUnifierGui/lib/forms-1.2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jtattoo.jar"/>
+        <archive path="/TaskUnifierGui/lib/mac_widgets.jar"/>
+        <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/swingx-1.6.2-javadoc.zip!/" path="/TaskUnifierGui/lib/swingx-beaninfo-1.6.2.jar"/>
+        <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/swingx-1.6.2-javadoc.zip!/" path="/TaskUnifierGui/lib/swingx-core-1.6.2.jar"/>
+        <archive path="/TaskUnifierGui/lib/jcommon-1.0.16.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-binding-2.5.0.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-common-1.2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-forms-1.4.2.jar"/>
+        <archive path="/TaskUnifierGui/lib/jgoodies-looks-2.4.2.jar"/>
+        <archive path="/TaskUnifierGui/lib/jhall.jar"/>
+        <archive path="/TaskUnifierGui/lib/jsearch.jar"/>
+        <archive javadoc="jar:platform:/resource/TaskUnifierGui/doc/miglayout-4.0-javadoc.jar!/" path="/TaskUnifierGui/lib/miglayout-4.0-swing.jar"/>
+        <archive path="/TaskUnifierGui/lib/jcalendar-1.4.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-api-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-api-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-http-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-http-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-oauth-client-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/google-oauth-client-extensions-1.6.0-beta.jar"/>
+        <archive path="/TaskUnifierGui/lib/gson-2.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/guava-11.0.1.jar"/>
+        <archive path="/TaskUnifierGui/lib/jackson-all-1.9.3.jar"/>
+    </library>
+</eclipse-userlibraries>

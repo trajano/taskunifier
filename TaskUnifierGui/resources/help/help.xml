@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<helpset version="1.0">
+
+	<!-- title -->
+	<title>TaskUnifier Help</title>
+
+	<!-- maps -->
+	<maps>
+		<homeID>top</homeID>
+		<mapref location="map.xml"/>
+	</maps>
+
+	<!-- views -->
+	<view>
+		<name>toc</name>
+		<label>Table of contents</label>
+		<type>javax.help.TOCView</type>
+		<data>toc.xml</data>
+	</view>
+
+	<!--
+	<view>
+		<name>search</name>
+		<label>Search</label>
+		<type>javax.help.SearchView</type>
+		<data engine="com.sun.java.help.search.DefaultSearchEngine">search</data>
+	</view>
+	-->
+
+	<presentation default="true" displayviewimages="false">
+		<name>main</name>
+		<size width="900" height="600" />
+		<location x="50" y="50" />
+		<title>TaskUnifier Help</title>
+		<toolbar>
+			<helpaction>javax.help.BackAction</helpaction>
+			<helpaction>javax.help.ForwardAction</helpaction>
+			<helpaction>javax.help.SeparatorAction</helpaction>
+			<helpaction>javax.help.HomeAction</helpaction>
+			<helpaction>javax.help.ReloadAction</helpaction>
+			<helpaction>javax.help.SeparatorAction</helpaction>
+			<helpaction>javax.help.PrintAction</helpaction>
+			<helpaction>javax.help.PrintSetupAction</helpaction>
+		</toolbar>
+	</presentation>
+
+</helpset>

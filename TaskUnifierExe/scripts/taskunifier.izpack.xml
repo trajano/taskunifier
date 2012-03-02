@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<installation version="1.0">
+
+    <info>
+        <appname>TaskUnifier</appname>
+        <appversion>@{taskunifier.version}</appversion>
+        <authors>
+            <author name="leclercb" email="taskunifier@me.com"/>
+        </authors>
+        <url>http://www.taskunifier.com/</url>
+    </info>
+    
+    <listeners>
+    	<listener installer="RegistryInstallerListener" uninstaller="RegistryUninstallerListener">
+    		<os family="windows"/>
+    	</listener>
+    </listeners>
+
+    <guiprefs width="640" height="480" resizable="no"/>
+
+    <locale>
+        <langpack iso3="eng"/>
+        <langpack iso3="deu"/>
+        <langpack iso3="fra"/>
+        <langpack iso3="pol"/>
+        <langpack iso3="rus"/>
+        <langpack iso3="spa"/>
+    </locale>
+    
+	<variables>
+		<variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+	</variables>
+
+    <resources>
+        <res id="LicencePanel.licence" src="licence.txt"/>
+        <res id="InfoPanel.info" src="readme.txt"/>
+        <res id="shortcutSpec.xml" src="@{directory.exe}/scripts/taskunifier.izpack.shortcuts.xml"/>
+    </resources>
+
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+    
+    <native type="izpack" name="ShellLink.dll">
+    	<os family="windows"/>
+	</native>
+    
+    <native type="izpack" name="ShellLink_x64.dll">
+    	<os family="windows"/>
+	</native>
+	
+    <native type="3rdparty" name="COIOSHelper.dll" stage="both">
+    	<os family="windows"/>
+	</native>
+
+    <packs>
+        <pack name="Base" required="yes">
+            <description>The base files</description>
+            <fileset dir="." targetdir="$INSTALL_PATH" override="true"/>
+            <parsable targetfile="$INSTALL_PATH/TaskUnifierAssoc.bat"/>
+            <executable targetfile="$INSTALL_PATH/TaskUnifierAssoc.bat" stage="postinstall"/>
+        </pack>
+    </packs>
+
+</installation>

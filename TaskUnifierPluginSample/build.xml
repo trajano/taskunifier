@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="main" name="TaskUnifierPluginSample">
+	
+    <property environment="env"/>
+	
+	<property name="directory.gui" value="../TaskUnifierGui"/>
+	<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+    <property name="java.debuglevel" value="source,lines,vars"/>
+    <property name="java.target" value="1.6"/>
+    <property name="java.source" value="1.6"/>
+	
+    <path id="build.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${directory.gui}/dist/taskunifiergui.jar"/>
+        <fileset dir="${directory.gui}/lib" includes="**/*.jar"/>
+    </path>
+	
+	<target name="main">
+		<antcall target="clean"/>
+		<antcall target="build"/>
+		<antcall target="create-jar"/>
+	</target>
+	
+    <target name="clean">
+		<echo message="Cleaning..."/>
+        <delete dir="bin"/>
+    </target>
+	
+    <target name="init">
+		<echo message="Initializing compilation..."/>
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+                <exclude name="**/.svn"/>
+            </fileset>
+        </copy>
+    </target>
+	
+    <target depends="init" name="build">
+		<echo message="Compiling ${ant.project.name}..."/>
+        <javac nowarn="on" debug="true" debuglevel="${java.debuglevel}" destdir="bin" 
+        	source="${java.source}" target="${java.target}" includeantruntime="false">
+            <src path="src"/>
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+	
+	<target name="create-jar">
+		<echo message="Creating ${ant.project.name} jar file..."/>
+		<mkdir dir="dist"/>
+		<jar jarfile="dist/${ant.project.name}.jar" basedir="bin">
+			<manifest>
+				<attribute name="Built-By" value="leclercb"/>
+			</manifest>
+		</jar>
+	</target>
+	
+</project>

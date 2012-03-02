@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="create-sources-binaries" name="TaskUnifierExe">
+	
+    <property environment="env"/>
+	<property name="directory.api" value="${basedir}/../TaskUnifierApi"/>
+	<property name="directory.exe" value="${basedir}/../TaskUnifierExe"/>
+	<property name="directory.gui" value="${basedir}/../TaskUnifierGui"/>
+	
+	<taskdef resource="net/jtools/classloadertask/antlib.xml" classpath="${directory.exe}/tools/ant-classloadertask/ant-classloadertask.jar"/>
+	<taskdef name="izpack" classname="com.izforge.izpack.ant.IzPackTask" classpath="${directory.exe}/tools/izpack/standalone-compiler.jar"/>
+	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${directory.exe}/tools/jarbundler/jarbundler-2.2.0.jar"/>
+	<taskdef name="jsmoothgen" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${directory.exe}/tools/jsmooth/jsmoothgen-ant.jar"/>
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${directory.exe}/tools/ant-contrib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
+	
+	<classloader loader="system" classpath="${directory.exe}/tools/commons-net/commons-net-2.2.jar"/>
+	<classloader loader="system" classpath="${directory.exe}/tools/jsch/jsch-0.1.44.jar"/>
+	
+	<target name="create-sources-binaries">
+		<antcall target="create-sources"/>
+		<antcall target="create-binaries"/>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="create-sources">
+		<echo message="Creating sources zip file..."/>
+		<zip destfile="${directory.exe}/sources/TaskUnifier_${taskunifier.version.underscored}_src.zip">
+		    <zipfileset dir="${directory.api}" prefix="TaskUnifierApi"/>
+		    <zipfileset dir="${directory.gui}" prefix="TaskUnifierGui"/>
+		</zip>
+	</target>
+	
+	<target name="create-binaries">
+		<antcall target="create-linux-binary"/>
+		<antcall target="create-mac-binary"/>
+		<antcall target="create-windows-binary"/>
+		<antcall target="create-other-binary"/>
+	</target>
+	
+    <target depends="taskunifier-version-underscored" name="create-binary">
+    	<antcall target="clean"/>
+    	<mkdir dir="${directory.exe}/temp"/>
+    	<mkdir dir="${directory.exe}/temp/TaskUnifier"/>
+    	<copy file="${directory.gui}/dist/taskunifiergui.jar" tofile="${directory.exe}/temp/TaskUnifier/TaskUnifier.jar"/>
+    	<copy todir="${directory.exe}/temp/TaskUnifier/lib">
+    		<fileset dir="${directory.gui}/lib"/>
+    	</copy>
+		<copy todir="${directory.exe}/temp/TaskUnifier">
+			<fileset dir="${directory.gui}/notes"/>
+		</copy>
+    	<copy todir="${directory.exe}/temp/TaskUnifier/resources">
+    		<fileset dir="${directory.gui}/resources"/>
+    	</copy>
+    </target>
+	
+    <target depends="taskunifier-version-underscored" name="create-linux-binary">
+		<echo message="Creating linux tar file..."/>
+    	<antcall target="create-binary"/>
+    	<copy file="${directory.exe}/scripts/linux.taskunifier.sh" tofile="${directory.exe}/temp/TaskUnifier/TaskUnifier.sh"/>
+    	<chmod file="${directory.exe}/temp/TaskUnifier/TaskUnifier.sh" perm="ugo+rx"/>
+    	<mkdir dir="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}"/>
+		<tar destfile="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}/TaskUnifier_${taskunifier.version.underscored}_linux.tar">
+			<tarfileset dir="${directory.exe}/temp">
+				<include name="**/*"/>
+				<exclude name="**/TaskUnifier/TaskUnifier.sh"/>
+			</tarfileset>
+			<tarfileset dir="${directory.exe}/temp" filemode="755">
+				<include name="**/TaskUnifier/TaskUnifier.sh"/>
+			</tarfileset>
+		</tar>
+    </target>
+	
+	<target depends="taskunifier-version-underscored" name="create-mac-binary">
+		<echo message="Creating mac tar file..."/>
+		<antcall target="clean"/>
+		<mkdir dir="${directory.exe}/temp"/>
+		
+		<jarbundler dir="${directory.exe}/temp"
+			name="TaskUnifier"
+			shortname="TaskUnifier"
+			mainclass="com.leclercb.taskunifier.gui.main.Main"
+			icon="${directory.gui}/resources/icon.icns"
+			jvmversion="1.6+"
+			build="${taskunifier.version}"
+			version="${taskunifier.version}"
+			bundleid="com.leclercb.taskunifier"
+			infostring="TaskUnifier ${taskunifier.version} for Mac OS X"
+			vmoptions="-Xmx512m">
+			
+			<javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
+			<javaproperty name="com.leclercb.taskunifier.resource_folder" value="$APP_PACKAGE/Contents/Resources/resources"/>
+			<javaproperty name="com.leclercb.taskunifier.data_folder" value="$USER_HOME/Library/Application Support/TaskUnifier"/>
+			
+			<jarfileset dir="${directory.gui}/dist">
+				<include name="taskunifiergui.jar" />
+			</jarfileset>
+			
+			<jarfileset dir="${directory.gui}">
+				<include name="lib/" />
+				<exclude name="lib/applejavaextensions.jar" />
+			</jarfileset>
+			
+			<documenttype name="TaskUnifier Exchange files"
+				extensions="tue"
+				mimetypes="application/tue"
+				iconFile="${directory.gui}/resources/icon.icns"
+				role="Editor"/>
+			
+			<resourcefileset dir="${directory.gui}">
+				<include name="notes/" />
+				<include name="resources/" />
+			</resourcefileset>
+		
+		</jarbundler>
+		
+		<mkdir dir="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}"/>
+		<tar destfile="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}/TaskUnifier_${taskunifier.version.underscored}_mac.tar">
+			<tarfileset dir="${directory.exe}/temp">
+				<include name="**/*"/>	 
+				<exclude name="**/JavaApplicationStub"/>
+			</tarfileset>
+			<tarfileset dir="${directory.exe}/temp" filemode="755">
+				<include name="**/JavaApplicationStub"/>
+			</tarfileset>
+		</tar>
+		<antcall target="create-mac-dmg"/>
+	</target>
+	
+	<target depends="check-os, taskunifier-version-underscored" name="create-mac-dmg" if="isMac">
+		<echo message="Creating mac dmg file..."/>
+		<antcall target="clean"/>
+		<exec executable="${directory.exe}/scripts/mac.create_dmg.sh" failonerror="true">
+			<arg line="${taskunifier.version.underscored}"/>
+		</exec>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="create-windows-binary">
+		<echo message="Creating windows zip file..."/>
+    	<antcall target="create-binary"/>
+		<jsmoothgen project="${directory.exe}/scripts/windows.taskunifier.jsmooth" skeletonroot="${directory.exe}/tools/jsmooth/skeletons"/>
+		<mkdir dir="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}"/>
+	    <zip destfile="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}/TaskUnifier_${taskunifier.version.underscored}_windows.zip" basedir="${directory.exe}/temp"/>
+		<antcall target="create-installer-windows"/>
+	</target>
+	
+	<target name="create-installer-windows">
+		<echo message="Creating windows installer zip file..."/>
+		<copy file="${directory.exe}/scripts/windows.taskunifier.assoc.bat" tofile="${directory.exe}/temp/TaskUnifier/TaskUnifierAssoc.bat"/>
+		<izpack input="${directory.exe}/scripts/taskunifier.izpack.xml"
+			output="${directory.exe}/temp/TaskUnifierInstaller.jar"
+			installerType="standard"
+			inheritAll="true"
+			basedir="${directory.exe}/temp/TaskUnifier"
+			compression="deflate"
+			compressionlevel="9"/>
+		<jsmoothgen project="${directory.exe}/scripts/windows.taskunifier.installer.jsmooth" skeletonroot="${directory.exe}/tools/jsmooth/skeletons"/>
+		<zip destfile="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}/TaskUnifier_${taskunifier.version.underscored}_installer_windows.zip" basedir="${directory.exe}/temp" includes="TaskUnifierInstaller.exe"/>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="create-other-binary">
+		<echo message="Creating other zip file..."/>
+    	<antcall target="create-binary"/>
+    	<mkdir dir="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}"/>
+	    <zip destfile="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}/TaskUnifier_${taskunifier.version.underscored}_other.zip" basedir="${directory.exe}/temp"/>
+	</target>
+	
+	<target name="clean">
+		<echo message="Cleaning..."/>
+		<delete dir="${directory.exe}/temp"/>
+	</target>
+	
+	<target name="check-os">
+		<condition property="isMac">
+			<os family="mac"/>
+		</condition>
+	</target>
+	
+	<target name="taskunifier-version-underscored">
+		<propertyregex 
+			property="taskunifier.version.underscored" 
+			override="false"
+			input="${taskunifier.version}" 
+			regexp="\."
+			replace="_"
+			global="true"/>
+	</target>
+	
+	<target name="upload-sources-binaries-version">
+		<antcall target="upload-sources"/>
+		<antcall target="upload-binaries"/>
+		<antcall target="upload-version"/>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="upload-sources">
+		<echo message="Uploading sources..."/>
+		<scp password="${sourceforge.password}" todir="leclercb,taskunifier@frs.sourceforge.net:/home/frs/project/t/ta/taskunifier/sources" trust="true">
+			<fileset dir="${directory.exe}/sources">
+				<include name="TaskUnifier_${taskunifier.version.underscored}_*.*"/>
+			</fileset>
+		</scp>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="upload-binaries">
+		<echo message="Uploading binaries..."/>
+		<scp password="${sourceforge.password}" todir="leclercb,taskunifier@frs.sourceforge.net:/home/frs/project/t/ta/taskunifier" trust="true">
+			<fileset dir="${directory.gui}/notes"/>
+		</scp>
+		<scp password="${sourceforge.password}" todir="leclercb,taskunifier@frs.sourceforge.net:/home/frs/project/t/ta/taskunifier/binaries/TaskUnifier_${taskunifier.version.underscored}" trust="true">
+			<fileset dir="${directory.exe}/binaries/TaskUnifier_${taskunifier.version.underscored}">
+				<include name="TaskUnifier_${taskunifier.version.underscored}_*.*"/>
+			</fileset>
+		</scp>
+	</target>
+	
+	<target depends="taskunifier-version-underscored" name="upload-version">
+		<echo message="Uploading version..."/>
+		<antcall target="clean"/>
+		<mkdir dir="${directory.exe}/temp"/>
+		<echo file="${directory.exe}/temp/version.txt">${taskunifier.version}</echo>
+		<scp password="${sourceforge.password}" file="${directory.exe}/temp/version.txt" todir="leclercb,taskunifier@web.sourceforge.net:/home/groups/t/ta/taskunifier/htdocs/" trust="true"/>
+	</target>
+	
+</project>
