@@ -41,6 +41,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
@@ -77,7 +78,10 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 		final Folder folder = this.getFolder();
 		final NoteTemplate template = new NoteTemplate("ModelTemplate");
 		
-		template.setNoteFolder(folder, true);
+		ModelList<Folder> folders = new ModelList<Folder>();
+		folders.add(folder);
+		
+		template.setNoteFolders(folders);
 		
 		NoteFilter filter = new NoteFilter();
 		filter.addElement(new NoteFilterElement(
@@ -104,11 +108,6 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 				
 				@Override
 				public void propertyChange(PropertyChangeEvent event) {
-					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
-						template.setNoteFolder(folder, true);
-						return;
-					}
-					
 					if (event.getPropertyName().equals(Model.PROP_TITLE)) {
 						FolderItem.this.searcher.setTitle(folder.getTitle());
 						return;

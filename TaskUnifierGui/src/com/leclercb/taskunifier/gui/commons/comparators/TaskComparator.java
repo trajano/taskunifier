@@ -308,7 +308,9 @@ public class TaskComparator implements Comparator<Task> {
 						(TaskRepeatFrom) o2);
 				break;
 			case STATUS:
-				result = CompareUtils.compare((TaskStatus) o1, (TaskStatus) o2);
+				result = CompareUtils.compareStringIgnoreCase(
+						(String) o1,
+						(String) o2);
 				break;
 			case LENGTH:
 				result = CompareUtils.compare((Integer) o1, (Integer) o2);

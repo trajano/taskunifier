@@ -34,8 +34,6 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
-
 public class StringValueTaskStatus implements StringValue {
 	
 	public static final StringValueTaskStatus INSTANCE = new StringValueTaskStatus();
@@ -46,10 +44,10 @@ public class StringValueTaskStatus implements StringValue {
 	
 	@Override
 	public String getString(Object value) {
-		if (value == null || !(value instanceof TaskStatus))
+		if (!(value instanceof String))
 			return " ";
 		
-		return TranslationsUtils.translateTaskStatus((TaskStatus) value);
+		return (String) value;
 	}
 	
 }

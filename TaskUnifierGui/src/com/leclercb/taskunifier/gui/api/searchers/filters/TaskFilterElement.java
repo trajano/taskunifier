@@ -80,9 +80,6 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 			case REPEAT_FROM:
 				str += TranslationsUtils.translateTaskRepeatFrom((TaskRepeatFrom) this.getValue());
 				break;
-			case STATUS:
-				str += TranslationsUtils.translateTaskStatus((TaskStatus) this.getValue());
-				break;
 			default:
 				str += (this.getValue() == null ? "" : this.getValue());
 				break;

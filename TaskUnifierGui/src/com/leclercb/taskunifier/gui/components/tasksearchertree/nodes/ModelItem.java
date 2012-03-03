@@ -45,6 +45,7 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -96,22 +97,38 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 			case CONTEXT:
 				column = TaskColumn.CONTEXT;
 				type = TaskSearcherType.CONTEXT;
-				template.setTaskContext((Context) model, true);
+				
+				ModelList<Context> contexts = new ModelList<Context>();
+				contexts.add((Context) model);
+				
+				template.setTaskContexts(contexts);
 				break;
 			case FOLDER:
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
-				template.setTaskFolder((Folder) model, true);
+				
+				ModelList<Folder> folders = new ModelList<Folder>();
+				folders.add((Folder) model);
+				
+				template.setTaskFolders(folders);
 				break;
 			case GOAL:
 				column = TaskColumn.GOAL;
 				type = TaskSearcherType.GOAL;
-				template.setTaskGoal((Goal) model, true);
+				
+				ModelList<Goal> goals = new ModelList<Goal>();
+				goals.add((Goal) model);
+				
+				template.setTaskGoals(goals);
 				break;
 			case LOCATION:
 				column = TaskColumn.LOCATION;
 				type = TaskSearcherType.LOCATION;
-				template.setTaskLocation((Location) model, true);
+				
+				ModelList<Location> locations = new ModelList<Location>();
+				locations.add((Location) model);
+				
+				template.setTaskLocations(locations);
 				break;
 		}
 		
@@ -140,25 +157,6 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				
 				@Override
 				public void propertyChange(PropertyChangeEvent event) {
-					if (event.getPropertyName().equals(Model.PROP_MODEL_ID)) {
-						switch (ModelItem.this.modelType) {
-							case CONTEXT:
-								template.setTaskContext((Context) model, true);
-								break;
-							case FOLDER:
-								template.setTaskFolder((Folder) model, true);
-								break;
-							case GOAL:
-								template.setTaskGoal((Goal) model, true);
-								break;
-							case LOCATION:
-								template.setTaskLocation((Location) model, true);
-								break;
-						}
-						
-						return;
-					}
-					
 					if (event.getPropertyName().equals(Model.PROP_TITLE)) {
 						ModelItem.this.searcher.setTitle(model.getTitle());
 						return;

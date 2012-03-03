@@ -38,6 +38,7 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.Timer;
@@ -72,7 +73,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 	START_DATE_REMINDER(Integer.class, Translations.getString("general.task.start_date_reminder"), true),
 	REPEAT(String.class, Translations.getString("general.task.repeat"), true),
 	REPEAT_FROM(TaskRepeatFrom.class, Translations.getString("general.task.repeat_from"), true),
-	STATUS(TaskStatus.class, Translations.getString("general.task.status"), true),
+	STATUS(String.class, Translations.getString("general.task.status"), true),
 	LENGTH(Integer.class, Translations.getString("general.task.length"), true),
 	TIMER(Timer.class, Translations.getString("general.task.timer"), true),
 	PRIORITY(TaskPriority.class, Translations.getString("general.task.priority"), true),
@@ -146,13 +147,13 @@ public enum TaskColumn implements ModelProperties<Task> {
 			case TAGS:
 				return task.getTags().toString();
 			case FOLDER:
-				return task.getFolder();
+				return task.getFolders();
 			case CONTEXT:
-				return task.getContext();
+				return task.getContexts();
 			case GOAL:
-				return task.getGoal();
+				return task.getGoals();
 			case LOCATION:
-				return task.getLocation();
+				return task.getLocations();
 			case PARENT:
 				return task.getParent();
 			case PROGRESS:
@@ -198,6 +199,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(Task task, Object value) {
 		if (task == null)
@@ -225,16 +227,16 @@ public enum TaskColumn implements ModelProperties<Task> {
 				task.setTags(TagList.fromString((String) value));
 				break;
 			case FOLDER:
-				task.setFolder((Folder) value);
+				task.setFolders((ModelList<Folder>) value);
 				break;
 			case CONTEXT:
-				task.setContext((Context) value);
+				task.setContexts((ModelList<Context>) value);
 				break;
 			case GOAL:
-				task.setGoal((Goal) value);
+				task.setGoals((ModelList<Goal>) value);
 				break;
 			case LOCATION:
-				task.setLocation((Location) value);
+				task.setLocations((ModelList<Location>) value);
 				break;
 			case PARENT:
 				task.setParent((Task) value);
@@ -273,7 +275,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 				task.setRepeatFrom((TaskRepeatFrom) value);
 				break;
 			case STATUS:
-				task.setStatus((TaskStatus) value);
+				task.setStatus((String) value);
 				break;
 			case LENGTH:
 				if (value == null || !(value instanceof Integer))
