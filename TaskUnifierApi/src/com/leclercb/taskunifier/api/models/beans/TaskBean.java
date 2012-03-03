@@ -43,7 +43,6 @@ import com.leclercb.taskunifier.api.models.beans.converters.TagListConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.TimerConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
@@ -96,7 +95,7 @@ public class TaskBean extends AbstractModelParentBean {
 	private TaskRepeatFrom repeatFrom;
 	
 	@XStreamAlias("status")
-	private TaskStatus status;
+	private String status;
 	
 	@XStreamAlias("length")
 	private int length;
@@ -144,7 +143,7 @@ public class TaskBean extends AbstractModelParentBean {
 		this.setDueDateReminder(0);
 		this.setRepeat(null);
 		this.setRepeatFrom(TaskRepeatFrom.DUE_DATE);
-		this.setStatus(TaskStatus.NONE);
+		this.setStatus(null);
 		this.setLength(0);
 		this.setTimer(new Timer());
 		this.setPriority(TaskPriority.LOW);
@@ -300,11 +299,11 @@ public class TaskBean extends AbstractModelParentBean {
 		this.repeatFrom = repeatFrom;
 	}
 	
-	public TaskStatus getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 	
-	public void setStatus(TaskStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	

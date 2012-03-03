@@ -38,7 +38,6 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
@@ -147,35 +146,6 @@ public final class TranslationsUtils {
 				return Translations.getString("general.task.repeat_from.due_date");
 			case COMPLETION_DATE:
 				return Translations.getString("general.task.repeat_from.completion_date");
-		}
-		
-		return "Missing translation";
-	}
-	
-	public static String translateTaskStatus(TaskStatus status) {
-		switch (status) {
-			case NONE:
-				return Translations.getString("general.task.status.none");
-			case NEXT_ACTION:
-				return Translations.getString("general.task.status.next_action");
-			case ACTIVE:
-				return Translations.getString("general.task.status.active");
-			case PLANNING:
-				return Translations.getString("general.task.status.planning");
-			case DELEGATED:
-				return Translations.getString("general.task.status.delegated");
-			case WAITING:
-				return Translations.getString("general.task.status.waiting");
-			case HOLD:
-				return Translations.getString("general.task.status.hold");
-			case POSTPONED:
-				return Translations.getString("general.task.status.postponed");
-			case SOMEDAY:
-				return Translations.getString("general.task.status.someday");
-			case CANCELED:
-				return Translations.getString("general.task.status.canceled");
-			case REFERENCE:
-				return Translations.getString("general.task.status.reference");
 		}
 		
 		return "Missing translation";

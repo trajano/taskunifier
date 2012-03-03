@@ -36,8 +36,6 @@ import javax.swing.DefaultComboBoxModel;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
-
 public class TaskStatusModel extends DefaultComboBoxModel {
 	
 	public TaskStatusModel(boolean firstNull) {

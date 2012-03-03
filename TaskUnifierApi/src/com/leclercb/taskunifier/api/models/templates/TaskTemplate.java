@@ -50,7 +50,6 @@ import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.api.models.templates.converters.TaskTemplateConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
@@ -144,7 +143,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	private TaskRepeatFrom taskRepeatFrom;
 	
 	@XStreamAlias("taskstatus")
-	private TaskStatus taskStatus;
+	private String taskStatus;
 	
 	@XStreamAlias("tasklength")
 	private Integer taskLength;
@@ -654,12 +653,12 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 				taskRepeatFrom);
 	}
 	
-	public TaskStatus getTaskStatus() {
+	public String getTaskStatus() {
 		return this.taskStatus;
 	}
 	
-	public void setTaskStatus(TaskStatus taskStatus) {
-		TaskStatus oldTaskStatus = this.taskStatus;
+	public void setTaskStatus(String taskStatus) {
+		String oldTaskStatus = this.taskStatus;
 		this.taskStatus = taskStatus;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_TASK_STATUS,

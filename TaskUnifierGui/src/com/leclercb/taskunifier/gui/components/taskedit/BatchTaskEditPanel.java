@@ -64,7 +64,6 @@ import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
@@ -281,7 +280,7 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			if (this.taskStatusCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setStatus((TaskStatus) this.taskStatus.getSelectedItem());
+					task.setStatus((String) this.taskStatus.getSelectedItem());
 				}
 			}
 			
@@ -763,7 +762,7 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskDueDateReminder.setSelectedItem(0);
 			this.taskRepeat.setSelectedItem("");
 			this.taskRepeatFrom.setSelectedItem(TaskRepeatFrom.DUE_DATE);
-			this.taskStatus.setSelectedItem(TaskStatus.NONE);
+			this.taskStatus.setSelectedItem("");
 			this.taskLength.setValue(0);
 			this.taskTimer.setTimer(new Timer());
 			this.taskPriority.setSelectedItem(TaskPriority.NEGATIVE);

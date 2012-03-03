@@ -119,6 +119,14 @@ public abstract class SynchronizerApi {
 		this.proxyPassword = proxyPassword;
 	}
 	
+	public String[] getDefaultStatusValues() {
+		return new String[0];
+	}
+	
+	public boolean isValidStatusValue(String status) {
+		return false;
+	}
+	
 	public String[] getDefaultRepeatValues() {
 		return new String[0];
 	}

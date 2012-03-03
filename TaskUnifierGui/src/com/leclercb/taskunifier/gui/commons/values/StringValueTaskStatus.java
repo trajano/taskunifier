@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.commons.values;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class StringValueTaskStatus implements StringValue {

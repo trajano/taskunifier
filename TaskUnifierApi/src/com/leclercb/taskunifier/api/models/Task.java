@@ -47,7 +47,6 @@ import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
-import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 
 public class Task extends AbstractModelParent<Task> implements ModelNote, PropertyChangeListener, ListChangeListener {
 	
@@ -88,7 +87,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	private int dueDateReminder;
 	private String repeat;
 	private TaskRepeatFrom repeatFrom;
-	private TaskStatus status;
+	private String status;
 	private int length;
 	private Timer timer;
 	private TaskPriority priority;
@@ -150,7 +149,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.setDueDateReminder(0);
 		this.setRepeat(null);
 		this.setRepeatFrom(TaskRepeatFrom.DUE_DATE);
-		this.setStatus(TaskStatus.NONE);
+		this.setStatus(null);
 		this.setLength(0);
 		this.setTimer(new Timer());
 		this.setPriority(TaskPriority.LOW);
@@ -567,17 +566,17 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.updateProperty(PROP_REPEAT_FROM, oldRepeatFrom, repeatFrom);
 	}
 	
-	public TaskStatus getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 	
-	public void setStatus(TaskStatus status) {
+	public void setStatus(String status) {
 		CheckUtils.isNotNull(status);
 		
 		if (!this.checkBeforeSet(this.getStatus(), status))
 			return;
 		
-		TaskStatus oldStatus = this.status;
+		String oldStatus = this.status;
 		this.status = status;
 		this.updateProperty(PROP_STATUS, oldStatus, status);
 	}

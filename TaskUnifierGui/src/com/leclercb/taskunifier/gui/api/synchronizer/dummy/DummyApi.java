@@ -57,6 +57,33 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
+	public String[] getDefaultStatusValues() {
+		return new String[] {
+				"None",
+				"Next action",
+				"Active",
+				"Planning",
+				"Delegated",
+				"Waiting",
+				"Hold",
+				"Postponed",
+				"Someday",
+				"Canceled",
+				"Reference" };
+	}
+	
+	@Override
+	public boolean isValidStatusValue(String status) {
+		String[] statuses = this.getDefaultStatusValues();
+		for (String s : statuses) {
+			if (s.equalsIgnoreCase(status))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public String[] getDefaultRepeatValues() {
 		return new String[] {
 				" ",
