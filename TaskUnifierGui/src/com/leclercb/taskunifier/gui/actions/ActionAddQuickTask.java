@@ -19,9 +19,9 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
-import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.beans.ModelBeanList;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskStatus;
@@ -126,9 +126,9 @@ public class ActionAddQuickTask extends AbstractAction {
 				else
 					bean.setTags(TagList.fromString(s));
 			} else if (c == '@') { // Context, Folder, Goal, Location
-				findModel(s, bean);
+				findModel(s.toLowerCase(), bean);
 			} else if (c == '*') { // Priority, Status
-				findStatusPriority(s, bean);
+				findStatusPriority(s.toLowerCase(), bean);
 			} else if (c == '>') { // Start Date
 				findDate(s, true, bean);
 			} else if (c == '<') { // Due Date
@@ -140,91 +140,56 @@ public class ActionAddQuickTask extends AbstractAction {
 	}
 	
 	private static void findModel(String title, TaskBean bean) {
-		Model model = null;
-		
-		if (bean.getContext() == null) {
-			List<Context> contexts = ContextFactory.getInstance().getList();
-			for (Context context : contexts) {
-				if (context.getTitle().equalsIgnoreCase(title)) {
-					bean.setContext(context.getModelId());
-					return;
-				}
+		List<Context> contexts = ContextFactory.getInstance().getList();
+		for (Context context : contexts) {
+			if (context.getTitle().toLowerCase().startsWith(title)) {
+				if (bean.getContexts() == null)
+					bean.setContexts(new ModelBeanList());
 				
-				if (model == null
-						&& context.getTitle().toLowerCase().startsWith(
-								title.toLowerCase())) {
-					model = context;
-					break;
-				}
+				bean.getContexts().add(context.getModelId());
+				return;
 			}
 		}
 		
-		if (bean.getFolder() == null) {
-			List<Folder> folders = FolderFactory.getInstance().getList();
-			for (Folder folder : folders) {
-				if (folder.getTitle().equalsIgnoreCase(title)) {
-					bean.setFolder(folder.getModelId());
-					return;
-				}
+		List<Folder> folders = FolderFactory.getInstance().getList();
+		for (Folder folder : folders) {
+			if (folder.getTitle().toLowerCase().startsWith(title)) {
+				if (bean.getFolders() == null)
+					bean.setFolders(new ModelBeanList());
 				
-				if (model == null
-						&& folder.getTitle().toLowerCase().startsWith(
-								title.toLowerCase())) {
-					model = folder;
-					break;
-				}
+				bean.getFolders().add(folder.getModelId());
+				return;
 			}
 		}
 		
-		if (bean.getGoal() == null) {
-			List<Goal> goals = GoalFactory.getInstance().getList();
-			for (Goal goal : goals) {
-				if (goal.getTitle().equalsIgnoreCase(title)) {
-					bean.setGoal(goal.getModelId());
-					return;
-				}
+		List<Goal> goals = GoalFactory.getInstance().getList();
+		for (Goal goal : goals) {
+			if (goal.getTitle().toLowerCase().startsWith(title)) {
+				if (bean.getGoals() == null)
+					bean.setGoals(new ModelBeanList());
 				
-				if (model == null
-						&& goal.getTitle().toLowerCase().startsWith(
-								title.toLowerCase())) {
-					model = goal;
-					break;
-				}
+				bean.getGoals().add(goal.getModelId());
+				return;
 			}
 		}
 		
-		if (bean.getLocation() == null) {
-			List<Location> locations = LocationFactory.getInstance().getList();
-			for (Location location : locations) {
-				if (location.getTitle().equalsIgnoreCase(title)) {
-					bean.setLocation(location.getModelId());
-					return;
-				}
+		List<Location> locations = LocationFactory.getInstance().getList();
+		for (Location location : locations) {
+			if (location.getTitle().toLowerCase().startsWith(title)) {
+				if (bean.getLocations() == null)
+					bean.setLocations(new ModelBeanList());
 				
-				if (model == null
-						&& location.getTitle().toLowerCase().startsWith(
-								title.toLowerCase())) {
-					model = location;
-					break;
-				}
+				bean.getLocations().add(location.getModelId());
+				return;
 			}
 		}
-		
-		if (model instanceof Context)
-			bean.setContext(model.getModelId());
-		else if (model instanceof Folder)
-			bean.setFolder(model.getModelId());
-		else if (model instanceof Goal)
-			bean.setGoal(model.getModelId());
-		else if (model instanceof Location)
-			bean.setLocation(model.getModelId());
 	}
 	
 	private static void findStatusPriority(String title, TaskBean bean) {
 		for (TaskStatus status : TaskStatus.values()) {
 			String s = TranslationsUtils.translateTaskStatus(status);
 			
-			if (s.toLowerCase().startsWith(title.toLowerCase())) {
+			if (s.toLowerCase().startsWith(title)) {
 				bean.setStatus(status);
 				return;
 			}
@@ -233,7 +198,7 @@ public class ActionAddQuickTask extends AbstractAction {
 		for (TaskPriority priority : TaskPriority.values()) {
 			String p = TranslationsUtils.translateTaskPriority(priority);
 			
-			if (p.toLowerCase().startsWith(title.toLowerCase())) {
+			if (p.toLowerCase().startsWith(title)) {
 				bean.setPriority(priority);
 				return;
 			}

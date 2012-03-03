@@ -32,20 +32,19 @@
  */
 package com.leclercb.taskunifier.api.models;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
-import com.leclercb.commons.api.logger.ApiLogger;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
 
-public class Note extends AbstractModel implements ModelNote, PropertyChangeListener {
+public class Note extends AbstractModel implements ModelNote, ListChangeListener {
 	
-	public static final String PROP_FOLDER = "folder";
+	public static final String PROP_FOLDERS = "folders";
 	
-	private Folder folder;
+	private ModelList<Folder> folders;
 	private String note;
 	
 	protected Note(NoteBean bean, boolean loadReferenceIds) {
@@ -60,7 +59,10 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 	protected Note(ModelId modelId, String title) {
 		super(modelId, title);
 		
-		this.setFolder(null);
+		this.folders = new ModelList<Folder>();
+		this.folders.addListChangeListener(this);
+		
+		this.setFolders(new ModelList<Folder>());
 		this.setNote(null);
 		
 		this.getFactory().register(this);
@@ -70,7 +72,7 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 	public Note clone(ModelId modelId) {
 		Note note = this.getFactory().create(modelId, this.getTitle());
 		
-		note.setFolder(this.getFolder());
+		note.setFolders(this.getFolders());
 		note.setNote(this.getNote());
 		
 		// After all other setXxx methods
@@ -100,16 +102,9 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 		
 		NoteBean bean = (NoteBean) b;
 		
-		Folder folder = null;
-		
-		if (bean.getFolder() != null) {
-			folder = FolderFactory.getInstance().get(bean.getFolder());
-			if (folder == null)
-				folder = FolderFactory.getInstance().createShell(
-						bean.getFolder());
-		}
-		
-		this.setFolder(folder);
+		this.setFolders((bean.getFolders() == null ? null : bean.getFolders().toModelList(
+				new ModelList<Folder>(),
+				ModelType.FOLDER)));
 		this.setNote(bean.getNote());
 		
 		super.loadBean(bean, loadReferenceIds);
@@ -119,39 +114,21 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 	public NoteBean toBean() {
 		NoteBean bean = (NoteBean) super.toBean();
 		
-		bean.setFolder(this.getFolder() == null ? null : this.getFolder().getModelId());
+		bean.setFolders(this.getFolders().toModelBeanList());
 		bean.setNote(this.getNote());
 		
 		return bean;
 	}
 	
-	public Folder getFolder() {
-		return this.folder;
+	public ModelList<Folder> getFolders() {
+		return this.folders;
 	}
 	
-	public void setFolder(Folder folder) {
-		if (!this.checkBeforeSet(this.getFolder(), folder))
-			return;
+	public void setFolders(ModelList<Folder> folder) {
+		this.folders.clear();
 		
-		if (folder != null) {
-			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| folder.getModelStatus().equals(ModelStatus.DELETED)) {
-				ApiLogger.getLogger().severe(
-						"You cannot assign a deleted model");
-				folder = null;
-			}
-		}
-		
-		if (this.folder != null)
-			this.folder.removePropertyChangeListener(this);
-		
-		Folder oldFolder = this.folder;
-		this.folder = folder;
-		
-		if (this.folder != null)
-			this.folder.addPropertyChangeListener(this);
-		
-		this.updateProperty(PROP_FOLDER, oldFolder, folder);
+		if (this.folders != null)
+			this.folders.addAll(this.folders.getList());
 	}
 	
 	@Override
@@ -170,13 +147,9 @@ public class Note extends AbstractModel implements ModelNote, PropertyChangeList
 	}
 	
 	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(PROP_MODEL_STATUS)) {
-			Folder folder = (Folder) event.getSource();
-			
-			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| folder.getModelStatus().equals(ModelStatus.DELETED))
-				this.setFolder(null);
+	public void listChange(ListChangeEvent event) {
+		if (event.getSource().equals(this.folders)) {
+			this.updateProperty(PROP_FOLDERS, null, this.folders);
 		}
 	}
 	

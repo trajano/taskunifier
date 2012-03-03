@@ -43,13 +43,10 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
-import com.leclercb.taskunifier.api.models.beans.converters.ContextConverter;
-import com.leclercb.taskunifier.api.models.beans.converters.FolderConverter;
-import com.leclercb.taskunifier.api.models.beans.converters.GoalConverter;
-import com.leclercb.taskunifier.api.models.beans.converters.LocationConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -64,14 +61,10 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	
 	public static final String PROP_TASK_TITLE = "taskTitle";
 	public static final String PROP_TASK_TAGS = "taskTags";
-	public static final String PROP_TASK_FOLDER_FORCE = "taskFolderForce";
-	public static final String PROP_TASK_FOLDER = "taskFolder";
-	public static final String PROP_TASK_CONTEXT_FORCE = "taskContextForce";
-	public static final String PROP_TASK_CONTEXT = "taskContext";
-	public static final String PROP_TASK_GOAL_FORCE = "taskGoalForce";
-	public static final String PROP_TASK_GOAL = "taskGoal";
-	public static final String PROP_TASK_LOCATION_FORCE = "taskLocationForce";
-	public static final String PROP_TASK_LOCATION = "taskLocation";
+	public static final String PROP_TASK_FOLDERS = "taskFolders";
+	public static final String PROP_TASK_CONTEXTS = "taskContexts";
+	public static final String PROP_TASK_GOALS = "taskGoals";
+	public static final String PROP_TASK_LOCATIONS = "taskLocations";
 	public static final String PROP_TASK_PROGRESS = "taskProgress";
 	public static final String PROP_TASK_COMPLETED = "taskCompleted";
 	public static final String PROP_TASK_DUE_DATE = "taskDueDate";
@@ -104,33 +97,21 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	@XStreamAlias("tasktags")
 	private String taskTags;
 	
-	@XStreamAlias("taskfolderforce")
-	private boolean taskFolderForce;
+	@XStreamAlias("taskfolders")
+	@XStreamConverter(FoldersConverter.class)
+	private ModelList<Folder> taskFolders;
 	
-	@XStreamAlias("taskfolder")
-	@XStreamConverter(FolderConverter.class)
-	private Folder taskFolder;
+	@XStreamAlias("taskcontexts")
+	@XStreamConverter(ContextsConverter.class)
+	private ModelList<Context> taskContexts;
 	
-	@XStreamAlias("taskcontextforce")
-	private boolean taskContextForce;
+	@XStreamAlias("taskgoals")
+	@XStreamConverter(GoalsConverter.class)
+	private ModelList<Goal> taskGoals;
 	
-	@XStreamAlias("taskcontext")
-	@XStreamConverter(ContextConverter.class)
-	private Context taskContext;
-	
-	@XStreamAlias("taskgoalforce")
-	private boolean taskGoalForce;
-	
-	@XStreamAlias("taskgoal")
-	@XStreamConverter(GoalConverter.class)
-	private Goal taskGoal;
-	
-	@XStreamAlias("tasklocationforce")
-	private boolean taskLocationForce;
-	
-	@XStreamAlias("tasklocation")
-	@XStreamConverter(LocationConverter.class)
-	private Location taskLocation;
+	@XStreamAlias("tasklocations")
+	@XStreamConverter(LocationsConverter.class)
+	private ModelList<Location> taskLocations;
 	
 	@XStreamAlias("taskprogress")
 	private Double taskProgress;
@@ -188,10 +169,10 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		this.setTitle(title);
 		this.setTaskTitle(null);
 		this.setTaskTags(null);
-		this.setTaskFolder(null, false);
-		this.setTaskContext(null, false);
-		this.setTaskGoal(null, false);
-		this.setTaskLocation(null, false);
+		this.setTaskFolders(null);
+		this.setTaskContexts(null);
+		this.setTaskGoals(null);
+		this.setTaskLocations(null);
 		this.setTaskProgress(null);
 		this.setTaskCompleted(null);
 		this.setTaskDueDate(null);
@@ -216,10 +197,10 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		
 		template.setTaskTitle(this.taskTitle);
 		template.setTaskTags(this.taskTags);
-		template.setTaskFolder(this.taskFolder, this.taskFolderForce);
-		template.setTaskContext(this.taskContext, this.taskContextForce);
-		template.setTaskGoal(this.taskGoal, this.taskGoalForce);
-		template.setTaskLocation(this.taskLocation, this.taskLocationForce);
+		template.setTaskFolders(this.taskFolders);
+		template.setTaskContexts(this.taskContexts);
+		template.setTaskGoals(this.taskGoals);
+		template.setTaskLocations(this.taskLocations);
 		template.setTaskProgress(this.taskProgress);
 		template.setTaskCompleted(this.taskCompleted);
 		template.setTaskDueDate(this.taskDueDate);
@@ -254,17 +235,17 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 			task.setTags(tags);
 		}
 		
-		if (this.taskFolderForce || this.taskFolder != null)
-			task.setFolder(this.taskFolder);
+		if (this.taskFolders != null)
+			task.getFolders().addAll(this.taskFolders.getList());
 		
-		if (this.taskContextForce || this.taskContext != null)
-			task.setContext(this.taskContext);
+		if (this.taskContexts != null)
+			task.getContexts().addAll(this.taskContexts.getList());
 		
-		if (this.taskGoalForce || this.taskGoal != null)
-			task.setGoal(this.taskGoal);
+		if (this.taskGoals != null)
+			task.getGoals().addAll(this.taskGoals.getList());
 		
-		if (this.taskLocationForce || this.taskLocation != null)
-			task.setLocation(this.taskLocation);
+		if (this.taskLocations != null)
+			task.getLocations().addAll(this.taskLocations.getList());
 		
 		if (this.taskProgress != null)
 			task.setProgress(this.taskProgress);
@@ -347,17 +328,17 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 			task.setTags(tags);
 		}
 		
-		if (this.taskFolderForce || this.taskFolder != null)
-			task.setFolder(this.taskFolder.getModelId());
+		if (this.taskFolders != null)
+			task.setFolders(this.taskFolders.toModelBeanList());
 		
-		if (this.taskContextForce || this.taskContext != null)
-			task.setContext(this.taskContext.getModelId());
+		if (this.taskContexts != null)
+			task.setContexts(this.taskContexts.toModelBeanList());
 		
-		if (this.taskGoalForce || this.taskGoal != null)
-			task.setGoal(this.taskGoal.getModelId());
+		if (this.taskGoals != null)
+			task.setGoals(this.taskGoals.toModelBeanList());
 		
-		if (this.taskLocationForce || this.taskLocation != null)
-			task.setLocation(this.taskLocation.getModelId());
+		if (this.taskLocations != null)
+			task.setLocations(this.taskLocations.toModelBeanList());
 		
 		if (this.taskProgress != null)
 			task.setProgress(this.taskProgress);
@@ -487,160 +468,60 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 				taskTags);
 	}
 	
-	public boolean isTaskFolderForce() {
-		return this.taskFolderForce;
+	public ModelList<Folder> getTaskFolders() {
+		return this.taskFolders;
 	}
 	
-	public void setTaskFolderForce(boolean force) {
-		boolean oldTaskFolderForce = this.taskFolderForce;
-		this.taskFolderForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER_FORCE,
-				oldTaskFolderForce,
-				force);
-	}
-	
-	public Folder getTaskFolder() {
-		return this.taskFolder;
-	}
-	
-	public void setTaskFolder(Folder taskFolder) {
-		this.setTaskFolder(taskFolder, false);
-	}
-	
-	public void setTaskFolder(Folder taskFolder, boolean force) {
-		Folder oldTaskFolder = this.taskFolder;
-		this.taskFolder = taskFolder;
-		
-		boolean oldTaskFolderForce = this.taskFolderForce;
-		this.taskFolderForce = force;
+	public void setTaskFolders(ModelList<Folder> taskFolders) {
+		ModelList<Folder> oldTaskFolders = this.taskFolders;
+		this.taskFolders = taskFolders;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER_FORCE,
-				oldTaskFolderForce,
-				force);
+				PROP_TASK_FOLDERS,
+				oldTaskFolders,
+				taskFolders);
+	}
+	
+	public ModelList<Context> getTaskContexts() {
+		return this.taskContexts;
+	}
+	
+	public void setTaskContexts(ModelList<Context> taskContexts) {
+		ModelList<Context> oldTaskContexts = this.taskContexts;
+		this.taskContexts = taskContexts;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER,
-				oldTaskFolder,
-				taskFolder);
+				PROP_TASK_CONTEXTS,
+				oldTaskContexts,
+				taskContexts);
 	}
 	
-	public boolean isTaskContextForce() {
-		return this.taskContextForce;
+	public ModelList<Goal> getTaskGoals() {
+		return this.taskGoals;
 	}
 	
-	public void setTaskContextForce(boolean force) {
-		boolean oldTaskContextForce = this.taskContextForce;
-		this.taskContextForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_CONTEXT_FORCE,
-				oldTaskContextForce,
-				force);
-	}
-	
-	public Context getTaskContext() {
-		return this.taskContext;
-	}
-	
-	public void setTaskContext(Context taskContext) {
-		this.setTaskContext(taskContext, false);
-	}
-	
-	public void setTaskContext(Context taskContext, boolean force) {
-		Context oldTaskContext = this.taskContext;
-		this.taskContext = taskContext;
-		
-		boolean oldTaskContextForce = this.taskContextForce;
-		this.taskContextForce = force;
+	public void setTaskGoals(ModelList<Goal> taskGoals) {
+		ModelList<Goal> oldTaskGoals = this.taskGoals;
+		this.taskGoals = taskGoals;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_CONTEXT_FORCE,
-				oldTaskContextForce,
-				force);
+				PROP_TASK_GOALS,
+				oldTaskGoals,
+				taskGoals);
+	}
+	
+	public ModelList<Location> getTaskLocations() {
+		return this.taskLocations;
+	}
+	
+	public void setTaskLocations(ModelList<Location> taskLocations) {
+		ModelList<Location> oldTaskLocations = this.taskLocations;
+		this.taskLocations = taskLocations;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_CONTEXT,
-				oldTaskContext,
-				taskContext);
-	}
-	
-	public boolean isTaskGoalForce() {
-		return this.taskGoalForce;
-	}
-	
-	public void setTaskGoalForce(boolean force) {
-		boolean oldTaskGoalForce = this.taskGoalForce;
-		this.taskGoalForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_GOAL_FORCE,
-				oldTaskGoalForce,
-				force);
-	}
-	
-	public Goal getTaskGoal() {
-		return this.taskGoal;
-	}
-	
-	public void setTaskGoal(Goal taskGoal) {
-		this.setTaskGoal(taskGoal, false);
-	}
-	
-	public void setTaskGoal(Goal taskGoal, boolean force) {
-		Goal oldTaskGoal = this.taskGoal;
-		this.taskGoal = taskGoal;
-		
-		boolean oldTaskGoalForce = this.taskGoalForce;
-		this.taskGoalForce = force;
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_GOAL_FORCE,
-				oldTaskGoalForce,
-				force);
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_GOAL,
-				oldTaskGoal,
-				taskGoal);
-	}
-	
-	public boolean isTaskLocationForce() {
-		return this.taskLocationForce;
-	}
-	
-	public void setTaskLocationForce(boolean force) {
-		boolean oldTaskLocationForce = this.taskLocationForce;
-		this.taskLocationForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_LOCATION_FORCE,
-				oldTaskLocationForce,
-				force);
-	}
-	
-	public Location getTaskLocation() {
-		return this.taskLocation;
-	}
-	
-	public void setTaskLocation(Location taskLocation) {
-		this.setTaskLocation(taskLocation, false);
-	}
-	
-	public void setTaskLocation(Location taskLocation, boolean force) {
-		Location oldTaskLocation = this.taskLocation;
-		this.taskLocation = taskLocation;
-		
-		boolean oldTaskLocationForce = this.taskLocationForce;
-		this.taskLocationForce = force;
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_LOCATION_FORCE,
-				oldTaskLocationForce,
-				force);
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_LOCATION,
-				oldTaskLocation,
-				taskLocation);
+				PROP_TASK_LOCATIONS,
+				oldTaskLocations,
+				taskLocations);
 	}
 	
 	public Double getTaskProgress() {

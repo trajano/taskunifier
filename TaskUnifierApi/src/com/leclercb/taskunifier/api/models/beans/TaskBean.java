@@ -53,17 +53,17 @@ public class TaskBean extends AbstractModelParentBean {
 	@XStreamConverter(TagListConverter.class)
 	private TagList tags;
 	
-	@XStreamAlias("folder")
-	private ModelId folder;
+	@XStreamAlias("folders")
+	private ModelBeanList folders;
 	
-	@XStreamAlias("context")
-	private ModelId context;
+	@XStreamAlias("contexts")
+	private ModelBeanList contexts;
 	
-	@XStreamAlias("goal")
-	private ModelId goal;
+	@XStreamAlias("goals")
+	private ModelBeanList goals;
 	
-	@XStreamAlias("location")
-	private ModelId location;
+	@XStreamAlias("locations")
+	private ModelBeanList locations;
 	
 	@XStreamAlias("progress")
 	private double progress;
@@ -131,10 +131,10 @@ public class TaskBean extends AbstractModelParentBean {
 		super(modelId);
 		
 		this.setTags(new TagList());
-		this.setFolder(null);
-		this.setContext(null);
-		this.setGoal(null);
-		this.setLocation(null);
+		this.setFolders(null);
+		this.setContexts(null);
+		this.setGoals(null);
+		this.setLocations(null);
 		this.setProgress(0);
 		this.setCompleted(false);
 		this.setCompletedOn(null);
@@ -159,10 +159,10 @@ public class TaskBean extends AbstractModelParentBean {
 		super(bean);
 		
 		this.setTags(bean.getTags());
-		this.setFolder(bean.getFolder());
-		this.setContext(bean.getContext());
-		this.setGoal(bean.getGoal());
-		this.setLocation(bean.getLocation());
+		this.setFolders(bean.getFolders());
+		this.setContexts(bean.getContexts());
+		this.setGoals(bean.getGoals());
+		this.setLocations(bean.getLocations());
 		this.setProgress(bean.getProgress());
 		this.setCompleted(bean.isCompleted());
 		this.setCompletedOn(bean.getCompletedOn());
@@ -196,36 +196,36 @@ public class TaskBean extends AbstractModelParentBean {
 		this.tags = tags;
 	}
 	
-	public ModelId getFolder() {
-		return this.folder;
+	public ModelBeanList getFolders() {
+		return this.folders;
 	}
 	
-	public void setFolder(ModelId folder) {
-		this.folder = folder;
+	public void setFolders(ModelBeanList folders) {
+		this.folders = folders;
 	}
 	
-	public ModelId getContext() {
-		return this.context;
+	public ModelBeanList getContexts() {
+		return this.contexts;
 	}
 	
-	public void setContext(ModelId context) {
-		this.context = context;
+	public void setContexts(ModelBeanList contexts) {
+		this.contexts = contexts;
 	}
 	
-	public ModelId getGoal() {
-		return this.goal;
+	public ModelBeanList getGoals() {
+		return this.goals;
 	}
 	
-	public void setGoal(ModelId goal) {
-		this.goal = goal;
+	public void setGoals(ModelBeanList goals) {
+		this.goals = goals;
 	}
 	
-	public ModelId getLocation() {
-		return this.location;
+	public ModelBeanList getLocations() {
+		return this.locations;
 	}
 	
-	public void setLocation(ModelId location) {
-		this.location = location;
+	public void setLocations(ModelBeanList locations) {
+		this.locations = locations;
 	}
 	
 	public double getProgress() {

@@ -39,9 +39,9 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
-import com.leclercb.taskunifier.api.models.beans.converters.FolderConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.templates.converters.NoteTemplateConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -52,8 +52,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class NoteTemplate implements Template<Note, NoteBean> {
 	
 	public static final String PROP_NOTE_TITLE = "noteTitle";
-	public static final String PROP_NOTE_FOLDER_FORCE = "noteFolderForce";
-	public static final String PROP_NOTE_FOLDER = "noteFolder";
+	public static final String PROP_NOTE_FOLDERS = "noteFolders";
 	public static final String PROP_NOTE_NOTE = "noteNote";
 	
 	@XStreamOmitField
@@ -69,12 +68,9 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 	@XStreamAlias("notetitle")
 	private String noteTitle;
 	
-	@XStreamAlias("notefolderforce")
-	private boolean noteFolderForce;
-	
-	@XStreamAlias("notefolder")
-	@XStreamConverter(FolderConverter.class)
-	private Folder noteFolder;
+	@XStreamAlias("notefolders")
+	@XStreamConverter(FolderConverters.class)
+	private ModelList<Folder> noteFolders;
 	
 	@XStreamAlias("notenote")
 	private String noteNote;
@@ -89,7 +85,7 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 		
 		this.setTitle(title);
 		this.setNoteTitle(null);
-		this.setNoteFolder(null, false);
+		this.setNoteFolders(null);
 		this.setNoteNote(null);
 	}
 	
@@ -99,7 +95,7 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 		template.setProperties(this.properties);
 		
 		template.setNoteTitle(this.noteTitle);
-		template.setNoteFolder(this.noteFolder, this.noteFolderForce);
+		template.setNoteFolders(this.noteFolders);
 		template.setNoteNote(this.noteNote);
 		
 		return template;
@@ -113,8 +109,8 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 		if (this.noteTitle != null && this.noteTitle.length() != 0)
 			note.setTitle(this.noteTitle);
 		
-		if (this.noteFolderForce || this.noteFolder != null)
-			note.setFolder(this.noteFolder);
+		if (this.noteFolders != null)
+			note.setFolders(this.noteFolders);
 		
 		if (this.noteNote != null && this.noteNote.length() != 0)
 			note.setNote(this.noteNote);
@@ -128,8 +124,8 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 		if (this.noteTitle != null && this.noteTitle.length() != 0)
 			note.setTitle(this.noteTitle);
 		
-		if (this.noteFolderForce || this.noteFolder != null)
-			note.setFolder(this.noteFolder.getModelId());
+		if (this.noteFolders != null)
+			note.setFolders(this.noteFolders.toModelBeanList());
 		
 		if (this.noteNote != null && this.noteNote.length() != 0)
 			note.setNote(this.noteNote);
@@ -184,43 +180,18 @@ public class NoteTemplate implements Template<Note, NoteBean> {
 				noteTitle);
 	}
 	
-	public boolean isNoteFolderForce() {
-		return this.noteFolderForce;
+	public ModelList<Folder> getNoteFolders() {
+		return this.noteFolders;
 	}
 	
-	public void setNoteFolderForce(boolean force) {
-		boolean oldNoteFolderForce = this.noteFolderForce;
-		this.noteFolderForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_NOTE_FOLDER_FORCE,
-				oldNoteFolderForce,
-				force);
-	}
-	
-	public Folder getNoteFolder() {
-		return this.noteFolder;
-	}
-	
-	public void setNoteFolder(Folder noteFolder) {
-		this.setNoteFolder(noteFolder, false);
-	}
-	
-	public void setNoteFolder(Folder noteFolder, boolean force) {
-		Folder oldNoteFolder = this.noteFolder;
-		this.noteFolder = noteFolder;
-		
-		boolean oldNoteFolderForce = this.noteFolderForce;
-		this.noteFolderForce = force;
+	public void setNoteFolders(ModelList<Folder> noteFolders) {
+		ModelList<Folder> oldNoteFolders = this.noteFolders;
+		this.noteFolders = noteFolders;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_NOTE_FOLDER_FORCE,
-				oldNoteFolderForce,
-				force);
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_NOTE_FOLDER,
-				oldNoteFolder,
-				noteFolder);
+				PROP_NOTE_FOLDERS,
+				oldNoteFolders,
+				noteFolders);
 	}
 	
 	public String getNoteNote() {

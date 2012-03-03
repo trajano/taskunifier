@@ -32,21 +32,30 @@
  */
 package com.leclercb.taskunifier.api.models.beans.converters;
 
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-public class TaskConverter implements Converter {
+public class ModelConverter implements Converter {
+	
+	private ModelType modelType;
+	
+	public ModelConverter(ModelType modelType) {
+		CheckUtils.isNotNull(modelType);
+		this.modelType = modelType;
+	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
-		return Task.class.isAssignableFrom(type);
+		return Model.class.isAssignableFrom(type);
 	}
 	
 	@Override
@@ -56,7 +65,7 @@ public class TaskConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return TaskFactory.getInstance().get(modelId);
+		return ModelFactoryUtils.getModel(this.modelType, modelId);
 	}
 	
 	@Override
@@ -65,7 +74,7 @@ public class TaskConverter implements Converter {
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
 		ModelIdConverter.INSTANCE.marshal(
-				((Task) source).getModelId(),
+				((Model) source).getModelId(),
 				writer,
 				context);
 	}

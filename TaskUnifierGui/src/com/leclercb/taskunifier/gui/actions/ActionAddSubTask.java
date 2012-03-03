@@ -122,10 +122,10 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 			searcherTemplate.applyTo(task);
 		
 		task.setParent(parent);
-		task.setContext(parent.getContext());
-		task.setFolder(parent.getFolder());
-		task.setGoal(parent.getGoal());
-		task.setLocation(parent.getLocation());
+		task.getContexts().addAll(parent.getContexts().getList());
+		task.getFolders().addAll(parent.getFolders().getList());
+		task.getGoals().addAll(parent.getGoals().getList());
+		task.getLocations().addAll(parent.getLocations().getList());
 		
 		ViewUtils.addExtraTasks(new Task[] { task });
 		ViewUtils.refreshTasks();

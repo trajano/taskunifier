@@ -38,7 +38,6 @@ import java.util.Calendar;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
@@ -53,10 +52,10 @@ import com.leclercb.taskunifier.api.models.enums.TaskStatus;
 public class Task extends AbstractModelParent<Task> implements ModelNote, PropertyChangeListener, ListChangeListener {
 	
 	public static final String PROP_TAGS = "tags";
-	public static final String PROP_FOLDER = "folder";
-	public static final String PROP_CONTEXT = "context";
-	public static final String PROP_GOAL = "goal";
-	public static final String PROP_LOCATION = "location";
+	public static final String PROP_FOLDERS = "folders";
+	public static final String PROP_CONTEXTS = "contexts";
+	public static final String PROP_GOALS = "goals";
+	public static final String PROP_LOCATIONS = "locations";
 	public static final String PROP_PROGRESS = "progress";
 	public static final String PROP_COMPLETED = "completed";
 	public static final String PROP_COMPLETED_ON = "completedOn";
@@ -76,10 +75,10 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	public static final String PROP_FILES = "files";
 	
 	private TagList tags;
-	private Folder folder;
-	private Context context;
-	private Goal goal;
-	private Location location;
+	private ModelList<Folder> folders;
+	private ModelList<Context> contexts;
+	private ModelList<Goal> goals;
+	private ModelList<Location> locations;
 	private double progress;
 	private boolean completed;
 	private Calendar completedOn;
@@ -113,6 +112,18 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		
 		this.tags = new TagList();
 		
+		this.folders = new ModelList<Folder>();
+		this.folders.addListChangeListener(this);
+		
+		this.contexts = new ModelList<Context>();
+		this.contexts.addListChangeListener(this);
+		
+		this.goals = new ModelList<Goal>();
+		this.goals.addListChangeListener(this);
+		
+		this.locations = new ModelList<Location>();
+		this.locations.addListChangeListener(this);
+		
 		this.contacts = new ContactGroup();
 		this.contacts.addListChangeListener(this);
 		this.contacts.addPropertyChangeListener(this);
@@ -126,10 +137,10 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.files.addPropertyChangeListener(this);
 		
 		this.setTags(new TagList());
-		this.setFolder(null);
-		this.setContext(null);
-		this.setGoal(null);
-		this.setLocation(null);
+		this.setFolders(new ModelList<Folder>());
+		this.setContexts(new ModelList<Context>());
+		this.setGoals(new ModelList<Goal>());
+		this.setLocations(new ModelList<Location>());
 		this.setProgress(0);
 		this.setCompleted(false);
 		this.setCompletedOn(null);
@@ -157,10 +168,10 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		Task task = this.getFactory().create(modelId, this.getTitle());
 		
 		task.setTags(this.getTags());
-		task.setFolder(this.getFolder());
-		task.setContext(this.getContext());
-		task.setGoal(this.getGoal());
-		task.setLocation(this.getLocation());
+		task.setFolders(this.getFolders());
+		task.setContexts(this.getContexts());
+		task.setGoals(this.getGoals());
+		task.setLocations(this.getLocations());
 		task.setParent(this.getParent());
 		task.setProgress(this.getProgress());
 		task.setCompleted(this.isCompleted());
@@ -208,46 +219,19 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		
 		TaskBean bean = (TaskBean) b;
 		
-		Context context = null;
-		
-		if (bean.getContext() != null) {
-			context = ContextFactory.getInstance().get(bean.getContext());
-			if (context == null)
-				context = ContextFactory.getInstance().createShell(
-						bean.getContext());
-		}
-		
-		Folder folder = null;
-		
-		if (bean.getFolder() != null) {
-			folder = FolderFactory.getInstance().get(bean.getFolder());
-			if (folder == null)
-				folder = FolderFactory.getInstance().createShell(
-						bean.getFolder());
-		}
-		
-		Goal goal = null;
-		
-		if (bean.getGoal() != null) {
-			goal = GoalFactory.getInstance().get(bean.getGoal());
-			if (goal == null)
-				goal = GoalFactory.getInstance().createShell(bean.getGoal());
-		}
-		
-		Location location = null;
-		
-		if (bean.getLocation() != null) {
-			location = LocationFactory.getInstance().get(bean.getLocation());
-			if (location == null)
-				location = LocationFactory.getInstance().createShell(
-						bean.getLocation());
-		}
-		
 		this.setTags(bean.getTags());
-		this.setFolder(folder);
-		this.setContext(context);
-		this.setGoal(goal);
-		this.setLocation(location);
+		this.setFolders((bean.getFolders() == null ? null : bean.getFolders().toModelList(
+				new ModelList<Folder>(),
+				ModelType.FOLDER)));
+		this.setContexts((bean.getContexts() == null ? null : bean.getContexts().toModelList(
+				new ModelList<Context>(),
+				ModelType.CONTEXT)));
+		this.setGoals((bean.getGoals() == null ? null : bean.getGoals().toModelList(
+				new ModelList<Goal>(),
+				ModelType.GOAL)));
+		this.setLocations((bean.getLocations() == null ? null : bean.getLocations().toModelList(
+				new ModelList<Location>(),
+				ModelType.LOCATION)));
 		this.setProgress(bean.getProgress());
 		this.setStartDate(bean.getStartDate());
 		this.setStartDateReminder(bean.getStartDateReminder());
@@ -279,10 +263,10 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		TaskBean bean = (TaskBean) super.toBean();
 		
 		bean.setTags(this.getTags());
-		bean.setFolder(this.getFolder() == null ? null : this.getFolder().getModelId());
-		bean.setContext(this.getContext() == null ? null : this.getContext().getModelId());
-		bean.setGoal(this.getGoal() == null ? null : this.getGoal().getModelId());
-		bean.setLocation(this.getLocation() == null ? null : this.getLocation().getModelId());
+		bean.setFolders(this.getFolders().toModelBeanList());
+		bean.setContexts(this.getContexts().toModelBeanList());
+		bean.setGoals(this.getGoals().toModelBeanList());
+		bean.setLocations(this.getLocations().toModelBeanList());
 		bean.setProgress(this.getProgress());
 		bean.setStartDate(this.getStartDate());
 		bean.setStartDateReminder(this.getStartDateReminder());
@@ -322,120 +306,48 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.updateProperty(PROP_TAGS, oldTags, tags);
 	}
 	
-	public Folder getFolder() {
-		return this.folder;
+	public ModelList<Folder> getFolders() {
+		return this.folders;
 	}
 	
-	public void setFolder(Folder folder) {
-		if (!this.checkBeforeSet(this.getFolder(), folder))
-			return;
+	public void setFolders(ModelList<Folder> folders) {
+		this.folders.clear();
 		
-		if (folder != null) {
-			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| folder.getModelStatus().equals(ModelStatus.DELETED)) {
-				ApiLogger.getLogger().severe(
-						"You cannot assign a deleted model");
-				folder = null;
-			}
-		}
-		
-		if (this.folder != null)
-			this.folder.removePropertyChangeListener(this);
-		
-		Folder oldFolder = this.folder;
-		this.folder = folder;
-		
-		if (this.folder != null)
-			this.folder.addPropertyChangeListener(this);
-		
-		this.updateProperty(PROP_FOLDER, oldFolder, folder);
+		if (folders != null)
+			this.folders.addAll(folders.getList());
 	}
 	
-	public Context getContext() {
-		return this.context;
+	public ModelList<Context> getContexts() {
+		return this.contexts;
 	}
 	
-	public void setContext(Context context) {
-		if (!this.checkBeforeSet(this.getContext(), context))
-			return;
+	public void setContexts(ModelList<Context> contexts) {
+		this.contexts.clear();
 		
-		if (context != null) {
-			if (context.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| context.getModelStatus().equals(ModelStatus.DELETED)) {
-				ApiLogger.getLogger().severe(
-						"You cannot assign a deleted model");
-				context = null;
-			}
-		}
-		
-		if (this.context != null)
-			this.context.removePropertyChangeListener(this);
-		
-		Context oldContext = this.context;
-		this.context = context;
-		
-		if (this.context != null)
-			this.context.addPropertyChangeListener(this);
-		
-		this.updateProperty(PROP_CONTEXT, oldContext, context);
+		if (contexts != null)
+			this.contexts.addAll(contexts.getList());
 	}
 	
-	public Goal getGoal() {
-		return this.goal;
+	public ModelList<Goal> getGoals() {
+		return this.goals;
 	}
 	
-	public void setGoal(Goal goal) {
-		if (!this.checkBeforeSet(this.getGoal(), goal))
-			return;
+	public void setGoals(ModelList<Goal> goals) {
+		this.goals.clear();
 		
-		if (goal != null) {
-			if (goal.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| goal.getModelStatus().equals(ModelStatus.DELETED)) {
-				ApiLogger.getLogger().severe(
-						"You cannot assign a deleted model");
-				goal = null;
-			}
-		}
-		
-		if (this.goal != null)
-			this.goal.removePropertyChangeListener(this);
-		
-		Goal oldGoal = this.goal;
-		this.goal = goal;
-		
-		if (this.goal != null)
-			this.goal.addPropertyChangeListener(this);
-		
-		this.updateProperty(PROP_GOAL, oldGoal, goal);
+		if (goals != null)
+			this.goals.addAll(goals.getList());
 	}
 	
-	public Location getLocation() {
-		return this.location;
+	public ModelList<Location> getLocations() {
+		return this.locations;
 	}
 	
-	public void setLocation(Location location) {
-		if (!this.checkBeforeSet(this.getLocation(), location))
-			return;
+	public void setLocations(ModelList<Location> locations) {
+		this.locations.clear();
 		
-		if (location != null) {
-			if (location.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| location.getModelStatus().equals(ModelStatus.DELETED)) {
-				ApiLogger.getLogger().severe(
-						"You cannot assign a deleted model");
-				location = null;
-			}
-		}
-		
-		if (this.location != null)
-			this.location.removePropertyChangeListener(this);
-		
-		Location oldLocation = this.location;
-		this.location = location;
-		
-		if (this.location != null)
-			this.location.addPropertyChangeListener(this);
-		
-		this.updateProperty(PROP_LOCATION, oldLocation, location);
+		if (locations != null)
+			this.locations.addAll(locations.getList());
 	}
 	
 	public double getProgress() {
@@ -781,15 +693,31 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
-		if (event.getValue() instanceof ContactItem) {
+		if (event.getSource().equals(this.folders)) {
+			this.updateProperty(PROP_FOLDERS, null, this.folders);
+		}
+		
+		if (event.getSource().equals(this.contexts)) {
+			this.updateProperty(PROP_CONTEXTS, null, this.contexts);
+		}
+		
+		if (event.getSource().equals(this.goals)) {
+			this.updateProperty(PROP_GOALS, null, this.goals);
+		}
+		
+		if (event.getSource().equals(this.locations)) {
+			this.updateProperty(PROP_LOCATIONS, null, this.locations);
+		}
+		
+		if (event.getSource().equals(this.contacts)) {
 			this.updateProperty(PROP_CONTACTS, null, this.contacts);
 		}
 		
-		if (event.getValue() instanceof TaskItem) {
+		if (event.getSource().equals(this.tasks)) {
 			this.updateProperty(PROP_TASKS, null, this.tasks);
 		}
 		
-		if (event.getValue() instanceof FileItem) {
+		if (event.getSource().equals(this.files)) {
 			this.updateProperty(PROP_FILES, null, this.files);
 		}
 	}
@@ -806,42 +734,6 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		
 		if (event.getSource() instanceof FileItem) {
 			this.updateProperty(PROP_FILES, null, this.files);
-		}
-		
-		if (event.getSource() instanceof Folder
-				&& event.getPropertyName().equals(PROP_MODEL_STATUS)) {
-			Folder folder = (Folder) event.getSource();
-			
-			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| folder.getModelStatus().equals(ModelStatus.DELETED))
-				this.setFolder(null);
-		}
-		
-		if (event.getSource() instanceof Context
-				&& event.getPropertyName().equals(PROP_MODEL_STATUS)) {
-			Context context = (Context) event.getSource();
-			
-			if (context.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| context.getModelStatus().equals(ModelStatus.DELETED))
-				this.setContext(null);
-		}
-		
-		if (event.getSource() instanceof Goal
-				&& event.getPropertyName().equals(PROP_MODEL_STATUS)) {
-			Goal goal = (Goal) event.getSource();
-			
-			if (goal.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| goal.getModelStatus().equals(ModelStatus.DELETED))
-				this.setGoal(null);
-		}
-		
-		if (event.getSource() instanceof Location
-				&& event.getPropertyName().equals(PROP_MODEL_STATUS)) {
-			Location location = (Location) event.getSource();
-			
-			if (location.getModelStatus().equals(ModelStatus.TO_DELETE)
-					|| location.getModelStatus().equals(ModelStatus.DELETED))
-				this.setLocation(null);
 		}
 	}
 	
