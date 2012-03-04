@@ -74,7 +74,7 @@ public class ThemeColumnsConfigurationPanel extends DefaultConfigurationPanel {
 							Main.getSettings(),
 							"taskcolumn."
 									+ column.name().toLowerCase()
-									+ ".visible")));
+									+ ".used")));
 		}
 	}
 	

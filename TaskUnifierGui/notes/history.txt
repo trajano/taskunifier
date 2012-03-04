@@ -8,6 +8,8 @@ Version 3.0.0
 		- Multiple contexts for tasks
 		- Multiple goals for tasks
 		- Multiple locations for tasks
+		- Define your own statuses
+		- Define your own postpone list
 
 Version 2.3.0
 	- Major:
