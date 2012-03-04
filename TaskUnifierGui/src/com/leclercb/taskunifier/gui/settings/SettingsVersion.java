@@ -1261,6 +1261,28 @@ public final class SettingsVersion {
 		GuiLogger.getLogger().info(
 				"Update settings from version 2.9.0 to 3.0.0");
 		
+		Main.getSettings().replaceKey(
+				"window.extended_state",
+				"window.main.extended_state");
+		Main.getSettings().replaceKey("window.height", "window.main.height");
+		Main.getSettings().replaceKey(
+				"window.location_x",
+				"window.main.location_x");
+		Main.getSettings().replaceKey(
+				"window.location_y",
+				"window.main.location_y");
+		Main.getSettings().replaceKey("window.width", "window.main.width");
+		
+		Main.getSettings().setStringProperty("window.sub.extended_state", "6");
+		Main.getSettings().setStringProperty("window.sub.height", "800");
+		Main.getSettings().setStringProperty("window.sub.location_x", "0");
+		Main.getSettings().setStringProperty("window.sub.location_y", "0");
+		Main.getSettings().setStringProperty("window.sub.width", "600");
+		
+		Main.getSettings().setStringProperty(
+				"taskstatuses",
+				"None;Next action;Active;Planning;Delegated;Waiting;Hold;Postponed;Someday;Canceled;Reference");
+		
 		return "3.0.0";
 	}
 	

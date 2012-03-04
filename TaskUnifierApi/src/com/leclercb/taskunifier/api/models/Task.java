@@ -38,6 +38,7 @@ import java.util.Calendar;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
@@ -51,7 +52,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 public class Task extends AbstractModelParent<Task> implements ModelNote, PropertyChangeListener, ListChangeListener {
 	
 	public static final String PROP_TAGS = "tags";
-	public static final String PROP_FOLDERS = "folders";
+	public static final String PROP_FOLDER = "folder";
 	public static final String PROP_CONTEXTS = "contexts";
 	public static final String PROP_GOALS = "goals";
 	public static final String PROP_LOCATIONS = "locations";
@@ -74,7 +75,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	public static final String PROP_FILES = "files";
 	
 	private TagList tags;
-	private ModelList<Folder> folders;
+	private Folder folder;
 	private ModelList<Context> contexts;
 	private ModelList<Goal> goals;
 	private ModelList<Location> locations;
@@ -111,9 +112,6 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		
 		this.tags = new TagList();
 		
-		this.folders = new ModelList<Folder>();
-		this.folders.addListChangeListener(this);
-		
 		this.contexts = new ModelList<Context>();
 		this.contexts.addListChangeListener(this);
 		
@@ -136,7 +134,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.files.addPropertyChangeListener(this);
 		
 		this.setTags(new TagList());
-		this.setFolders(new ModelList<Folder>());
+		this.setFolder(null);
 		this.setContexts(new ModelList<Context>());
 		this.setGoals(new ModelList<Goal>());
 		this.setLocations(new ModelList<Location>());
@@ -167,7 +165,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		Task task = this.getFactory().create(modelId, this.getTitle());
 		
 		task.setTags(this.getTags());
-		task.setFolders(this.getFolders());
+		task.setFolder(this.getFolder());
 		task.setContexts(this.getContexts());
 		task.setGoals(this.getGoals());
 		task.setLocations(this.getLocations());
@@ -218,10 +216,17 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		
 		TaskBean bean = (TaskBean) b;
 		
+		Folder folder = null;
+		
+		if (bean.getFolder() != null) {
+			folder = FolderFactory.getInstance().get(bean.getFolder());
+			if (folder == null)
+				folder = FolderFactory.getInstance().createShell(
+						bean.getFolder());
+		}
+		
 		this.setTags(bean.getTags());
-		this.setFolders((bean.getFolders() == null ? null : bean.getFolders().toModelList(
-				new ModelList<Folder>(),
-				ModelType.FOLDER)));
+		this.setFolder(folder);
 		this.setContexts((bean.getContexts() == null ? null : bean.getContexts().toModelList(
 				new ModelList<Context>(),
 				ModelType.CONTEXT)));
@@ -262,7 +267,7 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		TaskBean bean = (TaskBean) super.toBean();
 		
 		bean.setTags(this.getTags());
-		bean.setFolders(this.getFolders().toModelBeanList());
+		bean.setFolder((this.getFolder() == null ? null : this.getFolder().getModelId()));
 		bean.setContexts(this.getContexts().toModelBeanList());
 		bean.setGoals(this.getGoals().toModelBeanList());
 		bean.setLocations(this.getLocations().toModelBeanList());
@@ -305,15 +310,33 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.updateProperty(PROP_TAGS, oldTags, tags);
 	}
 	
-	public ModelList<Folder> getFolders() {
-		return this.folders;
+	public Folder getFolder() {
+		return this.folder;
 	}
 	
-	public void setFolders(ModelList<Folder> folders) {
-		this.folders.clear();
+	public void setFolder(Folder folder) {
+		if (!this.checkBeforeSet(this.getFolder(), folder))
+			return;
 		
-		if (folders != null)
-			this.folders.addAll(folders.getList());
+		if (folder != null) {
+			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
+					|| folder.getModelStatus().equals(ModelStatus.DELETED)) {
+				ApiLogger.getLogger().severe(
+						"You cannot assign a deleted model");
+				folder = null;
+			}
+		}
+		
+		if (this.folder != null)
+			this.folder.removePropertyChangeListener(this);
+		
+		Folder oldFolder = this.folder;
+		this.folder = folder;
+		
+		if (this.folder != null)
+			this.folder.addPropertyChangeListener(this);
+		
+		this.updateProperty(PROP_FOLDER, oldFolder, folder);
 	}
 	
 	public ModelList<Context> getContexts() {
@@ -692,10 +715,6 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
-		if (event.getSource().equals(this.folders)) {
-			this.updateProperty(PROP_FOLDERS, null, this.folders);
-		}
-		
 		if (event.getSource().equals(this.contexts)) {
 			this.updateProperty(PROP_CONTEXTS, null, this.contexts);
 		}
@@ -723,6 +742,15 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getSource() instanceof Folder
+				&& event.getPropertyName().equals(PROP_MODEL_STATUS)) {
+			Folder folder = (Folder) event.getSource();
+			
+			if (folder.getModelStatus().equals(ModelStatus.TO_DELETE)
+					|| folder.getModelStatus().equals(ModelStatus.DELETED))
+				this.setFolder(null);
+		}
+		
 		if (event.getSource() instanceof ContactItem) {
 			this.updateProperty(PROP_CONTACTS, null, this.contacts);
 		}

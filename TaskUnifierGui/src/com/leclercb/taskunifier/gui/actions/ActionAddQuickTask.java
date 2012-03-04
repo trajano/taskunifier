@@ -32,6 +32,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.TaskStatusUtils;
 
 public class ActionAddQuickTask extends AbstractAction {
 	
@@ -185,10 +186,8 @@ public class ActionAddQuickTask extends AbstractAction {
 	}
 	
 	private static void findStatusPriority(String title, TaskBean bean) {
-		for (TaskStatus status : TaskStatus.values()) {
-			String s = TranslationsUtils.translateTaskStatus(status);
-			
-			if (s.toLowerCase().startsWith(title)) {
+		for (String status : TaskStatusUtils.getTaskStatuses()) {
+			if (status.toLowerCase().startsWith(title)) {
 				bean.setStatus(status);
 				return;
 			}

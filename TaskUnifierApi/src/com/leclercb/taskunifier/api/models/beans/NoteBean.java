@@ -38,8 +38,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class NoteBean extends AbstractModelBean {
 	
-	@XStreamAlias("folders")
-	private ModelBeanList folders;
+	@XStreamAlias("folder")
+	private ModelId folder;
 	
 	@XStreamAlias("note")
 	private String note;
@@ -51,14 +51,14 @@ public class NoteBean extends AbstractModelBean {
 	public NoteBean(ModelId modelId) {
 		super(modelId);
 		
-		this.setFolders(null);
+		this.setFolder(null);
 		this.setNote(null);
 	}
 	
 	public NoteBean(NoteBean bean) {
 		super(bean);
 		
-		this.setFolders(bean.getFolders());
+		this.setFolder(bean.getFolder());
 		this.setNote(bean.getNote());
 	}
 	
@@ -67,12 +67,12 @@ public class NoteBean extends AbstractModelBean {
 		return ModelType.NOTE;
 	}
 	
-	public ModelBeanList getFolders() {
-		return this.folders;
+	public ModelId getFolder() {
+		return this.folder;
 	}
 	
-	public void setFolders(ModelBeanList folders) {
-		this.folders = folders;
+	public void setFolder(ModelId folder) {
+		this.folder = folder;
 	}
 	
 	public String getNote() {

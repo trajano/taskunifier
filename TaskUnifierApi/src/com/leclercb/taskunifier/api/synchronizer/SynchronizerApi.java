@@ -127,6 +127,10 @@ public abstract class SynchronizerApi {
 		return false;
 	}
 	
+	public boolean isAllowCustomStatusValue() {
+		return false;
+	}
+	
 	public String[] getDefaultRepeatValues() {
 		return new String[0];
 	}

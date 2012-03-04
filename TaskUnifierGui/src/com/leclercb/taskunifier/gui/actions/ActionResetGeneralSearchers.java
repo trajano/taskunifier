@@ -196,7 +196,7 @@ public class ActionResetGeneralSearchers extends AbstractAction {
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.STATUS,
 				EnumCondition.EQUALS,
-				TaskStatus.NEXT_ACTION));
+				"Next action"));
 		
 		TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.GENERAL,

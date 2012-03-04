@@ -9,7 +9,6 @@ Version 3.0.0
 		- Sub-folders
 		- Sub-goals
 		- Multiple contexts for tasks
-		- Multiple folders for notes and tasks
 		- Multiple goals for tasks
 		- Multiple locations for tasks
 

@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.api.models.beans.converters.FolderConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -60,7 +61,8 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	
 	public static final String PROP_TASK_TITLE = "taskTitle";
 	public static final String PROP_TASK_TAGS = "taskTags";
-	public static final String PROP_TASK_FOLDERS = "taskFolders";
+	public static final String PROP_TASK_FOLDER_FORCE = "taskFolderForce";
+	public static final String PROP_TASK_FOLDER = "taskFolder";
 	public static final String PROP_TASK_CONTEXTS = "taskContexts";
 	public static final String PROP_TASK_GOALS = "taskGoals";
 	public static final String PROP_TASK_LOCATIONS = "taskLocations";
@@ -96,9 +98,12 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	@XStreamAlias("tasktags")
 	private String taskTags;
 	
-	@XStreamAlias("taskfolders")
-	@XStreamConverter(FoldersConverter.class)
-	private ModelList<Folder> taskFolders;
+	@XStreamAlias("taskfolderforce")
+	private boolean taskFolderForce;
+	
+	@XStreamAlias("taskfolder")
+	@XStreamConverter(FolderConverter.class)
+	private Folder taskFolder;
 	
 	@XStreamAlias("taskcontexts")
 	@XStreamConverter(ContextsConverter.class)
@@ -168,7 +173,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		this.setTitle(title);
 		this.setTaskTitle(null);
 		this.setTaskTags(null);
-		this.setTaskFolders(null);
+		this.setTaskFolder(null, false);
 		this.setTaskContexts(null);
 		this.setTaskGoals(null);
 		this.setTaskLocations(null);
@@ -196,7 +201,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		
 		template.setTaskTitle(this.taskTitle);
 		template.setTaskTags(this.taskTags);
-		template.setTaskFolders(this.taskFolders);
+		template.setTaskFolder(this.taskFolder, this.taskFolderForce);
 		template.setTaskContexts(this.taskContexts);
 		template.setTaskGoals(this.taskGoals);
 		template.setTaskLocations(this.taskLocations);
@@ -234,8 +239,8 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 			task.setTags(tags);
 		}
 		
-		if (this.taskFolders != null)
-			task.getFolders().addAll(this.taskFolders.getList());
+		if (this.taskFolderForce || this.taskFolder != null)
+			task.setFolder(this.taskFolder);
 		
 		if (this.taskContexts != null)
 			task.getContexts().addAll(this.taskContexts.getList());
@@ -327,8 +332,8 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 			task.setTags(tags);
 		}
 		
-		if (this.taskFolders != null)
-			task.setFolders(this.taskFolders.toModelBeanList());
+		if (this.taskFolderForce || this.taskFolder != null)
+			task.setFolder(this.taskFolder.getModelId());
 		
 		if (this.taskContexts != null)
 			task.setContexts(this.taskContexts.toModelBeanList());
@@ -467,18 +472,43 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 				taskTags);
 	}
 	
-	public ModelList<Folder> getTaskFolders() {
-		return this.taskFolders;
+	public boolean isTaskFolderForce() {
+		return this.taskFolderForce;
 	}
 	
-	public void setTaskFolders(ModelList<Folder> taskFolders) {
-		ModelList<Folder> oldTaskFolders = this.taskFolders;
-		this.taskFolders = taskFolders;
+	public void setTaskFolderForce(boolean force) {
+		boolean oldTaskFolderForce = this.taskFolderForce;
+		this.taskFolderForce = force;
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TASK_FOLDER_FORCE,
+				oldTaskFolderForce,
+				force);
+	}
+	
+	public Folder getTaskFolder() {
+		return this.taskFolder;
+	}
+	
+	public void setTaskFolder(Folder taskFolder) {
+		this.setTaskFolder(taskFolder, false);
+	}
+	
+	public void setTaskFolder(Folder taskFolder, boolean force) {
+		Folder oldTaskFolder = this.taskFolder;
+		this.taskFolder = taskFolder;
+		
+		boolean oldTaskFolderForce = this.taskFolderForce;
+		this.taskFolderForce = force;
 		
 		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDERS,
-				oldTaskFolders,
-				taskFolders);
+				PROP_TASK_FOLDER_FORCE,
+				oldTaskFolderForce,
+				force);
+		
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_TASK_FOLDER,
+				oldTaskFolder,
+				taskFolder);
 	}
 	
 	public ModelList<Context> getTaskContexts() {

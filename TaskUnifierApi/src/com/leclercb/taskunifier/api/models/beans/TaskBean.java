@@ -52,8 +52,8 @@ public class TaskBean extends AbstractModelParentBean {
 	@XStreamConverter(TagListConverter.class)
 	private TagList tags;
 	
-	@XStreamAlias("folders")
-	private ModelBeanList folders;
+	@XStreamAlias("folder")
+	private ModelId folder;
 	
 	@XStreamAlias("contexts")
 	private ModelBeanList contexts;
@@ -130,7 +130,7 @@ public class TaskBean extends AbstractModelParentBean {
 		super(modelId);
 		
 		this.setTags(new TagList());
-		this.setFolders(null);
+		this.setFolder(null);
 		this.setContexts(null);
 		this.setGoals(null);
 		this.setLocations(null);
@@ -158,7 +158,7 @@ public class TaskBean extends AbstractModelParentBean {
 		super(bean);
 		
 		this.setTags(bean.getTags());
-		this.setFolders(bean.getFolders());
+		this.setFolder(bean.getFolder());
 		this.setContexts(bean.getContexts());
 		this.setGoals(bean.getGoals());
 		this.setLocations(bean.getLocations());
@@ -195,12 +195,12 @@ public class TaskBean extends AbstractModelParentBean {
 		this.tags = tags;
 	}
 	
-	public ModelBeanList getFolders() {
-		return this.folders;
+	public ModelId getFolder() {
+		return this.folder;
 	}
 	
-	public void setFolders(ModelBeanList folders) {
-		this.folders = folders;
+	public void setFolder(ModelId folder) {
+		this.folder = folder;
 	}
 	
 	public ModelBeanList getContexts() {

@@ -355,13 +355,13 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	
 	private void loadWindowSettings() {
 		int extendedState = Main.getSettings().getIntegerProperty(
-				"window.extended_state");
-		int width = Main.getSettings().getIntegerProperty("window.width");
-		int height = Main.getSettings().getIntegerProperty("window.height");
+				"window.main.extended_state");
+		int width = Main.getSettings().getIntegerProperty("window.main.width");
+		int height = Main.getSettings().getIntegerProperty("window.main.height");
 		int locationX = Main.getSettings().getIntegerProperty(
-				"window.location_x");
+				"window.main.location_x");
 		int locationY = Main.getSettings().getIntegerProperty(
-				"window.location_y");
+				"window.main.location_y");
 		
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
@@ -376,19 +376,19 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	public void saveProperties() {
 		if (this.isVisible()) {
 			Main.getSettings().setIntegerProperty(
-					"window.extended_state",
+					"window.main.extended_state",
 					this.getExtendedState());
 			Main.getSettings().setIntegerProperty(
-					"window.width",
+					"window.main.width",
 					this.getWidth());
 			Main.getSettings().setIntegerProperty(
-					"window.height",
+					"window.main.height",
 					this.getHeight());
 			Main.getSettings().setIntegerProperty(
-					"window.location_x",
+					"window.main.location_x",
 					(int) this.getLocationOnScreen().getX());
 			Main.getSettings().setIntegerProperty(
-					"window.location_y",
+					"window.main.location_y",
 					(int) this.getLocationOnScreen().getY());
 		}
 	}
