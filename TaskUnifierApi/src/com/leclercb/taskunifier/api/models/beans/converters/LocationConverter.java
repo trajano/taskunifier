@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class LocationConverter implements Converter {
 	
+	public static LocationConverter INSTANCE = new LocationConverter();
+	
+	public LocationConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class LocationConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return LocationFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Location model = LocationFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = LocationFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class LocationConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Location) source).getModelId(),
 				writer,

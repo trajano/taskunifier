@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class NoteConverter implements Converter {
 	
+	public static NoteConverter INSTANCE = new NoteConverter();
+	
+	public NoteConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class NoteConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return NoteFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Note model = NoteFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = NoteFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class NoteConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Note) source).getModelId(),
 				writer,

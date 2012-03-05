@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class ContextConverter implements Converter {
 	
+	public static ContextConverter INSTANCE = new ContextConverter();
+	
+	public ContextConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class ContextConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return ContextFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Context model = ContextFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = ContextFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class ContextConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Context) source).getModelId(),
 				writer,

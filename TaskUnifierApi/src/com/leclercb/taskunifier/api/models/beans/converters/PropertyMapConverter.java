@@ -9,6 +9,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 
 public class PropertyMapConverter extends PropertiesConverter {
 	
+	public static PropertyMapConverter INSTANCE = new PropertyMapConverter();
+	
+	public PropertyMapConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -20,6 +26,10 @@ public class PropertyMapConverter extends PropertiesConverter {
 			HierarchicalStreamReader reader,
 			UnmarshallingContext context) {
 		Properties properties = (Properties) super.unmarshal(reader, context);
+		
+		if (properties == null)
+			return null;
+		
 		return new PropertyMap(properties);
 	}
 	

@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class ContactConverter implements Converter {
 	
+	public static ContactConverter INSTANCE = new ContactConverter();
+	
+	public ContactConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class ContactConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return ContactFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Contact model = ContactFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = ContactFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class ContactConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Contact) source).getModelId(),
 				writer,

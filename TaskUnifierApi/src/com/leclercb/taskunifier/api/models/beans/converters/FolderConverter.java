@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class FolderConverter implements Converter {
 	
+	public static FolderConverter INSTANCE = new FolderConverter();
+	
+	public FolderConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class FolderConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return FolderFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Folder model = FolderFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = FolderFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class FolderConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Folder) source).getModelId(),
 				writer,

@@ -38,7 +38,11 @@ import com.thoughtworks.xstream.converters.SingleValueConverter;
 
 public class CalendarConverter implements SingleValueConverter {
 	
-	public static final CalendarConverter INSTANCE = new CalendarConverter();
+	public static CalendarConverter INSTANCE = new CalendarConverter();
+	
+	public CalendarConverter() {
+		
+	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -59,7 +63,7 @@ public class CalendarConverter implements SingleValueConverter {
 	@Override
 	public String toString(Object value) {
 		if (value == null)
-			return "";
+			return null;
 		
 		return ((Calendar) value).getTimeInMillis() + "";
 	}

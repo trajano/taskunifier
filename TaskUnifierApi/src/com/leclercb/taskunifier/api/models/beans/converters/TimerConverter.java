@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class TimerConverter implements Converter {
 	
+	public static TimerConverter INSTANCE = new TimerConverter();
+	
+	public TimerConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -67,6 +73,9 @@ public class TimerConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		Timer timer = (Timer) source;
 		writer.addAttribute(
 				"startdate",

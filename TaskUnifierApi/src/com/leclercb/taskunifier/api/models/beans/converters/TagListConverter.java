@@ -37,6 +37,12 @@ import com.thoughtworks.xstream.converters.SingleValueConverter;
 
 public class TagListConverter implements SingleValueConverter {
 	
+	public static TagListConverter INSTANCE = new TagListConverter();
+	
+	public TagListConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class cls) {
@@ -53,6 +59,9 @@ public class TagListConverter implements SingleValueConverter {
 	
 	@Override
 	public String toString(Object value) {
+		if (value == null)
+			return null;
+		
 		return ((TagList) value).toString();
 	}
 	

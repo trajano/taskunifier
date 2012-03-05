@@ -41,7 +41,11 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class ModelIdConverter implements Converter {
 	
-	public static final ModelIdConverter INSTANCE = new ModelIdConverter();
+	public static ModelIdConverter INSTANCE = new ModelIdConverter();
+	
+	public ModelIdConverter() {
+		
+	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -64,6 +68,9 @@ public class ModelIdConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelId id = (ModelId) source;
 		writer.setValue(id.getId());
 	}

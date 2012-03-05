@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class ModelReferenceIdsConverter implements Converter {
 	
+	public static ModelReferenceIdsConverter INSTANCE = new ModelReferenceIdsConverter();
+	
+	public ModelReferenceIdsConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -59,7 +65,10 @@ public class ModelReferenceIdsConverter implements Converter {
 			reader.moveDown();
 			String key = reader.getAttribute("key");
 			String id = reader.getValue();
-			ids.put(key, id);
+			
+			if (key != null)
+				ids.put(key, id);
+			
 			reader.moveUp();
 		}
 		
@@ -72,6 +81,9 @@ public class ModelReferenceIdsConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		Map<String, String> ids = (Map<String, String>) source;
 		
 		for (String key : ids.keySet()) {

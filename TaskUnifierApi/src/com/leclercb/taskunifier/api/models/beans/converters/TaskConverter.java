@@ -43,6 +43,12 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class TaskConverter implements Converter {
 	
+	public static TaskConverter INSTANCE = new TaskConverter();
+	
+	public TaskConverter() {
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
@@ -56,7 +62,16 @@ public class TaskConverter implements Converter {
 		ModelId modelId = (ModelId) ModelIdConverter.INSTANCE.unmarshal(
 				reader,
 				context);
-		return TaskFactory.getInstance().get(modelId);
+		
+		if (modelId == null)
+			return null;
+		
+		Task model = TaskFactory.getInstance().get(modelId);
+		
+		if (model == null)
+			model = TaskFactory.getInstance().createShell(modelId);
+		
+		return model;
 	}
 	
 	@Override
@@ -64,6 +79,9 @@ public class TaskConverter implements Converter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		ModelIdConverter.INSTANCE.marshal(
 				((Task) source).getModelId(),
 				writer,
