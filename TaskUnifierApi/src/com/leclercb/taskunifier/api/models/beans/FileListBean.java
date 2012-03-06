@@ -40,23 +40,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.FileGroup;
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
-import com.leclercb.taskunifier.api.models.beans.FileGroupBean.FileItemBean;
+import com.leclercb.taskunifier.api.models.FileList;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
+import com.leclercb.taskunifier.api.models.beans.FileListBean.FileItemBean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class FileGroupBean implements Cloneable, Serializable, Iterable<FileItemBean> {
+public class FileListBean implements Cloneable, Serializable, Iterable<FileItemBean> {
 	
 	@XStreamAlias("filelist")
 	private List<FileItemBean> files;
 	
-	public FileGroupBean() {
+	public FileListBean() {
 		this.files = new ArrayList<FileItemBean>();
 	}
 	
 	@Override
-	protected FileGroupBean clone() {
-		FileGroupBean list = new FileGroupBean();
+	protected FileListBean clone() {
+		FileListBean list = new FileListBean();
 		list.files.addAll(this.files);
 		return list;
 	}
@@ -106,8 +106,8 @@ public class FileGroupBean implements Cloneable, Serializable, Iterable<FileItem
 		return this.files.get(index);
 	}
 	
-	public FileGroup toFileGroup() {
-		FileGroup list = new FileGroup();
+	public FileList toFileGroup() {
+		FileList list = new FileList();
 		
 		for (FileItemBean item : this)
 			list.add(item.toFileItem());

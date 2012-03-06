@@ -63,10 +63,13 @@ public class NoteTemplateConverter extends ReflectionConverter {
 			UnmarshallingContext context) {
 		NoteTemplate template = (NoteTemplate) super.unmarshal(reader, context);
 		
+		if (template == null)
+			return null;
+		
 		if (reader.getAttribute("default") != null) {
-			boolean def = Boolean.parseBoolean(reader.getAttribute("default"));
+			Boolean def = Boolean.parseBoolean(reader.getAttribute("default"));
 			
-			if (def)
+			if (def != null && def)
 				NoteTemplateFactory.getInstance().setDefaultTemplate(template);
 		}
 		
@@ -78,6 +81,9 @@ public class NoteTemplateConverter extends ReflectionConverter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		NoteTemplate template = (NoteTemplate) source;
 		
 		boolean def = EqualsUtils.equals(

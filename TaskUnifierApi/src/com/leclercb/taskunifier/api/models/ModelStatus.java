@@ -45,18 +45,18 @@ public enum ModelStatus {
 	LOADED(true),
 	
 	/**
-	 * When a model has been updated and is not yet committed to base.
+	 * When a model has been updated and is not yet committed to storage.
 	 */
 	TO_UPDATE(true),
 	
 	/**
-	 * When a model has been deleted and is not yet committed to base.
+	 * When a model has been deleted and is not yet committed to storage.
 	 */
 	TO_DELETE(false),
 	
 	/**
-	 * When a model has been deleted and is committed to base. Cannot be updated
-	 * anymore.
+	 * When a model has been deleted and is committed to storage.
+	 * Cannot be updated anymore.
 	 */
 	DELETED(false);
 	

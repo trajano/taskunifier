@@ -41,7 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;

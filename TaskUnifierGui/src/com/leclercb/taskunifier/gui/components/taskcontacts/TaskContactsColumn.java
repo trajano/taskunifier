@@ -37,7 +37,7 @@ import java.beans.PropertyChangeListener;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.taskunifier.api.models.Contact;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 

@@ -45,8 +45,8 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
-import com.leclercb.taskunifier.api.models.ContactGroup;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.api.models.ContactList;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
@@ -84,7 +84,7 @@ public final class TaskContactLinkList implements ListChangeSupported, ListChang
 		return links.toArray(new String[0]);
 	}
 	
-	private List<IgnoreCaseString> getLinks(ContactGroup contacts) {
+	private List<IgnoreCaseString> getLinks(ContactList contacts) {
 		List<IgnoreCaseString> links = new ArrayList<IgnoreCaseString>();
 		for (ContactItem item : contacts)
 			if (item.getLink() != null)
@@ -178,7 +178,7 @@ public final class TaskContactLinkList implements ListChangeSupported, ListChang
 		}
 	}
 	
-	private void addLinks(ContactGroup contacts) {
+	private void addLinks(ContactList contacts) {
 		for (ContactItem item : contacts) {
 			this.addLink(item.getLink());
 		}
@@ -210,7 +210,7 @@ public final class TaskContactLinkList implements ListChangeSupported, ListChang
 		}
 	}
 	
-	private void removeLinks(ContactGroup contacts) {
+	private void removeLinks(ContactList contacts) {
 		for (ContactItem item : contacts) {
 			this.removeLink(item.getLink());
 		}

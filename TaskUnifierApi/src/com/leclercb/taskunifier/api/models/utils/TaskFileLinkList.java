@@ -45,8 +45,8 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
-import com.leclercb.taskunifier.api.models.FileGroup;
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.api.models.FileList;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
@@ -84,7 +84,7 @@ public final class TaskFileLinkList implements ListChangeSupported, ListChangeLi
 		return links.toArray(new String[0]);
 	}
 	
-	private List<IgnoreCaseString> getLinks(FileGroup files) {
+	private List<IgnoreCaseString> getLinks(FileList files) {
 		List<IgnoreCaseString> links = new ArrayList<IgnoreCaseString>();
 		for (FileItem item : files)
 			if (item.getLink() != null)
@@ -178,7 +178,7 @@ public final class TaskFileLinkList implements ListChangeSupported, ListChangeLi
 		}
 	}
 	
-	private void addLinks(FileGroup files) {
+	private void addLinks(FileList files) {
 		for (FileItem item : files) {
 			this.addLink(item.getLink());
 		}
@@ -210,7 +210,7 @@ public final class TaskFileLinkList implements ListChangeSupported, ListChangeLi
 		}
 	}
 	
-	private void removeLinks(FileGroup files) {
+	private void removeLinks(FileList files) {
 		for (FileItem item : files) {
 			this.removeLink(item.getLink());
 		}

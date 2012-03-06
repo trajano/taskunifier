@@ -51,18 +51,18 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean.ContactItemBean;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean.ContactItemBean;
 
-public class ContactGroup implements Cloneable, Serializable, Iterable<ContactItem>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public class ContactList implements Cloneable, Serializable, Iterable<ContactItem>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	private List<ContactItem> contacts;
 	
-	public ContactGroup() {
+	public ContactList() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
@@ -70,8 +70,8 @@ public class ContactGroup implements Cloneable, Serializable, Iterable<ContactIt
 	}
 	
 	@Override
-	protected ContactGroup clone() {
-		ContactGroup list = new ContactGroup();
+	protected ContactList clone() {
+		ContactList list = new ContactList();
 		list.contacts.addAll(this.contacts);
 		return list;
 	}
@@ -147,8 +147,8 @@ public class ContactGroup implements Cloneable, Serializable, Iterable<ContactIt
 		return StringUtils.join(contacts, ", ");
 	}
 	
-	public ContactGroupBean toContactGroupBean() {
-		ContactGroupBean list = new ContactGroupBean();
+	public ContactListBean toContactGroupBean() {
+		ContactListBean list = new ContactListBean();
 		
 		for (ContactItem item : this)
 			list.add(item.toContactItemBean());

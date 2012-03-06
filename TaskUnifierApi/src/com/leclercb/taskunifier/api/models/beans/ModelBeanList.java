@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
@@ -99,11 +97,6 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 	
 	public ModelId get(int index) {
 		return this.models.get(index);
-	}
-	
-	@Override
-	public String toString() {
-		return StringUtils.join(this.models, ", ");
 	}
 	
 	@SuppressWarnings("unchecked")

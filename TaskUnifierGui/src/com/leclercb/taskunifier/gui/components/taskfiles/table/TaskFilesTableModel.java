@@ -40,23 +40,23 @@ import javax.swing.table.AbstractTableModel;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.FileGroup;
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.api.models.FileList;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 
 public class TaskFilesTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	private FileGroup files;
+	private FileList files;
 	
 	public TaskFilesTableModel() {
-		this.files = new FileGroup();
+		this.files = new FileList();
 	}
 	
-	public FileGroup getFileGroup() {
+	public FileList getFileGroup() {
 		return this.files;
 	}
 	
-	public void setFileGroup(FileGroup files) {
+	public void setFileGroup(FileList files) {
 		if (EqualsUtils.equals(this.files, files))
 			return;
 		

@@ -40,23 +40,23 @@ import javax.swing.table.AbstractTableModel;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.ContactGroup;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.api.models.ContactList;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
 
 public class TaskContactsTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	private ContactGroup contacts;
+	private ContactList contacts;
 	
 	public TaskContactsTableModel() {
-		this.contacts = new ContactGroup();
+		this.contacts = new ContactList();
 	}
 	
-	public ContactGroup getContactGroup() {
+	public ContactList getContactGroup() {
 		return this.contacts;
 	}
 	
-	public void setContactGroup(ContactGroup contacts) {
+	public void setContactGroup(ContactList contacts) {
 		if (EqualsUtils.equals(this.contacts, contacts))
 			return;
 		

@@ -41,9 +41,9 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
+import com.leclercb.taskunifier.api.models.TaskList.TaskItem;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
@@ -94,9 +94,9 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	private TaskPriority priority;
 	private boolean star;
 	private String note;
-	private ContactGroup contacts;
-	private TaskGroup tasks;
-	private FileGroup files;
+	private ContactList contacts;
+	private TaskList tasks;
+	private FileList files;
 	
 	protected Task(TaskBean bean, boolean loadReferenceIds) {
 		this(bean.getModelId(), bean.getTitle());
@@ -121,15 +121,15 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.locations = new ModelList<Location>();
 		this.locations.addListChangeListener(this);
 		
-		this.contacts = new ContactGroup();
+		this.contacts = new ContactList();
 		this.contacts.addListChangeListener(this);
 		this.contacts.addPropertyChangeListener(this);
 		
-		this.tasks = new TaskGroup();
+		this.tasks = new TaskList();
 		this.tasks.addListChangeListener(this);
 		this.tasks.addPropertyChangeListener(this);
 		
-		this.files = new FileGroup();
+		this.files = new FileList();
 		this.files.addListChangeListener(this);
 		this.files.addPropertyChangeListener(this);
 		
@@ -153,9 +153,9 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.setPriority(TaskPriority.LOW);
 		this.setStar(false);
 		this.setNote(null);
-		this.setContacts(new ContactGroup());
-		this.setTasks(new TaskGroup());
-		this.setFiles(new FileGroup());
+		this.setContacts(new ContactList());
+		this.setTasks(new TaskList());
+		this.setFiles(new FileList());
 		
 		this.getFactory().register(this);
 	}
@@ -680,33 +680,33 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 		this.updateProperty(PROP_NOTE, oldNote, note);
 	}
 	
-	public ContactGroup getContacts() {
+	public ContactList getContacts() {
 		return this.contacts;
 	}
 	
-	public void setContacts(ContactGroup contacts) {
+	public void setContacts(ContactList contacts) {
 		this.contacts.clear();
 		
 		if (contacts != null)
 			this.contacts.addAll(contacts.getList());
 	}
 	
-	public TaskGroup getTasks() {
+	public TaskList getTasks() {
 		return this.tasks;
 	}
 	
-	public void setTasks(TaskGroup tasks) {
+	public void setTasks(TaskList tasks) {
 		this.tasks.clear();
 		
 		if (tasks != null)
 			this.tasks.addAll(tasks.getList());
 	}
 	
-	public FileGroup getFiles() {
+	public FileList getFiles() {
 		return this.files;
 	}
 	
-	public void setFiles(FileGroup files) {
+	public void setFiles(FileList files) {
 		this.files.clear();
 		
 		if (files != null)

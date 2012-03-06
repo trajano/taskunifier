@@ -58,8 +58,8 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean.ContactItemBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean.ContactItemBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComNoteBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
@@ -139,7 +139,7 @@ public final class MailUtils {
 				
 				if (currentUser != null) {
 					if (b.getContacts() == null)
-						b.setContacts(new ContactGroupBean());
+						b.setContacts(new ContactListBean());
 					
 					b.getContacts().add(
 							new ContactItemBean(

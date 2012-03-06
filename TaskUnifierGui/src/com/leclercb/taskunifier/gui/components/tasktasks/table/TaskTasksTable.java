@@ -45,8 +45,8 @@ import javax.swing.SortOrder;
 import org.jdesktop.swingx.JXTable;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskGroup;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
+import com.leclercb.taskunifier.api.models.TaskList;
+import com.leclercb.taskunifier.api.models.TaskList.TaskItem;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
@@ -59,12 +59,12 @@ public class TaskTasksTable extends JXTable {
 		this.initialize();
 	}
 	
-	public TaskGroup getTaskGroup() {
+	public TaskList getTaskGroup() {
 		TaskTasksTableModel model = (TaskTasksTableModel) this.getModel();
 		return model.getTaskGroup();
 	}
 	
-	public void setTaskGroup(TaskGroup tasks) {
+	public void setTaskGroup(TaskList tasks) {
 		this.commitChanges();
 		TaskTasksTableModel model = (TaskTasksTableModel) this.getModel();
 		model.setTaskGroup(tasks);

@@ -49,67 +49,66 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
-import com.leclercb.taskunifier.api.models.beans.TaskGroupBean;
-import com.leclercb.taskunifier.api.models.beans.TaskGroupBean.TaskItemBean;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
+import com.leclercb.taskunifier.api.models.beans.FileListBean;
+import com.leclercb.taskunifier.api.models.beans.FileListBean.FileItemBean;
 
-public class TaskGroup implements Cloneable, Serializable, Iterable<TaskItem>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public class FileList implements Cloneable, Serializable, Iterable<FileItem>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private List<TaskItem> tasks;
+	private List<FileItem> files;
 	
-	public TaskGroup() {
+	public FileList() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.tasks = new ArrayList<TaskItem>();
+		this.files = new ArrayList<FileItem>();
 	}
 	
 	@Override
-	protected TaskGroup clone() {
-		TaskGroup list = new TaskGroup();
-		list.tasks.addAll(this.tasks);
+	protected FileList clone() {
+		FileList list = new FileList();
+		list.files.addAll(this.files);
 		return list;
 	}
 	
 	@Override
-	public Iterator<TaskItem> iterator() {
-		return this.tasks.iterator();
+	public Iterator<FileItem> iterator() {
+		return this.files.iterator();
 	}
 	
-	public List<TaskItem> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskItem>(this.tasks));
+	public List<FileItem> getList() {
+		return Collections.unmodifiableList(new ArrayList<FileItem>(this.files));
 	}
 	
-	public void add(TaskItem item) {
+	public void add(FileItem item) {
 		CheckUtils.isNotNull(item);
-		this.tasks.add(item);
+		this.files.add(item);
 		
 		item.addPropertyChangeListener(this);
-		int index = this.tasks.indexOf(item);
+		int index = this.files.indexOf(item);
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
 				index,
 				item);
 	}
 	
-	public void addAll(Collection<TaskItem> items) {
+	public void addAll(Collection<FileItem> items) {
 		if (items == null)
 			return;
 		
-		for (TaskItem item : items)
+		for (FileItem item : items)
 			this.add(item);
 	}
 	
-	public void remove(TaskItem item) {
+	public void remove(FileItem item) {
 		CheckUtils.isNotNull(item);
 		
-		int index = this.tasks.indexOf(item);
-		if (this.tasks.remove(item)) {
+		int index = this.files.indexOf(item);
+		if (this.files.remove(item)) {
 			item.removePropertyChangeListener(this);
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
@@ -119,38 +118,38 @@ public class TaskGroup implements Cloneable, Serializable, Iterable<TaskItem>, P
 	}
 	
 	public void clear() {
-		for (TaskItem item : this.getList())
+		for (FileItem item : this.getList())
 			this.remove(item);
 	}
 	
 	public int size() {
-		return this.tasks.size();
+		return this.files.size();
 	}
 	
-	public int getIndexOf(TaskItem item) {
-		return this.tasks.indexOf(item);
+	public int getIndexOf(FileItem item) {
+		return this.files.indexOf(item);
 	}
 	
-	public TaskItem get(int index) {
-		return this.tasks.get(index);
+	public FileItem get(int index) {
+		return this.files.get(index);
 	}
 	
 	@Override
 	public String toString() {
-		List<String> tasks = new ArrayList<String>();
-		for (TaskItem task : this.tasks) {
-			if (task.toString().length() != 0)
-				tasks.add(task.toString());
+		List<String> files = new ArrayList<String>();
+		for (FileItem file : this.files) {
+			if (file.toString().length() != 0)
+				files.add(file.toString());
 		}
 		
-		return StringUtils.join(tasks, ", ");
+		return StringUtils.join(files, ", ");
 	}
 	
-	public TaskGroupBean toTaskGroupBean() {
-		TaskGroupBean list = new TaskGroupBean();
+	public FileListBean toFileGroupBean() {
+		FileListBean list = new FileListBean();
 		
-		for (TaskItem item : this)
-			list.add(item.toTaskItemBean());
+		for (FileItem item : this)
+			list.add(item.toFileItemBean());
 		
 		return list;
 	}
@@ -189,54 +188,38 @@ public class TaskGroup implements Cloneable, Serializable, Iterable<TaskItem>, P
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
-	public static class TaskItem implements PropertyChangeSupported, PropertyChangeListener {
+	public static class FileItem implements PropertyChangeSupported {
 		
-		public static final String PROP_TASK = "task";
+		public static final String PROP_FILE = "file";
 		public static final String PROP_LINK = "link";
 		
 		private PropertyChangeSupport propertyChangeSupport;
 		
-		private Task task;
+		private String file;
 		private String link;
 		
-		public TaskItem() {
+		public FileItem() {
 			this(null, null);
 		}
 		
-		public TaskItem(Task task, String link) {
+		public FileItem(String file, String link) {
 			this.propertyChangeSupport = new PropertyChangeSupport(this);
 			
-			this.setTask(task);
+			this.setFile(file);
 			this.setLink(link);
 		}
 		
-		public Task getTask() {
-			return this.task;
+		public String getFile() {
+			return this.file;
 		}
 		
-		public void setTask(Task task) {
-			if (task != null) {
-				if (task.getModelStatus().equals(ModelStatus.TO_DELETE)
-						|| task.getModelStatus().equals(ModelStatus.DELETED)) {
-					ApiLogger.getLogger().severe(
-							"You cannot assign a deleted model");
-					task = null;
-				}
-			}
-			
-			if (this.task != null)
-				this.task.removePropertyChangeListener(this);
-			
-			Task oldTask = this.task;
-			this.task = task;
-			
-			if (this.task != null)
-				this.task.addPropertyChangeListener(this);
-			
+		public void setFile(String file) {
+			String oldFile = this.file;
+			this.file = file;
 			this.propertyChangeSupport.firePropertyChange(
-					PROP_TASK,
-					oldTask,
-					task);
+					PROP_FILE,
+					oldFile,
+					file);
 		}
 		
 		public String getLink() {
@@ -254,28 +237,23 @@ public class TaskGroup implements Cloneable, Serializable, Iterable<TaskItem>, P
 		
 		@Override
 		public String toString() {
-			String task = (this.task == null ? "" : this.task.toString());
+			String file = (this.file == null ? "" : this.file.toString());
 			String link = (this.link == null ? "" : this.link);
 			
 			if (link.length() != 0)
 				link = "(" + this.link + ")";
 			
-			if (task.length() == 0)
+			if (file.length() == 0)
 				return link;
 			
 			if (link.length() == 0)
-				return task;
+				return file;
 			
-			return task + " " + link;
+			return file + " " + link;
 		}
 		
-		public TaskItemBean toTaskItemBean() {
-			ModelId id = null;
-			
-			if (this.task != null)
-				id = this.task.getModelId();
-			
-			return new TaskItemBean(id, this.link);
+		public FileItemBean toFileItemBean() {
+			return new FileItemBean(this.file, this.link);
 		}
 		
 		@Override
@@ -295,17 +273,6 @@ public class TaskGroup implements Cloneable, Serializable, Iterable<TaskItem>, P
 		@Override
 		public void removePropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.removePropertyChangeListener(listener);
-		}
-		
-		@Override
-		public void propertyChange(PropertyChangeEvent event) {
-			if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
-				Task task = (Task) event.getSource();
-				
-				if (task.getModelStatus().equals(ModelStatus.TO_DELETE)
-						|| task.getModelStatus().equals(ModelStatus.DELETED))
-					this.setTask(null);
-			}
 		}
 		
 	}

@@ -41,8 +41,8 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
-import com.leclercb.taskunifier.api.models.ContactGroup;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.api.models.ContactList;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
 
@@ -52,12 +52,12 @@ public class TaskContactsTable extends JXTable {
 		this.initialize();
 	}
 	
-	public ContactGroup getContactGroup() {
+	public ContactList getContactGroup() {
 		TaskContactsTableModel model = (TaskContactsTableModel) this.getModel();
 		return model.getContactGroup();
 	}
 	
-	public void setContactGroup(ContactGroup contacts) {
+	public void setContactGroup(ContactList contacts) {
 		this.commitChanges();
 		TaskContactsTableModel model = (TaskContactsTableModel) this.getModel();
 		model.setContactGroup(contacts);

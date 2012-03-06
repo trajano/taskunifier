@@ -40,23 +40,23 @@ import javax.swing.table.AbstractTableModel;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.TaskGroup;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
+import com.leclercb.taskunifier.api.models.TaskList;
+import com.leclercb.taskunifier.api.models.TaskList.TaskItem;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 
 public class TaskTasksTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	private TaskGroup tasks;
+	private TaskList tasks;
 	
 	public TaskTasksTableModel() {
-		this.tasks = new TaskGroup();
+		this.tasks = new TaskList();
 	}
 	
-	public TaskGroup getTaskGroup() {
+	public TaskList getTaskGroup() {
 		return this.tasks;
 	}
 	
-	public void setTaskGroup(TaskGroup tasks) {
+	public void setTaskGroup(TaskList tasks) {
 		if (EqualsUtils.equals(this.tasks, tasks))
 			return;
 		

@@ -114,13 +114,13 @@ public class TaskBean extends AbstractModelParentBean {
 	private String note;
 	
 	@XStreamAlias("contacts")
-	private ContactGroupBean contacts;
+	private ContactListBean contacts;
 	
 	@XStreamAlias("tasks")
-	private TaskGroupBean tasks;
+	private TaskListBean tasks;
 	
 	@XStreamAlias("files")
-	private FileGroupBean files;
+	private FileListBean files;
 	
 	public TaskBean() {
 		this((ModelId) null);
@@ -347,27 +347,27 @@ public class TaskBean extends AbstractModelParentBean {
 		this.note = note;
 	}
 	
-	public ContactGroupBean getContacts() {
+	public ContactListBean getContacts() {
 		return this.contacts;
 	}
 	
-	public void setContacts(ContactGroupBean contacts) {
+	public void setContacts(ContactListBean contacts) {
 		this.contacts = contacts;
 	}
 	
-	public TaskGroupBean getTasks() {
+	public TaskListBean getTasks() {
 		return this.tasks;
 	}
 	
-	public void setTasks(TaskGroupBean tasks) {
+	public void setTasks(TaskListBean tasks) {
 		this.tasks = tasks;
 	}
 	
-	public FileGroupBean getFiles() {
+	public FileListBean getFiles() {
 		return this.files;
 	}
 	
-	public void setFiles(FileGroupBean files) {
+	public void setFiles(FileListBean files) {
 		this.files = files;
 	}
 	

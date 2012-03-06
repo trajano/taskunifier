@@ -63,10 +63,13 @@ public class TaskTemplateConverter extends ReflectionConverter {
 			UnmarshallingContext context) {
 		TaskTemplate template = (TaskTemplate) super.unmarshal(reader, context);
 		
+		if (template == null)
+			return null;
+		
 		if (reader.getAttribute("default") != null) {
-			boolean def = Boolean.parseBoolean(reader.getAttribute("default"));
+			Boolean def = Boolean.parseBoolean(reader.getAttribute("default"));
 			
-			if (def)
+			if (def != null && def)
 				TaskTemplateFactory.getInstance().setDefaultTemplate(template);
 		}
 		
@@ -78,6 +81,9 @@ public class TaskTemplateConverter extends ReflectionConverter {
 			Object source,
 			HierarchicalStreamWriter writer,
 			MarshallingContext context) {
+		if (source == null)
+			return;
+		
 		TaskTemplate template = (TaskTemplate) source;
 		
 		boolean def = EqualsUtils.equals(

@@ -46,7 +46,7 @@ import javax.swing.SwingConstants;
 
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
-import com.leclercb.taskunifier.api.models.ContactGroup.ContactItem;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;

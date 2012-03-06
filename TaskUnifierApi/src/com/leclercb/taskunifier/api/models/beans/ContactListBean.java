@@ -40,108 +40,108 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.Contact;
+import com.leclercb.taskunifier.api.models.ContactFactory;
+import com.leclercb.taskunifier.api.models.ContactList;
+import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.TaskGroup;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
-import com.leclercb.taskunifier.api.models.beans.TaskGroupBean.TaskItemBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean.ContactItemBean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class TaskGroupBean implements Cloneable, Serializable, Iterable<TaskItemBean> {
+public class ContactListBean implements Cloneable, Serializable, Iterable<ContactItemBean> {
 	
-	@XStreamAlias("tasklist")
-	private List<TaskItemBean> tasks;
+	@XStreamAlias("contactlist")
+	private List<ContactItemBean> contacts;
 	
-	public TaskGroupBean() {
-		this.tasks = new ArrayList<TaskItemBean>();
+	public ContactListBean() {
+		this.contacts = new ArrayList<ContactItemBean>();
 	}
 	
 	@Override
-	protected TaskGroupBean clone() {
-		TaskGroupBean list = new TaskGroupBean();
-		list.tasks.addAll(this.tasks);
+	protected ContactListBean clone() {
+		ContactListBean list = new ContactListBean();
+		list.contacts.addAll(this.contacts);
 		return list;
 	}
 	
 	@Override
-	public Iterator<TaskItemBean> iterator() {
-		return this.tasks.iterator();
+	public Iterator<ContactItemBean> iterator() {
+		return this.contacts.iterator();
 	}
 	
-	public List<TaskItemBean> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskItemBean>(
-				this.tasks));
+	public List<ContactItemBean> getList() {
+		return Collections.unmodifiableList(new ArrayList<ContactItemBean>(
+				this.contacts));
 	}
 	
-	public void add(TaskItemBean item) {
+	public void add(ContactItemBean item) {
 		CheckUtils.isNotNull(item);
-		this.tasks.add(item);
+		this.contacts.add(item);
 	}
 	
-	public void addAll(Collection<TaskItemBean> items) {
+	public void addAll(Collection<ContactItemBean> items) {
 		if (items == null)
 			return;
 		
-		for (TaskItemBean item : items)
+		for (ContactItemBean item : items)
 			this.add(item);
 	}
 	
-	public void remove(TaskItemBean item) {
+	public void remove(ContactItemBean item) {
 		CheckUtils.isNotNull(item);
-		this.tasks.remove(item);
+		this.contacts.remove(item);
 	}
 	
 	public void clear() {
-		for (TaskItemBean item : this.getList())
+		for (ContactItemBean item : this.getList())
 			this.remove(item);
 	}
 	
 	public int size() {
-		return this.tasks.size();
+		return this.contacts.size();
 	}
 	
-	public int getIndexOf(TaskItemBean item) {
-		return this.tasks.indexOf(item);
+	public int getIndexOf(ContactItemBean item) {
+		return this.contacts.indexOf(item);
 	}
 	
-	public TaskItemBean get(int index) {
-		return this.tasks.get(index);
+	public ContactItemBean get(int index) {
+		return this.contacts.get(index);
 	}
 	
-	public TaskGroup toTaskGroup() {
-		TaskGroup list = new TaskGroup();
+	public ContactList toContactGroup() {
+		ContactList list = new ContactList();
 		
-		for (TaskItemBean item : this)
-			list.add(item.toTaskItem());
+		for (ContactItemBean item : this)
+			list.add(item.toContactItem());
 		
 		return list;
 	}
 	
-	@XStreamAlias("taskitem")
-	public static class TaskItemBean {
+	@XStreamAlias("contactitem")
+	public static class ContactItemBean {
 		
-		@XStreamAlias("task")
-		private ModelId task;
+		@XStreamAlias("contact")
+		private ModelId contact;
 		
 		@XStreamAlias("link")
 		private String link;
 		
-		public TaskItemBean() {
+		public ContactItemBean() {
 			this(null, null);
 		}
 		
-		public TaskItemBean(ModelId task, String link) {
-			this.setTask(task);
+		public ContactItemBean(ModelId contact, String link) {
+			this.setContact(contact);
 			this.setLink(link);
 		}
 		
-		public ModelId getTask() {
-			return this.task;
+		public ModelId getContact() {
+			return this.contact;
 		}
 		
-		public void setTask(ModelId task) {
-			this.task = task;
+		public void setContact(ModelId contact) {
+			this.contact = contact;
 		}
 		
 		public String getLink() {
@@ -152,15 +152,15 @@ public class TaskGroupBean implements Cloneable, Serializable, Iterable<TaskItem
 			this.link = link;
 		}
 		
-		public TaskItem toTaskItem() {
-			if (this.task == null)
-				return new TaskItem(null, this.link);
+		public ContactItem toContactItem() {
+			if (this.contact == null)
+				return new ContactItem(null, this.link);
 			
-			Task task = TaskFactory.getInstance().get(this.task);
-			if (task == null)
-				task = TaskFactory.getInstance().createShell(this.task);
+			Contact contact = ContactFactory.getInstance().get(this.contact);
+			if (contact == null)
+				contact = ContactFactory.getInstance().createShell(this.contact);
 			
-			return new TaskItem(task, this.link);
+			return new ContactItem(contact, this.link);
 		}
 		
 	}

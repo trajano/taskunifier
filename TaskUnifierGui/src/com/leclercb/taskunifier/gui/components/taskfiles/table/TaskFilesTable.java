@@ -45,8 +45,8 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
-import com.leclercb.taskunifier.api.models.FileGroup;
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.api.models.FileList;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop.TaskFilesTransferHandler;
@@ -58,12 +58,12 @@ public class TaskFilesTable extends JXTable {
 		this.initialize();
 	}
 	
-	public FileGroup getFileGroup() {
+	public FileList getFileGroup() {
 		TaskFilesTableModel model = (TaskFilesTableModel) this.getModel();
 		return model.getFileGroup();
 	}
 	
-	public void setFileGroup(FileGroup files) {
+	public void setFileGroup(FileList files) {
 		this.commitChanges();
 		TaskFilesTableModel model = (TaskFilesTableModel) this.getModel();
 		model.setFileGroup(files);

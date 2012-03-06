@@ -11,8 +11,8 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean;
-import com.leclercb.taskunifier.api.models.beans.ContactGroupBean.ContactItemBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean;
+import com.leclercb.taskunifier.api.models.beans.ContactListBean.ContactItemBean;
 import com.leclercb.taskunifier.gui.api.models.beans.ComContactGroupBean.ComContactItemBean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -25,7 +25,7 @@ public class ComContactGroupBean implements Cloneable, Serializable, Iterable<Co
 		this.contacts = new ArrayList<ComContactItemBean>();
 	}
 	
-	public ComContactGroupBean(ContactGroupBean contacts) {
+	public ComContactGroupBean(ContactListBean contacts) {
 		this.contacts = new ArrayList<ComContactItemBean>();
 		for (ContactItemBean contact : contacts) {
 			Contact c = ContactFactory.getInstance().get(contact.getContact());
@@ -91,8 +91,8 @@ public class ComContactGroupBean implements Cloneable, Serializable, Iterable<Co
 		return this.contacts.get(index);
 	}
 	
-	public ContactGroupBean toContactGroupBean() {
-		ContactGroupBean list = new ContactGroupBean();
+	public ContactListBean toContactGroupBean() {
+		ContactListBean list = new ContactListBean();
 		
 		for (ComContactItemBean item : this)
 			list.add(item.toContactItemBean());

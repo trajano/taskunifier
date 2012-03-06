@@ -49,8 +49,8 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
-import com.leclercb.taskunifier.api.models.TaskGroup;
-import com.leclercb.taskunifier.api.models.TaskGroup.TaskItem;
+import com.leclercb.taskunifier.api.models.TaskList;
+import com.leclercb.taskunifier.api.models.TaskList.TaskItem;
 
 public final class TaskTaskLinkList implements ListChangeSupported, ListChangeListener, PropertyChangeListener {
 	
@@ -84,7 +84,7 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		return links.toArray(new String[0]);
 	}
 	
-	private List<IgnoreCaseString> getLinks(TaskGroup tasks) {
+	private List<IgnoreCaseString> getLinks(TaskList tasks) {
 		List<IgnoreCaseString> links = new ArrayList<IgnoreCaseString>();
 		for (TaskItem item : tasks)
 			if (item.getLink() != null)
@@ -178,7 +178,7 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		}
 	}
 	
-	private void addLinks(TaskGroup tasks) {
+	private void addLinks(TaskList tasks) {
 		for (TaskItem item : tasks) {
 			this.addLink(item.getLink());
 		}
@@ -210,7 +210,7 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		}
 	}
 	
-	private void removeLinks(TaskGroup tasks) {
+	private void removeLinks(TaskList tasks) {
 		for (TaskItem item : tasks) {
 			this.removeLink(item.getLink());
 		}

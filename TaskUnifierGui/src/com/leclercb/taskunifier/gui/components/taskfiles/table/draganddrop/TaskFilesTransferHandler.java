@@ -40,7 +40,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import com.leclercb.taskunifier.api.models.FileGroup.FileItem;
+import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.TaskFilesTable;
 
 public class TaskFilesTransferHandler extends TransferHandler {
