@@ -62,6 +62,7 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelList;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelOrder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
@@ -106,6 +107,7 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
+	private static final TableCellRenderer MODEL_LIST_RENDERER;
 	private static final TableCellRenderer MODEL_EDIT_RENDERER;
 	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
 	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
@@ -125,12 +127,12 @@ public class TaskTableColumn extends TableColumnExt {
 	private static final TableCellRenderer TITLE_RENDERER;
 	
 	private static final TableCellEditor BOOLEAN_EDITOR;
-	private static final TableCellEditor CONTEXT_EDITOR;
+	private static final TableCellEditor CONTEXTS_EDITOR;
 	private static final TableCellEditor DUE_DATE_EDITOR;
 	private static final TableCellEditor FOLDER_EDITOR;
-	private static final TableCellEditor GOAL_EDITOR;
+	private static final TableCellEditor GOALS_EDITOR;
 	private static final TableCellEditor LENGTH_EDITOR;
-	private static final TableCellEditor LOCATION_EDITOR;
+	private static final TableCellEditor LOCATIONS_EDITOR;
 	private static final TableCellEditor PROGRESS_EDITOR;
 	private static final TableCellEditor REMINDER_EDITOR;
 	private static final TableCellEditor REPEAT_EDITOR;
@@ -173,6 +175,9 @@ public class TaskTableColumn extends TableColumnExt {
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
+		
+		MODEL_LIST_RENDERER = new DefaultTableRenderer(
+				StringValueModelList.INSTANCE);
 		
 		MODEL_EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -239,13 +244,13 @@ public class TaskTableColumn extends TableColumnExt {
 		TITLE_RENDERER = new DefaultTableRenderer(StringValueTaskTitle.INSTANCE);
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
-		CONTEXT_EDITOR = new ContextEditor();
+		CONTEXTS_EDITOR = new ContextEditor();
 		DUE_DATE_EDITOR = new DateEditor(Main.getSettings().getBooleanProperty(
 				"date.use_due_time"));
 		FOLDER_EDITOR = new FolderEditor();
-		GOAL_EDITOR = new GoalEditor();
+		GOALS_EDITOR = new GoalEditor();
 		LENGTH_EDITOR = new LengthEditor();
-		LOCATION_EDITOR = new LocationEditor();
+		LOCATIONS_EDITOR = new LocationEditor();
 		PROGRESS_EDITOR = new ProgressEditor();
 		REMINDER_EDITOR = new ReminderEditor();
 		REPEAT_EDITOR = new RepeatEditor();
@@ -346,11 +351,12 @@ public class TaskTableColumn extends TableColumnExt {
 				return PROGRESS_RENDERER;
 			case COMPLETED:
 				return COMPLETED_RENDERER;
-			case CONTEXT:
 			case FOLDER:
-			case GOAL:
-			case LOCATION:
 				return MODEL_RENDERER;
+			case CONTEXTS:
+			case GOALS:
+			case LOCATIONS:
+				return MODEL_LIST_RENDERER;
 			case COMPLETED_ON:
 				return COMPLETED_ON_RENDERER;
 			case DUE_DATE:
@@ -392,12 +398,12 @@ public class TaskTableColumn extends TableColumnExt {
 				return TAGS_EDITOR;
 			case FOLDER:
 				return FOLDER_EDITOR;
-			case CONTEXT:
-				return CONTEXT_EDITOR;
-			case GOAL:
-				return GOAL_EDITOR;
-			case LOCATION:
-				return LOCATION_EDITOR;
+			case CONTEXTS:
+				return CONTEXTS_EDITOR;
+			case GOALS:
+				return GOALS_EDITOR;
+			case LOCATIONS:
+				return LOCATIONS_EDITOR;
 			case PROGRESS:
 				return PROGRESS_EDITOR;
 			case COMPLETED:

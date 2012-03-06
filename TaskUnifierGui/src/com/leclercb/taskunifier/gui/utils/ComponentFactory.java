@@ -87,17 +87,17 @@ public final class ComponentFactory {
 				new DocumentListener() {
 					
 					@Override
-					public void removeUpdate(DocumentEvent arg0) {
+					public void removeUpdate(DocumentEvent event) {
 						this.update();
 					}
 					
 					@Override
-					public void insertUpdate(DocumentEvent arg0) {
+					public void insertUpdate(DocumentEvent event) {
 						this.update();
 					}
 					
 					@Override
-					public void changedUpdate(DocumentEvent arg0) {
+					public void changedUpdate(DocumentEvent event) {
 						this.update();
 					}
 					

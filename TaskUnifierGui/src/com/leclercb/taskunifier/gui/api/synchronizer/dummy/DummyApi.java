@@ -57,7 +57,7 @@ public class DummyApi extends SynchronizerApi {
 	}
 	
 	@Override
-	public String[] getDefaultStatusValues() {
+	public String[] getStatusValues() {
 		return new String[] {
 				"None",
 				"Next action",
@@ -70,17 +70,6 @@ public class DummyApi extends SynchronizerApi {
 				"Someday",
 				"Canceled",
 				"Reference" };
-	}
-	
-	@Override
-	public boolean isValidStatusValue(String status) {
-		String[] statuses = this.getDefaultStatusValues();
-		for (String s : statuses) {
-			if (s.equalsIgnoreCase(status))
-				return true;
-		}
-		
-		return false;
 	}
 	
 	@Override

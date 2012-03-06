@@ -80,6 +80,7 @@ import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
+import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueKeyEvent;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
@@ -92,7 +93,6 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
 public class TaskTemplateConfigurationPanel extends JSplitPane {
 	
@@ -500,7 +500,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			
 			ValueModel taskRepeatModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT);
 			TaskTemplateConfigurationPanel.this.taskRepeat.setModel(new ComboBoxAdapter<String>(
-					SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues(),
+					new TaskRepeatModel(false),
 					taskRepeatModel));
 			
 			ValueModel taskRepeatFromModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT_FROM);
@@ -509,7 +509,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 					taskRepeatFromModel));
 			
 			ValueModel taskStatusModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_STATUS);
-			TaskTemplateConfigurationPanel.this.taskStatus.setModel(new ComboBoxAdapter<TaskStatus>(
+			TaskTemplateConfigurationPanel.this.taskStatus.setModel(new ComboBoxAdapter<String>(
 					new TaskStatusModel(true),
 					taskStatusModel));
 			

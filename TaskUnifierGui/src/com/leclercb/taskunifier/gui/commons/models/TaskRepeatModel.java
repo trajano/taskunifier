@@ -30,53 +30,36 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.editors;
+package com.leclercb.taskunifier.gui.commons.models;
 
-import java.awt.Color;
-import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 
-import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class RepeatEditor extends DefaultCellEditor {
+public class TaskRepeatModel extends DefaultComboBoxModel {
 	
-	public RepeatEditor() {
-		super(new JComboBox(new TaskRepeatModel(false)));
+	public TaskRepeatModel(boolean firstNull) {
+		super(
+				SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues());
 		
-		final JComboBox repeatField = (JComboBox) this.getComponent();
-		ComponentFactory.createRepeatComboBox(repeatField);
-	}
-	
-	@Override
-	public Component getTableCellEditorComponent(
-			JTable table,
-			Object value,
-			boolean isSelected,
-			int row,
-			int col) {
-		Component component = super.getTableCellEditorComponent(
-				table,
-				value,
-				isSelected,
-				row,
-				col);
-		
-		final JComboBox repeatField = (JComboBox) this.getComponent();
-		final JTextField repeatTextField = (JTextField) repeatField.getEditor().getEditorComponent();
-		
-		if (SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().isValidRepeatValue(
-				(this.getCellEditorValue() == null ? null : this.getCellEditorValue().toString())))
-			repeatTextField.setForeground(Color.BLACK);
-		else
-			repeatTextField.setForeground(Color.RED);
-		
-		return component;
+		Main.getSettings().addPropertyChangeListener(
+				"plugin.synchronizer.id",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						TaskRepeatModel.this.removeAllElements();
+						
+						String[] repeatValues = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues();
+						for (String status : repeatValues)
+							TaskRepeatModel.this.addElement(status);
+					}
+					
+				});
 	}
 	
 }

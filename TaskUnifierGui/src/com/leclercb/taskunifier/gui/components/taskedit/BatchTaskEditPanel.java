@@ -41,7 +41,6 @@ import java.awt.event.ItemListener;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -75,6 +74,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
+import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
@@ -93,7 +93,6 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -704,8 +703,7 @@ public class BatchTaskEditPanel extends JPanel {
 		builder.append(this.taskTimer);
 		
 		// Task Repeat
-		this.taskRepeat.setModel(new DefaultComboBoxModel(
-				SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues()));
+		this.taskRepeat.setModel(new TaskRepeatModel(false));
 		
 		ComponentFactory.createRepeatComboBox(this.taskRepeat);
 		

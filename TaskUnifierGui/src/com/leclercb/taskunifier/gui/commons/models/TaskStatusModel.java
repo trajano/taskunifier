@@ -32,16 +32,33 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.DefaultComboBoxModel;
 
-import org.apache.commons.lang3.ArrayUtils;
+import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.utils.TaskStatusUtils;
 
 public class TaskStatusModel extends DefaultComboBoxModel {
 	
 	public TaskStatusModel(boolean firstNull) {
-		super(ArrayUtils.addAll(
-				(firstNull ? new TaskStatus[] { null } : new TaskStatus[0]),
-				TaskStatus.values()));
+		super(TaskStatusUtils.getTaskStatuses());
+		
+		Main.getSettings().addPropertyChangeListener(
+				"plugin.synchronizer.id",
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						TaskStatusModel.this.removeAllElements();
+						
+						String[] statuses = TaskStatusUtils.getTaskStatuses();
+						for (String status : statuses)
+							TaskStatusModel.this.addElement(status);
+					}
+					
+				});
 	}
 	
 }

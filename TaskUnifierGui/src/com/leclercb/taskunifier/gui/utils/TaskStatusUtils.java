@@ -11,10 +11,10 @@ public final class TaskStatusUtils {
 	}
 	
 	public static String[] getTaskStatuses() {
-		boolean custom = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().isAllowCustomStatusValue();
+		String[] statuses = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getStatusValues();
 		
-		if (!custom)
-			return SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultStatusValues();
+		if (statuses != null)
+			return statuses;
 		
 		String value = Main.getSettings().getStringProperty("taskstatuses");
 		return value.split(";");
