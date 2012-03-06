@@ -142,45 +142,48 @@ public class ActionAddQuickTask extends AbstractAction {
 	private static void findModel(String title, TaskBean bean) {
 		List<Context> contexts = ContextFactory.getInstance().getList();
 		for (Context context : contexts) {
-			if (context.getTitle().toLowerCase().startsWith(title)) {
-				if (bean.getContexts() == null)
-					bean.setContexts(new ModelBeanList());
-				
-				bean.getContexts().add(context.getModelId());
-				return;
+			if (context.getModelStatus().isEndUserStatus()) {
+				if (context.getTitle().toLowerCase().startsWith(title)) {
+					if (bean.getContexts() == null)
+						bean.setContexts(new ModelBeanList());
+					
+					bean.getContexts().add(context.getModelId());
+				}
 			}
 		}
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders) {
-			if (folder.getTitle().toLowerCase().startsWith(title)) {
-				if (bean.getFolders() == null)
-					bean.setFolders(new ModelBeanList());
-				
-				bean.getFolders().add(folder.getModelId());
-				return;
+			if (folder.getModelStatus().isEndUserStatus()) {
+				if (folder.getTitle().toLowerCase().startsWith(title)) {
+					if (bean.getFolder() == null
+							|| folder.getTitle().toLowerCase().equals(title))
+						bean.setFolder(folder.getModelId());
+				}
 			}
 		}
 		
 		List<Goal> goals = GoalFactory.getInstance().getList();
 		for (Goal goal : goals) {
-			if (goal.getTitle().toLowerCase().startsWith(title)) {
-				if (bean.getGoals() == null)
-					bean.setGoals(new ModelBeanList());
-				
-				bean.getGoals().add(goal.getModelId());
-				return;
+			if (goal.getModelStatus().isEndUserStatus()) {
+				if (goal.getTitle().toLowerCase().startsWith(title)) {
+					if (bean.getGoals() == null)
+						bean.setGoals(new ModelBeanList());
+					
+					bean.getGoals().add(goal.getModelId());
+				}
 			}
 		}
 		
 		List<Location> locations = LocationFactory.getInstance().getList();
 		for (Location location : locations) {
-			if (location.getTitle().toLowerCase().startsWith(title)) {
-				if (bean.getLocations() == null)
-					bean.setLocations(new ModelBeanList());
-				
-				bean.getLocations().add(location.getModelId());
-				return;
+			if (location.getModelStatus().isEndUserStatus()) {
+				if (location.getTitle().toLowerCase().startsWith(title)) {
+					if (bean.getLocations() == null)
+						bean.setLocations(new ModelBeanList());
+					
+					bean.getLocations().add(location.getModelId());
+				}
 			}
 		}
 	}

@@ -55,6 +55,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelListCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.NumberCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.commons.models.ContextModel;
@@ -69,7 +70,6 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueFilterCondition;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskRepeatFrom;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
@@ -116,6 +116,7 @@ public class TaskFilterElementPanel extends JPanel {
 				case TAGS:
 				case NOTE:
 				case REPEAT:
+				case STATUS:
 					value = elementValue.toString();
 					break;
 				case MODEL_CREATION_DATE:
@@ -220,24 +221,43 @@ public class TaskFilterElementPanel extends JPanel {
 		modelConditionList.remove(StringCondition.EQUALS);
 		modelConditionList.remove(StringCondition.NOT_EQUALS);
 		
+		List<Condition<?, ?>> modelListConditionList = new ArrayList<Condition<?, ?>>();
+		modelListConditionList.addAll(Arrays.asList(ModelListCondition.values()));
+		modelListConditionList.addAll(Arrays.asList(StringCondition.values()));
+		modelListConditionList.remove(StringCondition.EQUALS);
+		modelListConditionList.remove(StringCondition.NOT_EQUALS);
+		
 		Object[] modelConditions = modelConditionList.toArray();
+		Object[] modelListConditions = modelListConditionList.toArray();
 		
 		switch (column) {
-			case CONTEXT:
 			case FOLDER:
-			case GOAL:
-			case LOCATION:
 			case PARENT:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						modelConditions));
-				
 				if (condition == null)
 					condition = (Condition<?, ?>) modelConditions[0];
+				
+				break;
+			case CONTEXTS:
+			case GOALS:
+			case LOCATIONS:
+				if (condition == null)
+					condition = (Condition<?, ?>) modelListConditions[0];
+				
+				break;
+		}
+		
+		switch (column) {
+			case CONTEXTS:
+			case GOALS:
+			case LOCATIONS:
+				this.elementCondition.setModel(new DefaultComboBoxModel(
+						modelConditions));
 				
 				if (condition instanceof StringCondition) {
 					this.elementValueTf.setText(value == null ? "" : value.toString());
 					this.elementValueTf.setVisible(true);
 				}
+				
 				break;
 		}
 		
@@ -247,6 +267,7 @@ public class TaskFilterElementPanel extends JPanel {
 			case CONTACTS:
 			case TAGS:
 			case REPEAT:
+			case STATUS:
 				this.elementCondition.setModel(new DefaultComboBoxModel(
 						StringCondition.values()));
 				this.elementValueTf.setText(value == null ? "" : value.toString());
@@ -287,8 +308,8 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValueCb.setSelectedItem(value);
 				this.elementValueCb.setVisible(true);
 				break;
-			case CONTEXT:
-				if (condition instanceof ModelCondition) {
+			case CONTEXTS:
+				if (condition instanceof ModelListCondition) {
 					this.elementValueCb.setModel(new ContextModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE_INDENTED,
@@ -307,8 +328,8 @@ public class TaskFilterElementPanel extends JPanel {
 					this.elementValueCb.setVisible(true);
 				}
 				break;
-			case GOAL:
-				if (condition instanceof ModelCondition) {
+			case GOALS:
+				if (condition instanceof ModelListCondition) {
 					this.elementValueCb.setModel(new GoalModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE_INDENTED,
@@ -317,8 +338,8 @@ public class TaskFilterElementPanel extends JPanel {
 					this.elementValueCb.setVisible(true);
 				}
 				break;
-			case LOCATION:
-				if (condition instanceof ModelCondition) {
+			case LOCATIONS:
+				if (condition instanceof ModelListCondition) {
 					this.elementValueCb.setModel(new LocationModel(true));
 					this.elementValueCb.setRenderer(new DefaultListRenderer(
 							StringValueModel.INSTANCE_INDENTED,
@@ -356,16 +377,6 @@ public class TaskFilterElementPanel extends JPanel {
 				this.elementValueCb.setRenderer(new DefaultListRenderer(
 						StringValueTaskRepeatFrom.INSTANCE));
 				this.elementValueCb.setSelectedItem(value == null ? TaskRepeatFrom.DUE_DATE : value);
-				this.elementValueCb.setVisible(true);
-				break;
-			case STATUS:
-				this.elementCondition.setModel(new DefaultComboBoxModel(
-						EnumCondition.values()));
-				this.elementValueCb.setModel(new DefaultComboBoxModel(
-						TaskStatus.values()));
-				this.elementValueCb.setRenderer(new DefaultListRenderer(
-						StringValueTaskStatus.INSTANCE));
-				this.elementValueCb.setSelectedItem(value == null ? TaskStatus.NONE : value);
 				this.elementValueCb.setVisible(true);
 				break;
 			case PRIORITY:
@@ -448,10 +459,10 @@ public class TaskFilterElementPanel extends JPanel {
 				TaskColumn column = (TaskColumn) TaskFilterElementPanel.this.elementColumn.getSelectedItem();
 				
 				switch (column) {
-					case CONTEXT:
+					case CONTEXTS:
 					case FOLDER:
-					case GOAL:
-					case LOCATION:
+					case GOALS:
+					case LOCATIONS:
 					case PARENT:
 						break;
 					default:

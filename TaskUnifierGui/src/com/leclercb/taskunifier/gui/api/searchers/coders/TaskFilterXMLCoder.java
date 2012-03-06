@@ -191,7 +191,7 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								condition,
 								value);
 					} else if (column != null
-							&& conditionClass.equals("ModelCondition")) {
+							&& (conditionClass.equals("ModelCondition") || conditionClass.equals("ModelListCondition"))) {
 						ModelCondition condition = ModelCondition.valueOf(enumName);
 						Model value = null;
 						
@@ -200,16 +200,16 @@ public class TaskFilterXMLCoder extends AbstractXMLCoder<TaskFilter> {
 								if (column.equals(TaskColumn.MODEL))
 									value = TaskFactory.getInstance().get(
 											new ModelId(valueStr));
-								else if (column.equals(TaskColumn.CONTEXT))
+								else if (column.equals(TaskColumn.CONTEXTS))
 									value = ContextFactory.getInstance().get(
 											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.FOLDER))
 									value = FolderFactory.getInstance().get(
 											new ModelId(valueStr));
-								else if (column.equals(TaskColumn.GOAL))
+								else if (column.equals(TaskColumn.GOALS))
 									value = GoalFactory.getInstance().get(
 											new ModelId(valueStr));
-								else if (column.equals(TaskColumn.LOCATION))
+								else if (column.equals(TaskColumn.LOCATIONS))
 									value = LocationFactory.getInstance().get(
 											new ModelId(valueStr));
 								else if (column.equals(TaskColumn.PARENT))

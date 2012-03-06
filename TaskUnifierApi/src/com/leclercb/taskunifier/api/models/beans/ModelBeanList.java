@@ -91,6 +91,10 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 		return this.models.size();
 	}
 	
+	public boolean contains(ModelId modelId) {
+		return this.models.contains(modelId);
+	}
+	
 	public int getIndexOf(ModelId model) {
 		return this.models.indexOf(model);
 	}

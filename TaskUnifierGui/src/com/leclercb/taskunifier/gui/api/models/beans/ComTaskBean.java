@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.api.models.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.leclercb.taskunifier.api.models.Context;
@@ -13,25 +14,23 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.beans.ModelBeanList;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class ComTaskBean extends GuiTaskBean {
 	
-	@XStreamAlias("comcontacts")
-	private ComContactGroupBean comContacts;
-	
 	@XStreamAlias("foldertitle")
 	private String folderTitle;
 	
-	@XStreamAlias("contexttitle")
-	private String contextTitle;
+	@XStreamAlias("contexttitles")
+	private String[] contextTitles;
 	
-	@XStreamAlias("goaltitle")
-	private String goalTitle;
+	@XStreamAlias("goaltitles")
+	private String[] goalTitles;
 	
-	@XStreamAlias("locationtitle")
-	private String locationTitle;
+	@XStreamAlias("locationtitles")
+	private String[] locationTitles;
 	
 	@XStreamAlias("parenttitle")
 	private String parentTitle;
@@ -43,11 +42,10 @@ public class ComTaskBean extends GuiTaskBean {
 	public ComTaskBean(ModelId modelId) {
 		super(modelId);
 		
-		this.setComContacts(null);
 		this.setFolderTitle(null);
-		this.setContextTitle(null);
-		this.setGoalTitle(null);
-		this.setLocationTitle(null);
+		this.setContextTitles(null);
+		this.setGoalTitles(null);
+		this.setLocationTitles(null);
 		this.setParentTitle(null);
 	}
 	
@@ -55,21 +53,12 @@ public class ComTaskBean extends GuiTaskBean {
 		super(bean);
 		
 		if (bean instanceof ComTaskBean) {
-			this.setComContacts(((ComTaskBean) bean).getComContacts());
 			this.setFolderTitle(((ComTaskBean) bean).getFolderTitle());
-			this.setContextTitle(((ComTaskBean) bean).getContextTitle());
-			this.setGoalTitle(((ComTaskBean) bean).getGoalTitle());
-			this.setLocationTitle(((ComTaskBean) bean).getLocationTitle());
+			this.setContextTitles(((ComTaskBean) bean).getContextTitles());
+			this.setGoalTitles(((ComTaskBean) bean).getGoalTitles());
+			this.setLocationTitles(((ComTaskBean) bean).getLocationTitles());
 			this.setParentTitle(((ComTaskBean) bean).getParentTitle());
 		}
-	}
-	
-	public ComContactGroupBean getComContacts() {
-		return this.comContacts;
-	}
-	
-	public void setComContacts(ComContactGroupBean comContacts) {
-		this.comContacts = comContacts;
 	}
 	
 	public String getFolderTitle() {
@@ -80,28 +69,28 @@ public class ComTaskBean extends GuiTaskBean {
 		this.folderTitle = folderTitle;
 	}
 	
-	public String getContextTitle() {
-		return this.contextTitle;
+	public String[] getContextTitles() {
+		return this.contextTitles;
 	}
 	
-	public void setContextTitle(String contextTitle) {
-		this.contextTitle = contextTitle;
+	public void setContextTitles(String[] contextTitles) {
+		this.contextTitles = contextTitles;
 	}
 	
-	public String getGoalTitle() {
-		return this.goalTitle;
+	public String[] getGoalTitles() {
+		return this.goalTitles;
 	}
 	
-	public void setGoalTitle(String goalTitle) {
-		this.goalTitle = goalTitle;
+	public void setGoalTitles(String[] goalTitles) {
+		this.goalTitles = goalTitles;
 	}
 	
-	public String getLocationTitle() {
-		return this.locationTitle;
+	public String[] getLocationTitles() {
+		return this.locationTitles;
 	}
 	
-	public void setLocationTitle(String locationTitle) {
-		this.locationTitle = locationTitle;
+	public void setLocationTitles(String[] locationTitles) {
+		this.locationTitles = locationTitles;
 	}
 	
 	public String getParentTitle() {
@@ -113,87 +102,76 @@ public class ComTaskBean extends GuiTaskBean {
 	}
 	
 	public void loadTitles(boolean removeModelId) {
-		if (this.getContacts() != null) {
-			this.setComContacts(new ComContactGroupBean(this.getContacts()));
+		if (this.getContexts() != null) {
+			List<String> titles = new ArrayList<String>();
+			for (ModelId modelId : this.getContexts()) {
+				Context context = ContextFactory.getInstance().get(modelId);
+				if (context != null)
+					titles.add(context.getTitle());
+			}
 			
-			if (removeModelId)
-				this.setContacts(null);
-		}
-		
-		if (this.getContext() != null) {
-			Context context = ContextFactory.getInstance().get(
-					this.getContext());
-			if (context != null)
-				this.setContextTitle(context.getTitle());
-			
-			if (removeModelId)
-				this.setContext(null);
+			this.setContextTitles(titles.toArray(new String[0]));
 		}
 		
 		if (this.getFolder() != null) {
 			Folder folder = FolderFactory.getInstance().get(this.getFolder());
 			if (folder != null)
 				this.setFolderTitle(folder.getTitle());
-			
-			if (removeModelId)
-				this.setFolder(null);
 		}
 		
-		if (this.getGoal() != null) {
-			Goal goal = GoalFactory.getInstance().get(this.getGoal());
-			if (goal != null)
-				this.setGoalTitle(goal.getTitle());
+		if (this.getGoals() != null) {
+			List<String> titles = new ArrayList<String>();
+			for (ModelId modelId : this.getGoals()) {
+				Goal goal = GoalFactory.getInstance().get(modelId);
+				if (goal != null)
+					titles.add(goal.getTitle());
+			}
 			
-			if (removeModelId)
-				this.setGoal(null);
+			this.setGoalTitles(titles.toArray(new String[0]));
 		}
 		
-		if (this.getLocation() != null) {
-			Location location = LocationFactory.getInstance().get(
-					this.getLocation());
-			if (location != null)
-				this.setLocationTitle(location.getTitle());
+		if (this.getLocations() != null) {
+			List<String> titles = new ArrayList<String>();
+			for (ModelId modelId : this.getLocations()) {
+				Location location = LocationFactory.getInstance().get(modelId);
+				if (location != null)
+					titles.add(location.getTitle());
+			}
 			
-			if (removeModelId)
-				this.setLocation(null);
+			this.setLocationTitles(titles.toArray(new String[0]));
 		}
 		
 		if (this.getParent() != null) {
 			Task parent = TaskFactory.getInstance().get(this.getParent());
 			if (parent != null)
 				this.setParentTitle(parent.getTitle());
-			
-			if (removeModelId)
-				this.setParent(null);
+		}
+		
+		if (removeModelId) {
+			this.setContexts(null);
+			this.setFolder(null);
+			this.setGoals(null);
+			this.setLocations(null);
+			this.setParent(null);
 		}
 	}
 	
 	public void loadModels(boolean removeTitle) {
-		if (this.getContacts() == null) {
-			if (this.getComContacts() != null) {
-				this.setContacts(this.getComContacts().toContactGroupBean());
+		if (this.getContextTitles() != null) {
+			if (this.getContexts() == null)
+				this.setContexts(new ModelBeanList());
+			
+			List<Context> models = ContextFactory.getInstance().getList();
+			for (Context model : models) {
+				if (!model.getModelStatus().isEndUserStatus())
+					continue;
 				
-				if (removeTitle)
-					this.setComContacts(null);
-			}
-		}
-		
-		if (this.getContext() == null) {
-			if (this.getContextTitle() != null) {
-				List<Context> models = ContextFactory.getInstance().getList();
-				for (Context model : models) {
-					if (!model.getModelStatus().isEndUserStatus())
-						continue;
-					
-					if (model.getTitle().equalsIgnoreCase(
-							this.getContextTitle())) {
-						this.setContext(model.getModelId());
+				for (String title : this.getContextTitles()) {
+					if (model.getTitle().equalsIgnoreCase(title)) {
+						this.getContexts().add(model.getModelId());
 						break;
 					}
 				}
-				
-				if (removeTitle)
-					this.setContextTitle(null);
 			}
 		}
 		
@@ -209,46 +187,36 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
-				
-				if (removeTitle)
-					this.setFolderTitle(null);
 			}
 		}
 		
-		if (this.getGoal() == null) {
-			if (this.getGoalTitle() != null) {
-				List<Goal> models = GoalFactory.getInstance().getList();
-				for (Goal model : models) {
-					if (!model.getModelStatus().isEndUserStatus())
-						continue;
-					
-					if (model.getTitle().equalsIgnoreCase(this.getGoalTitle())) {
-						this.setGoal(model.getModelId());
+		if (this.getGoalTitles() != null) {
+			List<Goal> models = GoalFactory.getInstance().getList();
+			for (Goal model : models) {
+				if (!model.getModelStatus().isEndUserStatus())
+					continue;
+				
+				for (String title : this.getGoalTitles()) {
+					if (model.getTitle().equalsIgnoreCase(title)) {
+						this.getGoals().add(model.getModelId());
 						break;
 					}
 				}
-				
-				if (removeTitle)
-					this.setGoalTitle(null);
 			}
 		}
 		
-		if (this.getLocation() == null) {
-			if (this.getLocationTitle() != null) {
-				List<Location> models = LocationFactory.getInstance().getList();
-				for (Location model : models) {
-					if (!model.getModelStatus().isEndUserStatus())
-						continue;
-					
-					if (model.getTitle().equalsIgnoreCase(
-							this.getLocationTitle())) {
-						this.setLocation(model.getModelId());
+		if (this.getLocationTitles() != null) {
+			List<Location> models = LocationFactory.getInstance().getList();
+			for (Location model : models) {
+				if (!model.getModelStatus().isEndUserStatus())
+					continue;
+				
+				for (String title : this.getLocationTitles()) {
+					if (model.getTitle().equalsIgnoreCase(title)) {
+						this.getLocations().add(model.getModelId());
 						break;
 					}
 				}
-				
-				if (removeTitle)
-					this.setLocationTitle(null);
 			}
 		}
 		
@@ -264,10 +232,15 @@ public class ComTaskBean extends GuiTaskBean {
 						break;
 					}
 				}
-				
-				if (removeTitle)
-					this.setParentTitle(null);
 			}
+		}
+		
+		if (removeTitle) {
+			this.setContextTitles(null);
+			this.setFolderTitle(null);
+			this.setGoalTitles(null);
+			this.setLocationTitles(null);
+			this.setParentTitle(null);
 		}
 	}
 	

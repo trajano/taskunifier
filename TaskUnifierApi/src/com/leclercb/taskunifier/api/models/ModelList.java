@@ -98,6 +98,10 @@ public class ModelList<M extends Model> implements Cloneable, Serializable, Iter
 		return this.models.size();
 	}
 	
+	public boolean contains(Model model) {
+		return this.models.contains(model);
+	}
+	
 	public int getIndexOf(M model) {
 		return this.models.indexOf(model);
 	}

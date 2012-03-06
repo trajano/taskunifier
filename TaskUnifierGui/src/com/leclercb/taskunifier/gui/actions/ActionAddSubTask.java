@@ -123,7 +123,7 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 		
 		task.setParent(parent);
 		task.getContexts().addAll(parent.getContexts().getList());
-		task.getFolders().addAll(parent.getFolders().getList());
+		task.setFolder(parent.getFolder());
 		task.getGoals().addAll(parent.getGoals().getList());
 		task.getLocations().addAll(parent.getLocations().getList());
 		
