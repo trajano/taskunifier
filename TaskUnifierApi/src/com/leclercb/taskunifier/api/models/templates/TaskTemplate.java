@@ -47,7 +47,10 @@ import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.api.models.beans.converters.ContextListConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.FolderConverter;
+import com.leclercb.taskunifier.api.models.beans.converters.GoalListConverter;
+import com.leclercb.taskunifier.api.models.beans.converters.LocationListConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -106,15 +109,15 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	private Folder taskFolder;
 	
 	@XStreamAlias("taskcontexts")
-	@XStreamConverter(ContextsConverter.class)
+	@XStreamConverter(ContextListConverter.class)
 	private ModelList<Context> taskContexts;
 	
 	@XStreamAlias("taskgoals")
-	@XStreamConverter(GoalsConverter.class)
+	@XStreamConverter(GoalListConverter.class)
 	private ModelList<Goal> taskGoals;
 	
 	@XStreamAlias("tasklocations")
-	@XStreamConverter(LocationsConverter.class)
+	@XStreamConverter(LocationListConverter.class)
 	private ModelList<Location> taskLocations;
 	
 	@XStreamAlias("taskprogress")
