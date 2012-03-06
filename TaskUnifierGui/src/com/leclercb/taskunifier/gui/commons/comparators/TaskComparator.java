@@ -41,10 +41,7 @@ import java.util.List;
 import javax.swing.SortOrder;
 
 import com.leclercb.commons.api.utils.CompareUtils;
-import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.Timer;
@@ -255,14 +252,14 @@ public class TaskComparator implements Comparator<Task> {
 			case FOLDER:
 				result = this.compareModels(((Folder) o1), ((Folder) o2));
 				break;
-			case CONTEXT:
-				result = this.compareModels(((Context) o1), ((Context) o2));
+			case CONTEXTS:
+				result = o1.toString().compareTo(o2.toString());
 				break;
-			case GOAL:
-				result = this.compareModels(((Goal) o1), ((Goal) o2));
+			case GOALS:
+				result = o1.toString().compareTo(o2.toString());
 				break;
-			case LOCATION:
-				result = this.compareModels(((Location) o1), ((Location) o2));
+			case LOCATIONS:
+				result = o1.toString().compareTo(o2.toString());
 				break;
 			case PARENT:
 				result = this.compareModels(((Task) o1), ((Task) o2));

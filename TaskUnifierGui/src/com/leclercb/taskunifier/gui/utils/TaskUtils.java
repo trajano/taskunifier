@@ -53,6 +53,7 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
+import com.leclercb.taskunifier.gui.commons.values.StringValueModelList;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelOrder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
@@ -405,12 +406,14 @@ public final class TaskUtils {
 					case COMPLETED_ON:
 						content = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
 						break;
-					case CONTEXT:
 					case FOLDER:
-					case GOAL:
-					case LOCATION:
 					case PARENT:
 						content = StringValueModel.INSTANCE.getString(value);
+						break;
+					case CONTEXTS:
+					case GOALS:
+					case LOCATIONS:
+						content = StringValueModelList.INSTANCE.getString(value);
 						break;
 					case DUE_DATE:
 						if (useDueTime)
