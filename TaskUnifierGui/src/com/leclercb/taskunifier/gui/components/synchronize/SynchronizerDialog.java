@@ -42,7 +42,6 @@ import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.taskunifier.gui.actions.ActionGetSerial;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
@@ -72,7 +71,7 @@ public class SynchronizerDialog extends TUWaitDialog {
 		});
 	}
 	
-	public void add(SynchronizerGuiPlugin plugin, Type type) {
+	public void add(SynchronizerGuiPlugin plugin, SynchronizerWorker.Type type) {
 		SynchronizerDialogWorker worker = (SynchronizerDialogWorker) this.getWorker();
 		worker.add(plugin, type);
 		
