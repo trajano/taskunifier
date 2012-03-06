@@ -77,7 +77,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	@Override
 	public void setText(String text, boolean canEdit, boolean discardAllEdits) {
 		this.toolBar.setVisible(canEdit);
-		this.htmlNote.setEnabled(canEdit);
+		this.htmlNote.setEditable(canEdit);
 		
 		this.flagSetText = true;
 		this.htmlNote.setText(Text2HTML.convert(text));
@@ -93,7 +93,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public boolean edit() {
-		if (!this.htmlNote.isEnabled())
+		if (!this.htmlNote.isEditable())
 			return false;
 		
 		this.htmlNote.requestFocus();
