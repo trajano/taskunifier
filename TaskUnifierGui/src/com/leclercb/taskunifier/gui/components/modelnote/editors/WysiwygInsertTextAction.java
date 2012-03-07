@@ -17,8 +17,8 @@ public class WysiwygInsertTextAction extends AbstractAction {
 	
 	public WysiwygInsertTextAction(
 			JEditorPane editor,
-			String icon, 
-			String description, 
+			String icon,
+			String description,
 			String text) {
 		super(description);
 		
@@ -45,7 +45,7 @@ public class WysiwygInsertTextAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		HTMLDocument document = (HTMLDocument) this.editor.getDocument();
-		int offset = editor.getCaretPosition();
+		int offset = this.editor.getCaretPosition();
 		
 		try {
 			document.insertString(offset, this.text, null);
@@ -53,7 +53,7 @@ public class WysiwygInsertTextAction extends AbstractAction {
 			e.printStackTrace();
 		}
 		
-		editor.requestFocus();
+		this.editor.requestFocus();
 	}
 	
 }
