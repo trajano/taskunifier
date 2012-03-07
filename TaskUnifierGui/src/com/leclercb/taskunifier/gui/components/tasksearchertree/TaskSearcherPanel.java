@@ -198,7 +198,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					StringCondition.CONTAINS,
 					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
-					TaskColumn.CONTEXT,
+					TaskColumn.CONTEXTS,
 					StringCondition.CONTAINS,
 					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
@@ -206,11 +206,11 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					StringCondition.CONTAINS,
 					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
-					TaskColumn.GOAL,
+					TaskColumn.GOALS,
 					StringCondition.CONTAINS,
 					this.filter));
 			searchFilter.addElement(new TaskFilterElement(
-					TaskColumn.LOCATION,
+					TaskColumn.LOCATIONS,
 					StringCondition.CONTAINS,
 					this.filter));
 		}

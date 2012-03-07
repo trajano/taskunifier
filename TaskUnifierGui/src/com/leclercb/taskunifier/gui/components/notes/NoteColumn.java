@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.components.notes;
 import java.util.Calendar;
 
 import com.leclercb.taskunifier.api.models.Folder;
-import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.swing.table.TUColumn;
@@ -47,7 +46,7 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
 	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
 	TITLE(String.class, Translations.getString("general.note.title"), true),
-	FOLDER(ModelList.class, Translations.getString("general.note.folder"), true),
+	FOLDER(Folder.class, Translations.getString("general.note.folder"), true),
 	NOTE(String.class, Translations.getString("general.note.note"), false);
 	
 	private Class<?> type;
@@ -107,7 +106,7 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 			case TITLE:
 				return note.getTitle();
 			case FOLDER:
-				return note.getFolders();
+				return note.getFolder();
 			case NOTE:
 				return note.getNote();
 			default:
@@ -115,7 +114,6 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(Note note, Object value) {
 		if (note == null)
@@ -132,7 +130,7 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 				note.setTitle((String) value);
 				break;
 			case FOLDER:
-				note.setFolders((ModelList<Folder>) value);
+				note.setFolder((Folder) value);
 				break;
 			case NOTE:
 				note.setNote((String) value);

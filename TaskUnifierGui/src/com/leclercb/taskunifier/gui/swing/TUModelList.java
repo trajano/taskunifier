@@ -41,6 +41,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
@@ -53,6 +55,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TUModelList<M extends Model> extends JPanel {
+	
+	public static final String PROP_MODELLIST = "modelList";
 	
 	private ModelType modelType;
 	
@@ -81,8 +85,12 @@ public class TUModelList<M extends Model> extends JPanel {
 	}
 	
 	public void setModelList(ModelList<M> modelList) {
-		this.modelSelectionPanel.setSelectedModels(modelList.getList().toArray(
-				new Model[0]));
+		Model[] models = new Model[0];
+		
+		if (modelList != null)
+			models = modelList.getList().toArray(new Model[0]);
+		
+		this.modelSelectionPanel.setSelectedModels(models);
 	}
 	
 	@Override
@@ -130,6 +138,31 @@ public class TUModelList<M extends Model> extends JPanel {
 				false));
 		
 		this.popup.add(popupPanel);
+		
+		this.popup.addPopupMenuListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
+				
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
+				TUModelList.this.firePropertyChange(
+						PROP_MODELLIST,
+						null,
+						TUModelList.this.getModelList());
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent event) {
+				TUModelList.this.firePropertyChange(
+						PROP_MODELLIST,
+						null,
+						TUModelList.this.getModelList());
+			}
+			
+		});
 		
 		this.add(this.text, BorderLayout.CENTER);
 		this.add(this.button, BorderLayout.EAST);

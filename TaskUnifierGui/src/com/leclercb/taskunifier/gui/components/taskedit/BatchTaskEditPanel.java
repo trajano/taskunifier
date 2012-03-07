@@ -58,6 +58,7 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.Timer;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
@@ -66,10 +67,7 @@ import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.actions.ActionPostponeTaskBeans;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
-import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
-import com.leclercb.taskunifier.gui.commons.models.GoalModel;
-import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
@@ -83,6 +81,7 @@ import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.M
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.TUModelList;
 import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeModel;
@@ -125,9 +124,9 @@ public class BatchTaskEditPanel extends JPanel {
 	private JTextField taskTitle;
 	private TUTagList taskTags;
 	private JComboBox taskFolder;
-	private JComboBox taskContext;
-	private JComboBox taskGoal;
-	private JComboBox taskLocation;
+	private TUModelList<Context> taskContexts;
+	private TUModelList<Goal> taskGoals;
+	private TUModelList<Location> taskLocations;
 	private JComboBox taskParent;
 	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
@@ -190,19 +189,19 @@ public class BatchTaskEditPanel extends JPanel {
 			
 			if (this.taskContextCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setContext((Context) this.taskContext.getSelectedItem());
+					task.setContexts(this.taskContexts.getModelList());
 				}
 			}
 			
 			if (this.taskGoalCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setGoal((Goal) this.taskGoal.getSelectedItem());
+					task.setGoals(this.taskGoals.getModelList());
 				}
 			}
 			
 			if (this.taskLocationCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
-					task.setLocation((Location) this.taskLocation.getSelectedItem());
+					task.setLocations(this.taskLocations.getModelList());
 				}
 			}
 			
@@ -430,9 +429,9 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskTitle = new JTextField();
 		this.taskTags = new TUTagList();
 		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
-		this.taskContext = ComponentFactory.createModelComboBox(null, true);
-		this.taskGoal = ComponentFactory.createModelComboBox(null, true);
-		this.taskLocation = ComponentFactory.createModelComboBox(null, true);
+		this.taskContexts = new TUModelList<Context>(ModelType.CONTEXT);
+		this.taskGoals = new TUModelList<Goal>(ModelType.GOAL);
+		this.taskLocations = new TUModelList<Location>(ModelType.LOCATION);
 		this.taskParent = ComponentFactory.createModelComboBox(null, false);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
@@ -490,11 +489,11 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskFolderCheckBox.addItemListener(new EnabledActionListener(
 				this.taskFolder));
 		this.taskContextCheckBox.addItemListener(new EnabledActionListener(
-				this.taskContext));
+				this.taskContexts));
 		this.taskGoalCheckBox.addItemListener(new EnabledActionListener(
-				this.taskGoal));
+				this.taskGoals));
 		this.taskLocationCheckBox.addItemListener(new EnabledActionListener(
-				this.taskLocation));
+				this.taskLocations));
 		this.taskParentCheckBox.addItemListener(new EnabledActionListener(
 				this.taskParent));
 		this.taskProgressCheckBox.addItemListener(new EnabledActionListener(
@@ -612,31 +611,25 @@ public class BatchTaskEditPanel extends JPanel {
 				new ActionManageModels(16, 16, ModelConfigurationTab.FOLDERS))));
 		
 		// Task Goal
-		this.taskGoal.setModel(new GoalModel(true));
-		
 		builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
-		builder.append(this.createPanel(this.taskGoal, new JButton(
+		builder.append(this.createPanel(this.taskGoals, new JButton(
 				new ActionManageModels(16, 16, ModelConfigurationTab.GOALS))));
 		
 		// Task Context
-		this.taskContext.setModel(new ContextModel(true));
-		
 		builder.appendI15d(
 				"general.task.context",
 				true,
 				this.taskContextCheckBox);
-		builder.append(this.createPanel(this.taskContext, new JButton(
+		builder.append(this.createPanel(this.taskContexts, new JButton(
 				new ActionManageModels(16, 16, ModelConfigurationTab.CONTEXTS))));
 		
 		// Task Location
-		this.taskLocation.setModel(new LocationModel(true));
-		
 		builder.appendI15d(
 				"general.task.location",
 				true,
 				this.taskLocationCheckBox);
 		builder.append(this.createPanel(
-				this.taskLocation,
+				this.taskLocations,
 				new JButton(new ActionManageModels(
 						16,
 						16,
@@ -748,9 +741,9 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskTitle.setText("");
 			this.taskTags.setTags("");
 			this.taskFolder.setSelectedItem(null);
-			this.taskContext.setSelectedItem(null);
-			this.taskGoal.setSelectedItem(null);
-			this.taskLocation.setSelectedItem(null);
+			this.taskContexts.setModelList(null);
+			this.taskGoals.setModelList(null);
+			this.taskLocations.setModelList(null);
 			this.taskParent.setSelectedItem(null);
 			this.taskProgress.setValue(0.0);
 			this.taskCompleted.setSelected(false);
@@ -774,9 +767,9 @@ public class BatchTaskEditPanel extends JPanel {
 			this.taskTitle.setText(task.getTitle());
 			this.taskTags.setTags(task.getTags());
 			this.taskFolder.setSelectedItem(task.getFolder());
-			this.taskContext.setSelectedItem(task.getContext());
-			this.taskGoal.setSelectedItem(task.getGoal());
-			this.taskLocation.setSelectedItem(task.getLocation());
+			this.taskContexts.setModelList(task.getContexts());
+			this.taskGoals.setModelList(task.getGoals());
+			this.taskLocations.setModelList(task.getLocations());
 			this.taskParent.setSelectedItem(task.getParent());
 			this.taskProgress.setValue(task.getProgress());
 			this.taskCompleted.setSelected(task.isCompleted());

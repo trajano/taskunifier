@@ -129,7 +129,7 @@ public class ModelTransferData implements Serializable {
 			}
 			
 			List<TaskColumn> columns = new ArrayList<TaskColumn>(
-					Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
+					Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
 			columns.remove(TaskColumn.MODEL_EDIT);
 			columns.remove(TaskColumn.SHOW_CHILDREN);
 			columns.remove(TaskColumn.ORDER);
@@ -153,7 +153,7 @@ public class ModelTransferData implements Serializable {
 			}
 			
 			List<NoteColumn> columns = new ArrayList<NoteColumn>(
-					Arrays.asList(ViewUtils.getMainNoteView().getNoteTableView().getNoteColumnsProperties().getVisibleNoteColumns()));
+					Arrays.asList(ViewUtils.getMainNoteView().getNoteTableView().getTableProperties().getVisibleColumns()));
 			
 			if (!columns.contains(NoteColumn.NOTE)) {
 				columns.add(NoteColumn.NOTE);

@@ -95,7 +95,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 		
 		switch (this.modelType) {
 			case CONTEXT:
-				column = TaskColumn.CONTEXT;
+				column = TaskColumn.CONTEXTS;
 				type = TaskSearcherType.CONTEXT;
 				
 				ModelList<Context> contexts = new ModelList<Context>();
@@ -107,13 +107,10 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				column = TaskColumn.FOLDER;
 				type = TaskSearcherType.FOLDER;
 				
-				ModelList<Folder> folders = new ModelList<Folder>();
-				folders.add((Folder) model);
-				
-				template.setTaskFolders(folders);
+				template.setTaskFolder((Folder) model);
 				break;
 			case GOAL:
-				column = TaskColumn.GOAL;
+				column = TaskColumn.GOALS;
 				type = TaskSearcherType.GOAL;
 				
 				ModelList<Goal> goals = new ModelList<Goal>();
@@ -122,7 +119,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				template.setTaskGoals(goals);
 				break;
 			case LOCATION:
-				column = TaskColumn.LOCATION;
+				column = TaskColumn.LOCATIONS;
 				type = TaskSearcherType.LOCATION;
 				
 				ModelList<Location> locations = new ModelList<Location>();

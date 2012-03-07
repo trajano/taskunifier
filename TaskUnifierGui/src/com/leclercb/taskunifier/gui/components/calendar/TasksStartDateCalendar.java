@@ -41,7 +41,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 		this.events.clear();
 		
 		List<TaskColumn> columns = new ArrayList<TaskColumn>(
-				Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTaskColumnsProperties().getVisibleTaskColumns()));
+				Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
 		columns.remove(TaskColumn.MODEL_EDIT);
 		columns.remove(TaskColumn.NOTE);
 		columns.remove(TaskColumn.SHOW_CHILDREN);

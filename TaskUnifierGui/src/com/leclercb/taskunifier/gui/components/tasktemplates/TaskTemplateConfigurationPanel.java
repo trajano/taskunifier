@@ -66,6 +66,7 @@ import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
@@ -73,10 +74,7 @@ import com.leclercb.taskunifier.api.models.templates.Template;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateShorcutConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
-import com.leclercb.taskunifier.gui.commons.models.ContextModel;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
-import com.leclercb.taskunifier.gui.commons.models.GoalModel;
-import com.leclercb.taskunifier.gui.commons.models.LocationModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
@@ -88,6 +86,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.TUModelList;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -102,9 +101,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 	private JTextField taskTitle;
 	private JTextField taskTags;
 	private JComboBox taskFolder;
-	private JComboBox taskContext;
-	private JComboBox taskGoal;
-	private JComboBox taskLocation;
+	private TUModelList<Context> taskContexts;
+	private TUModelList<Goal> taskGoals;
+	private TUModelList<Location> taskLocations;
 	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
 	private JFormattedTextField taskStartDate;
@@ -132,9 +131,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
 		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
-		this.taskContext = ComponentFactory.createModelComboBox(null, true);
-		this.taskGoal = ComponentFactory.createModelComboBox(null, true);
-		this.taskLocation = ComponentFactory.createModelComboBox(null, true);
+		this.taskContexts = new TUModelList<Context>(ModelType.CONTEXT);
+		this.taskGoals = new TUModelList<Goal>(ModelType.GOAL);
+		this.taskLocations = new TUModelList<Location>(ModelType.LOCATION);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JFormattedTextField(
@@ -162,9 +161,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskTitle.setEnabled(false);
 		this.taskTags.setEnabled(false);
 		this.taskFolder.setEnabled(false);
-		this.taskContext.setEnabled(false);
-		this.taskGoal.setEnabled(false);
-		this.taskLocation.setEnabled(false);
+		this.taskContexts.setEnabled(false);
+		this.taskGoals.setEnabled(false);
+		this.taskLocations.setEnabled(false);
 		this.taskProgress.setEnabled(false);
 		this.taskCompleted.setEnabled(false);
 		this.taskDueDate.setEnabled(false);
@@ -268,7 +267,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Task Goal
 		builder.appendI15d("general.task.goal", true, this.createPanel(
-				this.taskGoal,
+				this.taskGoals,
 				new JButton(new ActionManageModels(
 						16,
 						16,
@@ -276,7 +275,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Task Context
 		builder.appendI15d("general.task.context", true, this.createPanel(
-				this.taskContext,
+				this.taskContexts,
 				new JButton(new ActionManageModels(
 						16,
 						16,
@@ -284,7 +283,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Task Location
 		builder.appendI15d("general.task.location", true, this.createPanel(
-				this.taskLocation,
+				this.taskLocations,
 				new JButton(new ActionManageModels(
 						16,
 						16,
@@ -423,20 +422,23 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 					new FolderModel(true, false),
 					taskFolderModel));
 			
-			ValueModel taskContextModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXT);
-			TaskTemplateConfigurationPanel.this.taskContext.setModel(new ComboBoxAdapter<Context>(
-					new ContextModel(true),
-					taskContextModel));
+			ValueModel taskContextsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXTS);
+			Bindings.bind(
+					TaskTemplateConfigurationPanel.this.taskContexts,
+					TUModelList.PROP_MODELLIST,
+					taskContextsModel);
 			
-			ValueModel taskGoalModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOAL);
-			TaskTemplateConfigurationPanel.this.taskGoal.setModel(new ComboBoxAdapter<Goal>(
-					new GoalModel(true),
-					taskGoalModel));
+			ValueModel taskGoalsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOALS);
+			Bindings.bind(
+					TaskTemplateConfigurationPanel.this.taskGoals,
+					TUModelList.PROP_MODELLIST,
+					taskGoalsModel);
 			
-			ValueModel taskLocationModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATION);
-			TaskTemplateConfigurationPanel.this.taskLocation.setModel(new ComboBoxAdapter<Location>(
-					new LocationModel(true),
-					taskLocationModel));
+			ValueModel taskLocationsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATIONS);
+			Bindings.bind(
+					TaskTemplateConfigurationPanel.this.taskLocations,
+					TUModelList.PROP_MODELLIST,
+					taskLocationsModel);
 			
 			ValueModel taskProgressModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PROGRESS);
 			SpinnerNumberModel taskProgressSpinnerModel = SpinnerAdapterFactory.createNumberAdapter(
@@ -551,9 +553,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			TaskTemplateConfigurationPanel.this.taskTitle.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskTags.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskFolder.setEnabled(template != null);
-			TaskTemplateConfigurationPanel.this.taskContext.setEnabled(template != null);
-			TaskTemplateConfigurationPanel.this.taskGoal.setEnabled(template != null);
-			TaskTemplateConfigurationPanel.this.taskLocation.setEnabled(template != null);
+			TaskTemplateConfigurationPanel.this.taskContexts.setEnabled(template != null);
+			TaskTemplateConfigurationPanel.this.taskGoals.setEnabled(template != null);
+			TaskTemplateConfigurationPanel.this.taskLocations.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskProgress.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskCompleted.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskDueDate.setEnabled(template != null);
