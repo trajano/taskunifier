@@ -40,6 +40,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.components.modelselectiontable.table.ModelSelectionTable;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class ModelSelectionPanel extends JPanel implements ModelSelectionView {
 	
@@ -69,7 +70,10 @@ public class ModelSelectionPanel extends JPanel implements ModelSelectionView {
 		
 		this.table = new ModelSelectionTable(tableProperties, modelType);
 		
-		this.add(this.table, BorderLayout.CENTER);
+		this.add(this.table.getTableHeader(), BorderLayout.NORTH);
+		this.add(
+				ComponentFactory.createJScrollPane(this.table, false),
+				BorderLayout.CENTER);
 	}
 	
 }

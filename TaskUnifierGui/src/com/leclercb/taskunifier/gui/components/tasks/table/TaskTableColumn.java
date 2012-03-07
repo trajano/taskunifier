@@ -260,8 +260,6 @@ public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 		TITLE_EDITOR = new TitleEditor();
 	}
 	
-	private TableColumnProperties<TaskColumn> column;
-	
 	public TaskTableColumn(TableColumnProperties<TaskColumn> column) {
 		super(column);
 	}

@@ -594,8 +594,6 @@ public class Task extends AbstractModelParent<Task> implements ModelNote, Proper
 	}
 	
 	public void setStatus(String status) {
-		CheckUtils.isNotNull(status);
-		
 		if (!this.checkBeforeSet(this.getStatus(), status))
 			return;
 		

@@ -93,8 +93,6 @@ public class NoteTableColumn extends TUTableColumn<NoteColumn> {
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}
 	
-	private TableColumnProperties<NoteColumn> column;
-	
 	public NoteTableColumn(TableColumnProperties<NoteColumn> column) {
 		super(column);
 	}

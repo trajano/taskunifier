@@ -7,10 +7,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
@@ -19,16 +15,12 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>, ListChangeSupported {
-	
-	private ListChangeSupport listChangeSupport;
+public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId> {
 	
 	@XStreamAlias("modellist")
 	private List<ModelId> models;
 	
 	public ModelBeanList() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		
 		this.models = new ArrayList<ModelId>();
 	}
 	
@@ -56,10 +48,6 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 		
 		this.models.add(model);
 		int index = this.models.indexOf(model);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				model);
 	}
 	
 	public void addAll(Collection<ModelId> models) {
@@ -72,14 +60,7 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 	
 	public void remove(ModelId model) {
 		CheckUtils.isNotNull(model);
-		
-		int index = this.models.indexOf(model);
-		if (this.models.remove(model)) {
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					model);
-		}
+		this.models.remove(model);
 	}
 	
 	public void clear() {
@@ -116,16 +97,6 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 		}
 		
 		return list;
-	}
-	
-	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
-	}
-	
-	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 }

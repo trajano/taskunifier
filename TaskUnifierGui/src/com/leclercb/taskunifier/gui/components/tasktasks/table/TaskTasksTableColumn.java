@@ -77,8 +77,6 @@ public class TaskTasksTableColumn extends TUTableColumn<TaskTasksColumn> {
 		TASK_EDITOR = new TaskEditor();
 	}
 	
-	private TableColumnProperties<TaskTasksColumn> column;
-	
 	public TaskTasksTableColumn(TableColumnProperties<TaskTasksColumn> column) {
 		super(column);
 	}

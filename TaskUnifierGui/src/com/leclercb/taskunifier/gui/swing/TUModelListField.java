@@ -40,7 +40,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -51,21 +50,20 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
 import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionPanel;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class TUModelList<M extends Model> extends JPanel {
+public class TUModelListField<M extends Model> extends JPanel {
 	
 	public static final String PROP_MODELLIST = "modelList";
 	
 	private ModelType modelType;
 	
-	private JTextField text;
+	private TUModelListLabel modelListLabel;
 	private JButton button;
 	private JPopupMenu popup;
 	private ModelSelectionPanel modelSelectionPanel;
 	
-	public TUModelList(ModelType modelType) {
+	public TUModelListField(ModelType modelType) {
 		CheckUtils.isNotNull(modelType);
 		this.modelType = modelType;
 		
@@ -91,12 +89,13 @@ public class TUModelList<M extends Model> extends JPanel {
 			models = modelList.getList().toArray(new Model[0]);
 		
 		this.modelSelectionPanel.setSelectedModels(models);
+		this.modelListLabel.setModelList(modelList);
 	}
 	
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		this.text.setEnabled(enabled);
+		this.modelListLabel.setEnabled(enabled);
 		this.button.setEnabled(enabled);
 	}
 	
@@ -105,8 +104,7 @@ public class TUModelList<M extends Model> extends JPanel {
 		
 		this.popup = new JPopupMenu();
 		
-		this.text = new JTextField();
-		this.text.setEditable(false);
+		this.modelListLabel = new TUModelListLabel();
 		
 		this.button = new JButton(ImageUtils.getResourceImage(
 				"edit.png",
@@ -116,8 +114,8 @@ public class TUModelList<M extends Model> extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				TUModelList.this.popup.show(
-						TUModelList.this.button,
+				TUModelListField.this.popup.show(
+						TUModelListField.this.button,
 						e.getX(),
 						e.getY());
 			}
@@ -133,9 +131,7 @@ public class TUModelList<M extends Model> extends JPanel {
 						"modelselectioncolumn",
 						false), this.modelType);
 		
-		popupPanel.add(ComponentFactory.createJScrollPane(
-				this.modelSelectionPanel,
-				false));
+		popupPanel.add(this.modelSelectionPanel);
 		
 		this.popup.add(popupPanel);
 		
@@ -148,23 +144,31 @@ public class TUModelList<M extends Model> extends JPanel {
 			
 			@Override
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-				TUModelList.this.firePropertyChange(
+				ModelList<M> modelList = TUModelListField.this.getModelList();
+				
+				TUModelListField.this.modelListLabel.setModelList(modelList);
+				
+				TUModelListField.this.firePropertyChange(
 						PROP_MODELLIST,
 						null,
-						TUModelList.this.getModelList());
+						modelList);
 			}
 			
 			@Override
 			public void popupMenuCanceled(PopupMenuEvent event) {
-				TUModelList.this.firePropertyChange(
+				ModelList<M> modelList = TUModelListField.this.getModelList();
+				
+				TUModelListField.this.modelListLabel.setModelList(modelList);
+				
+				TUModelListField.this.firePropertyChange(
 						PROP_MODELLIST,
 						null,
-						TUModelList.this.getModelList());
+						modelList);
 			}
 			
 		});
 		
-		this.add(this.text, BorderLayout.CENTER);
+		this.add(this.modelListLabel, BorderLayout.CENTER);
 		this.add(this.button, BorderLayout.EAST);
 	}
 	

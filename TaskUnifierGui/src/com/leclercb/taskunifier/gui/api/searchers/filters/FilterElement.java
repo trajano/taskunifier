@@ -158,7 +158,7 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 			return c.include((Enum<?>) this.value, (Enum<?>) taskValue);
 		} else if (this.condition instanceof ModelCondition) {
 			ModelCondition c = (ModelCondition) this.condition;
-			return c.include((Model) this.value, (Model) taskValue);
+			return c.include((Model) this.value, taskValue);
 		} else if (this.condition instanceof NumberCondition) {
 			NumberCondition c = (NumberCondition) this.condition;
 			return c.include((Number) this.value, (Number) taskValue);

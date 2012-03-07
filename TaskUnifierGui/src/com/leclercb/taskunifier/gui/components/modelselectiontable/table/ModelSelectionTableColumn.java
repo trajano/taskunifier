@@ -64,13 +64,11 @@ public class ModelSelectionTableColumn extends TUTableColumn<ModelSelectionColum
 				IconValueSelected.INSTANCE,
 				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
-				StringValueModel.INSTANCE,
+				StringValueModel.INSTANCE_INDENTED,
 				IconValueModel.INSTANCE));
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 	}
-	
-	private TableColumnProperties<ModelSelectionColumn> column;
 	
 	public ModelSelectionTableColumn(
 			TableColumnProperties<ModelSelectionColumn> column) {

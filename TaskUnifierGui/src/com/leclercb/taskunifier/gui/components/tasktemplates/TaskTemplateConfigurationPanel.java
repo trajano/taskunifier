@@ -86,7 +86,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.TUModelList;
+import com.leclercb.taskunifier.gui.swing.TUModelListField;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -101,9 +101,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 	private JTextField taskTitle;
 	private JTextField taskTags;
 	private JComboBox taskFolder;
-	private TUModelList<Context> taskContexts;
-	private TUModelList<Goal> taskGoals;
-	private TUModelList<Location> taskLocations;
+	private TUModelListField<Context> taskContexts;
+	private TUModelListField<Goal> taskGoals;
+	private TUModelListField<Location> taskLocations;
 	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
 	private JFormattedTextField taskStartDate;
@@ -131,9 +131,9 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
 		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
-		this.taskContexts = new TUModelList<Context>(ModelType.CONTEXT);
-		this.taskGoals = new TUModelList<Goal>(ModelType.GOAL);
-		this.taskLocations = new TUModelList<Location>(ModelType.LOCATION);
+		this.taskContexts = new TUModelListField<Context>(ModelType.CONTEXT);
+		this.taskGoals = new TUModelListField<Goal>(ModelType.GOAL);
+		this.taskLocations = new TUModelListField<Location>(ModelType.LOCATION);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();
 		this.taskStartDate = new JFormattedTextField(
@@ -425,19 +425,19 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			ValueModel taskContextsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_CONTEXTS);
 			Bindings.bind(
 					TaskTemplateConfigurationPanel.this.taskContexts,
-					TUModelList.PROP_MODELLIST,
+					TUModelListField.PROP_MODELLIST,
 					taskContextsModel);
 			
 			ValueModel taskGoalsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_GOALS);
 			Bindings.bind(
 					TaskTemplateConfigurationPanel.this.taskGoals,
-					TUModelList.PROP_MODELLIST,
+					TUModelListField.PROP_MODELLIST,
 					taskGoalsModel);
 			
 			ValueModel taskLocationsModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LOCATIONS);
 			Bindings.bind(
 					TaskTemplateConfigurationPanel.this.taskLocations,
-					TUModelList.PROP_MODELLIST,
+					TUModelListField.PROP_MODELLIST,
 					taskLocationsModel);
 			
 			ValueModel taskProgressModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_PROGRESS);

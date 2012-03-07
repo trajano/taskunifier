@@ -33,8 +33,9 @@
 package com.leclercb.taskunifier.gui.api.searchers.filters.conditions;
 
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelList;
 
-public enum ModelCondition implements Condition<Model, Model> {
+public enum ModelCondition implements Condition<Model, Object> {
 	
 	EQUALS,
 	NOT_EQUALS;
@@ -50,11 +51,18 @@ public enum ModelCondition implements Condition<Model, Model> {
 	
 	@Override
 	public Class<?> getModelValueType() {
-		return Model.class;
+		return Object.class;
 	}
 	
 	@Override
-	public boolean include(Model value, Model taskValue) {
+	public boolean include(Model value, Object taskValue) {
+		if (taskValue != null
+				&& !(taskValue instanceof Model)
+				&& !(taskValue instanceof ModelList<?>)) {
+			throw new IllegalArgumentException(
+					"The property is incompatible with this condition");
+		}
+		
 		if (value == null && taskValue == null) {
 			switch (this) {
 				case EQUALS:
@@ -73,12 +81,24 @@ public enum ModelCondition implements Condition<Model, Model> {
 			}
 		}
 		
-		switch (this) {
-			case EQUALS:
-				return taskValue.equals(value);
-			case NOT_EQUALS:
-				return !(taskValue.equals(value));
-				
+		if (taskValue instanceof Model) {
+			switch (this) {
+				case EQUALS:
+					return taskValue.equals(value);
+				case NOT_EQUALS:
+					return !(taskValue.equals(value));
+					
+			}
+		}
+		
+		if (taskValue instanceof ModelList<?>) {
+			switch (this) {
+				case EQUALS:
+					return ((ModelList<?>) taskValue).contains(value);
+				case NOT_EQUALS:
+					return !((ModelList<?>) taskValue).contains(value);
+					
+			}
 		}
 		
 		return false;

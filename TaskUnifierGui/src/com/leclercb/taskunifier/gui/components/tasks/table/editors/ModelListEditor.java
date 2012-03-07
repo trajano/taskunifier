@@ -9,14 +9,14 @@ import javax.swing.table.TableCellEditor;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.gui.swing.TUModelList;
+import com.leclercb.taskunifier.gui.swing.TUModelListField;
 
 public class ModelListEditor<M extends Model> extends AbstractCellEditor implements TableCellEditor {
 	
-	private TUModelList<M> modelList;
+	private TUModelListField<M> modelList;
 	
 	public ModelListEditor(ModelType modelType) {
-		this.modelList = new TUModelList<M>(modelType);
+		this.modelList = new TUModelListField<M>(modelType);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -77,9 +77,13 @@ public class TimerConverter implements Converter {
 			return;
 		
 		Timer timer = (Timer) source;
-		writer.addAttribute(
-				"startdate",
-				CalendarConverter.INSTANCE.toString(timer.getStartDate()));
+		
+		String startDate = CalendarConverter.INSTANCE.toString(timer.getStartDate());
+		
+		if (startDate == null)
+			startDate = "";
+		
+		writer.addAttribute("startdate", startDate);
 		writer.setValue(timer.getValue() + "");
 	}
 	

@@ -67,8 +67,6 @@ public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
 		CONTACT_EDITOR = new ContactEditor();
 	}
 	
-	private TableColumnProperties<TaskContactsColumn> column;
-	
 	public TaskContactsTableColumn(
 			TableColumnProperties<TaskContactsColumn> column) {
 		super(column);

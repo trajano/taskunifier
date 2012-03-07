@@ -71,8 +71,6 @@ public class TaskFilesTableColumn extends TUTableColumn<TaskFilesColumn> {
 		FILE_EDITOR = new FileEditor();
 	}
 	
-	private TableColumnProperties<TaskFilesColumn> column;
-	
 	public TaskFilesTableColumn(TableColumnProperties<TaskFilesColumn> column) {
 		super(column);
 	}

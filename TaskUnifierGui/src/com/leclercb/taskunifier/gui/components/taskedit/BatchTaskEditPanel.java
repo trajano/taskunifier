@@ -81,7 +81,7 @@ import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.M
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.swing.TUModelList;
+import com.leclercb.taskunifier.gui.swing.TUModelListField;
 import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeModel;
@@ -124,9 +124,9 @@ public class BatchTaskEditPanel extends JPanel {
 	private JTextField taskTitle;
 	private TUTagList taskTags;
 	private JComboBox taskFolder;
-	private TUModelList<Context> taskContexts;
-	private TUModelList<Goal> taskGoals;
-	private TUModelList<Location> taskLocations;
+	private TUModelListField<Context> taskContexts;
+	private TUModelListField<Goal> taskGoals;
+	private TUModelListField<Location> taskLocations;
 	private JComboBox taskParent;
 	private JSpinner taskProgress;
 	private JCheckBox taskCompleted;
@@ -429,9 +429,9 @@ public class BatchTaskEditPanel extends JPanel {
 		this.taskTitle = new JTextField();
 		this.taskTags = new TUTagList();
 		this.taskFolder = ComponentFactory.createModelComboBox(null, true);
-		this.taskContexts = new TUModelList<Context>(ModelType.CONTEXT);
-		this.taskGoals = new TUModelList<Goal>(ModelType.GOAL);
-		this.taskLocations = new TUModelList<Location>(ModelType.LOCATION);
+		this.taskContexts = new TUModelListField<Context>(ModelType.CONTEXT);
+		this.taskGoals = new TUModelListField<Goal>(ModelType.GOAL);
+		this.taskLocations = new TUModelListField<Location>(ModelType.LOCATION);
 		this.taskParent = ComponentFactory.createModelComboBox(null, false);
 		this.taskProgress = new JSpinner();
 		this.taskCompleted = new JCheckBox();

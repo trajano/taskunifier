@@ -50,20 +50,17 @@ import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
+import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public class ModelSelectionTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
-	private ModelType modelType;
 	private ModelFactory<Model, ModelBean, Model, ModelBean> modelFactory;
 	private List<Model> selectedModels;
 	
 	@SuppressWarnings("unchecked")
 	public ModelSelectionTableModel(ModelType modelType) {
 		CheckUtils.isNotNull(modelType);
-		this.modelType = modelType;
 		this.modelFactory = (ModelFactory<Model, ModelBean, Model, ModelBean>) ModelFactoryUtils.getFactory(modelType);
 		
 		this.selectedModels = new ArrayList<Model>();
@@ -89,9 +86,13 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 		return this.modelFactory.get(row);
 	}
 	
+	public ModelSelectionColumn getModelSelectionColumn(int col) {
+		return ModelSelectionColumn.values()[col];
+	}
+	
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return ModelSelectionColumn.values().length;
 	}
 	
 	@Override
@@ -101,54 +102,29 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 	
 	@Override
 	public String getColumnName(int col) {
-		switch (col) {
-			case 0:
-				return Translations.getString("general.selected");
-			case 1:
-				return TranslationsUtils.translateModelType(
-						this.modelType,
-						true);
-			default:
-				return null;
-		}
+		return ModelSelectionColumn.values()[col].getLabel();
 	}
 	
 	@Override
 	public Class<?> getColumnClass(int col) {
-		switch (col) {
-			case 0:
-				return Boolean.class;
-			case 1:
-				return Model.class;
-			default:
-				return null;
-		}
+		return ModelSelectionColumn.values()[col].getType();
 	}
 	
 	@Override
 	public Object getValueAt(int row, int col) {
-		Model model = this.getModel(row);
+		Model model = this.modelFactory.get(row);
 		
 		switch (col) {
 			case 0:
 				return this.selectedModels.contains(model);
-			case 1:
-				return model;
-			default:
-				return null;
 		}
+		
+		return ModelSelectionColumn.values()[col].getProperty(model);
 	}
 	
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		switch (col) {
-			case 0:
-				return true;
-			case 1:
-				return false;
-			default:
-				return false;
-		}
+		return ModelSelectionColumn.values()[col].isEditable();
 	}
 	
 	@Override
@@ -157,8 +133,14 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 		
 		switch (col) {
 			case 0:
-				if (!this.selectedModels.contains(model))
-					this.selectedModels.add(model);
+				if ((Boolean) value) {
+					if (!this.selectedModels.contains(model))
+						this.selectedModels.add(model);
+				} else {
+					this.selectedModels.remove(model);
+				}
+				
+				break;
 		}
 	}
 	

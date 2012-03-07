@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.api.models.ModelType;
 public class ContextsEditor extends ModelListEditor<Contact> {
 	
 	public ContextsEditor() {
-		super(ModelType.CONTACT);
+		super(ModelType.CONTEXT);
 	}
 	
 }

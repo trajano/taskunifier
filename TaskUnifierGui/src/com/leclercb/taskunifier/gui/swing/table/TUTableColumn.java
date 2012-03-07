@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnPro
 
 public abstract class TUTableColumn<E extends Enum<?>> extends TableColumnExt {
 	
-	private TableColumnProperties<E> column;
+	protected TableColumnProperties<E> column;
 	
 	public TUTableColumn(TableColumnProperties<E> column) {
 		super(column.getColumn().ordinal());
