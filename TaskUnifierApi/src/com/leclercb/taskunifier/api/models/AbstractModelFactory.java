@@ -45,9 +45,7 @@ import java.util.logging.Level;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
@@ -56,7 +54,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> implements ModelFactory<OM, OMB, M, MB>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> implements ModelFactory<OM, OMB, M, MB>, PropertyChangeListener {
 	
 	private Class<OM> originalModelClass;
 	private Class<OMB> originalModelBeanClass;

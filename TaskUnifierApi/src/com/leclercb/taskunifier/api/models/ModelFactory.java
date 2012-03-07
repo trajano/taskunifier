@@ -36,9 +36,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public interface ModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> {
+public interface ModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> extends ListChangeSupported, PropertyChangeSupported {
 	
 	public abstract boolean contains(ModelId id);
 	
