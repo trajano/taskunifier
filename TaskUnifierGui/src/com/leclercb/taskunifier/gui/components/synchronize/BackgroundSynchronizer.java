@@ -42,6 +42,23 @@ public final class BackgroundSynchronizer {
 		
 	}
 	
+	public static boolean execute(SynchronizerWorker worker) {
+		boolean set = false;
+		
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
+			
+		}
+		
+		if (!set) {
+			return false;
+		}
+		
+		worker.execute();
+		return true;
+	}
+	
 	public static SynchronizerWorker getSynchronizer() {
 		return new SynchronizerWorker(true) {
 			
@@ -55,6 +72,13 @@ public final class BackgroundSynchronizer {
 			@Override
 			protected void done() {
 				super.done();
+				
+				try {
+					Synchronizing.setSynchronizing(false);
+				} catch (SynchronizingException e) {
+					
+				}
+				
 				MainFrame.getInstance().getFrame().setCursor(null);
 			}
 			

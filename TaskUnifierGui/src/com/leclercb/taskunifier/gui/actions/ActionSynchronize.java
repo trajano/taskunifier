@@ -113,7 +113,7 @@ public class ActionSynchronize extends AbstractAction {
 				worker.add(plugin, Type.PUBLISH);
 			}
 			
-			worker.execute();
+			BackgroundSynchronizer.execute(worker);
 		} else {
 			SynchronizerDialog dialog = new SynchronizerDialog();
 			

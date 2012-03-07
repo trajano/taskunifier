@@ -42,6 +42,9 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
@@ -63,7 +66,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
+public class SynchronizerWorker extends TUStopableSwingWorker<Void, ProgressMessage> {
 	
 	public enum Type {
 		
@@ -118,30 +121,24 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 	}
 	
 	@Override
+	protected void process(List<ProgressMessage> messages) {
+		for (ProgressMessage message : messages) {
+			Constants.PROGRESS_MONITOR.addMessage(message);
+		}
+	}
+	
+	@Override
 	protected Void doInBackground() throws Exception {
-		ProgressMonitor monitor = Constants.PROGRESS_MONITOR;
 		Connection connection = null;
 		Synchronizer synchronizer = null;
 		
 		if (this.handler != null)
-			monitor.addListChangeListener(this.handler);
-		
-		boolean set = false;
+			Constants.PROGRESS_MONITOR.addListChangeListener(this.handler);
 		
 		boolean noLicense = false;
 		SynchronizerGuiPlugin plugin = null;
 		
 		try {
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				
-			}
-			
-			if (!set) {
-				return null;
-			}
-			
 			Constants.UNDO_SUPPORT.discardAllEdits();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
@@ -160,7 +157,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				SynchronizerUtils.initializeProxy(plugin);
 				
 				if (plugin.needsLicense()) {
-					monitor.addMessage(new SynchronizerDefaultProgressMessage(
+					this.publish(new SynchronizerDefaultProgressMessage(
 							Translations.getString(
 									"synchronizer.checking_license",
 									plugin.getSynchronizerApi().getApiName())));
@@ -173,7 +170,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 						waitTime += NO_LICENSE_COUNT
 								* Constants.WAIT_NO_LICENSE_ADDED_TIME;
 						
-						monitor.addMessage(new SynchronizerDefaultProgressMessage(
+						this.publish(new SynchronizerDefaultProgressMessage(
 								Translations.getString(
 										"synchronizer.wait_no_license",
 										waitTime)));
@@ -185,7 +182,7 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 					}
 				}
 				
-				monitor.addMessage(new SynchronizerDefaultProgressMessage(
+				this.publish(new SynchronizerDefaultProgressMessage(
 						Translations.getString(
 								"synchronizer.connecting",
 								plugin.getSynchronizerApi().getApiName())));
@@ -233,6 +230,19 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				
 				synchronizer.loadParameters(Main.getUserSettings());
 				
+				ProgressMonitor monitor = new ProgressMonitor();
+				monitor.addListChangeListener(new ListChangeListener() {
+					
+					@Override
+					public void listChange(ListChangeEvent event) {
+						if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+							ProgressMessage message = (ProgressMessage) event.getValue();
+							SynchronizerWorker.this.publish(message);
+						}
+					}
+					
+				});
+				
 				if (type == Type.PUBLISH) {
 					synchronizer.publish(monitor);
 				}
@@ -253,11 +263,11 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 						"synchronizer.last_synchronization_date",
 						Calendar.getInstance());
 				
-				monitor.addMessage(new SynchronizerDefaultProgressMessage(
+				this.publish(new SynchronizerDefaultProgressMessage(
 						"----------"));
 			}
 			
-			monitor.addMessage(new SynchronizerDefaultProgressMessage(
+			this.publish(new SynchronizerDefaultProgressMessage(
 					Translations.getString("synchronizer.synchronization_fully_completed")));
 			
 			if (noLicense)
@@ -270,23 +280,6 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 		} catch (Throwable t) {
 			this.handleThrowable(t);
 			return null;
-		} finally {
-			if (this.handler != null)
-				monitor.removeListChangeListener(this.handler);
-			
-			Constants.PROGRESS_MONITOR.clear();
-			
-			SynchronizerUtils.removeOldCompletedTasks();
-			
-			SynchronizerUtils.setTaskRepeatEnabled(true);
-			
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
 		}
 		
 		Thread.sleep(1000);
@@ -298,6 +291,18 @@ public class SynchronizerWorker extends TUStopableSwingWorker<Void, Void> {
 				true);
 		
 		return null;
+	}
+	
+	@Override
+	protected void done() {
+		if (this.handler != null)
+			Constants.PROGRESS_MONITOR.removeListChangeListener(this.handler);
+		
+		Constants.PROGRESS_MONITOR.clear();
+		
+		SynchronizerUtils.removeOldCompletedTasks();
+		
+		SynchronizerUtils.setTaskRepeatEnabled(true);
 	}
 	
 	private void handleSynchronizerException(

@@ -93,8 +93,19 @@ public class SynchronizerDialog extends TUWaitDialog {
 	
 	@Override
 	public void setVisible(boolean visible) {
-		if (visible && Synchronizing.isSynchronizing())
-			return;
+		if (visible) {
+			boolean set = false;
+			
+			try {
+				set = Synchronizing.setSynchronizing(true);
+			} catch (SynchronizingException e) {
+				
+			}
+			
+			if (!set) {
+				return;
+			}
+		}
 		
 		super.setVisible(visible);
 	}
@@ -122,6 +133,13 @@ public class SynchronizerDialog extends TUWaitDialog {
 		@Override
 		protected void done() {
 			super.done();
+			
+			try {
+				Synchronizing.setSynchronizing(false);
+			} catch (SynchronizingException e) {
+				
+			}
+			
 			SynchronizerDialog.this.setCursor(null);
 			SynchronizerDialog.this.dispose();
 		}
