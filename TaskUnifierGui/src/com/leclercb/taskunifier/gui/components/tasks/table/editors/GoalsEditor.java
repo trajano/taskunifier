@@ -30,31 +30,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.values;
+package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
-import javax.swing.Icon;
+import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.ModelType;
 
-import org.jdesktop.swingx.renderer.IconValue;
-
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class IconValueCompleted implements IconValue {
+public class GoalsEditor extends ModelListEditor<Goal> {
 	
-	public static final IconValueCompleted INSTANCE = new IconValueCompleted();
-	
-	private IconValueCompleted() {
-		
-	}
-	
-	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof Boolean))
-			return ImageUtils.getResourceImage("checkbox.png", 16, 16);
-		
-		if ((Boolean) value)
-			return ImageUtils.getResourceImage("checkbox_selected.png", 16, 16);
-		else
-			return ImageUtils.getResourceImage("checkbox.png", 16, 16);
+	public GoalsEditor() {
+		super(ModelType.GOAL);
 	}
 	
 }

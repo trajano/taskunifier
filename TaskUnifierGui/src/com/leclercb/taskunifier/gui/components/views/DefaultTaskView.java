@@ -26,18 +26,22 @@ import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNotePanel;
 import com.leclercb.taskunifier.gui.components.modelnote.ModelNoteView;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskPanel;
+import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsPanel;
+import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesPanel;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskTableView;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherPanel;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
+import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksPanel;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -231,7 +235,8 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	}
 	
 	private void initializeTaskTable(JPanel middlePane) {
-		this.taskTable = new TaskTable(new TaskColumnsProperties(
+		this.taskTable = new TaskTable(new TUTableProperties<TaskColumn>(
+				TaskColumn.class,
 				"taskcolumn",
 				false));
 		
@@ -267,7 +272,11 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	}
 	
 	private void initializeTaskContacts(JTabbedPane tabbedPane) {
-		this.taskContacts = new TaskContactsPanel();
+		this.taskContacts = new TaskContactsPanel(
+				new TUTableProperties<TaskContactsColumn>(
+						TaskContactsColumn.class,
+						"taskcontactscolumn",
+						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskContacts);
 		tabbedPane.addTab(
 				Translations.getString("general.task.contacts"),
@@ -276,7 +285,11 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	}
 	
 	private void initializeTaskTasks(JTabbedPane tabbedPane) {
-		this.taskTasks = new TaskTasksPanel();
+		this.taskTasks = new TaskTasksPanel(
+				new TUTableProperties<TaskTasksColumn>(
+						TaskTasksColumn.class,
+						"tasktaskscolumn",
+						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskTasks);
 		tabbedPane.addTab(
 				Translations.getString("general.task.tasks"),
@@ -285,7 +298,11 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	}
 	
 	private void initializeTaskFiles(JTabbedPane tabbedPane) {
-		this.taskFiles = new TaskFilesPanel();
+		this.taskFiles = new TaskFilesPanel(
+				new TUTableProperties<TaskFilesColumn>(
+						TaskFilesColumn.class,
+						"taskfilescolumn",
+						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskFiles);
 		tabbedPane.addTab(
 				Translations.getString("general.task.files"),

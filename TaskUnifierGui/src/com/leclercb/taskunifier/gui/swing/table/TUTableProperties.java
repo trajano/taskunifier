@@ -30,10 +30,11 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.notes;
+package com.leclercb.taskunifier.gui.swing.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,28 +46,39 @@ import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class NoteColumnsProperties implements PropertyChangeListener {
+public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListener {
 	
 	public static final String PROP_ORDER = "order";
 	public static final String PROP_WIDTH = "width";
 	public static final String PROP_VISIBLE = "visible";
 	
+	private Class<E> cls;
 	private String propertyName;
 	private boolean readOnly;
-	private Map<NoteColumn, NoteColumnProperties> columns;
+	private Map<E, TableColumnProperties<E>> columns;
 	
-	public NoteColumnsProperties(String propertyName, boolean readOnly) {
-		this.columns = new HashMap<NoteColumn, NoteColumnProperties>();
+	public TUTableProperties(
+			Class<E> columnEnum,
+			String propertyName,
+			boolean readOnly) {
+		CheckUtils.isNotNull(columnEnum);
 		
-		for (NoteColumn column : NoteColumn.values()) {
-			this.columns.put(column, new NoteColumnProperties(column));
+		this.cls = columnEnum;
+		this.columns = new HashMap<E, TableColumnProperties<E>>();
+		
+		for (E column : this.cls.getEnumConstants()) {
+			this.columns.put(column, new TableColumnProperties<E>(this, column));
 		}
 		
 		this.setPropertyName(propertyName);
 		this.setReadOnly(readOnly);
 	}
 	
-	public NoteColumnProperties get(NoteColumn column) {
+	public E[] getColumns() {
+		return this.cls.getEnumConstants();
+	}
+	
+	public TableColumnProperties<E> get(E column) {
 		return this.columns.get(column);
 	}
 	
@@ -81,8 +93,8 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 		
 		this.propertyName = propertyName;
 		
-		for (NoteColumn column : NoteColumn.values()) {
-			NoteColumnProperties properties = this.columns.get(column);
+		for (E column : this.cls.getEnumConstants()) {
+			TableColumnProperties<E> properties = this.columns.get(column);
 			
 			properties.setOrder(Main.getSettings().getIntegerProperty(
 					propertyName + "." + column.name().toLowerCase() + ".order",
@@ -112,17 +124,18 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 		this.readOnly = readOnly;
 	}
 	
-	public NoteColumn[] getVisibleNoteColumns() {
-		List<NoteColumn> columns = new ArrayList<NoteColumn>(
-				Arrays.asList(NoteColumn.values()));
+	@SuppressWarnings("unchecked")
+	public E[] getVisibleColumns() {
+		List<E> columns = new ArrayList<E>(
+				Arrays.asList(this.cls.getEnumConstants()));
 		
-		for (NoteColumn column : NoteColumn.values()) {
+		for (E column : this.cls.getEnumConstants()) {
 			if (!this.columns.get(column).isVisible()) {
 				columns.remove(column);
 			}
 		}
 		
-		return columns.toArray(new NoteColumn[0]);
+		return columns.toArray((E[]) Array.newInstance(this.cls, 0));
 	}
 	
 	@Override
@@ -131,8 +144,8 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 			if (evt.getNewValue() == null)
 				return;
 			
-			for (NoteColumn column : NoteColumn.values()) {
-				NoteColumnProperties properties = this.columns.get(column);
+			for (E column : this.cls.getEnumConstants()) {
+				TableColumnProperties<E> properties = this.columns.get(column);
 				
 				if (evt.getPropertyName().equals(
 						this.propertyName
@@ -158,24 +171,30 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 		}
 	}
 	
-	public class NoteColumnProperties {
+	public static class TableColumnProperties<E extends Enum<?>> {
 		
 		private PropertyChangeSupport propertyChangeSupport;
 		
-		private NoteColumn column;
+		private TUTableProperties<E> tableProperties;
+		private E column;
 		
 		private int order;
 		private int width;
 		private boolean visible;
 		
-		public NoteColumnProperties(NoteColumn column) {
+		private TableColumnProperties(
+				TUTableProperties<E> tableProperties,
+				E column) {
 			this.propertyChangeSupport = new PropertyChangeSupport(this);
 			
 			CheckUtils.isNotNull(column);
+			CheckUtils.isNotNull(tableProperties);
+			
+			this.tableProperties = tableProperties;
 			this.column = column;
 		}
 		
-		public NoteColumn getColumn() {
+		public E getColumn() {
 			return this.column;
 		}
 		
@@ -190,9 +209,9 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 			int oldOrder = this.getOrder();
 			this.order = order;
 			
-			if (!NoteColumnsProperties.this.readOnly) {
+			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setIntegerProperty(
-						NoteColumnsProperties.this.propertyName
+						this.tableProperties.getPropertyName()
 								+ "."
 								+ this.column.name().toLowerCase()
 								+ ".order",
@@ -216,9 +235,9 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 			int oldWidth = this.getWidth();
 			this.width = width;
 			
-			if (!NoteColumnsProperties.this.readOnly) {
+			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setIntegerProperty(
-						NoteColumnsProperties.this.propertyName
+						this.tableProperties.getPropertyName()
 								+ "."
 								+ this.column.name().toLowerCase()
 								+ ".width",
@@ -242,9 +261,9 @@ public class NoteColumnsProperties implements PropertyChangeListener {
 			boolean oldVisible = this.isVisible();
 			this.visible = visible;
 			
-			if (!NoteColumnsProperties.this.readOnly) {
+			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setBooleanProperty(
-						NoteColumnsProperties.this.propertyName
+						this.tableProperties.getPropertyName()
 								+ "."
 								+ this.column.name().toLowerCase()
 								+ ".visible",

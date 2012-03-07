@@ -46,10 +46,11 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
+import com.leclercb.taskunifier.gui.swing.table.TUColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public enum TaskColumn implements ModelProperties<Task> {
+public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task> {
 	
 	MODEL(Task.class, Translations.getString("general.task.id"), false),
 	MODEL_EDIT(Void.class, Translations.getString("general.edit"), false),
@@ -103,6 +104,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.type = type;
 	}
 	
+	@Override
 	public String getLabel() {
 		return this.label;
 	}
@@ -111,6 +113,7 @@ public enum TaskColumn implements ModelProperties<Task> {
 		this.label = label;
 	}
 	
+	@Override
 	public boolean isEditable() {
 		return this.editable;
 	}

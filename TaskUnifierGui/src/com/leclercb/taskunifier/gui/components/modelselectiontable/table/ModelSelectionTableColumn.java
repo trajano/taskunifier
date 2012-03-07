@@ -30,56 +30,59 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.taskcontacts.table;
+package com.leclercb.taskunifier.gui.components.modelselectiontable.table;
 
 import java.util.Comparator;
 
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 
 import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
+import com.leclercb.taskunifier.gui.commons.values.IconValueSelected;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
-import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.ContactEditor;
-import com.leclercb.taskunifier.gui.components.taskcontacts.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
 import com.leclercb.taskunifier.gui.swing.table.TUTableColumn;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
 
-public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
+public class ModelSelectionTableColumn extends TUTableColumn<ModelSelectionColumn> {
 	
-	private static final TableCellRenderer LINK_RENDERER;
-	private static final TableCellRenderer CONTACT_RENDERER;
+	private static final TableCellRenderer SELECT_RENDERER;
+	private static final TableCellRenderer MODEL_RENDERER;
 	
-	private static final TableCellEditor LINK_EDITOR;
-	private static final TableCellEditor CONTACT_EDITOR;
+	private static final TableCellEditor BOOLEAN_EDITOR;
 	
 	static {
-		LINK_RENDERER = new DefaultTableRenderer();
-		CONTACT_RENDERER = new DefaultTableRenderer(new MappedValue(
-				StringValueModel.INSTANCE_NO_VALUE,
+		SELECT_RENDERER = new DefaultTableRenderer(new MappedValue(
+				null,
+				IconValueSelected.INSTANCE,
+				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
+		MODEL_RENDERER = new DefaultTableRenderer(new MappedValue(
+				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
 		
-		LINK_EDITOR = new LinkEditor();
-		CONTACT_EDITOR = new ContactEditor();
+		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
 	}
 	
-	private TableColumnProperties<TaskContactsColumn> column;
+	private TableColumnProperties<ModelSelectionColumn> column;
 	
-	public TaskContactsTableColumn(
-			TableColumnProperties<TaskContactsColumn> column) {
+	public ModelSelectionTableColumn(
+			TableColumnProperties<ModelSelectionColumn> column) {
 		super(column);
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
 		switch (this.column.getColumn()) {
-			case LINK:
+			case SELECT:
 				return super.getComparator();
-			case CONTACT:
+			case MODEL:
 				return ModelComparator.INSTANCE;
 			default:
 				return super.getComparator();
@@ -94,10 +97,10 @@ public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
 	@Override
 	public TableCellRenderer getCellRenderer() {
 		switch (this.column.getColumn()) {
-			case LINK:
-				return LINK_RENDERER;
-			case CONTACT:
-				return CONTACT_RENDERER;
+			case SELECT:
+				return SELECT_RENDERER;
+			case MODEL:
+				return MODEL_RENDERER;
 			default:
 				return super.getCellRenderer();
 		}
@@ -106,10 +109,10 @@ public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
 	@Override
 	public TableCellEditor getCellEditor() {
 		switch (this.column.getColumn()) {
-			case LINK:
-				return LINK_EDITOR;
-			case CONTACT:
-				return CONTACT_EDITOR;
+			case SELECT:
+				return BOOLEAN_EDITOR;
+			case MODEL:
+				return super.getCellEditor();
 			default:
 				return super.getCellEditor();
 		}

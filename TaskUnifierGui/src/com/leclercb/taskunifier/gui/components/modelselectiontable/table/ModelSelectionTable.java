@@ -38,13 +38,23 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
+import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
 public class ModelSelectionTable extends JXTable {
 	
-	public ModelSelectionTable(ModelType modelType) {
+	private TUTableProperties<ModelSelectionColumn> tableProperties;
+	
+	public ModelSelectionTable(
+			TUTableProperties<ModelSelectionColumn> tableProperties,
+			ModelType modelType) {
+		CheckUtils.isNotNull(tableProperties);
+		this.tableProperties = tableProperties;
+		
 		this.initialize(modelType);
 	}
 	
@@ -68,10 +78,13 @@ public class ModelSelectionTable extends JXTable {
 	private void initialize(ModelType modelType) {
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		ModelSelectionTableColumnModel columnModel = new ModelSelectionTableColumnModel(
+				this.tableProperties);
 		ModelSelectionTableModel tableModel = new ModelSelectionTableModel(
 				modelType);
 		
 		this.setModel(tableModel);
+		this.setColumnModel(columnModel);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		this.setShowGrid(true, false);
 		

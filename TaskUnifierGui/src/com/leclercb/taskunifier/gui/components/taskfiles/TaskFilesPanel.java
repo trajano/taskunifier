@@ -49,6 +49,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.TaskFilesTable;
 import com.leclercb.taskunifier.gui.swing.TUFileDialog;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -61,15 +62,15 @@ public class TaskFilesPanel extends JPanel implements TaskFilesView, ModelSelect
 	private Action addAction;
 	private Action removeAction;
 	
-	public TaskFilesPanel() {
-		this.initialize();
+	public TaskFilesPanel(TUTableProperties<TaskFilesColumn> tableProperties) {
+		this.initialize(tableProperties);
 	}
 	
-	private void initialize() {
+	private void initialize(TUTableProperties<TaskFilesColumn> tableProperties) {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.table = new TaskFilesTable();
+		this.table = new TaskFilesTable(tableProperties);
 		
 		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		this.toolBar.setOpaque(false);

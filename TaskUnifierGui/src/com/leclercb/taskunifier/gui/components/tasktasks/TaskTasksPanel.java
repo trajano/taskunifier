@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.TaskTasksTable;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -69,8 +70,8 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 	private Action removeAction;
 	private Action lockedAction;
 	
-	public TaskTasksPanel() {
-		this.initialize();
+	public TaskTasksPanel(TUTableProperties<TaskTasksColumn> tableProperties) {
+		this.initialize(tableProperties);
 		
 		this.task = null;
 		this.setLocked(false);
@@ -109,14 +110,14 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 		}
 	}
 	
-	private void initialize() {
+	private void initialize(TUTableProperties<TaskTasksColumn> tableProperties) {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
 		this.label = new JLabel();
 		this.label.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		
-		this.table = new TaskTasksTable();
+		this.table = new TaskTasksTable(tableProperties);
 		
 		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		this.toolBar.setOpaque(false);

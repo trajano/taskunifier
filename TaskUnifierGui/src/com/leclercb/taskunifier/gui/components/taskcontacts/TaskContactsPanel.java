@@ -56,6 +56,7 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.taskcontacts.table.TaskContactsTable;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -67,15 +68,17 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 	private Action addAction;
 	private Action removeAction;
 	
-	public TaskContactsPanel() {
-		this.initialize();
+	public TaskContactsPanel(
+			TUTableProperties<TaskContactsColumn> tableProperties) {
+		this.initialize(tableProperties);
 	}
 	
-	private void initialize() {
+	private void initialize(
+			TUTableProperties<TaskContactsColumn> tableProperties) {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.table = new TaskContactsTable();
+		this.table = new TaskContactsTable(tableProperties);
 		
 		this.toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 		this.toolBar.setOpaque(false);

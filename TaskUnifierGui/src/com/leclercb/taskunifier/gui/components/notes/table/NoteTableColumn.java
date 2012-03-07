@@ -32,8 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.notes.table;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
 import javax.swing.SwingConstants;
@@ -44,9 +42,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 import org.jdesktop.swingx.renderer.StringValues;
-import org.jdesktop.swingx.table.TableColumnExt;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
@@ -54,12 +50,12 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
 import com.leclercb.taskunifier.gui.commons.values.StringValueNoteTitle;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties;
-import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties.NoteColumnProperties;
 import com.leclercb.taskunifier.gui.components.notes.table.editors.FolderEditor;
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowComparator;
+import com.leclercb.taskunifier.gui.swing.table.TUTableColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
 
-public class NoteTableColumn extends TableColumnExt {
+public class NoteTableColumn extends TUTableColumn<NoteColumn> {
 	
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
@@ -97,41 +93,15 @@ public class NoteTableColumn extends TableColumnExt {
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}
 	
-	private NoteColumnProperties noteColumn;
+	private TableColumnProperties<NoteColumn> column;
 	
-	public NoteTableColumn(NoteColumnProperties noteColumn) {
-		super(noteColumn.getColumn().ordinal());
-		
-		CheckUtils.isNotNull(noteColumn);
-		
-		this.noteColumn = noteColumn;
-		
-		this.setIdentifier(noteColumn.getColumn());
-		this.setHeaderValue(noteColumn.getColumn().getLabel());
-		this.setPreferredWidth(noteColumn.getWidth());
-		this.setVisible(noteColumn.isVisible());
-		
-		this.noteColumn.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						NoteColumnsProperties.PROP_VISIBLE)) {
-					NoteTableColumn.this.setVisible((Boolean) evt.getNewValue());
-				}
-				
-				if (evt.getPropertyName().equals(
-						NoteColumnsProperties.PROP_WIDTH)) {
-					NoteTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
-				}
-			}
-			
-		});
+	public NoteTableColumn(TableColumnProperties<NoteColumn> column) {
+		super(column);
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
-		if (this.noteColumn.getColumn() == NoteColumn.MODEL)
+		if (this.column.getColumn() == NoteColumn.MODEL)
 			return NoteRowComparator.getInstance();
 		
 		return super.getComparator();
@@ -139,27 +109,15 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public boolean isSortable() {
-		if (this.noteColumn.getColumn() == NoteColumn.MODEL)
+		if (this.column.getColumn() == NoteColumn.MODEL)
 			return true;
 		
 		return false;
 	}
 	
 	@Override
-	public void setPreferredWidth(int preferredWidth) {
-		this.noteColumn.setWidth(preferredWidth);
-		super.setPreferredWidth(preferredWidth);
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		this.noteColumn.setVisible(visible);
-		super.setVisible(visible);
-	}
-	
-	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.noteColumn.getColumn()) {
+		switch (this.column.getColumn()) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
 			case MODEL_CREATION_DATE:
@@ -179,7 +137,7 @@ public class NoteTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.noteColumn.getColumn()) {
+		switch (this.column.getColumn()) {
 			case TITLE:
 				return GENERIC_EDITOR;
 			case FOLDER:

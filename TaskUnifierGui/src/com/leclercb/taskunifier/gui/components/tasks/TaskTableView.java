@@ -37,12 +37,13 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeSupported;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
 import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
 public interface TaskTableView extends TaskSelectionView, ModelSelectionChangeSupported, PropertyChangeSupported, TaskSearcherSelectionListener {
 	
 	public static final String PROP_TASK_COUNT = "taskCount";
 	
-	public abstract TaskColumnsProperties getTaskColumnsProperties();
+	public abstract TUTableProperties<TaskColumn> getTableProperties();
 	
 	public abstract int getTaskCount();
 	

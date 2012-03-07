@@ -12,7 +12,7 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
-import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
+import com.leclercb.taskunifier.gui.commons.values.IconValueSelected;
 import com.leclercb.taskunifier.gui.components.configuration.fields.publication.editors.OptionsEditor;
 import com.leclercb.taskunifier.gui.components.configuration.fields.publication.renderers.OptionsRenderer;
 
@@ -29,7 +29,7 @@ public class PublisherPluginTable extends JXTable {
 		// RENDERERS
 		BOOLEAN_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueCompleted.INSTANCE,
+				IconValueSelected.INSTANCE,
 				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		GENERIC_RENDERER = new DefaultTableCellRenderer();
 		OPTIONS_RENDERER = new OptionsRenderer();

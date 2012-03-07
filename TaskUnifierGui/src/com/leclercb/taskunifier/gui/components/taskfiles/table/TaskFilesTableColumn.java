@@ -32,8 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.taskfiles.table;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
 import javax.swing.SwingConstants;
@@ -42,17 +40,17 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
-import org.jdesktop.swingx.table.TableColumnExt;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueOpen;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTitle;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.editors.FileEditor;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.editors.LinkEditor;
+import com.leclercb.taskunifier.gui.swing.table.TUTableColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class TaskFilesTableColumn extends TableColumnExt {
+public class TaskFilesTableColumn extends TUTableColumn<TaskFilesColumn> {
 	
 	private static final TableCellRenderer LINK_RENDERER;
 	private static final TableCellRenderer FILE_RENDERER;
@@ -73,38 +71,15 @@ public class TaskFilesTableColumn extends TableColumnExt {
 		FILE_EDITOR = new FileEditor();
 	}
 	
-	private TaskFilesColumn column;
+	private TableColumnProperties<TaskFilesColumn> column;
 	
-	public TaskFilesTableColumn(TaskFilesColumn column) {
-		super(column.ordinal());
-		
-		CheckUtils.isNotNull(column);
-		
-		this.column = column;
-		
-		this.setIdentifier(column);
-		this.setHeaderValue(column.getLabel());
-		this.setPreferredWidth(column.getWidth());
-		
-		this.column.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TaskFilesColumn.PROP_VISIBLE)) {
-					TaskFilesTableColumn.this.setVisible((Boolean) evt.getNewValue());
-				}
-				
-				if (evt.getPropertyName().equals(TaskFilesColumn.PROP_WIDTH)) {
-					TaskFilesTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
-				}
-			}
-			
-		});
+	public TaskFilesTableColumn(TableColumnProperties<TaskFilesColumn> column) {
+		super(column);
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return super.getComparator();
 			case FILE:
@@ -122,20 +97,8 @@ public class TaskFilesTableColumn extends TableColumnExt {
 	}
 	
 	@Override
-	public void setPreferredWidth(int preferredWidth) {
-		this.column.setWidth(preferredWidth);
-		super.setPreferredWidth(preferredWidth);
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		this.column.setVisible(visible);
-		super.setVisible(visible);
-	}
-	
-	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return LINK_RENDERER;
 			case FILE:
@@ -149,7 +112,7 @@ public class TaskFilesTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return LINK_EDITOR;
 			case FILE:

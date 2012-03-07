@@ -45,16 +45,23 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.FileList;
 import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop.TaskFilesTransferHandler;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 
 public class TaskFilesTable extends JXTable {
 	
-	public TaskFilesTable() {
+	private TUTableProperties<TaskFilesColumn> tableProperties;
+	
+	public TaskFilesTable(TUTableProperties<TaskFilesColumn> tableProperties) {
+		CheckUtils.isNotNull(tableProperties);
+		this.tableProperties = tableProperties;
+		
 		this.initialize();
 	}
 	
@@ -106,7 +113,8 @@ public class TaskFilesTable extends JXTable {
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		TaskFilesTableColumnModel columnModel = new TaskFilesTableColumnModel();
+		TaskFilesTableColumnModel columnModel = new TaskFilesTableColumnModel(
+				this.tableProperties);
 		TaskFilesTableModel tableModel = new TaskFilesTableModel();
 		
 		this.setModel(tableModel);

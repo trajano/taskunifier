@@ -30,17 +30,46 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.editors;
+package com.leclercb.taskunifier.gui.components.modelselectiontable;
 
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import java.awt.BorderLayout;
 
-import com.leclercb.taskunifier.gui.commons.models.GoalModel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import javax.swing.JPanel;
 
-public class GoalEditor extends ComboBoxCellEditor {
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.gui.components.modelselectiontable.table.ModelSelectionTable;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
+
+public class ModelSelectionPanel extends JPanel implements ModelSelectionView {
 	
-	public GoalEditor() {
-		super(ComponentFactory.createModelComboBox(new GoalModel(true), true));
+	private ModelSelectionTable table;
+	
+	public ModelSelectionPanel(
+			TUTableProperties<ModelSelectionColumn> tableProperties,
+			ModelType modelType) {
+		this.initialize(tableProperties, modelType);
+	}
+	
+	@Override
+	public Model[] getSelectedModels() {
+		return this.table.getSelectedModels();
+	}
+	
+	@Override
+	public void setSelectedModels(Model[] models) {
+		this.table.setSelectedModels(models);
+	}
+	
+	private void initialize(
+			TUTableProperties<ModelSelectionColumn> tableProperties,
+			ModelType modelType) {
+		this.setOpaque(false);
+		this.setLayout(new BorderLayout());
+		
+		this.table = new ModelSelectionTable(tableProperties, modelType);
+		
+		this.add(this.table, BorderLayout.CENTER);
 	}
 	
 }

@@ -41,14 +41,22 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.ContactList;
 import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
 public class TaskContactsTable extends JXTable {
 	
-	public TaskContactsTable() {
+	private TUTableProperties<TaskContactsColumn> tableProperties;
+	
+	public TaskContactsTable(
+			TUTableProperties<TaskContactsColumn> tableProperties) {
+		CheckUtils.isNotNull(tableProperties);
+		this.tableProperties = tableProperties;
+		
 		this.initialize();
 	}
 	
@@ -100,7 +108,8 @@ public class TaskContactsTable extends JXTable {
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		TaskContactsTableColumnModel columnModel = new TaskContactsTableColumnModel();
+		TaskContactsTableColumnModel columnModel = new TaskContactsTableColumnModel(
+				this.tableProperties);
 		TaskContactsTableModel tableModel = new TaskContactsTableModel();
 		
 		this.setModel(tableModel);

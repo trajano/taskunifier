@@ -32,8 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.tasktasks.table;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
 import javax.swing.SwingConstants;
@@ -42,9 +40,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
-import org.jdesktop.swingx.table.TableColumnExt;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueSelect;
@@ -52,8 +48,10 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.editors.LinkEditor;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.editors.TaskEditor;
+import com.leclercb.taskunifier.gui.swing.table.TUTableColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
 
-public class TaskTasksTableColumn extends TableColumnExt {
+public class TaskTasksTableColumn extends TUTableColumn<TaskTasksColumn> {
 	
 	private static final TableCellRenderer LINK_RENDERER;
 	private static final TableCellRenderer TASK_RENDERER;
@@ -79,38 +77,15 @@ public class TaskTasksTableColumn extends TableColumnExt {
 		TASK_EDITOR = new TaskEditor();
 	}
 	
-	private TaskTasksColumn column;
+	private TableColumnProperties<TaskTasksColumn> column;
 	
-	public TaskTasksTableColumn(TaskTasksColumn column) {
-		super(column.ordinal());
-		
-		CheckUtils.isNotNull(column);
-		
-		this.column = column;
-		
-		this.setIdentifier(column);
-		this.setHeaderValue(column.getLabel());
-		this.setPreferredWidth(column.getWidth());
-		
-		this.column.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TaskTasksColumn.PROP_VISIBLE)) {
-					TaskTasksTableColumn.this.setVisible((Boolean) evt.getNewValue());
-				}
-				
-				if (evt.getPropertyName().equals(TaskTasksColumn.PROP_WIDTH)) {
-					TaskTasksTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
-				}
-			}
-			
-		});
+	public TaskTasksTableColumn(TableColumnProperties<TaskTasksColumn> column) {
+		super(column);
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return super.getComparator();
 			case TASK:
@@ -130,20 +105,8 @@ public class TaskTasksTableColumn extends TableColumnExt {
 	}
 	
 	@Override
-	public void setPreferredWidth(int preferredWidth) {
-		this.column.setWidth(preferredWidth);
-		super.setPreferredWidth(preferredWidth);
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		this.column.setVisible(visible);
-		super.setVisible(visible);
-	}
-	
-	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return LINK_RENDERER;
 			case TASK:
@@ -159,7 +122,7 @@ public class TaskTasksTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.column) {
+		switch (this.column.getColumn()) {
 			case LINK:
 				return LINK_EDITOR;
 			case TASK:

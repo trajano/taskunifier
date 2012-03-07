@@ -78,7 +78,6 @@ import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
-import com.leclercb.taskunifier.gui.components.notes.NoteColumnsProperties;
 import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.notes.table.draganddrop.NoteTransferHandler;
 import com.leclercb.taskunifier.gui.components.notes.table.highlighters.NoteTitleHighlightPredicate;
@@ -90,6 +89,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowCompara
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
 public class NoteTable extends JXTable implements NoteTableView {
@@ -98,20 +98,20 @@ public class NoteTable extends JXTable implements NoteTableView {
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
-	private NoteColumnsProperties noteColumnsProperties;
+	private TUTableProperties<NoteColumn> tableProperties;
 	private NoteTableMenu noteTableMenu;
 	
-	public NoteTable(NoteColumnsProperties noteColumnsProperties) {
+	public NoteTable(TUTableProperties<NoteColumn> noteColumnsProperties) {
 		CheckUtils.isNotNull(noteColumnsProperties);
-		this.noteColumnsProperties = noteColumnsProperties;
+		this.tableProperties = noteColumnsProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
 		this.initialize();
 	}
 	
 	@Override
-	public NoteColumnsProperties getNoteColumnsProperties() {
-		return this.noteColumnsProperties;
+	public TUTableProperties<NoteColumn> getTableProperties() {
+		return this.tableProperties;
 	}
 	
 	@Override
@@ -279,7 +279,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		NoteTableColumnModel columnModel = new NoteTableColumnModel(
-				this.noteColumnsProperties);
+				this.tableProperties);
 		NoteTableModel tableModel = new NoteTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);

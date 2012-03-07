@@ -44,6 +44,7 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskList;
 import com.leclercb.taskunifier.api.models.TaskList.TaskItem;
@@ -52,10 +53,16 @@ import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
 public class TaskTasksTable extends JXTable {
 	
-	public TaskTasksTable() {
+	private TUTableProperties<TaskTasksColumn> tableProperties;
+	
+	public TaskTasksTable(TUTableProperties<TaskTasksColumn> tableProperties) {
+		CheckUtils.isNotNull(tableProperties);
+		this.tableProperties = tableProperties;
+		
 		this.initialize();
 	}
 	
@@ -107,7 +114,8 @@ public class TaskTasksTable extends JXTable {
 	private void initialize() {
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		TaskTasksTableColumnModel columnModel = new TaskTasksTableColumnModel();
+		TaskTasksTableColumnModel columnModel = new TaskTasksTableColumnModel(
+				this.tableProperties);
 		TaskTasksTableModel tableModel = new TaskTasksTableModel();
 		
 		this.setModel(tableModel);

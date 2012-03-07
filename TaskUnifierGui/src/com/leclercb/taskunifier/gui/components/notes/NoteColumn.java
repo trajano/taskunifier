@@ -38,9 +38,10 @@ import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
+import com.leclercb.taskunifier.gui.swing.table.TUColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public enum NoteColumn implements ModelProperties<Note> {
+public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 	
 	MODEL(Note.class, Translations.getString("general.note.id"), false),
 	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
@@ -68,6 +69,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.type = type;
 	}
 	
+	@Override
 	public String getLabel() {
 		return this.label;
 	}
@@ -76,6 +78,7 @@ public enum NoteColumn implements ModelProperties<Note> {
 		this.label = label;
 	}
 	
+	@Override
 	public boolean isEditable() {
 		return this.editable;
 	}

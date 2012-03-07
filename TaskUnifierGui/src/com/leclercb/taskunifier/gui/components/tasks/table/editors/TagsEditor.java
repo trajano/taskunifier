@@ -45,10 +45,6 @@ public class TagsEditor extends AbstractCellEditor implements TableCellEditor {
 	private TUTagList taskTags;
 	
 	public TagsEditor() {
-		this.initialize();
-	}
-	
-	private void initialize() {
 		this.taskTags = new TUTagList();
 	}
 	

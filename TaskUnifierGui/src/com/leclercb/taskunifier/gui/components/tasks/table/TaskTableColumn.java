@@ -32,8 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
 import javax.swing.SwingConstants;
@@ -43,16 +41,14 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
-import org.jdesktop.swingx.table.TableColumnExt;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
-import com.leclercb.taskunifier.gui.commons.values.IconValueCompleted;
 import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueNote;
 import com.leclercb.taskunifier.gui.commons.values.IconValueReminder;
 import com.leclercb.taskunifier.gui.commons.values.IconValueRepeat;
+import com.leclercb.taskunifier.gui.commons.values.IconValueSelected;
 import com.leclercb.taskunifier.gui.commons.values.IconValueStar;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskContacts;
 import com.leclercb.taskunifier.gui.commons.values.IconValueTaskFiles;
@@ -74,14 +70,12 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTitle;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumnsProperties.TaskColumnProperties;
-import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.ContextsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.DateEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.FolderEditor;
-import com.leclercb.taskunifier.gui.components.tasks.table.editors.GoalEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.GoalsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.LengthEditor;
-import com.leclercb.taskunifier.gui.components.tasks.table.editors.LocationEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.editors.LocationsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.PriorityEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ProgressEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.ReminderEditor;
@@ -94,8 +88,10 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.table.TUTableColumn;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
 
-public class TaskTableColumn extends TableColumnExt {
+public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 	
 	private static final TableCellRenderer GENERIC_RENDERER;
 	
@@ -153,7 +149,7 @@ public class TaskTableColumn extends TableColumnExt {
 		
 		COMPLETED_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
-				IconValueCompleted.INSTANCE,
+				IconValueSelected.INSTANCE,
 				BooleanValueBoolean.INSTANCE), SwingConstants.CENTER);
 		
 		COMPLETED_ON_RENDERER = new DefaultTableRenderer(
@@ -244,13 +240,13 @@ public class TaskTableColumn extends TableColumnExt {
 		TITLE_RENDERER = new DefaultTableRenderer(StringValueTaskTitle.INSTANCE);
 		
 		BOOLEAN_EDITOR = new JXTable.BooleanEditor();
-		CONTEXTS_EDITOR = new ContextEditor();
+		CONTEXTS_EDITOR = new ContextsEditor();
 		DUE_DATE_EDITOR = new DateEditor(Main.getSettings().getBooleanProperty(
 				"date.use_due_time"));
 		FOLDER_EDITOR = new FolderEditor();
-		GOALS_EDITOR = new GoalEditor();
+		GOALS_EDITOR = new GoalsEditor();
 		LENGTH_EDITOR = new LengthEditor();
-		LOCATIONS_EDITOR = new LocationEditor();
+		LOCATIONS_EDITOR = new LocationsEditor();
 		PROGRESS_EDITOR = new ProgressEditor();
 		REMINDER_EDITOR = new ReminderEditor();
 		REPEAT_EDITOR = new RepeatEditor();
@@ -264,41 +260,15 @@ public class TaskTableColumn extends TableColumnExt {
 		TITLE_EDITOR = new TitleEditor();
 	}
 	
-	private TaskColumnProperties taskColumn;
+	private TableColumnProperties<TaskColumn> column;
 	
-	public TaskTableColumn(TaskColumnProperties taskColumn) {
-		super(taskColumn.getColumn().ordinal());
-		
-		CheckUtils.isNotNull(taskColumn);
-		
-		this.taskColumn = taskColumn;
-		
-		this.setIdentifier(taskColumn.getColumn());
-		this.setHeaderValue(taskColumn.getColumn().getLabel());
-		this.setPreferredWidth(taskColumn.getWidth());
-		this.setVisible(taskColumn.isVisible());
-		
-		this.taskColumn.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(
-						TaskColumnsProperties.PROP_VISIBLE)) {
-					TaskTableColumn.this.setVisible((Boolean) evt.getNewValue());
-				}
-				
-				if (evt.getPropertyName().equals(
-						TaskColumnsProperties.PROP_WIDTH)) {
-					TaskTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
-				}
-			}
-			
-		});
+	public TaskTableColumn(TableColumnProperties<TaskColumn> column) {
+		super(column);
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
-		if (this.taskColumn.getColumn() == TaskColumn.MODEL)
+		if (this.column.getColumn() == TaskColumn.MODEL)
 			return TaskRowComparator.getInstance();
 		
 		return super.getComparator();
@@ -306,27 +276,15 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public boolean isSortable() {
-		if (this.taskColumn.getColumn() == TaskColumn.MODEL)
+		if (this.column.getColumn() == TaskColumn.MODEL)
 			return true;
 		
 		return false;
 	}
 	
 	@Override
-	public void setPreferredWidth(int preferredWidth) {
-		this.taskColumn.setWidth(preferredWidth);
-		super.setPreferredWidth(preferredWidth);
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		this.taskColumn.setVisible(visible);
-		super.setVisible(visible);
-	}
-	
-	@Override
 	public TableCellRenderer getCellRenderer() {
-		switch (this.taskColumn.getColumn()) {
+		switch (this.column.getColumn()) {
 			case MODEL:
 				return MODEL_ID_RENDERER;
 			case MODEL_EDIT:
@@ -389,7 +347,7 @@ public class TaskTableColumn extends TableColumnExt {
 	
 	@Override
 	public TableCellEditor getCellEditor() {
-		switch (this.taskColumn.getColumn()) {
+		switch (this.column.getColumn()) {
 			case SHOW_CHILDREN:
 				return BOOLEAN_EDITOR;
 			case TITLE:

@@ -30,85 +30,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.modelselectiontable;
+package com.leclercb.taskunifier.gui.commons.values;
 
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.swing.table.TUColumn;
-import com.leclercb.taskunifier.gui.translations.Translations;
+import javax.swing.Icon;
 
-public enum ModelSelectionColumn implements TUColumn<Model> {
+import org.jdesktop.swingx.renderer.IconValue;
+
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class IconValueSelected implements IconValue {
 	
-	SELECT(Boolean.class, Translations.getString("general.select"), true),
-	MODEL(Model.class, Translations.getString("general.title"), false);
+	public static final IconValueSelected INSTANCE = new IconValueSelected();
 	
-	private Class<?> type;
-	private String label;
-	private boolean editable;
-	
-	private ModelSelectionColumn(Class<?> type, String label, boolean editable) {
-		this.setType(type);
-		this.setLabel(label);
-		this.setEditable(editable);
-	}
-	
-	@Override
-	public Class<?> getType() {
-		return this.type;
-	}
-	
-	private void setType(Class<?> type) {
-		this.type = type;
-	}
-	
-	@Override
-	public String getLabel() {
-		return this.label;
-	}
-	
-	private void setLabel(String label) {
-		this.label = label;
-	}
-	
-	@Override
-	public boolean isEditable() {
-		return this.editable;
-	}
-	
-	private void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-	
-	@Override
-	public String toString() {
-		return this.label;
-	}
-	
-	@Override
-	public Object getProperty(Model model) {
-		if (model == null)
-			return null;
+	private IconValueSelected() {
 		
-		switch (this) {
-			case SELECT:
-				return null;
-			case MODEL:
-				return model;
-			default:
-				return null;
-		}
 	}
 	
 	@Override
-	public void setProperty(Model model, Object value) {
-		if (model == null)
-			return;
+	public Icon getIcon(Object value) {
+		if (value == null || !(value instanceof Boolean))
+			return ImageUtils.getResourceImage("checkbox.png", 16, 16);
 		
-		switch (this) {
-			case SELECT:
-				break;
-			case MODEL:
-				break;
-		}
+		if ((Boolean) value)
+			return ImageUtils.getResourceImage("checkbox_selected.png", 16, 16);
+		else
+			return ImageUtils.getResourceImage("checkbox.png", 16, 16);
 	}
 	
 }

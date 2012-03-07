@@ -30,19 +30,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.editors;
+package com.leclercb.taskunifier.gui.components.modelselectiontable;
 
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import com.leclercb.taskunifier.api.models.Model;
 
-import com.leclercb.taskunifier.gui.commons.models.LocationModel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
-
-public class LocationEditor extends ComboBoxCellEditor {
+public interface ModelSelectionView {
 	
-	public LocationEditor() {
-		super(ComponentFactory.createModelComboBox(
-				new LocationModel(true),
-				true));
-	}
+	public abstract Model[] getSelectedModels();
+	
+	public abstract void setSelectedModels(Model[] models);
 	
 }

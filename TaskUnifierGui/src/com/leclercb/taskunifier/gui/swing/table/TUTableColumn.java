@@ -30,20 +30,61 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.tasks.table.editors;
+package com.leclercb.taskunifier.gui.swing.table;
 
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import com.leclercb.taskunifier.gui.commons.models.ContextModel;
-import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import org.jdesktop.swingx.table.TableColumnExt;
 
-public class ContextEditor extends ComboBoxCellEditor {
+import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnProperties;
+
+public abstract class TUTableColumn<E extends Enum<?>> extends TableColumnExt {
 	
-	public ContextEditor() {
-		super(
-				ComponentFactory.createModelComboBox(
-						new ContextModel(true),
-						true));
+	private TableColumnProperties<E> column;
+	
+	public TUTableColumn(TableColumnProperties<E> column) {
+		super(column.getColumn().ordinal());
+		
+		CheckUtils.isNotNull(column);
+		
+		this.column = column;
+		
+		this.setIdentifier(column.getColumn());
+		
+		if (column.getColumn() instanceof TUColumn)
+			this.setHeaderValue(((TUColumn<?>) column.getColumn()).getLabel());
+		
+		this.setPreferredWidth(column.getWidth());
+		this.setVisible(column.isVisible());
+		
+		this.column.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TUTableProperties.PROP_VISIBLE)) {
+					TUTableColumn.this.setVisible((Boolean) evt.getNewValue());
+				}
+				
+				if (evt.getPropertyName().equals(TUTableProperties.PROP_WIDTH)) {
+					TUTableColumn.this.setPreferredWidth((Integer) evt.getNewValue());
+				}
+			}
+			
+		});
+	}
+	
+	@Override
+	public void setPreferredWidth(int preferredWidth) {
+		this.column.setWidth(preferredWidth);
+		super.setPreferredWidth(preferredWidth);
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		this.column.setVisible(visible);
+		super.setVisible(visible);
 	}
 	
 }
