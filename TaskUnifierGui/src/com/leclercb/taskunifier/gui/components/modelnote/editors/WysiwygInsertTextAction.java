@@ -2,15 +2,15 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.JEditorPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit.HTMLTextAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class WysiwygInsertTextAction extends HTMLTextAction {
+public class WysiwygInsertTextAction extends AbstractAction {
 	
 	private JEditorPane editor;
 	private String text;
@@ -44,7 +44,7 @@ public class WysiwygInsertTextAction extends HTMLTextAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		HTMLDocument document = this.getHTMLDocument(this.editor);
+		HTMLDocument document = (HTMLDocument) this.editor.getDocument();
 		int offset = this.editor.getCaretPosition();
 		
 		try {

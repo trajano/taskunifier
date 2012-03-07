@@ -34,14 +34,14 @@ package com.leclercb.taskunifier.gui.components.modelnote.editors;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JEditorPane;
-import javax.swing.text.html.HTMLEditorKit.HTMLTextAction;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class WysiwygInsertHTMLAction extends HTMLTextAction {
+public class WysiwygInsertHTMLAction extends AbstractAction {
 	
 	private JEditorPane editor;
 	private Action action;
