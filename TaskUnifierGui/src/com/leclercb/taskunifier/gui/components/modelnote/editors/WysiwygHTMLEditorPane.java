@@ -182,31 +182,37 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.toolBar.addSeparator();
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_b.png",
 				Translations.getString("modelnote.action.b"),
 				this.getAction("font-bold")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_i.png",
 				Translations.getString("modelnote.action.i"),
 				this.getAction("font-italic")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_ul.png",
 				Translations.getString("modelnote.action.ul"),
 				this.getAction("InsertUnorderedList")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertUnorderedListItem")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_ol.png",
 				Translations.getString("modelnote.action.ol"),
 				this.getAction("InsertOrderedList")));
 		
 		this.toolBar.add(new WysiwygInsertHTMLAction(
+				this.htmlNote,
 				"html_li.png",
 				Translations.getString("modelnote.action.li"),
 				this.getAction("InsertOrderedListItem")));
@@ -257,6 +263,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		});
 		
 		this.toolBar.add(new WysiwygInsertTextAction(
+				this.htmlNote,
 				"calendar.png",
 				Translations.getString("modelnote.action.date"),
 				StringValueCalendar.INSTANCE_DATE_TIME.getString(Calendar.getInstance())) {
