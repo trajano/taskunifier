@@ -3,6 +3,7 @@ package com.leclercb.taskunifier.gui.components.configuration.fields.proxy;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -44,11 +45,18 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 					MainFrame.getInstance().getFrame(),
 					Translations.getString("configuration.proxy.test_connection"));
 			
-			dialog.setWorker(new SwingWorker<Void, Void>() {
+			dialog.setWorker(new SwingWorker<Void, String>() {
+				
+				@Override
+				protected void process(List<String> messages) {
+					for (String message : messages) {
+						dialog.appendToProgressStatus(message);
+					}
+				}
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					dialog.appendToProgressStatus(Translations.getString("configuration.proxy.test_connection"));
+					this.publish(Translations.getString("configuration.proxy.test_connection"));
 					
 					try {
 						HttpUtils.getHttpGetResponse(new URI(
