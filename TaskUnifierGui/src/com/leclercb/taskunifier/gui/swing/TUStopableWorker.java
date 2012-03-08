@@ -32,17 +32,18 @@
  */
 package com.leclercb.taskunifier.gui.swing;
 
-import javax.swing.SwingWorker;
+import com.leclercb.commons.api.progress.ProgressMonitor;
 
-public abstract class TUStopableSwingWorker<T, V> extends SwingWorker<T, V> {
+public abstract class TUStopableWorker<T> extends TUWorker<T> {
 	
 	private boolean stopped;
 	
-	public TUStopableSwingWorker() {
+	public TUStopableWorker(ProgressMonitor monitor) {
+		super(monitor);
 		this.stopped = false;
 	}
 	
-	public synchronized boolean isStopped() {
+	public final synchronized boolean isStopped() {
 		return this.stopped;
 	}
 	
@@ -54,7 +55,7 @@ public abstract class TUStopableSwingWorker<T, V> extends SwingWorker<T, V> {
 		this.cancel(true);
 	}
 	
-	protected void executeNonAtomicAction(Runnable runnable) {
+	protected final void executeNonAtomicAction(Runnable runnable) {
 		Thread thread = new Thread(runnable);
 		thread.start();
 		

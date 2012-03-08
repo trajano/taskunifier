@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.beans.PropertyChangeListener;
 
+import javax.swing.SwingUtilities;
+
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.gui.logger.GuiLogger;
 
@@ -42,20 +44,12 @@ public class Synchronizing {
 	public static final String PROP_SYNCHRONIZING = "synchronizing";
 	
 	private static boolean synchronizing = false;
-	private static Thread synchronizingThread = null;
 	
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			Synchronizing.class);
 	
 	public static boolean isSynchronizing() {
 		return synchronizing;
-	}
-	
-	private static boolean isSynchronizingThread() {
-		if (!synchronizing || synchronizingThread == null)
-			return false;
-		
-		return synchronizingThread.equals(Thread.currentThread());
 	}
 	
 	public static boolean setSynchronizing(boolean synchronizing)
@@ -65,27 +59,22 @@ public class Synchronizing {
 		synchronized (Synchronizing.class) {
 			if (Synchronizing.synchronizing
 					&& synchronizing
-					&& !isSynchronizingThread()) {
+					&& !SwingUtilities.isEventDispatchThread()) {
 				GuiLogger.getLogger().info(
-						"Cannot synchronize because synchronization is ongoing on another thread");
+						"Cannot synchronize because synchronization is already ongoing");
 				throw new SynchronizingException();
 			}
 			
 			if (Synchronizing.synchronizing
 					&& !synchronizing
-					&& !isSynchronizingThread()) {
+					&& !SwingUtilities.isEventDispatchThread()) {
 				GuiLogger.getLogger().info(
-						"Only the synchronization thread can stop the synchronization");
+						"Only the EDT can stop the synchronization");
 				throw new SynchronizingException();
 			}
 			
 			if (Synchronizing.synchronizing == synchronizing)
 				return false;
-			
-			if (synchronizing)
-				Synchronizing.synchronizingThread = Thread.currentThread();
-			else
-				Synchronizing.synchronizingThread = null;
 			
 			oldSynchronizing = Synchronizing.synchronizing;
 			Synchronizing.synchronizing = synchronizing;

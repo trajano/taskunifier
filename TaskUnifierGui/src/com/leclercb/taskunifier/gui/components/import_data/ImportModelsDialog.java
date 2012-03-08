@@ -35,8 +35,6 @@ package com.leclercb.taskunifier.gui.components.import_data;
 import java.io.File;
 import java.util.Enumeration;
 
-import javax.swing.SwingWorker;
-
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.jdesktop.swingx.JXErrorPane;
@@ -52,7 +50,6 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
-import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -83,102 +80,76 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(final String file) throws Exception {
-		final TUWaitDialog dialog = new TUWaitDialog(
-				MainFrame.getInstance().getFrame(),
-				"action.import_models");
+		boolean set = false;
 		
-		dialog.setWorker(new SwingWorker<Void, Void>() {
+		try {
+			set = Synchronizing.setSynchronizing(true);
+		} catch (SynchronizingException e) {
 			
-			@Override
-			protected Void doInBackground() throws Exception {
-				boolean set = false;
+		}
+		
+		if (!set) {
+			ErrorInfo info = new ErrorInfo(
+					Translations.getString("general.error"),
+					Translations.getString("general.synchronization_ongoing"),
+					null,
+					null,
+					null,
+					null,
+					null);
+			
+			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			
+			return;
+		}
+		
+		try {
+			SynchronizerUtils.setTaskRepeatEnabled(false);
+			
+			ZipFile zip = new ZipFile(new File(file));
+			
+			for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
+				ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
 				
+				if (entry.getName().equals("contacts.xml"))
+					ContactFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("contexts.xml"))
+					ContextFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("folders.xml"))
+					FolderFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("goals.xml"))
+					GoalFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("locations.xml"))
+					LocationFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("notes.xml"))
+					NoteFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+				
+				if (entry.getName().equals("tasks.xml"))
+					TaskFactory.getInstance().decodeFromXML(
+							zip.getInputStream(entry));
+			}
+		} finally {
+			SynchronizerUtils.setTaskRepeatEnabled(true);
+			
+			if (set) {
 				try {
-					set = Synchronizing.setSynchronizing(true);
+					Synchronizing.setSynchronizing(false);
 				} catch (SynchronizingException e) {
 					
 				}
-				
-				if (!set) {
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							Translations.getString("general.synchronization_ongoing"),
-							null,
-							null,
-							null,
-							null,
-							null);
-					
-					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
-							info);
-					
-					return null;
-				}
-				
-				try {
-					dialog.appendToProgressStatus(Translations.getString("action.import_models"));
-					
-					SynchronizerUtils.setTaskRepeatEnabled(false);
-					
-					ZipFile zip = new ZipFile(new File(file));
-					
-					for (Enumeration<?> e = zip.getEntries(); e.hasMoreElements();) {
-						ZipArchiveEntry entry = (ZipArchiveEntry) e.nextElement();
-						
-						if (entry.getName().equals("contacts.xml"))
-							ContactFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("contexts.xml"))
-							ContextFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("folders.xml"))
-							FolderFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("goals.xml"))
-							GoalFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("locations.xml"))
-							LocationFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("notes.xml"))
-							NoteFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-						
-						if (entry.getName().equals("tasks.xml"))
-							TaskFactory.getInstance().decodeFromXML(
-									zip.getInputStream(entry));
-					}
-					
-					Thread.sleep(1000);
-					
-					return null;
-				} finally {
-					SynchronizerUtils.setTaskRepeatEnabled(true);
-					
-					if (set) {
-						try {
-							Synchronizing.setSynchronizing(false);
-						} catch (SynchronizingException e) {
-							
-						}
-					}
-				}
 			}
-			
-			@Override
-			protected void done() {
-				dialog.dispose();
-			}
-			
-		});
-		
-		dialog.setVisible(true);
+		}
 	}
 	
 }
