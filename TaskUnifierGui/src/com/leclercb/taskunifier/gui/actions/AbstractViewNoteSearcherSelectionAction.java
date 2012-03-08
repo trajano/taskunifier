@@ -58,7 +58,7 @@ public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractVi
 	@Override
 	public void noteSearcherSelectionChange(
 			NoteSearcherSelectionChangeEvent event) {
-		this.setEnabled(this.shouldBeEnabled2());
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 }

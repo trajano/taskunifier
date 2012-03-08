@@ -47,13 +47,11 @@ public abstract class AbstractViewAction extends AbstractAction {
 	private ViewType[] enabledViews;
 	
 	public AbstractViewAction(ViewType... enabledViews) {
-		super();
-		this.initialize(enabledViews);
+		this(null, null, enabledViews);
 	}
 	
 	public AbstractViewAction(String title, ViewType... enabledViews) {
-		super(title);
-		this.initialize(enabledViews);
+		this(title, null, enabledViews);
 	}
 	
 	public AbstractViewAction(String title, Icon icon, ViewType... enabledViews) {
@@ -62,12 +60,11 @@ public abstract class AbstractViewAction extends AbstractAction {
 	}
 	
 	public ViewType[] getEnabledViews() {
-		return this.enabledViews;
+		return this.enabledViews.clone();
 	}
 	
 	private void initialize(final ViewType... enabledViews) {
 		CheckUtils.isNotNull(enabledViews);
-		
 		this.enabledViews = enabledViews;
 		
 		this.setEnabled(false);
@@ -78,13 +75,13 @@ public abstract class AbstractViewAction extends AbstractAction {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled2());
+						AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled());
 					}
 					
 				});
 	}
 	
-	public boolean shouldBeEnabled2() {
+	public boolean shouldBeEnabled() {
 		if (this.enabledViews != null && this.enabledViews.length != 0) {
 			for (ViewType view : this.enabledViews)
 				if (view.equals(ViewList.getInstance().getCurrentView().getViewType()))

@@ -60,8 +60,8 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	}
 	
 	@Override
-	public boolean shouldBeEnabled2() {
-		if (!super.shouldBeEnabled2())
+	public boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
 			return false;
 		
 		Task[] tasks = ViewUtils.getSelectedTasks();

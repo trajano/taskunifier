@@ -59,8 +59,8 @@ public class ActionEditNoteSearcher extends AbstractViewNoteSearcherSelectionAct
 	}
 	
 	@Override
-	public boolean shouldBeEnabled2() {
-		if (!super.shouldBeEnabled2())
+	public boolean shouldBeEnabled() {
+		if (!super.shouldBeEnabled())
 			return false;
 		
 		NoteSearcher searcher = ViewUtils.getSelectedOriginalNoteSearcher();

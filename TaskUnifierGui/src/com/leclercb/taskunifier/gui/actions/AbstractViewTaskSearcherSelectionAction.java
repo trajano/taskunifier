@@ -69,7 +69,7 @@ public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractVi
 	@Override
 	public void taskSearcherSelectionChange(
 			TaskSearcherSelectionChangeEvent event) {
-		this.setEnabled(this.shouldBeEnabled2());
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 }

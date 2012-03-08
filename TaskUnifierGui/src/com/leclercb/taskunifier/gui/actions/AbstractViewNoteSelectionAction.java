@@ -57,7 +57,7 @@ public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction
 	
 	@Override
 	public final void modelSelectionChange(ModelSelectionChangeEvent event) {
-		this.setEnabled(this.shouldBeEnabled2());
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 }
