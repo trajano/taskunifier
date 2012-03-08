@@ -49,7 +49,8 @@ import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWorker;
+import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -171,21 +172,28 @@ public class CheckPluginVersionRunnable implements Runnable {
 		}
 		
 		if (pluginsToUpdate.size() > 0) {
-			TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.manage_plugins")) {
+					Translations.getString("general.manage_plugins"));
+			
+			ProgressMonitor monitor = new ProgressMonitor();
+			monitor.addListChangeListener(dialog);
+			
+			dialog.setWorker(new TUWorker<Void>(monitor) {
 				
 				@Override
-				public Void doActions(ProgressMonitor monitor) throws Throwable {
+				protected Void longTask() throws Exception {
 					for (Plugin plugin : pluginsToUpdate) {
-						PluginsUtils.updatePlugin(plugin, monitor);
-						monitor.addMessage(new DefaultProgressMessage(" "));
+						PluginsUtils.updatePlugin(
+								plugin,
+								this.getWorkerMonitor());
+						this.publish(new DefaultProgressMessage(" "));
 					}
 					
 					return null;
 				}
 				
-			};
+			});
 			
 			dialog.setVisible(true);
 		}

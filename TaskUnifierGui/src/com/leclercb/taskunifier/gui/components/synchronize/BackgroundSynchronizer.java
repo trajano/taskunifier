@@ -55,7 +55,11 @@ public final class BackgroundSynchronizer {
 			return false;
 		}
 		
+		MainFrame.getInstance().getFrame().setCursor(
+				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		
 		worker.execute();
+		
 		return true;
 	}
 	
@@ -63,16 +67,7 @@ public final class BackgroundSynchronizer {
 		return new SynchronizerWorker(true) {
 			
 			@Override
-			protected Void doInBackground() throws Exception {
-				MainFrame.getInstance().getFrame().setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				return super.doInBackground();
-			}
-			
-			@Override
 			protected void done() {
-				super.done();
-				
 				try {
 					Synchronizing.setSynchronizing(false);
 				} catch (SynchronizingException e) {
@@ -80,6 +75,8 @@ public final class BackgroundSynchronizer {
 				}
 				
 				MainFrame.getInstance().getFrame().setCursor(null);
+				
+				super.done();
 			}
 			
 		};

@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.api.plugins;
 
 import java.awt.Image;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -63,13 +65,12 @@ import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
-import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWorker;
+import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -247,17 +248,9 @@ public class PluginsUtils {
 	}
 	
 	public static void installPlugin(
-			Plugin plugin,
-			boolean use,
-			ProgressMonitor monitor) throws Exception {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			return;
-		}
-		
+			final Plugin plugin,
+			final boolean use,
+			final ProgressMonitor monitor) throws Exception {
 		File file = null;
 		
 		try {
@@ -303,31 +296,41 @@ public class PluginsUtils {
 								"manage_plugins.progress.installing_plugin",
 								plugin.getName())));
 			
-			SynchronizerGuiPlugin loadedPlugin = PluginsUtils.loadPlugin(file);
-			
-			if (loadedPlugin != null)
-				GuiLogger.getLogger().info(
-						"Plugin installed: "
-								+ loadedPlugin.getName()
-								+ " - "
-								+ loadedPlugin.getVersion());
-			
-			if (use)
-				SynchronizerUtils.setSynchronizerPlugin(loadedPlugin);
-			
-			if (loadedPlugin != null)
-				loadedPlugin.installPlugin();
-			
-			if (monitor != null)
-				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString(
-								"manage_plugins.progress.plugin_installed",
-								plugin.getName())));
-			
-			plugin.setStatus(PluginStatus.INSTALLED);
-		} catch (PluginException e) {
-			file.delete();
-			throw e;
+			final File finalFile = file;
+			SwingUtilities.invokeAndWait(new Runnable() {
+				
+				@Override
+				public void run() {
+					SynchronizerGuiPlugin loadedPlugin;
+					try {
+						loadedPlugin = PluginsUtils.loadPlugin(finalFile);
+						
+						if (loadedPlugin != null)
+							GuiLogger.getLogger().info(
+									"Plugin installed: "
+											+ loadedPlugin.getName()
+											+ " - "
+											+ loadedPlugin.getVersion());
+						
+						if (use)
+							SynchronizerUtils.setSynchronizerPlugin(loadedPlugin);
+						
+						if (loadedPlugin != null)
+							loadedPlugin.installPlugin();
+						
+						if (monitor != null)
+							monitor.addMessage(new DefaultProgressMessage(
+									Translations.getString(
+											"manage_plugins.progress.plugin_installed",
+											plugin.getName())));
+						
+						plugin.setStatus(PluginStatus.INSTALLED);
+					} catch (PluginException e) {
+						finalFile.delete();
+					}
+				}
+				
+			});
 		} catch (Exception e) {
 			file.delete();
 			
@@ -337,14 +340,6 @@ public class PluginsUtils {
 					e);
 			
 			throw e;
-		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
 		}
 	}
 	
@@ -374,56 +369,54 @@ public class PluginsUtils {
 							plugin.getName())));
 	}
 	
-	public static void deletePlugin(Plugin plugin, ProgressMonitor monitor) {
-		boolean set = false;
+	public static void deletePlugin(
+			final Plugin plugin,
+			final ProgressMonitor monitor) {
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage(
+					Translations.getString(
+							"manage_plugins.progress.start_plugin_deletion",
+							plugin.getName())));
 		
 		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			return;
+			SwingUtilities.invokeAndWait(new Runnable() {
+				
+				@Override
+				public void run() {
+					List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
+							Main.getApiPlugins().getPlugins());
+					for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
+						if (existingPlugin.getId().equals(plugin.getId())) {
+							existingPlugin.deletePlugin();
+							
+							File file = Main.getApiPlugins().getFile(
+									existingPlugin);
+							file.delete();
+							Main.getApiPlugins().removePlugin(existingPlugin);
+							
+							GuiLogger.getLogger().info(
+									"Plugin deleted: "
+											+ existingPlugin.getName()
+											+ " - "
+											+ existingPlugin.getVersion());
+							
+							plugin.setStatus(PluginStatus.DELETED);
+						}
+					}
+					
+				}
+			});
+		} catch (InterruptedException e) {
+			
+		} catch (InvocationTargetException e) {
+			
 		}
 		
-		try {
-			if (monitor != null)
-				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString(
-								"manage_plugins.progress.start_plugin_deletion",
-								plugin.getName())));
-			
-			List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
-					Main.getApiPlugins().getPlugins());
-			for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
-				if (existingPlugin.getId().equals(plugin.getId())) {
-					existingPlugin.deletePlugin();
-					
-					File file = Main.getApiPlugins().getFile(existingPlugin);
-					file.delete();
-					Main.getApiPlugins().removePlugin(existingPlugin);
-					
-					GuiLogger.getLogger().info(
-							"Plugin deleted: "
-									+ existingPlugin.getName()
-									+ " - "
-									+ existingPlugin.getVersion());
-					
-					plugin.setStatus(PluginStatus.DELETED);
-				}
-			}
-			
-			if (monitor != null)
-				monitor.addMessage(new DefaultProgressMessage(
-						Translations.getString(
-								"manage_plugins.progress.plugin_deleted",
-								plugin.getName())));
-		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
-		}
+		if (monitor != null)
+			monitor.addMessage(new DefaultProgressMessage(
+					Translations.getString(
+							"manage_plugins.progress.plugin_deleted",
+							plugin.getName())));
 	}
 	
 	private static Plugin[] loadPluginsFromXML(
@@ -633,21 +626,26 @@ public class PluginsUtils {
 				GuiLogger.getLogger().warning("Cannot load plugins from XML");
 			}
 		} else {
-			TUMonitorWaitDialog<Plugin[]> dialog = new TUMonitorWaitDialog<Plugin[]>(
+			TUWorkerDialog<Plugin[]> dialog = new TUWorkerDialog<Plugin[]>(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.loading_plugins")) {
+					Translations.getString("general.loading_plugins"));
+			
+			ProgressMonitor monitor = new ProgressMonitor();
+			monitor.addListChangeListener(dialog);
+			
+			dialog.setWorker(new TUWorker<Plugin[]>(monitor) {
 				
 				@Override
-				public Plugin[] doActions(ProgressMonitor monitor)
-						throws Throwable {
+				protected Plugin[] longTask() throws Exception {
 					return PluginsUtils.loadPluginsFromXML(
-							monitor,
+							this.getWorkerMonitor(),
 							includePublishers,
 							includeSynchronizers,
 							includeDummyPlugin);
 				}
 				
-			};
+			});
+			
 			dialog.setVisible(true);
 			
 			plugins = dialog.getResult();

@@ -33,9 +33,13 @@
 package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -45,34 +49,57 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
 
-import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class TUWaitDialog extends JDialog {
+public class TUWorkerDialog<T> extends JDialog implements ListChangeListener {
 	
-	private SwingWorker<?, ?> worker;
+	private TUWorker<T> worker;
 	
 	private JPanel panel;
 	private JProgressBar progressBar;
 	private JTextArea progressStatus;
 	
-	public TUWaitDialog(Frame frame, String title) {
+	public TUWorkerDialog(Frame frame, String title) {
 		super(frame);
+		
 		this.initialize(title);
 	}
 	
-	public SwingWorker<?, ?> getWorker() {
-		return this.worker;
-	}
-	
-	public void setWorker(SwingWorker<?, ?> worker) {
-		this.worker = worker;
+	@Override
+	public void listChange(ListChangeEvent event) {
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+			if (event.getValue() instanceof ProgressMessage) {
+				this.appendToProgressStatus(event.getValue().toString() + "\n");
+			}
+		}
 	}
 	
 	public void appendToProgressStatus(String text) {
 		this.progressStatus.append(text);
+	}
+	
+	public T getResult() {
+		try {
+			return this.worker.get();
+		} catch (InterruptedException e) {
+			return null;
+		} catch (ExecutionException e) {
+			return null;
+		}
+	}
+	
+	public TUWorker<T> getWorker() {
+		return this.worker;
+	}
+	
+	public void setWorker(TUWorker<T> worker) {
+		this.worker = worker;
 	}
 	
 	public void setSouthComponent(JComponent component) {
@@ -125,7 +152,36 @@ public class TUWaitDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			CheckUtils.isNotNull(this.worker);
+			boolean set = false;
+			
+			try {
+				set = Synchronizing.setSynchronizing(true);
+			} catch (SynchronizingException e) {
+				
+			}
+			
+			if (!set) {
+				return;
+			}
+			
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			
+			this.worker.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					try {
+						Synchronizing.setSynchronizing(false);
+					} catch (SynchronizingException e) {
+						
+					}
+					
+					TUWorkerDialog.this.setCursor(null);
+					TUWorkerDialog.this.setVisible(false);
+					TUWorkerDialog.this.dispose();
+				}
+			});
+			
 			this.worker.execute();
 		}
 		

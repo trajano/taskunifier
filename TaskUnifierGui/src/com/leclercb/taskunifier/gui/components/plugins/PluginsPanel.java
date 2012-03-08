@@ -48,7 +48,8 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.list.PluginList;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.TUMonitorWaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWorker;
+import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -102,21 +103,31 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		
 		if (plugin.getStatus() == PluginStatus.TO_INSTALL
 				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
-			TUMonitorWaitDialog<Void> dialog = new TUMonitorWaitDialog<Void>(
+			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
 					MainFrame.getInstance().getFrame(),
-					Translations.getString("general.manage_plugins")) {
+					Translations.getString("general.manage_plugins"));
+			
+			ProgressMonitor monitor = new ProgressMonitor();
+			monitor.addListChangeListener(dialog);
+			
+			dialog.setWorker(new TUWorker<Void>(monitor) {
 				
 				@Override
-				public Void doActions(ProgressMonitor monitor) throws Throwable {
+				protected Void longTask() throws Exception {
 					if (plugin.getStatus() == PluginStatus.TO_INSTALL)
-						PluginsUtils.installPlugin(plugin, true, monitor);
+						PluginsUtils.installPlugin(
+								plugin,
+								true,
+								this.getWorkerMonitor());
 					else if (plugin.getStatus() == PluginStatus.TO_UPDATE)
-						PluginsUtils.updatePlugin(plugin, monitor);
+						PluginsUtils.updatePlugin(
+								plugin,
+								this.getWorkerMonitor());
 					
 					return null;
 				}
 				
-			};
+			});
 			
 			dialog.setVisible(true);
 		}

@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.synchronize;
 
-import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -44,10 +43,10 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.main.MainFrame;
-import com.leclercb.taskunifier.gui.swing.TUWaitDialog;
+import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class SynchronizerDialog extends TUWaitDialog {
+public class SynchronizerDialog extends TUWorkerDialog<Void> {
 	
 	private boolean serialNeeded;
 	
@@ -91,25 +90,6 @@ public class SynchronizerDialog extends TUWaitDialog {
 		}
 	}
 	
-	@Override
-	public void setVisible(boolean visible) {
-		if (visible) {
-			boolean set = false;
-			
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				
-			}
-			
-			if (!set) {
-				return;
-			}
-		}
-		
-		super.setVisible(visible);
-	}
-	
 	public class SynchronizerDialogWorker extends SynchronizerWorker {
 		
 		public SynchronizerDialogWorker() {
@@ -122,26 +102,6 @@ public class SynchronizerDialog extends TUWaitDialog {
 				}
 				
 			});
-		}
-		
-		@Override
-		protected Void doInBackground() throws Exception {
-			SynchronizerDialog.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			return super.doInBackground();
-		}
-		
-		@Override
-		protected void done() {
-			super.done();
-			
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-			
-			SynchronizerDialog.this.setCursor(null);
-			SynchronizerDialog.this.dispose();
 		}
 		
 	}
