@@ -39,7 +39,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -63,26 +62,14 @@ public class ActionCollapseAll extends AbstractViewAction {
 	}
 	
 	public static void collapseAll() {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			return;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks) {
 			((GuiTask) task).setShowChildren(false);
 		}
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 	}
 	
 }

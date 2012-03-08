@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
@@ -89,23 +91,30 @@ public class CommunicatorClient extends Thread {
 		}
 	}
 	
-	private void handleMessage(String message) {
-		try {
-			ComBean bean = ComBean.decodeFromXML(IOUtils.toInputStream(
-					message,
-					"UTF-8"));
+	private void handleMessage(final String message) {
+		SwingUtilities.invokeLater(new Runnable() {
 			
-			ActionImportComFile.importComBean(bean);
+			@Override
+			public void run() {
+				try {
+					ComBean bean = ComBean.decodeFromXML(IOUtils.toInputStream(
+							message,
+							"UTF-8"));
+					
+					ActionImportComFile.importComBean(bean);
+					
+					return;
+				} catch (Exception e) {
+					
+				}
+				
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
+						Translations.getString("error.unknown_message_format")));
+				
+				GuiLogger.getLogger().warning("Unknown message format");
+			}
 			
-			return;
-		} catch (Exception e) {
-			
-		}
-		
-		Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
-				Translations.getString("error.unknown_message_format")));
-		
-		GuiLogger.getLogger().warning("Unknown message format");
+		});
 	}
 	
 }

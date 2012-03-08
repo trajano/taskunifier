@@ -39,7 +39,6 @@ import java.util.Map;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -81,13 +80,7 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	public static void duplicateTasks(Task[] tasks) {
 		Map<Task, Task> newTasks = new HashMap<Task, Task>();
 		
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		for (Task task : tasks) {
 			Task newTask = TaskFactory.getInstance().create(task);
@@ -101,13 +94,7 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 			}
 		}
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 		
 		ViewUtils.refreshTasks();
 		ViewUtils.setSelectedTasks(newTasks.values().toArray(new Task[0]));

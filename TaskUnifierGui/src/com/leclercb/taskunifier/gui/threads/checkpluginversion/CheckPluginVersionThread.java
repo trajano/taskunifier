@@ -37,19 +37,25 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 public class CheckPluginVersionThread extends Thread {
 	
 	public CheckPluginVersionThread(boolean silent) {
-		super(new CheckPluginVersionRunnable(silent));
+		super(
+				new CheckPluginVersionRunnable(silent),
+				"CheckPluginVersionThread");
 	}
 	
 	public CheckPluginVersionThread(
 			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
-		super(new CheckPluginVersionRunnable(syncPlugin, silent));
+		super(
+				new CheckPluginVersionRunnable(syncPlugin, silent),
+				"CheckPluginVersionThread");
 	}
 	
 	public CheckPluginVersionThread(
 			SynchronizerGuiPlugin[] syncPlugins,
 			boolean silent) {
-		super(new CheckPluginVersionRunnable(syncPlugins, silent));
+		super(
+				new CheckPluginVersionRunnable(syncPlugins, silent),
+				"CheckPluginVersionThread");
 	}
 	
 }

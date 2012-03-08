@@ -46,7 +46,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -111,13 +110,7 @@ public class ActionDelete extends AbstractViewAction {
 			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
 				return;
 			
-			boolean set = false;
-			
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				
-			}
+			Synchronizing.setSynchronizing(true);
 			
 			Constants.UNDO_SUPPORT.beginUpdate();
 			
@@ -142,13 +135,7 @@ public class ActionDelete extends AbstractViewAction {
 			
 			Constants.UNDO_SUPPORT.endUpdate();
 			
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
+			Synchronizing.setSynchronizing(false);
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewUtils.getSelectedNotes();
 			

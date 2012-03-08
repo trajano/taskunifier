@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
@@ -45,6 +46,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronize
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -84,6 +86,15 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public static void synchronize(boolean background, boolean userAction) {
+		if (Synchronizing.isSynchronizing()) {
+			JOptionPane.showMessageDialog(
+					null,
+					Translations.getString("general.synchronization_ongoing"),
+					Translations.getString("general.error"),
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		boolean isDummyPlugin = SynchronizerUtils.getSynchronizerPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId());
 		

@@ -71,43 +71,43 @@ class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeLi
 				if (Synchronizing.isSynchronizing())
 					continue;
 				
-				boolean reminders = false;
-				List<Task> tasks = TaskFactory.getInstance().getList();
-				
-				synchronized (this) {
-					for (final Task task : tasks) {
-						if (this.notifiedTasks.contains(task))
-							continue;
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						boolean reminders = false;
+						List<Task> tasks = TaskFactory.getInstance().getList();
 						
-						if (!task.getModelStatus().isEndUserStatus())
-							continue;
-						
-						if (TaskUtils.isInStartDateReminderZone(task)
-								|| TaskUtils.isInDueDateReminderZone(task)) {
-							this.notifiedTasks.remove(task);
-							this.notifiedTasks.add(task);
-							
-							ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
-									task);
-							
-							Constants.PROGRESS_MONITOR.addMessage(new ReminderDefaultProgressMessage(
-									task));
-							
-							reminders = true;
+						synchronized (this) {
+							for (final Task task : tasks) {
+								if (ReminderRunnable.this.notifiedTasks.contains(task))
+									continue;
+								
+								if (!task.getModelStatus().isEndUserStatus())
+									continue;
+								
+								if (TaskUtils.isInStartDateReminderZone(task)
+										|| TaskUtils.isInDueDateReminderZone(task)) {
+									ReminderRunnable.this.notifiedTasks.remove(task);
+									ReminderRunnable.this.notifiedTasks.add(task);
+									
+									ReminderDialog.getInstance().getReminderPanel().getReminderList().addTask(
+											task);
+									
+									Constants.PROGRESS_MONITOR.addMessage(new ReminderDefaultProgressMessage(
+											task));
+									
+									reminders = true;
+								}
+							}
 						}
-					}
-				}
-				
-				if (reminders) {
-					SwingUtilities.invokeLater(new Runnable() {
 						
-						@Override
-						public void run() {
+						if (reminders) {
 							ActionTaskReminders.taskReminders(true);
 						}
-						
-					});
-				}
+					}
+					
+				});
 			} catch (InterruptedException e) {
 				
 			}
@@ -124,7 +124,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeLi
 	}
 	
 	@Override
-	public synchronized void propertyChange(PropertyChangeEvent evt) {
+	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Task.PROP_DUE_DATE)
 				|| evt.getPropertyName().equals(Task.PROP_DUE_DATE_REMINDER)
 				|| evt.getPropertyName().equals(Task.PROP_START_DATE)

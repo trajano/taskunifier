@@ -51,7 +51,6 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 
 public class ModelSelectionTableModel extends AbstractTableModel implements ListChangeListener, PropertyChangeListener {
 	
@@ -146,9 +145,6 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
-		if (Synchronizing.isSynchronizing())
-			return;
-		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 			this.fireTableRowsInserted(event.getIndex(), event.getIndex());
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
@@ -158,9 +154,6 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (Synchronizing.isSynchronizing())
-			return;
-		
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
 			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
 			ModelStatus newStatus = (ModelStatus) event.getNewValue();

@@ -53,8 +53,6 @@ import javax.swing.SwingConstants;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class TUWorkerDialog<T> extends JDialog implements ListChangeListener {
@@ -152,30 +150,12 @@ public class TUWorkerDialog<T> extends JDialog implements ListChangeListener {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			boolean set = false;
-			
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				
-			}
-			
-			if (!set) {
-				return;
-			}
-			
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			
 			this.worker.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent event) {
-					try {
-						Synchronizing.setSynchronizing(false);
-					} catch (SynchronizingException e) {
-						
-					}
-					
 					TUWorkerDialog.this.setCursor(null);
 					TUWorkerDialog.this.setVisible(false);
 					TUWorkerDialog.this.dispose();

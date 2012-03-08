@@ -36,8 +36,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -61,28 +59,8 @@ public class ActionSave extends AbstractAction {
 		ActionSave.save();
 	}
 	
-	public static boolean save() {
-		boolean set = false;
-		
-		try {
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				return false;
-			}
-			
-			Main.saveAllData();
-		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
-		}
-		
-		return true;
+	public static void save() {
+		Main.saveAllData();
 	}
 	
 }

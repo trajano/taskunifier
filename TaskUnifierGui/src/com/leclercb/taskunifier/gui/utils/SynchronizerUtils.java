@@ -56,7 +56,6 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -83,24 +82,12 @@ public final class SynchronizerUtils {
 						if (task == null || !task.isCompleted())
 							return;
 						
-						boolean set = false;
-						
-						try {
-							set = Synchronizing.setSynchronizing(true);
-						} catch (SynchronizingException e) {
-							
-						}
+						Synchronizing.setSynchronizing(true);
 						
 						getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
 								task);
 						
-						if (set) {
-							try {
-								Synchronizing.setSynchronizing(false);
-							} catch (SynchronizingException e) {
-								
-							}
-						}
+						Synchronizing.setSynchronizing(false);
 					}
 					
 				});
@@ -369,17 +356,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetAllSynchronizersAndDeleteModels() {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			return;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		Constants.UNDO_SUPPORT.discardAllEdits();
 		
@@ -393,13 +370,7 @@ public final class SynchronizerUtils {
 		
 		resetAllSynchronizers();
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 	}
 	
 }

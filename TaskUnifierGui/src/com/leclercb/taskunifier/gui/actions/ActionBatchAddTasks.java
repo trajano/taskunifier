@@ -44,7 +44,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -82,13 +81,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	}
 	
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		List<Task> previousParentTasks = new ArrayList<Task>();
 		List<Task> tasks = new ArrayList<Task>();
@@ -131,13 +124,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 			tasks.add(task);
 		}
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 		
 		ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 	}

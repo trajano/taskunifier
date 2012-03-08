@@ -49,7 +49,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -161,28 +160,12 @@ public final class BackupUtils {
 		
 		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			return false;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		try {
 			Main.copyAllData(folder);
 		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
+			Synchronizing.setSynchronizing(false);
 		}
 		
 		this.listChangeSupport.fireListChange(
@@ -201,30 +184,14 @@ public final class BackupUtils {
 		
 		SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 		
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			return false;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		String folder = Main.getBackupFolder() + File.separator + backupName;
 		SynchronizerUtils.setTaskRepeatEnabled(false);
 		Main.loadAllData(folder);
 		SynchronizerUtils.setTaskRepeatEnabled(true);
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 		
 		return true;
 	}

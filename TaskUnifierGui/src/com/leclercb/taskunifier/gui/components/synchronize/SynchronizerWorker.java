@@ -124,7 +124,9 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 	}
 	
 	@Override
-	protected Void longTask() throws Exception {
+	protected final Void longTask() throws Exception {
+		Synchronizing.setSynchronizing(true);
+		
 		if (this.handler != null)
 			Constants.PROGRESS_MONITOR.addListChangeListener(this.handler);
 		
@@ -309,6 +311,8 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		} catch (Throwable t) {
 			this.handleThrowable(t);
 			return null;
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 		
 		Thread.sleep(1000);

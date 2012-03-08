@@ -56,7 +56,6 @@ import com.leclercb.taskunifier.gui.actions.ActionDuplicateTasks;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.table.TaskTable;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
@@ -293,22 +292,12 @@ public class TaskTransferHandler extends TransferHandler {
 	private void setParent(Task parent, List<Task> tasks) {
 		boolean set = false;
 		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		for (Task task : tasks)
 			task.setParent(parent);
 		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
+		Synchronizing.setSynchronizing(false);
 	}
 	
 }
