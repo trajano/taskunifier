@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.threads.scheduledsync;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.SwingUtilities;
+
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
@@ -108,8 +110,15 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				for (this.setRemainingSleepTime(this.sleepTime); this.getRemainingSleepTime() > 0; this.setRemainingSleepTime(this.isPaused() ? this.getRemainingSleepTime() : this.getRemainingSleepTime() - 1000))
 					Thread.sleep(1000);
 				
-				if (!Synchronizing.isSynchronizing())
-					ActionSynchronize.synchronize(true);
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						if (!Synchronizing.isSynchronizing())
+							ActionSynchronize.synchronize(true);
+					}
+					
+				});
 			} catch (InterruptedException e) {
 				
 			}
