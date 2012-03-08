@@ -38,11 +38,12 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 
-public abstract class AbstractViewAction extends AbstractAction {
+public abstract class AbstractViewAction extends AbstractAction implements PropertyChangeListener {
 	
 	private ViewType[] enabledViews;
 	
@@ -71,14 +72,7 @@ public abstract class AbstractViewAction extends AbstractAction {
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled());
-					}
-					
-				});
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 	}
 	
 	public boolean shouldBeEnabled() {
@@ -91,6 +85,11 @@ public abstract class AbstractViewAction extends AbstractAction {
 		} else {
 			return true;
 		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		AbstractViewAction.this.setEnabled(AbstractViewAction.this.shouldBeEnabled());
 	}
 	
 }

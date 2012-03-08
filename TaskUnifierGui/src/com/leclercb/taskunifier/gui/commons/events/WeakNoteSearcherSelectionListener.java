@@ -36,11 +36,11 @@ import java.lang.ref.WeakReference;
 
 public class WeakNoteSearcherSelectionListener implements NoteSearcherSelectionListener {
 	
-	private NoteSearcherSelectionChangeSupport support;
+	private NoteSearcherSelectionChangeSupported support;
 	private WeakReference<NoteSearcherSelectionListener> reference;
 	
 	public WeakNoteSearcherSelectionListener(
-			NoteSearcherSelectionChangeSupport support,
+			NoteSearcherSelectionChangeSupported support,
 			NoteSearcherSelectionListener listener) {
 		this.support = support;
 		this.reference = new WeakReference<NoteSearcherSelectionListener>(

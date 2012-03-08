@@ -36,11 +36,11 @@ import java.lang.ref.WeakReference;
 
 public class WeakModelSelectionListener implements ModelSelectionListener {
 	
-	private ModelSelectionChangeSupport support;
+	private ModelSelectionChangeSupported support;
 	private WeakReference<ModelSelectionListener> reference;
 	
 	public WeakModelSelectionListener(
-			ModelSelectionChangeSupport support,
+			ModelSelectionChangeSupported support,
 			ModelSelectionListener listener) {
 		this.support = support;
 		this.reference = new WeakReference<ModelSelectionListener>(listener);

@@ -5,8 +5,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Icon;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.WeakModelSelectionListener;
+import com.leclercb.taskunifier.gui.components.notes.NoteTableView;
 import com.leclercb.taskunifier.gui.components.views.NoteView;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
@@ -16,13 +19,11 @@ import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction implements ModelSelectionListener, PropertyChangeListener {
 	
 	public AbstractViewNoteSelectionAction() {
-		super(ViewType.NOTES);
-		this.initialize();
+		this(null, null);
 	}
 	
 	public AbstractViewNoteSelectionAction(String title) {
-		super(title, ViewType.NOTES);
-		this.initialize();
+		this(title, null);
 	}
 	
 	public AbstractViewNoteSelectionAction(String title, Icon icon) {
@@ -33,7 +34,7 @@ public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction
 	private void initialize() {
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				this);
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 	}
 	
 	@Override
@@ -42,15 +43,17 @@ public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction
 			ViewItem oldView = (ViewItem) event.getOldValue();
 			
 			if (oldView.getViewType() == ViewType.NOTES) {
-				((NoteView) oldView.getView()).getNoteTableView().removeModelSelectionChangeListener(
-						this);
+				NoteTableView view = ((NoteView) oldView.getView()).getNoteTableView();
+				view.removeModelSelectionChangeListener(this);
 			}
 		}
 		
 		if (ViewList.getInstance().getCurrentView().isLoaded()) {
 			if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
-				ViewUtils.getCurrentNoteView().getNoteTableView().addModelSelectionChangeListener(
-						this);
+				NoteTableView view = ViewUtils.getCurrentNoteView().getNoteTableView();
+				view.addModelSelectionChangeListener(new WeakModelSelectionListener(
+						view,
+						this));
 			}
 		}
 	}

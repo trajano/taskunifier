@@ -5,8 +5,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Icon;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.TaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.WeakTaskSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
 import com.leclercb.taskunifier.gui.components.views.CalendarView;
 import com.leclercb.taskunifier.gui.components.views.TaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
@@ -17,13 +20,11 @@ import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractViewAction implements TaskSearcherSelectionListener, PropertyChangeListener {
 	
 	public AbstractViewTaskSearcherSelectionAction() {
-		super(ViewType.TASKS, ViewType.CALENDAR);
-		this.initialize();
+		this(null, null);
 	}
 	
 	public AbstractViewTaskSearcherSelectionAction(String title) {
-		super(title, ViewType.TASKS, ViewType.CALENDAR);
-		this.initialize();
+		this(title, null);
 	}
 	
 	public AbstractViewTaskSearcherSelectionAction(String title, Icon icon) {
@@ -34,7 +35,7 @@ public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractVi
 	private void initialize() {
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				this);
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 	}
 	
 	@Override
@@ -42,27 +43,31 @@ public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractVi
 		if (event != null && event.getOldValue() != null) {
 			ViewItem oldView = (ViewItem) event.getOldValue();
 			
-			if (oldView.getViewType() == ViewType.CALENDAR) {
-				((CalendarView) oldView.getView()).getTaskSearcherView().removeTaskSearcherSelectionChangeListener(
-						this);
-			}
+			TaskSearcherView view = null;
 			
-			if (oldView.getViewType() == ViewType.TASKS) {
-				((TaskView) oldView.getView()).getTaskSearcherView().removeTaskSearcherSelectionChangeListener(
-						this);
-			}
+			if (oldView.getViewType() == ViewType.CALENDAR)
+				view = ((CalendarView) oldView.getView()).getTaskSearcherView();
+			
+			if (oldView.getViewType() == ViewType.TASKS)
+				view = ((TaskView) oldView.getView()).getTaskSearcherView();
+			
+			if (view != null)
+				view.removeTaskSearcherSelectionChangeListener(this);
 		}
 		
 		if (ViewList.getInstance().getCurrentView().isLoaded()) {
-			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR) {
-				ViewUtils.getCurrentCalendarView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-						this);
-			}
+			TaskSearcherView view = null;
 			
-			if (ViewUtils.getCurrentViewType() == ViewType.TASKS) {
-				ViewUtils.getCurrentTaskView().getTaskSearcherView().addTaskSearcherSelectionChangeListener(
-						this);
-			}
+			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR)
+				view = ViewUtils.getCurrentCalendarView().getTaskSearcherView();
+			
+			if (ViewUtils.getCurrentViewType() == ViewType.TASKS)
+				view = ViewUtils.getCurrentTaskView().getTaskSearcherView();
+			
+			if (view != null)
+				view.addTaskSearcherSelectionChangeListener(new WeakTaskSearcherSelectionListener(
+						view,
+						this));
 		}
 	}
 	

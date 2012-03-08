@@ -5,8 +5,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Icon;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.NoteSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.commons.events.WeakNoteSearcherSelectionListener;
+import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
 import com.leclercb.taskunifier.gui.components.views.NoteView;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
@@ -16,13 +19,11 @@ import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractViewAction implements NoteSearcherSelectionListener, PropertyChangeListener {
 	
 	public AbstractViewNoteSearcherSelectionAction() {
-		super(ViewType.NOTES);
-		this.initialize();
+		this(null, null);
 	}
 	
 	public AbstractViewNoteSearcherSelectionAction(String title) {
-		super(title, ViewType.NOTES);
-		this.initialize();
+		this(title, null);
 	}
 	
 	public AbstractViewNoteSearcherSelectionAction(String title, Icon icon) {
@@ -33,7 +34,7 @@ public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractVi
 	private void initialize() {
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				this);
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 	}
 	
 	@Override
@@ -42,15 +43,17 @@ public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractVi
 			ViewItem oldView = (ViewItem) event.getOldValue();
 			
 			if (oldView.getViewType() == ViewType.NOTES) {
-				((NoteView) oldView.getView()).getNoteSearcherView().removeNoteSearcherSelectionChangeListener(
-						this);
+				NoteSearcherView view = ((NoteView) oldView.getView()).getNoteSearcherView();
+				view.removeNoteSearcherSelectionChangeListener(this);
 			}
 		}
 		
 		if (ViewList.getInstance().getCurrentView().isLoaded()) {
 			if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
-				ViewUtils.getCurrentNoteView().getNoteSearcherView().addNoteSearcherSelectionChangeListener(
-						this);
+				NoteSearcherView view = ViewUtils.getCurrentNoteView().getNoteSearcherView();
+				view.addNoteSearcherSelectionChangeListener(new WeakNoteSearcherSelectionListener(
+						view,
+						this));
 			}
 		}
 	}

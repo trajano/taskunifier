@@ -36,11 +36,11 @@ import java.lang.ref.WeakReference;
 
 public class WeakTaskSearcherSelectionListener implements TaskSearcherSelectionListener {
 	
-	private TaskSearcherSelectionChangeSupport support;
+	private TaskSearcherSelectionChangeSupported support;
 	private WeakReference<TaskSearcherSelectionListener> reference;
 	
 	public WeakTaskSearcherSelectionListener(
-			TaskSearcherSelectionChangeSupport support,
+			TaskSearcherSelectionChangeSupported support,
 			TaskSearcherSelectionListener listener) {
 		this.support = support;
 		this.reference = new WeakReference<TaskSearcherSelectionListener>(
