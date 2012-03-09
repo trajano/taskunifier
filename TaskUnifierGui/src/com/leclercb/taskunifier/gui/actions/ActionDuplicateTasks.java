@@ -39,7 +39,6 @@ import java.util.Map;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -81,32 +80,22 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	public static void duplicateTasks(Task[] tasks) {
 		Map<Task, Task> newTasks = new HashMap<Task, Task>();
 		
-		boolean set = false;
+		Synchronizing.setSynchronizing(true);
 		
 		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
+			for (Task task : tasks) {
+				Task newTask = TaskFactory.getInstance().create(task);
+				newTasks.put(task, newTask);
+			}
 			
-		}
-		
-		for (Task task : tasks) {
-			Task newTask = TaskFactory.getInstance().create(task);
-			newTasks.put(task, newTask);
-		}
-		
-		for (Task newTask : newTasks.values()) {
-			if (newTask.getParent() != null) {
-				if (newTasks.containsKey(newTask.getParent()))
-					newTask.setParent(newTasks.get(newTask.getParent()));
+			for (Task newTask : newTasks.values()) {
+				if (newTask.getParent() != null) {
+					if (newTasks.containsKey(newTask.getParent()))
+						newTask.setParent(newTasks.get(newTask.getParent()));
+				}
 			}
-		}
-		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 		
 		ViewUtils.refreshTasks();

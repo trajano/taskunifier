@@ -108,7 +108,6 @@ import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherFactoryXMLC
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
@@ -1440,17 +1439,7 @@ public class Main {
 		
 		saveAllData();
 		
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			return false;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		boolean result = false;
 		
@@ -1487,14 +1476,8 @@ public class Main {
 					Level.SEVERE,
 					String.format("Error while switching user %1s", userId),
 					e);
-		}
-		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 		
 		return result;

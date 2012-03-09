@@ -37,8 +37,6 @@ import java.util.Enumeration;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.ContextFactory;
@@ -48,8 +46,6 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
-import com.leclercb.taskunifier.gui.main.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -80,28 +76,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(final String file) throws Exception {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			ErrorInfo info = new ErrorInfo(
-					Translations.getString("general.error"),
-					Translations.getString("general.synchronization_ongoing"),
-					null,
-					null,
-					null,
-					null,
-					null);
-			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
-			
-			return;
-		}
+		Synchronizing.setSynchronizing(true);
 		
 		try {
 			SynchronizerUtils.setTaskRepeatEnabled(false);
@@ -141,14 +116,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 			}
 		} finally {
 			SynchronizerUtils.setTaskRepeatEnabled(true);
-			
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
+			Synchronizing.setSynchronizing(false);
 		}
 	}
 	

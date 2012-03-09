@@ -46,7 +46,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.commons.undoableedit.ModelDeleteUndoableEdit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -111,43 +110,34 @@ public class ActionDelete extends AbstractViewAction {
 			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
 				return;
 			
-			boolean set = false;
+			Synchronizing.setSynchronizing(true);
 			
 			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
+				Constants.UNDO_SUPPORT.beginUpdate();
 				
-			}
-			
-			Constants.UNDO_SUPPORT.beginUpdate();
-			
-			for (Task task : tasks) {
-				if (task.getModelStatus().isEndUserStatus()) {
-					if (deleteSubTasks == JOptionPane.YES_OPTION) {
-						List<Task> children = task.getAllChildren();
-						for (Task child : children) {
-							if (child.getModelStatus().isEndUserStatus()) {
-								TaskFactory.getInstance().markToDelete(child);
-								Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-										child));
+				for (Task task : tasks) {
+					if (task.getModelStatus().isEndUserStatus()) {
+						if (deleteSubTasks == JOptionPane.YES_OPTION) {
+							List<Task> children = task.getAllChildren();
+							for (Task child : children) {
+								if (child.getModelStatus().isEndUserStatus()) {
+									TaskFactory.getInstance().markToDelete(
+											child);
+									Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+											child));
+								}
 							}
 						}
+						
+						TaskFactory.getInstance().markToDelete(task);
+						Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+								task));
 					}
-					
-					TaskFactory.getInstance().markToDelete(task);
-					Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-							task));
 				}
-			}
-			
-			Constants.UNDO_SUPPORT.endUpdate();
-			
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
+				
+				Constants.UNDO_SUPPORT.endUpdate();
+			} finally {
+				Synchronizing.setSynchronizing(false);
 			}
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewUtils.getSelectedNotes();

@@ -56,7 +56,6 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -83,23 +82,13 @@ public final class SynchronizerUtils {
 						if (task == null || !task.isCompleted())
 							return;
 						
-						boolean set = false;
+						Synchronizing.setSynchronizing(true);
 						
 						try {
-							set = Synchronizing.setSynchronizing(true);
-						} catch (SynchronizingException e) {
-							
-						}
-						
-						getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
-								task);
-						
-						if (set) {
-							try {
-								Synchronizing.setSynchronizing(false);
-							} catch (SynchronizingException e) {
-								
-							}
+							getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
+									task);
+						} finally {
+							Synchronizing.setSynchronizing(false);
 						}
 					}
 					
@@ -369,36 +358,22 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetAllSynchronizersAndDeleteModels() {
-		boolean set = false;
+		Synchronizing.setSynchronizing(true);
 		
 		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
+			Constants.UNDO_SUPPORT.discardAllEdits();
 			
-		}
-		
-		if (!set) {
-			return;
-		}
-		
-		Constants.UNDO_SUPPORT.discardAllEdits();
-		
-		ContactFactory.getInstance().deleteAll();
-		ContextFactory.getInstance().deleteAll();
-		FolderFactory.getInstance().deleteAll();
-		GoalFactory.getInstance().deleteAll();
-		LocationFactory.getInstance().deleteAll();
-		NoteFactory.getInstance().deleteAll();
-		TaskFactory.getInstance().deleteAll();
-		
-		resetAllSynchronizers();
-		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
+			ContactFactory.getInstance().deleteAll();
+			ContextFactory.getInstance().deleteAll();
+			FolderFactory.getInstance().deleteAll();
+			GoalFactory.getInstance().deleteAll();
+			LocationFactory.getInstance().deleteAll();
+			NoteFactory.getInstance().deleteAll();
+			TaskFactory.getInstance().deleteAll();
+			
+			resetAllSynchronizers();
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 	}
 	

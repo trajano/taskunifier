@@ -40,7 +40,6 @@ import javax.swing.SwingUtilities;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 
 public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
@@ -114,8 +113,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 					
 					@Override
 					public void run() {
-						if (!Synchronizing.isSynchronizing())
-							ActionSynchronize.synchronize(true);
+						ActionSynchronize.synchronize(true);
 					}
 					
 				});

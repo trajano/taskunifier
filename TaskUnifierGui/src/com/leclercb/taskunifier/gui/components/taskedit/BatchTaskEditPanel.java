@@ -82,7 +82,6 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
@@ -159,16 +158,7 @@ public class BatchTaskEditPanel extends JPanel {
 		if (this.tasks == null)
 			return true;
 		
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set)
-			return false;
+		Synchronizing.setSynchronizing(true);
 		
 		try {
 			
@@ -320,13 +310,7 @@ public class BatchTaskEditPanel extends JPanel {
 					"Error while setting task field value",
 					t);
 		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
+			Synchronizing.setSynchronizing(false);
 		}
 		
 		return true;

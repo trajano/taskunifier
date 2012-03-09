@@ -44,7 +44,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.components.batchaddtask.BatchAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -82,64 +81,54 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	}
 	
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
-		boolean set = false;
+		Synchronizing.setSynchronizing(true);
 		
 		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
+			List<Task> previousParentTasks = new ArrayList<Task>();
+			List<Task> tasks = new ArrayList<Task>();
 			
-		}
-		
-		List<Task> previousParentTasks = new ArrayList<Task>();
-		List<Task> tasks = new ArrayList<Task>();
-		
-		for (String title : titles) {
-			int subTaskLevel = 0;
-			while (title.startsWith("\t")) {
-				subTaskLevel++;
-				title = title.substring(1);
+			for (String title : titles) {
+				int subTaskLevel = 0;
+				while (title.startsWith("\t")) {
+					subTaskLevel++;
+					title = title.substring(1);
+				}
+				
+				title = title.trim();
+				
+				if (title.length() == 0)
+					continue;
+				
+				Task task = null;
+				
+				if (subTaskLevel == 0 || previousParentTasks.size() == 0) {
+					task = ActionAddTask.addTask(template, title, false);
+					previousParentTasks.clear();
+					previousParentTasks.add(task);
+				} else {
+					if (subTaskLevel > previousParentTasks.size())
+						subTaskLevel = previousParentTasks.size();
+					
+					task = ActionAddSubTask.addSubTask(
+							template,
+							previousParentTasks.get(subTaskLevel - 1),
+							false);
+					
+					for (int i = previousParentTasks.size() - 1; i >= subTaskLevel; i--)
+						previousParentTasks.remove(i);
+					
+					previousParentTasks.add(task);
+				}
+				
+				task.setTitle(title);
+				
+				tasks.add(task);
 			}
 			
-			title = title.trim();
-			
-			if (title.length() == 0)
-				continue;
-			
-			Task task = null;
-			
-			if (subTaskLevel == 0 || previousParentTasks.size() == 0) {
-				task = ActionAddTask.addTask(template, title, false);
-				previousParentTasks.clear();
-				previousParentTasks.add(task);
-			} else {
-				if (subTaskLevel > previousParentTasks.size())
-					subTaskLevel = previousParentTasks.size();
-				
-				task = ActionAddSubTask.addSubTask(
-						template,
-						previousParentTasks.get(subTaskLevel - 1),
-						false);
-				
-				for (int i = previousParentTasks.size() - 1; i >= subTaskLevel; i--)
-					previousParentTasks.remove(i);
-				
-				previousParentTasks.add(task);
-			}
-			
-			task.setTitle(title);
-			
-			tasks.add(task);
+			ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
-				
-			}
-		}
-		
-		ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 	}
 	
 }

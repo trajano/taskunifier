@@ -41,7 +41,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -87,35 +86,21 @@ public class ActionQuit extends AbstractAction {
 				ActionSynchronize.synchronize(false);
 		}
 		
-		boolean set = false;
-		
-		try {
-			try {
-				set = Synchronizing.setSynchronizing(true);
-			} catch (SynchronizingException e) {
-				if (!force) {
-					JOptionPane.showMessageDialog(
-							null,
-							Translations.getString("general.synchronization_ongoing"),
-							Translations.getString("general.error"),
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
-				return false;
+		if (Synchronizing.isSynchronizing()) {
+			if (!force) {
+				JOptionPane.showMessageDialog(
+						null,
+						Translations.getString("general.synchronization_ongoing"),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
 			}
 			
-			ViewUtils.commitAll();
-			
-			Main.quit();
-		} finally {
-			if (set) {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-			}
+			return false;
 		}
+		
+		ViewUtils.commitAll();
+		
+		Main.quit();
 		
 		return true;
 	}

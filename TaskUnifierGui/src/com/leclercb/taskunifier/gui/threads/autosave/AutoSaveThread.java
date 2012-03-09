@@ -46,7 +46,7 @@ public class AutoSaveThread extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Thread.sleep(5 * 1000);
+				Thread.sleep(10 * 60 * 1000);
 				
 				SwingUtilities.invokeLater(new Runnable() {
 					

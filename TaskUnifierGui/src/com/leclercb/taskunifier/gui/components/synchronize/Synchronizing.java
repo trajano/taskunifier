@@ -37,55 +37,46 @@ import java.beans.PropertyChangeListener;
 import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.gui.logger.GuiLogger;
 
 public class Synchronizing {
 	
 	public static final String PROP_SYNCHRONIZING = "synchronizing";
 	
-	private static boolean synchronizing = false;
+	private static int synchronizingLevel = 0;
 	
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			Synchronizing.class);
 	
-	public static boolean isSynchronizing() {
-		return synchronizing;
+	public static synchronized boolean isSynchronizing() {
+		return synchronizingLevel != 0;
 	}
 	
-	public static boolean setSynchronizing(boolean synchronizing)
-			throws SynchronizingException {
-		boolean oldSynchronizing;
+	public static synchronized void setSynchronizing(final boolean synchronizing) {
+		final boolean oldSynchronizing = isSynchronizing();
 		
-		synchronized (Synchronizing.class) {
-			if (Synchronizing.synchronizing
-					&& synchronizing
-					&& !SwingUtilities.isEventDispatchThread()) {
-				GuiLogger.getLogger().info(
-						"Cannot synchronize because synchronization is already ongoing");
-				throw new SynchronizingException();
-			}
-			
-			if (Synchronizing.synchronizing
-					&& !synchronizing
-					&& !SwingUtilities.isEventDispatchThread()) {
-				GuiLogger.getLogger().info(
-						"Only the EDT can stop the synchronization");
-				throw new SynchronizingException();
-			}
-			
-			if (Synchronizing.synchronizing == synchronizing)
-				return false;
-			
-			oldSynchronizing = Synchronizing.synchronizing;
-			Synchronizing.synchronizing = synchronizing;
+		if (synchronizing) {
+			synchronizingLevel++;
+		} else {
+			if (synchronizingLevel > 0)
+				synchronizingLevel--;
 		}
 		
-		propertyChangeSupport.firePropertyChange(
-				PROP_SYNCHRONIZING,
-				oldSynchronizing,
-				synchronizing);
+		System.out.println(synchronizingLevel);
+		new Exception().printStackTrace();
 		
-		return true;
+		if (oldSynchronizing != isSynchronizing()) {
+			SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					propertyChangeSupport.firePropertyChange(
+							PROP_SYNCHRONIZING,
+							oldSynchronizing,
+							synchronizing);
+				}
+				
+			});
+		}
 	}
 	
 	public static void addPropertyChangeListener(PropertyChangeListener listener) {

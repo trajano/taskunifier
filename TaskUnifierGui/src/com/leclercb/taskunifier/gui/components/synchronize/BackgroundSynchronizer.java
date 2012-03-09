@@ -43,18 +43,6 @@ public final class BackgroundSynchronizer {
 	}
 	
 	public static boolean execute(SynchronizerWorker worker) {
-		boolean set = false;
-		
-		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
-			
-		}
-		
-		if (!set) {
-			return false;
-		}
-		
 		MainFrame.getInstance().getFrame().setCursor(
 				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		
@@ -68,12 +56,6 @@ public final class BackgroundSynchronizer {
 			
 			@Override
 			protected void done() {
-				try {
-					Synchronizing.setSynchronizing(false);
-				} catch (SynchronizingException e) {
-					
-				}
-				
 				MainFrame.getInstance().getFrame().setCursor(null);
 				
 				super.done();

@@ -64,7 +64,6 @@ import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.modelnote.converters.Text2HTML;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.synchronize.SynchronizingException;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
@@ -87,65 +86,51 @@ public final class TaskUtils {
 			int index,
 			Task[] tasksToOrder,
 			Task[] displayedTasks) {
-		boolean set = false;
+		Synchronizing.setSynchronizing(true);
 		
 		try {
-			set = Synchronizing.setSynchronizing(true);
-		} catch (SynchronizingException e) {
+			int newOrder = 0;
 			
-		}
-		
-		if (!set) {
-			return;
-		}
-		
-		int newOrder = 0;
-		
-		if (index > 0 && index <= displayedTasks.length)
-			newOrder = displayedTasks[index - 1].getOrder() + 1;
-		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		main: for (Task task : tasks) {
-			if (!task.getModelStatus().isEndUserStatus())
-				continue;
+			if (index > 0 && index <= displayedTasks.length)
+				newOrder = displayedTasks[index - 1].getOrder() + 1;
 			
-			for (Task t : tasksToOrder)
-				if (EqualsUtils.equals(task, t))
-					continue main;
-			
-			for (Task t : displayedTasks)
-				if (EqualsUtils.equals(task, t))
-					continue main;
-			
-			if (task.getOrder() >= newOrder)
-				task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
-		}
-		
-		for (int i = 0; i < displayedTasks.length; i++) {
-			Task task = displayedTasks[i];
-			
-			if (task == null)
-				continue;
-			
-			if (i >= index)
-				task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
-		}
-		
-		for (int i = 0; i < tasksToOrder.length; i++) {
-			Task task = tasksToOrder[i];
-			
-			if (task == null)
-				continue;
-			
-			task.setOrder(newOrder + i);
-		}
-		
-		if (set) {
-			try {
-				Synchronizing.setSynchronizing(false);
-			} catch (SynchronizingException e) {
+			List<Task> tasks = TaskFactory.getInstance().getList();
+			main: for (Task task : tasks) {
+				if (!task.getModelStatus().isEndUserStatus())
+					continue;
 				
+				for (Task t : tasksToOrder)
+					if (EqualsUtils.equals(task, t))
+						continue main;
+				
+				for (Task t : displayedTasks)
+					if (EqualsUtils.equals(task, t))
+						continue main;
+				
+				if (task.getOrder() >= newOrder)
+					task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
 			}
+			
+			for (int i = 0; i < displayedTasks.length; i++) {
+				Task task = displayedTasks[i];
+				
+				if (task == null)
+					continue;
+				
+				if (i >= index)
+					task.setOrder(task.getOrder() + 1 + tasksToOrder.length);
+			}
+			
+			for (int i = 0; i < tasksToOrder.length; i++) {
+				Task task = tasksToOrder[i];
+				
+				if (task == null)
+					continue;
+				
+				task.setOrder(newOrder + i);
+			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
 	}
 	
