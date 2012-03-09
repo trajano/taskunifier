@@ -82,19 +82,21 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 		
 		Synchronizing.setSynchronizing(true);
 		
-		for (Task task : tasks) {
-			Task newTask = TaskFactory.getInstance().create(task);
-			newTasks.put(task, newTask);
-		}
-		
-		for (Task newTask : newTasks.values()) {
-			if (newTask.getParent() != null) {
-				if (newTasks.containsKey(newTask.getParent()))
-					newTask.setParent(newTasks.get(newTask.getParent()));
+		try {
+			for (Task task : tasks) {
+				Task newTask = TaskFactory.getInstance().create(task);
+				newTasks.put(task, newTask);
 			}
+			
+			for (Task newTask : newTasks.values()) {
+				if (newTask.getParent() != null) {
+					if (newTasks.containsKey(newTask.getParent()))
+						newTask.setParent(newTasks.get(newTask.getParent()));
+				}
+			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		Synchronizing.setSynchronizing(false);
 		
 		ViewUtils.refreshTasks();
 		ViewUtils.setSelectedTasks(newTasks.values().toArray(new Task[0]));

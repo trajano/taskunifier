@@ -294,10 +294,12 @@ public class TaskTransferHandler extends TransferHandler {
 		
 		Synchronizing.setSynchronizing(true);
 		
-		for (Task task : tasks)
-			task.setParent(parent);
-		
-		Synchronizing.setSynchronizing(false);
+		try {
+			for (Task task : tasks)
+				task.setParent(parent);
+		} finally {
+			Synchronizing.setSynchronizing(false);
+		}
 	}
 	
 }

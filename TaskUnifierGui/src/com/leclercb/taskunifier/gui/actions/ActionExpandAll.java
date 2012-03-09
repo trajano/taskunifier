@@ -64,12 +64,14 @@ public class ActionExpandAll extends AbstractViewAction {
 	public static void expandAll() {
 		Synchronizing.setSynchronizing(true);
 		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		for (Task task : tasks) {
-			((GuiTask) task).setShowChildren(true);
+		try {
+			List<Task> tasks = TaskFactory.getInstance().getList();
+			for (Task task : tasks) {
+				((GuiTask) task).setShowChildren(true);
+			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		Synchronizing.setSynchronizing(false);
 	}
 	
 }

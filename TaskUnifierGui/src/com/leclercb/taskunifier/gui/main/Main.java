@@ -1477,9 +1477,9 @@ public class Main {
 					Level.SEVERE,
 					String.format("Error while switching user %1s", userId),
 					e);
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		Synchronizing.setSynchronizing(false);
 		
 		return result;
 	}

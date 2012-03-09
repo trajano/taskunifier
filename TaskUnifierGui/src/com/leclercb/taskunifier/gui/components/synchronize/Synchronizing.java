@@ -47,11 +47,11 @@ public class Synchronizing {
 	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			Synchronizing.class);
 	
-	public static boolean isSynchronizing() {
+	public static synchronized boolean isSynchronizing() {
 		return synchronizingLevel != 0;
 	}
 	
-	public static void setSynchronizing(final boolean synchronizing) {
+	public static synchronized void setSynchronizing(final boolean synchronizing) {
 		final boolean oldSynchronizing = isSynchronizing();
 		
 		if (synchronizing) {

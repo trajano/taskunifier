@@ -311,8 +311,6 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		} catch (Throwable t) {
 			this.handleThrowable(t);
 			return null;
-		} finally {
-			Synchronizing.setSynchronizing(false);
 		}
 		
 		Thread.sleep(1000);
@@ -336,6 +334,8 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		SynchronizerUtils.removeOldCompletedTasks();
 		
 		SynchronizerUtils.setTaskRepeatEnabled(true);
+		
+		Synchronizing.setSynchronizing(false);
 		
 		super.done();
 	}

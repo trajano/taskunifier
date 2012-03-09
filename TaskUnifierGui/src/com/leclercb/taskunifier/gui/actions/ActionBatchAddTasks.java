@@ -83,48 +83,51 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
 		Synchronizing.setSynchronizing(true);
 		
-		List<Task> previousParentTasks = new ArrayList<Task>();
 		List<Task> tasks = new ArrayList<Task>();
 		
-		for (String title : titles) {
-			int subTaskLevel = 0;
-			while (title.startsWith("\t")) {
-				subTaskLevel++;
-				title = title.substring(1);
+		try {
+			List<Task> previousParentTasks = new ArrayList<Task>();
+			
+			for (String title : titles) {
+				int subTaskLevel = 0;
+				while (title.startsWith("\t")) {
+					subTaskLevel++;
+					title = title.substring(1);
+				}
+				
+				title = title.trim();
+				
+				if (title.length() == 0)
+					continue;
+				
+				Task task = null;
+				
+				if (subTaskLevel == 0 || previousParentTasks.size() == 0) {
+					task = ActionAddTask.addTask(template, title, false);
+					previousParentTasks.clear();
+					previousParentTasks.add(task);
+				} else {
+					if (subTaskLevel > previousParentTasks.size())
+						subTaskLevel = previousParentTasks.size();
+					
+					task = ActionAddSubTask.addSubTask(
+							template,
+							previousParentTasks.get(subTaskLevel - 1),
+							false);
+					
+					for (int i = previousParentTasks.size() - 1; i >= subTaskLevel; i--)
+						previousParentTasks.remove(i);
+					
+					previousParentTasks.add(task);
+				}
+				
+				task.setTitle(title);
+				
+				tasks.add(task);
 			}
-			
-			title = title.trim();
-			
-			if (title.length() == 0)
-				continue;
-			
-			Task task = null;
-			
-			if (subTaskLevel == 0 || previousParentTasks.size() == 0) {
-				task = ActionAddTask.addTask(template, title, false);
-				previousParentTasks.clear();
-				previousParentTasks.add(task);
-			} else {
-				if (subTaskLevel > previousParentTasks.size())
-					subTaskLevel = previousParentTasks.size();
-				
-				task = ActionAddSubTask.addSubTask(
-						template,
-						previousParentTasks.get(subTaskLevel - 1),
-						false);
-				
-				for (int i = previousParentTasks.size() - 1; i >= subTaskLevel; i--)
-					previousParentTasks.remove(i);
-				
-				previousParentTasks.add(task);
-			}
-			
-			task.setTitle(title);
-			
-			tasks.add(task);
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		Synchronizing.setSynchronizing(false);
 		
 		ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
 	}

@@ -84,10 +84,12 @@ public final class SynchronizerUtils {
 						
 						Synchronizing.setSynchronizing(true);
 						
-						getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
-								task);
-						
-						Synchronizing.setSynchronizing(false);
+						try {
+							getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
+									task);
+						} finally {
+							Synchronizing.setSynchronizing(false);
+						}
 					}
 					
 				});
@@ -358,19 +360,21 @@ public final class SynchronizerUtils {
 	public static void resetAllSynchronizersAndDeleteModels() {
 		Synchronizing.setSynchronizing(true);
 		
-		Constants.UNDO_SUPPORT.discardAllEdits();
-		
-		ContactFactory.getInstance().deleteAll();
-		ContextFactory.getInstance().deleteAll();
-		FolderFactory.getInstance().deleteAll();
-		GoalFactory.getInstance().deleteAll();
-		LocationFactory.getInstance().deleteAll();
-		NoteFactory.getInstance().deleteAll();
-		TaskFactory.getInstance().deleteAll();
-		
-		resetAllSynchronizers();
-		
-		Synchronizing.setSynchronizing(false);
+		try {
+			Constants.UNDO_SUPPORT.discardAllEdits();
+			
+			ContactFactory.getInstance().deleteAll();
+			ContextFactory.getInstance().deleteAll();
+			FolderFactory.getInstance().deleteAll();
+			GoalFactory.getInstance().deleteAll();
+			LocationFactory.getInstance().deleteAll();
+			NoteFactory.getInstance().deleteAll();
+			TaskFactory.getInstance().deleteAll();
+			
+			resetAllSynchronizers();
+		} finally {
+			Synchronizing.setSynchronizing(false);
+		}
 	}
 	
 }

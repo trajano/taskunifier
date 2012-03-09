@@ -87,11 +87,14 @@ public class ActionSynchronize extends AbstractAction {
 	
 	public static void synchronize(boolean background, boolean userAction) {
 		if (Synchronizing.isSynchronizing()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("general.synchronization_ongoing"),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+			if (!background) {
+				JOptionPane.showMessageDialog(
+						null,
+						Translations.getString("general.synchronization_ongoing"),
+						Translations.getString("general.error"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
 			return;
 		}
 		

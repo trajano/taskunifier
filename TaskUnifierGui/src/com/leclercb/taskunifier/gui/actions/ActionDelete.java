@@ -112,30 +112,33 @@ public class ActionDelete extends AbstractViewAction {
 			
 			Synchronizing.setSynchronizing(true);
 			
-			Constants.UNDO_SUPPORT.beginUpdate();
-			
-			for (Task task : tasks) {
-				if (task.getModelStatus().isEndUserStatus()) {
-					if (deleteSubTasks == JOptionPane.YES_OPTION) {
-						List<Task> children = task.getAllChildren();
-						for (Task child : children) {
-							if (child.getModelStatus().isEndUserStatus()) {
-								TaskFactory.getInstance().markToDelete(child);
-								Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-										child));
+			try {
+				Constants.UNDO_SUPPORT.beginUpdate();
+				
+				for (Task task : tasks) {
+					if (task.getModelStatus().isEndUserStatus()) {
+						if (deleteSubTasks == JOptionPane.YES_OPTION) {
+							List<Task> children = task.getAllChildren();
+							for (Task child : children) {
+								if (child.getModelStatus().isEndUserStatus()) {
+									TaskFactory.getInstance().markToDelete(
+											child);
+									Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+											child));
+								}
 							}
 						}
+						
+						TaskFactory.getInstance().markToDelete(task);
+						Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
+								task));
 					}
-					
-					TaskFactory.getInstance().markToDelete(task);
-					Constants.UNDO_SUPPORT.postEdit(new ModelDeleteUndoableEdit(
-							task));
 				}
+				
+				Constants.UNDO_SUPPORT.endUpdate();
+			} finally {
+				Synchronizing.setSynchronizing(false);
 			}
-			
-			Constants.UNDO_SUPPORT.endUpdate();
-			
-			Synchronizing.setSynchronizing(false);
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewUtils.getSelectedNotes();
 			

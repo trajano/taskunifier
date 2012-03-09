@@ -160,13 +160,7 @@ public final class BackupUtils {
 		
 		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
-		Synchronizing.setSynchronizing(true);
-		
-		try {
-			Main.copyAllData(folder);
-		} finally {
-			Synchronizing.setSynchronizing(false);
-		}
+		Main.copyAllData(folder);
 		
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
@@ -186,12 +180,16 @@ public final class BackupUtils {
 		
 		Synchronizing.setSynchronizing(true);
 		
-		String folder = Main.getBackupFolder() + File.separator + backupName;
-		SynchronizerUtils.setTaskRepeatEnabled(false);
-		Main.loadAllData(folder);
-		SynchronizerUtils.setTaskRepeatEnabled(true);
-		
-		Synchronizing.setSynchronizing(false);
+		try {
+			String folder = Main.getBackupFolder()
+					+ File.separator
+					+ backupName;
+			SynchronizerUtils.setTaskRepeatEnabled(false);
+			Main.loadAllData(folder);
+			SynchronizerUtils.setTaskRepeatEnabled(true);
+		} finally {
+			Synchronizing.setSynchronizing(false);
+		}
 		
 		return true;
 	}

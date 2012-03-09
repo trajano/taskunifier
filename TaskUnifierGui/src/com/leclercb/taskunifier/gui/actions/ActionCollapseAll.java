@@ -64,12 +64,14 @@ public class ActionCollapseAll extends AbstractViewAction {
 	public static void collapseAll() {
 		Synchronizing.setSynchronizing(true);
 		
-		List<Task> tasks = TaskFactory.getInstance().getList();
-		for (Task task : tasks) {
-			((GuiTask) task).setShowChildren(false);
+		try {
+			List<Task> tasks = TaskFactory.getInstance().getList();
+			for (Task task : tasks) {
+				((GuiTask) task).setShowChildren(false);
+			}
+		} finally {
+			Synchronizing.setSynchronizing(false);
 		}
-		
-		Synchronizing.setSynchronizing(false);
 	}
 	
 }
