@@ -61,9 +61,6 @@ public class Synchronizing {
 				synchronizingLevel--;
 		}
 		
-		System.out.println(synchronizingLevel);
-		new Exception().printStackTrace();
-		
 		if (oldSynchronizing != isSynchronizing()) {
 			SwingUtilities.invokeLater(new Runnable() {
 				
