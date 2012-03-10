@@ -290,8 +290,6 @@ public class TaskTransferHandler extends TransferHandler {
 	}
 	
 	private void setParent(Task parent, List<Task> tasks) {
-		boolean set = false;
-		
 		Synchronizing.setSynchronizing(true);
 		
 		try {
