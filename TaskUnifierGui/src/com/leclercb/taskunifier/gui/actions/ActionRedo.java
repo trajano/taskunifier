@@ -52,7 +52,7 @@ import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
+.
 public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener, IDiscardAllEditsListener {
 	
 	private UndoFireManager undoManager;

@@ -40,11 +40,12 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.UserUtils;
 
-public class ActionSwitchToUserMenu extends AbstractAction {
+public class ActionSwitchToUserMenu extends AbstractAction implements ListChangeListener {
 	
 	private JPopupMenu popupMenu;
 	
@@ -66,14 +67,8 @@ public class ActionSwitchToUserMenu extends AbstractAction {
 		
 		UserUtils.updateUserList(this.popupMenu);
 		
-		UserUtils.getInstance().addListChangeListener(new ListChangeListener() {
-			
-			@Override
-			public void listChange(ListChangeEvent event) {
-				UserUtils.updateUserList(ActionSwitchToUserMenu.this.popupMenu);
-			}
-			
-		});
+		UserUtils.getInstance().addListChangeListener(
+				new WeakListChangeListener(UserUtils.getInstance(), this));
 	}
 	
 	@Override
@@ -84,6 +79,11 @@ public class ActionSwitchToUserMenu extends AbstractAction {
 	
 	public void showPopupMenu(Component component) {
 		this.popupMenu.show(component, 0, 0);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		UserUtils.updateUserList(ActionSwitchToUserMenu.this.popupMenu);
 	}
 	
 }

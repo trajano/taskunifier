@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -74,10 +73,8 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 	public static boolean quit(boolean force) {
-		synchronized (Main.class) {
-			if (Main.isQuitting())
-				return true;
-		}
+		if (Main.isQuitting())
+			return true;
 		
 		if (!force) {
 			Boolean syncExit = Main.getUserSettings().getBooleanProperty(
@@ -87,13 +84,8 @@ public class ActionQuit extends AbstractAction {
 		}
 		
 		if (Synchronizing.isSynchronizing()) {
-			if (!force) {
-				JOptionPane.showMessageDialog(
-						null,
-						Translations.getString("general.synchronization_ongoing"),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
+			if (!force)
+				Synchronizing.showSynchronizingMessage();
 			
 			return false;
 		}
@@ -106,3 +98,4 @@ public class ActionQuit extends AbstractAction {
 	}
 	
 }
+

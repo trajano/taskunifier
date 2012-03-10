@@ -38,11 +38,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionScheduledSync extends AbstractAction {
+public class ActionScheduledSync extends AbstractAction implements PropertyChangeListener {
 	
 	private int width;
 	private int height;
@@ -65,28 +66,22 @@ public class ActionScheduledSync extends AbstractAction {
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ActionScheduledSync.this.updateIcon();
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 	}
 	
 	private void updateIcon() {
 		if (Main.getUserSettings().getBooleanProperty(
-				"synchronizer.scheduler_enabled"))
+				"synchronizer.scheduler_enabled")) {
 			this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 					"synchronize_play.png",
 					this.width,
 					this.height));
-		else
+		} else {
 			this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
 					"synchronize_pause.png",
 					this.width,
 					this.height));
+		}
 	}
 	
 	@Override
@@ -95,10 +90,18 @@ public class ActionScheduledSync extends AbstractAction {
 	}
 	
 	public static void scheduledSync() {
+		boolean schedulerEnabled = Main.getUserSettings().getBooleanProperty(
+				"synchronizer.scheduler_enabled");
+		
 		Main.getUserSettings().setBooleanProperty(
 				"synchronizer.scheduler_enabled",
-				!Main.getUserSettings().getBooleanProperty(
-						"synchronizer.scheduler_enabled"));
+				!schedulerEnabled);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		ActionScheduledSync.this.updateIcon();
 	}
 	
 }
+

@@ -91,7 +91,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 						ViewUtils.getSelectedNotes(),
 						columns.toArray(new NoteColumn[0]),
 						true);
-			} else if (viewType == ViewType.TASKS) {
+			} else if (viewType == ViewType.CALENDAR || viewType == ViewType.TASKS) {
 				List<TaskColumn> columns = new ArrayList<TaskColumn>(
 						Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
 				columns.remove(TaskColumn.MODEL_EDIT);

@@ -52,6 +52,7 @@ import org.apache.commons.io.FileUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
+import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
@@ -60,7 +61,7 @@ import com.leclercb.taskunifier.gui.commons.comparators.UserComparator;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class UserUtils {
+public final class UserUtils implements ListChangeSupported {
 	
 	private static UserUtils INSTANCE;
 	

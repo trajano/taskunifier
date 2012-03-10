@@ -69,7 +69,10 @@ public class ActionRefresh extends AbstractAction {
 	}
 	
 	public static void refresh() {
+		ViewUtils.refreshNoteSearcher();
 		ViewUtils.refreshNotes();
+		
+		ViewUtils.refreshTaskSearcher();
 		ViewUtils.refreshTasks();
 	}
 	

@@ -65,11 +65,11 @@ public class ActionSynchronize extends AbstractAction {
 				Translations.getString("action.synchronize"),
 				ImageUtils.getResourceImage("synchronize.png", width, height));
 		
+		this.background = background;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.synchronize"));
-		
-		this.background = background;
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
 				KeyEvent.VK_S,
@@ -87,13 +87,8 @@ public class ActionSynchronize extends AbstractAction {
 	
 	public static void synchronize(boolean background, boolean userAction) {
 		if (Synchronizing.isSynchronizing()) {
-			if (!background) {
-				JOptionPane.showMessageDialog(
-						null,
-						Translations.getString("general.synchronization_ongoing"),
-						Translations.getString("general.error"),
-						JOptionPane.ERROR_MESSAGE);
-			}
+			if (!background)
+				Synchronizing.showSynchronizingMessage();
 			
 			return;
 		}
@@ -145,3 +140,4 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 }
+
