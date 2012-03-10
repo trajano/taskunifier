@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.jdesktop.swingx.JXEditorPane;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.actions.ActionCopy;
@@ -105,7 +106,10 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		return true;
 	}
 	
-	private void initialize(String text, boolean canEdit, String propertyName) {
+	private void initialize(
+			final String text,
+			final boolean canEdit,
+			final String propertyName) {
 		this.setLayout(new BorderLayout());
 		
 		this.undoSupport = new UndoSupport();
@@ -279,6 +283,20 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		this.add(
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				BorderLayout.CENTER);
+		
+		if (propertyName != null) {
+			Main.getSettings().addSavePropertiesListener(
+					new SavePropertiesListener() {
+						
+						@Override
+						public void saveProperties() {
+							Main.getSettings().setFloatProperty(
+									propertyName + ".html.font_size",
+									(float) WysiwygHTMLEditorPane.this.htmlNote.getFont().getSize());
+						}
+						
+					});
+		}
 		
 		this.setText(text, canEdit, true);
 	}
