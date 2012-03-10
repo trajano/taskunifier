@@ -64,7 +64,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	private TaskFilesPanel taskFiles;
 	private JTabbedPane infoTabbedPane;
 	
-	public DefaultTaskView(FrameView mainView) {
+	public DefaultTaskView(FrameView frameView) {
 		this.initialize();
 	}
 	

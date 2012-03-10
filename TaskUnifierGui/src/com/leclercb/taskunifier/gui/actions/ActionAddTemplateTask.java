@@ -42,12 +42,14 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.Template;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionAddTemplateTask extends AbstractAction {
+public class ActionAddTemplateTask extends AbstractAction implements PropertyChangeListener {
 	
 	public static final String ACTION_ADD_TEMPLATE_TASK = "ACTION_ADD_TEMPLATE_TASK";
 	
@@ -55,6 +57,9 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if (!(e.getSource() instanceof ActionAddTemplateTask))
+				return;
+			
 			ActionAddTemplateTask action = (ActionAddTemplateTask) e.getSource();
 			ActionAddTask.addTask(action.getTemplate(), null, true);
 		}
@@ -97,41 +102,11 @@ public class ActionAddTemplateTask extends AbstractAction {
 		
 		template.addPropertyChangeListener(
 				Template.PROP_TITLE,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ActionAddTemplateTask.this.putValue(
-								NAME,
-								ActionAddTemplateTask.this.template.getTitle());
-						
-						ActionAddTemplateTask.this.putValue(
-								SHORT_DESCRIPTION,
-								ActionAddTemplateTask.this.template.getTitle());
-					}
-					
-				});
+				new WeakPropertyChangeListener(template, this));
 		
 		template.getProperties().addPropertyChangeListener(
 				"shortcut",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						Integer keyEvent = ActionAddTemplateTask.this.template.getProperties().getIntegerProperty(
-								"shortcut");
-						
-						if (keyEvent != null) {
-							ActionAddTemplateTask.this.putValue(
-									ACCELERATOR_KEY,
-									KeyStroke.getKeyStroke(
-											keyEvent,
-											Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
-													+ InputEvent.SHIFT_MASK));
-						}
-					}
-					
-				});
+				new WeakPropertyChangeListener(template.getProperties(), this));
 	}
 	
 	public TaskTemplate getTemplate() {
@@ -148,6 +123,37 @@ public class ActionAddTemplateTask extends AbstractAction {
 				this,
 				0,
 				ACTION_ADD_TEMPLATE_TASK));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (EqualsUtils.equals(Template.PROP_TITLE, evt.getPropertyName())) {
+			ActionAddTemplateTask.this.putValue(
+					NAME,
+					ActionAddTemplateTask.this.template.getTitle());
+			
+			ActionAddTemplateTask.this.putValue(
+					SHORT_DESCRIPTION,
+					ActionAddTemplateTask.this.template.getTitle());
+			
+			return;
+		}
+		
+		if (EqualsUtils.equals("shortcut", evt.getPropertyName())) {
+			Integer keyEvent = ActionAddTemplateTask.this.template.getProperties().getIntegerProperty(
+					"shortcut");
+			
+			if (keyEvent != null) {
+				ActionAddTemplateTask.this.putValue(
+						ACCELERATOR_KEY,
+						KeyStroke.getKeyStroke(
+								keyEvent,
+								Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+										+ InputEvent.SHIFT_MASK));
+			}
+			
+			return;
+		}
 	}
 	
 }

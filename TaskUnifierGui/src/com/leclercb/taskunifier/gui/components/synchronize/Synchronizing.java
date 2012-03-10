@@ -34,9 +34,11 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class Synchronizing {
 	
@@ -73,6 +75,25 @@ public class Synchronizing {
 				}
 				
 			});
+		}
+	}
+	
+	public static void showSynchronizingMessage() {
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				
+				@Override
+				public void run() {
+					JOptionPane.showMessageDialog(
+							null,
+							Translations.getString("general.synchronization_ongoing"),
+							Translations.getString("general.error"),
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

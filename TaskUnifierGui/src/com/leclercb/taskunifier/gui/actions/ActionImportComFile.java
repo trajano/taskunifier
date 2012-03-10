@@ -44,6 +44,7 @@ import javax.swing.AbstractAction;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
@@ -87,8 +88,7 @@ public class ActionImportComFile extends AbstractAction {
 	}
 	
 	public static void importComFile(File file) {
-		if (file == null)
-			return;
+		CheckUtils.isNotNull(file);
 		
 		if (!file.exists() || !file.isFile())
 			return;
@@ -144,31 +144,22 @@ public class ActionImportComFile extends AbstractAction {
 				ViewUtils.setSelectedNotes(notes.toArray(new Note[0]));
 			}
 			
-			if (bean.getTasks() != null) {
+			if (bean.getTasks() != null || bean.getQuickTasks() != null) {
 				List<Task> tasks = new ArrayList<Task>();
-				for (ComTaskBean task : bean.getTasks()) {
-					task.loadModels(false);
-					tasks.add(ActionAddTask.addTask(task, false));
+				
+				if (bean.getTasks() != null) {
+					for (ComTaskBean task : bean.getTasks()) {
+						task.loadModels(false);
+						tasks.add(ActionAddTask.addTask(task, false));
+					}
 				}
 				
-				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
-						Translations.getString(
-								"communicator.message.add_task",
-								tasks.size(),
-								bean.getApplicationName())));
-				
-				ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));
-			}
-			
-			if (bean.getQuickTasks() != null) {
-				List<Task> tasks = new ArrayList<Task>();
-				for (ComQuickTaskBean quickTask : bean.getQuickTasks()) {
-					if (quickTask.getTitle() == null)
-						continue;
-					
-					tasks.add(ActionAddQuickTask.addQuickTask(
-							quickTask.getTitle(),
-							false));
+				if (bean.getQuickTasks() != null) {
+					for (ComQuickTaskBean quickTask : bean.getQuickTasks()) {
+						tasks.add(ActionAddQuickTask.addQuickTask(
+								quickTask.getTitle(),
+								false));
+					}
 				}
 				
 				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(

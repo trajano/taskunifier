@@ -67,7 +67,8 @@ public class ActionCollapseAll extends AbstractViewAction {
 		try {
 			List<Task> tasks = TaskFactory.getInstance().getList();
 			for (Task task : tasks) {
-				((GuiTask) task).setShowChildren(false);
+				if (task.getModelStatus().isEndUserStatus())
+					((GuiTask) task).setShowChildren(false);
 			}
 		} finally {
 			Synchronizing.setSynchronizing(false);

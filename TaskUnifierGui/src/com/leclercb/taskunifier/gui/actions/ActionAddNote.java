@@ -89,7 +89,7 @@ public class ActionAddNote extends AbstractAction {
 		if (title != null)
 			note.setTitle(title);
 		
-		ViewUtils.addExtraNotes(new Note[] { note });
+		ViewUtils.addExtraNotes(note);
 		ViewUtils.refreshNotes();
 		
 		if (edit) {
@@ -100,7 +100,7 @@ public class ActionAddNote extends AbstractAction {
 		return note;
 	}
 	
-	public static synchronized Note addNote(NoteBean noteBean, boolean edit) {
+	public static Note addNote(NoteBean noteBean, boolean edit) {
 		if (ViewUtils.getCurrentNoteView() == null)
 			ViewUtils.setMainNoteView();
 		
@@ -115,7 +115,7 @@ public class ActionAddNote extends AbstractAction {
 			note.loadBean(noteBean, false);
 		}
 		
-		ViewUtils.addExtraNotes(new Note[] { note });
+		ViewUtils.addExtraNotes(note);
 		ViewUtils.refreshNotes();
 		
 		if (edit) {

@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -64,12 +65,7 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		Task[] tasks = ViewUtils.getSelectedTasks();
-		
-		if (tasks == null)
-			return false;
-		
-		return tasks.length != 0;
+		return ViewUtils.getSelectedTasks().length != 0;
 	}
 	
 	@Override
@@ -78,6 +74,8 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	}
 	
 	public static void duplicateTasks(Task[] tasks) {
+		CheckUtils.isNotNull(tasks);
+		
 		Map<Task, Task> newTasks = new HashMap<Task, Task>();
 		
 		Synchronizing.setSynchronizing(true);

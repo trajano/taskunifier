@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
@@ -63,12 +64,7 @@ public class ActionDuplicateNotes extends AbstractViewNoteSelectionAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		Note[] notes = ViewUtils.getSelectedNotes();
-		
-		if (notes == null)
-			return false;
-		
-		return notes.length != 0;
+		return ViewUtils.getSelectedNotes().length != 0;
 	}
 	
 	@Override
@@ -77,6 +73,8 @@ public class ActionDuplicateNotes extends AbstractViewNoteSelectionAction {
 	}
 	
 	public static void duplicateNotes(Note[] notes) {
+		CheckUtils.isNotNull(notes);
+		
 		List<Note> newNotes = new ArrayList<Note>();
 		
 		for (Note note : notes)

@@ -67,7 +67,8 @@ public class ActionExpandAll extends AbstractViewAction {
 		try {
 			List<Task> tasks = TaskFactory.getInstance().getList();
 			for (Task task : tasks) {
-				((GuiTask) task).setShowChildren(true);
+				if (task.getModelStatus().isEndUserStatus())
+					((GuiTask) task).setShowChildren(true);
 			}
 		} finally {
 			Synchronizing.setSynchronizing(false);

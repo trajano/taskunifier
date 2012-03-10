@@ -38,6 +38,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -68,12 +69,7 @@ public class ActionCompleteTasks extends AbstractViewTaskSelectionAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		Task[] tasks = ViewUtils.getSelectedTasks();
-		
-		if (tasks == null)
-			return false;
-		
-		return tasks.length != 0;
+		return ViewUtils.getSelectedTasks().length != 0;
 	}
 	
 	@Override
@@ -82,6 +78,8 @@ public class ActionCompleteTasks extends AbstractViewTaskSelectionAction {
 	}
 	
 	public static void completeTasks(Task[] tasks) {
+		CheckUtils.isNotNull(tasks);
+		
 		boolean completed = true;
 		boolean allTrueOrFalse = true;
 		

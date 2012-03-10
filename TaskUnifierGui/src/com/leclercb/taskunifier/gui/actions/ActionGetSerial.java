@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -53,11 +54,12 @@ public class ActionGetSerial extends AbstractAction {
 				Translations.getString("action.get_serial"),
 				ImageUtils.getResourceImage("key.png", width, height));
 		
+		CheckUtils.isNotNull(url);
+		this.url = url;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.get_serial"));
-		
-		this.url = url;
 	}
 	
 	@Override
@@ -66,6 +68,7 @@ public class ActionGetSerial extends AbstractAction {
 	}
 	
 	public static void getSerial(String url) {
+		CheckUtils.isNotNull(url);
 		DesktopUtils.browse(url);
 	}
 	

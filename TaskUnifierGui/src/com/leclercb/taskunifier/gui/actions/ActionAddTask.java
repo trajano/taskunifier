@@ -108,7 +108,7 @@ public class ActionAddTask extends AbstractAction {
 		if (title != null)
 			task.setTitle(title);
 		
-		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.addExtraTasks(task);
 		ViewUtils.refreshTasks();
 		
 		if (edit) {
@@ -145,7 +145,7 @@ public class ActionAddTask extends AbstractAction {
 			task.loadBean(taskBean, false);
 		}
 		
-		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.addExtraTasks(task);
 		ViewUtils.refreshTasks();
 		
 		if (edit) {

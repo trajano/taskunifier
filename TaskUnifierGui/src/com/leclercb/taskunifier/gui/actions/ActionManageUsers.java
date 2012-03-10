@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.users.UserDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -62,6 +63,11 @@ public class ActionManageUsers extends AbstractAction {
 	}
 	
 	public static void manageUsers() {
+		if (Synchronizing.isSynchronizing()) {
+			Synchronizing.showSynchronizingMessage();
+			return;
+		}
+		
 		UserDialog.getInstance().setVisible(true);
 	}
 	

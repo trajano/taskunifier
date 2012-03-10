@@ -149,17 +149,17 @@ public final class ViewUtils {
 			getCurrentTaskView().getTaskSearcherView().selectDefaultTaskSearcher();
 	}
 	
-	public static void addExtraNotes(Note[] notes) {
+	public static void addExtraNotes(Note... notes) {
 		if (getCurrentNoteView() != null)
 			getCurrentNoteView().getNoteSearcherView().addExtraNotes(notes);
 	}
 	
-	public static void setExtraNotes(Note[] notes) {
+	public static void setExtraNotes(Note... notes) {
 		if (getCurrentNoteView() != null)
 			getCurrentNoteView().getNoteSearcherView().setExtraNotes(notes);
 	}
 	
-	public static void addExtraTasks(Task[] tasks) {
+	public static void addExtraTasks(Task... tasks) {
 		if (getCurrentCalendarView() != null)
 			getCurrentCalendarView().getTaskSearcherView().addExtraTasks(tasks);
 		
@@ -167,7 +167,7 @@ public final class ViewUtils {
 			getCurrentTaskView().getTaskSearcherView().addExtraTasks(tasks);
 	}
 	
-	public static void setExtraTasks(Task[] tasks) {
+	public static void setExtraTasks(Task... tasks) {
 		if (getCurrentCalendarView() != null)
 			getCurrentCalendarView().getTaskSearcherView().setExtraTasks(tasks);
 		

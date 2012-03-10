@@ -74,8 +74,9 @@ public class ActionAddNoteSearcher extends AbstractViewAction {
 				new NoteFilter(),
 				Constants.getDefaultNoteSorter());
 		
-		ViewUtils.getCurrentNoteView().getNoteSearcherView().selectNoteSearcher(
-				searcher);
+		if (ViewUtils.getCurrentNoteView() != null)
+			ViewUtils.getCurrentNoteView().getNoteSearcherView().selectNoteSearcher(
+					searcher);
 		
 		ActionEditNoteSearcher.editNoteSearcher(searcher);
 	}

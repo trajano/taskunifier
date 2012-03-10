@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.threads.checkversion.CheckVersionThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -66,6 +67,13 @@ public class ActionCheckVersion extends AbstractAction {
 	}
 	
 	public static void checkVersion(final boolean silent) {
+		if (Synchronizing.isSynchronizing()) {
+			if (!silent)
+				Synchronizing.showSynchronizingMessage();
+			
+			return;
+		}
+		
 		new CheckVersionThread(silent).start();
 	}
 	

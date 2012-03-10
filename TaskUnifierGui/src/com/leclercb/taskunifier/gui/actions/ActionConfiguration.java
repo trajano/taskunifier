@@ -63,11 +63,11 @@ public class ActionConfiguration extends AbstractAction {
 				Translations.getString("action.configuration"),
 				ImageUtils.getResourceImage("settings.png", width, height));
 		
+		this.tab = tab;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.configuration"));
-		
-		this.tab = tab;
 	}
 	
 	@Override

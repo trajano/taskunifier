@@ -47,7 +47,6 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 			return;
 		
 		this.models.add(model);
-		int index = this.models.indexOf(model);
 	}
 	
 	public void addAll(Collection<ModelId> models) {
@@ -56,6 +55,10 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 		
 		for (ModelId model : models)
 			this.add(model);
+	}
+	
+	public void addAll(ModelBeanList modelBeanList) {
+		this.addAll(modelBeanList.getList());
 	}
 	
 	public void remove(ModelId model) {

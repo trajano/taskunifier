@@ -41,13 +41,16 @@ import javax.swing.JPopupMenu;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
-public class ActionAddTemplateTaskMenu extends AbstractAction {
+public class ActionAddTemplateTaskMenu extends AbstractAction implements ListChangeListener {
 	
+	private ActionListener listener;
 	private JPopupMenu popupMenu;
 	
 	public ActionAddTemplateTaskMenu(ActionListener listener) {
@@ -62,6 +65,9 @@ public class ActionAddTemplateTaskMenu extends AbstractAction {
 				Translations.getString("action.add_template_task"),
 				ImageUtils.getResourceImage("template.png", width, height));
 		
+		CheckUtils.isNotNull(listener);
+		this.listener = listener;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.add_template_task"));
@@ -69,25 +75,25 @@ public class ActionAddTemplateTaskMenu extends AbstractAction {
 		this.popupMenu = new JPopupMenu(
 				Translations.getString("action.add_template_task"));
 		
-		TemplateUtils.updateTemplateList(listener, this.popupMenu);
+		TemplateUtils.updateTemplateList(this.listener, this.popupMenu);
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(
-								listener,
-								ActionAddTemplateTaskMenu.this.popupMenu);
-					}
-					
-				});
+				new WeakListChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof Component)
 			this.popupMenu.show((Component) e.getSource(), 0, 0);
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		TemplateUtils.updateTemplateList(
+				this.listener,
+				ActionAddTemplateTaskMenu.this.popupMenu);
 	}
 	
 }

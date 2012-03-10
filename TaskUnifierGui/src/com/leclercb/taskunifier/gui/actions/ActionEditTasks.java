@@ -69,12 +69,7 @@ public class ActionEditTasks extends AbstractViewTaskSelectionAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		Task[] tasks = ViewUtils.getSelectedTasks();
-		
-		if (tasks == null)
-			return false;
-		
-		return tasks.length != 0;
+		return ViewUtils.getSelectedTasks().length != 0;
 	}
 	
 	@Override

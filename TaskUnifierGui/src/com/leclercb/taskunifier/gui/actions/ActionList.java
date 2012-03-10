@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
+.
 public enum ActionList {
 	
 	OBJECT("", null, false),

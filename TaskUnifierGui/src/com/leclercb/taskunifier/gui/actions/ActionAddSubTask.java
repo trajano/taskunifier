@@ -74,12 +74,7 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 		if (!super.shouldBeEnabled())
 			return false;
 		
-		Task[] tasks = ViewUtils.getSelectedTasks();
-		
-		if (tasks == null)
-			return false;
-		
-		return tasks.length == 1;
+		return ViewUtils.getSelectedTasks().length == 1;
 	}
 	
 	@Override
@@ -122,12 +117,12 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 			searcherTemplate.applyTo(task);
 		
 		task.setParent(parent);
-		task.getContexts().addAll(parent.getContexts().getList());
+		task.getContexts().addAll(parent.getContexts());
 		task.setFolder(parent.getFolder());
-		task.getGoals().addAll(parent.getGoals().getList());
-		task.getLocations().addAll(parent.getLocations().getList());
+		task.getGoals().addAll(parent.getGoals());
+		task.getLocations().addAll(parent.getLocations());
 		
-		ViewUtils.addExtraTasks(new Task[] { task });
+		ViewUtils.addExtraTasks(task);
 		ViewUtils.refreshTasks();
 		
 		if (edit) {

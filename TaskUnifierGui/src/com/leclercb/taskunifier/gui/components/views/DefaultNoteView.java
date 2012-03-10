@@ -41,7 +41,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	
 	private JXSearchField searchField;
 	
-	public DefaultNoteView(FrameView mainView) {
+	public DefaultNoteView(FrameView frameView) {
 		this.initialize();
 	}
 	

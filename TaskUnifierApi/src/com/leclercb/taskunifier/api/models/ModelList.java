@@ -76,6 +76,10 @@ public class ModelList<M extends Model> implements Cloneable, Serializable, Iter
 			this.add(model);
 	}
 	
+	public void addAll(ModelList<M> modelList) {
+		this.addAll(modelList.getList());
+	}
+	
 	public void remove(M model) {
 		CheckUtils.isNotNull(model);
 		

@@ -66,10 +66,10 @@ public class ActionCreateNewBackup extends AbstractAction {
 		ActionCreateNewBackup.createNewBackup(true);
 	}
 	
-	public static boolean createNewBackup(boolean feedback) {
+	public static boolean createNewBackup(boolean silent) {
 		boolean result = BackupUtils.getInstance().createNewBackup();
 		
-		if (!feedback)
+		if (silent)
 			return result;
 		
 		if (result) {

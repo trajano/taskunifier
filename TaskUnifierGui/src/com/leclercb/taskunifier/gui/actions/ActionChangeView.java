@@ -41,13 +41,14 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionChangeView extends AbstractAction {
+public class ActionChangeView extends AbstractAction implements PropertyChangeListener {
 	
 	private int width;
 	private int height;
@@ -74,14 +75,7 @@ public class ActionChangeView extends AbstractAction {
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						ActionChangeView.this.updateIcon();
-					}
-					
-				});
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 	}
 	
 	private void updateIcon() {
@@ -114,15 +108,30 @@ public class ActionChangeView extends AbstractAction {
 	}
 	
 	public static void changeView() {
-		int index = ViewList.getInstance().getIndexOf(
+		int currentFrameId = ViewList.getInstance().getCurrentView().getFrameId();
+		int currentIndex = ViewList.getInstance().getIndexOf(
 				ViewList.getInstance().getCurrentView());
+		
+		int index = currentIndex;
 		index++;
 		
-		if (index >= ViewList.getInstance().getViews().length)
-			index = 0;
+		while (index != currentIndex) {
+			if (index >= ViewList.getInstance().getViewCount())
+				index = 0;
+			
+			if (currentFrameId == ViewList.getInstance().getView(index).getFrameId())
+				break;
+			
+			index++;
+		}
 		
 		ViewList.getInstance().setCurrentView(
 				ViewList.getInstance().getView(index));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		ActionChangeView.this.updateIcon();
 	}
 	
 }

@@ -15,13 +15,13 @@ import com.leclercb.taskunifier.gui.main.frame.FrameView;
 
 public class DefaultCalendarView extends JPanel implements CalendarView {
 	
-	private FrameView mainView;
+	private FrameView frameView;
 	
 	private TasksCalendarPanel calendarPanel;
 	
-	public DefaultCalendarView(FrameView mainView) {
-		CheckUtils.isNotNull(mainView);
-		this.mainView = mainView;
+	public DefaultCalendarView(FrameView frameView) {
+		CheckUtils.isNotNull(frameView);
+		this.frameView = frameView;
 		
 		this.initialize();
 	}
@@ -45,7 +45,7 @@ public class DefaultCalendarView extends JPanel implements CalendarView {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.calendarPanel = new TasksCalendarPanel(this.mainView);
+		this.calendarPanel = new TasksCalendarPanel(this.frameView);
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 		

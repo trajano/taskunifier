@@ -69,10 +69,6 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionAddTaskSearcherSelectedTasks.addTaskSearcher();
-	}
-	
-	public static void addTaskSearcher() {
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		

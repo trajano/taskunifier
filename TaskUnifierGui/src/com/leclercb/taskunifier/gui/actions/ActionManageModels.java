@@ -62,11 +62,11 @@ public class ActionManageModels extends AbstractAction {
 				Translations.getString("action.manage_models"),
 				ImageUtils.getResourceImage("folder.png", width, height));
 		
+		this.tab = tab;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.manage_models"));
-		
-		this.tab = tab;
 	}
 	
 	@Override

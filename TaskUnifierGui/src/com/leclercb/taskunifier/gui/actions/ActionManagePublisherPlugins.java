@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.gui.components.plugins.PublisherPluginsDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
@@ -65,11 +64,7 @@ public class ActionManagePublisherPlugins extends AbstractAction {
 	
 	public static void managePublisherPlugins() {
 		if (Synchronizing.isSynchronizing()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("general.synchronization_ongoing"),
-					Translations.getString("general.error"),
-					JOptionPane.ERROR_MESSAGE);
+			Synchronizing.showSynchronizingMessage();
 			return;
 		}
 		

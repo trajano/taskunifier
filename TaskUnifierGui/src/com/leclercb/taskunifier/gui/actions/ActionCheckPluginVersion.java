@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.checkpluginversion.CheckPluginVersionThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -55,11 +56,11 @@ public class ActionCheckPluginVersion extends AbstractAction {
 				Translations.getString("action.check_plugin_version"),
 				ImageUtils.getResourceImage("download.png", width, height));
 		
+		this.silent = silent;
+		
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.check_plugin_version"));
-		
-		this.silent = silent;
 	}
 	
 	@Override
@@ -68,16 +69,37 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	}
 	
 	public static void checkPluginVersion(boolean silent) {
+		if (Synchronizing.isSynchronizing()) {
+			if (!silent)
+				Synchronizing.showSynchronizingMessage();
+			
+			return;
+		}
+		
 		new CheckPluginVersionThread(silent).start();
 	}
 	
 	public static void checkPluginVersion(
 			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
+		if (Synchronizing.isSynchronizing()) {
+			if (!silent)
+				Synchronizing.showSynchronizingMessage();
+			
+			return;
+		}
+		
 		new CheckPluginVersionThread(syncPlugin, silent).start();
 	}
 	
 	public static void checkAllPluginVersion(boolean silent) {
+		if (Synchronizing.isSynchronizing()) {
+			if (!silent)
+				Synchronizing.showSynchronizingMessage();
+			
+			return;
+		}
+		
 		new CheckPluginVersionThread(Main.getApiPlugins().getPlugins().toArray(
 				new SynchronizerGuiPlugin[0]), silent).start();
 	}
