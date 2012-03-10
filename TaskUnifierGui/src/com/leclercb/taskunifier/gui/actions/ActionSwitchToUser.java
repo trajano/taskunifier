@@ -55,7 +55,7 @@ public class ActionSwitchToUser extends AbstractAction {
 				Translations.getString(
 						"action.switch_user",
 						UserUtils.getInstance().getUserName(userId)),
-						ImageUtils.getResourceImage("user.png", width, height));
+				ImageUtils.getResourceImage("user.png", width, height));
 		
 		CheckUtils.isNotNull(userId);
 		this.userId = userId;

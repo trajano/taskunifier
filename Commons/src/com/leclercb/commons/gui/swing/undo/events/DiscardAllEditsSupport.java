@@ -30,71 +30,38 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.actions;
+package com.leclercb.commons.gui.swing.undo.events;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
+import com.leclercb.commons.api.event.ListenerList;
 
-import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class ActionQuit extends AbstractAction {
+public class DiscardAllEditsSupport implements DiscardAllEditsSupported {
 	
-	public ActionQuit() {
-		this(32, 32);
-	}
+	private ListenerList<DiscardAllEditsListener> discardAllEditsListenerList;
 	
-	public ActionQuit(int width, int height) {
-		super(
-				Translations.getString("action.quit"),
-				ImageUtils.getResourceImage("exit.png", width, height));
-		
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.quit"));
-		
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_Q,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	public DiscardAllEditsSupport() {
+		this.discardAllEditsListenerList = new ListenerList<DiscardAllEditsListener>();
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		ActionQuit.quit();
+	public void addDiscardAllEditsListener(DiscardAllEditsListener listener) {
+		this.discardAllEditsListenerList.addListener(listener);
 	}
 	
-	public static boolean quit() {
-		return quit(false);
+	@Override
+	public void removeDiscardAllEditsListener(DiscardAllEditsListener listener) {
+		this.discardAllEditsListenerList.removeListener(listener);
 	}
 	
-	public static boolean quit(boolean force) {
-		if (Main.isQuitting())
-			return true;
-		
-		if (!force) {
-			Boolean syncExit = Main.getUserSettings().getBooleanProperty(
-					"synchronizer.sync_exit");
-			if (syncExit != null && syncExit)
-				ActionSynchronize.synchronize(false);
+	public void fireDiscardAllEditsPerformed(ActionEvent event) {
+		for (DiscardAllEditsListener listener : this.discardAllEditsListenerList) {
+			try {
+				listener.discardAllEditsPerformed(event);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
 		}
-		
-		if (Synchronizing.isSynchronizing()) {
-			if (!force)
-				Synchronizing.showSynchronizingMessage();
-			
-			return false;
-		}
-		
-		ViewUtils.commitAll();
-		
-		Main.quit();
-		
-		return true;
 	}
 	
 }

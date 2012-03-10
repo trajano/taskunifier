@@ -30,32 +30,38 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.toolbar;
+package com.leclercb.commons.gui.swing.undo.events;
 
-import javax.swing.Icon;
+import java.awt.event.ActionEvent;
 
-import org.jdesktop.swingx.renderer.IconValue;
+import com.leclercb.commons.api.event.ListenerList;
 
-import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class IconValueAction implements IconValue {
+public class RedoSupport implements RedoSupported {
 	
-	public static final IconValueAction INSTANCE = new IconValueAction();
+	private ListenerList<RedoListener> redoListenerList;
 	
-	private IconValueAction() {
-		
+	public RedoSupport() {
+		this.redoListenerList = new ListenerList<RedoListener>();
 	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof ActionList))
-			return null;
-		
-		if (value.equals(ActionList.SEPARATOR))
-			return ImageUtils.getResourceImage("separator.png", 16, 16);
-		
-		return ((ActionList) value).getIcon();
+	public void addRedoListener(RedoListener listener) {
+		this.redoListenerList.addListener(listener);
+	}
+	
+	@Override
+	public void removeRedoListener(RedoListener listener) {
+		this.redoListenerList.removeListener(listener);
+	}
+	
+	public void fireRedoPerformed(ActionEvent event) {
+		for (RedoListener listener : this.redoListenerList) {
+			try {
+				listener.redoPerformed(event);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+		}
 	}
 	
 }

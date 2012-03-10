@@ -30,11 +30,11 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.commons.gui.swing.undo;
+package com.leclercb.commons.gui.swing.undo.events;
 
 import java.awt.event.ActionEvent;
 
-public interface IUndoListener {
+public interface UndoListener {
 	
 	public abstract void undoPerformed(ActionEvent event);
 	

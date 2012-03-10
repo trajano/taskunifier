@@ -76,7 +76,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		
 		this.leftModel = new DefaultListModel();
 		
-		this.leftModel.addElement(ActionList.OBJECT);
+		this.leftModel.addElement(ActionList.SEPARATOR);
 		
 		for (ActionList action : ActionList.values())
 			if (action.isFitToolBar())
@@ -283,11 +283,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		
 		for (int i = 0; i < this.rightModel.getSize(); i++) {
 			ActionList action = (ActionList) this.rightModel.getElementAt(i);
-			
-			if (action.equals(ActionList.OBJECT))
-				buffer.append("SEPARATOR" + ";");
-			else
-				buffer.append(action.name() + ";");
+			buffer.append(action.name() + ";");
 		}
 		
 		Main.getSettings().setStringProperty(
@@ -311,11 +307,6 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		String[] actions = StringUtils.split(value, ';');
 		for (String action : actions) {
 			action = action.trim();
-			
-			if ("SEPARATOR".equalsIgnoreCase(action)) {
-				this.rightModel.addElement(ActionList.OBJECT);
-				continue;
-			}
 			
 			try {
 				ActionList a = ActionList.valueOf(action);

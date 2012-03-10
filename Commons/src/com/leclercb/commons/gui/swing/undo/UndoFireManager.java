@@ -39,57 +39,69 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import com.leclercb.commons.api.event.ListenerList;
+import com.leclercb.commons.gui.swing.undo.events.DiscardAllEditsListener;
+import com.leclercb.commons.gui.swing.undo.events.DiscardAllEditsSupported;
+import com.leclercb.commons.gui.swing.undo.events.RedoListener;
+import com.leclercb.commons.gui.swing.undo.events.RedoSupported;
+import com.leclercb.commons.gui.swing.undo.events.UndoListener;
+import com.leclercb.commons.gui.swing.undo.events.UndoSupported;
 
-public class UndoFireManager extends UndoManager {
+public class UndoFireManager extends UndoManager implements UndoSupported, RedoSupported, DiscardAllEditsSupported {
 	
-	private ListenerList<IUndoListener> undoListenerList;
-	private ListenerList<IRedoListener> redoListenerList;
-	private ListenerList<IDiscardAllEditsListener> discardAllEditsListenerList;
+	private ListenerList<UndoListener> undoListenerList;
+	private ListenerList<RedoListener> redoListenerList;
+	private ListenerList<DiscardAllEditsListener> discardAllEditsListenerList;
 	
 	public UndoFireManager() {
 		this.setLimit(10);
 		
-		this.undoListenerList = new ListenerList<IUndoListener>();
-		this.redoListenerList = new ListenerList<IRedoListener>();
-		this.discardAllEditsListenerList = new ListenerList<IDiscardAllEditsListener>();
+		this.undoListenerList = new ListenerList<UndoListener>();
+		this.redoListenerList = new ListenerList<RedoListener>();
+		this.discardAllEditsListenerList = new ListenerList<DiscardAllEditsListener>();
 	}
 	
-	public void addUndoListener(IUndoListener listener) {
+	@Override
+	public void addUndoListener(UndoListener listener) {
 		this.undoListenerList.addListener(listener);
 	}
 	
-	public void removeUndoListener(IUndoListener listener) {
+	@Override
+	public void removeUndoListener(UndoListener listener) {
 		this.undoListenerList.removeListener(listener);
 	}
 	
 	protected void fireUndoPerformed() {
-		for (IUndoListener listener : this.undoListenerList)
+		for (UndoListener listener : this.undoListenerList)
 			listener.undoPerformed(new ActionEvent(this, 0, null));
 	}
 	
-	public void addRedoListener(IRedoListener listener) {
+	@Override
+	public void addRedoListener(RedoListener listener) {
 		this.redoListenerList.addListener(listener);
 	}
 	
-	public void removeRedoListener(IRedoListener listener) {
+	@Override
+	public void removeRedoListener(RedoListener listener) {
 		this.redoListenerList.removeListener(listener);
 	}
 	
 	protected void fireRedoPerformed() {
-		for (IRedoListener listener : this.redoListenerList)
+		for (RedoListener listener : this.redoListenerList)
 			listener.redoPerformed(new ActionEvent(this, 0, null));
 	}
 	
-	public void addDiscardAllEditsListener(IDiscardAllEditsListener listener) {
+	@Override
+	public void addDiscardAllEditsListener(DiscardAllEditsListener listener) {
 		this.discardAllEditsListenerList.addListener(listener);
 	}
 	
-	public void removeDiscardAllEditsListener(IDiscardAllEditsListener listener) {
+	@Override
+	public void removeDiscardAllEditsListener(DiscardAllEditsListener listener) {
 		this.discardAllEditsListenerList.removeListener(listener);
 	}
 	
 	protected void fireDiscardAllEditsPerformed() {
-		for (IDiscardAllEditsListener listener : this.discardAllEditsListenerList)
+		for (DiscardAllEditsListener listener : this.discardAllEditsListenerList)
 			listener.discardAllEditsPerformed(new ActionEvent(this, 0, null));
 	}
 	

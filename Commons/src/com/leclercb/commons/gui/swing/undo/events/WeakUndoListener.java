@@ -30,12 +30,45 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.commons.gui.swing.undo;
+package com.leclercb.commons.gui.swing.undo.events;
 
 import java.awt.event.ActionEvent;
+import java.lang.ref.WeakReference;
 
-public interface IRedoListener {
+public class WeakUndoListener implements UndoListener {
 	
-	public abstract void redoPerformed(ActionEvent event);
+	private UndoSupported support;
+	private WeakReference<UndoListener> reference;
+	
+	public WeakUndoListener(UndoSupported support, UndoListener listener) {
+		this.support = support;
+		this.reference = new WeakReference<UndoListener>(listener);
+	}
+	
+	@Override
+	public void undoPerformed(ActionEvent event) {
+		UndoListener listener = this.reference.get();
+		
+		if (listener == null)
+			this.support.removeUndoListener(this);
+		else
+			listener.undoPerformed(event);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this.reference != null)
+			return this.reference.equals(obj);
+		
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		if (this.reference != null)
+			return this.reference.hashCode();
+		
+		return super.hashCode();
+	}
 	
 }

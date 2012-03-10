@@ -30,32 +30,38 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.toolbar;
+package com.leclercb.commons.gui.swing.undo.events;
 
-import javax.swing.Icon;
+import java.awt.event.ActionEvent;
 
-import org.jdesktop.swingx.renderer.IconValue;
+import com.leclercb.commons.api.event.ListenerList;
 
-import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class IconValueAction implements IconValue {
+public class UndoSupport implements UndoSupported {
 	
-	public static final IconValueAction INSTANCE = new IconValueAction();
+	private ListenerList<UndoListener> undoListenerList;
 	
-	private IconValueAction() {
-		
+	public UndoSupport() {
+		this.undoListenerList = new ListenerList<UndoListener>();
 	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof ActionList))
-			return null;
-		
-		if (value.equals(ActionList.SEPARATOR))
-			return ImageUtils.getResourceImage("separator.png", 16, 16);
-		
-		return ((ActionList) value).getIcon();
+	public void addUndoListener(UndoListener listener) {
+		this.undoListenerList.addListener(listener);
+	}
+	
+	@Override
+	public void removeUndoListener(UndoListener listener) {
+		this.undoListenerList.removeListener(listener);
+	}
+	
+	public void fireUndoPerformed(ActionEvent event) {
+		for (UndoListener listener : this.undoListenerList) {
+			try {
+				listener.undoPerformed(event);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+		}
 	}
 	
 }

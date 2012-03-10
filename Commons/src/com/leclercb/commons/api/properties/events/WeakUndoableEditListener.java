@@ -30,32 +30,50 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.toolbar;
+package com.leclercb.commons.api.properties.events;
 
-import javax.swing.Icon;
+import java.lang.ref.WeakReference;
 
-import org.jdesktop.swingx.renderer.IconValue;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEditSupport;
 
-import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class IconValueAction implements IconValue {
+public class WeakUndoableEditListener implements UndoableEditListener {
 	
-	public static final IconValueAction INSTANCE = new IconValueAction();
+	private UndoableEditSupport support;
+	private WeakReference<UndoableEditListener> reference;
 	
-	private IconValueAction() {
-		
+	public WeakUndoableEditListener(
+			UndoableEditSupport support,
+			UndoableEditListener listener) {
+		this.support = support;
+		this.reference = new WeakReference<UndoableEditListener>(listener);
 	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof ActionList))
-			return null;
+	public void undoableEditHappened(UndoableEditEvent event) {
+		UndoableEditListener listener = this.reference.get();
 		
-		if (value.equals(ActionList.SEPARATOR))
-			return ImageUtils.getResourceImage("separator.png", 16, 16);
+		if (listener == null)
+			this.support.removeUndoableEditListener(this);
+		else
+			listener.undoableEditHappened(event);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this.reference != null)
+			return this.reference.equals(obj);
 		
-		return ((ActionList) value).getIcon();
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		if (this.reference != null)
+			return this.reference.hashCode();
+		
+		return super.hashCode();
 	}
 	
 }

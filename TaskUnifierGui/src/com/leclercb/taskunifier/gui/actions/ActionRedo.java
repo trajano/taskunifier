@@ -45,15 +45,19 @@ import javax.swing.undo.UndoableEditSupport;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import com.leclercb.commons.api.properties.events.WeakUndoableEditListener;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.gui.swing.undo.IDiscardAllEditsListener;
-import com.leclercb.commons.gui.swing.undo.IRedoListener;
-import com.leclercb.commons.gui.swing.undo.IUndoListener;
 import com.leclercb.commons.gui.swing.undo.UndoFireManager;
+import com.leclercb.commons.gui.swing.undo.events.DiscardAllEditsListener;
+import com.leclercb.commons.gui.swing.undo.events.RedoListener;
+import com.leclercb.commons.gui.swing.undo.events.UndoListener;
+import com.leclercb.commons.gui.swing.undo.events.WeakDiscardAllEditsListener;
+import com.leclercb.commons.gui.swing.undo.events.WeakRedoListener;
+import com.leclercb.commons.gui.swing.undo.events.WeakUndoListener;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-.
-public class ActionRedo extends AbstractAction implements UndoableEditListener, IUndoListener, IRedoListener, IDiscardAllEditsListener {
+
+public class ActionRedo extends AbstractAction implements UndoableEditListener, UndoListener, RedoListener, DiscardAllEditsListener {
 	
 	private UndoFireManager undoManager;
 	private UndoableEditSupport editSupport;
@@ -96,10 +100,18 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 		
 		this.updateAction();
 		
-		this.undoManager.addUndoListener(this);
-		this.undoManager.addRedoListener(this);
-		this.undoManager.addDiscardAllEditsListener(this);
-		this.editSupport.addUndoableEditListener(this);
+		this.undoManager.addUndoListener(new WeakUndoListener(
+				this.undoManager,
+				this));
+		this.undoManager.addRedoListener(new WeakRedoListener(
+				this.undoManager,
+				this));
+		this.undoManager.addDiscardAllEditsListener(new WeakDiscardAllEditsListener(
+				this.undoManager,
+				this));
+		this.editSupport.addUndoableEditListener(new WeakUndoableEditListener(
+				this.editSupport,
+				this));
 	}
 	
 	@Override

@@ -30,32 +30,47 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.configuration.toolbar;
+package com.leclercb.commons.gui.swing.undo.events;
 
-import javax.swing.Icon;
+import java.awt.event.ActionEvent;
+import java.lang.ref.WeakReference;
 
-import org.jdesktop.swingx.renderer.IconValue;
-
-import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
-
-public class IconValueAction implements IconValue {
+public class WeakDiscardAllEditsListener implements DiscardAllEditsListener {
 	
-	public static final IconValueAction INSTANCE = new IconValueAction();
+	private DiscardAllEditsSupported support;
+	private WeakReference<DiscardAllEditsListener> reference;
 	
-	private IconValueAction() {
-		
+	public WeakDiscardAllEditsListener(
+			DiscardAllEditsSupported support,
+			DiscardAllEditsListener listener) {
+		this.support = support;
+		this.reference = new WeakReference<DiscardAllEditsListener>(listener);
 	}
 	
 	@Override
-	public Icon getIcon(Object value) {
-		if (value == null || !(value instanceof ActionList))
-			return null;
+	public void discardAllEditsPerformed(ActionEvent event) {
+		DiscardAllEditsListener listener = this.reference.get();
 		
-		if (value.equals(ActionList.SEPARATOR))
-			return ImageUtils.getResourceImage("separator.png", 16, 16);
+		if (listener == null)
+			this.support.removeDiscardAllEditsListener(this);
+		else
+			listener.discardAllEditsPerformed(event);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this.reference != null)
+			return this.reference.equals(obj);
 		
-		return ((ActionList) value).getIcon();
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		if (this.reference != null)
+			return this.reference.hashCode();
+		
+		return super.hashCode();
 	}
 	
 }

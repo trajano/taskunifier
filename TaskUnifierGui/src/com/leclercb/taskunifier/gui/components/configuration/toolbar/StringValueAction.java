@@ -50,7 +50,7 @@ public class StringValueAction implements StringValue {
 		if (value == null || !(value instanceof ActionList))
 			return " ";
 		
-		if (value.equals(ActionList.OBJECT))
+		if (value.equals(ActionList.SEPARATOR))
 			return Translations.getString("general.separator");
 		
 		return ((ActionList) value).getTitle();

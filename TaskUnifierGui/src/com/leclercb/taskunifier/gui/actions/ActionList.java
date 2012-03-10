@@ -6,16 +6,17 @@ import javax.swing.Icon;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
-.
+
 public enum ActionList {
 	
-	OBJECT("", null, false),
+	SEPARATOR("", null, true),
 	ABOUT(Translations.getString("action.about"), "information.png", true),
 	ADD_NOTE(Translations.getString("action.add_note"), "note.png", true),
 	ADD_NOTE_SEARCHER(Translations.getString("action.add_note_searcher"), "add.png", true),
 	ADD_QUICK_TASK(Translations.getString("action.add_task"), "task.png", false),
 	ADD_SUBTASK(Translations.getString("action.add_subtask"), "subtask.png", true),
 	ADD_SUBTASK_AT_SAME_LEVEL(Translations.getString("action.add_subtask_at_same_level"), "subtask.png", true),
+	ADD_TAB(Translations.getString("action.add_tab"), "tab_add.png", true),
 	ADD_TASK(Translations.getString("action.add_task"), "task.png", true),
 	ADD_TASK_SEARCHER(Translations.getString("action.add_task_searcher"), "add.png", true),
 	ADD_TASK_SEARCHER_SELECTED_TASKS(Translations.getString("action.add_task_searcher_selected_tasks"), "add.png", true),
@@ -69,6 +70,7 @@ public enum ActionList {
 	MANAGE_SYNCHRONIZER_PLUGINS(Translations.getString("action.manage_synchronizer_plugins"), "download.png", true),
 	MANAGE_TASK_TEMPLATES(Translations.getString("action.manage_task_templates"), "template.png", true),
 	MANAGE_USERS(Translations.getString("action.manage_users"), "user.png", true),
+	NEW_WINDOW(Translations.getString("action.new_window"), "window_add.png", true),
 	PASTE(Translations.getString("action.paste"), "paste.png", false),
 	PLUGIN_CONFIGURATION(Translations.getString("action.plugin_configuration"), "settings.png", true),
 	POSTPONE_TASK_BEANS(Translations.getString("action.postpone_tasks"), "calendar.png", false),
@@ -79,6 +81,7 @@ public enum ActionList {
 	QUIT(Translations.getString("action.quit"), "exit.png", true),
 	REDO(Translations.getString("action.redo"), "redo.png", true),
 	REFRESH(Translations.getString("action.refresh"), "synchronize.png", false),
+	REMOVE_TAB(Translations.getString("action.remove_tab"), "tab_remove.png", true),
 	RESET_GENERAL_SEARCHERS(Translations.getString("action.reset_general_searchers"), "undo.png", false),
 	REVIEW(Translations.getString("action.review"), "information.png", true),
 	SAVE(Translations.getString("action.save"), "save.png", false),
@@ -124,6 +127,8 @@ public enum ActionList {
 	
 	public Action newInstance(int width, int height) {
 		switch (this) {
+			case SEPARATOR:
+				return null;
 			case ABOUT:
 				return new ActionAbout(width, height);
 			case ADD_NOTE:
@@ -136,6 +141,8 @@ public enum ActionList {
 				return new ActionAddSubTask(width, height);
 			case ADD_SUBTASK_AT_SAME_LEVEL:
 				return new ActionAddSubTaskAtSameLevel(width, height);
+			case ADD_TAB:
+				return new ActionAddTab(width, height);
 			case ADD_TASK:
 				return new ActionAddTask(width, height);
 			case ADD_TASK_SEARCHER:
@@ -233,6 +240,8 @@ public enum ActionList {
 				return new ActionLogFeatureRequest();
 			case MAIL_TO:
 				return new ActionMailTo(width, height);
+			case MANAGE_BACKUPS:
+				return new ActionManageBackups(width, height);
 			case MANAGE_MODELS:
 				return new ActionManageModels(width, height);
 			case MANAGE_PUBLISHER_PLUGINS:
@@ -243,6 +252,8 @@ public enum ActionList {
 				return new ActionManageTaskTemplates(width, height);
 			case MANAGE_USERS:
 				return new ActionManageUsers(width, height);
+			case NEW_WINDOW:
+				return new ActionNewWindow(width, height);
 			case PASTE:
 				return new ActionPaste(width, height);
 			case PLUGIN_CONFIGURATION:
@@ -263,6 +274,8 @@ public enum ActionList {
 				return Constants.UNDO_SUPPORT.getRedoAction();
 			case REFRESH:
 				return new ActionRefresh(width, height);
+			case REMOVE_TAB:
+				return new ActionRemoveTab(width, height);
 			case RESET_GENERAL_SEARCHERS:
 				return new ActionResetGeneralSearchers(width, height);
 			case REVIEW:

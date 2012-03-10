@@ -194,16 +194,16 @@ public class DefaultToolBar extends JToolBar {
 			for (String action : actions) {
 				action = action.trim();
 				
-				if ("SEPARATOR".equalsIgnoreCase(action)) {
-					this.addSeparator(new Dimension(20, 20));
-					continue;
-				}
-				
 				try {
 					ActionList l = ActionList.valueOf(action);
 					
 					if (!l.isFitToolBar())
 						continue;
+					
+					if (l == ActionList.SEPARATOR) {
+						this.addSeparator(new Dimension(20, 20));
+						continue;
+					}
 					
 					Action a = l.newInstance(24, 24);
 					
