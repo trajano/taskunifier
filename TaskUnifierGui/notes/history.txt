@@ -1,3 +1,9 @@
+Version 2.3.1
+	- Major:
+		- BF 3495620: Program freezing
+	- Minor:
+		- BF 3500905: Font settings not saved
+
 Version 2.3.0
 	- Major:
 		- BF 3495620: Deadlock when synchronizing
