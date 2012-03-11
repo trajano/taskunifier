@@ -46,10 +46,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTaskSearcher extends AbstractViewAction {
 	
-	public ActionAddTaskSearcher() {
-		this(32, 32);
-	}
-	
 	public ActionAddTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.add_task_searcher"),

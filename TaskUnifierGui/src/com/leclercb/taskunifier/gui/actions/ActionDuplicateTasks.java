@@ -46,10 +46,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 	
-	public ActionDuplicateTasks() {
-		this(32, 32);
-	}
-	
 	public ActionDuplicateTasks(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_tasks"),

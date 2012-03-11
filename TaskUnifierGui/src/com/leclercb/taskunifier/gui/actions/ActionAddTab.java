@@ -53,19 +53,11 @@ public class ActionAddTab extends AbstractAction {
 	
 	private ViewType type;
 	
-	public ActionAddTab() {
-		this(null, 32, 32);
-	}
-	
-	public ActionAddTab(ViewType type) {
-		this(type, 32, 32);
-	}
-	
 	public ActionAddTab(int width, int height) {
-		this(null, width, height);
+		this(width, height, null);
 	}
 	
-	public ActionAddTab(ViewType type, int width, int height) {
+	public ActionAddTab(int width, int height, ViewType type) {
 		super(
 				Translations.getString("action.add_tab"),
 				ImageUtils.getResourceImage("tab_add.png", width, height));

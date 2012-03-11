@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportModels extends AbstractAction {
 	
-	public ActionImportModels() {
-		this(32, 32);
-	}
-	
 	public ActionImportModels(int width, int height) {
 		super(
 				Translations.getString("action.import_models"),

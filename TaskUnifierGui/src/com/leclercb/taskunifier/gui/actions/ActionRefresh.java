@@ -45,10 +45,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionRefresh extends AbstractAction {
 	
-	public ActionRefresh() {
-		this(32, 32);
-	}
-	
 	public ActionRefresh(int width, int height) {
 		super(
 				Translations.getString("action.refresh"),

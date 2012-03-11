@@ -68,10 +68,6 @@ import com.leclercb.taskunifier.gui.utils.TaskStatusUtils;
 
 public class ActionAddQuickTask extends AbstractAction {
 	
-	public ActionAddQuickTask() {
-		this(32, 32);
-	}
-	
 	public ActionAddQuickTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),

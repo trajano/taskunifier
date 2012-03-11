@@ -68,15 +68,11 @@ public class ActionAddTemplateTask extends AbstractAction implements PropertyCha
 	private TaskTemplate template;
 	private ActionListener listener;
 	
-	public ActionAddTemplateTask(TaskTemplate template, ActionListener listener) {
-		this(template, listener, 32, 32);
-	}
-	
 	public ActionAddTemplateTask(
-			TaskTemplate template,
-			ActionListener listener,
 			int width,
-			int height) {
+			int height,
+			TaskTemplate template,
+			ActionListener listener) {
 		super(template.getTitle(), ImageUtils.getResourceImage(
 				"template.png",
 				width,

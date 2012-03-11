@@ -55,10 +55,6 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class ActionPrintSelectedModels extends AbstractAction {
 	
-	public ActionPrintSelectedModels() {
-		this(32, 32);
-	}
-	
 	public ActionPrintSelectedModels(int width, int height) {
 		super(
 				Translations.getString("action.print_selection"),

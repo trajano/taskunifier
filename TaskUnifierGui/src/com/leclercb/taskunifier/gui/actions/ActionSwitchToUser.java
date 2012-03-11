@@ -46,10 +46,6 @@ public class ActionSwitchToUser extends AbstractAction {
 	
 	private String userId;
 	
-	public ActionSwitchToUser(String userId) {
-		this(32, 32, userId);
-	}
-	
 	public ActionSwitchToUser(int width, int height, String userId) {
 		super(
 				Translations.getString(

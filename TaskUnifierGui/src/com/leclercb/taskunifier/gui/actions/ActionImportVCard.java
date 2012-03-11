@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportVCard extends AbstractAction {
 	
-	public ActionImportVCard() {
-		this(32, 32);
-	}
-	
 	public ActionImportVCard(int width, int height) {
 		super(
 				Translations.getString("action.import_vcard"),

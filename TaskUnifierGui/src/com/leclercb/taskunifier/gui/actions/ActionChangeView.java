@@ -53,10 +53,6 @@ public class ActionChangeView extends AbstractAction implements PropertyChangeLi
 	private int width;
 	private int height;
 	
-	public ActionChangeView() {
-		this(32, 32);
-	}
-	
 	public ActionChangeView(int width, int height) {
 		super(Translations.getString("action.change_view"));
 		

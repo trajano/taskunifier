@@ -55,11 +55,7 @@ public class ActionSynchronize extends AbstractAction {
 	
 	private boolean background;
 	
-	public ActionSynchronize(boolean background) {
-		this(background, 32, 32);
-	}
-	
-	public ActionSynchronize(boolean background, int width, int height) {
+	public ActionSynchronize(int width, int height, boolean background) {
 		super(
 				Translations.getString("action.synchronize"),
 				ImageUtils.getResourceImage("synchronize.png", width, height));

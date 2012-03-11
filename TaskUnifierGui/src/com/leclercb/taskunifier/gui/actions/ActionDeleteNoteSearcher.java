@@ -44,10 +44,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDeleteNoteSearcher extends AbstractViewNoteSearcherSelectionAction {
 	
-	public ActionDeleteNoteSearcher() {
-		this(32, 32);
-	}
-	
 	public ActionDeleteNoteSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_note_searcher"),

@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportTaskTemplates extends AbstractAction {
 	
-	public ActionImportTaskTemplates() {
-		this(32, 32);
-	}
-	
 	public ActionImportTaskTemplates(int width, int height) {
 		super(
 				Translations.getString("action.import_task_templates"),

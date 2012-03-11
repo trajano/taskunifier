@@ -44,10 +44,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDeleteTaskSearcher extends AbstractViewTaskSearcherSelectionAction {
 	
-	public ActionDeleteTaskSearcher() {
-		this(32, 32);
-	}
-	
 	public ActionDeleteTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.delete_task_searcher"),

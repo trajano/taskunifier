@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAbout extends AbstractAction {
 	
-	public ActionAbout() {
-		this(32, 32);
-	}
-	
 	public ActionAbout(int width, int height) {
 		super(
 				Translations.getString("action.about"),

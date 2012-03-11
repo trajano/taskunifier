@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionReview extends AbstractAction {
 	
-	public ActionReview() {
-		this(32, 32);
-	}
-	
 	public ActionReview(int width, int height) {
 		super(
 				Translations.getString("action.review"),

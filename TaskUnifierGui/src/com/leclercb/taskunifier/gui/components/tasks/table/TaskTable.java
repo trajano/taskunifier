@@ -562,7 +562,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 	
 	private void initializeEnter() {
 		ActionMap amap = this.getActionMap();
-		amap.put("editTask", new ActionEditTasks() {
+		amap.put("editTask", new ActionEditTasks(16, 16) {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

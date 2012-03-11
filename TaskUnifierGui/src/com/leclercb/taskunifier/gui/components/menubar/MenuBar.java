@@ -130,7 +130,7 @@ public class MenuBar extends JMenuBar {
 		JMenu addTabMenu = new JMenu(new ActionAddTab(16, 16));
 		fileMenu.add(addTabMenu);
 		for (ViewType type : ViewType.values()) {
-			addTabMenu.add(new JMenuItem(new ActionAddTab(type, 16, 16)));
+			addTabMenu.add(new JMenuItem(new ActionAddTab(16, 16, type)));
 		}
 		fileMenu.addSeparator();
 		
@@ -249,8 +249,8 @@ public class MenuBar extends JMenuBar {
 		
 		tasksMenu.addSeparator();
 		
-		tasksMenu.add(new ActionCollapseAll());
-		tasksMenu.add(new ActionExpandAll());
+		tasksMenu.add(new ActionCollapseAll(16, 16));
+		tasksMenu.add(new ActionExpandAll(16, 16));
 		tasksMenu.add(new ActionSelectParentTasks(16, 16));
 		
 		tasksMenu.addSeparator();
@@ -263,7 +263,7 @@ public class MenuBar extends JMenuBar {
 				Translations.getString("menu.synchronize"));
 		this.add(synchronizeMenu);
 		
-		synchronizeMenu.add(new ActionSynchronize(false, 16, 16));
+		synchronizeMenu.add(new ActionSynchronize(16, 16, false));
 		synchronizeMenu.add(new ActionScheduledSync(16, 16));
 	}
 	
@@ -300,8 +300,8 @@ public class MenuBar extends JMenuBar {
 		JMenu helpMenu = new JMenu(Translations.getString("menu.help"));
 		this.add(helpMenu);
 		
-		helpMenu.add(new ActionCheckVersion(false, 16, 16));
-		helpMenu.add(new ActionCheckPluginVersion(false, 16, 16));
+		helpMenu.add(new ActionCheckVersion(16, 16, false));
+		helpMenu.add(new ActionCheckPluginVersion(16, 16, false));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionShowTips(16, 16));

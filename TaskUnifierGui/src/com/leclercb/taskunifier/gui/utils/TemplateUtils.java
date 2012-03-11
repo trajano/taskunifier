@@ -78,14 +78,14 @@ public final class TemplateUtils {
 		
 		for (TaskTemplate template : templates) {
 			if (menu != null)
-				menu.add(new ActionAddTemplateTask(template, listener, 16, 16));
+				menu.add(new ActionAddTemplateTask(16, 16, template, listener));
 			
 			if (popupMenu != null)
 				popupMenu.add(new ActionAddTemplateTask(
-						template,
-						listener,
 						16,
-						16));
+						16,
+						template,
+						listener));
 		}
 		
 		if (menu != null) {

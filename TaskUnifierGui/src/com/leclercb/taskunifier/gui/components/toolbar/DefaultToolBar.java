@@ -100,7 +100,9 @@ public class DefaultToolBar extends JToolBar {
 			
 		});
 		
-		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu();
+		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu(
+				16,
+				16);
 		final JLabel accountLabel = new JLabel();
 		accountLabel.setText(this.getAccountLabelText());
 		
@@ -227,12 +229,12 @@ public class DefaultToolBar extends JToolBar {
 			this.add(new ActionAddTask(24, 24));
 			this.add(new ActionAddSubTask(24, 24));
 			this.add(new ActionAddTemplateTaskMenu(
-					ActionAddTemplateTask.ADD_TASK_LISTENER,
 					24,
-					24));
+					24,
+					ActionAddTemplateTask.ADD_TASK_LISTENER));
 			this.add(new ActionDelete(24, 24));
 			this.addSeparator(new Dimension(20, 20));
-			this.add(new ActionSynchronize(false, 24, 24));
+			this.add(new ActionSynchronize(24, 24, false));
 			this.add(new ActionScheduledSync(24, 24));
 			this.addSeparator(new Dimension(20, 20));
 			this.add(new ActionConfiguration(24, 24));

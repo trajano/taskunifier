@@ -45,10 +45,10 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCollapseAll extends AbstractViewAction {
 	
-	public ActionCollapseAll() {
+	public ActionCollapseAll(int width, int height) {
 		super(
 				Translations.getString("action.collapse_all"),
-				ImageUtils.getResourceImage("tree_expanded.png", 9, 9),
+				ImageUtils.getResourceImage("collapse.png", width, height),
 				ViewType.TASKS);
 		
 		this.putValue(

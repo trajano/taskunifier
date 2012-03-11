@@ -51,10 +51,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddNote extends AbstractAction {
 	
-	public ActionAddNote() {
-		this(32, 32);
-	}
-	
 	public ActionAddNote(int width, int height) {
 		super(
 				Translations.getString("action.add_note"),

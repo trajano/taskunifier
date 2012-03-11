@@ -64,10 +64,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionImportComFile extends AbstractAction {
 	
-	public ActionImportComFile() {
-		this(32, 32);
-	}
-	
 	public ActionImportComFile(int width, int height) {
 		super(
 				Translations.getString("action.import_com_file"),

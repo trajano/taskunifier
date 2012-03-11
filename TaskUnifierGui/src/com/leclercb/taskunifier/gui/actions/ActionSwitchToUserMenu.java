@@ -49,10 +49,6 @@ public class ActionSwitchToUserMenu extends AbstractAction implements ListChange
 	
 	private JPopupMenu popupMenu;
 	
-	public ActionSwitchToUserMenu() {
-		this(32, 32);
-	}
-	
 	public ActionSwitchToUserMenu(int width, int height) {
 		super(
 				Translations.getString("action.switch_user_menu"),

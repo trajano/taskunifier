@@ -54,10 +54,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTask extends AbstractAction {
 	
-	public ActionAddTask() {
-		this(32, 32);
-	}
-	
 	public ActionAddTask(int width, int height) {
 		super(
 				Translations.getString("action.add_task"),

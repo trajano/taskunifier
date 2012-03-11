@@ -159,9 +159,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 					"SYNCHRONIZE_ALL",
 					null,
 					new ConfigurationFieldType.Button(new ActionSynchronize(
-							false,
 							22,
-							22) {
+							22,
+							false) {
 						
 						@Override
 						public void actionPerformed(ActionEvent event) {
@@ -185,9 +185,9 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()))));
 			
 			ActionSynchronize actionResetAll = new ActionSynchronize(
-					false,
 					22,
-					22) {
+					22,
+					false) {
 				
 				@Override
 				public void actionPerformed(ActionEvent event) {

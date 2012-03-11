@@ -60,16 +60,10 @@ public class ActionUndo extends AbstractAction implements UndoableEditListener, 
 	private UndoableEditSupport editSupport;
 	
 	public ActionUndo(
+			int width,
+			int height,
 			UndoFireManager undoManager,
 			UndoableEditSupport editSupport) {
-		this(undoManager, editSupport, 32, 32);
-	}
-	
-	public ActionUndo(
-			UndoFireManager undoManager,
-			UndoableEditSupport editSupport,
-			int width,
-			int height) {
 		super(
 				Translations.getString("action.undo"),
 				ImageUtils.getResourceImage("undo.png", width, height));

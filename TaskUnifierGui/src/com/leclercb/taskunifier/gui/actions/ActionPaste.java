@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPaste extends AbstractAction {
 	
-	public ActionPaste() {
-		this(32, 32);
-	}
-	
 	public ActionPaste(int width, int height) {
 		super(
 				Translations.getString("action.paste"),

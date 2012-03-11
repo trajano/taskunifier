@@ -46,14 +46,6 @@ public class ActionPluginConfiguration extends AbstractAction {
 	
 	private SynchronizerGuiPlugin plugin;
 	
-	public ActionPluginConfiguration() {
-		this(null);
-	}
-	
-	public ActionPluginConfiguration(SynchronizerGuiPlugin plugin) {
-		this(32, 32, plugin);
-	}
-	
 	public ActionPluginConfiguration(int width, int height) {
 		this(width, height, null);
 	}

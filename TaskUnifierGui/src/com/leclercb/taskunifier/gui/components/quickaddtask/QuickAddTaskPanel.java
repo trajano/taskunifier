@@ -65,9 +65,9 @@ public class QuickAddTaskPanel extends JPanel {
 		};
 		
 		this.buttonTemplate = new JButton(new ActionAddTemplateTaskMenu(
-				listener,
 				16,
-				16));
+				16,
+				listener));
 		this.buttonTemplate.setText(null);
 		
 		this.setLayout(new BorderLayout(3, 3));

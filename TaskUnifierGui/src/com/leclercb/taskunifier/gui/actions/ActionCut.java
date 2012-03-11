@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCut extends AbstractAction {
 	
-	public ActionCut() {
-		this(32, 32);
-	}
-	
 	public ActionCut(int width, int height) {
 		super(
 				Translations.getString("action.cut"),

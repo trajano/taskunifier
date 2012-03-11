@@ -47,10 +47,6 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 	
 	private JPopupMenu popupMenu;
 	
-	public ActionPostponeTasksMenu(TaskSelectionView view) {
-		this(32, 32, view);
-	}
-	
 	public ActionPostponeTasksMenu(int width, int height, TaskSelectionView view) {
 		super(
 				Translations.getString("action.postpone_tasks"),

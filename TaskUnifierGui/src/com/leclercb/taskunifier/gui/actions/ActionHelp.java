@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionHelp extends AbstractAction {
 	
-	public ActionHelp() {
-		this(32, 32);
-	}
-	
 	public ActionHelp(int width, int height) {
 		super(
 				Translations.getString("action.help"),

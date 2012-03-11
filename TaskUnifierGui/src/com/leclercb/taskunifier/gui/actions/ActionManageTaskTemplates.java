@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageTaskTemplates extends AbstractAction {
 	
-	public ActionManageTaskTemplates() {
-		this(32, 32);
-	}
-	
 	public ActionManageTaskTemplates(int width, int height) {
 		super(
 				Translations.getString("action.manage_task_templates"),

@@ -63,16 +63,10 @@ public class ActionRedo extends AbstractAction implements UndoableEditListener, 
 	private UndoableEditSupport editSupport;
 	
 	public ActionRedo(
+			int width,
+			int height,
 			UndoFireManager undoManager,
 			UndoableEditSupport editSupport) {
-		this(undoManager, editSupport, 32, 32);
-	}
-	
-	public ActionRedo(
-			UndoFireManager undoManager,
-			UndoableEditSupport editSupport,
-			int width,
-			int height) {
 		super(
 				Translations.getString("action.redo"),
 				ImageUtils.getResourceImage("redo.png", width, height));

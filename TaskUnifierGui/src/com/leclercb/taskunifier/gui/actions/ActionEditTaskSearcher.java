@@ -44,10 +44,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionEditTaskSearcher extends AbstractViewTaskSearcherSelectionAction {
 	
-	public ActionEditTaskSearcher() {
-		this(32, 32);
-	}
-	
 	public ActionEditTaskSearcher(int width, int height) {
 		super(
 				Translations.getString("action.edit_task_searcher"),

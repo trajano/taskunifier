@@ -52,9 +52,9 @@ public class IconValueShowChildren implements IconValue {
 			return null;
 		
 		if ((Boolean) value)
-			return ImageUtils.getResourceImage("tree_expanded.png", 9, 9);
+			return ImageUtils.getResourceImage("collapse.png", 16, 16);
 		else
-			return ImageUtils.getResourceImage("tree_collapsed.png", 9, 9);
+			return ImageUtils.getResourceImage("expand.png", 16, 16);
 	}
 	
 }

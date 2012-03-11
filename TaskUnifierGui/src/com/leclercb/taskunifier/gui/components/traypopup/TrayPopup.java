@@ -74,12 +74,12 @@ public class TrayPopup extends PopupMenu {
 		
 		this.addSeparator();
 		
-		action = new ActionCreateTaskFromClipboard();
+		action = new ActionCreateTaskFromClipboard(16, 16);
 		item = new MenuItem((String) action.getValue(Action.NAME));
 		item.addActionListener(action);
 		this.add(item);
 		
-		action = new ActionCreateNoteFromClipboard();
+		action = new ActionCreateNoteFromClipboard(16, 16);
 		item = new MenuItem((String) action.getValue(Action.NAME));
 		item.addActionListener(action);
 		this.add(item);
@@ -87,7 +87,7 @@ public class TrayPopup extends PopupMenu {
 		if (showQuitAction) {
 			this.addSeparator();
 			
-			action = new ActionQuit();
+			action = new ActionQuit(16, 16);
 			item = new MenuItem((String) action.getValue(Action.NAME));
 			item.addActionListener(action);
 			this.add(item);

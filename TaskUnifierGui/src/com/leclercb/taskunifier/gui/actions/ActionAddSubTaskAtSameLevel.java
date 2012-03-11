@@ -40,10 +40,6 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionAddSubTaskAtSameLevel extends ActionAddSubTask {
 	
-	public ActionAddSubTaskAtSameLevel() {
-		this(32, 32);
-	}
-	
 	public ActionAddSubTaskAtSameLevel(int width, int height) {
 		super(width, height);
 		

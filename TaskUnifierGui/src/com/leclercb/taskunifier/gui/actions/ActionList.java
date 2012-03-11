@@ -27,7 +27,7 @@ public enum ActionList {
 	CHANGE_VIEW(Translations.getString("action.change_view"), "change_view_tasks.png", true),
 	CHECK_PLUGIN_VERSION(Translations.getString("action.check_plugin_version"), "download.png", true),
 	CHECK_VERSION(Translations.getString("action.check_version"), "download.png", true),
-	COLLAPSE_ALL(Translations.getString("action.collapse_all"), "tree_expanded.png", true),
+	COLLAPSE_ALL(Translations.getString("action.collapse_all"), "collapse.png", true),
 	COMPLETE_TASKS(Translations.getString("action.complete_tasks"), "check.png", true),
 	CONFIGURATION(Translations.getString("action.configuration"), "settings.png", true),
 	COPY(Translations.getString("action.copy"), "copy.png", false),
@@ -45,7 +45,7 @@ public enum ActionList {
 	EDIT_TASKS(Translations.getString("action.edit_tasks"), "edit.png", true),
 	EDIT_NOTE_SEARCHER(Translations.getString("action.edit_note_searcher"), "edit.png", true),
 	EDIT_TASK_SEARCHER(Translations.getString("action.edit_task_searcher"), "edit.png", true),
-	EXPAND_ALL(Translations.getString("action.expand_all"), "tree_collapsed.png", true),
+	EXPAND_ALL(Translations.getString("action.expand_all"), "expand.png", true),
 	EXPORT_MODELS(Translations.getString("action.export_models"), "upload.png", true),
 	EXPORT_NOTE_SEARCHERS(Translations.getString("action.export_note_searchers"), "upload.png", true),
 	EXPORT_SETTINGS(Translations.getString("action.export_settings"), "upload.png", true),
@@ -153,9 +153,9 @@ public enum ActionList {
 				return null;
 			case ADD_TEMPLATE_TASK_MENU:
 				return new ActionAddTemplateTaskMenu(
-						ActionAddTemplateTask.ADD_TASK_LISTENER,
 						width,
-						height);
+						height,
+						ActionAddTemplateTask.ADD_TASK_LISTENER);
 			case BATCH_ADD_TASKS:
 				return new ActionBatchAddTasks(width, height);
 			case CHANGE_DATE_FOLDER_LOCATION:
@@ -163,11 +163,11 @@ public enum ActionList {
 			case CHANGE_VIEW:
 				return new ActionChangeView(width, height);
 			case CHECK_PLUGIN_VERSION:
-				return new ActionCheckPluginVersion(false, width, height);
+				return new ActionCheckPluginVersion(width, height, false);
 			case CHECK_VERSION:
-				return new ActionCheckVersion(false, width, height);
+				return new ActionCheckVersion(width, height, false);
 			case COLLAPSE_ALL:
-				return new ActionCollapseAll();
+				return new ActionCollapseAll(width, height);
 			case COMPLETE_TASKS:
 				return new ActionCompleteTasks(width, height);
 			case CONFIGURATION:
@@ -203,7 +203,7 @@ public enum ActionList {
 			case EDIT_TASKS:
 				return new ActionEditTasks(width, height);
 			case EXPAND_ALL:
-				return new ActionExpandAll();
+				return new ActionExpandAll(width, height);
 			case EXPORT_MODELS:
 				return new ActionExportModels(width, height);
 			case EXPORT_NOTE_SEARCHERS:
@@ -293,7 +293,7 @@ public enum ActionList {
 			case SWITCH_TO_USER_MENU:
 				return new ActionSwitchToUserMenu(width, height);
 			case SYNCHRONIZE:
-				return new ActionSynchronize(false, width, height);
+				return new ActionSynchronize(width, height, false);
 			case TASK_REMINDERS:
 				return new ActionTaskReminders(width, height);
 			case UNDO:

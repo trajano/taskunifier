@@ -43,10 +43,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageSynchronizerPlugins extends AbstractAction {
 	
-	public ActionManageSynchronizerPlugins() {
-		this(32, 32);
-	}
-	
 	public ActionManageSynchronizerPlugins(int width, int height) {
 		super(
 				Translations.getString("action.manage_synchronizer_plugins"),

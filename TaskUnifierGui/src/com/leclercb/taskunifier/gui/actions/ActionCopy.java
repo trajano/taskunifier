@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCopy extends AbstractAction {
 	
-	public ActionCopy() {
-		this(32, 32);
-	}
-	
 	public ActionCopy(int width, int height) {
 		super(
 				Translations.getString("action.copy"),

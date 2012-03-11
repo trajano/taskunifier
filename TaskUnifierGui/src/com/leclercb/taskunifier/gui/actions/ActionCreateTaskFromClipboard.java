@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCreateTaskFromClipboard extends AbstractAction {
 	
-	public ActionCreateTaskFromClipboard() {
-		this(32, 32);
-	}
-	
 	public ActionCreateTaskFromClipboard(int width, int height) {
 		super(
 				Translations.getString("action.create_task_from_clipboard"),

@@ -206,15 +206,15 @@ public class MacToolBar extends UnifiedToolBar {
 					24,
 					24)));
 			this.addComponentToLeft(this.createButton(new ActionAddTemplateTaskMenu(
-					ActionAddTemplateTask.ADD_TASK_LISTENER,
 					24,
-					24)));
+					24,
+					ActionAddTemplateTask.ADD_TASK_LISTENER)));
 			this.addComponentToLeft(this.createButton(new ActionDelete(24, 24)));
 			this.addComponentToLeft(new JSeparator());
 			this.addComponentToLeft(this.createButton(new ActionSynchronize(
-					false,
 					24,
-					24)));
+					24,
+					false)));
 			this.addComponentToLeft(this.createButton(new ActionScheduledSync(
 					24,
 					24)));

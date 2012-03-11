@@ -56,22 +56,13 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 	private int amount;
 	
 	public ActionPostponeTaskBeans(
+			int width,
+			int height,
 			ActionListener listener,
 			String title,
 			PostponeType type,
 			int field,
 			int amount) {
-		this(listener, title, type, field, amount, 32, 32);
-	}
-	
-	public ActionPostponeTaskBeans(
-			ActionListener listener,
-			String title,
-			PostponeType type,
-			int field,
-			int amount,
-			int width,
-			int height) {
 		super(title, ImageUtils.getResourceImage("calendar.png", width, height));
 		
 		CheckUtils.isNotNull(listener);
@@ -176,103 +167,103 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 		List<ActionPostponeTaskBeans> actions = new ArrayList<ActionPostponeTaskBeans>();
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.today"),
 				type,
 				Calendar.DAY_OF_MONTH,
-				0,
-				width,
-				height));
+				0));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.1_day"),
 				type,
 				Calendar.DAY_OF_MONTH,
-				1,
-				width,
-				height));
+				1));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_days", 2),
 				type,
 				Calendar.DAY_OF_MONTH,
-				2,
-				width,
-				height));
+				2));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_days", 3),
 				type,
 				Calendar.DAY_OF_MONTH,
-				3,
-				width,
-				height));
+				3));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.1_week"),
 				type,
 				Calendar.WEEK_OF_YEAR,
-				1,
-				width,
-				height));
+				1));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_weeks", 2),
 				type,
 				Calendar.WEEK_OF_YEAR,
-				2,
-				width,
-				height));
+				2));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_weeks", 3),
 				type,
 				Calendar.WEEK_OF_YEAR,
-				3,
-				width,
-				height));
+				3));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.1_month"),
 				type,
 				Calendar.MONTH,
-				1,
-				width,
-				height));
+				1));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_months", 2),
 				type,
 				Calendar.MONTH,
-				2,
-				width,
-				height));
+				2));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.x_months", 3),
 				type,
 				Calendar.MONTH,
-				3,
-				width,
-				height));
+				3));
 		
 		actions.add(new ActionPostponeTaskBeans(
+				width,
+				height,
 				listener,
 				Translations.getString("postpone.1_year"),
 				type,
 				Calendar.YEAR,
-				1,
-				width,
-				height));
+				1));
 		
 		return actions.toArray(new ActionPostponeTaskBeans[0]);
 	}

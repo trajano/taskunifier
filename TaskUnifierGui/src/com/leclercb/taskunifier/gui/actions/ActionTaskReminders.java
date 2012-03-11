@@ -46,10 +46,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionTaskReminders extends AbstractAction {
 	
-	public ActionTaskReminders() {
-		this(32, 32);
-	}
-	
 	public ActionTaskReminders(int width, int height) {
 		super(
 				Translations.getString("action.task_reminders"),

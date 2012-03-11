@@ -46,14 +46,6 @@ public class ActionConfiguration extends AbstractAction {
 	
 	private ConfigurationTab tab;
 	
-	public ActionConfiguration() {
-		this(null);
-	}
-	
-	public ActionConfiguration(ConfigurationTab tab) {
-		this(32, 32, tab);
-	}
-	
 	public ActionConfiguration(int width, int height) {
 		this(width, height, null);
 	}

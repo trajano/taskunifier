@@ -43,10 +43,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageUsers extends AbstractAction {
 	
-	public ActionManageUsers() {
-		this(32, 32);
-	}
-	
 	public ActionManageUsers(int width, int height) {
 		super(
 				Translations.getString("action.manage_users"),

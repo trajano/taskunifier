@@ -55,10 +55,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDelete extends AbstractViewAction {
 	
-	public ActionDelete() {
-		this(32, 32);
-	}
-	
 	public ActionDelete(int width, int height) {
 		super(
 				Translations.getString("action.delete"),

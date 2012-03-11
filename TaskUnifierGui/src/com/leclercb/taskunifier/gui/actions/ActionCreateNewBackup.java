@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCreateNewBackup extends AbstractAction {
 	
-	public ActionCreateNewBackup() {
-		this(32, 32);
-	}
-	
 	public ActionCreateNewBackup(int width, int height) {
 		super(
 				Translations.getString("action.create_new_backup"),

@@ -43,10 +43,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionSelectParentTasks extends AbstractViewTaskSelectionAction {
 	
-	public ActionSelectParentTasks() {
-		this(32, 32);
-	}
-	
 	public ActionSelectParentTasks(int width, int height) {
 		super(
 				Translations.getString("action.select_parent_tasks"),

@@ -45,11 +45,7 @@ public class ActionGetSerial extends AbstractAction {
 	
 	private String url;
 	
-	public ActionGetSerial(String url) {
-		this(url, 32, 32);
-	}
-	
-	public ActionGetSerial(String url, int width, int height) {
+	public ActionGetSerial(int width, int height, String url) {
 		super(
 				Translations.getString("action.get_serial"),
 				ImageUtils.getResourceImage("key.png", width, height));

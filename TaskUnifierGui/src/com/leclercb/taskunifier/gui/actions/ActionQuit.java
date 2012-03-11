@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionQuit extends AbstractAction {
 	
-	public ActionQuit() {
-		this(32, 32);
-	}
-	
 	public ActionQuit(int width, int height) {
 		super(
 				Translations.getString("action.quit"),

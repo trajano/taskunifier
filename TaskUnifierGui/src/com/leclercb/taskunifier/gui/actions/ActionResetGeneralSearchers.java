@@ -55,10 +55,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionResetGeneralSearchers extends AbstractAction {
 	
-	public ActionResetGeneralSearchers() {
-		this(32, 32);
-	}
-	
 	public ActionResetGeneralSearchers(int width, int height) {
 		super(
 				Translations.getString("action.reset_general_searchers"),

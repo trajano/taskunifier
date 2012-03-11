@@ -50,10 +50,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionNewWindow extends AbstractAction {
 	
-	public ActionNewWindow() {
-		this(32, 32);
-	}
-	
 	public ActionNewWindow(int width, int height) {
 		super(
 				Translations.getString("action.new_window"),

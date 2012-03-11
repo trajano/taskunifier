@@ -49,10 +49,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionPrint extends AbstractViewAction {
 	
-	public ActionPrint() {
-		this(32, 32);
-	}
-	
 	public ActionPrint(int width, int height) {
 		super(
 				Translations.getString("action.print"),

@@ -44,10 +44,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionEditNoteSearcher extends AbstractViewNoteSearcherSelectionAction {
 	
-	public ActionEditNoteSearcher() {
-		this(32, 32);
-	}
-	
 	public ActionEditNoteSearcher(int width, int height) {
 		super(
 				Translations.getString("action.edit_note_searcher"),

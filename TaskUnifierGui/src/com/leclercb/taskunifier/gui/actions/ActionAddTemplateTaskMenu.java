@@ -53,14 +53,10 @@ public class ActionAddTemplateTaskMenu extends AbstractAction implements ListCha
 	private ActionListener listener;
 	private JPopupMenu popupMenu;
 	
-	public ActionAddTemplateTaskMenu(ActionListener listener) {
-		this(listener, 32, 32);
-	}
-	
 	public ActionAddTemplateTaskMenu(
-			final ActionListener listener,
 			int width,
-			int height) {
+			int height,
+			ActionListener listener) {
 		super(
 				Translations.getString("action.add_template_task"),
 				ImageUtils.getResourceImage("template.png", width, height));

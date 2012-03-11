@@ -45,11 +45,7 @@ public class ActionCheckVersion extends AbstractAction {
 	
 	private boolean silent;
 	
-	public ActionCheckVersion(boolean silent) {
-		this(silent, 32, 32);
-	}
-	
-	public ActionCheckVersion(boolean silent, int width, int height) {
+	public ActionCheckVersion(int width, int height, boolean silent) {
 		super(
 				Translations.getString("action.check_version"),
 				ImageUtils.getResourceImage("download.png", width, height));

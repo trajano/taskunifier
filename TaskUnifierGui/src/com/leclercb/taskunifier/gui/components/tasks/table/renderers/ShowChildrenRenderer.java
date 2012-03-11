@@ -82,15 +82,9 @@ public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 		
 		if (count != 0)
 			if (task.isShowChildren())
-				this.setIcon(ImageUtils.getResourceImage(
-						"tree_expanded.png",
-						9,
-						9));
+				this.setIcon(ImageUtils.getResourceImage("collapse.png", 16, 16));
 			else
-				this.setIcon(ImageUtils.getResourceImage(
-						"tree_collapsed.png",
-						9,
-						9));
+				this.setIcon(ImageUtils.getResourceImage("expand.png", 16, 16));
 		
 		return component;
 	}

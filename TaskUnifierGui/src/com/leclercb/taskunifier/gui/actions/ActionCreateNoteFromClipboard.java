@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCreateNoteFromClipboard extends AbstractAction {
 	
-	public ActionCreateNoteFromClipboard() {
-		this(32, 32);
-	}
-	
 	public ActionCreateNoteFromClipboard(int width, int height) {
 		super(
 				Translations.getString("action.create_note_from_clipboard"),

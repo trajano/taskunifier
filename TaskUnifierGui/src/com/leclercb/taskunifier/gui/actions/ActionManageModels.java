@@ -45,14 +45,6 @@ public class ActionManageModels extends AbstractAction {
 	
 	private ModelConfigurationTab tab;
 	
-	public ActionManageModels() {
-		this(null);
-	}
-	
-	public ActionManageModels(ModelConfigurationTab tab) {
-		this(32, 32, tab);
-	}
-	
 	public ActionManageModels(int width, int height) {
 		this(width, height, null);
 	}

@@ -45,10 +45,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDuplicateNotes extends AbstractViewNoteSelectionAction {
 	
-	public ActionDuplicateNotes() {
-		this(32, 32);
-	}
-	
 	public ActionDuplicateNotes(int width, int height) {
 		super(
 				Translations.getString("action.duplicate_notes"),

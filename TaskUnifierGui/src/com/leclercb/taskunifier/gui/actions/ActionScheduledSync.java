@@ -48,10 +48,6 @@ public class ActionScheduledSync extends AbstractAction implements PropertyChang
 	private int width;
 	private int height;
 	
-	public ActionScheduledSync() {
-		this(32, 32);
-	}
-	
 	public ActionScheduledSync(int width, int height) {
 		super(Translations.getString("action.scheduled_sync"));
 		

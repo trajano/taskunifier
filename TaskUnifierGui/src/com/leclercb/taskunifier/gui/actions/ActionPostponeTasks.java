@@ -54,15 +54,6 @@ public class ActionPostponeTasks extends AbstractViewAction {
 	private int amount;
 	
 	public ActionPostponeTasks(
-			TaskSelectionView view,
-			String title,
-			PostponeType type,
-			int field,
-			int amount) {
-		this(32, 32, view, title, type, field, amount);
-	}
-	
-	public ActionPostponeTasks(
 			int width,
 			int height,
 			TaskSelectionView view,

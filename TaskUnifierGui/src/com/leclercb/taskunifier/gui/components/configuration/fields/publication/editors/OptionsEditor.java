@@ -25,7 +25,7 @@ public class OptionsEditor extends AbstractCellEditor implements TableCellEditor
 			int row,
 			int column) {
 		final SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) value;
-		return new JButton(new ActionPluginConfiguration(plugin));
+		return new JButton(new ActionPluginConfiguration(24, 24, plugin));
 	}
 	
 }

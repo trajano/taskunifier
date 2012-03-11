@@ -47,10 +47,6 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionChangeDataFolderLocation extends AbstractAction {
 	
-	public ActionChangeDataFolderLocation() {
-		this(32, 32);
-	}
-	
 	public ActionChangeDataFolderLocation(int width, int height) {
 		super(Translations.getString("action.change_data_folder_location"));
 		

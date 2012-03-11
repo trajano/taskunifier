@@ -43,10 +43,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManagePublisherPlugins extends AbstractAction {
 	
-	public ActionManagePublisherPlugins() {
-		this(32, 32);
-	}
-	
 	public ActionManagePublisherPlugins(int width, int height) {
 		super(
 				Translations.getString("action.manage_publisher_plugins"),

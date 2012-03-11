@@ -51,10 +51,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	
-	public ActionAddTaskSearcherSelectedTasks() {
-		this(32, 32);
-	}
-	
 	public ActionAddTaskSearcherSelectedTasks(int width, int height) {
 		super(
 				Translations.getString("action.add_task_searcher_selected_tasks"),

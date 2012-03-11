@@ -51,10 +51,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionBatchAddTasks extends AbstractViewAction {
 	
-	public ActionBatchAddTasks() {
-		this(32, 32);
-	}
-	
 	public ActionBatchAddTasks(int width, int height) {
 		super(
 				Translations.getString("action.batch_add_tasks"),

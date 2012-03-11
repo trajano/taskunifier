@@ -43,10 +43,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionDonate extends AbstractAction {
 	
-	public ActionDonate() {
-		this(32, 32);
-	}
-	
 	public ActionDonate(int width, int height) {
 		super(
 				Translations.getString("action.donate"),

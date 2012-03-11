@@ -65,16 +65,16 @@ public class UndoSupport implements UndoableEditListener {
 		this.editSupport.addUndoableEditListener(this.undoManager);
 		
 		this.undoAction = new ActionUndo(
-				this.undoManager,
-				this.editSupport,
 				16,
-				16);
+				16,
+				this.undoManager,
+				this.editSupport);
 		
 		this.redoAction = new ActionRedo(
-				this.undoManager,
-				this.editSupport,
 				16,
-				16);
+				16,
+				this.undoManager,
+				this.editSupport);
 	}
 	
 	public ActionUndo getUndoAction() {

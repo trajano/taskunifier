@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionExportNoteSearchers extends AbstractAction {
 	
-	public ActionExportNoteSearchers() {
-		this(32, 32);
-	}
-	
 	public ActionExportNoteSearchers(int width, int height) {
 		super(
 				Translations.getString("action.export_note_searchers"),

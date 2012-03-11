@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionExportTaskSearchers extends AbstractAction {
 	
-	public ActionExportTaskSearchers() {
-		this(32, 32);
-	}
-	
 	public ActionExportTaskSearchers(int width, int height) {
 		super(
 				Translations.getString("action.export_task_searchers"),

@@ -41,10 +41,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionMailTo extends AbstractViewAction {
 	
-	public ActionMailTo() {
-		this(32, 32);
-	}
-	
 	public ActionMailTo(int width, int height) {
 		super(
 				Translations.getString("action.mail_to"),

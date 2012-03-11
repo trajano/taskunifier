@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionExportSettings extends AbstractAction {
 	
-	public ActionExportSettings() {
-		this(32, 32);
-	}
-	
 	public ActionExportSettings(int width, int height) {
 		super(
 				Translations.getString("action.export_settings"),

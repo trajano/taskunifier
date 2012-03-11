@@ -11,10 +11,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionRemoveTab extends AbstractAction {
 	
-	public ActionRemoveTab() {
-		this(32, 32);
-	}
-	
 	public ActionRemoveTab(int width, int height) {
 		super(
 				Translations.getString("action.remove_tab"),

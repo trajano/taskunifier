@@ -46,10 +46,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionCompleteTasks extends AbstractViewTaskSelectionAction {
 	
-	public ActionCompleteTasks() {
-		this(32, 32);
-	}
-	
 	public ActionCompleteTasks(int width, int height) {
 		super(
 				Translations.getString("action.complete_tasks"),

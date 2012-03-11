@@ -41,10 +41,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public abstract class ActionCreateAccount extends AbstractAction {
 	
-	public ActionCreateAccount() {
-		this(32, 32);
-	}
-	
 	public ActionCreateAccount(int width, int height) {
 		super(
 				Translations.getString("action.create_account"),

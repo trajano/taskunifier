@@ -81,9 +81,9 @@ public class SynchronizerDialog extends TUWorkerDialog<Void> {
 					&& !plugin.checkLicense()) {
 				this.serialNeeded = true;
 				this.setSouthComponent(new JButton(new ActionGetSerial(
-						plugin.getLicenseUrl(),
 						22,
-						22)));
+						22,
+						plugin.getLicenseUrl())));
 			}
 		} catch (SynchronizerLicenseException exc) {
 			

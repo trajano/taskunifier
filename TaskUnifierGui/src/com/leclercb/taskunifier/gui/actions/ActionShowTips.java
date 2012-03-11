@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionShowTips extends AbstractAction {
 	
-	public ActionShowTips() {
-		this(32, 32);
-	}
-	
 	public ActionShowTips(int width, int height) {
 		super(
 				Translations.getString("action.show_tips"),

@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionSave extends AbstractAction {
 	
-	public ActionSave() {
-		this(32, 32);
-	}
-	
 	public ActionSave(int width, int height) {
 		super(
 				Translations.getString("action.save"),

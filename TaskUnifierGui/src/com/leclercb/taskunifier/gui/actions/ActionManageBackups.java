@@ -42,10 +42,6 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionManageBackups extends AbstractAction {
 	
-	public ActionManageBackups() {
-		this(32, 32);
-	}
-	
 	public ActionManageBackups(int width, int height) {
 		super(
 				Translations.getString("action.manage_backups"),
