@@ -23,10 +23,10 @@
 <classPath>../temp/TaskUnifier/lib/jackson-all-1.9.3.jar</classPath>
 <classPath>../temp/TaskUnifier/lib/jcalendar-1.4.jar</classPath>
 <classPath>../temp/TaskUnifier/lib/jcommon-1.0.16.jar</classPath>
-<classPath>../temp/TaskUnifier/lib/jgoodies-binding-2.5.0.jar</classPath>
-<classPath>../temp/TaskUnifier/lib/jgoodies-common-1.2.1.jar</classPath>
-<classPath>../temp/TaskUnifier/lib/jgoodies-forms-1.4.2.jar</classPath>
-<classPath>../temp/TaskUnifier/lib/jgoodies-looks-2.4.2.jar</classPath>
+<classPath>../temp/TaskUnifier/lib/jgoodies-binding-2.6.0.jar</classPath>
+<classPath>../temp/TaskUnifier/lib/jgoodies-common-1.3.0.jar</classPath>
+<classPath>../temp/TaskUnifier/lib/jgoodies-forms-1.5.0.jar</classPath>
+<classPath>../temp/TaskUnifier/lib/jgoodies-looks-2.5.0.jar</classPath>
 <classPath>../temp/TaskUnifier/lib/jhall.jar</classPath>
 <classPath>../temp/TaskUnifier/lib/jsearch.jar</classPath>
 <classPath>../temp/TaskUnifier/lib/jtattoo.jar</classPath>
