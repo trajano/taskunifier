@@ -54,6 +54,9 @@ public class ColorConverter implements SingleValueConverter {
 	
 	@Override
 	public String toString(Object value) {
+		if (value == null)
+			return null;
+		
 		return ((Color) value).getRGB() + "";
 	}
 	
