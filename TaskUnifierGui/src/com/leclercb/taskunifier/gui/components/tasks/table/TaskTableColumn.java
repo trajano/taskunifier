@@ -42,6 +42,10 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 
+import com.leclercb.taskunifier.api.models.Context;
+import com.leclercb.taskunifier.api.models.Goal;
+import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueEdit;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
@@ -58,7 +62,6 @@ import com.leclercb.taskunifier.gui.commons.values.IconValueTimer;
 import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelId;
-import com.leclercb.taskunifier.gui.commons.values.StringValueModelList;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModelOrder;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPriority;
@@ -85,6 +88,7 @@ import com.leclercb.taskunifier.gui.components.tasks.table.editors.StatusEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TagsEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TimerEditor;
 import com.leclercb.taskunifier.gui.components.tasks.table.editors.TitleEditor;
+import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ModelListRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.renderers.ShowChildrenRenderer;
 import com.leclercb.taskunifier.gui.components.tasks.table.sorter.TaskRowComparator;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -103,7 +107,9 @@ public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 	private static final TableCellRenderer LENGTH_RENDERER;
 	private static final TableCellRenderer MODEL_ID_RENDERER;
 	private static final TableCellRenderer MODEL_RENDERER;
-	private static final TableCellRenderer MODEL_LIST_RENDERER;
+	private static final TableCellRenderer CONTEXTS_RENDERER;
+	private static final TableCellRenderer GOALS_RENDERER;
+	private static final TableCellRenderer LOCATIONS_RENDERER;
 	private static final TableCellRenderer MODEL_EDIT_RENDERER;
 	private static final TableCellRenderer MODEL_CREATION_DATE_RENDERER;
 	private static final TableCellRenderer MODEL_UPDATE_DATE_RENDERER;
@@ -172,8 +178,11 @@ public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 				StringValueModel.INSTANCE,
 				IconValueModel.INSTANCE));
 		
-		MODEL_LIST_RENDERER = new DefaultTableRenderer(
-				StringValueModelList.INSTANCE);
+		CONTEXTS_RENDERER = new ModelListRenderer<Context>(ModelType.CONTEXT);
+		
+		GOALS_RENDERER = new ModelListRenderer<Goal>(ModelType.GOAL);
+		
+		LOCATIONS_RENDERER = new ModelListRenderer<Location>(ModelType.LOCATION);
 		
 		MODEL_EDIT_RENDERER = new DefaultTableRenderer(new MappedValue(
 				null,
@@ -310,9 +319,11 @@ public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 			case FOLDER:
 				return MODEL_RENDERER;
 			case CONTEXTS:
+				return CONTEXTS_RENDERER;
 			case GOALS:
+				return GOALS_RENDERER;
 			case LOCATIONS:
-				return MODEL_LIST_RENDERER;
+				return LOCATIONS_RENDERER;
 			case COMPLETED_ON:
 				return COMPLETED_ON_RENDERER;
 			case DUE_DATE:

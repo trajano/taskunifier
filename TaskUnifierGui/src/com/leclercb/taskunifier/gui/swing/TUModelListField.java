@@ -92,6 +92,10 @@ public class TUModelListField<M extends Model> extends JPanel {
 		this.modelListLabel.setModelList(modelList);
 	}
 	
+	public void setEditable(boolean editable) {
+		this.button.setVisible(editable);
+	}
+	
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
