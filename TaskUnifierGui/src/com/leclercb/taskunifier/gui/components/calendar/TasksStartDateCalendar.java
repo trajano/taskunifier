@@ -1,7 +1,6 @@
 package com.leclercb.taskunifier.gui.components.calendar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +15,6 @@ import com.leclercb.taskunifier.gui.actions.ActionAddTask;
 import com.leclercb.taskunifier.gui.actions.ActionEditTasks;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -40,13 +38,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 	public void updateEvents(boolean showCompletedTasks, TaskSearcher searcher) {
 		this.events.clear();
 		
-		List<TaskColumn> columns = new ArrayList<TaskColumn>(
-				Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
-		columns.remove(TaskColumn.MODEL_EDIT);
-		columns.remove(TaskColumn.NOTE);
-		columns.remove(TaskColumn.SHOW_CHILDREN);
-		columns.remove(TaskColumn.ORDER);
-		TaskColumn[] c = columns.toArray(new TaskColumn[0]);
+		TaskColumn[] columns = TaskColumn.getUsedColumns(false);
 		
 		List<Task> tasks = TaskFactory.getInstance().getList();
 		for (Task task : tasks) {
@@ -92,7 +84,7 @@ public class TasksStartDateCalendar extends TasksCalendar {
 			event.setToolTip("<html><i>"
 					+ Translations.getString("calendar.task_by_start_date")
 					+ "</i><br />"
-					+ TaskUtils.toText(new Task[] { task }, c, true)
+					+ TaskUtils.toText(new Task[] { task }, columns, true)
 					+ "</html>");
 			event.setStart(startDate.getTime());
 			event.setEnd(dueDate.getTime());

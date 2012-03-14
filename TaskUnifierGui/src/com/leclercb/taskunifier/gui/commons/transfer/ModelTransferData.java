@@ -46,7 +46,6 @@ import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
-import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -128,19 +127,9 @@ public class ModelTransferData implements Serializable {
 					tasks.add(task);
 			}
 			
-			List<TaskColumn> columns = new ArrayList<TaskColumn>(
-					Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
-			columns.remove(TaskColumn.MODEL_EDIT);
-			columns.remove(TaskColumn.SHOW_CHILDREN);
-			columns.remove(TaskColumn.ORDER);
-			
-			if (!columns.contains(TaskColumn.NOTE)) {
-				columns.add(TaskColumn.NOTE);
-			}
-			
 			return TaskUtils.toText(
 					tasks.toArray(new Task[0]),
-					columns.toArray(new TaskColumn[0]),
+					TaskColumn.getUsedColumns(),
 					html);
 		}
 		
@@ -152,16 +141,9 @@ public class ModelTransferData implements Serializable {
 					notes.add(note);
 			}
 			
-			List<NoteColumn> columns = new ArrayList<NoteColumn>(
-					Arrays.asList(ViewUtils.getMainNoteView().getNoteTableView().getTableProperties().getVisibleColumns()));
-			
-			if (!columns.contains(NoteColumn.NOTE)) {
-				columns.add(NoteColumn.NOTE);
-			}
-			
 			return NoteUtils.toText(
 					notes.toArray(new Note[0]),
-					columns.toArray(new NoteColumn[0]),
+					NoteColumn.getUsedColumns(),
 					html);
 		}
 		

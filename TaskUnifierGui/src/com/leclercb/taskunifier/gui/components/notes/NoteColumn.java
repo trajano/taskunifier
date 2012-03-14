@@ -32,31 +32,78 @@
  */
 package com.leclercb.taskunifier.gui.components.notes;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
+public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note>, PropertyChangeListener, PropertyChangeSupported {
 	
-	MODEL(Note.class, Translations.getString("general.note.id"), false),
-	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
-	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
-	TITLE(String.class, Translations.getString("general.note.title"), true),
-	FOLDER(Folder.class, Translations.getString("general.note.folder"), true),
-	NOTE(String.class, Translations.getString("general.note.note"), false);
+	MODEL(Note.class, Translations.getString("general.note.id"), false, true),
+	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false, true),
+	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false, true),
+	TITLE(String.class, Translations.getString("general.note.title"), true, true),
+	FOLDER(Folder.class, Translations.getString("general.note.folder"), true, true),
+	NOTE(String.class, Translations.getString("general.note.note"), false, true);
+	
+	public static final String PROP_USED = "used";
+	
+	public static NoteColumn[] getUsedColumns() {
+		return getUsedColumns(true);
+	}
+	
+	public static NoteColumn[] getUsedColumns(boolean includeNote) {
+		List<NoteColumn> columns = new ArrayList<NoteColumn>();
+		
+		for (NoteColumn column : values()) {
+			if (column.isUsable() && column.isUsed())
+				columns.add(column);
+		}
+		
+		if (!includeNote)
+			columns.remove(NoteColumn.NOTE);
+		
+		return columns.toArray(new NoteColumn[0]);
+	}
+	
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
+	private boolean usable;
+	private boolean used;
 	
-	private NoteColumn(Class<?> type, String label, boolean editable) {
+	private NoteColumn(
+			Class<?> type,
+			String label,
+			boolean editable,
+			boolean usable) {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
+		this.setUsable(usable);
+		
+		this.setUsed(Main.getSettings().getBooleanProperty(
+				"note." + this.name().toLowerCase() + ".used",
+				true));
+		
+		Main.getSettings().addPropertyChangeListener(
+				"note." + this.name().toLowerCase() + ".used",
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	@Override
@@ -84,6 +131,32 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+	
+	public boolean isUsable() {
+		return this.usable;
+	}
+	
+	public void setUsable(boolean usable) {
+		this.usable = usable;
+	}
+	
+	public boolean isUsed() {
+		return this.used;
+	}
+	
+	public void setUsed(boolean used) {
+		if (used == this.isUsed())
+			return;
+		
+		boolean oldUsed = this.isUsed();
+		this.used = used;
+		
+		Main.getSettings().setBooleanProperty(
+				"note." + this.name().toLowerCase() + ".used",
+				used);
+		
+		this.propertyChangeSupport.firePropertyChange(PROP_USED, oldUsed, used);
 	}
 	
 	@Override
@@ -136,6 +209,39 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note> {
 				note.setNote((String) value);
 				break;
 		}
+	}
+	
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		this.setUsed(Boolean.parseBoolean(evt.getNewValue().toString()));
 	}
 	
 }

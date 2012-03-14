@@ -17,7 +17,7 @@
 			<tocitem text="Theme">
 			
 				<tocitem text="General" target="configuration_theme_general" />
-				<tocitem text="Columns" target="configuration_theme_columns" />
+				<tocitem text="Fields" target="configuration_theme_fields" />
 		
 			</tocitem>
 			

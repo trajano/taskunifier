@@ -198,6 +198,7 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
 	public void removePropertyChangeListener(
 			String propertyName,
 			PropertyChangeListener listener) {

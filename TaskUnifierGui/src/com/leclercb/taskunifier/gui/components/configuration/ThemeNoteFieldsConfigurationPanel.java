@@ -42,39 +42,42 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class ThemeColumnsConfigurationPanel extends DefaultConfigurationPanel {
+public class ThemeNoteFieldsConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public ThemeColumnsConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration, "configuration_theme_columns");
+	public ThemeNoteFieldsConfigurationPanel(ConfigurationGroup configuration) {
+		super(configuration, "configuration_theme_fields");
 		this.initialize();
 		this.pack();
 	}
 	
 	private void initialize() {
-		List<TaskColumn> columns = new ArrayList<TaskColumn>(
-				Arrays.asList(TaskColumn.values()));
+		List<NoteColumn> columns = new ArrayList<NoteColumn>(
+				Arrays.asList(NoteColumn.values()));
 		
-		Collections.sort(columns, new Comparator<TaskColumn>() {
+		for (NoteColumn column : NoteColumn.values()) {
+			if (!column.isUsable())
+				columns.remove(column);
+		}
+		
+		Collections.sort(columns, new Comparator<NoteColumn>() {
 			
 			@Override
-			public int compare(TaskColumn c1, TaskColumn c2) {
+			public int compare(NoteColumn c1, NoteColumn c2) {
 				return c1.getLabel().compareTo(c2.getLabel());
 			}
 			
 		});
 		
-		for (TaskColumn column : columns) {
+		for (NoteColumn column : columns) {
 			this.addField(new ConfigurationField(
 					column.name(),
 					column.getLabel(),
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"taskcolumn."
-									+ column.name().toLowerCase()
-									+ ".used")));
+							"note." + column.name().toLowerCase() + ".used")));
 		}
 	}
 	

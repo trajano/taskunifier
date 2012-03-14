@@ -14,7 +14,7 @@
 	<mapID target="configuration_searcher" url="pages/configuration_searcher.html" />
 	<mapID target="configuration_synchronization" url="pages/configuration_synchronization.html" />
 	<mapID target="configuration_theme_general" url="pages/configuration_theme_general.html" />
-	<mapID target="configuration_theme_columns" url="pages/configuration_theme_columns.html" />
+	<mapID target="configuration_theme_fields" url="pages/configuration_theme_fields.html" />
 	<mapID target="manage_task_templates" url="pages/manage_task_templates.html" />
 	<mapID target="note_searcher" url="pages/note_searcher.html" />
 	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />

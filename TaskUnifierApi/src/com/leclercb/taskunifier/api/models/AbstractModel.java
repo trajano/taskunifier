@@ -542,8 +542,8 @@ public abstract class AbstractModel implements Model {
 			return new EqualsBuilder().append(
 					this.getModelType(),
 					model.getModelType()).append(
-							this.getModelId(),
-							model.getModelId()).isEquals();
+					this.getModelId(),
+					model.getModelId()).isEquals();
 		}
 		
 		return false;

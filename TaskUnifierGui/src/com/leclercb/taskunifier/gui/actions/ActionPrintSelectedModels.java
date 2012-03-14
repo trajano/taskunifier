@@ -33,9 +33,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 
@@ -76,32 +73,15 @@ public class ActionPrintSelectedModels extends AbstractAction {
 			ViewType viewType = ViewUtils.getCurrentViewType();
 			
 			if (viewType == ViewType.NOTES) {
-				List<NoteColumn> columns = new ArrayList<NoteColumn>(
-						Arrays.asList(ViewUtils.getMainNoteView().getNoteTableView().getTableProperties().getVisibleColumns()));
-				
-				if (!columns.contains(NoteColumn.NOTE)) {
-					columns.add(NoteColumn.NOTE);
-				}
-				
 				text = NoteUtils.toText(
 						ViewUtils.getSelectedNotes(),
-						columns.toArray(new NoteColumn[0]),
+						NoteColumn.getUsedColumns(),
 						true);
 			} else if (viewType == ViewType.CALENDAR
 					|| viewType == ViewType.TASKS) {
-				List<TaskColumn> columns = new ArrayList<TaskColumn>(
-						Arrays.asList(ViewUtils.getMainTaskView().getTaskTableView().getTableProperties().getVisibleColumns()));
-				columns.remove(TaskColumn.MODEL_EDIT);
-				columns.remove(TaskColumn.SHOW_CHILDREN);
-				columns.remove(TaskColumn.ORDER);
-				
-				if (!columns.contains(TaskColumn.NOTE)) {
-					columns.add(TaskColumn.NOTE);
-				}
-				
 				text = TaskUtils.toText(
 						ViewUtils.getSelectedTasks(),
-						columns.toArray(new TaskColumn[0]),
+						TaskColumn.getUsedColumns(),
 						true);
 			}
 			

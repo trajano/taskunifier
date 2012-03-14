@@ -34,7 +34,9 @@ package com.leclercb.taskunifier.gui.components.tasks;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
@@ -58,66 +60,86 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, PropertyChangeListener, PropertyChangeSupported {
 	
-	MODEL(Task.class, Translations.getString("general.task.id"), false),
-	MODEL_EDIT(Void.class, Translations.getString("general.edit"), false),
-	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false),
-	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false),
-	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true),
-	TITLE(String.class, Translations.getString("general.task.title"), true),
-	ORDER(Integer.class, Translations.getString("general.task.order"), false),
-	TAGS(String.class, Translations.getString("general.task.tags"), true),
-	FOLDER(Folder.class, Translations.getString("general.task.folder"), true),
-	CONTEXTS(Context.class, Translations.getString("general.task.context"), true),
-	GOALS(Goal.class, Translations.getString("general.task.goal"), true),
-	LOCATIONS(Location.class, Translations.getString("general.task.location"), true),
-	PARENT(Task.class, Translations.getString("general.task.parent"), false),
-	PROGRESS(Double.class, Translations.getString("general.task.progress"), true),
-	COMPLETED(Boolean.class, Translations.getString("general.task.completed"), true),
-	COMPLETED_ON(Calendar.class, Translations.getString("general.task.completed_on"), false),
-	DUE_DATE(Calendar.class, Translations.getString("general.task.due_date"), true),
-	START_DATE(Calendar.class, Translations.getString("general.task.start_date"), true),
-	DUE_DATE_REMINDER(Integer.class, Translations.getString("general.task.due_date_reminder"), true),
-	START_DATE_REMINDER(Integer.class, Translations.getString("general.task.start_date_reminder"), true),
-	REPEAT(String.class, Translations.getString("general.task.repeat"), true),
-	REPEAT_FROM(TaskRepeatFrom.class, Translations.getString("general.task.repeat_from"), true),
-	STATUS(String.class, Translations.getString("general.task.status"), true),
-	LENGTH(Integer.class, Translations.getString("general.task.length"), true),
-	TIMER(Timer.class, Translations.getString("general.task.timer"), true),
-	PRIORITY(TaskPriority.class, Translations.getString("general.task.priority"), true),
-	STAR(Boolean.class, Translations.getString("general.task.star"), true),
-	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false),
-	NOTE(String.class, Translations.getString("general.task.note"), false),
-	CONTACTS(String.class, Translations.getString("general.task.contacts"), false),
-	TASKS(String.class, Translations.getString("general.task.tasks"), false),
-	FILES(String.class, Translations.getString("general.task.files"), false);
+	MODEL(Task.class, Translations.getString("general.task.id"), false, true),
+	MODEL_EDIT(Void.class, Translations.getString("general.edit"), false, false),
+	MODEL_CREATION_DATE(Calendar.class, Translations.getString("general.creation_date"), false, true),
+	MODEL_UPDATE_DATE(Calendar.class, Translations.getString("general.update_date"), false, true),
+	SHOW_CHILDREN(Boolean.class, Translations.getString("general.task.show_children"), true, false),
+	TITLE(String.class, Translations.getString("general.task.title"), true, true),
+	ORDER(Integer.class, Translations.getString("general.task.order"), false, false),
+	TAGS(String.class, Translations.getString("general.task.tags"), true, true),
+	FOLDER(Folder.class, Translations.getString("general.task.folder"), true, true),
+	CONTEXTS(Context.class, Translations.getString("general.task.context"), true, true),
+	GOALS(Goal.class, Translations.getString("general.task.goal"), true, true),
+	LOCATIONS(Location.class, Translations.getString("general.task.location"), true, true),
+	PARENT(Task.class, Translations.getString("general.task.parent"), false, true),
+	PROGRESS(Double.class, Translations.getString("general.task.progress"), true, true),
+	COMPLETED(Boolean.class, Translations.getString("general.task.completed"), true, true),
+	COMPLETED_ON(Calendar.class, Translations.getString("general.task.completed_on"), false, true),
+	DUE_DATE(Calendar.class, Translations.getString("general.task.due_date"), true, true),
+	START_DATE(Calendar.class, Translations.getString("general.task.start_date"), true, true),
+	DUE_DATE_REMINDER(Integer.class, Translations.getString("general.task.due_date_reminder"), true, true),
+	START_DATE_REMINDER(Integer.class, Translations.getString("general.task.start_date_reminder"), true, true),
+	REPEAT(String.class, Translations.getString("general.task.repeat"), true, true),
+	REPEAT_FROM(TaskRepeatFrom.class, Translations.getString("general.task.repeat_from"), true, true),
+	STATUS(String.class, Translations.getString("general.task.status"), true, true),
+	LENGTH(Integer.class, Translations.getString("general.task.length"), true, true),
+	TIMER(Timer.class, Translations.getString("general.task.timer"), true, true),
+	PRIORITY(TaskPriority.class, Translations.getString("general.task.priority"), true, true),
+	STAR(Boolean.class, Translations.getString("general.task.star"), true, true),
+	IMPORTANCE(Integer.class, Translations.getString("general.task.importance"), false, true),
+	NOTE(String.class, Translations.getString("general.task.note"), false, true),
+	CONTACTS(String.class, Translations.getString("general.task.contacts"), false, true),
+	TASKS(String.class, Translations.getString("general.task.tasks"), false, true),
+	FILES(String.class, Translations.getString("general.task.files"), false, true);
 	
 	public static final String PROP_USED = "used";
+	
+	public static TaskColumn[] getUsedColumns() {
+		return getUsedColumns(true);
+	}
+	
+	public static TaskColumn[] getUsedColumns(boolean includeNote) {
+		List<TaskColumn> columns = new ArrayList<TaskColumn>();
+		
+		for (TaskColumn column : values()) {
+			if (column.isUsable() && column.isUsed())
+				columns.add(column);
+		}
+		
+		if (!includeNote)
+			columns.remove(TaskColumn.NOTE);
+		
+		return columns.toArray(new TaskColumn[0]);
+	}
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
+	private boolean usable;
 	private boolean used;
 	
-	private TaskColumn(Class<?> type, String label, boolean editable) {
+	private TaskColumn(
+			Class<?> type,
+			String label,
+			boolean editable,
+			boolean usable) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
+		this.setUsable(usable);
 		
 		this.setUsed(Main.getSettings().getBooleanProperty(
-				"task."
-						+ this.name().toLowerCase()
-						+ ".used",
-						true));
+				"task." + this.name().toLowerCase() + ".used",
+				true));
 		
 		Main.getSettings().addPropertyChangeListener(
-				"task."
-						+ this.name().toLowerCase()
-						+ ".used",
-						new WeakPropertyChangeListener(Main.getSettings(), this));
+				"task." + this.name().toLowerCase() + ".used",
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	@Override
@@ -147,6 +169,14 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 		this.editable = editable;
 	}
 	
+	public boolean isUsable() {
+		return this.usable;
+	}
+	
+	public void setUsable(boolean usable) {
+		this.usable = usable;
+	}
+	
 	public boolean isUsed() {
 		return this.used;
 	}
@@ -159,15 +189,10 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 		this.used = used;
 		
 		Main.getSettings().setBooleanProperty(
-				"task."
-						+ this.name().toLowerCase()
-						+ ".used",
-						used);
-		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_USED,
-				oldUsed,
+				"task." + this.name().toLowerCase() + ".used",
 				used);
+		
+		this.propertyChangeSupport.firePropertyChange(PROP_USED, oldUsed, used);
 	}
 	
 	@Override
@@ -357,28 +382,34 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 		}
 	}
 	
+	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
+	@Override
 	public void addPropertyChangeListener(
 			String propertyName,
 			PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(
+		this.propertyChangeSupport.addPropertyChangeListener(
 				propertyName,
 				listener);
 	}
-
+	
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.setUsed(Boolean.parseBoolean(evt.getNewValue().toString()));
