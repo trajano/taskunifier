@@ -188,6 +188,15 @@ public class FileList implements Cloneable, Serializable, Iterable<FileItem>, Pr
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	public static class FileItem implements PropertyChangeSupported {
 		
 		public static final String PROP_FILE = "file";
@@ -273,6 +282,15 @@ public class FileList implements Cloneable, Serializable, Iterable<FileItem>, Pr
 		@Override
 		public void removePropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.removePropertyChangeListener(listener);
+		}
+		
+		@Override
+		public void removePropertyChangeListener(
+				String propertyName,
+				PropertyChangeListener listener) {
+			this.propertyChangeSupport.removePropertyChangeListener(
+					propertyName,
+					listener);
 		}
 		
 	}

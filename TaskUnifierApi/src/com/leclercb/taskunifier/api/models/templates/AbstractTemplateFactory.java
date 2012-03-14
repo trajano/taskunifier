@@ -174,6 +174,15 @@ abstract class AbstractTemplateFactory<T extends Template<?, ?>> implements Prop
 	}
 	
 	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.propertyChangeSupport.firePropertyChange(event);
 	}

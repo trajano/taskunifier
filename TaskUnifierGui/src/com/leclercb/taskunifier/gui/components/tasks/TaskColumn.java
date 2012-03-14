@@ -32,8 +32,13 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -46,11 +51,12 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.gui.api.models.GuiTask;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUColumn;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task> {
+public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, PropertyChangeListener, PropertyChangeSupported {
 	
 	MODEL(Task.class, Translations.getString("general.task.id"), false),
 	MODEL_EDIT(Void.class, Translations.getString("general.edit"), false),
@@ -85,14 +91,33 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task> {
 	TASKS(String.class, Translations.getString("general.task.tasks"), false),
 	FILES(String.class, Translations.getString("general.task.files"), false);
 	
+	public static final String PROP_USED = "used";
+	
+	private PropertyChangeSupport propertyChangeSupport;
+	
 	private Class<?> type;
 	private String label;
 	private boolean editable;
+	private boolean used;
 	
 	private TaskColumn(Class<?> type, String label, boolean editable) {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		
 		this.setType(type);
 		this.setLabel(label);
 		this.setEditable(editable);
+		
+		this.setUsed(Main.getSettings().getBooleanProperty(
+				"task."
+						+ this.name().toLowerCase()
+						+ ".used",
+						true));
+		
+		Main.getSettings().addPropertyChangeListener(
+				"task."
+						+ this.name().toLowerCase()
+						+ ".used",
+						new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	@Override
@@ -120,6 +145,29 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task> {
 	
 	private void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+	
+	public boolean isUsed() {
+		return this.used;
+	}
+	
+	public void setUsed(boolean used) {
+		if (used == this.isUsed())
+			return;
+		
+		boolean oldUsed = this.isUsed();
+		this.used = used;
+		
+		Main.getSettings().setBooleanProperty(
+				"task."
+						+ this.name().toLowerCase()
+						+ ".used",
+						used);
+		
+		this.propertyChangeSupport.firePropertyChange(
+				PROP_USED,
+				oldUsed,
+				used);
 	}
 	
 	@Override
@@ -307,6 +355,33 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task> {
 			case FILES:
 				break;
 		}
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
+	public void addPropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+	}
+	
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		this.setUsed(Boolean.parseBoolean(evt.getNewValue().toString()));
 	}
 	
 }

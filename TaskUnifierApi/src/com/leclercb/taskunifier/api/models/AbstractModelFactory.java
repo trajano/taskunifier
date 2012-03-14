@@ -401,6 +401,23 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	}
 	
 	/**
+	 * Removes the listener from the property change listener list.
+	 * 
+	 * @param propertyName
+	 *            the property name to remove
+	 * @param listener
+	 *            listener to remove
+	 */
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	/**
 	 * Called when a model is updated. Shouldn't be called manually.
 	 * 
 	 * @param evt

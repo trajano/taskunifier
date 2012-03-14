@@ -46,4 +46,8 @@ public interface PropertyChangeSupported {
 	public abstract void removePropertyChangeListener(
 			PropertyChangeListener listener);
 	
+	public abstract void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener);
+	
 }

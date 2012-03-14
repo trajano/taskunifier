@@ -190,6 +190,15 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	public static class ContactItem implements PropertyChangeSupported, PropertyChangeListener {
 		
 		public static final String PROP_CONTACT = "contact";
@@ -296,6 +305,15 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 		@Override
 		public void removePropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.removePropertyChangeListener(listener);
+		}
+		
+		@Override
+		public void removePropertyChangeListener(
+				String propertyName,
+				PropertyChangeListener listener) {
+			this.propertyChangeSupport.removePropertyChangeListener(
+					propertyName,
+					listener);
 		}
 		
 		@Override

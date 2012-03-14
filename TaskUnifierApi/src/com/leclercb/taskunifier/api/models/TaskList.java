@@ -189,6 +189,15 @@ public class TaskList implements Cloneable, Serializable, Iterable<TaskItem>, Pr
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	public static class TaskItem implements PropertyChangeSupported, PropertyChangeListener {
 		
 		public static final String PROP_TASK = "task";
@@ -295,6 +304,15 @@ public class TaskList implements Cloneable, Serializable, Iterable<TaskItem>, Pr
 		@Override
 		public void removePropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.removePropertyChangeListener(listener);
+		}
+		
+		@Override
+		public void removePropertyChangeListener(
+				String propertyName,
+				PropertyChangeListener listener) {
+			this.propertyChangeSupport.removePropertyChangeListener(
+					propertyName,
+					listener);
 		}
 		
 		@Override

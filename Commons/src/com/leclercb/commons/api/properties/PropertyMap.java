@@ -146,6 +146,15 @@ public class PropertyMap extends Properties implements PropertyChangeSupported, 
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	public <T> void addCoder(PropertiesCoder<T> coder) {
 		this.coders.put(coder.getCoderClass(), coder);
 	}

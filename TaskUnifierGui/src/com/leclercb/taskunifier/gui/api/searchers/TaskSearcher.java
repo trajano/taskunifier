@@ -262,6 +262,15 @@ public class TaskSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	}
 	
 	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
 	public void listChange(ListChangeEvent evt) {
 		this.fireChange(evt.getSource());
 	}

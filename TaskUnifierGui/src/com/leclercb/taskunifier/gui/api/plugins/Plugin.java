@@ -271,4 +271,13 @@ public class Plugin implements PropertyChangeSupported {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 }

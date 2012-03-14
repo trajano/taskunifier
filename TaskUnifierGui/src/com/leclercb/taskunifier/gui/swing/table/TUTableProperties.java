@@ -125,7 +125,7 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 	}
 	
 	@SuppressWarnings("unchecked")
-	public E[] getVisibleColumns() {
+	public E[] getVisibleColumns2() {
 		List<E> columns = new ArrayList<E>(
 				Arrays.asList(this.cls.getEnumConstants()));
 		

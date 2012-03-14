@@ -542,8 +542,8 @@ public abstract class AbstractModel implements Model {
 			return new EqualsBuilder().append(
 					this.getModelType(),
 					model.getModelType()).append(
-					this.getModelId(),
-					model.getModelId()).isEquals();
+							this.getModelId(),
+							model.getModelId()).isEquals();
 		}
 		
 		return false;
@@ -593,6 +593,15 @@ public abstract class AbstractModel implements Model {
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 }

@@ -253,6 +253,15 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 		this.propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
 	/**
 	 * Called when a searcher is updated. Shouldn't be called manually.
 	 * 

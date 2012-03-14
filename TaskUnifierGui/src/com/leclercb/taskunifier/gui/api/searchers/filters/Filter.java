@@ -266,6 +266,15 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
 	public void listChange(ListChangeEvent event) {
 		this.listChangeSupport.fireListChange(event);
 	}

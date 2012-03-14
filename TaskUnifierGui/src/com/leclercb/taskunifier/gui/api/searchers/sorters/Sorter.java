@@ -151,6 +151,15 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
+			PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
+	}
+	
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.propertyChangeSupport.firePropertyChange(event);
 	}
