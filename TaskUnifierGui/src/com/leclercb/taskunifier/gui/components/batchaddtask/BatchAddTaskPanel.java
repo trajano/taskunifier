@@ -49,6 +49,7 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
+import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
@@ -111,7 +112,14 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 				ComponentFactory.createJScrollPane(this.titlesTextArea, true),
 				"grow, push, wrap 10px");
 		this.add(templateLabel, "split");
-		this.add(this.templateComboBox, "growx, pushx, wrap");
+		this.add(this.templateComboBox, "growx, pushx");
+		
+		JButton manageTemplates = new JButton(new ActionManageTaskTemplates(
+				16,
+				16));
+		manageTemplates.setText(null);
+		
+		this.add(manageTemplates, "wrap");
 		
 		this.initializeButtonsPanel();
 	}

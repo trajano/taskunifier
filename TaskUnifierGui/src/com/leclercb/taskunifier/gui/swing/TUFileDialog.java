@@ -40,6 +40,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
@@ -90,14 +91,17 @@ public class TUFileDialog extends JDialog {
 			this.setLocationRelativeTo(this.getOwner());
 		
 		this.fileField = new TUFileField(
-				Translations.getString("general.file"),
 				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,
 				null,
 				null);
 		this.fileField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-		this.add(this.fileField, BorderLayout.NORTH);
+		
+		this.add(
+				new JLabel(Translations.getString("general.file")),
+				BorderLayout.WEST);
+		this.add(this.fileField, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}

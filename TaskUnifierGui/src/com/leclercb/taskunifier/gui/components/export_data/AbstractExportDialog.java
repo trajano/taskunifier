@@ -139,7 +139,6 @@ abstract class AbstractExportDialog extends JDialog {
 					this.fileProperty);
 		
 		this.fileField = new TUFileField(
-				Translations.getString("general.file"),
 				false,
 				defaultFile,
 				JFileChooser.FILES_ONLY,

@@ -40,6 +40,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
@@ -100,15 +101,18 @@ public class TULinkDialog extends JDialog {
 		
 		JPanel panel = new JPanel(new BorderLayout());
 		
+		panel.add(
+				new JLabel(Translations.getString("general.link")),
+				BorderLayout.WEST);
+		
 		this.fileField = new TUFileField(
-				Translations.getString("general.link"),
 				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,
 				null,
 				null);
 		this.fileField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-		panel.add(this.fileField, BorderLayout.NORTH);
+		panel.add(this.fileField, BorderLayout.CENTER);
 		
 		this.labelField = new TUTextField(
 				Translations.getString("general.label"),
