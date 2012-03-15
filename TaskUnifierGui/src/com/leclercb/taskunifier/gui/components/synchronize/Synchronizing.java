@@ -34,9 +34,8 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.beans.PropertyChangeListener;
 
-import javax.swing.SwingUtilities;
-
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 
 public class Synchronizing {
 	
@@ -62,7 +61,7 @@ public class Synchronizing {
 		}
 		
 		if (oldSynchronizing != isSynchronizing()) {
-			SwingUtilities.invokeLater(new Runnable() {
+			TUSwingUtilities.executeOrInvokeAndWait(new Runnable() {
 				
 				@Override
 				public void run() {
