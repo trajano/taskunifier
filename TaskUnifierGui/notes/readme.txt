@@ -13,6 +13,7 @@ Version 3.0.0
 		- Multiple locations for tasks
 		- Define your own statuses
 		- Define your own postpone list
+		- Define the note/task fields you don't use
 
 Version 2.3.0
 	- Major:
