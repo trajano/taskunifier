@@ -239,6 +239,7 @@ final class StatusBarElements {
 							}
 						}
 					}
+					
 				});
 		
 		return element;

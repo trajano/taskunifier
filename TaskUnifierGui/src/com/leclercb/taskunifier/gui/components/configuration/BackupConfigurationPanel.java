@@ -107,7 +107,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"RESTORE_BACKUP",
-				"",
+				null,
 				new ConfigurationFieldType.Button(
 						Translations.getString("configuration.backup.restore_backup"),
 						new ActionListener() {

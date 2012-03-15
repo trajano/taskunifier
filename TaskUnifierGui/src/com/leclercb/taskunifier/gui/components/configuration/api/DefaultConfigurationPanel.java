@@ -144,7 +144,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	public void pack() {
 		this.removeAll();
 		this.setLayout(new BorderLayout(0, 5));
-		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");

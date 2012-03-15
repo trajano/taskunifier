@@ -51,6 +51,7 @@ import com.leclercb.taskunifier.gui.actions.ActionChangeDataFolderLocation;
 import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
+import com.leclercb.taskunifier.gui.actions.ActionCloseWindow;
 import com.leclercb.taskunifier.gui.actions.ActionCollapseAll;
 import com.leclercb.taskunifier.gui.actions.ActionCompleteTasks;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
@@ -127,6 +128,9 @@ public class MenuBar extends JMenuBar {
 		this.add(fileMenu);
 		
 		fileMenu.add(new ActionNewWindow(16, 16));
+		fileMenu.add(new ActionCloseWindow(16, 16));
+		fileMenu.addSeparator();
+		
 		JMenu addTabMenu = new JMenu(new ActionAddTab(16, 16));
 		fileMenu.add(addTabMenu);
 		for (ViewType type : ViewType.values()) {
