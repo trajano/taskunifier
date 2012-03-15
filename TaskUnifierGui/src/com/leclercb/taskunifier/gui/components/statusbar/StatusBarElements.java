@@ -211,7 +211,9 @@ final class StatusBarElements {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent event) {
-						if (event != null && event.getOldValue() != null) {
+						if (event != null
+								&& event.getOldValue() != null
+								&& event.getOldValue() instanceof ViewItem) {
 							ViewItem oldView = (ViewItem) event.getOldValue();
 							
 							if (oldView.getViewType() == ViewType.NOTES) {

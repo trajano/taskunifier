@@ -101,6 +101,7 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	private boolean minimizeToSystemTray;
 	
 	private JTabbedPane mainTabbedPane;
+	private ViewItem oldSelectedView;
 	
 	private MainFrame() {
 		
@@ -350,7 +351,8 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 				+ " - "
 				+ view.getLabel());
 		
-		this.firePropertyChange(PROP_SELECTED_VIEW, null, view);
+		this.firePropertyChange(PROP_SELECTED_VIEW, this.oldSelectedView, view);
+		this.oldSelectedView = view;
 	}
 	
 	private void loadWindowSettings() {

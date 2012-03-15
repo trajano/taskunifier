@@ -111,12 +111,14 @@ public class SubFrame extends JXFrame implements FrameView, SavePropertiesListen
 			}
 		}
 		
+		subFrame.saveProperties();
 		subFrame.setVisible(false);
 		subFrame.dispose();
 	}
 	
 	private int frameId;
 	private JTabbedPane mainTabbedPane;
+	private ViewItem oldSelectedView;
 	
 	private SubFrame(int frameId) {
 		this.frameId = frameId;
@@ -356,7 +358,8 @@ public class SubFrame extends JXFrame implements FrameView, SavePropertiesListen
 				+ " - "
 				+ view.getLabel());
 		
-		this.firePropertyChange(PROP_SELECTED_VIEW, null, view);
+		this.firePropertyChange(PROP_SELECTED_VIEW, this.oldSelectedView, view);
+		this.oldSelectedView = view;
 	}
 	
 	private void loadWindowSettings() {
