@@ -79,6 +79,7 @@ import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
+import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUModelListField;
 import com.leclercb.taskunifier.gui.swing.TUPostponeCalendar;
@@ -518,9 +519,16 @@ public class BatchTaskEditPanel extends JPanel {
 						+ "10dlu, "
 						+ "right:pref, 4dlu, pref, 4dlu, fill:default:grow");
 		
+		int nbInserted = 0;
+		
 		// Task Title
-		builder.appendI15d("general.task.title", true, this.taskTitleCheckBox);
-		builder.getBuilder().append(this.taskTitle, 7);
+		if (TaskColumn.TITLE.isUsed()) {
+			builder.appendI15d(
+					"general.task.title",
+					true,
+					this.taskTitleCheckBox);
+			builder.getBuilder().append(this.taskTitle, 7);
+		}
 		
 		// Task Star
 		this.taskStar.setIcon(ImageUtils.getResourceImage(
@@ -532,34 +540,58 @@ public class BatchTaskEditPanel extends JPanel {
 				16,
 				16));
 		
-		builder.appendI15d("general.task.star", true, this.taskStarCheckBox);
-		builder.append(this.taskStar);
+		if (TaskColumn.STAR.isUsed()) {
+			nbInserted++;
+			builder.appendI15d("general.task.star", true, this.taskStarCheckBox);
+			builder.append(this.taskStar);
+		}
 		
 		// Task Completed
-		builder.appendI15d(
-				"general.task.completed",
-				true,
-				this.taskCompletedCheckBox);
-		builder.append(this.taskCompleted);
+		if (TaskColumn.COMPLETED.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.completed",
+					true,
+					this.taskCompletedCheckBox);
+			builder.append(this.taskCompleted);
+		}
+		
+		// Insert Empty Space
+		if (nbInserted % 2 == 1) {
+			nbInserted++;
+			builder.getBuilder().append(new JLabel(), 5);
+		}
 		
 		// Task Priority
 		this.taskPriority.setModel(new TaskPriorityModel(false));
 		
-		builder.appendI15d(
-				"general.task.priority",
-				true,
-				this.taskPriorityCheckBox);
-		builder.append(this.taskPriority);
+		if (TaskColumn.PRIORITY.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.priority",
+					true,
+					this.taskPriorityCheckBox);
+			builder.append(this.taskPriority);
+		}
 		
 		// Task Tags
-		builder.appendI15d("general.task.tags", true, this.taskTagsCheckBox);
-		builder.append(this.taskTags);
+		if (TaskColumn.TAGS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d("general.task.tags", true, this.taskTagsCheckBox);
+			builder.append(this.taskTags);
+		}
 		
 		// Task Status
 		this.taskStatus.setModel(new TaskStatusModel(false));
 		
-		builder.appendI15d("general.task.status", true, this.taskStatusCheckBox);
-		builder.append(this.taskStatus);
+		if (TaskColumn.STATUS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.status",
+					true,
+					this.taskStatusCheckBox);
+			builder.append(this.taskStatus);
+		}
 		
 		// Task Progress
 		this.taskProgress.setModel(new SpinnerNumberModel(
@@ -572,11 +604,20 @@ public class BatchTaskEditPanel extends JPanel {
 				this.taskProgress,
 				"##0%"));
 		
-		builder.appendI15d(
-				"general.task.progress",
-				true,
-				this.taskProgressCheckBox);
-		builder.append(this.taskProgress);
+		if (TaskColumn.PROGRESS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.progress",
+					true,
+					this.taskProgressCheckBox);
+			builder.append(this.taskProgress);
+		}
+		
+		// Insert Empty Space
+		if (nbInserted % 2 == 1) {
+			nbInserted++;
+			builder.getBuilder().append(new JLabel(), 5);
+		}
 		
 		// Separator
 		builder.getBuilder().appendSeparator();
@@ -584,61 +625,102 @@ public class BatchTaskEditPanel extends JPanel {
 		// Task Parent
 		this.taskParent.setModel(new TaskModel(true));
 		
-		builder.appendI15d("general.task.parent", true, this.taskParentCheckBox);
-		builder.getBuilder().append(this.taskParent, 7);
+		if (TaskColumn.PARENT.isUsed()) {
+			builder.appendI15d(
+					"general.task.parent",
+					true,
+					this.taskParentCheckBox);
+			builder.getBuilder().append(this.taskParent, 7);
+		}
 		
 		// Task Folder
 		this.taskFolder.setModel(new FolderModel(true, false));
 		
-		builder.appendI15d("general.task.folder", true, this.taskFolderCheckBox);
-		builder.append(this.createPanel(this.taskFolder, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.FOLDERS))));
+		if (TaskColumn.FOLDER.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.folder",
+					true,
+					this.taskFolderCheckBox);
+			builder.append(this.createPanel(this.taskFolder, new JButton(
+					new ActionManageModels(
+							16,
+							16,
+							ModelConfigurationTab.FOLDERS))));
+		}
 		
 		// Task Goal
-		builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
-		builder.append(this.createPanel(this.taskGoals, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.GOALS))));
+		if (TaskColumn.GOALS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d("general.task.goal", true, this.taskGoalCheckBox);
+			builder.append(this.createPanel(
+					this.taskGoals,
+					new JButton(new ActionManageModels(
+							16,
+							16,
+							ModelConfigurationTab.GOALS))));
+		}
 		
 		// Task Context
-		builder.appendI15d(
-				"general.task.context",
-				true,
-				this.taskContextCheckBox);
-		builder.append(this.createPanel(this.taskContexts, new JButton(
-				new ActionManageModels(16, 16, ModelConfigurationTab.CONTEXTS))));
+		if (TaskColumn.CONTEXTS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.context",
+					true,
+					this.taskContextCheckBox);
+			builder.append(this.createPanel(this.taskContexts, new JButton(
+					new ActionManageModels(
+							16,
+							16,
+							ModelConfigurationTab.CONTEXTS))));
+		}
 		
 		// Task Location
-		builder.appendI15d(
-				"general.task.location",
-				true,
-				this.taskLocationCheckBox);
-		builder.append(this.createPanel(
-				this.taskLocations,
-				new JButton(new ActionManageModels(
-						16,
-						16,
-						ModelConfigurationTab.LOCATIONS))));
+		if (TaskColumn.LOCATIONS.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.location",
+					true,
+					this.taskLocationCheckBox);
+			builder.append(this.createPanel(this.taskLocations, new JButton(
+					new ActionManageModels(
+							16,
+							16,
+							ModelConfigurationTab.LOCATIONS))));
+		}
+		
+		// Insert Empty Space
+		if (nbInserted % 2 == 1) {
+			nbInserted++;
+			builder.getBuilder().append(new JLabel(), 5);
+		}
 		
 		// Separator
 		builder.getBuilder().appendSeparator();
 		
 		// Task Start Date
-		builder.appendI15d(
-				"general.task.start_date",
-				true,
-				this.taskStartDateCheckBox);
-		builder.append(this.createPanel(
-				this.taskStartDate,
-				this.taskStartDatePostponeButton));
+		if (TaskColumn.START_DATE.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.start_date",
+					true,
+					this.taskStartDateCheckBox);
+			builder.append(this.createPanel(
+					this.taskStartDate,
+					this.taskStartDatePostponeButton));
+		}
 		
 		// Task Due Date
-		builder.appendI15d(
-				"general.task.due_date",
-				true,
-				this.taskDueDateCheckBox);
-		builder.append(this.createPanel(
-				this.taskDueDate,
-				this.taskDueDatePostponeButton));
+		if (TaskColumn.DUE_DATE.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.due_date",
+					true,
+					this.taskDueDateCheckBox);
+			builder.append(this.createPanel(
+					this.taskDueDate,
+					this.taskDueDatePostponeButton));
+		}
 		
 		// Task Start Date Reminder
 		this.taskStartDateReminder.setModel(new TaskReminderModel());
@@ -648,11 +730,14 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		this.taskStartDateReminder.setEditable(true);
 		
-		builder.appendI15d(
-				"general.task.start_date_reminder",
-				true,
-				this.taskStartDateReminderCheckBox);
-		builder.append(this.taskStartDateReminder);
+		if (TaskColumn.START_DATE_REMINDER.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.start_date_reminder",
+					true,
+					this.taskStartDateReminderCheckBox);
+			builder.append(this.taskStartDateReminder);
+		}
 		
 		// Task Due Date Reminder
 		this.taskDueDateReminder.setModel(new TaskReminderModel());
@@ -662,39 +747,69 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		this.taskDueDateReminder.setEditable(true);
 		
-		builder.appendI15d(
-				"general.task.due_date_reminder",
-				true,
-				this.taskDueDateReminderCheckBox);
-		builder.append(this.taskDueDateReminder);
+		if (TaskColumn.DUE_DATE_REMINDER.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.due_date_reminder",
+					true,
+					this.taskDueDateReminderCheckBox);
+			builder.append(this.taskDueDateReminder);
+		}
 		
 		// Task Length
 		this.taskLength.setModel(new TUSpinnerTimeModel());
 		this.taskLength.setEditor(new TUSpinnerTimeEditor(this.taskLength));
 		
-		builder.appendI15d("general.task.length", true, this.taskLengthCheckBox);
-		builder.append(this.taskLength);
+		if (TaskColumn.LENGTH.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.length",
+					true,
+					this.taskLengthCheckBox);
+			builder.append(this.taskLength);
+		}
 		
 		// Task Timer
-		builder.appendI15d("general.task.timer", true, this.taskTimerCheckBox);
-		builder.append(this.taskTimer);
+		if (TaskColumn.TIMER.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.timer",
+					true,
+					this.taskTimerCheckBox);
+			builder.append(this.taskTimer);
+		}
 		
 		// Task Repeat
 		this.taskRepeat.setModel(new TaskRepeatModel(false));
 		
 		ComponentFactory.createRepeatComboBox(this.taskRepeat);
 		
-		builder.appendI15d("general.task.repeat", true, this.taskRepeatCheckBox);
-		builder.append(this.taskRepeat);
+		if (TaskColumn.REPEAT.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.repeat",
+					true,
+					this.taskRepeatCheckBox);
+			builder.append(this.taskRepeat);
+		}
 		
 		// Task Repeat From
 		this.taskRepeatFrom.setModel(new TaskRepeatFromModel(false));
 		
-		builder.appendI15d(
-				"general.task.repeat_from",
-				true,
-				this.taskRepeatFromCheckBox);
-		builder.append(this.taskRepeatFrom);
+		if (TaskColumn.REPEAT_FROM.isUsed()) {
+			nbInserted++;
+			builder.appendI15d(
+					"general.task.repeat_from",
+					true,
+					this.taskRepeatFromCheckBox);
+			builder.append(this.taskRepeatFrom);
+		}
+		
+		// Insert Empty Space
+		if (nbInserted % 2 == 1) {
+			nbInserted++;
+			builder.getBuilder().append(new JLabel(), 5);
+		}
 		
 		// Separator
 		builder.getBuilder().appendSeparator();
@@ -711,7 +826,10 @@ public class BatchTaskEditPanel extends JPanel {
 		
 		// Lay out the panel
 		this.add(builder.getPanel(), BorderLayout.NORTH);
-		this.add(notePanel, BorderLayout.CENTER);
+		
+		if (TaskColumn.NOTE.isUsed()) {
+			this.add(notePanel, BorderLayout.CENTER);
+		}
 	}
 	
 	public void reinitializeFields(Task task) {
