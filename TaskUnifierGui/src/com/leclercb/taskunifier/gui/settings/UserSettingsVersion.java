@@ -71,6 +71,9 @@ public final class UserSettingsVersion {
 		if (version.equals("2.3.0"))
 			version = updateUserSettings_2_3_0_to_2_3_1();
 		
+		if (version.equals("2.3.1"))
+			version = updateUserSettings_2_3_1_to_2_3_2();
+		
 		cleanSettings();
 		Main.saveUserSettings();
 	}
@@ -147,6 +150,13 @@ public final class UserSettingsVersion {
 				"Update user settings from version 2.3.0 to 2.3.1");
 		
 		return "2.3.1";
+	}
+	
+	private static String updateUserSettings_2_3_1_to_2_3_2() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.3.1 to 2.3.2");
+		
+		return "2.3.2";
 	}
 	
 }

@@ -63,7 +63,8 @@ public class ProgressMonitor implements ListChangeSupported {
 	}
 	
 	public List<ProgressMessage> getMessages() {
-		return Collections.unmodifiableList(this.messages);
+		return Collections.unmodifiableList(new ArrayList<ProgressMessage>(
+				this.messages));
 	}
 	
 	public synchronized void addMessage(ProgressMessage message) {

@@ -96,7 +96,8 @@ public final class LookAndFeelUtils {
 	}
 	
 	public static List<LookAndFeelDescriptor> getLookAndFeels() {
-		return Collections.unmodifiableList(LOOK_AND_FEELS);
+		return Collections.unmodifiableList(new ArrayList<LookAndFeelDescriptor>(
+				LOOK_AND_FEELS));
 	}
 	
 }

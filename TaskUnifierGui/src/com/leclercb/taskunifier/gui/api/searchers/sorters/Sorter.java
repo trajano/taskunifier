@@ -79,7 +79,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public List<SE> getElements() {
-		return Collections.unmodifiableList(this.elements);
+		return Collections.unmodifiableList(new ArrayList<SE>(this.elements));
 	}
 	
 	public void addElement(SE element) {

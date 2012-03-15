@@ -77,7 +77,8 @@ public class PluginLoader<PluginClass> implements ListChangeSupported {
 	}
 	
 	public List<PluginClass> getPlugins() {
-		return Collections.unmodifiableList(this.plugins);
+		return Collections.unmodifiableList(new ArrayList<PluginClass>(
+				this.plugins));
 	}
 	
 	public void addPlugin(File originFile, PluginClass plugin) {
@@ -149,7 +150,8 @@ public class PluginLoader<PluginClass> implements ListChangeSupported {
 				}
 			}
 			
-			return Collections.unmodifiableList(addedPlugins);
+			return Collections.unmodifiableList(new ArrayList<PluginClass>(
+					addedPlugins));
 		} finally {
 			try {
 				if (jar != null)

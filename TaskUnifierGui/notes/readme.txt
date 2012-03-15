@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 2.3.2
+	- Minor:
+		- BF 3504721: Repeat with parent problem
+
 Version 2.3.1
 	- Major:
 		- BF 3495620: Program freezing

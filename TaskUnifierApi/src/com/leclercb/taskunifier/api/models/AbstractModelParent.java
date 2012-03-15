@@ -174,7 +174,7 @@ public abstract class AbstractModelParent<M extends AbstractModelParent<M>> exte
 			parent = parent.getParent();
 		}
 		
-		return Collections.unmodifiableList(parents);
+		return Collections.unmodifiableList(new ArrayList<M>(parents));
 	}
 	
 	@Override
@@ -184,12 +184,12 @@ public abstract class AbstractModelParent<M extends AbstractModelParent<M>> exte
 			children.addAll(child.getAllChildren());
 		}
 		
-		return Collections.unmodifiableList(children);
+		return Collections.unmodifiableList(new ArrayList<M>(children));
 	}
 	
 	@Override
 	public List<M> getChildren() {
-		return Collections.unmodifiableList(this.children);
+		return Collections.unmodifiableList(new ArrayList<M>(this.children));
 	}
 	
 	private void addChild(M child) {

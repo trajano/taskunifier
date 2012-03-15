@@ -87,7 +87,7 @@ public class SubFrame extends JXFrame implements MainView, SavePropertiesListene
 	public static List<SubFrame> subFrames = new ArrayList<SubFrame>();
 	
 	public static List<SubFrame> getSubFrames() {
-		return Collections.unmodifiableList(subFrames);
+		return Collections.unmodifiableList(new ArrayList<SubFrame>(subFrames));
 	}
 	
 	public static SubFrame createSubFrame() {
