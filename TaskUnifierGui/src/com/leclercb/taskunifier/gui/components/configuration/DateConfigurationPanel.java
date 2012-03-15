@@ -79,11 +79,13 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"SHOW_DAY_OF_WEEK",
-				Translations.getString("configuration.date.show_day_of_week"),
+				null,
 				true,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"date.show_day_of_week")));
+						"date.show_day_of_week",
+						Translations.getString("configuration.date.show_day_of_week"),
+						true)));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -92,19 +94,23 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"USE_DUE_TIME",
-				Translations.getString("configuration.date.use_due_time"),
+				null,
 				true,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"date.use_due_time")));
+						"date.use_due_time",
+						Translations.getString("configuration.date.use_due_time"),
+						true)));
 		
 		this.addField(new ConfigurationField(
 				"USE_START_TIME",
-				Translations.getString("configuration.date.use_start_time"),
+				null,
 				true,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"date.use_start_time")));
+						"date.use_start_time",
+						Translations.getString("configuration.date.use_start_time"),
+						true)));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",

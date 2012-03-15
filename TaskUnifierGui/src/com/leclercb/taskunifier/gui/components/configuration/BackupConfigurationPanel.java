@@ -76,10 +76,12 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"BACKUP_BEFORE_SYNC",
-				Translations.getString("configuration.backup.backup_before_sync"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"general.backup.backup_before_sync")));
+						"general.backup.backup_before_sync",
+						Translations.getString("configuration.backup.backup_before_sync"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"AUTO_BACKUP",
@@ -105,7 +107,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"RESTORE_BACKUP",
-				null,
+				"",
 				new ConfigurationFieldType.Button(
 						Translations.getString("configuration.backup.restore_backup"),
 						new ActionListener() {

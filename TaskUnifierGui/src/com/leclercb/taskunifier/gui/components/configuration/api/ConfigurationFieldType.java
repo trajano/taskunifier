@@ -319,7 +319,16 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		private PropertyMap settings;
 		private String propertyName;
 		
-		public CheckBox(PropertyMap settings, String propertyName) {
+		public CheckBox(
+				PropertyMap settings,
+				String propertyName,
+				String label,
+				boolean afterRestart) {
+			super(label);
+			
+			if (afterRestart)
+				this.setForeground(Color.RED);
+			
 			this.first = true;
 			this.settings = settings;
 			this.propertyName = propertyName;
@@ -437,8 +446,12 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 	
 	public static class StarCheckBox extends CheckBox {
 		
-		public StarCheckBox(PropertyMap settings, String propertyName) {
-			super(settings, propertyName);
+		public StarCheckBox(
+				PropertyMap settings,
+				String propertyName,
+				String label,
+				boolean afterRestart) {
+			super(settings, propertyName, label, afterRestart);
 			
 			this.setIcon(ImageUtils.getResourceImage(
 					"checkbox_star.png",

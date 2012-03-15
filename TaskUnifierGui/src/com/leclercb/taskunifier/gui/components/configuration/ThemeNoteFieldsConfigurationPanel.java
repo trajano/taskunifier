@@ -74,12 +74,14 @@ public class ThemeNoteFieldsConfigurationPanel extends DefaultConfigurationPanel
 		for (NoteColumn column : columns) {
 			this.addField(new ConfigurationField(
 					column.name(),
-					column.getLabel(),
+					null,
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"note.field."
 									+ column.name().toLowerCase()
-									+ ".used")));
+									+ ".used",
+							column.getLabel(),
+							false)));
 		}
 	}
 	

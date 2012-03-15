@@ -68,17 +68,21 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"SHOW_NOTE_BADGES",
-				Translations.getString("configuration.theme.show_note_badges"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"notesearcher.show_badges")));
+						"notesearcher.show_badges",
+						Translations.getString("configuration.theme.show_note_badges"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_TASK_BADGES",
-				Translations.getString("configuration.theme.show_task_badges"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"tasksearcher.show_badges")));
+						"tasksearcher.show_badges",
+						Translations.getString("configuration.theme.show_task_badges"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -104,10 +108,12 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"COLORS_IMPORTANCE_ENABLED",
-				Translations.getString("configuration.theme.colors_by_importance_enabled"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"theme.color.importance.enabled")));
+						"theme.color.importance.enabled",
+						Translations.getString("configuration.theme.colors_by_importance_enabled"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_TASK_PROGRESS",
@@ -123,10 +129,12 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.addField(new ConfigurationField(
 				"COLORS_ENABLED",
-				Translations.getString("configuration.theme.colors_enabled"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"theme.color.enabled")));
+						"theme.color.enabled",
+						Translations.getString("configuration.theme.colors_enabled"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_EVEN",

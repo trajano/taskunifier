@@ -129,17 +129,21 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		
 		this.addField(new ConfigurationField(
 				"SYNC_START",
-				Translations.getString("configuration.synchronization.sync_start"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
-						"synchronizer.sync_start")));
+						"synchronizer.sync_start",
+						Translations.getString("configuration.synchronization.sync_start"),
+						false)));
 		
 		this.addField(new ConfigurationField(
 				"SYNC_EXIT",
-				Translations.getString("configuration.synchronization.sync_exit"),
+				null,
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
-						"synchronizer.sync_exit")));
+						"synchronizer.sync_exit",
+						Translations.getString("configuration.synchronization.sync_exit"),
+						false)));
 		
 		if (!this.welcome) {
 			this.addField(new ConfigurationField(

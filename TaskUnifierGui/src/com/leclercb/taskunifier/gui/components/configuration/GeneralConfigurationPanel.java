@@ -75,11 +75,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",
-					Translations.getString("configuration.general.minimize_to_system_tray"),
+					null,
 					true,
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"window.minimize_to_system_tray")));
+							"window.minimize_to_system_tray",
+							Translations.getString("configuration.general.minimize_to_system_tray"),
+							true)));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
@@ -99,10 +101,12 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"SHOW_EDIT_WINDOW_ON_ADD",
-					Translations.getString("configuration.general.show_edit_window_on_add"),
+					null,
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"task.show_edit_window_on_add")));
+							"task.show_edit_window_on_add",
+							Translations.getString("configuration.general.show_edit_window_on_add"),
+							false)));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
@@ -111,10 +115,12 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 			
 			this.addField(new ConfigurationField(
 					"SHOW_COMPLETED_TASKS_AT_THE_END",
-					Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
+					null,
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"tasksearcher.show_completed_tasks_at_the_end")));
+							"tasksearcher.show_completed_tasks_at_the_end",
+							Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
+							false)));
 			
 			if (!this.welcome) {
 				this.addField(new ConfigurationField(

@@ -54,20 +54,24 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 		if (SystemUtils.IS_OS_MAC) {
 			this.addField(new ConfigurationField(
 					"GROWL_ENABLED",
-					Translations.getString("configuration.advanced.growl_enabled"),
+					null,
 					true,
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"general.growl.enabled")));
+							"general.growl.enabled",
+							Translations.getString("configuration.advanced.growl_enabled"),
+							true)));
 		}
 		
 		this.addField(new ConfigurationField(
 				"COMMUNICATOR_ENABLED",
-				Translations.getString("configuration.advanced.communicator_enabled"),
+				null,
 				true,
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
-						"general.communicator.enabled")));
+						"general.communicator.enabled",
+						Translations.getString("configuration.advanced.communicator_enabled"),
+						true)));
 		
 		this.addField(new ConfigurationField(
 				"COMMUNICATOR_PORT",

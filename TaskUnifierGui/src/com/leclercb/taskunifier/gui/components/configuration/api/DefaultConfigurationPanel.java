@@ -160,13 +160,15 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 		
 		for (ConfigurationField field : this.fields) {
 			if (field.getLabel() == null)
-				label = new JLabel("");
+				label = new JLabel();
 			else
 				label = new JLabel(field.getLabel() + ":");
 			
 			if (this.showAfterRestart && field.isAfterRestart()) {
 				afterRestartFound = true;
-				label.setForeground(Color.RED);
+				
+				if (label != null)
+					label.setForeground(Color.RED);
 			}
 			
 			field.getType().initializeFieldComponent();

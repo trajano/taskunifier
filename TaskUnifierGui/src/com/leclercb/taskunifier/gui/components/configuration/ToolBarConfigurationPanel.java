@@ -76,8 +76,6 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 		
 		this.leftModel = new DefaultListModel();
 		
-		this.leftModel.addElement(ActionList.SEPARATOR);
-		
 		for (ActionList action : ActionList.values())
 			if (action.isFitToolBar())
 				this.leftModel.addElement(action);
