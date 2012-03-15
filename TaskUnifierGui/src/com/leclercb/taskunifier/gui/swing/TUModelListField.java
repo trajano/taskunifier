@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -68,6 +70,22 @@ public class TUModelListField<M extends Model> extends JPanel {
 		this.modelType = modelType;
 		
 		this.initialize();
+	}
+	
+	@Override
+	public void setFont(Font font) {
+		super.setFont(font);
+		
+		if (this.modelListLabel != null)
+			this.modelListLabel.setFont(font);
+	}
+	
+	@Override
+	public void setForeground(Color fg) {
+		super.setForeground(fg);
+		
+		if (this.modelListLabel != null)
+			this.modelListLabel.setForeground(fg);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -34,11 +34,7 @@ package com.leclercb.taskunifier.gui.swing.table;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
@@ -122,20 +118,6 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 	
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public E[] getVisibleColumns2() {
-		List<E> columns = new ArrayList<E>(
-				Arrays.asList(this.cls.getEnumConstants()));
-		
-		for (E column : this.cls.getEnumConstants()) {
-			if (!this.columns.get(column).isVisible()) {
-				columns.remove(column);
-			}
-		}
-		
-		return columns.toArray((E[]) Array.newInstance(this.cls, 0));
 	}
 	
 	@Override

@@ -88,7 +88,7 @@ public class PluginsUtils {
 					if (EqualsUtils.equals(
 							Main.getUserSettings().getStringProperty(
 									"plugin.synchronizer.id"),
-									plugin.getId()))
+							plugin.getId()))
 						SynchronizerUtils.setSynchronizerPlugin(DummyGuiPlugin.getInstance());
 				}
 			}
@@ -387,8 +387,7 @@ public class PluginsUtils {
 					if (existingPlugin.getId().equals(plugin.getId())) {
 						existingPlugin.deletePlugin();
 						
-						File file = Main.getApiPlugins().getFile(
-								existingPlugin);
+						File file = Main.getApiPlugins().getFile(existingPlugin);
 						file.delete();
 						Main.getApiPlugins().removePlugin(existingPlugin);
 						

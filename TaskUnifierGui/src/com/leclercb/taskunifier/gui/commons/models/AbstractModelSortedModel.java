@@ -77,8 +77,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 			
 			if (index == -1) {
 				this.addElement(event.getSource());
-			} else if (event.getPropertyName().equals(Model.PROP_TITLE)
-					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
+			} else if (event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
 				this.fireStructureChanged(this);
 			} else {
 				this.fireContentsChanged(this, index, index);

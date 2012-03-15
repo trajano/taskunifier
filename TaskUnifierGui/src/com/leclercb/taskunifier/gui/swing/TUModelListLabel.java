@@ -1,7 +1,9 @@
 package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -29,7 +31,23 @@ public class TUModelListLabel extends JPanel {
 	private void initialize() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 0));
 		this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-		this.setBackground(Color.WHITE);
+		this.setOpaque(false);
+	}
+	
+	@Override
+	public void setFont(Font font) {
+		super.setFont(font);
+		
+		for (Component component : this.getComponents())
+			component.setFont(font);
+	}
+	
+	@Override
+	public void setForeground(Color fg) {
+		super.setForeground(fg);
+		
+		for (Component component : this.getComponents())
+			component.setForeground(fg);
 	}
 	
 	public ModelList<?> getModelList() {
