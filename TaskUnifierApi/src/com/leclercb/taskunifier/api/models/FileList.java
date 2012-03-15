@@ -37,7 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class FileList implements Cloneable, Serializable, Iterable<FileItem>, Pr
 	}
 	
 	public List<FileItem> getList() {
-		return Collections.unmodifiableList(new ArrayList<FileItem>(this.files));
+		return new ArrayList<FileItem>(this.files);
 	}
 	
 	public void add(FileItem item) {

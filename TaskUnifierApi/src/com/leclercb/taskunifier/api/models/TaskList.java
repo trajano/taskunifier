@@ -37,7 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class TaskList implements Cloneable, Serializable, Iterable<TaskItem>, Pr
 	}
 	
 	public List<TaskItem> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskItem>(this.tasks));
+		return new ArrayList<TaskItem>(this.tasks);
 	}
 	
 	public void add(TaskItem item) {

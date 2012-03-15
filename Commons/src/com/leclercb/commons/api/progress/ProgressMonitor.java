@@ -33,7 +33,6 @@
 package com.leclercb.commons.api.progress;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -63,7 +62,7 @@ public class ProgressMonitor implements ListChangeSupported {
 	}
 	
 	public List<ProgressMessage> getMessages() {
-		return Collections.unmodifiableList(this.messages);
+		return new ArrayList<ProgressMessage>(this.messages);
 	}
 	
 	public synchronized void addMessage(ProgressMessage message) {

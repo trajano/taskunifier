@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.api.searchers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -88,8 +87,7 @@ public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public List<NoteSearcher> getList() {
-		return Collections.unmodifiableList(new ArrayList<NoteSearcher>(
-				this.searchers));
+		return new ArrayList<NoteSearcher>(this.searchers);
 	}
 	
 	public NoteSearcher get(int index) {

@@ -98,11 +98,11 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note>, Propert
 		this.setUsable(usable);
 		
 		this.setUsed(Main.getSettings().getBooleanProperty(
-				"note." + this.name().toLowerCase() + ".used",
+				"note.field." + this.name().toLowerCase() + ".used",
 				true));
 		
 		Main.getSettings().addPropertyChangeListener(
-				"note." + this.name().toLowerCase() + ".used",
+				"note.field." + this.name().toLowerCase() + ".used",
 				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
@@ -153,7 +153,7 @@ public enum NoteColumn implements ModelProperties<Note>, TUColumn<Note>, Propert
 		this.used = used;
 		
 		Main.getSettings().setBooleanProperty(
-				"note." + this.name().toLowerCase() + ".used",
+				"note.field." + this.name().toLowerCase() + ".used",
 				used);
 		
 		this.propertyChangeSupport.firePropertyChange(PROP_USED, oldUsed, used);

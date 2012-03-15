@@ -134,11 +134,11 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 		this.setUsable(usable);
 		
 		this.setUsed(Main.getSettings().getBooleanProperty(
-				"task." + this.name().toLowerCase() + ".used",
+				"task.field." + this.name().toLowerCase() + ".used",
 				true));
 		
 		Main.getSettings().addPropertyChangeListener(
-				"task." + this.name().toLowerCase() + ".used",
+				"task.field." + this.name().toLowerCase() + ".used",
 				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
@@ -189,7 +189,7 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 		this.used = used;
 		
 		Main.getSettings().setBooleanProperty(
-				"task." + this.name().toLowerCase() + ".used",
+				"task.field." + this.name().toLowerCase() + ".used",
 				used);
 		
 		this.propertyChangeSupport.firePropertyChange(PROP_USED, oldUsed, used);
@@ -416,4 +416,3 @@ public enum TaskColumn implements ModelProperties<Task>, TUColumn<Task>, Propert
 	}
 	
 }
-

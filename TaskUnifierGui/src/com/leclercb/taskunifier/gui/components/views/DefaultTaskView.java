@@ -237,7 +237,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	private void initializeTaskTable(JPanel middlePane) {
 		this.taskTable = new TaskTable(new TUTableProperties<TaskColumn>(
 				TaskColumn.class,
-				"taskcolumn",
+				"task.column",
 				false));
 		
 		JPanel taskPanel = new JPanel(new BorderLayout());
@@ -275,7 +275,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		this.taskContacts = new TaskContactsPanel(
 				new TUTableProperties<TaskContactsColumn>(
 						TaskContactsColumn.class,
-						"taskcontactscolumn",
+						"taskcontacts.column",
 						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskContacts);
 		tabbedPane.addTab(
@@ -288,7 +288,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		this.taskTasks = new TaskTasksPanel(
 				new TUTableProperties<TaskTasksColumn>(
 						TaskTasksColumn.class,
-						"tasktaskscolumn",
+						"tasktasks.column",
 						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskTasks);
 		tabbedPane.addTab(
@@ -301,7 +301,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		this.taskFiles = new TaskFilesPanel(
 				new TUTableProperties<TaskFilesColumn>(
 						TaskFilesColumn.class,
-						"taskfilescolumn",
+						"taskfiles.column",
 						false));
 		this.taskTable.addModelSelectionChangeListener(this.taskFiles);
 		tabbedPane.addTab(

@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.api.searchers.sorters;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -79,7 +78,7 @@ public abstract class Sorter<M extends Model, MP extends ModelProperties<M>, SE 
 	}
 	
 	public List<SE> getElements() {
-		return Collections.unmodifiableList(this.elements);
+		return new ArrayList<SE>(this.elements);
 	}
 	
 	public void addElement(SE element) {

@@ -38,7 +38,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -134,7 +133,7 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	 */
 	@Override
 	public List<M> getList() {
-		return Collections.unmodifiableList(new ArrayList<M>(this.models));
+		return new ArrayList<M>(this.models);
 	}
 	
 	/**

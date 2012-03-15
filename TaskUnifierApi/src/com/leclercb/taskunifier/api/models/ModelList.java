@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class ModelList<M extends Model> implements Cloneable, Serializable, Iter
 	}
 	
 	public List<M> getList() {
-		return Collections.unmodifiableList(new ArrayList<M>(this.models));
+		return new ArrayList<M>(this.models);
 	}
 	
 	public void add(M model) {

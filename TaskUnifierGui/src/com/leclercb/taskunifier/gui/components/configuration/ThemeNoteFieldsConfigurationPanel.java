@@ -77,7 +77,9 @@ public class ThemeNoteFieldsConfigurationPanel extends DefaultConfigurationPanel
 					column.getLabel(),
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"note." + column.name().toLowerCase() + ".used")));
+							"note.field."
+									+ column.name().toLowerCase()
+									+ ".used")));
 		}
 	}
 	

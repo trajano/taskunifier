@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.api.models.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,8 +66,7 @@ public class FileListBean implements Cloneable, Serializable, Iterable<FileItemB
 	}
 	
 	public List<FileItemBean> getList() {
-		return Collections.unmodifiableList(new ArrayList<FileItemBean>(
-				this.files));
+		return new ArrayList<FileItemBean>(this.files);
 	}
 	
 	public void add(FileItemBean item) {

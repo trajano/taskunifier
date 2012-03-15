@@ -3,7 +3,6 @@ package com.leclercb.taskunifier.api.models.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 	}
 	
 	public List<ModelId> getList() {
-		return Collections.unmodifiableList(new ArrayList<ModelId>(this.models));
+		return new ArrayList<ModelId>(this.models);
 	}
 	
 	public void add(ModelId model) {

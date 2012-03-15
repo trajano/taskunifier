@@ -43,7 +43,6 @@ import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -89,7 +88,7 @@ public class SubFrame extends JXFrame implements FrameView, SavePropertiesListen
 	public static List<SubFrame> subFrames = new ArrayList<SubFrame>();
 	
 	public static List<SubFrame> getSubFrames() {
-		return Collections.unmodifiableList(subFrames);
+		return new ArrayList<SubFrame>(subFrames);
 	}
 	
 	public static SubFrame createSubFrame() {

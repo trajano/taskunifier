@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.api.searchers;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -88,8 +87,7 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 	}
 	
 	public List<TaskSearcher> getList() {
-		return Collections.unmodifiableList(new ArrayList<TaskSearcher>(
-				this.searchers));
+		return new ArrayList<TaskSearcher>(this.searchers);
 	}
 	
 	public TaskSearcher get(int index) {

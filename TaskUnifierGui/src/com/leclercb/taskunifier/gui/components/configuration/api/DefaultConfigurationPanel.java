@@ -36,7 +36,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -125,8 +124,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 	}
 	
 	public List<ConfigurationField> getFields() {
-		return Collections.unmodifiableList(new ArrayList<ConfigurationField>(
-				this.fields));
+		return new ArrayList<ConfigurationField>(this.fields);
 	}
 	
 	public void addField(ConfigurationField field) {

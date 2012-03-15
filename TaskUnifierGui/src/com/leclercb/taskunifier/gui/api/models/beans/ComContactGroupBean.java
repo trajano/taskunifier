@@ -3,7 +3,6 @@ package com.leclercb.taskunifier.gui.api.models.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,8 +51,7 @@ public class ComContactGroupBean implements Cloneable, Serializable, Iterable<Co
 	}
 	
 	public List<ComContactItemBean> getList() {
-		return Collections.unmodifiableList(new ArrayList<ComContactItemBean>(
-				this.contacts));
+		return new ArrayList<ComContactItemBean>(this.contacts);
 	}
 	
 	public void add(ComContactItemBean item) {

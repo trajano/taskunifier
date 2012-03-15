@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.api.searchers.filters;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -106,7 +105,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public List<FE> getElements() {
-		return Collections.unmodifiableList(new ArrayList<FE>(this.elements));
+		return new ArrayList<FE>(this.elements);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -161,7 +160,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public List<F> getFilters() {
-		return Collections.unmodifiableList(new ArrayList<F>(this.filters));
+		return new ArrayList<F>(this.filters);
 	}
 	
 	@SuppressWarnings("unchecked")

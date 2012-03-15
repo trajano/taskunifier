@@ -33,7 +33,6 @@
 package com.leclercb.commons.gui.swing.lookandfeel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.UIManager;
@@ -96,7 +95,7 @@ public final class LookAndFeelUtils {
 	}
 	
 	public static List<LookAndFeelDescriptor> getLookAndFeels() {
-		return Collections.unmodifiableList(LOOK_AND_FEELS);
+		return new ArrayList<LookAndFeelDescriptor>(LOOK_AND_FEELS);
 	}
 	
 }

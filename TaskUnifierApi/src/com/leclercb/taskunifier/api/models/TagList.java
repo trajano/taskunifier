@@ -3,7 +3,6 @@ package com.leclercb.taskunifier.api.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class TagList implements Cloneable, Serializable, Iterable<Tag> {
 	}
 	
 	public List<Tag> asList() {
-		return Collections.unmodifiableList(new ArrayList<Tag>(this.tags));
+		return new ArrayList<Tag>(this.tags);
 	}
 	
 	public boolean containsTag(Tag tag) {

@@ -37,7 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
@@ -92,7 +91,7 @@ abstract class AbstractTemplateFactory<T extends Template<?, ?>> implements Prop
 	}
 	
 	public List<T> getList() {
-		return Collections.unmodifiableList(new ArrayList<T>(this.templates));
+		return new ArrayList<T>(this.templates);
 	}
 	
 	public T get(int index) {

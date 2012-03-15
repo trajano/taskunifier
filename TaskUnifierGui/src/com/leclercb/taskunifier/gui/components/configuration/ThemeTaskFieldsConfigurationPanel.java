@@ -77,7 +77,9 @@ public class ThemeTaskFieldsConfigurationPanel extends DefaultConfigurationPanel
 					column.getLabel(),
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
-							"task." + column.name().toLowerCase() + ".used")));
+							"task.field."
+									+ column.name().toLowerCase()
+									+ ".used")));
 		}
 	}
 	
