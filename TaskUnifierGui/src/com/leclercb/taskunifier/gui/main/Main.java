@@ -48,7 +48,6 @@ import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -117,6 +116,7 @@ import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -301,7 +301,7 @@ public class Main {
 		final boolean finalUpdateVersion = updateVersion;
 		final boolean finalOutdatedPlugins = outdatedPlugins;
 		
-		SwingUtilities.invokeLater(new Runnable() {
+		TUSwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {

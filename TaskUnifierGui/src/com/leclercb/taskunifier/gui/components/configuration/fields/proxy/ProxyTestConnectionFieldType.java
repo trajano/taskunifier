@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.net.URI;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -17,6 +16,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -74,7 +74,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 		}
 		
 		private void showResult(final boolean result) {
-			SwingUtilities.invokeLater(new Runnable() {
+			TUSwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
 				public void run() {

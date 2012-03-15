@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.swing;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -104,7 +103,7 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 		try {
 			return this.longTask();
 		} catch (final Throwable e) {
-			SwingUtilities.invokeLater(new Runnable() {
+			TUSwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
 				public void run() {

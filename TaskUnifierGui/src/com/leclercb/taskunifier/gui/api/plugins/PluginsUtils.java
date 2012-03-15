@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.api.plugins;
 
 import java.awt.Image;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,7 +42,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -69,6 +67,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -89,7 +88,7 @@ public class PluginsUtils {
 					if (EqualsUtils.equals(
 							Main.getUserSettings().getStringProperty(
 									"plugin.synchronizer.id"),
-							plugin.getId()))
+									plugin.getId()))
 						SynchronizerUtils.setSynchronizerPlugin(DummyGuiPlugin.getInstance());
 				}
 			}
@@ -297,7 +296,7 @@ public class PluginsUtils {
 								plugin.getName())));
 			
 			final File finalFile = file;
-			SwingUtilities.invokeAndWait(new Runnable() {
+			TUSwingUtilities.executeOrInvokeAndWait(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -378,39 +377,33 @@ public class PluginsUtils {
 							"manage_plugins.progress.start_plugin_deletion",
 							plugin.getName())));
 		
-		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				
-				@Override
-				public void run() {
-					List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
-							Main.getApiPlugins().getPlugins());
-					for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
-						if (existingPlugin.getId().equals(plugin.getId())) {
-							existingPlugin.deletePlugin();
-							
-							File file = Main.getApiPlugins().getFile(
-									existingPlugin);
-							file.delete();
-							Main.getApiPlugins().removePlugin(existingPlugin);
-							
-							GuiLogger.getLogger().info(
-									"Plugin deleted: "
-											+ existingPlugin.getName()
-											+ " - "
-											+ existingPlugin.getVersion());
-							
-							plugin.setStatus(PluginStatus.DELETED);
-						}
+		TUSwingUtilities.executeOrInvokeAndWait(new Runnable() {
+			
+			@Override
+			public void run() {
+				List<SynchronizerGuiPlugin> existingPlugins = new ArrayList<SynchronizerGuiPlugin>(
+						Main.getApiPlugins().getPlugins());
+				for (SynchronizerGuiPlugin existingPlugin : existingPlugins) {
+					if (existingPlugin.getId().equals(plugin.getId())) {
+						existingPlugin.deletePlugin();
+						
+						File file = Main.getApiPlugins().getFile(
+								existingPlugin);
+						file.delete();
+						Main.getApiPlugins().removePlugin(existingPlugin);
+						
+						GuiLogger.getLogger().info(
+								"Plugin deleted: "
+										+ existingPlugin.getName()
+										+ " - "
+										+ existingPlugin.getVersion());
+						
+						plugin.setStatus(PluginStatus.DELETED);
 					}
-					
 				}
-			});
-		} catch (InterruptedException e) {
-			
-		} catch (InvocationTargetException e) {
-			
-		}
+				
+			}
+		});
 		
 		if (monitor != null)
 			monitor.addMessage(new DefaultProgressMessage(

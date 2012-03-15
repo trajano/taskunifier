@@ -37,8 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.taskunifier.api.models.Task;
@@ -47,6 +45,7 @@ import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
 import com.leclercb.taskunifier.gui.components.reminder.ReminderDialog;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.threads.reminder.progress.ReminderDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
@@ -71,7 +70,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeLi
 				if (Synchronizing.isSynchronizing())
 					continue;
 				
-				SwingUtilities.invokeLater(new Runnable() {
+				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {

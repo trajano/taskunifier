@@ -32,9 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.threads.autosave;
 
-import javax.swing.SwingUtilities;
-
 import com.leclercb.taskunifier.gui.actions.ActionSave;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 
 public class AutoSaveThread extends Thread {
 	
@@ -48,7 +47,7 @@ public class AutoSaveThread extends Thread {
 			try {
 				Thread.sleep(10 * 60 * 1000);
 				
-				SwingUtilities.invokeLater(new Runnable() {
+				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {

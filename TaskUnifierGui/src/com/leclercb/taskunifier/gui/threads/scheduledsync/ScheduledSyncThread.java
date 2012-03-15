@@ -35,13 +35,12 @@ package com.leclercb.taskunifier.gui.threads.scheduledsync;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.SwingUtilities;
-
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 
 public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
 	
@@ -113,7 +112,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				if (Synchronizing.isSynchronizing())
 					continue;
 				
-				SwingUtilities.invokeLater(new Runnable() {
+				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {

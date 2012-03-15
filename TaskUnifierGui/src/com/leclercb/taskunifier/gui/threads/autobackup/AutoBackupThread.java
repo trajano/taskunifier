@@ -32,9 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.threads.autobackup;
 
-import javax.swing.SwingUtilities;
-
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
 public class AutoBackupThread extends Thread {
@@ -49,7 +48,7 @@ public class AutoBackupThread extends Thread {
 			try {
 				Thread.sleep(60000);
 				
-				SwingUtilities.invokeLater(new Runnable() {
+				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {

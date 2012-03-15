@@ -37,8 +37,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
-import javax.swing.SwingUtilities;
-
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
@@ -62,6 +60,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.swing.TUStopableWorker;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -134,7 +133,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		SynchronizerGuiPlugin plugin = null;
 		
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
+			TUSwingUtilities.invokeAndWait(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -152,7 +151,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				if (type == Type.SYNCHRONIZE
 						&& Main.getSettings().getBooleanProperty(
 								"general.backup.backup_before_sync")) {
-					SwingUtilities.invokeAndWait(new Runnable() {
+					TUSwingUtilities.invokeAndWait(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -252,7 +251,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				});
 				
 				if (type == Type.PUBLISH) {
-					SwingUtilities.invokeAndWait(new Runnable() {
+					TUSwingUtilities.invokeAndWait(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -270,7 +269,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				}
 				
 				if (type == Type.SYNCHRONIZE) {
-					SwingUtilities.invokeAndWait(new Runnable() {
+					TUSwingUtilities.invokeAndWait(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -348,7 +347,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		
 		this.publish(new SynchronizerDefaultProgressMessage(e.getMessage()));
 		
-		SwingUtilities.invokeLater(new Runnable() {
+		TUSwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -382,7 +381,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		this.publish(new SynchronizerDefaultProgressMessage(t.getMessage()));
 		
 		if (!this.silent) {
-			SwingUtilities.invokeLater(new Runnable() {
+			TUSwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
 				public void run() {
