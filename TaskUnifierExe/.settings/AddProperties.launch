@@ -10,6 +10,6 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.leclercb.commons.api.utils.AddProperties"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${file_prompt:Properties}&quot; &quot;${string_prompt:Key}&quot; &quot;${string_prompt:Value}&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${file_prompt:Properties}&quot; &quot;${string_prompt:Key}&quot; &quot;${string_prompt:Value}&quot; &quot;${string_prompt:Overwrite}&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Commons"/>
 </launchConfiguration>
