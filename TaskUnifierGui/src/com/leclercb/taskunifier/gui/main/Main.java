@@ -79,10 +79,12 @@ import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
+import com.leclercb.taskunifier.gui.actions.ActionPublish;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.api.models.GuiContact;
 import com.leclercb.taskunifier.gui.api.models.GuiContext;
 import com.leclercb.taskunifier.gui.api.models.GuiFolder;
@@ -375,9 +377,17 @@ public class Main {
 					
 					handleArguments(args);
 					
-					Boolean syncStart = USER_SETTINGS.getBooleanProperty("synchronizer.sync_start");
-					if (isFirstExecution() || (syncStart != null && syncStart))
-						ActionSynchronize.synchronize(false);
+					boolean syncStart = USER_SETTINGS.getBooleanProperty("synchronizer.sync_start");
+					boolean publishStart = USER_SETTINGS.getBooleanProperty("synchronizer.publish_start");
+					
+					if (isFirstExecution()) {
+						if (syncStart && publishStart)
+							ActionSynchronizeAndPublish.synchronizeAndPublish(false);
+						else if (syncStart)
+							ActionSynchronize.synchronize(false);
+						else if (publishStart)
+							ActionPublish.publish(false);
+					}
 					
 					Threads.startAll();
 				} catch (Throwable t) {

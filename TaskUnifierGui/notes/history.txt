@@ -1,16 +1,19 @@
 Version 3.0.0
 	- Major:
-		- Open tabs and windows
+		- FR 3495228: Open tabs and windows
 		- New task template window
 		- Sub-contexts
-		- Sub-folders
+		- FR 3479518: Sub-folders
 		- Sub-goals
-		- Multiple contexts for tasks
+		- FR 3441404: Multiple contexts for tasks
 		- Multiple goals for tasks
 		- Multiple locations for tasks
-		- Define your own statuses
+		- FR 3445884: Define your own statuses
 		- Define your own postpone list
 		- Define the note/task fields you don't use
+	- Minor:
+		- FR 3505247: Separation between sync and publish
+		- FR 3500049: Push local tasks
 
 Version 2.3.0
 	- Major:

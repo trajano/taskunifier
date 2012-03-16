@@ -32,10 +32,14 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
 import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
@@ -47,32 +51,38 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ActionSynchronize extends AbstractAction {
+public class ActionSynchronizeAndPublish extends AbstractAction {
 	
 	private boolean background;
 	
-	public ActionSynchronize(int width, int height, boolean background) {
+	public ActionSynchronizeAndPublish(int width, int height, boolean background) {
 		super(
-				Translations.getString("action.synchronize"),
+				Translations.getString("action.synchronize_and_publish"),
 				ImageUtils.getResourceImage("synchronize.png", width, height));
 		
 		this.background = background;
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
-				Translations.getString("action.synchronize"));
+				Translations.getString("action.synchronize_and_publish"));
+		
+		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+				KeyEvent.VK_S,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionSynchronize.synchronize(this.background, true);
+		ActionSynchronizeAndPublish.synchronizeAndPublish(this.background, true);
 	}
 	
-	public static void synchronize(boolean background) {
-		synchronize(background, false);
+	public static void synchronizeAndPublish(boolean background) {
+		synchronizeAndPublish(background, false);
 	}
 	
-	public static void synchronize(boolean background, boolean userAction) {
+	public static void synchronizeAndPublish(
+			boolean background,
+			boolean userAction) {
 		if (Synchronizing.isSynchronizing()) {
 			if (!background)
 				Synchronizing.showSynchronizingMessage();
@@ -83,7 +93,8 @@ public class ActionSynchronize extends AbstractAction {
 		boolean isDummyPlugin = SynchronizerUtils.getSynchronizerPlugin().getId().equals(
 				DummyGuiPlugin.getInstance().getId());
 		
-		if (isDummyPlugin) {
+		if (isDummyPlugin
+				&& SynchronizerUtils.getPublisherPlugins().length == 0) {
 			if (background || !userAction)
 				return;
 			
@@ -94,20 +105,32 @@ public class ActionSynchronize extends AbstractAction {
 		
 		ViewUtils.commitAll();
 		
+		SynchronizerGuiPlugin[] publisherPlugins = SynchronizerUtils.getPublisherPlugins();
+		
 		if (background) {
 			SynchronizerWorker worker = BackgroundSynchronizer.getSynchronizer();
 			
-			worker.add(
-					SynchronizerUtils.getSynchronizerPlugin(),
-					Type.SYNCHRONIZE);
+			if (!isDummyPlugin)
+				worker.add(
+						SynchronizerUtils.getSynchronizerPlugin(),
+						Type.SYNCHRONIZE);
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				worker.add(plugin, Type.PUBLISH);
+			}
 			
 			BackgroundSynchronizer.execute(worker);
 		} else {
 			SynchronizerDialog dialog = new SynchronizerDialog();
 			
-			dialog.add(
-					SynchronizerUtils.getSynchronizerPlugin(),
-					Type.SYNCHRONIZE);
+			if (!isDummyPlugin)
+				dialog.add(
+						SynchronizerUtils.getSynchronizerPlugin(),
+						Type.SYNCHRONIZE);
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				dialog.add(plugin, Type.PUBLISH);
+			}
 			
 			dialog.setVisible(true);
 		}

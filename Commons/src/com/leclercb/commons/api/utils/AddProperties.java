@@ -9,12 +9,15 @@ import com.leclercb.commons.api.properties.SortedProperties;
 
 public class AddProperties {
 	
-	public static void addProperty(File file, String key, String value)
-			throws Exception {
+	public static void addProperty(
+			File file,
+			String key,
+			String value,
+			boolean overwrite) throws Exception {
 		SortedProperties p = new SortedProperties();
 		p.load(new FileInputStream(file));
 		
-		if (!p.contains(key)) {
+		if (overwrite || !p.containsKey(key)) {
 			System.out.println("Property \""
 					+ key
 					+ "\" added to: "
@@ -29,6 +32,7 @@ public class AddProperties {
 		File file = new File(args[0]);
 		String key = args[1];
 		String value = args[2];
+		boolean overwrite = (args[3].length() > 0);
 		
 		if (!file.exists() || !file.isFile())
 			throw new IllegalArgumentException();
@@ -48,7 +52,7 @@ public class AddProperties {
 		});
 		
 		for (File f : files) {
-			addProperty(f, key, value);
+			addProperty(f, key, value, overwrite);
 		}
 	}
 	

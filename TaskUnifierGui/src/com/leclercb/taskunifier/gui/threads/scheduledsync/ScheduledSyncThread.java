@@ -38,6 +38,7 @@ import java.beans.PropertyChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
@@ -112,11 +113,17 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				if (Synchronizing.isSynchronizing())
 					continue;
 				
+				final boolean publishBackground = Main.getUserSettings().getBooleanProperty(
+						"synchronizer.publish_background");
+				
 				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {
-						ActionSynchronize.synchronize(true);
+						if (publishBackground)
+							ActionSynchronizeAndPublish.synchronizeAndPublish(true);
+						else
+							ActionSynchronize.synchronize(true);
 					}
 					
 				});

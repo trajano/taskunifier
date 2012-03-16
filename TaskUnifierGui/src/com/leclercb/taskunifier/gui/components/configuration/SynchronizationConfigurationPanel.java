@@ -36,11 +36,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.leclercb.taskunifier.api.models.ModelStatus;
+import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.actions.ActionPluginConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
@@ -123,6 +127,15 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new SchedulerSleepTimeFieldType()));
 		
 		this.addField(new ConfigurationField(
+				"PUBLISH_BACKGROUND",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.publish_background",
+						Translations.getString("configuration.synchronization.publish_background"),
+						false)));
+		
+		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
 				null,
 				new ConfigurationFieldType.Separator()));
@@ -143,6 +156,24 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						Main.getUserSettings(),
 						"synchronizer.sync_exit",
 						Translations.getString("configuration.synchronization.sync_exit"),
+						false)));
+		
+		this.addField(new ConfigurationField(
+				"PUBLISH_START",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.publish_start",
+						Translations.getString("configuration.synchronization.publish_start"),
+						false)));
+		
+		this.addField(new ConfigurationField(
+				"PUBLISH_EXIT",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.publish_exit",
+						Translations.getString("configuration.synchronization.publish_exit"),
 						false)));
 		
 		if (!this.welcome) {
@@ -179,6 +210,46 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						}
 						
 					})));
+			
+			this.addField(new ConfigurationField(
+					"PUSH_ALL_LABEL",
+					null,
+					new ConfigurationFieldType.Label(
+							Translations.getString(
+									"configuration.synchronization.push_all",
+									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName(),
+									SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()))));
+			
+			ActionSynchronize actionPushAll = new ActionSynchronize(
+					22,
+					22,
+					false) {
+				
+				@Override
+				public void actionPerformed(ActionEvent event) {
+					if (SynchronizationConfigurationPanel.this.getConfigurationGroup() != null) {
+						SynchronizationConfigurationPanel.this.getConfigurationGroup().saveAndApplyConfig();
+					}
+					
+					List<Task> tasks = TaskFactory.getInstance().getList();
+					for (Task task : tasks) {
+						if (task.getModelStatus().isEndUserStatus())
+							task.setModelStatus(ModelStatus.TO_UPDATE);
+					}
+					
+					super.actionPerformed(event);
+				}
+				
+			};
+			
+			actionPushAll.putValue(
+					Action.NAME,
+					Translations.getString("action.synchronize_push_all"));
+			
+			this.addField(new ConfigurationField(
+					"PUSH_ALL",
+					null,
+					new ConfigurationFieldType.Button(actionPushAll)));
 			
 			this.addField(new ConfigurationField(
 					"RESET_ALL_LABEL",
@@ -235,11 +306,19 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 							JLabel synchronizeAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
 							
+							JLabel pushAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
+									"PUSH_ALL_LABEL").getType().getFieldComponent();
+							
 							JLabel resetAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
 									"RESET_ALL_LABEL").getType().getFieldComponent();
 							
 							synchronizeAllLabel.setText(Translations.getString(
 									"configuration.synchronization.synchronize_all",
+									apiName));
+							
+							pushAllLabel.setText(Translations.getString(
+									"configuration.synchronization.push_all",
+									apiName,
 									apiName));
 							
 							resetAllLabel.setText(Translations.getString(
@@ -268,14 +347,26 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		if (this.containsId("SCHEDULER_SLEEP_TIME"))
 			this.setEnabled("SCHEDULER_SLEEP_TIME", enabled);
 		
+		if (this.containsId("PUBLISH_BACKGROUND"))
+			this.setEnabled("PUBLISH_BACKGROUND", enabled);
+		
 		if (this.containsId("SYNC_START"))
 			this.setEnabled("SYNC_START", enabled);
 		
 		if (this.containsId("SYNC_EXIT"))
 			this.setEnabled("SYNC_EXIT", enabled);
 		
+		if (this.containsId("PUBLISH_START"))
+			this.setEnabled("PUBLISH_START", enabled);
+		
+		if (this.containsId("PUBLISH_EXIT"))
+			this.setEnabled("PUBLISH_EXIT", enabled);
+		
 		if (this.containsId("SYNCHRONIZE_ALL"))
 			this.setEnabled("SYNCHRONIZE_ALL", enabled);
+		
+		if (this.containsId("PUSH_ALL"))
+			this.setEnabled("PUSH_ALL", enabled);
 		
 		if (this.containsId("RESET_ALL"))
 			this.setEnabled("RESET_ALL", enabled);

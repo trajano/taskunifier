@@ -32,72 +32,83 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 
+import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
+import com.leclercb.taskunifier.gui.components.synchronize.BackgroundSynchronizer;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerDialog;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker;
+import com.leclercb.taskunifier.gui.components.synchronize.SynchronizerWorker.Type;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class ActionQuit extends AbstractAction {
+public class ActionPublish extends AbstractAction {
 	
-	public ActionQuit(int width, int height) {
+	private boolean background;
+	
+	public ActionPublish(int width, int height, boolean background) {
 		super(
-				Translations.getString("action.quit"),
-				ImageUtils.getResourceImage("exit.png", width, height));
+				Translations.getString("action.publish"),
+				ImageUtils.getResourceImage("publish.png", width, height));
 		
-		this.putValue(SHORT_DESCRIPTION, Translations.getString("action.quit"));
+		this.background = background;
 		
-		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_Q,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		this.putValue(
+				SHORT_DESCRIPTION,
+				Translations.getString("action.publish"));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ActionQuit.quit();
+		ActionPublish.publish(this.background, true);
 	}
 	
-	public static boolean quit() {
-		return quit(false);
+	public static void publish(boolean background) {
+		publish(background, false);
 	}
 	
-	public static boolean quit(boolean force) {
-		if (Main.isQuitting())
-			return true;
-		
-		if (!force) {
-			boolean syncExit = Main.getUserSettings().getBooleanProperty(
-					"synchronizer.sync_exit");
-			boolean publishExit = Main.getUserSettings().getBooleanProperty(
-					"synchronizer.publish_exit");
-			
-			if (syncExit && publishExit)
-				ActionSynchronizeAndPublish.synchronizeAndPublish(false);
-			else if (syncExit)
-				ActionSynchronize.synchronize(false);
-			else if (publishExit)
-				ActionPublish.publish(false);
-		}
-		
+	public static void publish(boolean background, boolean userAction) {
 		if (Synchronizing.isSynchronizing()) {
-			if (!force)
+			if (!background)
 				Synchronizing.showSynchronizingMessage();
 			
-			return false;
+			return;
+		}
+		
+		if (SynchronizerUtils.getPublisherPlugins().length == 0) {
+			if (background || !userAction)
+				return;
+			
+			ActionManagePublisherPlugins.managePublisherPlugins();
+			return;
 		}
 		
 		ViewUtils.commitAll();
 		
-		Main.quit();
+		SynchronizerGuiPlugin[] publisherPlugins = SynchronizerUtils.getPublisherPlugins();
 		
-		return true;
+		if (background) {
+			SynchronizerWorker worker = BackgroundSynchronizer.getSynchronizer();
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				worker.add(plugin, Type.PUBLISH);
+			}
+			
+			BackgroundSynchronizer.execute(worker);
+		} else {
+			SynchronizerDialog dialog = new SynchronizerDialog();
+			
+			for (SynchronizerGuiPlugin plugin : publisherPlugins) {
+				dialog.add(plugin, Type.PUBLISH);
+			}
+			
+			dialog.setVisible(true);
+		}
 	}
 	
 }

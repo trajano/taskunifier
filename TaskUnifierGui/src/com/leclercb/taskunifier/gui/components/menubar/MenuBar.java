@@ -97,7 +97,7 @@ import com.leclercb.taskunifier.gui.actions.ActionReview;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSelectParentTasks;
 import com.leclercb.taskunifier.gui.actions.ActionShowTips;
-import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -267,7 +267,7 @@ public class MenuBar extends JMenuBar {
 				Translations.getString("menu.synchronize"));
 		this.add(synchronizeMenu);
 		
-		synchronizeMenu.add(new ActionSynchronize(16, 16, false));
+		synchronizeMenu.add(new ActionSynchronizeAndPublish(16, 16, false));
 		synchronizeMenu.add(new ActionScheduledSync(16, 16));
 	}
 	

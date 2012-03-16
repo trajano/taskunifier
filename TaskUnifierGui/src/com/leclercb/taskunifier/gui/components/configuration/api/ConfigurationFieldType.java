@@ -63,6 +63,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
+import org.jdesktop.swingx.JXLabel;
 
 import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -147,11 +148,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 	}
 	
-	public static class Label extends JLabel implements ConfigurationFieldType<JLabel, Void> {
+	public static class Label extends JXLabel implements ConfigurationFieldType<JLabel, Void> {
 		
 		public Label(String label) {
 			super(label);
-			this.setEnabled(false);
+			this.setLineWrap(true);
 		}
 		
 		@Override

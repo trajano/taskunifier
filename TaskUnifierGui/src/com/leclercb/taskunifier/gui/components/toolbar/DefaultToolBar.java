@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.actions.ActionList;
 import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
 import com.leclercb.taskunifier.gui.actions.ActionSwitchToUserMenu;
-import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
+import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
@@ -234,7 +234,7 @@ public class DefaultToolBar extends JToolBar {
 					ActionAddTemplateTask.ADD_TASK_LISTENER));
 			this.add(new ActionDelete(24, 24));
 			this.addSeparator(new Dimension(20, 20));
-			this.add(new ActionSynchronize(24, 24, false));
+			this.add(new ActionSynchronizeAndPublish(24, 24, false));
 			this.add(new ActionScheduledSync(24, 24));
 			this.addSeparator(new Dimension(20, 20));
 			this.add(new ActionConfiguration(24, 24));

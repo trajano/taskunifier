@@ -73,6 +73,7 @@ public enum ActionList {
 	MANAGE_USERS(Translations.getString("action.manage_users"), "user.png", true),
 	NEW_WINDOW(Translations.getString("action.new_window"), "window_add.png", true),
 	PASTE(Translations.getString("action.paste"), "paste.png", false),
+	PUBLISH(Translations.getString("action.publish"), "publish.png", true),
 	PLUGIN_CONFIGURATION(Translations.getString("action.plugin_configuration"), "settings.png", true),
 	POSTPONE_TASK_BEANS(Translations.getString("action.postpone_tasks"), "calendar.png", false),
 	POSTPONE_TASKS(Translations.getString("action.postpone_tasks"), "calendar.png", false),
@@ -92,6 +93,7 @@ public enum ActionList {
 	SWITCH_TO_USER(Translations.getString("action.switch_user"), "user.png", false),
 	SWITCH_TO_USER_MENU(Translations.getString("action.switch_user_menu"), "user.png", true),
 	SYNCHRONIZE(Translations.getString("action.synchronize"), "synchronize.png", true),
+	SYNCHRONIZE_AND_PUBLISH(Translations.getString("action.synchronize_and_publish"), "synchronize.png", true),
 	TASK_REMINDERS(Translations.getString("action.task_reminders"), "clock.png", true),
 	UNDO(Translations.getString("action.undo"), "undo.png", true);
 	
@@ -259,6 +261,8 @@ public enum ActionList {
 				return new ActionNewWindow(width, height);
 			case PASTE:
 				return new ActionPaste(width, height);
+			case PUBLISH:
+				return new ActionPublish(width, height, false);
 			case PLUGIN_CONFIGURATION:
 				return new ActionPluginConfiguration(width, height);
 			case POSTPONE_TASK_BEANS:
@@ -297,6 +301,8 @@ public enum ActionList {
 				return new ActionSwitchToUserMenu(width, height);
 			case SYNCHRONIZE:
 				return new ActionSynchronize(width, height, false);
+			case SYNCHRONIZE_AND_PUBLISH:
+				return new ActionSynchronizeAndPublish(width, height, false);
 			case TASK_REMINDERS:
 				return new ActionTaskReminders(width, height);
 			case UNDO:
