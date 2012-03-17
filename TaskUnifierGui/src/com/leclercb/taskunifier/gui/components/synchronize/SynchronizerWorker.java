@@ -150,7 +150,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				
 				if (type == Type.SYNCHRONIZE
 						&& Main.getSettings().getBooleanProperty(
-								"general.backup.backup_before_sync")) {
+								"backup.backup_before_sync")) {
 					TUSwingUtilities.invokeAndWait(new Runnable() {
 						
 						@Override

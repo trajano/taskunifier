@@ -46,14 +46,14 @@ public class AutoBackupThread extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Thread.sleep(60000);
+				Thread.sleep(60 * 1000);
 				
 				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {
 						int nbHours = Main.getSettings().getIntegerProperty(
-								"general.backup.auto_backup_every");
+								"backup.auto_backup_every");
 						BackupUtils.getInstance().autoBackup(nbHours);
 					}
 					

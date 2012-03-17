@@ -85,7 +85,7 @@ public class ActionCheckPluginVersion extends AbstractAction {
 			return;
 		}
 		
-		new CheckPluginVersionThread(syncPlugin, silent).start();
+		new CheckPluginVersionThread(silent, syncPlugin).start();
 	}
 	
 	public static void checkAllPluginVersion(boolean silent) {
@@ -96,8 +96,10 @@ public class ActionCheckPluginVersion extends AbstractAction {
 			return;
 		}
 		
-		new CheckPluginVersionThread(Main.getApiPlugins().getPlugins().toArray(
-				new SynchronizerGuiPlugin[0]), silent).start();
+		new CheckPluginVersionThread(
+				silent,
+				Main.getApiPlugins().getPlugins().toArray(
+						new SynchronizerGuiPlugin[0])).start();
 	}
 	
 }

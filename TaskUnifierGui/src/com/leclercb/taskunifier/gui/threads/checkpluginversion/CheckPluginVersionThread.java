@@ -43,18 +43,10 @@ public class CheckPluginVersionThread extends Thread {
 	}
 	
 	public CheckPluginVersionThread(
-			SynchronizerGuiPlugin syncPlugin,
-			boolean silent) {
+			boolean silent,
+			SynchronizerGuiPlugin... syncPlugins) {
 		super(
-				new CheckPluginVersionRunnable(syncPlugin, silent),
-				"CheckPluginVersionThread");
-	}
-	
-	public CheckPluginVersionThread(
-			SynchronizerGuiPlugin[] syncPlugins,
-			boolean silent) {
-		super(
-				new CheckPluginVersionRunnable(syncPlugins, silent),
+				new CheckPluginVersionRunnable(silent, syncPlugins),
 				"CheckPluginVersionThread");
 	}
 	

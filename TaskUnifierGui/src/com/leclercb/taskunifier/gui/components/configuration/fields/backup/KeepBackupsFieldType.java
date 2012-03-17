@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	
 	public KeepBackupsFieldType() {
-		super(Main.getSettings(), "general.backup.keep_backups");
+		super(Main.getSettings(), "backup.keep_backups");
 		
 		this.setModel(new SpinnerNumberModel(
 				(Number) this.getPropertyValue(),
@@ -55,7 +55,7 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	@Override
 	public Object getPropertyValue() {
 		Integer value = Main.getSettings().getIntegerProperty(
-				"general.backup.keep_backups");
+				"backup.keep_backups");
 		
 		if (value == null || value < 1 || value > 1000)
 			value = 10;
@@ -66,7 +66,7 @@ public class KeepBackupsFieldType extends ConfigurationFieldType.Spinner {
 	@Override
 	public void saveAndApplyConfig() {
 		Main.getSettings().setIntegerProperty(
-				"general.backup.keep_backups",
+				"backup.keep_backups",
 				(Integer) this.getFieldValue());
 	}
 	

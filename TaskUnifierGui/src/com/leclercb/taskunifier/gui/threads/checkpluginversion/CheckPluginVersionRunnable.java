@@ -60,22 +60,16 @@ public class CheckPluginVersionRunnable implements Runnable {
 	private boolean silent;
 	
 	public CheckPluginVersionRunnable(boolean silent) {
-		this(SynchronizerUtils.getSynchronizerPlugin(), silent);
+		this(silent, SynchronizerUtils.getSynchronizerPlugin());
 	}
 	
 	public CheckPluginVersionRunnable(
-			SynchronizerGuiPlugin syncPlugin,
-			boolean silent) {
-		this(new SynchronizerGuiPlugin[] { syncPlugin }, silent);
-	}
-	
-	public CheckPluginVersionRunnable(
-			SynchronizerGuiPlugin[] syncPlugins,
-			boolean silent) {
+			boolean silent,
+			SynchronizerGuiPlugin... syncPlugins) {
 		CheckUtils.isNotNull(syncPlugins);
 		
-		this.syncPlugins = syncPlugins;
 		this.silent = silent;
+		this.syncPlugins = syncPlugins;
 	}
 	
 	@Override

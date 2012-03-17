@@ -1099,12 +1099,12 @@ public class Main {
 	}
 	
 	private static void autoBackup() {
-		int nbHours = SETTINGS.getIntegerProperty("general.backup.auto_backup_every");
+		int nbHours = SETTINGS.getIntegerProperty("backup.auto_backup_every");
 		BackupUtils.getInstance().autoBackup(nbHours);
 	}
 	
 	private static void cleanBackups() {
-		int nbToKeep = SETTINGS.getIntegerProperty("general.backup.keep_backups");
+		int nbToKeep = SETTINGS.getIntegerProperty("backup.keep_backups");
 		BackupUtils.getInstance().cleanBackups(nbToKeep);
 	}
 	
