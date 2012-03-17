@@ -32,33 +32,40 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.Comparator;
 
-import javax.swing.DefaultComboBoxModel;
+import com.leclercb.commons.api.event.listchange.ListChangeEvent;
+import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
+import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 
-import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.TaskStatusUtils;
-
-public class TaskStatusModel extends DefaultComboBoxModel {
+public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListChangeListener {
 	
 	public TaskStatusModel(boolean firstNull) {
-		super(TaskStatusUtils.getTaskStatuses());
+		super(new Comparator<String>() {
+			
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+			
+		});
 		
-		Main.getSettings().addPropertyChangeListener(
-				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent event) {
-						TaskStatusModel.this.removeAllElements();
-						
-						String[] statuses = TaskStatusUtils.getTaskStatuses();
-						for (String status : statuses)
-							TaskStatusModel.this.addElement(status);
-					}
-					
-				});
+		for (String status : TaskStatusList.getInstance().getStatuses())
+			this.addElement(status);
+		
+		TaskStatusList.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskStatusList.getInstance(), this));
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
+			this.addElement(event.getValue());
+		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
+			this.removeElement(event.getValue());
+		}
 	}
 	
 }

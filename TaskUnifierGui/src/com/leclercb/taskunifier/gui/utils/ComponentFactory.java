@@ -207,6 +207,8 @@ public final class ComponentFactory {
 			boolean autoComplete) {
 		JXComboBox comboBox = new JXComboBox();
 		
+		comboBox.setEditable(true);
+		
 		if (model != null)
 			comboBox.setModel(model);
 		

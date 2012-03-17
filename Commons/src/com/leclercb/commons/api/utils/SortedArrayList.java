@@ -41,6 +41,7 @@ public class SortedArrayList<T> extends ArrayList<T> {
 	private Comparator<T> comparator;
 	
 	public SortedArrayList(Comparator<T> comparator) {
+		CheckUtils.isNotNull(comparator);
 		this.comparator = comparator;
 	}
 	

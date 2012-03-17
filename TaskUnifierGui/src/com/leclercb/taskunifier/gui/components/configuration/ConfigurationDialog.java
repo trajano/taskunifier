@@ -79,6 +79,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		SEARCHER,
 		THEME,
 		TOOLBAR,
+		LISTS,
 		ADVANCED,
 		PUBLICATION,
 		SYNCHRONIZATION;
@@ -94,6 +95,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel searcherConfigurationPanel;
 	private ConfigurationPanel themeConfigurationPanel;
 	private ConfigurationPanel toolbarConfigurationPanel;
+	private ConfigurationPanel listsConfigurationPanel;
 	private ConfigurationPanel advancedConfigurationPanel;
 	private ConfigurationPanel publicationConfigurationPanel;
 	private ConfigurationPanel synchronizationConfigurationPanel;
@@ -138,6 +140,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeSearcherPanel();
 		this.initializeThemePanel();
 		this.initializeToolbarPanel();
+		this.initializeListsPanel();
 		this.initializeAdvancedPanel();
 		this.initializePublicationPanel();
 		this.initializeSynchronizationPanel();
@@ -249,6 +252,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 						false));
 	}
 	
+	private void initializeListsPanel() {
+		this.listsConfigurationPanel = new ListsConfigurationPanel(this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.lists"),
+				ComponentFactory.createJScrollPane(
+						this.listsConfigurationPanel,
+						false));
+	}
+	
 	private void initializeAdvancedPanel() {
 		this.advancedConfigurationPanel = new AdvancedConfigurationPanel(this);
 		this.tabbedPane.addTab(
@@ -288,6 +300,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.proxyConfigurationPanel.saveAndApplyConfig();
 			this.searcherConfigurationPanel.saveAndApplyConfig();
 			this.themeConfigurationPanel.saveAndApplyConfig();
+			this.listsConfigurationPanel.saveAndApplyConfig();
 			this.toolbarConfigurationPanel.saveAndApplyConfig();
 			this.advancedConfigurationPanel.saveAndApplyConfig();
 			this.publicationConfigurationPanel.saveAndApplyConfig();
@@ -323,6 +336,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.proxyConfigurationPanel.cancelConfig();
 			this.searcherConfigurationPanel.cancelConfig();
 			this.themeConfigurationPanel.cancelConfig();
+			this.listsConfigurationPanel.cancelConfig();
 			this.toolbarConfigurationPanel.cancelConfig();
 			this.advancedConfigurationPanel.cancelConfig();
 			this.publicationConfigurationPanel.cancelConfig();

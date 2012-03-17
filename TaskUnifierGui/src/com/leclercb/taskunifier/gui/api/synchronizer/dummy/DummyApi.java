@@ -58,18 +58,7 @@ public class DummyApi extends SynchronizerApi {
 	
 	@Override
 	public String[] getStatusValues() {
-		return new String[] {
-				"None",
-				"Next action",
-				"Active",
-				"Planning",
-				"Delegated",
-				"Waiting",
-				"Hold",
-				"Postponed",
-				"Someday",
-				"Canceled",
-				"Reference" };
+		return null;
 	}
 	
 	@Override

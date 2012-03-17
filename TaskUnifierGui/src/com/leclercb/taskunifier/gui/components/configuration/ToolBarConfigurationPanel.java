@@ -50,7 +50,7 @@ public class ToolBarConfigurationPanel extends ConfigurationPanel {
 	
 	private void initialize() {
 		this.setLayout(new BorderLayout(10, 10));
-		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		this.initializeLeftList();
 		this.initializeRightList();
