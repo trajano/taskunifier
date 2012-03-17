@@ -45,7 +45,11 @@ import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class PluginApi {
+public final class PluginApi {
+	
+	private PluginApi() {
+		
+	}
 	
 	public static Component getMainFrame() {
 		return MainFrame.getInstance().getFrame();
