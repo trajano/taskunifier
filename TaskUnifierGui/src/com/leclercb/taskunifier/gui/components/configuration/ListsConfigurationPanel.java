@@ -15,6 +15,7 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel taskStatusesConfigurationPanel;
+	private ConfigurationPanel postponeListConfigurationPanel;
 	
 	public ListsConfigurationPanel(ConfigurationGroup configurationGroup) {
 		super(configurationGroup);
@@ -29,6 +30,7 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
 		this.initializeTaskStatusesPanel();
+		this.initializePostponeListPanel();
 	}
 	
 	private void initializeTaskStatusesPanel() {
@@ -41,14 +43,26 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 						false));
 	}
 	
+	private void initializePostponeListPanel() {
+		this.postponeListConfigurationPanel = new PostponeListConfigurationPanel(
+				this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.postpone_list"),
+				ComponentFactory.createJScrollPane(
+						this.postponeListConfigurationPanel,
+						false));
+	}
+	
 	@Override
 	public void saveAndApplyConfig() {
 		this.taskStatusesConfigurationPanel.saveAndApplyConfig();
+		this.postponeListConfigurationPanel.saveAndApplyConfig();
 	}
 	
 	@Override
 	public void cancelConfig() {
 		this.taskStatusesConfigurationPanel.cancelConfig();
+		this.postponeListConfigurationPanel.cancelConfig();
 	}
 	
 }
