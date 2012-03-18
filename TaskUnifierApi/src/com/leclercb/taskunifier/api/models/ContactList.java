@@ -42,6 +42,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.GlazedLists;
+import ca.odell.glazedlists.ObservableElementList;
+
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
@@ -56,16 +61,18 @@ import com.leclercb.taskunifier.api.models.beans.ContactListBean.ContactItemBean
 
 public class ContactList implements Cloneable, Serializable, Iterable<ContactItem>, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
-	private ListChangeSupport listChangeSupport;
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	private List<ContactItem> contacts;
+	private EventList<ContactItem> contacts;
 	
 	public ContactList() {
-		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.contacts = new ArrayList<ContactItem>();
+		ObservableElementList.Connector<ContactItem> connector = GlazedLists.beanConnector(ContactItem.class);
+		
+		this.contacts = new ObservableElementList<ContactItem>(
+				new BasicEventList<ContactItem>(), 
+				connector);
 	}
 	
 	@Override
@@ -87,13 +94,6 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 	public void add(ContactItem item) {
 		CheckUtils.isNotNull(item);
 		this.contacts.add(item);
-		
-		item.addPropertyChangeListener(this);
-		int index = this.contacts.indexOf(item);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				item);
 	}
 	
 	public void addAll(Collection<ContactItem> items) {
@@ -106,15 +106,7 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 	
 	public void remove(ContactItem item) {
 		CheckUtils.isNotNull(item);
-		
-		int index = this.contacts.indexOf(item);
-		if (this.contacts.remove(item)) {
-			item.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					item);
-		}
+		this.contacts.remove(item);
 	}
 	
 	public void clear() {
@@ -161,12 +153,12 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 	
 	@Override
 	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
+		this.contacts.addListEventListener(listener);
 	}
 	
 	@Override
 	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
+		this.contacts.removeListEventListener(listener);
 	}
 	
 	@Override
@@ -328,3 +320,4 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 	}
 	
 }
+

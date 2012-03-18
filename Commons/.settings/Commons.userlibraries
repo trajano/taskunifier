@@ -35,5 +35,6 @@
         <archive path="/Commons/lib/apache/httpclient-cache-4.1.3.jar"/>
         <archive path="/Commons/lib/apache/httpcore-4.1.4.jar"/>
         <archive path="/Commons/lib/apache/httpmime-4.1.3.jar"/>
+        <archive path="/Commons/lib/glazedlists/glazedlists-1.8.0_java15.jar"/>
     </library>
 </eclipse-userlibraries>
