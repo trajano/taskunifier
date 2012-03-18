@@ -14,6 +14,7 @@ Version 3.0.0
 	- Minor:
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks
+		- FR 3507878: Backup list order
 
 Version 2.3.0
 	- Major:

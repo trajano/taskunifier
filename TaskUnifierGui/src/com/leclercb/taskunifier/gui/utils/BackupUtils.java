@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -254,7 +255,16 @@ public final class BackupUtils {
 			list.add(file.getName());
 		}
 		
-		Collections.sort(list);
+		// Sort reverse
+		Collections.sort(list, new Comparator<String>() {
+			
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.compareTo(o1);
+			}
+			
+		});
+		
 		return list;
 	}
 	

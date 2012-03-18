@@ -1,6 +1,5 @@
 package com.leclercb.taskunifier.gui.utils;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -33,14 +31,16 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 		return INSTANCE;
 	}
 	
-	private ListChangeSupport listChangeSupport
+	private ListChangeSupport listChangeSupport;
+	private PropertyChangeSupport propertyChangeSupport;
 	
-	private List<String> statuses;
+	private List<PostponeItem> items;
 	
 	public PostponeList() {
 		this.listChangeSupport = new ListChangeSupport(this);
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
-		this.statuses = new ArrayList<String>();
+		this.items = new ArrayList<PostponeItem>();
 		
 		this.initialize();
 		
@@ -56,7 +56,7 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 		String[] statuses = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getStatusValues();
 		
 		if (statuses == null) {
-			String value = Main.getSettings().getStringProperty("taskstatuses");
+			String value = Main.getSettings().getStringProperty("postponelist");
 			statuses = value.split(";");
 		}
 		
@@ -73,21 +73,21 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 		return new ArrayList<String>(this.statuses);
 	}
 	
-	public void addStatus(String status) {
-		CheckUtils.isNotNull(status);
+	public void add(PostponeItem item) {
+		CheckUtils.isNotNull(item);
 		
-		if (this.statuses.contains(status))
+		if (this.statuses.contains(item))
 			return;
 		
-		this.statuses.add(status);
-		int index = this.statuses.indexOf(status);
+		this.statuses.add(item);
+		int index = this.statuses.indexOf(item);
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
 				index,
-				status);
+				item);
 	}
 	
-	public void removeStatus(String status) {
+	public void remove(String status) {
 		CheckUtils.isNotNull(status);
 		
 		int index = this.statuses.indexOf(status);
@@ -138,7 +138,7 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 		}
 		
 		public String getLabel() {
-			return label;
+			return this.label;
 		}
 		
 		public void setLabel(String label) {
@@ -151,7 +151,7 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 		}
 		
 		public Calendar getDate() {
-			return date;
+			return this.date;
 		}
 		
 		public void setDate(Calendar date) {
@@ -168,7 +168,8 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 			if (this.label != null && this.label.length() != 0)
 				return this.label;
 			
-			SimpleDateFormat format = new SimpleDateFormat("mm'm dd'd hh'h mm'm");
+			SimpleDateFormat format = new SimpleDateFormat(
+					"mm'm dd'd hh'h mm'm");
 			return format.format(this.date.getTime());
 		}
 		
@@ -203,4 +204,3 @@ public final class PostponeList implements ListChangeSupported, SavePropertiesLi
 	}
 	
 }
-
