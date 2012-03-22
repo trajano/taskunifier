@@ -34,32 +34,20 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Comparator;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
+import com.leclercb.taskunifier.gui.commons.comparators.TimeValueComparator;
 import com.leclercb.taskunifier.gui.utils.TaskPostponeList;
 import com.leclercb.taskunifier.gui.utils.TaskPostponeList.PostponeItem;
 
 public class TaskPostponeListModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
 	public TaskPostponeListModel(boolean firstNull) {
-		super(new Comparator<PostponeItem>() {
-			
-			@Override
-			public int compare(PostponeItem o1, PostponeItem o2) {
-				int result = new Integer(o1.getField()).compareTo(o2.getField());
-				
-				if (result != 0)
-					return result;
-				
-				return new Integer(o1.getAmount()).compareTo(o2.getAmount());
-			}
-			
-		});
+		super(new TimeValueComparator());
 		
 		if (firstNull)
 			this.addElement(null);

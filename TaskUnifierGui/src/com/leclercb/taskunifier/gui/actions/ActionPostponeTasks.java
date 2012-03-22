@@ -35,15 +35,18 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.commons.comparators.TimeValueComparator;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.TaskPostponeList;
 import com.leclercb.taskunifier.gui.utils.TaskPostponeList.PostponeItem;
 
 public class ActionPostponeTasks extends AbstractViewAction {
@@ -161,82 +164,12 @@ public class ActionPostponeTasks extends AbstractViewAction {
 			PostponeType type) {
 		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
 		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.DAY_OF_MONTH, 0)));
+		List<PostponeItem> items = TaskPostponeList.getInstance().getPostponeItems();
+		Collections.sort(items, new TimeValueComparator());
 		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.DAY_OF_MONTH, 1)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.DAY_OF_MONTH, 2)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.DAY_OF_MONTH, 3)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.WEEK_OF_YEAR, 1)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.WEEK_OF_YEAR, 2)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.WEEK_OF_YEAR, 3)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.MONTH, 1)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.MONTH, 2)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.MONTH, 3)));
-		
-		actions.add(new ActionPostponeTasks(
-				width,
-				height,
-				view,
-				type,
-				new PostponeItem(Calendar.YEAR, 1)));
+		for (PostponeItem item : items) {
+			actions.add(new ActionPostponeTasks(width, height, view, type, item));
+		}
 		
 		return actions.toArray(new ActionPostponeTasks[0]);
 	}
