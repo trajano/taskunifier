@@ -60,8 +60,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
 public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 	
-	public static final String ACTION_OK = "OK";
-	public static final String ACTION_CANCEL = "CANCEL";
+	public static final String ACTION_OK = "ACTION_OK";
+	public static final String ACTION_CANCEL = "ACTION_CANCEL";
 	
 	private ActionSupport actionSupport;
 	
@@ -74,24 +74,6 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 	public BatchAddTaskPanel() {
 		this.actionSupport = new ActionSupport(this);
 		this.initialize();
-	}
-	
-	public JButton getOkButton() {
-		return this.okButton;
-	}
-	
-	public JButton getCancelButton() {
-		return this.cancelButton;
-	}
-	
-	@Override
-	public void addActionListener(ActionListener listener) {
-		this.actionSupport.addActionListener(listener);
-	}
-	
-	@Override
-	public void removeActionListener(ActionListener listener) {
-		this.actionSupport.removeActionListener(listener);
 	}
 	
 	private void initialize() {
@@ -166,6 +148,24 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 		BatchAddTaskPanel.this.titlesTextArea.setText(null);
 		BatchAddTaskPanel.this.templateComboBox.setSelectedItem(null);
 		this.actionSupport.fireActionPerformed(0, ACTION_CANCEL);
+	}
+	
+	public JButton getOkButton() {
+		return this.okButton;
+	}
+	
+	public JButton getCancelButton() {
+		return this.cancelButton;
+	}
+	
+	@Override
+	public void addActionListener(ActionListener listener) {
+		this.actionSupport.addActionListener(listener);
+	}
+	
+	@Override
+	public void removeActionListener(ActionListener listener) {
+		this.actionSupport.removeActionListener(listener);
 	}
 	
 }

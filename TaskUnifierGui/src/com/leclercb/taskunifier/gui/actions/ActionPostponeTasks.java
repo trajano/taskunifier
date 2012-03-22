@@ -43,49 +43,42 @@ import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.TaskPostponeList.PostponeItem;
 
 public class ActionPostponeTasks extends AbstractViewAction {
 	
 	private TaskSelectionView view;
 	private PostponeType type;
-	private int field;
-	private int amount;
+	private PostponeItem item;
 	
 	public ActionPostponeTasks(
 			int width,
 			int height,
 			TaskSelectionView view,
-			String title,
 			PostponeType type,
-			int field,
-			int amount) {
-		super(
-				title,
-				ImageUtils.getResourceImage("calendar.png", width, height),
-				generateViewTypes(view));
+			PostponeItem item) {
+		super(item.toString(), ImageUtils.getResourceImage(
+				"calendar.png",
+				width,
+				height), generateViewTypes(view));
 		
 		CheckUtils.isNotNull(type);
+		CheckUtils.isNotNull(item);
 		
 		this.view = view;
 		this.type = type;
-		this.field = field;
-		this.amount = amount;
+		this.item = item;
 		
-		this.putValue(SHORT_DESCRIPTION, title);
+		this.putValue(SHORT_DESCRIPTION, item.toString());
 	}
 	
 	public PostponeType getType() {
 		return this.type;
 	}
 	
-	public int getField() {
-		return this.field;
-	}
-	
-	public int getAmount() {
-		return this.amount;
+	public PostponeItem getItem() {
+		return this.item;
 	}
 	
 	@Override
@@ -97,16 +90,16 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		else
 			tasks = ViewUtils.getSelectedTasks();
 		
-		postponeTasks(tasks, this.type, this.field, this.amount);
+		postponeTasks(tasks, this.type, this.item);
 	}
 	
 	public static void postponeTasks(
 			Task[] tasks,
 			PostponeType type,
-			int field,
-			int amount) {
+			PostponeItem item) {
 		CheckUtils.isNotNull(tasks);
 		CheckUtils.isNotNull(type);
+		CheckUtils.isNotNull(item);
 		
 		boolean fromCurrentDate = Main.getSettings().getBooleanProperty(
 				"task.postpone_from_current_date");
@@ -122,7 +115,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 					newStartDate = Calendar.getInstance();
 				
 				if (fromCurrentDate
-						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
+						|| (item.getField() == Calendar.DAY_OF_MONTH && item.getAmount() == 0)) {
 					Calendar now = Calendar.getInstance();
 					newStartDate.set(
 							now.get(Calendar.YEAR),
@@ -130,7 +123,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 							now.get(Calendar.DAY_OF_MONTH));
 				}
 				
-				newStartDate.add(field, amount);
+				newStartDate.add(item.getField(), item.getAmount());
 				
 				task.setStartDate(newStartDate);
 			}
@@ -144,7 +137,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 					newDueDate = Calendar.getInstance();
 				
 				if (fromCurrentDate
-						|| (field == Calendar.DAY_OF_MONTH && amount == 0)) {
+						|| (item.getField() == Calendar.DAY_OF_MONTH && item.getAmount() == 0)) {
 					Calendar now = Calendar.getInstance();
 					newDueDate.set(
 							now.get(Calendar.YEAR),
@@ -152,7 +145,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 							now.get(Calendar.DAY_OF_MONTH));
 				}
 				
-				newDueDate.add(field, amount);
+				newDueDate.add(item.getField(), item.getAmount());
 				
 				task.setDueDate(newDueDate);
 			}
@@ -172,100 +165,78 @@ public class ActionPostponeTasks extends AbstractViewAction {
 				width,
 				height,
 				view,
-				Translations.getString("postpone.today"),
 				type,
-				Calendar.DAY_OF_MONTH,
-				0));
+				new PostponeItem(Calendar.DAY_OF_MONTH, 0)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.1_day"),
 				type,
-				Calendar.DAY_OF_MONTH,
-				1));
+				new PostponeItem(Calendar.DAY_OF_MONTH, 1)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_days", 2),
 				type,
-				Calendar.DAY_OF_MONTH,
-				2));
+				new PostponeItem(Calendar.DAY_OF_MONTH, 2)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_days", 3),
 				type,
-				Calendar.DAY_OF_MONTH,
-				3));
+				new PostponeItem(Calendar.DAY_OF_MONTH, 3)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.1_week"),
 				type,
-				Calendar.WEEK_OF_YEAR,
-				1));
+				new PostponeItem(Calendar.WEEK_OF_YEAR, 1)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_weeks", 2),
 				type,
-				Calendar.WEEK_OF_YEAR,
-				2));
+				new PostponeItem(Calendar.WEEK_OF_YEAR, 2)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_weeks", 3),
 				type,
-				Calendar.WEEK_OF_YEAR,
-				3));
+				new PostponeItem(Calendar.WEEK_OF_YEAR, 3)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.1_month"),
 				type,
-				Calendar.MONTH,
-				1));
+				new PostponeItem(Calendar.MONTH, 1)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_months", 2),
 				type,
-				Calendar.MONTH,
-				2));
+				new PostponeItem(Calendar.MONTH, 2)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.x_months", 3),
 				type,
-				Calendar.MONTH,
-				3));
+				new PostponeItem(Calendar.MONTH, 3)));
 		
 		actions.add(new ActionPostponeTasks(
 				width,
 				height,
 				view,
-				Translations.getString("postpone.1_year"),
 				type,
-				Calendar.YEAR,
-				1));
+				new PostponeItem(Calendar.YEAR, 1)));
 		
 		return actions.toArray(new ActionPostponeTasks[0]);
 	}

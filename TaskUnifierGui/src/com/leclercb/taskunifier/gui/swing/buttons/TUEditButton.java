@@ -30,45 +30,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.models;
+package com.leclercb.taskunifier.gui.swing.buttons;
 
-import java.util.Comparator;
+import java.awt.event.ActionListener;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
-import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
-import com.leclercb.taskunifier.gui.utils.TaskStatusList;
+import javax.swing.JButton;
 
-public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListChangeListener {
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
+
+public class TUEditButton extends JButton {
 	
-	public TaskStatusModel(boolean firstNull) {
-		super(new Comparator<String>() {
-			
-			@Override
-			public int compare(String o1, String o2) {
-				return o1.compareTo(o2);
-			}
-			
-		});
-		
-		if (firstNull)
-			this.addElement(null);
-		
-		for (String status : TaskStatusList.getInstance().getStatuses())
-			this.addElement(status);
-		
-		TaskStatusList.getInstance().addListChangeListener(
-				new WeakListChangeListener(TaskStatusList.getInstance(), this));
+	public TUEditButton() {
+		this(null);
 	}
 	
-	@Override
-	public void listChange(ListChangeEvent event) {
-		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement(event.getValue());
-		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement(event.getValue());
-		}
+	public TUEditButton(ActionListener listener) {
+		super(ImageUtils.getResourceImage("edit.png", 16, 16));
+		
+		this.setActionCommand("EDIT");
+		
+		if (listener != null)
+			this.addActionListener(listener);
 	}
 	
 }

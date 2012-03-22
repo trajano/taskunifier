@@ -32,22 +32,31 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
-import com.leclercb.taskunifier.gui.utils.TaskStatusList;
+import com.leclercb.taskunifier.gui.utils.TaskPostponeList;
+import com.leclercb.taskunifier.gui.utils.TaskPostponeList.PostponeItem;
 
-public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListChangeListener {
+public class TaskPostponeListModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
 	
-	public TaskStatusModel(boolean firstNull) {
-		super(new Comparator<String>() {
+	public TaskPostponeListModel(boolean firstNull) {
+		super(new Comparator<PostponeItem>() {
 			
 			@Override
-			public int compare(String o1, String o2) {
-				return o1.compareTo(o2);
+			public int compare(PostponeItem o1, PostponeItem o2) {
+				int result = new Integer(o1.getField()).compareTo(o2.getField());
+				
+				if (result != 0)
+					return result;
+				
+				return new Integer(o1.getAmount()).compareTo(o2.getAmount());
 			}
 			
 		});
@@ -55,11 +64,16 @@ public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListC
 		if (firstNull)
 			this.addElement(null);
 		
-		for (String status : TaskStatusList.getInstance().getStatuses())
-			this.addElement(status);
+		for (PostponeItem item : TaskPostponeList.getInstance().getPostponeItems())
+			this.addElement(item);
 		
-		TaskStatusList.getInstance().addListChangeListener(
-				new WeakListChangeListener(TaskStatusList.getInstance(), this));
+		TaskPostponeList.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskPostponeList.getInstance(), this));
+		
+		TaskPostponeList.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						TaskPostponeList.getInstance(),
+						this));
 	}
 	
 	@Override
@@ -69,6 +83,11 @@ public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListC
 		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
 			this.removeElement(event.getValue());
 		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		this.fireStructureChanged(event);
 	}
 	
 }

@@ -15,7 +15,8 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 	private JTabbedPane tabbedPane;
 	
 	private ConfigurationPanel taskStatusesConfigurationPanel;
-	private ConfigurationPanel postponeListConfigurationPanel;
+	private ConfigurationPanel taskPostponeListConfigurationPanel;
+	private ConfigurationPanel taskSnoozeListConfigurationPanel;
 	
 	public ListsConfigurationPanel(ConfigurationGroup configurationGroup) {
 		super(configurationGroup);
@@ -30,7 +31,8 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
 		this.initializeTaskStatusesPanel();
-		this.initializePostponeListPanel();
+		this.initializeTaskPostponeListPanel();
+		this.initializeTaskSnoozeListPanel();
 	}
 	
 	private void initializeTaskStatusesPanel() {
@@ -43,26 +45,38 @@ public class ListsConfigurationPanel extends ConfigurationPanel {
 						false));
 	}
 	
-	private void initializePostponeListPanel() {
-		this.postponeListConfigurationPanel = new PostponeListConfigurationPanel(
+	private void initializeTaskPostponeListPanel() {
+		this.taskPostponeListConfigurationPanel = new TaskPostponeListConfigurationPanel(
 				this);
 		this.tabbedPane.addTab(
-				Translations.getString("configuration.tab.postpone_list"),
+				Translations.getString("configuration.tab.task_postpone_list"),
 				ComponentFactory.createJScrollPane(
-						this.postponeListConfigurationPanel,
+						this.taskPostponeListConfigurationPanel,
+						false));
+	}
+	
+	private void initializeTaskSnoozeListPanel() {
+		this.taskSnoozeListConfigurationPanel = new TaskSnoozeListConfigurationPanel(
+				this);
+		this.tabbedPane.addTab(
+				Translations.getString("configuration.tab.task_snooze_list"),
+				ComponentFactory.createJScrollPane(
+						this.taskSnoozeListConfigurationPanel,
 						false));
 	}
 	
 	@Override
 	public void saveAndApplyConfig() {
 		this.taskStatusesConfigurationPanel.saveAndApplyConfig();
-		this.postponeListConfigurationPanel.saveAndApplyConfig();
+		this.taskPostponeListConfigurationPanel.saveAndApplyConfig();
+		this.taskSnoozeListConfigurationPanel.saveAndApplyConfig();
 	}
 	
 	@Override
 	public void cancelConfig() {
 		this.taskStatusesConfigurationPanel.cancelConfig();
-		this.postponeListConfigurationPanel.cancelConfig();
+		this.taskPostponeListConfigurationPanel.cancelConfig();
+		this.taskSnoozeListConfigurationPanel.cancelConfig();
 	}
 	
 }
