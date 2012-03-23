@@ -2,6 +2,8 @@ HISTORY
 -------
 
 Version 2.3.2
+	- Major:
+		- BF 3510391: Task searcher edit window not displayed
 	- Minor:
 		- BF 3504721: Repeat with parent problem
 
