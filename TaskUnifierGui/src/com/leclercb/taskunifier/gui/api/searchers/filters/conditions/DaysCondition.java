@@ -38,6 +38,7 @@ import com.leclercb.commons.api.utils.DateUtils;
 
 public enum DaysCondition implements Condition<Integer, Calendar> {
 	
+	TODAY,
 	EQUALS,
 	GREATER_THAN,
 	GREATER_THAN_OR_EQUALS,
@@ -80,6 +81,10 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 		
 		if (value == null || taskValue == null) {
 			switch (this) {
+				case TODAY:
+					if (taskValue == null)
+						return false;
+					break;
 				case NOT_EQUALS:
 				case WEEK_NOT_EQUALS:
 				case MONTH_NOT_EQUALS:
@@ -108,6 +113,8 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 				useTime);
 		
 		switch (this) {
+			case TODAY:
+				return diffDays == 0;
 			case EQUALS:
 				return diffDays == value;
 			case GREATER_THAN:

@@ -196,6 +196,8 @@ public final class TranslationsUtils {
 		
 		if (condition instanceof DaysCondition) {
 			switch ((DaysCondition) condition) {
+				case TODAY:
+					return Translations.getString("filter_condition.today");
 				case EQUALS:
 					return Translations.getString("filter_condition.equals");
 				case GREATER_THAN:
