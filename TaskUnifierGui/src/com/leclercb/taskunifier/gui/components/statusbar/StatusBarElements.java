@@ -179,7 +179,10 @@ final class StatusBarElements {
 			
 			String time = "";
 			time += (sleep / 3600) + "h ";
-			time += ((sleep % 3600) / 60) + "m";
+			time += ((sleep % 3600) / 60) + "m ";
+			
+			if (sleep < 60)
+				time += (sleep % 60) + "s";
 			
 			text = Translations.getString("statusbar.next_scheduled_sync", time);
 		} else {
