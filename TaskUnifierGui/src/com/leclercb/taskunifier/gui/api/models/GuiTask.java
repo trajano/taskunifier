@@ -32,16 +32,19 @@
  */
 package com.leclercb.taskunifier.gui.api.models;
 
+import java.awt.Color;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.leclercb.taskunifier.gui.api.models.beans.GuiTaskBean;
 
-public class GuiTask extends Task {
+public class GuiTask extends Task implements GuiModel {
 	
 	public static final String PROP_SHOW_CHILDREN = "showChildren";
 	
+	private Color color;
 	private boolean showChildren;
 	
 	public GuiTask(TaskBean bean, boolean loadReferenceIds) {
@@ -61,6 +64,41 @@ public class GuiTask extends Task {
 		this.setShowChildren(true);
 	}
 	
+	@Override
+	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
+		if (bean instanceof GuiTaskBean) {
+			this.setColor(((GuiTaskBean) bean).getColor());
+			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
+		}
+		
+		super.loadBean(bean, loadReferenceIds);
+	}
+	
+	@Override
+	public GuiTaskBean toBean() {
+		GuiTaskBean bean = (GuiTaskBean) super.toBean();
+		
+		bean.setColor(this.getColor());
+		bean.setShowChildren(this.isShowChildren());
+		
+		return bean;
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		if (!this.checkBeforeSet(this.getColor(), color))
+			return;
+		
+		Color oldColor = this.color;
+		this.color = color;
+		this.updateProperty(PROP_COLOR, oldColor, color, false);
+	}
+	
 	public boolean isShowChildren() {
 		return this.showChildren;
 	}
@@ -76,23 +114,6 @@ public class GuiTask extends Task {
 				oldShowChildren,
 				showChildren,
 				false);
-	}
-	
-	@Override
-	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
-		if (bean instanceof GuiTaskBean)
-			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
-		
-		super.loadBean(bean, loadReferenceIds);
-	}
-	
-	@Override
-	public GuiTaskBean toBean() {
-		GuiTaskBean bean = (GuiTaskBean) super.toBean();
-		
-		bean.setShowChildren(this.isShowChildren());
-		
-		return bean;
 	}
 	
 }

@@ -32,11 +32,19 @@
  */
 package com.leclercb.taskunifier.gui.api.models.beans;
 
+import java.awt.Color;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-public class GuiTaskBean extends TaskBean {
+public class GuiTaskBean extends TaskBean implements GuiModelBean {
+	
+	@XStreamAlias("color")
+	@XStreamConverter(ColorConverter.class)
+	private Color color;
 	
 	@XStreamAlias("showchildren")
 	private boolean showChildren;
@@ -48,14 +56,27 @@ public class GuiTaskBean extends TaskBean {
 	public GuiTaskBean(ModelId modelId) {
 		super(modelId);
 		
+		this.setColor(null);
 		this.setShowChildren(true);
 	}
 	
 	public GuiTaskBean(TaskBean bean) {
 		super(bean);
 		
-		if (bean instanceof GuiTaskBean)
+		if (bean instanceof GuiTaskBean) {
+			this.setColor(((GuiTaskBean) bean).getColor());
 			this.setShowChildren(((GuiTaskBean) bean).isShowChildren());
+		}
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 	public boolean isShowChildren() {

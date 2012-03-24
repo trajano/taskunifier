@@ -32,10 +32,19 @@
  */
 package com.leclercb.taskunifier.gui.api.models.beans;
 
+import java.awt.Color;
+
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.beans.NoteBean;
+import com.leclercb.taskunifier.gui.api.models.beans.converters.ColorConverter;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-public class GuiNoteBean extends NoteBean {
+public class GuiNoteBean extends NoteBean implements GuiModelBean {
+	
+	@XStreamAlias("color")
+	@XStreamConverter(ColorConverter.class)
+	private Color color;
 	
 	public GuiNoteBean() {
 		this((ModelId) null);
@@ -43,10 +52,25 @@ public class GuiNoteBean extends NoteBean {
 	
 	public GuiNoteBean(ModelId modelId) {
 		super(modelId);
+		
+		this.setColor(null);
 	}
 	
 	public GuiNoteBean(NoteBean bean) {
 		super(bean);
+		
+		if (bean instanceof GuiNoteBean)
+			this.setColor(((GuiNoteBean) bean).getColor());
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }

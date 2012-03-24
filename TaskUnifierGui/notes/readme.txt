@@ -13,7 +13,7 @@ Version 3.0.0
 		- Multiple locations for tasks
 		- FR 3445884: Define your own statuses
 		- FR 3481583: Define your own postpone list
-		- Define the note/task fields you don't use
+		- Define the note/task fields you (don't) use
 	- Minor:
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks

@@ -57,21 +57,6 @@ public class GuiContact extends Contact implements GuiModel {
 	}
 	
 	@Override
-	public Color getColor() {
-		return this.color;
-	}
-	
-	@Override
-	public void setColor(Color color) {
-		if (!this.checkBeforeSet(this.getColor(), color))
-			return;
-		
-		Color oldColor = this.color;
-		this.color = color;
-		this.updateProperty(PROP_COLOR, oldColor, color, false);
-	}
-	
-	@Override
 	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiContactBean)
 			this.setColor(((GuiContactBean) bean).getColor());
@@ -86,6 +71,21 @@ public class GuiContact extends Contact implements GuiModel {
 		bean.setColor(this.getColor());
 		
 		return bean;
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		if (!this.checkBeforeSet(this.getColor(), color))
+			return;
+		
+		Color oldColor = this.color;
+		this.color = color;
+		this.updateProperty(PROP_COLOR, oldColor, color, false);
 	}
 	
 }

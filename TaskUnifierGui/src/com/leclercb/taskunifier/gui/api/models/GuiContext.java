@@ -57,21 +57,6 @@ public class GuiContext extends Context implements GuiModel {
 	}
 	
 	@Override
-	public Color getColor() {
-		return this.color;
-	}
-	
-	@Override
-	public void setColor(Color color) {
-		if (!this.checkBeforeSet(this.getColor(), color))
-			return;
-		
-		Color oldColor = this.color;
-		this.color = color;
-		this.updateProperty(PROP_COLOR, oldColor, color, false);
-	}
-	
-	@Override
 	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
 		if (bean instanceof GuiContextBean)
 			this.setColor(((GuiContextBean) bean).getColor());
@@ -86,6 +71,21 @@ public class GuiContext extends Context implements GuiModel {
 		bean.setColor(this.getColor());
 		
 		return bean;
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color color) {
+		if (!this.checkBeforeSet(this.getColor(), color))
+			return;
+		
+		Color oldColor = this.color;
+		this.color = color;
+		this.updateProperty(PROP_COLOR, oldColor, color, false);
 	}
 	
 }
