@@ -251,43 +251,27 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				});
 				
 				if (type == Type.PUBLISH) {
-					TUSwingUtilities.invokeAndWait(new Runnable() {
-						
-						@Override
-						public void run() {
-							try {
-								synchronizer.publish(monitor);
-								synchronizer.saveParameters(Main.getUserSettings());
-							} catch (SynchronizerException e) {
-								SynchronizerWorker.this.handleSynchronizerException(
-										e,
-										finalPlugin);
-							}
-						};
-						
-					});
-				}
-				
-				if (type == Type.SYNCHRONIZE) {
-					TUSwingUtilities.invokeAndWait(new Runnable() {
-						
-						@Override
-						public void run() {
-							SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
-									"synchronizer.choice",
-									SynchronizerChoice.class);
-							
-							try {
-								synchronizer.synchronize(choice, monitor);
-								synchronizer.saveParameters(Main.getUserSettings());
-							} catch (SynchronizerException e) {
-								SynchronizerWorker.this.handleSynchronizerException(
-										e,
-										finalPlugin);
-							}
-						};
-						
-					});
+					try {
+						synchronizer.publish(monitor);
+						synchronizer.saveParameters(Main.getUserSettings());
+					} catch (SynchronizerException e) {
+						SynchronizerWorker.this.handleSynchronizerException(
+								e,
+								finalPlugin);
+					}
+				} else if (type == Type.SYNCHRONIZE) {
+					SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
+							"synchronizer.choice",
+							SynchronizerChoice.class);
+					
+					try {
+						synchronizer.synchronize(choice, monitor);
+						synchronizer.saveParameters(Main.getUserSettings());
+					} catch (SynchronizerException e) {
+						SynchronizerWorker.this.handleSynchronizerException(
+								e,
+								finalPlugin);
+					}
 				}
 				
 				connection.disconnect();

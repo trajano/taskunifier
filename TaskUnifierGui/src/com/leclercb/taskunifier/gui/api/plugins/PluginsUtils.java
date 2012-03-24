@@ -50,8 +50,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CompareUtils;
@@ -60,7 +58,7 @@ import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException;
-import com.leclercb.taskunifier.gui.api.plugins.exc.PluginException.PluginExceptionType;
+import com.leclercb.taskunifier.gui.api.plugins.exc.PluginExceptionType;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -75,25 +73,10 @@ import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class PluginsUtils {
+public final class PluginsUtils {
 	
-	static {
-		Main.getApiPlugins().addListChangeListener(new ListChangeListener() {
-			
-			@Override
-			public void listChange(ListChangeEvent evt) {
-				SynchronizerGuiPlugin plugin = (SynchronizerGuiPlugin) evt.getValue();
-				
-				if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-					if (EqualsUtils.equals(
-							Main.getUserSettings().getStringProperty(
-									"plugin.synchronizer.id"),
-							plugin.getId()))
-						SynchronizerUtils.setSynchronizerPlugin(DummyGuiPlugin.getInstance());
-				}
-			}
-			
-		});
+	private PluginsUtils() {
+		
 	}
 	
 	public static final Plugin DUMMY_PLUGIN = new Plugin(
@@ -246,6 +229,9 @@ public class PluginsUtils {
 						+ plugin.getVersion());
 	}
 	
+	/**
+	 * CAN BE EXECUTED OUTSIDE EDT
+	 */
 	public static void installPlugin(
 			final Plugin plugin,
 			final boolean use,
@@ -342,6 +328,9 @@ public class PluginsUtils {
 		}
 	}
 	
+	/**
+	 * CAN BE EXECUTED OUTSIDE EDT
+	 */
 	public static void updatePlugin(Plugin plugin, ProgressMonitor monitor)
 			throws Exception {
 		if (plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
@@ -368,6 +357,9 @@ public class PluginsUtils {
 							plugin.getName())));
 	}
 	
+	/**
+	 * CAN BE EXECUTED OUTSIDE EDT
+	 */
 	public static void deletePlugin(
 			final Plugin plugin,
 			final ProgressMonitor monitor) {
@@ -411,6 +403,9 @@ public class PluginsUtils {
 							plugin.getName())));
 	}
 	
+	/**
+	 * CAN BE EXECUTED OUTSIDE EDT
+	 */
 	private static Plugin[] loadPluginsFromXML(
 			ProgressMonitor monitor,
 			boolean includePublishers,
@@ -600,6 +595,9 @@ public class PluginsUtils {
 		}
 	}
 	
+	/**
+	 * CAN BE EXECUTED OUTSIDE EDT
+	 */
 	public static Plugin[] loadAndUpdatePluginsFromXML(
 			final boolean includePublishers,
 			final boolean includeSynchronizers,
