@@ -133,10 +133,13 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
+				ActionQuit.quit();
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
 				if (MainFrame.this.minimizeToSystemTray) {
 					MainFrame.this.setVisible(false);
-				} else {
-					ActionQuit.quit();
 				}
 			}
 			
