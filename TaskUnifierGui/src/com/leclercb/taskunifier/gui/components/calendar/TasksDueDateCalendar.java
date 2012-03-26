@@ -57,6 +57,11 @@ public class TasksDueDateCalendar extends TasksCalendar {
 			
 			Calendar dueDate = task.getDueDate();
 			
+			int length = task.getLength();
+			
+			if (length < 30)
+				length = 30;
+			
 			if (!Main.getSettings().getBooleanProperty("date.use_due_time")) {
 				dueDate.set(
 						Calendar.HOUR_OF_DAY,
@@ -65,12 +70,20 @@ public class TasksDueDateCalendar extends TasksCalendar {
 				dueDate.set(Calendar.MINUTE, 0);
 				dueDate.set(Calendar.SECOND, 0);
 				dueDate.set(Calendar.MILLISECOND, 0);
+			} else if (dueDate.get(Calendar.HOUR_OF_DAY) == 0
+					&& dueDate.get(Calendar.MINUTE) == 0) {
+				dueDate.set(
+						Calendar.HOUR_OF_DAY,
+						Main.getSettings().getIntegerProperty(
+								"date.day_end_hour"));
+				dueDate.set(Calendar.MINUTE, 0);
+				dueDate.set(Calendar.SECOND, 0);
+				dueDate.set(Calendar.MILLISECOND, 0);
+				
+				length = (Main.getSettings().getIntegerProperty(
+						"date.day_end_hour") - Main.getSettings().getIntegerProperty(
+						"date.day_start_hour")) * 60;
 			}
-			
-			int length = task.getLength();
-			
-			if (length < 30)
-				length = 30;
 			
 			Calendar startDate = DateUtils.cloneCalendar(dueDate);
 			startDate.add(Calendar.MINUTE, -length);

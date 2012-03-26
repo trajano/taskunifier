@@ -16,6 +16,7 @@ Version 3.0.0
 		- FR 3509335: Assign template to searcher
 		- Define the note/task fields you (don't) use
 	- Minor:
+		- BF 3510783: Whole day task in calendar
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks
 		- FR 3507878: Backup list order
