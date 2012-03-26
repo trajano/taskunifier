@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Commons/src/com/leclercb/commons/api/utils/properties/CompareProperties.java"/>
+<listEntry value="/Commons/src/com/leclercb/commons/api/utils/properties/RemoveProperties.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -9,7 +9,7 @@
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.leclercb.commons.api.utils.properties.CompareProperties"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${file_prompt:Properties 1}&quot; &quot;${file_prompt:Properties 2}&quot; &quot;${string_prompt:Edit}&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.leclercb.commons.api.utils.properties.RemoveProperties"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${file_prompt:Properties}&quot; &quot;${string_prompt:KeyStartsWith}&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Commons"/>
 </launchConfiguration>
