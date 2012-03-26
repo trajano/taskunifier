@@ -6,6 +6,7 @@ Version 2.3.2
 		- BF 3510391: Task searcher edit window not displayed
 	- Minor:
 		- BF 3504721: Repeat with parent problem
+		- FR 3510814: Minimize to tray improvement
 
 Version 2.3.1
 	- Major:

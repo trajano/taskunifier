@@ -77,6 +77,7 @@ import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
@@ -129,10 +130,13 @@ public class MainFrame extends JXFrame implements MainView, SavePropertiesListen
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
+				ActionQuit.quit();
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
 				if (MainFrame.this.minimizeToSystemTray) {
 					MainFrame.this.setVisible(false);
-				} else {
-					ActionQuit.quit();
 				}
 			}
 			
