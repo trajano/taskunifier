@@ -176,9 +176,23 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 						Translations.getString("configuration.synchronization.publish_exit"),
 						false)));
 		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_4",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"SYNC_REMINDER_FIELD",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getUserSettings(),
+						"synchronizer.sync_reminder_field",
+						Translations.getString("configuration.synchronization.sync_reminder_field"),
+						false)));
+		
 		if (!this.welcome) {
 			this.addField(new ConfigurationField(
-					"SEPARATOR_4",
+					"SEPARATOR_5",
 					null,
 					new ConfigurationFieldType.Separator()));
 			

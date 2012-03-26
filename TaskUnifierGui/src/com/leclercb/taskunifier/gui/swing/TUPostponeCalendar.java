@@ -125,47 +125,47 @@ public class TUPostponeCalendar extends JCalendar implements ActionSupported {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		panel.add(new JQuickDateButton(
-				Translations.getString("postpone.today"),
+				Translations.getString("date.today"),
 				Calendar.DAY_OF_MONTH,
 				0));
 		panel.add(new JQuickDateButton(
-				Translations.getString("postpone.tomorrow"),
+				Translations.getString("date.tomorrow"),
 				Calendar.DAY_OF_MONTH,
 				1));
 		panel.add(new JQuickDateButton(
 				Translations.getString(
-						"postpone.in",
-						Translations.getString("postpone.x_days", 2)),
+						"date.in",
+						Translations.getString("date.x_days", 2)),
 				Calendar.DAY_OF_MONTH,
 				2));
 		panel.add(new JQuickDateButton(
 				Translations.getString(
-						"postpone.in",
-						Translations.getString("postpone.x_days", 3)),
+						"date.in",
+						Translations.getString("date.x_days", 3)),
 				Calendar.DAY_OF_MONTH,
 				3));
 		panel.add(new JQuickDateButton(
 				Translations.getString(
-						"postpone.in",
-						Translations.getString("postpone.1_week")),
+						"date.in",
+						Translations.getString("date.1_week")),
 				Calendar.WEEK_OF_YEAR,
 				1));
 		panel.add(new JQuickDateButton(
 				Translations.getString(
-						"postpone.in",
-						Translations.getString("postpone.x_weeks", 2)),
+						"date.in",
+						Translations.getString("date.x_weeks", 2)),
 				Calendar.WEEK_OF_YEAR,
 				2));
 		panel.add(new JQuickDateButton(Translations.getString(
-				"postpone.in",
-				Translations.getString("postpone.1_month")), Calendar.MONTH, 1));
+				"date.in",
+				Translations.getString("date.1_month")), Calendar.MONTH, 1));
 		panel.add(new JQuickDateButton(Translations.getString(
-				"postpone.in",
-				Translations.getString("postpone.1_year")), Calendar.YEAR, 1));
+				"date.in",
+				Translations.getString("date.1_year")), Calendar.YEAR, 1));
 		
 		if (showNoDateButton) {
 			JButton noDateButton = new JButton(
-					Translations.getString("postpone.no_date"));
+					Translations.getString("date.no_date"));
 			noDateButton.setForeground(Color.RED);
 			noDateButton.addActionListener(new ActionListener() {
 				

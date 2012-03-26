@@ -149,6 +149,20 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.ColorChooser(
 						Main.getSettings(),
 						"theme.color.odd")));
+		
+		this.addField(new ConfigurationField(
+				"COLOR_DUE_TODAY",
+				Translations.getString("configuration.theme.color_due_today"),
+				new ConfigurationFieldType.ColorChooser(
+						Main.getSettings(),
+						"theme.color.due_today")));
+		
+		this.addField(new ConfigurationField(
+				"COLOR_OVERDUE",
+				Translations.getString("configuration.theme.color_overdue"),
+				new ConfigurationFieldType.ColorChooser(
+						Main.getSettings(),
+						"theme.color.overdue")));
 	}
 	
 }

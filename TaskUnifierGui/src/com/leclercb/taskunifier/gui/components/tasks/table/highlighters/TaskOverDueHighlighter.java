@@ -32,12 +32,13 @@
  */
 package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
+
+import com.leclercb.taskunifier.gui.main.Main;
 
 public class TaskOverDueHighlighter extends AbstractHighlighter {
 	
@@ -47,7 +48,8 @@ public class TaskOverDueHighlighter extends AbstractHighlighter {
 	
 	@Override
 	protected Component doHighlight(Component renderer, ComponentAdapter adapter) {
-		renderer.setForeground(new Color(140, 25, 25));
+		renderer.setForeground(Main.getSettings().getColorProperty(
+				"theme.color.overdue"));
 		return renderer;
 	}
 	

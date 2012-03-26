@@ -35,13 +35,16 @@ package com.leclercb.taskunifier.gui.components.configuration.api;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXLabel;
 
@@ -178,6 +181,12 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 			
 			field.getType().initializeFieldComponent();
 			component = field.getType().getFieldComponent();
+			
+			if (component instanceof JCheckBox) {
+				JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+				p.add(component);
+				component = p;
+			}
 			
 			builder.append(label);
 			builder.append(component);

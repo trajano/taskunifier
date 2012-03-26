@@ -22,22 +22,22 @@ public class StringValueCalendarField implements StringValue {
 		int field = (Integer) value;
 		
 		if (field == Calendar.MINUTE)
-			return Translations.getString("postpone.minute");
+			return Translations.getString("date.minute");
 		
 		if (field == Calendar.HOUR_OF_DAY)
-			return Translations.getString("postpone.hour");
+			return Translations.getString("date.hour");
 		
 		if (field == Calendar.DAY_OF_MONTH)
-			return Translations.getString("postpone.day");
+			return Translations.getString("date.day");
 		
 		if (field == Calendar.WEEK_OF_YEAR)
-			return Translations.getString("postpone.week");
+			return Translations.getString("date.week");
 		
 		if (field == Calendar.MONTH)
-			return Translations.getString("postpone.month");
+			return Translations.getString("date.month");
 		
 		if (field == Calendar.YEAR)
-			return Translations.getString("postpone.year");
+			return Translations.getString("date.year");
 		
 		return " ";
 	}

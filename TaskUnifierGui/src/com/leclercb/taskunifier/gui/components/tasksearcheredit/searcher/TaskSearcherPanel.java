@@ -51,10 +51,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
+import org.jdesktop.swingx.renderer.DefaultListRenderer;
+
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
@@ -67,6 +72,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 	private JComboBox searcherType;
 	private JButton searcherIcon;
 	private JTextField searcherTitle;
+	private JComboBox searcherTemplate;
 	
 	public TaskSearcherPanel(TaskSearcher searcher) {
 		this.searcher = searcher;
@@ -199,6 +205,25 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 				"searcheredit.searcher.title",
 				true,
 				this.searcherTitle);
+		
+		// Template
+		this.searcherTemplate = new JComboBox();
+		this.searcherTemplate.setModel(new TaskTemplateModel(true));
+		this.searcherTemplate.setRenderer(new DefaultListRenderer(
+				StringValueTaskTemplateTitle.INSTANCE));
+		this.searcherTemplate.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent event) {
+				TaskSearcherPanel.this.searcher.setTemplate((TaskTemplate) event.getItem());
+			}
+			
+		});
+		
+		builder.appendI15d(
+				"searcheredit.searcher.template",
+				true,
+				this.searcherTemplate);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);

@@ -11,11 +11,15 @@ Version 3.0.0
 		- FR 3445884: Define your own statuses
 		- FR 3481583: Define your own postpone list
 		- FR 3481583: Define your own snooze list
+		- FR 3509335: Assign template to searcher
 		- Define the note/task fields you (don't) use
 	- Minor:
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks
 		- FR 3507878: Backup list order
+		- FR 3509411: Move "Sync reminder field" field
+		- FR 3500334: Improved quick add task dates
+		- New color settings (foreground)
 
 Version 2.3.0
 	- Major:

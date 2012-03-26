@@ -37,6 +37,7 @@ import java.util.Comparator;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.utils.CompareUtils;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 
@@ -47,7 +48,7 @@ public class TaskStatusModel extends DefaultSortedComboBoxModel implements ListC
 			
 			@Override
 			public int compare(String o1, String o2) {
-				return o1.compareTo(o2);
+				return CompareUtils.compare(o1, o2);
 			}
 			
 		});

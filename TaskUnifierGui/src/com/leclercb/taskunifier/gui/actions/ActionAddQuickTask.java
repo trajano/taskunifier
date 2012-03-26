@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -242,12 +243,12 @@ public class ActionAddQuickTask extends AbstractAction {
 				"date.time_format");
 		dateFormat = dateFormat.replace("yyyy", "yy");
 		
-		Pattern pattern = Pattern.compile("([+-]?)([0-9]*)(d|w|m|y|tt|t)(.*)");
+		Pattern pattern = Pattern.compile("([+-]?)([0-9]*)([a-zA-Z]{1,3})(.*)");
 		Matcher matcher = pattern.matcher(title);
 		
 		if (matcher.find()) {
 			int num = 0;
-			String type = "d";
+			String type = Translations.getString("date.short_day");
 			
 			try {
 				num = Integer.parseInt(matcher.group(2));
@@ -260,39 +261,62 @@ public class ActionAddQuickTask extends AbstractAction {
 			if (matcher.group(1).equals("-"))
 				num *= -1;
 			
+			boolean skip = false;
+			
 			Calendar date = Calendar.getInstance();
-			if ("d".equals(type))
+			if (Translations.getString("date.short_day").equals(type))
 				date.add(Calendar.DAY_OF_MONTH, num);
-			else if ("w".equals(type))
+			else if (Translations.getString("date.short_week").equals(type))
 				date.add(Calendar.WEEK_OF_YEAR, num);
-			else if ("m".equals(type))
+			else if (Translations.getString("date.short_month").equals(type))
 				date.add(Calendar.MONTH, num);
-			else if ("y".equals(type))
+			else if (Translations.getString("date.short_year").equals(type))
 				date.add(Calendar.YEAR, num);
-			else if ("t".equals(type))
+			else if (Translations.getString("date.short_today").equals(type))
 				date.add(Calendar.DAY_OF_MONTH, 0);
-			else if ("tt".equals(type))
+			else if (Translations.getString("date.short_tomorrow").equals(type))
 				date.add(Calendar.DAY_OF_MONTH, 1);
-			
-			title = matcher.group(4).trim();
-			
-			try {
-				SimpleDateFormat format = new SimpleDateFormat(timeFormat);
-				Calendar time = Calendar.getInstance();
-				time.setTime(format.parse(title));
-				
-				date.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-				date.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
-			} catch (ParseException e) {
-				
-			}
-			
-			if (startDate)
-				bean.setStartDate(date);
 			else
-				bean.setDueDate(date);
+				skip = true;
 			
-			return;
+			if (!skip) {
+				title = matcher.group(4).trim();
+				
+				try {
+					SimpleDateFormat format = new SimpleDateFormat(timeFormat);
+					Calendar time = Calendar.getInstance();
+					time.setTime(format.parse(title));
+					
+					date.set(
+							Calendar.HOUR_OF_DAY,
+							time.get(Calendar.HOUR_OF_DAY));
+					date.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+				} catch (ParseException e) {
+					
+				}
+				
+				if (startDate)
+					bean.setStartDate(date);
+				else
+					bean.setDueDate(date);
+				
+				return;
+			}
+		}
+		
+		for (int i = 0; i < 7; i++) {
+			System.out.println(DateFormatSymbols.getInstance().getShortWeekdays()[i]);
+			if (DateFormatSymbols.getInstance().getShortWeekdays()[i].equalsIgnoreCase(title)) {
+				Calendar date = Calendar.getInstance();
+				date.set(Calendar.DAY_OF_WEEK, i);
+				
+				if (startDate)
+					bean.setStartDate(date);
+				else
+					bean.setDueDate(date);
+				
+				return;
+			}
 		}
 		
 		SimpleDateFormat[] formats = {

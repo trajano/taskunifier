@@ -223,52 +223,40 @@ public final class TaskSnoozeList implements ListChangeSupported, PropertyChange
 		public String toString() {
 			if (this.amount == 0 || this.amount == 1) {
 				if (this.field == Calendar.MINUTE)
-					return Translations.getString("postpone.1_minute");
+					return Translations.getString("date.1_minute");
 				
 				if (this.field == Calendar.HOUR_OF_DAY)
-					return Translations.getString("postpone.1_hour");
+					return Translations.getString("date.1_hour");
 				
 				if (this.field == Calendar.DAY_OF_MONTH)
-					return Translations.getString("postpone.1_day");
+					return Translations.getString("date.1_day");
 				
 				if (this.field == Calendar.WEEK_OF_YEAR)
-					return Translations.getString("postpone.1_week");
+					return Translations.getString("date.1_week");
 				
 				if (this.field == Calendar.MONTH)
-					return Translations.getString("postpone.1_month");
+					return Translations.getString("date.1_month");
 				
 				if (this.field == Calendar.YEAR)
-					return Translations.getString("postpone.1_year");
+					return Translations.getString("date.1_year");
 			} else {
 				if (this.field == Calendar.MINUTE)
-					return Translations.getString(
-							"postpone.x_minutes",
-							this.amount);
+					return Translations.getString("date.x_minutes", this.amount);
 				
 				if (this.field == Calendar.HOUR_OF_DAY)
-					return Translations.getString(
-							"postpone.x_hours",
-							this.amount);
+					return Translations.getString("date.x_hours", this.amount);
 				
 				if (this.field == Calendar.DAY_OF_MONTH)
-					return Translations.getString(
-							"postpone.x_days",
-							this.amount);
+					return Translations.getString("date.x_days", this.amount);
 				
 				if (this.field == Calendar.WEEK_OF_YEAR)
-					return Translations.getString(
-							"postpone.x_weeks",
-							this.amount);
+					return Translations.getString("date.x_weeks", this.amount);
 				
 				if (this.field == Calendar.MONTH)
-					return Translations.getString(
-							"postpone.x_months",
-							this.amount);
+					return Translations.getString("date.x_months", this.amount);
 				
 				if (this.field == Calendar.YEAR)
-					return Translations.getString(
-							"postpone.x_years",
-							this.amount);
+					return Translations.getString("date.x_years", this.amount);
 			}
 			
 			return null;

@@ -1,38 +1,49 @@
-package com.leclercb.commons.api.utils;
+package com.leclercb.commons.api.utils.properties;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.leclercb.commons.api.properties.SortedProperties;
 
-public class AddProperties {
+public class ReplaceProperties {
 	
-	public static void addProperty(
+	public static void removeProperty(
 			File file,
-			String key,
-			String value,
-			boolean overwrite) throws Exception {
+			String keyStartsWith,
+			String newKeyStartsWith) throws Exception {
 		SortedProperties p = new SortedProperties();
 		p.load(new FileInputStream(file));
 		
-		if (overwrite || !p.containsKey(key)) {
+		Set<Object> keys = new HashSet<Object>(p.keySet());
+		for (Object key : keys) {
+			if (!key.toString().startsWith(keyStartsWith))
+				continue;
+			
 			System.out.println("Property \""
 					+ key
-					+ "\" added to: "
+					+ "\" replaced in: "
 					+ file.getName());
 			
-			p.put(key, value);
-			p.store(new FileOutputStream(file), null);
+			String newKey = key.toString().replace(
+					keyStartsWith,
+					newKeyStartsWith);
+			String value = p.getProperty(key.toString());
+			
+			p.remove(key);
+			p.put(newKey, value);
 		}
+		
+		p.store(new FileOutputStream(file), null);
 	}
 	
 	public static void main(String[] args) throws Exception {
 		File file = new File(args[0]);
-		String key = args[1];
-		String value = args[2];
-		boolean overwrite = (args[3].length() > 0);
+		String keyStartsWith = args[1];
+		String newKeyStartsWith = args[2];
 		
 		if (!file.exists() || !file.isFile())
 			throw new IllegalArgumentException();
@@ -52,7 +63,7 @@ public class AddProperties {
 		});
 		
 		for (File f : files) {
-			addProperty(f, key, value, overwrite);
+			removeProperty(f, keyStartsWith, newKeyStartsWith);
 		}
 	}
 	
