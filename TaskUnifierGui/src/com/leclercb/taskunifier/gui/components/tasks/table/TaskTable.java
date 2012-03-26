@@ -71,6 +71,7 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -108,7 +109,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
-public class TaskTable extends JXTable implements TaskTableView {
+public class TaskTable extends JXTable implements TaskTableView, SavePropertiesListener {
 	
 	private UndoSupport undoSupport;
 	
@@ -318,6 +319,7 @@ public class TaskTable extends JXTable implements TaskTableView {
 		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 		
+		this.initializeSettings();
 		this.initializeHeaderListener();
 		this.initializeDeleteTasks();
 		this.initializeDoubleClick();
@@ -372,6 +374,13 @@ public class TaskTable extends JXTable implements TaskTableView {
 			}
 			
 		});
+	}
+	
+	private void initializeSettings() {
+		this.setHorizontalScrollEnabled(Main.getSettings().getBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				false));
 	}
 	
 	private void initializeHeaderListener() {
@@ -626,6 +635,14 @@ public class TaskTable extends JXTable implements TaskTableView {
 				new TaskSelectedHighlighter(
 						new TaskSelectedHighlightPredicate()),
 				new TaskTooltipHighlighter(new TaskTooltipHighlightPredicate()));
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.getSettings().setBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				this.isHorizontalScrollEnabled());
 	}
 	
 }

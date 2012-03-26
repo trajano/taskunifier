@@ -150,7 +150,7 @@ public class TUModelListField<M extends Model> extends JPanel {
 		this.modelSelectionPanel = new ModelSelectionPanel(
 				new TUTableProperties<ModelSelectionColumn>(
 						ModelSelectionColumn.class,
-						"modelselectioncolumn",
+						"modelselection",
 						false), this.modelType);
 		
 		popupPanel.add(this.modelSelectionPanel);

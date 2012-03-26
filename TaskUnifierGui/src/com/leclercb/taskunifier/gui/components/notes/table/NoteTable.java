@@ -68,6 +68,7 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
@@ -89,10 +90,11 @@ import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowCompara
 import com.leclercb.taskunifier.gui.components.notes.table.sorter.NoteRowFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
-public class NoteTable extends JXTable implements NoteTableView {
+public class NoteTable extends JXTable implements NoteTableView, SavePropertiesListener {
 	
 	private UndoSupport undoSupport;
 	
@@ -296,6 +298,7 @@ public class NoteTable extends JXTable implements NoteTableView {
 		this.setSortOrderCycle(SortOrder.ASCENDING);
 		this.setColumnControlVisible(true);
 		
+		this.initializeSettings();
 		this.initializeHeaderListener();
 		this.initializeDeleteNote();
 		this.initializeEditNote();
@@ -327,6 +330,13 @@ public class NoteTable extends JXTable implements NoteTableView {
 			}
 			
 		});
+	}
+	
+	private void initializeSettings() {
+		this.setHorizontalScrollEnabled(Main.getSettings().getBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				false));
 	}
 	
 	private void initializeHeaderListener() {
@@ -515,6 +525,14 @@ public class NoteTable extends JXTable implements NoteTableView {
 				new AlternateHighlighter(),
 				new NoteTitleHighlighter(new NoteTitleHighlightPredicate()),
 				new NoteTooltipHighlighter(new NoteTooltipHighlightPredicate()));
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.getSettings().setBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				this.isHorizontalScrollEnabled());
 	}
 	
 }

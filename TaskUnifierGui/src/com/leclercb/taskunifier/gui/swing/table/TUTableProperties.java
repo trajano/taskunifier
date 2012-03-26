@@ -93,16 +93,22 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 			TableColumnProperties<E> properties = this.columns.get(column);
 			
 			properties.setOrder(Main.getSettings().getIntegerProperty(
-					propertyName + "." + column.name().toLowerCase() + ".order",
+					propertyName
+							+ ".column."
+							+ column.name().toLowerCase()
+							+ ".order",
 					0));
 			
 			properties.setWidth(Main.getSettings().getIntegerProperty(
-					propertyName + "." + column.name().toLowerCase() + ".width",
+					propertyName
+							+ ".column."
+							+ column.name().toLowerCase()
+							+ ".width",
 					100));
 			
 			properties.setVisible(Main.getSettings().getBooleanProperty(
 					propertyName
-							+ "."
+							+ ".column."
 							+ column.name().toLowerCase()
 							+ ".visible",
 					true));
@@ -194,7 +200,7 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setIntegerProperty(
 						this.tableProperties.getPropertyName()
-								+ "."
+								+ ".column."
 								+ this.column.name().toLowerCase()
 								+ ".order",
 						order);
@@ -220,7 +226,7 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setIntegerProperty(
 						this.tableProperties.getPropertyName()
-								+ "."
+								+ ".column."
 								+ this.column.name().toLowerCase()
 								+ ".width",
 						width);
@@ -246,7 +252,7 @@ public class TUTableProperties<E extends Enum<?>> implements PropertyChangeListe
 			if (!this.tableProperties.isReadOnly()) {
 				Main.getSettings().setBooleanProperty(
 						this.tableProperties.getPropertyName()
-								+ "."
+								+ ".column."
 								+ this.column.name().toLowerCase()
 								+ ".visible",
 						visible);

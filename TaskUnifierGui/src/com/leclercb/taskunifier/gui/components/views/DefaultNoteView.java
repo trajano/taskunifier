@@ -186,7 +186,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 	private void initializeNoteTable(JPanel middlePane) {
 		this.noteTable = new NoteTable(new TUTableProperties<NoteColumn>(
 				NoteColumn.class,
-				"note.column",
+				"note",
 				false));
 		
 		JPanel notePanel = new JPanel(new BorderLayout());

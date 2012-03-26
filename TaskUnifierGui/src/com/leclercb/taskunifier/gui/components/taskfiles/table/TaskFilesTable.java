@@ -45,16 +45,18 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.FileList;
 import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.taskfiles.TaskFilesColumn;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.draganddrop.TaskFilesTransferHandler;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 
-public class TaskFilesTable extends JXTable {
+public class TaskFilesTable extends JXTable implements SavePropertiesListener {
 	
 	private TUTableProperties<TaskFilesColumn> tableProperties;
 	
@@ -132,9 +134,17 @@ public class TaskFilesTable extends JXTable {
 		this.setColumnControlVisible(true);
 		this.setSortOrder(TaskFilesColumn.LINK, SortOrder.ASCENDING);
 		
+		this.initializeSettings();
 		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
 		this.initializeHighlighters();
+	}
+	
+	private void initializeSettings() {
+		this.setHorizontalScrollEnabled(Main.getSettings().getBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				false));
 	}
 	
 	private void initializeDragAndDrop() {
@@ -181,6 +191,14 @@ public class TaskFilesTable extends JXTable {
 	
 	private void initializeHighlighters() {
 		this.setHighlighters(new AlternateHighlighter());
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.getSettings().setBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				this.isHorizontalScrollEnabled());
 	}
 	
 }

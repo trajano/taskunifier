@@ -44,6 +44,7 @@ import javax.swing.SortOrder;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskList;
@@ -53,9 +54,10 @@ import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.draganddrop.TaskTasksTransferHandler;
 import com.leclercb.taskunifier.gui.components.tasktasks.table.highlighters.TaskAlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
-public class TaskTasksTable extends JXTable {
+public class TaskTasksTable extends JXTable implements SavePropertiesListener {
 	
 	private TUTableProperties<TaskTasksColumn> tableProperties;
 	
@@ -133,9 +135,17 @@ public class TaskTasksTable extends JXTable {
 		this.setColumnControlVisible(true);
 		this.setSortOrder(TaskTasksColumn.LINK, SortOrder.ASCENDING);
 		
+		this.initializeSettings();
 		this.initializeDragAndDrop();
 		this.initializeDoubleClick();
 		this.initializeHighlighters();
+	}
+	
+	private void initializeSettings() {
+		this.setHorizontalScrollEnabled(Main.getSettings().getBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				false));
 	}
 	
 	private void initializeDragAndDrop() {
@@ -192,6 +202,14 @@ public class TaskTasksTable extends JXTable {
 	
 	private void initializeHighlighters() {
 		this.setHighlighters(new TaskAlternateHighlighter());
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.getSettings().setBooleanProperty(
+				this.tableProperties.getPropertyName()
+						+ ".horizontal_scroll_enabled",
+				this.isHorizontalScrollEnabled());
 	}
 	
 }
