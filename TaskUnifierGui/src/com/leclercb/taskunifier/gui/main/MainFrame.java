@@ -77,7 +77,6 @@ import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
