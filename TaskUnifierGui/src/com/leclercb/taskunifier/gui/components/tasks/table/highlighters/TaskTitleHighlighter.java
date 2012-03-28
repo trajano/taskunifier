@@ -122,18 +122,22 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		// Set Text & Font
 		if (task.getParent() == null) {
 			r.setFont(r.getFont().deriveFont(Font.BOLD));
-			r.setText(title);
+			r.setText("<html>" + title + "</html>");
 		} else {
 			r.setFont(r.getFont().deriveFont(Font.PLAIN));
 			
 			if (indentSubtasks) {
-				StringBuffer buffer = new StringBuffer();
-				for (int i = 0; i < nbParents; i++)
-					buffer.append("     ");
+				StringBuffer buffer = new StringBuffer("<html>");
 				
-				r.setText(buffer + title);
+				for (int i = 0; i < nbParents; i++)
+					buffer.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				
+				buffer.append(title);
+				buffer.append("</html>");
+				
+				r.setText(buffer.toString());
 			} else {
-				r.setText(title);
+				r.setText("<html>" + title + "</html>");
 			}
 		}
 		
