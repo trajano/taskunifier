@@ -33,7 +33,10 @@
 package com.leclercb.taskunifier.gui.threads.reminder.progress;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.taskunifier.api.models.Task;
 
 public interface ReminderProgressMessage extends ProgressMessage {
+	
+	public abstract Task getTask();
 	
 }

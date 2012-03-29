@@ -37,13 +37,14 @@ import java.beans.PropertyChangeListener;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronize;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 
-public class ScheduledSyncThread extends Thread implements PropertyChangeSupported {
+public class ScheduledSyncThread extends Thread implements PropertyChangeSupported, PropertyChangeListener {
 	
 	public static final String PROP_REMAINING_SLEEP_TIME = "remainingSleepTime";
 	
@@ -65,25 +66,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				"synchronizer.scheduler_enabled");
 		
 		Main.getUserSettings().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals(
-								"synchronizer.scheduler_sleep_time")) {
-							ScheduledSyncThread.this.sleepTime = Main.getUserSettings().getLongProperty(
-									"synchronizer.scheduler_sleep_time");
-							ScheduledSyncThread.this.setRemainingSleepTime(ScheduledSyncThread.this.sleepTime);
-						}
-						
-						if (evt.getPropertyName().equals(
-								"synchronizer.scheduler_enabled")) {
-							ScheduledSyncThread.this.paused = !Main.getUserSettings().getBooleanProperty(
-									"synchronizer.scheduler_enabled");
-						}
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 	}
 	
 	public synchronized long getRemainingSleepTime() {
@@ -113,13 +96,13 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				if (Synchronizing.isSynchronizing())
 					continue;
 				
-				final boolean publishBackground = Main.getUserSettings().getBooleanProperty(
-						"synchronizer.publish_background");
-				
 				TUSwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
 					public void run() {
+						boolean publishBackground = Main.getUserSettings().getBooleanProperty(
+								"synchronizer.publish_background");
+						
 						if (publishBackground)
 							ActionSynchronizeAndPublish.synchronizeAndPublish(true);
 						else
@@ -130,6 +113,20 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 			} catch (InterruptedException e) {
 				
 			}
+		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("synchronizer.scheduler_sleep_time")) {
+			this.sleepTime = Main.getUserSettings().getLongProperty(
+					"synchronizer.scheduler_sleep_time");
+			this.setRemainingSleepTime(this.sleepTime);
+		}
+		
+		if (evt.getPropertyName().equals("synchronizer.scheduler_enabled")) {
+			this.paused = !Main.getUserSettings().getBooleanProperty(
+					"synchronizer.scheduler_enabled");
 		}
 	}
 	

@@ -69,7 +69,6 @@ import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
-import com.leclercb.taskunifier.gui.components.synchronize.progress.GrowlSynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
@@ -77,8 +76,6 @@ import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.Threads;
-import com.leclercb.taskunifier.gui.threads.communicator.progress.GrowlCommunicatorProgressMessageListener;
-import com.leclercb.taskunifier.gui.threads.reminder.progress.GrowlReminderProgressMessageListener;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class SubFrame extends JXFrame implements FrameView, SavePropertiesListener, PropertyChangeSupported {
@@ -174,10 +171,6 @@ public class SubFrame extends JXFrame implements FrameView, SavePropertiesListen
 			}
 			
 		});
-		
-		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlCommunicatorProgressMessageListener());
-		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
-		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlReminderProgressMessageListener());
 		
 		this.initializeMenuBar();
 		this.initializeToolBar();

@@ -47,7 +47,6 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.main.frame.MainFrame;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
@@ -88,12 +87,6 @@ public class CheckPluginVersionRunnable implements Runnable {
 		for (SynchronizerGuiPlugin syncPlugin : this.syncPlugins) {
 			try {
 				Plugin plugin = null;
-				
-				if (syncPlugin.getId().equals(
-						DummyGuiPlugin.getInstance().getId())) {
-					this.showNoNewVersion(syncPlugin, this.silent);
-					continue;
-				}
 				
 				for (Plugin p : plugins) {
 					if (syncPlugin.getId().equals(p.getId()))
@@ -193,7 +186,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 		}
 	}
 	
-	public void showNoNewVersion(
+	private void showNoNewVersion(
 			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
 		GuiLogger.getLogger().info(

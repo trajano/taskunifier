@@ -1,3 +1,8 @@
 actions
+api.models
+api.plugins
+api.synchronizer
 plugins
+resources
+threads
 translations

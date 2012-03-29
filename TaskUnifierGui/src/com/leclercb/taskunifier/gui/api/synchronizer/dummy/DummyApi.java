@@ -39,6 +39,7 @@ import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerApi;
 import com.leclercb.taskunifier.api.synchronizer.exc.SynchronizerException;
+import com.leclercb.taskunifier.gui.plugins.PluginRepeatUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DummyApi extends SynchronizerApi {
@@ -80,12 +81,12 @@ public class DummyApi extends SynchronizerApi {
 	
 	@Override
 	public boolean isValidRepeatValue(String repeat) {
-		return RepeatUtils.isValidRepeatValue(repeat);
+		return PluginRepeatUtils.isValidRepeatValue(repeat);
 	}
 	
 	@Override
 	public void createRepeatTask(Task task) {
-		RepeatUtils.createRepeatTask(task);
+		PluginRepeatUtils.createRepeatTask(task);
 	}
 	
 	@Override

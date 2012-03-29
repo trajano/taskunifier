@@ -45,11 +45,11 @@ public class DummyConfigurationPanel extends DefaultConfigurationPanel {
 			boolean welcome) {
 		super(configuration);
 		
-		this.initialize(welcome);
+		this.initialize();
 		this.pack();
 	}
 	
-	private void initialize(boolean welcome) {
+	private void initialize() {
 		this.addField(new ConfigurationField(
 				"NO_CONFIG",
 				null,

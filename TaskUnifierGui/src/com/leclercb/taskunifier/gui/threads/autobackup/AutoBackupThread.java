@@ -46,7 +46,7 @@ public class AutoBackupThread extends Thread {
 	public void run() {
 		while (!this.isInterrupted()) {
 			try {
-				Thread.sleep(60 * 1000);
+				Thread.sleep(5 * 60 * 1000);
 				
 				TUSwingUtilities.invokeLater(new Runnable() {
 					

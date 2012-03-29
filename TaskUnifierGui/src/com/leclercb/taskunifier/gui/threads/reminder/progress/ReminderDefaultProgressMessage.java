@@ -40,15 +40,16 @@ public class ReminderDefaultProgressMessage implements ReminderProgressMessage {
 	private Task task;
 	
 	public ReminderDefaultProgressMessage(Task task) {
-		CheckUtils.isNotNull(task);
-		this.task = task;
+		this.setTask(task);
 	}
 	
+	@Override
 	public Task getTask() {
 		return this.task;
 	}
 	
-	public void setTask(Task task) {
+	private void setTask(Task task) {
+		CheckUtils.isNotNull(task);
 		this.task = task;
 	}
 	

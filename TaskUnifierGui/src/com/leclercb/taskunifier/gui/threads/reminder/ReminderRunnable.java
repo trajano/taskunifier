@@ -39,6 +39,8 @@ import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionTaskReminders;
@@ -51,14 +53,16 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeListener {
 	
-	private static final long SLEEP_TIME = 10000;
+	private static final long SLEEP_TIME = 10 * 000;
 	
 	private List<Task> notifiedTasks;
 	
 	public ReminderRunnable() {
 		this.notifiedTasks = new ArrayList<Task>();
-		TaskFactory.getInstance().addListChangeListener(this);
-		TaskFactory.getInstance().addPropertyChangeListener(this);
+		TaskFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskFactory.getInstance(), this));
+		TaskFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(TaskFactory.getInstance(), this));
 	}
 	
 	@Override
