@@ -144,6 +144,8 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		// Set Icon
 		if (!task.isCompleted() && task.isOverDue(!useDueTime))
 			r.setIcon(ImageUtils.getResourceImage("warning.png", 16, 16));
+		else if (!task.isCompleted() && task.isDueToday(!useDueTime))
+			r.setIcon(ImageUtils.getResourceImage("warning_green.png", 16, 16));
 		else
 			r.setIcon(ImageUtils.getResourceImage("transparent.png", 16, 16));
 		
