@@ -53,7 +53,7 @@ import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeListener {
 	
-	private static final long SLEEP_TIME = 10 * 000;
+	private static final long SLEEP_TIME = 10 * 1000;
 	
 	private List<Task> notifiedTasks;
 	

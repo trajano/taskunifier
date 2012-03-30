@@ -8,7 +8,7 @@ public class TimeValueComparator implements Comparator<TimeValue> {
 	
 	@Override
 	public int compare(TimeValue o1, TimeValue o2) {
-		int result = new Integer(o1.getField()).compareTo(o2.getField());
+		int result = new Integer(o1.getField()).compareTo(o2.getField()) * -1;
 		
 		if (result != 0)
 			return result;

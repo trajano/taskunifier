@@ -75,7 +75,7 @@ public class TaskPostponeListModel extends DefaultSortedComboBoxModel implements
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		this.fireStructureChanged(event);
+		this.fireStructureChanged(this);
 	}
 	
 }
