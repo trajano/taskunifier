@@ -122,7 +122,7 @@ public final class Constants {
 		
 		String value = null;
 		
-		// NOTE
+		// Default Note Sorter
 		DEFAULT_NOTE_SORTER = new NoteSorter();
 		
 		DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
@@ -156,7 +156,7 @@ public final class Constants {
 				new NoteFilter(),
 				DEFAULT_NOTE_SORTER.clone());
 		
-		// TASK
+		// Default Task Sorter
 		DEFAULT_TASK_SORTER = new TaskSorter();
 		
 		DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
@@ -184,6 +184,7 @@ public final class Constants {
 			}
 		}
 		
+		// Default Task Searcher
 		DEFAULT_TASK_SEARCHER = new TaskSearcher(
 				TaskSearcherType.DEFAULT,
 				0,
