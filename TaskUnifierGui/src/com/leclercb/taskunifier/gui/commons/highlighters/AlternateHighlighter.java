@@ -42,9 +42,10 @@ import javax.swing.UIManager;
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class AlternateHighlighter extends AbstractHighlighter {
+public class AlternateHighlighter extends AbstractHighlighter implements PropertyChangeListener {
 	
 	private Color even = null;
 	private Color odd = null;
@@ -55,21 +56,7 @@ public class AlternateHighlighter extends AbstractHighlighter {
 		this.resetColors();
 		
 		Main.getSettings().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals("theme.color.enabled")
-								|| evt.getPropertyName().equals(
-										"theme.color.even")
-								|| evt.getPropertyName().equals(
-										"theme.color.odd")) {
-							AlternateHighlighter.this.resetColors();
-							AlternateHighlighter.this.fireStateChanged();
-						}
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	@Override
@@ -96,6 +83,18 @@ public class AlternateHighlighter extends AbstractHighlighter {
 		} else {
 			this.even = UIManager.getColor("Table.background");
 			this.odd = UIManager.getColor("Table.background");
+		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("theme.color.enabled")
+				|| evt.getPropertyName().equals(
+						"theme.color.even")
+						|| evt.getPropertyName().equals(
+								"theme.color.odd")) {
+			this.resetColors();
+			this.fireStateChanged();
 		}
 	}
 	
