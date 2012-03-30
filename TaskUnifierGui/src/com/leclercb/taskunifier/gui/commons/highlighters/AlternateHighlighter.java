@@ -89,10 +89,8 @@ public class AlternateHighlighter extends AbstractHighlighter implements Propert
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("theme.color.enabled")
-				|| evt.getPropertyName().equals(
-						"theme.color.even")
-						|| evt.getPropertyName().equals(
-								"theme.color.odd")) {
+				|| evt.getPropertyName().equals("theme.color.even")
+				|| evt.getPropertyName().equals("theme.color.odd")) {
 			this.resetColors();
 			this.fireStateChanged();
 		}
