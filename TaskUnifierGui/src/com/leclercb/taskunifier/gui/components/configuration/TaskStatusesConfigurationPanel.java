@@ -17,7 +17,7 @@ public class TaskStatusesConfigurationPanel extends DefaultConfigurationPanel {
 		this.addField(new ConfigurationField(
 				"TASK_STATUSES",
 				null,
-				true,
+				false,
 				new TaskStatusesFieldType()));
 	}
 	

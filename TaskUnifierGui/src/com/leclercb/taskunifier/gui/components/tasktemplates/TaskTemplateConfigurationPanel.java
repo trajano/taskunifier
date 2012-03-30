@@ -56,6 +56,9 @@ import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventComboBoxModel;
+
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
@@ -79,7 +82,6 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
-import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueKeyEvent;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
@@ -92,6 +94,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 
 public class TaskTemplateConfigurationPanel extends JSplitPane {
 	
@@ -512,7 +515,8 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			
 			ValueModel taskStatusModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_STATUS);
 			TaskTemplateConfigurationPanel.this.taskStatus.setModel(new ComboBoxAdapter<String>(
-					new TaskStatusModel(true),
+					new EventComboBoxModel<String>(new SortedList<String>(
+							TaskStatusList.getInstance().getEventList())),
 					taskStatusModel));
 			
 			ValueModel taskLengthModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_LENGTH);

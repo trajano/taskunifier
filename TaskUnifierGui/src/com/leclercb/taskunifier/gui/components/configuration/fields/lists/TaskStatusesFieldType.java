@@ -15,8 +15,12 @@ import javax.swing.ListSelectionModel;
 import org.jdesktop.swingx.JXList;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventListModel;
+import ca.odell.glazedlists.swing.EventSelectionModel;
+
 import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
-import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskStatus;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -32,8 +36,6 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 	private JPanel panel;
 	
 	private JXList list;
-	
-	private TaskStatusModel model;
 	
 	private JButton addButton;
 	private JButton removeButton;
@@ -58,11 +60,15 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 				new JLabel(Translations.getString("general.task.status")),
 				BorderLayout.NORTH);
 		
+		EventList<String> eventList = new SortedList<String>(
+				TaskStatusList.getInstance().getEventList());
+		
 		this.list = new JXList();
 		
-		this.model = new TaskStatusModel(false);
+		EventListModel<String> model = new EventListModel<String>(eventList);
 		
-		this.list.setModel(this.model);
+		this.list.setModel(model);
+		this.list.setSelectionModel(new EventSelectionModel<String>(eventList));
 		this.list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.list.setCellRenderer(new DefaultListRenderer(
 				StringValueTaskStatus.INSTANCE));
@@ -85,6 +91,7 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 					return;
 				
 				TaskStatusList.getInstance().addStatus(status);
+				TaskStatusesFieldType.this.list.setSelectedValue(status, true);
 			}
 			
 		});
@@ -95,6 +102,9 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 			public void actionPerformed(ActionEvent event) {
 				for (Object value : TaskStatusesFieldType.this.list.getSelectedValues()) {
 					TaskStatusList.getInstance().removeStatus(value.toString());
+					
+					if (TaskStatusesFieldType.this.list.getModel().getSize() > 0)
+						TaskStatusesFieldType.this.list.setSelectedIndex(TaskStatusesFieldType.this.list.getModel().getSize() - 1);
 				}
 			}
 			

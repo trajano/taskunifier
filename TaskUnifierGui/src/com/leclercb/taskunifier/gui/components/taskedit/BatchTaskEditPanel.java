@@ -53,6 +53,10 @@ import javax.swing.SpinnerNumberModel;
 
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventComboBoxModel;
+
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -73,7 +77,6 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
-import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
@@ -92,6 +95,7 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.DateTimeFormatUtils;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
+import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -582,7 +586,10 @@ public class BatchTaskEditPanel extends JPanel {
 		}
 		
 		// Task Status
-		this.taskStatus.setModel(new TaskStatusModel(false));
+		EventList<String> eventList = new SortedList<String>(
+				TaskStatusList.getInstance().getEventList());
+		
+		this.taskStatus.setModel(new EventComboBoxModel<String>(eventList));
 		
 		if (TaskColumn.STATUS.isUsed()) {
 			nbInserted++;

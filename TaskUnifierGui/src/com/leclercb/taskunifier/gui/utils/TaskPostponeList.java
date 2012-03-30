@@ -72,7 +72,7 @@ public final class TaskPostponeList implements ListEventSupported<PostponeItem>,
 	}
 	
 	public EventList<PostponeItem> getEventList() {
-		return this.items;
+		return GlazedLists.readOnlyList(this.items);
 	}
 	
 	public List<PostponeItem> getPostponeItems() {

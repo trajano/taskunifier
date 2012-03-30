@@ -7,17 +7,17 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.GlazedLists;
+
 import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public final class TaskStatusList implements ListChangeSupported, PropertyChangeListener, SavePropertiesListener {
+public final class TaskStatusList implements PropertyChangeListener, SavePropertiesListener {
 	
 	private static TaskStatusList INSTANCE;
 	
@@ -28,14 +28,10 @@ public final class TaskStatusList implements ListChangeSupported, PropertyChange
 		return INSTANCE;
 	}
 	
-	private ListChangeSupport listChangeSupport;
-	
-	private List<String> statuses;
+	private EventList<String> statuses;
 	
 	public TaskStatusList() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		
-		this.statuses = new ArrayList<String>();
+		this.statuses = new BasicEventList<String>();
 		
 		this.initialize();
 		
@@ -64,6 +60,10 @@ public final class TaskStatusList implements ListChangeSupported, PropertyChange
 		}
 	}
 	
+	public EventList<String> getEventList() {
+		return GlazedLists.readOnlyList(this.statuses);
+	}
+	
 	public boolean isEditable() {
 		return SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getStatusValues() == null;
 	}
@@ -79,38 +79,16 @@ public final class TaskStatusList implements ListChangeSupported, PropertyChange
 			return;
 		
 		this.statuses.add(status);
-		int index = this.statuses.indexOf(status);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				status);
 	}
 	
 	public void removeStatus(String status) {
 		CheckUtils.isNotNull(status);
-		
-		int index = this.statuses.indexOf(status);
-		if (this.statuses.remove(status)) {
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					status);
-		}
+		this.statuses.remove(status);
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		this.initialize();
-	}
-	
-	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
-	}
-	
-	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 	@Override

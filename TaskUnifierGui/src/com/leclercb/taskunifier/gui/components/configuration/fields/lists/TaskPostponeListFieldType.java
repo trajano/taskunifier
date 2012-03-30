@@ -88,6 +88,7 @@ public class TaskPostponeListFieldType extends ConfigurationFieldType.Panel {
 				TaskPostponeList.getInstance().add(item);
 				EditTimeValueDialog.getInstance().setTimeValue(item);
 				EditTimeValueDialog.getInstance().setVisible(true);
+				TaskPostponeListFieldType.this.list.setSelectedValue(item, true);
 			}
 			
 		});
@@ -102,6 +103,7 @@ public class TaskPostponeListFieldType extends ConfigurationFieldType.Panel {
 				PostponeItem item = (PostponeItem) TaskPostponeListFieldType.this.list.getSelectedValue();
 				EditTimeValueDialog.getInstance().setTimeValue(item);
 				EditTimeValueDialog.getInstance().setVisible(true);
+				TaskPostponeListFieldType.this.list.setSelectedValue(item, true);
 			}
 			
 		});
@@ -112,6 +114,9 @@ public class TaskPostponeListFieldType extends ConfigurationFieldType.Panel {
 			public void actionPerformed(ActionEvent event) {
 				for (Object value : TaskPostponeListFieldType.this.list.getSelectedValues()) {
 					TaskPostponeList.getInstance().remove((PostponeItem) value);
+					
+					if (TaskPostponeListFieldType.this.list.getModel().getSize() > 0)
+						TaskPostponeListFieldType.this.list.setSelectedIndex(TaskPostponeListFieldType.this.list.getModel().getSize() - 1);
 				}
 			}
 			

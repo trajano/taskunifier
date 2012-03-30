@@ -34,14 +34,19 @@ package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-import com.leclercb.taskunifier.gui.commons.models.TaskStatusModel;
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventComboBoxModel;
+
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 
 public class StatusEditor extends ComboBoxCellEditor {
 	
 	public StatusEditor() {
-		super(ComponentFactory.createTaskStatusComboBox(new TaskStatusModel(
-				false), true));
+		super(ComponentFactory.createTaskStatusComboBox(
+				new EventComboBoxModel<String>(new SortedList<String>(
+						TaskStatusList.getInstance().getEventList())),
+				true));
 	}
 	
 }

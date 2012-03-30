@@ -72,7 +72,7 @@ public final class TaskSnoozeList implements ListEventSupported<SnoozeItem>, Sav
 	}
 	
 	public EventList<SnoozeItem> getEventList() {
-		return this.items;
+		return GlazedLists.readOnlyList(this.items);
 	}
 	
 	public List<SnoozeItem> getSnoozeItems() {
