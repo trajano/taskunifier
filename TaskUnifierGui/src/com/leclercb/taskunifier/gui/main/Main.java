@@ -282,10 +282,10 @@ public class Main {
 					"general.version",
 					Constants.VERSION);
 			
+			Constants.initialize();
+			
 			autoBackup();
 			cleanBackups();
-			
-			Constants.initialize();
 			
 			AFTER_START.fireActionPerformed(0, "AFTER_START");
 		} catch (RuntimeException e) {

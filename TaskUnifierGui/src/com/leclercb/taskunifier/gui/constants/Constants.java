@@ -138,9 +138,7 @@ public final class Constants {
 		
 		if (value != null && value.length() != 0) {
 			try {
-				InputStream input = IOUtils.toInputStream(
-						value,
-						"UTF-8");
+				InputStream input = IOUtils.toInputStream(value, "UTF-8");
 				DEFAULT_NOTE_SORTER = new NoteSorterXMLCoder().decode(input);
 			} catch (Exception e) {
 				GuiLogger.getLogger().log(
@@ -176,9 +174,7 @@ public final class Constants {
 		
 		if (value != null && value.length() != 0) {
 			try {
-				InputStream input = IOUtils.toInputStream(
-						value,
-						"UTF-8");
+				InputStream input = IOUtils.toInputStream(value, "UTF-8");
 				DEFAULT_TASK_SORTER = new TaskSorterXMLCoder().decode(input);
 			} catch (Exception e) {
 				GuiLogger.getLogger().log(
