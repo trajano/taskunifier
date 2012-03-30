@@ -58,14 +58,12 @@ public class TaskSearcherDeleteUndoableEdit extends AbstractUndoableEdit {
 	@Override
 	public void undo() throws CannotUndoException {
 		TaskSearcherFactory.getInstance().register(this.searcher);
-		
 		super.undo();
 	}
 	
 	@Override
 	public void redo() throws CannotRedoException {
 		TaskSearcherFactory.getInstance().unregister(this.searcher);
-		
 		super.redo();
 	}
 	

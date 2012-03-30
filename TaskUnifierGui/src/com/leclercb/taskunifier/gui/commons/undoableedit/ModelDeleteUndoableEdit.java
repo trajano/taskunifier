@@ -39,6 +39,7 @@ import javax.swing.undo.CannotUndoException;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
@@ -52,17 +53,17 @@ public class ModelDeleteUndoableEdit extends AbstractUndoableEdit {
 	private ModelId parentId;
 	private ModelType type;
 	
-	public ModelDeleteUndoableEdit(Task task) {
-		this((Model) task);
-		
-		if (task.getParent() == null)
-			this.parentId = null;
-		else
-			this.parentId = task.getParent().getModelId();
-	}
-	
 	public ModelDeleteUndoableEdit(Model model) {
 		CheckUtils.isNotNull(model);
+		
+		if (model instanceof ModelParent) {
+			ModelParent<?> modelParent = (ModelParent<?>) model;
+			
+			if (modelParent.getParent() == null)
+				this.parentId = null;
+			else
+				this.parentId = modelParent.getParent().getModelId();
+		}
 		
 		this.id = model.getModelId();
 		this.type = model.getModelType();
