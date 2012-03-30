@@ -13,8 +13,13 @@ import javax.swing.ListSelectionModel;
 import org.jdesktop.swingx.JXList;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
-import com.leclercb.taskunifier.gui.commons.models.TaskPostponeListModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueTaskPostponeItem;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventListModel;
+import ca.odell.glazedlists.swing.EventSelectionModel;
+
+import com.leclercb.taskunifier.gui.commons.comparators.TimeValueComparator;
+import com.leclercb.taskunifier.gui.commons.values.StringValueTimeValue;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.timevalueedit.EditTimeValueDialog;
@@ -30,8 +35,6 @@ import com.leclercb.taskunifier.gui.utils.TaskPostponeList.PostponeItem;
 public class TaskPostponeListConfigurationPanel extends ConfigurationPanel {
 	
 	private JXList list;
-	
-	private TaskPostponeListModel model;
 	
 	private JButton addButton;
 	private JButton editButton;
@@ -59,14 +62,21 @@ public class TaskPostponeListConfigurationPanel extends ConfigurationPanel {
 				new JLabel(Translations.getString("general.taskpostponelist")),
 				BorderLayout.NORTH);
 		
+		EventList<PostponeItem> eventList = new SortedList<PostponeItem>(
+				TaskPostponeList.getInstance().getEventList(),
+				new TimeValueComparator());
+		
 		this.list = new JXList();
 		
-		this.model = new TaskPostponeListModel(false);
+		EventListModel<PostponeItem> model = new EventListModel<PostponeItem>(
+				eventList);
 		
-		this.list.setModel(this.model);
+		this.list.setModel(model);
+		this.list.setSelectionModel(new EventSelectionModel<PostponeItem>(
+				eventList));
 		this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.list.setCellRenderer(new DefaultListRenderer(
-				StringValueTaskPostponeItem.INSTANCE));
+				StringValueTimeValue.INSTANCE));
 		
 		panel.add(
 				ComponentFactory.createJScrollPane(this.list, true),

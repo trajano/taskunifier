@@ -10,4 +10,6 @@ public interface TimeValue {
 	
 	public abstract void setAmount(int amount);
 	
+	public abstract String getLabel();
+	
 }

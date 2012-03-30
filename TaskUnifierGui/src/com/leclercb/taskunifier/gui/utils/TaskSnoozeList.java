@@ -1,25 +1,28 @@
 package com.leclercb.taskunifier.gui.utils;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.GlazedLists;
+import ca.odell.glazedlists.ObservableElementList;
+import ca.odell.glazedlists.event.ListEventListener;
+
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.glazedlists.ListEventSupported;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.TaskSnoozeList.SnoozeItem;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public final class TaskSnoozeList implements ListChangeSupported, PropertyChangeSupported, SavePropertiesListener, PropertyChangeListener {
+public final class TaskSnoozeList implements ListEventSupported<SnoozeItem>, SavePropertiesListener {
 	
 	private static TaskSnoozeList INSTANCE;
 	
@@ -30,17 +33,15 @@ public final class TaskSnoozeList implements ListChangeSupported, PropertyChange
 		return INSTANCE;
 	}
 	
-	private transient ListChangeSupport listChangeSupport;
-	private transient PropertyChangeSupport propertyChangeSupport;
-	
 	@XStreamAlias("snoozelist")
-	private List<SnoozeItem> items;
+	private EventList<SnoozeItem> items;
 	
 	public TaskSnoozeList() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		ObservableElementList.Connector<SnoozeItem> connector = GlazedLists.beanConnector(SnoozeItem.class);
 		
-		this.items = new ArrayList<SnoozeItem>();
+		this.items = new ObservableElementList<SnoozeItem>(
+				new BasicEventList<SnoozeItem>(),
+				connector);
 		
 		this.initialize();
 		
@@ -70,6 +71,10 @@ public final class TaskSnoozeList implements ListChangeSupported, PropertyChange
 		}
 	}
 	
+	public EventList<SnoozeItem> getEventList() {
+		return this.items;
+	}
+	
 	public List<SnoozeItem> getSnoozeItems() {
 		return new ArrayList<SnoozeItem>(this.items);
 	}
@@ -81,68 +86,21 @@ public final class TaskSnoozeList implements ListChangeSupported, PropertyChange
 			return;
 		
 		this.items.add(item);
-		item.addPropertyChangeListener(this);
-		int index = this.items.indexOf(item);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				item);
 	}
 	
 	public void remove(SnoozeItem item) {
 		CheckUtils.isNotNull(item);
-		
-		int index = this.items.indexOf(item);
-		if (this.items.remove(item)) {
-			item.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					item);
-		}
+		this.items.remove(item);
 	}
 	
 	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
+	public void addListEventListener(ListEventListener<SnoozeItem> listener) {
+		this.items.addListEventListener(listener);
 	}
 	
 	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		this.propertyChangeSupport.firePropertyChange(evt);
+	public void removeListEventListener(ListEventListener<SnoozeItem> listener) {
+		this.items.removeListEventListener(listener);
 	}
 	
 	@Override
@@ -220,7 +178,7 @@ public final class TaskSnoozeList implements ListChangeSupported, PropertyChange
 		}
 		
 		@Override
-		public String toString() {
+		public String getLabel() {
 			if (this.amount == 0 || this.amount == 1) {
 				if (this.field == Calendar.MINUTE)
 					return Translations.getString("date.1_minute");
