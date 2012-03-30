@@ -32,8 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.constants;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.logging.Level;
 
@@ -117,93 +115,86 @@ public final class Constants {
 	}
 	
 	public static void initialize() {
-		Main.AFTER_START.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				// Growl Listeners
-				Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlCommunicatorProgressMessageListener());
-				Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
-				Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlReminderProgressMessageListener());
-				
-				String value = null;
-				
-				// NOTE
-				DEFAULT_NOTE_SORTER = new NoteSorter();
-				
-				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
-						NoteColumn.FOLDER,
-						SortOrder.ASCENDING));
-				
-				DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
-						NoteColumn.TITLE,
-						SortOrder.ASCENDING));
-				
-				value = Main.getSettings().getStringProperty(
-						"notesearcher.default_sorter");
-				
-				if (value != null && value.length() != 0) {
-					try {
-						InputStream input = IOUtils.toInputStream(
-								value,
-								"UTF-8");
-						DEFAULT_NOTE_SORTER = new NoteSorterXMLCoder().decode(input);
-					} catch (Exception e) {
-						GuiLogger.getLogger().log(
-								Level.SEVERE,
-								"Error while loading default note sorter",
-								e);
-					}
-				}
-				
-				DEFAULT_NOTE_SEARCHER = new NoteSearcher(
-						NoteSearcherType.DEFAULT,
-						0,
-						Translations.getString("searcherlist.general.all"),
-						ImageUtils.getResourceFile("note.png"),
-						new NoteFilter(),
-						DEFAULT_NOTE_SORTER.clone());
-				
-				// TASK
-				DEFAULT_TASK_SORTER = new TaskSorter();
-				
-				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						TaskColumn.DUE_DATE,
-						SortOrder.ASCENDING));
-				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						TaskColumn.PRIORITY,
-						SortOrder.DESCENDING));
-				DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
-						TaskColumn.TITLE,
-						SortOrder.ASCENDING));
-				
-				value = Main.getSettings().getStringProperty(
-						"tasksearcher.default_sorter");
-				
-				if (value != null && value.length() != 0) {
-					try {
-						InputStream input = IOUtils.toInputStream(
-								value,
-								"UTF-8");
-						DEFAULT_TASK_SORTER = new TaskSorterXMLCoder().decode(input);
-					} catch (Exception e) {
-						GuiLogger.getLogger().log(
-								Level.SEVERE,
-								"Error while loading default task sorter",
-								e);
-					}
-				}
-				
-				DEFAULT_TASK_SEARCHER = new TaskSearcher(
-						TaskSearcherType.DEFAULT,
-						0,
-						Translations.getString("searcherlist.general.all"),
-						ImageUtils.getResourceFile("task.png"),
-						new TaskFilter(),
-						DEFAULT_TASK_SORTER.clone());
+		// Growl Listeners
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlCommunicatorProgressMessageListener());
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlSynchronizerProgressMessageListener());
+		Constants.PROGRESS_MONITOR.addListChangeListener(new GrowlReminderProgressMessageListener());
+		
+		String value = null;
+		
+		// NOTE
+		DEFAULT_NOTE_SORTER = new NoteSorter();
+		
+		DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
+				NoteColumn.FOLDER,
+				SortOrder.ASCENDING));
+		
+		DEFAULT_NOTE_SORTER.addElement(new NoteSorterElement(
+				NoteColumn.TITLE,
+				SortOrder.ASCENDING));
+		
+		value = Main.getSettings().getStringProperty(
+				"notesearcher.default_sorter");
+		
+		if (value != null && value.length() != 0) {
+			try {
+				InputStream input = IOUtils.toInputStream(
+						value,
+						"UTF-8");
+				DEFAULT_NOTE_SORTER = new NoteSorterXMLCoder().decode(input);
+			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Error while loading default note sorter",
+						e);
 			}
-			
-		});
+		}
+		
+		DEFAULT_NOTE_SEARCHER = new NoteSearcher(
+				NoteSearcherType.DEFAULT,
+				0,
+				Translations.getString("searcherlist.general.all"),
+				ImageUtils.getResourceFile("note.png"),
+				new NoteFilter(),
+				DEFAULT_NOTE_SORTER.clone());
+		
+		// TASK
+		DEFAULT_TASK_SORTER = new TaskSorter();
+		
+		DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
+				TaskColumn.DUE_DATE,
+				SortOrder.ASCENDING));
+		DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
+				TaskColumn.PRIORITY,
+				SortOrder.DESCENDING));
+		DEFAULT_TASK_SORTER.addElement(new TaskSorterElement(
+				TaskColumn.TITLE,
+				SortOrder.ASCENDING));
+		
+		value = Main.getSettings().getStringProperty(
+				"tasksearcher.default_sorter");
+		
+		if (value != null && value.length() != 0) {
+			try {
+				InputStream input = IOUtils.toInputStream(
+						value,
+						"UTF-8");
+				DEFAULT_TASK_SORTER = new TaskSorterXMLCoder().decode(input);
+			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Error while loading default task sorter",
+						e);
+			}
+		}
+		
+		DEFAULT_TASK_SEARCHER = new TaskSearcher(
+				TaskSearcherType.DEFAULT,
+				0,
+				Translations.getString("searcherlist.general.all"),
+				ImageUtils.getResourceFile("task.png"),
+				new TaskFilter(),
+				DEFAULT_TASK_SORTER.clone());
 	}
 	
 }
