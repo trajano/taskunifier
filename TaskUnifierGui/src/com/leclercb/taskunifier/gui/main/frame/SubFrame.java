@@ -139,7 +139,7 @@ public class SubFrame extends JXFrame implements FrameView, SavePropertiesListen
 		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setIconImage(ImageUtils.getResourceImage("logo.png", 16, 16).getImage());
+		this.setIconImage(ImageUtils.getResourceImage("logo.png").getImage());
 		this.setTitle(Constants.TITLE + " - " + Constants.VERSION);
 		this.loadWindowSettings();
 		
