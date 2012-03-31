@@ -32,10 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.components.synchronize;
 
-import java.awt.Cursor;
-
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
-
 public final class BackgroundSynchronizer {
 	
 	private BackgroundSynchronizer() {
@@ -43,25 +39,12 @@ public final class BackgroundSynchronizer {
 	}
 	
 	public static boolean execute(SynchronizerWorker worker) {
-		MainFrame.getInstance().getFrame().setCursor(
-				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		
 		worker.execute();
-		
 		return true;
 	}
 	
 	public static SynchronizerWorker getSynchronizer() {
-		return new SynchronizerWorker(true) {
-			
-			@Override
-			protected void done() {
-				MainFrame.getInstance().getFrame().setCursor(null);
-				
-				super.done();
-			}
-			
-		};
+		return new SynchronizerWorker(true);
 	}
 	
 }

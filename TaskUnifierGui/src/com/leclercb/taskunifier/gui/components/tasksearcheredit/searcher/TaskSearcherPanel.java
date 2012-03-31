@@ -60,7 +60,7 @@ import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -168,7 +168,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 					
 				});
 				
-				int result = fileChooser.showOpenDialog(MainFrame.getInstance().getFrame());
+				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrameView().getFrame());
 				
 				if (result == JFileChooser.APPROVE_OPTION)
 					TaskSearcherPanel.this.searcher.setIcon(fileChooser.getSelectedFile().getAbsolutePath());

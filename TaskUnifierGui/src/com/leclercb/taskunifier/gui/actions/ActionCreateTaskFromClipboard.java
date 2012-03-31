@@ -54,7 +54,8 @@ public class ActionCreateTaskFromClipboard extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		ViewUtils.getMainTaskView().getTaskTableView().pasteTask();
+		ViewUtils.setTaskView(true);
+		ViewUtils.getCurrentTaskView().getTaskTableView().pasteTask();
 	}
 	
 }

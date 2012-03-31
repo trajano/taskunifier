@@ -39,7 +39,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ImportSettingsDialog extends AbstractImportDialog {
@@ -101,7 +101,7 @@ public class ImportSettingsDialog extends AbstractImportDialog {
 		}
 		
 		JOptionPane.showMessageDialog(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("configuration.general.settings_changed_after_restart"),
 				Translations.getString("general.information"),
 				JOptionPane.INFORMATION_MESSAGE);

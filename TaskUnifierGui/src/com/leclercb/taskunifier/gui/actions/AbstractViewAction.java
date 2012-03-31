@@ -42,6 +42,7 @@ import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
+import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 
 public abstract class AbstractViewAction extends AbstractAction implements PropertyChangeListener {
 	
@@ -78,7 +79,7 @@ public abstract class AbstractViewAction extends AbstractAction implements Prope
 	public boolean shouldBeEnabled() {
 		if (this.enabledViews != null && this.enabledViews.length != 0) {
 			for (ViewType view : this.enabledViews)
-				if (view.equals(ViewList.getInstance().getCurrentView().getViewType()))
+				if (view.equals(ViewUtils.getCurrentViewType()))
 					return true;
 			
 			return false;

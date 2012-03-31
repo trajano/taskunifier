@@ -57,7 +57,8 @@ import com.leclercb.taskunifier.gui.components.import_data.ImportComFileDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -111,15 +112,19 @@ public class ActionImportComFile extends AbstractAction {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 		}
 	}
 	
 	public static void importComBean(ComBean bean) {
 		try {
 			if (bean.getArguments() != null) {
-				MainFrame.getInstance().getFrame().setVisible(true);
-				MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+				for (FrameView frame : FrameUtils.getFrameViews()) {
+					frame.getFrame().setVisible(true);
+					frame.getFrame().setState(Frame.NORMAL);
+				}
 				
 				Main.handleArguments(bean.getArguments());
 			}

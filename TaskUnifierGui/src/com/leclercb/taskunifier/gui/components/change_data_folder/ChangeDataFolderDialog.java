@@ -50,7 +50,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
@@ -71,8 +71,6 @@ public class ChangeDataFolderDialog extends JDialog {
 	private TUFileField fileField;
 	
 	private ChangeDataFolderDialog() {
-		super(MainFrame.getInstance().getFrame());
-		
 		this.initialize();
 	}
 	
@@ -81,6 +79,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		if (b) {
 			File file = new File(Main.getDataFolder());
 			this.fileField.setFile(file.getAbsolutePath());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
 		}
 		
 		super.setVisible(b);
@@ -93,9 +92,6 @@ public class ChangeDataFolderDialog extends JDialog {
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		this.addWindowListener(new WindowAdapter() {
 			
@@ -173,7 +169,7 @@ public class ChangeDataFolderDialog extends JDialog {
 								null);
 						
 						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
+								FrameUtils.getCurrentFrameView().getFrame(),
 								info);
 						
 						return;

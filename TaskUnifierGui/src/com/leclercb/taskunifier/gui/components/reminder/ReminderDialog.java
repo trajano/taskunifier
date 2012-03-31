@@ -41,7 +41,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCloseButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -61,8 +61,16 @@ public class ReminderDialog extends JFrame {
 	private ReminderPanel reminderPanel;
 	
 	private ReminderDialog() {
-		super();
 		this.initialize();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	public ReminderPanel getReminderPanel() {
@@ -76,8 +84,6 @@ public class ReminderDialog extends JFrame {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		this.setLocationRelativeTo(MainFrame.getInstance().getFrame());
 		
 		this.reminderPanel = new ReminderPanel();
 		this.reminderPanel.setBorder(BorderFactory.createEmptyBorder(

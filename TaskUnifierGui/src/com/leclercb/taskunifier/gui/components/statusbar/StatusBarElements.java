@@ -230,7 +230,8 @@ final class StatusBarElements {
 							}
 						}
 						
-						if (ViewList.getInstance().getCurrentView().isLoaded()) {
+						if (ViewList.getInstance().getCurrentView() != null
+								&& ViewList.getInstance().getCurrentView().isLoaded()) {
 							if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
 								ViewUtils.getCurrentNoteView().getNoteTableView().addPropertyChangeListener(
 										NoteTableView.PROP_NOTE_COUNT,
@@ -252,6 +253,11 @@ final class StatusBarElements {
 	
 	private static final void updateRowCount(JLabel element) {
 		ViewType viewType = ViewUtils.getCurrentViewType();
+		
+		if (viewType == null) {
+			element.setText("");
+			return;
+		}
 		
 		switch (viewType) {
 			case NOTES:

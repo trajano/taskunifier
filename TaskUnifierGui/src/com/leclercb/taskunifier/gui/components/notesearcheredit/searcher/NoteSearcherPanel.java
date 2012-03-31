@@ -55,7 +55,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -161,7 +161,7 @@ public class NoteSearcherPanel extends JPanel implements PropertyChangeListener 
 					
 				});
 				
-				int result = fileChooser.showOpenDialog(MainFrame.getInstance().getFrame());
+				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrameView().getFrame());
 				
 				if (result == JFileChooser.APPROVE_OPTION)
 					NoteSearcherPanel.this.searcher.setIcon(fileChooser.getSelectedFile().getAbsolutePath());

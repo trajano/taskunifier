@@ -59,7 +59,7 @@ import com.leclercb.taskunifier.gui.components.models.panels.FolderConfiguration
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.TagConfigurationPanel;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -90,8 +90,16 @@ public class ModelConfigurationDialog extends JDialog {
 	private JTabbedPane tabbedPane;
 	
 	private ModelConfigurationDialog() {
-		super(MainFrame.getInstance().getFrame());
 		this.initialize();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	public void setSelectedModelConfigurationTab(ModelConfigurationTab tab) {
@@ -145,9 +153,6 @@ public class ModelConfigurationDialog extends JDialog {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_models"));

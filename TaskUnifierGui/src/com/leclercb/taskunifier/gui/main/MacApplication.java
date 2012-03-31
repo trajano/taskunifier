@@ -66,7 +66,9 @@ import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionPrint;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 public class MacApplication {
@@ -79,8 +81,10 @@ public class MacApplication {
 		
 		@Override
 		public void appReOpened(AppReOpenedEvent e) {
-			MainFrame.getInstance().getFrame().setVisible(true);
-			MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+			for (FrameView frame : FrameUtils.getFrameViews()) {
+				frame.getFrame().setVisible(true);
+				frame.getFrame().setState(Frame.NORMAL);
+			}
 		}
 		
 	}
@@ -144,7 +148,13 @@ public class MacApplication {
 			
 		}
 		
+		initializeAppMenu();
 		initializeDockIconBadge();
+	}
+	
+	private static void initializeAppMenu() {
+		TrayPopup popupMenu = new TrayPopup(false);
+		MacApplication.setDockMenu(popupMenu);
 	}
 	
 	private static void initializeDockIconBadge() {

@@ -44,7 +44,7 @@ import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.DesktopUtils;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
@@ -87,7 +87,7 @@ public class CheckVersionRunnable implements Runnable {
 							Translations.getString("general.cancel") };
 					
 					int result = JOptionPane.showOptionDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							Translations.getString(
 									"action.check_version.new_version_available",
 									version),
@@ -107,7 +107,7 @@ public class CheckVersionRunnable implements Runnable {
 				
 				if (!this.silent) {
 					JOptionPane.showMessageDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							Translations.getString(
 									"action.check_version.no_new_version_available",
 									Constants.VERSION),
@@ -129,7 +129,9 @@ public class CheckVersionRunnable implements Runnable {
 						null,
 						null);
 				
-				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				JXErrorPane.showDialog(
+						FrameUtils.getCurrentFrameView().getFrame(),
+						info);
 			}
 		}
 	}

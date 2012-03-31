@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
@@ -71,6 +71,9 @@ public class ActionPrintSelectedModels extends AbstractAction {
 		try {
 			String text = null;
 			ViewType viewType = ViewUtils.getCurrentViewType();
+			
+			if (viewType == null)
+				return;
 			
 			if (viewType == ViewType.NOTES) {
 				text = NoteUtils.toText(
@@ -101,7 +104,9 @@ public class ActionPrintSelectedModels extends AbstractAction {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 		}
 	}
 	

@@ -42,9 +42,8 @@ import com.leclercb.taskunifier.gui.components.views.DefaultTaskView;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
-import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
-import com.leclercb.taskunifier.gui.main.frame.SubFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -66,43 +65,43 @@ public class ActionNewWindow extends AbstractAction {
 	}
 	
 	public static void newWindow() {
-		ViewType type = ViewUtils.getCurrentViewType();
+		newWindow(true);
+	}
+	
+	public static void newWindow(boolean createTabs) {
+		FrameView frameView = FrameUtils.createFrameView();
 		
-		SubFrame subFrame = SubFrame.createSubFrame();
-		
-		ViewItem viewItem = null;
-		
-		if (type == ViewType.CALENDAR) {
-			viewItem = new ViewItem(
-					ViewType.CALENDAR,
-					Translations.getString("general.calendar"),
-					ImageUtils.getResourceImage("calendar.png", 16, 16),
-					subFrame.getFrameId(),
-					true);
-			viewItem.setView(new DefaultCalendarView(MainFrame.getInstance()));
-		} else if (type == ViewType.NOTES) {
-			viewItem = new ViewItem(
-					ViewType.NOTES,
-					Translations.getString("general.notes"),
-					ImageUtils.getResourceImage("note.png", 16, 16),
-					subFrame.getFrameId(),
-					true);
-			viewItem.setView(new DefaultNoteView(MainFrame.getInstance()));
-		} else if (type == ViewType.TASKS) {
+		if (createTabs) {
+			ViewItem viewItem = null;
+			
 			viewItem = new ViewItem(
 					ViewType.TASKS,
 					Translations.getString("general.tasks"),
 					ImageUtils.getResourceImage("task.png", 16, 16),
-					subFrame.getFrameId(),
-					true);
-			viewItem.setView(new DefaultTaskView(MainFrame.getInstance()));
+					frameView.getFrameId());
+			viewItem.setView(new DefaultTaskView(frameView));
+			
+			ViewList.getInstance().addView(viewItem);
+			ViewList.getInstance().setCurrentView(viewItem);
+			
+			viewItem = new ViewItem(
+					ViewType.NOTES,
+					Translations.getString("general.notes"),
+					ImageUtils.getResourceImage("note.png", 16, 16),
+					frameView.getFrameId());
+			viewItem.setView(new DefaultNoteView(frameView));
+			
+			ViewList.getInstance().addView(viewItem);
+			
+			viewItem = new ViewItem(
+					ViewType.CALENDAR,
+					Translations.getString("general.calendar"),
+					ImageUtils.getResourceImage("calendar.png", 16, 16),
+					frameView.getFrameId());
+			viewItem.setView(new DefaultCalendarView(frameView));
+			
+			ViewList.getInstance().addView(viewItem);
 		}
-		
-		ViewList.getInstance().addView(viewItem);
-		ViewList.getInstance().setCurrentView(viewItem);
-		
-		subFrame.setVisible(true);
-		subFrame.requestFocus();
 	}
 	
 }

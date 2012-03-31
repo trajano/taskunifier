@@ -52,10 +52,9 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -100,7 +99,7 @@ public class MailToPanel extends JPanel {
 		}
 		
 		boolean result = false;
-		ViewType viewType = ViewList.getInstance().getCurrentView().getViewType();
+		ViewType viewType = ViewUtils.getCurrentViewType();
 		if (viewType == ViewType.TASKS || viewType == ViewType.CALENDAR) {
 			Task[] tasks = ViewUtils.getSelectedTasks();
 			
@@ -114,7 +113,9 @@ public class MailToPanel extends JPanel {
 						null,
 						null);
 				
-				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				JXErrorPane.showDialog(
+						FrameUtils.getCurrentFrameView().getFrame(),
+						info);
 				
 				return;
 			}
@@ -137,7 +138,9 @@ public class MailToPanel extends JPanel {
 						null,
 						null);
 				
-				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				JXErrorPane.showDialog(
+						FrameUtils.getCurrentFrameView().getFrame(),
+						info);
 				
 				return;
 			}

@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.components.notesearcheredit.NoteSearcherEditDialog;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -88,7 +88,7 @@ public class ActionEditNoteSearcher extends AbstractViewNoteSearcherSelectionAct
 		
 		if (foundInFactory && searcher.getType().isEditable()) {
 			NoteSearcherEditDialog dialog = new NoteSearcherEditDialog(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					searcher);
 			
 			dialog.setVisible(true);

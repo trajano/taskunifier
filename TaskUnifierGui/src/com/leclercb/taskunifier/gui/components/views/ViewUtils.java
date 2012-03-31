@@ -1,9 +1,44 @@
+/*
+ * TaskUnifier
+ * Copyright (c) 2011, Benjamin Leclerc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of TaskUnifier or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.leclercb.taskunifier.gui.components.views;
 
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.Task;
+import com.leclercb.taskunifier.gui.actions.ActionAddTab;
+import com.leclercb.taskunifier.gui.actions.ActionNewWindow;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 
 public final class ViewUtils {
 	
@@ -12,52 +47,62 @@ public final class ViewUtils {
 	}
 	
 	public static ViewType getCurrentViewType() {
+		if (ViewList.getInstance().getCurrentView() == null)
+			return null;
+		
 		return ViewList.getInstance().getCurrentView().getViewType();
 	}
 	
-	public static CalendarView getMainCalendarView() {
-		return (CalendarView) ViewList.getInstance().getMainCalendarView().getView();
+	public static void setView(ViewType viewType, boolean create) {
+		if (FrameUtils.getCurrentFrameView() == null) {
+			ActionNewWindow.newWindow(false);
+		}
+		
+		for (ViewItem view : ViewList.getInstance().getViews()) {
+			if (view.getFrameId() == FrameUtils.getCurrentFrameView().getFrameId()) {
+				if (view.getViewType() == viewType) {
+					ViewList.getInstance().setCurrentView(view);
+				}
+			}
+		}
+		
+		for (ViewItem view : ViewList.getInstance().getViews()) {
+			if (view.getViewType() == viewType) {
+				ViewList.getInstance().setCurrentView(view);
+			}
+		}
+		
+		ActionAddTab.addTab(viewType);
 	}
 	
-	public static NoteView getMainNoteView() {
-		return (NoteView) ViewList.getInstance().getMainNoteView().getView();
+	public static void setCalendarView(boolean create) {
+		setView(ViewType.CALENDAR, create);
 	}
 	
-	public static TaskView getMainTaskView() {
-		return (TaskView) ViewList.getInstance().getMainTaskView().getView();
+	public static void setNoteView(boolean create) {
+		setView(ViewType.NOTES, create);
 	}
 	
-	public static void setMainCalendarView() {
-		ViewList.getInstance().setCurrentView(
-				ViewList.getInstance().getMainCalendarView());
-	}
-	
-	public static void setMainNoteView() {
-		ViewList.getInstance().setCurrentView(
-				ViewList.getInstance().getMainNoteView());
-	}
-	
-	public static void setMainTaskView() {
-		ViewList.getInstance().setCurrentView(
-				ViewList.getInstance().getMainTaskView());
+	public static void setTaskView(boolean create) {
+		setView(ViewType.TASKS, create);
 	}
 	
 	public static CalendarView getCurrentCalendarView() {
-		if (ViewList.getInstance().getCurrentView().getViewType() != ViewType.CALENDAR)
+		if (getCurrentViewType() != ViewType.CALENDAR)
 			return null;
 		
 		return (CalendarView) ViewList.getInstance().getCurrentView().getView();
 	}
 	
 	public static NoteView getCurrentNoteView() {
-		if (ViewList.getInstance().getCurrentView().getViewType() != ViewType.NOTES)
+		if (getCurrentViewType() != ViewType.NOTES)
 			return null;
 		
 		return (NoteView) ViewList.getInstance().getCurrentView().getView();
 	}
 	
 	public static TaskView getCurrentTaskView() {
-		if (ViewList.getInstance().getCurrentView().getViewType() != ViewType.TASKS)
+		if (getCurrentViewType() != ViewType.TASKS)
 			return null;
 		
 		return (TaskView) ViewList.getInstance().getCurrentView().getView();

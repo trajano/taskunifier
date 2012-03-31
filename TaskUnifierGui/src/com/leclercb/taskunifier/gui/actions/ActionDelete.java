@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -165,7 +165,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("action.delete.delete_notes", number),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,
@@ -183,7 +183,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("action.delete.delete_tasks", number),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,
@@ -202,7 +202,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.cancel") };
 		
 		int result = JOptionPane.showOptionDialog(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("action.delete.delete_subtasks"),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,

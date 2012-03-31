@@ -76,6 +76,10 @@ public class ActionChangeView extends AbstractAction implements PropertyChangeLi
 	
 	private void updateIcon() {
 		ViewType viewType = ViewUtils.getCurrentViewType();
+		
+		if (viewType == null)
+			viewType = ViewType.TASKS;
+		
 		switch (viewType) {
 			case CALENDAR:
 				this.putValue(SMALL_ICON, ImageUtils.getResourceImage(
@@ -104,6 +108,9 @@ public class ActionChangeView extends AbstractAction implements PropertyChangeLi
 	}
 	
 	public static void changeView() {
+		if (ViewList.getInstance().getCurrentView() == null)
+			return;
+		
 		int currentFrameId = ViewList.getInstance().getCurrentView().getFrameId();
 		int currentIndex = ViewList.getInstance().getIndexOf(
 				ViewList.getInstance().getCurrentView());

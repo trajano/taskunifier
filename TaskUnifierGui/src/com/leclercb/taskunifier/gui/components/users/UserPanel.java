@@ -51,7 +51,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -133,7 +133,7 @@ public class UserPanel extends JPanel {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString(
 						"manage_users.delete_user.confirm",
 						UserUtils.getInstance().getUserName(user)),
@@ -175,7 +175,9 @@ public class UserPanel extends JPanel {
 				null,
 				null);
 		
-		JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+		JXErrorPane.showDialog(
+				FrameUtils.getCurrentFrameView().getFrame(),
+				info);
 	}
 	
 	private void initialize() {

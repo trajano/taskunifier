@@ -73,6 +73,9 @@ public class ActionAddTaskSearcher extends AbstractViewAction {
 		
 		ViewType type = ViewUtils.getCurrentViewType();
 		
+		if (type == null)
+			return;
+		
 		switch (type) {
 			case TASKS:
 				ViewUtils.getCurrentTaskView().getTaskSearcherView().selectTaskSearcher(

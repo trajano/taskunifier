@@ -80,7 +80,8 @@ public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction
 			}
 		}
 		
-		if (ViewList.getInstance().getCurrentView().isLoaded()) {
+		if (ViewList.getInstance().getCurrentView() != null
+				&& ViewList.getInstance().getCurrentView().isLoaded()) {
 			if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
 				NoteTableView view = ViewUtils.getCurrentNoteView().getNoteTableView();
 				view.addModelSelectionChangeListener(new WeakModelSelectionListener(

@@ -66,7 +66,7 @@ import com.leclercb.taskunifier.gui.api.models.beans.ComTaskBean;
 import com.leclercb.taskunifier.gui.components.notes.NoteColumn;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class MailUtils {
@@ -117,7 +117,9 @@ public final class MailUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}
@@ -178,7 +180,9 @@ public final class MailUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}

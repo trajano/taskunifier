@@ -42,7 +42,7 @@ import com.leclercb.taskunifier.gui.actions.ActionGetSerial;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -52,7 +52,7 @@ public class SynchronizerDialog extends TUWorkerDialog<Void> {
 	
 	public SynchronizerDialog() {
 		super(
-				MainFrame.getInstance().getFrame(),
+				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("general.synchronization"));
 		
 		this.serialNeeded = false;

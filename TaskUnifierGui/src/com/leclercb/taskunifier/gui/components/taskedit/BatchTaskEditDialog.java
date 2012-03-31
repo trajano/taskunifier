@@ -51,7 +51,7 @@ import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUDialog;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
@@ -75,7 +75,6 @@ public class BatchTaskEditDialog extends TUDialog {
 	private boolean cancelled;
 	
 	private BatchTaskEditDialog() {
-		super(MainFrame.getInstance().getFrame());
 		this.initialize();
 	}
 	
@@ -96,11 +95,13 @@ public class BatchTaskEditDialog extends TUDialog {
 	}
 	
 	@Override
-	public void setVisible(boolean b) {
-		if (b)
+	public void setVisible(boolean visible) {
+		if (visible) {
 			this.cancelled = false;
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
 		
-		super.setVisible(b);
+		super.setVisible(visible);
 	}
 	
 	public boolean isCancelled() {
@@ -114,9 +115,6 @@ public class BatchTaskEditDialog extends TUDialog {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		this.loadWindowSettings("window.task_edit");
 		
@@ -164,7 +162,7 @@ public class BatchTaskEditDialog extends TUDialog {
 							null);
 					
 					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							info);
 					
 					return;

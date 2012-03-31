@@ -87,7 +87,8 @@ public abstract class AbstractViewTaskSelectionAction extends AbstractViewAction
 				view.removeModelSelectionChangeListener(this);
 		}
 		
-		if (ViewList.getInstance().getCurrentView().isLoaded()) {
+		if (ViewList.getInstance().getCurrentView() != null
+				&& ViewList.getInstance().getCurrentView().isLoaded()) {
 			ModelSelectionChangeSupported view = null;
 			
 			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR)

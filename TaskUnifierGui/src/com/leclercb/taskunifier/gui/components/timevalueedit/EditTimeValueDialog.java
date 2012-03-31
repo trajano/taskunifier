@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TimeValue;
 
@@ -27,8 +27,16 @@ public class EditTimeValueDialog extends JDialog {
 	private EditTimeValuePanel editTimeValuePanel;
 	
 	private EditTimeValueDialog() {
-		super(MainFrame.getInstance().getFrame());
 		this.initialize();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	private void initialize() {
@@ -38,9 +46,6 @@ public class EditTimeValueDialog extends JDialog {
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		this.editTimeValuePanel = new EditTimeValuePanel();
 		this.editTimeValuePanel.setBorder(BorderFactory.createEmptyBorder(

@@ -86,7 +86,7 @@ public class ActionAddTask extends AbstractAction {
 		TaskTemplate searcherTemplate = null;
 		
 		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
-			ViewUtils.setMainTaskView();
+			ViewUtils.setTaskView(true);
 			viewType = ViewUtils.getCurrentViewType();
 		} else {
 			searcherTemplate = ViewUtils.getSelectedTaskSearcher().getTemplate();
@@ -126,7 +126,7 @@ public class ActionAddTask extends AbstractAction {
 		ViewType viewType = ViewUtils.getCurrentViewType();
 		
 		if (viewType != ViewType.TASKS && viewType != ViewType.CALENDAR) {
-			ViewUtils.setMainTaskView();
+			ViewUtils.setTaskView(true);
 			viewType = ViewUtils.getCurrentViewType();
 		}
 		

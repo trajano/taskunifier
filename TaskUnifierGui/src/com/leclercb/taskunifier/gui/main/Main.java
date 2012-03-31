@@ -81,6 +81,7 @@ import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
+import com.leclercb.taskunifier.gui.actions.ActionNewWindow;
 import com.leclercb.taskunifier.gui.actions.ActionPublish;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
@@ -115,7 +116,7 @@ import com.leclercb.taskunifier.gui.components.tips.TipsDialog;
 import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
@@ -354,12 +355,14 @@ public class Main {
 				try {
 					if (isFirstExecution()) {
 						new LanguageDialog(null).setVisible(true);
-						MainFrame.getInstance();
 						new WelcomeDialog(null).setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
 					}
 					
-					MainFrame.getInstance().getFrame().setVisible(true);
+					MacApplication.initializeApplicationAdapter();
+					FrameUtils.initializeSystemTray();
+					
+					ActionNewWindow.newWindow();
 					ActionCheckVersion.checkVersion(true);
 					ActionCheckPluginVersion.checkAllPluginVersion(true);
 					

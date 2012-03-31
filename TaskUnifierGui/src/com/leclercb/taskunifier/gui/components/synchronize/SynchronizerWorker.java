@@ -57,7 +57,7 @@ import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.synchronize.progress.SynchronizerProgressMessageListener;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.swing.TUStopableWorker;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
@@ -349,7 +349,9 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 						null,
 						null);
 				
-				JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+				JXErrorPane.showDialog(
+						FrameUtils.getCurrentFrameView().getFrame(),
+						info);
 				
 				if (e instanceof SynchronizerSettingsException)
 					ActionPluginConfiguration.pluginConfiguration(plugin);
@@ -384,7 +386,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 							null);
 					
 					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							info);
 				}
 				

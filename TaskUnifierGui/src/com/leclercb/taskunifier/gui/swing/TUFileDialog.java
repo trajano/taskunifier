@@ -43,7 +43,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
@@ -55,7 +55,6 @@ public class TUFileDialog extends JDialog {
 	private boolean cancelled;
 	
 	public TUFileDialog(boolean open, String title) {
-		super(MainFrame.getInstance().getFrame());
 		this.initialize(open, title);
 	}
 	
@@ -68,11 +67,13 @@ public class TUFileDialog extends JDialog {
 	}
 	
 	@Override
-	public void setVisible(boolean b) {
-		if (b)
+	public void setVisible(boolean visible) {
+		if (visible) {
 			this.cancelled = false;
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
 		
-		super.setVisible(b);
+		super.setVisible(visible);
 	}
 	
 	public boolean isCancelled() {
@@ -86,9 +87,6 @@ public class TUFileDialog extends JDialog {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		this.fileField = new TUFileField(
 				open,

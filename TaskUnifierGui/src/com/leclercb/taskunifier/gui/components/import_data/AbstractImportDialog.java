@@ -53,7 +53,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.FileUtils;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
@@ -74,8 +74,6 @@ abstract class AbstractImportDialog extends JDialog {
 			String fileExtention,
 			String fileExtentionDescription,
 			String fileProperty) {
-		super(MainFrame.getInstance().getFrame());
-		
 		CheckUtils.isNotNull(fileExtention);
 		CheckUtils.isNotNull(fileExtentionDescription);
 		
@@ -86,6 +84,15 @@ abstract class AbstractImportDialog extends JDialog {
 		this.initialize(title, showDeleteExistingValues);
 	}
 	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
+	}
+	
 	private void initialize(String title, boolean showDeleteExistingValues) {
 		this.setModal(true);
 		this.setTitle(title);
@@ -93,9 +100,6 @@ abstract class AbstractImportDialog extends JDialog {
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		this.addWindowListener(new WindowAdapter() {
 			
@@ -198,7 +202,7 @@ abstract class AbstractImportDialog extends JDialog {
 								null);
 						
 						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
+								FrameUtils.getCurrentFrameView().getFrame(),
 								info);
 					}
 				}

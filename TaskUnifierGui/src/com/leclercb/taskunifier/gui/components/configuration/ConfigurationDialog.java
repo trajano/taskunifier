@@ -50,7 +50,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUApplyButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
@@ -101,9 +101,16 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	private ConfigurationPanel synchronizationConfigurationPanel;
 	
 	private ConfigurationDialog() {
-		super(MainFrame.getInstance().getFrame(), true);
-		
 		this.initialize();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	public void setSelectedConfigurationTab(ConfigurationTab tab) {
@@ -117,9 +124,6 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.configuration"));
@@ -318,7 +322,9 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return;
 		}
@@ -350,7 +356,9 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return;
 		}

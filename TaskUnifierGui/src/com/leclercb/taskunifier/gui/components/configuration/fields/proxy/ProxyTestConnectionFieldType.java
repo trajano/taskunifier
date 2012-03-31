@@ -15,7 +15,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
@@ -44,7 +44,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 			this.panel.saveAndApplyConfig();
 			
 			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					Translations.getString("configuration.proxy.test_connection"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();
@@ -80,7 +80,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 				public void run() {
 					if (result) {
 						JOptionPane.showMessageDialog(
-								MainFrame.getInstance().getFrame(),
+								FrameUtils.getCurrentFrameView().getFrame(),
 								Translations.getString("configuration.proxy.test_connection.success"),
 								Translations.getString("general.information"),
 								JOptionPane.INFORMATION_MESSAGE);
@@ -95,7 +95,7 @@ public class ProxyTestConnectionFieldType extends ConfigurationFieldType.Button 
 								null);
 						
 						JXErrorPane.showDialog(
-								MainFrame.getInstance().getFrame(),
+								FrameUtils.getCurrentFrameView().getFrame(),
 								info);
 					}
 				}

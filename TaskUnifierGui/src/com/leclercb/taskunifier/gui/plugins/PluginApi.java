@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.plugins;
 
-import java.awt.Component;
 import java.util.Locale;
 
 import javax.help.HelpSet;
@@ -41,7 +40,8 @@ import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
@@ -51,8 +51,8 @@ public final class PluginApi {
 		
 	}
 	
-	public static Component getMainFrame() {
-		return MainFrame.getInstance().getFrame();
+	public static FrameView getCurrentFrameView() {
+		return FrameUtils.getCurrentFrameView();
 	}
 	
 	public static PropertyMap getSettings() {

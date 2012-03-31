@@ -47,7 +47,7 @@ import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.dummy.DummyGuiPlugin;
 import com.leclercb.taskunifier.gui.components.plugins.list.PluginList;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -104,7 +104,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (plugin.getStatus() == PluginStatus.TO_INSTALL
 				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
 			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					Translations.getString("general.manage_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();

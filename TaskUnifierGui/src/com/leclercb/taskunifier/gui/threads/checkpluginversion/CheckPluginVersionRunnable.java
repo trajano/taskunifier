@@ -47,7 +47,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 import com.leclercb.taskunifier.gui.api.plugins.PluginsUtils;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUWorker;
 import com.leclercb.taskunifier.gui.swing.TUWorkerDialog;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -118,7 +118,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 								Translations.getString("general.cancel") };
 						
 						result = JOptionPane.showOptionDialog(
-								MainFrame.getInstance().getFrame(),
+								FrameUtils.getCurrentFrameView().getFrame(),
 								Translations.getString(
 										"action.check_plugin_version.new_plugin_version_available",
 										version,
@@ -152,7 +152,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 							null);
 					
 					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							info);
 				}
 			}
@@ -160,7 +160,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 		
 		if (pluginsToUpdate.size() > 0) {
 			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					Translations.getString("general.manage_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();
@@ -196,7 +196,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 		
 		if (!silent) {
 			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					Translations.getString(
 							"action.check_plugin_version.no_new_plugin_version_available",
 							syncPlugin.getVersion(),

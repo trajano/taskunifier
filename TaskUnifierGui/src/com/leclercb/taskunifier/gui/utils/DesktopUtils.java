@@ -37,7 +37,7 @@ import java.io.File;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public final class DesktopUtils {
@@ -61,7 +61,9 @@ public final class DesktopUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}
@@ -84,7 +86,9 @@ public final class DesktopUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}
@@ -113,7 +117,9 @@ public final class DesktopUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}
@@ -136,7 +142,9 @@ public final class DesktopUtils {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 			
 			return false;
 		}

@@ -36,7 +36,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.views.DefaultCalendarView;
 import com.leclercb.taskunifier.gui.components.views.DefaultNoteView;
 import com.leclercb.taskunifier.gui.components.views.DefaultTaskView;
@@ -96,34 +95,35 @@ public class ActionAddTab extends AbstractAction {
 	}
 	
 	public static void addTab(ViewType type) {
-		CheckUtils.isNotNull(type);
+		if (type == null)
+			type = ViewType.TASKS;
 		
 		ViewItem viewItem = null;
 		FrameView frameView = FrameUtils.getCurrentFrameView();
+		
+		if (frameView == null)
+			return;
 		
 		if (type == ViewType.CALENDAR) {
 			viewItem = new ViewItem(
 					ViewType.CALENDAR,
 					Translations.getString("general.calendar"),
 					ImageUtils.getResourceImage("calendar.png", 16, 16),
-					frameView.getFrameId(),
-					true);
+					frameView.getFrameId());
 			viewItem.setView(new DefaultCalendarView(frameView));
 		} else if (type == ViewType.NOTES) {
 			viewItem = new ViewItem(
 					ViewType.NOTES,
 					Translations.getString("general.notes"),
 					ImageUtils.getResourceImage("note.png", 16, 16),
-					frameView.getFrameId(),
-					true);
+					frameView.getFrameId());
 			viewItem.setView(new DefaultNoteView(frameView));
 		} else if (type == ViewType.TASKS) {
 			viewItem = new ViewItem(
 					ViewType.TASKS,
 					Translations.getString("general.tasks"),
 					ImageUtils.getResourceImage("task.png", 16, 16),
-					frameView.getFrameId(),
-					true);
+					frameView.getFrameId());
 			viewItem.setView(new DefaultTaskView(frameView));
 		}
 		

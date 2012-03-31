@@ -33,20 +33,15 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 
-import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
-import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.main.frame.FrameView;
-import com.leclercb.taskunifier.gui.main.frame.SubFrame;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ActionCloseWindow extends AbstractAction implements PropertyChangeListener {
+public class ActionCloseWindow extends AbstractAction {
 	
 	public ActionCloseWindow(int width, int height) {
 		super(
@@ -56,20 +51,6 @@ public class ActionCloseWindow extends AbstractAction implements PropertyChangeL
 		this.putValue(
 				SHORT_DESCRIPTION,
 				Translations.getString("action.close_window"));
-		
-		ViewList.getInstance().addPropertyChangeListener(
-				ViewList.PROP_CURRENT_VIEW,
-				new WeakPropertyChangeListener(ViewList.getInstance(), this));
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		this.setEnabled(this.shouldBeEnabled());
-	}
-	
-	public boolean shouldBeEnabled() {
-		int frameId = FrameUtils.getCurrentFrameView().getFrameId();
-		return !FrameUtils.isMainFrame(frameId);
 	}
 	
 	@Override
@@ -80,9 +61,10 @@ public class ActionCloseWindow extends AbstractAction implements PropertyChangeL
 	public static void closeWindow() {
 		FrameView currentFrameView = FrameUtils.getCurrentFrameView();
 		
-		if (FrameUtils.isSubFrame(currentFrameView.getFrameId())) {
-			SubFrame.deleteSubFrame((SubFrame) currentFrameView);
-		}
+		if (currentFrameView == null)
+			return;
+		
+		FrameUtils.deleteFrameView(currentFrameView);
 	}
 	
 }

@@ -72,7 +72,7 @@ public class ActionAddNote extends AbstractAction {
 	
 	public static Note addNote(String title, boolean edit) {
 		if (ViewUtils.getCurrentNoteView() == null)
-			ViewUtils.setMainNoteView();
+			ViewUtils.setNoteView(true);
 		
 		NoteTemplate searcherTemplate = ViewUtils.getSelectedNoteSearcher().getTemplate();
 		
@@ -98,7 +98,7 @@ public class ActionAddNote extends AbstractAction {
 	
 	public static Note addNote(NoteBean noteBean, boolean edit) {
 		if (ViewUtils.getCurrentNoteView() == null)
-			ViewUtils.setMainNoteView();
+			ViewUtils.setNoteView(true);
 		
 		Note note = NoteFactory.getInstance().create(
 				Translations.getString("note.default.title"));

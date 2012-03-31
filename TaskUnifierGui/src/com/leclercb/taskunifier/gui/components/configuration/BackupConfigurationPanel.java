@@ -49,7 +49,7 @@ import com.leclercb.taskunifier.gui.components.configuration.fields.backup.AutoB
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.BackupListFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.backup.KeepBackupsFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
@@ -125,7 +125,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 											null);
 									
 									JXErrorPane.showDialog(
-											MainFrame.getInstance().getFrame(),
+											FrameUtils.getCurrentFrameView().getFrame(),
 											info);
 									
 									return;

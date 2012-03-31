@@ -43,7 +43,8 @@ import javax.swing.Action;
 import com.leclercb.taskunifier.gui.actions.ActionCreateNoteFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionCreateTaskFromClipboard;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frame.FrameView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TrayPopup extends PopupMenu {
@@ -65,8 +66,10 @@ public class TrayPopup extends PopupMenu {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				MainFrame.getInstance().getFrame().setVisible(true);
-				MainFrame.getInstance().getFrame().setState(Frame.NORMAL);
+				for (FrameView frameView : FrameUtils.getFrameViews()) {
+					frameView.getFrame().setVisible(true);
+					frameView.getFrame().setState(Frame.NORMAL);
+				}
 			}
 			
 		});

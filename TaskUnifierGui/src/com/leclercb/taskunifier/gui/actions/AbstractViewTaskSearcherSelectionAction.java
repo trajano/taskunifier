@@ -87,7 +87,8 @@ public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractVi
 				view.removeTaskSearcherSelectionChangeListener(this);
 		}
 		
-		if (ViewList.getInstance().getCurrentView().isLoaded()) {
+		if (ViewList.getInstance().getCurrentView() != null
+				&& ViewList.getInstance().getCurrentView().isLoaded()) {
 			TaskSearcherView view = null;
 			
 			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR)

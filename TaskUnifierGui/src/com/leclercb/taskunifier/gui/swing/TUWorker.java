@@ -47,7 +47,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implements ActionSupported {
@@ -117,7 +117,7 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 							null);
 					
 					JXErrorPane.showDialog(
-							MainFrame.getInstance().getFrame(),
+							FrameUtils.getCurrentFrameView().getFrame(),
 							info);
 				}
 				

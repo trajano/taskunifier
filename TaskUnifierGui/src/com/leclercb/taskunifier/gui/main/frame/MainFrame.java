@@ -32,12 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.main.frame;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Point;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -65,7 +62,6 @@ import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
-import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.actions.ActionRemoveTab;
 import com.leclercb.taskunifier.gui.components.menubar.MenuBar;
 import com.leclercb.taskunifier.gui.components.statusbar.DefaultStatusBar;
@@ -73,48 +69,50 @@ import com.leclercb.taskunifier.gui.components.statusbar.MacStatusBar;
 import com.leclercb.taskunifier.gui.components.statusbar.StatusBar;
 import com.leclercb.taskunifier.gui.components.toolbar.DefaultToolBar;
 import com.leclercb.taskunifier.gui.components.toolbar.MacToolBar;
-import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
-import com.leclercb.taskunifier.gui.main.MacApplication;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class MainFrame extends JXFrame implements FrameView, SavePropertiesListener, PropertyChangeSupported {
 	
-	private static MainFrame INSTANCE;
+	private boolean firstTimeVisible;
 	
-	public static FrameView getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MainFrame();
-			INSTANCE.initialize();
-		}
-		
-		return INSTANCE;
-	}
-	
-	private boolean minimizeToSystemTray;
-	
+	private int frameId;
 	private JTabbedPane mainTabbedPane;
 	private ViewItem oldSelectedView;
 	
-	private MainFrame() {
-		
+	protected MainFrame(int frameId) {
+		this.firstTimeVisible = true;
+		this.frameId = frameId;
 	}
 	
 	@Override
 	public int getFrameId() {
-		return 0;
+		return this.frameId;
 	}
 	
 	@Override
 	public void setVisible(boolean b) {
+		if (this.firstTimeVisible) {
+			this.initialize();
+			this.firstTimeVisible = false;
+		}
+		
 		super.setVisible(b);
 		
 		if (b)
 			this.repaint();
+	}
+	
+	@Override
+	public void dispose() {
+		this.saveProperties();
+		this.setVisible(false);
+		
+		super.dispose();
 	}
 	
 	private void initialize() {
@@ -130,14 +128,21 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 			
 			@Override
 			public void windowClosing(WindowEvent event) {
-				ActionQuit.quit();
+				FrameUtils.deleteFrameView(MainFrame.this);
 			}
 			
 			@Override
 			public void windowIconified(WindowEvent e) {
-				if (MainFrame.this.minimizeToSystemTray) {
+				if (Main.getSettings().getBooleanProperty(
+						"window.minimize_to_system_tray")) {
 					MainFrame.this.setVisible(false);
 				}
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent event) {
+				MainFrame.this.setVisible(true);
+				MainFrame.this.setState(Frame.NORMAL);
 			}
 			
 		});
@@ -162,27 +167,12 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 			
 		});
 		
-		this.initializeOsSpecifications();
-		this.initializeAppMenu();
 		this.initializeMenuBar();
 		this.initializeToolBar();
 		this.initializeStatusBar();
-		
-		this.initializeSystemTray();
-		
-		ViewList.getInstance().setCurrentView(
-				ViewList.getInstance().getMainTaskView(),
-				true);
 	}
 	
 	private void initializeViews() {
-		ViewList.getInstance().initializeMainViews(this);
-		for (ViewItem view : ViewList.getInstance().getViews()) {
-			this.addViewTab(view);
-		}
-		
-		this.setSelectedView(ViewList.getInstance().getMainTaskView());
-		
 		ViewList.getInstance().addListChangeListener(new ListChangeListener() {
 			
 			@Override
@@ -206,6 +196,10 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 					}
 					
 					MainFrame.this.mainTabbedPane.removeTabAt(index);
+					
+					if (MainFrame.this.mainTabbedPane.getTabCount() == 0) {
+						FrameUtils.deleteFrameView(MainFrame.this);
+					}
 				}
 			}
 			
@@ -267,26 +261,24 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 				view.getIcon(),
 				SwingConstants.LEFT), BorderLayout.CENTER);
 		
-		if (view.isRemovable()) {
-			JButton button = new JButton(ImageUtils.getResourceImage(
-					"remove.png",
-					12,
-					12));
-			button.setBorderPainted(false);
-			button.setContentAreaFilled(false);
-			button.setFocusable(false);
+		JButton button = new JButton(ImageUtils.getResourceImage(
+				"remove.png",
+				12,
+				12));
+		button.setBorderPainted(false);
+		button.setContentAreaFilled(false);
+		button.setFocusable(false);
+		
+		button.addActionListener(new ActionListener() {
 			
-			button.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent event) {
-					ActionRemoveTab.removeTab(view);
-				}
-				
-			});
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				ActionRemoveTab.removeTab(view);
+			}
 			
-			panel.add(button, BorderLayout.EAST);
-		}
+		});
+		
+		panel.add(button, BorderLayout.EAST);
 		
 		this.mainTabbedPane.setTabComponentAt(
 				this.mainTabbedPane.getTabCount() - 1,
@@ -322,7 +314,8 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	
 	@Override
 	public void setSelectedView(ViewItem view) {
-		CheckUtils.isNotNull(view);
+		if (view == null)
+			return;
 		
 		if (this.getFrameId() != view.getFrameId())
 			return;
@@ -391,17 +384,6 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 		}
 	}
 	
-	private void initializeOsSpecifications() {
-		MacApplication.initializeApplicationAdapter();
-	}
-	
-	private void initializeAppMenu() {
-		if (SystemUtils.IS_OS_MAC) {
-			TrayPopup popupMenu = new TrayPopup(false);
-			MacApplication.setDockMenu(popupMenu);
-		}
-	}
-	
 	private void initializeMenuBar() {
 		this.setJMenuBar(new MenuBar());
 	}
@@ -430,56 +412,6 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());
 		else
 			this.add(statusBar.getStatusBar(), BorderLayout.SOUTH);
-	}
-	
-	private void initializeSystemTray() {
-		if (!SystemTray.isSupported()
-				|| !Main.getSettings().getBooleanProperty(
-						"window.minimize_to_system_tray")) {
-			this.minimizeToSystemTray = false;
-			return;
-		}
-		
-		this.minimizeToSystemTray = true;
-		
-		final SystemTray tray = SystemTray.getSystemTray();
-		final TrayIcon trayIcon = new TrayIcon(ImageUtils.getResourceImage(
-				"logo.png",
-				(int) tray.getTrayIconSize().getWidth(),
-				(int) tray.getTrayIconSize().getHeight()).getImage());
-		
-		trayIcon.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.setVisible(true);
-				MainFrame.this.setState(Frame.NORMAL);
-			}
-			
-		});
-		
-		trayIcon.setPopupMenu(new TrayPopup());
-		
-		try {
-			tray.add(trayIcon);
-		} catch (AWTException e) {
-			
-		}
-		
-		this.addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowIconified(WindowEvent event) {
-				MainFrame.this.setVisible(false);
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent event) {
-				MainFrame.this.setVisible(true);
-				MainFrame.this.setState(Frame.NORMAL);
-			}
-			
-		});
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -27,12 +28,15 @@ public class ActionRemoveTab extends AbstractAction {
 	}
 	
 	public static void removeTab() {
+		if (ViewList.getInstance().getCurrentView() == null)
+			return;
+		
 		removeTab(ViewList.getInstance().getCurrentView());
 	}
 	
 	public static void removeTab(ViewItem view) {
-		if (view.isRemovable())
-			ViewList.getInstance().removeView(view);
+		CheckUtils.isNotNull(view);
+		ViewList.getInstance().removeView(view);
 	}
 	
 }

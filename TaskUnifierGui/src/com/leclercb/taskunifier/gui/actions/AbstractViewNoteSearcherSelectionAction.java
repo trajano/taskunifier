@@ -80,7 +80,8 @@ public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractVi
 			}
 		}
 		
-		if (ViewList.getInstance().getCurrentView().isLoaded()) {
+		if (ViewList.getInstance().getCurrentView() != null
+				&& ViewList.getInstance().getCurrentView().isLoaded()) {
 			if (ViewUtils.getCurrentViewType() == ViewType.NOTES) {
 				NoteSearcherView view = ViewUtils.getCurrentNoteView().getNoteSearcherView();
 				view.addNoteSearcherSelectionChangeListener(new WeakNoteSearcherSelectionListener(

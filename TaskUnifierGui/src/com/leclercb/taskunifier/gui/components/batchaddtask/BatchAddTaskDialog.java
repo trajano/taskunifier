@@ -43,7 +43,7 @@ import javax.swing.JDialog;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -59,8 +59,16 @@ public class BatchAddTaskDialog extends JDialog {
 	}
 	
 	private BatchAddTaskDialog() {
-		super(MainFrame.getInstance().getFrame());
 		this.initialize();
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+		}
+		
+		super.setVisible(visible);
 	}
 	
 	private void initialize() {
@@ -70,9 +78,6 @@ public class BatchAddTaskDialog extends JDialog {
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("general.batch_add_tasks"));

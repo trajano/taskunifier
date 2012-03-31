@@ -43,7 +43,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
@@ -64,18 +64,17 @@ public class SynchronizerPluginsDialog extends JDialog {
 	private PluginsPanel pluginsPanel;
 	
 	private SynchronizerPluginsDialog() {
-		super(MainFrame.getInstance().getFrame());
-		
 		this.initialize();
 	}
 	
 	@Override
-	public void setVisible(boolean b) {
-		if (b) {
+	public void setVisible(boolean visible) {
+		if (visible) {
 			this.pluginsPanel.reloadPlugins();
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
 		}
 		
-		super.setVisible(b);
+		super.setVisible(visible);
 	}
 	
 	private void initialize() {
@@ -85,9 +84,6 @@ public class SynchronizerPluginsDialog extends JDialog {
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		
-		if (this.getOwner() != null)
-			this.setLocationRelativeTo(this.getOwner());
 		
 		JXHeader header = new JXHeader();
 		header.setTitle(Translations.getString("header.title.manage_synchronizer_plugins"));

@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.taskunifier.gui.main.frame.MainFrame;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -70,7 +70,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 		
 		if (result) {
 			JOptionPane.showMessageDialog(
-					MainFrame.getInstance().getFrame(),
+					FrameUtils.getCurrentFrameView().getFrame(),
 					Translations.getString("action.create_new_backup.success"),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
@@ -84,7 +84,9 @@ public class ActionCreateNewBackup extends AbstractAction {
 					null,
 					null);
 			
-			JXErrorPane.showDialog(MainFrame.getInstance().getFrame(), info);
+			JXErrorPane.showDialog(
+					FrameUtils.getCurrentFrameView().getFrame(),
+					info);
 		}
 		
 		return result;
