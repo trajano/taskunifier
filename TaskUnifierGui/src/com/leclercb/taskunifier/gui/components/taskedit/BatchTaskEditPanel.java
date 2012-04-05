@@ -160,7 +160,7 @@ public class BatchTaskEditPanel extends JPanel {
 		if (this.tasks == null)
 			return true;
 		
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			
@@ -312,7 +312,7 @@ public class BatchTaskEditPanel extends JPanel {
 					"Error while setting task field value",
 					t);
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 		
 		return true;

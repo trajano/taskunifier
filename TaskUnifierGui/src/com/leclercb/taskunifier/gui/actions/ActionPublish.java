@@ -73,9 +73,9 @@ public class ActionPublish extends AbstractAction {
 	}
 	
 	public static void publish(boolean background, boolean userAction) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!background)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}

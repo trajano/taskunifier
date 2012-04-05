@@ -38,23 +38,18 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
-import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
-import com.leclercb.taskunifier.gui.main.frames.FrameView;
 
-public class DefaultCalendarView extends JPanel implements CalendarView {
-	
-	private FrameView frameView;
+public class DefaultCalendarView extends JPanel implements CalendarView, PropertyChangeListener {
 	
 	private TasksCalendarPanel calendarPanel;
 	
-	public DefaultCalendarView(FrameView frameView) {
-		CheckUtils.isNotNull(frameView);
-		this.frameView = frameView;
-		
+	public DefaultCalendarView() {
 		this.initialize();
 	}
 	
@@ -77,33 +72,40 @@ public class DefaultCalendarView extends JPanel implements CalendarView {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		this.calendarPanel = new TasksCalendarPanel(this.frameView);
+		this.calendarPanel = new TasksCalendarPanel();
 		
 		this.add(this.calendarPanel, BorderLayout.CENTER);
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR)
-							DefaultCalendarView.this.calendarPanel.refreshTasks();
-					}
-					
-				});
+				new WeakPropertyChangeListener(ViewList.getInstance(), this));
 		
-		Synchronizing.addPropertyChangeListener(
+		Synchronizing.getInstance().addPropertyChangeListener(
 				Synchronizing.PROP_SYNCHRONIZING,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (!(Boolean) evt.getNewValue())
-							DefaultCalendarView.this.calendarPanel.refreshTasks();
-					}
-					
-				});
+				new WeakPropertyChangeListener(
+						Synchronizing.getInstance(),
+						this));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (EqualsUtils.equals(
+				ViewList.PROP_CURRENT_VIEW,
+				event.getPropertyName())) {
+			if (ViewUtils.getCurrentViewType() == ViewType.CALENDAR)
+				DefaultCalendarView.this.calendarPanel.refreshTasks();
+			
+			return;
+		}
+		
+		if (EqualsUtils.equals(
+				Synchronizing.PROP_SYNCHRONIZING,
+				event.getPropertyName())) {
+			if (!(Boolean) event.getNewValue())
+				DefaultCalendarView.this.calendarPanel.refreshTasks();
+			
+			return;
+		}
 	}
 	
 }

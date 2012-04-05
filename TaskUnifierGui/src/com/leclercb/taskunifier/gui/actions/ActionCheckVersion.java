@@ -63,9 +63,9 @@ public class ActionCheckVersion extends AbstractAction {
 	}
 	
 	public static void checkVersion(final boolean silent) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!silent)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}

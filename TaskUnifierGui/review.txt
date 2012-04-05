@@ -2,6 +2,7 @@ actions
 api.models
 api.plugins
 api.synchronizer
+components.views
 constants
 main.frames
 plugins

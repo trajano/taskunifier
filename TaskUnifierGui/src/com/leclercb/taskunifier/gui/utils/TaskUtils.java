@@ -87,7 +87,7 @@ public final class TaskUtils {
 			int index,
 			Task[] tasksToOrder,
 			Task[] displayedTasks) {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			int newOrder = 0;
@@ -131,7 +131,7 @@ public final class TaskUtils {
 				task.setOrder(newOrder + i);
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

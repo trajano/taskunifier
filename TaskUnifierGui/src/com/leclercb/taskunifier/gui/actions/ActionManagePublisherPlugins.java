@@ -59,8 +59,8 @@ public class ActionManagePublisherPlugins extends AbstractAction {
 	}
 	
 	public static void managePublisherPlugins() {
-		if (Synchronizing.isSynchronizing()) {
-			Synchronizing.showSynchronizingMessage();
+		if (Synchronizing.getInstance().isSynchronizing()) {
+			Synchronizing.getInstance().showSynchronizingMessage();
 			return;
 		}
 		

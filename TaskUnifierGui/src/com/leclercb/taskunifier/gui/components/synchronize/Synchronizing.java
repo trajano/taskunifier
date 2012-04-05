@@ -37,38 +37,52 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JOptionPane;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class Synchronizing {
+public class Synchronizing implements PropertyChangeSupported {
 	
 	public static final String PROP_SYNCHRONIZING = "synchronizing";
 	
-	private static int synchronizingLevel = 0;
+	private static Synchronizing INSTANCE = null;
 	
-	private static PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			Synchronizing.class);
-	
-	public static synchronized boolean isSynchronizing() {
-		return synchronizingLevel != 0;
-	}
-	
-	public static synchronized void setSynchronizing(final boolean synchronizing) {
-		final boolean oldSynchronizing = isSynchronizing();
-		
-		if (synchronizing) {
-			synchronizingLevel++;
-		} else {
-			if (synchronizingLevel > 0)
-				synchronizingLevel--;
+	public static Synchronizing getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new Synchronizing();
 		}
 		
-		if (oldSynchronizing != isSynchronizing()) {
+		return INSTANCE;
+	}
+	
+	private int synchronizingLevel = 0;
+	
+	private PropertyChangeSupport propertyChangeSupport;
+	
+	private Synchronizing() {
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
+	}
+	
+	public synchronized boolean isSynchronizing() {
+		return this.synchronizingLevel != 0;
+	}
+	
+	public synchronized void setSynchronizing(final boolean synchronizing) {
+		final boolean oldSynchronizing = this.isSynchronizing();
+		
+		if (synchronizing) {
+			this.synchronizingLevel++;
+		} else {
+			if (this.synchronizingLevel > 0)
+				this.synchronizingLevel--;
+		}
+		
+		if (oldSynchronizing != this.isSynchronizing()) {
 			TUSwingUtilities.executeOrInvokeAndWait(new Runnable() {
 				
 				@Override
 				public void run() {
-					propertyChangeSupport.firePropertyChange(
+					Synchronizing.this.propertyChangeSupport.firePropertyChange(
 							PROP_SYNCHRONIZING,
 							oldSynchronizing,
 							synchronizing);
@@ -78,7 +92,7 @@ public class Synchronizing {
 		}
 	}
 	
-	public static void showSynchronizingMessage() {
+	public void showSynchronizingMessage() {
 		TUSwingUtilities.executeOrInvokeAndWait(new Runnable() {
 			
 			@Override
@@ -93,19 +107,32 @@ public class Synchronizing {
 		});
 	}
 	
-	public static void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 	
-	public static void addPropertyChangeListener(
+	@Override
+	public void addPropertyChangeListener(
 			String propertyName,
 			PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+		this.propertyChangeSupport.addPropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
-	public static void removePropertyChangeListener(
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+	
+	@Override
+	public void removePropertyChangeListener(
+			String propertyName,
 			PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
+		this.propertyChangeSupport.removePropertyChangeListener(
+				propertyName,
+				listener);
 	}
 	
 }

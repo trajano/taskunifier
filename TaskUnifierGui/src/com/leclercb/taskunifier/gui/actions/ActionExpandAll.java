@@ -62,7 +62,7 @@ public class ActionExpandAll extends AbstractViewAction {
 	}
 	
 	public static void expandAll() {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			List<Task> tasks = TaskFactory.getInstance().getList();
@@ -71,7 +71,7 @@ public class ActionExpandAll extends AbstractViewAction {
 					((GuiTask) task).setShowChildren(true);
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

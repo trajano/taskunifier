@@ -65,9 +65,9 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	}
 	
 	public static void checkPluginVersion(boolean silent) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!silent)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}
@@ -78,9 +78,9 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	public static void checkPluginVersion(
 			SynchronizerGuiPlugin syncPlugin,
 			boolean silent) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!silent)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}
@@ -89,9 +89,9 @@ public class ActionCheckPluginVersion extends AbstractAction {
 	}
 	
 	public static void checkAllPluginVersion(boolean silent) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!silent)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}

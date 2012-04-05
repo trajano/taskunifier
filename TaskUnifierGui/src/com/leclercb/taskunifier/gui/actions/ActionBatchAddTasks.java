@@ -77,7 +77,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 	}
 	
 	public static void batchAddTasks(TaskTemplate template, String[] titles) {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		List<Task> tasks = new ArrayList<Task>();
 		
@@ -122,7 +122,7 @@ public class ActionBatchAddTasks extends AbstractViewAction {
 				tasks.add(task);
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 		
 		ViewUtils.setSelectedTasks(tasks.toArray(new Task[0]));

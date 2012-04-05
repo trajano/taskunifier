@@ -63,7 +63,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		TaskFactory.getInstance().addListChangeListener(this);
 		TaskFactory.getInstance().addPropertyChangeListener(this);
 		
-		Synchronizing.addPropertyChangeListener(
+		Synchronizing.getInstance().addPropertyChangeListener(
 				Synchronizing.PROP_SYNCHRONIZING,
 				new PropertyChangeListener() {
 					
@@ -134,7 +134,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 	
 	@Override
 	public void listChange(ListChangeEvent event) {
-		if (Synchronizing.isSynchronizing())
+		if (Synchronizing.getInstance().isSynchronizing())
 			return;
 		
 		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
@@ -146,7 +146,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (Synchronizing.isSynchronizing())
+		if (Synchronizing.getInstance().isSynchronizing())
 			return;
 		
 		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {

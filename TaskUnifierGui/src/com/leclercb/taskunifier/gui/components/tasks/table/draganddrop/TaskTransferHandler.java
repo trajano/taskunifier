@@ -290,13 +290,13 @@ public class TaskTransferHandler extends TransferHandler {
 	}
 	
 	private void setParent(Task parent, List<Task> tasks) {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			for (Task task : tasks)
 				task.setParent(parent);
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

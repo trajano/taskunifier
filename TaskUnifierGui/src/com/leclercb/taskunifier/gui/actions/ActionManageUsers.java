@@ -59,8 +59,8 @@ public class ActionManageUsers extends AbstractAction {
 	}
 	
 	public static void manageUsers() {
-		if (Synchronizing.isSynchronizing()) {
-			Synchronizing.showSynchronizingMessage();
+		if (Synchronizing.getInstance().isSynchronizing()) {
+			Synchronizing.getInstance().showSynchronizingMessage();
 			return;
 		}
 		

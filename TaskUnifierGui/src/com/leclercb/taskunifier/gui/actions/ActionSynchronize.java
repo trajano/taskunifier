@@ -73,9 +73,9 @@ public class ActionSynchronize extends AbstractAction {
 	}
 	
 	public static void synchronize(boolean background, boolean userAction) {
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!background)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return;
 		}

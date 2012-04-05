@@ -106,7 +106,7 @@ public class ActionDelete extends AbstractViewAction {
 			if (deleteSubTasks == JOptionPane.CANCEL_OPTION)
 				return;
 			
-			Synchronizing.setSynchronizing(true);
+			Synchronizing.getInstance().setSynchronizing(true);
 			
 			try {
 				Constants.UNDO_SUPPORT.beginUpdate();
@@ -133,7 +133,7 @@ public class ActionDelete extends AbstractViewAction {
 				
 				Constants.UNDO_SUPPORT.endUpdate();
 			} finally {
-				Synchronizing.setSynchronizing(false);
+				Synchronizing.getInstance().setSynchronizing(false);
 			}
 		} else if (viewType == ViewType.NOTES) {
 			Note[] notes = ViewUtils.getSelectedNotes();

@@ -71,7 +71,7 @@ class ReminderRunnable implements Runnable, PropertyChangeListener, ListChangeLi
 			try {
 				Thread.sleep(SLEEP_TIME);
 				
-				if (Synchronizing.isSynchronizing())
+				if (Synchronizing.getInstance().isSynchronizing())
 					continue;
 				
 				TUSwingUtilities.invokeLater(new Runnable() {

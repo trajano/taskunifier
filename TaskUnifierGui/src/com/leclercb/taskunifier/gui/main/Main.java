@@ -1100,7 +1100,7 @@ public class Main {
 				boolean quit = ActionQuit.quit(true);
 				
 				if (!quit) {
-					Synchronizing.addPropertyChangeListener(
+					Synchronizing.getInstance().addPropertyChangeListener(
 							Synchronizing.PROP_SYNCHRONIZING,
 							new PropertyChangeListener() {
 								
@@ -1472,7 +1472,7 @@ public class Main {
 		
 		saveAllData();
 		
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		boolean result = false;
 		
@@ -1510,7 +1510,7 @@ public class Main {
 					String.format("Error while switching user %1s", userId),
 					e);
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 		
 		return result;

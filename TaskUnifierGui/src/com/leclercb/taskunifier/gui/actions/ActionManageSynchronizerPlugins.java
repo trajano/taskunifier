@@ -59,8 +59,8 @@ public class ActionManageSynchronizerPlugins extends AbstractAction {
 	}
 	
 	public static void manageSynchronizerPlugins() {
-		if (Synchronizing.isSynchronizing()) {
-			Synchronizing.showSynchronizingMessage();
+		if (Synchronizing.getInstance().isSynchronizing()) {
+			Synchronizing.getInstance().showSynchronizingMessage();
 			return;
 		}
 		

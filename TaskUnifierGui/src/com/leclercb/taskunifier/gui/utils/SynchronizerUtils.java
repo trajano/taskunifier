@@ -82,13 +82,13 @@ public final class SynchronizerUtils {
 						if (task == null || !task.isCompleted())
 							return;
 						
-						Synchronizing.setSynchronizing(true);
+						Synchronizing.getInstance().setSynchronizing(true);
 						
 						try {
 							getSynchronizerPlugin().getSynchronizerApi().createRepeatTask(
 									task);
 						} finally {
-							Synchronizing.setSynchronizing(false);
+							Synchronizing.getInstance().setSynchronizing(false);
 						}
 					}
 					
@@ -358,7 +358,7 @@ public final class SynchronizerUtils {
 	}
 	
 	public static void resetAllSynchronizersAndDeleteModels() {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			Constants.UNDO_SUPPORT.discardAllEdits();
@@ -373,7 +373,7 @@ public final class SynchronizerUtils {
 			
 			resetAllSynchronizers();
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

@@ -215,7 +215,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getValue() instanceof Note) {
-			if (!Synchronizing.isSynchronizing())
+			if (!Synchronizing.getInstance().isSynchronizing())
 				this.updateBadges();
 			return;
 		}
@@ -274,7 +274,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof Note) {
-			if (!Synchronizing.isSynchronizing())
+			if (!Synchronizing.getInstance().isSynchronizing())
 				this.updateBadges();
 			return;
 		}

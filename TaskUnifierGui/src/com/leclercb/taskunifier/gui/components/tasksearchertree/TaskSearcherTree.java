@@ -91,15 +91,16 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 		this.initializeCopyAndPaste();
 		this.initializeExpandedState();
 		
-		Synchronizing.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (!(Boolean) evt.getNewValue())
-					TaskSearcherTree.this.updateBadges();
-			}
-			
-		});
+		Synchronizing.getInstance().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
+							TaskSearcherTree.this.updateBadges();
+					}
+					
+				});
 	}
 	
 	public TaskSearcherTreeModel getSearcherModel() {

@@ -64,7 +64,7 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 	private List<ViewItem> views;
 	private ViewItem currentView;
 	
-	public ViewList() {
+	private ViewList() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
@@ -143,6 +143,7 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 				else
 					this.setCurrentView(null);
 			}
+			
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
 					index,

@@ -76,7 +76,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 	
 	@Override
 	protected void importFromFile(final String file) throws Exception {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			SynchronizerUtils.setTaskRepeatEnabled(false);
@@ -115,7 +115,7 @@ public class ImportModelsDialog extends AbstractImportDialog {
 							zip.getInputStream(entry));
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

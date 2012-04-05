@@ -88,9 +88,9 @@ public class ActionQuit extends AbstractAction {
 				ActionPublish.publish(false);
 		}
 		
-		if (Synchronizing.isSynchronizing()) {
+		if (Synchronizing.getInstance().isSynchronizing()) {
 			if (!force)
-				Synchronizing.showSynchronizingMessage();
+				Synchronizing.getInstance().showSynchronizingMessage();
 			
 			return false;
 		}

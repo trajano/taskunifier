@@ -402,7 +402,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getValue() instanceof Task) {
-			if (!Synchronizing.isSynchronizing())
+			if (!Synchronizing.getInstance().isSynchronizing())
 				this.updateBadges();
 			return;
 		}
@@ -481,7 +481,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof Task) {
-			if (!Synchronizing.isSynchronizing())
+			if (!Synchronizing.getInstance().isSynchronizing())
 				if (!event.getPropertyName().equals(ModelNote.PROP_NOTE))
 					this.updateBadges();
 			return;

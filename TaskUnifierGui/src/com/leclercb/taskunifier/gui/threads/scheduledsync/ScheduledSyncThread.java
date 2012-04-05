@@ -93,7 +93,7 @@ public class ScheduledSyncThread extends Thread implements PropertyChangeSupport
 				for (this.setRemainingSleepTime(this.sleepTime); this.getRemainingSleepTime() > 0; this.setRemainingSleepTime(this.isPaused() ? this.getRemainingSleepTime() : this.getRemainingSleepTime() - 1000))
 					Thread.sleep(1000);
 				
-				if (Synchronizing.isSynchronizing())
+				if (Synchronizing.getInstance().isSynchronizing())
 					continue;
 				
 				TUSwingUtilities.invokeLater(new Runnable() {

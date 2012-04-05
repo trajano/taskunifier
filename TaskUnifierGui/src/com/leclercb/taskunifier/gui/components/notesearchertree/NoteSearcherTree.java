@@ -89,15 +89,16 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 		this.initializeCopyAndPaste();
 		this.initializeExpandedState();
 		
-		Synchronizing.addPropertyChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (!(Boolean) evt.getNewValue())
-					NoteSearcherTree.this.updateBadges();
-			}
-			
-		});
+		Synchronizing.getInstance().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (!(Boolean) evt.getNewValue())
+							NoteSearcherTree.this.updateBadges();
+					}
+					
+				});
 	}
 	
 	public NoteSearcherTreeModel getSearcherModel() {

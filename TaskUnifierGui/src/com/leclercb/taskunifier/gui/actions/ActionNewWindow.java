@@ -79,7 +79,7 @@ public class ActionNewWindow extends AbstractAction {
 					Translations.getString("general.tasks"),
 					ImageUtils.getResourceImage("task.png", 16, 16),
 					frameView.getFrameId());
-			viewItem.setView(new DefaultTaskView(frameView));
+			viewItem.setView(new DefaultTaskView());
 			
 			ViewList.getInstance().addView(viewItem);
 			ViewList.getInstance().setCurrentView(viewItem);
@@ -89,7 +89,7 @@ public class ActionNewWindow extends AbstractAction {
 					Translations.getString("general.notes"),
 					ImageUtils.getResourceImage("note.png", 16, 16),
 					frameView.getFrameId());
-			viewItem.setView(new DefaultNoteView(frameView));
+			viewItem.setView(new DefaultNoteView());
 			
 			ViewList.getInstance().addView(viewItem);
 			
@@ -98,7 +98,7 @@ public class ActionNewWindow extends AbstractAction {
 					Translations.getString("general.calendar"),
 					ImageUtils.getResourceImage("calendar.png", 16, 16),
 					frameView.getFrameId());
-			viewItem.setView(new DefaultCalendarView(frameView));
+			viewItem.setView(new DefaultCalendarView());
 			
 			ViewList.getInstance().addView(viewItem);
 		}

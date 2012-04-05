@@ -160,7 +160,7 @@ public class MacApplication {
 	private static void initializeDockIconBadge() {
 		updateDockIconBadge();
 		
-		Synchronizing.addPropertyChangeListener(
+		Synchronizing.getInstance().addPropertyChangeListener(
 				Synchronizing.PROP_SYNCHRONIZING,
 				new PropertyChangeListener() {
 					
@@ -177,7 +177,7 @@ public class MacApplication {
 					
 					@Override
 					public void listChange(ListChangeEvent event) {
-						if (Synchronizing.isSynchronizing())
+						if (Synchronizing.getInstance().isSynchronizing())
 							return;
 						
 						updateDockIconBadge();
@@ -190,7 +190,7 @@ public class MacApplication {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent event) {
-						if (Synchronizing.isSynchronizing())
+						if (Synchronizing.getInstance().isSynchronizing())
 							return;
 						
 						if (event.getPropertyName().equals(

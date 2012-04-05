@@ -74,7 +74,7 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 		
 		Map<Task, Task> newTasks = new HashMap<Task, Task>();
 		
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			for (Task task : tasks) {
@@ -89,7 +89,7 @@ public class ActionDuplicateTasks extends AbstractViewTaskSelectionAction {
 				}
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 		
 		ViewUtils.refreshTasks();

@@ -81,7 +81,7 @@ public class ViewItem implements ActionSupported {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
 					"View \"" + this.label + "\" is not loaded yet",
-					new Throwable().getStackTrace());
+					new Throwable());
 		
 		return this.view;
 	}

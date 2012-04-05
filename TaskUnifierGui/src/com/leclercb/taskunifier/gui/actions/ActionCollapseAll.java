@@ -62,7 +62,7 @@ public class ActionCollapseAll extends AbstractViewAction {
 	}
 	
 	public static void collapseAll() {
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			List<Task> tasks = TaskFactory.getInstance().getList();
@@ -71,7 +71,7 @@ public class ActionCollapseAll extends AbstractViewAction {
 					((GuiTask) task).setShowChildren(false);
 			}
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 	}
 	

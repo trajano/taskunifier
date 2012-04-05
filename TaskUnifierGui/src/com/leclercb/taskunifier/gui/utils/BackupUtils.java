@@ -183,7 +183,7 @@ public final class BackupUtils {
 		
 		SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 		
-		Synchronizing.setSynchronizing(true);
+		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
 			String folder = Main.getBackupFolder()
@@ -193,7 +193,7 @@ public final class BackupUtils {
 			Main.loadAllData(folder);
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 		} finally {
-			Synchronizing.setSynchronizing(false);
+			Synchronizing.getInstance().setSynchronizing(false);
 		}
 		
 		return true;
