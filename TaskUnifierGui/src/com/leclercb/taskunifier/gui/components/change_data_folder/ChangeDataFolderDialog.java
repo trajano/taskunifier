@@ -126,7 +126,8 @@ public class ChangeDataFolderDialog extends JDialog {
 		builder.appendI15d("general.folder", true, this.fileField);
 		
 		// Copy data
-		this.copyData = new JCheckBox(Translations.getString("change_data_folder_location.copy_data"));
+		this.copyData = new JCheckBox(
+				Translations.getString("change_data_folder_location.copy_data"));
 		
 		builder.appendI15d("", false, this.copyData);
 		
@@ -169,7 +170,9 @@ public class ChangeDataFolderDialog extends JDialog {
 								file.getAbsolutePath());
 						
 						ActionSave.save();
-						FileUtils.copyDirectory(new File(Main.getDataFolder()), file);
+						FileUtils.copyDirectory(
+								new File(Main.getDataFolder()),
+								file);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),
@@ -192,8 +195,7 @@ public class ChangeDataFolderDialog extends JDialog {
 				ChangeDataFolderDialog.this.setVisible(false);
 				
 				if (quit) {
-					
-					ActionQuit.quit();
+					ActionQuit.quitAndApply();
 				}
 			}
 			

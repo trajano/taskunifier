@@ -102,7 +102,7 @@ public class ActionQuit extends AbstractAction {
 		return true;
 	}
 	
-	public static boolean restart() {
+	public static boolean quitAndApply() {
 		JOptionPane.showMessageDialog(
 				FrameUtils.getCurrentFrameView().getFrame(),
 				Translations.getString("general.quit_apply_changes"),
