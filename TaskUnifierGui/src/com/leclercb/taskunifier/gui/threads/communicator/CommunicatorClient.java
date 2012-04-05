@@ -43,6 +43,7 @@ import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.api.models.beans.ComBean;
 import com.leclercb.taskunifier.gui.constants.Constants;
+import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -89,23 +90,30 @@ public class CommunicatorClient extends Thread {
 		}
 	}
 	
-	private void handleMessage(String message) {
-		try {
-			ComBean bean = ComBean.decodeFromXML(IOUtils.toInputStream(
-					message,
-					"UTF-8"));
+	private void handleMessage(final String message) {
+		TUSwingUtilities.invokeLater(new Runnable() {
 			
-			ActionImportComFile.importComBean(bean);
+			@Override
+			public void run() {
+				try {
+					ComBean bean = ComBean.decodeFromXML(IOUtils.toInputStream(
+							message,
+							"UTF-8"));
+					
+					ActionImportComFile.importComBean(bean);
+					
+					return;
+				} catch (Exception e) {
+					
+				}
+				
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
+						Translations.getString("error.unknown_message_format")));
+				
+				GuiLogger.getLogger().warning("Unknown message format");
+			}
 			
-			return;
-		} catch (Exception e) {
-			
-		}
-		
-		Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
-				Translations.getString("error.unknown_message_format")));
-		
-		GuiLogger.getLogger().warning("Unknown message format");
+		});
 	}
 	
 }

@@ -1,6 +1,10 @@
 HISTORY
 -------
 
+Version 2.3.3
+	- Minor:
+		- Bug fixed: Freeze with Outlook Addon
+
 Version 2.3.2
 	- Major:
 		- BF 3510391: Task searcher edit window not displayed
