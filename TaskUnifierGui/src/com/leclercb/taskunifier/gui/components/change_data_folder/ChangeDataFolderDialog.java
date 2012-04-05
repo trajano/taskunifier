@@ -109,7 +109,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add(panel, BorderLayout.NORTH);
 		
 		FormBuilder builder = new FormBuilder(
@@ -129,7 +129,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		this.copyData = new JCheckBox(
 				Translations.getString("change_data_folder_location.copy_data"));
 		
-		builder.appendI15d("", false, this.copyData);
+		builder.append("", this.copyData);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
