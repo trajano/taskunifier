@@ -56,19 +56,28 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 	
 	private ActionSupport actionSupport;
 	
-	private ProgressMonitor workerMonitor;
+	private ProgressMonitor edtMonitor;
 	private ProgressMonitor monitor;
 	
 	public TUWorker(ProgressMonitor monitor) {
 		this.actionSupport = new ActionSupport(this);
-		this.workerMonitor = new ProgressMonitor();
+		this.edtMonitor = new ProgressMonitor();
 		
-		this.workerMonitor.addListChangeListener(new ListChangeListener() {
+		this.edtMonitor.addListChangeListener(new ListChangeListener() {
 			
 			@Override
-			public void listChange(ListChangeEvent event) {
-				if (event.getChangeType() == ListChangeEvent.VALUE_ADDED)
-					TUWorker.this.monitor.addMessage((ProgressMessage) event.getValue());
+			public void listChange(final ListChangeEvent event) {
+				if (event.getChangeType() != ListChangeEvent.VALUE_ADDED)
+					return;
+				
+				TUSwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						TUWorker.this.monitor.addMessage((ProgressMessage) event.getValue());
+					}
+					
+				});
 			}
 			
 		});
@@ -76,8 +85,8 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 		this.setMonitor(monitor);
 	}
 	
-	public ProgressMonitor getWorkerMonitor() {
-		return this.workerMonitor;
+	public ProgressMonitor getEDTMonitor() {
+		return this.edtMonitor;
 	}
 	
 	public ProgressMonitor getMonitor() {

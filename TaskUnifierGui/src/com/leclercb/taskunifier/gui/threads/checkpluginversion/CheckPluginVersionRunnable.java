@@ -171,9 +171,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 				@Override
 				protected Void longTask() throws Exception {
 					for (Plugin plugin : pluginsToUpdate) {
-						PluginsUtils.updatePlugin(
-								plugin,
-								this.getWorkerMonitor());
+						PluginsUtils.updatePlugin(plugin, this.getEDTMonitor());
 						this.publish(new DefaultProgressMessage(" "));
 					}
 					

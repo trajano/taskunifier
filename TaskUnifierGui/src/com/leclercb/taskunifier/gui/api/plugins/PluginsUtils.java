@@ -628,7 +628,7 @@ public final class PluginsUtils {
 				@Override
 				protected Plugin[] longTask() throws Exception {
 					return PluginsUtils.loadPluginsFromXML(
-							this.getWorkerMonitor(),
+							this.getEDTMonitor(),
 							includePublishers,
 							includeSynchronizers,
 							includeDummyPlugin);

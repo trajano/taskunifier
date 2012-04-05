@@ -118,11 +118,9 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 						PluginsUtils.installPlugin(
 								plugin,
 								true,
-								this.getWorkerMonitor());
+								this.getEDTMonitor());
 					else if (plugin.getStatus() == PluginStatus.TO_UPDATE)
-						PluginsUtils.updatePlugin(
-								plugin,
-								this.getWorkerMonitor());
+						PluginsUtils.updatePlugin(plugin, this.getEDTMonitor());
 					
 					return null;
 				}

@@ -40,10 +40,6 @@ import java.util.logging.Level;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.progress.ProgressMessage;
-import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.synchronizer.Connection;
 import com.leclercb.taskunifier.api.synchronizer.Synchronizer;
@@ -127,7 +123,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		Synchronizing.setSynchronizing(true);
 		
 		if (this.handler != null)
-			Constants.PROGRESS_MONITOR.addListChangeListener(this.handler);
+			this.getMonitor().addListChangeListener(this.handler);
 		
 		boolean noLicense = false;
 		SynchronizerGuiPlugin plugin = null;
@@ -237,22 +233,9 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				
 				synchronizer.loadParameters(Main.getUserSettings());
 				
-				final ProgressMonitor monitor = new ProgressMonitor();
-				monitor.addListChangeListener(new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-							ProgressMessage message = (ProgressMessage) event.getValue();
-							SynchronizerWorker.this.publish(message);
-						}
-					}
-					
-				});
-				
 				if (type == Type.PUBLISH) {
 					try {
-						synchronizer.publish(monitor);
+						synchronizer.publish(this.getEDTMonitor());
 						synchronizer.saveParameters(Main.getUserSettings());
 					} catch (SynchronizerException e) {
 						SynchronizerWorker.this.handleSynchronizerException(
@@ -265,7 +248,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 							SynchronizerChoice.class);
 					
 					try {
-						synchronizer.synchronize(choice, monitor);
+						synchronizer.synchronize(choice, this.getEDTMonitor());
 						synchronizer.saveParameters(Main.getUserSettings());
 					} catch (SynchronizerException e) {
 						SynchronizerWorker.this.handleSynchronizerException(
@@ -310,7 +293,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 	@Override
 	protected void done() {
 		if (this.handler != null)
-			Constants.PROGRESS_MONITOR.removeListChangeListener(this.handler);
+			this.getMonitor().removeListChangeListener(this.handler);
 		
 		Constants.PROGRESS_MONITOR.clear();
 		
