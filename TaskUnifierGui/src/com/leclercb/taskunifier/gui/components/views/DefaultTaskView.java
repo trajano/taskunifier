@@ -70,7 +70,7 @@ import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksColumn;
 import com.leclercb.taskunifier.gui.components.tasktasks.TaskTasksPanel;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.FrameView;
+import com.leclercb.taskunifier.gui.main.frames.FrameView;
 import com.leclercb.taskunifier.gui.swing.TUIndentSubtasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.TUShowCompletedTasksCheckBox;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
@@ -132,7 +132,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel()) {
 			this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		} else {
 			this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));

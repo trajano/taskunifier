@@ -89,6 +89,8 @@ public abstract class AbstractViewNoteSelectionAction extends AbstractViewAction
 						this));
 			}
 		}
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

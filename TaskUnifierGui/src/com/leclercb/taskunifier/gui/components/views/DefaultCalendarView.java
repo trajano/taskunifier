@@ -43,7 +43,7 @@ import com.leclercb.taskunifier.gui.components.calendar.TaskCalendarView;
 import com.leclercb.taskunifier.gui.components.calendar.TasksCalendarPanel;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherView;
-import com.leclercb.taskunifier.gui.main.frame.FrameView;
+import com.leclercb.taskunifier.gui.main.frames.FrameView;
 
 public class DefaultCalendarView extends JPanel implements CalendarView {
 	

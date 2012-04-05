@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main.frame;
+package com.leclercb.taskunifier.gui.main.frames;
 
 import java.awt.AWTException;
 import java.awt.Frame;
@@ -40,12 +40,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
+import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -58,7 +61,7 @@ public final class FrameUtils {
 	
 	private static int FRAME_ID = 0;
 	
-	public static List<FrameView> frames = new ArrayList<FrameView>();
+	private static List<FrameView> frames = new ArrayList<FrameView>();
 	
 	public static int getFrameCount() {
 		return frames.size();
@@ -69,7 +72,12 @@ public final class FrameUtils {
 	}
 	
 	public static FrameView createFrameView() {
-		MainFrame frame = new MainFrame(FRAME_ID);
+		String propertyName = "window.main";
+		
+		if (FRAME_ID != 0)
+			propertyName = "window.sub";
+		
+		MainFrame frame = new MainFrame(FRAME_ID, propertyName);
 		
 		FRAME_ID++;
 		
@@ -82,11 +90,9 @@ public final class FrameUtils {
 	}
 	
 	public static void deleteFrameView(FrameView frame) {
-		int listLength = ViewList.getInstance().getViewCount();
-		for (int i = listLength - 1; i >= 0; i--) {
-			if (frame.getFrameId() == ViewList.getInstance().getView(i).getFrameId()) {
-				ViewList.getInstance().removeView(
-						ViewList.getInstance().getView(i));
+		for (ViewItem view : ViewList.getInstance().getViews()) {
+			if (frame.getFrameId() == view.getFrameId()) {
+				ViewList.getInstance().removeView(view);
 			}
 		}
 		
@@ -94,7 +100,7 @@ public final class FrameUtils {
 		
 		frames.remove(frame);
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
 			return;
 		
 		if (getFrameCount() == 0)
@@ -148,7 +154,7 @@ public final class FrameUtils {
 		try {
 			tray.add(trayIcon);
 		} catch (AWTException e) {
-			
+			GuiLogger.getLogger().log(Level.WARNING, "Cannot add tray icon", e);
 		}
 	}
 	

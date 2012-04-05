@@ -59,7 +59,7 @@ import com.leclercb.taskunifier.gui.components.models.panels.FolderConfiguration
 import com.leclercb.taskunifier.gui.components.models.panels.GoalConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.LocationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.models.panels.TagConfigurationPanel;
-import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;

@@ -102,6 +102,8 @@ public abstract class AbstractViewTaskSearcherSelectionAction extends AbstractVi
 						view,
 						this));
 		}
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

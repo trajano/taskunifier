@@ -89,6 +89,8 @@ public abstract class AbstractViewNoteSearcherSelectionAction extends AbstractVi
 						this));
 			}
 		}
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

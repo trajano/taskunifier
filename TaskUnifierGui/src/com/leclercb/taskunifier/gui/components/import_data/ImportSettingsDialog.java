@@ -39,7 +39,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ImportSettingsDialog extends AbstractImportDialog {

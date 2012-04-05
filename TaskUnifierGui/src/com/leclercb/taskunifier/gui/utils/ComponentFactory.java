@@ -236,7 +236,7 @@ public final class ComponentFactory {
 			boolean border) {
 		JScrollPane scrollPane = new JScrollPane(component);
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
 			IAppWidgetFactory.makeIAppScrollPane(scrollPane);
 		
 		if (border)

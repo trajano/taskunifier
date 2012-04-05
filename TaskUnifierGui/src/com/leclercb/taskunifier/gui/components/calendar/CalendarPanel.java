@@ -85,7 +85,7 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(3, 3));
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel()) {
 			this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		} else {
 			this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));

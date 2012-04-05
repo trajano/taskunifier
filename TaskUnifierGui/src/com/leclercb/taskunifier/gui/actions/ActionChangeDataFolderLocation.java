@@ -42,7 +42,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.components.change_data_folder.ChangeDataFolderDialog;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ActionChangeDataFolderLocation extends AbstractAction {

@@ -102,6 +102,8 @@ public abstract class AbstractViewTaskSelectionAction extends AbstractViewAction
 						view,
 						this));
 		}
+		
+		this.setEnabled(this.shouldBeEnabled());
 	}
 	
 	@Override

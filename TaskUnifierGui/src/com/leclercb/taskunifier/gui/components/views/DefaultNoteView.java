@@ -57,7 +57,7 @@ import com.leclercb.taskunifier.gui.components.notes.table.NoteTable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherPanel;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherView;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frame.FrameView;
+import com.leclercb.taskunifier.gui.main.frames.FrameView;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -102,7 +102,7 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 		
 		this.setLayout(new BorderLayout());
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel()) {
 			this.horizontalSplitPane = ComponentFactory.createThinJSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		} else {
 			this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));

@@ -78,7 +78,7 @@ public final class LookAndFeelUtils {
 		LOOK_AND_FEELS.add(lookAndFeel);
 	}
 	
-	public static boolean isCurrentLafSystemLaf() {
+	public static boolean isSytemLookAndFeel() {
 		if (UIManager.getLookAndFeel() == null)
 			return false;
 		

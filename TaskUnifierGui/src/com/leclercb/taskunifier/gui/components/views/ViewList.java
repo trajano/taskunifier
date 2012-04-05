@@ -140,8 +140,6 @@ public class ViewList implements ListChangeSupported, PropertyChangeSupported {
 			if (view.equals(this.currentView)) {
 				if (index < this.views.size())
 					this.setCurrentView(this.views.get(index));
-				else if (this.views.size() != 0)
-					this.setCurrentView(this.views.get(this.views.size() - 1));
 				else
 					this.setCurrentView(null);
 			}

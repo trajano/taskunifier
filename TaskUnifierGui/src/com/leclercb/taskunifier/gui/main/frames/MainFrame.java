@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.main.frame;
+package com.leclercb.taskunifier.gui.main.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -57,8 +57,11 @@ import org.jdesktop.swingx.JXStatusBar;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
@@ -81,12 +84,19 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	private boolean firstTimeVisible;
 	
 	private int frameId;
+	private String propertyName;
 	private JTabbedPane mainTabbedPane;
 	private ViewItem oldSelectedView;
 	
-	protected MainFrame(int frameId) {
+	private ListChangeListener viewListListChangeListener;
+	private PropertyChangeListener viewListPropertyChangeListener;
+	
+	protected MainFrame(int frameId, String propertyName) {
+		CheckUtils.isNotNull(propertyName);
+		
 		this.firstTimeVisible = true;
 		this.frameId = frameId;
+		this.propertyName = propertyName;
 	}
 	
 	@Override
@@ -116,7 +126,8 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	}
 	
 	private void initialize() {
-		Main.getSettings().addSavePropertiesListener(this);
+		Main.getSettings().addSavePropertiesListener(
+				new WeakSavePropertiesListener(Main.getSettings(), this));
 		
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -156,13 +167,8 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				int index = MainFrame.this.mainTabbedPane.getSelectedIndex();
-				
-				if (index == -1)
-					return;
-				
-				MainFrame.this.setSelectedView(ViewList.getInstance().getView(
-						index));
+				ViewItem view = MainFrame.this.getSelectedView();
+				MainFrame.this.setSelectedView(view);
 			}
 			
 		});
@@ -173,7 +179,7 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	}
 	
 	private void initializeViews() {
-		ViewList.getInstance().addListChangeListener(new ListChangeListener() {
+		this.viewListListChangeListener = new ListChangeListener() {
 			
 			@Override
 			public void listChange(ListChangeEvent event) {
@@ -203,19 +209,28 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 				}
 			}
 			
-		});
+		};
+		
+		ViewList.getInstance().addListChangeListener(
+				new WeakListChangeListener(
+						ViewList.getInstance(),
+						this.viewListListChangeListener));
+		
+		this.viewListPropertyChangeListener = new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				ViewItem view = (ViewItem) event.getNewValue();
+				MainFrame.this.setSelectedView(view);
+			}
+			
+		};
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent event) {
-						ViewItem view = (ViewItem) event.getNewValue();
-						MainFrame.this.setSelectedView(view);
-					}
-					
-				});
+				new WeakPropertyChangeListener(
+						ViewList.getInstance(),
+						this.viewListPropertyChangeListener));
 		
 		this.addWindowFocusListener(new WindowFocusListener() {
 			
@@ -346,13 +361,15 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	
 	private void loadWindowSettings() {
 		int extendedState = Main.getSettings().getIntegerProperty(
-				"window.main.extended_state");
-		int width = Main.getSettings().getIntegerProperty("window.main.width");
-		int height = Main.getSettings().getIntegerProperty("window.main.height");
+				this.propertyName + ".extended_state");
+		int width = Main.getSettings().getIntegerProperty(
+				this.propertyName + ".width");
+		int height = Main.getSettings().getIntegerProperty(
+				this.propertyName + ".height");
 		int locationX = Main.getSettings().getIntegerProperty(
-				"window.main.location_x");
+				this.propertyName + ".location_x");
 		int locationY = Main.getSettings().getIntegerProperty(
-				"window.main.location_y");
+				this.propertyName + ".location_y");
 		
 		this.setSize(width, height);
 		this.setExtendedState(extendedState);
@@ -367,19 +384,19 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	public void saveProperties() {
 		if (this.isVisible()) {
 			Main.getSettings().setIntegerProperty(
-					"window.main.extended_state",
+					this.propertyName + ".extended_state",
 					this.getExtendedState());
 			Main.getSettings().setIntegerProperty(
-					"window.main.width",
+					this.propertyName + ".width",
 					this.getWidth());
 			Main.getSettings().setIntegerProperty(
-					"window.main.height",
+					this.propertyName + ".height",
 					this.getHeight());
 			Main.getSettings().setIntegerProperty(
-					"window.main.location_x",
+					this.propertyName + ".location_x",
 					(int) this.getLocationOnScreen().getX());
 			Main.getSettings().setIntegerProperty(
-					"window.main.location_y",
+					this.propertyName + ".location_y",
 					(int) this.getLocationOnScreen().getY());
 		}
 	}
@@ -389,7 +406,7 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	}
 	
 	private void initializeToolBar() {
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf()) {
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel()) {
 			this.add(new MacToolBar().getComponent(), BorderLayout.NORTH);
 		} else {
 			this.add(new DefaultToolBar(), BorderLayout.NORTH);
@@ -399,7 +416,7 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 	private void initializeStatusBar() {
 		StatusBar statusBar = null;
 		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isCurrentLafSystemLaf())
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
 			statusBar = new MacStatusBar(
 					this.getFrameId(),
 					Threads.getScheduledSyncThread());

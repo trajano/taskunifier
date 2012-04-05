@@ -3,6 +3,7 @@ api.models
 api.plugins
 api.synchronizer
 constants
+main.frames
 plugins
 resources
 threads

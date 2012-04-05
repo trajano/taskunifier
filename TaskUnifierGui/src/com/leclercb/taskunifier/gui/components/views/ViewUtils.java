@@ -38,7 +38,7 @@ import com.leclercb.taskunifier.gui.actions.ActionAddTab;
 import com.leclercb.taskunifier.gui.actions.ActionNewWindow;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
-import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
+import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 
 public final class ViewUtils {
 	
