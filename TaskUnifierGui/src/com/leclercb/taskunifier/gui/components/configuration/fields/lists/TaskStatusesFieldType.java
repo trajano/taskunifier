@@ -1,6 +1,7 @@
 package com.leclercb.taskunifier.gui.components.configuration.fields.lists;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
+import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXList;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
@@ -29,6 +31,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
+import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 
 public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implements PropertyChangeListener {
@@ -36,6 +39,8 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 	private JPanel panel;
 	
 	private JXList list;
+	
+	private JXLabel label;
 	
 	private JButton addButton;
 	private JButton removeButton;
@@ -60,6 +65,9 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 				new JLabel(Translations.getString("general.task.status")),
 				BorderLayout.NORTH);
 		
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		panel.add(mainPanel, BorderLayout.CENTER);
+		
 		EventList<String> eventList = new SortedList<String>(
 				TaskStatusList.getInstance().getEventList());
 		
@@ -73,9 +81,15 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 		this.list.setCellRenderer(new DefaultListRenderer(
 				StringValueTaskStatus.INSTANCE));
 		
-		panel.add(
+		mainPanel.add(
 				ComponentFactory.createJScrollPane(this.list, true),
 				BorderLayout.CENTER);
+		
+		this.label = new JXLabel();
+		this.label.setLineWrap(true);
+		this.label.setForeground(Color.RED);
+		
+		mainPanel.add(this.label, BorderLayout.SOUTH);
 		
 		this.addButton = new TUAddButton(new ActionListener() {
 			
@@ -128,6 +142,14 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 	}
 	
 	public void refreshButtons() {
+		if (SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getStatusValues() == null) {
+			this.label.setText(null);
+		} else {
+			this.label.setText(Translations.getString(
+					"configuration.list.task_statuses.cannot_modify",
+					SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName()));
+		}
+		
 		boolean enabled = TaskStatusList.getInstance().isEditable();
 		this.addButton.setEnabled(enabled);
 		this.removeButton.setEnabled(enabled);
