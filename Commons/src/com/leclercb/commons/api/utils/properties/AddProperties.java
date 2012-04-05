@@ -1,9 +1,13 @@
 package com.leclercb.commons.api.utils.properties;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+
+import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.api.properties.SortedProperties;
 
@@ -15,7 +19,7 @@ public class AddProperties {
 			String value,
 			boolean overwrite) throws Exception {
 		SortedProperties p = new SortedProperties();
-		p.load(new FileInputStream(file));
+		p.load(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 		
 		if (overwrite || !p.containsKey(key)) {
 			System.out.println("Property \""
@@ -24,7 +28,13 @@ public class AddProperties {
 					+ file.getName());
 			
 			p.put(key, value);
-			p.store(new FileOutputStream(file), null);
+			
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			p.store(output, null);
+			IOUtils.write(
+					output.toString(),
+					new FileOutputStream(file),
+					"UTF-8");
 		}
 	}
 	

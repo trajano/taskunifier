@@ -1,11 +1,15 @@
 package com.leclercb.commons.api.utils.properties;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
 
 import com.leclercb.commons.api.properties.SortedProperties;
 
@@ -16,7 +20,7 @@ public class ReplaceProperties {
 			String keyStartsWith,
 			String newKeyStartsWith) throws Exception {
 		SortedProperties p = new SortedProperties();
-		p.load(new FileInputStream(file));
+		p.load(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 		
 		Set<Object> keys = new HashSet<Object>(p.keySet());
 		for (Object key : keys) {
@@ -37,7 +41,9 @@ public class ReplaceProperties {
 			p.put(newKey, value);
 		}
 		
-		p.store(new FileOutputStream(file), null);
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		p.store(output, null);
+		IOUtils.write(output.toString(), new FileOutputStream(file), "UTF-8");
 	}
 	
 	public static void main(String[] args) throws Exception {

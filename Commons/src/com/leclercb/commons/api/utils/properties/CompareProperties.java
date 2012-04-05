@@ -34,6 +34,7 @@ package com.leclercb.commons.api.utils.properties;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -106,8 +107,8 @@ public final class CompareProperties {
 		SortedProperties p2 = new SortedProperties();
 		boolean edit = false;
 		
-		p1.load(new FileInputStream(args[0]));
-		p2.load(new FileInputStream(args[1]));
+		p1.load(new InputStreamReader(new FileInputStream(args[0]), "UTF-8"));
+		p2.load(new InputStreamReader(new FileInputStream(args[1]), "UTF-8"));
 		edit = (args[2].length() > 0);
 		
 		showDifferences(p1, p2, edit);
