@@ -37,11 +37,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
@@ -98,6 +100,16 @@ public class ActionQuit extends AbstractAction {
 		Main.quit();
 		
 		return true;
+	}
+	
+	public static boolean restart() {
+		JOptionPane.showMessageDialog(
+				FrameUtils.getCurrentFrameView().getFrame(),
+				Translations.getString("general.quit_apply_changes"),
+				Translations.getString("general.information"),
+				JOptionPane.INFORMATION_MESSAGE);
+		
+		return quit(false);
 	}
 	
 }

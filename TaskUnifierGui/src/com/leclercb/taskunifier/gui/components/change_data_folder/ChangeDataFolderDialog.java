@@ -41,14 +41,17 @@ import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+import org.apache.commons.io.FileUtils;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
+import com.leclercb.taskunifier.gui.actions.ActionSave;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frame.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.TUFileField;
@@ -69,6 +72,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	}
 	
 	private TUFileField fileField;
+	private JCheckBox copyData;
 	
 	private ChangeDataFolderDialog() {
 		this.initialize();
@@ -88,7 +92,7 @@ public class ChangeDataFolderDialog extends JDialog {
 	private void initialize() {
 		this.setModal(true);
 		this.setTitle(Translations.getString("action.change_data_folder_location"));
-		this.setSize(600, 150);
+		this.setSize(600, 180);
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -111,7 +115,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		FormBuilder builder = new FormBuilder(
 				"right:pref, 4dlu, fill:default:grow");
 		
-		// Import file
+		// Data folder
 		this.fileField = new TUFileField(
 				true,
 				null,
@@ -120,6 +124,11 @@ public class ChangeDataFolderDialog extends JDialog {
 				null);
 		
 		builder.appendI15d("general.folder", true, this.fileField);
+		
+		// Copy data
+		this.copyData = new JCheckBox(Translations.getString("change_data_folder_location.copy_data"));
+		
+		builder.appendI15d("", false, this.copyData);
 		
 		// Lay out the panel
 		panel.add(builder.getPanel(), BorderLayout.CENTER);
@@ -158,6 +167,9 @@ public class ChangeDataFolderDialog extends JDialog {
 						Main.getInitSettings().setStringProperty(
 								"com.leclercb.taskunifier.data_folder",
 								file.getAbsolutePath());
+						
+						ActionSave.save();
+						FileUtils.copyDirectory(new File(Main.getDataFolder()), file);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),
@@ -179,8 +191,10 @@ public class ChangeDataFolderDialog extends JDialog {
 				ChangeDataFolderDialog.this.fileField.setFile(null);
 				ChangeDataFolderDialog.this.setVisible(false);
 				
-				if (quit)
+				if (quit) {
+					
 					ActionQuit.quit();
+				}
 			}
 			
 		};
