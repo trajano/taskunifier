@@ -47,6 +47,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.TreeUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -300,7 +301,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 				} catch (Exception e) {
 					this.insertNodeInto(item, this.folderCategory, 0);
 				}
-			} else if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+			} else if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
 				this.removeNodeFromParent(item);
 				
 				try {

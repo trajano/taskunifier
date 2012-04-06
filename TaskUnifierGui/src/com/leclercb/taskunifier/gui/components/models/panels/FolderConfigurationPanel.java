@@ -51,6 +51,7 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -110,7 +111,7 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			{
 				this.adapter = new BeanAdapter<Folder>((Folder) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 				Bindings.bind(folderTitle, titleModel);
 				
 				ValueModel archivedModel = this.adapter.getValueModel(Folder.PROP_ARCHIVED);

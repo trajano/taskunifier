@@ -55,6 +55,7 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -119,7 +120,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			{
 				this.adapter = new BeanAdapter<Goal>((Goal) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 				Bindings.bind(goalTitle, titleModel);
 				
 				ValueModel levelModel = this.adapter.getValueModel(Goal.PROP_LEVEL);

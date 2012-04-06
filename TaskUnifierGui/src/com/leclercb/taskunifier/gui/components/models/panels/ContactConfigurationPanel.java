@@ -53,6 +53,7 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -116,7 +117,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			{
 				this.adapter = new BeanAdapter<Contact>((Contact) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 				Bindings.bind(contactTitle, titleModel);
 				
 				ValueModel firstNameModel = this.adapter.getValueModel(Contact.PROP_FIRSTNAME);

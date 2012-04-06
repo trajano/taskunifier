@@ -53,6 +53,7 @@ import org.jdesktop.swingx.JXColorSelectionButton;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -114,7 +115,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			{
 				this.adapter = new BeanAdapter<Location>((Location) null, true);
 				
-				ValueModel titleModel = this.adapter.getValueModel(Model.PROP_TITLE);
+				ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 				Bindings.bind(locationTitle, titleModel);
 				
 				ValueModel descriptionModel = this.adapter.getValueModel(Location.PROP_DESCRIPTION);

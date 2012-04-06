@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.commons.models;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -82,7 +83,7 @@ public class FolderModel extends AbstractModelSortedModel {
 			
 			if (index == -1) {
 				this.addElement(event.getSource());
-			} else if (event.getPropertyName().equals(Model.PROP_TITLE)
+			} else if (event.getPropertyName().equals(BasicModel.PROP_TITLE)
 					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
 				this.fireStructureChanged(this);
 			} else {

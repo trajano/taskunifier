@@ -57,7 +57,7 @@ import com.apple.eawt.QuitHandler;
 import com.apple.eawt.QuitResponse;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
@@ -194,7 +194,7 @@ public class MacApplication {
 							return;
 						
 						if (event.getPropertyName().equals(
-								Model.PROP_MODEL_STATUS)
+								BasicModel.PROP_MODEL_STATUS)
 								|| event.getPropertyName().equals(
 										Task.PROP_COMPLETED)
 								|| event.getPropertyName().equals(

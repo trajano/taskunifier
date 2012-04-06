@@ -40,6 +40,7 @@ import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -164,7 +165,7 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				
 				@Override
 				public void propertyChange(PropertyChangeEvent event) {
-					if (event.getPropertyName().equals(Model.PROP_TITLE)) {
+					if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
 						ModelItem.this.searcher.setTitle(model.getTitle());
 						return;
 					}
