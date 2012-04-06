@@ -8,6 +8,8 @@ commons.highlighters
 commons.transfer
 commons.undoableedit
 commons.values
+components.about
+components.backaddtasks
 components.notesearchertree.draganddrop
 components.tasksearchertree.draganddrop
 components.views
