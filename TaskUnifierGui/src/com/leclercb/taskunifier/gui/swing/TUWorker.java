@@ -44,13 +44,14 @@ import com.leclercb.commons.api.event.action.ActionSupport;
 import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.commons.api.progress.ProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implements ActionSupported {
+public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implements ActionSupported, ListChangeListener {
 	
 	public static final String ACTION_FINISHED = "ACTION_FINISHED";
 	
@@ -63,24 +64,9 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 		this.actionSupport = new ActionSupport(this);
 		this.edtMonitor = new ProgressMonitor();
 		
-		this.edtMonitor.addListChangeListener(new ListChangeListener() {
-			
-			@Override
-			public void listChange(final ListChangeEvent event) {
-				if (event.getChangeType() != ListChangeEvent.VALUE_ADDED)
-					return;
-				
-				TUSwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						TUWorker.this.monitor.addMessage((ProgressMessage) event.getValue());
-					}
-					
-				});
-			}
-			
-		});
+		this.edtMonitor.addListChangeListener(new WeakListChangeListener(
+				this.edtMonitor,
+				this));
 		
 		this.setMonitor(monitor);
 	}
@@ -142,6 +128,21 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 	protected void done() {
 		super.done();
 		this.actionSupport.fireActionPerformed(0, ACTION_FINISHED);
+	}
+	
+	@Override
+	public void listChange(final ListChangeEvent event) {
+		if (event.getChangeType() != ListChangeEvent.VALUE_ADDED)
+			return;
+		
+		TUSwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				TUWorker.this.monitor.addMessage((ProgressMessage) event.getValue());
+			}
+			
+		});
 	}
 	
 	@Override

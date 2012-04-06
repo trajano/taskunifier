@@ -78,14 +78,17 @@ public class AboutDialog extends JDialog {
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
-		AboutPanel aboutPanel = new AboutPanel();
-		aboutPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		this.add(aboutPanel, BorderLayout.CENTER);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.add(panel, BorderLayout.CENTER);
 		
-		this.initializeButtonsPanel();
+		AboutPanel aboutPanel = new AboutPanel();
+		panel.add(aboutPanel, BorderLayout.CENTER);
+		
+		this.initializeButtonsPanel(panel);
 	}
 	
-	private void initializeButtonsPanel() {
+	private void initializeButtonsPanel(JPanel panel) {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -96,9 +99,9 @@ public class AboutDialog extends JDialog {
 		};
 		
 		JButton okButton = new TUOkButton(listener);
-		JPanel panel = new TUButtonsPanel(okButton);
+		JPanel buttonsPanel = new TUButtonsPanel(okButton);
 		
-		this.add(panel, BorderLayout.SOUTH);
+		panel.add(buttonsPanel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);
 	}
 	

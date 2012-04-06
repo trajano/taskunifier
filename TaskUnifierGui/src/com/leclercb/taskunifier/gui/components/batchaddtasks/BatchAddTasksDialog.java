@@ -85,7 +85,7 @@ public class BatchAddTasksDialog extends JDialog {
 		header.setIcon(ImageUtils.getResourceImage("batch.png", 32, 32));
 		
 		final BatchAddTasksPanel batchPanel = new BatchAddTasksPanel();
-		batchPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		batchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(batchPanel, BorderLayout.CENTER);

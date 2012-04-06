@@ -17,5 +17,6 @@ constants
 main.frames
 plugins
 resources
+swing.buttons
 threads
 translations

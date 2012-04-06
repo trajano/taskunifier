@@ -51,7 +51,7 @@ public class TUButtonsPanel extends JPanel {
 	public TUButtonsPanel(boolean removeText, JButton... buttons) {
 		this.removeText = removeText;
 		
-		this.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.setLayout(new WrapLayout(FlowLayout.RIGHT));
 		
 		if (buttons == null)
