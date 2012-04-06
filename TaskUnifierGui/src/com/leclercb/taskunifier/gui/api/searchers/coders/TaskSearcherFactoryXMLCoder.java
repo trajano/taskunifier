@@ -42,7 +42,9 @@ import org.w3c.dom.NodeList;
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
@@ -117,7 +119,8 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				}
 				
 				if (nSearcher.item(i).getNodeName().equals("template")) {
-					
+					template = TaskTemplateFactory.getInstance().get(
+							new ModelId(nSearcher.item(i).getTextContent()));
 				}
 			}
 			
@@ -127,7 +130,8 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 					title,
 					icon,
 					filter,
-					sorter);
+					sorter,
+					template);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}
@@ -170,6 +174,12 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			
 			Element filter = document.createElement("filter");
 			searcher.appendChild(filter);
+			
+			if (taskSearcher.getTemplate() != null) {
+				Element template = document.createElement("template");
+				template.setTextContent(taskSearcher.getTemplate().getModelId().getId());
+				searcher.appendChild(template);
+			}
 			
 			this.encodeTaskSorter(document, sorter, taskSearcher.getSorter());
 			this.encodeTaskFilter(document, filter, taskSearcher.getFilter());

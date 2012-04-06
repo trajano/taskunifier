@@ -42,7 +42,9 @@ import org.w3c.dom.NodeList;
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
+import com.leclercb.taskunifier.api.models.templates.NoteTemplateFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
@@ -117,7 +119,8 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				}
 				
 				if (nSearcher.item(i).getNodeName().equals("template")) {
-					
+					template = NoteTemplateFactory.getInstance().get(
+							new ModelId(nSearcher.item(i).getTextContent()));
 				}
 			}
 			
@@ -127,7 +130,8 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 					title,
 					icon,
 					filter,
-					sorter);
+					sorter,
+					template);
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}
@@ -170,6 +174,12 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			
 			Element filter = document.createElement("filter");
 			searcher.appendChild(filter);
+			
+			if (noteSearcher.getTemplate() != null) {
+				Element template = document.createElement("template");
+				template.setTextContent(noteSearcher.getTemplate().getModelId().getId());
+				searcher.appendChild(template);
+			}
 			
 			this.encodeNoteSorter(document, sorter, noteSearcher.getSorter());
 			this.encodeNoteFilter(document, filter, noteSearcher.getFilter());

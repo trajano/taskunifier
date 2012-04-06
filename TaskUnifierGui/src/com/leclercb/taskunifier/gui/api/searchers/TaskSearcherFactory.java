@@ -44,6 +44,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 
@@ -184,6 +185,26 @@ public class TaskSearcherFactory implements PropertyChangeListener, ListChangeSu
 				icon,
 				filter,
 				sorter);
+		this.register(searcher);
+		return searcher;
+	}
+	
+	public TaskSearcher create(
+			TaskSearcherType type,
+			int order,
+			String title,
+			String icon,
+			TaskFilter filter,
+			TaskSorter sorter,
+			TaskTemplate template) {
+		TaskSearcher searcher = new TaskSearcher(
+				type,
+				order,
+				title,
+				icon,
+				filter,
+				sorter,
+				template);
 		this.register(searcher);
 		return searcher;
 	}

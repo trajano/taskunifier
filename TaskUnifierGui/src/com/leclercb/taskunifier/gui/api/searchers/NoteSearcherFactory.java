@@ -44,6 +44,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
 
@@ -184,6 +185,26 @@ public class NoteSearcherFactory implements PropertyChangeListener, ListChangeSu
 				icon,
 				filter,
 				sorter);
+		this.register(searcher);
+		return searcher;
+	}
+	
+	public NoteSearcher create(
+			NoteSearcherType type,
+			int order,
+			String title,
+			String icon,
+			NoteFilter filter,
+			NoteSorter sorter,
+			NoteTemplate template) {
+		NoteSearcher searcher = new NoteSearcher(
+				type,
+				order,
+				title,
+				icon,
+				filter,
+				sorter,
+				template);
 		this.register(searcher);
 		return searcher;
 	}
