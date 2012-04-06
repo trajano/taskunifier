@@ -116,7 +116,7 @@ public class TaskSearcher implements Cloneable, PropertyChangeSupported, ListCha
 				this.icon,
 				this.filter.clone(),
 				this.sorter.clone(),
-				(this.template == null ? null : this.template.clone()));
+				this.template);
 	}
 	
 	public String getId() {

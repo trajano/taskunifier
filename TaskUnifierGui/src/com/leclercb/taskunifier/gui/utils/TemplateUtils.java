@@ -44,7 +44,7 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
-import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 
 public final class TemplateUtils {
 	
@@ -74,9 +74,12 @@ public final class TemplateUtils {
 		
 		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
 				TaskTemplateFactory.getInstance().getList());
-		Collections.sort(templates, TaskTemplateComparator.INSTANCE);
+		Collections.sort(templates, BasicModelComparator.INSTANCE);
 		
 		for (TaskTemplate template : templates) {
+			if (!template.getModelStatus().isEndUserStatus())
+				continue;
+			
 			if (menu != null)
 				menu.add(new ActionAddTemplateTask(16, 16, template, listener));
 			

@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.api.models.templates;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -54,9 +55,22 @@ public class NoteTemplateFactory extends AbstractTemplateFactory<NoteTemplate> {
 		
 	}
 	
+	public NoteTemplate create() {
+		NoteTemplate template = new NoteTemplate();
+		this.register(template);
+		return template;
+	}
+	
 	@Override
 	public NoteTemplate create(String title) {
 		NoteTemplate template = new NoteTemplate(title);
+		this.register(template);
+		return template;
+	}
+	
+	@Override
+	public NoteTemplate create(ModelId modelId, String title) {
+		NoteTemplate template = new NoteTemplate(modelId, title);
 		this.register(template);
 		return template;
 	}

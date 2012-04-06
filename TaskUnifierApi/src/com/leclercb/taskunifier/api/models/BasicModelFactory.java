@@ -30,27 +30,45 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.commons.comparators;
+package com.leclercb.taskunifier.api.models;
 
-import java.util.Comparator;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
-import com.leclercb.commons.api.utils.CompareUtils;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.commons.api.event.listchange.ListChangeSupported;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 
-public class TaskTemplateComparator implements Comparator<TaskTemplate> {
+public interface BasicModelFactory<M extends BasicModel> extends ListChangeSupported, PropertyChangeSupported {
 	
-	public static final TaskTemplateComparator INSTANCE = new TaskTemplateComparator();
+	public abstract boolean contains(ModelId id);
 	
-	private TaskTemplateComparator() {
-		
-	}
+	public abstract int size();
 	
-	@Override
-	public int compare(TaskTemplate t1, TaskTemplate t2) {
-		String s1 = t1 == null ? null : t1.getTitle().toLowerCase();
-		String s2 = t2 == null ? null : t2.getTitle().toLowerCase();
-		
-		return CompareUtils.compare(s1, s2);
-	}
+	public abstract List<M> getList();
+	
+	public abstract M get(int index);
+	
+	public abstract M get(ModelId id);
+	
+	public abstract int getIndexOf(M model);
+	
+	public abstract boolean markToDelete(ModelId modelId);
+	
+	public abstract void markToDelete(M model);
+	
+	public abstract boolean markDeleted(ModelId modelId);
+	
+	public abstract void markDeleted(M model);
+	
+	public abstract void deleteAll();
+	
+	public abstract M create(String title);
+	
+	public abstract M create(ModelId id, String title);
+	
+	public abstract void decodeFromXML(InputStream input);
+	
+	public abstract void encodeToXML(OutputStream output);
 	
 }

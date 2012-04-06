@@ -34,12 +34,14 @@ package com.leclercb.taskunifier.api.models;
 
 import java.util.Map;
 
-import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public interface Model extends BasicModel, Comparable<Model> {
+public interface Model extends BasicModel {
 	
 	public static final String PROP_ORDER = "order";
+	
+	@Override
+	public abstract Model clone(ModelId modelId);
 	
 	public abstract void loadBean(ModelBean bean, boolean loadReferenceIds);
 	
@@ -58,7 +60,5 @@ public interface Model extends BasicModel, Comparable<Model> {
 	public abstract int getOrder();
 	
 	public abstract void setOrder(int order);
-	
-	public abstract PropertyMap getProperties();
 	
 }

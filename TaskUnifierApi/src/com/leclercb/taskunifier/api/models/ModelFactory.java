@@ -34,37 +34,12 @@ package com.leclercb.taskunifier.api.models;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public interface ModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> extends ListChangeSupported, PropertyChangeSupported {
-	
-	public abstract boolean contains(ModelId id);
-	
-	public abstract int size();
-	
-	public abstract List<M> getList();
-	
-	public abstract M get(int index);
-	
-	public abstract M get(ModelId id);
+public interface ModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> extends BasicModelFactory<M> {
 	
 	public abstract M get(String key, String referenceId);
-	
-	public abstract int getIndexOf(M model);
-	
-	public abstract boolean markToDelete(ModelId modelId);
-	
-	public abstract void markToDelete(M model);
-	
-	public abstract boolean markDeleted(ModelId modelId);
-	
-	public abstract void markDeleted(M model);
-	
-	public abstract void deleteAll();
 	
 	public abstract OMB createOriginalBean();
 	
@@ -82,16 +57,8 @@ public interface ModelFactory<OM extends Model, OMB extends ModelBean, M extends
 	
 	public abstract M create(ModelId id, M model);
 	
-	public abstract M create(String title);
-	
-	public abstract M create(ModelId id, String title);
-	
 	public abstract MB[] decodeBeansFromXML(InputStream input);
 	
 	public abstract void encodeBeansToXML(OutputStream output, MB[] beans);
-	
-	public abstract void decodeFromXML(InputStream input);
-	
-	public abstract void encodeToXML(OutputStream output);
 	
 }

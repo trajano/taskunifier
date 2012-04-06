@@ -50,7 +50,7 @@ import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionChangeEvent;
 import com.leclercb.taskunifier.gui.commons.events.ModelSelectionListener;
 import com.leclercb.taskunifier.gui.components.help.Help;
@@ -115,7 +115,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 				List<Contact> contacts = new ArrayList<Contact>(
 						ContactFactory.getInstance().getList());
 				
-				Collections.sort(contacts, ModelComparator.INSTANCE);
+				Collections.sort(contacts, BasicModelComparator.INSTANCE);
 				
 				Contact newContact = null;
 				for (Contact contact : contacts) {

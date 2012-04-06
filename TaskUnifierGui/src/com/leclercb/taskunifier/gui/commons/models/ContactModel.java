@@ -37,7 +37,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 
-public class ContactModel extends AbstractModelSortedModel {
+public class ContactModel extends AbstractBasicModelSortedModel {
 	
 	public ContactModel(boolean firstNull) {
 		this.initialize(firstNull);

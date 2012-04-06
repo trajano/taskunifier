@@ -54,7 +54,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
@@ -100,7 +100,7 @@ abstract class TaskTemplateList extends JPanel {
 				StringValueTaskTemplateTitle.INSTANCE));
 		
 		this.templateList.setAutoCreateRowSorter(true);
-		this.templateList.setComparator(TaskTemplateComparator.INSTANCE);
+		this.templateList.setComparator(BasicModelComparator.INSTANCE);
 		this.templateList.setSortOrder(SortOrder.ASCENDING);
 		this.templateList.setSortsOnUpdates(true);
 		
@@ -174,7 +174,7 @@ abstract class TaskTemplateList extends JPanel {
 					ComponentUtils.focusAndSelectTextInTextField(TaskTemplateList.this.titleField);
 				} else if (event.getActionCommand().equals("REMOVE")) {
 					TaskTemplate template = TaskTemplateList.this.getSelectedTemplate();
-					TaskTemplateFactory.getInstance().unregister(template);
+					TaskTemplateFactory.getInstance().markToDelete(template);
 				} else {
 					TaskTemplate template = TaskTemplateList.this.getSelectedTemplate();
 					TaskTemplateFactory.getInstance().setDefaultTemplate(

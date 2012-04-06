@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelParent;
 
-public class FolderModel extends AbstractModelSortedModel {
+public class FolderModel extends AbstractBasicModelSortedModel {
 	
 	private boolean includeArchived;
 	

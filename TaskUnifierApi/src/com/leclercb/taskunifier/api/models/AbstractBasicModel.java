@@ -34,18 +34,23 @@ package com.leclercb.taskunifier.api.models;
 
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
+import java.util.Properties;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
+import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.beans.converters.CalendarConverter;
+import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public abstract class AbstractBasicModel implements BasicModel, Comparable<BasicModel> {
+public abstract class AbstractBasicModel implements BasicModel {
 	
 	@XStreamOmitField
 	private transient PropertyChangeSupport propertyChangeSupport;
@@ -57,13 +62,19 @@ public abstract class AbstractBasicModel implements BasicModel, Comparable<Basic
 	private ModelStatus modelStatus;
 	
 	@XStreamAlias("modelcreationdate")
+	@XStreamConverter(CalendarConverter.class)
 	private Calendar modelCreationDate;
 	
 	@XStreamAlias("modelupdatedate")
+	@XStreamConverter(CalendarConverter.class)
 	private Calendar modelUpdateDate;
 	
 	@XStreamAlias("title")
 	private String title;
+	
+	@XStreamAlias("properties")
+	@XStreamConverter(PropertyMapConverter.class)
+	private PropertyMap properties;
 	
 	public AbstractBasicModel(ModelId modelId, String title) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -76,6 +87,7 @@ public abstract class AbstractBasicModel implements BasicModel, Comparable<Basic
 		this.setModelCreationDate(Calendar.getInstance());
 		this.setModelUpdateDate(Calendar.getInstance());
 		this.setTitle(title);
+		this.setProperties(new PropertyMap());
 	}
 	
 	/**
@@ -243,6 +255,36 @@ public abstract class AbstractBasicModel implements BasicModel, Comparable<Basic
 		String oldTitle = this.title;
 		this.title = title;
 		this.updateProperty(PROP_TITLE, oldTitle, title);
+	}
+	
+	/**
+	 * Returns the properties of the model.
+	 * 
+	 * @return the properties of the model
+	 */
+	@Override
+	public PropertyMap getProperties() {
+		return this.properties;
+	}
+	
+	/**
+	 * Sets the properties of the model.
+	 * 
+	 * @param properties
+	 *            the properties of the model
+	 */
+	private void setProperties(PropertyMap properties) {
+		CheckUtils.isNotNull(properties);
+		this.properties = properties;
+	}
+	
+	public void addProperties(Properties properties) {
+		if (properties == null)
+			return;
+		
+		for (Object key : properties.keySet()) {
+			this.properties.put(key, properties.get(key));
+		}
 	}
 	
 	/**

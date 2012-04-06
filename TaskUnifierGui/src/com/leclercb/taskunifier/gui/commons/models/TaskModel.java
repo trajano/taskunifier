@@ -38,7 +38,7 @@ import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 
-public class TaskModel extends AbstractModelSortedModel {
+public class TaskModel extends AbstractBasicModelSortedModel {
 	
 	private Task hiddenTask;
 	

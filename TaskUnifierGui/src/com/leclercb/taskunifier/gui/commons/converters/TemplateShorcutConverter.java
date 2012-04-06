@@ -46,7 +46,6 @@ public class TemplateShorcutConverter extends AbstractConverter {
 	public void setValue(Object shortcut) {
 		PropertyMap properties = (PropertyMap) this.subject.getValue();
 		properties.setIntegerProperty("shortcut", (Integer) shortcut);
-		this.subject.setValue(properties);
 	}
 	
 	@Override

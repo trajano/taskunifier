@@ -37,7 +37,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 
-public class ContextModel extends AbstractModelSortedModel {
+public class ContextModel extends AbstractBasicModelSortedModel {
 	
 	public ContextModel(boolean firstNull) {
 		this.initialize(firstNull);

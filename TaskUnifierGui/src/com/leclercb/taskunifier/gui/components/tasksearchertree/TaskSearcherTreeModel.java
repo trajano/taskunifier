@@ -70,7 +70,7 @@ import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.comparators.TaskSearcherComparator;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
@@ -187,7 +187,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Context> contexts = new ArrayList<Context>(
 				ContextFactory.getInstance().getList());
-		Collections.sort(contexts, ModelComparator.INSTANCE);
+		Collections.sort(contexts, BasicModelComparator.INSTANCE);
 		
 		for (Context context : contexts)
 			if (context.getModelStatus().isEndUserStatus())
@@ -209,7 +209,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
-		Collections.sort(folders, ModelComparator.INSTANCE);
+		Collections.sort(folders, BasicModelComparator.INSTANCE);
 		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().isEndUserStatus())
@@ -232,7 +232,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Goal> goals = new ArrayList<Goal>(
 				GoalFactory.getInstance().getList());
-		Collections.sort(goals, ModelComparator.INSTANCE);
+		Collections.sort(goals, BasicModelComparator.INSTANCE);
 		
 		for (Goal goal : goals)
 			if (goal.getModelStatus().isEndUserStatus())
@@ -252,7 +252,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Location> locations = new ArrayList<Location>(
 				LocationFactory.getInstance().getList());
-		Collections.sort(locations, ModelComparator.INSTANCE);
+		Collections.sort(locations, BasicModelComparator.INSTANCE);
 		
 		for (Location location : locations)
 			if (location.getModelStatus().isEndUserStatus())
@@ -305,7 +305,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 		
 		models.add(model);
-		Collections.sort(models, ModelComparator.INSTANCE);
+		Collections.sort(models, BasicModelComparator.INSTANCE);
 		
 		return models.indexOf(model);
 	}

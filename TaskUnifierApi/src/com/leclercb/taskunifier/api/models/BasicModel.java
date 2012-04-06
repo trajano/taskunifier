@@ -36,8 +36,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
+import com.leclercb.commons.api.properties.PropertyMap;
 
-public interface BasicModel extends Cloneable, Serializable, PropertyChangeSupported {
+public interface BasicModel extends Cloneable, Comparable<BasicModel>, Serializable, PropertyChangeSupported {
 	
 	public static final String PROP_MODEL_ID = "modelId";
 	public static final String PROP_MODEL_STATUS = "modelStatus";
@@ -45,7 +46,7 @@ public interface BasicModel extends Cloneable, Serializable, PropertyChangeSuppo
 	public static final String PROP_MODEL_UPDATE_DATE = "modelUpdateDate";
 	public static final String PROP_TITLE = "title";
 	
-	public abstract Model clone(ModelId modelId);
+	public abstract BasicModel clone(ModelId modelId);
 	
 	public abstract ModelId getModelId();
 	
@@ -64,5 +65,7 @@ public interface BasicModel extends Cloneable, Serializable, PropertyChangeSuppo
 	public abstract String getTitle();
 	
 	public abstract void setTitle(String title);
+	
+	public abstract PropertyMap getProperties();
 	
 }

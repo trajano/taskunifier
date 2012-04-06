@@ -37,7 +37,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 
-public class NoteModel extends AbstractModelSortedModel {
+public class NoteModel extends AbstractBasicModelSortedModel {
 	
 	public NoteModel(boolean firstNull) {
 		this.initialize(firstNull);

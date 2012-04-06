@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
@@ -42,13 +44,16 @@ import javax.swing.JPopupMenu;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
-public class ActionAddTemplateTaskMenu extends AbstractAction implements ListChangeListener {
+public class ActionAddTemplateTaskMenu extends AbstractAction implements ListChangeListener, PropertyChangeListener {
 	
 	private ActionListener listener;
 	private JPopupMenu popupMenu;
@@ -77,6 +82,12 @@ public class ActionAddTemplateTaskMenu extends AbstractAction implements ListCha
 				new WeakListChangeListener(
 						TaskTemplateFactory.getInstance(),
 						this));
+		
+		TaskTemplateFactory.getInstance().addPropertyChangeListener(
+				BasicModel.PROP_MODEL_STATUS,
+				new WeakPropertyChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
 	}
 	
 	@Override
@@ -90,6 +101,15 @@ public class ActionAddTemplateTaskMenu extends AbstractAction implements ListCha
 		TemplateUtils.updateTemplateList(
 				this.listener,
 				ActionAddTemplateTaskMenu.this.popupMenu);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (((ModelStatus) evt.getOldValue()).isEndUserStatus() != ((ModelStatus) evt.getNewValue()).isEndUserStatus()) {
+			TemplateUtils.updateTemplateList(
+					this.listener,
+					ActionAddTemplateTaskMenu.this.popupMenu);
+		}
 	}
 	
 }

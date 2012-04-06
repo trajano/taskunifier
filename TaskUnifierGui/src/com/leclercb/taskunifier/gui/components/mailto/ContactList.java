@@ -54,7 +54,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ContactModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueContact;
@@ -88,7 +88,7 @@ public class ContactList extends JPanel {
 				IconValueContact.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
-		this.modelList.setComparator(ModelComparator.INSTANCE);
+		this.modelList.setComparator(BasicModelComparator.INSTANCE);
 		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		

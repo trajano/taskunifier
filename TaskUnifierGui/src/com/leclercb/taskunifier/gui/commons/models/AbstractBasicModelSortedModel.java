@@ -38,20 +38,20 @@ import java.beans.PropertyChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.ModelParent;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 
-abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
+abstract class AbstractBasicModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
 	
-	public AbstractModelSortedModel() {
-		super(ModelComparator.INSTANCE);
+	public AbstractBasicModelSortedModel() {
+		super(BasicModelComparator.INSTANCE);
 	}
 	
 	@Override
 	public void addElement(Object element) {
 		if (element != null) {
-			Model model = (Model) element;
+			BasicModel model = (BasicModel) element;
 			if (!model.getModelStatus().isEndUserStatus())
 				return;
 		}
@@ -70,7 +70,7 @@ abstract class AbstractModelSortedModel extends DefaultSortedComboBoxModel imple
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
+		if (!((BasicModel) event.getSource()).getModelStatus().isEndUserStatus()) {
 			this.removeElement(event.getSource());
 		} else {
 			int index = this.getIndexOf(event.getSource());

@@ -32,12 +32,17 @@
  */
 package com.leclercb.taskunifier.gui.components.menubar;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.taskunifier.api.models.BasicModel;
+import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.actions.ActionAbout;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
@@ -286,6 +291,21 @@ public class MenuBar extends JMenuBar {
 		TemplateUtils.updateTemplateList(
 				ActionAddTemplateTask.ADD_TASK_LISTENER,
 				templatesMenu);
+		
+		TaskTemplateFactory.getInstance().addPropertyChangeListener(
+				BasicModel.PROP_MODEL_STATUS,
+				new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (((ModelStatus) evt.getOldValue()).isEndUserStatus() != ((ModelStatus) evt.getNewValue()).isEndUserStatus()) {
+							TemplateUtils.updateTemplateList(
+									ActionAddTemplateTask.ADD_TASK_LISTENER,
+									templatesMenu);
+						}
+					}
+					
+				});
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
 				new ListChangeListener() {

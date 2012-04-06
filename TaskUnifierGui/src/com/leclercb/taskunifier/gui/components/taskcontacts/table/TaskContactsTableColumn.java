@@ -40,7 +40,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueModel;
 import com.leclercb.taskunifier.gui.components.taskcontacts.TaskContactsColumn;
@@ -78,7 +78,7 @@ public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
 			case LINK:
 				return super.getComparator();
 			case CONTACT:
-				return ModelComparator.INSTANCE;
+				return BasicModelComparator.INSTANCE;
 			default:
 				return super.getComparator();
 		}

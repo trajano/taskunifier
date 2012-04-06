@@ -558,7 +558,7 @@ public abstract class AbstractModel implements Model {
 	}
 	
 	@Override
-	public int compareTo(Model model) {
+	public int compareTo(BasicModel model) {
 		if (model == null)
 			return 1;
 		

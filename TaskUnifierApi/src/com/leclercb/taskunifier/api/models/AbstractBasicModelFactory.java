@@ -36,71 +36,27 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.logger.ApiLogger;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.beans.ModelBean;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBean, M extends Model, MB extends ModelBean> implements ModelFactory<OM, OMB, M, MB>, PropertyChangeListener {
-	
-	private Class<OM> originalModelClass;
-	private Class<OMB> originalModelBeanClass;
-	
-	private Class<M> modelClass;
-	private Class<MB> modelBeanClass;
+public abstract class AbstractBasicModelFactory<M extends BasicModel> implements BasicModelFactory<M>, PropertyChangeListener {
 	
 	protected ListChangeSupport listChangeSupport;
 	protected PropertyChangeSupport propertyChangeSupport;
 	
-	protected List<M> models;
+	private List<M> models;
 	
-	protected AbstractModelFactory(
-			Class<OM> originalModelClass,
-			Class<OMB> originalModelBeanClass,
-			Class<M> modelClass,
-			Class<MB> modelBeanClass) {
-		this.originalModelClass = originalModelClass;
-		this.originalModelBeanClass = originalModelBeanClass;
-		
-		this.modelClass = modelClass;
-		this.modelBeanClass = modelBeanClass;
-		
+	public AbstractBasicModelFactory() {
 		this.listChangeSupport = new ListChangeSupport(this);
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		this.models = new ArrayList<M>();
-	}
-	
-	protected abstract String getModelNodeName();
-	
-	protected abstract String getModelListNodeName();
-	
-	protected Class<OM> getOriginalModelClass() {
-		return this.originalModelClass;
-	}
-	
-	protected Class<OMB> getOriginalModelBeanClass() {
-		return this.originalModelBeanClass;
-	}
-	
-	protected Class<M> getModelClass() {
-		return this.modelClass;
-	}
-	
-	protected Class<MB> getModelBeanClass() {
-		return this.modelBeanClass;
 	}
 	
 	/**
@@ -160,25 +116,6 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	public M get(ModelId modelId) {
 		for (M model : this.models)
 			if (model.getModelId().equals(modelId))
-				return model;
-		
-		return null;
-	}
-	
-	/**
-	 * Returns the model with the given reference ID.
-	 * 
-	 * @param key
-	 *            key of the reference ID
-	 * @param referenceId
-	 *            referenceId to find
-	 * @return the model with the given referenceId or null if no model has been
-	 *         found
-	 */
-	@Override
-	public M get(String key, String referenceId) {
-		for (M model : this.models)
-			if (EqualsUtils.equals(model.getModelReferenceId(key), referenceId))
 				return model;
 		
 		return null;
@@ -271,7 +208,7 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	 * @exception IllegalArgumentException
 	 *                if a model with the same ID already exists in the factory
 	 */
-	protected void register(M model) {
+	public void register(M model) {
 		CheckUtils.isNotNull(model);
 		
 		if (this.contains(model.getModelId()))
@@ -428,169 +365,15 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	}
 	
 	@Override
-	public synchronized OMB createOriginalBean() {
-		return this.createOriginalBean(null);
-	}
+	public abstract M create(String title);
 	
 	@Override
-	public synchronized OMB createOriginalBean(ModelId modelId) {
-		try {
-			return this.getOriginalModelBeanClass().getDeclaredConstructor(
-					ModelId.class).newInstance(modelId);
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
+	public abstract M create(ModelId modelId, String title);
 	
 	@Override
-	public synchronized MB createBean() {
-		return this.createBean(null);
-	}
+	public abstract void decodeFromXML(InputStream input);
 	
 	@Override
-	public synchronized MB createBean(ModelId modelId) {
-		try {
-			return this.getModelBeanClass().getDeclaredConstructor(
-					ModelId.class).newInstance(modelId);
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
-	
-	@Override
-	public synchronized M createShell(ModelId modelId) {
-		try {
-			M model = this.getModelClass().getDeclaredConstructor(
-					ModelId.class,
-					String.class).newInstance(modelId, "Shell");
-			model.setModelStatus(ModelStatus.SHELL);
-			
-			return model;
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
-	
-	@Override
-	public synchronized M create(MB bean, boolean loadReferenceIds) {
-		try {
-			M model = this.getModelClass().getDeclaredConstructor(
-					this.getOriginalModelBeanClass(),
-					boolean.class).newInstance(bean, loadReferenceIds);
-			
-			return model;
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
-	
-	@Override
-	public synchronized M create(M model) {
-		return this.create(new ModelId(), model);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public synchronized M create(ModelId modelId, M model) {
-		M modelClone = (M) model.clone(modelId);
-		modelClone.setModelStatus(ModelStatus.TO_UPDATE);
-		return modelClone;
-	}
-	
-	@Override
-	public synchronized M create(String title) {
-		try {
-			M model = this.getModelClass().getDeclaredConstructor(String.class).newInstance(
-					title);
-			
-			return model;
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
-	
-	@Override
-	public synchronized M create(ModelId modelId, String title) {
-		try {
-			M model = this.getModelClass().getDeclaredConstructor(
-					ModelId.class,
-					String.class).newInstance(modelId, title);
-			
-			return model;
-		} catch (Exception e) {
-			ApiLogger.getLogger().log(Level.SEVERE, "Cannot instantiate", e);
-			return null;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public MB[] decodeBeansFromXML(InputStream input) {
-		XStream xstream = new XStream(
-				new PureJavaReflectionProvider(),
-				new DomDriver("UTF-8"));
-		xstream.setMode(XStream.NO_REFERENCES);
-		xstream.alias(
-				this.getModelListNodeName(),
-				Array.newInstance(this.getModelBeanClass(), 0).getClass());
-		xstream.alias(this.getModelNodeName(), this.getModelBeanClass());
-		xstream.processAnnotations(this.getModelBeanClass());
-		
-		return (MB[]) xstream.fromXML(input);
-	}
-	
-	@Override
-	public void encodeBeansToXML(OutputStream output, MB[] beans) {
-		XStream xstream = new XStream(
-				new PureJavaReflectionProvider(),
-				new DomDriver("UTF-8"));
-		xstream.setMode(XStream.NO_REFERENCES);
-		xstream.alias(
-				this.getModelListNodeName(),
-				Array.newInstance(this.getModelBeanClass(), 0).getClass());
-		xstream.alias(this.getModelNodeName(), this.getModelBeanClass());
-		xstream.processAnnotations(this.getModelBeanClass());
-		
-		xstream.toXML(beans, output);
-	}
-	
-	@Override
-	public void decodeFromXML(InputStream input) {
-		MB[] beans = this.decodeBeansFromXML(input);
-		for (MB bean : beans) {
-			M model = this.get(bean.getModelId());
-			if (model == null)
-				this.create(bean, true);
-			else
-				model.loadBean(bean, true);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void encodeToXML(OutputStream output) {
-		List<MB> beans = new ArrayList<MB>();
-		for (M model : this.models) {
-			try {
-				beans.add((MB) model.toBean());
-			} catch (Exception e) {
-				ApiLogger.getLogger().log(
-						Level.SEVERE,
-						"Cannot encode model",
-						e);
-			}
-		}
-		
-		MB[] array = beans.toArray((MB[]) Array.newInstance(
-				this.getModelBeanClass(),
-				0));
-		
-		this.encodeBeansToXML(output, array);
-	}
+	public abstract void encodeToXML(OutputStream output);
 	
 }

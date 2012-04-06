@@ -37,7 +37,7 @@ import java.util.List;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 
-public class GoalModel extends AbstractModelSortedModel {
+public class GoalModel extends AbstractBasicModelSortedModel {
 	
 	public GoalModel(boolean firstNull) {
 		this.initialize(firstNull);

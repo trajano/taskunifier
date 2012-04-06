@@ -57,7 +57,7 @@ import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.comparators.NoteSearcherComparator;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
@@ -122,7 +122,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
-		Collections.sort(folders, ModelComparator.INSTANCE);
+		Collections.sort(folders, BasicModelComparator.INSTANCE);
 		
 		for (Folder folder : folders)
 			if (folder.getModelStatus().isEndUserStatus())
@@ -158,7 +158,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 		
 		folders.add(folder);
-		Collections.sort(folders, ModelComparator.INSTANCE);
+		Collections.sort(folders, BasicModelComparator.INSTANCE);
 		
 		return folders.indexOf(folder);
 	}

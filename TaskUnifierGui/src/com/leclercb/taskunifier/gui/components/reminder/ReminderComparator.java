@@ -35,7 +35,7 @@ package com.leclercb.taskunifier.gui.components.reminder;
 import java.util.Comparator;
 
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
 class ReminderComparator implements Comparator<Task> {
@@ -73,7 +73,7 @@ class ReminderComparator implements Comparator<Task> {
 		if (importance1 != importance2)
 			return new Integer(importance2).compareTo(importance1);
 		
-		return ModelComparator.INSTANCE.compare(t1, t2);
+		return BasicModelComparator.INSTANCE.compare(t1, t2);
 	}
 	
 }

@@ -65,6 +65,7 @@ import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.gui.utils.FormatterUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
@@ -73,7 +74,6 @@ import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.api.models.templates.Template;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateShorcutConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
@@ -390,11 +390,11 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 					(TaskTemplate) null,
 					true);
 			
-			ValueModel titleModel = this.adapter.getValueModel(Template.PROP_TITLE);
+			ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 			Bindings.bind(templateTitle, titleModel);
 			
 			TemplateShorcutConverter shortcutModel = new TemplateShorcutConverter(
-					this.adapter.getValueModel(Template.PROP_PROPERTIES));
+					this.adapter.getValueModel("properties"));
 			TaskTemplateConfigurationPanel.this.templateShortcut.setModel(new ComboBoxAdapter<Integer>(
 					new Integer[] {
 							null,

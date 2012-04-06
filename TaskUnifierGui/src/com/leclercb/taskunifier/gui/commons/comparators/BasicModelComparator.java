@@ -38,19 +38,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.leclercb.commons.api.utils.CompareUtils;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.ModelParent;
 
-public class ModelComparator implements Comparator<Model> {
+public class BasicModelComparator implements Comparator<BasicModel> {
 	
-	public static final ModelComparator INSTANCE = new ModelComparator();
+	public static final BasicModelComparator INSTANCE = new BasicModelComparator();
 	
-	private ModelComparator() {
+	private BasicModelComparator() {
 		
 	}
 	
 	@Override
-	public int compare(Model m1, Model m2) {
+	public int compare(BasicModel m1, BasicModel m2) {
 		if (m1 instanceof ModelParent<?> && m2 instanceof ModelParent<?>)
 			return this.compareIndented(
 					(ModelParent<?>) m1,
@@ -59,7 +59,7 @@ public class ModelComparator implements Comparator<Model> {
 		return this.compareTitle(m1, m2);
 	}
 	
-	public int compareTitle(Model m1, Model m2) {
+	public int compareTitle(BasicModel m1, BasicModel m2) {
 		if (m1 == null && m2 == null)
 			return 0;
 		

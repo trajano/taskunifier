@@ -32,28 +32,14 @@
  */
 package com.leclercb.taskunifier.api.models.templates;
 
-import java.io.Serializable;
-
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.properties.PropertyMap;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 
-public interface Template<M extends Model, MB extends ModelBean> extends Cloneable, Serializable, PropertyChangeSupported {
-	
-	public static final String PROP_TITLE = "title";
-	public static final String PROP_PROPERTIES = "properties";
+public interface Template<M extends Model, MB extends ModelBean> extends BasicModel {
 	
 	public abstract void applyTo(M model);
 	
 	public abstract void applyTo(MB bean);
-	
-	public abstract String getTitle();
-	
-	public abstract void setTitle(String title);
-	
-	public abstract PropertyMap getProperties();
-	
-	public abstract void setProperties(PropertyMap properties);
 	
 }

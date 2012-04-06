@@ -53,7 +53,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.ModelListModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
@@ -98,7 +98,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 				IconValueModel.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
-		this.modelList.setComparator(ModelComparator.INSTANCE);
+		this.modelList.setComparator(BasicModelComparator.INSTANCE);
 		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		

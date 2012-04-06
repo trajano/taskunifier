@@ -42,7 +42,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.MappedValue;
 
-import com.leclercb.taskunifier.gui.commons.comparators.ModelComparator;
+import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.values.BooleanValueBoolean;
 import com.leclercb.taskunifier.gui.commons.values.IconValueModel;
 import com.leclercb.taskunifier.gui.commons.values.IconValueSelected;
@@ -81,7 +81,7 @@ public class ModelSelectionTableColumn extends TUTableColumn<ModelSelectionColum
 			case SELECT:
 				return super.getComparator();
 			case MODEL:
-				return ModelComparator.INSTANCE;
+				return BasicModelComparator.INSTANCE;
 			default:
 				return super.getComparator();
 		}

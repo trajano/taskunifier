@@ -32,164 +32,33 @@
  */
 package com.leclercb.taskunifier.api.models.templates;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import com.leclercb.taskunifier.api.models.AbstractBasicModelFactory;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.api.event.listchange.ListChangeSupport;
-import com.leclercb.commons.api.event.listchange.ListChangeSupported;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.commons.api.utils.EqualsUtils;
-
-abstract class AbstractTemplateFactory<T extends Template<?, ?>> implements PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
+abstract class AbstractTemplateFactory<M extends Template<?, ?>> extends AbstractBasicModelFactory<M> {
 	
 	public static final String PROP_DEFAULT_TEMPLATE = "defaultTemplate";
 	
-	private ListChangeSupport listChangeSupport;
-	private PropertyChangeSupport propertyChangeSupport;
-	
-	private T defaultTemplate;
-	private List<T> templates;
+	private M defaultTemplate;
 	
 	public AbstractTemplateFactory() {
-		this.listChangeSupport = new ListChangeSupport(this);
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		
 		this.defaultTemplate = null;
-		this.templates = new ArrayList<T>();
 	}
 	
-	public T getDefaultTemplate() {
+	public M getDefaultTemplate() {
 		return this.defaultTemplate;
 	}
 	
-	public void setDefaultTemplate(T defaultTemplate) {
-		if (defaultTemplate != null && !this.contains(defaultTemplate))
+	public void setDefaultTemplate(M defaultTemplate) {
+		if (defaultTemplate != null
+				&& !this.contains(defaultTemplate.getModelId()))
 			this.register(defaultTemplate);
 		
-		T oldDefaultTemplate = this.defaultTemplate;
+		M oldDefaultTemplate = this.defaultTemplate;
 		this.defaultTemplate = defaultTemplate;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_DEFAULT_TEMPLATE,
 				oldDefaultTemplate,
 				defaultTemplate);
 	}
-	
-	public boolean contains(T template) {
-		return this.templates.contains(template);
-	}
-	
-	public int size() {
-		return this.templates.size();
-	}
-	
-	public List<T> getList() {
-		return new ArrayList<T>(this.templates);
-	}
-	
-	public T get(int index) {
-		return this.templates.get(index);
-	}
-	
-	public int getIndexOf(T template) {
-		return this.templates.indexOf(template);
-	}
-	
-	public void delete(T template) {
-		this.unregister(template);
-	}
-	
-	public void deleteAll() {
-		List<T> templates = new ArrayList<T>(this.templates);
-		for (T template : templates)
-			this.unregister(template);
-	}
-	
-	public void register(T template) {
-		CheckUtils.isNotNull(template);
-		
-		if (this.contains(template))
-			return;
-		
-		this.templates.add(template);
-		template.addPropertyChangeListener(this);
-		int index = this.templates.indexOf(template);
-		this.listChangeSupport.fireListChange(
-				ListChangeEvent.VALUE_ADDED,
-				index,
-				template);
-	}
-	
-	public void unregister(T template) {
-		CheckUtils.isNotNull(template);
-		
-		int index = this.templates.indexOf(template);
-		if (this.templates.remove(template)) {
-			if (EqualsUtils.equals(this.defaultTemplate, template))
-				this.setDefaultTemplate(null);
-			
-			template.removePropertyChangeListener(this);
-			this.listChangeSupport.fireListChange(
-					ListChangeEvent.VALUE_REMOVED,
-					index,
-					template);
-		}
-	}
-	
-	@Override
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
-	}
-	
-	@Override
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		this.propertyChangeSupport.firePropertyChange(event);
-	}
-	
-	public abstract T create(String title);
-	
-	public abstract void decodeFromXML(InputStream input);
-	
-	public abstract void encodeToXML(OutputStream output);
 	
 }

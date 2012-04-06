@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.api.models.templates;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -54,9 +55,22 @@ public class TaskTemplateFactory extends AbstractTemplateFactory<TaskTemplate> {
 		
 	}
 	
+	public TaskTemplate create() {
+		TaskTemplate template = new TaskTemplate();
+		this.register(template);
+		return template;
+	}
+	
 	@Override
 	public TaskTemplate create(String title) {
 		TaskTemplate template = new TaskTemplate(title);
+		this.register(template);
+		return template;
+	}
+	
+	@Override
+	public TaskTemplate create(ModelId modelId, String title) {
+		TaskTemplate template = new TaskTemplate(modelId, title);
 		this.register(template);
 		return template;
 	}

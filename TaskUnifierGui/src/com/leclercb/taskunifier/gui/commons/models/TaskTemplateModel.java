@@ -33,20 +33,14 @@
 package com.leclercb.taskunifier.gui.commons.models;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import com.leclercb.commons.api.event.listchange.ListChangeEvent;
-import com.leclercb.commons.api.event.listchange.ListChangeListener;
-import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.gui.commons.comparators.TaskTemplateComparator;
 
-public class TaskTemplateModel extends DefaultSortedComboBoxModel implements ListChangeListener, PropertyChangeListener {
+public class TaskTemplateModel extends AbstractBasicModelSortedModel {
 	
 	public TaskTemplateModel(boolean firstNull) {
-		super(TaskTemplateComparator.INSTANCE);
 		this.initialize(firstNull);
 	}
 	
@@ -63,15 +57,6 @@ public class TaskTemplateModel extends DefaultSortedComboBoxModel implements Lis
 	}
 	
 	@Override
-	public void listChange(ListChangeEvent event) {
-		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
-			this.addElement(event.getValue());
-		} else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED) {
-			this.removeElement(event.getValue());
-		}
-	}
-	
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof TaskTemplateFactory) {
 			if (event.getPropertyName().equals(
@@ -84,8 +69,7 @@ public class TaskTemplateModel extends DefaultSortedComboBoxModel implements Lis
 			return;
 		}
 		
-		int index = this.getIndexOf(event.getSource());
-		this.fireContentsChanged(this, index, index);
+		super.propertyChange(event);
 	}
 	
 }

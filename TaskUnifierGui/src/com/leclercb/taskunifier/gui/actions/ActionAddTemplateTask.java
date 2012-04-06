@@ -45,8 +45,8 @@ import javax.swing.KeyStroke;
 import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.api.models.templates.Template;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTemplateTask extends AbstractAction implements PropertyChangeListener {
@@ -97,7 +97,7 @@ public class ActionAddTemplateTask extends AbstractAction implements PropertyCha
 		}
 		
 		template.addPropertyChangeListener(
-				Template.PROP_TITLE,
+				BasicModel.PROP_TITLE,
 				new WeakPropertyChangeListener(template, this));
 		
 		template.getProperties().addPropertyChangeListener(
@@ -123,7 +123,7 @@ public class ActionAddTemplateTask extends AbstractAction implements PropertyCha
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (EqualsUtils.equals(Template.PROP_TITLE, evt.getPropertyName())) {
+		if (EqualsUtils.equals(BasicModel.PROP_TITLE, evt.getPropertyName())) {
 			ActionAddTemplateTask.this.putValue(
 					NAME,
 					ActionAddTemplateTask.this.template.getTitle());

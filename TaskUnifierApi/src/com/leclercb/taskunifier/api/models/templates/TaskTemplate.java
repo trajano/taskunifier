@@ -32,17 +32,14 @@
  */
 package com.leclercb.taskunifier.api.models.templates;
 
-import java.beans.PropertyChangeListener;
 import java.util.Calendar;
-import java.util.Properties;
 
-import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.properties.PropertyMap;
-import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.AbstractBasicModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Location;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.Task;
@@ -51,16 +48,14 @@ import com.leclercb.taskunifier.api.models.beans.converters.ContextListConverter
 import com.leclercb.taskunifier.api.models.beans.converters.FolderConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.GoalListConverter;
 import com.leclercb.taskunifier.api.models.beans.converters.LocationListConverter;
-import com.leclercb.taskunifier.api.models.beans.converters.PropertyMapConverter;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.templates.converters.TaskTemplateConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamConverter(TaskTemplateConverter.class)
-public class TaskTemplate implements Template<Task, TaskBean> {
+public class TaskTemplate extends AbstractBasicModel implements Template<Task, TaskBean> {
 	
 	public static final String PROP_TASK_TITLE = "taskTitle";
 	public static final String PROP_TASK_TAGS = "taskTags";
@@ -84,16 +79,6 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public static final String PROP_TASK_PRIORITY = "taskPriority";
 	public static final String PROP_TASK_STAR = "taskStar";
 	public static final String PROP_TASK_NOTE = "taskNote";
-	
-	@XStreamOmitField
-	private transient PropertyChangeSupport propertyChangeSupport;
-	
-	@XStreamAlias("title")
-	private String title;
-	
-	@XStreamAlias("properties")
-	@XStreamConverter(PropertyMapConverter.class)
-	private PropertyMap properties;
 	
 	@XStreamAlias("tasktitle")
 	private String taskTitle;
@@ -166,14 +151,16 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	private String taskNote;
 	
 	public TaskTemplate() {
-		this("");
+		super(new ModelId(), "");
 	}
 	
 	public TaskTemplate(String title) {
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		this.properties = new PropertyMap();
+		super(new ModelId(), title);
+	}
+	
+	public TaskTemplate(ModelId modelId, String title) {
+		super(modelId, title);
 		
-		this.setTitle(title);
 		this.setTaskTitle(null);
 		this.setTaskTags(null);
 		this.setTaskFolder(null, false);
@@ -198,9 +185,8 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	}
 	
 	@Override
-	public TaskTemplate clone() {
-		TaskTemplate template = new TaskTemplate(this.title);
-		template.setProperties(this.properties);
+	public TaskTemplate clone(ModelId modelId) {
+		TaskTemplate template = new TaskTemplate(modelId, this.getTitle());
 		
 		template.setTaskTitle(this.taskTitle);
 		template.setTaskTags(this.taskTags);
@@ -223,6 +209,12 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		template.setTaskPriority(this.taskPriority);
 		template.setTaskStar(this.taskStar);
 		template.setTaskNote(this.taskNote);
+		
+		// After all other setXxx methods
+		template.addProperties(this.getProperties());
+		template.setModelStatus(this.getModelStatus());
+		template.setModelCreationDate(Calendar.getInstance());
+		template.setModelUpdateDate(Calendar.getInstance());
 		
 		return template;
 	}
@@ -413,42 +405,6 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 			task.setNote(this.taskNote);
 	}
 	
-	@Override
-	public String getTitle() {
-		return this.title;
-	}
-	
-	@Override
-	public void setTitle(String title) {
-		CheckUtils.isNotNull(title);
-		String oldTitle = this.title;
-		this.title = title;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TITLE,
-				oldTitle,
-				title);
-	}
-	
-	@Override
-	public PropertyMap getProperties() {
-		return this.properties;
-	}
-	
-	@Override
-	@Deprecated
-	public void setProperties(PropertyMap properties) {
-		this.addProperties(properties);
-	}
-	
-	public void addProperties(Properties properties) {
-		if (properties == null)
-			return;
-		
-		for (Object key : properties.keySet()) {
-			this.properties.put(key, properties.get(key));
-		}
-	}
-	
 	public String getTaskTitle() {
 		return this.taskTitle;
 	}
@@ -456,10 +412,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskTitle(String taskTitle) {
 		String oldTaskTitle = this.taskTitle;
 		this.taskTitle = taskTitle;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_TITLE,
-				oldTaskTitle,
-				taskTitle);
+		this.updateProperty(PROP_TASK_TITLE, oldTaskTitle, taskTitle);
 	}
 	
 	public String getTaskTags() {
@@ -469,10 +422,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskTags(String taskTags) {
 		String oldTaskTags = this.taskTags;
 		this.taskTags = taskTags;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_TAGS,
-				oldTaskTags,
-				taskTags);
+		this.updateProperty(PROP_TASK_TAGS, oldTaskTags, taskTags);
 	}
 	
 	public boolean isTaskFolderForce() {
@@ -482,10 +432,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskFolderForce(boolean force) {
 		boolean oldTaskFolderForce = this.taskFolderForce;
 		this.taskFolderForce = force;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER_FORCE,
-				oldTaskFolderForce,
-				force);
+		this.updateProperty(PROP_TASK_FOLDER_FORCE, oldTaskFolderForce, force);
 	}
 	
 	public Folder getTaskFolder() {
@@ -503,15 +450,9 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		boolean oldTaskFolderForce = this.taskFolderForce;
 		this.taskFolderForce = force;
 		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER_FORCE,
-				oldTaskFolderForce,
-				force);
+		this.updateProperty(PROP_TASK_FOLDER_FORCE, oldTaskFolderForce, force);
 		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_FOLDER,
-				oldTaskFolder,
-				taskFolder);
+		this.updateProperty(PROP_TASK_FOLDER, oldTaskFolder, taskFolder);
 	}
 	
 	public ModelList<Context> getTaskContexts() {
@@ -522,10 +463,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		ModelList<Context> oldTaskContexts = this.taskContexts;
 		this.taskContexts = taskContexts;
 		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_CONTEXTS,
-				oldTaskContexts,
-				taskContexts);
+		this.updateProperty(PROP_TASK_CONTEXTS, oldTaskContexts, taskContexts);
 	}
 	
 	public ModelList<Goal> getTaskGoals() {
@@ -536,10 +474,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		ModelList<Goal> oldTaskGoals = this.taskGoals;
 		this.taskGoals = taskGoals;
 		
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_GOALS,
-				oldTaskGoals,
-				taskGoals);
+		this.updateProperty(PROP_TASK_GOALS, oldTaskGoals, taskGoals);
 	}
 	
 	public ModelList<Location> getTaskLocations() {
@@ -550,7 +485,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 		ModelList<Location> oldTaskLocations = this.taskLocations;
 		this.taskLocations = taskLocations;
 		
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_LOCATIONS,
 				oldTaskLocations,
 				taskLocations);
@@ -563,10 +498,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskProgress(Double taskProgress) {
 		Double oldTaskProgress = this.taskProgress;
 		this.taskProgress = taskProgress;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_PROGRESS,
-				oldTaskProgress,
-				taskProgress);
+		this.updateProperty(PROP_TASK_PROGRESS, oldTaskProgress, taskProgress);
 	}
 	
 	public Boolean getTaskCompleted() {
@@ -576,7 +508,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskCompleted(Boolean taskCompleted) {
 		Boolean oldTaskCompleted = this.taskCompleted;
 		this.taskCompleted = taskCompleted;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_COMPLETED,
 				oldTaskCompleted,
 				taskCompleted);
@@ -589,10 +521,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskDueDate(Integer taskDueDate) {
 		Integer oldTaskDueDate = this.taskDueDate;
 		this.taskDueDate = taskDueDate;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_DUE_DATE,
-				oldTaskDueDate,
-				taskDueDate);
+		this.updateProperty(PROP_TASK_DUE_DATE, oldTaskDueDate, taskDueDate);
 	}
 	
 	public Integer getTaskDueTime() {
@@ -602,10 +531,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskDueTime(Integer taskDueTime) {
 		Integer oldTaskDueTime = this.taskDueTime;
 		this.taskDueTime = taskDueTime;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_DUE_TIME,
-				oldTaskDueTime,
-				taskDueTime);
+		this.updateProperty(PROP_TASK_DUE_TIME, oldTaskDueTime, taskDueTime);
 	}
 	
 	public Integer getTaskStartDate() {
@@ -615,7 +541,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskStartDate(Integer taskStartDate) {
 		Integer oldTaskStartDate = this.taskStartDate;
 		this.taskStartDate = taskStartDate;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_START_DATE,
 				oldTaskStartDate,
 				taskStartDate);
@@ -628,7 +554,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskStartTime(Integer taskStartTime) {
 		Integer oldTaskStartTime = this.taskStartTime;
 		this.taskStartTime = taskStartTime;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_START_TIME,
 				oldTaskStartTime,
 				taskStartTime);
@@ -641,7 +567,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskDueDateReminder(Integer taskDueDateReminder) {
 		Integer oldTaskDueDateReminder = this.taskDueDateReminder;
 		this.taskDueDateReminder = taskDueDateReminder;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_DUE_DATE_REMINDER,
 				oldTaskDueDateReminder,
 				taskDueDateReminder);
@@ -654,7 +580,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskStartDateReminder(Integer taskStartDateReminder) {
 		Integer oldTaskStartDateReminder = this.taskStartDateReminder;
 		this.taskStartDateReminder = taskStartDateReminder;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_START_DATE_REMINDER,
 				oldTaskStartDateReminder,
 				taskStartDateReminder);
@@ -667,10 +593,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskRepeat(String taskRepeat) {
 		String oldTaskRepeat = this.taskRepeat;
 		this.taskRepeat = taskRepeat;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_REPEAT,
-				oldTaskRepeat,
-				taskRepeat);
+		this.updateProperty(PROP_TASK_REPEAT, oldTaskRepeat, taskRepeat);
 	}
 	
 	public TaskRepeatFrom getTaskRepeatFrom() {
@@ -680,7 +603,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskRepeatFrom(TaskRepeatFrom taskRepeatFrom) {
 		TaskRepeatFrom oldTaskRepeatFrom = this.taskRepeatFrom;
 		this.taskRepeatFrom = taskRepeatFrom;
-		this.propertyChangeSupport.firePropertyChange(
+		this.updateProperty(
 				PROP_TASK_REPEAT_FROM,
 				oldTaskRepeatFrom,
 				taskRepeatFrom);
@@ -693,10 +616,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskStatus(String taskStatus) {
 		String oldTaskStatus = this.taskStatus;
 		this.taskStatus = taskStatus;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_STATUS,
-				oldTaskStatus,
-				taskStatus);
+		this.updateProperty(PROP_TASK_STATUS, oldTaskStatus, taskStatus);
 	}
 	
 	public Integer getTaskLength() {
@@ -706,10 +626,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskLength(Integer taskLength) {
 		Integer oldTaskLength = this.taskLength;
 		this.taskLength = taskLength;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_LENGTH,
-				oldTaskLength,
-				taskLength);
+		this.updateProperty(PROP_TASK_LENGTH, oldTaskLength, taskLength);
 	}
 	
 	public TaskPriority getTaskPriority() {
@@ -719,10 +636,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskPriority(TaskPriority taskPriority) {
 		TaskPriority oldTaskPriority = this.taskPriority;
 		this.taskPriority = taskPriority;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_PRIORITY,
-				oldTaskPriority,
-				taskPriority);
+		this.updateProperty(PROP_TASK_PRIORITY, oldTaskPriority, taskPriority);
 	}
 	
 	public Boolean getTaskStar() {
@@ -732,10 +646,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskStar(Boolean taskStar) {
 		Boolean oldTaskStar = this.taskStar;
 		this.taskStar = taskStar;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_STAR,
-				oldTaskStar,
-				taskStar);
+		this.updateProperty(PROP_TASK_STAR, oldTaskStar, taskStar);
 	}
 	
 	public String getTaskNote() {
@@ -745,43 +656,7 @@ public class TaskTemplate implements Template<Task, TaskBean> {
 	public void setTaskNote(String taskNote) {
 		String oldTaskNote = this.taskNote;
 		this.taskNote = taskNote;
-		this.propertyChangeSupport.firePropertyChange(
-				PROP_TASK_NOTE,
-				oldTaskNote,
-				taskNote);
-	}
-	
-	@Override
-	public String toString() {
-		return this.title;
-	}
-	
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void addPropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.addPropertyChangeListener(
-				propertyName,
-				listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-	
-	@Override
-	public void removePropertyChangeListener(
-			String propertyName,
-			PropertyChangeListener listener) {
-		this.propertyChangeSupport.removePropertyChangeListener(
-				propertyName,
-				listener);
+		this.updateProperty(PROP_TASK_NOTE, oldTaskNote, taskNote);
 	}
 	
 }
