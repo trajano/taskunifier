@@ -43,11 +43,11 @@ import com.leclercb.commons.api.utils.CheckUtils;
 
 public class NoteSorterTransferable implements Transferable {
 	
-	public static final DataFlavor SORTER_FLAVOR = new DataFlavor(
+	public static final DataFlavor NOTE_SORTER_FLAVOR = new DataFlavor(
 			NoteSorterTransferData.class,
 			"SORTER_FLAVOR");
 	
-	public static final DataFlavor[] FLAVORS = { SORTER_FLAVOR };
+	public static final DataFlavor[] FLAVORS = { NOTE_SORTER_FLAVOR };
 	
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	

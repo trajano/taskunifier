@@ -52,7 +52,7 @@ public class TaskSorterTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
-		if (!support.isDataFlavorSupported(TaskSorterTransferable.SORTER_FLAVOR))
+		if (!support.isDataFlavorSupported(TaskSorterTransferable.TASK_SORTER_FLAVOR))
 			return false;
 		
 		return true;
@@ -85,7 +85,7 @@ public class TaskSorterTransferHandler extends TransferHandler {
 		TaskSorterTransferData data = null;
 		
 		try {
-			data = (TaskSorterTransferData) t.getTransferData(TaskSorterTransferable.SORTER_FLAVOR);
+			data = (TaskSorterTransferData) t.getTransferData(TaskSorterTransferable.TASK_SORTER_FLAVOR);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, "Transfer data error", e);
 			

@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.commons.transfer;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 
@@ -46,8 +47,9 @@ public class TaskSorterTransferData implements Serializable {
 	
 	public TaskSorterTransferData(int[] elementIndexes) {
 		CheckUtils.isNotNull(elementIndexes);
-		
-		this.elementIndexes = elementIndexes;
+		this.elementIndexes = Arrays.copyOf(
+				elementIndexes,
+				elementIndexes.length);
 	}
 	
 	public int[] getElementIndexes() {

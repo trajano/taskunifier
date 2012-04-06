@@ -42,6 +42,7 @@ import org.w3c.dom.NodeList;
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
@@ -87,6 +88,7 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			String icon = null;
 			NoteFilter filter = null;
 			NoteSorter sorter = null;
+			NoteTemplate template = null;
 			
 			for (int i = 0; i < nSearcher.getLength(); i++) {
 				if (nSearcher.item(i).getNodeName().equals("type")) {
@@ -112,6 +114,10 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				
 				if (nSearcher.item(i).getNodeName().equals("filter")) {
 					filter = this.decodeNoteFilter(nSearcher.item(i));
+				}
+				
+				if (nSearcher.item(i).getNodeName().equals("template")) {
+					
 				}
 			}
 			

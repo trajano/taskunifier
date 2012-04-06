@@ -52,7 +52,7 @@ public class NoteSorterTransferHandler extends TransferHandler {
 	
 	@Override
 	public boolean canImport(TransferSupport support) {
-		if (!support.isDataFlavorSupported(NoteSorterTransferable.SORTER_FLAVOR))
+		if (!support.isDataFlavorSupported(NoteSorterTransferable.NOTE_SORTER_FLAVOR))
 			return false;
 		
 		return true;
@@ -85,7 +85,7 @@ public class NoteSorterTransferHandler extends TransferHandler {
 		NoteSorterTransferData data = null;
 		
 		try {
-			data = (NoteSorterTransferData) t.getTransferData(NoteSorterTransferable.SORTER_FLAVOR);
+			data = (NoteSorterTransferData) t.getTransferData(NoteSorterTransferable.NOTE_SORTER_FLAVOR);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(Level.SEVERE, "Transfer data error", e);
 			

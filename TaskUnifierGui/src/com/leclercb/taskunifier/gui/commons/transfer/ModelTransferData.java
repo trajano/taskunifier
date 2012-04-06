@@ -64,7 +64,7 @@ public class ModelTransferData implements Serializable {
 	
 	public ModelTransferData(ModelType type, ModelId[] ids) {
 		CheckUtils.isNotNull(type);
-		CheckUtils.isNotNull(ids);
+		CheckUtils.doesNotContainNull(ids);
 		
 		this.type = type;
 		this.ids = Arrays.copyOf(ids, ids.length);
@@ -87,8 +87,14 @@ public class ModelTransferData implements Serializable {
 			List<Task> tasks = new ArrayList<Task>();
 			for (ModelId id : this.ids) {
 				Task task = TaskFactory.getInstance().get(id);
-				if (task != null)
-					tasks.add(task);
+				
+				if (task == null)
+					continue;
+				
+				if (!task.getModelStatus().isEndUserStatus())
+					continue;
+				
+				tasks.add(task);
 			}
 			
 			if (tasks.size() == 1)
@@ -96,15 +102,21 @@ public class ModelTransferData implements Serializable {
 			
 			return TaskUtils.toHtml(
 					tasks.toArray(new Task[0]),
-					TaskColumn.values());
+					TaskColumn.getUsedColumns());
 		}
 		
 		if (this.type == ModelType.NOTE) {
 			List<Note> notes = new ArrayList<Note>();
 			for (ModelId id : this.ids) {
 				Note note = NoteFactory.getInstance().get(id);
-				if (note != null)
-					notes.add(note);
+				
+				if (note == null)
+					continue;
+				
+				if (!note.getModelStatus().isEndUserStatus())
+					continue;
+				
+				notes.add(note);
 			}
 			
 			if (notes.size() == 1)
@@ -112,7 +124,7 @@ public class ModelTransferData implements Serializable {
 			
 			return NoteUtils.toHtml(
 					notes.toArray(new Note[0]),
-					NoteColumn.values());
+					NoteColumn.getUsedColumns());
 		}
 		
 		return null;
@@ -123,8 +135,14 @@ public class ModelTransferData implements Serializable {
 			List<Task> tasks = new ArrayList<Task>();
 			for (ModelId id : this.ids) {
 				Task task = TaskFactory.getInstance().get(id);
-				if (task != null)
-					tasks.add(task);
+				
+				if (task == null)
+					continue;
+				
+				if (!task.getModelStatus().isEndUserStatus())
+					continue;
+				
+				tasks.add(task);
 			}
 			
 			return TaskUtils.toText(
@@ -137,8 +155,14 @@ public class ModelTransferData implements Serializable {
 			List<Note> notes = new ArrayList<Note>();
 			for (ModelId id : this.ids) {
 				Note note = NoteFactory.getInstance().get(id);
-				if (note != null)
-					notes.add(note);
+				
+				if (note == null)
+					continue;
+				
+				if (!note.getModelStatus().isEndUserStatus())
+					continue;
+				
+				notes.add(note);
 			}
 			
 			return NoteUtils.toText(

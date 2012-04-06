@@ -211,6 +211,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 		this.searcherTemplate.setModel(new TaskTemplateModel(true));
 		this.searcherTemplate.setRenderer(new DefaultListRenderer(
 				StringValueTaskTemplateTitle.INSTANCE));
+		this.searcherTemplate.setSelectedItem(this.searcher.getTemplate());
 		this.searcherTemplate.addItemListener(new ItemListener() {
 			
 			@Override

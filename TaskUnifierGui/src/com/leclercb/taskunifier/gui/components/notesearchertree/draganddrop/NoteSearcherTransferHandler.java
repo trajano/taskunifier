@@ -124,6 +124,7 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 			if (!support.isDrop()) {
 				return true;
 			} else {
+				NoteSearcherTree tree = (NoteSearcherTree) support.getComponent();
 				SearcherNode node = this.getSearcherNodeForLocation(support);
 				
 				if (node == null)
@@ -132,16 +133,8 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 				if (!(node instanceof SearcherItem))
 					return false;
 				
-				SearcherItem dragItem = null;
-				List<SearcherItem> items = new ArrayList<SearcherItem>();
-				SearcherCategory category = (SearcherCategory) node.getParent();
-				
-				for (int i = 0; i < category.getChildCount(); i++) {
-					SearcherItem item = (SearcherItem) category.getChildAt(i);
-					items.add(item);
-					if (EqualsUtils.equals(item.getNoteSearcher(), dragSearcher))
-						dragItem = item;
-				}
+				SearcherItem dragItem = tree.getSearcherModel().findItemFromSearcher(
+						dragSearcher);
 				
 				if (dragItem == null)
 					return false;
@@ -239,51 +232,63 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 				if (!(node instanceof SearcherItem))
 					return false;
 				
-				SearcherItem dragItem = null;
-				List<SearcherItem> items = new ArrayList<SearcherItem>();
-				SearcherCategory category = (SearcherCategory) node.getParent();
-				
-				for (int i = 0; i < category.getChildCount(); i++) {
-					SearcherItem item = (SearcherItem) category.getChildAt(i);
-					items.add(item);
-					if (EqualsUtils.equals(item.getNoteSearcher(), dragSearcher))
-						dragItem = item;
-				}
+				SearcherItem dragItem = tree.getSearcherModel().findItemFromSearcher(
+						dragSearcher);
 				
 				if (dragItem == null)
 					return false;
 				
-				Collections.sort(items, new Comparator<SearcherItem>() {
+				SearcherCategory category = (SearcherCategory) node.getParent();
+				
+				if (category.getType() == dragSearcher.getType()) {
+					List<SearcherItem> items = new ArrayList<SearcherItem>();
 					
-					@Override
-					public int compare(SearcherItem o1, SearcherItem o2) {
-						return NoteSearcherComparator.INSTANCE.compare(
-								o1.getNoteSearcher(),
-								o2.getNoteSearcher());
+					for (int i = 0; i < category.getChildCount(); i++) {
+						SearcherItem item = (SearcherItem) category.getChildAt(i);
+						items.add(item);
+						if (EqualsUtils.equals(
+								item.getNoteSearcher(),
+								dragSearcher))
+							dragItem = item;
 					}
 					
-				});
-				
-				int index = items.indexOf(node);
-				
-				items.remove(dragItem);
-				items.add(index, dragItem);
-				
-				int order = 1;
-				for (SearcherItem i : items) {
-					i.getNoteSearcher().setOrder(order++);
+					Collections.sort(items, new Comparator<SearcherItem>() {
+						
+						@Override
+						public int compare(SearcherItem o1, SearcherItem o2) {
+							return NoteSearcherComparator.INSTANCE.compare(
+									o1.getNoteSearcher(),
+									o2.getNoteSearcher());
+						}
+						
+					});
+					
+					int index = items.indexOf(node);
+					
+					items.remove(dragItem);
+					items.add(index, dragItem);
+					
+					int order = 1;
+					for (SearcherItem i : items) {
+						i.getNoteSearcher().setOrder(order++);
+					}
+					
+					for (SearcherItem i : items) {
+						tree.getSearcherModel().removeNodeFromParent(i);
+					}
+					
+					order = 0;
+					for (SearcherItem i : items) {
+						tree.getSearcherModel().insertNodeInto(
+								i,
+								category,
+								order++);
+					}
+					
+					tree.expandPath(TreeUtils.getPath(category));
+				} else {
+					dragSearcher.setType(category.getType());
 				}
-				
-				for (SearcherItem i : items) {
-					tree.getSearcherModel().removeNodeFromParent(i);
-				}
-				
-				order = 0;
-				for (SearcherItem i : items) {
-					tree.getSearcherModel().insertNodeInto(i, category, order++);
-				}
-				
-				tree.expandPath(TreeUtils.getPath(category));
 				
 				return true;
 			}

@@ -42,6 +42,7 @@ import org.w3c.dom.NodeList;
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
@@ -87,6 +88,7 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			String icon = null;
 			TaskFilter filter = null;
 			TaskSorter sorter = null;
+			TaskTemplate template = null;
 			
 			for (int i = 0; i < nSearcher.getLength(); i++) {
 				if (nSearcher.item(i).getNodeName().equals("type")) {
@@ -112,6 +114,10 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				
 				if (nSearcher.item(i).getNodeName().equals("filter")) {
 					filter = this.decodeTaskFilter(nSearcher.item(i));
+				}
+				
+				if (nSearcher.item(i).getNodeName().equals("template")) {
+					
 				}
 			}
 			

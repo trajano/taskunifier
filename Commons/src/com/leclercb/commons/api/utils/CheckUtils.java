@@ -62,6 +62,16 @@ public final class CheckUtils {
 			throw new NullPointerException("Value is null");
 	}
 	
+	public static void doesNotContainNull(Object[] array)
+			throws NullPointerException {
+		isNotNull(array);
+		
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == null)
+				throw new NullPointerException("Value " + i + " is null");
+		}
+	}
+	
 	public static void isInstanceOf(Object object, Class<?> cls)
 			throws NullPointerException {
 		if (!(cls.isInstance(object)))

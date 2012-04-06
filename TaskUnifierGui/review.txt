@@ -2,6 +2,14 @@ actions
 api.models
 api.plugins
 api.synchronizer
+commons.converters
+commons.events
+commons.highlighters
+commons.transfer
+commons.undoableedit
+commons.values
+components.notesearchertree.draganddrop
+components.tasksearchertree.draganddrop
 components.views
 constants
 main.frames
@@ -9,8 +17,3 @@ plugins
 resources
 threads
 translations
-commons.converters
-commons.events
-commons.highlighters
-commons.undoableedit
-commons.values
