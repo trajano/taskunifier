@@ -44,7 +44,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
@@ -136,7 +136,7 @@ public final class TaskTagList implements ListChangeSupported, ListChangeListene
 	public void propertyChange(PropertyChangeEvent evt) {
 		Task task = (Task) evt.getSource();
 		
-		if (evt.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+		if (evt.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
 			ModelStatus oldStatus = (ModelStatus) evt.getOldValue();
 			ModelStatus newStatus = (ModelStatus) evt.getNewValue();
 			

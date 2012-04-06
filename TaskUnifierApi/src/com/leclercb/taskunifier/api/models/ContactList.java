@@ -316,7 +316,7 @@ public class ContactList implements Cloneable, Serializable, Iterable<ContactIte
 		
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+			if (event.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
 				Contact contact = (Contact) event.getSource();
 				
 				if (contact.getModelStatus().equals(ModelStatus.TO_DELETE)

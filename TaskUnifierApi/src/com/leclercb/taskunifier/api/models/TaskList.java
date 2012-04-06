@@ -316,7 +316,7 @@ public class TaskList implements Cloneable, Serializable, Iterable<TaskItem>, Pr
 		
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+			if (event.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
 				Task task = (Task) event.getSource();
 				
 				if (task.getModelStatus().equals(ModelStatus.TO_DELETE)

@@ -32,33 +32,37 @@
  */
 package com.leclercb.taskunifier.api.models;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.util.Calendar;
 
-import com.leclercb.commons.api.properties.PropertyMap;
-import com.leclercb.taskunifier.api.models.beans.ModelBean;
+import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 
-public interface Model extends BasicModel, Comparable<Model> {
+public interface BasicModel extends Cloneable, Serializable, PropertyChangeSupported {
 	
-	public static final String PROP_ORDER = "order";
+	public static final String PROP_MODEL_ID = "modelId";
+	public static final String PROP_MODEL_STATUS = "modelStatus";
+	public static final String PROP_MODEL_CREATION_DATE = "modelCreationDate";
+	public static final String PROP_MODEL_UPDATE_DATE = "modelUpdateDate";
+	public static final String PROP_TITLE = "title";
 	
-	public abstract void loadBean(ModelBean bean, boolean loadReferenceIds);
+	public abstract Model clone(ModelId modelId);
 	
-	public abstract ModelBean toBean();
+	public abstract ModelId getModelId();
 	
-	public abstract ModelType getModelType();
+	public abstract ModelStatus getModelStatus();
 	
-	public abstract Map<String, String> getModelReferenceIds();
+	public abstract void setModelStatus(ModelStatus status);
 	
-	public abstract String getModelReferenceId(String key);
+	public abstract Calendar getModelCreationDate();
 	
-	public abstract void addModelReferenceId(String key, String referenceId);
+	public abstract void setModelCreationDate(Calendar creationDate);
 	
-	public abstract void removeModelReferenceId(String key);
+	public abstract Calendar getModelUpdateDate();
 	
-	public abstract int getOrder();
+	public abstract void setModelUpdateDate(Calendar updateDate);
 	
-	public abstract void setOrder(int order);
+	public abstract String getTitle();
 	
-	public abstract PropertyMap getProperties();
+	public abstract void setTitle(String title);
 	
 }

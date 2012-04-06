@@ -45,7 +45,7 @@ import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
 import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.api.utils.IgnoreCaseString;
-import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -150,7 +150,7 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		if (evt.getSource() instanceof Task) {
 			Task task = (Task) evt.getSource();
 			
-			if (evt.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+			if (evt.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
 				ModelStatus oldStatus = (ModelStatus) evt.getOldValue();
 				ModelStatus newStatus = (ModelStatus) evt.getNewValue();
 				

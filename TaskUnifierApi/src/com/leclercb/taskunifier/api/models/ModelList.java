@@ -130,7 +130,7 @@ public class ModelList<M extends Model> implements Cloneable, Serializable, Iter
 	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(Model.PROP_MODEL_STATUS)) {
+		if (event.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
 			M model = (M) event.getSource();
 			
 			if (model.getModelStatus().equals(ModelStatus.TO_DELETE)

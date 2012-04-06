@@ -34,106 +34,48 @@ package com.leclercb.taskunifier.api.models;
 
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
-import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
-import com.leclercb.taskunifier.api.models.beans.ModelBean;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public abstract class AbstractModel implements Model {
+public abstract class AbstractBasicModel implements BasicModel, Comparable<BasicModel> {
 	
+	@XStreamOmitField
 	private transient PropertyChangeSupport propertyChangeSupport;
 	
+	@XStreamAlias("modelid")
 	private ModelId modelId;
-	private Map<String, String> modelReferenceIds;
-	private ModelStatus modelStatus;
-	private Calendar modelCreationDate;
-	private Calendar modelUpdateDate;
-	private String title;
-	private int order;
-	private PropertyMap properties;
 	
-	public AbstractModel(ModelId modelId, String title) {
+	@XStreamAlias("modelstatus")
+	private ModelStatus modelStatus;
+	
+	@XStreamAlias("modelcreationdate")
+	private Calendar modelCreationDate;
+	
+	@XStreamAlias("modelupdatedate")
+	private Calendar modelUpdateDate;
+	
+	@XStreamAlias("title")
+	private String title;
+	
+	public AbstractBasicModel(ModelId modelId, String title) {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 		
 		if (modelId == null)
 			modelId = new ModelId();
 		
 		this.setModelId(modelId);
-		this.setModelReferenceIds(new HashMap<String, String>());
 		this.setModelStatus(ModelStatus.LOADED);
 		this.setModelCreationDate(Calendar.getInstance());
 		this.setModelUpdateDate(Calendar.getInstance());
 		this.setTitle(title);
-		this.setProperties(new PropertyMap());
-	}
-	
-	/**
-	 * Returns the factory of the model.
-	 * 
-	 * @return the factory of the model
-	 */
-	public abstract AbstractModelFactory<?, ?, ?, ?> getFactory();
-	
-	/**
-	 * Loads the data from the bean into the model.
-	 * 
-	 * @param bean
-	 *            the bean
-	 */
-	@Override
-	public void loadBean(ModelBean bean, boolean loadReferenceIds) {
-		CheckUtils.isNotNull(bean);
-		
-		this.setTitle(bean.getTitle());
-		this.setOrder(bean.getOrder());
-		this.addProperties(bean.getProperties());
-		
-		if (loadReferenceIds) {
-			this.modelReferenceIds.clear();
-			
-			if (bean.getModelReferenceIds() != null) {
-				Map<String, String> beanReferenceIds = bean.getModelReferenceIds();
-				for (String key : beanReferenceIds.keySet()) {
-					this.addModelReferenceId(key, beanReferenceIds.get(key));
-				}
-			}
-		}
-		
-		this.setModelStatus(bean.getModelStatus());
-		this.setModelCreationDate(bean.getModelCreationDate());
-		this.setModelUpdateDate(bean.getModelUpdateDate());
-	}
-	
-	/**
-	 * Convert the data from the model into a bean.
-	 * 
-	 * @return the bean
-	 */
-	@Override
-	public ModelBean toBean() {
-		ModelBean bean = this.getFactory().createBean();
-		
-		bean.setTitle(this.getTitle());
-		bean.setOrder(this.getOrder());
-		bean.setProperties(this.getProperties().clone());
-		
-		bean.setModelId(this.getModelId());
-		bean.setModelReferenceIds(this.getModelReferenceIds());
-		bean.setModelStatus(this.getModelStatus());
-		bean.setModelCreationDate(this.getModelCreationDate());
-		bean.setModelUpdateDate(this.getModelUpdateDate());
-		
-		return bean;
 	}
 	
 	/**
@@ -151,8 +93,6 @@ public abstract class AbstractModel implements Model {
 	 * 
 	 * @param modelId
 	 *            the id of the model
-	 * @exception IllegalArgumentException
-	 *                if another model with the same id is found in the factory
 	 */
 	private final void setModelId(ModelId modelId) {
 		CheckUtils.isNotNull(modelId);
@@ -160,47 +100,12 @@ public abstract class AbstractModel implements Model {
 		if (!this.checkBeforeSet(this.getModelId(), modelId))
 			return;
 		
-		Model newModel = this.getFactory().get(modelId);
-		
-		if (newModel != null && newModel != this)
-			throw new IllegalArgumentException(
-					"The model id you try to assign to this model already exists in the factory");
-		
 		ModelId oldModelId = this.modelId;
 		this.modelId = modelId;
 		this.propertyChangeSupport.firePropertyChange(
 				PROP_MODEL_ID,
 				oldModelId,
 				modelId);
-	}
-	
-	@Override
-	public Map<String, String> getModelReferenceIds() {
-		return Collections.unmodifiableMap(this.modelReferenceIds);
-	}
-	
-	private void setModelReferenceIds(Map<String, String> modelReferenceIds) {
-		CheckUtils.isNotNull(modelReferenceIds);
-		this.modelReferenceIds = modelReferenceIds;
-	}
-	
-	@Override
-	public String getModelReferenceId(String key) {
-		CheckUtils.isNotNull(key);
-		return this.modelReferenceIds.get(key);
-	}
-	
-	@Override
-	public void addModelReferenceId(String key, String referenceId) {
-		CheckUtils.isNotNull(key);
-		CheckUtils.isNotNull(referenceId);
-		this.modelReferenceIds.put(key, referenceId);
-	}
-	
-	@Override
-	public void removeModelReferenceId(String key) {
-		CheckUtils.isNotNull(key);
-		this.modelReferenceIds.remove(key);
 	}
 	
 	/**
@@ -341,62 +246,6 @@ public abstract class AbstractModel implements Model {
 	}
 	
 	/**
-	 * Returns the order of the model.
-	 * 
-	 * @return the order of the model
-	 */
-	@Override
-	public int getOrder() {
-		return this.order;
-	}
-	
-	/**
-	 * Sets the order of the model. Property name : {@link Model#PROP_ORDER}
-	 * 
-	 * @param order
-	 *            the order of the model
-	 */
-	@Override
-	public void setOrder(int order) {
-		if (!this.checkBeforeSet(this.getOrder(), order))
-			return;
-		
-		int oldOrder = this.order;
-		this.order = order;
-		this.updateProperty(PROP_ORDER, oldOrder, order);
-	}
-	
-	/**
-	 * Returns the properties of the model.
-	 * 
-	 * @return the properties of the model
-	 */
-	@Override
-	public PropertyMap getProperties() {
-		return this.properties;
-	}
-	
-	/**
-	 * Sets the properties of the model.
-	 * 
-	 * @param properties
-	 *            the properties of the model
-	 */
-	private void setProperties(PropertyMap properties) {
-		CheckUtils.isNotNull(properties);
-		this.properties = properties;
-	}
-	
-	public void addProperties(Properties properties) {
-		if (properties == null)
-			return;
-		
-		for (Object key : properties.keySet()) {
-			this.properties.put(key, properties.get(key));
-		}
-	}
-	
-	/**
 	 * Performs some checks before a set method. To call at the beginning of
 	 * each set method.
 	 */
@@ -534,8 +383,6 @@ public abstract class AbstractModel implements Model {
 			Model model = (Model) o;
 			
 			return new EqualsBuilder().append(
-					this.getModelType(),
-					model.getModelType()).append(
 					this.getModelId(),
 					model.getModelId()).isEquals();
 		}
@@ -558,7 +405,7 @@ public abstract class AbstractModel implements Model {
 	}
 	
 	@Override
-	public int compareTo(Model model) {
+	public int compareTo(BasicModel model) {
 		if (model == null)
 			return 1;
 		
