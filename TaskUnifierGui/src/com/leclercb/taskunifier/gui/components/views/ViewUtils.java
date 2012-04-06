@@ -62,6 +62,7 @@ public final class ViewUtils {
 			if (view.getFrameId() == FrameUtils.getCurrentFrameView().getFrameId()) {
 				if (view.getViewType() == viewType) {
 					ViewList.getInstance().setCurrentView(view);
+					return;
 				}
 			}
 		}
@@ -69,6 +70,7 @@ public final class ViewUtils {
 		for (ViewItem view : ViewList.getInstance().getViews()) {
 			if (view.getViewType() == viewType) {
 				ViewList.getInstance().setCurrentView(view);
+				return;
 			}
 		}
 		

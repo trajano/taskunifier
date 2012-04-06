@@ -221,6 +221,11 @@ public final class TaskSnoozeList implements ListEventSupported<SnoozeItem>, Sav
 		}
 		
 		@Override
+		public String toString() {
+			return this.getLabel();
+		}
+		
+		@Override
 		public void addPropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.addPropertyChangeListener(listener);
 		}

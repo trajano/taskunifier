@@ -226,6 +226,11 @@ public final class TaskPostponeList implements ListEventSupported<PostponeItem>,
 		}
 		
 		@Override
+		public String toString() {
+			return this.getLabel();
+		}
+		
+		@Override
 		public void addPropertyChangeListener(PropertyChangeListener listener) {
 			this.propertyChangeSupport.addPropertyChangeListener(listener);
 		}
