@@ -79,7 +79,7 @@ public class AboutDialog extends JDialog {
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		AboutPanel aboutPanel = new AboutPanel();
-		aboutPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		aboutPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add(aboutPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();

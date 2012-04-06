@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.batchaddtask;
+package com.leclercb.taskunifier.gui.components.batchaddtasks;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -47,18 +47,18 @@ import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class BatchAddTaskDialog extends JDialog {
+public class BatchAddTasksDialog extends JDialog {
 	
-	private static BatchAddTaskDialog INSTANCE;
+	private static BatchAddTasksDialog INSTANCE;
 	
-	public static BatchAddTaskDialog getInstance() {
+	public static BatchAddTasksDialog getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new BatchAddTaskDialog();
+			INSTANCE = new BatchAddTasksDialog();
 		
 		return INSTANCE;
 	}
 	
-	private BatchAddTaskDialog() {
+	private BatchAddTasksDialog() {
 		this.initialize();
 	}
 	
@@ -84,8 +84,8 @@ public class BatchAddTaskDialog extends JDialog {
 		header.setDescription(Translations.getString("batch_add_tasks.insert_task_titles"));
 		header.setIcon(ImageUtils.getResourceImage("batch.png", 32, 32));
 		
-		final BatchAddTaskPanel batchPanel = new BatchAddTaskPanel();
-		batchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		final BatchAddTasksPanel batchPanel = new BatchAddTasksPanel();
+		batchPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(batchPanel, BorderLayout.CENTER);
@@ -103,7 +103,7 @@ public class BatchAddTaskDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BatchAddTaskDialog.this.setVisible(false);
+				BatchAddTasksDialog.this.setVisible(false);
 			}
 			
 		});

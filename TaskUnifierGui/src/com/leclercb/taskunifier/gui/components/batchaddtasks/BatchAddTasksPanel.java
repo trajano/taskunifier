@@ -30,7 +30,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.gui.components.batchaddtask;
+package com.leclercb.taskunifier.gui.components.batchaddtasks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +58,7 @@ import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 
-public class BatchAddTaskPanel extends JPanel implements ActionSupported {
+public class BatchAddTasksPanel extends JPanel implements ActionSupported {
 	
 	public static final String ACTION_OK = "ACTION_OK";
 	public static final String ACTION_CANCEL = "ACTION_CANCEL";
@@ -71,7 +71,7 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 	private JTextArea titlesTextArea;
 	private JComboBox templateComboBox;
 	
-	public BatchAddTaskPanel() {
+	public BatchAddTasksPanel() {
 		this.actionSupport = new ActionSupport(this);
 		this.initialize();
 	}
@@ -112,9 +112,9 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getActionCommand().equals("OK")) {
-					BatchAddTaskPanel.this.actionOk();
+					BatchAddTasksPanel.this.actionOk();
 				} else {
-					BatchAddTaskPanel.this.actionCancel();
+					BatchAddTasksPanel.this.actionCancel();
 				}
 			}
 			
@@ -132,21 +132,19 @@ public class BatchAddTaskPanel extends JPanel implements ActionSupported {
 		String titles = this.titlesTextArea.getText();
 		TaskTemplate template = (TaskTemplate) this.templateComboBox.getSelectedItem();
 		
-		if (titles == null || titles.length() == 0)
-			return;
+		if (titles != null && titles.trim().length() != 0) {
+			String[] titleArray = titles.trim().split("\n");
+			ActionBatchAddTasks.batchAddTasks(template, titleArray);
+		}
 		
-		String[] titleArray = titles.split("\n");
-		
-		ActionBatchAddTasks.batchAddTasks(template, titleArray);
-		
-		BatchAddTaskPanel.this.titlesTextArea.setText(null);
-		BatchAddTaskPanel.this.templateComboBox.setSelectedItem(null);
+		BatchAddTasksPanel.this.titlesTextArea.setText(null);
+		BatchAddTasksPanel.this.templateComboBox.setSelectedItem(null);
 		this.actionSupport.fireActionPerformed(0, ACTION_OK);
 	}
 	
 	public void actionCancel() {
-		BatchAddTaskPanel.this.titlesTextArea.setText(null);
-		BatchAddTaskPanel.this.templateComboBox.setSelectedItem(null);
+		BatchAddTasksPanel.this.titlesTextArea.setText(null);
+		BatchAddTasksPanel.this.templateComboBox.setSelectedItem(null);
 		this.actionSupport.fireActionPerformed(0, ACTION_CANCEL);
 	}
 	
