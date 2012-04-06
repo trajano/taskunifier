@@ -37,6 +37,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -75,16 +76,19 @@ public class TaskSearcherEditDialog extends JDialog {
 		header.setTitle(Translations.getString("header.title.edit_searcher"));
 		header.setDescription(Translations.getString("header.description.edit_searcher"));
 		header.setIcon(ImageUtils.getResourceImage("search.png", 32, 32));
+		this.add(header, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.add(panel, BorderLayout.CENTER);
 		
 		this.searcherEditPanel = new TaskSearcherEditPanel(searcher);
+		panel.add(this.searcherEditPanel, BorderLayout.CENTER);
 		
-		this.add(header, BorderLayout.NORTH);
-		this.add(this.searcherEditPanel, BorderLayout.CENTER);
-		
-		this.initializeButtonsPanel();
+		this.initializeButtonsPanel(panel);
 	}
 	
-	private void initializeButtonsPanel() {
+	private void initializeButtonsPanel(JPanel panel) {
 		ActionListener listener = new ActionListener() {
 			
 			@Override
@@ -100,11 +104,11 @@ public class TaskSearcherEditDialog extends JDialog {
 		
 		JButton okButton = new TUOkButton(listener);
 		
-		JPanel panel = new TUButtonsPanel(
+		JPanel buttonsPanel = new TUButtonsPanel(
 				Help.getHelpButton("task_searcher"),
 				okButton);
 		
-		this.add(panel, BorderLayout.SOUTH);
+		panel.add(buttonsPanel, BorderLayout.SOUTH);
 	}
 	
 }

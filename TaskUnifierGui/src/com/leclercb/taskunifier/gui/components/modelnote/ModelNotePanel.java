@@ -48,12 +48,18 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ModelNotePanel extends JPanel implements ModelNoteView, ModelSelectionListener {
 	
-	private HTMLEditorInterface htmlEditorPane;
+	private WysiwygHTMLEditorPane htmlEditorPane;
 	private ModelNote previousSelectedModel;
 	
 	public ModelNotePanel(String propertyName) {
 		this.previousSelectedModel = null;
 		this.initialize(propertyName);
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.htmlEditorPane.setEnabled(enabled);
+		super.setEnabled(enabled);
 	}
 	
 	@Override

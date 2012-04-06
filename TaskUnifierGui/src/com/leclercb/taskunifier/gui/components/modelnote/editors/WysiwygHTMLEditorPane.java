@@ -71,6 +71,14 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	}
 	
 	@Override
+	public void setEnabled(boolean enabled) {
+		this.toolBar.setEnabled(enabled);
+		this.htmlNote.setEnabled(enabled);
+		
+		super.setEnabled(enabled);
+	}
+	
+	@Override
 	public String getText() {
 		return HTML2Text.convert(this.htmlNote.getText());
 	}
