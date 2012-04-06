@@ -80,7 +80,7 @@ public class TaskFilesPanel extends JPanel implements TaskFilesView, ModelSelect
 		
 		this.toolBar.add(this.addAction);
 		this.toolBar.add(this.removeAction);
-		this.toolBar.add(Help.getHelpButton("task_files"));
+		this.toolBar.add(Help.getInstance().getHelpButton("task_files"));
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.table, false),

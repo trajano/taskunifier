@@ -200,7 +200,7 @@ abstract class TaskTemplateList extends JPanel {
 		JPanel panel = new TUButtonsPanel(
 				this.addButton,
 				this.removeButton,
-				Help.getHelpButton("manage_task_templates"),
+				Help.getInstance().getHelpButton("manage_task_templates"),
 				this.defaultButton);
 		
 		this.add(panel, BorderLayout.SOUTH);

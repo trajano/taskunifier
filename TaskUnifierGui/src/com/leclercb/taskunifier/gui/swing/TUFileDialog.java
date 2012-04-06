@@ -83,7 +83,7 @@ public class TUFileDialog extends JDialog {
 	private void initialize(boolean open, String title) {
 		this.setModal(true);
 		this.setTitle(title);
-		this.setSize(400, 150);
+		this.setSize(600, 150);
 		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);

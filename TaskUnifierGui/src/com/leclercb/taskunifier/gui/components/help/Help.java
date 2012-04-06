@@ -32,9 +32,9 @@
  */
 package com.leclercb.taskunifier.gui.components.help;
 
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
+import java.util.logging.Level;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
@@ -47,32 +47,37 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public final class Help {
 	
-	public static final Help DEFAULT_HELP = new Help();
+	private static final String DEFAULT_ID = "taskunifier";
+	
+	private static Help INSTANCE;
+	
+	public static Help getInstance() {
+		if (INSTANCE == null) {
+			try {
+				File file = new File(Main.getResourcesFolder()
+						+ File.separator
+						+ "help"
+						+ File.separator
+						+ "help.xml");
+				
+				INSTANCE = new Help(file.toURI().toURL());
+			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Cannot load default help set",
+						e);
+			}
+		}
+		
+		return INSTANCE;
+	}
 	
 	private HelpSet helpSet;
 	private HelpBroker helpBroker;
 	
-	private Help() {
-		try {
-			File file = new File(Main.getResourcesFolder()
-					+ File.separator
-					+ "help"
-					+ File.separator
-					+ "help.xml");
-			this.helpSet = new HelpSet(null, file.toURI().toURL());
-			this.helpBroker = this.helpSet.createHelpBroker();
-		} catch (Exception e) {
-			GuiLogger.getLogger().warning("Cannot load default help set");
-		}
-	}
-	
-	public Help(URL url) {
-		try {
-			this.helpSet = new HelpSet(null, url);
-			this.helpBroker = this.helpSet.createHelpBroker();
-		} catch (Exception e) {
-			GuiLogger.getLogger().warning("Cannot load help set: " + url);
-		}
+	public Help(URL url) throws Exception {
+		this.helpSet = new HelpSet(null, url);
+		this.helpBroker = this.helpSet.createHelpBroker();
 	}
 	
 	public HelpSet getHelpSet() {
@@ -83,19 +88,18 @@ public final class Help {
 		return this.helpBroker;
 	}
 	
-	public static void showHelpDialog(String id) {
-		showHelpDialog(DEFAULT_HELP.getHelpBroker(), id);
-	}
-	
-	public static void showHelpDialog(HelpBroker hb, String id) {
+	public void showHelpDialog(String id) {
 		if (id == null)
-			id = "taskunifier";
+			id = DEFAULT_ID;
 		
-		hb.setCurrentID(id);
-		hb.setDisplayed(true);
+		this.helpBroker.setCurrentID(id);
+		this.helpBroker.setDisplayed(true);
 	}
 	
-	private static JButton getHelpButton() {
+	public JButton getHelpButton(String id) {
+		if (id == null)
+			id = DEFAULT_ID;
+		
 		JButton button = new JButton(ImageUtils.getResourceImage(
 				"help.png",
 				16,
@@ -103,37 +107,16 @@ public final class Help {
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
 		
-		return button;
-	}
-	
-	public static JButton getHelpButton(String id) {
-		return getHelpButton(DEFAULT_HELP.getHelpBroker(), id);
-	}
-	
-	public static JButton getHelpButton(HelpBroker hb, String id) {
-		if (id == null)
-			return null;
-		
-		JButton button = getHelpButton();
-		
-		if (hb != null) {
-			CSH.setHelpIDString(button, id);
-			ActionListener listener = null;
-			listener = new CSH.DisplayHelpFromSource(hb);
-			button.addActionListener(listener);
-		}
+		CSH.setHelpIDString(button, id);
+		button.addActionListener(new CSH.DisplayHelpFromSource(this.helpBroker));
 		
 		return button;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		HelpSet hs = new HelpSet(
-				null,
+		Help help = new Help(
 				new File("resources/help/help.xml").toURI().toURL());
-		HelpBroker hb = hs.createHelpBroker();
-		
-		hb.setCurrentID("taskunifier");
-		hb.setDisplayed(true);
+		help.showHelpDialog(null);
 	}
 	
 }

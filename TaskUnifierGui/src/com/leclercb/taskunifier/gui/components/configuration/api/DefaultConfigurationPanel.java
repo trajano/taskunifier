@@ -81,7 +81,10 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 			ConfigurationGroup configurationGroup,
 			boolean showAfterRestart,
 			String helpId) {
-		this(configurationGroup, showAfterRestart, Help.getHelpButton(helpId));
+		this(
+				configurationGroup,
+				showAfterRestart,
+				Help.getInstance().getHelpButton(helpId));
 	}
 	
 	public DefaultConfigurationPanel(

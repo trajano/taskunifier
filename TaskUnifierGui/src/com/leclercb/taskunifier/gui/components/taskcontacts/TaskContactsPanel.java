@@ -92,7 +92,7 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 				16,
 				16,
 				ModelConfigurationTab.CONTACTS));
-		this.toolBar.add(Help.getHelpButton("task_contacts"));
+		this.toolBar.add(Help.getInstance().getHelpButton("task_contacts"));
 		
 		this.add(
 				ComponentFactory.createJScrollPane(this.table, false),

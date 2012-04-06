@@ -88,11 +88,11 @@ public final class PluginApi {
 	}
 	
 	public static void addHelpSet(HelpSet helpSet) {
-		Help.DEFAULT_HELP.getHelpSet().add(helpSet);
+		Help.getInstance().getHelpSet().add(helpSet);
 	}
 	
 	public static void removeHelpSet(HelpSet helpSet) {
-		Help.DEFAULT_HELP.getHelpSet().remove(helpSet);
+		Help.getInstance().getHelpSet().remove(helpSet);
 	}
 	
 }

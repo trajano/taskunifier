@@ -105,7 +105,7 @@ public class TaskSearcherEditDialog extends JDialog {
 		JButton okButton = new TUOkButton(listener);
 		
 		JPanel buttonsPanel = new TUButtonsPanel(
-				Help.getHelpButton("task_searcher"),
+				Help.getInstance().getHelpButton("task_searcher"),
 				okButton);
 		
 		panel.add(buttonsPanel, BorderLayout.SOUTH);

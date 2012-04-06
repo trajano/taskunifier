@@ -128,7 +128,7 @@ public class TaskTasksPanel extends JPanel implements TaskTasksView, ModelSelect
 		this.toolBar.add(this.addAction);
 		this.toolBar.add(this.removeAction);
 		this.toolBar.add(this.lockedAction);
-		this.toolBar.add(Help.getHelpButton("task_tasks"));
+		this.toolBar.add(Help.getInstance().getHelpButton("task_tasks"));
 		
 		this.add(this.label, BorderLayout.NORTH);
 		this.add(

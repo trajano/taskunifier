@@ -100,9 +100,8 @@ public class NoteSearcherEditDialog extends JDialog {
 		
 		JButton okButton = new TUOkButton(listener);
 		
-		JPanel panel = new TUButtonsPanel(
-				Help.getHelpButton("note_searcher"),
-				okButton);
+		JPanel panel = new TUButtonsPanel(Help.getInstance().getHelpButton(
+				"note_searcher"), okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 	}

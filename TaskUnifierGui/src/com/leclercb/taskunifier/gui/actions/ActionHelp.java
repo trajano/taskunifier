@@ -56,7 +56,7 @@ public class ActionHelp extends AbstractAction {
 	}
 	
 	public static void help(String id) {
-		Help.showHelpDialog(id);
+		Help.getInstance().showHelpDialog(id);
 	}
 	
 }
