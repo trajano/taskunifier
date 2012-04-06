@@ -49,17 +49,29 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F extends Filter<M, MP, F, FE>, FE extends FilterElement<M, MP, F>> implements ListChangeListener, PropertyChangeListener, ListChangeSupported, PropertyChangeSupported {
 	
 	public static final String PROP_LINK = "link";
 	
-	private ListChangeSupport listChangeSupport;
-	private PropertyChangeSupport propertyChangeSupport;
+	@XStreamOmitField
+	private transient ListChangeSupport listChangeSupport;
 	
-	private F parent;
+	@XStreamOmitField
+	private transient PropertyChangeSupport propertyChangeSupport;
+	
+	@XStreamOmitField
+	private transient F parent;
+	
+	@XStreamAlias("link")
 	private FilterLink link;
+	
+	@XStreamAlias("filters")
 	private List<F> filters;
+	
+	@XStreamAlias("elements")
 	private List<FE> elements;
 	
 	public Filter() {
@@ -141,7 +153,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public void clearElement() {
-		List<FE> elements = new ArrayList<FE>(this.elements);
+		List<FE> elements = this.getElements();
 		for (FE element : elements) {
 			this.removeElement(element);
 		}
@@ -198,7 +210,7 @@ public abstract class Filter<M extends Model, MP extends ModelProperties<M>, F e
 	}
 	
 	public void clearFilters() {
-		List<F> filters = new ArrayList<F>(this.filters);
+		List<F> filters = this.getFilters();
 		for (F filter : filters) {
 			this.removeFilter(filter);
 		}

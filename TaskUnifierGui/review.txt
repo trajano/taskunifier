@@ -1,6 +1,7 @@
 actions
 api.models
 api.plugins
+api.searchers.filters
 api.synchronizer
 commons.converters
 commons.events

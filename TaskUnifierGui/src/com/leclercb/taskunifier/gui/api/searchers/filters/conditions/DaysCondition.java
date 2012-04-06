@@ -67,7 +67,10 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 	}
 	
 	@Override
-	public boolean include(Integer value, Calendar taskValue) {
+	public boolean include(Object objectValue, Object objectTaskValue) {
+		Integer value = (Integer) objectValue;
+		Calendar taskValue = (Calendar) objectTaskValue;
+		
 		if (value == null && taskValue == null) {
 			switch (this) {
 				case EQUALS:

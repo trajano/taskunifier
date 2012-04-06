@@ -55,7 +55,10 @@ public enum ModelCondition implements Condition<Model, Object> {
 	}
 	
 	@Override
-	public boolean include(Model value, Object taskValue) {
+	public boolean include(Object objectValue, Object objectTaskValue) {
+		Model value = (Model) objectValue;
+		Object taskValue = objectTaskValue;
+		
 		if (taskValue != null
 				&& !(taskValue instanceof Model)
 				&& !(taskValue instanceof ModelList<?>)) {

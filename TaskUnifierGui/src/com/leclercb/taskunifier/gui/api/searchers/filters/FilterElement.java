@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.api.searchers.filters;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.leclercb.commons.api.event.propertychange.PropertyChangeSupport;
@@ -43,14 +42,10 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.gui.api.models.properties.ModelProperties;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.NumberCondition;
-import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
 import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public abstract class FilterElement<M extends Model, MP extends ModelProperties<M>, F extends Filter<M, MP, F, ? extends FilterElement<M, MP, F>>> implements PropertyChangeSupported {
 	
@@ -58,12 +53,20 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	public static final String PROP_CONDITION = "condition";
 	public static final String PROP_VALUE = "value";
 	
-	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+	@XStreamOmitField
+	private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
 	
-	private F parent;
+	@XStreamOmitField
+	private transient F parent;
+	
+	@XStreamAlias("property")
 	private MP property;
+	
+	@XStreamAlias("condition")
 	private Condition<?, ?> condition;
+	
+	@XStreamAlias("value")
 	private Object value;
 	
 	public FilterElement(MP property, Condition<?, ?> condition, Object value) {
@@ -146,28 +149,7 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	
 	public boolean include(M model) {
 		Object taskValue = this.property.getProperty(model);
-		
-		if (this.condition instanceof CalendarCondition) {
-			CalendarCondition c = (CalendarCondition) this.condition;
-			return c.include((Calendar) this.value, (Calendar) taskValue);
-		} else if (this.condition instanceof DaysCondition) {
-			DaysCondition c = (DaysCondition) this.condition;
-			return c.include((Integer) this.value, (Calendar) taskValue);
-		} else if (this.condition instanceof EnumCondition) {
-			EnumCondition c = (EnumCondition) this.condition;
-			return c.include((Enum<?>) this.value, (Enum<?>) taskValue);
-		} else if (this.condition instanceof ModelCondition) {
-			ModelCondition c = (ModelCondition) this.condition;
-			return c.include((Model) this.value, taskValue);
-		} else if (this.condition instanceof NumberCondition) {
-			NumberCondition c = (NumberCondition) this.condition;
-			return c.include((Number) this.value, (Number) taskValue);
-		} else if (this.condition instanceof StringCondition) {
-			StringCondition c = (StringCondition) this.condition;
-			return c.include((String) this.value, taskValue);
-		}
-		
-		return false;
+		return this.condition.include(this.value, taskValue);
 	}
 	
 	@Override

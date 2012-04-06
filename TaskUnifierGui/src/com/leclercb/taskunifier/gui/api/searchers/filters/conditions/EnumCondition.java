@@ -56,7 +56,10 @@ public enum EnumCondition implements Condition<Enum<?>, Enum<?>> {
 	}
 	
 	@Override
-	public boolean include(Enum<?> value, Enum<?> taskValue) {
+	public boolean include(Object objectValue, Object objectTaskValue) {
+		Enum<?> value = (Enum<?>) objectValue;
+		Enum<?> taskValue = (Enum<?>) objectTaskValue;
+		
 		if (value == null && taskValue == null) {
 			switch (this) {
 				case EQUALS:

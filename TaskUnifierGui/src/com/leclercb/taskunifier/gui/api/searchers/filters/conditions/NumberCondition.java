@@ -56,7 +56,10 @@ public enum NumberCondition implements Condition<Number, Number> {
 	}
 	
 	@Override
-	public boolean include(Number value, Number taskValue) {
+	public boolean include(Object objectValue, Object objectTaskValue) {
+		Number value = (Number) objectValue;
+		Number taskValue = (Number) objectTaskValue;
+		
 		if (value == null && taskValue == null) {
 			switch (this) {
 				case EQUALS:

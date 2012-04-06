@@ -40,6 +40,6 @@ public interface Condition<ValueType, TaskValueType> {
 	
 	public abstract String name();
 	
-	public abstract boolean include(ValueType value, TaskValueType taskValue);
+	public abstract boolean include(Object value, Object taskValue);
 	
 }

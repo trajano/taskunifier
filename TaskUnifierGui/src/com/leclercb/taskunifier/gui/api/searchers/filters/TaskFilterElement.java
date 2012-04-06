@@ -88,7 +88,8 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 		if (this.getValue() != null
 				&& this.getCondition() instanceof DaysCondition) {
 			try {
-				if (this.getCondition() == DaysCondition.WEEK_EQUALS) {
+				if (this.getCondition() == DaysCondition.WEEK_EQUALS
+						|| this.getCondition() == DaysCondition.WEEK_NOT_EQUALS) {
 					Calendar c1 = Calendar.getInstance();
 					Calendar c2 = Calendar.getInstance();
 					
@@ -102,7 +103,8 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 							" (%1s - %2s)",
 							StringValueCalendar.INSTANCE_DATE.getString(c1),
 							StringValueCalendar.INSTANCE_DATE.getString(c2));
-				} else if (this.getCondition() == DaysCondition.MONTH_EQUALS) {
+				} else if (this.getCondition() == DaysCondition.MONTH_EQUALS
+						|| this.getCondition() == DaysCondition.MONTH_NOT_EQUALS) {
 					Calendar c1 = Calendar.getInstance();
 					Calendar c2 = Calendar.getInstance();
 					

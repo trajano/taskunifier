@@ -56,7 +56,10 @@ public enum StringCondition implements Condition<String, Object> {
 	}
 	
 	@Override
-	public boolean include(String value, Object taskValue) {
+	public boolean include(Object objectValue, Object objectTaskValue) {
+		String value = (String) objectValue;
+		String taskValue = (String) objectTaskValue;
+		
 		if (value == null)
 			value = "";
 		
