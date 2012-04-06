@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -64,12 +63,14 @@ public class ActionAddTaskSearcher extends AbstractViewAction {
 	}
 	
 	public static void addTaskSearcher() {
+		TaskSearcher defaultTaskSearcher = Constants.getDefaultTaskSearcher();
+		
 		TaskSearcher searcher = TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.PERSONAL,
 				Integer.MAX_VALUE,
 				Translations.getString("searcher.default.title"),
-				new TaskFilter(),
-				Constants.getDefaultTaskSorter());
+				defaultTaskSearcher.getFilter(),
+				defaultTaskSearcher.getSorter());
 		
 		ViewType type = ViewUtils.getCurrentViewType();
 		

@@ -119,6 +119,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	}
 	
 	private void initialize() {
+		this.setModal(true);
 		this.setTitle(Translations.getString("general.configuration"));
 		this.setSize(900, 700);
 		this.setResizable(true);

@@ -56,12 +56,19 @@ public class NoteSearcherEditDialog extends JDialog {
 	private NoteSearcherEditPanel searcherEditPanel;
 	
 	public NoteSearcherEditDialog(Frame frame, NoteSearcher searcher) {
-		super(frame);
-		
-		this.initialize(searcher);
+		this(frame, searcher, true);
 	}
 	
-	private void initialize(NoteSearcher searcher) {
+	public NoteSearcherEditDialog(
+			Frame frame,
+			NoteSearcher searcher,
+			boolean showInfoPanel) {
+		super(frame);
+		
+		this.initialize(searcher, showInfoPanel);
+	}
+	
+	private void initialize(NoteSearcher searcher, boolean showInfoPanel) {
 		this.setModal(true);
 		this.setTitle(Translations.getString("searcheredit.title"));
 		this.setSize(700, 500);
@@ -76,7 +83,9 @@ public class NoteSearcherEditDialog extends JDialog {
 		header.setDescription(Translations.getString("header.description.edit_searcher"));
 		header.setIcon(ImageUtils.getResourceImage("search.png", 32, 32));
 		
-		this.searcherEditPanel = new NoteSearcherEditPanel(searcher);
+		this.searcherEditPanel = new NoteSearcherEditPanel(
+				searcher,
+				showInfoPanel);
 		
 		this.add(header, BorderLayout.NORTH);
 		this.add(this.searcherEditPanel, BorderLayout.CENTER);

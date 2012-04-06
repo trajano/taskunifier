@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.StringCondition;
@@ -75,11 +76,15 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 		final TaskTemplate template = new TaskTemplate("TagTemplate");
 		template.setTaskTags(this.getTag().toString());
 		
+		TaskSearcher defaultTaskSearcher = Constants.getDefaultTaskSearcher();
+		
 		TaskFilter filter = new TaskFilter();
+		filter.setLink(FilterLink.AND);
 		filter.addElement(new TaskFilterElement(
 				TaskColumn.TAGS,
 				StringCondition.CONTAINS,
 				this.getTag().toString()));
+		filter.addFilter(defaultTaskSearcher.getFilter());
 		
 		this.searcher = new TaskSearcher(
 				TaskSearcherType.TAG,
@@ -87,7 +92,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 				this.getTag().toString(),
 				null,
 				filter,
-				Constants.getDefaultTaskSorter(),
+				defaultTaskSearcher.getSorter(),
 				template);
 	}
 	

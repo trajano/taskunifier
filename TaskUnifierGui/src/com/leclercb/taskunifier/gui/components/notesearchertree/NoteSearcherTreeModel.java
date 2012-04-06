@@ -107,8 +107,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 	}
 	
 	private void initializeDefaultSearcher() {
-		this.defaultSearcher = new SearcherItem(
-				Constants.getDefaultNoteSearcher());
+		this.defaultSearcher = new SearcherItem(Constants.getMainNoteSearcher());
 		((DefaultMutableTreeNode) this.getRoot()).add(this.defaultSearcher);
 	}
 	

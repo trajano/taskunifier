@@ -58,13 +58,13 @@ public class TaskSearcherEditPanel extends JPanel implements TreeSelectionListen
 	private TaskSorterPanel sorterPanel;
 	private TaskFilterPanel filterPanel;
 	
-	public TaskSearcherEditPanel(TaskSearcher searcher) {
+	public TaskSearcherEditPanel(TaskSearcher searcher, boolean showInfoPanel) {
 		this.searcher = searcher;
 		
-		this.initialize();
+		this.initialize(showInfoPanel);
 	}
 	
-	private void initialize() {
+	private void initialize(boolean showInfoPanel) {
 		this.setLayout(new BorderLayout());
 		
 		this.searcherPanel = new TaskSearcherPanel(this.searcher);
@@ -85,9 +85,11 @@ public class TaskSearcherEditPanel extends JPanel implements TreeSelectionListen
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		tabbedPane.addTab(
-				Translations.getString("searcheredit.tab.general"),
-				this.searcherPanel);
+		if (showInfoPanel) {
+			tabbedPane.addTab(
+					Translations.getString("searcheredit.tab.general"),
+					this.searcherPanel);
+		}
 		
 		tabbedPane.addTab(
 				Translations.getString("searcheredit.tab.sorter"),

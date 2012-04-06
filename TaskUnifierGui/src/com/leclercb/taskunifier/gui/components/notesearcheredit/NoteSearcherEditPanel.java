@@ -58,13 +58,13 @@ public class NoteSearcherEditPanel extends JPanel implements TreeSelectionListen
 	private NoteSorterPanel sorterPanel;
 	private NoteFilterPanel filterPanel;
 	
-	public NoteSearcherEditPanel(NoteSearcher searcher) {
+	public NoteSearcherEditPanel(NoteSearcher searcher, boolean showInfoPanel) {
 		this.searcher = searcher;
 		
-		this.initialize();
+		this.initialize(showInfoPanel);
 	}
 	
-	private void initialize() {
+	private void initialize(boolean showInfoPanel) {
 		this.setLayout(new BorderLayout());
 		
 		this.searcherPanel = new NoteSearcherPanel(this.searcher);
@@ -85,9 +85,11 @@ public class NoteSearcherEditPanel extends JPanel implements TreeSelectionListen
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		tabbedPane.addTab(
-				Translations.getString("searcheredit.tab.general"),
-				this.searcherPanel);
+		if (showInfoPanel) {
+			tabbedPane.addTab(
+					Translations.getString("searcheredit.tab.general"),
+					this.searcherPanel);
+		}
 		
 		tabbedPane.addTab(
 				Translations.getString("searcheredit.tab.sorter"),

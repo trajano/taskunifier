@@ -65,6 +65,11 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		TaskSearcher defaultTaskSearcher = Constants.getDefaultTaskSearcher();
+		
+		TaskFilter mainFilter = new TaskFilter();
+		mainFilter.setLink(FilterLink.AND);
+		
 		TaskFilter filter = new TaskFilter();
 		filter.setLink(FilterLink.OR);
 		
@@ -76,12 +81,15 @@ public class ActionAddTaskSearcherSelectedTasks extends AbstractViewAction {
 					task));
 		}
 		
+		mainFilter.addFilter(filter);
+		mainFilter.addFilter(defaultTaskSearcher.getFilter());
+		
 		TaskSearcher searcher = TaskSearcherFactory.getInstance().create(
 				TaskSearcherType.PERSONAL,
 				Integer.MAX_VALUE,
 				Translations.getString("searcher.default.title"),
-				filter,
-				Constants.getDefaultTaskSorter());
+				mainFilter,
+				defaultTaskSearcher.getSorter());
 		
 		ViewType type = ViewUtils.getCurrentViewType();
 		

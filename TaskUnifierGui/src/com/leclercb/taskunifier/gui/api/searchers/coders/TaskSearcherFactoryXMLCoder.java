@@ -42,19 +42,12 @@ import org.w3c.dom.NodeList;
 import com.leclercb.commons.api.coder.AbstractFactoryXMLCoder;
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.api.models.ModelId;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
-import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
-import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.filters.TaskFilter;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.TaskSorter;
 
 public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 	
-	private static final TaskSorterXMLCoder TASK_SORTER_XML_CODER = new TaskSorterXMLCoder();
-	private static final TaskFilterXMLCoder TASK_FILTER_XML_CODER = new TaskFilterXMLCoder();
+	private static final TaskSearcherXMLCoder TASK_SEARCHER_XML_CODER = new TaskSearcherXMLCoder();
 	
 	public TaskSearcherFactoryXMLCoder() {
 		super("tasksearchers");
@@ -73,76 +66,11 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				
 				Node nTaskSearcher = nTaskSearchers.item(i);
 				
-				this.decodeTaskSearcher(nTaskSearcher);
+				TASK_SEARCHER_XML_CODER.decode(nTaskSearcher);
 			}
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);
 		}
-	}
-	
-	private void decodeTaskSearcher(Node node) throws FactoryCoderException {
-		try {
-			NodeList nSearcher = node.getChildNodes();
-			
-			TaskSearcherType type = TaskSearcherType.PERSONAL;
-			int order = 0;
-			String title = null;
-			String icon = null;
-			TaskFilter filter = null;
-			TaskSorter sorter = null;
-			TaskTemplate template = null;
-			
-			for (int i = 0; i < nSearcher.getLength(); i++) {
-				if (nSearcher.item(i).getNodeName().equals("type")) {
-					type = TaskSearcherType.valueOf(nSearcher.item(i).getTextContent());
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("order")) {
-					order = Integer.parseInt(nSearcher.item(i).getTextContent());
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("title")) {
-					title = nSearcher.item(i).getTextContent();
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("icon")) {
-					if (nSearcher.item(i).getTextContent().length() != 0)
-						icon = nSearcher.item(i).getTextContent();
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("sorter")) {
-					sorter = this.decodeTaskSorter(nSearcher.item(i));
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("filter")) {
-					filter = this.decodeTaskFilter(nSearcher.item(i));
-				}
-				
-				if (nSearcher.item(i).getNodeName().equals("template")) {
-					template = TaskTemplateFactory.getInstance().get(
-							new ModelId(nSearcher.item(i).getTextContent()));
-				}
-			}
-			
-			TaskSearcherFactory.getInstance().create(
-					type,
-					order,
-					title,
-					icon,
-					filter,
-					sorter,
-					template);
-		} catch (Exception e) {
-			throw new FactoryCoderException(e.getMessage(), e);
-		}
-	}
-	
-	private TaskSorter decodeTaskSorter(Node node) throws FactoryCoderException {
-		return TASK_SORTER_XML_CODER.decode(node);
-	}
-	
-	private TaskFilter decodeTaskFilter(Node node) throws FactoryCoderException {
-		return TASK_FILTER_XML_CODER.decode(node);
 	}
 	
 	@Override
@@ -153,51 +81,8 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 			Element searcher = document.createElement("searcher");
 			root.appendChild(searcher);
 			
-			Element type = document.createElement("type");
-			type.setTextContent(taskSearcher.getType().name());
-			searcher.appendChild(type);
-			
-			Element order = document.createElement("order");
-			order.setTextContent(taskSearcher.getOrder() + "");
-			searcher.appendChild(order);
-			
-			Element title = document.createElement("title");
-			title.setTextContent(taskSearcher.getTitle());
-			searcher.appendChild(title);
-			
-			Element icon = document.createElement("icon");
-			icon.setTextContent(taskSearcher.getIcon());
-			searcher.appendChild(icon);
-			
-			Element sorter = document.createElement("sorter");
-			searcher.appendChild(sorter);
-			
-			Element filter = document.createElement("filter");
-			searcher.appendChild(filter);
-			
-			if (taskSearcher.getTemplate() != null) {
-				Element template = document.createElement("template");
-				template.setTextContent(taskSearcher.getTemplate().getModelId().getId());
-				searcher.appendChild(template);
-			}
-			
-			this.encodeTaskSorter(document, sorter, taskSearcher.getSorter());
-			this.encodeTaskFilter(document, filter, taskSearcher.getFilter());
+			TASK_SEARCHER_XML_CODER.encode(document, searcher, taskSearcher);
 		}
-	}
-	
-	private void encodeTaskSorter(
-			Document document,
-			Element root,
-			TaskSorter sorter) {
-		TASK_SORTER_XML_CODER.encode(document, root, sorter);
-	}
-	
-	private void encodeTaskFilter(
-			Document document,
-			Element root,
-			TaskFilter filter) {
-		TASK_FILTER_XML_CODER.encode(document, root, filter);
 	}
 	
 }

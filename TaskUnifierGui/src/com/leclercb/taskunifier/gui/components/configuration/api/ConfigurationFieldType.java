@@ -190,12 +190,16 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		public Button(String label, ActionListener listener) {
 			super(label);
-			this.addActionListener(listener);
+			
+			if (listener != null)
+				this.addActionListener(listener);
 		}
 		
 		public Button(String label, Icon icon, ActionListener listener) {
 			super(label, icon);
-			this.addActionListener(listener);
+			
+			if (listener != null)
+				this.addActionListener(listener);
 		}
 		
 		@Override

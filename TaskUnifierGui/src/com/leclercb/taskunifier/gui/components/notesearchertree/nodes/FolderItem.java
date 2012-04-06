@@ -47,6 +47,7 @@ import com.leclercb.taskunifier.api.models.templates.NoteTemplate;
 import com.leclercb.taskunifier.gui.api.models.GuiModel;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
+import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
@@ -79,11 +80,15 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 		
 		template.setNoteFolder(folder);
 		
+		NoteSearcher defaultNoteSearcher = Constants.getDefaultNoteSearcher();
+		
 		NoteFilter filter = new NoteFilter();
+		filter.setLink(FilterLink.AND);
 		filter.addElement(new NoteFilterElement(
 				NoteColumn.FOLDER,
 				ModelCondition.EQUALS,
 				folder));
+		filter.addFilter(defaultNoteSearcher.getFilter());
 		
 		String title = Translations.getString("searcherlist.none");
 		
@@ -96,7 +101,7 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 				title,
 				null,
 				filter,
-				Constants.getDefaultNoteSorter(),
+				defaultNoteSearcher.getSorter(),
 				template);
 		
 		if (folder != null) {

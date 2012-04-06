@@ -32,47 +32,63 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration.fields.searcher;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.util.logging.Level;
 
 import com.leclercb.commons.api.coder.exc.FactoryCoderException;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.gui.api.searchers.coders.NoteSorterXMLCoder;
-import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
+import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
+import com.leclercb.taskunifier.gui.api.searchers.coders.TaskSearcherXMLCoder;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
-import com.leclercb.taskunifier.gui.components.notesearcheredit.sorter.NoteSorterPanel;
+import com.leclercb.taskunifier.gui.components.tasksearcheredit.TaskSearcherEditDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
+import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
+import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class EditDefaultNoteSorterFieldType extends ConfigurationFieldType.Panel {
+public class EditDefaultTaskSearcherFieldType extends ConfigurationFieldType.Button implements ActionListener {
 	
-	private NoteSorter sorter;
-	private NoteSorterXMLCoder coder;
+	private TaskSearcher searcher;
+	private TaskSearcherXMLCoder coder;
 	
-	public EditDefaultNoteSorterFieldType() {
-		this.sorter = Constants.getDefaultNoteSorter();
-		this.coder = new NoteSorterXMLCoder();
-		this.setPanel(new NoteSorterPanel(this.sorter));
+	public EditDefaultTaskSearcherFieldType() {
+		super(
+				Translations.getString("action.edit_task_searcher"),
+				ImageUtils.getResourceImage("edit.png", 24, 24),
+				null);
+		
+		this.addActionListener(this);
+		
+		this.searcher = Constants.getDefaultTaskSearcher();
+		this.coder = new TaskSearcherXMLCoder();
 	}
 	
 	@Override
-	public void saveAndApplyConfig() {
-		String value = null;
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
+	public void actionPerformed(ActionEvent event) {
+		TaskSearcherEditDialog dialog = new TaskSearcherEditDialog(
+				FrameUtils.getCurrentFrameView().getFrame(),
+				this.searcher,
+				false);
+		
+		dialog.setVisible(true);
 		
 		try {
-			this.coder.encode(output, this.sorter);
-			value = new String(output.toByteArray());
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			this.coder.encode(output, this.searcher);
+			String value = new String(output.toByteArray());
+			
+			Main.getSettings().setStringProperty(
+					"tasksearcher.default_searcher",
+					value);
 		} catch (FactoryCoderException e) {
 			GuiLogger.getLogger().log(
 					Level.SEVERE,
-					"Error while saving default note sorter",
+					"Error while saving default task searcher",
 					e);
 		}
-		
-		Main.getSettings().setStringProperty(
-				"notesearcher.default_sorter",
-				value);
 	}
 	
 }

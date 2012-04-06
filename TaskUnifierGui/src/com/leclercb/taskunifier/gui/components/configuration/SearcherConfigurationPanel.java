@@ -36,8 +36,8 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultNoteSorterFieldType;
-import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultTaskSorterFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultNoteSearcherFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.searcher.EditDefaultTaskSearcherFieldType;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
@@ -50,28 +50,28 @@ public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
 	private void initialize() {
 		this.addField(new ConfigurationField(
-				"TASK_SORTER",
+				"TASK_SEARCHER",
 				null,
 				new ConfigurationFieldType.Label(
-						Translations.getString("configuration.searcher.edit_default_task_sorter"))));
+						Translations.getString("configuration.searcher.edit_default_task_searcher"))));
 		
 		this.addField(new ConfigurationField(
-				"EDIT_DEFAULT_TASK_SORTER",
+				"EDIT_DEFAULT_TASK_SEARCHER",
 				null,
 				true,
-				new EditDefaultTaskSorterFieldType()));
+				new EditDefaultTaskSearcherFieldType()));
 		
 		this.addField(new ConfigurationField(
-				"NOTE_SORTER",
+				"NOTE_SEARCHER",
 				null,
 				new ConfigurationFieldType.Label(
-						Translations.getString("configuration.searcher.edit_default_note_sorter"))));
+						Translations.getString("configuration.searcher.edit_default_note_searcher"))));
 		
 		this.addField(new ConfigurationField(
-				"EDIT_DEFAULT_NOTE_SORTER",
+				"EDIT_DEFAULT_NOTE_SEARCHER",
 				null,
 				true,
-				new EditDefaultNoteSorterFieldType()));
+				new EditDefaultNoteSearcherFieldType()));
 	}
 	
 }

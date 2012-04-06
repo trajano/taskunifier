@@ -14,6 +14,7 @@ Version 3.0.0
 		- FR 3445884: Define your own statuses
 		- FR 3481583: Define your own postpone list
 		- FR 3509335: Assign template to searcher
+		- FR 3495230: Configure filters for model categories
 		- Define the note/task fields you (don't) use
 	- Minor:
 		- BF 3510783: Whole day task in calendar

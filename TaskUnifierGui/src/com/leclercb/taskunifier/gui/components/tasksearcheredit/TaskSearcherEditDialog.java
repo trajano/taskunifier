@@ -57,12 +57,19 @@ public class TaskSearcherEditDialog extends JDialog {
 	private TaskSearcherEditPanel searcherEditPanel;
 	
 	public TaskSearcherEditDialog(Frame frame, TaskSearcher searcher) {
-		super(frame);
-		
-		this.initialize(searcher);
+		this(frame, searcher, true);
 	}
 	
-	private void initialize(TaskSearcher searcher) {
+	public TaskSearcherEditDialog(
+			Frame frame,
+			TaskSearcher searcher,
+			boolean showInfoPanel) {
+		super(frame);
+		
+		this.initialize(searcher, showInfoPanel);
+	}
+	
+	private void initialize(TaskSearcher searcher, boolean showInfoPanel) {
 		this.setModal(true);
 		this.setTitle(Translations.getString("searcheredit.title"));
 		this.setSize(700, 500);
@@ -82,7 +89,9 @@ public class TaskSearcherEditDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(panel, BorderLayout.CENTER);
 		
-		this.searcherEditPanel = new TaskSearcherEditPanel(searcher);
+		this.searcherEditPanel = new TaskSearcherEditPanel(
+				searcher,
+				showInfoPanel);
 		panel.add(this.searcherEditPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel(panel);

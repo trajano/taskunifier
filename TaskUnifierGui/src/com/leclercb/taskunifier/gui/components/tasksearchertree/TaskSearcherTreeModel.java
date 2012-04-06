@@ -157,8 +157,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 	}
 	
 	private void initializeDefaultSearcher() {
-		this.defaultSearcher = new SearcherItem(
-				Constants.getDefaultTaskSearcher());
+		this.defaultSearcher = new SearcherItem(Constants.getMainTaskSearcher());
 		((DefaultMutableTreeNode) this.getRoot()).add(this.defaultSearcher);
 	}
 	

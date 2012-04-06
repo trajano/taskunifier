@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcherType;
-import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.ViewUtils;
 import com.leclercb.taskunifier.gui.constants.Constants;
@@ -63,12 +62,14 @@ public class ActionAddNoteSearcher extends AbstractViewAction {
 	}
 	
 	public static void addNoteSearcher() {
+		NoteSearcher defaultNoteSearcher = Constants.getDefaultNoteSearcher();
+		
 		NoteSearcher searcher = NoteSearcherFactory.getInstance().create(
 				NoteSearcherType.PERSONAL,
 				Integer.MAX_VALUE,
 				Translations.getString("searcher.default.title"),
-				new NoteFilter(),
-				Constants.getDefaultNoteSorter());
+				defaultNoteSearcher.getFilter(),
+				defaultNoteSearcher.getSorter());
 		
 		if (ViewUtils.getCurrentNoteView() != null)
 			ViewUtils.getCurrentNoteView().getNoteSearcherView().selectNoteSearcher(
