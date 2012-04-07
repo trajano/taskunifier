@@ -49,12 +49,11 @@ public class Main {
 			sendXml(xml, port);
 		} catch (Exception e) {
 			System.err.println("Please check that TaskUnifier is started");
-			e.printStackTrace();
 		}
 	}
 	
 	private static void exitAndPrintUsage() {
-		System.err.println("Usage: \"title\" [port]");
+		System.err.println("Usage: \"quick task\" [port]");
 		System.exit(1);
 	}
 	
