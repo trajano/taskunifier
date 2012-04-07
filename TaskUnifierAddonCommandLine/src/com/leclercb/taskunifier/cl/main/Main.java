@@ -43,13 +43,17 @@ public class Main {
 		} catch (Exception e) {
 			System.err.println("An error occured during the creation of the xml");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		try {
 			sendXml(xml, port);
 		} catch (Exception e) {
 			System.err.println("Please check that TaskUnifier is started");
+			System.exit(1);
 		}
+		
+		System.exit(0);
 	}
 	
 	private static void exitAndPrintUsage() {
