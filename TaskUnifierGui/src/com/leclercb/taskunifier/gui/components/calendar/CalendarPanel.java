@@ -3,6 +3,8 @@ package com.leclercb.taskunifier.gui.components.calendar;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
@@ -27,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -39,7 +42,9 @@ import lu.tudor.santec.bizcal.widgets.ButtonPanel;
 import lu.tudor.santec.bizcal.widgets.CheckBoxPanel;
 
 import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.painter.Painter;
 
 import bizcal.swing.DayView;
 
@@ -292,11 +297,39 @@ public class CalendarPanel extends JPanel implements SavePropertiesListener {
 		
 		panel.add(northPanel, BorderLayout.NORTH);
 		
+		Color color = UIManager.getColor("TabbedPane.background");
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
+			color = new Color(228, 228, 228);
+		
+		final Color finalColor = color;
+		
+		JXPanel searchPanel = new JXPanel(new BorderLayout());
+		searchPanel.setBackgroundPainter(new Painter<JXPanel>() {
+			
+			@Override
+			public void paint(
+					Graphics2D g,
+					JXPanel object,
+					int width,
+					int height) {
+				g.setPaint(new GradientPaint(
+						0.0f,
+						0.0f,
+						finalColor,
+						0.0f,
+						height,
+						new SourceListStandardColorScheme().getActiveBackgroundColor()));
+				g.fillRect(0, 0, width, height);
+			}
+			
+		});
+		searchPanel.add(this.searchField);
+		
 		JPanel showComletedTasksPanel = new JPanel(new BorderLayout());
 		showComletedTasksPanel.setOpaque(false);
 		showComletedTasksPanel.add(this.showCompletedTasksCheckBox);
 		
-		northPanel.add(this.searchField);
+		northPanel.add(searchPanel);
 		northPanel.add(showComletedTasksPanel);
 		northPanel.add(this.calendarButtonPanel);
 		

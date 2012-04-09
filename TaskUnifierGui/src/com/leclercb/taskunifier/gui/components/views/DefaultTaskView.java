@@ -33,6 +33,9 @@
 package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,11 +48,14 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.painter.Painter;
 
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
-import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
@@ -225,7 +231,35 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 		
 		panel.add(northPanel, BorderLayout.NORTH);
 		
-		northPanel.add(this.searchField);
+		Color color = UIManager.getColor("TabbedPane.background");
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
+			color = new Color(228, 228, 228);
+		
+		final Color finalColor = color;
+		
+		JXPanel searchPanel = new JXPanel(new BorderLayout());
+		searchPanel.setBackgroundPainter(new Painter<JXPanel>() {
+			
+			@Override
+			public void paint(
+					Graphics2D g,
+					JXPanel object,
+					int width,
+					int height) {
+				g.setPaint(new GradientPaint(
+						0.0f,
+						0.0f,
+						finalColor,
+						0.0f,
+						height,
+						new SourceListStandardColorScheme().getActiveBackgroundColor()));
+				g.fillRect(0, 0, width, height);
+			}
+			
+		});
+		searchPanel.add(this.searchField);
+		
+		northPanel.add(searchPanel);
 		northPanel.add(this.showCompletedTasksCheckBox);
 		northPanel.add(this.indentSubtasksCheckBox);
 		
@@ -297,6 +331,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 	
 	private void initializeModelNote(JTabbedPane tabbedPane) {
 		this.taskNote = new ModelNotePanel("view.tasks.modelnote");
+		this.taskNote.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.taskTable.addModelSelectionChangeListener(this.taskNote);
 		tabbedPane.addTab(
 				Translations.getString("general.notes"),
@@ -310,6 +345,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 						TaskContactsColumn.class,
 						"taskcontacts",
 						false));
+		this.taskContacts.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.taskTable.addModelSelectionChangeListener(this.taskContacts);
 		tabbedPane.addTab(
 				Translations.getString("general.task.contacts"),
@@ -323,6 +359,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 						TaskTasksColumn.class,
 						"tasktasks",
 						false));
+		this.taskTasks.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.taskTable.addModelSelectionChangeListener(this.taskTasks);
 		tabbedPane.addTab(
 				Translations.getString("general.task.tasks"),
@@ -336,6 +373,7 @@ public class DefaultTaskView extends JPanel implements TaskView, SavePropertiesL
 						TaskFilesColumn.class,
 						"taskfiles",
 						false));
+		this.taskFiles.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.taskTable.addModelSelectionChangeListener(this.taskFiles);
 		tabbedPane.addTab(
 				Translations.getString("general.task.files"),

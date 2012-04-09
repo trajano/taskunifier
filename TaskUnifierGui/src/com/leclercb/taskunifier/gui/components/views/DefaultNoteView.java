@@ -33,6 +33,9 @@
 package com.leclercb.taskunifier.gui.components.views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -41,8 +44,11 @@ import java.beans.PropertyChangeListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
 
+import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.painter.Painter;
 
 import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.jgoodies.common.base.SystemUtils;
@@ -187,7 +193,36 @@ public class DefaultNoteView extends JPanel implements NoteView, SavePropertiesL
 		northPanel.setBackground(new SourceListStandardColorScheme().getActiveBackgroundColor());
 		
 		panel.add(northPanel, BorderLayout.NORTH);
-		northPanel.add(this.searchField, BorderLayout.NORTH);
+		
+		Color color = UIManager.getColor("TabbedPane.background");
+		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
+			color = new Color(228, 228, 228);
+		
+		final Color finalColor = color;
+		
+		JXPanel searchPanel = new JXPanel(new BorderLayout());
+		searchPanel.setBackgroundPainter(new Painter<JXPanel>() {
+			
+			@Override
+			public void paint(
+					Graphics2D g,
+					JXPanel object,
+					int width,
+					int height) {
+				g.setPaint(new GradientPaint(
+						0.0f,
+						0.0f,
+						finalColor,
+						0.0f,
+						height,
+						new SourceListStandardColorScheme().getActiveBackgroundColor()));
+				g.fillRect(0, 0, width, height);
+			}
+			
+		});
+		searchPanel.add(this.searchField);
+		
+		northPanel.add(searchPanel, BorderLayout.NORTH);
 		
 		searcherPane.add(panel, BorderLayout.CENTER);
 		

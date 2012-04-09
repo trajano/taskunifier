@@ -95,6 +95,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		
 		this.toolBar.setVisible(canEdit);
 		this.htmlNote.setEditable(canEdit);
+		this.htmlNote.setEnabled(canEdit);
 		
 		this.flagSetText = true;
 		this.htmlNote.setText(Text2HTML.convert(text));
