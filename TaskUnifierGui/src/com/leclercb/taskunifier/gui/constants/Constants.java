@@ -78,8 +78,8 @@ public final class Constants {
 	public static final int WAIT_NO_LICENSE_ADDED_TIME = 15;
 	
 	public static final String PLUGINS_FILE = "http://www.taskunifier.com/plugins/plugins.xml";
-	public static final String VERSION_FILE = "http://taskunifier.sourceforge.net/version.txt";
-	public static final String DOWNLOAD_URL = "http://sourceforge.net/projects/taskunifier/files/binaries/";
+	public static final String VERSION_FILE = "http://www.taskunifier.com/version.txt";
+	public static final String DOWNLOAD_URL = "http://www.taskunifier.com/index.php?page=download";
 	public static final String DONATE_URL = "http://sourceforge.net/donate/index.php?group_id=380204";
 	public static final String REVIEW_URL = "http://sourceforge.net/projects/taskunifier/reviews/";
 	public static final String BUG_URL = "http://sourceforge.net/tracker/?group_id=380204";
