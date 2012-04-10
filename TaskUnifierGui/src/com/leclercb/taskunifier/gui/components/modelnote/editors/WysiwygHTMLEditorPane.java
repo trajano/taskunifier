@@ -136,26 +136,29 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
-						PROP_TEXT,
-						null,
-						WysiwygHTMLEditorPane.this.getText());
+				if (!WysiwygHTMLEditorPane.this.flagSetText)
+					WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+							PROP_TEXT,
+							null,
+							WysiwygHTMLEditorPane.this.getText());
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
-						PROP_TEXT,
-						null,
-						WysiwygHTMLEditorPane.this.getText());
+				if (!WysiwygHTMLEditorPane.this.flagSetText)
+					WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+							PROP_TEXT,
+							null,
+							WysiwygHTMLEditorPane.this.getText());
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
-						PROP_TEXT,
-						null,
-						WysiwygHTMLEditorPane.this.getText());
+				if (!WysiwygHTMLEditorPane.this.flagSetText)
+					WysiwygHTMLEditorPane.this.propertyChangeSupport.firePropertyChange(
+							PROP_TEXT,
+							null,
+							WysiwygHTMLEditorPane.this.getText());
 			}
 			
 		});
