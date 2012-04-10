@@ -38,6 +38,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -196,9 +197,9 @@ abstract class AbstractImportDialog extends JDialog {
 								Translations.getString("general.error"),
 								e.getMessage(),
 								null,
-								null,
+								"GUI",
 								e,
-								null,
+								Level.WARNING,
 								null);
 						
 						JXErrorPane.showDialog(

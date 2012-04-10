@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.actions;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
 
 import javax.swing.KeyStroke;
 
@@ -88,9 +89,9 @@ public class ActionPrint extends AbstractViewAction {
 					Translations.getString("general.error"),
 					Translations.getString("error.print"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

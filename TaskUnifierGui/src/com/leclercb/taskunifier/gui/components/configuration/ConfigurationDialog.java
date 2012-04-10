@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -47,6 +48,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.properties.events.ReloadPropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -314,13 +316,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			Main.saveSettings();
 			Main.saveUserSettings();
 		} catch (Exception e) {
+			GuiLogger.getLogger().log(Level.SEVERE, e.getMessage(), e);
+			
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
 					Translations.getString("error.save_settings"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.SEVERE,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -348,13 +352,15 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			this.advancedConfigurationPanel.cancelConfig();
 			this.publicationConfigurationPanel.cancelConfig();
 		} catch (Exception e) {
+			GuiLogger.getLogger().log(Level.SEVERE, e.getMessage(), e);
+			
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
 					Translations.getString("error.save_settings"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.SEVERE,
 					null);
 			
 			JXErrorPane.showDialog(

@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.mail.Address;
 import javax.mail.internet.AddressException;
@@ -108,9 +109,9 @@ public class MailToPanel extends JPanel {
 						Translations.getString("general.error"),
 						Translations.getString("error.select_tasks"),
 						null,
+						"GUI",
 						null,
-						null,
-						null,
+						Level.INFO,
 						null);
 				
 				JXErrorPane.showDialog(
@@ -133,9 +134,9 @@ public class MailToPanel extends JPanel {
 						Translations.getString("general.error"),
 						Translations.getString("error.select_notes"),
 						null,
+						"GUI",
 						null,
-						null,
-						null,
+						Level.INFO,
 						null);
 				
 				JXErrorPane.showDialog(

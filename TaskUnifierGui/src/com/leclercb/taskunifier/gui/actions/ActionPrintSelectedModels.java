@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 
@@ -99,9 +100,9 @@ public class ActionPrintSelectedModels extends AbstractAction {
 					Translations.getString("general.error"),
 					Translations.getString("error.print"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

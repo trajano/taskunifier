@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -79,9 +80,9 @@ public class ActionCreateNewBackup extends AbstractAction {
 					Translations.getString("general.error"),
 					Translations.getString("action.create_new_backup.failure"),
 					null,
+					"GUI",
 					null,
-					null,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

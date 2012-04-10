@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.main;
 
+import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -121,6 +122,7 @@ import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
+import com.leclercb.taskunifier.gui.swing.EventQueueProxy;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.threads.Threads;
@@ -258,6 +260,7 @@ public class Main {
 			}
 			
 			loadLoggers();
+			loadUncaughtExceptionHandler();
 			loadSettings();
 			loadTimeZone();
 			loadUserId();
@@ -344,9 +347,9 @@ public class Main {
 							Translations.getString("general.error"),
 							t.getMessage(),
 							null,
-							null,
+							"GUI",
 							t,
-							null,
+							Level.WARNING,
 							null);
 					
 					JXErrorPane.showDialog(null, info);
@@ -397,7 +400,7 @@ public class Main {
 					Threads.startAll();
 				} catch (Throwable t) {
 					GuiLogger.getLogger().log(
-							Level.WARNING,
+							Level.SEVERE,
 							"Error while loading gui",
 							t);
 					
@@ -405,9 +408,9 @@ public class Main {
 							Translations.getString("general.error"),
 							"Error while loading gui",
 							null,
-							null,
+							"GUI",
 							t,
-							null,
+							Level.SEVERE,
 							null);
 					
 					JXErrorPane.showDialog(null, info);
@@ -645,6 +648,11 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static void loadUncaughtExceptionHandler() {
+		Toolkit.getDefaultToolkit().getSystemEventQueue().push(
+				new EventQueueProxy());
 	}
 	
 	private static void loadSettings() throws Exception {

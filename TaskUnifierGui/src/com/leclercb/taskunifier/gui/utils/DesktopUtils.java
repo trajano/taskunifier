@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.utils;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -56,9 +57,9 @@ public final class DesktopUtils {
 					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_browser"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -81,9 +82,9 @@ public final class DesktopUtils {
 							"error.cannot_edit_file",
 							file.getAbsolutePath()),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -112,9 +113,9 @@ public final class DesktopUtils {
 					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_mail_client"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -137,9 +138,9 @@ public final class DesktopUtils {
 							"error.cannot_open_file",
 							file.getAbsolutePath()),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.SwingWorker;
 
@@ -106,9 +107,9 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 							Translations.getString("general.error"),
 							e.getMessage(),
 							null,
-							null,
+							"GUI",
 							e,
-							null,
+							Level.WARNING,
 							null);
 					
 					JXErrorPane.showDialog(

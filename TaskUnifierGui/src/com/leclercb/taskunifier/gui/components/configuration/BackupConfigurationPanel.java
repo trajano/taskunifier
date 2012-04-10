@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 
@@ -119,9 +120,9 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 											Translations.getString("general.error"),
 											Translations.getString("error.no_backup_selected"),
 											null,
+											"GUI",
 											null,
-											null,
-											null,
+											Level.INFO,
 											null);
 									
 									JXErrorPane.showDialog(

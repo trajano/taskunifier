@@ -40,6 +40,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
 import org.jdesktop.swingx.JXErrorPane;
@@ -98,7 +99,7 @@ public final class BackupUtils {
 						Translations.getString("general.error"),
 						Translations.getString(
 								"error.folder_not_a_folder",
-								folder), null, null, null, null, null);
+								folder), null, "GUI", null, Level.WARNING, null);
 				
 				JXErrorPane.showDialog(
 						FrameUtils.getCurrentFrameView().getFrame(),
@@ -111,9 +112,9 @@ public final class BackupUtils {
 					Translations.getString("general.error"),
 					Translations.getString("error.folder_not_a_folder", folder),
 					null,
+					"GUI",
 					null,
-					null,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -212,9 +213,9 @@ public final class BackupUtils {
 					Translations.getString("general.error"),
 					e.getMessage(),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

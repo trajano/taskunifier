@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.threads.checkpluginversion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
@@ -146,9 +147,9 @@ public class CheckPluginVersionRunnable implements Runnable {
 							Translations.getString("general.error"),
 							Translations.getString("error.check_plugin_version_error"),
 							null,
-							null,
+							"GUI",
 							t,
-							null,
+							Level.INFO,
 							null);
 					
 					JXErrorPane.showDialog(

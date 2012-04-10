@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.threads.checkversion;
 
 import java.net.URI;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
@@ -124,9 +125,9 @@ public class CheckVersionRunnable implements Runnable {
 						Translations.getString("general.error"),
 						Translations.getString("error.check_version_error"),
 						null,
-						null,
+						"GUI",
 						e,
-						null,
+						Level.INFO,
 						null);
 				
 				JXErrorPane.showDialog(

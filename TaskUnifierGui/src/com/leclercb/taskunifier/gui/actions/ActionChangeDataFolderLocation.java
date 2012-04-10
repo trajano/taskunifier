@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 
@@ -69,9 +70,9 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 					Translations.getString("general.cannot_write", new File(
 							Main.getInitSettingsFile()).getAbsolutePath()),
 					null,
+					"GUI",
 					null,
-					null,
-					null,
+					Level.INFO,
 					null);
 			
 			JXErrorPane.showDialog(

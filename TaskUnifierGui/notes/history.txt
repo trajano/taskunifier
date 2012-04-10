@@ -14,6 +14,7 @@ Version 3.0.0
 		- FR 3509335: Assign template to searcher
 		- FR 3495230: Configure filters for model categories
 		- Define the note/task fields you (don't) use
+		- New error handling system
 	- Minor:
 		- BF 3510783: Whole day task in calendar
 		- FR 3505247: Separation between sync and publish

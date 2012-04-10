@@ -38,6 +38,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -178,9 +179,9 @@ public class ChangeDataFolderDialog extends JDialog {
 								Translations.getString("general.error"),
 								Translations.getString("error.not_valid_directory"),
 								null,
+								"GUI",
 								null,
-								null,
-								null,
+								Level.INFO,
 								null);
 						
 						JXErrorPane.showDialog(

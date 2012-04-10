@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 
@@ -107,9 +108,9 @@ public class ActionImportComFile extends AbstractAction {
 							"error.cannot_open_file",
 							file.getAbsolutePath()),
 					null,
-					null,
+					"GUI",
 					t,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

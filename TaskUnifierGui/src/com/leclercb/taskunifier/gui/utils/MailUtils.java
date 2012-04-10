@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -112,9 +113,9 @@ public final class MailUtils {
 					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_mail_client"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(
@@ -175,9 +176,9 @@ public final class MailUtils {
 					Translations.getString("general.error"),
 					Translations.getString("error.cannot_open_mail_client"),
 					null,
-					null,
+					"GUI",
 					e,
-					null,
+					Level.WARNING,
 					null);
 			
 			JXErrorPane.showDialog(

@@ -35,6 +35,7 @@ package com.leclercb.taskunifier.gui.components.users;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -170,9 +171,9 @@ public class UserPanel extends JPanel {
 				Translations.getString("general.error"),
 				Translations.getString("manage_users.select_one_user"),
 				null,
+				"GUI",
 				null,
-				null,
-				null,
+				Level.INFO,
 				null);
 		
 		JXErrorPane.showDialog(

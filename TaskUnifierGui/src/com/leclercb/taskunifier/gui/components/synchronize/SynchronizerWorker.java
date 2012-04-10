@@ -327,9 +327,9 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 						Translations.getString("general.error"),
 						e.getMessage(),
 						null,
-						null,
+						"GUI",
 						(e.isExpected() ? null : e),
-						null,
+						(e.isExpected() ? Level.INFO : Level.WARNING),
 						null);
 				
 				JXErrorPane.showDialog(
@@ -363,9 +363,9 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 							Translations.getString("general.error"),
 							t.getMessage(),
 							null,
-							null,
+							"GUI",
 							t,
-							null,
+							Level.WARNING,
 							null);
 					
 					JXErrorPane.showDialog(

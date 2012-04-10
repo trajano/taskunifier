@@ -46,9 +46,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXHeader;
-import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
@@ -151,23 +149,7 @@ public class BatchTaskEditDialog extends TUDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (!BatchTaskEditDialog.this.batchTaskEditPanel.editTasks()) {
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							Translations.getString("general.synchronization_ongoing"),
-							null,
-							null,
-							null,
-							null,
-							null);
-					
-					JXErrorPane.showDialog(
-							FrameUtils.getCurrentFrameView().getFrame(),
-							info);
-					
-					return;
-				}
-				
+				BatchTaskEditDialog.this.batchTaskEditPanel.editTasks();
 				BatchTaskEditDialog.this.cancelled = false;
 				BatchTaskEditDialog.this.setTasks(null);
 				BatchTaskEditDialog.this.setVisible(false);

@@ -156,10 +156,7 @@ public class BatchTaskEditPanel extends JPanel {
 		this.reinitializeFields(null);
 	}
 	
-	public boolean editTasks() {
-		if (this.tasks == null)
-			return true;
-		
+	public void editTasks() {
 		Synchronizing.getInstance().setSynchronizing(true);
 		
 		try {
@@ -314,8 +311,6 @@ public class BatchTaskEditPanel extends JPanel {
 		} finally {
 			Synchronizing.getInstance().setSynchronizing(false);
 		}
-		
-		return true;
 	}
 	
 	public Task[] getTasks() {
