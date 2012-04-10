@@ -252,7 +252,8 @@ public abstract class AbstractModel implements Model {
 				modelStatus);
 		
 		if (modelStatus.equals(ModelStatus.TO_UPDATE)
-				|| modelStatus.equals(ModelStatus.TO_DELETE))
+				|| modelStatus.equals(ModelStatus.TO_DELETE)
+				|| modelStatus.equals(ModelStatus.DELETED))
 			this.setModelUpdateDate(Calendar.getInstance());
 	}
 	
@@ -450,12 +451,16 @@ public abstract class AbstractModel implements Model {
 			Object oldValue,
 			Object newValue,
 			boolean updateStatus) {
-		if (updateStatus
-				&& (this.getModelStatus() == ModelStatus.SHELL || this.getModelStatus() == ModelStatus.LOADED)) {
-			if (oldValue == null
-					|| newValue == null
-					|| !EqualsUtils.equals(oldValue, newValue)) {
-				this.setModelStatus(ModelStatus.TO_UPDATE);
+		if (updateStatus) {
+			if (this.getModelStatus() == ModelStatus.SHELL
+					|| this.getModelStatus() == ModelStatus.LOADED) {
+				if (oldValue == null
+						|| newValue == null
+						|| !EqualsUtils.equals(oldValue, newValue)) {
+					this.setModelStatus(ModelStatus.TO_UPDATE);
+				}
+			} else if (this.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+				this.setModelUpdateDate(Calendar.getInstance());
 			}
 		}
 		
@@ -507,12 +512,16 @@ public abstract class AbstractModel implements Model {
 			Object oldValue,
 			Object newValue,
 			boolean updateStatus) {
-		if (updateStatus
-				&& (this.getModelStatus() == ModelStatus.SHELL || this.getModelStatus() == ModelStatus.LOADED)) {
-			if (oldValue == null
-					|| newValue == null
-					|| !EqualsUtils.equals(oldValue, newValue)) {
-				this.setModelStatus(ModelStatus.TO_UPDATE);
+		if (updateStatus) {
+			if (this.getModelStatus() == ModelStatus.SHELL
+					|| this.getModelStatus() == ModelStatus.LOADED) {
+				if (oldValue == null
+						|| newValue == null
+						|| !EqualsUtils.equals(oldValue, newValue)) {
+					this.setModelStatus(ModelStatus.TO_UPDATE);
+				}
+			} else if (this.getModelStatus().equals(ModelStatus.TO_UPDATE)) {
+				this.setModelUpdateDate(Calendar.getInstance());
 			}
 		}
 		
