@@ -39,6 +39,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.BasicModel;
@@ -57,8 +59,10 @@ public class NoteTableModel extends AbstractTableModel implements ListChangeList
 		CheckUtils.isNotNull(undoSupport);
 		this.undoSupport = undoSupport;
 		
-		NoteFactory.getInstance().addListChangeListener(this);
-		NoteFactory.getInstance().addPropertyChangeListener(this);
+		NoteFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(NoteFactory.getInstance(), this));
+		NoteFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(NoteFactory.getInstance(), this));
 	}
 	
 	public Note getNote(int row) {

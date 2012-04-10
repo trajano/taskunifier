@@ -39,6 +39,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.BasicModel;
@@ -61,20 +63,16 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		CheckUtils.isNotNull(undoSupport);
 		this.undoSupport = undoSupport;
 		
-		TaskFactory.getInstance().addListChangeListener(this);
-		TaskFactory.getInstance().addPropertyChangeListener(this);
+		TaskFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskFactory.getInstance(), this));
+		TaskFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(TaskFactory.getInstance(), this));
 		
 		Synchronizing.getInstance().addPropertyChangeListener(
 				Synchronizing.PROP_SYNCHRONIZING,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (!(Boolean) evt.getNewValue())
-							TaskTableModel.this.fireTableDataChanged();
-					}
-					
-				});
+				new WeakPropertyChangeListener(
+						Synchronizing.getInstance(),
+						this));
 	}
 	
 	public Task getTask(int row) {
@@ -147,23 +145,31 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (Synchronizing.getInstance().isSynchronizing())
-			return;
+		if (event.getSource() instanceof Synchronizing) {
+			if (!(Boolean) event.getNewValue())
+				TaskTableModel.this.fireTableDataChanged();
+		}
 		
-		if (event.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
-			ModelStatus oldStatus = (ModelStatus) event.getOldValue();
-			ModelStatus newStatus = (ModelStatus) event.getNewValue();
+		if (event.getSource() instanceof Task) {
+			if (Synchronizing.getInstance().isSynchronizing())
+				return;
 			
-			if (oldStatus.isEndUserStatus() != newStatus.isEndUserStatus())
+			if (event.getPropertyName().equals(BasicModel.PROP_MODEL_STATUS)) {
+				ModelStatus oldStatus = (ModelStatus) event.getOldValue();
+				ModelStatus newStatus = (ModelStatus) event.getNewValue();
+				
+				if (oldStatus.isEndUserStatus() != newStatus.isEndUserStatus())
+					this.fireTableDataChanged();
+			} else if (event.getPropertyName().equals(
+					GuiTask.PROP_SHOW_CHILDREN)
+					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)
+					|| event.getPropertyName().equals(Model.PROP_ORDER)) {
 				this.fireTableDataChanged();
-		} else if (event.getPropertyName().equals(GuiTask.PROP_SHOW_CHILDREN)
-				|| event.getPropertyName().equals(ModelParent.PROP_PARENT)
-				|| event.getPropertyName().equals(Model.PROP_ORDER)) {
-			this.fireTableDataChanged();
-		} else {
-			int index = TaskFactory.getInstance().getIndexOf(
-					(Task) event.getSource());
-			this.fireTableRowsUpdated(index, index);
+			} else {
+				int index = TaskFactory.getInstance().getIndexOf(
+						(Task) event.getSource());
+				this.fireTableRowsUpdated(index, index);
+			}
 		}
 	}
 	
