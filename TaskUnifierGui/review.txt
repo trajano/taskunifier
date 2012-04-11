@@ -13,6 +13,7 @@ components.about
 components.backaddtasks
 components.help
 components.notesearchertree.draganddrop
+components.quickaddtask
 components.tasksearchertree.draganddrop
 components.views
 constants
