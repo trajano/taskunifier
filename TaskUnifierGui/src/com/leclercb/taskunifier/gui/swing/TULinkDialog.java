@@ -96,7 +96,8 @@ public class TULinkDialog extends JDialog {
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
-		JPanel panel = new JPanel(new BorderLayout());
+		JPanel panel = new JPanel(new BorderLayout(0, 10));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		
 		this.fileField = new TUFileField(
 				Translations.getString("general.link"),
@@ -105,13 +106,11 @@ public class TULinkDialog extends JDialog {
 				JFileChooser.FILES_AND_DIRECTORIES,
 				null,
 				null);
-		this.fileField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		panel.add(this.fileField, BorderLayout.CENTER);
 		
 		this.labelField = new TUTextField(
 				Translations.getString("general.label"),
 				"");
-		this.labelField.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		panel.add(this.labelField, BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.CENTER);
