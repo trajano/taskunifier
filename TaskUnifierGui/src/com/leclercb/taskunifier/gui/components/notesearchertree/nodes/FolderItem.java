@@ -167,7 +167,7 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public boolean getAllowsChildren() {
-		return false;
+		return true;
 	}
 	
 }

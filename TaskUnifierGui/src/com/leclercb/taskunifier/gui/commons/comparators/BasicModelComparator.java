@@ -43,10 +43,15 @@ import com.leclercb.taskunifier.api.models.ModelParent;
 
 public class BasicModelComparator implements Comparator<BasicModel> {
 	
-	public static final BasicModelComparator INSTANCE = new BasicModelComparator();
+	public static final BasicModelComparator INSTANCE = new BasicModelComparator(
+			false);
+	public static final BasicModelComparator INSTANCE_NULL_FIRST = new BasicModelComparator(
+			true);
 	
-	private BasicModelComparator() {
-		
+	private boolean nullFirst;
+	
+	private BasicModelComparator(boolean nullFirst) {
+		this.nullFirst = nullFirst;
 	}
 	
 	@Override
@@ -64,10 +69,10 @@ public class BasicModelComparator implements Comparator<BasicModel> {
 			return 0;
 		
 		if (m1 == null)
-			return 1;
+			return this.nullFirst ? -1 : 1;
 		
 		if (m2 == null)
-			return -1;
+			return this.nullFirst ? 1 : -1;
 		
 		String s1 = (m1 == null ? null : m1.getTitle().toLowerCase());
 		String s2 = (m2 == null ? null : m2.getTitle().toLowerCase());

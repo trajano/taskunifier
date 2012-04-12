@@ -187,7 +187,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Context> contexts = new ArrayList<Context>(
 				ContextFactory.getInstance().getList());
-		Collections.sort(contexts, BasicModelComparator.INSTANCE);
+		Collections.sort(contexts, BasicModelComparator.INSTANCE_NULL_FIRST);
 		
 		for (Context context : contexts) {
 			if (context.getModelStatus().isEndUserStatus()) {
@@ -214,7 +214,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
-		Collections.sort(folders, BasicModelComparator.INSTANCE);
+		Collections.sort(folders, BasicModelComparator.INSTANCE_NULL_FIRST);
 		
 		for (Folder folder : folders) {
 			if (folder.getModelStatus().isEndUserStatus()) {
@@ -243,7 +243,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Goal> goals = new ArrayList<Goal>(
 				GoalFactory.getInstance().getList());
-		Collections.sort(goals, BasicModelComparator.INSTANCE);
+		Collections.sort(goals, BasicModelComparator.INSTANCE_NULL_FIRST);
 		
 		for (Goal goal : goals) {
 			if (goal.getModelStatus().isEndUserStatus()) {
@@ -270,7 +270,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Location> locations = new ArrayList<Location>(
 				LocationFactory.getInstance().getList());
-		Collections.sort(locations, BasicModelComparator.INSTANCE);
+		Collections.sort(locations, BasicModelComparator.INSTANCE_NULL_FIRST);
 		
 		for (Location location : locations)
 			if (location.getModelStatus().isEndUserStatus())
@@ -315,15 +315,15 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		List<Model> models = new ArrayList<Model>();
 		for (int i = 0; i < parent.getChildCount(); i++) {
 			TreeNode node = parent.getChildAt(i);
-			if (node instanceof ModelItem) {
+			if (node == null || node instanceof ModelItem) {
 				models.add(((ModelItem) node).getModel());
 			}
 		}
 		
 		models.add(model);
-		Collections.sort(models, BasicModelComparator.INSTANCE);
+		Collections.sort(models, BasicModelComparator.INSTANCE_NULL_FIRST);
 		
-		return models.indexOf(model) + 1;
+		return models.indexOf(model);
 	}
 	
 	public ModelItem findItemFromModel(Model model) {
