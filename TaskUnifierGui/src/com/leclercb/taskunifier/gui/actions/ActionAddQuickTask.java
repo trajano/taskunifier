@@ -263,17 +263,22 @@ public class ActionAddQuickTask extends AbstractAction {
 			boolean skip = false;
 			
 			Calendar date = Calendar.getInstance();
-			if (Translations.getString("date.short_day").equals(type))
+			if (Translations.getString("date.short_day").equalsIgnoreCase(type))
 				date.add(Calendar.DAY_OF_MONTH, num);
-			else if (Translations.getString("date.short_week").equals(type))
+			else if (Translations.getString("date.short_week").equalsIgnoreCase(
+					type))
 				date.add(Calendar.WEEK_OF_YEAR, num);
-			else if (Translations.getString("date.short_month").equals(type))
+			else if (Translations.getString("date.short_month").equalsIgnoreCase(
+					type))
 				date.add(Calendar.MONTH, num);
-			else if (Translations.getString("date.short_year").equals(type))
+			else if (Translations.getString("date.short_year").equalsIgnoreCase(
+					type))
 				date.add(Calendar.YEAR, num);
-			else if (Translations.getString("date.short_today").equals(type))
+			else if (Translations.getString("date.short_today").equalsIgnoreCase(
+					type))
 				date.add(Calendar.DAY_OF_MONTH, 0);
-			else if (Translations.getString("date.short_tomorrow").equals(type))
+			else if (Translations.getString("date.short_tomorrow").equalsIgnoreCase(
+					type))
 				date.add(Calendar.DAY_OF_MONTH, 1);
 			else
 				skip = true;

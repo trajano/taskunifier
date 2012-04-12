@@ -25,8 +25,41 @@
 				<ul>
 					<li>Using your selected date format</li>
 					<li>Using your selected date/time format</li>
-					<li>Using a shortcut: +- (optional, default is +) then a number then d, w, m or y (day, week, month or year)
-					<br /><br />Examples:<br />
+					<li>Using a shortcut: +- (optional, default is +) then a number then a letter (for day, week, month or year) (depending on your language)
+					<br /><br />
+					
+					<table border="1">
+						<tr>
+							<td>Language</td>
+							<td>Day</td>
+							<td>Week</td>
+							<td>Month</td>
+							<td>Year</td>
+						</tr>
+						<tr>
+							<td>English</td>
+							<td>d</td>
+							<td>w</td>
+							<td>m</td>
+							<td>y</td>
+						</tr>
+						<tr>
+							<td>French</td>
+							<td>j</td>
+							<td>s</td>
+							<td>m</td>
+							<td>a</td>
+						</tr>
+						<tr>
+							<td>German</td>
+							<td>d</td>
+							<td>w</td>
+							<td>m</td>
+							<td>y</td>
+						</tr>
+					</table>
+
+					<br /><br />Examples (for English):<br />
 						<ul>
 							<li>1d: tomorrow</li>
 							<li>+1d: tomorrow</li>
@@ -35,8 +68,33 @@
 							<li>-1d: yesterday</li>
 						</ul>					
 					</li>
-					<li>Using a shortcut: t (today) or tt (tomorrow)
-					<br /><br />Examples:<br />
+					<li>Using a shortcut: today or tomorrow (depending on your language)
+					<br /><br />
+					
+					<table border="1">
+						<tr>
+							<td>Language</td>
+							<td>Today</td>
+							<td>Tomorrow</td>
+						</tr>
+						<tr>
+							<td>English</td>
+							<td>t</td>
+							<td>tt</td>
+						</tr>
+						<tr>
+							<td>French</td>
+							<td>ajd</td>
+							<td>dem</td>
+						</tr>
+						<tr>
+							<td>German</td>
+							<td>t</td>
+							<td>tt</td>
+						</tr>
+					</table>
+					
+					<br /><br />Examples (for English):<br />
 						<ul>
 							<li>t: today</li>
 							<li>tt: tomorrow</li>
@@ -44,18 +102,18 @@
 					</li>
 				</ul>
 			</li>
-			<li>&lt; xyz: define the due date of the task
+			<li>&lt; xyz: define the due date of the task (same format as for the start date)
 			<br />
 			
 			</li>
 		</ul>
 		
 		<br />
-		Example: My new task &gt; 1d 14:00 &lt; 25/08/2011 &MyTag @Work @New York *Med<br />
+		Example: My new task &gt; 3d 14:00 &lt; 25/08/2011 &MyTag @Work @New York *Med<br />
 		The task will contain:<br />
 		<ul>
 			<li>Title: My new task</li>
-			<li>Start date: tomorrow 14:00 (depending on your date/time format)</li>
+			<li>Start date: in three days 14:00 (depending on your date/time format)</li>
 			<li>Due date: 25/08/2011 (depending on your date/time format)</li>
 			<li>Tags: MyTag</li>
 			<li>Context: Work (assuming the context exists)</li>

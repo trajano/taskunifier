@@ -52,6 +52,7 @@ import com.leclercb.taskunifier.gui.actions.ActionBatchAddTasks;
 import com.leclercb.taskunifier.gui.actions.ActionManageTaskTemplates;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
@@ -123,7 +124,8 @@ public class BatchAddTasksPanel extends JPanel implements ActionSupported {
 		this.okButton = new TUOkButton(listener);
 		this.cancelButton = new TUCancelButton(listener);
 		
-		JPanel panel = new TUButtonsPanel(this.okButton, this.cancelButton);
+		JPanel panel = new TUButtonsPanel(Help.getInstance().getHelpButton(
+				"task_batchaddtasks"), this.okButton, this.cancelButton);
 		
 		this.add(panel, "growx, pushx");
 	}

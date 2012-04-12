@@ -19,6 +19,7 @@
 	<mapID target="note_searcher" url="pages/note_searcher.html" />
 	<mapID target="scheduled_sync" url="pages/scheduled_sync.html" />
 	<mapID target="shortcuts" url="pages/shortcuts.html" />
+	<mapID target="task_batchaddtasks" url="pages/task_batchaddtasks.html" />
 	<mapID target="task_contacts" url="pages/task_contacts.html" />
 	<mapID target="task_files" url="pages/task_files.html" />
 	<mapID target="task_importance" url="pages/task_importance.html" />

@@ -40,6 +40,7 @@
 		<tocitem text="Tasks" target="view_tasks">
 		
 			<tocitem text="Manage Task Templates" target="manage_task_templates" />
+			<tocitem text="Batch add tasks" target="task_batchaddtasks" />
 			<tocitem text="Task Contacts" target="task_contacts" />
 			<tocitem text="Task Importance" target="task_importance" />
 			<tocitem text="Task Files" target="task_files" />
