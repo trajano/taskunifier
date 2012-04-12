@@ -45,6 +45,7 @@ import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXHeader;
 
+import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUOkButton;
@@ -105,7 +106,8 @@ public class TaskTemplateConfigurationDialog extends JDialog {
 		};
 		
 		JButton okButton = new TUOkButton(listener);
-		JPanel panel = new TUButtonsPanel(okButton);
+		JPanel panel = new TUButtonsPanel(Help.getInstance().getHelpButton(
+				"manage_task_templates"), okButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
 		this.getRootPane().setDefaultButton(okButton);

@@ -58,7 +58,6 @@ import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.commons.models.TaskTemplateModel;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskTemplateTitle;
-import com.leclercb.taskunifier.gui.components.help.Help;
 import com.leclercb.taskunifier.gui.swing.buttons.TUAddButton;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TURemoveButton;
@@ -200,7 +199,6 @@ abstract class TaskTemplateList extends JPanel {
 		JPanel panel = new TUButtonsPanel(
 				this.addButton,
 				this.removeButton,
-				Help.getInstance().getHelpButton("manage_task_templates"),
 				this.defaultButton);
 		
 		this.add(panel, BorderLayout.SOUTH);
