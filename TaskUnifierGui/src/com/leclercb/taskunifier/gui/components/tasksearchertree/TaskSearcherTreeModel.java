@@ -60,6 +60,7 @@ import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelNote;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
@@ -188,11 +189,16 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				ContextFactory.getInstance().getList());
 		Collections.sort(contexts, BasicModelComparator.INSTANCE);
 		
-		for (Context context : contexts)
-			if (context.getModelStatus().isEndUserStatus())
-				this.contextCategory.add(new ModelItem(
-						ModelType.CONTEXT,
-						context));
+		for (Context context : contexts) {
+			if (context.getModelStatus().isEndUserStatus()) {
+				DefaultMutableTreeNode node = this.contextCategory;
+				
+				if (context.getParent() != null)
+					node = this.findItemFromModel(context.getParent());
+				
+				node.add(new ModelItem(ModelType.CONTEXT, context));
+			}
+		}
 		
 		ContextFactory.getInstance().addListChangeListener(this);
 		ContextFactory.getInstance().addPropertyChangeListener(this);
@@ -210,12 +216,18 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				FolderFactory.getInstance().getList());
 		Collections.sort(folders, BasicModelComparator.INSTANCE);
 		
-		for (Folder folder : folders)
-			if (folder.getModelStatus().isEndUserStatus())
-				if (!folder.isArchived())
-					this.folderCategory.add(new ModelItem(
-							ModelType.FOLDER,
-							folder));
+		for (Folder folder : folders) {
+			if (folder.getModelStatus().isEndUserStatus()) {
+				if (!folder.isArchived()) {
+					DefaultMutableTreeNode node = this.folderCategory;
+					
+					if (folder.getParent() != null)
+						node = this.findItemFromModel(folder.getParent());
+					
+					node.add(new ModelItem(ModelType.FOLDER, folder));
+				}
+			}
+		}
 		
 		FolderFactory.getInstance().addListChangeListener(this);
 		FolderFactory.getInstance().addPropertyChangeListener(this);
@@ -233,9 +245,16 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				GoalFactory.getInstance().getList());
 		Collections.sort(goals, BasicModelComparator.INSTANCE);
 		
-		for (Goal goal : goals)
-			if (goal.getModelStatus().isEndUserStatus())
-				this.goalCategory.add(new ModelItem(ModelType.GOAL, goal));
+		for (Goal goal : goals) {
+			if (goal.getModelStatus().isEndUserStatus()) {
+				DefaultMutableTreeNode node = this.goalCategory;
+				
+				if (goal.getParent() != null)
+					node = this.findItemFromModel(goal.getParent());
+				
+				node.add(new ModelItem(ModelType.GOAL, goal));
+			}
+		}
 		
 		GoalFactory.getInstance().addListChangeListener(this);
 		GoalFactory.getInstance().addPropertyChangeListener(this);
@@ -292,12 +311,10 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				this.personalCategory.add(new SearcherItem(searcher));
 	}
 	
-	public int findNewIndexInModelCategory(
-			SearcherCategory category,
-			Model model) {
+	public int findNewIndexInModelCategory(TreeNode parent, Model model) {
 		List<Model> models = new ArrayList<Model>();
-		for (int i = 0; i < category.getChildCount(); i++) {
-			TreeNode node = category.getChildAt(i);
+		for (int i = 0; i < parent.getChildCount(); i++) {
+			TreeNode node = parent.getChildAt(i);
 			if (node instanceof ModelItem) {
 				models.add(((ModelItem) node).getModel());
 			}
@@ -306,18 +323,25 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		models.add(model);
 		Collections.sort(models, BasicModelComparator.INSTANCE);
 		
-		return models.indexOf(model);
+		return models.indexOf(model) + 1;
 	}
 	
 	public ModelItem findItemFromModel(Model model) {
-		SearcherCategory category = this.getCategoryFromModelType(model.getModelType());
-		
-		for (int i = 0; i < category.getChildCount(); i++) {
-			TreeNode node = category.getChildAt(i);
+		DefaultMutableTreeNode category = this.getCategoryFromModelType(model.getModelType());
+		return this.findModelItem(category, model);
+	}
+	
+	private ModelItem findModelItem(TreeNode parent, Model model) {
+		for (int i = 0; i < parent.getChildCount(); i++) {
+			TreeNode node = parent.getChildAt(i);
 			if (node instanceof ModelItem) {
 				if (EqualsUtils.equals(((ModelItem) node).getModel(), model)) {
 					return (ModelItem) node;
 				}
+				
+				ModelItem item = this.findModelItem(node, model);
+				if (item != null)
+					return item;
 			}
 		}
 		
@@ -399,6 +423,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void listChange(ListChangeEvent event) {
 		if (event.getValue() instanceof Task) {
@@ -409,7 +434,15 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		if (event.getValue() instanceof Model) {
 			Model model = (Model) event.getValue();
-			SearcherCategory category = this.getCategoryFromModelType(model.getModelType());
+			
+			DefaultMutableTreeNode category = null;
+			
+			if (model instanceof ModelParent
+					&& ((ModelParent) model).getParent() != null) {
+				category = this.findItemFromModel(((ModelParent) model).getParent());
+			} else {
+				category = this.getCategoryFromModelType(model.getModelType());
+			}
 			
 			if (event.getChangeType() == ListChangeEvent.VALUE_ADDED) {
 				if (!model.getModelStatus().isEndUserStatus())
@@ -478,6 +511,7 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() instanceof Task) {
@@ -489,7 +523,16 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		if (event.getSource() instanceof Model) {
 			Model model = (Model) event.getSource();
-			SearcherCategory category = this.getCategoryFromModelType(model.getModelType());
+			
+			DefaultMutableTreeNode category = null;
+			
+			if (model instanceof ModelParent
+					&& ((ModelParent) model).getParent() != null) {
+				category = this.findItemFromModel(((ModelParent) model).getParent());
+			} else {
+				category = this.getCategoryFromModelType(model.getModelType());
+			}
+			
 			ModelItem item = this.findItemFromModel(model);
 			
 			if (!((Model) event.getSource()).getModelStatus().isEndUserStatus()) {
