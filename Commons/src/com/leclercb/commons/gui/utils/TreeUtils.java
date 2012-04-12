@@ -35,6 +35,7 @@ package com.leclercb.commons.gui.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -53,6 +54,28 @@ public final class TreeUtils {
 		}
 		
 		return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
+	}
+	
+	public static void expandAll(JTree tree, boolean expand) {
+		TreeNode root = (TreeNode) tree.getModel().getRoot();
+		expandAll(tree, new TreePath(root), expand);
+	}
+	
+	private static void expandAll(JTree tree, TreePath parent, boolean expand) {
+		TreeNode node = (TreeNode) parent.getLastPathComponent();
+		if (node.getChildCount() >= 0) {
+			for (int i = 0; i < node.getChildCount(); i++) {
+				TreeNode childNode = node.getChildAt(i);
+				TreePath path = parent.pathByAddingChild(childNode);
+				expandAll(tree, path, expand);
+			}
+		}
+		
+		if (expand) {
+			tree.expandPath(parent);
+		} else {
+			tree.collapsePath(parent);
+		}
 	}
 	
 }

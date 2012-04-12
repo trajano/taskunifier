@@ -265,6 +265,8 @@ public class TaskSearcherTree extends JTree implements TaskSearcherView, SavePro
 	}
 	
 	private void initializeExpandedState() {
+		TreeUtils.expandAll(this, true);
+		
 		Main.getSettings().addPropertyChangeListener(
 				this.settingsPrefix + ".category",
 				new PropertyChangeListener() {

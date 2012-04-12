@@ -553,7 +553,8 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				} catch (Exception e) {
 					this.insertNodeInto(item, category, 0);
 				}
-			} else if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
+			} else if (event.getPropertyName().equals(BasicModel.PROP_TITLE)
+					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
 				this.removeNodeFromParent(item);
 				
 				try {
