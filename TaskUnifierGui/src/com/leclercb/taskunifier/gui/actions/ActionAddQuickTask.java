@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.event.ActionEvent;
-import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -304,11 +303,19 @@ public class ActionAddQuickTask extends AbstractAction {
 			}
 		}
 		
-		for (int i = 0; i < 7; i++) {
-			System.out.println(DateFormatSymbols.getInstance().getShortWeekdays()[i]);
-			if (DateFormatSymbols.getInstance().getShortWeekdays()[i].equalsIgnoreCase(title)) {
+		String[] weekdays = new String[] {
+				"date.short_sunday",
+				"date.short_monday",
+				"date.short_tuesday",
+				"date.short_wednesday",
+				"date.short_thursday",
+				"date.short_friday",
+				"date.short_saturday" };
+		
+		for (int j = 0; j < weekdays.length; j++) {
+			if (weekdays[j].equalsIgnoreCase(title)) {
 				Calendar date = Calendar.getInstance();
-				date.set(Calendar.DAY_OF_WEEK, i);
+				date.set(Calendar.DAY_OF_WEEK, j + 1);
 				
 				if (startDate)
 					bean.setStartDate(date);

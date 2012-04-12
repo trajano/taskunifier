@@ -104,7 +104,7 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (plugin.getStatus() == PluginStatus.TO_INSTALL
 				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
 			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					Translations.getString("general.manage_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();

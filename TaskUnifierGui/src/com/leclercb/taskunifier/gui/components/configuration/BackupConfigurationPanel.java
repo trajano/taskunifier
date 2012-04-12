@@ -126,7 +126,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 											null);
 									
 									JXErrorPane.showDialog(
-											FrameUtils.getCurrentFrameView().getFrame(),
+											FrameUtils.getCurrentFrame(),
 											info);
 									
 									return;

@@ -71,7 +71,7 @@ public class SynchronizerPluginsDialog extends JDialog {
 	public void setVisible(boolean visible) {
 		if (visible) {
 			this.pluginsPanel.reloadPlugins();
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);

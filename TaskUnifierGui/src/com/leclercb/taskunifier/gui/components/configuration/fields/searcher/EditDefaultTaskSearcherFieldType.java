@@ -69,7 +69,7 @@ public class EditDefaultTaskSearcherFieldType extends ConfigurationFieldType.But
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		TaskSearcherEditDialog dialog = new TaskSearcherEditDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				this.searcher,
 				false);
 		

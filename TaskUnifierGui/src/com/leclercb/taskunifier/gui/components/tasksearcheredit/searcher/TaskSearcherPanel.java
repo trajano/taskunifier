@@ -168,7 +168,7 @@ public class TaskSearcherPanel extends JPanel implements PropertyChangeListener 
 					
 				});
 				
-				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrameView().getFrame());
+				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrame());
 				
 				if (result == JFileChooser.APPROVE_OPTION)
 					TaskSearcherPanel.this.searcher.setIcon(fileChooser.getSelectedFile().getAbsolutePath());

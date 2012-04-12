@@ -88,7 +88,7 @@ public class ActionEditNoteSearcher extends AbstractViewNoteSearcherSelectionAct
 		
 		if (foundInFactory && searcher.getType().isEditable()) {
 			NoteSearcherEditDialog dialog = new NoteSearcherEditDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					searcher);
 			
 			dialog.setVisible(true);

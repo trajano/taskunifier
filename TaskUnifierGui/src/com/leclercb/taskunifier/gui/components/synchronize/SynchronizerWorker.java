@@ -332,9 +332,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 						(e.isExpected() ? Level.INFO : Level.WARNING),
 						null);
 				
-				JXErrorPane.showDialog(
-						FrameUtils.getCurrentFrameView().getFrame(),
-						info);
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				
 				if (e instanceof SynchronizerSettingsException)
 					ActionPluginConfiguration.pluginConfiguration(plugin);
@@ -368,9 +366,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 							Level.WARNING,
 							null);
 					
-					JXErrorPane.showDialog(
-							FrameUtils.getCurrentFrameView().getFrame(),
-							info);
+					JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				}
 				
 			});

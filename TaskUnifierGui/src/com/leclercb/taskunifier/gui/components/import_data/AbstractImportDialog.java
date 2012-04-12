@@ -59,7 +59,6 @@ import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 abstract class AbstractImportDialog extends JDialog {
 	
@@ -88,7 +87,7 @@ abstract class AbstractImportDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);
@@ -118,9 +117,6 @@ abstract class AbstractImportDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.NORTH);
 		
-		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:default:grow");
-		
 		// Import file
 		FileFilter fileFilter = new FileFilter() {
 			
@@ -148,26 +144,22 @@ abstract class AbstractImportDialog extends JDialog {
 					this.fileProperty);
 		
 		this.fileField = new TUFileField(
+				Translations.getString("import.file_to_import"),
 				true,
 				defaultFile,
 				JFileChooser.FILES_ONLY,
 				fileFilter,
 				null);
 		
-		builder.appendI15d("import.file_to_import", true, this.fileField);
+		panel.add(this.fileField, BorderLayout.CENTER);
 		
 		// Delete existing values
-		this.deleteExistingValues = new JCheckBox();
+		this.deleteExistingValues = new JCheckBox(
+				Translations.getString("import.delete_existing_values"));
 		
 		if (showDeleteExistingValues) {
-			builder.appendI15d(
-					"import.delete_existing_values",
-					true,
-					this.deleteExistingValues);
+			panel.add(this.deleteExistingValues, BorderLayout.NORTH);
 		}
-		
-		// Lay out the panel
-		panel.add(builder.getPanel(), BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}
@@ -203,7 +195,7 @@ abstract class AbstractImportDialog extends JDialog {
 								null);
 						
 						JXErrorPane.showDialog(
-								FrameUtils.getCurrentFrameView().getFrame(),
+								FrameUtils.getCurrentFrame(),
 								info);
 					}
 				}

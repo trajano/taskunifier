@@ -34,7 +34,7 @@ public class TipsDialog extends JXTipOfTheDay {
 		}
 		
 		this.showDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				new ShowOnStartupChoice() {
 					
 					@Override

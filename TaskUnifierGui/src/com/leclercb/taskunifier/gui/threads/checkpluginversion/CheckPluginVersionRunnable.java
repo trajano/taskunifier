@@ -119,7 +119,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 								Translations.getString("general.cancel") };
 						
 						result = JOptionPane.showOptionDialog(
-								FrameUtils.getCurrentFrameView().getFrame(),
+								FrameUtils.getCurrentFrame(),
 								Translations.getString(
 										"action.check_plugin_version.new_plugin_version_available",
 										version,
@@ -152,16 +152,14 @@ public class CheckPluginVersionRunnable implements Runnable {
 							Level.INFO,
 							null);
 					
-					JXErrorPane.showDialog(
-							FrameUtils.getCurrentFrameView().getFrame(),
-							info);
+					JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				}
 			}
 		}
 		
 		if (pluginsToUpdate.size() > 0) {
 			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					Translations.getString("general.manage_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();
@@ -195,7 +193,7 @@ public class CheckPluginVersionRunnable implements Runnable {
 		
 		if (!silent) {
 			JOptionPane.showMessageDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					Translations.getString(
 							"action.check_plugin_version.no_new_plugin_version_available",
 							syncPlugin.getVersion(),

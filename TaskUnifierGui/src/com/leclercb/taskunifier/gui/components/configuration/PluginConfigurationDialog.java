@@ -168,9 +168,7 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 					Level.SEVERE,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return;
 		}
@@ -192,9 +190,7 @@ public class PluginConfigurationDialog extends JDialog implements ConfigurationG
 					Level.SEVERE,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return;
 		}

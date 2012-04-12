@@ -101,9 +101,7 @@ public final class BackupUtils {
 								"error.folder_not_a_folder",
 								folder), null, "GUI", null, Level.WARNING, null);
 				
-				JXErrorPane.showDialog(
-						FrameUtils.getCurrentFrameView().getFrame(),
-						info);
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				
 				return false;
 			}
@@ -117,9 +115,7 @@ public final class BackupUtils {
 					Level.WARNING,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return false;
 		}
@@ -209,19 +205,10 @@ public final class BackupUtils {
 		try {
 			FileUtils.deleteDirectory(new File(folder));
 		} catch (Exception e) {
-			ErrorInfo info = new ErrorInfo(
-					Translations.getString("general.error"),
-					e.getMessage(),
-					null,
-					"GUI",
-					e,
+			GuiLogger.getLogger().log(
 					Level.WARNING,
-					null);
-			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
-			
+					"Cannot remove backup \"" + backupName + "\"",
+					e);
 			return;
 		}
 		

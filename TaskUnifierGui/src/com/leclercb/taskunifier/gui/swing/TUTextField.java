@@ -38,6 +38,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
+
 public class TUTextField extends JPanel {
 	
 	private JTextField textField;
@@ -57,9 +59,19 @@ public class TUTextField extends JPanel {
 	private void initialize(String label, String text) {
 		this.textField = new JTextField();
 		
-		this.setLayout(new BorderLayout(5, 0));
-		this.add(new JLabel(label), BorderLayout.WEST);
-		this.add(this.textField, BorderLayout.CENTER);
+		this.setLayout(new BorderLayout(3, 0));
+		
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow");
+		
+		if (label != null)
+			builder.append(new JLabel(label + ": "));
+		else
+			builder.append(new JLabel());
+		
+		builder.append(this.textField);
+		
+		this.add(builder.getPanel(), BorderLayout.CENTER);
 	}
 	
 }

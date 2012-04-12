@@ -165,7 +165,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				Translations.getString("action.delete.delete_notes", number),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,
@@ -183,7 +183,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				Translations.getString("action.delete.delete_tasks", number),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,
@@ -202,7 +202,7 @@ public class ActionDelete extends AbstractViewAction {
 				Translations.getString("general.cancel") };
 		
 		int result = JOptionPane.showOptionDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				Translations.getString("action.delete.delete_subtasks"),
 				Translations.getString("general.question"),
 				JOptionPane.YES_NO_CANCEL_OPTION,

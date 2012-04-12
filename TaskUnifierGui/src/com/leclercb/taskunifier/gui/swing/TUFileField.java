@@ -39,10 +39,12 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class TUFileField extends JPanel {
@@ -53,13 +55,14 @@ public class TUFileField extends JPanel {
 	private String appendFileExtention;
 	
 	public TUFileField(
+			String label,
 			boolean open,
 			String file,
 			int fileSelectionMode,
 			FileFilter fileFilter,
 			String appendFileExtention) {
 		this.appendFileExtention = appendFileExtention;
-		this.initialize(open, file, fileSelectionMode, fileFilter);
+		this.initialize(label, open, file, fileSelectionMode, fileFilter);
 	}
 	
 	public String getFile() {
@@ -71,10 +74,11 @@ public class TUFileField extends JPanel {
 	}
 	
 	private void initialize(
+			final String label,
 			final boolean open,
-			String file,
-			int fileSelectionMode,
-			FileFilter fileFilter) {
+			final String file,
+			final int fileSelectionMode,
+			final FileFilter fileFilter) {
 		this.fileChooser = new JFileChooser();
 		this.fileChooser.setFileSelectionMode(fileSelectionMode);
 		this.fileChooser.setFileFilter(fileFilter);
@@ -119,8 +123,19 @@ public class TUFileField extends JPanel {
 		});
 		
 		this.setLayout(new BorderLayout(3, 0));
-		this.add(this.fileTextField, BorderLayout.CENTER);
-		this.add(this.selectFile, BorderLayout.EAST);
+		
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow, 4dlu, pref");
+		
+		if (label != null)
+			builder.append(new JLabel(label + ": "));
+		else
+			builder.append(new JLabel());
+		
+		builder.append(this.fileTextField);
+		builder.append(this.selectFile);
+		
+		this.add(builder.getPanel(), BorderLayout.CENTER);
 	}
 	
 }

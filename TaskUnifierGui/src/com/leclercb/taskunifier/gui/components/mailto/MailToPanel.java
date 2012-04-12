@@ -114,9 +114,7 @@ public class MailToPanel extends JPanel {
 						Level.INFO,
 						null);
 				
-				JXErrorPane.showDialog(
-						FrameUtils.getCurrentFrameView().getFrame(),
-						info);
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				
 				return;
 			}
@@ -139,9 +137,7 @@ public class MailToPanel extends JPanel {
 						Level.INFO,
 						null);
 				
-				JXErrorPane.showDialog(
-						FrameUtils.getCurrentFrameView().getFrame(),
-						info);
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 				
 				return;
 			}

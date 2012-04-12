@@ -69,7 +69,7 @@ public class TaskTemplateConfigurationDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);

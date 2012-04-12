@@ -617,7 +617,7 @@ public final class PluginsUtils {
 			}
 		} else {
 			TUWorkerDialog<Plugin[]> dialog = new TUWorkerDialog<Plugin[]>(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					Translations.getString("general.loading_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();

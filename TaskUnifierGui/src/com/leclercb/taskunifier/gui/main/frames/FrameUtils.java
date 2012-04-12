@@ -107,6 +107,13 @@ public final class FrameUtils {
 			ActionQuit.quit();
 	}
 	
+	public static Frame getCurrentFrame() {
+		if (getCurrentFrameView() != null)
+			return getCurrentFrameView().getFrame();
+		
+		return null;
+	}
+	
 	public static FrameView getCurrentFrameView() {
 		if (ViewList.getInstance().getCurrentView() == null)
 			return null;

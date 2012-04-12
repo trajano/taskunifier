@@ -52,7 +52,7 @@ public class SynchronizerDialog extends TUWorkerDialog<Void> {
 	
 	public SynchronizerDialog() {
 		super(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				Translations.getString("general.synchronization"));
 		
 		this.serialNeeded = false;

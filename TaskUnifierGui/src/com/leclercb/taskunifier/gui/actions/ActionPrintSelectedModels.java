@@ -105,9 +105,7 @@ public class ActionPrintSelectedModels extends AbstractAction {
 					Level.WARNING,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 		}
 	}
 	

@@ -69,7 +69,7 @@ public class EditDefaultNoteSearcherFieldType extends ConfigurationFieldType.But
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		NoteSearcherEditDialog dialog = new NoteSearcherEditDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				this.searcher,
 				false);
 		

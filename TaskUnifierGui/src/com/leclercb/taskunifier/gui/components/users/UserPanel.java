@@ -134,7 +134,7 @@ public class UserPanel extends JPanel {
 				Translations.getString("general.no") };
 		
 		int result = JOptionPane.showOptionDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
+				FrameUtils.getCurrentFrame(),
 				Translations.getString(
 						"manage_users.delete_user.confirm",
 						UserUtils.getInstance().getUserName(user)),
@@ -176,9 +176,7 @@ public class UserPanel extends JPanel {
 				Level.INFO,
 				null);
 		
-		JXErrorPane.showDialog(
-				FrameUtils.getCurrentFrameView().getFrame(),
-				info);
+		JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 	}
 	
 	private void initialize() {

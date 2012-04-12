@@ -118,9 +118,7 @@ public final class MailUtils {
 					Level.WARNING,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return false;
 		}
@@ -181,9 +179,7 @@ public final class MailUtils {
 					Level.WARNING,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return false;
 		}

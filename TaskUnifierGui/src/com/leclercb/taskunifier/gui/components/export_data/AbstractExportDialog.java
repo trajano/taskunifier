@@ -58,7 +58,6 @@ import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 abstract class AbstractExportDialog extends JDialog {
 	
@@ -85,7 +84,7 @@ abstract class AbstractExportDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);
@@ -114,9 +113,6 @@ abstract class AbstractExportDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(panel, BorderLayout.NORTH);
 		
-		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:default:grow");
-		
 		// Export file
 		FileFilter fileFilter = new FileFilter() {
 			
@@ -144,16 +140,14 @@ abstract class AbstractExportDialog extends JDialog {
 					this.fileProperty);
 		
 		this.fileField = new TUFileField(
+				Translations.getString("export.export_to_file"),
 				false,
 				defaultFile,
 				JFileChooser.FILES_ONLY,
 				fileFilter,
 				this.fileExtention);
 		
-		builder.appendI15d("export.export_to_file", true, this.fileField);
-		
-		// Lay out the panel
-		panel.add(builder.getPanel(), BorderLayout.CENTER);
+		panel.add(this.fileField, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 	}
@@ -185,7 +179,7 @@ abstract class AbstractExportDialog extends JDialog {
 								null);
 						
 						JXErrorPane.showDialog(
-								FrameUtils.getCurrentFrameView().getFrame(),
+								FrameUtils.getCurrentFrame(),
 								info);
 					}
 				}

@@ -88,7 +88,7 @@ public class CheckVersionRunnable implements Runnable {
 							Translations.getString("general.cancel") };
 					
 					int result = JOptionPane.showOptionDialog(
-							FrameUtils.getCurrentFrameView().getFrame(),
+							FrameUtils.getCurrentFrame(),
 							Translations.getString(
 									"action.check_version.new_version_available",
 									version),
@@ -108,7 +108,7 @@ public class CheckVersionRunnable implements Runnable {
 				
 				if (!this.silent) {
 					JOptionPane.showMessageDialog(
-							FrameUtils.getCurrentFrameView().getFrame(),
+							FrameUtils.getCurrentFrame(),
 							Translations.getString(
 									"action.check_version.no_new_version_available",
 									Constants.VERSION),
@@ -130,9 +130,7 @@ public class CheckVersionRunnable implements Runnable {
 						Level.INFO,
 						null);
 				
-				JXErrorPane.showDialog(
-						FrameUtils.getCurrentFrameView().getFrame(),
-						info);
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			}
 		}
 	}

@@ -59,7 +59,6 @@ import com.leclercb.taskunifier.gui.swing.TUFileField;
 import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.buttons.TUCancelButton;
 import com.leclercb.taskunifier.gui.translations.Translations;
-import com.leclercb.taskunifier.gui.utils.FormBuilder;
 
 public class ChangeDataFolderDialog extends JDialog {
 	
@@ -84,7 +83,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		if (b) {
 			File file = new File(Main.getDataFolder());
 			this.fileField.setFile(file.getAbsolutePath());
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(b);
@@ -113,27 +112,22 @@ public class ChangeDataFolderDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add(panel, BorderLayout.NORTH);
 		
-		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:default:grow");
-		
 		// Data folder
 		this.fileField = new TUFileField(
+				Translations.getString("general.folder"),
 				true,
 				null,
 				JFileChooser.DIRECTORIES_ONLY,
 				null,
 				null);
 		
-		builder.appendI15d("general.folder", true, this.fileField);
+		panel.add(this.fileField, BorderLayout.CENTER);
 		
 		// Copy data
 		this.copyData = new JCheckBox(
 				Translations.getString("change_data_folder_location.copy_data"));
 		
-		builder.append("", this.copyData);
-		
-		// Lay out the panel
-		panel.add(builder.getPanel(), BorderLayout.CENTER);
+		panel.add(this.copyData, BorderLayout.SOUTH);
 		
 		this.initializeButtonsPanel();
 	}
@@ -185,7 +179,7 @@ public class ChangeDataFolderDialog extends JDialog {
 								null);
 						
 						JXErrorPane.showDialog(
-								FrameUtils.getCurrentFrameView().getFrame(),
+								FrameUtils.getCurrentFrame(),
 								info);
 						
 						return;

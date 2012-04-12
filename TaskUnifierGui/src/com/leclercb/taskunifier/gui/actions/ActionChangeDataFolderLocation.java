@@ -75,9 +75,7 @@ public class ActionChangeDataFolderLocation extends AbstractAction {
 					Level.INFO,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return;
 		}

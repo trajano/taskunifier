@@ -40,7 +40,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
@@ -79,7 +78,7 @@ public class TULinkDialog extends JDialog {
 	public void setVisible(boolean visible) {
 		if (visible) {
 			this.cancelled = false;
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);
@@ -99,11 +98,8 @@ public class TULinkDialog extends JDialog {
 		
 		JPanel panel = new JPanel(new BorderLayout());
 		
-		panel.add(
-				new JLabel(Translations.getString("general.link")),
-				BorderLayout.WEST);
-		
 		this.fileField = new TUFileField(
+				Translations.getString("general.link"),
 				open,
 				null,
 				JFileChooser.FILES_AND_DIRECTORIES,

@@ -161,7 +161,7 @@ public class NoteSearcherPanel extends JPanel implements PropertyChangeListener 
 					
 				});
 				
-				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrameView().getFrame());
+				int result = fileChooser.showOpenDialog(FrameUtils.getCurrentFrame());
 				
 				if (result == JFileChooser.APPROVE_OPTION)
 					NoteSearcherPanel.this.searcher.setIcon(fileChooser.getSelectedFile().getAbsolutePath());

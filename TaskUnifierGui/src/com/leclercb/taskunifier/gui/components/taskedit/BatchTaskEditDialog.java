@@ -96,7 +96,7 @@ public class BatchTaskEditDialog extends TUDialog {
 	public void setVisible(boolean visible) {
 		if (visible) {
 			this.cancelled = false;
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);

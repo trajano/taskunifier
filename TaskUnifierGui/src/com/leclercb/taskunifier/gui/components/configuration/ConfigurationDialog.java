@@ -109,7 +109,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			this.setLocationRelativeTo(FrameUtils.getCurrentFrameView().getFrame());
+			this.setLocationRelativeTo(FrameUtils.getCurrentFrame());
 		}
 		
 		super.setVisible(visible);
@@ -327,9 +327,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 					Level.SEVERE,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return;
 		}
@@ -363,9 +361,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 					Level.SEVERE,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 			
 			return;
 		}

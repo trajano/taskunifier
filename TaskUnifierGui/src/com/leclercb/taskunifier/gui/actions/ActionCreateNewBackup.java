@@ -71,7 +71,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 		
 		if (result) {
 			JOptionPane.showMessageDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
+					FrameUtils.getCurrentFrame(),
 					Translations.getString("action.create_new_backup.success"),
 					Translations.getString("general.information"),
 					JOptionPane.INFORMATION_MESSAGE);
@@ -85,9 +85,7 @@ public class ActionCreateNewBackup extends AbstractAction {
 					Level.WARNING,
 					null);
 			
-			JXErrorPane.showDialog(
-					FrameUtils.getCurrentFrameView().getFrame(),
-					info);
+			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
 		}
 		
 		return result;
