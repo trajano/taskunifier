@@ -42,10 +42,13 @@ import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.gui.utils.TreeUtils;
+import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
+import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcher;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherFactory;
 import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferData;
@@ -53,6 +56,7 @@ import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.TaskSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.TaskSearcherTree;
+import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.ModelItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.tasksearchertree.nodes.SearcherNode;
@@ -84,22 +88,36 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			
 			try {
 				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (data == null)
+					return false;
 			} catch (Exception e) {
 				return false;
 			}
-			
-			if (!data.getType().equals(ModelType.TASK))
-				return false;
 			
 			SearcherNode node = this.getSearcherNodeForLocation(support);
 			
 			if (node == null)
 				return false;
 			
-			if (node.getTaskSearcher().getTemplate() == null)
-				return false;
+			if (data.getType().equals(ModelType.TASK)) {
+				if (node.getTaskSearcher().getTemplate() == null)
+					return false;
+				
+				return true;
+			}
 			
-			return true;
+			if (data.getType().equals(ModelType.CONTEXT)
+					|| data.getType().equals(ModelType.FOLDER)
+					|| data.getType().equals(ModelType.GOAL)) {
+				if (!(node instanceof ModelItem))
+					return false;
+				
+				if (!data.getType().equals(((ModelItem) node).getModelType()))
+					return false;
+				
+				return true;
+			}
 		}
 		
 		return false;
@@ -150,12 +168,20 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 	protected Transferable createTransferable(JComponent c) {
 		TaskSearcherTree tree = (TaskSearcherTree) c;
 		TaskSearcher searcher = tree.getSelectedTaskSearcher();
+		Model model = tree.getSelectedModel();
 		
 		if (searcher == null)
 			return null;
 		
+		if (model == null) {
+			return new TaskSearcherTransferable(new TaskSearcherTransferData(
+					searcher), null);
+		}
+		
 		return new TaskSearcherTransferable(new TaskSearcherTransferData(
-				searcher));
+				searcher), new ModelTransferData(
+				model.getModelType(),
+				model.getModelId()));
 	}
 	
 	@Override
@@ -177,6 +203,7 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 		return false;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean importModelFlavorData(TransferSupport support) {
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			Transferable t = support.getTransferable();
@@ -184,15 +211,34 @@ public class TaskSearcherTransferHandler extends TransferHandler {
 			
 			try {
 				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (data == null)
+					return false;
 			} catch (Exception e) {
 				return false;
 			}
 			
 			SearcherNode node = this.getSearcherNodeForLocation(support);
 			
-			for (ModelId id : data.getIds()) {
-				Task task = TaskFactory.getInstance().get(id);
-				node.getTaskSearcher().getTemplate().applyTo(task);
+			if (data.getType().equals(ModelType.TASK)) {
+				for (ModelId id : data.getIds()) {
+					Task task = TaskFactory.getInstance().get(id);
+					node.getTaskSearcher().getTemplate().applyTo(task);
+				}
+			}
+			
+			if (data.getType().equals(ModelType.CONTEXT)
+					|| data.getType().equals(ModelType.FOLDER)
+					|| data.getType().equals(ModelType.GOAL)) {
+				for (ModelId id : data.getIds()) {
+					ModelParent model = (ModelParent) ModelFactoryUtils.getModel(
+							data.getType(),
+							id);
+					ModelParent childModel = (ModelParent) ((ModelItem) node).getModel();
+					
+					if (!model.equals(childModel))
+						model.setParent(childModel);
+				}
 			}
 			
 			return true;

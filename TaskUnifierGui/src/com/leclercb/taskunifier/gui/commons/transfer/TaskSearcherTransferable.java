@@ -47,15 +47,27 @@ public class TaskSearcherTransferable implements Transferable {
 			TaskSearcherTransferData.class,
 			"TASK_SEARCHER_FLAVOR");
 	
-	public static final DataFlavor[] FLAVORS = { TASK_SEARCHER_FLAVOR };
+	public static final DataFlavor[] FLAVORS = {
+			TASK_SEARCHER_FLAVOR,
+			ModelTransferable.MODEL_FLAVOR };
 	
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
-	private TaskSearcherTransferData data;
+	private TaskSearcherTransferData taskSearcherTransferData;
+	private ModelTransferData modelTransferData;
 	
-	public TaskSearcherTransferable(TaskSearcherTransferData data) {
-		CheckUtils.isNotNull(data);
-		this.data = data;
+	public TaskSearcherTransferable(
+			TaskSearcherTransferData taskSearcherTransferData) {
+		this(taskSearcherTransferData, null);
+	}
+	
+	public TaskSearcherTransferable(
+			TaskSearcherTransferData taskSearcherTransferData,
+			ModelTransferData modelTransferData) {
+		CheckUtils.isNotNull(taskSearcherTransferData);
+		
+		this.taskSearcherTransferData = taskSearcherTransferData;
+		this.modelTransferData = modelTransferData;
 	}
 	
 	@Override
@@ -71,7 +83,13 @@ public class TaskSearcherTransferable implements Transferable {
 	@Override
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
-		return this.data;
+		if (TASK_SEARCHER_FLAVOR.equals(flavor))
+			return this.taskSearcherTransferData;
+		
+		if (ModelTransferable.MODEL_FLAVOR.equals(flavor))
+			return this.modelTransferData;
+		
+		return null;
 	}
 	
 }

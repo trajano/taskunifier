@@ -47,15 +47,27 @@ public class NoteSearcherTransferable implements Transferable {
 			NoteSearcherTransferData.class,
 			"NOTE_SEARCHER_FLAVOR");
 	
-	public static final DataFlavor[] FLAVORS = { NOTE_SEARCHER_FLAVOR };
+	public static final DataFlavor[] FLAVORS = {
+			NOTE_SEARCHER_FLAVOR,
+			ModelTransferable.MODEL_FLAVOR };
 	
 	private static final List<DataFlavor> FLAVOR_LIST = Arrays.asList(FLAVORS);
 	
-	private NoteSearcherTransferData data;
+	private NoteSearcherTransferData noteSearcherTransferData;
+	private ModelTransferData modelTransferData;
 	
-	public NoteSearcherTransferable(NoteSearcherTransferData data) {
-		CheckUtils.isNotNull(data);
-		this.data = data;
+	public NoteSearcherTransferable(
+			NoteSearcherTransferData noteSearcherTransferData) {
+		this(noteSearcherTransferData, null);
+	}
+	
+	public NoteSearcherTransferable(
+			NoteSearcherTransferData noteSearcherTransferData,
+			ModelTransferData modelTransferData) {
+		CheckUtils.isNotNull(noteSearcherTransferData);
+		
+		this.noteSearcherTransferData = noteSearcherTransferData;
+		this.modelTransferData = modelTransferData;
 	}
 	
 	@Override
@@ -71,7 +83,13 @@ public class NoteSearcherTransferable implements Transferable {
 	@Override
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
-		return this.data;
+		if (NOTE_SEARCHER_FLAVOR.equals(flavor))
+			return this.noteSearcherTransferData;
+		
+		if (ModelTransferable.MODEL_FLAVOR.equals(flavor))
+			return this.modelTransferData;
+		
+		return null;
 	}
 	
 }

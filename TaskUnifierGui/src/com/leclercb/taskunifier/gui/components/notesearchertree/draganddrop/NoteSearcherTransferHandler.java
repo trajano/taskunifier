@@ -45,6 +45,8 @@ import javax.swing.tree.TreePath;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.utils.TreeUtils;
+import com.leclercb.taskunifier.api.models.Folder;
+import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
@@ -57,6 +59,7 @@ import com.leclercb.taskunifier.gui.commons.transfer.ModelTransferable;
 import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferData;
 import com.leclercb.taskunifier.gui.commons.transfer.NoteSearcherTransferable;
 import com.leclercb.taskunifier.gui.components.notesearchertree.NoteSearcherTree;
+import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.FolderItem;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherCategory;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherItem;
 import com.leclercb.taskunifier.gui.components.notesearchertree.nodes.SearcherNode;
@@ -84,22 +87,31 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 			
 			try {
 				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (data == null)
+					return false;
 			} catch (Exception e) {
 				return false;
 			}
-			
-			if (!data.getType().equals(ModelType.NOTE))
-				return false;
 			
 			SearcherNode node = this.getSearcherNodeForLocation(support);
 			
 			if (node == null)
 				return false;
 			
-			if (node.getNoteSearcher().getTemplate() == null)
-				return false;
+			if (data.getType().equals(ModelType.NOTE)) {
+				if (node.getNoteSearcher().getTemplate() == null)
+					return false;
+				
+				return true;
+			}
 			
-			return true;
+			if (data.getType().equals(ModelType.FOLDER)) {
+				if (!(node instanceof FolderItem))
+					return false;
+				
+				return true;
+			}
 		}
 		
 		return false;
@@ -150,12 +162,20 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 	protected Transferable createTransferable(JComponent c) {
 		NoteSearcherTree tree = (NoteSearcherTree) c;
 		NoteSearcher searcher = tree.getSelectedNoteSearcher();
+		Folder folder = tree.getSelectedFolder();
 		
 		if (searcher == null)
 			return null;
 		
+		if (folder == null) {
+			return new NoteSearcherTransferable(new NoteSearcherTransferData(
+					searcher), null);
+		}
+		
 		return new NoteSearcherTransferable(new NoteSearcherTransferData(
-				searcher));
+				searcher), new ModelTransferData(
+				folder.getModelType(),
+				folder.getModelId()));
 	}
 	
 	@Override
@@ -184,15 +204,30 @@ public class NoteSearcherTransferHandler extends TransferHandler {
 			
 			try {
 				data = (ModelTransferData) t.getTransferData(ModelTransferable.MODEL_FLAVOR);
+				
+				if (data == null)
+					return false;
 			} catch (Exception e) {
 				return false;
 			}
 			
 			SearcherNode node = this.getSearcherNodeForLocation(support);
 			
-			for (ModelId id : data.getIds()) {
-				Note note = NoteFactory.getInstance().get(id);
-				node.getNoteSearcher().getTemplate().applyTo(note);
+			if (data.getType().equals(ModelType.NOTE)) {
+				for (ModelId id : data.getIds()) {
+					Note note = NoteFactory.getInstance().get(id);
+					node.getNoteSearcher().getTemplate().applyTo(note);
+				}
+			}
+			
+			if (data.getType().equals(ModelType.FOLDER)) {
+				for (ModelId id : data.getIds()) {
+					Folder folder = FolderFactory.getInstance().get(id);
+					Folder childFolder = ((FolderItem) node).getFolder();
+					
+					if (!folder.equals(childFolder))
+						folder.setParent(((FolderItem) node).getFolder());
+				}
 			}
 			
 			return true;
