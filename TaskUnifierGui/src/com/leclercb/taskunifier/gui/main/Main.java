@@ -77,7 +77,6 @@ import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
-import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionManageSynchronizerPlugins;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
@@ -369,8 +368,8 @@ public class Main {
 					
 					TipsDialog.getInstance().showTipsDialog(true);
 					
-					if (finalUpdateVersion)
-						ActionHelp.help("whats_new");
+					// if (finalUpdateVersion)
+					// ActionHelp.help("whats_new");
 					
 					handleArguments(args);
 					

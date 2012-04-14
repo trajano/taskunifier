@@ -1,8 +1,8 @@
 HISTORY
 -------
 
-Version 2.3.3
-	- Minor:
+Version 2.4.0
+	- Major:
 		- Bug fixed: Freeze with Outlook Addon
 		- BF 3516376: Model update date not always set
 
