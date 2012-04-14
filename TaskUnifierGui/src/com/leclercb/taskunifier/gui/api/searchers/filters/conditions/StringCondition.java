@@ -57,8 +57,8 @@ public enum StringCondition implements Condition<String, Object> {
 	
 	@Override
 	public boolean include(Object objectValue, Object objectTaskValue) {
-		String value = (String) objectValue;
-		String taskValue = (String) objectTaskValue;
+		String value = (objectValue == null ? null : objectValue.toString());
+		String taskValue = (objectTaskValue == null ? null : objectTaskValue.toString());
 		
 		if (value == null)
 			value = "";
