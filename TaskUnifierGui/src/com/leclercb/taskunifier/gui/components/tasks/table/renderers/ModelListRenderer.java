@@ -40,15 +40,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.gui.swing.TUModelListField;
+import com.leclercb.taskunifier.gui.swing.TUModelListLabel;
 
 public class ModelListRenderer<M extends Model> extends DefaultTableCellRenderer {
 	
-	private TUModelListField<M> modelListField;
+	private TUModelListLabel modelListLabel;
 	
 	public ModelListRenderer(ModelType modelType) {
-		this.modelListField = new TUModelListField<M>(modelType);
-		this.modelListField.setEditable(false);
+		this.modelListLabel = new TUModelListLabel();
+		this.modelListLabel.setOpaque(true);
 	}
 	
 	@Override
@@ -61,8 +61,8 @@ public class ModelListRenderer<M extends Model> extends DefaultTableCellRenderer
 			int column) {
 		@SuppressWarnings("unchecked")
 		ModelList<M> modelList = (ModelList<M>) value;
-		this.modelListField.setModelList(modelList);
-		return this.modelListField;
+		this.modelListLabel.setModelList(modelList);
+		return this.modelListLabel;
 	}
 	
 }

@@ -112,7 +112,6 @@ public class TUModelListField<M extends Model> extends JPanel {
 	
 	public void setEditable(boolean editable) {
 		this.button.setVisible(editable);
-		this.setOpaque(!editable);
 	}
 	
 	@Override

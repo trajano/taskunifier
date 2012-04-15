@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.editors;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.AbstractCellEditor;
@@ -17,6 +18,7 @@ public class ModelListEditor<M extends Model> extends AbstractCellEditor impleme
 	
 	public ModelListEditor(ModelType modelType) {
 		this.modelList = new TUModelListField<M>(modelType);
+		this.modelList.setBackground(Color.WHITE);
 	}
 	
 	@SuppressWarnings("unchecked")
