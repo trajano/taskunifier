@@ -66,7 +66,8 @@ public class NoteSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				
 				Node nNoteSearcher = nNoteSearchers.item(i);
 				
-				NOTE_SEARCHER_XML_CODER.decode(nNoteSearcher);
+				NoteSearcher searcher = NOTE_SEARCHER_XML_CODER.decode(nNoteSearcher);
+				NoteSearcherFactory.getInstance().register(searcher);
 			}
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);

@@ -44,6 +44,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.gui.commons.highlighters.AlternateHighlighter;
 import com.leclercb.taskunifier.gui.components.modelselectiontable.ModelSelectionColumn;
+import com.leclercb.taskunifier.gui.components.modelselectiontable.table.sorter.ModelRowFilter;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 
@@ -97,6 +98,7 @@ public class ModelSelectionTable extends JXTable implements SavePropertiesListen
 		this.setSortsOnUpdates(false);
 		this.setSortOrderCycle(SortOrder.ASCENDING, SortOrder.DESCENDING);
 		this.setSortOrder(1, SortOrder.ASCENDING);
+		this.getSortController().setRowFilter(new ModelRowFilter());
 		
 		this.getTableHeader().setReorderingAllowed(false);
 		

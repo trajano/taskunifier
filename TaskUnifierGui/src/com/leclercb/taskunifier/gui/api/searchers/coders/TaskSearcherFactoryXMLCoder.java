@@ -66,7 +66,8 @@ public class TaskSearcherFactoryXMLCoder extends AbstractFactoryXMLCoder {
 				
 				Node nTaskSearcher = nTaskSearchers.item(i);
 				
-				TASK_SEARCHER_XML_CODER.decode(nTaskSearcher);
+				TaskSearcher searcher = TASK_SEARCHER_XML_CODER.decode(nTaskSearcher);
+				TaskSearcherFactory.getInstance().register(searcher);
 			}
 		} catch (Exception e) {
 			throw new FactoryCoderException(e.getMessage(), e);

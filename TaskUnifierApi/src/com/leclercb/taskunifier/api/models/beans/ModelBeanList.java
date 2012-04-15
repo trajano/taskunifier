@@ -13,10 +13,12 @@ import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+@XStreamAlias("modellist")
 public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId> {
 	
-	@XStreamAlias("modellist")
+	@XStreamImplicit
 	private List<ModelId> models;
 	
 	public ModelBeanList() {

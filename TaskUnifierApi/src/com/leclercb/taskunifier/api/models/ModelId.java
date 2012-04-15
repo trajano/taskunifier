@@ -40,8 +40,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.beans.converters.ModelIdConverter;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
+@XStreamAlias("modelid")
 @XStreamConverter(ModelIdConverter.class)
 public class ModelId implements Serializable, Comparable<ModelId> {
 	
