@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.api.models.beans.converters;
 
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelList;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.beans.ModelBeanList;
@@ -69,12 +70,18 @@ public abstract class ModelListConverter<M extends Model> extends ReflectionConv
 	public Object unmarshal(
 			HierarchicalStreamReader reader,
 			UnmarshallingContext context) {
-		ModelBeanList modelBeanList = (ModelBeanList) super.unmarshal(
-				reader,
-				context);
+		ModelBeanList modelBeanList = new ModelBeanList();
 		
-		if (modelBeanList == null)
-			return null;
+		while (reader.hasMoreChildren()) {
+			reader.moveDown();
+			
+			if (reader.getNodeName().equals("modelid")) {
+				ModelId modelId = new ModelId(reader.getValue());
+				modelBeanList.add(modelId);
+			}
+			
+			reader.moveUp();
+		}
 		
 		return modelBeanList.toModelList(new ModelList<M>(), this.modelType);
 	}

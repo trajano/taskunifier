@@ -2,10 +2,11 @@ package com.leclercb.taskunifier.gui.swing;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,7 +30,7 @@ public class TUModelListLabel extends JPanel {
 	}
 	
 	private void initialize() {
-		this.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 0));
+		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		this.setOpaque(false);
 	}
@@ -68,10 +69,12 @@ public class TUModelListLabel extends JPanel {
 					label.setIcon(IconValueModel.INSTANCE.getIcon(model));
 				
 				this.add(label);
+				this.add(Box.createHorizontalStrut(3));
 			}
 		}
 		
 		this.revalidate();
+		this.repaint();
 	}
 	
 }
