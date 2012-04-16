@@ -49,10 +49,6 @@ abstract class AbstractTemplateFactory<M extends Template<?, ?>> extends Abstrac
 	}
 	
 	public void setDefaultTemplate(M defaultTemplate) {
-		if (defaultTemplate != null
-				&& !this.contains(defaultTemplate.getModelId()))
-			this.register(defaultTemplate);
-		
 		M oldDefaultTemplate = this.defaultTemplate;
 		this.defaultTemplate = defaultTemplate;
 		this.propertyChangeSupport.firePropertyChange(
