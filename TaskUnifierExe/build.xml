@@ -170,6 +170,7 @@
 	<target name="clean">
 		<echo message="Cleaning..."/>
 		<delete dir="${directory.exe}/temp"/>
+		<delete file="${directory.gui}/resources/taskunifier.properties"/>
 	</target>
 	
 	<target name="check-os">
