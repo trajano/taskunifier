@@ -42,19 +42,28 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.leclercb.commons.api.event.action.ActionSupport;
+import com.leclercb.commons.api.event.action.ActionSupported;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.actions.ActionAddQuickTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTask;
 import com.leclercb.taskunifier.gui.actions.ActionAddTemplateTaskMenu;
+import com.leclercb.taskunifier.gui.utils.FormBuilder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class QuickAddTaskPanel extends JPanel {
+public class QuickAddTaskPanel extends JPanel implements ActionSupported {
+	
+	public static final String ACTION_QUICK_TASK_ADDED = "ACTION_QUICK_TASK_ADDED";
+	
+	private ActionSupport actionSupport;
 	
 	private JTextField textField;
 	private JButton button;
 	private JButton buttonTemplate;
 	
 	public QuickAddTaskPanel() {
+		this.actionSupport = new ActionSupport(this);
+		
 		this.initialize();
 	}
 	
@@ -102,27 +111,40 @@ public class QuickAddTaskPanel extends JPanel {
 				listener));
 		this.buttonTemplate.setText(null);
 		
-		this.setLayout(new BorderLayout(3, 3));
-		this.add(this.textField, BorderLayout.CENTER);
+		this.setLayout(new BorderLayout());
 		
-		JPanel buttonsPanel = new JPanel(new BorderLayout(3, 3));
-		buttonsPanel.setOpaque(false);
-		buttonsPanel.add(this.button, BorderLayout.WEST);
-		buttonsPanel.add(this.buttonTemplate, BorderLayout.EAST);
+		FormBuilder builder = new FormBuilder(
+				"fill:default:grow, 4dlu, pref, 4dlu, pref");
 		
-		this.add(buttonsPanel, BorderLayout.EAST);
+		builder.append(this.textField);
+		builder.append(this.button);
+		builder.append(this.buttonTemplate);
+		
+		this.add(builder.getPanel(), BorderLayout.CENTER);
 	}
 	
 	private void addQuickTask() {
 		String title = this.textField.getText();
 		ActionAddQuickTask.addQuickTask(title, false);
 		this.textField.setText("");
+		this.actionSupport.fireActionPerformed(0, ACTION_QUICK_TASK_ADDED);
 	}
 	
 	private void addQuickTask(TaskTemplate template) {
 		String title = this.textField.getText();
 		ActionAddQuickTask.addQuickTask(template, title, false);
 		this.textField.setText("");
+		this.actionSupport.fireActionPerformed(0, ACTION_QUICK_TASK_ADDED);
+	}
+	
+	@Override
+	public void addActionListener(ActionListener listener) {
+		this.actionSupport.addActionListener(listener);
+	}
+	
+	@Override
+	public void removeActionListener(ActionListener listener) {
+		this.actionSupport.removeActionListener(listener);
 	}
 	
 }

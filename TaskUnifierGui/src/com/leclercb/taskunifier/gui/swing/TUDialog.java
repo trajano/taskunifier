@@ -38,10 +38,14 @@ import java.awt.Point;
 import javax.swing.JDialog;
 
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
+import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.utils.ScreenUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class TUDialog extends JDialog {
+public class TUDialog extends JDialog implements SavePropertiesListener {
+	
+	private String windowProperty;
 	
 	public TUDialog() {
 		super();
@@ -52,17 +56,18 @@ public class TUDialog extends JDialog {
 	}
 	
 	public void loadWindowSettings(final String windowProperty) {
-		if (windowProperty == null)
-			return;
+		CheckUtils.isNotNull(windowProperty);
+		
+		this.windowProperty = windowProperty;
 		
 		int width = Main.getSettings().getIntegerProperty(
-				windowProperty + ".width");
+				this.windowProperty + ".width");
 		int height = Main.getSettings().getIntegerProperty(
-				windowProperty + ".height");
+				this.windowProperty + ".height");
 		int locationX = Main.getSettings().getIntegerProperty(
-				windowProperty + ".location_x");
+				this.windowProperty + ".location_x");
 		int locationY = Main.getSettings().getIntegerProperty(
-				windowProperty + ".location_y");
+				this.windowProperty + ".location_y");
 		
 		this.setSize(width, height);
 		
@@ -74,25 +79,23 @@ public class TUDialog extends JDialog {
 			this.setLocation(0, 0);
 		
 		Main.getSettings().addSavePropertiesListener(
-				new SavePropertiesListener() {
-					
-					@Override
-					public void saveProperties() {
-						Main.getSettings().setIntegerProperty(
-								windowProperty + ".width",
-								TUDialog.this.getWidth());
-						Main.getSettings().setIntegerProperty(
-								windowProperty + ".height",
-								TUDialog.this.getHeight());
-						Main.getSettings().setIntegerProperty(
-								windowProperty + ".location_x",
-								TUDialog.this.getX());
-						Main.getSettings().setIntegerProperty(
-								windowProperty + ".location_y",
-								TUDialog.this.getY());
-					}
-					
-				});
+				new WeakSavePropertiesListener(Main.getSettings(), this));
+	}
+	
+	@Override
+	public void saveProperties() {
+		Main.getSettings().setIntegerProperty(
+				this.windowProperty + ".width",
+				TUDialog.this.getWidth());
+		Main.getSettings().setIntegerProperty(
+				this.windowProperty + ".height",
+				TUDialog.this.getHeight());
+		Main.getSettings().setIntegerProperty(
+				this.windowProperty + ".location_x",
+				TUDialog.this.getX());
+		Main.getSettings().setIntegerProperty(
+				this.windowProperty + ".location_y",
+				TUDialog.this.getY());
 	}
 	
 }

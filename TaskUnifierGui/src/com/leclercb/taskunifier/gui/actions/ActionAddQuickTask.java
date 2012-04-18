@@ -184,9 +184,7 @@ public class ActionAddQuickTask extends AbstractAction {
 		for (Folder folder : folders) {
 			if (folder.getModelStatus().isEndUserStatus()) {
 				if (folder.getTitle().toLowerCase().startsWith(title)) {
-					if (bean.getFolder() == null
-							|| folder.getTitle().toLowerCase().equals(title))
-						bean.setFolder(folder.getModelId());
+					bean.setFolder(folder.getModelId());
 				}
 			}
 		}

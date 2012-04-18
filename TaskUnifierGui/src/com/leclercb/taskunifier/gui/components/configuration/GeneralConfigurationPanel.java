@@ -37,6 +37,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.GlobalHotKeyFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -72,6 +73,13 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					"SEPARATOR_1",
 					null,
 					new ConfigurationFieldType.Separator()));
+			
+			this.addField(new ConfigurationField(
+					"QUICK_TASK_GLOBAL_HOT_KEY",
+					null,
+					true,
+					new GlobalHotKeyFieldType(
+							"general.global_hot_key.quick_task")));
 			
 			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",
