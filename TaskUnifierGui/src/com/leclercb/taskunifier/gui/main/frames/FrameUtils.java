@@ -72,9 +72,11 @@ public final class FrameUtils {
 	}
 	
 	public static FrameView createFrameView() {
+		boolean isFirstWindow = (FRAME_ID == 0);
+		
 		String propertyName = "window.main";
 		
-		if (FRAME_ID != 0)
+		if (!isFirstWindow)
 			propertyName = "window.sub";
 		
 		MainFrame frame = new MainFrame(FRAME_ID, propertyName);
@@ -85,6 +87,10 @@ public final class FrameUtils {
 		
 		frame.setVisible(true);
 		frame.requestFocus();
+		
+		if (isFirstWindow) {
+			initializeSystemTray();
+		}
 		
 		return frame;
 	}
@@ -131,7 +137,7 @@ public final class FrameUtils {
 		return null;
 	}
 	
-	public static void initializeSystemTray() {
+	private static void initializeSystemTray() {
 		if (!SystemTray.isSupported()
 				|| !Main.getSettings().getBooleanProperty(
 						"window.minimize_to_system_tray")) {
