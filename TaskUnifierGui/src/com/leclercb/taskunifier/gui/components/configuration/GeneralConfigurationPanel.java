@@ -32,13 +32,15 @@
  */
 package com.leclercb.taskunifier.gui.components.configuration;
 
+import org.apache.commons.lang3.SystemUtils;
+
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationField;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 import com.leclercb.taskunifier.gui.components.configuration.api.DefaultConfigurationPanel;
-import com.leclercb.taskunifier.gui.components.configuration.fields.general.GlobalHotKeyFieldType;
 import com.leclercb.taskunifier.gui.components.configuration.fields.general.LocaleFieldType;
+import com.leclercb.taskunifier.gui.components.configuration.fields.general.ShortcutKeyFieldType;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
@@ -74,13 +76,15 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					null,
 					new ConfigurationFieldType.Separator()));
 			
-			this.addField(new ConfigurationField(
-					"QUICK_TASK_GLOBAL_HOT_KEY",
-					null,
-					true,
-					new GlobalHotKeyFieldType(
-							Main.getSettings(),
-							"general.global_hot_key.quick_task")));
+			if (SystemUtils.IS_OS_WINDOWS) {
+				this.addField(new ConfigurationField(
+						"QUICK_TASK_GLOBAL_HOT_KEY",
+						Translations.getString("configuration.general.global_hot_key.quick_task"),
+						true,
+						new ShortcutKeyFieldType(
+								Main.getSettings(),
+								"general.global_hot_key.quick_task")));
+			}
 			
 			this.addField(new ConfigurationField(
 					"MINIMIZE_TO_SYSTEM_TRAY",

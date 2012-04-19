@@ -32,10 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.actions;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -47,6 +45,8 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
+import com.leclercb.taskunifier.gui.main.frames.ShortcutKey;
+import com.leclercb.taskunifier.gui.properties.ShortcutKeyCoder;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionAddTemplateTask extends AbstractAction implements PropertyChangeListener {
@@ -86,14 +86,15 @@ public class ActionAddTemplateTask extends AbstractAction implements PropertyCha
 		
 		this.putValue(SHORT_DESCRIPTION, template.getTitle());
 		
-		Integer keyEvent = template.getProperties().getIntegerProperty(
-				"shortcut");
+		template.getProperties().addCoder(new ShortcutKeyCoder());
+		ShortcutKey shortcutKey = template.getProperties().getObjectProperty(
+				"shortcut",
+				ShortcutKey.class);
 		
-		if (keyEvent != null) {
+		if (shortcutKey != null) {
 			this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-					keyEvent,
-					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
-							+ InputEvent.SHIFT_MASK));
+					shortcutKey.getKeyCode(),
+					shortcutKey.getModifiers()));
 		}
 		
 		template.addPropertyChangeListener(
@@ -136,16 +137,15 @@ public class ActionAddTemplateTask extends AbstractAction implements PropertyCha
 		}
 		
 		if (EqualsUtils.equals("shortcut", evt.getPropertyName())) {
-			Integer keyEvent = ActionAddTemplateTask.this.template.getProperties().getIntegerProperty(
-					"shortcut");
+			this.template.getProperties().addCoder(new ShortcutKeyCoder());
+			ShortcutKey shortcutKey = this.template.getProperties().getObjectProperty(
+					"shortcut",
+					ShortcutKey.class);
 			
-			if (keyEvent != null) {
-				ActionAddTemplateTask.this.putValue(
-						ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(
-								keyEvent,
-								Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
-										+ InputEvent.SHIFT_MASK));
+			if (shortcutKey != null) {
+				this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+						shortcutKey.getKeyCode(),
+						shortcutKey.getModifiers()));
 			}
 			
 			return;

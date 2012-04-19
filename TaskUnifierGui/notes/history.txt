@@ -16,6 +16,7 @@ Version 3.0.0
 		- Define the note/task fields you (don't) use
 		- Quick add task window with global hot key
 		- New error handling system
+		- New shortcut system for task templates
 	- Minor:
 		- BF 3510783: Whole day task in calendar
 		- FR 3505247: Separation between sync and publish

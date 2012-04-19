@@ -149,9 +149,9 @@ public final class FrameUtils {
 			if (!SystemUtils.IS_OS_WINDOWS)
 				return;
 			
-			GlobalHotKey key = Main.getSettings().getObjectProperty(
+			ShortcutKey key = Main.getSettings().getObjectProperty(
 					"general.global_hot_key.quick_task",
-					GlobalHotKey.class);
+					ShortcutKey.class);
 			
 			if (key == null)
 				return;

@@ -34,9 +34,6 @@ package com.leclercb.taskunifier.gui.components.tasktemplates;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Toolkit;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -75,20 +72,20 @@ import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.gui.actions.ActionManageModels;
-import com.leclercb.taskunifier.gui.commons.converters.TemplateShorcutConverter;
+import com.leclercb.taskunifier.gui.commons.converters.TemplateShorcutKeyConverter;
 import com.leclercb.taskunifier.gui.commons.converters.TemplateTimeConverter;
 import com.leclercb.taskunifier.gui.commons.models.FolderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueKeyText;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
 import com.leclercb.taskunifier.gui.components.models.ModelConfigurationDialog.ModelConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.TUModelListField;
+import com.leclercb.taskunifier.gui.swing.TUShortcutField;
 import com.leclercb.taskunifier.gui.swing.TUSpinnerTimeEditor;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -99,7 +96,7 @@ import com.leclercb.taskunifier.gui.utils.TaskStatusList;
 public class TaskTemplateConfigurationPanel extends JSplitPane {
 	
 	private JTextField templateTitle;
-	private JComboBox templateShortcut;
+	private TUShortcutField templateShortcut;
 	
 	private JTextField taskTitle;
 	private JTextField taskTags;
@@ -129,7 +126,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 	
 	private void initialize() {
 		this.templateTitle = new JTextField();
-		this.templateShortcut = new JComboBox();
+		this.templateShortcut = new TUShortcutField();
 		
 		this.taskTitle = new JTextField();
 		this.taskTags = new JTextField();
@@ -159,6 +156,25 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskStar = new JCheckBox();
 		this.taskNote = new WysiwygHTMLEditorPane("", false, null);
 		
+		// Initialize Model List
+		final TaskTemplateList modelList = new TaskTemplateList(
+				this.templateTitle);
+		
+		this.setLeftComponent(modelList);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		rightPanel.setLayout(new BorderLayout());
+		this.setRightComponent(ComponentFactory.createJScrollPane(
+				rightPanel,
+				false));
+		
+		FormBuilder builder = new FormBuilder(
+				"right:pref, 4dlu, fill:default:grow, "
+						+ "10dlu, "
+						+ "right:pref, 4dlu, fill:default:grow");
+		
+		// Disable
 		this.templateTitle.setEnabled(false);
 		this.templateShortcut.setEnabled(false);
 		this.taskTitle.setEnabled(false);
@@ -183,42 +199,15 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		this.taskStar.setEnabled(false);
 		this.taskNote.setEnabled(false);
 		
-		// Initialize Model List
-		final TaskTemplateList modelList = new TaskTemplateList(
-				this.templateTitle);
-		
-		this.setLeftComponent(modelList);
-		
-		JPanel rightPanel = new JPanel();
-		rightPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		rightPanel.setLayout(new BorderLayout());
-		this.setRightComponent(ComponentFactory.createJScrollPane(
-				rightPanel,
-				false));
-		
-		FormBuilder builder = new FormBuilder(
-				"right:pref, 4dlu, fill:default:grow, "
-						+ "10dlu, "
-						+ "right:pref, 4dlu, fill:default:grow");
-		
 		// Template title
 		builder.appendI15d("general.template.title", true);
 		builder.getBuilder().append(this.templateTitle, 5);
 		
 		// Template shortcut
-		this.templateShortcut.setRenderer(new DefaultListRenderer(
-				StringValueKeyText.INSTANCE));
-		
-		JPanel shortcutPanel = new JPanel(new BorderLayout());
-		shortcutPanel.add(
-				new JLabel(
-						KeyEvent.getKeyModifiersText(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
-								+ InputEvent.SHIFT_MASK)
-								+ " + "),
-				BorderLayout.WEST);
-		shortcutPanel.add(this.templateShortcut, BorderLayout.CENTER);
-		
-		builder.appendI15d("general.template.shortcut", true, shortcutPanel);
+		builder.appendI15d(
+				"general.template.shortcut",
+				true,
+				this.templateShortcut);
 		
 		// Empty
 		builder.getBuilder().append("", new JLabel());
@@ -393,22 +382,12 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			ValueModel titleModel = this.adapter.getValueModel(BasicModel.PROP_TITLE);
 			Bindings.bind(templateTitle, titleModel);
 			
-			TemplateShorcutConverter shortcutModel = new TemplateShorcutConverter(
+			TemplateShorcutKeyConverter shortcutModel = new TemplateShorcutKeyConverter(
 					this.adapter.getValueModel("properties"));
-			TaskTemplateConfigurationPanel.this.templateShortcut.setModel(new ComboBoxAdapter<Integer>(
-					new Integer[] {
-							null,
-							KeyEvent.VK_0,
-							KeyEvent.VK_1,
-							KeyEvent.VK_2,
-							KeyEvent.VK_3,
-							KeyEvent.VK_4,
-							KeyEvent.VK_5,
-							KeyEvent.VK_6,
-							KeyEvent.VK_7,
-							KeyEvent.VK_8,
-							KeyEvent.VK_9 },
-					shortcutModel));
+			Bindings.bind(
+					TaskTemplateConfigurationPanel.this.templateShortcut,
+					TUShortcutField.PROP_SHORTCUT_KEY,
+					shortcutModel);
 			
 			ValueModel taskTitleModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_TITLE);
 			Bindings.bind(

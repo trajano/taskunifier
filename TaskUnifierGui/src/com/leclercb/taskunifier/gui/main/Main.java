@@ -118,7 +118,7 @@ import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
-import com.leclercb.taskunifier.gui.properties.GlobalHotKeyCoder;
+import com.leclercb.taskunifier.gui.properties.ShortcutKeyCoder;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
@@ -484,7 +484,7 @@ public class Main {
 				defaultProperties);
 		
 		SETTINGS.addCoder(new ModelIdCoder());
-		SETTINGS.addCoder(new GlobalHotKeyCoder());
+		SETTINGS.addCoder(new ShortcutKeyCoder());
 		
 		defaultProperties = new SortedProperties();
 		defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
@@ -494,7 +494,7 @@ public class Main {
 				defaultProperties);
 		
 		USER_SETTINGS.addCoder(new ModelIdCoder());
-		USER_SETTINGS.addCoder(new GlobalHotKeyCoder());
+		USER_SETTINGS.addCoder(new ShortcutKeyCoder());
 		
 		AFTER_START = new ActionSupport(Main.class);
 		BEFORE_EXIT = new ActionSupport(Main.class);

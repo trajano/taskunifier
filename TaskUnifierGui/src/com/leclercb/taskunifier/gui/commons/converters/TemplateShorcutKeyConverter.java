@@ -35,17 +35,24 @@ package com.leclercb.taskunifier.gui.commons.converters;
 import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.api.properties.PropertyMap;
+import com.leclercb.taskunifier.gui.main.frames.ShortcutKey;
+import com.leclercb.taskunifier.gui.properties.ShortcutKeyCoder;
 
-public class TemplateShorcutConverter extends AbstractConverter {
+public class TemplateShorcutKeyConverter extends AbstractConverter {
 	
-	public TemplateShorcutConverter(ValueModel subject) {
+	public TemplateShorcutKeyConverter(ValueModel subject) {
 		super(subject);
 	}
 	
 	@Override
 	public void setValue(Object shortcut) {
 		PropertyMap properties = (PropertyMap) this.subject.getValue();
-		properties.setIntegerProperty("shortcut", (Integer) shortcut);
+		properties.addCoder(new ShortcutKeyCoder());
+		
+		properties.setObjectProperty(
+				"shortcut",
+				ShortcutKey.class,
+				(ShortcutKey) shortcut);
 	}
 	
 	@Override
@@ -54,7 +61,9 @@ public class TemplateShorcutConverter extends AbstractConverter {
 			return null;
 		
 		PropertyMap properties = (PropertyMap) value;
-		return properties.getIntegerProperty("shortcut");
+		properties.addCoder(new ShortcutKeyCoder());
+		
+		return properties.getObjectProperty("shortcut", ShortcutKey.class);
 	}
 	
 }
