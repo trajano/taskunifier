@@ -79,6 +79,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					null,
 					true,
 					new GlobalHotKeyFieldType(
+							Main.getSettings(),
 							"general.global_hot_key.quick_task")));
 			
 			this.addField(new ConfigurationField(

@@ -82,7 +82,7 @@ import com.leclercb.taskunifier.gui.commons.models.TaskPriorityModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskReminderModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatFromModel;
 import com.leclercb.taskunifier.gui.commons.models.TaskRepeatModel;
-import com.leclercb.taskunifier.gui.commons.values.StringValueKeyEvent;
+import com.leclercb.taskunifier.gui.commons.values.StringValueKeyText;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskReminder;
 import com.leclercb.taskunifier.gui.components.modelnote.HTMLEditorInterface;
 import com.leclercb.taskunifier.gui.components.modelnote.editors.WysiwygHTMLEditorPane;
@@ -207,7 +207,7 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 		
 		// Template shortcut
 		this.templateShortcut.setRenderer(new DefaultListRenderer(
-				StringValueKeyEvent.INSTANCE));
+				StringValueKeyText.INSTANCE));
 		
 		JPanel shortcutPanel = new JPanel(new BorderLayout());
 		shortcutPanel.add(
