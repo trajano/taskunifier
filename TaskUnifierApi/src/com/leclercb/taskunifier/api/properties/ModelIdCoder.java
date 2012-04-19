@@ -30,12 +30,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.leclercb.taskunifier.api.settings;
+package com.leclercb.taskunifier.api.properties;
 
 import com.leclercb.commons.api.properties.PropertiesCoder;
 import com.leclercb.taskunifier.api.models.ModelId;
 
-public class ModelIdSettingsCoder extends PropertiesCoder<ModelId> {
+public class ModelIdCoder extends PropertiesCoder<ModelId> {
 	
 	@Override
 	public ModelId decode(String value) throws Exception {
