@@ -76,7 +76,7 @@ import com.leclercb.taskunifier.api.models.LocationFactory;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
-import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.api.properties.ModelIdCoder;
 import com.leclercb.taskunifier.gui.actions.ActionCheckPluginVersion;
 import com.leclercb.taskunifier.gui.actions.ActionCheckVersion;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
@@ -118,6 +118,7 @@ import com.leclercb.taskunifier.gui.components.welcome.LanguageDialog;
 import com.leclercb.taskunifier.gui.components.welcome.WelcomeDialog;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
+import com.leclercb.taskunifier.gui.properties.GlobalHotKeyCoder;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
@@ -482,7 +483,8 @@ public class Main {
 				new SortedProperties(defaultProperties),
 				defaultProperties);
 		
-		SETTINGS.addCoder(new ModelIdSettingsCoder());
+		SETTINGS.addCoder(new ModelIdCoder());
+		SETTINGS.addCoder(new GlobalHotKeyCoder());
 		
 		defaultProperties = new SortedProperties();
 		defaultProperties.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
@@ -491,7 +493,8 @@ public class Main {
 				new SortedProperties(defaultProperties),
 				defaultProperties);
 		
-		USER_SETTINGS.addCoder(new ModelIdSettingsCoder());
+		USER_SETTINGS.addCoder(new ModelIdCoder());
+		USER_SETTINGS.addCoder(new GlobalHotKeyCoder());
 		
 		AFTER_START = new ActionSupport(Main.class);
 		BEFORE_EXIT = new ActionSupport(Main.class);

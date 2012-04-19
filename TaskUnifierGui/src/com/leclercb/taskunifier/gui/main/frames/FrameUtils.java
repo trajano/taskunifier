@@ -38,6 +38,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +55,6 @@ import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
 import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.utils.GlobalHotKeyUtils;
-import com.leclercb.taskunifier.gui.utils.GlobalHotKeyUtils.GlobalHotKey;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
@@ -150,7 +149,9 @@ public final class FrameUtils {
 			if (!SystemUtils.IS_OS_WINDOWS)
 				return;
 			
-			GlobalHotKey key = GlobalHotKeyUtils.getGlobalHotKey("general.global_hot_key.quick_task");
+			GlobalHotKey key = Main.getSettings().getObjectProperty(
+					"general.global_hot_key.quick_task",
+					GlobalHotKey.class);
 			
 			if (key == null)
 				return;
@@ -187,8 +188,8 @@ public final class FrameUtils {
 			
 			JIntellitype.getInstance().registerSwingHotKey(
 					1,
-					key.getModifierSum(),
-					key.getCharacter());
+					key.getModifiers(),
+					KeyEvent.getKeyText(key.getKeyCode()).charAt(0));
 			
 			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
 				

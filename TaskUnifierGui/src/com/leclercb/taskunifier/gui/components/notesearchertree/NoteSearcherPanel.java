@@ -56,7 +56,7 @@ import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Note;
-import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.api.properties.ModelIdCoder;
 import com.leclercb.taskunifier.gui.actions.ActionAddNoteSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDeleteNoteSearcher;
@@ -307,7 +307,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 			
 			if (value != null && type != null) {
 				if (type == NoteSearcherType.FOLDER) {
-					ModelId id = new ModelIdSettingsCoder().decode(value);
+					ModelId id = new ModelIdCoder().decode(value);
 					Folder folder = FolderFactory.getInstance().get(id);
 					
 					if (folder != null) {
@@ -347,7 +347,7 @@ public class NoteSearcherPanel extends JPanel implements SavePropertiesListener,
 					ModelId id = this.searcherView.getSelectedFolder().getModelId();
 					Main.getSettings().setStringProperty(
 							this.settingsPrefix + ".selected.value",
-							new ModelIdSettingsCoder().encode(id));
+							new ModelIdCoder().encode(id));
 				}
 				
 				return;

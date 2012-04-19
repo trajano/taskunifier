@@ -61,7 +61,7 @@ import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.Task;
-import com.leclercb.taskunifier.api.settings.ModelIdSettingsCoder;
+import com.leclercb.taskunifier.api.properties.ModelIdCoder;
 import com.leclercb.taskunifier.gui.actions.ActionAddTaskSearcher;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDeleteTaskSearcher;
@@ -380,7 +380,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 						|| type == TaskSearcherType.FOLDER
 						|| type == TaskSearcherType.GOAL
 						|| type == TaskSearcherType.LOCATION) {
-					ModelId id = new ModelIdSettingsCoder().decode(value);
+					ModelId id = new ModelIdCoder().decode(value);
 					Model model = null;
 					
 					if (type == TaskSearcherType.CONTEXT) {
@@ -451,7 +451,7 @@ public class TaskSearcherPanel extends JPanel implements SavePropertiesListener,
 					ModelId id = this.searcherView.getSelectedModel().getModelId();
 					Main.getSettings().setStringProperty(
 							this.settingsPrefix + ".selected.value",
-							new ModelIdSettingsCoder().encode(id));
+							new ModelIdCoder().encode(id));
 				}
 				
 				return;
