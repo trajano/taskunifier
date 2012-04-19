@@ -36,11 +36,11 @@ import java.awt.event.KeyEvent;
 
 import org.jdesktop.swingx.renderer.StringValue;
 
-public class StringValueKeyEvent implements StringValue {
+public class StringValueKeyText implements StringValue {
 	
-	public static final StringValueKeyEvent INSTANCE = new StringValueKeyEvent();
+	public static final StringValueKeyText INSTANCE = new StringValueKeyText();
 	
-	private StringValueKeyEvent() {
+	private StringValueKeyText() {
 		
 	}
 	
