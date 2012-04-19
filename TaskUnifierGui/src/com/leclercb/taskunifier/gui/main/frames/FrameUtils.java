@@ -38,7 +38,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +188,7 @@ public final class FrameUtils {
 			JIntellitype.getInstance().registerSwingHotKey(
 					1,
 					key.getModifiers(),
-					KeyEvent.getKeyText(key.getKeyCode()).charAt(0));
+					key.getKeyChar());
 			
 			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
 				

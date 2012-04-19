@@ -1,5 +1,6 @@
 package com.leclercb.taskunifier.gui.main.frames;
 
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
 import com.leclercb.commons.api.utils.CheckUtils;
@@ -26,6 +27,15 @@ public class ShortcutKey implements Serializable {
 	
 	public int getModifiers() {
 		return this.modifiers;
+	}
+	
+	public char getKeyChar() {
+		char character = KeyEvent.getKeyText(this.keyCode).charAt(0);
+		
+		if (this.keyCode == KeyEvent.VK_SPACE)
+			character = ' ';
+		
+		return character;
 	}
 	
 }
