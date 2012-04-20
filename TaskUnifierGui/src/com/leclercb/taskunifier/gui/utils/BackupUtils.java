@@ -37,8 +37,6 @@ import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -248,16 +246,6 @@ public final class BackupUtils {
 		for (File file : backups) {
 			list.add(file.getName());
 		}
-		
-		// Sort reverse
-		Collections.sort(list, new Comparator<String>() {
-			
-			@Override
-			public int compare(String o1, String o2) {
-				return o2.compareTo(o1);
-			}
-			
-		});
 		
 		return list;
 	}

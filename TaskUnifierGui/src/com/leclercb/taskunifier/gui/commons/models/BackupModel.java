@@ -32,6 +32,8 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -42,8 +44,22 @@ import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
 public class BackupModel extends DefaultComboBoxModel implements ListChangeListener {
 	
+	private boolean firstNull;
+	
 	public BackupModel(boolean firstNull) {
+		this.firstNull = firstNull;
+		
 		List<String> backups = BackupUtils.getInstance().getBackupList();
+		
+		// Sort reverse
+		Collections.sort(backups, new Comparator<String>() {
+			
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.compareTo(o1);
+			}
+			
+		});
 		
 		if (firstNull)
 			this.addElement(null);
@@ -59,7 +75,7 @@ public class BackupModel extends DefaultComboBoxModel implements ListChangeListe
 		String backup = (String) evt.getValue();
 		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(backup);
+			this.insertElementAt(backup, (this.firstNull ? 1 : 0));
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
 			this.removeElement(backup);
 	}
