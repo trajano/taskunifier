@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.api.models.beans;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.leclercb.commons.api.properties.PropertyMap;
@@ -81,13 +82,13 @@ public abstract class AbstractModelBean implements ModelBean {
 	
 	public AbstractModelBean(ModelId modelId) {
 		this.setModelId(modelId);
-		this.setModelReferenceIds(null);
+		this.setModelReferenceIds(new HashMap<String, String>());
 		this.setModelStatus(ModelStatus.LOADED);
 		this.setModelCreationDate(Calendar.getInstance());
 		this.setModelUpdateDate(Calendar.getInstance());
 		this.setTitle(null);
 		this.setOrder(0);
-		this.setProperties(null);
+		this.setProperties(new PropertyMap());
 	}
 	
 	public AbstractModelBean(AbstractModelBean bean) {

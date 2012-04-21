@@ -131,9 +131,9 @@ public class TaskBean extends AbstractModelParentBean {
 		
 		this.setTags(new TagList());
 		this.setFolder(null);
-		this.setContexts(null);
-		this.setGoals(null);
-		this.setLocations(null);
+		this.setContexts(new ModelBeanList());
+		this.setGoals(new ModelBeanList());
+		this.setLocations(new ModelBeanList());
 		this.setProgress(0);
 		this.setCompleted(false);
 		this.setCompletedOn(null);
@@ -149,9 +149,9 @@ public class TaskBean extends AbstractModelParentBean {
 		this.setPriority(TaskPriority.LOW);
 		this.setStar(false);
 		this.setNote(null);
-		this.setContacts(null);
-		this.setTasks(null);
-		this.setFiles(null);
+		this.setContacts(new ContactListBean());
+		this.setTasks(new TaskListBean());
+		this.setFiles(new FileListBean());
 	}
 	
 	public TaskBean(TaskBean bean) {

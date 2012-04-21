@@ -177,6 +177,11 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 	 */
 	@Override
 	public M get(String key, String referenceId) {
+		CheckUtils.isNotNull(key);
+		
+		if (referenceId == null)
+			return null;
+		
 		for (M model : this.models)
 			if (EqualsUtils.equals(model.getModelReferenceId(key), referenceId))
 				return model;

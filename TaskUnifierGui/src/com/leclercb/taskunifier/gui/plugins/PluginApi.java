@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.gui.plugins;
 
+import java.awt.Frame;
 import java.util.Locale;
 
 import javax.help.HelpSet;
@@ -49,6 +50,10 @@ public final class PluginApi {
 	
 	private PluginApi() {
 		
+	}
+	
+	public static Frame getCurrentFrame() {
+		return FrameUtils.getCurrentFrame();
 	}
 	
 	public static FrameView getCurrentFrameView() {
