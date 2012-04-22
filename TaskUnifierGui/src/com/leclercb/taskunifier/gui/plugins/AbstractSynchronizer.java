@@ -136,7 +136,8 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 			final ProgressMonitor monitor,
 			final ModelType type) throws SynchronizerException {
 		@SuppressWarnings("unchecked")
-		List<Model> models = (List<Model>) ModelFactoryUtils.getFactory(type).getList();
+		final List<Model> models = (List<Model>) ModelFactoryUtils.getFactory(
+				type).getList();
 		
 		if (monitor != null)
 			monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
@@ -144,7 +145,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					ProgressMessageType.SYNCHRONIZER_START,
 					type));
 		
-		List<ModelBean> updatedModels = this.getUpdatedModels(type);
+		final List<ModelBean> updatedModels = this.getUpdatedModels(type);
 		
 		if (monitor != null)
 			monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
@@ -152,7 +153,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					ProgressMessageType.SYNCHRONIZER_END,
 					type));
 		
-		List<ModelBean> deletedModels = this.getDeletedModels(type);
+		final List<ModelBean> deletedModels = this.getDeletedModels(type);
 		
 		if (type == ModelType.GOAL) {
 			Collections.sort(models, new Comparator<Model>() {
@@ -425,6 +426,16 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 		
 		this.updateModels(type, modelsToSync);
 		
+		TUSwingUtilities.invokeAndWait(new Runnable() {
+			
+			@Override
+			public void run() {
+				for (Model model : modelsToSync)
+					model.setModelStatus(ModelStatus.LOADED);
+			}
+			
+		});
+		
 		modelsToSync.clear();
 		
 		// Replace Updated Models
@@ -451,19 +462,31 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 			});
 		}
 		
-		for (ModelBean updatedModel : updatedModels) {
-			Model model = NoteFactory.getInstance().get(
-					this.keyId,
-					updatedModel.getModelReferenceIds().get(this.keyId));
+		TUSwingUtilities.invokeAndWait(new Runnable() {
 			
-			if (model != null && model.getModelStatus() == ModelStatus.DELETED)
-				continue;
+			@Override
+			public void run() {
+				for (ModelBean updatedModel : updatedModels) {
+					Model model = NoteFactory.getInstance().get(
+							AbstractSynchronizer.this.keyId,
+							updatedModel.getModelReferenceIds().get(
+									AbstractSynchronizer.this.keyId));
+					
+					if (model != null
+							&& model.getModelStatus() == ModelStatus.DELETED)
+						continue;
+					
+					if (model == null)
+						model = ModelFactoryUtils.create(
+								type,
+								updatedModel,
+								true);
+					else
+						model.loadBean(updatedModel, false);
+				}
+			}
 			
-			if (model == null)
-				model = ModelFactoryUtils.create(type, updatedModel, true);
-			else
-				model.loadBean(updatedModel, false);
-		}
+		});
 		
 		if (monitor != null && actionCount > 0)
 			monitor.addMessage(new SynchronizerUpdatedModelsProgressMessage(
