@@ -43,11 +43,60 @@ import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.TaskFactory;
+import com.leclercb.taskunifier.api.models.beans.ContactBean;
+import com.leclercb.taskunifier.api.models.beans.ContextBean;
+import com.leclercb.taskunifier.api.models.beans.FolderBean;
+import com.leclercb.taskunifier.api.models.beans.GoalBean;
+import com.leclercb.taskunifier.api.models.beans.LocationBean;
+import com.leclercb.taskunifier.api.models.beans.ModelBean;
+import com.leclercb.taskunifier.api.models.beans.NoteBean;
+import com.leclercb.taskunifier.api.models.beans.TaskBean;
 
 public final class ModelFactoryUtils {
 	
 	private ModelFactoryUtils() {
 		
+	}
+	
+	public static Model create(
+			ModelType modelType,
+			ModelBean bean,
+			boolean loadReferenceIds) {
+		if (bean == null)
+			return null;
+		
+		switch (modelType) {
+			case CONTACT:
+				return ContactFactory.getInstance().create(
+						(ContactBean) bean,
+						loadReferenceIds);
+			case CONTEXT:
+				return ContextFactory.getInstance().create(
+						(ContextBean) bean,
+						loadReferenceIds);
+			case FOLDER:
+				return FolderFactory.getInstance().create(
+						(FolderBean) bean,
+						loadReferenceIds);
+			case GOAL:
+				return GoalFactory.getInstance().create(
+						(GoalBean) bean,
+						loadReferenceIds);
+			case LOCATION:
+				return LocationFactory.getInstance().create(
+						(LocationBean) bean,
+						loadReferenceIds);
+			case NOTE:
+				return NoteFactory.getInstance().create(
+						(NoteBean) bean,
+						loadReferenceIds);
+			case TASK:
+				return TaskFactory.getInstance().create(
+						(TaskBean) bean,
+						loadReferenceIds);
+			default:
+				return null;
+		}
 	}
 	
 	public static Model getModel(ModelType modelType, ModelId modelId) {
