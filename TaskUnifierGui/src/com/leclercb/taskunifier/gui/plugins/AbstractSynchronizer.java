@@ -139,19 +139,23 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 		final List<Model> models = (List<Model>) ModelFactoryUtils.getFactory(
 				type).getList();
 		
-		if (monitor != null)
-			monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
-					this.getPlugin(),
-					ProgressMessageType.SYNCHRONIZER_START,
-					type));
+		final List<ModelBean> updatedModels = new ArrayList<ModelBean>();
 		
-		final List<ModelBean> updatedModels = this.getUpdatedModels(type);
-		
-		if (monitor != null)
-			monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
-					this.getPlugin(),
-					ProgressMessageType.SYNCHRONIZER_END,
-					type));
+		if (this.isUpdatedModels(type)) {
+			if (monitor != null)
+				monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
+						this.getPlugin(),
+						ProgressMessageType.SYNCHRONIZER_START,
+						type));
+			
+			updatedModels.addAll(this.getUpdatedModels(type));
+			
+			if (monitor != null)
+				monitor.addMessage(new SynchronizerRetrievedModelsProgressMessage(
+						this.getPlugin(),
+						ProgressMessageType.SYNCHRONIZER_END,
+						type));
+		}
 		
 		final List<ModelBean> deletedModels = this.getDeletedModels(type);
 		
@@ -218,7 +222,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-								model.getModelReferenceId(this.keyId))) {
+										model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}
@@ -259,7 +263,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-								model.getModelReferenceId(this.keyId))) {
+										model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}
@@ -399,7 +403,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-								model.getModelReferenceId(this.keyId))) {
+										model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}
@@ -495,6 +499,9 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					type,
 					actionCount));
 	}
+	
+	protected abstract boolean isUpdatedModels(ModelType type)
+			throws SynchronizerException;
 	
 	protected abstract List<ModelBean> getUpdatedModels(ModelType type)
 			throws SynchronizerException;
