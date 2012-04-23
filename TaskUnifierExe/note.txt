@@ -25,7 +25,6 @@ Eclipse memory settings:
 Shortcuts:
 ALT + C: CompleteTasks
 ALT + V: ChangeView
-CTRL + A: NewWindow
 CTRL + B: BatchAddTasks
 CTRL + C: Copy
 CTRL + D: Delete
@@ -42,4 +41,4 @@ CTRL + X: Cut
 CTRL + Y: Redo
 CTRL + Z: Undo
 CTRL + W: CloseWindow
-CTRL + SHIFT + [0-9]: AddTemplateTask
+CTRL + SHIFT + W: NewWindow
