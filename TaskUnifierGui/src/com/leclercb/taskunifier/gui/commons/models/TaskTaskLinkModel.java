@@ -32,14 +32,15 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.AbstractListModel;
+import javax.swing.ComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.gui.swing.models.AbstractComboBoxModel;
 import com.leclercb.taskunifier.api.models.utils.TaskTaskLinkList;
 
-public class TaskTaskLinkModel extends AbstractListModel implements ListChangeListener {
+public class TaskTaskLinkModel extends AbstractComboBoxModel implements ComboBoxModel, ListChangeListener {
 	
 	private boolean firstNull;
 	
@@ -83,6 +84,18 @@ public class TaskTaskLinkModel extends AbstractListModel implements ListChangeLi
 			this.fireIntervalRemoved(this, index, index);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
 			this.fireContentsChanged(this, index, index);
+	}
+	
+	@Override
+	public Object getSelectedItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void setSelectedItem(Object anItem) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

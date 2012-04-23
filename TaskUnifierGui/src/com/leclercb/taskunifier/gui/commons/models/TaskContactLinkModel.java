@@ -32,14 +32,13 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultComboBoxModel;
-
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.gui.swing.models.AbstractComboBoxModel;
 import com.leclercb.taskunifier.api.models.utils.TaskContactLinkList;
 
-public class TaskContactLinkModel extends DefaultComboBoxModel implements ListChangeListener {
+public class TaskContactLinkModel extends AbstractComboBoxModel implements ListChangeListener {
 	
 	private boolean firstNull;
 	

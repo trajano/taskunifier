@@ -32,14 +32,13 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.AbstractListModel;
-
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.gui.swing.models.AbstractComboBoxModel;
 import com.leclercb.taskunifier.gui.utils.UserUtils;
 
-public class UserModel extends AbstractListModel implements ListChangeListener {
+public class UserModel extends AbstractComboBoxModel implements ListChangeListener {
 	
 	public UserModel() {
 		UserUtils.getInstance().addListChangeListener(
