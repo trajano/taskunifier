@@ -26,6 +26,7 @@ Version 3.0.0
 		- FR 3500334: Improved quick add task dates
 		- FR 3509738: Save horizontal scroll state
 		- New color settings (foreground)
+		- Bug fixed: Delete new user
 
 Version 2.3.0
 	- Major:
