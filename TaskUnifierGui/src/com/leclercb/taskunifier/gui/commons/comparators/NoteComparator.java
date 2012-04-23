@@ -67,9 +67,9 @@ public class NoteComparator implements Comparator<Note> {
 		if (this.sorter == null)
 			return 0;
 		
-		List<NoteSorterElement> sortElements = this.sorter.getElements();
+		List<NoteSorterElement> elements = this.sorter.getElements();
 		
-		for (NoteSorterElement element : sortElements) {
+		for (NoteSorterElement element : elements) {
 			Object o1 = element.getProperty().getProperty(note1);
 			Object o2 = element.getProperty().getProperty(note2);
 			
@@ -163,7 +163,9 @@ public class NoteComparator implements Comparator<Note> {
 		if (model2 == null)
 			return -1;
 		
-		return model1.getTitle().compareTo(model2.getTitle());
+		return CompareUtils.compareStringIgnoreCase(
+				model1.getTitle(),
+				model2.getTitle());
 	}
 	
 	private int compareCalendars(
@@ -187,7 +189,7 @@ public class NoteComparator implements Comparator<Note> {
 			calendar2.set(Calendar.MILLISECOND, 0);
 		}
 		
-		return calendar1.compareTo(calendar2);
+		return CompareUtils.compare(calendar1, calendar2);
 	}
 	
 }

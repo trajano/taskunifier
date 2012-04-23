@@ -98,7 +98,7 @@ public abstract class ModelList extends JPanel implements IModelList {
 				IconValueModel.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
-		this.modelList.setComparator(BasicModelComparator.INSTANCE);
+		this.modelList.setComparator(BasicModelComparator.INSTANCE_NULL_LAST);
 		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		

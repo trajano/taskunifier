@@ -43,10 +43,11 @@ import com.leclercb.taskunifier.api.models.ModelParent;
 
 public class BasicModelComparator implements Comparator<BasicModel> {
 	
-	public static final BasicModelComparator INSTANCE = new BasicModelComparator(
-			false);
 	public static final BasicModelComparator INSTANCE_NULL_FIRST = new BasicModelComparator(
 			true);
+	
+	public static final BasicModelComparator INSTANCE_NULL_LAST = new BasicModelComparator(
+			false);
 	
 	private boolean nullFirst;
 	
@@ -55,34 +56,34 @@ public class BasicModelComparator implements Comparator<BasicModel> {
 	}
 	
 	@Override
-	public int compare(BasicModel m1, BasicModel m2) {
-		if (m1 instanceof ModelParent<?> && m2 instanceof ModelParent<?>)
+	public int compare(BasicModel model1, BasicModel model2) {
+		if (model1 instanceof ModelParent<?>
+				&& model2 instanceof ModelParent<?>)
 			return this.compareIndented(
-					(ModelParent<?>) m1,
-					(ModelParent<?>) m2);
+					(ModelParent<?>) model1,
+					(ModelParent<?>) model2);
 		
-		return this.compareTitle(m1, m2);
+		return this.compareTitle(model1, model2);
 	}
 	
-	public int compareTitle(BasicModel m1, BasicModel m2) {
-		if (m1 == null && m2 == null)
+	private int compareTitle(BasicModel model1, BasicModel model2) {
+		if (model1 == null && model2 == null)
 			return 0;
 		
-		if (m1 == null)
+		if (model1 == null)
 			return this.nullFirst ? -1 : 1;
 		
-		if (m2 == null)
+		if (model2 == null)
 			return this.nullFirst ? 1 : -1;
 		
-		String s1 = (m1 == null ? null : m1.getTitle().toLowerCase());
-		String s2 = (m2 == null ? null : m2.getTitle().toLowerCase());
-		
-		int result = CompareUtils.compare(s1, s2);
+		int result = CompareUtils.compareStringIgnoreCase(
+				model1.getTitle(),
+				model2.getTitle());
 		
 		if (result != 0)
 			return result;
 		
-		return CompareUtils.compare(m1, m2);
+		return CompareUtils.compare(model1, model2);
 	}
 	
 	private int compareIndented(ModelParent<?> model1, ModelParent<?> model2) {

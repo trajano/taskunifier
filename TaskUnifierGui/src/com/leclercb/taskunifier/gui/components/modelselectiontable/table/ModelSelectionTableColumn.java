@@ -81,7 +81,7 @@ public class ModelSelectionTableColumn extends TUTableColumn<ModelSelectionColum
 			case SELECT:
 				return super.getComparator();
 			case MODEL:
-				return BasicModelComparator.INSTANCE;
+				return BasicModelComparator.INSTANCE_NULL_LAST;
 			default:
 				return super.getComparator();
 		}

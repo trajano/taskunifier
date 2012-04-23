@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -130,6 +131,26 @@ public final class UserUtils implements ListChangeSupported {
 		}
 	}
 	
+	public int getIndexOf(String userId) {
+		int index = 0;
+		for (String id : this.users.keySet()) {
+			if (id.equals(userId))
+				return index;
+			
+			index++;
+		}
+		
+		return -1;
+	}
+	
+	public int getUserCount() {
+		return this.users.size();
+	}
+	
+	public String getUserId(int index) {
+		return this.getUserIds()[index];
+	}
+	
 	public String[] getUserIds() {
 		return this.users.keySet().toArray(new String[0]);
 	}
@@ -158,7 +179,7 @@ public final class UserUtils implements ListChangeSupported {
 			if (fire)
 				this.listChangeSupport.fireListChange(
 						ListChangeEvent.VALUE_CHANGED,
-						-1,
+						this.getIndexOf(userId),
 						userId);
 			
 			return;
@@ -175,22 +196,29 @@ public final class UserUtils implements ListChangeSupported {
 				file.createNewFile();
 			
 			Properties properties = new Properties();
-			properties.load(new FileInputStream(file));
+			
+			FileInputStream input = new FileInputStream(file);
+			properties.load(input);
+			input.close();
 			
 			properties.setProperty("general.user.name", userName);
 			
-			properties.store(new FileOutputStream(file), Constants.TITLE
-					+ " User Settings");
+			FileOutputStream output = new FileOutputStream(file);
+			properties.store(output, Constants.TITLE + " User Settings");
+			output.close();
 			
 			this.users.put(userId, userName);
 			
 			if (fire)
 				this.listChangeSupport.fireListChange(
 						ListChangeEvent.VALUE_CHANGED,
-						-1,
+						this.getIndexOf(userId),
 						userId);
 		} catch (Exception e) {
-			
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot set user name \"" + userName + "\"",
+					e);
 		}
 	}
 	
@@ -205,13 +233,18 @@ public final class UserUtils implements ListChangeSupported {
 			
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_ADDED,
-					-1,
+					this.getIndexOf(userId),
 					userId);
 			
 			GuiLogger.getLogger().info("User \"" + userName + "\" created");
 			
 			return userId;
 		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot create user \"" + userName + "\"",
+					e);
+			
 			return null;
 		}
 	}
@@ -229,16 +262,21 @@ public final class UserUtils implements ListChangeSupported {
 				return true;
 			
 			FileUtils.deleteDirectory(file);
+			
+			int index = this.getIndexOf(userId);
 			this.users.remove(userId);
 			
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_REMOVED,
-					-1,
+					index,
 					userId);
 			
 			GuiLogger.getLogger().info("User \"" + userName + "\" deleted");
 		} catch (Exception e) {
-			
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot delete user \"" + userName + "\"",
+					e);
 		}
 		
 		return true;

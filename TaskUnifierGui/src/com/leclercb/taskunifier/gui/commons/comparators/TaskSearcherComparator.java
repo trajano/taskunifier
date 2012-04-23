@@ -47,8 +47,8 @@ public class TaskSearcherComparator implements Comparator<TaskSearcher> {
 	
 	@Override
 	public int compare(TaskSearcher ts1, TaskSearcher ts2) {
-		Integer i1 = ts1 == null ? null : ts1.getOrder();
-		Integer i2 = ts2 == null ? null : ts2.getOrder();
+		Integer i1 = (ts1 == null ? null : ts1.getOrder());
+		Integer i2 = (ts2 == null ? null : ts2.getOrder());
 		
 		return CompareUtils.compare(i1, i2);
 	}

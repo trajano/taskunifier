@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.actions;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
@@ -62,8 +63,9 @@ public class ActionNewWindow extends AbstractAction {
 				Translations.getString("action.new_window"));
 		
 		this.putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-				KeyEvent.VK_A,
-				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+				KeyEvent.VK_W,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+						+ InputEvent.SHIFT_MASK));
 	}
 	
 	@Override

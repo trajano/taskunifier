@@ -45,7 +45,7 @@ import com.leclercb.taskunifier.gui.commons.comparators.BasicModelComparator;
 abstract class AbstractBasicModelSortedModel extends DefaultSortedComboBoxModel implements ModelListModel, ListChangeListener, PropertyChangeListener {
 	
 	public AbstractBasicModelSortedModel() {
-		super(BasicModelComparator.INSTANCE);
+		super(BasicModelComparator.INSTANCE_NULL_LAST);
 	}
 	
 	@Override

@@ -222,7 +222,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-										model.getModelReferenceId(this.keyId))) {
+								model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}
@@ -263,7 +263,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-										model.getModelReferenceId(this.keyId))) {
+								model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}
@@ -403,7 +403,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 						if (EqualsUtils.equalsString(
 								updatedModel.getModelReferenceIds().get(
 										this.keyId),
-										model.getModelReferenceId(this.keyId))) {
+								model.getModelReferenceId(this.keyId))) {
 							bean = updatedModel;
 							break;
 						}

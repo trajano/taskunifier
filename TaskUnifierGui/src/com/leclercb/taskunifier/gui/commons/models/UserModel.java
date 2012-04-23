@@ -32,39 +32,38 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.AbstractListModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.gui.utils.UserUtils;
 
-public class UserModel extends DefaultComboBoxModel implements ListChangeListener {
+public class UserModel extends AbstractListModel implements ListChangeListener {
 	
-	public UserModel(boolean firstNull) {
-		String[] users = UserUtils.getInstance().getUserIds();
-		
-		if (firstNull)
-			this.addElement(null);
-		
-		for (String user : users)
-			this.addElement(user);
-		
-		UserUtils.getInstance().addListChangeListener(this);
+	public UserModel() {
+		UserUtils.getInstance().addListChangeListener(
+				new WeakListChangeListener(UserUtils.getInstance(), this));
+	}
+	
+	@Override
+	public Object getElementAt(int index) {
+		return UserUtils.getInstance().getUserId(index);
+	}
+	
+	@Override
+	public int getSize() {
+		return UserUtils.getInstance().getUserCount();
 	}
 	
 	@Override
 	public void listChange(ListChangeEvent evt) {
-		String user = (String) evt.getValue();
-		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.addElement(user);
+			this.fireIntervalAdded(this, evt.getIndex(), evt.getIndex());
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(user);
+			this.fireIntervalRemoved(this, evt.getIndex(), evt.getIndex());
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
-			this.fireContentsChanged(
-					this,
-					this.getIndexOf(user),
-					this.getIndexOf(user));
+			this.fireContentsChanged(this, evt.getIndex(), evt.getIndex());
 	}
 	
 }

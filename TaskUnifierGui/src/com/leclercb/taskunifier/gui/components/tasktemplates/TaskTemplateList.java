@@ -99,7 +99,7 @@ abstract class TaskTemplateList extends JPanel {
 				StringValueTaskTemplateTitle.INSTANCE));
 		
 		this.templateList.setAutoCreateRowSorter(true);
-		this.templateList.setComparator(BasicModelComparator.INSTANCE);
+		this.templateList.setComparator(BasicModelComparator.INSTANCE_NULL_LAST);
 		this.templateList.setSortOrder(SortOrder.ASCENDING);
 		this.templateList.setSortsOnUpdates(true);
 		

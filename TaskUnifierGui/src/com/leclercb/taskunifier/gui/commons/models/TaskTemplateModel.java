@@ -35,16 +35,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplate;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
 
 public class TaskTemplateModel extends AbstractBasicModelSortedModel {
 	
 	public TaskTemplateModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -52,8 +50,14 @@ public class TaskTemplateModel extends AbstractBasicModelSortedModel {
 		for (TaskTemplate template : templates)
 			this.addElement(template);
 		
-		TaskTemplateFactory.getInstance().addListChangeListener(this);
-		TaskTemplateFactory.getInstance().addPropertyChangeListener(this);
+		TaskTemplateFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
+		TaskTemplateFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
 	}
 	
 	@Override

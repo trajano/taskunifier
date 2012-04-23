@@ -62,7 +62,7 @@ public class TaskSnoozeListFieldType extends ConfigurationFieldType.Panel {
 		
 		EventList<SnoozeItem> eventList = new SortedList<SnoozeItem>(
 				TaskSnoozeList.getInstance().getEventList(),
-				new TimeValueComparator());
+				TimeValueComparator.INSTANCE);
 		
 		this.list = new JXList();
 		

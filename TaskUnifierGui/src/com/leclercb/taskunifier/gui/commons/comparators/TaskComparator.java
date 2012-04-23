@@ -73,9 +73,9 @@ public class TaskComparator implements Comparator<Task> {
 		if (this.sorter == null)
 			return 0;
 		
-		List<TaskSorterElement> sortElements = this.sorter.getElements();
+		List<TaskSorterElement> elements = this.sorter.getElements();
 		
-		for (TaskSorterElement element : sortElements) {
+		for (TaskSorterElement element : elements) {
 			int result = this.compare(
 					element.getProperty(),
 					element.getSortOrder(),
@@ -349,7 +349,9 @@ public class TaskComparator implements Comparator<Task> {
 		if (model2 == null)
 			return -1;
 		
-		return model1.getTitle().compareTo(model2.getTitle());
+		return CompareUtils.compareStringIgnoreCase(
+				model1.getTitle(),
+				model2.getTitle());
 	}
 	
 	private int compareCalendars(
@@ -373,7 +375,7 @@ public class TaskComparator implements Comparator<Task> {
 			calendar2.set(Calendar.MILLISECOND, 0);
 		}
 		
-		return calendar1.compareTo(calendar2);
+		return CompareUtils.compare(calendar1, calendar2);
 	}
 	
 }

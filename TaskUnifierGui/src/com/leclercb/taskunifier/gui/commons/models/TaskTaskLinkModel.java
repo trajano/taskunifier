@@ -36,6 +36,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.api.models.utils.TaskTaskLinkList;
 
 public class TaskTaskLinkModel extends DefaultComboBoxModel implements ListChangeListener {
@@ -45,15 +46,15 @@ public class TaskTaskLinkModel extends DefaultComboBoxModel implements ListChang
 	public TaskTaskLinkModel(boolean firstNull) {
 		this.firstNull = firstNull;
 		
-		String[] links = TaskTaskLinkList.getInstance().getLinks();
-		
 		if (firstNull)
 			this.addElement(null);
 		
+		String[] links = TaskTaskLinkList.getInstance().getLinks();
 		for (String link : links)
 			this.addElement(link);
 		
-		TaskTaskLinkList.getInstance().addListChangeListener(this);
+		TaskTaskLinkList.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskTaskLinkList.getInstance(), this));
 	}
 	
 	@Override

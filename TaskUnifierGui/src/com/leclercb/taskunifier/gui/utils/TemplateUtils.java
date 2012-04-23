@@ -74,7 +74,7 @@ public final class TemplateUtils {
 		
 		List<TaskTemplate> templates = new ArrayList<TaskTemplate>(
 				TaskTemplateFactory.getInstance().getList());
-		Collections.sort(templates, BasicModelComparator.INSTANCE);
+		Collections.sort(templates, BasicModelComparator.INSTANCE_NULL_LAST);
 		
 		for (TaskTemplate template : templates) {
 			if (!template.getModelStatus().isEndUserStatus())

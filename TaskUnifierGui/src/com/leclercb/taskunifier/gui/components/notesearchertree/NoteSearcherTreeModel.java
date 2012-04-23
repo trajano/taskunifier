@@ -122,7 +122,7 @@ public class NoteSearcherTreeModel extends DefaultTreeModel implements ListChang
 		
 		List<Folder> folders = new ArrayList<Folder>(
 				FolderFactory.getInstance().getList());
-		Collections.sort(folders, BasicModelComparator.INSTANCE);
+		Collections.sort(folders, BasicModelComparator.INSTANCE_NULL_LAST);
 		
 		for (Folder folder : folders) {
 			if (folder.getModelStatus().isEndUserStatus()) {

@@ -36,6 +36,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
@@ -47,15 +48,15 @@ public class TaskTagModel extends DefaultComboBoxModel implements ListChangeList
 	public TaskTagModel(boolean firstNull) {
 		this.firstNull = firstNull;
 		
-		TagList tags = TaskTagList.getInstance().getTags();
-		
 		if (firstNull)
 			this.addElement(null);
 		
+		TagList tags = TaskTagList.getInstance().getTags();
 		for (Tag tag : tags)
 			this.addElement(tag);
 		
-		TaskTagList.getInstance().addListChangeListener(this);
+		TaskTagList.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskTagList.getInstance(), this));
 	}
 	
 	@Override

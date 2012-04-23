@@ -165,7 +165,7 @@ public class ActionPostponeTasks extends AbstractViewAction {
 		List<ActionPostponeTasks> actions = new ArrayList<ActionPostponeTasks>();
 		
 		List<PostponeItem> items = TaskPostponeList.getInstance().getPostponeItems();
-		Collections.sort(items, new TimeValueComparator());
+		Collections.sort(items, TimeValueComparator.INSTANCE);
 		
 		for (PostponeItem item : items) {
 			actions.add(new ActionPostponeTasks(width, height, view, type, item));

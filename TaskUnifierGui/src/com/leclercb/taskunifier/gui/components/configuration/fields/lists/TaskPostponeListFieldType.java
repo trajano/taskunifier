@@ -62,7 +62,7 @@ public class TaskPostponeListFieldType extends ConfigurationFieldType.Panel {
 		
 		EventList<PostponeItem> eventList = new SortedList<PostponeItem>(
 				TaskPostponeList.getInstance().getEventList(),
-				new TimeValueComparator());
+				TimeValueComparator.INSTANCE);
 		
 		this.list = new JXList();
 		

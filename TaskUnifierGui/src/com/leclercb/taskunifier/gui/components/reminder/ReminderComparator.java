@@ -73,7 +73,7 @@ class ReminderComparator implements Comparator<Task> {
 		if (importance1 != importance2)
 			return new Integer(importance2).compareTo(importance1);
 		
-		return BasicModelComparator.INSTANCE.compare(t1, t2);
+		return BasicModelComparator.INSTANCE_NULL_LAST.compare(t1, t2);
 	}
 	
 }

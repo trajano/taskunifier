@@ -115,7 +115,9 @@ public class TaskContactsPanel extends JPanel implements TaskContactsView, Model
 				List<Contact> contacts = new ArrayList<Contact>(
 						ContactFactory.getInstance().getList());
 				
-				Collections.sort(contacts, BasicModelComparator.INSTANCE);
+				Collections.sort(
+						contacts,
+						BasicModelComparator.INSTANCE_NULL_LAST);
 				
 				Contact newContact = null;
 				for (Contact contact : contacts) {

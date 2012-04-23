@@ -166,7 +166,7 @@ public class ActionPostponeTaskBeans extends AbstractAction {
 		List<ActionPostponeTaskBeans> actions = new ArrayList<ActionPostponeTaskBeans>();
 		
 		List<PostponeItem> items = TaskPostponeList.getInstance().getPostponeItems();
-		Collections.sort(items, new TimeValueComparator());
+		Collections.sort(items, TimeValueComparator.INSTANCE);
 		
 		for (PostponeItem item : items) {
 			actions.add(new ActionPostponeTaskBeans(

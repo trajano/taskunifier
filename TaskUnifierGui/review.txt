@@ -3,6 +3,7 @@ api.models
 api.plugins
 api.searchers.filters
 api.synchronizer
+commons.comparators
 commons.converters
 commons.events
 commons.highlighters

@@ -78,7 +78,7 @@ public class TaskContactsTableColumn extends TUTableColumn<TaskContactsColumn> {
 			case LINK:
 				return super.getComparator();
 			case CONTACT:
-				return BasicModelComparator.INSTANCE;
+				return BasicModelComparator.INSTANCE_NULL_LAST;
 			default:
 				return super.getComparator();
 		}

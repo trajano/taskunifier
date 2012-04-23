@@ -88,7 +88,7 @@ public class ContactList extends JPanel {
 				IconValueContact.INSTANCE));
 		
 		this.modelList.setAutoCreateRowSorter(true);
-		this.modelList.setComparator(BasicModelComparator.INSTANCE);
+		this.modelList.setComparator(BasicModelComparator.INSTANCE_NULL_LAST);
 		this.modelList.setSortOrder(SortOrder.ASCENDING);
 		this.modelList.setSortsOnUpdates(true);
 		

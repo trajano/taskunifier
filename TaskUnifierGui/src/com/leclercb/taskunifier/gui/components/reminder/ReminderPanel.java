@@ -146,7 +146,7 @@ public class ReminderPanel extends JPanel {
 				this.reminderList));
 		
 		List<SnoozeItem> items = TaskSnoozeList.getInstance().getSnoozeItems();
-		Collections.sort(items, new TimeValueComparator());
+		Collections.sort(items, TimeValueComparator.INSTANCE);
 		
 		final JPopupMenu snoozePopup = new JPopupMenu();
 		for (SnoozeItem item : items) {

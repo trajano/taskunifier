@@ -47,24 +47,24 @@ public class SynchronizerGuiPluginComparator implements Comparator<SynchronizerG
 	
 	@Override
 	public int compare(SynchronizerGuiPlugin p1, SynchronizerGuiPlugin p2) {
-		String s1 = p1 == null ? null : p1.getSynchronizerApi().getApiName();
-		String s2 = p2 == null ? null : p2.getSynchronizerApi().getApiName();
+		String s1 = (p1 == null ? null : p1.getSynchronizerApi().getApiName());
+		String s2 = (p2 == null ? null : p2.getSynchronizerApi().getApiName());
 		
 		int result = CompareUtils.compare(s1, s2);
 		
 		if (result != 0)
 			return result;
 		
-		s1 = p1 == null ? null : p1.getName();
-		s2 = p2 == null ? null : p2.getName();
+		s1 = (p1 == null ? null : p1.getName());
+		s2 = (p2 == null ? null : p2.getName());
 		
 		result = CompareUtils.compare(s1, s2);
 		
 		if (result != 0)
 			return result;
 		
-		s1 = p1 == null ? null : p1.getVersion();
-		s2 = p2 == null ? null : p2.getVersion();
+		s1 = (p1 == null ? null : p1.getVersion());
+		s2 = (p2 == null ? null : p2.getVersion());
 		
 		return CompareUtils.compare(s1, s2);
 	}
