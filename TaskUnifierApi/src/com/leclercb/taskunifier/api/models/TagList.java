@@ -42,8 +42,8 @@ public class TagList implements Cloneable, Serializable, Iterable<Tag> {
 		return this.tags.size();
 	}
 	
-	public String getTag(int index) {
-		return this.getTag(index);
+	public Tag getTag(int index) {
+		return this.tags.get(index);
 	}
 	
 	public boolean containsTag(Tag tag) {

@@ -83,7 +83,7 @@ public final class TaskTagList implements ListChangeSupported, ListChangeListene
 		return this.sortedTags.size();
 	}
 	
-	public String getTag(int index) {
+	public Tag getTag(int index) {
 		return this.getTags().getTag(index);
 	}
 	
