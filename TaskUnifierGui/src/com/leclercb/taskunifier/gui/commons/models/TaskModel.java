@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -83,8 +85,10 @@ public class TaskModel extends AbstractBasicModelSortedModel {
 		for (Task task : tasks)
 			this.addElement(task);
 		
-		TaskFactory.getInstance().addListChangeListener(this);
-		TaskFactory.getInstance().addPropertyChangeListener(this);
+		TaskFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskFactory.getInstance(), this));
+		TaskFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(TaskFactory.getInstance(), this));
 	}
 	
 }

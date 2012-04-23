@@ -82,7 +82,7 @@ public class TagConfigurationPanel extends JSplitPane implements ITagList {
 		tagTitle.setEnabled(false);
 		
 		// Initialize Model List
-		this.tagList = new TagList(new TaskTagModel(false)) {
+		this.tagList = new TagList(new TaskTagModel()) {
 			
 			@Override
 			public void removeTag(Tag tag) {

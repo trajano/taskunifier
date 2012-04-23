@@ -36,6 +36,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.api.models.utils.TaskFileLinkList;
 
 public class TaskFileLinkModel extends DefaultComboBoxModel implements ListChangeListener {
@@ -45,29 +46,43 @@ public class TaskFileLinkModel extends DefaultComboBoxModel implements ListChang
 	public TaskFileLinkModel(boolean firstNull) {
 		this.firstNull = firstNull;
 		
-		String[] links = TaskFileLinkList.getInstance().getLinks();
+		TaskFileLinkList.getInstance().addListChangeListener(
+				new WeakListChangeListener(TaskFileLinkList.getInstance(), this));
+	}
+	
+	@Override
+	public Object getElementAt(int index) {
+		if (this.firstNull) {
+			if (index == 0)
+				return null;
+			
+			return TaskFileLinkList.getInstance().getLink(index - 1);
+		}
 		
-		if (firstNull)
-			this.addElement(null);
+		return TaskFileLinkList.getInstance().getLink(index);
+	}
+	
+	@Override
+	public int getSize() {
+		if (this.firstNull)
+			return TaskFileLinkList.getInstance().getLinkCount() + 1;
 		
-		for (String link : links)
-			this.addElement(link);
-		
-		TaskFileLinkList.getInstance().addListChangeListener(this);
+		return TaskFileLinkList.getInstance().getLinkCount();
 	}
 	
 	@Override
 	public void listChange(ListChangeEvent evt) {
-		String link = (String) evt.getValue();
-		
 		int index = evt.getIndex();
+		
 		if (this.firstNull)
 			index++;
 		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.insertElementAt(link, index);
+			this.fireIntervalAdded(this, index, index);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(link);
+			this.fireIntervalRemoved(this, index, index);
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+			this.fireContentsChanged(this, index, index);
 	}
 	
 }

@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.api.models.utils;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -74,6 +73,28 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		this.sortedLinks = new TreeSet<IgnoreCaseString>();
 		
 		this.initialize();
+	}
+	
+	public int getIndexOf(String link) {
+		IgnoreCaseString oLink = new IgnoreCaseString(link);
+		
+		int index = 0;
+		for (IgnoreCaseString l : this.sortedLinks) {
+			if (l.equals(oLink))
+				return index;
+			
+			index++;
+		}
+		
+		return -1;
+	}
+	
+	public int getLinkCount() {
+		return this.sortedLinks.size();
+	}
+	
+	public String getLink(int index) {
+		return this.getLinks()[index];
 	}
 	
 	public String[] getLinks() {
@@ -194,18 +215,9 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		if (!this.sortedLinks.contains(oLink)) {
 			this.sortedLinks.add(oLink);
 			
-			int index = 0;
-			Iterator<IgnoreCaseString> it = this.sortedLinks.iterator();
-			while (it.hasNext()) {
-				if (it.next().equals(oLink))
-					break;
-				
-				index++;
-			}
-			
 			this.listChangeSupport.fireListChange(
 					ListChangeEvent.VALUE_ADDED,
-					index,
+					this.getIndexOf(link),
 					link);
 		}
 	}
@@ -225,10 +237,11 @@ public final class TaskTaskLinkList implements ListChangeSupported, ListChangeLi
 		
 		if (!this.links.contains(oLink)) {
 			if (this.sortedLinks.contains(oLink)) {
+				int index = this.getIndexOf(link);
 				this.sortedLinks.remove(oLink);
 				this.listChangeSupport.fireListChange(
 						ListChangeEvent.VALUE_REMOVED,
-						-1,
+						index,
 						link);
 			}
 		}

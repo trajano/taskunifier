@@ -37,10 +37,11 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.DefaultComboBoxModel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class TaskRepeatModel extends DefaultComboBoxModel {
+public class TaskRepeatModel extends DefaultComboBoxModel implements PropertyChangeListener {
 	
 	public TaskRepeatModel(boolean firstNull) {
 		super(
@@ -48,18 +49,16 @@ public class TaskRepeatModel extends DefaultComboBoxModel {
 		
 		Main.getSettings().addPropertyChangeListener(
 				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent event) {
-						TaskRepeatModel.this.removeAllElements();
-						
-						String[] repeatValues = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues();
-						for (String status : repeatValues)
-							TaskRepeatModel.this.addElement(status);
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		TaskRepeatModel.this.removeAllElements();
+		
+		String[] repeatValues = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getDefaultRepeatValues();
+		for (String status : repeatValues)
+			TaskRepeatModel.this.addElement(status);
 	}
 	
 }

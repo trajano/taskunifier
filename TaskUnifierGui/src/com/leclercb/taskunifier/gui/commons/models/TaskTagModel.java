@@ -32,45 +32,38 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.AbstractListModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
-import com.leclercb.taskunifier.api.models.Tag;
-import com.leclercb.taskunifier.api.models.TagList;
 import com.leclercb.taskunifier.api.models.utils.TaskTagList;
 
-public class TaskTagModel extends DefaultComboBoxModel implements ListChangeListener {
+public class TaskTagModel extends AbstractListModel implements ListChangeListener {
 	
-	private boolean firstNull;
-	
-	public TaskTagModel(boolean firstNull) {
-		this.firstNull = firstNull;
-		
-		if (firstNull)
-			this.addElement(null);
-		
-		TagList tags = TaskTagList.getInstance().getTags();
-		for (Tag tag : tags)
-			this.addElement(tag);
-		
+	public TaskTagModel() {
 		TaskTagList.getInstance().addListChangeListener(
 				new WeakListChangeListener(TaskTagList.getInstance(), this));
 	}
 	
 	@Override
+	public Object getElementAt(int index) {
+		return TaskTagList.getInstance().getTag(index);
+	}
+	
+	@Override
+	public int getSize() {
+		return TaskTagList.getInstance().getTagCount();
+	}
+	
+	@Override
 	public void listChange(ListChangeEvent evt) {
-		Tag tag = (Tag) evt.getValue();
-		
-		int index = evt.getIndex();
-		if (this.firstNull)
-			index++;
-		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.insertElementAt(tag, index);
+			this.fireIntervalAdded(this, evt.getIndex(), evt.getIndex());
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(tag);
+			this.fireIntervalRemoved(this, evt.getIndex(), evt.getIndex());
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+			this.fireContentsChanged(this, evt.getIndex(), evt.getIndex());
 	}
 	
 }

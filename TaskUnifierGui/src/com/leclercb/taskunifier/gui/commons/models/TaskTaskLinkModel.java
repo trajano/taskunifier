@@ -32,43 +32,57 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.AbstractListModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.api.models.utils.TaskTaskLinkList;
 
-public class TaskTaskLinkModel extends DefaultComboBoxModel implements ListChangeListener {
+public class TaskTaskLinkModel extends AbstractListModel implements ListChangeListener {
 	
 	private boolean firstNull;
 	
 	public TaskTaskLinkModel(boolean firstNull) {
 		this.firstNull = firstNull;
 		
-		if (firstNull)
-			this.addElement(null);
-		
-		String[] links = TaskTaskLinkList.getInstance().getLinks();
-		for (String link : links)
-			this.addElement(link);
-		
 		TaskTaskLinkList.getInstance().addListChangeListener(
 				new WeakListChangeListener(TaskTaskLinkList.getInstance(), this));
 	}
 	
 	@Override
-	public void listChange(ListChangeEvent evt) {
-		String link = (String) evt.getValue();
+	public Object getElementAt(int index) {
+		if (this.firstNull) {
+			if (index == 0)
+				return null;
+			
+			return TaskTaskLinkList.getInstance().getLink(index - 1);
+		}
 		
+		return TaskTaskLinkList.getInstance().getLink(index);
+	}
+	
+	@Override
+	public int getSize() {
+		if (this.firstNull)
+			return TaskTaskLinkList.getInstance().getLinkCount() + 1;
+		
+		return TaskTaskLinkList.getInstance().getLinkCount();
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent evt) {
 		int index = evt.getIndex();
+		
 		if (this.firstNull)
 			index++;
 		
 		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.insertElementAt(link, index);
+			this.fireIntervalAdded(this, index, index);
 		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(link);
+			this.fireIntervalRemoved(this, index, index);
+		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+			this.fireContentsChanged(this, index, index);
 	}
 	
 }
