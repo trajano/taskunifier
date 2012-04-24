@@ -14,7 +14,10 @@ components.views
 constants
 main.frames
 plugins
+properties
 resources
 swing.buttons
 threads
 translations
+utils.BackupUtils
+utils.CommunicatorUtils
