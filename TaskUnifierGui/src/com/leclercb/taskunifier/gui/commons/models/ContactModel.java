@@ -34,16 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 
 public class ContactModel extends AbstractBasicModelSortedModel {
 	
 	public ContactModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -51,8 +49,12 @@ public class ContactModel extends AbstractBasicModelSortedModel {
 		for (Contact contact : contacts)
 			this.addElement(contact);
 		
-		ContactFactory.getInstance().addListChangeListener(this);
-		ContactFactory.getInstance().addPropertyChangeListener(this);
+		ContactFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(ContactFactory.getInstance(), this));
+		ContactFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						ContactFactory.getInstance(),
+						this));
 	}
 	
 }

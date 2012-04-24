@@ -41,7 +41,7 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationFi
 public class BackupListFieldType extends ConfigurationFieldType.ComboBox {
 	
 	public BackupListFieldType() {
-		super(new BackupModel(true));
+		super(new BackupModel());
 		
 		this.setRenderer(new DefaultListRenderer(StringValueBackup.INSTANCE));
 	}

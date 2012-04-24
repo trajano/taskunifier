@@ -53,8 +53,8 @@ public class TaskPriorityModel extends DefaultComboBoxModel implements PropertyC
 	}
 	
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().startsWith("theme.color.priority")) {
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().startsWith("theme.color.priority")) {
 			this.fireContentsChanged(this, 0, this.getSize() - 1);
 		}
 	}

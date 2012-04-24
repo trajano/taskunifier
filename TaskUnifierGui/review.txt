@@ -3,13 +3,7 @@ api.models
 api.plugins
 api.searchers.filters
 api.synchronizer
-commons.comparators
-commons.converters
-commons.events
-commons.highlighters
-commons.transfer
-commons.undoableedit
-commons.values
+commons
 components.about
 components.backaddtasks
 components.help

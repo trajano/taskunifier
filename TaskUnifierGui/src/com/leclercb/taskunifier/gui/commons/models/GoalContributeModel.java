@@ -33,32 +33,16 @@
 package com.leclercb.taskunifier.gui.commons.models;
 
 import java.beans.PropertyChangeEvent;
-import java.util.List;
 
-import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Goal;
-import com.leclercb.taskunifier.api.models.GoalFactory;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelParent;
 import com.leclercb.taskunifier.api.models.enums.GoalLevel;
 
-public class GoalContributeModel extends AbstractBasicModelSortedModel {
+public class GoalContributeModel extends GoalModel {
 	
 	public GoalContributeModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
-		if (firstNull)
-			this.addElement(null);
-		
-		List<Goal> goals = GoalFactory.getInstance().getList();
-		for (Goal goal : goals)
-			if (goal.getLevel().equals(GoalLevel.LIFE_TIME))
-				this.addElement(goal);
-		
-		GoalFactory.getInstance().addListChangeListener(this);
-		GoalFactory.getInstance().addPropertyChangeListener(this);
+		super(firstNull);
 	}
 	
 	@Override
@@ -81,8 +65,7 @@ public class GoalContributeModel extends AbstractBasicModelSortedModel {
 			
 			if (index == -1) {
 				this.addElement(event.getSource());
-			} else if (event.getPropertyName().equals(BasicModel.PROP_TITLE)
-					|| event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
+			} else if (event.getPropertyName().equals(ModelParent.PROP_PARENT)) {
 				this.fireStructureChanged(this);
 			} else {
 				this.fireContentsChanged(this, index, index);

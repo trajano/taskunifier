@@ -34,16 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.GoalFactory;
 
 public class GoalModel extends AbstractBasicModelSortedModel {
 	
 	public GoalModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -51,8 +49,10 @@ public class GoalModel extends AbstractBasicModelSortedModel {
 		for (Goal goal : goals)
 			this.addElement(goal);
 		
-		GoalFactory.getInstance().addListChangeListener(this);
-		GoalFactory.getInstance().addPropertyChangeListener(this);
+		GoalFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(GoalFactory.getInstance(), this));
+		GoalFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(GoalFactory.getInstance(), this));
 	}
 	
 }

@@ -36,6 +36,7 @@ import java.util.List;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.commons.gui.swing.models.DefaultSortedComboBoxModel;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.commons.comparators.SynchronizerGuiPluginComparator;
@@ -63,7 +64,8 @@ public class SynchronizerGuiPluginModel extends DefaultSortedComboBoxModel imple
 				this.addElement(plugin);
 		}
 		
-		Main.getApiPlugins().addListChangeListener(this);
+		Main.getApiPlugins().addListChangeListener(
+				new WeakListChangeListener(Main.getApiPlugins(), this));
 	}
 	
 	@Override

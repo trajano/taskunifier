@@ -34,16 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 
 public class NoteModel extends AbstractBasicModelSortedModel {
 	
 	public NoteModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -51,8 +49,10 @@ public class NoteModel extends AbstractBasicModelSortedModel {
 		for (Note note : notes)
 			this.addElement(note);
 		
-		NoteFactory.getInstance().addListChangeListener(this);
-		NoteFactory.getInstance().addPropertyChangeListener(this);
+		NoteFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(NoteFactory.getInstance(), this));
+		NoteFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(NoteFactory.getInstance(), this));
 	}
 	
 }

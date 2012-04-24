@@ -34,16 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Location;
 import com.leclercb.taskunifier.api.models.LocationFactory;
 
 public class LocationModel extends AbstractBasicModelSortedModel {
 	
 	public LocationModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -51,8 +49,12 @@ public class LocationModel extends AbstractBasicModelSortedModel {
 		for (Location location : locations)
 			this.addElement(location);
 		
-		LocationFactory.getInstance().addListChangeListener(this);
-		LocationFactory.getInstance().addPropertyChangeListener(this);
+		LocationFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(LocationFactory.getInstance(), this));
+		LocationFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						LocationFactory.getInstance(),
+						this));
 	}
 	
 }

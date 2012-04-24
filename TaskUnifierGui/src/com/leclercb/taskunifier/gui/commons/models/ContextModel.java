@@ -34,16 +34,14 @@ package com.leclercb.taskunifier.gui.commons.models;
 
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 
 public class ContextModel extends AbstractBasicModelSortedModel {
 	
 	public ContextModel(boolean firstNull) {
-		this.initialize(firstNull);
-	}
-	
-	private void initialize(boolean firstNull) {
 		if (firstNull)
 			this.addElement(null);
 		
@@ -51,8 +49,12 @@ public class ContextModel extends AbstractBasicModelSortedModel {
 		for (Context context : contexts)
 			this.addElement(context);
 		
-		ContextFactory.getInstance().addListChangeListener(this);
-		ContextFactory.getInstance().addPropertyChangeListener(this);
+		ContextFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(ContextFactory.getInstance(), this));
+		ContextFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						ContextFactory.getInstance(),
+						this));
 	}
 	
 }

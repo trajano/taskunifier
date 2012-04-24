@@ -35,6 +35,8 @@ package com.leclercb.taskunifier.gui.commons.models;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.FolderFactory;
 import com.leclercb.taskunifier.api.models.Model;
@@ -45,10 +47,6 @@ public class FolderModel extends AbstractBasicModelSortedModel {
 	private boolean includeArchived;
 	
 	public FolderModel(boolean firstNull, boolean includeArchived) {
-		this.initialize(firstNull, includeArchived);
-	}
-	
-	private void initialize(boolean firstNull, boolean includeArchived) {
 		this.includeArchived = includeArchived;
 		
 		if (firstNull)
@@ -56,11 +54,14 @@ public class FolderModel extends AbstractBasicModelSortedModel {
 		
 		List<Folder> folders = FolderFactory.getInstance().getList();
 		for (Folder folder : folders)
-			if (includeArchived || !folder.isArchived())
-				this.addElement(folder);
+			this.addElement(folder);
 		
-		FolderFactory.getInstance().addListChangeListener(this);
-		FolderFactory.getInstance().addPropertyChangeListener(this);
+		FolderFactory.getInstance().addListChangeListener(
+				new WeakListChangeListener(FolderFactory.getInstance(), this));
+		FolderFactory.getInstance().addPropertyChangeListener(
+				new WeakPropertyChangeListener(
+						FolderFactory.getInstance(),
+						this));
 	}
 	
 	@Override

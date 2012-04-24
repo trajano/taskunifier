@@ -32,52 +32,44 @@
  */
 package com.leclercb.taskunifier.gui.commons.models;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
 import com.leclercb.taskunifier.gui.utils.BackupUtils;
 
 public class BackupModel extends DefaultComboBoxModel implements ListChangeListener {
 	
-	private boolean firstNull;
+	public BackupModel() {
+		BackupUtils.getInstance().addListChangeListener(
+				new WeakListChangeListener(BackupUtils.getInstance(), this));
+	}
 	
-	public BackupModel(boolean firstNull) {
-		this.firstNull = firstNull;
-		
-		List<String> backups = BackupUtils.getInstance().getBackupList();
-		
-		// Sort reverse
-		Collections.sort(backups, new Comparator<String>() {
-			
-			@Override
-			public int compare(String o1, String o2) {
-				return o2.compareTo(o1);
-			}
-			
-		});
-		
-		if (firstNull)
-			this.addElement(null);
-		
-		for (String backup : backups)
-			this.addElement(backup);
-		
-		BackupUtils.getInstance().addListChangeListener(this);
+	private int convertListIndexToModelIndex(int index) {
+		return this.getSize() - index - 1;
 	}
 	
 	@Override
-	public void listChange(ListChangeEvent evt) {
-		String backup = (String) evt.getValue();
-		
-		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.insertElementAt(backup, (this.firstNull ? 1 : 0));
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.removeElement(backup);
+	public Object getElementAt(int index) {
+		return BackupUtils.getInstance().getBackup(
+				this.convertListIndexToModelIndex(index));
+	}
+	
+	@Override
+	public int getSize() {
+		return BackupUtils.getInstance().getBackupCount();
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		int index = this.convertListIndexToModelIndex(event.getIndex());
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.fireIntervalAdded(this, index, index);
+		else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.fireIntervalRemoved(this, index, index);
+		else if (event.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+			this.fireContentsChanged(this, index, index);
 	}
 	
 }

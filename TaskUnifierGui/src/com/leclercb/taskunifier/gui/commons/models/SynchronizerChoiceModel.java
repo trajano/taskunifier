@@ -37,32 +37,31 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.DefaultComboBoxModel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.synchronizer.SynchronizerChoice;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class SynchronizerChoiceModel extends DefaultComboBoxModel {
+public class SynchronizerChoiceModel extends DefaultComboBoxModel implements PropertyChangeListener {
 	
 	public SynchronizerChoiceModel() {
 		super(SynchronizerChoice.values());
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						int end = SynchronizerChoiceModel.this.getSize() - 1;
-						
-						if (end < 0)
-							end = 0;
-						
-						SynchronizerChoiceModel.this.fireContentsChanged(
-								SynchronizerChoiceModel.this,
-								0,
-								end);
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		int end = SynchronizerChoiceModel.this.getSize() - 1;
+		
+		if (end < 0)
+			end = 0;
+		
+		SynchronizerChoiceModel.this.fireContentsChanged(
+				SynchronizerChoiceModel.this,
+				0,
+				end);
 	}
 	
 }

@@ -56,13 +56,13 @@ public class UserModel extends AbstractComboBoxModel implements ListChangeListen
 	}
 	
 	@Override
-	public void listChange(ListChangeEvent evt) {
-		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
-			this.fireIntervalAdded(this, evt.getIndex(), evt.getIndex());
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
-			this.fireIntervalRemoved(this, evt.getIndex(), evt.getIndex());
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
-			this.fireContentsChanged(this, evt.getIndex(), evt.getIndex());
+	public void listChange(ListChangeEvent event) {
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED)
+			this.fireIntervalAdded(this, event.getIndex(), event.getIndex());
+		else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+			this.fireIntervalRemoved(this, event.getIndex(), event.getIndex());
+		else if (event.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+			this.fireContentsChanged(this, event.getIndex(), event.getIndex());
 	}
 	
 }

@@ -37,23 +37,21 @@ import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
-import org.jdesktop.swingx.JXErrorPane;
-import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.ListChangeSupport;
+import com.leclercb.commons.api.event.listchange.ListChangeSupported;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.synchronize.Synchronizing;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
-public final class BackupUtils {
+public final class BackupUtils implements ListChangeSupported {
 	
 	private static final SimpleDateFormat FORMAT = new SimpleDateFormat(
 			"yyyyMMdd_HHmmss");
@@ -69,20 +67,63 @@ public final class BackupUtils {
 	
 	private ListChangeSupport listChangeSupport;
 	
+	private List<String> backups;
+	
 	private BackupUtils() {
 		this.listChangeSupport = new ListChangeSupport(BackupUtils.class);
+		
+		this.backups = new ArrayList<String>();
+		
+		this.initialize();
 	}
 	
-	public void addListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.addListChangeListener(listener);
+	public int getIndexOf(String backupName) {
+		return this.backups.indexOf(backupName);
 	}
 	
-	public void removeListChangeListener(ListChangeListener listener) {
-		this.listChangeSupport.removeListChangeListener(listener);
+	public int getBackupCount() {
+		return this.backups.size();
+	}
+	
+	public String getBackup(int index) {
+		return this.backups.get(index);
+	}
+	
+	public String[] getBackups() {
+		return this.backups.toArray(new String[0]);
+	}
+	
+	private void initialize() {
+		File folder = new File(Main.getBackupFolder());
+		File[] backups = folder.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return BackupUtils.this.checkBackupName(
+						pathname.getName(),
+						false);
+			}
+		});
+		
+		for (File file : backups) {
+			this.backups.add(file.getName());
+		}
+		
+		Collections.sort(this.backups);
+	}
+	
+	private Calendar backupNameToDate(String backupName) {
+		try {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(FORMAT.parse(backupName));
+			return calendar;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public boolean checkBackupName(String backupName, boolean createIfNotExists) {
-		if (!backupName.matches("[0-9]{8}_[0-9]{6}"))
+		if (this.backupNameToDate(backupName) == null)
 			return false;
 		
 		String folder = Main.getBackupFolder() + File.separator + backupName;
@@ -93,27 +134,16 @@ public final class BackupUtils {
 				return false;
 			
 			if (!file.mkdir()) {
-				ErrorInfo info = new ErrorInfo(
-						Translations.getString("general.error"),
-						Translations.getString(
-								"error.folder_not_a_folder",
-								folder), null, "GUI", null, Level.WARNING, null);
-				
-				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Cannot create backup folder: " + backupName);
 				
 				return false;
 			}
 		} else if (!file.isDirectory()) {
-			ErrorInfo info = new ErrorInfo(
-					Translations.getString("general.error"),
-					Translations.getString("error.folder_not_a_folder", folder),
-					null,
-					"GUI",
-					null,
+			GuiLogger.getLogger().log(
 					Level.WARNING,
-					null);
-			
-			JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
+					"Backup folder is not a directory: " + backupName);
 			
 			return false;
 		}
@@ -121,26 +151,14 @@ public final class BackupUtils {
 		return true;
 	}
 	
-	public Calendar backupNameToDate(String backupName) {
-		try {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(FORMAT.parse(backupName));
-			return calendar;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
 	public void autoBackup(int nbHours) {
-		List<String> list = this.getBackupList();
-		
-		if (list.size() == 0) {
+		if (this.backups.size() == 0) {
 			this.createNewBackup();
 			return;
 		}
 		
 		try {
-			Calendar calendar = this.backupNameToDate(list.get(list.size() - 1));
+			Calendar calendar = this.backupNameToDate(this.backups.get(this.backups.size() - 1));
 			
 			Calendar past = Calendar.getInstance();
 			past.add(Calendar.HOUR_OF_DAY, -nbHours);
@@ -148,7 +166,10 @@ public final class BackupUtils {
 			if (calendar.compareTo(past) <= 0)
 				this.createNewBackup();
 		} catch (Exception e) {
-			
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot create auto backup",
+					e);
 		}
 	}
 	
@@ -161,6 +182,8 @@ public final class BackupUtils {
 		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
 		Main.copyAllData(folder);
+		
+		this.backups.add(backupName);
 		
 		this.listChangeSupport.fireListChange(
 				ListChangeEvent.VALUE_ADDED,
@@ -184,8 +207,11 @@ public final class BackupUtils {
 			String folder = Main.getBackupFolder()
 					+ File.separator
 					+ backupName;
+			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
+			
 			Main.loadAllData(folder);
+			
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 		} finally {
 			Synchronizing.getInstance().setSynchronizing(false);
@@ -202,11 +228,14 @@ public final class BackupUtils {
 		
 		try {
 			FileUtils.deleteDirectory(new File(folder));
+			
+			this.backups.remove(backupName);
 		} catch (Exception e) {
 			GuiLogger.getLogger().log(
 					Level.WARNING,
-					"Cannot remove backup \"" + backupName + "\"",
+					"Cannot remove backup folder: " + backupName,
 					e);
+			
 			return;
 		}
 		
@@ -219,35 +248,23 @@ public final class BackupUtils {
 	}
 	
 	public void cleanBackups(int nbToKeep) {
-		List<String> list = this.getBackupList();
-		
 		if (nbToKeep < 1)
 			throw new IllegalArgumentException();
 		
-		while (list.size() > nbToKeep) {
-			this.removeBackup(list.get(0));
-			list.remove(0);
+		while (this.backups.size() > nbToKeep) {
+			this.removeBackup(this.backups.get(0));
+			this.backups.remove(0);
 		}
 	}
 	
-	public List<String> getBackupList() {
-		File folder = new File(Main.getBackupFolder());
-		File[] backups = folder.listFiles(new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				return BackupUtils.this.checkBackupName(
-						pathname.getName(),
-						false);
-			}
-		});
-		
-		List<String> list = new ArrayList<String>();
-		for (File file : backups) {
-			list.add(file.getName());
-		}
-		
-		return list;
+	@Override
+	public void addListChangeListener(ListChangeListener listener) {
+		this.listChangeSupport.addListChangeListener(listener);
+	}
+	
+	@Override
+	public void removeListChangeListener(ListChangeListener listener) {
+		this.listChangeSupport.removeListChangeListener(listener);
 	}
 	
 }

@@ -70,17 +70,17 @@ public class TaskFileLinkModel extends AbstractComboBoxModel implements ListChan
 	}
 	
 	@Override
-	public void listChange(ListChangeEvent evt) {
-		int index = evt.getIndex();
+	public void listChange(ListChangeEvent event) {
+		int index = event.getIndex();
 		
 		if (this.firstNull)
 			index++;
 		
-		if (evt.getChangeType() == ListChangeEvent.VALUE_ADDED)
+		if (event.getChangeType() == ListChangeEvent.VALUE_ADDED)
 			this.fireIntervalAdded(this, index, index);
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_REMOVED)
+		else if (event.getChangeType() == ListChangeEvent.VALUE_REMOVED)
 			this.fireIntervalRemoved(this, index, index);
-		else if (evt.getChangeType() == ListChangeEvent.VALUE_CHANGED)
+		else if (event.getChangeType() == ListChangeEvent.VALUE_CHANGED)
 			this.fireContentsChanged(this, index, index);
 	}
 	
