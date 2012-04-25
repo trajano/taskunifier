@@ -315,13 +315,16 @@ public class Main {
 			public void run() {
 				try {
 					String lookAndFeel = SETTINGS.getStringProperty("theme.lookandfeel");
+					LookAndFeelDescriptor laf = null;
 					
 					if (lookAndFeel != null) {
-						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
+						laf = LookAndFeelUtils.getLookAndFeel(lookAndFeel);
 						if (laf != null)
 							laf.setLookAndFeel();
-					} else {
-						LookAndFeelDescriptor laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					}
+					
+					if (laf == null) {
+						laf = LookAndFeelUtils.getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						
 						if (SystemUtils.IS_OS_WINDOWS)
 							laf = LookAndFeelUtils.getLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel$Default");
