@@ -32,6 +32,7 @@
  */
 package com.leclercb.taskunifier.api.models.beans.converters;
 
+import com.leclercb.taskunifier.api.models.DeprecatedModelId;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -59,6 +60,12 @@ public class ModelIdConverter implements Converter {
 			UnmarshallingContext context) {
 		if (reader.getValue() == null || reader.getValue().length() == 0)
 			return null;
+		
+		if (reader.getAttribute("isnew") != null) {
+			return new DeprecatedModelId(
+					reader.getValue(),
+					Boolean.parseBoolean(reader.getAttribute("isnew")));
+		}
 		
 		return new ModelId(reader.getValue());
 	}
