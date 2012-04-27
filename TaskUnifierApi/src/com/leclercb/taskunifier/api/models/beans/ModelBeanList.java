@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelId;
 import com.leclercb.taskunifier.api.models.ModelList;
@@ -42,7 +41,8 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 	}
 	
 	public void add(ModelId model) {
-		CheckUtils.isNotNull(model);
+		if (model == null)
+			return;
 		
 		if (this.models.contains(model))
 			return;
@@ -63,7 +63,6 @@ public class ModelBeanList implements Cloneable, Serializable, Iterable<ModelId>
 	}
 	
 	public void remove(ModelId model) {
-		CheckUtils.isNotNull(model);
 		this.models.remove(model);
 	}
 	

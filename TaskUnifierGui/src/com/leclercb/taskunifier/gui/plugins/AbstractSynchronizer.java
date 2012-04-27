@@ -44,7 +44,6 @@ import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Model;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.beans.ModelBean;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
@@ -471,7 +470,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 			@Override
 			public void run() {
 				for (ModelBean updatedModel : updatedModels) {
-					Model model = NoteFactory.getInstance().get(
+					Model model = ModelFactoryUtils.getFactory(type).get(
 							AbstractSynchronizer.this.keyId,
 							updatedModel.getModelReferenceIds().get(
 									AbstractSynchronizer.this.keyId));
