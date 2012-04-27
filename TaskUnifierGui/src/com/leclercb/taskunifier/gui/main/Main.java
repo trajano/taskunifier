@@ -286,6 +286,10 @@ public class Main {
 					"general.version",
 					Constants.VERSION);
 			
+			Main.getUserSettings().setStringProperty(
+					"general.user.version",
+					Constants.VERSION);
+			
 			Constants.initialize();
 			
 			autoBackup();

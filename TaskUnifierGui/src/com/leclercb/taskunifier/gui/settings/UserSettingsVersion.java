@@ -32,9 +32,16 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.api.models.DeprecatedModelId;
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelFactory;
+import com.leclercb.taskunifier.api.models.ModelType;
+import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.resources.Resources;
 
@@ -45,28 +52,11 @@ public final class UserSettingsVersion {
 	}
 	
 	public static void updateSettings() {
-		String version = Main.getSettings().getStringProperty("general.version");
+		String version = Main.getUserSettings().getStringProperty(
+				"general.user.version");
 		
 		if (version == null)
-			version = "1.8.7";
-		
-		if (version.equals("1.8.7"))
-			version = updateUserSettings_1_8_7_to_2_0_0();
-		
-		if (version.equals("2.0.0"))
-			version = updateUserSettings_2_0_0_to_2_0_1();
-		
-		if (version.equals("2.0.1"))
-			version = updateUserSettings_2_0_1_to_2_1_0();
-		
-		if (version.equals("2.1.0"))
-			version = updateUserSettings_2_1_0_to_2_1_1();
-		
-		if (version.equals("2.1.1"))
-			version = updateUserSettings_2_1_1_to_2_2_0();
-		
-		if (version.equals("2.2.0"))
-			version = updateUserSettings_2_2_0_to_2_3_0();
+			version = "2.9.0";
 		
 		if (version.equals("2.9.0"))
 			version = updateUserSettings_2_9_0_to_3_0_0();
@@ -96,55 +86,30 @@ public final class UserSettingsVersion {
 		}
 	}
 	
-	private static String updateUserSettings_1_8_7_to_2_0_0() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 1.8.7 to 2.0.0");
-		
-		Main.getUserSettings().setStringProperty("general.user.name", "Default");
-		
-		return "2.0.0";
-	}
-	
-	private static String updateUserSettings_2_0_0_to_2_0_1() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 2.0.0 to 2.0.1");
-		
-		return "2.0.1";
-	}
-	
-	private static String updateUserSettings_2_0_1_to_2_1_0() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 2.0.1 to 2.1.0");
-		
-		Main.getUserSettings().replaceKey("api.id", "plugin.synchronizer.id");
-		
-		return "2.1.0";
-	}
-	
-	private static String updateUserSettings_2_1_0_to_2_1_1() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 2.1.0 to 2.1.1");
-		
-		return "2.1.1";
-	}
-	
-	private static String updateUserSettings_2_1_1_to_2_2_0() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 2.1.1 to 2.2.0");
-		
-		return "2.2.0";
-	}
-	
-	private static String updateUserSettings_2_2_0_to_2_3_0() {
-		GuiLogger.getLogger().info(
-				"Update user settings from version 2.2.0 to 2.3.0");
-		
-		return "2.3.0";
-	}
-	
 	private static String updateUserSettings_2_9_0_to_3_0_0() {
 		GuiLogger.getLogger().info(
 				"Update user settings from version 2.9.0 to 3.0.0");
+		
+		Main.AFTER_START.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				for (ModelType type : ModelType.values()) {
+					ModelFactory<?, ?, ?, ?> factory = ModelFactoryUtils.getFactory(type);
+					for (Object object : factory.getList()) {
+						Model model = (Model) object;
+						
+						if (model.getModelId() instanceof DeprecatedModelId)
+							if (!((DeprecatedModelId) model.getModelId()).isNew())
+								if (model.getModelReferenceId("toodledo") == null)
+									model.addModelReferenceId(
+											"toodledo",
+											model.getModelId().getId());
+					}
+				}
+			}
+			
+		});
 		
 		return "3.0.0";
 	}

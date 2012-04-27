@@ -44,11 +44,6 @@ import org.apache.commons.io.FileUtils;
 
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.taskunifier.api.models.DeprecatedModelId;
-import com.leclercb.taskunifier.api.models.Model;
-import com.leclercb.taskunifier.api.models.ModelFactory;
-import com.leclercb.taskunifier.api.models.ModelType;
-import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.resources.Resources;
@@ -1265,27 +1260,6 @@ public final class SettingsVersion {
 	private static String updateSettings_2_9_0_to_3_0_0() {
 		GuiLogger.getLogger().info(
 				"Update settings from version 2.9.0 to 3.0.0");
-		
-		Main.AFTER_START.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				for (ModelType type : ModelType.values()) {
-					ModelFactory<?, ?, ?, ?> factory = ModelFactoryUtils.getFactory(type);
-					for (Object object : factory.getList()) {
-						Model model = (Model) object;
-						
-						if (model.getModelId() instanceof DeprecatedModelId)
-							if (!((DeprecatedModelId) model.getModelId()).isNew())
-								if (model.getModelReferenceId("toodledo") == null)
-									model.addModelReferenceId(
-											"toodledo",
-											model.getModelId().getId());
-					}
-				}
-			}
-			
-		});
 		
 		Main.getSettings().replaceKey(
 				"window.extended_state",
