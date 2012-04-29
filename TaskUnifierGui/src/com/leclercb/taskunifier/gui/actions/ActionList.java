@@ -23,7 +23,7 @@ public enum ActionList {
 	ADD_TEMPLATE_TASK(Translations.getString("action.add_template_task"), "template.png", false),
 	ADD_TEMPLATE_TASK_MENU(Translations.getString("action.add_template_task"), "template.png", true),
 	BATCH_ADD_TASKS(Translations.getString("action.batch_add_tasks"), "batch.png", true),
-	CHANGE_DATE_FOLDER_LOCATION(Translations.getString("action.change_data_folder_location"), null, false),
+	CHANGE_DATE_FOLDER_LOCATION(Translations.getString("action.change_data_folder_location"), "folder.png", false),
 	CHANGE_VIEW(Translations.getString("action.change_view"), "change_view_tasks.png", true),
 	CHECK_PLUGIN_VERSION(Translations.getString("action.check_plugin_version"), "download.png", true),
 	CHECK_VERSION(Translations.getString("action.check_version"), "download.png", true),

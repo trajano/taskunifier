@@ -44,6 +44,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXEditorPane;
 
+import com.leclercb.taskunifier.gui.actions.ActionDonate;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
@@ -73,6 +74,8 @@ public class ReviewPanel extends JPanel {
 		JButton reviewButton = new JButton(
 				Translations.getString("review.link"));
 		
+		JButton donateButton = new JButton(new ActionDonate(16, 16));
+		
 		reviewButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -82,11 +85,12 @@ public class ReviewPanel extends JPanel {
 			
 		});
 		
-		this.add(icon, "center, wrap 15px");
+		this.add(icon, "span, center, wrap 15px");
 		this.add(
 				ComponentFactory.createJScrollPane(pane, true),
-				"grow, push, wrap");
-		this.add(reviewButton, "center");
+				"span, grow, push, wrap");
+		this.add(reviewButton, "left");
+		this.add(donateButton, "right");
 	}
 	
 }

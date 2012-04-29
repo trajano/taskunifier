@@ -6,10 +6,13 @@ api.synchronizer
 commons
 components.about
 components.backaddtasks
+components.change_data_folder
 components.help
 components.notesearchertree.draganddrop
 components.quickaddtask
+components.review
 components.tasksearchertree.draganddrop
+components.tips
 components.views
 constants
 main.frames

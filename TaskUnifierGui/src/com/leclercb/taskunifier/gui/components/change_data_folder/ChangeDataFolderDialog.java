@@ -109,7 +109,7 @@ public class ChangeDataFolderDialog extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(panel, BorderLayout.NORTH);
 		
 		// Data folder
@@ -165,9 +165,11 @@ public class ChangeDataFolderDialog extends JDialog {
 								file.getAbsolutePath());
 						
 						ActionSave.save();
-						FileUtils.copyDirectory(
-								new File(Main.getDataFolder()),
-								file);
+						
+						if (ChangeDataFolderDialog.this.copyData.isSelected())
+							FileUtils.copyDirectory(
+									new File(Main.getDataFolder()),
+									file);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
 								Translations.getString("general.error"),

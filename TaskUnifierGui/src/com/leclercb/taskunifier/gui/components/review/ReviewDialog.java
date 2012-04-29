@@ -79,7 +79,7 @@ public class ReviewDialog extends JDialog {
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		ReviewPanel reviewPanel = new ReviewPanel();
-		reviewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		reviewPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add(reviewPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();

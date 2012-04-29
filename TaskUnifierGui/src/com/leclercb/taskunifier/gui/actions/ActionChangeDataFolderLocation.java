@@ -45,11 +45,14 @@ import com.leclercb.taskunifier.gui.components.change_data_folder.ChangeDataFold
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class ActionChangeDataFolderLocation extends AbstractAction {
 	
 	public ActionChangeDataFolderLocation(int width, int height) {
-		super(Translations.getString("action.change_data_folder_location"));
+		super(
+				Translations.getString("action.change_data_folder_location"),
+				ImageUtils.getResourceImage("folder.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
