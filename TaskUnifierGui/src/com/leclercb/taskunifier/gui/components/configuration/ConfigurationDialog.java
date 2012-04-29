@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -135,8 +136,12 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		
 		this.tabbedPane = new JTabbedPane();
 		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		panel.add(this.tabbedPane, BorderLayout.CENTER);
+		
 		this.add(header, BorderLayout.NORTH);
-		this.add(this.tabbedPane, BorderLayout.CENTER);
+		this.add(panel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
 		
