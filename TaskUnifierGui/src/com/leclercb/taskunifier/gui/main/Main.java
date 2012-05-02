@@ -120,6 +120,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.plugins.PluginLogger;
 import com.leclercb.taskunifier.gui.properties.ShortcutKeyCoder;
 import com.leclercb.taskunifier.gui.resources.Resources;
+import com.leclercb.taskunifier.gui.settings.ModelVersion;
 import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
 import com.leclercb.taskunifier.gui.swing.EventQueueProxy;
@@ -807,6 +808,8 @@ public class Main {
 		loadTaskTemplates(folder);
 		loadTaskSearchers(folder);
 		loadNoteSearchers(folder);
+		
+		ModelVersion.updateModels();
 	}
 	
 	public static void loadModels(String folder) {
