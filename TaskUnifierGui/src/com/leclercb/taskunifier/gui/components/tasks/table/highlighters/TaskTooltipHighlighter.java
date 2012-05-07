@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.tasks.table.highlighters;
 
 import java.awt.Component;
+import java.util.Calendar;
 
 import javax.swing.JComponent;
 
@@ -40,12 +41,15 @@ import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.ToolTipHighlighter;
 
+import com.leclercb.commons.api.utils.DateUtils;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.Timer;
+import com.leclercb.taskunifier.gui.commons.values.StringValueCalendar;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskLength;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTaskProgress;
 import com.leclercb.taskunifier.gui.commons.values.StringValueTimer;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
+import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class TaskTooltipHighlighter extends ToolTipHighlighter {
@@ -71,6 +75,10 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 				return this.doHighlightLength(renderer, adapter);
 			case TIMER:
 				return this.doHighlightTimer(renderer, adapter);
+			case START_DATE:
+				return this.doHighlightDate(renderer, adapter, column);
+			case DUE_DATE:
+				return this.doHighlightDate(renderer, adapter, column);
 			default:
 				return super.doHighlight(renderer, adapter);
 		}
@@ -251,6 +259,38 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 			tooltip = StringValueTimer.INSTANCE.getString(task.getTimer());
 		
 		((JComponent) renderer).setToolTipText(tooltip);
+		
+		return renderer;
+	}
+	
+	protected Component doHighlightDate(
+			Component renderer,
+			ComponentAdapter adapter,
+			TaskColumn column) {
+		Object value = adapter.getFilteredValueAt(
+				adapter.row,
+				adapter.convertColumnIndexToModel(adapter.column));
+		if (value == null || !(value instanceof Calendar))
+			return renderer;
+		
+		String toolTip = StringValueCalendar.INSTANCE_DATE_TIME.getString(value);
+		
+		if (column == TaskColumn.START_DATE)
+			if (!Main.getSettings().getBooleanProperty("date.use_start_time"))
+				toolTip = StringValueCalendar.INSTANCE_DATE.getString(value);
+		
+		if (column == TaskColumn.DUE_DATE)
+			if (!Main.getSettings().getBooleanProperty("date.use_due_time"))
+				toolTip = StringValueCalendar.INSTANCE_DATE.getString(value);
+		
+		toolTip = String.format("%1s (%2s)", toolTip, Translations.getString(
+				"date.x_days",
+				Math.abs((int) DateUtils.getDiffInDays(
+						(Calendar) value,
+						Calendar.getInstance(),
+						false))));
+		
+		((JComponent) renderer).setToolTipText(toolTip);
 		
 		return renderer;
 	}

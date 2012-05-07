@@ -54,6 +54,8 @@ public class TaskTooltipHighlightPredicate implements HighlightPredicate {
 			case LENGTH:
 			case TIMER:
 			case REPEAT:
+			case START_DATE:
+			case DUE_DATE:
 				return true;
 		}
 		
