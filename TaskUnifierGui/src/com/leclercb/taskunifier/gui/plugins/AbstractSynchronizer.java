@@ -285,7 +285,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 			}
 		}
 		
-		this.deleteModels(type, models);
+		this.deleteModels(type, modelsToDelete);
 		
 		TUSwingUtilities.invokeAndWait(new Runnable() {
 			
