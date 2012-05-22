@@ -71,7 +71,7 @@ public class SettingsPanel extends CardPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(20, 0));
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		panel.add(
 				new JLabel(ImageUtils.getResourceImage("settings.png", 48, 48)),
@@ -84,9 +84,15 @@ public class SettingsPanel extends CardPanel {
 	}
 	
 	@Override
-	public void applyChanges() {
+	public void saveAndApplyConfig() {
 		if (this.panel != null)
 			this.panel.saveAndApplyConfig();
+	}
+	
+	@Override
+	public void cancelConfig() {
+		if (this.panel != null)
+			this.panel.cancelConfig();
 	}
 	
 }

@@ -65,9 +65,14 @@ public class WelcomePanel extends CardPanel {
 				Translations.getString("general.welcome_message"),
 				SwingConstants.CENTER), BorderLayout.CENTER);
 	}
-	
+
 	@Override
-	public void applyChanges() {
+	public void saveAndApplyConfig() {
+		
+	}
+
+	@Override
+	public void cancelConfig() {
 		
 	}
 	

@@ -34,7 +34,6 @@ package com.leclercb.taskunifier.gui.components.welcome;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,7 +49,6 @@ import com.leclercb.taskunifier.gui.components.configuration.GeneralConfiguratio
 import com.leclercb.taskunifier.gui.components.configuration.ProxyConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.SynchronizationConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
-import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.CardPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.SettingsPanel;
 import com.leclercb.taskunifier.gui.components.welcome.panels.WelcomePanel;
@@ -78,9 +76,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 	private JPanel cardPanel;
 	private int currentPanel;
 	
-	public WelcomeDialog(Frame frame) {
-		super(frame);
-		
+	public WelcomeDialog() {
 		this.initialize();
 	}
 	
@@ -88,7 +84,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.welcome"));
 		this.setSize(700, 600);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
@@ -122,7 +118,7 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				WelcomeDialog.this.panels[WelcomeDialog.this.currentPanel].applyChanges();
+				WelcomeDialog.this.panels[WelcomeDialog.this.currentPanel].saveAndApplyConfig();
 				
 				if (event.getActionCommand().equals("PREVIOUS")) {
 					if (WelcomeDialog.this.currentPanel != 0) {
@@ -170,22 +166,14 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 	
 	@Override
 	public void saveAndApplyConfig() {
-		for (CardPanel panel : this.panels) {
-			if (panel instanceof SettingsPanel) {
-				ConfigurationPanel configPanel = ((SettingsPanel) panel).getConfigurationPanel();
-				configPanel.saveAndApplyConfig();
-			}
-		}
+		for (CardPanel panel : this.panels)
+			panel.saveAndApplyConfig();
 	}
 	
 	@Override
 	public void cancelConfig() {
-		for (CardPanel panel : this.panels) {
-			if (panel instanceof SettingsPanel) {
-				ConfigurationPanel configPanel = ((SettingsPanel) panel).getConfigurationPanel();
-				configPanel.cancelConfig();
-			}
-		}
+		for (CardPanel panel : this.panels)
+			panel.cancelConfig();
 	}
 	
 }

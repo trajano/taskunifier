@@ -33,7 +33,6 @@
 package com.leclercb.taskunifier.gui.components.welcome;
 
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -52,9 +51,7 @@ public class LanguageDialog extends JDialog implements ConfigurationGroup {
 	
 	private GeneralConfigurationPanel generalConfigurationPanel;
 	
-	public LanguageDialog(Frame frame) {
-		super(frame);
-		
+	public LanguageDialog() {
 		this.initialize();
 	}
 	
@@ -62,7 +59,7 @@ public class LanguageDialog extends JDialog implements ConfigurationGroup {
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.welcome"));
 		this.setSize(400, 120);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
@@ -73,6 +70,7 @@ public class LanguageDialog extends JDialog implements ConfigurationGroup {
 				this,
 				true,
 				false);
+		
 		this.add(this.generalConfigurationPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();
