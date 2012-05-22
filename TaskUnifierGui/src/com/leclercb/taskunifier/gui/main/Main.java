@@ -365,8 +365,8 @@ public class Main {
 				
 				try {
 					if (isFirstExecution()) {
-						new LanguageDialog(null).setVisible(true);
-						new WelcomeDialog(null).setVisible(true);
+						new LanguageDialog().setVisible(true);
+						new WelcomeDialog().setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
 					}
 					
