@@ -13,7 +13,11 @@ components.quickaddtask
 components.review
 components.tasksearchertree.draganddrop
 components.tips
+components.toolbar
+components.traypopup
+components.users
 components.views
+components.welcome
 constants
 main.frames
 plugins

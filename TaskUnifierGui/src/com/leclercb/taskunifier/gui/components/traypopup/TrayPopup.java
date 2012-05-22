@@ -58,10 +58,7 @@ public class TrayPopup extends PopupMenu {
 	}
 	
 	private void initialize(boolean showQuitAction) {
-		Action action = null;
-		MenuItem item = null;
-		
-		item = new MenuItem(Translations.getString("general.open"));
+		MenuItem item = new MenuItem(Translations.getString("general.open"));
 		item.addActionListener(new ActionListener() {
 			
 			@Override
@@ -73,28 +70,25 @@ public class TrayPopup extends PopupMenu {
 			}
 			
 		});
+		
 		this.add(item);
 		
 		this.addSeparator();
 		
-		action = new ActionCreateTaskFromClipboard(16, 16);
-		item = new MenuItem((String) action.getValue(Action.NAME));
-		item.addActionListener(action);
-		this.add(item);
-		
-		action = new ActionCreateNoteFromClipboard(16, 16);
-		item = new MenuItem((String) action.getValue(Action.NAME));
-		item.addActionListener(action);
-		this.add(item);
+		this.addItem(new ActionCreateTaskFromClipboard(16, 16));
+		this.addItem(new ActionCreateNoteFromClipboard(16, 16));
 		
 		if (showQuitAction) {
 			this.addSeparator();
 			
-			action = new ActionQuit(16, 16);
-			item = new MenuItem((String) action.getValue(Action.NAME));
-			item.addActionListener(action);
-			this.add(item);
+			this.addItem(new ActionQuit(16, 16));
 		}
+	}
+	
+	private void addItem(Action action) {
+		MenuItem item = new MenuItem((String) action.getValue(Action.NAME));
+		item.addActionListener(action);
+		this.add(item);
 	}
 	
 }

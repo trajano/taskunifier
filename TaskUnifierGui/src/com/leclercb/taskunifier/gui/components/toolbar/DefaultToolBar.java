@@ -46,7 +46,9 @@ import javax.swing.JToolBar;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
@@ -65,7 +67,9 @@ import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class DefaultToolBar extends JToolBar {
+public class DefaultToolBar extends JToolBar implements SavePropertiesListener, PropertyChangeListener {
+	
+	private JLabel accountLabel;
 	
 	public DefaultToolBar() {
 		this.initialize();
@@ -103,16 +107,17 @@ public class DefaultToolBar extends JToolBar {
 		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu(
 				16,
 				16);
-		final JLabel accountLabel = new JLabel();
-		accountLabel.setText(this.getAccountLabelText());
 		
-		accountLabel.addMouseListener(new MouseAdapter() {
+		this.accountLabel = new JLabel();
+		this.accountLabel.setText(this.getAccountLabelText());
+		
+		this.accountLabel.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				if (event.isPopupTrigger()
 						|| event.getButton() == MouseEvent.BUTTON3) {
-					userMenu.showPopupMenu(accountLabel);
+					userMenu.showPopupMenu(DefaultToolBar.this.accountLabel);
 				}
 				
 				if (event.getButton() == MouseEvent.BUTTON1
@@ -124,38 +129,17 @@ public class DefaultToolBar extends JToolBar {
 		});
 		
 		Main.getUserSettings().addSavePropertiesListener(
-				new SavePropertiesListener() {
-					
-					@Override
-					public void saveProperties() {
-						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakSavePropertiesListener(Main.getUserSettings(), this));
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"general.user.name",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 		
-		this.add(accountLabel);
+		this.add(this.accountLabel);
 		
 		this.add(Box.createHorizontalStrut(10));
 	}
@@ -239,6 +223,16 @@ public class DefaultToolBar extends JToolBar {
 			this.addSeparator(new Dimension(20, 20));
 			this.add(new ActionConfiguration(24, 24));
 		}
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		this.accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
+	}
+	
+	@Override
+	public void saveProperties() {
+		this.accountLabel.setText(DefaultToolBar.this.getAccountLabelText());
 	}
 	
 }

@@ -64,7 +64,7 @@ public class UserList extends JPanel {
 		this.userList = new JXList();
 		
 		this.userList.setModel(new UserModel());
-		this.userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		this.userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.userList.setCellRenderer(new DefaultListRenderer(
 				StringValueUser.INSTANCE,
 				IconValueUser.INSTANCE));

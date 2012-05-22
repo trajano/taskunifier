@@ -86,6 +86,7 @@ public class UserDialog extends JDialog {
 		
 		this.userPanel = new UserPanel();
 		this.userPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		
 		this.add(this.userPanel, BorderLayout.CENTER);
 		
 		this.initializeButtonsPanel();

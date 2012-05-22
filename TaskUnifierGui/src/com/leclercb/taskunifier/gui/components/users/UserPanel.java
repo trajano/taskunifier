@@ -96,7 +96,7 @@ public class UserPanel extends JPanel {
 		String user = this.userList.getSelectedUser();
 		
 		if (user == null) {
-			this.selectUser();
+			this.showSelectUserErrorMessage();
 			return;
 		}
 		
@@ -125,7 +125,7 @@ public class UserPanel extends JPanel {
 		String user = this.userList.getSelectedUser();
 		
 		if (user == null) {
-			this.selectUser();
+			this.showSelectUserErrorMessage();
 			return;
 		}
 		
@@ -157,7 +157,7 @@ public class UserPanel extends JPanel {
 		String user = this.userList.getSelectedUser();
 		
 		if (user == null) {
-			this.selectUser();
+			this.showSelectUserErrorMessage();
 			return;
 		}
 		
@@ -166,7 +166,7 @@ public class UserPanel extends JPanel {
 		this.actionSupport.fireActionPerformed(0, ACTION_SWITCH_TO_USER);
 	}
 	
-	private void selectUser() {
+	private void showSelectUserErrorMessage() {
 		ErrorInfo info = new ErrorInfo(
 				Translations.getString("general.error"),
 				Translations.getString("manage_users.select_one_user"),
@@ -234,6 +234,7 @@ public class UserPanel extends JPanel {
 		this.switchToUserButton = new JButton(new SwitchToUserAction());
 		this.createNewUserButton = new JButton(new CreateNewUserAction());
 		this.deleteUserButton = new JButton(new DeleteUserAction());
+		
 		JPanel panel = new TUButtonsPanel(
 				this.switchToUserButton,
 				this.createNewUserButton,

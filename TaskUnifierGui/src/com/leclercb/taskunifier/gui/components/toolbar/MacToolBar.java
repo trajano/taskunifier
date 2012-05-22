@@ -48,7 +48,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.explodingpixels.macwidgets.UnifiedToolBar;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
+import com.leclercb.commons.api.properties.events.WeakSavePropertiesListener;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionAddNote;
 import com.leclercb.taskunifier.gui.actions.ActionAddSubTask;
@@ -59,13 +61,17 @@ import com.leclercb.taskunifier.gui.actions.ActionChangeView;
 import com.leclercb.taskunifier.gui.actions.ActionConfiguration;
 import com.leclercb.taskunifier.gui.actions.ActionDelete;
 import com.leclercb.taskunifier.gui.actions.ActionList;
+import com.leclercb.taskunifier.gui.actions.ActionManageUsers;
 import com.leclercb.taskunifier.gui.actions.ActionScheduledSync;
+import com.leclercb.taskunifier.gui.actions.ActionSwitchToUserMenu;
 import com.leclercb.taskunifier.gui.actions.ActionSynchronizeAndPublish;
 import com.leclercb.taskunifier.gui.components.configuration.ConfigurationDialog.ConfigurationTab;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class MacToolBar extends UnifiedToolBar {
+public class MacToolBar extends UnifiedToolBar implements SavePropertiesListener, PropertyChangeListener {
+	
+	private JLabel accountLabel;
 	
 	public MacToolBar() {
 		this.initialize();
@@ -95,42 +101,42 @@ public class MacToolBar extends UnifiedToolBar {
 			
 		});
 		
-		final JLabel accountLabel = MacWidgetFactory.createEmphasizedLabel("");
-		accountLabel.setText(this.getAccountLabelText());
+		final ActionSwitchToUserMenu userMenu = new ActionSwitchToUserMenu(
+				16,
+				16);
+		
+		this.accountLabel = MacWidgetFactory.createEmphasizedLabel("");
+		this.accountLabel.setText(this.getAccountLabelText());
+		
+		this.accountLabel.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if (event.isPopupTrigger()
+						|| event.getButton() == MouseEvent.BUTTON3) {
+					userMenu.showPopupMenu(MacToolBar.this.accountLabel);
+				}
+				
+				if (event.getButton() == MouseEvent.BUTTON1
+						&& event.getClickCount() == 2) {
+					ActionManageUsers.manageUsers();
+				}
+			}
+			
+		});
 		
 		Main.getUserSettings().addSavePropertiesListener(
-				new SavePropertiesListener() {
-					
-					@Override
-					public void saveProperties() {
-						accountLabel.setText(MacToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakSavePropertiesListener(Main.getUserSettings(), this));
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"general.user.name",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						accountLabel.setText(MacToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						accountLabel.setText(MacToolBar.this.getAccountLabelText());
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 		
-		this.addComponentToRight(accountLabel);
+		this.addComponentToRight(this.accountLabel);
 	}
 	
 	private String getAccountLabelText() {
@@ -169,16 +175,16 @@ public class MacToolBar extends UnifiedToolBar {
 			for (String action : actions) {
 				action = action.trim();
 				
-				if ("SEPARATOR".equalsIgnoreCase(action)) {
-					this.addComponentToLeft(new JSeparator());
-					continue;
-				}
-				
 				try {
 					ActionList l = ActionList.valueOf(action);
 					
 					if (!l.isFitToolBar())
 						continue;
+					
+					if (l == ActionList.SEPARATOR) {
+						this.addComponentToLeft(new JSeparator());
+						continue;
+					}
 					
 					Action a = l.newInstance(24, 24);
 					
@@ -225,22 +231,28 @@ public class MacToolBar extends UnifiedToolBar {
 		}
 	}
 	
+	private JButton createButton(Action action) {
+		JButton button = new JButton(action);
+		this.formatButton(button);
+		return button;
+	}
+	
 	private void formatButton(JButton button) {
 		button.setOpaque(false);
 		button.setBorderPainted(false);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		
-		// String text = button.getText() == null ? "" : button.getText();
-		// text = text.length() > 30 ? text.substring(0, 30 - 2) + "..." : text;
-		
 		button.setText("");
 	}
 	
-	private JButton createButton(Action action) {
-		JButton button = new JButton(action);
-		this.formatButton(button);
-		return button;
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		this.accountLabel.setText(MacToolBar.this.getAccountLabelText());
+	}
+	
+	@Override
+	public void saveProperties() {
+		this.accountLabel.setText(MacToolBar.this.getAccountLabelText());
 	}
 	
 }
