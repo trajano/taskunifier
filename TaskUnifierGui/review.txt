@@ -12,6 +12,7 @@ components.notesearchertree.draganddrop
 components.quickaddtask
 components.review
 components.tasksearchertree.draganddrop
+components.timevalueedit
 components.tips
 components.toolbar
 components.traypopup
