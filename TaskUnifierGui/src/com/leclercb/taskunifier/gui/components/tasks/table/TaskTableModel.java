@@ -65,6 +65,7 @@ public class TaskTableModel extends AbstractTableModel implements ListChangeList
 		
 		TaskFactory.getInstance().addListChangeListener(
 				new WeakListChangeListener(TaskFactory.getInstance(), this));
+		
 		TaskFactory.getInstance().addPropertyChangeListener(
 				new WeakPropertyChangeListener(TaskFactory.getInstance(), this));
 		

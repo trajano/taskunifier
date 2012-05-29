@@ -47,10 +47,16 @@ import com.leclercb.taskunifier.gui.swing.table.TUTableProperties.TableColumnPro
 
 public abstract class TUTableColumnModel<E extends Enum<?>> extends DefaultTableColumnModelExt {
 	
+	private TableColumnInstantiator<E> instantiator;
 	private TUTableProperties<E> tableProperties;
 	
-	public TUTableColumnModel(TUTableProperties<E> tableProperties) {
+	public TUTableColumnModel(
+			TableColumnInstantiator<E> instantiator,
+			TUTableProperties<E> tableProperties) {
+		CheckUtils.isNotNull(instantiator);
 		CheckUtils.isNotNull(tableProperties);
+		
+		this.instantiator = instantiator;
 		this.tableProperties = tableProperties;
 		
 		this.initialize();
@@ -70,11 +76,8 @@ public abstract class TUTableColumnModel<E extends Enum<?>> extends DefaultTable
 		});
 		
 		for (int i = 0; i < columns.length; i++)
-			this.addColumn(this.newTableColumnInstance(this.tableProperties.get(columns[i])));
+			this.addColumn(this.instantiator.newTableColumnInstance(this.tableProperties.get(columns[i])));
 	}
-	
-	public abstract TUTableColumn<E> newTableColumnInstance(
-			TableColumnProperties<E> column);
 	
 	public TaskTasksColumn getTaskTasksColumn(int col) {
 		return (TaskTasksColumn) this.getColumn(col).getIdentifier();
@@ -92,6 +95,13 @@ public abstract class TUTableColumnModel<E extends Enum<?>> extends DefaultTable
 			TableColumnProperties<E> properties = this.tableProperties.get(column);
 			properties.setOrder(i++);
 		}
+	}
+	
+	public static interface TableColumnInstantiator<E extends Enum<?>> {
+		
+		public abstract TUTableColumn<E> newTableColumnInstance(
+				TableColumnProperties<E> column);
+		
 	}
 	
 }

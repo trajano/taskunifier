@@ -93,14 +93,20 @@ public class NoteTableColumn extends TUTableColumn<NoteColumn> {
 		GENERIC_EDITOR = new JXTable.GenericEditor();
 	}
 	
-	public NoteTableColumn(TableColumnProperties<NoteColumn> column) {
+	private NoteRowComparator comparator;
+	
+	public NoteTableColumn(
+			TableColumnProperties<NoteColumn> column,
+			NoteRowComparator comparator) {
 		super(column);
+		
+		this.comparator = comparator;
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
 		if (this.column.getColumn() == NoteColumn.MODEL)
-			return NoteRowComparator.getInstance();
+			return this.comparator;
 		
 		return super.getComparator();
 	}

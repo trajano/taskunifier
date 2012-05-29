@@ -40,15 +40,6 @@ import com.leclercb.taskunifier.gui.commons.comparators.NoteComparator;
 
 public class NoteRowComparator implements Comparator<Note> {
 	
-	private static NoteRowComparator INSTANCE;
-	
-	public static NoteRowComparator getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new NoteRowComparator();
-		
-		return INSTANCE;
-	}
-	
 	private NoteSearcher searcher;
 	private NoteComparator comparator;
 	

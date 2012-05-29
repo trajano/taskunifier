@@ -10,13 +10,15 @@ public class ModelSelectionTableColumnModel extends TUTableColumnModel<ModelSele
 	
 	public ModelSelectionTableColumnModel(
 			TUTableProperties<ModelSelectionColumn> tableProperties) {
-		super(tableProperties);
-	}
-	
-	@Override
-	public TUTableColumn<ModelSelectionColumn> newTableColumnInstance(
-			TableColumnProperties<ModelSelectionColumn> column) {
-		return new ModelSelectionTableColumn(column);
+		super(new TableColumnInstantiator<ModelSelectionColumn>() {
+			
+			@Override
+			public TUTableColumn<ModelSelectionColumn> newTableColumnInstance(
+					TableColumnProperties<ModelSelectionColumn> column) {
+				return new ModelSelectionTableColumn(column);
+			}
+			
+		}, tableProperties);
 	}
 	
 }

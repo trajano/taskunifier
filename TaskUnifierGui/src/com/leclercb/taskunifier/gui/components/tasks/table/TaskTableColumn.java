@@ -269,14 +269,20 @@ public class TaskTableColumn extends TUTableColumn<TaskColumn> {
 		TITLE_EDITOR = new TitleEditor();
 	}
 	
-	public TaskTableColumn(TableColumnProperties<TaskColumn> column) {
+	private TaskRowComparator comparator;
+	
+	public TaskTableColumn(
+			TableColumnProperties<TaskColumn> column,
+			TaskRowComparator comparator) {
 		super(column);
+		
+		this.comparator = comparator;
 	}
 	
 	@Override
 	public Comparator<?> getComparator() {
 		if (this.column.getColumn() == TaskColumn.MODEL)
-			return TaskRowComparator.getInstance();
+			return this.comparator;
 		
 		return super.getComparator();
 	}

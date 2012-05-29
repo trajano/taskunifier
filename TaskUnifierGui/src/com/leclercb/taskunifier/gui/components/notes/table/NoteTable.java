@@ -100,11 +100,13 @@ public class NoteTable extends JXTable implements NoteTableView, SavePropertiesL
 	
 	private ModelSelectionChangeSupport noteSelectionChangeSupport;
 	
+	private NoteRowComparator noteRowComparator;
 	private TUTableProperties<NoteColumn> tableProperties;
 	private NoteTableMenu noteTableMenu;
 	
 	public NoteTable(TUTableProperties<NoteColumn> noteColumnsProperties) {
 		CheckUtils.isNotNull(noteColumnsProperties);
+		this.noteRowComparator = new NoteRowComparator();
 		this.tableProperties = noteColumnsProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
@@ -220,13 +222,13 @@ public class NoteTable extends JXTable implements NoteTableView, SavePropertiesL
 	}
 	
 	public NoteSearcher getNoteSearcher() {
-		return NoteRowComparator.getInstance().getNoteSearcher();
+		return this.noteRowComparator.getNoteSearcher();
 	}
 	
 	public void setNoteSearcher(NoteSearcher searcher) {
 		CheckUtils.isNotNull(searcher);
 		
-		NoteRowComparator.getInstance().setNoteSearcher(searcher);
+		this.noteRowComparator.setNoteSearcher(searcher);
 		
 		this.setSortOrder(NoteColumn.MODEL, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(
@@ -281,7 +283,8 @@ public class NoteTable extends JXTable implements NoteTableView, SavePropertiesL
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		NoteTableColumnModel columnModel = new NoteTableColumnModel(
-				this.tableProperties);
+				this.tableProperties,
+				this.noteRowComparator);
 		NoteTableModel tableModel = new NoteTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);

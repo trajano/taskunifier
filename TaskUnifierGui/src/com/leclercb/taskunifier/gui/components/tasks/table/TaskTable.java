@@ -71,6 +71,7 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.events.SavePropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.Task;
@@ -109,17 +110,19 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.swing.table.TUTableProperties;
 import com.leclercb.taskunifier.gui.utils.UndoSupport;
 
-public class TaskTable extends JXTable implements TaskTableView, SavePropertiesListener {
+public class TaskTable extends JXTable implements TaskTableView, PropertyChangeListener, SavePropertiesListener {
 	
 	private UndoSupport undoSupport;
 	
 	private ModelSelectionChangeSupport modelSelectionChangeSupport;
 	
+	private TaskRowComparator taskRowComparator;
 	private TUTableProperties<TaskColumn> tableProperties;
 	private TaskTableMenu taskTableMenu;
 	
 	public TaskTable(TUTableProperties<TaskColumn> tableProperties) {
 		CheckUtils.isNotNull(tableProperties);
+		this.taskRowComparator = new TaskRowComparator();
 		this.tableProperties = tableProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
@@ -235,13 +238,13 @@ public class TaskTable extends JXTable implements TaskTableView, SavePropertiesL
 	}
 	
 	public TaskSearcher getTaskSearcher() {
-		return TaskRowComparator.getInstance().getTaskSearcher();
+		return this.taskRowComparator.getTaskSearcher();
 	}
 	
 	public void setTaskSearcher(TaskSearcher searcher) {
 		CheckUtils.isNotNull(searcher);
 		
-		TaskRowComparator.getInstance().setTaskSearcher(searcher);
+		this.taskRowComparator.setTaskSearcher(searcher);
 		
 		this.setSortOrder(TaskColumn.MODEL, SortOrder.ASCENDING);
 		this.getSortController().setRowFilter(
@@ -302,7 +305,8 @@ public class TaskTable extends JXTable implements TaskTableView, SavePropertiesL
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		TaskTableColumnModel columnModel = new TaskTableColumnModel(
-				this.tableProperties);
+				this.tableProperties,
+				this.taskRowComparator);
 		TaskTableModel tableModel = new TaskTableModel(this.undoSupport);
 		
 		this.setModel(tableModel);
@@ -332,25 +336,11 @@ public class TaskTable extends JXTable implements TaskTableView, SavePropertiesL
 		
 		Main.getSettings().addPropertyChangeListener(
 				"task.indent_subtasks",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						TaskTable.this.refreshTasks();
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 		
 		Main.getSettings().addPropertyChangeListener(
 				"tasksearcher.show_completed_tasks",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						TaskTable.this.refreshTasks();
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 		
 		this.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
@@ -374,6 +364,15 @@ public class TaskTable extends JXTable implements TaskTableView, SavePropertiesL
 			}
 			
 		});
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals("task.indent_subtasks"))
+			TaskTable.this.refreshTasks();
+		
+		if (event.getPropertyName().equals("tasksearcher.show_completed_tasks"))
+			TaskTable.this.refreshTasks();
 	}
 	
 	private void initializeSettings() {
