@@ -92,6 +92,7 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 			boolean showAfterRestart,
 			JButton helpButton) {
 		super(configurationGroup);
+		
 		this.showAfterRestart = showAfterRestart;
 		this.helpButton = helpButton;
 		this.fields = new ArrayList<ConfigurationField>();
@@ -172,14 +173,11 @@ public abstract class DefaultConfigurationPanel extends ConfigurationPanel {
 			else
 				label = new JXLabel(field.getLabel() + ":");
 			
-			if (label != null)
-				label.setLineWrap(true);
+			label.setLineWrap(true);
 			
 			if (this.showAfterRestart && field.isAfterRestart()) {
 				afterRestartFound = true;
-				
-				if (label != null)
-					label.setForeground(Color.RED);
+				label.setForeground(Color.RED);
 			}
 			
 			field.getType().initializeFieldComponent();

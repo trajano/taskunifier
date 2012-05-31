@@ -35,7 +35,6 @@ package com.leclercb.taskunifier.gui.components.configuration.toolbar;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class StringValueAction implements StringValue {
 	
@@ -49,9 +48,6 @@ public class StringValueAction implements StringValue {
 	public String getString(Object value) {
 		if (value == null || !(value instanceof ActionList))
 			return " ";
-		
-		if (value.equals(ActionList.SEPARATOR))
-			return Translations.getString("general.separator");
 		
 		return ((ActionList) value).getTitle();
 	}

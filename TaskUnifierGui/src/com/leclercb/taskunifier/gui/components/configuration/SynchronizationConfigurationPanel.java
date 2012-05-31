@@ -42,6 +42,7 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Contact;
 import com.leclercb.taskunifier.api.models.ContactFactory;
 import com.leclercb.taskunifier.api.models.Context;
@@ -72,7 +73,7 @@ import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
 
-public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel {
+public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel implements PropertyChangeListener {
 	
 	private boolean welcome;
 	
@@ -351,45 +352,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"plugin.synchronizer.id",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						SynchronizationConfigurationPanel.this.disableFields();
-						
-						String apiName = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName();
-						
-						JButton managePluginsButton = (JButton) SynchronizationConfigurationPanel.this.getField(
-								"MANAGE_PLUGINS").getType().getFieldComponent();
-						
-						managePluginsButton.setText(apiName);
-						
-						if (!SynchronizationConfigurationPanel.this.welcome) {
-							JLabel synchronizeAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
-									"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
-							
-							JLabel pushAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
-									"PUSH_ALL_LABEL").getType().getFieldComponent();
-							
-							JLabel resetAllLabel = (JLabel) SynchronizationConfigurationPanel.this.getField(
-									"RESET_ALL_LABEL").getType().getFieldComponent();
-							
-							synchronizeAllLabel.setText(Translations.getString(
-									"configuration.synchronization.synchronize_all",
-									apiName));
-							
-							pushAllLabel.setText(Translations.getString(
-									"configuration.synchronization.push_all",
-									apiName,
-									apiName));
-							
-							resetAllLabel.setText(Translations.getString(
-									"configuration.synchronization.reset_all",
-									apiName));
-						}
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getUserSettings(), this));
 	}
 	
 	private void disableFields() {
@@ -432,6 +395,39 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 		
 		if (this.containsId("RESET_ALL"))
 			this.setEnabled("RESET_ALL", enabled);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		this.disableFields();
+		
+		String apiName = SynchronizerUtils.getSynchronizerPlugin().getSynchronizerApi().getApiName();
+		
+		JButton managePluginsButton = (JButton) this.getField("MANAGE_PLUGINS").getType().getFieldComponent();
+		
+		managePluginsButton.setText(apiName);
+		
+		if (!this.welcome) {
+			JLabel synchronizeAllLabel = (JLabel) this.getField(
+					"SYNCHRONIZE_ALL_LABEL").getType().getFieldComponent();
+			
+			JLabel pushAllLabel = (JLabel) this.getField("PUSH_ALL_LABEL").getType().getFieldComponent();
+			
+			JLabel resetAllLabel = (JLabel) this.getField("RESET_ALL_LABEL").getType().getFieldComponent();
+			
+			synchronizeAllLabel.setText(Translations.getString(
+					"configuration.synchronization.synchronize_all",
+					apiName));
+			
+			pushAllLabel.setText(Translations.getString(
+					"configuration.synchronization.push_all",
+					apiName,
+					apiName));
+			
+			resetAllLabel.setText(Translations.getString(
+					"configuration.synchronization.reset_all",
+					apiName));
+		}
 	}
 	
 }

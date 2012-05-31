@@ -49,6 +49,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public DateConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_date");
+		
 		this.initialize();
 		this.pack();
 	}

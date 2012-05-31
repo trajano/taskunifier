@@ -66,6 +66,7 @@ public class LookAndFeelFieldType extends ConfigurationFieldType.ComboBox {
 	private static DefaultComboBoxModel createModel() {
 		List<LookAndFeelDescriptor> lookAndFeels = new ArrayList<LookAndFeelDescriptor>(
 				LookAndFeelUtils.getLookAndFeels());
+		
 		Collections.sort(lookAndFeels, new Comparator<LookAndFeelDescriptor>() {
 			
 			@Override

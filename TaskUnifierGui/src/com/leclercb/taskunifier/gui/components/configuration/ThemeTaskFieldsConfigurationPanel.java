@@ -49,6 +49,7 @@ public class ThemeTaskFieldsConfigurationPanel extends DefaultConfigurationPanel
 	
 	public ThemeTaskFieldsConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_theme_fields");
+		
 		this.initialize();
 		this.pack();
 	}

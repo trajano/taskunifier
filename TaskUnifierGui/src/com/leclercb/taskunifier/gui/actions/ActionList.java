@@ -9,7 +9,7 @@ import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public enum ActionList {
 	
-	SEPARATOR("", null, true),
+	SEPARATOR(Translations.getString("general.separator"), "separator.png", true),
 	ABOUT(Translations.getString("action.about"), "information.png", true),
 	ADD_NOTE(Translations.getString("action.add_note"), "note.png", true),
 	ADD_NOTE_SEARCHER(Translations.getString("action.add_note_searcher"), "add.png", true),

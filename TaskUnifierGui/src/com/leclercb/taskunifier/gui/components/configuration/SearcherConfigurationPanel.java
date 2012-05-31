@@ -44,6 +44,7 @@ public class SearcherConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public SearcherConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_searcher");
+		
 		this.initialize();
 		this.pack();
 	}

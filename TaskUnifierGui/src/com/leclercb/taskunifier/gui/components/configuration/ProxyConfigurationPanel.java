@@ -53,6 +53,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public ProxyConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_proxy");
+		
 		this.initialize();
 		this.pack();
 		this.disableFields();
@@ -141,13 +142,13 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 		
 		this.setEnabled("ENABLED", !useSystemProxiesField.isSelected());
 		
-		boolean s = !useSystemProxiesField.isSelected()
+		boolean selected = !useSystemProxiesField.isSelected()
 				&& proxyEnabledField.isSelected();
 		
-		this.setEnabled("HOST", s);
-		this.setEnabled("PORT", s);
-		this.setEnabled("LOGIN", s);
-		this.setEnabled("PASSWORD", s);
+		this.setEnabled("HOST", selected);
+		this.setEnabled("PORT", selected);
+		this.setEnabled("LOGIN", selected);
+		this.setEnabled("PASSWORD", selected);
 	}
 	
 }

@@ -48,6 +48,7 @@ import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import com.leclercb.commons.api.properties.events.ReloadPropertiesListener;
+import com.leclercb.commons.api.properties.events.WeakReloadPropertiesListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
@@ -62,7 +63,7 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
+public class ConfigurationDialog extends JDialog implements ConfigurationGroup, ReloadPropertiesListener {
 	
 	private static ConfigurationDialog INSTANCE;
 	
@@ -158,14 +159,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 		this.initializeSynchronizationPanel();
 		
 		Main.getUserSettings().addReloadPropertiesListener(
-				new ReloadPropertiesListener() {
-					
-					@Override
-					public void reloadProperties() {
-						ConfigurationDialog.this.cancelConfig();
-					}
-					
-				});
+				new WeakReloadPropertiesListener(Main.getUserSettings(), this));
 	}
 	
 	private void initializeButtonsPanel() {
@@ -370,6 +364,11 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup {
 			
 			return;
 		}
+	}
+	
+	@Override
+	public void reloadProperties() {
+		ConfigurationDialog.this.cancelConfig();
 	}
 	
 }

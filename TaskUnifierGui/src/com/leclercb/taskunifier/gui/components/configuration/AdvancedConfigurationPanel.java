@@ -46,6 +46,7 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public AdvancedConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_advanced");
+		
 		this.initialize();
 		this.pack();
 	}
@@ -78,9 +79,6 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.advanced.communicator_port"),
 				true,
 				new CommunicatorPortFieldType()));
-		
-		((ConfigurationFieldType.CheckBox) this.getField("COMMUNICATOR_ENABLED").getType()).getFieldComponent().setEnabled(
-				false);
 	}
 	
 }

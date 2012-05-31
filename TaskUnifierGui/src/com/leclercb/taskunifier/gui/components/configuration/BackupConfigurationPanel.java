@@ -58,6 +58,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 	
 	public BackupConfigurationPanel(ConfigurationGroup configuration) {
 		super(configuration, "configuration_backup");
+		
 		this.initialize();
 		this.pack();
 	}

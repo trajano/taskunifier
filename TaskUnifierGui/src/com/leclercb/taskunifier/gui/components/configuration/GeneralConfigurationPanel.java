@@ -57,8 +57,10 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 				configuration,
 				!languageOnly && !welcome,
 				languageOnly ? null : "configuration_general");
+		
 		this.languageOnly = languageOnly;
 		this.welcome = welcome;
+		
 		this.initialize();
 		this.pack();
 	}

@@ -37,7 +37,6 @@ import javax.swing.Icon;
 import org.jdesktop.swingx.renderer.IconValue;
 
 import com.leclercb.taskunifier.gui.actions.ActionList;
-import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueAction implements IconValue {
 	
@@ -51,9 +50,6 @@ public class IconValueAction implements IconValue {
 	public Icon getIcon(Object value) {
 		if (value == null || !(value instanceof ActionList))
 			return null;
-		
-		if (value.equals(ActionList.SEPARATOR))
-			return ImageUtils.getResourceImage("separator.png", 16, 16);
 		
 		return ((ActionList) value).getIcon();
 	}

@@ -65,6 +65,7 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.JXColorSelectionButton;
 import org.jdesktop.swingx.JXLabel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.PropertyMap;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
@@ -229,7 +230,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 	}
 	
-	public static class RadioButton extends JPanel implements ConfigurationFieldType<JPanel, String> {
+	public static class RadioButton extends JPanel implements ConfigurationFieldType<JPanel, String>, PropertyChangeListener {
 		
 		private boolean first;
 		private ButtonGroup group;
@@ -273,14 +274,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								RadioButton.this.setSelectedButton(getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -316,9 +310,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			}
 		}
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setSelectedButton(getPropertyValue());
+		}
+		
 	}
 	
-	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean> {
+	public static class CheckBox extends JCheckBox implements ConfigurationFieldType<JCheckBox, Boolean>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -353,19 +352,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								Boolean selected = getPropertyValue();
-								
-								if (selected == null)
-									selected = false;
-								
-								CheckBox.this.setSelected(selected);
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -389,9 +376,19 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			this.settings.setBooleanProperty(propertyName, this.getFieldValue());
 		}
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			Boolean selected = getPropertyValue();
+			
+			if (selected == null)
+				selected = false;
+			
+			this.setSelected(selected);
+		}
+		
 	}
 	
-	public static abstract class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object> {
+	public static abstract class Spinner extends JSpinner implements ConfigurationFieldType<JSpinner, Object>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -416,18 +413,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								try {
-									Spinner.this.setValue(Spinner.this.getPropertyValue());
-								} catch (Throwable t) {
-									t.printStackTrace();
-								}
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -446,6 +432,15 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 		@Override
 		public abstract void saveAndApplyConfig();
+		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			try {
+				this.setValue(Spinner.this.getPropertyValue());
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+		}
 		
 	}
 	
@@ -470,7 +465,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 	}
 	
-	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object> {
+	public static abstract class ComboBox extends JComboBox implements ConfigurationFieldType<JComboBox, Object>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -512,15 +507,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				if (this.propertyName != null) {
 					this.settings.addPropertyChangeListener(
 							propertyName,
-							new PropertyChangeListener() {
-								
-								@Override
-								public void propertyChange(
-										PropertyChangeEvent evt) {
-									ComboBox.this.setSelectedItem(ComboBox.this.getPropertyValue());
-								}
-								
-							});
+							new WeakPropertyChangeListener(this.settings, this));
 				}
 			}
 		}
@@ -541,9 +528,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		@Override
 		public abstract void saveAndApplyConfig();
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setSelectedItem(ComboBox.this.getPropertyValue());
+		}
+		
 	}
 	
-	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String> {
+	public static class TextArea extends JTextArea implements ConfigurationFieldType<JTextArea, String>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -568,14 +560,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								TextArea.this.setText(TextArea.this.getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -601,9 +586,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 					this.getFieldValue());
 		}
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setText(TextArea.this.getPropertyValue());
+		}
+		
 	}
 	
-	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String> {
+	public static class TextField extends JTextField implements ConfigurationFieldType<JTextField, String>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -624,14 +614,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								TextField.this.setText(TextField.this.getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -657,9 +640,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 					this.getFieldValue());
 		}
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setText(TextField.this.getPropertyValue());
+		}
+		
 	}
 	
-	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String> {
+	public static abstract class FormattedTextField extends JFormattedTextField implements ConfigurationFieldType<JFormattedTextField, String>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -685,14 +673,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								FormattedTextField.this.setText(FormattedTextField.this.getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -712,9 +693,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		@Override
 		public abstract void saveAndApplyConfig();
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setText(FormattedTextField.this.getPropertyValue());
+		}
+		
 	}
 	
-	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String> {
+	public static class PasswordField extends JPasswordField implements ConfigurationFieldType<JPasswordField, String>, PropertyChangeListener {
 		
 		private boolean first;
 		private PropertyMap settings;
@@ -735,14 +721,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								PasswordField.this.setText(PasswordField.this.getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -768,9 +747,14 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 					this.getFieldValue());
 		}
 		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.setText(PasswordField.this.getPropertyValue());
+		}
+		
 	}
 	
-	public static class ColorChooser implements ConfigurationFieldType<JXColorSelectionButton, Color> {
+	public static class ColorChooser implements ConfigurationFieldType<JXColorSelectionButton, Color>, PropertyChangeListener {
 		
 		private JXColorSelectionButton component;
 		
@@ -798,14 +782,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 				
 				this.settings.addPropertyChangeListener(
 						propertyName,
-						new PropertyChangeListener() {
-							
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								ColorChooser.this.component.setBackground(ColorChooser.this.getPropertyValue());
-							}
-							
-						});
+						new WeakPropertyChangeListener(this.settings, this));
 			}
 		}
 		
@@ -829,6 +806,11 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 			this.settings.setColorProperty(
 					this.propertyName,
 					this.getFieldValue());
+		}
+		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			this.component.setBackground(ColorChooser.this.getPropertyValue());
 		}
 		
 	}
