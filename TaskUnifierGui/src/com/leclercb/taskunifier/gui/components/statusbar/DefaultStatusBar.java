@@ -37,12 +37,7 @@ import javax.swing.JLabel;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXStatusBar.Constraint.ResizeBehavior;
 
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
-
 public class DefaultStatusBar extends JXStatusBar implements StatusBar {
-	
-	private ScheduledSyncThread thread;
 	
 	private JLabel synchronizerStatus;
 	private JLabel lastSynchronizationDate;
@@ -50,10 +45,7 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 	private JLabel rowCount;
 	private JLabel currentDateTime;
 	
-	public DefaultStatusBar(int frameId, ScheduledSyncThread thread) {
-		CheckUtils.isNotNull(thread);
-		this.thread = thread;
-		
+	public DefaultStatusBar(int frameId) {
 		this.initialize(frameId);
 	}
 	
@@ -65,7 +57,7 @@ public class DefaultStatusBar extends JXStatusBar implements StatusBar {
 		this.add(this.synchronizerStatus, c);
 		
 		c = new JXStatusBar.Constraint(220);
-		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus(this.thread);
+		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus();
 		this.add(this.scheduledSyncStatus, c);
 		
 		c = new JXStatusBar.Constraint(320);

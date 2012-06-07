@@ -76,7 +76,6 @@ import com.leclercb.taskunifier.gui.components.views.ViewItem;
 import com.leclercb.taskunifier.gui.components.views.ViewList;
 import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
-import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class MainFrame extends JXFrame implements FrameView, SavePropertiesListener, PropertyChangeSupported {
@@ -417,13 +416,9 @@ public class MainFrame extends JXFrame implements FrameView, SavePropertiesListe
 		StatusBar statusBar = null;
 		
 		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
-			statusBar = new MacStatusBar(
-					this.getFrameId(),
-					Threads.getScheduledSyncThread());
+			statusBar = new MacStatusBar(this.getFrameId());
 		else
-			statusBar = new DefaultStatusBar(
-					this.getFrameId(),
-					Threads.getScheduledSyncThread());
+			statusBar = new DefaultStatusBar(this.getFrameId());
 		
 		if (statusBar.getStatusBar() instanceof JXStatusBar)
 			this.setStatusBar((JXStatusBar) statusBar.getStatusBar());

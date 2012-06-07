@@ -38,12 +38,8 @@ import javax.swing.JLabel;
 import com.explodingpixels.macwidgets.BottomBar;
 import com.explodingpixels.macwidgets.BottomBarSize;
 import com.explodingpixels.macwidgets.MacWidgetFactory;
-import com.leclercb.commons.api.utils.CheckUtils;
-import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 
 public class MacStatusBar extends BottomBar implements StatusBar {
-	
-	private ScheduledSyncThread thread;
 	
 	private JLabel synchronizerStatus;
 	private JLabel lastSynchronizationDate;
@@ -51,11 +47,8 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 	private JLabel rowCount;
 	private JLabel currentDateTime;
 	
-	public MacStatusBar(int frameId, ScheduledSyncThread thread) {
+	public MacStatusBar(int frameId) {
 		super(BottomBarSize.LARGE);
-		
-		CheckUtils.isNotNull(thread);
-		this.thread = thread;
 		
 		this.initialize(frameId);
 	}
@@ -65,7 +58,7 @@ public class MacStatusBar extends BottomBar implements StatusBar {
 		MacWidgetFactory.makeEmphasizedLabel(this.synchronizerStatus);
 		this.addComponentToLeft(this.synchronizerStatus);
 		
-		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus(this.thread);
+		this.scheduledSyncStatus = StatusBarElements.createScheduledSyncStatus();
 		MacWidgetFactory.makeEmphasizedLabel(this.scheduledSyncStatus);
 		this.addComponentToCenter(this.scheduledSyncStatus);
 		

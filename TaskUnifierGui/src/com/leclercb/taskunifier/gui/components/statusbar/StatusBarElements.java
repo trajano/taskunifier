@@ -55,6 +55,7 @@ import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.main.frames.FrameUtils;
 import com.leclercb.taskunifier.gui.main.frames.FrameView;
+import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorProgressMessageListener;
 import com.leclercb.taskunifier.gui.threads.scheduledsync.ScheduledSyncThread;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -136,11 +137,10 @@ final class StatusBarElements {
 		return element;
 	}
 	
-	public static final JLabel createScheduledSyncStatus(
-			final ScheduledSyncThread thread) {
+	public static final JLabel createScheduledSyncStatus() {
 		final JLabel element = new JLabel();
 		
-		updateScheduledSyncStatus(element, thread);
+		updateScheduledSyncStatus(element);
 		
 		Main.getUserSettings().addPropertyChangeListener(
 				"synchronizer.scheduler_enabled",
@@ -148,18 +148,18 @@ final class StatusBarElements {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						updateScheduledSyncStatus(element, thread);
+						updateScheduledSyncStatus(element);
 					}
 					
 				});
 		
-		thread.addPropertyChangeListener(
+		Threads.getScheduledSyncThread().addPropertyChangeListener(
 				ScheduledSyncThread.PROP_REMAINING_SLEEP_TIME,
 				new PropertyChangeListener() {
 					
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						updateScheduledSyncStatus(element, thread);
+						updateScheduledSyncStatus(element);
 					}
 					
 				});
@@ -167,14 +167,12 @@ final class StatusBarElements {
 		return element;
 	}
 	
-	private static final void updateScheduledSyncStatus(
-			JLabel element,
-			ScheduledSyncThread thread) {
+	private static final void updateScheduledSyncStatus(JLabel element) {
 		String text = null;
 		
 		if (Main.getUserSettings().getBooleanProperty(
 				"synchronizer.scheduler_enabled")) {
-			long sleep = thread.getRemainingSleepTime();
+			long sleep = Threads.getScheduledSyncThread().getRemainingSleepTime();
 			sleep = sleep / 1000;
 			
 			String time = "";

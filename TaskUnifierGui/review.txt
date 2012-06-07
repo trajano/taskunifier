@@ -1,3 +1,11 @@
+TO REVIEW
+---------
+
+components.statusbar.StatusBarElements
+
+REVIEWED
+--------
+
 actions
 api.models
 api.plugins
@@ -12,9 +20,12 @@ components.export_data
 components.help
 components.import_data
 components.mailto
+components.menubar
 components.notesearchertree.draganddrop
 components.quickaddtask
+components.reminder
 components.review
+components.statusbar
 components.tasksearchertree.draganddrop
 components.timevalueedit
 components.tips

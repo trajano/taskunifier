@@ -41,6 +41,8 @@ import javax.swing.JMenuItem;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.templates.TaskTemplateFactory;
@@ -111,7 +113,9 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.TemplateUtils;
 
-public class MenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar implements ListChangeListener, PropertyChangeListener {
+	
+	private JMenu templatesMenu;
 	
 	public MenuBar() {
 		this.initialize();
@@ -277,47 +281,31 @@ public class MenuBar extends JMenuBar {
 	}
 	
 	private void initializeTemplateMenu(JMenu tasksMenu) {
-		final JMenu templatesMenu = new JMenu(
+		this.templatesMenu = new JMenu(
 				Translations.getString("action.add_template_task"));
 		
-		templatesMenu.setToolTipText(Translations.getString("action.add_template_task"));
+		this.templatesMenu.setToolTipText(Translations.getString("action.add_template_task"));
 		
-		templatesMenu.setIcon(ImageUtils.getResourceImage(
+		this.templatesMenu.setIcon(ImageUtils.getResourceImage(
 				"template.png",
 				16,
 				16));
-		tasksMenu.add(templatesMenu);
+		tasksMenu.add(this.templatesMenu);
 		
 		TemplateUtils.updateTemplateList(
 				ActionAddTemplateTask.ADD_TASK_LISTENER,
-				templatesMenu);
+				this.templatesMenu);
 		
 		TaskTemplateFactory.getInstance().addPropertyChangeListener(
 				BasicModel.PROP_MODEL_STATUS,
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (((ModelStatus) evt.getOldValue()).isEndUserStatus() != ((ModelStatus) evt.getNewValue()).isEndUserStatus()) {
-							TemplateUtils.updateTemplateList(
-									ActionAddTemplateTask.ADD_TASK_LISTENER,
-									templatesMenu);
-						}
-					}
-					
-				});
+				new WeakPropertyChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
 		
 		TaskTemplateFactory.getInstance().addListChangeListener(
-				new ListChangeListener() {
-					
-					@Override
-					public void listChange(ListChangeEvent event) {
-						TemplateUtils.updateTemplateList(
-								ActionAddTemplateTask.ADD_TASK_LISTENER,
-								templatesMenu);
-					}
-					
-				});
+				new WeakListChangeListener(
+						TaskTemplateFactory.getInstance(),
+						this));
 	}
 	
 	private void initializeHelpMenu() {
@@ -336,6 +324,22 @@ public class MenuBar extends JMenuBar {
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionDonate(16, 16));
 		helpMenu.add(new ActionReview(16, 16));
+	}
+	
+	@Override
+	public void listChange(ListChangeEvent event) {
+		TemplateUtils.updateTemplateList(
+				ActionAddTemplateTask.ADD_TASK_LISTENER,
+				this.templatesMenu);
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (((ModelStatus) evt.getOldValue()).isEndUserStatus() != ((ModelStatus) evt.getNewValue()).isEndUserStatus()) {
+			TemplateUtils.updateTemplateList(
+					ActionAddTemplateTask.ADD_TASK_LISTENER,
+					this.templatesMenu);
+		}
 	}
 	
 }
