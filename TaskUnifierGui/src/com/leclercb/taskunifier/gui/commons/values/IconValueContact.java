@@ -36,6 +36,9 @@ import javax.swing.Icon;
 
 import org.jdesktop.swingx.renderer.IconValue;
 
+import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.gui.api.models.GuiModel;
+import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class IconValueContact implements IconValue {
@@ -48,7 +51,13 @@ public class IconValueContact implements IconValue {
 	
 	@Override
 	public Icon getIcon(Object value) {
-		return ImageUtils.getResourceImage("user.png", 16, 16);
+		if (value == null || !(value instanceof Model))
+			return new TUColorBadgeIcon(null, 12, 12);
+		
+		if (value instanceof GuiModel && ((GuiModel) value).getColor() != null)
+			return new TUColorBadgeIcon(((GuiModel) value).getColor(), 12, 12);
+		else
+			return ImageUtils.getResourceImage("user.png", 12, 12);
 	}
 	
 }

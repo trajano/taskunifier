@@ -8,7 +8,10 @@ components.about
 components.backaddtasks
 components.change_data_folder
 components.configuration
+components.export_data
 components.help
+components.import_data
+components.mailto
 components.notesearchertree.draganddrop
 components.quickaddtask
 components.review

@@ -166,7 +166,6 @@ abstract class AbstractExportDialog extends JDialog {
 						
 						AbstractExportDialog.this.exportToFile(AbstractExportDialog.this.fileField.getFile());
 						
-						// AbstractExportDialog.this.fileField.setFile(null);
 						AbstractExportDialog.this.setVisible(false);
 					} catch (Exception e) {
 						ErrorInfo info = new ErrorInfo(
@@ -185,7 +184,6 @@ abstract class AbstractExportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					AbstractExportDialog.this.fileField.setFile(null);
 					AbstractExportDialog.this.setVisible(false);
 				}
 			}

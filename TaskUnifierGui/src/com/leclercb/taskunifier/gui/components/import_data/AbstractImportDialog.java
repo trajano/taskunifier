@@ -181,7 +181,6 @@ abstract class AbstractImportDialog extends JDialog {
 						
 						AbstractImportDialog.this.importFromFile(AbstractImportDialog.this.fileField.getFile());
 						
-						// AbstractImportDialog.this.fileField.setFile(null);
 						AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 						AbstractImportDialog.this.setVisible(false);
 					} catch (Exception e) {
@@ -201,7 +200,6 @@ abstract class AbstractImportDialog extends JDialog {
 				}
 				
 				if (event.getActionCommand().equals("CANCEL")) {
-					AbstractImportDialog.this.fileField.setFile(null);
 					AbstractImportDialog.this.deleteExistingValues.setSelected(false);
 					AbstractImportDialog.this.setVisible(false);
 				}
