@@ -152,6 +152,7 @@ public class GoalConfigurationPanel extends JSplitPane implements IModelList {
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Goal) model : null);
+				
 				goalTitle.setEnabled(model != null);
 				goalLevel.setEnabled(model != null);
 				goalContributes.setEnabled(model != null);

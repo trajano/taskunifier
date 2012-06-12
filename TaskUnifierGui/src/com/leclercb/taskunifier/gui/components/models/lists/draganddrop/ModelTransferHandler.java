@@ -163,7 +163,7 @@ public class ModelTransferHandler<M extends ModelParent<M>> extends TransferHand
 				}
 			} catch (Exception e) {
 				GuiLogger.getLogger().log(
-						Level.SEVERE,
+						Level.WARNING,
 						"Transfer data error",
 						e);
 				

@@ -146,6 +146,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Location) model : null);
+				
 				locationTitle.setEnabled(model != null);
 				locationDescription.setEnabled(model != null);
 				locationLatitude.setEnabled(model != null);

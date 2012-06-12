@@ -148,6 +148,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Contact) model : null);
+				
 				contactCurrentUser.setEnabled(model != null);
 				contactTitle.setEnabled(model != null);
 				contactFirstName.setEnabled(model != null);

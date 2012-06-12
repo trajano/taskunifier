@@ -128,6 +128,7 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Context) model : null);
+				
 				contextTitle.setEnabled(model != null);
 				contextColor.setEnabled(model != null);
 				removeColor.setEnabled(model != null);

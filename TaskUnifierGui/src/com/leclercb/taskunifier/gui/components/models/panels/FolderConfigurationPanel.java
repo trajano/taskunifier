@@ -136,6 +136,7 @@ public class FolderConfigurationPanel extends JSplitPane implements IModelList {
 			@Override
 			public void modelSelected(Model model) {
 				this.adapter.setBean(model != null ? (Folder) model : null);
+				
 				folderTitle.setEnabled(model != null);
 				folderArchived.setEnabled(model != null);
 				folderColor.setEnabled(model != null);

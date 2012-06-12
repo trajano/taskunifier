@@ -21,6 +21,7 @@ components.help
 components.import_data
 components.mailto
 components.menubar
+components.models
 components.notesearchertree.draganddrop
 components.quickaddtask
 components.reminder
