@@ -3,7 +3,6 @@ TO REVIEW
 
 api.searchers
 components.calendar
-components.modelnote
 components.modelselectiontable
 components.notes
 components.notesearcheredit

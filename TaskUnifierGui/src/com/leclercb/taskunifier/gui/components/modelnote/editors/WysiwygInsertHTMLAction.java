@@ -76,7 +76,6 @@ public class WysiwygInsertHTMLAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		this.action.actionPerformed(event);
-		
 		this.editor.requestFocus();
 	}
 	
