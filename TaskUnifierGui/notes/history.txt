@@ -18,6 +18,7 @@ Version 3.0.0
 		- New error handling system
 		- New shortcut system for task templates
 	- Minor:
+		- BF 3536931: Complete repeat task in task edit window
 		- BF 3510783: Whole day task in calendar
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks

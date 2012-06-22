@@ -213,12 +213,6 @@ public class BatchTaskEditPanel extends JPanel {
 				}
 			}
 			
-			if (this.taskCompletedCheckBox.isSelected()) {
-				for (Task task : this.tasks) {
-					task.setCompleted(this.taskCompleted.isSelected());
-				}
-			}
-			
 			if (this.taskStartDateCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
 					task.setStartDate(this.taskStartDate.getCalendar());
@@ -301,6 +295,12 @@ public class BatchTaskEditPanel extends JPanel {
 			if (this.taskNoteCheckBox.isSelected()) {
 				for (Task task : this.tasks) {
 					task.setNote(this.taskNote.getText());
+				}
+			}
+			
+			if (this.taskCompletedCheckBox.isSelected()) {
+				for (Task task : this.tasks) {
+					task.setCompleted(this.taskCompleted.isSelected());
 				}
 			}
 		} catch (Throwable t) {
