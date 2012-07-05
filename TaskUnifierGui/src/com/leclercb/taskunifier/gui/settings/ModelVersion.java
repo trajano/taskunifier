@@ -6,6 +6,7 @@ import com.leclercb.taskunifier.api.models.ModelFactory;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.utils.ModelFactoryUtils;
 
+@SuppressWarnings("deprecation")
 public final class ModelVersion {
 	
 	private ModelVersion() {

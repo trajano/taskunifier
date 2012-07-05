@@ -808,8 +808,6 @@ public class Main {
 		loadTaskTemplates(folder);
 		loadTaskSearchers(folder);
 		loadNoteSearchers(folder);
-		
-		ModelVersion.updateModels();
 	}
 	
 	public static void loadModels(String folder) {
@@ -958,6 +956,8 @@ public class Main {
 					Translations.getString("general.error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
+		
+		ModelVersion.updateModels();
 	}
 	
 	public static void loadTaskTemplates(String folder) {

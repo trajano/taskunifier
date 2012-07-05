@@ -40,6 +40,7 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
+@SuppressWarnings("deprecation")
 public class ModelIdConverter implements Converter {
 	
 	public static ModelIdConverter INSTANCE = new ModelIdConverter();
