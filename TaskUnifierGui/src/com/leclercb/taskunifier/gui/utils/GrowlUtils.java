@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.lang3.SystemUtils;
 
@@ -112,7 +113,10 @@ public final class GrowlUtils {
 				GuiLogger.getLogger().info("Growl support enabled");
 			} catch (Throwable t) {
 				GROWL = null;
-				GuiLogger.getLogger().warning("Cannot initialize Growl");
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Cannot initialize Growl",
+						t);
 			}
 		}
 	}
@@ -132,7 +136,10 @@ public final class GrowlUtils {
 			GROWL.registerApplication();
 			GROWL.notify(list.getNotificationList(), title, description);
 		} catch (Throwable t) {
-			
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot send message to Growl",
+					t);
 		}
 	}
 	

@@ -59,10 +59,10 @@ public class Growl {
 		this.allNotificationsList = allNotificationsList;
 		this.enabledNotificationsList = enabledNotificationsList;
 		
-		this.init();
+		this.initialize();
 	}
 	
-	private void init() {
+	private void initialize() {
 		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 		this.appleScriptEngine = scriptEngineManager.getEngineByName("AppleScript");
 		
@@ -80,6 +80,7 @@ public class Growl {
 				"System Events").nextRow(
 				"return count of (every process whose bundle identifier is ").quote(
 				GROWL_APPLICATION).add(") > 0").nextRow("end tell").get();
+		
 		long count = this.executeScript(script, 0L);
 		return count > 0;
 	}
@@ -93,6 +94,7 @@ public class Growl {
 				"register as application ").quote(this.applicationName).add(
 				" all notifications allNotificationsList default notifications enabledNotificationsList").nextRow(
 				"end tell").get();
+		
 		this.executeScript(script);
 	}
 	
@@ -111,6 +113,7 @@ public class Growl {
 				notificationList).add(" title ").quote(title).add(
 				" description ").quote(description).add(" application name ").quote(
 				this.applicationName).nextRow("end tell").get();
+		
 		this.executeScript(script);
 	}
 	
@@ -133,7 +136,7 @@ public class Growl {
 		return new ScriptBuilder();
 	}
 	
-	private class ScriptBuilder {
+	private static class ScriptBuilder {
 		
 		StringBuilder builder = new StringBuilder();
 		

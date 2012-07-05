@@ -28,3 +28,6 @@ main.frames
 swing.buttons
 utils.BackupUtils
 utils.CommunicatorUtils
+utils.Growl
+utils.GrowlUtils
+utils.HttpUtils

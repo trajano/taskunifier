@@ -37,7 +37,11 @@ import java.net.URI;
 import com.leclercb.commons.api.utils.HttpResponse;
 import com.leclercb.taskunifier.gui.main.Main;
 
-public class HttpUtils {
+public final class HttpUtils {
+	
+	private HttpUtils() {
+		
+	}
 	
 	public static HttpResponse getHttpGetResponse(URI uri) throws Exception {
 		if (!Main.getSettings().getBooleanProperty("proxy.use_system_proxies")
