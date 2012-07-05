@@ -153,9 +153,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 		return true;
 	}
 	
-	private void initialize(
-			final String text,
-			final boolean canEdit) {
+	private void initialize(final String text, final boolean canEdit) {
 		this.setLayout(new BorderLayout());
 		
 		this.undoSupport = new UndoSupport();
@@ -212,9 +210,9 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 		});
 		
-		if (propertyName != null) {
+		if (this.propertyName != null) {
 			float htmlFontSize = Main.getSettings().getFloatProperty(
-					propertyName + ".html.font_size",
+					this.propertyName + ".html.font_size",
 					(float) this.htmlNote.getFont().getSize());
 			this.htmlNote.setFont(this.htmlNote.getFont().deriveFont(
 					htmlFontSize));
@@ -323,7 +321,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 			
 		});
 		
-		if (propertyName != null) {
+		if (this.propertyName != null) {
 			this.toolBar.addSeparator();
 			this.toolBar.add(this.createFontSizeComboBox(this.htmlNote));
 		}
@@ -333,7 +331,7 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 				ComponentFactory.createJScrollPane(this.htmlNote, false),
 				BorderLayout.CENTER);
 		
-		if (propertyName != null) {
+		if (this.propertyName != null) {
 			Main.getSettings().addSavePropertiesListener(
 					new WeakSavePropertiesListener(Main.getSettings(), this));
 		}
@@ -463,9 +461,9 @@ public class WysiwygHTMLEditorPane extends JPanel implements HTMLEditorInterface
 	
 	@Override
 	public void saveProperties() {
-		if (propertyName != null)
+		if (this.propertyName != null)
 			Main.getSettings().setFloatProperty(
-					propertyName + ".html.font_size",
+					this.propertyName + ".html.font_size",
 					(float) this.htmlNote.getFont().getSize());
 	}
 	
