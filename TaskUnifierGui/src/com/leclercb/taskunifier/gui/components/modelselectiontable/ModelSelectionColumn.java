@@ -100,15 +100,7 @@ public enum ModelSelectionColumn implements TUColumn<Model> {
 	
 	@Override
 	public void setProperty(Model model, Object value) {
-		if (model == null)
-			return;
 		
-		switch (this) {
-			case SELECT:
-				break;
-			case MODEL:
-				break;
-		}
 	}
 	
 }

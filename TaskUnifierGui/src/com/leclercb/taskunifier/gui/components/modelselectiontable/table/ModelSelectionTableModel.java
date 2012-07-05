@@ -42,6 +42,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Model;
@@ -65,8 +67,12 @@ public class ModelSelectionTableModel extends AbstractTableModel implements List
 		
 		this.selectedModels = new ArrayList<Model>();
 		
-		this.modelFactory.addListChangeListener(this);
-		this.modelFactory.addPropertyChangeListener(this);
+		this.modelFactory.addListChangeListener(new WeakListChangeListener(
+				this.modelFactory,
+				this));
+		this.modelFactory.addPropertyChangeListener(new WeakPropertyChangeListener(
+				this.modelFactory,
+				this));
 	}
 	
 	public Model[] getSelectedModels() {

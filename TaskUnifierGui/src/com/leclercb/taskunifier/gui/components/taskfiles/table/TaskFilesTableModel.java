@@ -39,6 +39,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.FileList;
 import com.leclercb.taskunifier.api.models.FileList.FileItem;
@@ -68,8 +70,12 @@ public class TaskFilesTableModel extends AbstractTableModel implements ListChang
 		this.files = files;
 		
 		if (this.files != null) {
-			this.files.addListChangeListener(this);
-			this.files.addPropertyChangeListener(this);
+			this.files.addListChangeListener(new WeakListChangeListener(
+					this.files,
+					this));
+			this.files.addPropertyChangeListener(new WeakPropertyChangeListener(
+					this.files,
+					this));
 		}
 		
 		this.fireTableDataChanged();

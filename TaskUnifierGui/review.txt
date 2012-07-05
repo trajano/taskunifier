@@ -3,19 +3,15 @@ TO REVIEW
 
 api.searchers
 components.calendar
-components.modelselectiontable
 components.notes
 components.notesearcheredit
 components.notesearchertree
 components.plugins
 components.statusbar.StatusBarElements
 components.synchronize
-components.taskcontacts
-components.taskfiles
 components.tasks
 components.tasksearcheredit
 components.tasksearchertree
-components.tasktasks
 components.tasktemplates
 main
 settings

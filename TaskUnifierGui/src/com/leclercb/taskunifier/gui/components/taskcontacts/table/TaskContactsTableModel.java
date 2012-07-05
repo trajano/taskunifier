@@ -39,6 +39,8 @@ import javax.swing.table.AbstractTableModel;
 
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
+import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.ContactList;
 import com.leclercb.taskunifier.api.models.ContactList.ContactItem;
@@ -68,8 +70,12 @@ public class TaskContactsTableModel extends AbstractTableModel implements ListCh
 		this.contacts = contacts;
 		
 		if (this.contacts != null) {
-			this.contacts.addListChangeListener(this);
-			this.contacts.addPropertyChangeListener(this);
+			this.contacts.addListChangeListener(new WeakListChangeListener(
+					this.contacts,
+					this));
+			this.contacts.addPropertyChangeListener(new WeakPropertyChangeListener(
+					this.contacts,
+					this));
 		}
 		
 		this.fireTableDataChanged();

@@ -36,10 +36,12 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.FileList.FileItem;
 import com.leclercb.taskunifier.gui.components.taskfiles.table.TaskFilesTable;
 
@@ -82,11 +84,17 @@ public class TaskFilesTransferHandler extends TransferHandler {
 		if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 			try {
 				List data = (List) t.getTransferData(DataFlavor.javaFileListFlavor);
+				
 				for (Object object : data) {
 					String file = ((File) object).getAbsolutePath();
 					table.getFileGroup().add(new FileItem(file, null));
 				}
 			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Cannot drag and drop files",
+						e);
+				
 				return false;
 			}
 		}

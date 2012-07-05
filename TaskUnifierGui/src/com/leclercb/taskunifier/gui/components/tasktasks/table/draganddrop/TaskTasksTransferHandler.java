@@ -101,7 +101,6 @@ public class TaskTasksTransferHandler extends TransferHandler {
 		}
 		
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
-			// Get Drag Task
 			List<Task> dragTasks = new ArrayList<Task>();
 			
 			try {
@@ -113,6 +112,11 @@ public class TaskTasksTransferHandler extends TransferHandler {
 				for (ModelId id : data.getIds())
 					dragTasks.add(TaskFactory.getInstance().get(id));
 			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Cannot drag and drop tasks",
+						e);
+				
 				return false;
 			}
 			
