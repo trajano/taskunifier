@@ -93,7 +93,7 @@ public final class ImageUtils {
 		
 	}
 	
-	private static Map<ImageInfo, ImageIcon> images = new HashMap<ImageUtils.ImageInfo, ImageIcon>();
+	private static Map<ImageInfo, ImageIcon> images = new HashMap<ImageInfo, ImageIcon>();
 	
 	private static final String IMAGES_FOLDER = Main.getResourcesFolder()
 			+ File.separator
@@ -112,15 +112,7 @@ public final class ImageUtils {
 	}
 	
 	public static ImageIcon getImage(String file) {
-		ImageInfo info = new ImageInfo(file, -1, -1);
-		
-		if (images.containsKey(info))
-			return images.get(info);
-		
-		ImageIcon instance = new ImageIcon(file);
-		images.put(info, instance);
-		
-		return instance;
+		return getImage(file, -1, -1);
 	}
 	
 	public static ImageIcon getImage(String file, int width, int height) {
@@ -129,11 +121,15 @@ public final class ImageUtils {
 		if (images.containsKey(info))
 			return images.get(info);
 		
-		ImageIcon instance = new ImageIcon(
-				getImage(file).getImage().getScaledInstance(
-						width,
-						height,
-						Image.SCALE_SMOOTH));
+		ImageIcon instance = new ImageIcon(file);
+		
+		if (width < 0 || height < 0) {
+			instance = new ImageIcon(instance.getImage().getScaledInstance(
+					width,
+					height,
+					Image.SCALE_SMOOTH));
+		}
+		
 		images.put(info, instance);
 		
 		return instance;

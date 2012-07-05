@@ -39,6 +39,10 @@ import com.leclercb.taskunifier.gui.main.Main;
 
 public final class ContactUtils {
 	
+	private ContactUtils() {
+		
+	}
+	
 	public static final Contact getCurrentUser() {
 		try {
 			ModelId modelId = Main.getUserSettings().getObjectProperty(
