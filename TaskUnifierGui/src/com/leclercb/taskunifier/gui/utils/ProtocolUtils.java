@@ -57,6 +57,9 @@ public final class ProtocolUtils {
 				if (protocol.equalsIgnoreCase("message"))
 					return new VoidURLStreamHandler();
 				
+				if (protocol.equalsIgnoreCase("outlook"))
+					return new VoidURLStreamHandler();
+				
 				return null;
 			}
 			

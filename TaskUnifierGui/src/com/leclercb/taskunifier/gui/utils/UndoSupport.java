@@ -91,6 +91,7 @@ public class UndoSupport implements UndoableEditListener {
 		amap.put("redo", this.redoAction);
 		
 		InputMap imap = component.getInputMap();
+		
 		imap.put(KeyStroke.getKeyStroke(
 				KeyEvent.VK_Z,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "undo");

@@ -578,7 +578,7 @@ public final class SettingsVersion {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SettingsUtils.removeCompletedCondition();
+				SettingsUtils.removeNotCompletedCondition();
 			}
 			
 		});

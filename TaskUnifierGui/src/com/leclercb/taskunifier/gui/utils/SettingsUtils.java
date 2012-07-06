@@ -95,14 +95,14 @@ public final class SettingsUtils {
 				"-65536");
 	}
 	
-	public static void removeCompletedCondition() {
+	public static void removeNotCompletedCondition() {
 		List<TaskSearcher> searchers = TaskSearcherFactory.getInstance().getList();
 		for (TaskSearcher searcher : searchers) {
-			removeCompletedCondition(searcher.getFilter());
+			removeNotCompletedCondition(searcher.getFilter());
 		}
 	}
 	
-	private static void removeCompletedCondition(TaskFilter filter) {
+	private static void removeNotCompletedCondition(TaskFilter filter) {
 		List<TaskFilterElement> elements = filter.getElements();
 		List<TaskFilter> filters = filter.getFilters();
 		
@@ -113,7 +113,7 @@ public final class SettingsUtils {
 		}
 		
 		for (TaskFilter f : filters) {
-			removeCompletedCondition(f);
+			removeNotCompletedCondition(f);
 		}
 	}
 	

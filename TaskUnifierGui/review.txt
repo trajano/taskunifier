@@ -33,3 +33,7 @@ utils.Growl
 utils.GrowlUtils
 utils.HttpUtils
 utils.ImageUtils
+utils.ProtocolUtils
+utils.SettingUtils
+utils.TimeValue
+utils.UndoSupport
