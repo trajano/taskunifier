@@ -63,6 +63,7 @@ public class TaskRowFilter extends RowFilter<TableModel, Integer> {
 	public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
 		TaskTableModel taskTableModel = (TaskTableModel) entry.getModel();
 		Task task = taskTableModel.getTask(entry.getIdentifier());
+		
 		return this.include(task);
 	}
 	

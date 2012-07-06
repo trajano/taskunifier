@@ -122,10 +122,12 @@ public class TaskTable extends JXTable implements TaskTableView, PropertyChangeL
 	
 	public TaskTable(TUTableProperties<TaskColumn> tableProperties) {
 		CheckUtils.isNotNull(tableProperties);
+		
 		this.taskRowComparator = new TaskRowComparator();
 		this.tableProperties = tableProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.modelSelectionChangeSupport = new ModelSelectionChangeSupport(this);
+		
 		this.initialize();
 	}
 	

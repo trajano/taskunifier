@@ -7,7 +7,6 @@ components.notes
 components.notesearcheredit
 components.notesearchertree
 components.statusbar.StatusBarElements
-components.tasks
 components.tasksearcheredit
 components.tasksearchertree
 components.tasktemplates

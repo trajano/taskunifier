@@ -40,15 +40,6 @@ import com.leclercb.taskunifier.gui.commons.comparators.TaskComparator;
 
 public class TaskRowComparator implements Comparator<Task> {
 	
-	private static TaskRowComparator INSTANCE;
-	
-	public static TaskRowComparator getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new TaskRowComparator();
-		
-		return INSTANCE;
-	}
-	
 	private TaskSearcher searcher;
 	private TaskComparator comparator;
 	

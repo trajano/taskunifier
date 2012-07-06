@@ -234,7 +234,7 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 		
 		final Task task = (Task) value;
 		
-		boolean atLeastOneChild = false;
+		boolean hasChildren = false;
 		long timer = task.getTimer().getTimerValue();
 		for (Task child : task.getAllChildren()) {
 			if (!child.getModelStatus().isEndUserStatus())
@@ -243,13 +243,13 @@ public class TaskTooltipHighlighter extends ToolTipHighlighter {
 			if (child.isCompleted())
 				continue;
 			
-			atLeastOneChild = true;
+			hasChildren = true;
 			timer += child.getTimer().getTimerValue();
 		}
 		
 		String tooltip = null;
 		
-		if (atLeastOneChild)
+		if (hasChildren)
 			tooltip = String.format(
 					"%1s (%2s: %3s)",
 					StringValueTimer.INSTANCE.getString(task.getTimer()),

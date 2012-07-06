@@ -49,13 +49,14 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.renderer.JRendererLabel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.gui.components.tasks.TaskColumn;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
-public class TaskTitleHighlighter extends AbstractHighlighter {
+public class TaskTitleHighlighter extends AbstractHighlighter implements PropertyChangeListener {
 	
 	private Color progressColor;
 	
@@ -66,26 +67,11 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 		
 		Main.getSettings().addPropertyChangeListener(
 				"theme.color.progress",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						TaskTitleHighlighter.this.resetColors();
-						TaskTitleHighlighter.this.fireStateChanged();
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 		
 		Main.getSettings().addPropertyChangeListener(
 				"task.indent_subtasks",
-				new PropertyChangeListener() {
-					
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						TaskTitleHighlighter.this.fireStateChanged();
-					}
-					
-				});
+				new WeakPropertyChangeListener(Main.getSettings(), this));
 	}
 	
 	@Override
@@ -105,6 +91,7 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 				"task.indent_subtasks");
 		final boolean useDueTime = Main.getSettings().getBooleanProperty(
 				"date.use_due_time");
+		
 		final int nbParents = task.getAllParents().size();
 		
 		String title = task.getTitle();
@@ -193,6 +180,18 @@ public class TaskTitleHighlighter extends AbstractHighlighter {
 	private void resetColors() {
 		this.progressColor = Main.getSettings().getColorProperty(
 				"theme.color.progress");
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("theme.color.progress")) {
+			TaskTitleHighlighter.this.resetColors();
+			TaskTitleHighlighter.this.fireStateChanged();
+		}
+		
+		if (evt.getPropertyName().equals("task.indent_subtasks")) {
+			TaskTitleHighlighter.this.fireStateChanged();
+		}
 	}
 	
 }

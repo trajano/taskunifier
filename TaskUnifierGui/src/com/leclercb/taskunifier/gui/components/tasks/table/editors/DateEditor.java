@@ -60,6 +60,7 @@ public class DateEditor extends AbstractCellEditor implements TableCellEditor {
 				"date.date_format");
 		String timeFormat = Main.getSettings().getStringProperty(
 				"date.time_format");
+		
 		String format = null;
 		String mask = null;
 		

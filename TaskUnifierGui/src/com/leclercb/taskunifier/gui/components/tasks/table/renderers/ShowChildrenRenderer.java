@@ -74,13 +74,15 @@ public class ShowChildrenRenderer extends DefaultTableCellRenderer {
 		
 		GuiTask task = (GuiTask) ((TaskTable) table).getTask(row);
 		
-		int count = 0;
+		boolean hasChildren = false;
 		for (Task child : task.getChildren()) {
-			if (child.getModelStatus().isEndUserStatus())
-				count++;
+			if (child.getModelStatus().isEndUserStatus()) {
+				hasChildren = true;
+				break;
+			}
 		}
 		
-		if (count != 0)
+		if (hasChildren)
 			if (task.isShowChildren())
 				this.setIcon(ImageUtils.getResourceImage("collapse.png", 16, 16));
 			else
