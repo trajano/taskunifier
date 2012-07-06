@@ -94,29 +94,32 @@ public abstract class TUWorker<T> extends SwingWorker<T, ProgressMessage> implem
 	
 	protected abstract T longTask() throws Exception;
 	
+	protected void handleException(final Throwable t) {
+		TUSwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ErrorInfo info = new ErrorInfo(
+						Translations.getString("general.error"),
+						t.getMessage(),
+						null,
+						"GUI",
+						t,
+						Level.WARNING,
+						null);
+				
+				JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
+			}
+			
+		});
+	}
+	
 	@Override
 	protected final T doInBackground() throws Exception {
 		try {
 			return this.longTask();
-		} catch (final Throwable e) {
-			TUSwingUtilities.invokeLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					ErrorInfo info = new ErrorInfo(
-							Translations.getString("general.error"),
-							e.getMessage(),
-							null,
-							"GUI",
-							e,
-							Level.WARNING,
-							null);
-					
-					JXErrorPane.showDialog(FrameUtils.getCurrentFrame(), info);
-				}
-				
-			});
-			
+		} catch (final Throwable t) {
+			this.handleException(t);
 			return null;
 		} finally {
 			Thread.sleep(1000);

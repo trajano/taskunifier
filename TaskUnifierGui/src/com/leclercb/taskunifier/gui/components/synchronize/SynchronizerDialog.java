@@ -34,10 +34,12 @@ package com.leclercb.taskunifier.gui.components.synchronize;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 
 import com.leclercb.commons.api.progress.ProgressMessage;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionGetSerial;
 import com.leclercb.taskunifier.gui.api.synchronizer.SynchronizerGuiPlugin;
 import com.leclercb.taskunifier.gui.api.synchronizer.exc.SynchronizerLicenseException;
@@ -85,8 +87,8 @@ public class SynchronizerDialog extends TUWorkerDialog<Void> {
 						22,
 						plugin.getLicenseUrl())));
 			}
-		} catch (SynchronizerLicenseException exc) {
-			
+		} catch (SynchronizerLicenseException e) {
+			GuiLogger.getLogger().log(Level.WARNING, "Cannot check license", e);
 		}
 	}
 	

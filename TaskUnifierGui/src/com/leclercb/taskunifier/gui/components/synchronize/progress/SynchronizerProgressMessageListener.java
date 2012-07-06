@@ -74,22 +74,20 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 			} else if (message instanceof SynchronizerUpdatedModelsProgressMessage) {
 				SynchronizerUpdatedModelsProgressMessage m = (SynchronizerUpdatedModelsProgressMessage) message;
 				
-				if (m.getType().equals(ProgressMessageType.PUBLISHER_END)
-						|| m.getType().equals(
-								ProgressMessageType.SYNCHRONIZER_END)
-						|| m.getActionCount() == 0)
-					return;
-				
-				String type = TranslationsUtils.translateModelType(
-						m.getModelType(),
-						m.getActionCount() > 1);
-				
 				String property = null;
+				
 				if (m.getType().equals(ProgressMessageType.PUBLISHER_START))
 					property = "synchronizer.publishing";
 				else if (m.getType().equals(
 						ProgressMessageType.SYNCHRONIZER_START))
 					property = "synchronizer.synchronizing";
+				
+				if (property == null)
+					return;
+				
+				String type = TranslationsUtils.translateModelType(
+						m.getModelType(),
+						m.getActionCount() > 1);
 				
 				this.showMessage(m, Translations.getString(
 						property,
@@ -97,6 +95,7 @@ public abstract class SynchronizerProgressMessageListener implements ListChangeL
 						type));
 			} else if (message instanceof SynchronizerMainProgressMessage) {
 				SynchronizerMainProgressMessage m = (SynchronizerMainProgressMessage) message;
+				
 				if (m.getType().equals(ProgressMessageType.PUBLISHER_START))
 					this.showMessage(m, Translations.getString(
 							"synchronizer.start_publication",

@@ -41,7 +41,7 @@ import com.leclercb.commons.api.event.propertychange.PropertyChangeSupported;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
-public class Synchronizing implements PropertyChangeSupported {
+public final class Synchronizing implements PropertyChangeSupported {
 	
 	public static final String PROP_SYNCHRONIZING = "synchronizing";
 	

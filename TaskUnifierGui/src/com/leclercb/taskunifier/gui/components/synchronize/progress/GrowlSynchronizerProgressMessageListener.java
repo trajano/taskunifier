@@ -66,6 +66,7 @@ public class GrowlSynchronizerProgressMessageListener extends SynchronizerProgre
 						GrowlNotificationList.SYNCHRONIZATION,
 						content,
 						this.builder.toString());
+				
 				this.builder = new StringBuilder();
 			}
 		}

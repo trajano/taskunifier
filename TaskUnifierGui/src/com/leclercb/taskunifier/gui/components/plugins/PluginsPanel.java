@@ -101,45 +101,49 @@ public class PluginsPanel extends JPanel implements ListSelectionListener {
 		if (plugin == null)
 			return;
 		
+		boolean error = false;
+		
 		if (plugin.getStatus() == PluginStatus.TO_INSTALL
 				|| plugin.getStatus() == PluginStatus.TO_UPDATE) {
-			TUWorkerDialog<Void> dialog = new TUWorkerDialog<Void>(
+			TUWorkerDialog<Boolean> dialog = new TUWorkerDialog<Boolean>(
 					FrameUtils.getCurrentFrame(),
 					Translations.getString("general.manage_plugins"));
 			
 			ProgressMonitor monitor = new ProgressMonitor();
 			monitor.addListChangeListener(dialog);
 			
-			dialog.setWorker(new TUWorker<Void>(monitor) {
+			dialog.setWorker(new TUWorker<Boolean>(monitor) {
 				
 				@Override
-				protected Void longTask() throws Exception {
-					if (plugin.getStatus() == PluginStatus.TO_INSTALL)
+				protected Boolean longTask() throws Exception {
+					if (plugin.getStatus() == PluginStatus.TO_INSTALL) {
 						PluginsUtils.installPlugin(
 								plugin,
 								true,
 								this.getEDTMonitor());
-					else if (plugin.getStatus() == PluginStatus.TO_UPDATE)
+					} else if (plugin.getStatus() == PluginStatus.TO_UPDATE) {
 						PluginsUtils.updatePlugin(plugin, this.getEDTMonitor());
+					}
 					
-					return null;
+					return true;
 				}
 				
 			});
 			
 			dialog.setVisible(true);
+			
+			error = (dialog.getResult() == null);
 		}
 		
-		SynchronizerGuiPlugin p = SynchronizerUtils.getPlugin(plugin.getId());
-		
-		if (this.includePublishers)
-			SynchronizerUtils.addPublisherPlugin(p);
-		
-		if (this.includeSynchronizers)
+		if (!error) {
+			SynchronizerGuiPlugin p = SynchronizerUtils.getPlugin(plugin.getId());
+			
 			SynchronizerUtils.setSynchronizerPlugin(p);
-		
-		if (!plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
-			ActionPluginConfiguration.pluginConfiguration(p);
+			SynchronizerUtils.addPublisherPlugin(p);
+			
+			if (!plugin.getId().equals(DummyGuiPlugin.getInstance().getId()))
+				ActionPluginConfiguration.pluginConfiguration(p);
+		}
 		
 		PluginsPanel.this.valueChanged(null);
 	}

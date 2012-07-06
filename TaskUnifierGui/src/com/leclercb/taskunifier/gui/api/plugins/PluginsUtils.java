@@ -287,6 +287,7 @@ public final class PluginsUtils {
 				@Override
 				public void run() {
 					SynchronizerGuiPlugin loadedPlugin;
+					
 					try {
 						loadedPlugin = PluginsUtils.loadPlugin(finalFile);
 						
@@ -297,8 +298,10 @@ public final class PluginsUtils {
 											+ " - "
 											+ loadedPlugin.getVersion());
 						
-						if (use)
+						if (use) {
 							SynchronizerUtils.setSynchronizerPlugin(loadedPlugin);
+							SynchronizerUtils.addPublisherPlugin(loadedPlugin);
+						}
 						
 						if (loadedPlugin != null)
 							loadedPlugin.installPlugin();

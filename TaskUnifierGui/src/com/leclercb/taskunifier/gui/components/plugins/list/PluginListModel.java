@@ -37,6 +37,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractListModel;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.taskunifier.gui.api.plugins.Plugin;
 
@@ -53,7 +54,7 @@ public class PluginListModel extends AbstractListModel implements PropertyChange
 	}
 	
 	public void setPlugins(Plugin[] plugins) {
-		CheckUtils.isNotNull(plugins);
+		CheckUtils.doesNotContainNull(plugins);
 		
 		if (this.plugins != null)
 			for (Plugin plugin : this.plugins)
@@ -62,7 +63,9 @@ public class PluginListModel extends AbstractListModel implements PropertyChange
 		this.plugins = plugins;
 		
 		for (Plugin plugin : this.plugins)
-			plugin.addPropertyChangeListener(this);
+			plugin.addPropertyChangeListener(new WeakPropertyChangeListener(
+					plugin,
+					this));
 		
 		this.fireContentsChanged(this, 0, this.getSize());
 	}
@@ -87,7 +90,7 @@ public class PluginListModel extends AbstractListModel implements PropertyChange
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		for (int i = 0; i < this.plugins.length; i++) {
-			if (this.plugins[i] == evt.getSource()) {
+			if (this.plugins[i].equals(evt.getSource())) {
 				this.fireContentsChanged(this, i, i);
 			}
 		}

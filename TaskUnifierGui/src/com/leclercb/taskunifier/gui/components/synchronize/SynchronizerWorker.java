@@ -74,6 +74,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 	
 	private List<SynchronizerGuiPlugin> plugins;
 	private List<Type> types;
+	
 	private boolean silent;
 	private SynchronizerProgressMessageListener handler;
 	
@@ -134,7 +135,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				@Override
 				public void run() {
 					Constants.UNDO_SUPPORT.discardAllEdits();
-				};
+				}
 				
 			});
 			
@@ -153,7 +154,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 						public void run() {
 							BackupUtils.getInstance().createNewBackup();
 							ActionSave.save();
-						};
+						}
 						
 					});
 				}
@@ -225,7 +226,14 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				if (this.isStopped())
 					return null;
 				
-				connection.saveParameters(Main.getUserSettings());
+				TUSwingUtilities.invokeAndWait(new Runnable() {
+					
+					@Override
+					public void run() {
+						connection.saveParameters(Main.getUserSettings());
+					}
+					
+				});
 				
 				final Synchronizer synchronizer = plugin.getSynchronizerApi().getSynchronizer(
 						Main.getUserSettings(),
@@ -233,35 +241,43 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				
 				synchronizer.loadParameters(Main.getUserSettings());
 				
-				if (type == Type.PUBLISH) {
-					try {
+				try {
+					if (type == Type.PUBLISH) {
 						synchronizer.publish(this.getEDTMonitor());
-						synchronizer.saveParameters(Main.getUserSettings());
-					} catch (SynchronizerException e) {
-						SynchronizerWorker.this.handleSynchronizerException(
-								e,
-								finalPlugin);
-					}
-				} else if (type == Type.SYNCHRONIZE) {
-					SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
-							"synchronizer.choice",
-							SynchronizerChoice.class);
-					
-					try {
+					} else if (type == Type.SYNCHRONIZE) {
+						SynchronizerChoice choice = Main.getUserSettings().getEnumProperty(
+								"synchronizer.choice",
+								SynchronizerChoice.class);
+						
 						synchronizer.synchronize(choice, this.getEDTMonitor());
-						synchronizer.saveParameters(Main.getUserSettings());
-					} catch (SynchronizerException e) {
-						SynchronizerWorker.this.handleSynchronizerException(
-								e,
-								finalPlugin);
 					}
+					
+					TUSwingUtilities.invokeAndWait(new Runnable() {
+						
+						@Override
+						public void run() {
+							synchronizer.saveParameters(Main.getUserSettings());
+						}
+						
+					});
+				} catch (SynchronizerException e) {
+					SynchronizerWorker.this.handleSynchronizerException(
+							e,
+							finalPlugin);
 				}
 				
 				connection.disconnect();
 				
-				Main.getUserSettings().setCalendarProperty(
-						"synchronizer.last_synchronization_date",
-						Calendar.getInstance());
+				TUSwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						Main.getUserSettings().setCalendarProperty(
+								"synchronizer.last_synchronization_date",
+								Calendar.getInstance());
+					}
+					
+				});
 				
 				this.publish(new SynchronizerDefaultProgressMessage(
 						"----------"));
@@ -281,27 +297,36 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 		
 		Thread.sleep(1000);
 		
-		Main.getUserSettings().setStringProperty(
-				"synchronizer.scheduler_sleep_time",
-				Main.getUserSettings().getStringProperty(
-						"synchronizer.scheduler_sleep_time"),
-				true);
+		TUSwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				Main.getUserSettings().setStringProperty(
+						"synchronizer.scheduler_sleep_time",
+						Main.getUserSettings().getStringProperty(
+								"synchronizer.scheduler_sleep_time"),
+						true);
+			}
+			
+		});
 		
 		return null;
 	}
 	
 	@Override
 	protected void done() {
-		if (this.handler != null)
-			this.getMonitor().removeListChangeListener(this.handler);
-		
-		Constants.PROGRESS_MONITOR.clear();
-		
-		SynchronizerUtils.removeOldCompletedTasks();
-		
-		SynchronizerUtils.setTaskRepeatEnabled(true);
-		
-		Synchronizing.getInstance().setSynchronizing(false);
+		try {
+			if (this.handler != null)
+				this.getMonitor().removeListChangeListener(this.handler);
+			
+			Constants.PROGRESS_MONITOR.clear();
+			
+			SynchronizerUtils.removeOldCompletedTasks();
+			
+			SynchronizerUtils.setTaskRepeatEnabled(true);
+		} finally {
+			Synchronizing.getInstance().setSynchronizing(false);
+		}
 		
 		super.done();
 	}
