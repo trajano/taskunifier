@@ -37,12 +37,14 @@ import javax.swing.ComboBoxModel;
 import com.leclercb.commons.api.event.listchange.ListChangeEvent;
 import com.leclercb.commons.api.event.listchange.ListChangeListener;
 import com.leclercb.commons.api.event.listchange.WeakListChangeListener;
+import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.swing.models.AbstractComboBoxModel;
 import com.leclercb.taskunifier.api.models.utils.TaskTaskLinkList;
 
 public class TaskTaskLinkModel extends AbstractComboBoxModel implements ComboBoxModel, ListChangeListener {
 	
 	private boolean firstNull;
+	private Object selectedObject;
 	
 	public TaskTaskLinkModel(boolean firstNull) {
 		this.firstNull = firstNull;
@@ -88,14 +90,15 @@ public class TaskTaskLinkModel extends AbstractComboBoxModel implements ComboBox
 	
 	@Override
 	public Object getSelectedItem() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.selectedObject;
 	}
 	
 	@Override
-	public void setSelectedItem(Object anItem) {
-		// TODO Auto-generated method stub
-		
+	public void setSelectedItem(Object anObject) {
+		if (!EqualsUtils.equals(this.selectedObject, anObject)) {
+			this.selectedObject = anObject;
+			this.fireContentsChanged(this, -1, -1);
+		}
 	}
 	
 }
