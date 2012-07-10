@@ -3,7 +3,6 @@ TO REVIEW
 
 api.searchers
 components.calendar
-components.notes
 components.notesearcheredit
 components.notesearchertree
 components.statusbar.StatusBarElements

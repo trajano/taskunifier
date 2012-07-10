@@ -164,6 +164,11 @@ public class TaskTransferHandler extends TransferHandler {
 				for (ModelId id : data.getIds())
 					dragTasks.add(TaskFactory.getInstance().get(id));
 			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Transfer data error",
+						e);
+				
 				return false;
 			}
 			
@@ -241,6 +246,11 @@ public class TaskTransferHandler extends TransferHandler {
 					}
 				}
 			} catch (Throwable throwable) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Transfer data error",
+						throwable);
+				
 				return false;
 			}
 		}

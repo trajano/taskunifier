@@ -123,7 +123,7 @@ public final class ImageUtils {
 		
 		ImageIcon instance = new ImageIcon(file);
 		
-		if (width < 0 || height < 0) {
+		if (width >= 0 && height >= 0) {
 			instance = new ImageIcon(instance.getImage().getScaledInstance(
 					width,
 					height,

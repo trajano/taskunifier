@@ -115,6 +115,7 @@ public class NoteTransferHandler extends TransferHandler {
 		}
 		
 		Transferable t = support.getTransferable();
+		NoteTable table = (NoteTable) support.getComponent();
 		
 		if (support.isDataFlavorSupported(ModelTransferable.MODEL_FLAVOR)) {
 			// Get Drag Note
@@ -126,6 +127,11 @@ public class NoteTransferHandler extends TransferHandler {
 				for (ModelId id : data.getIds())
 					dragNotes.add(NoteFactory.getInstance().get(id));
 			} catch (Exception e) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Transfer data error",
+						e);
+				
 				return false;
 			}
 			
@@ -140,12 +146,34 @@ public class NoteTransferHandler extends TransferHandler {
 							&& flavor.getHumanPresentableName().equals(
 									"text/plain")) {
 						Reader reader = flavor.getReaderForText(t);
-						String title = IOUtils.toString(reader);
-						ActionAddNote.addNote(title, false);
+						String data = IOUtils.toString(reader);
+						
+						String[] lines = data.split("\n");
+						
+						String title = "";
+						String note = "";
+						
+						if (lines.length >= 1)
+							title = lines[0];
+						
+						for (int i = 1; i < lines.length; i++)
+							note += lines[i] + "\n";
+						
+						Note model = ActionAddNote.addNote(title, false);
+						model.setNote(note);
+						
+						table.refreshNotes();
+						table.setSelectedNotes(new Note[] { model });
+						
 						return true;
 					}
 				}
 			} catch (Throwable throwable) {
+				GuiLogger.getLogger().log(
+						Level.SEVERE,
+						"Transfer data error",
+						throwable);
+				
 				return false;
 			}
 		}

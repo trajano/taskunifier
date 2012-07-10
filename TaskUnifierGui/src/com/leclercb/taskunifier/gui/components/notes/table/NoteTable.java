@@ -106,10 +106,12 @@ public class NoteTable extends JXTable implements NoteTableView, SavePropertiesL
 	
 	public NoteTable(TUTableProperties<NoteColumn> noteColumnsProperties) {
 		CheckUtils.isNotNull(noteColumnsProperties);
+		
 		this.noteRowComparator = new NoteRowComparator();
 		this.tableProperties = noteColumnsProperties;
 		this.undoSupport = Constants.UNDO_SUPPORT;
 		this.noteSelectionChangeSupport = new ModelSelectionChangeSupport(this);
+		
 		this.initialize();
 	}
 	
