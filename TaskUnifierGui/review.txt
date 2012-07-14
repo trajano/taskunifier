@@ -8,7 +8,6 @@ components.notesearchertree
 components.statusbar.StatusBarElements
 components.tasksearcheredit
 components.tasksearchertree
-components.tasktemplates
 main
 swing
 utils
