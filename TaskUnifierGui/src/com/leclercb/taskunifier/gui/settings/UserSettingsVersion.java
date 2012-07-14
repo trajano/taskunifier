@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.settings;
 
 import java.util.Properties;
+import java.util.logging.Level;
 
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.main.Main;
@@ -49,10 +50,37 @@ public final class UserSettingsVersion {
 				"general.user.version");
 		
 		if (version == null)
-			version = "2.9.0";
+			version = "1.8.7";
 		
-		if (version.equals("2.9.0"))
-			version = updateUserSettings_2_9_0_to_3_0_0();
+		if (version.equals("1.8.7"))
+			version = updateUserSettings_1_8_7_to_2_0_0();
+		
+		if (version.equals("2.0.0"))
+			version = updateUserSettings_2_0_0_to_2_0_1();
+		
+		if (version.equals("2.0.1"))
+			version = updateUserSettings_2_0_1_to_2_1_0();
+		
+		if (version.equals("2.1.0"))
+			version = updateUserSettings_2_1_0_to_2_1_1();
+		
+		if (version.equals("2.1.1"))
+			version = updateUserSettings_2_1_1_to_2_2_0();
+		
+		if (version.equals("2.2.0"))
+			version = updateUserSettings_2_2_0_to_2_3_0();
+		
+		if (version.equals("2.3.0"))
+			version = updateUserSettings_2_3_0_to_2_3_1();
+		
+		if (version.equals("2.3.1"))
+			version = updateUserSettings_2_3_1_to_2_3_2();
+		
+		if (version.equals("2.3.2"))
+			version = updateUserSettings_2_3_2_to_2_4_0();
+		
+		if (version.equals("2.4.0"))
+			version = updateUserSettings_2_4_0_to_3_0_0();
 		
 		cleanSettings();
 		Main.saveUserSettings();
@@ -75,13 +103,96 @@ public final class UserSettingsVersion {
 				}
 			}
 		} catch (Throwable t) {
-			
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot clean user settings",
+					t);
 		}
 	}
 	
-	private static String updateUserSettings_2_9_0_to_3_0_0() {
+	private static String updateUserSettings_1_8_7_to_2_0_0() {
 		GuiLogger.getLogger().info(
-				"Update user settings from version 2.9.0 to 3.0.0");
+				"Update user settings from version 1.8.7 to 2.0.0");
+		
+		Main.getUserSettings().setStringProperty("general.user.name", "Default");
+		
+		return "2.0.0";
+	}
+	
+	private static String updateUserSettings_2_0_0_to_2_0_1() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.0.0 to 2.0.1");
+		
+		return "2.0.1";
+	}
+	
+	private static String updateUserSettings_2_0_1_to_2_1_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.0.1 to 2.1.0");
+		
+		Main.getUserSettings().replaceKey("api.id", "plugin.synchronizer.id");
+		
+		return "2.1.0";
+	}
+	
+	private static String updateUserSettings_2_1_0_to_2_1_1() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.1.0 to 2.1.1");
+		
+		return "2.1.1";
+	}
+	
+	private static String updateUserSettings_2_1_1_to_2_2_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.1.1 to 2.2.0");
+		
+		return "2.2.0";
+	}
+	
+	private static String updateUserSettings_2_2_0_to_2_3_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.2.0 to 2.3.0");
+		
+		return "2.3.0";
+	}
+	
+	private static String updateUserSettings_2_3_0_to_2_3_1() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.3.0 to 2.3.1");
+		
+		return "2.3.1";
+	}
+	
+	private static String updateUserSettings_2_3_1_to_2_3_2() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.3.1 to 2.3.2");
+		
+		return "2.3.2";
+	}
+	
+	private static String updateUserSettings_2_3_2_to_2_4_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.3.2 to 2.4.0");
+		
+		return "2.4.0";
+	}
+	
+	private static String updateUserSettings_2_4_0_to_3_0_0() {
+		GuiLogger.getLogger().info(
+				"Update user settings from version 2.4.0 to 3.0.0");
+		
+		Main.getSettings().setStringProperty(
+				"synchronizer.publish_background",
+				"false");
+		Main.getSettings().setStringProperty(
+				"synchronizer.publish_exit",
+				"false");
+		Main.getSettings().setStringProperty(
+				"synchronizer.publish_start",
+				"false");
+		Main.getSettings().setStringProperty(
+				"synchronizer.sync_reminder_field",
+				"true");
 		
 		return "3.0.0";
 	}

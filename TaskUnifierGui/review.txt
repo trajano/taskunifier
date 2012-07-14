@@ -10,7 +10,6 @@ components.tasksearcheredit
 components.tasksearchertree
 components.tasktemplates
 main
-settings
 swing
 utils
 
