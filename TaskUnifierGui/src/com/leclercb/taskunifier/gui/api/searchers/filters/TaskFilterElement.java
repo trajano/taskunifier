@@ -135,7 +135,10 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 								+ ")";
 				}
 			} catch (Throwable t) {
-				GuiLogger.getLogger().log(Level.WARNING, "Error while creating filter element label", t);
+				GuiLogger.getLogger().log(
+						Level.WARNING,
+						"Error while creating filter element label",
+						t);
 			}
 		}
 		

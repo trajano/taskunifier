@@ -54,7 +54,8 @@ public abstract class FilterElement<M extends Model, MP extends ModelProperties<
 	public static final String PROP_VALUE = "value";
 	
 	@XStreamOmitField
-	private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+			this);
 	
 	@XStreamOmitField
 	private transient F parent;

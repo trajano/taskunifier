@@ -32,7 +32,6 @@
  */
 package com.leclercb.taskunifier.gui.api.plugins;
 
-import java.awt.Image;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -40,15 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
-
-import javax.swing.ImageIcon;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.commons.io.IOUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.leclercb.commons.api.progress.DefaultProgressMessage;
 import com.leclercb.commons.api.progress.ProgressMonitor;
@@ -72,6 +62,9 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.HttpUtils;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 import com.leclercb.taskunifier.gui.utils.SynchronizerUtils;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public final class PluginsUtils {
 	
@@ -79,19 +72,33 @@ public final class PluginsUtils {
 		
 	}
 	
-	public static final Plugin DUMMY_PLUGIN = new Plugin(
-			PluginStatus.INSTALLED,
-			DummyGuiPlugin.getInstance().getId(),
-			DummyGuiPlugin.getInstance().isPublisher(),
-			DummyGuiPlugin.getInstance().isSynchronizer(),
-			DummyGuiPlugin.getInstance().getName(),
-			DummyGuiPlugin.getInstance().getAuthor(),
-			DummyGuiPlugin.getInstance().getVersion(),
-			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
-			DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
-			"Version " + DummyGuiPlugin.getInstance().getVersion(),
-			ImageUtils.getResourceImage("do_not_synchronize.png"),
-			null);
+	public static Plugin getDummyPlugin() {
+		return DUMMY_PLUGIN;
+	}
+	
+	private static Plugin DUMMY_PLUGIN;
+	
+	static {
+		DUMMY_PLUGIN = new Plugin(
+				PluginStatus.INSTALLED,
+				DummyGuiPlugin.getInstance().getId(),
+				DummyGuiPlugin.getInstance().isPublisher(),
+				DummyGuiPlugin.getInstance().isSynchronizer(),
+				DummyGuiPlugin.getInstance().getName(),
+				DummyGuiPlugin.getInstance().getAuthor(),
+				Constants.VERSION,
+				Constants.VERSION,
+				DummyGuiPlugin.getInstance().getVersion(),
+				DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
+				DummyGuiPlugin.getInstance().getSynchronizerApi().getApiWebSite(),
+				null,
+				null,
+				null);
+		
+		DUMMY_PLUGIN.setHistory("Version "
+				+ DummyGuiPlugin.getInstance().getVersion());
+		DUMMY_PLUGIN.setLogo(ImageUtils.getResourceImage("do_not_synchronize.png"));
+	}
 	
 	public static SynchronizerGuiPlugin loadPlugin(File file)
 			throws PluginException {
@@ -433,149 +440,40 @@ public final class PluginsUtils {
 				monitor.addMessage(new DefaultProgressMessage(
 						Translations.getString("manage_plugins.progress.analysing_plugin_database")));
 			
-			String content = response.getContent();
+			XStream xstream = new XStream(
+					new PureJavaReflectionProvider(),
+					new DomDriver("UTF-8"));
+			xstream.setMode(XStream.NO_REFERENCES);
+			xstream.alias("plugins", Plugin[].class);
+			xstream.alias("plugin", Plugin.class);
+			xstream.processAnnotations(Plugin.class);
 			
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			Plugin[] plugins = (Plugin[]) xstream.fromXML(response.getContent());
+			List<Plugin> filteredPlugins = new ArrayList<Plugin>();
 			
-			factory.setIgnoringComments(true);
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(IOUtils.toInputStream(content));
-			
-			document.getDocumentElement().normalize();
-			
-			if (!document.getChildNodes().item(0).getNodeName().equals(
-					"plugins"))
-				throw new Exception("Root name must be \"plugins\"");
-			
-			Node root = document.getChildNodes().item(0);
-			
-			NodeList nPlugins = root.getChildNodes();
-			
-			List<Plugin> plugins = new ArrayList<Plugin>();
-			
-			for (int i = 0; i < nPlugins.getLength(); i++) {
-				if (!nPlugins.item(i).getNodeName().equals("plugin"))
-					continue;
-				
-				NodeList nPlugin = nPlugins.item(i).getChildNodes();
-				
-				String id = null;
-				String minVersion = null;
-				String maxVersion = null;
-				boolean publisher = false;
-				boolean synchronizer = false;
-				String name = null;
-				String author = null;
-				String version = null;
-				String serviceProvider = null;
-				String downloadUrl = null;
-				String history = null;
-				String historyUrl = null;
-				ImageIcon logo = null;
-				String logoUrl = null;
-				String price = null;
-				
-				for (int j = 0; j < nPlugin.getLength(); j++) {
-					Node element = nPlugin.item(j);
-					
-					if (element.getNodeName().equals("id"))
-						id = element.getTextContent();
-					
-					if (element.getNodeName().equals("minVersion"))
-						minVersion = element.getTextContent();
-					
-					if (element.getNodeName().equals("maxVersion"))
-						maxVersion = element.getTextContent();
-					
-					if (element.getNodeName().equals("publisher"))
-						publisher = Boolean.parseBoolean(element.getTextContent());
-					
-					if (element.getNodeName().equals("synchronizer"))
-						synchronizer = Boolean.parseBoolean(element.getTextContent());
-					
-					if (element.getNodeName().equals("name"))
-						name = element.getTextContent();
-					
-					if (element.getNodeName().equals("author"))
-						author = element.getTextContent();
-					
-					if (element.getNodeName().equals("version"))
-						version = element.getTextContent();
-					
-					if (element.getNodeName().equals("serviceProvider"))
-						serviceProvider = element.getTextContent();
-					
-					if (element.getNodeName().equals("downloadUrl"))
-						downloadUrl = element.getTextContent();
-					
-					if (element.getNodeName().equals("historyUrl"))
-						historyUrl = element.getTextContent();
-					
-					if (element.getNodeName().equals("logoUrl"))
-						logoUrl = element.getTextContent();
-					
-					if (element.getNodeName().equals("price"))
-						price = element.getTextContent();
-				}
-				
+			for (Plugin plugin : plugins) {
 				// Check min version
-				if (minVersion != null && minVersion.length() != 0) {
-					if (Constants.VERSION.compareTo(minVersion) < 0)
+				if (plugin.getMinVersion() != null
+						&& plugin.getMinVersion().length() != 0) {
+					if (Constants.VERSION.compareTo(plugin.getMinVersion()) < 0)
 						continue;
 				}
 				
 				// Check max version
-				if (maxVersion != null && maxVersion.length() != 0) {
-					if (Constants.VERSION.compareTo(maxVersion) > 0)
+				if (plugin.getMaxVersion() != null
+						&& plugin.getMaxVersion().length() != 0) {
+					if (Constants.VERSION.compareTo(plugin.getMaxVersion()) > 0)
 						continue;
 				}
 				
 				// Check publisher & synchronizer
-				if (!((includePublishers && publisher) || (includeSynchronizers && synchronizer)))
+				if (!((includePublishers && plugin.isPublisher()) || (includeSynchronizers && plugin.isSynchronizer())))
 					continue;
 				
-				if (historyUrl != null) {
-					try {
-						response = HttpUtils.getHttpGetResponse(new URI(
-								historyUrl));
-						
-						if (response.isSuccessfull()) {
-							history = response.getContent();
-						}
-					} catch (Throwable t) {}
-				}
+				plugin.loadHistory();
+				plugin.loadLogo();
 				
-				if (logoUrl != null) {
-					try {
-						response = HttpUtils.getHttpGetResponse(new URI(logoUrl));
-						
-						if (response.isSuccessfull()) {
-							Image img = new ImageIcon(response.getBytes()).getImage();
-							img = img.getScaledInstance(
-									240,
-									60,
-									Image.SCALE_SMOOTH);
-							logo = new ImageIcon(img);
-						}
-					} catch (Throwable t) {}
-				}
-				
-				Plugin plugin = new Plugin(
-						PluginStatus.TO_INSTALL,
-						id,
-						publisher,
-						synchronizer,
-						name,
-						author,
-						version,
-						serviceProvider,
-						downloadUrl,
-						history,
-						logo,
-						price);
-				
-				plugins.add(plugin);
+				filteredPlugins.add(plugin);
 			}
 			
 			if (monitor != null)
@@ -583,9 +481,9 @@ public final class PluginsUtils {
 						Translations.getString("manage_plugins.progress.plugin_database_retrieved")));
 			
 			if (includeSynchronizers && includeDummyPlugin)
-				plugins.add(0, DUMMY_PLUGIN);
+				filteredPlugins.add(0, DUMMY_PLUGIN);
 			
-			return plugins.toArray(new Plugin[0]);
+			return filteredPlugins.toArray(new Plugin[0]);
 		} catch (Exception e) {
 			PluginLogger.getLogger().log(
 					Level.WARNING,

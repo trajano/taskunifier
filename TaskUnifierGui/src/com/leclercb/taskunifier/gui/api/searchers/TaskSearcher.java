@@ -58,31 +58,31 @@ public class TaskSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	public static final String PROP_FILTER = "filter";
 	public static final String PROP_SORTER = "sorter";
 	public static final String PROP_TEMPLATE = "template";
-
+	
 	@XStreamOmitField
 	private transient PropertyChangeSupport propertyChangeSupport;
-
+	
 	@XStreamAlias("id")
 	private String id;
-
+	
 	@XStreamAlias("type")
 	private TaskSearcherType type;
-
+	
 	@XStreamAlias("order")
 	private int order;
-
+	
 	@XStreamAlias("title")
 	private String title;
 	
 	@XStreamAlias("icon")
 	private String icon;
-
+	
 	@XStreamAlias("filter")
 	private TaskFilter filter;
-
+	
 	@XStreamAlias("sorter")
 	private TaskSorter sorter;
-
+	
 	@XStreamAlias("template")
 	private TaskTemplate template;
 	

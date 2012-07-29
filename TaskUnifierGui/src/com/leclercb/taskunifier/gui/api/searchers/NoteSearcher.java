@@ -58,10 +58,10 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	public static final String PROP_FILTER = "filter";
 	public static final String PROP_SORTER = "sorter";
 	public static final String PROP_TEMPLATE = "template";
-
+	
 	@XStreamOmitField
 	private transient PropertyChangeSupport propertyChangeSupport;
-
+	
 	@XStreamAlias("id")
 	private String id;
 	
