@@ -1,2 +1,1 @@
 - Fix help files
-- Upgrade tasksearchers.xml

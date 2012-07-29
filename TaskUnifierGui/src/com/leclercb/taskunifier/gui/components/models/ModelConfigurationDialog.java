@@ -126,6 +126,12 @@ public class ModelConfigurationDialog extends JDialog {
 			case LOCATION:
 				index = 4;
 				break;
+			case NOTE:
+				index = -1;
+				break;
+			case TASK:
+				index = -1;
+				break;
 		}
 		
 		if (index == -1)

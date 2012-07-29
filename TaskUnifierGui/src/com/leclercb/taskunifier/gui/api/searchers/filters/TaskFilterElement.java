@@ -33,8 +33,10 @@
 package com.leclercb.taskunifier.gui.api.searchers.filters;
 
 import java.util.Calendar;
+import java.util.logging.Level;
 
 import com.leclercb.commons.api.utils.DateUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.enums.TaskPriority;
 import com.leclercb.taskunifier.api.models.enums.TaskRepeatFrom;
@@ -133,7 +135,7 @@ public class TaskFilterElement extends FilterElement<Task, TaskColumn, TaskFilte
 								+ ")";
 				}
 			} catch (Throwable t) {
-				
+				GuiLogger.getLogger().log(Level.WARNING, "Error while creating filter element label", t);
 			}
 		}
 		

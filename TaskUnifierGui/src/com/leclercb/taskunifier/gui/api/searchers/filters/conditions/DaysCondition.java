@@ -132,9 +132,9 @@ public enum DaysCondition implements Condition<Integer, Calendar> {
 				return diffDays <= value;
 			case NOT_EQUALS:
 				return diffDays != value;
+			default:
+				return false;
 		}
-		
-		return false;
 	}
 	
 }

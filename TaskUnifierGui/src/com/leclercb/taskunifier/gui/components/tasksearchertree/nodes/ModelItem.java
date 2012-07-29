@@ -139,6 +139,8 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				template.setTaskLocations(locations);
 				
 				break;
+			default:
+				throw new IllegalArgumentException();
 		}
 		
 		TaskSearcher defaultTaskSearcher = Constants.getDefaultTaskSearcher();

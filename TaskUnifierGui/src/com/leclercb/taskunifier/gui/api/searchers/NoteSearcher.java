@@ -46,6 +46,8 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorter;
 import com.leclercb.taskunifier.gui.api.searchers.sorters.NoteSorterElement;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListChangeListener, PropertyChangeListener {
 	
@@ -56,16 +58,32 @@ public class NoteSearcher implements Cloneable, PropertyChangeSupported, ListCha
 	public static final String PROP_FILTER = "filter";
 	public static final String PROP_SORTER = "sorter";
 	public static final String PROP_TEMPLATE = "template";
-	
-	private PropertyChangeSupport propertyChangeSupport;
-	
+
+	@XStreamOmitField
+	private transient PropertyChangeSupport propertyChangeSupport;
+
+	@XStreamAlias("id")
 	private String id;
+	
+	@XStreamAlias("type")
 	private NoteSearcherType type;
+	
+	@XStreamAlias("order")
 	private int order;
+	
+	@XStreamAlias("title")
 	private String title;
+	
+	@XStreamAlias("icon")
 	private String icon;
+	
+	@XStreamAlias("filter")
 	private NoteFilter filter;
+	
+	@XStreamAlias("sorter")
 	private NoteSorter sorter;
+	
+	@XStreamAlias("template")
 	private NoteTemplate template;
 	
 	public NoteSearcher(

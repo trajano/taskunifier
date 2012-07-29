@@ -418,9 +418,9 @@ public class TaskSearcherTreeModel extends DefaultTreeModel implements ListChang
 				return this.goalCategory;
 			case LOCATION:
 				return this.locationCategory;
+			default:
+				return null;
 		}
-		
-		return null;
 	}
 	
 	@SuppressWarnings("rawtypes")

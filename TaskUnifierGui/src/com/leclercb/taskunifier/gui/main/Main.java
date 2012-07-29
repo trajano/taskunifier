@@ -1072,6 +1072,8 @@ public class Main {
 					case NO_VALID_PLUGIN:
 					case OUTDATED_PLUGIN:
 						outdatedPlugins = true;
+					default:
+						outdatedPlugins = false;
 				}
 				
 				GuiLogger.getLogger().warning(e.getMessage());

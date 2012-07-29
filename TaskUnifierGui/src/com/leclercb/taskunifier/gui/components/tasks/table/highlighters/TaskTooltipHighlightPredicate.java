@@ -57,9 +57,9 @@ public class TaskTooltipHighlightPredicate implements HighlightPredicate {
 			case START_DATE:
 			case DUE_DATE:
 				return true;
+			default:
+				return false;
 		}
-		
-		return false;
 	}
 	
 }

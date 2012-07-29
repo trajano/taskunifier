@@ -50,6 +50,7 @@ import com.leclercb.taskunifier.gui.api.searchers.filters.FilterLink;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilter;
 import com.leclercb.taskunifier.gui.api.searchers.filters.NoteFilterElement;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.CalendarCondition;
+import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.Condition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.DaysCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.EnumCondition;
 import com.leclercb.taskunifier.gui.api.searchers.filters.conditions.ModelCondition;
@@ -163,8 +164,8 @@ public class NoteFilterXMLCoder extends AbstractXMLCoder<NoteFilter> {
 								value);
 					} else if (column != null
 							&& conditionClass.equals("EnumCondition")) {
-						EnumCondition condition = EnumCondition.valueOf(enumName);
-						Enum<?> value = null;
+						Condition<?, ?> condition = EnumCondition.valueOf(enumName);
+						Object value = null;
 						
 						if (valueStr != null) {
 							String valueClass = valueStr.substring(
@@ -174,12 +175,17 @@ public class NoteFilterXMLCoder extends AbstractXMLCoder<NoteFilter> {
 									valueStr.lastIndexOf("#") + 1,
 									valueStr.length());
 							
-							Object[] enums = Class.forName(valueClass).getEnumConstants();
-							
-							for (int j = 0; j < enums.length; j++) {
-								Enum<?> e = (Enum<?>) enums[j];
-								if (e.name().equals(valueEnum))
-									value = e;
+							try {
+								Object[] enums = Class.forName(valueClass).getEnumConstants();
+								
+								for (int j = 0; j < enums.length; j++) {
+									Enum<?> e = (Enum<?>) enums[j];
+									if (e.name().equals(valueEnum))
+										value = e;
+								}
+							} catch (Throwable t) {
+								condition = StringCondition.EQUALS;
+								value = valueEnum;
 							}
 						}
 						
