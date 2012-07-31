@@ -60,6 +60,7 @@ import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.adapter.SpinnerAdapterFactory;
 import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.value.AbstractConverter;
 import com.jgoodies.binding.value.ValueModel;
 import com.leclercb.commons.gui.utils.FormatterUtils;
 import com.leclercb.taskunifier.api.models.BasicModel;
@@ -473,14 +474,18 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 					Main.getSettings().getStringProperty("date.time_format")));
 			
 			ValueModel taskDueDateReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_DUE_DATE_REMINDER);
+			StringToIntegerConverter taskDueDateReminderConverter = new StringToIntegerConverter(
+					taskDueDateReminderModel);
 			TaskTemplateConfigurationPanel.this.taskDueDateReminder.setModel(new ComboBoxAdapter<Integer>(
 					new TaskReminderModel(),
-					taskDueDateReminderModel));
+					taskDueDateReminderConverter));
 			
 			ValueModel taskStartDateReminderModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_START_DATE_REMINDER);
+			StringToIntegerConverter taskStartDateReminderConverter = new StringToIntegerConverter(
+					taskStartDateReminderModel);
 			TaskTemplateConfigurationPanel.this.taskStartDateReminder.setModel(new ComboBoxAdapter<Integer>(
 					new TaskReminderModel(),
-					taskStartDateReminderModel));
+					taskStartDateReminderConverter));
 			
 			ValueModel taskRepeatModel = this.adapter.getValueModel(TaskTemplate.PROP_TASK_REPEAT);
 			TaskTemplateConfigurationPanel.this.taskRepeat.setModel(new ComboBoxAdapter<String>(
@@ -554,6 +559,32 @@ public class TaskTemplateConfigurationPanel extends JSplitPane {
 			TaskTemplateConfigurationPanel.this.taskPriority.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskStar.setEnabled(template != null);
 			TaskTemplateConfigurationPanel.this.taskNote.setEnabled(template != null);
+		}
+		
+	}
+	
+	private static class StringToIntegerConverter extends AbstractConverter {
+		
+		public StringToIntegerConverter(ValueModel subject) {
+			super(subject);
+		}
+		
+		@Override
+		public void setValue(Object value) {
+			if (value == null)
+				this.subject.setValue(null);
+			
+			try {
+				Integer i = Integer.parseInt(value.toString());
+				this.subject.setValue(i);
+			} catch (NumberFormatException exc) {
+				this.subject.setValue(null);
+			}
+		}
+		
+		@Override
+		public Object convertFromSubject(Object value) {
+			return this.subject.getValue();
 		}
 		
 	}
