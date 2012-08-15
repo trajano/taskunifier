@@ -1,2 +1,1 @@
 - Fix help files
-- Upgrade context -> contexts, goal -> goals and location -> locations

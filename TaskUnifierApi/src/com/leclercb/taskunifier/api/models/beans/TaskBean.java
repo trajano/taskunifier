@@ -55,11 +55,23 @@ public class TaskBean extends AbstractModelParentBean {
 	@XStreamAlias("folder")
 	private ModelId folder;
 	
+	@Deprecated
+	@XStreamAlias("context")
+	private ModelId context;
+	
 	@XStreamAlias("contexts")
 	private ModelBeanList contexts;
 	
+	@Deprecated
+	@XStreamAlias("goal")
+	private ModelId goal;
+	
 	@XStreamAlias("goals")
 	private ModelBeanList goals;
+	
+	@Deprecated
+	@XStreamAlias("location")
+	private ModelId location;
 	
 	@XStreamAlias("locations")
 	private ModelBeanList locations;
@@ -204,6 +216,13 @@ public class TaskBean extends AbstractModelParentBean {
 	}
 	
 	public ModelBeanList getContexts() {
+		if (this.context != null) {
+			if (this.contexts == null)
+				this.contexts = new ModelBeanList();
+			
+			this.contexts.add(this.context);
+		}
+		
 		return this.contexts;
 	}
 	
@@ -212,6 +231,13 @@ public class TaskBean extends AbstractModelParentBean {
 	}
 	
 	public ModelBeanList getGoals() {
+		if (this.goal != null) {
+			if (this.goals == null)
+				this.goals = new ModelBeanList();
+			
+			this.goals.add(this.goal);
+		}
+		
 		return this.goals;
 	}
 	
@@ -220,6 +246,13 @@ public class TaskBean extends AbstractModelParentBean {
 	}
 	
 	public ModelBeanList getLocations() {
+		if (this.location != null) {
+			if (this.locations == null)
+				this.locations = new ModelBeanList();
+			
+			this.locations.add(this.location);
+		}
+		
 		return this.locations;
 	}
 	
