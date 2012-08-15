@@ -99,7 +99,6 @@ public class ActionSynchronizeAndPublish extends AbstractAction {
 				return;
 			
 			ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
-			ActionPluginConfiguration.pluginConfiguration();
 			return;
 		}
 		

@@ -88,7 +88,6 @@ public class ActionSynchronize extends AbstractAction {
 				return;
 			
 			ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
-			ActionPluginConfiguration.pluginConfiguration();
 			return;
 		}
 		
