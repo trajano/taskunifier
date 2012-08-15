@@ -106,7 +106,7 @@ public final class DesktopUtils {
 		
 		String url = "mailto:"
 				+ toStr
-				+ URLEncodedUtils.format(parameters, null);
+				+ URLEncodedUtils.format(parameters, (String) null);
 		
 		url = url.replaceAll("\\+", "%20");
 		
@@ -117,7 +117,7 @@ public final class DesktopUtils {
 		try {
 			return URLEncoder.encode(
 					content,
-					encoding != null ? encoding : HTTP.DEFAULT_CONTENT_CHARSET);
+					encoding != null ? encoding : HTTP.DEF_CONTENT_CHARSET.name());
 		} catch (UnsupportedEncodingException problem) {
 			throw new IllegalArgumentException(problem);
 		}

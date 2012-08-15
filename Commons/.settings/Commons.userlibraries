@@ -3,8 +3,8 @@
     <library name="Commons" systemlibrary="false">
         <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-codec-1.6-javadoc.jar!/" path="/Commons/lib/apache/commons-codec-1.6.jar"/>
         <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-collections-3.2.1-javadoc.jar!/" path="/Commons/lib/apache/commons-collections-3.2.1.jar"/>
-        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-compress-1.3-javadoc.jar!/" path="/Commons/lib/apache/commons-compress-1.3.jar"/>
-        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-io-2.1-javadoc.jar!/" path="/Commons/lib/apache/commons-io-2.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-compress-1.4.1-javadoc.jar!/" path="/Commons/lib/apache/commons-compress-1.4.1.jar"/>
+        <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-io-2.4-javadoc.jar!/" path="/Commons/lib/apache/commons-io-2.4.jar"/>
         <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-lang3-3.1-javadoc.jar!/" path="/Commons/lib/apache/commons-lang3-3.1.jar"/>
         <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-logging-1.1.1-javadoc.jar!/" path="/Commons/lib/apache/commons-logging-1.1.1.jar"/>
         <archive path="/Commons/lib/javamail/smtp.jar"/>
@@ -28,13 +28,14 @@
         <archive path="/Commons/lib/xstream/xmlpull-1.1.3.1.jar"/>
         <archive path="/Commons/lib/xstream/xom-1.1.jar"/>
         <archive path="/Commons/lib/xstream/xpp3_min-1.1.4c.jar"/>
-        <archive path="/Commons/lib/xstream/xstream-1.4.2.jar"/>
-        <archive path="/Commons/lib/xstream/xstream-benchmark-1.4.2.jar"/>
+        <archive path="/Commons/lib/xstream/xstream-1.4.3.jar"/>
+        <archive path="/Commons/lib/xstream/xstream-benchmark-1.4.3.jar"/>
         <archive javadoc="jar:platform:/resource/Commons/doc/apache/commons-configuration-1.8-javadoc.jar!/" path="/Commons/lib/apache/commons-configuration-1.8.jar"/>
-        <archive path="/Commons/lib/apache/httpclient-4.1.3.jar"/>
-        <archive path="/Commons/lib/apache/httpclient-cache-4.1.3.jar"/>
-        <archive path="/Commons/lib/apache/httpcore-4.1.4.jar"/>
-        <archive path="/Commons/lib/apache/httpmime-4.1.3.jar"/>
+        <archive path="/Commons/lib/apache/httpclient-4.2.1.jar"/>
+        <archive path="/Commons/lib/apache/httpclient-cache-4.2.1.jar"/>
+        <archive path="/Commons/lib/apache/httpcore-4.2.1.jar"/>
+        <archive path="/Commons/lib/apache/httpmime-4.2.1.jar"/>
         <archive path="/Commons/lib/glazedlists/glazedlists-1.8.0_java15.jar"/>
+        <archive path="/Commons/lib/apache/fluent-hc-4.2.1.jar"/>
     </library>
 </eclipse-userlibraries>
