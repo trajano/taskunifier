@@ -1,6 +1,12 @@
 package com.leclercb.taskunifier.api.models;
 
+import com.leclercb.taskunifier.api.models.beans.converters.ModelIdConverter;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+
 @Deprecated
+@XStreamAlias("modelid")
+@XStreamConverter(ModelIdConverter.class)
 public class DeprecatedModelId extends ModelId {
 	
 	private boolean isNew;
