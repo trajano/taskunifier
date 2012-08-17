@@ -559,6 +559,7 @@ public abstract class AbstractModelFactory<OM extends Model, OMB extends ModelBe
 				this.getModelListNodeName(),
 				Array.newInstance(this.getModelBeanClass(), 0).getClass());
 		xstream.alias(this.getModelNodeName(), this.getModelBeanClass());
+		xstream.alias("modelid", DeprecatedModelId.class, ModelId.class);
 		xstream.processAnnotations(this.getModelBeanClass());
 		
 		xstream.toXML(beans, output);
