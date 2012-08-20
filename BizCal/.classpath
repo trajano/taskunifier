@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/ical4j-1.0-beta3.jar"/>
 	<classpathentry kind="lib" path="lib/TableLayout.jar"/>
 	<classpathentry kind="lib" path="/TaskUnifierGui/lib/mac_widgets.jar"/>
-	<classpathentry kind="lib" path="/Users/leclercb/Eclipse/TaskUnifierGui/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="/TaskUnifierGui/lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
