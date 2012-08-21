@@ -77,6 +77,7 @@ import com.leclercb.taskunifier.gui.actions.ActionExportSettings;
 import com.leclercb.taskunifier.gui.actions.ActionExportTaskSearchers;
 import com.leclercb.taskunifier.gui.actions.ActionExportTaskTemplates;
 import com.leclercb.taskunifier.gui.actions.ActionExportVCard;
+import com.leclercb.taskunifier.gui.actions.ActionGetLogs;
 import com.leclercb.taskunifier.gui.actions.ActionHelp;
 import com.leclercb.taskunifier.gui.actions.ActionImportComFile;
 import com.leclercb.taskunifier.gui.actions.ActionImportModels;
@@ -318,6 +319,8 @@ public class MenuBar extends JMenuBar implements ListChangeListener, PropertyCha
 		helpMenu.add(new ActionHelp(16, 16));
 		helpMenu.add(new ActionShowTips(16, 16));
 		helpMenu.add(new ActionAbout(16, 16));
+		helpMenu.addSeparator();
+		helpMenu.add(new ActionGetLogs(16, 16));
 		helpMenu.addSeparator();
 		helpMenu.add(new ActionLogBug());
 		helpMenu.add(new ActionLogFeatureRequest());

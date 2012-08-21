@@ -53,6 +53,7 @@ public enum ActionList {
 	EXPORT_TASK_SEARCHERS(Translations.getString("action.export_task_searchers"), "upload.png", true),
 	EXPORT_TASK_TEMPLATES(Translations.getString("action.export_task_templates"), "upload.png", true),
 	EXPORT_VCARD(Translations.getString("action.export_vcard"), "upload.png", true),
+	GET_LOGS(Translations.getString("action.get_logs"), "download.png", true),
 	GET_SERIAL(Translations.getString("action.get_serial"), "key.png", false),
 	HELP(Translations.getString("action.help"), "help.png", true),
 	IMPORT_COM_FILE(Translations.getString("action.import_com_file"), "download.png", true),
