@@ -243,6 +243,7 @@ public class Main {
 	}
 	
 	public static void main(final String[] args) {
+		String previousVersion;
 		boolean updateVersion;
 		boolean outdatedPlugins;
 		
@@ -280,8 +281,10 @@ public class Main {
 			loadShutdownHook();
 			loadCustomProtocolHandlers();
 			
-			updateVersion = !Constants.VERSION.equals(Main.getSettings().getStringProperty(
-					"general.version"));
+			previousVersion = Main.getSettings().getStringProperty(
+					"general.version");
+			
+			updateVersion = !Constants.VERSION.equals(previousVersion);
 			
 			Main.getSettings().setStringProperty(
 					"general.version",
@@ -311,6 +314,7 @@ public class Main {
 			return;
 		}
 		
+		final String finalPreviousVersion = previousVersion;
 		final boolean finalUpdateVersion = updateVersion;
 		final boolean finalOutdatedPlugins = outdatedPlugins;
 		
@@ -368,6 +372,26 @@ public class Main {
 						new LanguageDialog().setVisible(true);
 						new WelcomeDialog().setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
+					} else if (finalUpdateVersion
+							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
+						int result = JOptionPane.showOptionDialog(
+								null,
+								Translations.getString(
+										"synchronizer.license_upgrade_required",
+										"3.0.0"),
+								Constants.TITLE,
+								JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null,
+								new String[] {
+										Translations.getString("general.ok"),
+										Translations.getString("action.quit") },
+								Translations.getString("general.ok"));
+						
+						if (result == 1) {
+							QUITTING = true;
+							System.exit(0);
+						}
 					}
 					
 					MacApplication.initializeApplicationAdapter();

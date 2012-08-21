@@ -30,6 +30,26 @@ Version 3.0.0
 		- FR 3509738: Save horizontal scroll state
 		- New color settings (foreground)
 		- Bug fixed: Delete new user
+		- Bug fixed: Color of selected task title
+		
+Version 2.4.0
+	- Major:
+		- Bug fixed: Freeze with Outlook Addon
+		- BF 3516376: Model update date not always set
+
+Version 2.3.2
+	- Major:
+		- BF 3510391: Task searcher edit window not displayed
+	- Minor:
+		- BF 3511612: Subtask title display problem
+		- BF 3504721: Repeat with parent problem
+		- FR 3510814: Minimize to tray improvement
+
+Version 2.3.1
+	- Major:
+		- BF 3495620: Program freezing
+	- Minor:
+		- BF 3500905: Font settings not saved
 
 Version 2.3.0
 	- Major:
