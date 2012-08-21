@@ -1,1 +1,2 @@
 - Fix help files
+- Fix layout in Settings
