@@ -378,7 +378,7 @@ public class Main {
 								null,
 								Translations.getString(
 										"synchronizer.license_upgrade_required",
-										"3.0.0"),
+										Constants.VERSION),
 								Constants.TITLE,
 								JOptionPane.OK_CANCEL_OPTION,
 								JOptionPane.QUESTION_MESSAGE,

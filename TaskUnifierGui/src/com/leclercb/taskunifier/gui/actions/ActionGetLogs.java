@@ -103,8 +103,10 @@ public class ActionGetLogs extends AbstractAction {
 			handlers.addAll(Arrays.asList(PluginLogger.getLogger().getHandlers()));
 			
 			for (Handler handler : handlers) {
-				if (handler instanceof FileHandler)
+				if (handler instanceof FileHandler) {
 					((FileHandler) handler).flush();
+					((FileHandler) handler).close();
+				}
 			}
 			
 			File[] logFiles = new File(Main.getDataFolder()).listFiles(new FileFilter() {
@@ -130,6 +132,11 @@ public class ActionGetLogs extends AbstractAction {
 			
 			zos.close();
 		} catch (Exception e) {
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot create logs zip file",
+					e);
+			
 			ErrorInfo info = new ErrorInfo(
 					Translations.getString("general.error"),
 					e.getMessage(),
