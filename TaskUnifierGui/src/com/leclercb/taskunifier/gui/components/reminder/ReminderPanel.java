@@ -155,7 +155,7 @@ public class ReminderPanel extends JPanel {
 		
 		final JPopupMenu snoozeAllPopup = new JPopupMenu();
 		for (SnoozeItem item : items) {
-			snoozePopup.add(new SnoozeAllAction(item));
+			snoozeAllPopup.add(new SnoozeAllAction(item));
 		}
 		
 		final JButton snoozeButton = new JButton(
@@ -176,7 +176,7 @@ public class ReminderPanel extends JPanel {
 				}
 				
 				if (event.getActionCommand().equals("SNOOZE_ALL")) {
-					snoozeAllPopup.show(snoozeButton, 0, 0);
+					snoozeAllPopup.show(snoozeAllButton, 0, 0);
 					return;
 				}
 				
@@ -242,7 +242,7 @@ public class ReminderPanel extends JPanel {
 		
 		public SnoozeAllAction(SnoozeItem item) {
 			super(Translations.getString(
-					"general.task.reminder.snooze_all",
+					"general.task.reminder.snooze",
 					item.toString()));
 			
 			CheckUtils.isNotNull(item);

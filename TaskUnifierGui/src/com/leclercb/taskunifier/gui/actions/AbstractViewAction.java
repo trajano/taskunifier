@@ -69,7 +69,7 @@ public abstract class AbstractViewAction extends AbstractAction implements Prope
 		CheckUtils.isNotNull(enabledViews);
 		this.enabledViews = enabledViews;
 		
-		this.setEnabled(false);
+		this.setEnabled(this.shouldBeEnabled());
 		
 		ViewList.getInstance().addPropertyChangeListener(
 				ViewList.PROP_CURRENT_VIEW,
@@ -79,7 +79,8 @@ public abstract class AbstractViewAction extends AbstractAction implements Prope
 	public boolean shouldBeEnabled() {
 		if (this.enabledViews != null && this.enabledViews.length != 0) {
 			for (ViewType view : this.enabledViews)
-				if (view.equals(ViewUtils.getCurrentViewType()))
+				if (view.equals(ViewUtils.getCurrentViewType())
+						&& ViewList.getInstance().getCurrentView().isLoaded())
 					return true;
 			
 			return false;

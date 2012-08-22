@@ -38,7 +38,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 
-import com.leclercb.taskunifier.gui.components.views.ViewType;
 import com.leclercb.taskunifier.gui.components.views.interfaces.TaskSelectionView;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
@@ -50,9 +49,7 @@ public class ActionPostponeTasksMenu extends AbstractViewAction {
 	public ActionPostponeTasksMenu(int width, int height, TaskSelectionView view) {
 		super(
 				Translations.getString("action.postpone_tasks"),
-				ImageUtils.getResourceImage("calendar.png", width, height),
-				ViewType.TASKS,
-				ViewType.CALENDAR);
+				ImageUtils.getResourceImage("calendar.png", width, height));
 		
 		this.putValue(
 				SHORT_DESCRIPTION,
