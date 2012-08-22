@@ -22,6 +22,7 @@ Version 3.0.0
 	- Minor:
 		- BF 3536931: Complete repeat task in task edit window
 		- BF 3510783: Whole day task in calendar
+		- BF 3560628: Postpone task is disabled in reminder window
 		- FR 3505247: Separation between sync and publish
 		- FR 3500049: Push local tasks
 		- FR 3507878: Backup list order
