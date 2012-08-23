@@ -42,6 +42,7 @@ import com.leclercb.commons.api.utils.CheckUtils;
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.taskunifier.api.models.Goal;
 import com.leclercb.taskunifier.api.models.Model;
+import com.leclercb.taskunifier.api.models.ModelFactory;
 import com.leclercb.taskunifier.api.models.ModelStatus;
 import com.leclercb.taskunifier.api.models.ModelType;
 import com.leclercb.taskunifier.api.models.Task;
@@ -123,6 +124,9 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 		
 		for (ModelType type : types)
 			this.synchronizeModels(choice, monitor, type);
+		
+		for (ModelType type : types)
+			this.removeShells(type);
 		
 		if (monitor != null)
 			monitor.addMessage(new SynchronizerMainProgressMessage(
@@ -497,6 +501,15 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					ProgressMessageType.SYNCHRONIZER_END,
 					type,
 					actionCount));
+	}
+	
+	private void removeShells(ModelType type) {
+		ModelFactory<?, ?, ?, ?> factory = ModelFactoryUtils.getFactory(type);
+		
+		for (Model model : factory.getList()) {
+			if (model.getModelStatus() == ModelStatus.SHELL)
+				factory.markDeleted(model.getModelId());
+		}
 	}
 	
 	protected abstract boolean isUpdatedModels(ModelType type)
