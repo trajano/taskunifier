@@ -507,8 +507,17 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 		ModelFactory<?, ?, ?, ?> factory = ModelFactoryUtils.getFactory(type);
 		
 		for (Model model : factory.getList()) {
-			if (model.getModelStatus() == ModelStatus.SHELL)
+			if (model.getModelStatus() == ModelStatus.SHELL) {
 				factory.markDeleted(model.getModelId());
+				
+				PluginLogger.getLogger().info(
+						"Delete "
+								+ TranslationsUtils.translateModelType(
+										type,
+										false)
+								+ " shell: "
+								+ model.getModelId());
+			}
 		}
 	}
 	
