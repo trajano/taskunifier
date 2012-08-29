@@ -58,7 +58,10 @@ public class ActionSynchronizeAndPublish extends AbstractAction {
 	public ActionSynchronizeAndPublish(int width, int height, boolean background) {
 		super(
 				Translations.getString("action.synchronize_and_publish"),
-				ImageUtils.getResourceImage("synchronize.png", width, height));
+				ImageUtils.getResourceImage(
+						"synchronize_publish.png",
+						width,
+						height));
 		
 		this.background = background;
 		

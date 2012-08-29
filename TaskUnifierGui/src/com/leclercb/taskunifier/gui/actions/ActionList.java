@@ -93,7 +93,7 @@ public enum ActionList {
 	SHOW_TIPS(Translations.getString("action.show_tips"), "information.png", true),
 	SWITCH_TO_USER(Translations.getString("action.switch_user"), "user.png", false),
 	SWITCH_TO_USER_MENU(Translations.getString("action.switch_user_menu"), "user.png", true),
-	SYNCHRONIZE(Translations.getString("action.synchronize"), "synchronize.png", true),
+	SYNCHRONIZE(Translations.getString("action.synchronize"), "synchronize_publish.png", true),
 	SYNCHRONIZE_AND_PUBLISH(Translations.getString("action.synchronize_and_publish"), "synchronize.png", true),
 	TASK_REMINDERS(Translations.getString("action.task_reminders"), "clock.png", true),
 	UNDO(Translations.getString("action.undo"), "undo.png", true);
