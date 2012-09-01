@@ -47,7 +47,6 @@ import org.apache.commons.lang3.SystemUtils;
 
 import com.leclercb.commons.api.utils.EqualsUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
-import com.leclercb.commons.gui.swing.lookandfeel.LookAndFeelUtils;
 import com.leclercb.taskunifier.gui.actions.ActionQuit;
 import com.leclercb.taskunifier.gui.components.quickaddtask.QuickAddTaskDialog;
 import com.leclercb.taskunifier.gui.components.traypopup.TrayPopup;
@@ -111,9 +110,6 @@ public final class FrameUtils {
 		frame.getFrame().dispose();
 		
 		frames.remove(frame);
-		
-		if (SystemUtils.IS_OS_MAC && LookAndFeelUtils.isSytemLookAndFeel())
-			return;
 		
 		if (getFrameCount() == 0)
 			ActionQuit.quit();
