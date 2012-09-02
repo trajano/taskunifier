@@ -373,7 +373,8 @@ public class Main {
 						new WelcomeDialog().setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
 					} else if (finalUpdateVersion
-							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
+							&& finalPreviousVersion.compareTo("3.0.0") < 0
+							&& SynchronizerUtils.isSynchronizerPlugin()) {
 						int result = JOptionPane.showOptionDialog(
 								null,
 								Translations.getString(
@@ -965,7 +966,9 @@ public class Main {
 			TaskFactory.getInstance().deleteAll();
 			
 			TaskFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder + File.separator + "tasks.xml"));
+					new FileInputStream(folder
+							+ File.separator
+							+ "tasks_v3.xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -1014,7 +1017,7 @@ public class Main {
 			
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(folder
 					+ File.separator
-					+ "task_searchers.xml"));
+					+ "task_searchers_v3.xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Throwable e) {
@@ -1424,7 +1427,9 @@ public class Main {
 		
 		try {
 			TaskFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder + File.separator + "tasks.xml"));
+					new FileOutputStream(folder
+							+ File.separator
+							+ "tasks_v3.xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1470,7 +1475,7 @@ public class Main {
 	public static void saveTaskSearchers(String folder) {
 		try {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					folder + File.separator + "task_searchers.xml"));
+					folder + File.separator + "task_searchers_v3.xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,

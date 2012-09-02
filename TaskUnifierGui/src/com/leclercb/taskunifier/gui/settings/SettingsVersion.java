@@ -1910,6 +1910,32 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("window.sub.location_y", "0");
 		Main.getSettings().setStringProperty("window.sub.width", "600");
 		
+		try {
+			FileUtils.copyFile(new File(Main.getUserFolder()
+					+ File.separator
+					+ "tasks.xml"), new File(Main.getUserFolder()
+					+ File.separator
+					+ "tasks_v3.xml"));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying tasks.xml to tasks_v3.xml",
+					t);
+		}
+		
+		try {
+			FileUtils.copyFile(new File(Main.getUserFolder()
+					+ File.separator
+					+ "task_searchers.xml"), new File(Main.getUserFolder()
+					+ File.separator
+					+ "task_searchers_v3.xml"));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying task_searchers.xml to task_searchers_v3.xml",
+					t);
+		}
+		
 		return "3.0.0";
 	}
 	
