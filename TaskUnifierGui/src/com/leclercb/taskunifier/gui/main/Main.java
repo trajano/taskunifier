@@ -296,9 +296,6 @@ public class Main {
 			
 			Constants.initialize();
 			
-			autoBackup();
-			cleanBackups();
-			
 			AFTER_START.fireActionPerformed(0, "AFTER_START");
 		} catch (RuntimeException e) {
 			throw e;
@@ -373,8 +370,7 @@ public class Main {
 						new WelcomeDialog().setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
 					} else if (finalUpdateVersion
-							&& finalPreviousVersion.compareTo("3.0.0") < 0
-							&& SynchronizerUtils.isSynchronizerPlugin()) {
+							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
 						int result = JOptionPane.showOptionDialog(
 								null,
 								Translations.getString(
@@ -394,6 +390,9 @@ public class Main {
 							System.exit(0);
 						}
 					}
+					
+					autoBackup();
+					cleanBackups();
 					
 					MacApplication.initializeApplicationAdapter();
 					

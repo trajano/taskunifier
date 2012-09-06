@@ -221,10 +221,6 @@ public final class SynchronizerUtils {
 				StringUtils.join(listIds, ";"));
 	}
 	
-	public static boolean isSynchronizerPlugin() {
-		return getSynchronizerPlugin().getId() != DummyGuiPlugin.getInstance().getId();
-	}
-	
 	public static SynchronizerGuiPlugin getSynchronizerPlugin() {
 		SynchronizerGuiPlugin plugin = getPlugin(Main.getUserSettings().getStringProperty(
 				"plugin.synchronizer.id"));
