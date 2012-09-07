@@ -135,6 +135,29 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				Translations.getString("configuration.date.day_end_hour"),
 				true,
 				new DayEndHourFieldType()));
+		
+		this.addField(new ConfigurationField(
+				"SEPARATOR_4",
+				null,
+				new ConfigurationFieldType.Separator()));
+		
+		this.addField(new ConfigurationField(
+				"ALWAYS_SHOW_REMINDER",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"reminder.always_show_reminder",
+						Translations.getString("configuration.date.reminder.always_show_reminder"),
+						true)));
+		
+		this.addField(new ConfigurationField(
+				"SHOW_OVERDUE_TASKS",
+				null,
+				new ConfigurationFieldType.CheckBox(
+						Main.getSettings(),
+						"reminder.show_overdue_tasks",
+						Translations.getString("configuration.date.reminder.show_overdue_tasks"),
+						true)));
 	}
 	
 }
