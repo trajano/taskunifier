@@ -32,10 +32,14 @@
  */
 package com.leclercb.taskunifier.gui.settings;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.apache.commons.io.FileUtils;
+
 import com.leclercb.commons.gui.logger.GuiLogger;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.resources.Resources;
 
@@ -45,9 +49,11 @@ public final class UserSettingsVersion {
 		
 	}
 	
-	public static void updateSettings() {
+	public static String updateSettings() {
 		String version = Main.getUserSettings().getStringProperty(
 				"general.user.version");
+		
+		final String oldVersion = version;
 		
 		if (version == null)
 			version = "1.8.7";
@@ -83,7 +89,12 @@ public final class UserSettingsVersion {
 			version = updateUserSettings_2_4_0_to_3_0_0();
 		
 		cleanSettings();
-		Main.saveUserSettings();
+		
+		Main.getUserSettings().setStringProperty(
+				"general.user.version",
+				Constants.VERSION);
+		
+		return oldVersion;
 	}
 	
 	private static void cleanSettings() {
@@ -194,7 +205,40 @@ public final class UserSettingsVersion {
 				"synchronizer.sync_reminder_field",
 				"true");
 		
+		copyInsideUserFolder("contexts.xml", "contexts_v3.xml");
+		copyInsideUserFolder("folders.xml", "folders_v3.xml");
+		copyInsideUserFolder("goals.xml", "goals_v3.xml");
+		copyInsideUserFolder("locations.xml", "locations_v3.xml");
+		copyInsideUserFolder("notes.xml", "notes_v3.xml");
+		copyInsideUserFolder("tasks.xml", "tasks_v3.xml");
+		copyInsideUserFolder("task_templates.xml", "task_templates_v3.xml");
+		copyInsideUserFolder("task_searchers.xml", "task_searchers_v3.xml");
+		copyInsideUserFolder("note_searchers.xml", "note_searchers_v3.xml");
+		
 		return "3.0.0";
+	}
+	
+	private static void copyInsideUserFolder(
+			String fromFileName,
+			String toFileName) {
+		try {
+			File from = new File(Main.getUserFolder()
+					+ File.separator
+					+ fromFileName);
+			
+			File to = new File(Main.getUserFolder()
+					+ File.separator
+					+ toFileName);
+			
+			if (!to.exists()) {
+				FileUtils.copyFile(from, to);
+			}
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying " + fromFileName + " to " + toFileName,
+					t);
+		}
 	}
 	
 }

@@ -45,6 +45,7 @@ import org.apache.commons.io.FileUtils;
 import com.jgoodies.common.base.SystemUtils;
 import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.actions.ActionResetGeneralSearchers;
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.main.Main;
 import com.leclercb.taskunifier.gui.resources.Resources;
 import com.leclercb.taskunifier.gui.utils.SettingsUtils;
@@ -56,8 +57,10 @@ public final class SettingsVersion {
 		
 	}
 	
-	public static void updateSettings() {
+	public static String updateSettings() {
 		String version = Main.getSettings().getStringProperty("general.version");
+		
+		final String oldVersion = version;
 		
 		if (version == null)
 			version = "0.5.2";
@@ -261,7 +264,12 @@ public final class SettingsVersion {
 			version = updateSettings_2_4_0_to_3_0_0();
 		
 		cleanSettings();
-		Main.saveSettings();
+		
+		Main.getSettings().setStringProperty(
+				"general.version",
+				Constants.VERSION);
+		
+		return oldVersion;
 	}
 	
 	private static void cleanSettings() {
@@ -1229,21 +1237,6 @@ public final class SettingsVersion {
 		return "2.0.0";
 	}
 	
-	private static void copyToUserFolder(String fileName) {
-		try {
-			FileUtils.copyFile(new File(Main.getDataFolder()
-					+ File.separator
-					+ fileName), new File(Main.getUserFolder()
-					+ File.separator
-					+ fileName));
-		} catch (Throwable t) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while copying " + fileName,
-					t);
-		}
-	}
-	
 	private static String updateSettings_2_0_0_to_2_0_1() {
 		GuiLogger.getLogger().info(
 				"Update settings from version 2.0.0 to 2.0.1");
@@ -1910,33 +1903,22 @@ public final class SettingsVersion {
 		Main.getSettings().setStringProperty("window.sub.location_y", "0");
 		Main.getSettings().setStringProperty("window.sub.width", "600");
 		
-		try {
-			FileUtils.copyFile(new File(Main.getUserFolder()
-					+ File.separator
-					+ "tasks.xml"), new File(Main.getUserFolder()
-					+ File.separator
-					+ "tasks_v3.xml"));
-		} catch (Throwable t) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while copying tasks.xml to tasks_v3.xml",
-					t);
-		}
-		
-		try {
-			FileUtils.copyFile(new File(Main.getUserFolder()
-					+ File.separator
-					+ "task_searchers.xml"), new File(Main.getUserFolder()
-					+ File.separator
-					+ "task_searchers_v3.xml"));
-		} catch (Throwable t) {
-			GuiLogger.getLogger().log(
-					Level.SEVERE,
-					"Error while copying task_searchers.xml to task_searchers_v3.xml",
-					t);
-		}
-		
 		return "3.0.0";
+	}
+	
+	private static void copyToUserFolder(String fileName) {
+		try {
+			FileUtils.copyFile(new File(Main.getDataFolder()
+					+ File.separator
+					+ fileName), new File(Main.getUserFolder()
+					+ File.separator
+					+ fileName));
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"Error while copying " + fileName,
+					t);
+		}
 	}
 	
 }
