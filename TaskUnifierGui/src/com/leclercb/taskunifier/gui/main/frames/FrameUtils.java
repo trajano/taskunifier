@@ -38,6 +38,8 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,13 +146,6 @@ public final class FrameUtils {
 			if (!SystemUtils.IS_OS_WINDOWS)
 				return;
 			
-			ShortcutKey key = Main.getSettings().getObjectProperty(
-					"general.global_hot_key.quick_task",
-					ShortcutKey.class);
-			
-			if (key == null)
-				return;
-			
 			String file = "JIntellitype64.dll";
 			
 			if (System.getProperty("sun.arch.data.model") != null) {
@@ -179,13 +174,6 @@ public final class FrameUtils {
 					+ File.separator
 					+ file);
 			
-			JIntellitype.getInstance();
-			
-			JIntellitype.getInstance().registerSwingHotKey(
-					1,
-					key.getModifiers(),
-					key.getKeyChar());
-			
 			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
 				
 				@Override
@@ -196,6 +184,20 @@ public final class FrameUtils {
 				}
 				
 			});
+			
+			registerGlobalHotKey();
+			
+			Main.getSettings().addPropertyChangeListener(
+					"general.global_hot_key.quick_task",
+					new PropertyChangeListener() {
+						
+						@Override
+						public void propertyChange(PropertyChangeEvent event) {
+							unregisterGlobalHotKey();
+							registerGlobalHotKey();
+						}
+						
+					});
 			
 			Main.BEFORE_EXIT.addActionListener(new ActionListener() {
 				
@@ -210,7 +212,39 @@ public final class FrameUtils {
 		} catch (Throwable t) {
 			GuiLogger.getLogger().log(
 					Level.WARNING,
+					"Cannot initialize global hot key",
+					t);
+		}
+	}
+	
+	private static void registerGlobalHotKey() {
+		try {
+			ShortcutKey key = Main.getSettings().getObjectProperty(
+					"general.global_hot_key.quick_task",
+					ShortcutKey.class);
+			
+			if (key == null)
+				return;
+			
+			JIntellitype.getInstance().registerSwingHotKey(
+					1,
+					key.getModifiers(),
+					key.getKeyChar());
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.WARNING,
 					"Cannot register global hot key",
+					t);
+		}
+	}
+	
+	private static void unregisterGlobalHotKey() {
+		try {
+			JIntellitype.getInstance().unregisterHotKey(1);
+		} catch (Throwable t) {
+			GuiLogger.getLogger().log(
+					Level.WARNING,
+					"Cannot unregister global hot key",
 					t);
 		}
 	}
