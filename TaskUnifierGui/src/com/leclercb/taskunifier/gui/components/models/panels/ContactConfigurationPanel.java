@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -191,7 +192,7 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 		builder.appendI15d("general.contact.email", true, contactEmail);
 		
 		// Contact Color
-		JPanel p = new JPanel(new BorderLayout(5, 0));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		builder.appendI15d("general.color", true, p);
 		
@@ -208,8 +209,8 @@ public class ContactConfigurationPanel extends JSplitPane implements IModelList 
 			
 		});
 		
-		p.add(contactColor, BorderLayout.WEST);
-		p.add(removeColor, BorderLayout.EAST);
+		p.add(contactColor);
+		p.add(removeColor);
 		
 		// Contact Current User
 		builder.appendI15d("general.contact.me", true, contactCurrentUser);

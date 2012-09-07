@@ -40,7 +40,9 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.BorderFactory;
 
+import com.leclercb.taskunifier.gui.constants.Constants;
 import com.leclercb.taskunifier.gui.swing.TUDialog;
+import com.leclercb.taskunifier.gui.threads.communicator.progress.CommunicatorDefaultProgressMessage;
 import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class QuickAddTaskDialog extends TUDialog {
@@ -54,12 +56,18 @@ public class QuickAddTaskDialog extends TUDialog {
 		return INSTANCE;
 	}
 	
+	private QuickAddTaskPanel quickTaskPanel;
+	
 	private QuickAddTaskDialog() {
 		this.initialize();
 	}
 	
 	@Override
 	public void setVisible(boolean visible) {
+		if (visible) {
+			this.quickTaskPanel.selectAll();
+		}
+		
 		super.setVisible(visible);
 	}
 	
@@ -73,15 +81,25 @@ public class QuickAddTaskDialog extends TUDialog {
 		
 		this.loadWindowSettings("window.quick_task");
 		
-		final QuickAddTaskPanel quickTaskPanel = new QuickAddTaskPanel();
-		quickTaskPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.quickTaskPanel = new QuickAddTaskPanel();
+		this.quickTaskPanel.setBorder(BorderFactory.createEmptyBorder(
+				10,
+				10,
+				10,
+				10));
 		
-		this.add(quickTaskPanel, BorderLayout.CENTER);
+		this.add(this.quickTaskPanel, BorderLayout.CENTER);
 		
-		quickTaskPanel.addActionListener(new ActionListener() {
+		this.quickTaskPanel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Constants.PROGRESS_MONITOR.addMessage(new CommunicatorDefaultProgressMessage(
+						Translations.getString(
+								"communicator.message.add_task",
+								1,
+								"Quick Task")));
+				
 				QuickAddTaskDialog.this.setVisible(false);
 			}
 			

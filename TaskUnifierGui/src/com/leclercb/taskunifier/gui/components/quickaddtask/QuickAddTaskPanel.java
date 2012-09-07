@@ -123,6 +123,14 @@ public class QuickAddTaskPanel extends JPanel implements ActionSupported {
 		this.add(builder.getPanel(), BorderLayout.CENTER);
 	}
 	
+	public void selectAll() {
+		this.textField.selectAll();
+	}
+	
+	public void resetQuickTask() {
+		this.textField.setText("");
+	}
+	
 	private void addQuickTask() {
 		String title = this.textField.getText();
 		ActionAddQuickTask.addQuickTask(title, false);

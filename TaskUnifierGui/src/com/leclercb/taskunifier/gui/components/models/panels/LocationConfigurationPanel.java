@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -188,7 +189,7 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 				locationLongitude);
 		
 		// Location Color
-		JPanel p = new JPanel(new BorderLayout(5, 0));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		builder.appendI15d("general.color", true, p);
 		
@@ -205,8 +206,8 @@ public class LocationConfigurationPanel extends JSplitPane implements IModelList
 			
 		});
 		
-		p.add(locationColor, BorderLayout.WEST);
-		p.add(removeColor, BorderLayout.EAST);
+		p.add(locationColor);
+		p.add(removeColor);
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);

@@ -181,7 +181,7 @@ public final class BackupUtils implements ListChangeSupported {
 		
 		String folder = Main.getBackupFolder() + File.separator + backupName;
 		
-		Main.copyAllData(folder);
+		Main.copyAllData(folder, null);
 		
 		this.backups.add(backupName);
 		
@@ -210,7 +210,7 @@ public final class BackupUtils implements ListChangeSupported {
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);
 			
-			Main.loadAllData(folder);
+			Main.loadAllData(folder, null);
 			
 			SynchronizerUtils.setTaskRepeatEnabled(true);
 		} finally {

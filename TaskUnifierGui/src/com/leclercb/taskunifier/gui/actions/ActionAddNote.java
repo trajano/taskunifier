@@ -91,6 +91,9 @@ public class ActionAddNote extends AbstractAction {
 		if (edit) {
 			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
 					note);
+		} else {
+			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNotes(
+					new Note[] { note });
 		}
 		
 		return note;
@@ -117,6 +120,9 @@ public class ActionAddNote extends AbstractAction {
 		if (edit) {
 			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNoteAndStartEdit(
 					note);
+		} else {
+			ViewUtils.getCurrentNoteView().getNoteTableView().setSelectedNotes(
+					new Note[] { note });
 		}
 		
 		return note;

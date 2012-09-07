@@ -117,6 +117,9 @@ public class ActionAddTask extends AbstractAction {
 				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
+		} else {
+			ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTasks(
+					new Task[] { task });
 		}
 		
 		return task;
@@ -154,6 +157,9 @@ public class ActionAddTask extends AbstractAction {
 				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
+		} else {
+			ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTasks(
+					new Task[] { task });
 		}
 		
 		return task;

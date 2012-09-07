@@ -34,6 +34,7 @@ package com.leclercb.taskunifier.gui.components.models.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -157,7 +158,7 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 		builder.appendI15d("general.context.title", true, contextTitle);
 		
 		// Context Color
-		JPanel p = new JPanel(new BorderLayout(5, 0));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		builder.appendI15d("general.color", true, p);
 		
@@ -174,8 +175,8 @@ public class ContextConfigurationPanel extends JSplitPane implements IModelList 
 			
 		});
 		
-		p.add(contextColor, BorderLayout.WEST);
-		p.add(removeColor, BorderLayout.EAST);
+		p.add(contextColor);
+		p.add(removeColor);
 		
 		// Lay out the panel
 		rightPanel.add(builder.getPanel(), BorderLayout.CENTER);

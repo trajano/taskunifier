@@ -131,6 +131,9 @@ public class ActionAddSubTask extends AbstractViewTaskSelectionAction {
 				ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTaskAndStartEdit(
 						task);
 			}
+		} else {
+			ViewUtils.getCurrentTaskView().getTaskTableView().setSelectedTasks(
+					new Task[] { task });
 		}
 		
 		return task;
