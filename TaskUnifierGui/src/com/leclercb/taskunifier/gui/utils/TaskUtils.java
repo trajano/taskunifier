@@ -142,7 +142,9 @@ public final class TaskUtils {
 		if (task.isCompleted())
 			return false;
 		
-		if (task.getStartDateReminder() == 0)
+		if (task.getStartDateReminder() == 0
+				&& !Main.getSettings().getBooleanProperty(
+						"reminder.always_show_reminder"))
 			return false;
 		
 		Calendar startDate = task.getStartDate();
@@ -183,7 +185,11 @@ public final class TaskUtils {
 		if (task.isCompleted())
 			return false;
 		
-		if (task.getDueDateReminder() == 0)
+		if (task.getDueDateReminder() == 0
+				&& !Main.getSettings().getBooleanProperty(
+						"reminder.always_show_reminder")
+				&& !Main.getSettings().getBooleanProperty(
+						"reminder.show_overdue_tasks"))
 			return false;
 		
 		Calendar dueDate = task.getDueDate();
@@ -202,8 +208,11 @@ public final class TaskUtils {
 		Calendar dueDateReminder = DateUtils.cloneCalendar(dueDate);
 		dueDateReminder.add(Calendar.MINUTE, -task.getDueDateReminder());
 		
-		if (now.compareTo(dueDateReminder) >= 0 && now.compareTo(dueDate) <= 0)
-			return true;
+		if (now.compareTo(dueDateReminder) >= 0)
+			if (now.compareTo(dueDate) <= 0
+					|| Main.getSettings().getBooleanProperty(
+							"reminder.show_overdue_tasks"))
+				return true;
 		
 		Calendar exitDate = Main.getSettings().getCalendarProperty(
 				"general.last_exit_date");

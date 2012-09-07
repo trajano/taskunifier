@@ -19,6 +19,7 @@ public class TimeValueComparator implements Comparator<TimeValue> {
 		Integer i2 = (tv2 == null ? null : tv2.getField());
 		
 		int result = CompareUtils.compare(i1, i2);
+		result *= -1;
 		
 		if (result != 0)
 			return result;
