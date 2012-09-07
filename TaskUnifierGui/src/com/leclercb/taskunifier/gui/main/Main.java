@@ -268,7 +268,7 @@ public class Main {
 			loadUserId();
 			loadUserFolder();
 			loadBackupFolder();
-			SettingsVersion.updateSettings();
+			previousVersion = SettingsVersion.updateSettings();
 			loadUserSettings();
 			UserSettingsVersion.updateSettings();
 			loadLoggerLevels();
@@ -281,18 +281,7 @@ public class Main {
 			loadShutdownHook();
 			loadCustomProtocolHandlers();
 			
-			previousVersion = Main.getSettings().getStringProperty(
-					"general.version");
-			
 			updateVersion = !Constants.VERSION.equals(previousVersion);
-			
-			Main.getSettings().setStringProperty(
-					"general.version",
-					Constants.VERSION);
-			
-			Main.getUserSettings().setStringProperty(
-					"general.user.version",
-					Constants.VERSION);
 			
 			Constants.initialize();
 			
@@ -732,6 +721,8 @@ public class Main {
 	}
 	
 	private static void loadUserSettings() throws Exception {
+		USER_SETTINGS.clear();
+		
 		try {
 			USER_SETTINGS.load(new FileInputStream(getUserSettingsFile()));
 		} catch (Exception e) {
@@ -740,14 +731,6 @@ public class Main {
 	}
 	
 	private static void reloadUserSettings() throws Exception {
-		USER_SETTINGS.clear();
-		
-		try {
-			USER_SETTINGS.load(new FileInputStream(getUserSettingsFile()));
-		} catch (Exception e) {
-			USER_SETTINGS.load(Resources.class.getResourceAsStream("default_user_settings.properties"));
-		}
-		
 		for (String key : USER_SETTINGS.stringPropertyNames()) {
 			String value = USER_SETTINGS.getProperty(key);
 			USER_SETTINGS.setStringProperty(key, value, true);
@@ -828,20 +811,29 @@ public class Main {
 	}
 	
 	public static void loadAllData(String folder) {
-		loadModels(folder);
-		loadTaskTemplates(folder);
-		loadTaskSearchers(folder);
-		loadNoteSearchers(folder);
+		loadAllData(folder, Constants.DEFAULT_SUFFIX);
 	}
 	
-	public static void loadModels(String folder) {
+	public static void loadAllData(String folder, String suffix) {
+		loadModels(folder, suffix);
+		loadTaskTemplates(folder, suffix);
+		loadTaskSearchers(folder, suffix);
+		loadNoteSearchers(folder, suffix);
+	}
+	
+	public static void loadModels(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			ContactFactory.getInstance().deleteAll();
 			
 			ContactFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
-							+ "contacts.xml"));
+							+ "contacts"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -863,7 +855,9 @@ public class Main {
 			ContextFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
-							+ "contexts.xml"));
+							+ "contexts"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -883,7 +877,11 @@ public class Main {
 			FolderFactory.getInstance().deleteAll();
 			
 			FolderFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder + File.separator + "folders.xml"));
+					new FileInputStream(folder
+							+ File.separator
+							+ "folders"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -903,7 +901,11 @@ public class Main {
 			GoalFactory.getInstance().deleteAll();
 			
 			GoalFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder + File.separator + "goals.xml"));
+					new FileInputStream(folder
+							+ File.separator
+							+ "goals"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -925,7 +927,9 @@ public class Main {
 			LocationFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
-							+ "locations.xml"));
+							+ "locations"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -945,7 +949,11 @@ public class Main {
 			NoteFactory.getInstance().deleteAll();
 			
 			NoteFactory.getInstance().decodeFromXML(
-					new FileInputStream(folder + File.separator + "notes.xml"));
+					new FileInputStream(folder
+							+ File.separator
+							+ "notes"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -967,7 +975,9 @@ public class Main {
 			TaskFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
-							+ "tasks_v3.xml"));
+							+ "tasks"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -986,14 +996,19 @@ public class Main {
 		ModelVersion.updateModels();
 	}
 	
-	public static void loadTaskTemplates(String folder) {
+	public static void loadTaskTemplates(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			TaskTemplateFactory.getInstance().deleteAll();
 			
 			TaskTemplateFactory.getInstance().decodeFromXML(
 					new FileInputStream(folder
 							+ File.separator
-							+ "task_templates.xml"));
+							+ "task_templates"
+							+ suffix
+							+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Exception e) {
@@ -1010,13 +1025,18 @@ public class Main {
 		}
 	}
 	
-	public static void loadTaskSearchers(String folder) {
+	public static void loadTaskSearchers(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			TaskSearcherFactory.getInstance().deleteAll();
 			
 			new TaskSearcherFactoryXMLCoder().decode(new FileInputStream(folder
 					+ File.separator
-					+ "task_searchers_v3.xml"));
+					+ "task_searchers"
+					+ suffix
+					+ ".xml"));
 		} catch (FileNotFoundException e) {
 			ActionResetGeneralSearchers.resetGeneralSearchers();
 		} catch (Throwable e) {
@@ -1033,13 +1053,18 @@ public class Main {
 		}
 	}
 	
-	public static void loadNoteSearchers(String folder) {
+	public static void loadNoteSearchers(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			NoteSearcherFactory.getInstance().deleteAll();
 			
 			new NoteSearcherFactoryXMLCoder().decode(new FileInputStream(folder
 					+ File.separator
-					+ "note_searchers.xml"));
+					+ "note_searchers"
+					+ suffix
+					+ ".xml"));
 		} catch (FileNotFoundException e) {
 			
 		} catch (Throwable e) {
@@ -1203,17 +1228,25 @@ public class Main {
 	}
 	
 	public static void copyAllData(String folder) {
-		saveModels(folder);
-		saveTaskTemplates(folder);
-		saveTaskSearchers(folder);
-		saveNoteSearchers(folder);
+		copyAllData(folder, Constants.DEFAULT_SUFFIX);
+	}
+	
+	public static void copyAllData(String folder, String suffix) {
+		saveModels(folder, suffix);
+		saveTaskTemplates(folder, suffix);
+		saveTaskSearchers(folder, suffix);
+		saveNoteSearchers(folder, suffix);
 	}
 	
 	public static void saveAllData() {
-		saveModels(getUserFolder());
-		saveTaskTemplates(getUserFolder());
-		saveTaskSearchers(getUserFolder());
-		saveNoteSearchers(getUserFolder());
+		saveAllData(Constants.DEFAULT_SUFFIX);
+	}
+	
+	public static void saveAllData(String suffix) {
+		saveModels(getUserFolder(), suffix);
+		saveTaskTemplates(getUserFolder(), suffix);
+		saveTaskSearchers(getUserFolder(), suffix);
+		saveNoteSearchers(getUserFolder(), suffix);
 		saveInitSettings();
 		saveSettings();
 		saveUserSettings();
@@ -1280,7 +1313,10 @@ public class Main {
 		}
 	}
 	
-	public static void saveModels(String folder) {
+	public static void saveModels(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			ContactFactory.getInstance().cleanFactory();
 			ContextFactory.getInstance().cleanFactory();
@@ -1300,7 +1336,9 @@ public class Main {
 			ContactFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "contacts.xml"));
+							+ "contacts"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1322,7 +1360,9 @@ public class Main {
 			ContextFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "contexts.xml"));
+							+ "contexts"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1344,7 +1384,9 @@ public class Main {
 			FolderFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "folders.xml"));
+							+ "folders"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1364,7 +1406,11 @@ public class Main {
 		
 		try {
 			GoalFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder + File.separator + "goals.xml"));
+					new FileOutputStream(folder
+							+ File.separator
+							+ "goals"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1386,7 +1432,9 @@ public class Main {
 			LocationFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "locations.xml"));
+							+ "locations"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1406,7 +1454,11 @@ public class Main {
 		
 		try {
 			NoteFactory.getInstance().encodeToXML(
-					new FileOutputStream(folder + File.separator + "notes.xml"));
+					new FileOutputStream(folder
+							+ File.separator
+							+ "notes"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1428,7 +1480,9 @@ public class Main {
 			TaskFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "tasks_v3.xml"));
+							+ "tasks"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1447,12 +1501,17 @@ public class Main {
 		}
 	}
 	
-	public static void saveTaskTemplates(String folder) {
+	public static void saveTaskTemplates(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			TaskTemplateFactory.getInstance().encodeToXML(
 					new FileOutputStream(folder
 							+ File.separator
-							+ "task_templates.xml"));
+							+ "task_templates"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1471,10 +1530,17 @@ public class Main {
 		}
 	}
 	
-	public static void saveTaskSearchers(String folder) {
+	public static void saveTaskSearchers(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			new TaskSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					folder + File.separator + "task_searchers_v3.xml"));
+					folder
+							+ File.separator
+							+ "task_searchers"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1493,10 +1559,17 @@ public class Main {
 		}
 	}
 	
-	public static void saveNoteSearchers(String folder) {
+	public static void saveNoteSearchers(String folder, String suffix) {
+		if (suffix == null)
+			suffix = "";
+		
 		try {
 			new NoteSearcherFactoryXMLCoder().encode(new FileOutputStream(
-					folder + File.separator + "note_searchers.xml"));
+					folder
+							+ File.separator
+							+ "note_searchers"
+							+ suffix
+							+ ".xml"));
 			
 			GuiLogger.getLogger().log(
 					Level.INFO,
@@ -1535,6 +1608,8 @@ public class Main {
 			
 			SynchronizerUtils.resetAllSynchronizersAndDeleteModels();
 			
+			loadUserSettings();
+			UserSettingsVersion.updateSettings();
 			reloadUserSettings();
 			
 			SynchronizerUtils.setTaskRepeatEnabled(false);

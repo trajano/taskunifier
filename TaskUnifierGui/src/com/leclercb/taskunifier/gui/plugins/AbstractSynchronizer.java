@@ -59,7 +59,6 @@ import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerM
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerRetrievedModelsProgressMessage;
 import com.leclercb.taskunifier.api.synchronizer.progress.messages.SynchronizerUpdatedModelsProgressMessage;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
-import com.leclercb.taskunifier.gui.translations.TranslationsUtils;
 
 public abstract class AbstractSynchronizer implements Synchronizer {
 	
@@ -281,10 +280,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					modelsToDelete.add(model);
 					
 					PluginLogger.getLogger().info(
-							"Delete "
-									+ TranslationsUtils.translateModelType(
-											type,
-											false) + ": " + model.getModelId());
+							"Delete " + type + ": " + model.getModelId());
 				}
 			}
 		}
@@ -371,10 +367,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					modelsToSync.add(model);
 					
 					PluginLogger.getLogger().info(
-							"Add "
-									+ TranslationsUtils.translateModelType(
-											type,
-											false) + ": " + model.getModelId());
+							"Add " + type + ": " + model.getModelId());
 				}
 			}
 		}
@@ -423,10 +416,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 					modelsToSync.add(model);
 					
 					PluginLogger.getLogger().info(
-							"Update "
-									+ TranslationsUtils.translateModelType(
-											type,
-											false) + ": " + model.getModelId());
+							"Update " + type + ": " + model.getModelId());
 				}
 			}
 		}
@@ -511,12 +501,7 @@ public abstract class AbstractSynchronizer implements Synchronizer {
 				factory.markDeleted(model.getModelId());
 				
 				PluginLogger.getLogger().info(
-						"Delete "
-								+ TranslationsUtils.translateModelType(
-										type,
-										false)
-								+ " shell: "
-								+ model.getModelId());
+						"Delete " + type + " shell: " + model.getModelId());
 			}
 		}
 	}
