@@ -30,6 +30,7 @@ Version 3.0.0
 		- FR 3500334: Improved quick add task dates
 		- FR 3509738: Save horizontal scroll state
 		- FR 3560938: Display missed reminders
+		- FR 3509326: Popup "Open JDK not supported"
 		- New color settings (foreground)
 		- Easily get and save logs
 		- Bug fixed: Delete new user

@@ -355,6 +355,27 @@ public class Main {
 				
 				try {
 					if (isFirstExecution()) {
+						if (SystemUtils.IS_OS_LINUX) {
+							int result = JOptionPane.showOptionDialog(
+									null,
+									Translations.getString(
+											"error.open_jdk_not_supported",
+											Constants.VERSION),
+									Constants.TITLE,
+									JOptionPane.OK_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									null,
+									new String[] {
+											Translations.getString("general.continue"),
+											Translations.getString("action.quit") },
+									Translations.getString("general.continue"));
+							
+							if (result == 1) {
+								QUITTING = true;
+								System.exit(0);
+							}
+						}
+						
 						new LanguageDialog().setVisible(true);
 						new WelcomeDialog().setVisible(true);
 						ActionResetGeneralSearchers.resetGeneralSearchers();
