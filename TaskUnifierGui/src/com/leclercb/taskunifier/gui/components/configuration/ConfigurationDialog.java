@@ -126,7 +126,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup, 
 		this.setModal(true);
 		this.setTitle(Translations.getString("general.configuration"));
 		this.setSize(900, 700);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		

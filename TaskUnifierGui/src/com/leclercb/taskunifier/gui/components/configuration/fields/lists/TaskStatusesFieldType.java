@@ -156,11 +156,13 @@ public class TaskStatusesFieldType extends ConfigurationFieldType.Panel implemen
 			
 		});
 		
-		panel.add(
-				new TUButtonsPanel(true, this.addButton, this.removeButton),
-				BorderLayout.SOUTH);
+		panel.add(new TUButtonsPanel(
+				true,
+				false,
+				this.addButton,
+				this.removeButton), BorderLayout.SOUTH);
 		
-		this.panel.add(panel, BorderLayout.CENTER);
+		this.panel.add(panel, BorderLayout.WEST);
 		
 		this.refreshButtons();
 		Main.getUserSettings().addPropertyChangeListener(

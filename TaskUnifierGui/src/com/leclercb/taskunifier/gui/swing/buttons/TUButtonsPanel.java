@@ -49,10 +49,18 @@ public class TUButtonsPanel extends JPanel {
 	}
 	
 	public TUButtonsPanel(boolean removeText, JButton... buttons) {
+		this(removeText, true, buttons);
+	}
+	
+	public TUButtonsPanel(boolean removeText, boolean wrap, JButton... buttons) {
 		this.removeText = removeText;
 		
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		this.setLayout(new WrapLayout(FlowLayout.RIGHT));
+		
+		if (wrap)
+			this.setLayout(new WrapLayout(FlowLayout.RIGHT));
+		else
+			this.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		if (buttons == null)
 			return;

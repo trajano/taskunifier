@@ -155,11 +155,12 @@ public class TaskSnoozeListFieldType extends ConfigurationFieldType.Panel {
 		
 		panel.add(new TUButtonsPanel(
 				true,
+				false,
 				this.addButton,
 				this.editButton,
 				this.removeButton), BorderLayout.SOUTH);
 		
-		this.panel.add(panel, BorderLayout.CENTER);
+		this.panel.add(panel, BorderLayout.WEST);
 	}
 	
 }
