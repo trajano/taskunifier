@@ -1,3 +1,1 @@
 - Fix help files
-- Fix layout in Settings
-- Fix problems with reminder of tasks when TU was closed
