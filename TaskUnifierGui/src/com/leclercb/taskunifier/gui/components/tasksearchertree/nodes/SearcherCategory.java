@@ -32,33 +32,48 @@
  */
 package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 
+import java.util.logging.Level;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.gui.api.searchers.TaskSearcherType;
 
 public class SearcherCategory extends DefaultMutableTreeNode {
 	
-	private String expandedPropetyName;
+	private String expandedPropertyName;
 	
-	public SearcherCategory(TaskSearcherType type, String expandedPropetyName) {
+	public SearcherCategory(TaskSearcherType type, String expandedPropertyName) {
 		super(type);
 		
 		CheckUtils.isNotNull(type);
 		
-		this.expandedPropetyName = expandedPropetyName;
+		this.expandedPropertyName = expandedPropertyName;
 	}
 	
 	public TaskSearcherType getType() {
 		return (TaskSearcherType) this.getUserObject();
 	}
 	
+	@Override
+	public void setUserObject(Object userObject) {
+		if (this.getUserObject() != null) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"User object has already been defined");
+			return;
+		}
+		
+		super.setUserObject(userObject);
+	}
+	
 	public String getTitle() {
 		return this.getType().getLabel();
 	}
 	
-	public String getExpandedPropetyName() {
-		return this.expandedPropetyName;
+	public String getExpandedPropertyName() {
+		return this.expandedPropertyName;
 	}
 	
 	@Override

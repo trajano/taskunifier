@@ -33,11 +33,13 @@
 package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Note;
 import com.leclercb.taskunifier.api.models.NoteFactory;
 import com.leclercb.taskunifier.gui.api.searchers.NoteSearcher;
@@ -60,6 +62,18 @@ public class SearcherItem extends DefaultMutableTreeNode implements SearcherNode
 	@Override
 	public NoteSearcher getNoteSearcher() {
 		return (NoteSearcher) this.getUserObject();
+	}
+	
+	@Override
+	public void setUserObject(Object userObject) {
+		if (this.getUserObject() != null) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"User object has already been defined");
+			return;
+		}
+		
+		super.setUserObject(userObject);
 	}
 	
 	@Override

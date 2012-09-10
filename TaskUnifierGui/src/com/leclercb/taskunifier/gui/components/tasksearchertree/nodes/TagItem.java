@@ -33,11 +33,13 @@
 package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.Tag;
 import com.leclercb.taskunifier.api.models.Task;
 import com.leclercb.taskunifier.api.models.TaskFactory;
@@ -72,6 +74,18 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 		return (Tag) this.getUserObject();
 	}
 	
+	@Override
+	public void setUserObject(Object userObject) {
+		if (this.getUserObject() != null) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"User object has already been defined");
+			return;
+		}
+		
+		super.setUserObject(userObject);
+	}
+	
 	private void initializeTaskSearcher() {
 		final TaskTemplate template = new TaskTemplate("TagTemplate");
 		template.setTaskTags(this.getTag().toString());
@@ -103,7 +117,7 @@ public class TagItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	@Override
 	public Icon getIcon() {
-		return ImageUtils.getResourceImage("transparent.png", 16, 16);
+		return ImageUtils.getResourceImage("transparent.png", 12, 12);
 	}
 	
 	@Override

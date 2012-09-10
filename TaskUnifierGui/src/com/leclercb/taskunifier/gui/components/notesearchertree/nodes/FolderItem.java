@@ -35,10 +35,13 @@ package com.leclercb.taskunifier.gui.components.notesearchertree.nodes;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Folder;
 import com.leclercb.taskunifier.api.models.Note;
@@ -58,7 +61,7 @@ import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.NoteUtils;
 
-public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
+public class FolderItem extends DefaultMutableTreeNode implements SearcherNode, PropertyChangeListener {
 	
 	private NoteSearcher searcher;
 	private BadgeCount badgeCount;
@@ -72,6 +75,18 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	public Folder getFolder() {
 		return (Folder) this.getUserObject();
+	}
+	
+	@Override
+	public void setUserObject(Object userObject) {
+		if (this.getUserObject() != null) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"User object has already been defined");
+			return;
+		}
+		
+		super.setUserObject(userObject);
 	}
 	
 	private void initializeNoteSearcher() {
@@ -105,17 +120,9 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 				template);
 		
 		if (folder != null) {
-			folder.addPropertyChangeListener(new PropertyChangeListener() {
-				
-				@Override
-				public void propertyChange(PropertyChangeEvent event) {
-					if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
-						FolderItem.this.searcher.setTitle(folder.getTitle());
-						return;
-					}
-				}
-				
-			});
+			folder.addPropertyChangeListener(new WeakPropertyChangeListener(
+					folder,
+					this));
 		}
 	}
 	
@@ -168,6 +175,14 @@ public class FolderItem extends DefaultMutableTreeNode implements SearcherNode {
 	@Override
 	public boolean getAllowsChildren() {
 		return true;
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
+			this.searcher.setTitle(this.getFolder().getTitle());
+			return;
+		}
 	}
 	
 }

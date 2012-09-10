@@ -15,7 +15,9 @@ REVIEWED
 --------
 
 components.notesearchertree.draganddrop
+components.notesearchertree.nodes
 components.tasksearchertree.draganddrop
+components.tasksearchertree.nodes
 main.frames
 swing.buttons
 utils.BackupUtils

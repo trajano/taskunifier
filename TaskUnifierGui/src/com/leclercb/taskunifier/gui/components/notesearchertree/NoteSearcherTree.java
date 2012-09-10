@@ -259,11 +259,11 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	private void updateExpandedState() {
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
-			if (category.getExpandedPropetyName() != null) {
+			if (category.getExpandedPropertyName() != null) {
 				this.setExpandedState(
 						TreeUtils.getPath(category),
 						Main.getSettings().getBooleanProperty(
-								category.getExpandedPropetyName(),
+								category.getExpandedPropertyName(),
 								false));
 			}
 		}
@@ -273,9 +273,9 @@ public class NoteSearcherTree extends JTree implements NoteSearcherView, SavePro
 	public void saveProperties() {
 		SearcherCategory[] categories = this.getSearcherModel().getCategories();
 		for (SearcherCategory category : categories) {
-			if (category.getExpandedPropetyName() != null) {
+			if (category.getExpandedPropertyName() != null) {
 				Main.getSettings().setBooleanProperty(
-						category.getExpandedPropetyName(),
+						category.getExpandedPropertyName(),
 						this.isExpanded(TreeUtils.getPath(category)));
 			}
 		}

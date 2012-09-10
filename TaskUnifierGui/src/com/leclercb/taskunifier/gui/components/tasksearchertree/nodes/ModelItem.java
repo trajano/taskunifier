@@ -35,11 +35,14 @@ package com.leclercb.taskunifier.gui.components.tasksearchertree.nodes;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.utils.CheckUtils;
+import com.leclercb.commons.gui.logger.GuiLogger;
 import com.leclercb.taskunifier.api.models.BasicModel;
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -65,7 +68,7 @@ import com.leclercb.taskunifier.gui.swing.TUColorBadgeIcon;
 import com.leclercb.taskunifier.gui.translations.Translations;
 import com.leclercb.taskunifier.gui.utils.TaskUtils;
 
-public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
+public class ModelItem extends DefaultMutableTreeNode implements SearcherNode, PropertyChangeListener {
 	
 	private ModelType modelType;
 	private TaskSearcher searcher;
@@ -87,6 +90,18 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	
 	public Model getModel() {
 		return (Model) this.getUserObject();
+	}
+	
+	@Override
+	public void setUserObject(Object userObject) {
+		if (this.getUserObject() != null) {
+			GuiLogger.getLogger().log(
+					Level.SEVERE,
+					"User object has already been defined");
+			return;
+		}
+		
+		super.setUserObject(userObject);
 	}
 	
 	private void initializeTaskSearcher() {
@@ -168,17 +183,9 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 				template);
 		
 		if (model != null) {
-			model.addPropertyChangeListener(new PropertyChangeListener() {
-				
-				@Override
-				public void propertyChange(PropertyChangeEvent event) {
-					if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
-						ModelItem.this.searcher.setTitle(model.getTitle());
-						return;
-					}
-				}
-				
-			});
+			model.addPropertyChangeListener(new WeakPropertyChangeListener(
+					model,
+					this));
 		}
 	}
 	
@@ -238,6 +245,14 @@ public class ModelItem extends DefaultMutableTreeNode implements SearcherNode {
 	@Override
 	public boolean getAllowsChildren() {
 		return true;
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals(BasicModel.PROP_TITLE)) {
+			this.searcher.setTitle(this.getModel().getTitle());
+			return;
+		}
 	}
 	
 }
