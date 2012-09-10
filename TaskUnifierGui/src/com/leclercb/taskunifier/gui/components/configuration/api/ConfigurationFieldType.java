@@ -149,11 +149,13 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		
 	}
 	
-	public static class Label extends JXLabel implements ConfigurationFieldType<JLabel, Void> {
+	public static class Label extends JTextArea implements ConfigurationFieldType<JTextArea, Void> {
 		
 		public Label(String label) {
 			super(label);
+			this.setOpaque(false);
 			this.setLineWrap(true);
+			this.setWrapStyleWord(true);
 		}
 		
 		@Override
@@ -162,7 +164,7 @@ public interface ConfigurationFieldType<ComponentType extends JComponent, ValueT
 		}
 		
 		@Override
-		public JLabel getFieldComponent() {
+		public JTextArea getFieldComponent() {
 			return this;
 		}
 		
