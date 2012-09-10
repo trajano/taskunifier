@@ -81,8 +81,7 @@ public class ThemeTaskFieldsConfigurationPanel extends DefaultConfigurationPanel
 							"task.field."
 									+ column.name().toLowerCase()
 									+ ".used",
-							column.getLabel(),
-							false)));
+							column.getLabel())));
 		}
 	}
 	

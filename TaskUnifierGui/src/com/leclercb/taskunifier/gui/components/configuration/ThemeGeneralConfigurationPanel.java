@@ -72,8 +72,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"notesearcher.show_badges",
-						Translations.getString("configuration.theme.show_note_badges"),
-						false)));
+						Translations.getString("configuration.theme.show_note_badges"))));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_TASK_BADGES",
@@ -81,8 +80,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"tasksearcher.show_badges",
-						Translations.getString("configuration.theme.show_task_badges"),
-						false)));
+						Translations.getString("configuration.theme.show_task_badges"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -112,8 +110,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"theme.color.importance.enabled",
-						Translations.getString("configuration.theme.colors_by_importance_enabled"),
-						false)));
+						Translations.getString("configuration.theme.colors_by_importance_enabled"))));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_TASK_PROGRESS",
@@ -133,8 +130,7 @@ public class ThemeGeneralConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"theme.color.enabled",
-						Translations.getString("configuration.theme.colors_enabled"),
-						false)));
+						Translations.getString("configuration.theme.colors_enabled"))));
 		
 		this.addField(new ConfigurationField(
 				"COLOR_EVEN",

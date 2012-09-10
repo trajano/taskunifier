@@ -66,8 +66,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"proxy.use_system_proxies",
-						Translations.getString("configuration.proxy.use_system_proxies"),
-						false)));
+						Translations.getString("configuration.proxy.use_system_proxies"))));
 		
 		final JCheckBox useSystemProxiesField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"USE_SYSTEM").getType()).getFieldComponent();
@@ -78,8 +77,7 @@ public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"proxy.enabled",
-						Translations.getString("configuration.proxy.enabled"),
-						false)));
+						Translations.getString("configuration.proxy.enabled"))));
 		
 		final JCheckBox proxyEnabledField = ((ConfigurationFieldType.CheckBox) this.getField(
 				"ENABLED").getType()).getFieldComponent();

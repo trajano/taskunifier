@@ -82,8 +82,7 @@ public class BackupConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"backup.backup_before_sync",
-						Translations.getString("configuration.backup.backup_before_sync"),
-						false)));
+						Translations.getString("configuration.backup.backup_before_sync"))));
 		
 		this.addField(new ConfigurationField(
 				"AUTO_BACKUP",

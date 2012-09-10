@@ -60,8 +60,7 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"general.growl.enabled",
-							Translations.getString("configuration.advanced.growl_enabled"),
-							true)));
+							Translations.getString("configuration.advanced.growl_enabled"))));
 		}
 		
 		this.addField(new ConfigurationField(
@@ -71,8 +70,7 @@ public class AdvancedConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"general.communicator.enabled",
-						Translations.getString("configuration.advanced.communicator_enabled"),
-						true)));
+						Translations.getString("configuration.advanced.communicator_enabled"))));
 		
 		this.addField(new ConfigurationField(
 				"COMMUNICATOR_PORT",

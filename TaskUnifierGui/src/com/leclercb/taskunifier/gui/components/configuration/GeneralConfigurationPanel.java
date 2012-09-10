@@ -94,8 +94,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"window.minimize_to_system_tray",
-							Translations.getString("configuration.general.minimize_to_system_tray"),
-							true)));
+							Translations.getString("configuration.general.minimize_to_system_tray"))));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_2",
@@ -119,8 +118,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"task.show_edit_window_on_add",
-							Translations.getString("configuration.general.show_edit_window_on_add"),
-							false)));
+							Translations.getString("configuration.general.show_edit_window_on_add"))));
 			
 			this.addField(new ConfigurationField(
 					"SEPARATOR_3",
@@ -133,8 +131,7 @@ public class GeneralConfigurationPanel extends DefaultConfigurationPanel {
 					new ConfigurationFieldType.CheckBox(
 							Main.getSettings(),
 							"tasksearcher.show_completed_tasks_at_the_end",
-							Translations.getString("configuration.general.show_completed_tasks_at_the_end"),
-							false)));
+							Translations.getString("configuration.general.show_completed_tasks_at_the_end"))));
 			
 			if (!this.welcome) {
 				this.addField(new ConfigurationField(

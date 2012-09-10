@@ -85,8 +85,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"date.show_day_of_week",
-						Translations.getString("configuration.date.show_day_of_week"),
-						true)));
+						Translations.getString("configuration.date.show_day_of_week"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_2",
@@ -100,8 +99,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"date.use_due_time",
-						Translations.getString("configuration.date.use_due_time"),
-						true)));
+						Translations.getString("configuration.date.use_due_time"))));
 		
 		this.addField(new ConfigurationField(
 				"USE_START_TIME",
@@ -110,8 +108,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"date.use_start_time",
-						Translations.getString("configuration.date.use_start_time"),
-						true)));
+						Translations.getString("configuration.date.use_start_time"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
@@ -147,8 +144,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"reminder.always_show_reminder",
-						Translations.getString("configuration.date.reminder.always_show_reminder"),
-						true)));
+						Translations.getString("configuration.date.reminder.always_show_reminder"))));
 		
 		this.addField(new ConfigurationField(
 				"SHOW_OVERDUE_TASKS",
@@ -156,8 +152,7 @@ public class DateConfigurationPanel extends DefaultConfigurationPanel {
 				new ConfigurationFieldType.CheckBox(
 						Main.getSettings(),
 						"reminder.show_overdue_tasks",
-						Translations.getString("configuration.date.reminder.show_overdue_tasks"),
-						true)));
+						Translations.getString("configuration.date.reminder.show_overdue_tasks"))));
 	}
 	
 }

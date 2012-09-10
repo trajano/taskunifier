@@ -145,8 +145,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.publish_background",
-						Translations.getString("configuration.synchronization.publish_background"),
-						false)));
+						Translations.getString("configuration.synchronization.publish_background"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_3",
@@ -159,8 +158,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.sync_start",
-						Translations.getString("configuration.synchronization.sync_start"),
-						false)));
+						Translations.getString("configuration.synchronization.sync_start"))));
 		
 		this.addField(new ConfigurationField(
 				"SYNC_EXIT",
@@ -168,8 +166,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.sync_exit",
-						Translations.getString("configuration.synchronization.sync_exit"),
-						false)));
+						Translations.getString("configuration.synchronization.sync_exit"))));
 		
 		this.addField(new ConfigurationField(
 				"PUBLISH_START",
@@ -177,8 +174,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.publish_start",
-						Translations.getString("configuration.synchronization.publish_start"),
-						false)));
+						Translations.getString("configuration.synchronization.publish_start"))));
 		
 		this.addField(new ConfigurationField(
 				"PUBLISH_EXIT",
@@ -186,8 +182,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.publish_exit",
-						Translations.getString("configuration.synchronization.publish_exit"),
-						false)));
+						Translations.getString("configuration.synchronization.publish_exit"))));
 		
 		this.addField(new ConfigurationField(
 				"SEPARATOR_4",
@@ -200,8 +195,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 				new ConfigurationFieldType.CheckBox(
 						Main.getUserSettings(),
 						"synchronizer.sync_reminder_field",
-						Translations.getString("configuration.synchronization.sync_reminder_field"),
-						false)));
+						Translations.getString("configuration.synchronization.sync_reminder_field"))));
 		
 		if (!this.welcome) {
 			this.addField(new ConfigurationField(

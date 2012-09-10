@@ -81,8 +81,7 @@ public class ThemeNoteFieldsConfigurationPanel extends DefaultConfigurationPanel
 							"note.field."
 									+ column.name().toLowerCase()
 									+ ".used",
-							column.getLabel(),
-							false)));
+							column.getLabel())));
 		}
 	}
 	
