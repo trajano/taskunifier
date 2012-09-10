@@ -53,7 +53,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -63,7 +62,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXColorSelectionButton;
-import org.jdesktop.swingx.JXLabel;
 
 import com.leclercb.commons.api.event.propertychange.WeakPropertyChangeListener;
 import com.leclercb.commons.api.properties.PropertyMap;
