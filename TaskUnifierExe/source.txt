@@ -4,12 +4,12 @@ How to import source code into Eclipse:
 
 1/ Install Subclipse in Eclipse
 2/ Checkout the following projects:
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/BizCal
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/Commons
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/JavaVersionGui
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierApi
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierExe
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/TaskUnifierGui
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/BizCal
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/Commons
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/JavaVersionGui
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierApi
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierExe
+	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierGui
 3/ Import the user libraries:
 	a) Go to the preferences of Eclipse
 	b) Go to user libraries
