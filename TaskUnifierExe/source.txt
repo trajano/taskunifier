@@ -6,7 +6,6 @@ How to import source code into Eclipse:
 2/ Checkout the following projects:
 	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/BizCal
 	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/Commons
-	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/JavaVersionGui
 	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierApi
 	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierExe
 	- https://taskunifier.svn.sourceforge.net/svnroot/taskunifier/trunk/TaskUnifierGui
