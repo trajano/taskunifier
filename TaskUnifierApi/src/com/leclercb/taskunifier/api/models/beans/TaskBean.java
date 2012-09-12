@@ -217,10 +217,10 @@ public class TaskBean extends AbstractModelParentBean {
 	
 	public ModelBeanList getContexts() {
 		if (this.context != null) {
-			if (this.contexts == null)
-				this.contexts = new ModelBeanList();
-			
-			this.contexts.add(this.context);
+			ModelBeanList list = new ModelBeanList();
+			list.addAll(this.contexts);
+			list.add(this.context);
+			return list;
 		}
 		
 		return this.contexts;
@@ -232,10 +232,10 @@ public class TaskBean extends AbstractModelParentBean {
 	
 	public ModelBeanList getGoals() {
 		if (this.goal != null) {
-			if (this.goals == null)
-				this.goals = new ModelBeanList();
-			
-			this.goals.add(this.goal);
+			ModelBeanList list = new ModelBeanList();
+			list.addAll(this.goals);
+			list.add(this.goal);
+			return list;
 		}
 		
 		return this.goals;
@@ -247,10 +247,10 @@ public class TaskBean extends AbstractModelParentBean {
 	
 	public ModelBeanList getLocations() {
 		if (this.location != null) {
-			if (this.locations == null)
-				this.locations = new ModelBeanList();
-			
-			this.locations.add(this.location);
+			ModelBeanList list = new ModelBeanList();
+			list.addAll(this.locations);
+			list.add(this.location);
+			return list;
 		}
 		
 		return this.locations;
