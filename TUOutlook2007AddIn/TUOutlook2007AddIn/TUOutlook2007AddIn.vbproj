@@ -180,7 +180,7 @@
     <ManifestKeyFile>TUOutlook2007AddIn_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DDE97396BBCA97EAD4BAAC8ABCFC02BD909A855E</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>06074BFD1E8072D1AD110B199CCC018DECEA5D50</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -285,6 +285,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TUOutlook2007AddIn_1_TemporaryKey.pfx" />
     <None Include="TUOutlook2007AddIn_TemporaryKey.pfx" />
   </ItemGroup>
   <!-- Include the build rules for a Visual Basic project. -->
