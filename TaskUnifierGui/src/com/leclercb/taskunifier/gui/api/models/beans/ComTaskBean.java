@@ -35,8 +35,6 @@ package com.leclercb.taskunifier.gui.api.models.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.leclercb.taskunifier.api.models.Context;
 import com.leclercb.taskunifier.api.models.ContextFactory;
 import com.leclercb.taskunifier.api.models.Folder;
@@ -51,31 +49,26 @@ import com.leclercb.taskunifier.api.models.TaskFactory;
 import com.leclercb.taskunifier.api.models.beans.ModelBeanList;
 import com.leclercb.taskunifier.api.models.beans.TaskBean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 public class ComTaskBean extends GuiTaskBean {
 	
 	@XStreamAlias("foldertitle")
 	private String folderTitle;
 	
-	@Deprecated
-	@XStreamAlias("contexttitle")
-	private String contextTitle;
-	
 	@XStreamAlias("contexttitles")
+	@XStreamImplicit(
+			itemFieldName = "contexttitle")
 	private String[] contextTitles;
 	
-	@Deprecated
-	@XStreamAlias("goaltitle")
-	private String goalTitle;
-	
 	@XStreamAlias("goaltitles")
+	@XStreamImplicit(
+			itemFieldName = "goaltitle")
 	private String[] goalTitles;
 	
-	@Deprecated
-	@XStreamAlias("locationtitle")
-	private String locationTitle;
-	
 	@XStreamAlias("locationtitles")
+	@XStreamImplicit(
+			itemFieldName = "locationtitle")
 	private String[] locationTitles;
 	
 	@XStreamAlias("parenttitle")
@@ -116,10 +109,6 @@ public class ComTaskBean extends GuiTaskBean {
 	}
 	
 	public String[] getContextTitles() {
-		if (this.contextTitle != null) {
-			return ArrayUtils.add(this.contextTitles, this.contextTitle);
-		}
-		
 		return this.contextTitles;
 	}
 	
@@ -128,10 +117,6 @@ public class ComTaskBean extends GuiTaskBean {
 	}
 	
 	public String[] getGoalTitles() {
-		if (this.goalTitle != null) {
-			return ArrayUtils.add(this.goalTitles, this.goalTitle);
-		}
-		
 		return this.goalTitles;
 	}
 	
@@ -140,10 +125,6 @@ public class ComTaskBean extends GuiTaskBean {
 	}
 	
 	public String[] getLocationTitles() {
-		if (this.locationTitle != null) {
-			return ArrayUtils.add(this.locationTitles, this.locationTitle);
-		}
-		
 		return this.locationTitles;
 	}
 	
