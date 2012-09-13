@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.taskunifier.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.taskunifier.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="modelstatustype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SHELL"/>
+			<xs:enumeration value="LOADED"/>
+			<xs:enumeration value="TO_UPDATE"/>
+			<xs:enumeration value="TO_DELETE"/>
+			<xs:enumeration value="DELETED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="timestamptype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{0,13}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="booleantype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

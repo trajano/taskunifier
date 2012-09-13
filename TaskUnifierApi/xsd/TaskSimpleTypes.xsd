@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.taskunifier.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.taskunifier.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="progresstype">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="repeatfromtype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DUE_DATE"/>
+			<xs:enumeration value="COMPLETION_DATE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="prioritytype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEGATIVE"/>
+			<xs:enumeration value="LOW"/>
+			<xs:enumeration value="MEDIUM"/>
+			<xs:enumeration value="HIGH"/>
+			<xs:enumeration value="TOP"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

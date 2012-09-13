@@ -1,43 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.taskunifier.com/Task" xmlns:tns="http://www.taskunifier.com/Task" elementFormDefault="qualified">
-
-    <element name="tasks" type="string"></element>
-
-    <complexType name="task">
-    	<complexContent>
-    		<extension base="tns:model"></extension>
-    	</complexContent>
-    </complexType>
-    
-    <complexType name="modelReferenceIds"></complexType>
-
-    <complexType name="model">
-    	<sequence>
-    		<element name="modelid" type="string"></element>
-    		<element name="modelreferenceids"
-    			type="tns:modelReferenceIds">
-    		</element>
-    		<element name="modelstatus" type="tns:modelStatus"></element>
-    		<element name="modelcreationdate" type="tns:timestamp"></element>
-    		<element name="modelupdatedate" type="tns:timestamp"></element>
-    		<element name="title" type="string"></element>
-    	</sequence>
-    </complexType>
-
-    <simpleType name="modelStatus">
-    	<restriction base="string">
-    		<enumeration value="SHELL"></enumeration>
-    		<enumeration value="LOADED"></enumeration>
-    		<enumeration value="TO_UPDATE"></enumeration>
-    		<enumeration value="TO_DELETE"></enumeration>
-    		<enumeration value="DELETED"></enumeration>
-    	</restriction>
-    </simpleType>
-
-    <simpleType name="timestamp">
-    	<restriction base="long">
-    		<minExclusive value="0"></minExclusive>
-    	</restriction>
-    </simpleType>
-    
-</schema>
+<xs:schema xmlns="http://www.taskunifier.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.taskunifier.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="TaskComplexTypes.xsd"/>
+	<xs:element name="tasks" type="taskstype"/>
+	<xs:element name="task" type="tasktype"/>
+</xs:schema>

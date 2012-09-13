@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.taskunifier.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.taskunifier.com" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="TaskSimpleTypes.xsd"/>
+	<xs:include schemaLocation="ModelComplexTypes.xsd"/>
+	<xs:complexType name="taskstype">
+		<xs:sequence>
+			<xs:element name="task" type="tasktype" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tasktype">
+		<xs:complexContent>
+			<xs:extension base="modeltype">
+				<xs:sequence>
+					<xs:element name="tags" type="xs:string"/>
+					<xs:element name="folder" type="xs:string" minOccurs="0"/>
+					<xs:element name="contexts" type="modelidstype"/>
+					<xs:element name="goals" type="modelidstype"/>
+					<xs:element name="locations" type="modelidstype"/>
+					<xs:element name="progress" type="progresstype"/>
+					<xs:element name="completed" type="booleantype"/>
+					<xs:element name="startdatereminder" type="xs:int"/>
+					<xs:element name="reminder" type="xs:int"/>
+					<xs:element name="repeat" type="xs:string"/>
+					<xs:element name="repeatfrom" type="repeatfromtype"/>
+					<xs:element name="status" type="xs:string"/>
+					<xs:element name="length" type="xs:int"/>
+					<xs:element name="timer" type="timertype"/>
+					<xs:element name="priority" type="prioritytype"/>
+					<xs:element name="star" type="booleantype"/>
+					<xs:element name="note" type="xs:string"/>
+					<!--<xs:element name="contacts" type=""/>
+					<xs:element name="tasks" type=""/>
+					<xs:element name="files" type=""/>-->
+					<xs:element name="showchildren" type="booleantype"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="timertype">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="startdate" type="timestamptype" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>
