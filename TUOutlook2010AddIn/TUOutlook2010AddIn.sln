@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TUOutlook2010AddIn", "TUOutlook2010AddIn\TUOutlook2010AddIn.vbproj", "{CE067E5B-97E1-4278-993B-A71EE681B262}"
 EndProject
 Global

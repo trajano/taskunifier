@@ -28,18 +28,18 @@ Partial Class Settings
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.lbCategories = New System.Windows.Forms.Label()
         Me.cbCategories = New System.Windows.Forms.ComboBox()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.lbDoNotChange = New System.Windows.Forms.Label()
-        Me.btCancel = New System.Windows.Forms.Button()
         Me.cbTaskNote = New System.Windows.Forms.CheckBox()
         Me.cbTaskDueDate = New System.Windows.Forms.CheckBox()
         Me.cbTaskStartDate = New System.Windows.Forms.CheckBox()
         Me.cbTaskTitle = New System.Windows.Forms.CheckBox()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.cbNoteNote = New System.Windows.Forms.CheckBox()
         Me.cbNoteFolder = New System.Windows.Forms.CheckBox()
         Me.cbNoteTitle = New System.Windows.Forms.CheckBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.lbDoNotChange = New System.Windows.Forms.Label()
         Me.tfSocketPort = New System.Windows.Forms.MaskedTextBox()
+        Me.btCancel = New System.Windows.Forms.Button()
         Me.tabs.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -104,11 +104,63 @@ Partial Class Settings
         'cbCategories
         '
         Me.cbCategories.FormattingEnabled = True
-        Me.cbCategories.Items.AddRange(New Object() {"All categories as Tags", "First category as Tag", "First category as Context", "First category as Folder"})
+        Me.cbCategories.Items.AddRange(New Object() {"First category as Context", "First category as Folder", "First category as Tag", "All categories as Contexts", "All categories as Tags"})
         Me.cbCategories.Location = New System.Drawing.Point(146, 124)
         Me.cbCategories.Name = "cbCategories"
         Me.cbCategories.Size = New System.Drawing.Size(202, 21)
         Me.cbCategories.TabIndex = 5
+        '
+        'cbTaskNote
+        '
+        Me.cbTaskNote.AutoSize = True
+        Me.cbTaskNote.Checked = True
+        Me.cbTaskNote.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbTaskNote.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskNote", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbTaskNote.Location = New System.Drawing.Point(24, 92)
+        Me.cbTaskNote.Name = "cbTaskNote"
+        Me.cbTaskNote.Size = New System.Drawing.Size(49, 17)
+        Me.cbTaskNote.TabIndex = 4
+        Me.cbTaskNote.Text = "Note"
+        Me.cbTaskNote.UseVisualStyleBackColor = True
+        '
+        'cbTaskDueDate
+        '
+        Me.cbTaskDueDate.AutoSize = True
+        Me.cbTaskDueDate.Checked = True
+        Me.cbTaskDueDate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbTaskDueDate.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskDueDate", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbTaskDueDate.Location = New System.Drawing.Point(24, 69)
+        Me.cbTaskDueDate.Name = "cbTaskDueDate"
+        Me.cbTaskDueDate.Size = New System.Drawing.Size(72, 17)
+        Me.cbTaskDueDate.TabIndex = 2
+        Me.cbTaskDueDate.Text = "Due Date"
+        Me.cbTaskDueDate.UseVisualStyleBackColor = True
+        '
+        'cbTaskStartDate
+        '
+        Me.cbTaskStartDate.AutoSize = True
+        Me.cbTaskStartDate.Checked = True
+        Me.cbTaskStartDate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbTaskStartDate.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskStartDate", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbTaskStartDate.Location = New System.Drawing.Point(24, 45)
+        Me.cbTaskStartDate.Name = "cbTaskStartDate"
+        Me.cbTaskStartDate.Size = New System.Drawing.Size(74, 17)
+        Me.cbTaskStartDate.TabIndex = 1
+        Me.cbTaskStartDate.Text = "Start Date"
+        Me.cbTaskStartDate.UseVisualStyleBackColor = True
+        '
+        'cbTaskTitle
+        '
+        Me.cbTaskTitle.AutoSize = True
+        Me.cbTaskTitle.Checked = True
+        Me.cbTaskTitle.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbTaskTitle.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskTitle", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbTaskTitle.Location = New System.Drawing.Point(24, 21)
+        Me.cbTaskTitle.Name = "cbTaskTitle"
+        Me.cbTaskTitle.Size = New System.Drawing.Size(46, 17)
+        Me.cbTaskTitle.TabIndex = 0
+        Me.cbTaskTitle.Text = "Title"
+        Me.cbTaskTitle.UseVisualStyleBackColor = True
         '
         'TabPage2
         '
@@ -122,6 +174,45 @@ Partial Class Settings
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Notes"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'cbNoteNote
+        '
+        Me.cbNoteNote.AutoSize = True
+        Me.cbNoteNote.Checked = True
+        Me.cbNoteNote.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbNoteNote.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteNote", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbNoteNote.Location = New System.Drawing.Point(23, 67)
+        Me.cbNoteNote.Name = "cbNoteNote"
+        Me.cbNoteNote.Size = New System.Drawing.Size(49, 17)
+        Me.cbNoteNote.TabIndex = 5
+        Me.cbNoteNote.Text = "Note"
+        Me.cbNoteNote.UseVisualStyleBackColor = True
+        '
+        'cbNoteFolder
+        '
+        Me.cbNoteFolder.AutoSize = True
+        Me.cbNoteFolder.Checked = True
+        Me.cbNoteFolder.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbNoteFolder.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteFolder", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbNoteFolder.Location = New System.Drawing.Point(23, 44)
+        Me.cbNoteFolder.Name = "cbNoteFolder"
+        Me.cbNoteFolder.Size = New System.Drawing.Size(55, 17)
+        Me.cbNoteFolder.TabIndex = 3
+        Me.cbNoteFolder.Text = "Folder"
+        Me.cbNoteFolder.UseVisualStyleBackColor = True
+        '
+        'cbNoteTitle
+        '
+        Me.cbNoteTitle.AutoSize = True
+        Me.cbNoteTitle.Checked = True
+        Me.cbNoteTitle.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbNoteTitle.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteTitle", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.cbNoteTitle.Location = New System.Drawing.Point(23, 20)
+        Me.cbNoteTitle.Name = "cbNoteTitle"
+        Me.cbNoteTitle.Size = New System.Drawing.Size(46, 17)
+        Me.cbNoteTitle.TabIndex = 2
+        Me.cbNoteTitle.Text = "Title"
+        Me.cbNoteTitle.UseVisualStyleBackColor = True
         '
         'TabPage3
         '
@@ -145,106 +236,6 @@ Partial Class Settings
         Me.lbDoNotChange.TabIndex = 5
         Me.lbDoNotChange.Text = "Do not change unless you know what you are doing !"
         '
-        'btCancel
-        '
-        Me.btCancel.Location = New System.Drawing.Point(299, 204)
-        Me.btCancel.Name = "btCancel"
-        Me.btCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btCancel.TabIndex = 8
-        Me.btCancel.Text = "Cancel"
-        Me.btCancel.UseVisualStyleBackColor = True
-        '
-        'cbTaskNote
-        '
-        Me.cbTaskNote.AutoSize = True
-        Me.cbTaskNote.Checked = Global.TUOutlook2010AddIn.MySettings.Default.TaskNote
-        Me.cbTaskNote.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbTaskNote.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskNote", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbTaskNote.Location = New System.Drawing.Point(24, 92)
-        Me.cbTaskNote.Name = "cbTaskNote"
-        Me.cbTaskNote.Size = New System.Drawing.Size(49, 17)
-        Me.cbTaskNote.TabIndex = 4
-        Me.cbTaskNote.Text = "Note"
-        Me.cbTaskNote.UseVisualStyleBackColor = True
-        '
-        'cbTaskDueDate
-        '
-        Me.cbTaskDueDate.AutoSize = True
-        Me.cbTaskDueDate.Checked = Global.TUOutlook2010AddIn.MySettings.Default.TaskDueDate
-        Me.cbTaskDueDate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbTaskDueDate.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskDueDate", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbTaskDueDate.Location = New System.Drawing.Point(24, 69)
-        Me.cbTaskDueDate.Name = "cbTaskDueDate"
-        Me.cbTaskDueDate.Size = New System.Drawing.Size(72, 17)
-        Me.cbTaskDueDate.TabIndex = 2
-        Me.cbTaskDueDate.Text = "Due Date"
-        Me.cbTaskDueDate.UseVisualStyleBackColor = True
-        '
-        'cbTaskStartDate
-        '
-        Me.cbTaskStartDate.AutoSize = True
-        Me.cbTaskStartDate.Checked = Global.TUOutlook2010AddIn.MySettings.Default.TaskStartDate
-        Me.cbTaskStartDate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbTaskStartDate.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskStartDate", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbTaskStartDate.Location = New System.Drawing.Point(24, 45)
-        Me.cbTaskStartDate.Name = "cbTaskStartDate"
-        Me.cbTaskStartDate.Size = New System.Drawing.Size(74, 17)
-        Me.cbTaskStartDate.TabIndex = 1
-        Me.cbTaskStartDate.Text = "Start Date"
-        Me.cbTaskStartDate.UseVisualStyleBackColor = True
-        '
-        'cbTaskTitle
-        '
-        Me.cbTaskTitle.AutoSize = True
-        Me.cbTaskTitle.Checked = Global.TUOutlook2010AddIn.MySettings.Default.TaskTitle
-        Me.cbTaskTitle.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbTaskTitle.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "TaskTitle", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbTaskTitle.Location = New System.Drawing.Point(24, 21)
-        Me.cbTaskTitle.Name = "cbTaskTitle"
-        Me.cbTaskTitle.Size = New System.Drawing.Size(46, 17)
-        Me.cbTaskTitle.TabIndex = 0
-        Me.cbTaskTitle.Text = "Title"
-        Me.cbTaskTitle.UseVisualStyleBackColor = True
-        '
-        'cbNoteNote
-        '
-        Me.cbNoteNote.AutoSize = True
-        Me.cbNoteNote.Checked = Global.TUOutlook2010AddIn.MySettings.Default.NoteNote
-        Me.cbNoteNote.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbNoteNote.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteNote", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbNoteNote.Location = New System.Drawing.Point(23, 67)
-        Me.cbNoteNote.Name = "cbNoteNote"
-        Me.cbNoteNote.Size = New System.Drawing.Size(49, 17)
-        Me.cbNoteNote.TabIndex = 5
-        Me.cbNoteNote.Text = "Note"
-        Me.cbNoteNote.UseVisualStyleBackColor = True
-        '
-        'cbNoteFolder
-        '
-        Me.cbNoteFolder.AutoSize = True
-        Me.cbNoteFolder.Checked = Global.TUOutlook2010AddIn.MySettings.Default.NoteFolder
-        Me.cbNoteFolder.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbNoteFolder.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteFolder", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbNoteFolder.Location = New System.Drawing.Point(23, 44)
-        Me.cbNoteFolder.Name = "cbNoteFolder"
-        Me.cbNoteFolder.Size = New System.Drawing.Size(55, 17)
-        Me.cbNoteFolder.TabIndex = 3
-        Me.cbNoteFolder.Text = "Folder"
-        Me.cbNoteFolder.UseVisualStyleBackColor = True
-        '
-        'cbNoteTitle
-        '
-        Me.cbNoteTitle.AutoSize = True
-        Me.cbNoteTitle.Checked = Global.TUOutlook2010AddIn.MySettings.Default.NoteTitle
-        Me.cbNoteTitle.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbNoteTitle.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.TUOutlook2010AddIn.MySettings.Default, "NoteTitle", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.cbNoteTitle.Location = New System.Drawing.Point(23, 20)
-        Me.cbNoteTitle.Name = "cbNoteTitle"
-        Me.cbNoteTitle.Size = New System.Drawing.Size(46, 17)
-        Me.cbNoteTitle.TabIndex = 2
-        Me.cbNoteTitle.Text = "Title"
-        Me.cbNoteTitle.UseVisualStyleBackColor = True
-        '
         'tfSocketPort
         '
         Me.tfSocketPort.DataBindings.Add(New System.Windows.Forms.Binding("Text", Global.TUOutlook2010AddIn.MySettings.Default, "SocketPort", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
@@ -255,6 +246,15 @@ Partial Class Settings
         Me.tfSocketPort.TabIndex = 4
         Me.tfSocketPort.Text = Global.TUOutlook2010AddIn.MySettings.Default.SocketPort
         Me.tfSocketPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'btCancel
+        '
+        Me.btCancel.Location = New System.Drawing.Point(299, 204)
+        Me.btCancel.Name = "btCancel"
+        Me.btCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btCancel.TabIndex = 8
+        Me.btCancel.Text = "Cancel"
+        Me.btCancel.UseVisualStyleBackColor = True
         '
         'Settings
         '

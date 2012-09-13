@@ -130,45 +130,57 @@
             End If
 
             If My.Settings.TaskCategories = 0 Then
-                Dim tags As String = mail.Categories
-                If Not tags Is Nothing Then
-                    tags = tags.Replace(",", " ").Replace(";", ",")
-                End If
+                Dim categories As String = mail.Categories
+                If Not categories Is Nothing Then
+                    If categories.Contains(";") Then
+                        categories = categories.Substring(0, categories.IndexOf(";"))
+                    End If
 
-                taskXml.Add(New XElement("tags", tags))
+                    taskXml.Add(New XElement("contexttitle", categories))
+                End If
             End If
 
             If My.Settings.TaskCategories = 1 Then
-                Dim tags As String = mail.Categories
-                If Not tags Is Nothing Then
-                    If tags.Contains(";") Then
-                        tags = tags.Substring(0, tags.IndexOf(";"))
+                Dim categories As String = mail.Categories
+                If Not categories Is Nothing Then
+                    If categories.Contains(";") Then
+                        categories = categories.Substring(0, categories.IndexOf(";"))
                     End If
-                End If
 
-                taskXml.Add(New XElement("tags", tags))
+                    taskXml.Add(New XElement("foldertitle", categories))
+                End If
             End If
 
             If My.Settings.TaskCategories = 2 Then
-                Dim context As String = mail.Categories
-                If Not context Is Nothing Then
-                    If context.Contains(";") Then
-                        context = context.Substring(0, context.IndexOf(";"))
+                Dim categories As String = mail.Categories
+                If Not categories Is Nothing Then
+                    If categories.Contains(";") Then
+                        categories = categories.Substring(0, categories.IndexOf(";"))
                     End If
-                End If
 
-                taskXml.Add(New XElement("contexttitle", context))
+                    taskXml.Add(New XElement("tags", categories))
+                End If
             End If
 
             If My.Settings.TaskCategories = 3 Then
-                Dim folder As String = mail.Categories
-                If Not folder Is Nothing Then
-                    If folder.Contains(";") Then
-                        folder = folder.Substring(0, folder.IndexOf(";"))
-                    End If
-                End If
+                Dim contexts() As String
+                Dim categories As String = mail.Categories
+                If Not categories Is Nothing Then
+                    contexts = categories.Split(";")
 
-                taskXml.Add(New XElement("foldertitle", folder))
+                    For Each context As String In contexts
+                        taskXml.Add(New XElement("contexttitle", context.Trim()))
+                    Next
+                End If
+            End If
+
+            If My.Settings.TaskCategories = 4 Then
+                Dim categories As String = mail.Categories
+                If Not categories Is Nothing Then
+                    categories = categories.Replace(",", " ").Replace(";", ",")
+
+                    taskXml.Add(New XElement("tags", categories))
+                End If
             End If
 
             If My.Settings.TaskStartDate Then
