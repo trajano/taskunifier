@@ -60,6 +60,9 @@ public final class SettingsVersion {
 	public static String updateSettings() {
 		String version = Main.getSettings().getStringProperty("general.version");
 		
+		if (Main.isFirstExecution())
+			version = Constants.VERSION;
+		
 		final String oldVersion = version;
 		
 		if (version == null)
