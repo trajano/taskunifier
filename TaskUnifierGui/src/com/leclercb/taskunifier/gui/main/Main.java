@@ -402,10 +402,15 @@ public class Main {
 						ActionResetGeneralSearchers.resetGeneralSearchers();
 					} else if (finalUpdateVersion
 							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
+						String translationKey = "synchronizer.license_upgrade_required";
+						
+						if (Constants.BETA)
+							translationKey = "synchronizer.license_upgrade_required_beta";
+						
 						int result = JOptionPane.showOptionDialog(
 								null,
 								Translations.getString(
-										"synchronizer.license_upgrade_required",
+										translationKey,
 										Constants.VERSION),
 								Constants.TITLE,
 								JOptionPane.OK_CANCEL_OPTION,

@@ -161,7 +161,7 @@ public class SynchronizerWorker extends TUStopableWorker<Void> {
 				
 				SynchronizerUtils.initializeProxy(plugin);
 				
-				if (plugin.needsLicense()) {
+				if (!Constants.BETA && plugin.needsLicense()) {
 					this.publish(new SynchronizerDefaultProgressMessage(
 							Translations.getString(
 									"synchronizer.checking_license",
