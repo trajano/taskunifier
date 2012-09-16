@@ -33,6 +33,8 @@
 package com.leclercb.taskunifier.gui.main;
 
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -40,7 +42,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.FileHandler;
@@ -48,6 +52,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -125,6 +130,7 @@ import com.leclercb.taskunifier.gui.settings.SettingsVersion;
 import com.leclercb.taskunifier.gui.settings.UserSettingsVersion;
 import com.leclercb.taskunifier.gui.swing.EventQueueProxy;
 import com.leclercb.taskunifier.gui.swing.TUSwingUtilities;
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.swing.lookandfeel.JTattooLookAndFeelDescriptor;
 import com.leclercb.taskunifier.gui.threads.Threads;
 import com.leclercb.taskunifier.gui.translations.Translations;
@@ -354,77 +360,58 @@ public class Main {
 				}
 				
 				try {
-					if (finalUpdateVersion && Constants.BETA) {
-						int result = JOptionPane.showOptionDialog(
-								null,
-								Translations.getString(
-										"general.beta_message",
-										Constants.VERSION),
-								Constants.TITLE,
-								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE,
-								null,
-								new String[] {
-										Translations.getString("general.continue"),
-										Translations.getString("action.quit") },
-								Translations.getString("general.continue"));
+					JButton quitButton = new JButton(
+							Translations.getString("action.quit"));
+					quitButton.addActionListener(new ActionListener() {
 						
-						if (result == 1) {
+						@Override
+						public void actionPerformed(ActionEvent event) {
 							QUITTING = true;
 							System.exit(0);
 						}
+						
+					});
+					
+					List<String> messages = new ArrayList<String>();
+					TUButtonsPanel messageButtons = new TUButtonsPanel(
+							quitButton);
+					
+					if (finalUpdateVersion && Constants.BETA) {
+						messages.add(Translations.getString(
+								"welcome.message.beta",
+								Constants.VERSION));
+					}
+					
+					if (isFirstExecution() && SystemUtils.IS_OS_LINUX) {
+						messages.add(Translations.getString(
+								"welcome.message.open_jdk_not_supported",
+								Constants.VERSION));
+					}
+					
+					if (!isFirstExecution()
+							&& finalUpdateVersion
+							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
+						String translationKey = "welcome.message.license_upgrade_required";
+						
+						if (Constants.BETA)
+							translationKey = "welcome.message.license_upgrade_required_beta";
+						
+						messages.add(Translations.getString(
+								translationKey,
+								Constants.VERSION));
 					}
 					
 					if (isFirstExecution()) {
-						if (SystemUtils.IS_OS_LINUX) {
-							int result = JOptionPane.showOptionDialog(
-									null,
-									Translations.getString(
-											"error.open_jdk_not_supported",
-											Constants.VERSION),
-									Constants.TITLE,
-									JOptionPane.OK_CANCEL_OPTION,
-									JOptionPane.QUESTION_MESSAGE,
-									null,
-									new String[] {
-											Translations.getString("general.continue"),
-											Translations.getString("action.quit") },
-									Translations.getString("general.continue"));
-							
-							if (result == 1) {
-								QUITTING = true;
-								System.exit(0);
-							}
-						}
-						
 						new LanguageDialog().setVisible(true);
-						new WelcomeDialog().setVisible(true);
+						new WelcomeDialog(
+								messages.toArray(new String[0]),
+								messageButtons).setVisible(true);
+						
 						ActionResetGeneralSearchers.resetGeneralSearchers();
-					} else if (finalUpdateVersion
-							&& finalPreviousVersion.compareTo("3.0.0") < 0) {
-						String translationKey = "synchronizer.license_upgrade_required";
-						
-						if (Constants.BETA)
-							translationKey = "synchronizer.license_upgrade_required_beta";
-						
-						int result = JOptionPane.showOptionDialog(
-								null,
-								Translations.getString(
-										translationKey,
-										Constants.VERSION),
-								Constants.TITLE,
-								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE,
-								null,
-								new String[] {
-										Translations.getString("general.ok"),
-										Translations.getString("action.quit") },
-								Translations.getString("general.ok"));
-						
-						if (result == 1) {
-							QUITTING = true;
-							System.exit(0);
-						}
+					} else if (messages.size() > 0) {
+						new WelcomeDialog(
+								messages.toArray(new String[0]),
+								messageButtons).setVisible(true);
 					}
 					
 					autoBackup();

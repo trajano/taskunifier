@@ -46,21 +46,33 @@ public class SettingsPanel extends CardPanel {
 	
 	private String title;
 	private ConfigurationPanel panel;
+	private CardInterface cardInterface;
 	
 	public SettingsPanel(String title, ConfigurationPanel panel) {
-		this.reset(title, panel);
+		this(title, panel, null);
+	}
+	
+	public SettingsPanel(
+			String title,
+			ConfigurationPanel panel,
+			CardInterface cardInterface) {
+		this.reset(title, panel, cardInterface);
 	}
 	
 	public ConfigurationPanel getConfigurationPanel() {
 		return this.panel;
 	}
 	
-	public void reset(String title, ConfigurationPanel panel) {
+	public void reset(
+			String title,
+			ConfigurationPanel panel,
+			CardInterface cardInterface) {
 		CheckUtils.isNotNull(title);
 		CheckUtils.isNotNull(panel);
 		
 		this.title = title;
 		this.panel = panel;
+		this.cardInterface = cardInterface;
 		
 		this.removeAll();
 		this.initialize();
@@ -81,6 +93,12 @@ public class SettingsPanel extends CardPanel {
 		this.add(panel, BorderLayout.NORTH);
 		
 		this.add(this.panel, BorderLayout.CENTER);
+	}
+	
+	@Override
+	public void display() {
+		if (this.cardInterface != null)
+			this.cardInterface.display();
 	}
 	
 	@Override

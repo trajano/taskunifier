@@ -207,7 +207,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup, 
 	}
 	
 	private void initializeDatePanel() {
-		this.dateConfigurationPanel = new DateConfigurationPanel(this);
+		this.dateConfigurationPanel = new DateConfigurationPanel(this, true);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.date"),
 				ComponentFactory.createJScrollPane(
@@ -225,7 +225,7 @@ public class ConfigurationDialog extends JDialog implements ConfigurationGroup, 
 	}
 	
 	private void initializeProxyPanel() {
-		this.proxyConfigurationPanel = new ProxyConfigurationPanel(this);
+		this.proxyConfigurationPanel = new ProxyConfigurationPanel(this, true);
 		this.tabbedPane.addTab(
 				Translations.getString("configuration.tab.proxy"),
 				ComponentFactory.createJScrollPane(

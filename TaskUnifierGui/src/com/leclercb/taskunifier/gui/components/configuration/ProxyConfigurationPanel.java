@@ -51,8 +51,10 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class ProxyConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public ProxyConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration, "configuration_proxy");
+	public ProxyConfigurationPanel(
+			ConfigurationGroup configuration,
+			boolean showAfterRestart) {
+		super(configuration, showAfterRestart, "configuration_proxy");
 		
 		this.initialize();
 		this.pack();

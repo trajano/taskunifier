@@ -80,7 +80,7 @@ public class SynchronizationConfigurationPanel extends DefaultConfigurationPanel
 	public SynchronizationConfigurationPanel(
 			ConfigurationGroup configuration,
 			boolean welcome) {
-		super(configuration, "configuration_synchronization");
+		super(configuration, !welcome, "configuration_synchronization");
 		
 		this.welcome = welcome;
 		

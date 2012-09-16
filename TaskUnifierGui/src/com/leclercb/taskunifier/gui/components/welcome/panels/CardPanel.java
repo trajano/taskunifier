@@ -36,6 +36,15 @@ import javax.swing.JPanel;
 
 import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGroup;
 
-public abstract class CardPanel extends JPanel implements ConfigurationGroup {
+public abstract class CardPanel extends JPanel implements CardInterface, ConfigurationGroup {
+	
+	@Override
+	public void display() {
+		
+	}
+	
+	public boolean displayInScrollPane() {
+		return true;
+	}
 	
 }

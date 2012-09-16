@@ -47,8 +47,10 @@ import com.leclercb.taskunifier.gui.translations.Translations;
 
 public class DateConfigurationPanel extends DefaultConfigurationPanel {
 	
-	public DateConfigurationPanel(ConfigurationGroup configuration) {
-		super(configuration, "configuration_date");
+	public DateConfigurationPanel(
+			ConfigurationGroup configuration,
+			boolean showAfterRestart) {
+		super(configuration, showAfterRestart, "configuration_date");
 		
 		this.initialize();
 		this.pack();

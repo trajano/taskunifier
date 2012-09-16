@@ -39,31 +39,66 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.swingx.JXEditorPane;
+
+import com.leclercb.taskunifier.gui.swing.buttons.TUButtonsPanel;
 import com.leclercb.taskunifier.gui.translations.Translations;
+import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class WelcomePanel extends CardPanel {
 	
-	public WelcomePanel() {
-		this.initialize();
+	public WelcomePanel(String[] messages, TUButtonsPanel messageButtons) {
+		this.initialize(messages, messageButtons);
 	}
 	
-	private void initialize() {
-		this.setLayout(new BorderLayout());
+	private void initialize(String[] messages, TUButtonsPanel messageButtons) {
+		this.setLayout(new BorderLayout(0, 30));
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout(20, 0));
-		panel.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20));
+		panel.setLayout(new BorderLayout(0, 30));
+		panel.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
 		
 		panel.add(new JLabel(
-				ImageUtils.getResourceImage("logo.png", 128, 128),
+				ImageUtils.getResourceImage("logo.png", 64, 64),
 				SwingConstants.CENTER));
+		
+		panel.add(new JLabel(
+				Translations.getString("general.welcome_message"),
+				SwingConstants.CENTER), BorderLayout.SOUTH);
 		
 		this.add(panel, BorderLayout.NORTH);
 		
-		this.add(new JLabel(
-				Translations.getString("general.welcome_message"),
-				SwingConstants.CENTER), BorderLayout.CENTER);
+		if (messages != null && messages.length > 0) {
+			JPanel messagePanel = new JPanel(new BorderLayout());
+			
+			StringBuffer m = new StringBuffer("<html><ul>");
+			
+			for (String message : messages) {
+				m.append("<li>" + message + "</li>");
+			}
+			
+			m.append("</ul></html>");
+			
+			JXEditorPane messageArea = new JXEditorPane(
+					"text/html",
+					m.toString());
+			messageArea.setEditable(false);
+			
+			messagePanel.add(
+					ComponentFactory.createJScrollPane(messageArea, true),
+					BorderLayout.CENTER);
+			
+			if (messageButtons != null)
+				messagePanel.add(messageButtons, BorderLayout.SOUTH);
+			
+			this.add(messagePanel, BorderLayout.CENTER);
+		}
+	}
+	
+	@Override
+	public boolean displayInScrollPane() {
+		return false;
 	}
 	
 	@Override
