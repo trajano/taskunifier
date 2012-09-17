@@ -34,6 +34,8 @@ package com.leclercb.taskunifier.gui.components.welcome.panels;
 
 public interface CardInterface {
 	
+	public abstract boolean next();
+	
 	public abstract void display();
 	
 }

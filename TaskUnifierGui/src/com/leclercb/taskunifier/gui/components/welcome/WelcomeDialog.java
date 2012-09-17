@@ -101,6 +101,11 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 					new CardInterface() {
 						
 						@Override
+						public boolean next() {
+							return true;
+						}
+						
+						@Override
 						public void display() {
 							ActionManageSynchronizerPlugins.manageSynchronizerPlugins();
 						}
@@ -201,15 +206,17 @@ public class WelcomeDialog extends JDialog implements ConfigurationGroup {
 	public void next() {
 		this.panels.get(this.currentPanel).saveAndApplyConfig();
 		
-		if (this.currentPanel < this.panels.size() - 1) {
-			this.currentPanel++;
-			((CardLayout) this.cardPanel.getLayout()).next(this.cardPanel);
-			this.panels.get(this.currentPanel).display();
-			
-			this.checkButtonsState();
-		} else {
-			this.setVisible(false);
-			this.dispose();
+		if (this.panels.get(this.currentPanel).next()) {
+			if (this.currentPanel < this.panels.size() - 1) {
+				this.currentPanel++;
+				((CardLayout) this.cardPanel.getLayout()).next(this.cardPanel);
+				this.panels.get(this.currentPanel).display();
+				
+				this.checkButtonsState();
+			} else {
+				this.setVisible(false);
+				this.dispose();
+			}
 		}
 	}
 	

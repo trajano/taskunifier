@@ -35,7 +35,9 @@ package com.leclercb.taskunifier.gui.components.welcome.panels;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -47,6 +49,8 @@ import com.leclercb.taskunifier.gui.utils.ComponentFactory;
 import com.leclercb.taskunifier.gui.utils.ImageUtils;
 
 public class WelcomePanel extends CardPanel {
+	
+	private JCheckBox messageReadAgree;
 	
 	public WelcomePanel(String[] messages, TUButtonsPanel messageButtons) {
 		this.initialize(messages, messageButtons);
@@ -80,20 +84,41 @@ public class WelcomePanel extends CardPanel {
 			
 			m.append("</ul></html>");
 			
+			JPanel messageAreaPanel = new JPanel(new BorderLayout());
+			
 			JXEditorPane messageArea = new JXEditorPane(
 					"text/html",
 					m.toString());
 			messageArea.setEditable(false);
 			
-			messagePanel.add(
+			this.messageReadAgree = new JCheckBox(
+					Translations.getString("welcome.read_and_understand"));
+			
+			messageAreaPanel.add(
 					ComponentFactory.createJScrollPane(messageArea, true),
 					BorderLayout.CENTER);
+			messageAreaPanel.add(this.messageReadAgree, BorderLayout.SOUTH);
+			
+			messagePanel.add(messageAreaPanel, BorderLayout.CENTER);
 			
 			if (messageButtons != null)
 				messagePanel.add(messageButtons, BorderLayout.SOUTH);
 			
 			this.add(messagePanel, BorderLayout.CENTER);
 		}
+	}
+	
+	@Override
+	public boolean next() {
+		if (!this.messageReadAgree.isSelected()) {
+			JOptionPane.showMessageDialog(
+					null,
+					Translations.getString("welcome.check.read_and_understand"),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return this.messageReadAgree.isSelected();
 	}
 	
 	@Override

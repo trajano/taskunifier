@@ -39,6 +39,11 @@ import com.leclercb.taskunifier.gui.components.configuration.api.ConfigurationGr
 public abstract class CardPanel extends JPanel implements CardInterface, ConfigurationGroup {
 	
 	@Override
+	public boolean next() {
+		return true;
+	}
+	
+	@Override
 	public void display() {
 		
 	}
