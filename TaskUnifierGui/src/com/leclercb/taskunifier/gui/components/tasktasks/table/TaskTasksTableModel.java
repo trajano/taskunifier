@@ -78,7 +78,11 @@ public class TaskTasksTableModel extends AbstractTableModel implements ListChang
 					this));
 		}
 		
-		this.fireTableDataChanged();
+		try {
+			this.fireTableDataChanged();
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	public TaskItem getTaskItem(int row) {
