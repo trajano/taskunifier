@@ -110,15 +110,19 @@ public class WelcomePanel extends CardPanel {
 	
 	@Override
 	public boolean next() {
-		if (!this.messageReadAgree.isSelected()) {
-			JOptionPane.showMessageDialog(
-					null,
-					Translations.getString("welcome.check.read_and_understand"),
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
+		if (this.messageReadAgree != null) {
+			if (!this.messageReadAgree.isSelected()) {
+				JOptionPane.showMessageDialog(
+						null,
+						Translations.getString("welcome.check.read_and_understand"),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			return this.messageReadAgree.isSelected();
 		}
 		
-		return this.messageReadAgree.isSelected();
+		return true;
 	}
 	
 	@Override
