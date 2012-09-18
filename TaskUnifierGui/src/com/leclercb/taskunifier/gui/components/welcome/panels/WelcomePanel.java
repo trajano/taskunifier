@@ -33,6 +33,7 @@
 package com.leclercb.taskunifier.gui.components.welcome.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -112,6 +113,8 @@ public class WelcomePanel extends CardPanel {
 	public boolean next() {
 		if (this.messageReadAgree != null) {
 			if (!this.messageReadAgree.isSelected()) {
+				this.messageReadAgree.setForeground(Color.RED);
+				
 				JOptionPane.showMessageDialog(
 						null,
 						Translations.getString("welcome.check.read_and_understand"),
